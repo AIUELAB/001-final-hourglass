@@ -216,28 +216,8 @@ class HeadlessExecutor:
         )
 
         try:
-            # Execute task based on type
-            if task_type == TaskType.TEST:
-                result.output = await self._run_tests(params, files)
-            elif task_type == TaskType.LINT:
-                result.output = await self._run_lint(params, files)
-            elif task_type == TaskType.FORMAT:
-                result.output = await self._run_format(params, files)
-            elif task_type == TaskType.REVIEW:
-                result.output = await self._run_review(params, files)
-            elif task_type == TaskType.DOCS:
-                result.output = await self._generate_docs(params, files)
-            elif task_type == TaskType.BUILD:
-                result.output = await self._run_build(params)
-            elif task_type == TaskType.ANALYZE:
-                result.output = await self._run_analysis(params, files)
-            elif task_type == TaskType.OPTIMIZE:
-                result.output = await self._run_optimize(params, files)
-            elif task_type == TaskType.SECURITY:
-                result.output = await self._run_security_scan(params, files)
-            else:
-                raise ValueError(f"Unknown task type: {task_type}")
-
+            # Execute task based on type using helper method
+            result.output = await self._execute_task_by_type(task_type, params, files)
             result.status = "success"
 
         except TimeoutError:
@@ -255,6 +235,26 @@ class HeadlessExecutor:
             self.cache.set(task_type.value, params, result)
 
         return result
+
+    async def _execute_task_by_type(self, task_type: TaskType, params: dict, files: list[str]) -> dict:
+        """Execute task based on type - reduces cognitive complexity"""
+        task_executors = {
+            TaskType.TEST: self._run_tests,
+            TaskType.LINT: self._run_lint,
+            TaskType.FORMAT: self._run_format,
+            TaskType.REVIEW: self._run_review,
+            TaskType.DOCS: self._generate_docs,
+            TaskType.BUILD: lambda p, f: self._run_build(p),
+            TaskType.ANALYZE: self._run_analysis,
+            TaskType.OPTIMIZE: self._run_optimize,
+            TaskType.SECURITY: self._run_security_scan,
+        }
+        
+        executor = task_executors.get(task_type)
+        if executor is None:
+            raise ValueError(f"Unknown task type: {task_type}")
+        
+        return await executor(params, files)
 
     async def _run_tests(self, params: dict, files: list[str]) -> dict:
         """Run test suite"""

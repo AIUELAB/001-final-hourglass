@@ -280,8 +280,8 @@ class SessionManager:
         Returns:
             チェックポイントファイルのリスト
         """
-        checkpoints = list(self.backup_dir.glob("*.json"))
-        return [cp.name for cp in sorted(checkpoints, reverse=True)]
+        checkpoints = sorted(self.backup_dir.glob("*.json"), reverse=True)
+        return [cp.name for cp in checkpoints]
 
     def __enter__(self) -> "SessionManager":
         """コンテキストマネージャーのエントリー"""

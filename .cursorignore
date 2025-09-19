@@ -11,12 +11,26 @@ coverage/
 build/
 dist/
 
-# Python envs
+# Python envs - CRITICAL: Must exclude to prevent 20K+ errors
 venv/
 .venv/
+**/venv/
+**/.venv/
+env/
+ENV/
+
+# iOS Build Artifacts - CRITICAL: Must exclude to prevent 60K+ errors
+ios-apps/final-hourglass/DerivedData/
+**/DerivedData/
+*.xcodeproj/
+*.xcworkspace/
+*.app/
+*.ipa/
+*.dSYM/
 
 # Node
 node_modules/
+**/node_modules/
 raycast-n8n-extension/node_modules/
 
 # Local n8n data
@@ -25,6 +39,7 @@ raycast-n8n-extension/node_modules/
 # IDE/Editor
 .vscode/
 .idea/
+.cursor/
 
 # Logs and temp
 **/*.log
@@ -34,3 +49,19 @@ raycast-n8n-extension/node_modules/
 
 # Generated docs/site
 site/
+
+# Large data files and backups
+*.csv
+*.json
+backup_*/
+checkpoints*/
+archive*/
+deletion_backups/
+emergency_backups/
+cache/
+
+# iOS specific
+ios-apps/
+Pods/
+Carthage/
+fastlane/

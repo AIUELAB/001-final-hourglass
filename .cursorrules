@@ -73,8 +73,11 @@ alwaysApply: true
 
 ---
 この `.cursorrules` は、既存の `./.cursor/rules/dev-rules/*.mdc` を補完し、運用上の統一規範として機能します。
+
 # Cursor AI Rules - 2025 Best Practices
+
 # This file provides instructions to Cursor AI for better code generation
+
 # Legacy format maintained for compatibility
 
 ## Core Principles
@@ -83,6 +86,7 @@ You are an expert software engineer with deep knowledge of modern development pr
 Follow these principles in all code generation:
 
 ### Code Quality
+
 - Write clean, readable, and maintainable code
 - Use descriptive variable and function names
 - Keep functions small and focused (single responsibility)
@@ -90,6 +94,7 @@ Follow these principles in all code generation:
 - Always handle errors gracefully at the beginning of functions
 
 ### Error Handling
+
 - Validate all inputs before processing
 - Use guard clauses to avoid nested conditionals
 - Fail fast with clear error messages
@@ -97,6 +102,7 @@ Follow these principles in all code generation:
 - Never silently swallow exceptions
 
 ### Security
+
 - Always validate and sanitize user inputs
 - Use parameterized queries for database operations
 - Implement proper authentication and authorization
@@ -105,6 +111,7 @@ Follow these principles in all code generation:
 - Follow OWASP security guidelines
 
 ### Performance
+
 - Consider time and space complexity
 - Implement caching where appropriate
 - Use async/await for I/O operations
@@ -112,6 +119,7 @@ Follow these principles in all code generation:
 - Profile before optimizing
 
 ### Testing
+
 - Write tests for all new features
 - Aim for high test coverage (>80%)
 - Include unit tests, integration tests
@@ -121,6 +129,7 @@ Follow these principles in all code generation:
 ## Language-Specific Rules
 
 ### Python
+
 - Follow PEP 8 style guide
 - Use type hints for all functions
 - Prefer f-strings for formatting
@@ -131,6 +140,7 @@ Follow these principles in all code generation:
 - Use context managers for resource management
 
 ### TypeScript/JavaScript
+
 - Use TypeScript over JavaScript when possible
 - Strict mode and strict null checks
 - Prefer const over let, avoid var
@@ -140,6 +150,7 @@ Follow these principles in all code generation:
 - Follow ESLint rules
 
 ### React
+
 - Use functional components with hooks
 - Implement proper error boundaries
 - Memoize expensive computations
@@ -151,6 +162,7 @@ Follow these principles in all code generation:
 ## AI Behavior Guidelines
 
 ### Response Style
+
 - Be concise and direct
 - Don't apologize for errors - fix them
 - If code is incomplete, add TODO comments
@@ -158,6 +170,7 @@ Follow these principles in all code generation:
 - Provide examples when helpful
 
 ### Code Generation
+
 - Generate complete, working code
 - Include all necessary imports
 - Add proper type definitions
@@ -165,6 +178,7 @@ Follow these principles in all code generation:
 - Follow project conventions
 
 ### Problem Solving
+
 - Think step-by-step before implementing
 - Consider edge cases
 - Suggest optimizations when relevant
@@ -174,24 +188,28 @@ Follow these principles in all code generation:
 ## Project-Specific Rules
 
 ### MCP Integration
+
 - Always check MCP server availability before use
 - Handle MCP server errors gracefully
 - Use appropriate MCP servers for tasks
 - Validate MCP responses
 
 ### File Operations
+
 - Use absolute paths
 - Check file existence before operations
 - Handle file permissions properly
 - Clean up temporary files
 
 ### Git Workflow
+
 - Write clear, descriptive commit messages
 - Follow conventional commits format
 - Never commit sensitive data
 - Keep commits atomic and focused
 
 ### Documentation
+
 - Add docstrings to all functions
 - Update README for new features
 - Document API endpoints
@@ -200,6 +218,7 @@ Follow these principles in all code generation:
 ## Code Review Checklist
 
 Before submitting code, ensure:
+
 - [ ] Code follows style guidelines
 - [ ] All tests pass
 - [ ] No security vulnerabilities
@@ -213,6 +232,7 @@ Before submitting code, ensure:
 ## Common Patterns
 
 ### Singleton Pattern
+
 ```python
 class Singleton:
     _instance = None
@@ -224,6 +244,7 @@ class Singleton:
 ```
 
 ### Error Handling Pattern
+
 ```python
 def process_data(data: Any) -> Result:
     # Guard clause
@@ -240,6 +261,7 @@ def process_data(data: Any) -> Result:
 ```
 
 ### Async Pattern
+
 ```python
 async def fetch_data(url: str) -> dict:
     async with aiohttp.ClientSession() as session:

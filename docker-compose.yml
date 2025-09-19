@@ -1,72 +1,70 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  app:
+  # メインアプリケーション
+  recognition-app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: claude-code-mcp:latest
-    container_name: claude-code-mcp
+    container_name: recognition-system
+    environment:
+      - SERPAPI_API_KEY=${SERPAPI_API_KEY}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+      - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+      - NEWS_API_KEY=${NEWS_API_KEY}
+      - BRAVE_API_KEY=${BRAVE_API_KEY}
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/recognition
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - recognition-network
     restart: unless-stopped
 
-    # 環境変数
-    env_file:
-      - .env.mcp
-    environment:
-      - PYTHONPATH=/app
-      - DEBUG=false
-      - LOG_LEVEL=INFO
-
-    # ボリューム
+  # Redisキャッシュ
+  redis:
+    image: redis:7-alpine
+    container_name: recognition-redis
     volumes:
-      # ソースコードをマウント（開発時）
-      - ./src:/app/src:ro
-      - ./tests:/app/tests:ro
-
-      # セッションとログの永続化
-      - sessions_data:/app/.sessions
-      - logs_data:/app/logs
-
-      # MCPサーバー設定
-      - ./mcp-config:/app/mcp-config:ro
-
-    # ネットワーク
+      - redis-data:/data
     networks:
-      - claude-network
+      - recognition-network
+    restart: unless-stopped
 
-    # リソース制限
-    deploy:
-      resources:
-        limits:
-          cpus: "2.0"
-          memory: 2G
-        reservations:
-          cpus: "0.5"
-          memory: 512M
+  # PostgreSQLデータベース
+  postgres:
+    image: postgres:15-alpine
+    container_name: recognition-postgres
+    environment:
+      - POSTGRES_DB=recognition
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - recognition-network
+    restart: unless-stopped
 
-    # ヘルスチェック
-    healthcheck:
-      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+  # 監視ダッシュボード
+  nginx:
+    image: nginx:alpine
+    container_name: recognition-dashboard
+    volumes:
+      - ./monitoring_dashboard.html:/usr/share/nginx/html/index.html
+    ports:
+      - "80:80"
+    networks:
+      - recognition-network
+    restart: unless-stopped
 
-    # ロギング設定
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-# ボリューム定義
-volumes:
-  sessions_data:
-    driver: local
-  logs_data:
-    driver: local
-
-# ネットワーク定義
 networks:
-  claude-network:
+  recognition-network:
     driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:

@@ -1,0 +1,42 @@
+# Python virtual environments
+venv/
+.venv/
+**/venv/
+**/.venv/
+env/
+ENV/
+
+# iOS Build Artifacts
+ios-apps/
+**/DerivedData/
+*.xcodeproj/
+*.xcworkspace/
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+build/
+dist/
+.build/
+site/
+
+# Data files
+*.csv
+*.json
+backup*/
+checkpoint*/
+archive*/
+
+# Cache and temp
+cache/
+**/__pycache__/
+**/.cache/
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+.cursor/

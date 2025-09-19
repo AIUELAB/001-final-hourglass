@@ -1,0 +1,39 @@
+# プロジェクト全体でcSpellを無効化
+*
+
+# 特定のファイルを無視
+ultra_think_improvements/reports/DATABASE_RESTORE_REPORT_20250831_113604.md
+
+# CSVファイルを除外
+*.csv
+deletion_results/
+deletion_backups/
+test_deletion_results_*/
+test_output/
+
+# データファイル全般を除外
+*.json
+*.yaml
+*.yml
+*.xml
+*.txt
+*.log
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# 特定のディレクトリを除外
+cache/
+versions/
+ide_cache_env/
+__pycache__/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+
+# 自動生成されたファイルを除外
+**/node_modules/
+**/dist/
+**/build/
+**/.git/

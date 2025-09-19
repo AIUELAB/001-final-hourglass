@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker & n8n Monitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-left">
+                <button class="expand-btn" id="expandAll">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+            </div>
+            <div class="header-center">
+                <h1>Docker & n8n Monitor</h1>
+            </div>
+            <div class="header-right">
+                <button class="close-btn" id="closeBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- サイドバー -->
+            <aside class="sidebar">
+                <div class="sidebar-item active" data-section="containers">
+                    <i class="fas fa-server"></i>
+                    <span>Containers</span>
+                </div>
+                <div class="sidebar-item" data-section="workflows">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>n8n Workflows</span>
+                </div>
+                <div class="sidebar-item" data-section="executions">
+                    <i class="fas fa-history"></i>
+                    <span>Executions</span>
+                </div>
+            </aside>
+
+            <!-- コンテンツエリア -->
+            <section class="content-area">
+                <!-- コンテナセクション -->
+                <div class="content-section" id="containersSection">
+                    <div class="tree-view">
+                        <div class="tree-item parent-item" data-expanded="true">
+                            <div class="tree-content">
+                                <i class="fas fa-user tree-icon"></i>
+                                <span class="tree-label">hello</span>
+                                <div class="tree-actions">
+                                    <button class="refresh-btn" onclick="refreshContainers()">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- コンテナリスト -->
+                            <div class="tree-children" id="containerList">
+                                <!-- コンテナアイテムがここに動的に追加されます -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- n8nワークフローセクション -->
+                <div class="content-section" id="workflowsSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>n8n Workflows</h2>
+                        <button class="refresh-btn" onclick="refreshWorkflows()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="workflows-grid" id="workflowsGrid">
+                        <!-- ワークフローがここに動的に追加されます -->
+                    </div>
+                </div>
+
+                <!-- 実行履歴セクション -->
+                <div class="content-section" id="executionsSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>Execution History</h2>
+                        <button class="refresh-btn" onclick="refreshExecutions()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="executions-list" id="executionsList">
+                        <!-- 実行履歴がここに動的に追加されます -->
+                    </div>
+                </div>
+
+                <!-- ログ表示エリア -->
+                <div class="log-area" id="logArea" style="display: none;">
+                    <div class="log-header">
+                        <h3>Container Logs</h3>
+                        <button class="close-log-btn" onclick="closeLogArea()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="log-content" id="logContent">
+                        <!-- ログがここに表示されます -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 通知エリア -->
+    <div class="notification" id="notification"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

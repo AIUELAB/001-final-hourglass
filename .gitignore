@@ -98,6 +98,14 @@ poetry.lock
 __pypackages__/
 
 # Celery stuff
+
+# Environment variables and secrets
+.env
+.env.*
+*.env
+.env.local
+.env.production
+.env.staging
 celerybeat-schedule
 celerybeat.pid
 
@@ -158,16 +166,23 @@ uploads/
 bin/*.tar.gz
 pyproject.toml.backup
 
-# Secrets and API Keys
+# Secrets and API Keys - CRITICAL SECURITY SECTION
 secrets/
+key/
+keys/
 *.pem
 *.key
 *.crt
 *.p12
 api_keys.json
 credentials.json
+firebase-*.json
+*firebase*adminsdk*.json
+service-account*.json
 /Users/admin/Documents/key/
 config/keys.json
+.env.production.local
+.env.development.local
 
 # Claude Code specific
 .claude/
@@ -201,3 +216,31 @@ Desktop.ini
 
 # n8n local data
 .n8n/
+
+# iOS Build Artifacts - CRITICAL
+ios-apps/final-hourglass/DerivedData/
+**/DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.app/
+*.ipa/
+*.dSYM/
+Pods/
+Carthage/
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Large data files
+*.csv
+*.json
+!package.json
+!tsconfig.json
+!cspell.json
+!auto_*.json
+backup_*/
+checkpoints*/
+archive*/
+deletion_backups/
+emergency_backups/

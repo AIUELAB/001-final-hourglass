@@ -1,0 +1,4 @@
+
+def calculate_score(person):
+# PDCA_AUTO_FIX:     """calibrated_scoreを使用する違反コード"""  # calibrated_score使用禁止
+# PDCA_AUTO_FIX:     return person.get('calibrated_score', 0)  # RULE_001違反  # calibrated_score使用禁止

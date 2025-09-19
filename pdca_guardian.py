@@ -11,13 +11,26 @@ import json
 import os
 import sys
 import logging
+import re
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Tuple, Any, cast
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
 import hashlib
 import traceback
+
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+# FactCheckerのインポート
+try:
+    from src.fact_checker import FactChecker, FactCheckResult
+except ImportError:
+    FactChecker = None
+    FactCheckResult = None
 
 # ログ設定
 logging.basicConfig(
@@ -25,6 +38,10 @@ logging.basicConfig(
     format='%(asctime)s - [%(levelname)s] - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+
+# 数字+単位の正規表現（重複使用箇所の定数化）
+NUMBER_UNIT_PATTERN = r'\d+[年月日時分秒人件個つ枚冊本話回目位円ドル万千億兆％%]'
 
 
 class Priority(Enum):
@@ -45,6 +62,43 @@ class ViolationType(Enum):
     PROTECTION_LIST_INSUFFICIENT = "保護リスト不足"
     ERROR_SUPPRESSION = "エラー隠蔽"
     SUBSTRING_MATCHING = "部分文字列マッチング"
+    MISSING_DISPLAY_NAME_FIELD = "person_name_displayフィールド欠落"
+    INCOMPLETE_PERSON_FIELDS = "必須フィールド不完全"
+    DASHBOARD_UPDATE_FAILURE = "ダッシュボード更新失敗"
+    DUAL_IMPLEMENTATION_CONFLICT = "二重実装による競合"
+    DUPLICATE_PARENTHESES = "括弧内容の重複"
+    MIXED_PARENTHESES_STYLE = "全角半角括弧の混在"
+    EMPTY_PARENTHESES = "空の括弧"
+    FICTIONAL_CHARACTER_MISSING_WORK = "架空キャラクター作品名欠落"
+    SYNTHETIC_ATHLETE = "合成アスリート検出"
+    SOLO_ARTIST_REDUNDANT_BRACKETS = "ソロアーティスト冗長括弧"
+    CHANNEL_NAME_AS_PERSON = "チャンネル名の人物誤登録"
+    COMEDY_GROUP_MISMATCH = "お笑いコンビ名不整合"
+    MISSING_COLUMN = "必須カラム欠落"
+    ANONYMIZED_DATA = "匿名化データ検出"
+    UNCHECKED_COLUMN_ACCESS = "未検証カラムアクセス"
+    # エピソード関連の違反タイプ（RULE_101-108）
+    EPISODE_DUPLICATE_AGE_NAME = "エピソード内年齢・人名重複"
+    EPISODE_LACK_SPECIFICITY = "エピソードの具体性不足"
+    EPISODE_NO_EMOTIONAL_IMPACT = "感銘要素の欠如"
+    EPISODE_INAPPROPRIATE_LENGTH = "エピソード長さ不適切"
+    EPISODE_QUALITY_BELOW_THRESHOLD = "エピソード品質基準未満"
+    # 新規追加（RULE_106-108）
+    EPISODE_NOT_MOST_IMPACTFUL = "最重要エピソード未選定"
+    EPISODE_AGE_MISMATCH_FOR_ACHIEVEMENT = "偉業と年齢の不一致"
+    EPISODE_MISSING_HISTORICAL_SIGNIFICANCE = "歴史的重要性の欠如"
+    # RULE_112-114: 生涯ハイライトルール（v3.0）
+    EPISODE_AGE_PRIORITY_VIOLATION = "年齢優先選定の違反"
+    EPISODE_GLOBAL_ACHIEVEMENT_MISSING = "世界的偉業の欠落"
+    EPISODE_LIFETIME_HIGHLIGHTS_INSUFFICIENT = "生涯ハイライト不足"
+    # RULE_115-117: エピソード品質ルール (v3.1)
+    EPISODE_DUPLICATE_CONTENT = "エピソード内容重複"
+    EPISODE_LACKS_CONCRETENESS = "具体性不足"
+    EPISODE_NO_IMPACT = "感銘要素欠如"
+    # RULE_118-120: 事実正確性ルール (v3.2) - ハルシネーション防止
+    EPISODE_FACTUAL_ERROR = "事実誤認検出"
+    EPISODE_HALLUCINATION = "ハルシネーション検出"
+    EPISODE_SOURCE_UNVERIFIED = "情報源未検証"
 
 
 @dataclass
@@ -77,35 +131,58 @@ class PDCACycle:
 class PDCAGuardian:
     """
     PDCA監視システム
-    
+
     プロジェクトルールの永続的適用と
     品質保証を実現する統合管理システム
     """
-    
-    def __init__(self, memory_file: str = "project_memory.json"):
-        """初期化"""
+
+    def __init__(self, memory_file: str = "project_memory.json", relaxed_mode: bool = False):
+        """初期化
+
+        Args:
+            memory_file: プロジェクトメモリファイルのパス
+            relaxed_mode: 緩和モード（テスト時のみ使用）- 品質基準を緩和
+        """
         self.memory_file = Path(memory_file)
         self.memory = self._load_memory()
         self.current_cycle: Optional[PDCACycle] = None
         self.violation_count = 0
-        
+        self.relaxed_mode = relaxed_mode  # 緩和モードフラグ
+
+        # 緩和モードの基準値設定
+        if self.relaxed_mode:
+            self.QUALITY_THRESHOLD = 40  # 通常60点
+            self.IMPACT_THRESHOLD = 20   # 通常30点
+            self.EMOTIONAL_THRESHOLD = 15  # 通常20点
+            self.HISTORICAL_THRESHOLD = 5  # 通常10点
+            logger.info("⚠️ PDCAガーディアン：緩和モードで起動（テスト用）")
+        else:
+            self.QUALITY_THRESHOLD = 60
+            self.IMPACT_THRESHOLD = 30
+            self.EMOTIONAL_THRESHOLD = 20
+            self.HISTORICAL_THRESHOLD = 10
+
+        # Rule 100: APIクレジット管理ルールを確実に追加
+        self._ensure_credit_management_rule()
+
         logger.info("="*60)
         logger.info("🛡️ PDCA Guardian System 起動")
         logger.info("="*60)
         logger.info(f"📚 永続ルール数: {len(self.memory['permanent_rules'])}")
         logger.info(f"❌ 過去の失敗パターン: {len(self.memory['failed_patterns'])}")
         logger.info(f"✅ 成功パターン: {len(self.memory['success_patterns'])}")
-    
-    def _load_memory(self) -> Dict:
+
+    def _load_memory(self) -> Dict[str, Any]:
         """プロジェクトメモリ読み込み"""
         if self.memory_file.exists():
             with open(self.memory_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                return cast(Dict[str, Any], data)
         else:
             logger.warning(f"⚠️ {self.memory_file} が見つかりません。新規作成します。")
             return self._initialize_memory()
-    
-    def _initialize_memory(self) -> Dict:
+
+    def _initialize_memory(self) -> Dict[str, Any]:
         """メモリ初期化"""
         return {
             "metadata": {
@@ -120,27 +197,105 @@ class PDCAGuardian:
             "pdca_history": [],
             "improvement_log": []
         }
-    
+
     def _save_memory(self):
         """メモリ永続化"""
         self.memory['metadata']['last_updated'] = datetime.now().isoformat()
         with open(self.memory_file, 'w', encoding='utf-8') as f:
             json.dump(self.memory, f, ensure_ascii=False, indent=2, default=str)
-    
+
+    def _ensure_credit_management_rule(self):
+        """
+        Rule 100: APIクレジット管理ルールを永続ルールに追加
+
+        Anthropic APIのクレジット枯渇時に課金を促すメッセージを表示し、
+        サイレントフォールバックを防ぐルールを確実に設定する
+        """
+        rule_100 = {
+            "rule_id": "RULE_100",
+            "name": "APIクレジット管理",
+            "description": "APIクレジット枯渇時は必ず明示的な課金促進メッセージを表示する",
+            "priority": "CRITICAL",
+            "category": "API管理",
+            "conditions": [
+                "APIクレジット不足エラーの検出",
+                "insufficient credit エラー",
+                "credit balance too low エラー",
+                "rate limit エラー（クレジット関連）"
+            ],
+            "actions": [
+                "処理を即座に停止",
+                "明確な課金促進メッセージを表示",
+                "課金手順の詳細ガイドを提供",
+                "クレジット購入の目安金額を提示"
+            ],
+            "prohibited": [
+                "サイレントフォールバック",
+                "ローカル生成への自動切り替え",
+                "ダミーデータでの処理継続",
+                "エラーの隠蔽や無視"
+            ],
+            "implementation_examples": {
+                "correct": """
+if "credit balance" in error_str or "insufficient" in error_str:
+    logger.error(\"\"\"
+⚠️ ========================================
+   Anthropic APIのクレジットが不足しています！
+========================================
+【必要な対処】
+1. https://console.anthropic.com/ にアクセス
+2. Plans & Billingでクレジットを購入
+3. 購入後、エピソード生成を再実行
+
+【クレジット購入の目安】
+- テスト用: $10（約2,000人分のエピソード生成可能）
+- 小規模: $50（約10,000人分のエピソード生成可能）
+- 本番用: $100（約20,000人分のエピソード生成可能）
+    \"\"\")
+    raise SystemNotReadyError("APIクレジット不足のため処理を停止しました")
+                """,
+                "incorrect": """
+# ❌ 絶対禁止
+if "credit balance" in error_str:
+    return self.generate_fallback_episode()  # サイレントフォールバック
+                """
+            },
+            "created_at": datetime.now().isoformat(),
+            "enforced": True
+        }
+
+        # 既存のRule 100を探す
+        existing_rule_index = None
+        for i, rule in enumerate(self.memory.get('permanent_rules', [])):
+            if rule.get('rule_id') == 'RULE_100':
+                existing_rule_index = i
+                break
+
+        # 既存のルールがあれば更新、なければ追加
+        if existing_rule_index is not None:
+            self.memory['permanent_rules'][existing_rule_index] = rule_100
+            logger.info("✅ Rule 100（APIクレジット管理）を更新しました")
+        else:
+            self.memory.setdefault('permanent_rules', []).append(rule_100)
+            logger.info("✅ Rule 100（APIクレジット管理）を永続ルールに追加しました")
+
+        # メモリに保存
+        self._save_memory()
+
     # ========== PDCAサイクル管理 ==========
-    
+
     def start_pdca_cycle(self, plan: Dict[str, Any]) -> str:
         """
         新しいPDCAサイクル開始
-        
+
         Args:
             plan: 計画内容
-            
+
         Returns:
             サイクルID
         """
         cycle_id = self._generate_cycle_id()
-        
+
         self.current_cycle = PDCACycle(
             cycle_id=cycle_id,
             plan=plan,
@@ -149,68 +304,68 @@ class PDCAGuardian:
             act={},
             started_at=datetime.now()
         )
-        
+
         logger.info(f"\n🔄 PDCAサイクル開始: {cycle_id}")
         logger.info(f"📋 Plan: {plan.get('description', 'No description')}")
-        
+
         # 事前チェック
         violations = self.check_plan_compliance(plan)
         if violations:
             self._handle_violations(violations)
-        
+
         return cycle_id
-    
+
     def _generate_cycle_id(self) -> str:
         """サイクルID生成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         random_part = hashlib.md5(os.urandom(16)).hexdigest()[:8]
         return f"PDCA_{timestamp}_{random_part}"
-    
+
     def update_do_phase(self, implementation: Dict[str, Any]):
         """Do フェーズ更新"""
         if not self.current_cycle:
             logger.error("❌ アクティブなPDCAサイクルがありません")
             return
-        
+
         self.current_cycle.do = implementation
         logger.info(f"🔨 Do: {implementation.get('action', 'No action')}")
-        
+
         # 実装中チェック
         self.validate_implementation(implementation)
-    
+
     def update_check_phase(self, verification: Dict[str, Any]):
         """Check フェーズ更新"""
         if not self.current_cycle:
             return
-        
+
         self.current_cycle.check = verification
         logger.info(f"🔍 Check: {verification.get('result', 'No result')}")
-        
+
         # 結果検証
         self.verify_results(verification)
-    
+
     def update_act_phase(self, improvement: Dict[str, Any]):
         """Act フェーズ更新"""
         if not self.current_cycle:
             return
-        
+
         self.current_cycle.act = improvement
         self.current_cycle.completed_at = datetime.now()
         self.current_cycle.status = "completed"
-        
+
         logger.info(f"📈 Act: {improvement.get('action', 'No action')}")
-        
+
         # 履歴に追加
         self._save_cycle_to_history()
-        
+
         # 学習と改善
         self._learn_from_cycle()
-    
+
     def _save_cycle_to_history(self):
         """サイクルを履歴に保存"""
         if not self.current_cycle:
             return
-        
+
         cycle_data = {
             "cycle_id": self.current_cycle.cycle_id,
             "plan": self.current_cycle.plan,
@@ -222,15 +377,15 @@ class PDCAGuardian:
             "status": self.current_cycle.status,
             "violations": [self._violation_to_dict(v) for v in self.current_cycle.violations]
         }
-        
+
         self.memory['pdca_history'].append(cycle_data)
-        
+
         # 最新10件のみ保持
         if len(self.memory['pdca_history']) > 10:
             self.memory['pdca_history'] = self.memory['pdca_history'][-10:]
-        
+
         self._save_memory()
-    
+
     def _violation_to_dict(self, violation: RuleViolation) -> Dict:
         """違反オブジェクトを辞書に変換"""
         return {
@@ -243,21 +398,21 @@ class PDCAGuardian:
             "timestamp": violation.timestamp.isoformat(),
             "suggested_fix": violation.suggested_fix
         }
-    
+
     def _learn_from_cycle(self):
         """サイクルから学習"""
         if not self.current_cycle:
             return
-        
+
         # 違反があった場合は失敗パターンに追加
         if self.current_cycle.violations:
             for violation in self.current_cycle.violations:
                 self._add_failed_pattern(violation)
-        
+
         # 成功した場合は成功パターンに追加
         elif self.current_cycle.status == "completed":
             self._add_success_pattern()
-    
+
     def _add_failed_pattern(self, violation: RuleViolation):
         """失敗パターン追加"""
         pattern = {
@@ -268,15 +423,15 @@ class PDCAGuardian:
             "consequence": "品質問題発生",
             "prevention": violation.suggested_fix or "ルールの徹底"
         }
-        
+
         self.memory['failed_patterns'].append(pattern)
         self._save_memory()
-    
+
     def _add_success_pattern(self):
         """成功パターン追加"""
         if not self.current_cycle:
             return
-        
+
         pattern = {
             "id": f"SUCCESS_{len(self.memory['success_patterns']) + 1:03d}",
             "date": datetime.now().isoformat(),
@@ -285,16 +440,16 @@ class PDCAGuardian:
             "result": self.current_cycle.check.get('result', ''),
             "reusable": True
         }
-        
+
         self.memory['success_patterns'].append(pattern)
         self._save_memory()
-    
+
     # ========== ルールチェック機能 ==========
-    
+
     def check_plan_compliance(self, plan: Dict[str, Any]) -> List[RuleViolation]:
         """計画のルール準拠チェック"""
-        violations = []
-        
+        violations: List[RuleViolation] = []
+
         # calibrated_score使用チェック
         if 'calibrated_score' in str(plan):
             violations.append(RuleViolation(
@@ -306,7 +461,7 @@ class PDCAGuardian:
                 severity=Priority.CRITICAL,
                 suggested_fix="calibrated_scoreを完全に除外してください"
             ))
-        
+
         # API使用チェック
         if plan.get('use_apis', True) is False:
             violations.append(RuleViolation(
@@ -318,16 +473,16 @@ class PDCAGuardian:
                 severity=Priority.CRITICAL,
                 suggested_fix="利用可能なAPIを必ず使用してください"
             ))
-        
+
         return violations
-    
+
     def validate_implementation(self, implementation: Dict[str, Any]) -> List[RuleViolation]:
         """実装の妥当性検証"""
-        violations = []
-        
+        violations: List[RuleViolation] = []
+
         code = implementation.get('code', '')
         file_path = implementation.get('file_path', '')
-        
+
         # ダミーデータ返却チェック
         if "return {'results': 0, 'data': []}" in code or "return []" in code:
             violations.append(RuleViolation(
@@ -339,7 +494,7 @@ class PDCAGuardian:
                 severity=Priority.CRITICAL,
                 suggested_fix="エラーを発生させて処理を停止してください"
             ))
-        
+
         # エラー隠蔽チェック
         if "except:" in code and "pass" in code:
             violations.append(RuleViolation(
@@ -351,7 +506,7 @@ class PDCAGuardian:
                 severity=Priority.HIGH,
                 suggested_fix="適切なエラーハンドリングを実装してください"
             ))
-        
+
         # 部分文字列マッチングチェック
         if "if protected in name" in code:
             violations.append(RuleViolation(
@@ -363,16 +518,16 @@ class PDCAGuardian:
                 severity=Priority.HIGH,
                 suggested_fix="完全一致（==）を使用してください"
             ))
-        
+
         if violations:
             self._handle_violations(violations)
-        
+
         return violations
-    
+
     def verify_results(self, results: Dict[str, Any]) -> bool:
         """結果の妥当性検証"""
-        violations = []
-        
+        violations: List[RuleViolation] = []
+
         # 削除率チェック
         deletion_rate = results.get('deletion_rate', 0)
         if deletion_rate < 0.10 or deletion_rate > 0.20:
@@ -385,7 +540,7 @@ class PDCAGuardian:
                 severity=Priority.HIGH,
                 suggested_fix="削除基準を見直してください"
             ))
-        
+
         # 有名人スコアチェック
         celebrity_scores = results.get('celebrity_scores', {})
         for name, score in celebrity_scores.items():
@@ -399,29 +554,29 @@ class PDCAGuardian:
                     severity=Priority.CRITICAL,
                     suggested_fix="スコアリングアルゴリズムを修正してください"
                 ))
-        
+
         if violations:
             self._handle_violations(violations)
             return False
-        
+
         return True
-    
+
     def _handle_violations(self, violations: List[RuleViolation]):
         """違反処理"""
         if not violations:
             return
-        
+
         logger.error("="*60)
         logger.error("🚨 ルール違反が検出されました！")
         logger.error("="*60)
-        
+
         critical_count = 0
-        
+
         for violation in violations:
             # 現在のサイクルに違反を追加
             if self.current_cycle:
                 self.current_cycle.violations.append(violation)
-            
+
             # ログ出力
             emoji = {
                 Priority.CRITICAL: "🔴",
@@ -429,7 +584,7 @@ class PDCAGuardian:
                 Priority.MEDIUM: "🟠",
                 Priority.LOW: "🔵"
             }.get(violation.severity, "⚪")
-            
+
             logger.error(f"\n{emoji} [{violation.severity.value}] {violation.violation_type.value}")
             logger.error(f"   規則: {violation.rule_id}")
             logger.error(f"   説明: {violation.description}")
@@ -437,18 +592,18 @@ class PDCAGuardian:
                 logger.error(f"   場所: {violation.file_path}:{violation.line_number}")
             if violation.suggested_fix:
                 logger.error(f"   修正案: {violation.suggested_fix}")
-            
+
             if violation.severity == Priority.CRITICAL:
                 critical_count += 1
-            
+
             # メモリに違反を記録
             self._record_violation(violation)
-        
+
         # CRITICALがあれば処理停止
         if critical_count > 0:
             logger.error("\n❌ CRITICAL違反のため処理を停止します")
             raise SystemError(f"CRITICAL違反が{critical_count}件検出されました。処理を中止します。")
-    
+
     def _record_violation(self, violation: RuleViolation):
         """違反をメモリに記録"""
         # 該当ルールを探す
@@ -456,43 +611,43 @@ class PDCAGuardian:
             if rule['id'] == violation.rule_id:
                 if 'violations' not in rule:
                     rule['violations'] = []
-                
+
                 rule['violations'].append({
                     "date": violation.timestamp.isoformat(),
                     "type": violation.violation_type.value,
                     "description": violation.description
                 })
-                
+
                 # 最新5件のみ保持
                 if len(rule['violations']) > 5:
                     rule['violations'] = rule['violations'][-5:]
-                
+
                 break
-        
+
         self._save_memory()
-    
+
     # ========== ファイルチェック機能 ==========
-    
+
     def check_file(self, file_path: str) -> List[RuleViolation]:
         """
         ファイルのルール違反チェック
-        
+
         Args:
             file_path: チェック対象ファイル
-            
+
         Returns:
             違反リスト
         """
-        violations = []
-        
+        violations: List[RuleViolation] = []
+
         if not os.path.exists(file_path):
             logger.warning(f"⚠️ ファイルが存在しません: {file_path}")
             return violations
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
             lines = content.split('\n')
-        
+
         # 各行をチェック
         for i, line in enumerate(lines, 1):
             # calibrated_score使用チェック
@@ -506,7 +661,7 @@ class PDCAGuardian:
                     severity=Priority.CRITICAL,
                     suggested_fix="calibrated_scoreを使用しないでください"
                 ))
-            
+
             # ダミーデータチェック
             if "return {'results': 0" in line or "return []" in line:
                 if "raise" not in lines[max(0, i-3):i]:  # 前3行にraiseがない
@@ -519,7 +674,7 @@ class PDCAGuardian:
                         severity=Priority.CRITICAL,
                         suggested_fix="エラーを発生させてください"
                     ))
-            
+
             # エラー隠蔽チェック
             if "except:" in line:
                 # 次の数行をチェック
@@ -535,11 +690,766 @@ class PDCAGuardian:
                             suggested_fix="適切なエラーハンドリングを実装してください"
                         ))
                         break
-        
+
         return violations
-    
+
+    def check_csv_parentheses(self, csv_file: str) -> List[RuleViolation]:
+        """
+        CSVファイルの括弧重複チェック
+
+        Args:
+            csv_file: チェック対象CSVファイル
+
+        Returns:
+            違反リスト
+        """
+        import pandas as pd
+        import re
+
+        violations: List[RuleViolation] = []
+
+        if not os.path.exists(csv_file):
+            return violations
+
+        try:
+            df = pd.read_csv(csv_file)
+        except Exception as e:
+            logger.warning(f"CSVファイル読み込みエラー: {e}")
+            return violations
+
+        # person_name_displayフィールドをチェック
+        if 'person_name_display' not in df.columns:
+            return violations
+
+        for idx, row in df.iterrows():
+            person_id = row.get('person_id', f'row_{idx}')
+            display_name = row.get('person_name_display', '')
+
+            if pd.isna(display_name):
+                continue
+
+            display_name = str(display_name)
+
+            # 1. 重複括弧チェック
+            # パターン: (内容) ... (同じ内容)
+            pattern = r'\(([^)]+)\).*\(\1\)'
+            if re.search(pattern, display_name):
+                violations.append(RuleViolation(
+                    rule_id="RULE_PARENTHESES_001",
+                    violation_type=ViolationType.DUPLICATE_PARENTHESES,
+                    description=f"括弧内容の重複: {person_id} - {display_name}",
+                    file_path=csv_file,
+                    line_number=idx + 2,  # ヘッダー行を考慮
+                    severity=Priority.HIGH,
+                    suggested_fix="重複した括弧を1つに統一してください"
+                ))
+
+            # 全角版もチェック
+            pattern_zenkaku = r'（([^）]+）.*（\1）'
+            if re.search(pattern_zenkaku, display_name):
+                violations.append(RuleViolation(
+                    rule_id="RULE_PARENTHESES_001",
+                    violation_type=ViolationType.DUPLICATE_PARENTHESES,
+                    description=f"全角括弧内容の重複: {person_id} - {display_name}",
+                    file_path=csv_file,
+                    line_number=idx + 2,
+                    severity=Priority.HIGH,
+                    suggested_fix="重複した括弧を1つに統一してください"
+                ))
+
+            # 2. 全角半角混在チェック
+            has_hankaku = '(' in display_name or ')' in display_name
+            has_zenkaku = '（' in display_name or '）' in display_name
+
+            if has_hankaku and has_zenkaku:
+                violations.append(RuleViolation(
+                    rule_id="RULE_PARENTHESES_002",
+                    violation_type=ViolationType.MIXED_PARENTHESES_STYLE,
+                    description=f"全角半角括弧の混在: {person_id} - {display_name}",
+                    file_path=csv_file,
+                    line_number=idx + 2,
+                    severity=Priority.MEDIUM,
+                    suggested_fix="括弧を半角()に統一してください"
+                ))
+
+            # 3. 空の括弧チェック
+            if '()' in display_name or '（）' in display_name:
+                violations.append(RuleViolation(
+                    rule_id="RULE_PARENTHESES_003",
+                    violation_type=ViolationType.EMPTY_PARENTHESES,
+                    description=f"空の括弧: {person_id} - {display_name}",
+                    file_path=csv_file,
+                    line_number=idx + 2,
+                    severity=Priority.MEDIUM,
+                    suggested_fix="空の括弧を削除してください"
+                ))
+
+        return violations
+
+    def check_fictional_character_display(self, csv_file: str) -> List[RuleViolation]:
+        """
+        架空キャラクターのperson_name_display形式をチェック
+
+        Args:
+            csv_file: チェック対象CSVファイル
+
+        Returns:
+            違反リスト
+        """
+        import pandas as pd
+        import re
+
+        violations: List[RuleViolation] = []
+
+        if not os.path.exists(csv_file):
+            return violations
+
+        try:
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+        except Exception as e:
+            logger.warning(f"CSVファイル読み込みエラー: {e}")
+            return violations
+
+        # 必要なフィールドの確認
+        required_fields = ['person_id', 'person_name_display', 'category']
+        if not all(field in df.columns for field in required_fields):
+            logger.warning("必要なフィールドが不足しています")
+            return violations
+
+        # 架空キャラクターのチェック
+        for idx, row in df.iterrows():
+            person_id = row.get('person_id', f'row_{idx}')
+            display_name = row.get('person_name_display', '')
+            category = row.get('category', '')
+
+            # categoryが「架空の存在」の場合をチェック
+            if category == '架空の存在' or category == 'fictional_character':
+                if pd.isna(display_name):
+                    violations.append(RuleViolation(
+                        rule_id="RULE_077",
+                        violation_type=ViolationType.FICTIONAL_CHARACTER_MISSING_WORK,
+                        description=f"架空キャラクターのdisplay名がありません: {person_id}",
+                        file_path=csv_file,
+                        line_number=idx + 2,
+                        severity=Priority.CRITICAL,
+                        suggested_fix="キャラクター名と作品名を設定してください"
+                    ))
+                    continue
+
+                display_name = str(display_name)
+
+                # 括弧がない、または作品名が含まれていない場合
+                if '(' not in display_name and '（' not in display_name:
+                    violations.append(RuleViolation(
+                        rule_id="RULE_077",
+                        violation_type=ViolationType.FICTIONAL_CHARACTER_MISSING_WORK,
+                        description=f"架空キャラクターに作品名がありません: {person_id} - {display_name}",
+                        file_path=csv_file,
+                        line_number=idx + 2,
+                        severity=Priority.CRITICAL,
+                        suggested_fix=f"{display_name} (作品名) の形式にしてください"
+                    ))
+
+                # 括弧が空の場合
+                elif '()' in display_name or '（）' in display_name:
+                    violations.append(RuleViolation(
+                        rule_id="RULE_077",
+                        violation_type=ViolationType.FICTIONAL_CHARACTER_MISSING_WORK,
+                        description=f"架空キャラクターの作品名が空です: {person_id} - {display_name}",
+                        file_path=csv_file,
+                        line_number=idx + 2,
+                        severity=Priority.CRITICAL,
+                        suggested_fix="括弧内に作品名を記入してください"
+                    ))
+
+        return violations
+
+    def check_synthetic_athletes(self, csv_file: str) -> List[RuleViolation]:
+        """
+        合成アスリートの検出チェック
+
+        Args:
+            csv_file: チェック対象CSVファイル
+
+        Returns:
+            違反リスト
+        """
+        import pandas as pd
+        from collections import Counter
+        import re
+
+        violations: List[RuleViolation] = []
+
+        if not os.path.exists(csv_file):
+            return violations
+
+        try:
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+        except Exception as e:
+            logger.warning(f"CSVファイル読み込みエラー: {e}")
+            return violations
+
+        # 必要なフィールドの確認
+        required_fields = ['person_id', 'person_name_display', 'category', 'name_recognition_score']
+        missing_fields = [field for field in required_fields if field not in df.columns]
+        if missing_fields:
+            logger.warning(f"必要なフィールドが不足しています: {missing_fields}")
+            return violations
+
+        # アスリートのみを対象とする
+        athletes_df = df[df['category'].isin(['スポーツ選手', 'athlete', 'sports'])].copy()
+
+        if athletes_df.empty:
+            return violations
+
+        # 1. 0.0スコアのアスリートをチェック
+        zero_score_athletes = athletes_df[athletes_df['name_recognition_score'] < 0.001]
+        for idx, row in zero_score_athletes.iterrows():
+            person_id = row.get('person_id', f'row_{idx}')
+            display_name = row.get('person_name_display', '')
+
+            violations.append(RuleViolation(
+                rule_id="RULE_SYNTHETIC_001",
+                violation_type=ViolationType.SYNTHETIC_ATHLETE,
+                description=f"0.0スコアのアスリート: {person_id} - {display_name}",
+                file_path=csv_file,
+                line_number=idx + 2,
+                severity=Priority.HIGH,
+                suggested_fix="実在しないアスリートの可能性があります。削除を検討してください"
+            ))
+
+        # 2. 同じ姓を持つアスリートの数をチェック（合成パターンの検出）
+        surnames = []
+        for _, row in athletes_df.iterrows():
+            display_name = str(row.get('person_name_display', ''))
+            if not pd.isna(display_name):
+                # 姓を抽出（最初の単語または漢字部分）
+                if ' ' in display_name:
+                    surname = display_name.split(' ')[0]
+                elif re.match(r'^[\u4e00-\u9faf]+', display_name):
+                    # 日本語名の場合、最初の2-3文字を姓とする
+                    surname = display_name[:2] if len(display_name) >= 2 else display_name
+                else:
+                    surname = display_name.split()[0] if display_name.split() else display_name
+
+                if surname and len(surname) > 1:
+                    surnames.append(surname)
+
+        surname_counts = Counter(surnames)
+
+        # 同じ姓が5人以上いる場合は疑わしい
+        suspicious_surnames = {surname: count for surname, count in surname_counts.items() if count >= 5}
+
+        for surname, count in suspicious_surnames.items():
+            # 該当する選手を探す
+            matching_athletes = athletes_df[
+                athletes_df['person_name_display'].str.startswith(surname, na=False)
+            ]
+
+            # これらの選手の中で低スコア（3.0以下）が多い場合は合成の可能性
+            low_score_count = len(matching_athletes[matching_athletes['name_recognition_score'] <= 3.0])
+
+            if low_score_count >= 3:  # 3人以上が低スコアの場合
+                for idx, row in matching_athletes.iterrows():
+                    person_id = row.get('person_id', f'row_{idx}')
+                    display_name = row.get('person_name_display', '')
+                    score = row.get('name_recognition_score', 0)
+
+                    violations.append(RuleViolation(
+                        rule_id="RULE_SYNTHETIC_002",
+                        violation_type=ViolationType.SYNTHETIC_ATHLETE,
+                        description=f"合成パターンの疑い: {surname}姓が{count}人（うち{low_score_count}人が低スコア） - {person_id} - {display_name} (スコア: {score})",
+                        file_path=csv_file,
+                        line_number=idx + 2,
+                        severity=Priority.MEDIUM,
+                        suggested_fix="実在性を確認し、合成データの場合は削除してください"
+                    ))
+
+        # 3. パターン化された名前の検出
+        common_first_names = {
+            '太郎', '次郎', '三郎', '四郎', '五郎',
+            '一郎', '二郎', '花子', '美子',
+            'John', 'Mike', 'Tom', 'David', 'James',
+            'Mary', 'Anna', 'Lisa', 'Emma', 'Sarah'
+        }
+
+        for idx, row in athletes_df.iterrows():
+            display_name = str(row.get('person_name_display', ''))
+            person_id = row.get('person_id', f'row_{idx}')
+            score = row.get('name_recognition_score', 0)
+
+            # 一般的な名前パターンかつ低スコアの場合
+            if any(first_name in display_name for first_name in common_first_names) and score <= 2.0:
+                violations.append(RuleViolation(
+                    rule_id="RULE_SYNTHETIC_003",
+                    violation_type=ViolationType.SYNTHETIC_ATHLETE,
+                    description=f"一般的な名前パターン + 低スコア: {person_id} - {display_name} (スコア: {score})",
+                    file_path=csv_file,
+                    line_number=idx + 2,
+                    severity=Priority.MEDIUM,
+                    suggested_fix="実在するアスリートか確認してください"
+                ))
+
+        # 4. Wikipedia検証がないアスリートのチェック（特に低スコアの場合）
+        if 'has_wikipedia' in df.columns:
+            no_wiki_low_score = athletes_df[
+                (athletes_df['has_wikipedia'] == False) &
+                (athletes_df['name_recognition_score'] <= 4.0)
+            ]
+
+            for idx, row in no_wiki_low_score.iterrows():
+                person_id = row.get('person_id', f'row_{idx}')
+                display_name = row.get('person_name_display', '')
+                score = row.get('name_recognition_score', 0)
+
+                violations.append(RuleViolation(
+                    rule_id="RULE_SYNTHETIC_004",
+                    violation_type=ViolationType.SYNTHETIC_ATHLETE,
+                    description=f"Wikipedia未検証 + 低スコア: {person_id} - {display_name} (スコア: {score})",
+                    file_path=csv_file,
+                    line_number=idx + 2,
+                    severity=Priority.LOW,
+                    suggested_fix="Wikipedia等での実在性確認を推奨します"
+                ))
+
+        return violations
+
+    def check_solo_artist_brackets(self, csv_file: str) -> List[RuleViolation]:
+        """
+        Rule 098: ソロアーティスト冗長括弧チェック
+        「名前（同じ名前）」という冗長な表記を検出
+
+        Args:
+            csv_file: チェック対象CSVファイル
+
+        Returns:
+            検出された違反のリスト
+        """
+        import pandas as pd
+        violations: List[RuleViolation] = []
+
+        if not Path(csv_file).exists():
+            return violations
+
+        try:
+            # CSV読み込み
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+
+            # person_name_displayフィールドが存在しない場合はスキップ
+            if 'person_name_display' not in df.columns or 'person_name' not in df.columns:
+                return violations
+
+            # 各行をチェック
+            for idx, row in df.iterrows():
+                person_id = row.get('person_id', '')
+                person_name = str(row.get('person_name', ''))
+                display_name = str(row.get('person_name_display', ''))
+
+                # 「名前（同じ名前）」パターンの検出
+                redundant_pattern = f"{person_name}（{person_name}）"
+
+                if display_name == redundant_pattern:
+                    violations.append(RuleViolation(
+                        rule_id="RULE_098",
+                        violation_type=ViolationType.SOLO_ARTIST_REDUNDANT_BRACKETS,
+                        description=f"ソロアーティスト冗長括弧: {person_id} - {display_name}",
+                        file_path=csv_file,
+                        line_number=idx + 2,  # ヘッダー行を考慮
+                        severity=Priority.HIGH,
+                        suggested_fix=f"person_name_displayを '{person_name}' に修正してください"
+                    ))
+
+        except Exception as e:
+            logger.error(f"CSVファイル読み込みエラー: {csv_file} - {e}")
+
+        return violations
+
+    def check_channel_names(self, csv_file: str) -> List[RuleViolation]:
+        """
+        Rule 099: チャンネル名の人物誤登録チェック
+
+        YouTubeチャンネル名、TV番組名などが人物として
+        誤って登録されていないかを検証
+
+        パターン:
+        - 〇〇ゲームズ、〇〇Games
+        - 〇〇チャンネル、〇〇Channel
+        - 〇〇TV
+        - 〇〇ゲーム実況
+        - 〇〇Gaming
+
+        Returns:
+            違反リスト
+        """
+        violations: List[RuleViolation] = []
+
+        # チャンネル名を示すサフィックスパターン
+        # 注意: 単なる「ch」は人名の末尾と誤検出するため除外
+        channel_suffixes = [
+            'ゲームズ', 'Games', 'Gaming',
+            'チャンネル', 'Channel',  # 'ch'単体は除外
+            'TV', 'テレビ',
+            'ゲーム実況', '実況',
+            'ラジオ', 'Radio',
+            '放送', 'Broadcasting',
+            'ニュース', 'News',
+            'スタジオ', 'Studio'
+        ]
+
+        try:
+            import pandas as pd
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+
+            for idx, row in df.iterrows():
+                person_id = row.get('person_id', '')
+                person_name = row.get('person_name', '')
+                display_name = row.get('person_name_display', '')
+
+                # チャンネル名パターンの検出
+                for suffix in channel_suffixes:
+                    if person_name.endswith(suffix) or display_name.endswith(suffix):
+                        # 既知の正当なケースは除外
+                        # 例: 実在する人物名、グループ名など
+                        legitimate_cases = [
+                            'ジャック・ウェルチ',  # GE元CEO
+                            'チャールズ・コック',  # Koch Industries
+                            'ヨハン・ゼバスティアン・バッハ',  # 作曲家
+                            'ブレンダン・アイク',  # JavaScriptの生みの親
+                            'ベネディクト・カンバーバッチ',  # 俳優
+                            'ベラ・ポーチ',  # TikToker
+                            'ルパート・マードック',  # メディア王
+                            'ロベルト・コッホ',  # 細菌学者
+                            '二宮和也（ジャニーズ）'  # アイドル（括弧付きは別パターン）
+                        ]
+
+                        # 完全一致でなく、本当にチャンネル名パターンの場合のみ違反
+                        if person_name not in legitimate_cases and display_name not in legitimate_cases:
+                            violations.append(RuleViolation(
+                                rule_id="RULE_099",
+                                violation_type=ViolationType.CHANNEL_NAME_AS_PERSON,
+                                description=f"チャンネル名の可能性: {person_id} - {display_name}",
+                                file_path=csv_file,
+                                line_number=idx + 2,
+                                severity=Priority.HIGH,
+                                suggested_fix="entity_typeを'channel'に変更するか、レコードを削除してください"
+                            ))
+
+                # 追加パターン: "の" を含む配信関連名
+                streaming_patterns = [
+                    'の配信', 'のゲーム', 'の実況', 'の放送'
+                ]
+
+                for pattern in streaming_patterns:
+                    if pattern in person_name or pattern in display_name:
+                        violations.append(RuleViolation(
+                            rule_id="RULE_099",
+                            violation_type=ViolationType.CHANNEL_NAME_AS_PERSON,
+                            description=f"配信/番組名の可能性: {person_id} - {display_name}",
+                            file_path=csv_file,
+                            line_number=idx + 2,
+                            severity=Priority.MEDIUM,
+                            suggested_fix="内容を確認し、人物でない場合は削除してください"
+                        ))
+
+        except Exception as e:
+            logger.error(f"CSVファイル読み込みエラー: {csv_file} - {e}")
+
+        return violations
+
+    def check_comedy_group_consistency(self, csv_file: str) -> List[RuleViolation]:
+        """
+        Rule 100: お笑いコンビ名整合性チェック
+
+        お笑い芸人のグループ名が正しく表示されているか検証
+
+        検証内容:
+        - 正しいコンビ名との照合
+        - メンバーとグループの関係性確認
+        - 誤ったグループ名の検出
+
+        Args:
+            csv_file: チェック対象CSVファイルパス
+
+        Returns:
+            違反リスト
+        """
+        violations: List[RuleViolation] = []
+
+        try:
+            import pandas as pd
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+
+            correct_comedy_groups = self._get_comedy_groups_dictionary()
+            member_to_group = self._create_member_to_group_mapping(correct_comedy_groups)
+
+            for idx, row in df.iterrows():
+                if self._is_comedian(row):
+                    violation = self._check_individual_comedian(row, member_to_group, csv_file, idx)
+                    if violation:
+                        violations.append(violation)
+
+        except Exception as e:
+            logger.error(f"CSVファイル読み込みエラー: {csv_file} - {e}")
+
+        return violations
+
+    def _get_comedy_groups_dictionary(self) -> dict:
+        """お笑いコンビメンバー辞書を取得"""
+        return {
+            '真空ジェシカ': ['ガク', '川北茂澄'],
+            'Aマッソ': ['加納', '村上'],
+            'ロングコートダディ': ['堂前透', '兎'],
+            'アインシュタイン': ['河井ゆずる', '稲田直樹'],
+            'ぺこぱ': ['松陰寺太勇', 'シュウペイ'],
+            'ビスケッティ': ['きん', 'やす'],
+            '４ガロン': ['志田', '下町ミルク'],
+            'ダウンタウン': ['松本人志', '浜田雅功'],
+            'ウッチャンナンチャン': ['内村光良', '南原清隆'],
+            'とんねるず': ['石橋貴明', '木梨憲武'],
+            '爆笑問題': ['太田光', '田中裕二'],
+            'ナインティナイン': ['岡村隆史', '矢部浩之'],
+            'サンドウィッチマン': ['伊達みきお', '富澤たけし'],
+            '千鳥': ['大悟', 'ノブ'],
+            'かまいたち': ['山内健司', '濱家隆一'],
+            'オードリー': ['若林正恭', '春日俊彰'],
+            '中川家': ['中川剛', '中川礼二'],
+            'ミルクボーイ': ['駒場孝', '内海崇'],
+            '霜降り明星': ['せいや', '粗品'],
+            'EXIT': ['りんたろー。', '兼近大樹'],
+            'ニューヨーク': ['嶋佐和也', '屋敷裕政'],
+            'チョコレートプラネット': ['長田庄平', '松尾駿'],
+            'フースーヤ': ['谷口理', '田中康平'],
+            'マヂカルラブリー': ['野田クリスタル', '村上'],
+            '見取り図': ['盛山晋太郎', 'リリー'],
+            '空気階段': ['鈴木もぐら', '水川かたまり'],
+            '錦鯉': ['長谷川雅紀', '渡辺隆'],
+            '品川庄司': ['品川祐', '庄司智春'],
+            'チュートリアル': ['徳井義実', '福田充徳'],
+            'アンタッチャブル': ['柴田英嗣', '山崎弘也'],
+            'ダイアン': ['津田篤宏', 'ユースケ', '西澤裕介'],
+            'アンジャッシュ': ['渡部建', '児嶋一哉'],
+            '天竺鼠': ['瀬下豊', '川原克己'],
+            'ちょんまげラーメン': ['田渕章裕', 'きむ'],
+            'インディアンス': ['田渕章裕', 'きむ']
+        }
+
+    def _create_member_to_group_mapping(self, correct_comedy_groups: dict) -> dict:
+        """メンバー → グループの逆引き辞書を作成"""
+        member_to_group: Dict[str, List[str]] = {}
+        for group_name, members in correct_comedy_groups.items():
+            for member in members:
+                if member not in member_to_group:
+                    member_to_group[member] = []
+                member_to_group[member].append(group_name)
+        return member_to_group
+
+    def _is_comedian(self, row) -> bool:
+        """お笑い芸人かどうかを判定"""
+        import pandas as pd
+        occupation = row.get('occupation', '')
+        if not pd.notna(occupation):
+            return False
+        occupation_str = str(occupation)
+        return any(keyword in occupation_str for keyword in ['お笑い', 'コメディアン', '芸人'])
+
+    def _check_individual_comedian(self, row, member_to_group: dict, csv_file: str, idx: int) -> Optional[RuleViolation]:
+        """個別のお笑い芸人をチェック"""
+        person_id = row.get('person_id', '')
+        person_name = row.get('person_name', '')
+        display_name = row.get('person_name_display', '')
+
+        if person_name not in member_to_group:
+            return None
+
+        correct_groups = member_to_group[person_name]
+        group_check_result = self._extract_and_validate_group_name(display_name, correct_groups)
+
+        if group_check_result['has_wrong_group']:
+            return self._create_wrong_group_violation(person_id, person_name, group_check_result['wrong_group_name'],
+                                                     correct_groups, csv_file, idx)
+        elif group_check_result['missing_group'] and len(correct_groups) == 1:
+            return self._create_missing_group_violation(person_id, person_name, correct_groups[0], csv_file, idx)
+
+        return None
+
+    def _extract_and_validate_group_name(self, display_name: str, correct_groups: list) -> dict:
+        """表示名からグループ名を抽出し検証"""
+        import re
+        bracket_match = re.search(r'[（\(]([^）\)]+)[）\)]', display_name)
+
+        if not bracket_match:
+            return {'has_wrong_group': False, 'missing_group': True, 'wrong_group_name': ''}
+
+        displayed_group = bracket_match.group(1)
+
+        if displayed_group in correct_groups:
+            return {'has_wrong_group': False, 'missing_group': False, 'wrong_group_name': ''}
+        else:
+            return {'has_wrong_group': True, 'missing_group': False, 'wrong_group_name': displayed_group}
+
+    def _create_wrong_group_violation(self, person_id: str, person_name: str, wrong_group_name: str,
+                                     correct_groups: list, csv_file: str, idx: int) -> RuleViolation:
+        """誤ったグループ名の違反を作成"""
+        return RuleViolation(
+            rule_id="RULE_100",
+            violation_type=ViolationType.COMEDY_GROUP_MISMATCH,
+            description=f"誤ったコンビ名: {person_id} - {person_name}（{wrong_group_name}）",
+            file_path=csv_file,
+            line_number=idx + 2,
+            severity=Priority.HIGH,
+            suggested_fix=f"正しいコンビ名 {correct_groups} に修正してください"
+        )
+
+    def _create_missing_group_violation(self, person_id: str, person_name: str, correct_group: str,
+                                       csv_file: str, idx: int) -> RuleViolation:
+        """グループ名未記載の違反を作成"""
+        return RuleViolation(
+            rule_id="RULE_100",
+            violation_type=ViolationType.COMEDY_GROUP_MISMATCH,
+            description=f"グループ名未記載: {person_id} - {person_name}",
+            file_path=csv_file,
+            line_number=idx + 2,
+            severity=Priority.MEDIUM,
+            suggested_fix=f"コンビ名 {correct_group} を追加してください"
+        )
+
+    def check_data_column_integrity(self, file_path: str) -> List[RuleViolation]:
+        """
+        Rule 101: データカラム整合性チェック
+
+        CSVファイルのカラム名の存在と適切な参照を検証
+
+        検証内容:
+        - person_nameカラムの存在確認
+        - PersonXXXパターンの検出
+        - カラム名の誤参照検出
+
+        Args:
+            file_path: チェック対象ファイル
+
+        Returns:
+            違反リスト
+        """
+        violations: List[RuleViolation] = []
+
+        # CSVファイル処理の場合
+        if file_path.endswith('.csv'):
+            try:
+                import pandas as pd
+                df = pd.read_csv(file_path, encoding='utf-8-sig')
+
+                # 1. person_nameカラムの存在チェック
+                if 'person_name' not in df.columns:
+                    violations.append(RuleViolation(
+                        rule_id="RULE_101",
+                        violation_type=ViolationType.MISSING_COLUMN,
+                        description=f"person_nameカラムが存在しません。実際のカラム: {list(df.columns)}",
+                        file_path=file_path,
+                        line_number=1,
+                        severity=Priority.CRITICAL,
+                        suggested_fix="CSVファイルの実際のカラム名を確認して正しく参照してください"
+                    ))
+
+                # 2. PersonXXXパターンの検出
+                if 'person_name' in df.columns:
+                    person_patterns = df['person_name'].str.match(r'^Person\d+$', na=False)
+                    if person_patterns.any():
+                        pattern_count = person_patterns.sum()
+                        sample_patterns = df[person_patterns]['person_name'].head(5).tolist()
+                        violations.append(RuleViolation(
+                            rule_id="RULE_101",
+                            violation_type=ViolationType.ANONYMIZED_DATA,
+                            description=f"匿名化されたPersonXXXパターンを{pattern_count}件検出: {sample_patterns}",
+                            file_path=file_path,
+                            line_number=None,
+                            severity=Priority.CRITICAL,
+                            suggested_fix="実際の人名データを使用するか、カラム参照を修正してください"
+                        ))
+
+            except Exception as e:
+                logger.error(f"CSVファイル読み込みエラー: {file_path} - {e}")
+
+        # Pythonコードファイルの場合
+        elif file_path.endswith('.py'):
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+
+                for i, line in enumerate(lines, 1):
+                    # row['person_name']パターンをチェック
+                    if "row['person_name']" in line or 'row["person_name"]' in line:
+                        # 前後の行でカラム存在チェックがあるか確認
+                        check_exists = False
+                        for j in range(max(0, i-5), min(len(lines), i+5)):
+                            if "'person_name' in" in lines[j] or '"person_name" in' in lines[j]:
+                                check_exists = True
+                                break
+
+                        if not check_exists:
+                            violations.append(RuleViolation(
+                                rule_id="RULE_101",
+                                violation_type=ViolationType.UNCHECKED_COLUMN_ACCESS,
+                                description="person_nameカラムの存在確認なしでアクセス",
+                                file_path=file_path,
+                                line_number=i,
+                                severity=Priority.HIGH,
+                                suggested_fix="カラムアクセス前に if 'person_name' in df.columns: を追加"
+                            ))
+
+            except Exception as e:
+                logger.error(f"Pythonファイル読み込みエラー: {file_path} - {e}")
+
+        return violations
+
+    def check_proposal(self, proposal_text: str) -> List[str]:
+        """
+        提案段階でのルールチェック（RULE_017実装）
+
+        Args:
+            proposal_text: 提案内容のテキスト
+
+        Returns:
+            検出された違反のリスト
+        """
+        import re
+        violations: List[str] = []
+
+        # 品質妥協キーワードの検出
+        compromise_keywords = [
+            'ハイブリッド', '部分的', '一部のみ', '上位.*のみ',
+            '簡易版', 'シンプル版', '高速版', 'quick', 'fast', 'simple',
+            '短縮', '早く', '速く'
+        ]
+
+        for keyword in compromise_keywords:
+            if re.search(keyword, proposal_text, re.IGNORECASE):
+                violations.append(f"品質妥協キーワード検出: {keyword}")
+
+        # 時間短縮提案の検出
+        time_reduction_patterns = [
+            r'\d+分.*短縮', r'早く.*処理', r'速.*処理',
+            r'\d+-\d+分', r'約\d+分'
+        ]
+
+        for pattern in time_reduction_patterns:
+            if re.search(pattern, proposal_text):
+                # 5時間以上の記述がない場合は違反
+                if not re.search(r'(?:[5-9]|\d{2,})時間', proposal_text):
+                    violations.append(f"非現実的な時間短縮提案: {pattern}")
+
+        # 品質優先の明示的確認
+        quality_keywords = ['品質', '精度', 'API', '完全', '全件']
+        if not any(keyword in proposal_text for keyword in quality_keywords):
+            violations.append("品質優先の明示的記述がありません")
+
+        # RULE_011違反キーワード
+        if re.search(r'ハイブリッド方式|部分処理|選択的', proposal_text):
+            violations.append("RULE_011違反: 品質妥協方式の提案")
+
+        return violations
+
     # ========== レポート生成 ==========
-    
+
     def generate_report(self) -> str:
         """PDCAレポート生成"""
         report = []
@@ -548,7 +1458,7 @@ class PDCAGuardian:
         report.append("="*60)
         report.append(f"生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         report.append("")
-        
+
         # ルール違反統計
         report.append("## 📋 ルール違反統計")
         total_violations = 0
@@ -558,12 +1468,12 @@ class PDCAGuardian:
                 total_violations += violation_count
                 report.append(f"- {rule['id']}: {violation_count}件")
                 report.append(f"  {rule['rule']}")
-        
+
         if total_violations == 0:
             report.append("✅ 違反なし")
-        
+
         report.append("")
-        
+
         # 最近のPDCAサイクル
         report.append("## 🔄 最近のPDCAサイクル")
         if self.memory['pdca_history']:
@@ -576,112 +1486,892 @@ class PDCAGuardian:
                 report.append(f"- 違反: {len(cycle.get('violations', []))}件")
         else:
             report.append("履歴なし")
-        
+
         report.append("")
-        
+
         # 改善提案
         report.append("## 💡 改善提案")
         if self.memory['failed_patterns']:
             report.append("最近の失敗パターンに基づく提案:")
             for pattern in self.memory['failed_patterns'][-3:]:
-                report.append(f"- {pattern['pattern']}: {pattern['prevention']}")
-        
+                # patternが辞書型でない場合はスキップ
+                if isinstance(pattern, dict):
+                    pattern_desc = pattern.get('description', pattern.get('pattern', '不明なパターン'))
+                    prevention = pattern.get('prevention', '改善策を検討してください')
+                    report.append(f"- {pattern_desc}: {prevention}")
+                else:
+                    report.append(f"- {pattern}")
+
         report.append("")
         report.append("="*60)
-        
+
         return "\n".join(report)
-    
+
     # ========== 品質ゲート ==========
-    
+
     def quality_gate_check(self, metrics: Dict[str, Any]) -> bool:
         """
         品質ゲートチェック
-        
+
         Args:
             metrics: 測定メトリクス
-            
+
         Returns:
             合格/不合格
         """
         passed = True
-        
+
         # API応答率チェック
         api_rate = metrics.get('api_response_rate', 0)
         if api_rate < 0.95:
             logger.error(f"❌ API応答率が基準未満: {api_rate:.1%} < 95%")
             passed = False
-        
+
         # 削除率チェック
         deletion_rate = metrics.get('deletion_rate', 0)
         if not (0.10 <= deletion_rate <= 0.20):
             logger.error(f"❌ 削除率が範囲外: {deletion_rate:.1%}")
             passed = False
-        
+
         # ダミーデータチェック
         dummy_count = metrics.get('dummy_data_count', 0)
         if dummy_count > 0:
             logger.error(f"❌ ダミーデータが検出されました: {dummy_count}件")
             passed = False
-        
+
         # 有名人スコアチェック
         celebrity_scores = metrics.get('celebrity_scores', {})
         for name in ["HIKAKIN", "大谷翔平", "Ado"]:
             if name in celebrity_scores and celebrity_scores[name] < 7.0:
                 logger.error(f"❌ {name}のスコアが低すぎます: {celebrity_scores[name]}")
                 passed = False
-        
+
         if passed:
             logger.info("✅ 品質ゲート通過")
         else:
             logger.error("❌ 品質ゲート不合格")
-        
+
         return passed
+
+    # ========== エピソード品質チェック ==========
+
+    def check_episode_quality(self, episode_text: str, age: int, person_name_display: str, person_data: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """
+        エピソードの品質をチェック - エピソード品質ルールv3.1対応
+
+        超高品質エピソードのルール:
+        1. 内容の重複を避ける - 「あなたと同じX歳のとき、○○は」の後に年齢・名前を含めない
+        2. 抽象的内容にならないようにする - 具体的な記録、事件、偉業等を含める
+        3. ユーザーが感銘を受けるような内容 - 面白くセンセーショナルな要素
+
+        Args:
+            episode_text: エピソード本文
+            age: 年齢
+            person_name_display: 人物表示名
+
+        Returns:
+            違反リスト
+        """
+        violations: List[Dict[str, Any]] = []
+        import re
+
+        # 標準フォーマットチェック
+        standard_prefix = f"あなたと同じ{age}歳のとき、{person_name_display}は"
+
+        # エピソードが標準フォーマットで始まっているかチェック
+        if not episode_text.startswith(standard_prefix):
+            # 代替フォーマットの許容（カタカナ表記など）
+            alt_prefixes = [
+                f"あなたと同じ{age}歳のとき{person_name_display}は",  # 読点なし
+                f"あなたと同じ{age}歳の時、{person_name_display}は",  # 「時」表記
+            ]
+            if not any(episode_text.startswith(prefix) for prefix in alt_prefixes):
+                violations.append({
+                    'type': 'FORMAT_ERROR',
+                    'message': f"エピソードが標準フォーマットで始まっていません。「{standard_prefix}」で始めてください。",
+                    'severity': 'high'
+                })
+
+        # プレフィックスを除いた本文を抽出
+        if episode_text.startswith(standard_prefix):
+            main_text = episode_text[len(standard_prefix):]
+        else:
+            # 代替フォーマットも考慮
+            main_text = episode_text
+            for prefix in [standard_prefix] + alt_prefixes:
+                if episode_text.startswith(prefix):
+                    main_text = episode_text[len(prefix):]
+                    break
+
+        # 1. 年齢・名前の重複チェック（v3.1ルール適用）
+        violations.extend(self._check_age_name_duplication(main_text, age, person_name_display))
+
+        # 2. 具体性チェック
+        violations.extend(self._check_episode_specificity(episode_text))
+
+        # 3. 感動・感銘要素チェック
+        violations.extend(self._check_emotional_impact(episode_text))
+
+        # 4. 長さチェック
+        violations.extend(self._check_episode_length(episode_text, age, person_name_display))
+
+        # 5. 事実正確性チェック (v3.2)
+        if person_data:
+            violations.extend(self.check_factual_accuracy(episode_text, person_data))
+
+        return violations
+
+    def _check_age_name_duplication(self, main_text: str, age: int, person_name_display: str) -> List[Dict[str, Any]]:
+        """年齢・名前の重複チェックのヘルパーメソッド"""
+        violations: List[Dict[str, Any]] = []
+        age_patterns = [
+            f"{age}歳の{person_name_display}",
+            f"{age}歳の時",
+            f"{age}歳で",
+        ]
+
+        for pattern in age_patterns:
+            if pattern in main_text:
+                violations.append({
+                    'type': ViolationType.EPISODE_DUPLICATE_AGE_NAME.value,
+                    'message': f"エピソード本文内に年齢'{pattern}'が重複しています。前置き部分で既に年齢を示しているので、本文では不要です。",
+                    'severity': 'high'
+                })
+        return violations
+
+    def _check_episode_specificity(self, episode_text: str) -> List[Dict[str, Any]]:
+        """エピソードの具体性チェックのヘルパーメソッド"""
+        violations: List[Dict[str, Any]] = []
+
+        # 数値データの有無
+        numbers = re.findall(r'\d+[年月日時分秒人件個つ枚冊本話回目位円ドル万千億兆％%]', episode_text)
+        # 固有名詞の検出（カタカナ、「」内の文字列）
+        proper_nouns = re.findall(r'[ァ-ヴー]{3,}|「[^」]+」|『[^』]+』', episode_text)
+
+        if len(numbers) == 0 and len(proper_nouns) < 2:
+            violations.append({
+                'type': ViolationType.EPISODE_LACK_SPECIFICITY.value,
+                'message': "具体的な数値データや固有名詞が不足しています",
+                'severity': 'high'
+            })
+        return violations
+
+    def _check_emotional_impact(self, episode_text: str) -> List[Dict[str, Any]]:
+        """感動・感銘要素チェックのヘルパーメソッド"""
+        violations: List[Dict[str, Any]] = []
+        emotional_keywords = [
+            '初めて', '成功', '達成', '克服', '挑戦', '夢', '感動',
+            '努力', '苦労', '困難', '喜び', '涙', '希望', '勇気',
+            '決意', '覚悟', '感謝', '仲間', '支え', '助け',
+            'デビュー', '受賞', '優勝', '記録', '快挙', '偉業'
+        ]
+
+        has_emotional_element = any(keyword in episode_text for keyword in emotional_keywords)
+        if not has_emotional_element:
+            violations.append({
+                'type': ViolationType.EPISODE_NO_EMOTIONAL_IMPACT.value,
+                'message': "感動や感銘を与える要素が含まれていません",
+                'severity': 'medium'
+            })
+        return violations
+
+    def _check_episode_length(self, episode_text: str, age: int, person_name_display: str) -> List[Dict[str, Any]]:
+        """エピソード長さチェックのヘルパーメソッド"""
+        violations: List[Dict[str, Any]] = []
+        prefix = f"あなたと同じ{age}歳のとき、{person_name_display}は"
+
+        if episode_text.startswith(prefix):
+            main_text = episode_text[len(prefix):]
+            if len(main_text) < 50:
+                violations.append({
+                    'type': ViolationType.EPISODE_INAPPROPRIATE_LENGTH.value,
+                    'message': f"エピソード本文が短すぎます（{len(main_text)}文字 < 50文字）",
+                    'severity': 'high'
+                })
+            elif len(main_text) > 300:
+                violations.append({
+                    'type': ViolationType.EPISODE_INAPPROPRIATE_LENGTH.value,
+                    'message': f"エピソード本文が長すぎます（{len(main_text)}文字 > 300文字）",
+                    'severity': 'medium'
+                })
+        return violations
+
+    def calculate_episode_score(self, episode_text: str, age: int) -> Dict[str, Any]:
+        """
+        エピソードのスコアを計算
+
+        Args:
+            episode_text: エピソード本文
+            age: 年齢
+
+        Returns:
+            スコアと詳細
+        """
+        import re
+
+        scores = {
+            'specificity': 0,
+            'emotional_impact': 0,
+            'length': 0,
+            'coherence': 0,
+            'age_relevance': 0
+        }
+
+        # 具体性スコア（30点満点）
+        numbers = re.findall(r'\d+[年月日時分秒人件個つ枚冊本話回目位円ドル万千億兆％%]', episode_text)
+        proper_nouns = re.findall(r'[ァ-ヴー]{3,}|「[^」]+」|『[^』]+』', episode_text)
+        scores['specificity'] = min(30, len(numbers) * 5 + len(proper_nouns) * 3)
+
+        # 感情的インパクトスコア（25点満点）
+        emotional_keywords = [
+            '初めて', '成功', '達成', '克服', '挑戦', '夢', '感動',
+            '努力', '苦労', '困難', '喜び', '涙', '希望', '勇気'
+        ]
+        emotional_count = sum(1 for keyword in emotional_keywords if keyword in episode_text)
+        scores['emotional_impact'] = min(25, emotional_count * 8)
+
+        # 長さスコア（15点満点）
+        text_length = len(episode_text)
+        if 100 <= text_length <= 200:
+            scores['length'] = 15
+        elif 80 <= text_length < 100 or 200 < text_length <= 250:
+            scores['length'] = 10
+        elif 50 <= text_length < 80 or 250 < text_length <= 300:
+            scores['length'] = 5
+        else:
+            scores['length'] = 0
+
+        # 一貫性スコア（15点満点）
+        scores['coherence'] = 15  # デフォルトは満点、違反があれば減点
+
+        # 年齢関連性スコア（15点満点）
+        age_keywords = {
+            1: ['生まれ', '誕生', '初', '赤ちゃん'],
+            10: ['小学', '子供', '少年', '少女', '10歳'],
+            20: ['大学', '青春', '20代', 'デビュー', '成人'],
+            30: ['30代', '結婚', '独立', '起業', '転機'],
+            40: ['40代', '中年', '円熟', '経験', '実績'],
+            50: ['50代', '熟年', '集大成', '後進', '指導'],
+            60: ['60代', '還暦', '引退', '功績', '名誉']
+        }
+
+        relevant_keywords = age_keywords.get(age, [])
+        if any(keyword in episode_text for keyword in relevant_keywords):
+            scores['age_relevance'] = 15
+        else:
+            scores['age_relevance'] = 5
+
+        total_score = sum(scores.values())
+
+        return {
+            'total_score': total_score,
+            'scores': scores,
+            'grade': self._calculate_grade(total_score)
+        }
+
+    def _calculate_grade(self, total_score: float) -> str:
+        """スコアに基づいてグレードを計算"""
+        if total_score >= 80:
+            return 'S'
+        elif total_score >= 60:
+            return 'A'
+        elif total_score >= 40:
+            return 'B'
+        else:
+            return 'C'
+
+    def calculate_episode_impact_score(self, episode_text: str) -> Dict[str, Any]:
+        """
+        エピソードのインパクトスコアを計算
+
+        Args:
+            episode_text: エピソード本文
+
+        Returns:
+            インパクトスコアと詳細
+        """
+        impact_score = 0
+        details = {
+            'historical': 0,
+            'social': 0,
+            'achievement': 0,
+            'turning_point': 0,
+            'global': 0  # v3.0追加
+        }
+
+        # グローバル重要度キーワード (30%) - v3.0最優先
+        global_keywords = ['世界', 'ワールド', '国際', 'メジャー', 'グローバル', 'MLB', 'NBA', 'NFL', 'WBC', 'オリンピック', 'ワールドカップ']
+        for keyword in global_keywords:
+            if keyword in episode_text:
+                details['global'] += 15  # グローバル要素は高得点
+
+        # 歴史的重要性キーワード (25%)
+        historical_keywords = ['初', '史上', '記録', '革命', '歴史', '偉業', '快挙', '初めて', '世界初', '前人未到']
+        for keyword in historical_keywords:
+            if keyword in episode_text:
+                details['historical'] += 10
+
+        # 社会的影響度キーワード (20%)
+        social_keywords = ['話題', '注目', '社会', '影響', '衝撃', '騒然', 'ブーム', '現象']
+        for keyword in social_keywords:
+            if keyword in episode_text:
+                details['social'] += 8
+
+        # 達成・受賞キーワード (15%)
+        achievement_keywords = ['優勝', '受賞', 'MVP', '金メダル', 'ノーベル', 'アカデミー', '新記録', '達成']
+        for keyword in achievement_keywords:
+            if keyword in episode_text:
+                details['achievement'] += 10
+
+        # 転換点キーワード (10%)
+        turning_keywords = ['転機', 'デビュー', '引退', '独立', '結婚', '誕生', '死去', '移籍']
+        for keyword in turning_keywords:
+            if keyword in episode_text:
+                details['turning_point'] += 10
+
+        # スコア計算（配分調整 v3.0）
+        details['global'] = min(details['global'], 30)  # 上限30点
+        details['historical'] = min(details['historical'], 25)  # 上限25点
+        details['social'] = min(details['social'], 20)  # 上限20点
+        details['achievement'] = min(details['achievement'], 15)  # 上限15点
+        details['turning_point'] = min(details['turning_point'], 10)  # 上限10点
+
+        impact_score = sum(details.values())
+
+        return {
+            'total_impact_score': impact_score,
+            'details': details,
+            'is_highly_impactful': impact_score >= 60
+        }
+
+    def check_episode_historical_significance(self, episode_text: str, person_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        エピソードの歴史的重要性をチェック（RULE_106-108）
+
+        Args:
+            episode_text: エピソード本文
+            person_data: 人物データ
+
+        Returns:
+            違反リスト
+        """
+        violations: List[Dict[str, Any]] = []
+        impact_result = self.calculate_episode_impact_score(episode_text)
+
+        # 各ルールのチェックを個別のメソッドに委譲
+        violations.extend(self._check_impact_score_threshold(impact_result))
+        violations.extend(self._check_historical_significance(impact_result))
+        violations.extend(self._check_age_priority_violation(episode_text, impact_result))
+        violations.extend(self._check_global_achievement(impact_result, person_data))
+
+        # v3.1追加チェック
+        self._check_content_duplication(episode_text, person_data, violations)
+        self._check_concreteness(episode_text, violations)
+        self._check_impact_elements(episode_text, violations)
+
+        # 年齢調整の記録
+        self._record_age_adjustment_if_present(episode_text)
+
+        return violations
+
+    def _check_impact_score_threshold(self, impact_result: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """RULE_106: 最重要エピソード未選定チェック"""
+        violations: List[Dict[str, Any]] = []
+        if impact_result['total_impact_score'] < self.IMPACT_THRESHOLD:
+            violations.append({
+                'type': ViolationType.EPISODE_NOT_MOST_IMPACTFUL.value,
+                'message': f"エピソードのインパクトスコアが低すぎます（{impact_result['total_impact_score']}点 < {self.IMPACT_THRESHOLD}点）。より重要な出来事を選定してください。",
+                'severity': 'critical'
+            })
+        return violations
+
+    def _check_historical_significance(self, impact_result: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """RULE_108: 歴史的重要性の欠如チェック"""
+        violations: List[Dict[str, Any]] = []
+        if impact_result['details']['historical'] < self.HISTORICAL_THRESHOLD:
+            violations.append({
+                'type': ViolationType.EPISODE_MISSING_HISTORICAL_SIGNIFICANCE.value,
+                'message': "歴史的重要性を示す要素（初、史上、記録等）が不足しています",
+                'severity': 'high'
+            })
+        return violations
+
+    def _check_age_priority_violation(self, episode_text: str, impact_result: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """RULE_112: 年齢優先選定の違反チェック（v3.0）"""
+        violations: List[Dict[str, Any]] = []
+        if '実際は' in episode_text and impact_result['total_impact_score'] < 40:
+            violations.append({
+                'type': ViolationType.EPISODE_AGE_PRIORITY_VIOLATION.value,
+                'message': "年齢調整されたエピソードの重要度が低い。年齢より重要度を優先してください。",
+                'severity': 'high'
+            })
+        return violations
+
+    def _check_global_achievement(self, impact_result: Dict[str, Any], person_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """RULE_113: 世界的偉業の欠落チェック（v3.0）"""
+        violations: List[Dict[str, Any]] = []
+        if (impact_result['details'].get('global', 0) < 10 and
+            person_data.get('is_globally_significant', False)):
+            violations.append({
+                'type': ViolationType.EPISODE_GLOBAL_ACHIEVEMENT_MISSING.value,
+                'message': "世界的に重要な人物なのに、グローバルな偉業が含まれていません。",
+                'severity': 'critical'
+            })
+        return violations
+
+    def _record_age_adjustment_if_present(self, episode_text: str):
+        """年齢調整の許容性を記録（RULE_107用）"""
+        if '実は' in episode_text or '正確には' in episode_text:
+            self.memory['improvement_log'].append({
+                'type': 'age_adjustment_detected',
+                'episode': episode_text[:50],
+                'note': '年齢調整が適切に行われています（±3歳範囲内）'
+            })
+
+    def _check_content_duplication(self, episode_text: str, person_data: Dict[str, Any], violations: List[Dict[str, Any]]) -> None:
+        """内容重複チェック (RULE_115) - エピソード品質ルールv3.1"""
+        import re
+        person_name = person_data.get('person_name_display', '')
+        age = person_data.get('age', 0)
+
+        # 標準プレフィックスを除去して本文を抽出
+        prefix = f"あなたと同じ{age}歳のとき、{person_name}は"
+        if episode_text.startswith(prefix):
+            main_text = episode_text[len(prefix):]
+        else:
+            main_text = episode_text
+
+        # 1. エピソード本文内での年齢重複チェック（プレフィックス除外後）
+        age_str = f"{age}歳"
+        if age_str in main_text:
+            # 自然な文脈での年齢言及を判定
+            natural_contexts = ['享年', '死去', '逝去', '当時', '没']
+            is_natural = any(context in main_text for context in natural_contexts)
+
+            if not is_natural:
+                violations.append({
+                    'type': ViolationType.EPISODE_DUPLICATE_CONTENT.value,
+                    'message': f"エピソード内で年齢'{age_str}'が重複しています。「あなたと同じ{age}歳のとき」の後に年齢を含めないでください。",
+                    'severity': 'high',
+                    'suggestion': '年齢の重複を避けて自然な文章にしてください'
+                })
+
+        # 2. 人名の重複チェック（自然な文脈を許容）
+        if person_name and main_text.count(person_name) > 0:
+            # 冗長な繰り返しパターンを検出
+            redundant_patterns = [
+                f"{person_name}は{person_name}",  # 「坂本龍馬は坂本龍馬」
+                f"この{person_name}",  # 「この坂本龍馬」
+                f"その{person_name}",  # 「その坂本龍馬」
+            ]
+
+            for pattern in redundant_patterns:
+                if pattern in main_text:
+                    violations.append({
+                        'type': ViolationType.EPISODE_DUPLICATE_CONTENT.value,
+                        'message': f"エピソード内で人名'{person_name}'が冗長に繰り返されています。",
+                        'severity': 'high',
+                        'suggestion': '代名詞や省略を使って自然な文章にしてください'
+                    })
+
+    def _check_concreteness(self, episode_text: str, violations: List[Dict[str, Any]]) -> None:
+        """具体性チェック (RULE_116) - エピソード品質ルールv3.1"""
+        import re
+
+        # 固有名詞・数値・作品名の含有チェック
+
+        # 具体的な要素のカテゴリ別チェック
+        concrete_elements = {
+            'works': re.findall(r'「[^」]+」|『[^』]+』', episode_text),  # 作品名
+            'numbers': re.findall(r'\d+[年月日時分秒人件個つ枚冊本話回目位円ドル万千億兆％%]', episode_text),  # 数値
+            'proper_nouns': re.findall(r'[A-Z][a-z]+|[ァ-ヴー]{3,}', episode_text),  # 固有名詞
+            'events': [],  # 事件名を検出
+        }
+
+        # 歴史的事件や偉業のキーワード
+        event_keywords = ['優勝', '受賞', '発表', '公演', '開催', '移籍', '結成', '解散', '設立', '創業',
+                         'デビュー', '引退', '結婚', '離婚', '誕生', '死去', '襲撃', '暗殺', '訪問',
+                         '会談', '条約', '革命', '戦争', '和平', '独立', '即位', '退位', '当選', '就任']
+
+        for keyword in event_keywords:
+            if keyword in episode_text:
+                concrete_elements['events'].append(keyword)
+
+        # 抽象的な表現のチェック
+        abstract_phrases = ['活躍していました', '頑張っていました', '成長していました',
+                           '注目を集めていました', '期待されていました', '充実した日々',
+                           '活動していました', '過ごしていました', '忙しくしていました',
+                           '準備していました', '努力していました']
+        has_abstract = any(phrase in episode_text for phrase in abstract_phrases)
+
+        # 具体性スコアの計算
+        concreteness_score = (
+            len(concrete_elements['works']) * 3 +
+            len(concrete_elements['numbers']) * 2 +
+            len(concrete_elements['proper_nouns']) * 1 +
+            len(concrete_elements['events']) * 3
+        )
+
+        if has_abstract or concreteness_score < 5:
+            violations.append({
+                'type': ViolationType.EPISODE_LACKS_CONCRETENESS.value,
+                'message': "エピソードが抽象的すぎます。具体的な記録、事件、偉業、挫折、発見、復活、転機等を含めてください。",
+                'severity': 'high',
+                'suggestion': '具体的な作品名、事件名、固有名詞、数値を使用し、その人物との因果関係を明確にしてください'
+            })
+
+    def _check_impact_elements(self, episode_text: str, violations: List[Dict[str, Any]]) -> None:
+        """感銘要素チェック (RULE_117) - エピソード品質ルールv3.1"""
+
+        # 感銘を与える要素のカテゴリ
+        impact_categories = {
+            'achievement': ['優勝', '受賞', 'MVP', '金メダル', '新記録', '世界一', '日本一', '史上初', '快挙'],
+            'challenge': ['挑戦', '困難', '逆境', '苦労', '努力', '克服', '乗り越え', '復活', '再起'],
+            'emotion': ['感動', '涙', '感謝', '喜び', '希望', '勇気', '決意', '覚悟', '情熱'],
+            'milestone': ['デビュー', '転機', '独立', '結婚', '誕生', '引退', '卒業', '開業', '創業'],
+            'historical': ['初', '史上', '革命', '歴史的', '画期的', '伝説', '前人未到', '偉業'],
+            'relationship': ['出会い', '別れ', '仲間', '師匠', '恩師', '家族', '子供', '孫']
+        }
+
+        # 各カテゴリの要素をチェック
+        found_categories = []
+        for category, keywords in impact_categories.items():
+            if any(keyword in episode_text for keyword in keywords):
+                found_categories.append(category)
+
+        # ユーザーが共感できる要素のチェック
+        relatable_elements = {
+            'comparison': ['同じ', 'ような', '似た', '共通', 'シンクロ'],
+            'universal': ['誰もが', '皆', '多くの人', '世界中', '全国'],
+            'personal': ['あなた', '自分', '人生', '生き方', '選択']
+        }
+
+        has_relatable = any(
+            any(keyword in episode_text for keyword in keywords)
+            for keywords in relatable_elements.values()
+        )
+
+        # センセーショナルな要素のチェック
+        sensational_keywords = ['衝撃', '驚愕', '話題', 'スキャンダル', '事件', '騒動', '問題',
+                               '劇的', '運命的', '奇跡', '偶然', '予想外', '突然']
+        has_sensational = any(keyword in episode_text for keyword in sensational_keywords)
+
+        # 総合評価
+        impact_score = (
+            len(found_categories) * 10 +  # カテゴリカバレッジ
+            (10 if has_relatable else 0) +  # 共感要素
+            (5 if has_sensational else 0)  # センセーショナル要素
+        )
+
+        if impact_score < self.EMOTIONAL_THRESHOLD:
+            violations.append({
+                'type': ViolationType.EPISODE_NO_IMPACT.value,
+                'message': "エピソードに感銘を与える要素が不足しています。ユーザーが関心し感銘を受ける内容にしてください。",
+                'severity': 'high',
+                'suggestion': '自分の人生と比較して活力となるような、面白くセンセーショナルな要素を含めてください'
+            })
+
+    def check_factual_accuracy(self, episode_text: str, person_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        エピソードの事実正確性をチェック (RULE_118-120) - v3.2
+        FactCheckerシステムと連携して高度な事実確認を実施
+
+        Args:
+            episode_text: エピソード本文
+            person_data: 人物データ
+
+        Returns:
+            違反リスト
+        """
+        violations: List[Dict[str, Any]] = []
+        person_name = person_data.get('person_name_ja', '')
+        birth_year = person_data.get('birth_year_int', 0)
+
+        # FactCheckerが利用可能な場合は優先的に使用
+        if FactChecker is not None:
+            try:
+                fact_checker = FactChecker()
+                person_id = person_data.get('person_id', 'UNKNOWN')
+
+                # FactCheckerで事実確認
+                fact_report = fact_checker.check_episode(
+                    person_id=person_id,
+                    person_name=person_name,
+                    episode_text=episode_text,
+                    birth_year=birth_year if birth_year else None,
+                    metadata={'source': 'pdca_guardian'}
+                )
+
+                # FactCheckerの違反をPDCA違反に変換
+                for fc_violation in fact_report.violations:
+                    severity_map = {
+                        'critical': 'critical',
+                        'high': 'high',
+                        'medium': 'medium',
+                        'low': 'low'
+                    }
+
+                    violation_type_map = {
+                        'HALLUCINATION_PATTERN': ViolationType.EPISODE_HALLUCINATION,
+                        'ANACHRONISM': ViolationType.EPISODE_FACTUAL_ERROR,
+                        'CHRONOLOGICAL_INCONSISTENCY': ViolationType.EPISODE_FACTUAL_ERROR,
+                        'SUSPICIOUS_NUMBER': ViolationType.EPISODE_HALLUCINATION,
+                        'INVALID_PERCENTAGE': ViolationType.EPISODE_FACTUAL_ERROR
+                    }
+
+                    pdca_violation_type = violation_type_map.get(
+                        fc_violation.violation_type,
+                        ViolationType.EPISODE_SOURCE_UNVERIFIED
+                    )
+
+                    violations.append({
+                        'type': pdca_violation_type.value,
+                        'message': f"[FactChecker] {fc_violation.message}",
+                        'severity': severity_map.get(fc_violation.severity, 'medium'),
+                        'suggestion': fc_violation.suggestion or '事実確認が必要です',
+                        'confidence': fc_violation.confidence
+                    })
+
+                # 未検証の主張も違反として追加
+                for unverified_claim in fact_report.unverified_claims:
+                    violations.append({
+                        'type': ViolationType.EPISODE_SOURCE_UNVERIFIED.value,
+                        'message': f"未検証の主張: {unverified_claim}",
+                        'severity': 'medium',
+                        'suggestion': 'Wikipedia等の信頼できる情報源で確認してください'
+                    })
+
+                logger.info(f"FactChecker結果: {fact_report.result.value}, スコア: {fact_report.total_score}")
+
+                # FactCheckerで処理済みの場合は従来の処理をスキップ
+                if fact_report.violations:
+                    return violations
+
+            except Exception as e:
+                logger.warning(f"FactChecker実行エラー: {e}")
+                # エラー時は従来の方法にフォールバック
+
+        # 既知の誤情報パターンデータベース
+        known_errors = {
+            'Ado': [
+                ('ヨルシカ.*うっせぇわ', 'うっせぇわの作者はsyudou、Adoは歌唱者'),
+                ('アルバム.*Ado', '1stアルバムは「狂言」'),
+                ('21歳.*デビュー', '18歳でデビュー（2020年）'),
+                ('2025年.*狂言', '「狂言」は2022年リリース')
+            ],
+            'Fukase': [
+                ('アイアムアヒーロー', '存在しない楽曲名'),
+                ('オリコン.*賞.*連続', 'そのような受賞歴はない'),
+                ('RPG.*アルバム', 'RPGは楽曲名、アルバムではない'),
+                ('SEKAIのOWARI', '正しくは「SEKAI NO OWARI」')
+            ],
+            'HIKAKIN': [
+                ('紅白歌合戦.*優勝', 'HIKAKINは紅白に出場していない'),
+                ('スキージャンプ', 'HIKAKINはYouTuber')
+            ]
+        }
+
+        # 1. 既知の誤情報パターンチェック
+        if person_name in known_errors:
+            for error_pattern, correct_info in known_errors[person_name]:
+                if re.search(error_pattern, episode_text):
+                    violations.append({
+                        'type': ViolationType.EPISODE_FACTUAL_ERROR.value,
+                        'message': f"既知の誤情報を検出: {correct_info}",
+                        'severity': 'critical',
+                        'suggestion': '正確な情報に修正してください'
+                    })
+
+        # 2. ハルシネーションパターン検出
+        hallucination_patterns = [
+            (r'約?\d{5,}万', '非現実的な数値'),
+            (r'史上初.*史上初', '「史上初」の重複'),
+            (r'世界記録.*日本記録', '矛盾する記録'),
+            (r'「[^」]{30,}」', '異常に長いタイトル')
+        ]
+
+        for pattern, description in hallucination_patterns:
+            if re.search(pattern, episode_text):
+                violations.append({
+                    'type': ViolationType.EPISODE_HALLUCINATION.value,
+                    'message': f"ハルシネーションの可能性: {description}",
+                    'severity': 'high',
+                    'suggestion': '事実確認が必要です'
+                })
+
+        # 3. 年代整合性チェック
+        age_match = re.search(r'(\d+)歳', episode_text)
+        year_matches = re.findall(r'(19|20)\d{2}年', episode_text)
+
+        if age_match and year_matches and birth_year:
+            age = int(age_match.group(1))
+            expected_year = birth_year + age
+
+            for year_str in year_matches:
+                year = int(year_str.replace('年', ''))
+                if abs(year - expected_year) > 1:  # 1年以上のズレ
+                    violations.append({
+                        'type': ViolationType.EPISODE_FACTUAL_ERROR.value,
+                        'message': f"年代の不整合: {age}歳は{expected_year}年のはずだが、{year}年と記載",
+                        'severity': 'high',
+                        'suggestion': '年代を正確に修正してください'
+                    })
+
+        # 4. 情報源検証の有無チェック
+        has_verifiable_element = any([
+            re.search(r'受賞|優勝|記録|発表|リリース|出版', episode_text),
+            re.search(r'「[^」]+」', episode_text),  # 作品名
+            re.search(r'\d+[万億]', episode_text)    # 大きな数値
+        ])
+
+        if has_verifiable_element and not person_data.get('wikipedia_verified', False):
+            violations.append({
+                'type': ViolationType.EPISODE_SOURCE_UNVERIFIED.value,
+                'message': "検証可能な要素が含まれていますが、情報源が未確認です",
+                'severity': 'medium',
+                'suggestion': 'Wikipedia等の信頼できる情報源で確認してください'
+            })
+
+        return violations
+
+    def validate_episode_generation(self, person_data: Dict[str, Any], episodes: List[str]) -> Dict[str, Any]:
+        """
+        エピソード生成の妥当性を検証
+
+        Args:
+            person_data: 人物データ
+            episodes: 生成されたエピソードリスト
+
+        Returns:
+            検証結果
+        """
+        validation_result: Dict[str, Any] = {
+            'valid': True,
+            'violations': [],
+            'scores': [],
+            'average_score': 0
+        }
+
+        ages = [1, 10, 20, 30, 40, 50, 60]
+
+        if len(episodes) != 7:
+            validation_result['valid'] = False
+            validation_result['violations'].append({
+                'type': 'EPISODE_COUNT_ERROR',
+                'message': f"エピソード数が不正です（{len(episodes)}個、必要: 7個）"
+            })
+            return validation_result
+
+        total_score = 0
+        total_impact_score = 0
+        for age, episode in zip(ages, episodes):
+            # 品質チェック
+            violations = self.check_episode_quality(
+                episode,
+                age,
+                person_data.get('person_name_display', ''),
+                person_data  # person_dataを渡す
+            )
+
+            if violations:
+                validation_result['violations'].extend(violations)
+                validation_result['valid'] = False
+
+            # 歴史的重要性チェック（新規追加）
+            historical_violations = self.check_episode_historical_significance(
+                episode,
+                person_data
+            )
+            if historical_violations:
+                validation_result['violations'].extend(historical_violations)
+                validation_result['valid'] = False
+
+            # スコア計算
+            score_data = self.calculate_episode_score(episode, age)
+            validation_result['scores'].append(score_data)
+            total_score += score_data['total_score']
+
+            # インパクトスコア計算（新規追加）
+            impact_data = self.calculate_episode_impact_score(episode)
+            total_impact_score += impact_data['total_impact_score']
+
+            # 品質基準チェック
+            if score_data['total_score'] < self.QUALITY_THRESHOLD:
+                validation_result['violations'].append({
+                    'type': ViolationType.EPISODE_QUALITY_BELOW_THRESHOLD.value,
+                    'message': f"{age}歳エピソードの品質スコアが基準未満（{score_data['total_score']}点 < {self.QUALITY_THRESHOLD}点）",
+                    'severity': 'high'
+                })
+                validation_result['valid'] = False
+
+        validation_result['average_score'] = total_score / 7
+        validation_result['average_impact_score'] = total_impact_score / 7
+
+        # 平均スコアチェック
+        if validation_result['average_score'] < self.QUALITY_THRESHOLD:
+            validation_result['violations'].append({
+                'type': ViolationType.EPISODE_QUALITY_BELOW_THRESHOLD.value,
+                'message': f"エピソード全体の平均スコアが基準未満（{validation_result['average_score']:.1f}点 < {self.QUALITY_THRESHOLD}点）",
+                'severity': 'critical'
+            })
+            validation_result['valid'] = False
+
+        # 平均インパクトスコアチェック（新規追加）
+        if validation_result['average_impact_score'] < self.IMPACT_THRESHOLD:
+            validation_result['violations'].append({
+                'type': ViolationType.EPISODE_NOT_MOST_IMPACTFUL.value,
+                'message': f"エピソード全体の平均インパクトスコアが低すぎます（{validation_result['average_impact_score']:.1f}点 < {self.IMPACT_THRESHOLD}点）。より重要なエピソードを選定してください。",
+                'severity': 'critical'
+            })
+            validation_result['valid'] = False
+
+        return validation_result
 
 
 def main():
     """メイン実行"""
     guardian = PDCAGuardian()
-    
+
     # テスト: PDCAサイクル実行
     logger.info("\n" + "="*60)
     logger.info("テスト実行")
     logger.info("="*60)
-    
+
     # 1. 良いサイクル
     logger.info("\n### 良いPDCAサイクルの例")
-    cycle_id = guardian.start_pdca_cycle({
+    guardian.start_pdca_cycle({
         "description": "複数APIを統合した知名度評価システム",
         "use_apis": True,
         "multi_api_integration": True
     })
-    
+
     guardian.update_do_phase({
         "action": "ultimate_recognition_system.pyの実装",
         "code": "score = api_result['score']",
         "file_path": "ultimate_recognition_system.py"
     })
-    
+
     guardian.update_check_phase({
         "result": "成功",
         "deletion_rate": 0.15,
         "celebrity_scores": {"HIKAKIN": 8.5, "大谷翔平": 9.0}
     })
-    
+
     guardian.update_act_phase({
         "action": "本番環境へのデプロイ準備"
     })
-    
+
     # 2. 悪いサイクル（違反あり）
     logger.info("\n### 違反のあるPDCAサイクルの例")
     try:
-        cycle_id = guardian.start_pdca_cycle({
+        guardian.start_pdca_cycle({
             "description": "簡易版知名度評価",
             "use_apis": False,  # 違反！
             "calibrated_score": True  # 違反！
         })
     except SystemError as e:
         logger.info(f"期待通りエラー: {e}")
-    
+
     # 3. ファイルチェック
     logger.info("\n### ファイルチェックの例")
     test_file = "apply_recognition_simple.py"
@@ -689,12 +2379,12 @@ def main():
         violations = guardian.check_file(test_file)
         if violations:
             logger.info(f"✅ {len(violations)}件の違反を検出")
-    
+
     # 4. レポート生成
     logger.info("\n### レポート生成")
     report = guardian.generate_report()
-    print(report)
-    
+    logger.info(report)
+
     # 5. 品質ゲートチェック
     logger.info("\n### 品質ゲートチェック")
     metrics = {
@@ -707,12 +2397,12 @@ def main():
             "Ado": 8.0
         }
     }
-    
+
     if guardian.quality_gate_check(metrics):
         logger.info("✅ 品質基準をクリア")
     else:
         logger.error("❌ 品質基準未達")
-    
+
     logger.info("\n✅ PDCAガーディアンのテスト完了")
 
 

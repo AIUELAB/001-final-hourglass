@@ -1,0 +1,36 @@
+{
+  "watch_patterns": [
+    "ultra_think_*.csv"
+  ],
+  "exclude_patterns": [
+    "*_backup_*.csv",
+    "*_temp_*.csv",
+    "*_test_*.csv"
+  ],
+  "sync_cooldown": 5,
+  "sync_script": "direct_sync.py",
+  "auto_backup": true,
+  "max_backups": 5,
+  "notification_sound": true,
+  "watch_events": {
+    "on_modified": true,
+    "on_created": true,
+    "on_moved": true,
+    "on_deleted": false
+  },
+  "advanced_settings": {
+    "debounce_time": 3,
+    "batch_sync": true,
+    "verify_changes": true,
+    "hash_check": true,
+    "min_file_size": 100,
+    "max_file_size": 104857600
+  },
+  "logging": {
+    "enabled": true,
+    "log_file": "auto_sync_log.json",
+    "max_log_entries": 50,
+    "verbose": true
+  },
+  "description": "Ultra Think 自動同期監視システム設定"
+}

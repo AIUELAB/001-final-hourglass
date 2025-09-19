@@ -3,27 +3,28 @@
 Tests for Remote MCP Server Integration
 """
 
-import pytest
 import asyncio
 import json
 import os
-from unittest.mock import Mock, patch, AsyncMock, MagicMock
-from datetime import datetime, timedelta
-import aiohttp
-from aioresponses import aioresponses
 
 # Add src to path
 import sys
+from datetime import datetime, timedelta
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
+
+import aiohttp
+import pytest
+from aioresponses import aioresponses
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.remote_mcp_integration import (
-    RemoteServerConfig,
-    RemoteMCPClient,
-    RemoteMCPManager,
-    TransportType,
     AuthType,
     OAuthToken,
+    RemoteMCPClient,
+    RemoteMCPManager,
+    RemoteServerConfig,
+    TransportType,
 )
 
 

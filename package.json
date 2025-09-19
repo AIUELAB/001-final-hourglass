@@ -23,5 +23,30 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "cSpell": {
+    "words": [
+      "YouTube",
+      "YouTuber",
+      "TikTok",
+      "TikToker",
+      "Toker",
+      "Palme",
+      "dOr",
+      "epoque",
+      "karateka",
+      "MotoGP",
+      "Moto",
+      "shogi",
+      "FIFA",
+      "LGBTQ",
+      "podcaster",
+      "videographer",
+      "patissier",
+      "Pritzker",
+      "Akutagawa",
+      "Naoki",
+      "Supercentenarian"
+    ]
   }
 }

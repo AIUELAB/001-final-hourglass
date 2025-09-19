@@ -1,0 +1,25 @@
+{
+  "auto_approval": {
+    "enabled": true,
+    "status_file": "~/.claude/auto-mode-status",
+    "status": "🟢 AUTO-ACCEPT",
+    "environment_variable": "CLAUDE_SKIP_ALL_PERMISSIONS",
+    "sound_enabled": true,
+    "sound_script": "scripts/play-approval-sound.sh"
+  },
+  "fast_mode": {
+    "enabled": true,
+    "script": "scripts/claude-fast-mode.sh",
+    "features": [
+      "Skip all permission prompts",
+      "Auto-start Serena MCP server",
+      "Enable parallel processing",
+      "Optimize for development speed"
+    ]
+  },
+  "warnings": [
+    "開発環境でのみ使用してください",
+    "本番環境では通常モードを推奨します",
+    "ファイル操作の確認がスキップされます"
+  ]
+}

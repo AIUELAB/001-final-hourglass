@@ -7,6 +7,7 @@
 ## 実装済み機能
 
 ### 2025年最新機能
+
 - ✅ スラッシュコマンド (5個)
 - ✅ ヘッドレスモードCI/CD
 - ✅ Docker隔離環境
@@ -17,12 +18,14 @@
 - ✅ ハイブリッドプロファイル (ローカル+リモート)
 
 ### 開発環境
+
 - ✅ Python 3.13.5 + venv
 - ✅ Node.js 22.15.0
 - ✅ 26個のテスト合格
 - ✅ APIキー設定済み
 
 ### Git管理
+
 - ✅ リポジトリ初期化
 - ✅ 初回コミット完了
 - ✅ 90ファイル追加
@@ -45,7 +48,7 @@ docker-compose -f docker-compose.claude.yml build
 
 ## ディレクトリ構造
 
-```
+```text
 claude-code-template-mcp/
 ├── .claude/commands/      # スラッシュコマンド
 ├── .github/workflows/     # GitHub Actions
@@ -60,6 +63,7 @@ claude-code-template-mcp/
 ## 次のステップ
 
 ### 1. GitHubへのプッシュ
+
 ```bash
 # GitHubで新しいリポジトリを作成後
 git remote add origin <YOUR_REPO_URL>
@@ -67,10 +71,12 @@ git push -u origin main
 ```
 
 ### 2. GitHub Actions設定
+
 - Settings → Secrets → Actions
 - `ANTHROPIC_API_KEY`を追加
 
 ### 3. 開発開始
+
 ```bash
 # Cursorで開く
 # claude コマンドを実行

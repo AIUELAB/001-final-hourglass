@@ -33,6 +33,9 @@ class BrowserAction:
 
 class PlaywrightMCPExamples:
     """Playwright MCPの使用例を示すクラス"""
+    
+    # 定数定義
+    MSG_GET_PAGE_STRUCTURE = "ページ構造を取得"
 
     def __init__(self):
         """初期化"""
@@ -49,7 +52,7 @@ class PlaywrightMCPExamples:
         tools = [
             # Core automation
             ("browser_navigate", "URLへ移動", "Core"),
-            ("browser_snapshot", "ページ構造を取得", "Core"),
+            ("browser_snapshot", self.MSG_GET_PAGE_STRUCTURE, "Core"),
             ("browser_click", "要素をクリック", "Core"),
             ("browser_type", "テキスト入力", "Core"),
             ("browser_press_key", "キー押下", "Core"),
@@ -99,7 +102,7 @@ class PlaywrightMCPExamples:
             ),
             BrowserAction(
                 action_type="snapshot",
-                description="ページ構造を取得",
+                description=self.MSG_GET_PAGE_STRUCTURE,
                 mcp_tool="browser_snapshot",
                 parameters={},
             ),
@@ -177,7 +180,7 @@ class PlaywrightMCPExamples:
             ),
             BrowserAction(
                 action_type="snapshot",
-                description="ページ構造を取得",
+                description=self.MSG_GET_PAGE_STRUCTURE,
                 mcp_tool="browser_snapshot",
                 parameters={},
             ),

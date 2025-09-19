@@ -401,6 +401,90 @@ class NoSimpleFallbackGate(QualityGate):
             return self.status
 
 
+class TimeEstimationGate(QualityGate):
+    """時間見積もり品質ゲート（RULE_015実装）"""
+    
+    def __init__(self):
+        super().__init__("時間見積もり妥当性", "CRITICAL")
+    
+    def check(self, context: Dict[str, Any]) -> GateStatus:
+        """時間見積もりの妥当性チェック"""
+        try:
+            script_path = context.get("script_path")
+            if not script_path:
+                self.status = GateStatus.SKIPPED
+                return self.status
+            
+            with open(script_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 危険な時間短縮パターン
+            dangerous_patterns = [
+                # 処理時間の大幅短縮を示唆するパターン
+                (r'(\d+)時間.*?(\d+)分', 'hours_to_minutes'),
+                (r'(\d+)倍.*?高速', 'unrealistic_speedup'),
+                (r'処理時間.*?90%.*?削減', 'extreme_reduction'),
+                (r'(\d+)分で完了', 'unrealistic_completion'),
+                
+                # 品質妥協を示すパターン
+                (r'効率.*?優先', 'efficiency_over_quality'),
+                (r'時間.*?短縮', 'time_reduction_focus'),
+                (r'クイック.*?処理', 'quick_processing'),
+                (r'部分的.*?実行', 'partial_execution')
+            ]
+            
+            violations = []
+            lines = content.split('\n')
+            
+            for i, line in enumerate(lines, 1):
+                for pattern, violation_type in dangerous_patterns:
+                    import re
+                    if re.search(pattern, line, re.IGNORECASE):
+                        violations.append({
+                            "line": i,
+                            "type": violation_type,
+                            "text": line.strip()[:100]
+                        })
+            
+            # 処理時間に関するコメントの検証
+            time_comments = []
+            for i, line in enumerate(lines, 1):
+                if '#' in line:
+                    comment = line[line.index('#'):].strip()
+                    if any(word in comment.lower() for word in ['時間', 'hour', 'minute', '分', '処理時間']):
+                        time_comments.append({
+                            "line": i,
+                            "comment": comment[:100]
+                        })
+            
+            # 判定
+            if violations:
+                self.message = f"非現実的な時間見積もりを検出: {len(violations)}箇所"
+                self.details = {"violations": violations[:5]}  # 最初の5件
+                self.status = GateStatus.FAILED
+            elif time_comments:
+                # 時間に関するコメントがある場合は詳細チェック
+                quality_mentioned = any('品質' in c['comment'] or 'quality' in c['comment'].lower() 
+                                       for c in time_comments)
+                if not quality_mentioned:
+                    self.message = "時間見積もりに品質保証への言及なし"
+                    self.details = {"time_comments": time_comments[:3]}
+                    self.status = GateStatus.WARNING
+                else:
+                    self.message = "時間見積もりは品質優先で適切"
+                    self.status = GateStatus.PASSED
+            else:
+                self.message = "時間見積もりチェック完了"
+                self.status = GateStatus.PASSED
+            
+            return self.status
+            
+        except Exception as e:
+            self.message = f"チェック中にエラー: {str(e)}"
+            self.status = GateStatus.FAILED
+            return self.status
+
+
 class QualityGateSystem:
     """品質ゲートシステム統合"""
     
@@ -409,6 +493,7 @@ class QualityGateSystem:
             SystemReadinessGate(),
             NoCalibrationScoreGate(),
             NoSimpleFallbackGate(),  # CRITICAL: 品質妥協版禁止
+            TimeEstimationGate(),     # CRITICAL: 時間見積もり妥当性
             APIUsageGate(),
             ProtectionListGate(),
             ErrorHandlingGate()

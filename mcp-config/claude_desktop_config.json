@@ -7,7 +7,7 @@
         "git+https://github.com/oraios/serena",
         "serena-mcp-server",
         "--project",
-        "/Users/admin/Documents/Cursor/claude-code-template-mcp"
+        "/Users/admin/Documents/AIUELAB/001-final-hourglass"
       ],
       "env": {}
     },
@@ -19,7 +19,7 @@
         "/path/to/serena",
         "serena-mcp-server",
         "--project",
-        "/Users/admin/Documents/Cursor/claude-code-template-mcp"
+        "/Users/admin/Documents/AIUELAB/001-final-hourglass"
       ],
       "env": {},
       "disabled": true
@@ -192,6 +192,13 @@
       "args": ["-y", "@smithery/stdout-mcp-server"],
       "env": {},
       "disabled": true
+    },
+    "codex": {
+      "command": "codex",
+      "args": ["mcp"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      }
     }
   }
 }

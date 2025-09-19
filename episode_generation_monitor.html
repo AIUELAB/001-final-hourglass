@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エピソード生成モニター</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .progress-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .cost-indicator {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .cost-meter {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .cost-segment {
+            flex: 1;
+            height: 10px;
+            background: rgba(255,255,255,0.2);
+            margin: 0 2px;
+        }
+
+        .cost-segment.used {
+            background: #ff6b6b;
+        }
+
+        .cost-segment.available {
+            background: #51cf66;
+        }
+
+        .log-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #00d2ff;
+            padding-left: 10px;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 エピソード生成モニター</h1>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="emoji">✅</div>
+                <div class="stat-label">生成成功</div>
+                <div class="stat-value" id="success-count">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="emoji">⏱️</div>
+                <div class="stat-label">平均生成時間</div>
+                <div class="stat-value" id="avg-time">0.0s</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="emoji">💰</div>
+                <div class="stat-label">使用コスト</div>
+                <div class="stat-value" id="total-cost">$0.00</div>
+            </div>
+
+            <div class="stat-card pulse">
+                <div class="emoji">🚀</div>
+                <div class="stat-label">生成速度</div>
+                <div class="stat-value" id="speed">0/分</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2>進捗状況</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%">0%</div>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span id="current-count">0</span>
+                <span id="total-count">目標: 100</span>
+            </div>
+        </div>
+
+        <div class="cost-indicator">
+            <h2>💳 クレジット使用状況 ($10.00)</h2>
+            <div class="cost-meter" id="cost-meter">
+                <!-- 動的に生成 -->
+            </div>
+            <div style="margin-top: 10px;">
+                <span>使用済み: <strong id="used-amount">$0.00</strong></span>
+                <span style="margin-left: 20px;">残り: <strong id="remaining-amount">$10.00</strong></span>
+            </div>
+            <div style="margin-top: 10px; opacity: 0.7;">
+                残りエピソード数: <span id="remaining-episodes">約33,000</span>
+            </div>
+        </div>
+
+        <div class="log-section">
+            <h3>📝 実行ログ</h3>
+            <div id="log-container">
+                <div class="log-entry">システム起動中...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // モックデータ生成（実際はWebSocketやAPIから取得）
+        let stats = {
+            success: 0,
+            failed: 0,
+            totalCost: 0,
+            avgTime: 0,
+            target: 100,
+            startTime: Date.now()
+        };
+
+        function updateDisplay() {
+            // カウント更新
+            document.getElementById('success-count').textContent = stats.success;
+            document.getElementById('avg-time').textContent = stats.avgTime.toFixed(2) + 's';
+            document.getElementById('total-cost').textContent = '$' + stats.totalCost.toFixed(4);
+
+            // 進捗バー
+            const progress = (stats.success / stats.target) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-fill').textContent = Math.floor(progress) + '%';
+            document.getElementById('current-count').textContent = '完了: ' + stats.success;
+            document.getElementById('total-count').textContent = '目標: ' + stats.target;
+
+            // 速度計算
+            const elapsed = (Date.now() - stats.startTime) / 1000 / 60; // 分
+            const speed = elapsed > 0 ? Math.floor(stats.success / elapsed) : 0;
+            document.getElementById('speed').textContent = speed + '/分';
+
+            // コスト表示
+            document.getElementById('used-amount').textContent = '$' + stats.totalCost.toFixed(4);
+            const remaining = 10 - stats.totalCost;
+            document.getElementById('remaining-amount').textContent = '$' + remaining.toFixed(4);
+            document.getElementById('remaining-episodes').textContent = '約' + Math.floor(remaining / 0.0003).toLocaleString();
+
+            // コストメーター更新
+            updateCostMeter();
+        }
+
+        function updateCostMeter() {
+            const meter = document.getElementById('cost-meter');
+            const usedPercent = Math.floor((stats.totalCost / 10) * 100);
+
+            let html = '';
+            for (let i = 0; i < 100; i++) {
+                if (i < usedPercent) {
+                    html += '<div class="cost-segment used"></div>';
+                } else {
+                    html += '<div class="cost-segment available"></div>';
+                }
+            }
+            meter.innerHTML = html;
+        }
+
+        function addLog(message) {
+            const container = document.getElementById('log-container');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            container.insertBefore(entry, container.firstChild);
+
+            // 最大20件まで表示
+            while (container.children.length > 20) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        // シミュレーション（実際はサーバーから取得）
+        setInterval(() => {
+            if (stats.success < stats.target) {
+                stats.success++;
+                stats.totalCost += 0.0003;
+                stats.avgTime = 0.5 + Math.random() * 0.5;
+
+                addLog(`エピソード生成成功: Person_${1000 + stats.success}`);
+                updateDisplay();
+            }
+        }, 1000);
+
+        // 初期表示
+        updateDisplay();
+        addLog('Anthropic API接続確認中...');
+        setTimeout(() => addLog('✅ API接続成功'), 1000);
+        setTimeout(() => addLog('🚀 エピソード生成開始'), 2000);
+    </script>
+</body>
+</html>

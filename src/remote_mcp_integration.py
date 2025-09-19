@@ -111,7 +111,7 @@ class RemoteMCPClient:
 
         # Connect based on transport type
         if self.config.transport == TransportType.SSE:
-            await self._connect_sse()
+            self._connect_sse()
         elif self.config.transport == TransportType.HTTP:
             await self._test_connection()
 
@@ -234,7 +234,7 @@ class RemoteMCPClient:
                     scope=token_data.get("scope"),
                 )
 
-    async def _connect_sse(self) -> None:
+    def _connect_sse(self) -> None:
         """Connect to SSE endpoint"""
         if not self.session:
             raise RuntimeError("Session not initialized")
@@ -260,10 +260,12 @@ class RemoteMCPClient:
             logger.warning(f"Health check failed for {self.config.name}: {e}")
             # Don't fail - server might not have health endpoint
 
+    NOT_CONNECTED_ERROR = "Not connected"
+    
     async def send_request(self, method: str, params: dict | None = None) -> Any:
         """Send request to remote MCP server"""
         if not self.session:
-            raise RuntimeError("Not connected")
+            raise RuntimeError(self.NOT_CONNECTED_ERROR)
 
         # Refresh auth if needed
         if self.config.auth_type == AuthType.OAUTH2:
@@ -282,7 +284,7 @@ class RemoteMCPClient:
     async def _send_http_request(self, payload: dict) -> Any:
         """Send HTTP request"""
         if not self.session:
-            raise RuntimeError("Not connected")
+            raise RuntimeError(self.NOT_CONNECTED_ERROR)
         for attempt in range(self.config.retry_attempts):
             try:
                 async with self.session.post(self.config.url, json=payload) as response:
@@ -311,7 +313,7 @@ class RemoteMCPClient:
         """Send SSE request and wait for response"""
         # For SSE, we need to send via POST and listen for response
         if not self.session:
-            raise RuntimeError("Not connected")
+            raise RuntimeError(self.NOT_CONNECTED_ERROR)
         async with self.session.post(f"{self.config.url}/request", json=payload) as response:
             if response.status != 200:
                 raise aiohttp.ClientResponseError(

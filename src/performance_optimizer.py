@@ -335,7 +335,7 @@ class ResourceMonitor:
         self.start_time = time.time()
         self.metrics: dict[str, list[float]] = {"memory": [], "cpu": [], "io": []}
 
-    async def record_metric(self, metric_type: str, value: float):
+    def record_metric(self, metric_type: str, value: float):
         """Record a metric value"""
         if metric_type not in self.metrics:
             self.metrics[metric_type] = []
@@ -429,7 +429,7 @@ class OptimizedMCPClient:
             cache_key = f"{method}:{json.dumps(params or {}, sort_keys=True)}"
             cached = await self.cache.get(cache_key)
             if cached:
-                await self.monitor.record_metric("cache_hit", 1)
+                self.monitor.record_metric("cache_hit", 1)
                 return cached
 
         # Execute request
@@ -447,7 +447,7 @@ class OptimizedMCPClient:
             result = await response.json()
             elapsed = time.time() - start
 
-            await self.monitor.record_metric("request_time", elapsed)
+            self.monitor.record_metric("request_time", elapsed)
 
             # Cache result for read operations
             if method.startswith("get_") or method.startswith("list_"):

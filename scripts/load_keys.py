@@ -6,8 +6,9 @@ APIキーをキーフォルダから読み込んで.env.mcpファイルを生成
 import json
 import os
 import sys
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 
 def load_config():
     """設定ファイルを読み込む"""
@@ -127,7 +128,7 @@ def main():
     print("📝 出力先を選択してください:")
     for i, path in enumerate(output_options, 1):
         print(f"   {i}. {path}")
-    print(f"   3. カスタムパス")
+    print("   3. カスタムパス")
 
     choice = input("\n選択 (1-3): ").strip()
 
@@ -148,7 +149,7 @@ def main():
     if generate_env_file(config, output_path):
         print("")
         print("✨ 完了しました！")
-        print(f"   次のコマンドで環境変数を読み込めます:")
+        print("   次のコマンドで環境変数を読み込めます:")
         print(f"   source {output_path}")
     else:
         sys.exit(1)

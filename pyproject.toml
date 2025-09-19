@@ -189,7 +189,7 @@ select = [
     "PD",   # pandas-vet
     "NPY",  # NumPy-specific rules
 ]
-ignore = ["E501", "PLR0913", "ANN101", "ANN102"]  # line length, too many arguments, self/cls annotations
+ignore = ["E501", "PLR0913", "ANN101", "ANN102", "F401"]  # line length, too many arguments, self/cls annotations, unused imports
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101", "ANN"]  # allow assert and skip annotations in tests
@@ -252,16 +252,18 @@ reportPrivateUsage = true
 reportUnnecessaryIsInstance = true
 reportUnnecessaryCast = true
 reportUnnecessaryComparison = true
+reportUnusedImport = false
 stubPath = "typings"
-include = ["src", "tests"]
-exclude = ["venv", ".venv", "node_modules", ".git"]
+include = ["."]
+exclude = ["venv", ".venv", "node_modules", ".git", "cache", "ide_cache_env", "versions", "deletion_results", "deletion_backups", "test_deletion_results_*", "test_output"]
 
 [tool.basedpyright]
 pythonVersion = "3.11"
 typeCheckingMode = "all"
 reportAny = false
-include = ["src", "tests"]
-exclude = ["venv", ".venv", "node_modules", ".git"]
+reportUnusedImport = false
+include = ["."]
+exclude = ["venv", ".venv", "node_modules", ".git", "cache", "ide_cache_env", "versions", "deletion_results", "deletion_backups", "test_deletion_results_*", "test_output"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"

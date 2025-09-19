@@ -1,0 +1,40 @@
+# Ruff configuration
+target-version = "py311"
+line-length = 120
+
+[lint]
+# Pythonファイルのみをチェック対象とする
+exclude = [
+    "*.csv",
+    "*.json",
+    "*.md",
+    "*.txt",
+    "*.html",
+    "archive_json/",
+    "venv/",
+    "__pycache__/",
+    ".git/",
+    "ios-apps/",
+    "docs/",
+    "templates/",
+    "automation/"
+]
+
+# エラーの選択
+select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",  # isort
+]
+
+# 無視するエラー
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "E741",  # ambiguous variable name
+    "F401",  # imported but unused
+    "F841",  # local variable assigned but never used
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"

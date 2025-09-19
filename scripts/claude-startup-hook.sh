@@ -1,0 +1,241 @@
+#!/bin/bash
+
+# ===============================================
+# 🚀 Ultra Think Claude Code 起動フック
+# ===============================================
+# Claude Code起動時に自動実行される永久設定スクリプト
+# Ultra Thinkデータベースを自動同期 + ブラウザ表示
+# SuperClaude Ultra Thinkモード自動活性化
+# 高速モード＆自動承認モード自動有効化
+
+# 起動時刻記録
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🚀 Ultra Think起動フック開始" | tee -a startup_hook.log
+
+# ===============================================
+# ⚡ 高速モード＆自動承認モード有効化（最優先）
+# ===============================================
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⚡ 高速モード有効化開始" | tee -a startup_hook.log
+
+# 環境変数を設定
+export CLAUDE_SKIP_ALL_PERMISSIONS=true
+
+# 自動承認モードステータスを確認・作成
+if [ ! -f ~/.claude/auto-mode-status ]; then
+    mkdir -p ~/.claude
+    echo "🟢 AUTO-ACCEPT" > ~/.claude/auto-mode-status
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ 自動承認モードファイルを作成" | tee -a startup_hook.log
+fi
+
+# 承認音スクリプトの存在確認
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/play-approval-sound.sh" ]; then
+    # 起動時に承認音を再生
+    "$SCRIPT_DIR/play-approval-sound.sh" &
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🔊 承認音を再生" | tee -a startup_hook.log
+fi
+
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ 高速モード有効化完了" | tee -a startup_hook.log
+echo "  - 自動承認モード: $(cat ~/.claude/auto-mode-status)" | tee -a startup_hook.log
+echo "  - 環境変数: CLAUDE_SKIP_ALL_PERMISSIONS=$CLAUDE_SKIP_ALL_PERMISSIONS" | tee -a startup_hook.log
+
+# SuperClaudeコマンド実行（先行実行）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/superclaude-startup-commands.sh" ]; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🚀 SuperClaude Ultra Thinkモード活性化" | tee -a startup_hook.log
+    source "$SCRIPT_DIR/superclaude-startup-commands.sh"
+fi
+
+# ===============================================
+# 🎯 Serena MCP Server 自動起動（永続設定）
+# ===============================================
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🎯 Serena MCPサーバー起動開始" | tee -a startup_hook.log
+if [ -f "$SCRIPT_DIR/start_serena_server.py" ]; then
+    echo -e "${CYAN}🔌 Serena MCPサーバーを起動中...${NC}"
+    python3 "$SCRIPT_DIR/start_serena_server.py" &
+    SERENA_PID=$!
+    
+    # 起動待機（5秒）
+    sleep 5
+    
+    if ps -p $SERENA_PID > /dev/null; then
+        echo -e "${GREEN}✅ Serena MCPサーバー起動成功 (PID: $SERENA_PID)${NC}"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ Serena起動成功 (PID: $SERENA_PID)" >> startup_hook.log
+    else
+        echo -e "${YELLOW}⚠️ Serenaはバックグラウンドで起動処理中${NC}"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⚠️ Serenaバックグラウンド起動" >> startup_hook.log
+    fi
+else
+    echo -e "${YELLOW}⚠️ Serena起動スクリプトが見つかりません${NC}"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⚠️ start_serena_server.pyが見つかりません" >> startup_hook.log
+fi
+
+# カラー定義
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# ローディングアニメーション
+show_loading() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+    echo -n " "
+    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+        local temp=${spinstr#?}
+        printf "${CYAN}[%c]${NC} " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b"
+    done
+    echo "✅"
+}
+
+# バナー表示
+echo -e "${CYAN}"
+echo "╔═══════════════════════════════════════════════════╗"
+echo "║      🚀 Ultra Think 自動同期システム v2.0        ║"
+echo "║         Claude Code 起動時自動実行               ║"
+echo "╚═══════════════════════════════════════════════════╝"
+echo -e "${NC}"
+
+# プロジェクトディレクトリに移動
+cd /Users/admin/Documents/AIUELAB/001-final-hourglass || exit 1
+
+# 環境チェック
+echo -e "${YELLOW}📋 環境チェック開始${NC}"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 📋 環境チェック開始" >> startup_hook.log
+
+# 仮想環境チェック
+if [ -d "venv" ]; then
+    echo -e "${GREEN}🐍 仮想環境を有効化${NC}"
+    source venv/bin/activate
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🐍 仮想環境を有効化" >> startup_hook.log
+fi
+
+# 必要なファイルの確認
+FILES_TO_CHECK=(
+    "auto_startup_sync_optimized.py"
+    "startup_config.json"
+    "sheets_config.json"
+)
+
+for file in "${FILES_TO_CHECK[@]}"; do
+    if [ ! -f "$file" ]; then
+        echo -e "${RED}❌ エラー: $file が見つかりません${NC}"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] ❌ エラー: $file が見つかりません" >> startup_hook.log
+        exit 1
+    fi
+done
+
+echo -e "${GREEN}✅ 環境チェック完了${NC}"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ 環境チェック完了" >> startup_hook.log
+
+# Ultra Thinkデータ同期を実行（バックグラウンド）
+echo -e "${BLUE}🔄 Ultra Thinkデータベース同期中...${NC}"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🔄 同期開始" >> startup_hook.log
+
+# Python同期スクリプトを実行
+(
+    python auto_startup_sync_optimized.py &
+    SYNC_PID=$!
+    show_loading $SYNC_PID &
+    wait $SYNC_PID
+    SYNC_EXIT=$?
+    
+    if [ $SYNC_EXIT -eq 0 ]; then
+        echo -e "${GREEN}✅ 同期完了！${NC}"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ 同期完了" >> startup_hook.log
+        
+        # 成功音を鳴らす（macOS）
+        if [ "$(uname)" = "Darwin" ]; then
+            afplay /System/Library/Sounds/Glass.aiff 2>/dev/null &
+        fi
+        
+        # ブラウザで自動表示（設定から読み込み）
+        AUTO_OPEN=$(python -c "import json; print(json.load(open('startup_config.json'))['startup_settings']['auto_open_browser'])" 2>/dev/null)
+        
+        if [ "$AUTO_OPEN" = "True" ]; then
+            echo -e "${CYAN}🌐 ブラウザでスプレッドシートを開いています...${NC}"
+            SHEET_URL=$(python -c "import json; print(json.load(open('spreadsheet_config.json'))['spreadsheet_config']['spreadsheet_url'])" 2>/dev/null)
+            
+            if [ -n "$SHEET_URL" ]; then
+                open "$SHEET_URL"
+                echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🌐 ブラウザでスプレッドシートを開きました" >> startup_hook.log
+            fi
+        fi
+        
+        # 成功メッセージ
+        echo -e "${GREEN}"
+        echo "╔═══════════════════════════════════════════════════╗"
+        echo "║   ✨ Ultra Think同期システム正常起動完了！       ║"
+        echo "║   📊 Google Sheetsが自動更新されました          ║"
+        echo "║   🔄 ファイル監視が有効になりました              ║"
+        echo "╚═══════════════════════════════════════════════════╝"
+        echo -e "${NC}"
+        
+    else
+        echo -e "${RED}❌ 同期エラーが発生しました${NC}"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] ❌ 同期エラー" >> startup_hook.log
+        
+        # エラー音を鳴らす
+        if [ "$(uname)" = "Darwin" ]; then
+            afplay /System/Library/Sounds/Sosumi.aiff 2>/dev/null &
+        fi
+    fi
+) &
+
+# バックグラウンド監視の起動（オプション）
+MONITOR_ENABLED=$(python -c "import json; print(json.load(open('startup_config.json'))['advanced_features']['enable_real_time_monitoring'])" 2>/dev/null)
+
+if [ "$MONITOR_ENABLED" = "True" ]; then
+    echo -e "${CYAN}👁️ リアルタイムファイル監視を開始${NC}"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 👁️ 監視開始" >> startup_hook.log
+    
+    # 既存の監視プロセスを終了
+    pkill -f "watchdog" 2>/dev/null
+    
+    # 新しい監視プロセスを開始
+    nohup python -c "
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import subprocess
+import time
+import os
+
+class CSVWatcher(FileSystemEventHandler):
+    def on_modified(self, event):
+        if not event.is_directory and 'ultra_think_' in event.src_path and event.src_path.endswith('.csv'):
+            print(f'📝 検出: {event.src_path} が更新されました')
+            subprocess.run(['python', 'auto_startup_sync_optimized.py'], capture_output=True)
+
+observer = Observer()
+observer.schedule(CSVWatcher(), '.', recursive=False)
+observer.start()
+
+try:
+    while True:
+        time.sleep(1)
+except KeyboardInterrupt:
+    observer.stop()
+observer.join()
+" > /dev/null 2>&1 &
+    
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 👁️ バックグラウンド監視プロセス起動" >> startup_hook.log
+fi
+
+# 起動完了メッセージ
+echo -e "${GREEN}🎉 Ultra Think起動フック完了${NC}"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🎉 起動フック完了" >> startup_hook.log
+
+# ショートカット情報表示
+echo ""
+echo -e "${YELLOW}📌 便利なコマンド:${NC}"
+echo "  • 手動同期: python auto_startup_sync_optimized.py"
+echo "  • 監視停止: pkill -f watchdog"
+echo "  • ログ確認: tail -f startup_hook.log"
+echo ""
+
+exit 0

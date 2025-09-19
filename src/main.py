@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Claude Code MCP Template のメインモジュール(MCP対応)。"""
 
+# cSpell:ignore dotenv Firecrawl FIRECRAWL octocat firecrawl
+
 import os
 import re
 import sys
@@ -12,6 +14,8 @@ from dotenv import load_dotenv
 from loguru import logger
 from rich.console import Console
 from rich.table import Table
+
+from sync_projects.cli import cli_sync_projects
 
 # 環境変数の読み込み
 load_dotenv()
@@ -460,6 +464,10 @@ def check_env() -> None:
     else:
         console.print("\n[red]✗ Some required environment variables are missing.[/red]")
         console.print("  Edit mcp-config/.env.mcp to add your API keys.")
+
+
+# サブコマンド登録: sync-projects
+cli.add_command(cli_sync_projects)
 
 
 def main() -> None:

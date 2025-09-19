@@ -1,0 +1,170 @@
+{
+  "auto_update_system": {
+    "enabled": true,
+    "version": "2.0.0",
+    "created_date": "2025-08-31",
+    "description": "Ultra Think自動更新システム設定 - キャッシュクリアと完全置換保証"
+  },
+  
+  "cache_management": {
+    "enabled": true,
+    "force_clear_on_update": true,
+    "browser_cache_buster": true,
+    "ttl_seconds": 300,
+    "cache_layers": {
+      "memory": true,
+      "file": true,
+      "api": true,
+      "browser": true
+    },
+    "purge_old_data_hours": 24,
+    "invalidate_on_change": true
+  },
+  
+  "atomic_update": {
+    "enabled": true,
+    "use_batch_update": true,
+    "batch_size": 10000,
+    "retry_count": 3,
+    "retry_delays": [1, 2, 4],
+    "backup_before_update": true,
+    "verify_after_update": true,
+    "rollback_on_failure": true,
+    "force_full_replacement": true,
+    "clear_before_write": true
+  },
+  
+  "version_control": {
+    "enabled": true,
+    "track_changes": true,
+    "max_versions": 10,
+    "auto_version_on_change": true,
+    "create_snapshots": true,
+    "enable_rollback": true,
+    "hash_validation": true,
+    "timestamp_format": "YYYYMMDD_HHMMSS"
+  },
+  
+  "integrity_checks": {
+    "enabled": true,
+    "check_before_sync": true,
+    "auto_repair": true,
+    "validation_rules": {
+      "check_duplicates": true,
+      "check_patterns": true,
+      "check_consistency": true,
+      "check_completeness": true,
+      "check_constraints": true
+    },
+    "abort_on_error": true,
+    "repair_warnings": true,
+    "generate_reports": true
+  },
+  
+  "google_sheets": {
+    "spreadsheet_id": "1G0ec3d5DHGiahLetsqey9W23HGFOn2tkEacsFd5ZSps",
+    "sheet_name": "Ultra Think",
+    "auto_rename_sheet": true,
+    "sheet_name_sync_rule": "auto",
+    "clear_all_before_update": true,
+    "use_batch_update_api": true,
+    "format_headers": true,
+    "auto_resize_columns": true,
+    "add_filters": true,
+    "cache_control_headers": {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Pragma": "no-cache",
+      "Expires": "0",
+      "If-None-Match": "*",
+      "X-Cache-Bypass": "1"
+    }
+  },
+  
+  "browser_refresh": {
+    "enabled": true,
+    "auto_refresh_after_update": true,
+    "force_hard_reload": true,
+    "add_cache_buster_params": true,
+    "cache_buster_pattern": "v={timestamp}&hash={hash}&nocache=1",
+    "javascript_refresh": true,
+    "clear_browser_cache": true
+  },
+  
+  "monitoring": {
+    "enabled": true,
+    "log_all_operations": true,
+    "track_performance": true,
+    "alert_on_errors": true,
+    "send_notifications": true,
+    "max_log_entries": 1000,
+    "log_retention_days": 30
+  },
+  
+  "file_patterns": {
+    "csv_pattern": "ultra_think_*.csv",
+    "backup_pattern": "backup_ultra_think_*.csv",
+    "watch_directories": ["."],
+    "ignore_patterns": ["*.tmp", "*.lock", "~*"]
+  },
+  
+  "performance": {
+    "parallel_processing": true,
+    "max_workers": 5,
+    "chunk_size": 1000,
+    "memory_limit_mb": 1024,
+    "timeout_seconds": 300,
+    "optimize_for_speed": true
+  },
+  
+  "error_handling": {
+    "max_retries": 3,
+    "exponential_backoff": true,
+    "fallback_to_manual": false,
+    "create_error_reports": true,
+    "auto_recovery": true,
+    "preserve_last_good_state": true
+  },
+  
+  "scheduled_updates": {
+    "enabled": false,
+    "cron_expression": "0 */6 * * *",
+    "update_on_file_change": true,
+    "debounce_seconds": 5,
+    "batch_updates": true
+  },
+  
+  "security": {
+    "validate_data_source": true,
+    "check_file_integrity": true,
+    "sanitize_inputs": true,
+    "prevent_injection": true,
+    "audit_logging": true
+  },
+  
+  "notifications": {
+    "enabled": true,
+    "channels": {
+      "console": true,
+      "desktop": true,
+      "sound": true,
+      "email": false
+    },
+    "events": {
+      "update_started": true,
+      "update_completed": true,
+      "update_failed": true,
+      "cache_cleared": true,
+      "integrity_check_failed": true
+    }
+  },
+  
+  "advanced": {
+    "ultra_think_mode": true,
+    "aggressive_cache_clearing": true,
+    "force_latest_data": true,
+    "bypass_all_caches": false,
+    "developer_mode": false,
+    "debug_logging": false,
+    "experimental_features": false
+  }
+}

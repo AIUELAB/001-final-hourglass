@@ -1,0 +1,218 @@
+# 知名度ベース統合削除システム - 設定ファイル
+# version: 1.0
+# last_updated: 2025-08-31
+
+# =============================================================================
+# APIキー設定 (実際の値は環境変数または.envファイルで管理)
+# =============================================================================
+brave_api_key: ${BRAVE_API_KEY}
+google_api_key: ${GOOGLE_API_KEY} 
+google_search_engine_id: ${GOOGLE_SEARCH_ENGINE_ID}
+
+# =============================================================================
+# スコア重み設定
+# =============================================================================
+weights:
+  wikipedia: 0.40      # Wikipedia存在・品質 (最重要)
+  web_search: 0.30     # Web検索結果数・オーソリティ
+  metadata_quality: 0.30  # メタデータ品質・一貫性
+
+# =============================================================================
+# 削除判定閾値 (10点満点)
+# =============================================================================
+thresholds:
+  delete_high_confidence: 2.0    # 高信頼度削除 (0-2点)
+  delete_medium_confidence: 4.0  # 中信頼度削除 (2-4点)
+  review_required: 6.0           # 人間レビュー必要 (4-6点)
+  # 6点以上は保持
+
+# =============================================================================
+# 安全機構設定
+# =============================================================================
+safety:
+  enable_whitelist: true
+  enable_blacklist: true
+  require_manual_review_for_historical: true
+  historical_cutoff_year: 1950
+  cultural_significance_protection: true
+  
+  # 自動保護条件
+  auto_protect:
+    wikipedia_languages_threshold: 5    # 5言語以上のWikipedia
+    monthly_pageviews_threshold: 10000  # 月間1万PV以上
+    cultural_institution_mentions: 10   # 文化機関での言及10件以上
+
+# =============================================================================
+# パフォーマンス設定
+# =============================================================================
+performance:
+  batch_size: 50           # バッチあたりの処理件数
+  max_workers: 4           # 並列処理の最大ワーカー数
+  api_delay: 1.0          # API呼び出し間隔（秒）
+  request_timeout: 15      # APIリクエストタイムアウト（秒）
+  
+  # Wikipedia API制限
+  wikipedia_requests_per_second: 10
+  wikipedia_concurrent_requests: 5
+  
+  # Web検索API制限
+  brave_requests_per_minute: 60
+  google_requests_per_day: 100
+
+# =============================================================================
+# 品質評価基準
+# =============================================================================
+quality_criteria:
+  
+  # Wikipedia品質評価
+  wikipedia:
+    minimum_article_length: 100       # 最小記事長（文字数）
+    stub_penalty: -2.0                # スタブ記事のペナルティ
+    disambiguation_penalty: -3.0      # 曖昧さ回避ページのペナルティ
+    redirect_penalty: -2.0            # リダイレクトページのペナルティ
+    pageviews_bonus_threshold: 1000   # ページビューボーナス閾値
+    
+  # Web検索評価
+  web_search:
+    minimum_results_threshold: 100    # 最小検索結果数
+    high_authority_bonus: 1.5         # 高権威ドメインボーナス
+    news_mention_bonus: 1.0           # ニュース言及ボーナス
+    academic_mention_bonus: 1.0       # 学術言及ボーナス
+    
+  # メタデータ品質評価
+  metadata:
+    required_fields_weight: 0.4       # 必須フィールドの重み
+    consistency_weight: 0.3           # 一貫性の重み
+    reliability_weight: 0.3           # 信頼性の重み
+    placeholder_penalty_threshold: 5.0  # プレースホルダーペナルティ閾値
+
+# =============================================================================
+# カテゴリ別特別処理
+# =============================================================================
+category_rules:
+  
+  # 歴史カテゴリの特別保護
+  historical:
+    categories: ["歴史", "歴史上の人物", "政治家（歴史）", "武将"]
+    minimum_score_override: 4.0      # 最低保証スコア
+    require_manual_review: true      # 必須人間レビュー
+    
+  # 文化カテゴリの保護
+  cultural:
+    categories: ["文学", "芸術", "音楽", "映画", "科学", "哲学"]
+    minimum_score_override: 3.0
+    cultural_significance_check: true
+    
+  # エンターテイメント
+  entertainment:
+    categories: ["エンターテイメント", "スポーツ", "芸能"]
+    web_presence_weight: 0.5         # Web存在感を重視
+    
+  # その他カテゴリ（厳格評価）
+  others:
+    categories: ["その他", "不明"]
+    strict_evaluation: true
+    placeholder_sensitivity: 2.0     # プレースホルダー検出感度UP
+
+# =============================================================================
+# 出力設定
+# =============================================================================
+output:
+  
+  # レポート生成設定
+  reports:
+    generate_summary: true
+    generate_detailed_json: true
+    generate_csv_recommendations: true
+    generate_delete_candidates_list: true
+    
+  # ファイル名設定
+  filename_patterns:
+    summary: "deletion_summary_{timestamp}.json"
+    detailed: "deletion_analysis_complete_{timestamp}.json"
+    recommendations: "deletion_recommendations_{timestamp}.csv"
+    delete_candidates: "delete_candidates_{timestamp}.csv"
+    
+  # ディレクトリ設定
+  output_directory: "deletion_results"
+  backup_directory: "deletion_backups"
+  log_directory: "deletion_logs"
+
+# =============================================================================
+# データ処理設定
+# =============================================================================
+data_processing:
+  
+  # CSV入力設定
+  csv_input:
+    encoding: "utf-8"
+    delimiter: ","
+    skip_empty_rows: true
+    
+  # フィールドマッピング
+  field_mapping:
+    person_id: "person_id"
+    person_name: "person_name"
+    person_name_ja: "person_name_ja"
+    category: "category"
+    nationality: "nationality"
+    occupation: "occupation"
+    name_recognition: "name_recognition"
+    episode_text: "episode_text"
+    source: "source"
+    created_at: "created_at"
+    
+  # データ検証
+  validation:
+    check_required_fields: true
+    validate_data_types: true
+    detect_encoding_issues: true
+
+# =============================================================================
+# ログ設定
+# =============================================================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # ファイル出力
+  file_logging:
+    enabled: true
+    max_size_mb: 50
+    backup_count: 5
+    
+  # 進捗表示
+  progress:
+    show_progress_bar: true
+    update_interval: 100     # 100件ごとに進捗表示
+    
+# =============================================================================
+# 実験的機能 (β版)
+# =============================================================================
+experimental:
+  
+  # 機械学習による品質予測
+  ml_quality_prediction:
+    enabled: false
+    model_path: "models/quality_predictor.pkl"
+    confidence_threshold: 0.8
+    
+  # 動的閾値調整
+  adaptive_thresholds:
+    enabled: false
+    adjustment_frequency: 1000    # 1000件ごとに調整
+    
+  # クラスター分析による異常検出
+  anomaly_detection:
+    enabled: false
+    clustering_method: "kmeans"
+    outlier_threshold: 2.0
+
+# =============================================================================
+# システム制限
+# =============================================================================
+limits:
+  max_processing_time_minutes: 360   # 6時間の制限
+  max_memory_usage_gb: 8             # 8GBメモリ制限
+  max_api_requests_per_day: 10000    # 1日のAPI制限
+  emergency_stop_error_rate: 0.1     # エラー率10%で緊急停止

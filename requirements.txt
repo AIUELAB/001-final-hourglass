@@ -31,3 +31,18 @@ langchain-anthropic==0.3.0
 
 # Performance monitoring
 psutil==5.9.0
+
+# Flask Web Application
+Flask==3.0.0
+docker==7.0.0
+
+# Google Sheets Integration
+pandas==2.2.2
+gspread==6.1.2
+google-auth==2.32.0
+google-auth-oauthlib==1.2.1
+google-auth-httplib2==0.2.0
+google-api-python-client==2.138.0
+
+# File monitoring (optional)
+watchdog==4.0.1

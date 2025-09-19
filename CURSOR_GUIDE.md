@@ -107,7 +107,7 @@ make load-keys
 
 ## 📂 プロジェクト構造
 
-```
+```text
 claude-code-template-mcp/
 ├── .vscode/               # Cursor/VSCode設定
 │   ├── settings.json      # エディタ設定（Cursor最適化済み）
@@ -200,4 +200,4 @@ make setup
 
 ---
 
-**Happy Coding with Cursor × Claude Code! 🚀**
+## Happy Coding with Cursor × Claude Code! 🚀

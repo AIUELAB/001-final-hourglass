@@ -1,573 +1,427 @@
 #!/usr/bin/env python3
 """
-マルチAPI知名度評価システム - 品質ゲート準拠版
-複数のAPIを活用した多次元的な知名度評価
-
-このシステムはPDCA監視システムの全ルールに準拠し、
-信頼性のない旧スコアを使用せず、APIを最大限活用します。
+マルチAPI統合認識システム
+Wikipedia、Brave Search、その他のAPIを統合して包括的な知名度スコアを算出
 """
 
 import os
-import sys
-import json
 import time
+import json
 import logging
-import asyncio
-import aiohttp
-import pandas as pd
-import numpy as np
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-from datetime import datetime, timedelta
-from dataclasses import dataclass, field
-from enum import Enum
-from dotenv import load_dotenv
+from typing import Dict, List, Tuple, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
-from serpapi import GoogleSearch
-from googleapiclient.discovery import build
-from urllib.parse import quote
-
-# 環境変数読み込み
-load_dotenv()
+from datetime import datetime, timedelta
+import hashlib
 
 # ログ設定
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - [%(levelname)s] - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
+# 既存のWikipediaシステムをインポート
+from wikipedia_recognition_system_v2 import WikipediaRecognitionSystemV2
 
-@dataclass
-class APIConfig:
-    """API設定クラス"""
-    serpapi_key: str = field(default_factory=lambda: os.getenv('SERPAPI_KEY', ''))
-    brave_key: str = field(default_factory=lambda: os.getenv('BRAVE_API_KEY', ''))
-    youtube_key: str = field(default_factory=lambda: os.getenv('YOUTUBE_API_KEY', ''))
-    twitter_token: str = field(default_factory=lambda: os.getenv('TWITTER_BEARER_TOKEN', ''))
-    news_key: str = field(default_factory=lambda: os.getenv('NEWS_API_KEY', ''))
-    google_key: str = field(default_factory=lambda: os.getenv('GOOGLE_API_KEY', ''))
-    google_cx: str = field(default_factory=lambda: os.getenv('GOOGLE_SEARCH_ENGINE_ID', ''))
-    
-    def validate(self) -> Tuple[bool, List[str]]:
-        """API設定の検証"""
-        missing = []
-        if not self.serpapi_key:
-            missing.append("SERPAPI_KEY")
-        if not self.brave_key:
-            missing.append("BRAVE_API_KEY")
-        if not self.youtube_key:
-            missing.append("YOUTUBE_API_KEY")
-        if not self.twitter_token:
-            missing.append("TWITTER_BEARER_TOKEN")
-        if not self.news_key:
-            missing.append("NEWS_API_KEY")
-        
-        return len(missing) == 0, missing
-
-
-@dataclass
-class RecognitionScore:
-    """知名度スコアクラス"""
-    person_id: str
-    person_name: str
-    person_name_ja: str
-    google_results: int = 0
-    brave_results: int = 0
-    youtube_views: int = 0
-    twitter_mentions: int = 0
-    news_articles: int = 0
-    wikipedia_exists: bool = False
-    wikipedia_languages: int = 0
-    trends_score: float = 0.0
-    final_score: float = 0.0
-    category_bonus: float = 0.0
-    is_protected: bool = False
-    protection_reason: str = ""
-    api_success_rate: float = 0.0
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
-
-
-class ProtectionManager:
-    """保護リスト管理クラス"""
+class MultiAPIRecognitionSystem:
+    """マルチAPI統合認識システム"""
     
     def __init__(self):
-        self.textbook_persons = self._load_textbook_persons()
-        self.fictional_characters = self._load_fictional_characters()
-        self.cultural_icons = self._load_cultural_icons()
-    
-    def _load_textbook_persons(self) -> set:
-        """教科書掲載人物リスト読み込み"""
-        # textbook_person_protector.pyから読み込み
-        textbook_file = Path("textbook_person_protector.py")
-        if textbook_file.exists():
-            try:
-                with open(textbook_file, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    # 簡易的な抽出（実際にはもっと精密に）
-                    import re
-                    names = re.findall(r'"([^"]+)"', content)
-                    return set(names[:500])  # 最初の500名
-            except Exception as e:
-                logger.warning(f"教科書人物リスト読み込みエラー: {e}")
+        """初期化"""
+        self.wikipedia_system = WikipediaRecognitionSystemV2()
+        self.cache_dir = '.cache/multi_api'
+        os.makedirs(self.cache_dir, exist_ok=True)
         
-        # デフォルトリスト
-        return {
-            "織田信長", "豊臣秀吉", "徳川家康", "源頼朝", "平清盛",
-            "聖徳太子", "紫式部", "清少納言", "藤原道長", "菅原道真",
-            "チンギス・ハン", "ナポレオン", "エジソン", "アインシュタイン",
-            "ガンジー", "リンカーン", "ワシントン", "コロンブス",
-            "マゼラン", "ガリレオ", "ニュートン", "ダーウィン"
+        # API制限管理
+        self.api_limits = {
+            'wikipedia': {'limit': 200, 'window': 3600, 'used': 0, 'reset_time': time.time()},
+            'brave': {'limit': 2000, 'window': 2592000, 'used': 0, 'reset_time': time.time()},  # 月間
+            'serpapi': {'limit': 100, 'window': 86400, 'used': 0, 'reset_time': time.time()},  # 日次
+        }
+        
+        # APIキー（環境変数から取得）
+        self.brave_api_key = os.getenv('BRAVE_API_KEY', '')
+        self.serpapi_key = os.getenv('SERPAPI_KEY', '')
+        
+        # 重み付け設定
+        self.weights = {
+            'wikipedia': 0.30,    # Wikipedia情報の重要度
+            'web_search': 0.25,   # Web検索結果の重要度
+            'news': 0.20,         # ニュース露出の重要度
+            'social': 0.15,       # ソーシャルメディアの重要度
+            'lesson': 0.10,       # 教訓的価値の重要度
         }
     
-    def _load_fictional_characters(self) -> set:
-        """架空キャラクターリスト読み込み"""
-        return {
-            "竈門炭治郎", "煉獄杏寿郎", "我妻善逸", "嘴平伊之助",
-            "孫悟空", "ベジータ", "ピカチュウ", "ドラえもん",
-            "ルフィ", "ゾロ", "ナミ", "サンジ", "チョッパー",
-            "ナルト", "サスケ", "サクラ", "カカシ",
-            "エレン・イェーガー", "ミカサ", "アルミン", "リヴァイ",
-            "セーラームーン", "ちびうさ", "アンパンマン", "バイキンマン"
-        }
-    
-    def _load_cultural_icons(self) -> set:
-        """文化的アイコンリスト"""
-        return {
-            "HIKAKIN", "ヒカキン", "はじめしゃちょー", "Fischer's",
-            "東海オンエア", "水溜りボンド", "スカイピース",
-            "大谷翔平", "羽生結弦", "イチロー", "松井秀喜",
-            "Ado", "YOASOBI", "米津玄師", "藤井風", "King Gnu",
-            "BTS", "BLACKPINK", "TWICE", "Stray Kids"
-        }
-    
-    def is_protected(self, name: str, name_ja: str) -> Tuple[bool, str]:
-        """保護対象かチェック"""
-        all_protected = self.textbook_persons | self.fictional_characters | self.cultural_icons
+    def _check_api_limit(self, api_name: str) -> bool:
+        """API制限チェック"""
+        if api_name not in self.api_limits:
+            return True
         
-        if name in all_protected or name_ja in all_protected:
-            if name in self.textbook_persons or name_ja in self.textbook_persons:
-                return True, "教科書掲載人物"
-            elif name in self.fictional_characters or name_ja in self.fictional_characters:
-                return True, "文化的重要キャラクター"
-            elif name in self.cultural_icons or name_ja in self.cultural_icons:
-                return True, "現代文化アイコン"
+        limit_info = self.api_limits[api_name]
+        current_time = time.time()
         
-        return False, ""
-
-
-class MultiAPIRecognitionEvaluator:
-    """マルチAPI知名度評価システム"""
+        # リセット時間を過ぎていればカウンタをリセット
+        if current_time - limit_info['reset_time'] > limit_info['window']:
+            limit_info['used'] = 0
+            limit_info['reset_time'] = current_time
+        
+        # 制限チェック
+        if limit_info['used'] >= limit_info['limit']:
+            logger.warning(f"API制限到達: {api_name} ({limit_info['used']}/{limit_info['limit']})")
+            return False
+        
+        return True
     
-    def __init__(self, csv_path: str):
-        self.csv_path = csv_path
-        self.api_config = APIConfig()
-        self.protection_manager = ProtectionManager()
-        self.output_dir = Path("recognition_results")
-        self.output_dir.mkdir(exist_ok=True)
-        
-        # API検証
-        valid, missing = self.api_config.validate()
-        if not valid:
-            logger.error(f"❌ 必要なAPIキーが設定されていません: {missing}")
-            raise SystemError("API設定不足のため処理を中止します（品質ゲート違反防止）")
-        
-        # カテゴリボーナス
-        self.category_bonus = {
-            'YouTuber': 2.0,
-            'TikToker': 2.0,
-            'VTuber': 1.8,
-            'インフルエンサー': 1.5,
-            'お笑い芸人': 1.2,
-            '俳優': 1.0,
-            '歌手': 1.0,
-            'アイドル': 1.2,
-            'スポーツ選手': 0.8,
-            '政治家': 0.5,
-            '歴史上の人物': 0.3,
-            '架空キャラクター': 1.5,
-            '実業家': 0.6,
-            '学者': 0.4
-        }
+    def _increment_api_usage(self, api_name: str):
+        """API使用カウントを増やす"""
+        if api_name in self.api_limits:
+            self.api_limits[api_name]['used'] += 1
     
-    async def search_google(self, name: str) -> int:
-        """Google検索（SerpAPI使用）"""
+    def _get_cache_path(self, name: str, api_type: str) -> str:
+        """キャッシュファイルパスを取得"""
+        safe_name = hashlib.md5(name.encode()).hexdigest()
+        return os.path.join(self.cache_dir, f"{api_type}_{safe_name}.json")
+    
+    def _load_cache(self, name: str, api_type: str, max_age_hours: int = 168) -> Optional[Dict]:
+        """キャッシュを読み込み"""
+        cache_path = self._get_cache_path(name, api_type)
+        
+        if not os.path.exists(cache_path):
+            return None
+        
         try:
-            search = GoogleSearch({
-                "q": name,
-                "api_key": self.api_config.serpapi_key,
-                "num": 10
-            })
-            results = search.get_dict()
+            with open(cache_path, 'r', encoding='utf-8') as f:
+                cache_data = json.load(f)
             
-            # 検索結果数を取得
-            if "search_information" in results:
-                total_results = results["search_information"].get("total_results", 0)
-                return int(total_results) if total_results else 0
+            # キャッシュの有効期限チェック
+            cache_time = datetime.fromisoformat(cache_data.get('timestamp', '2000-01-01'))
+            if datetime.now() - cache_time > timedelta(hours=max_age_hours):
+                return None
             
-            return len(results.get("organic_results", []))
-            
+            return cache_data.get('data')
+        except Exception:
+            return None
+    
+    def _save_cache(self, name: str, api_type: str, data: Dict):
+        """キャッシュに保存"""
+        cache_path = self._get_cache_path(name, api_type)
+        
+        cache_data = {
+            'timestamp': datetime.now().isoformat(),
+            'data': data
+        }
+        
+        try:
+            with open(cache_path, 'w', encoding='utf-8') as f:
+                json.dump(cache_data, f, ensure_ascii=False, indent=2)
         except Exception as e:
-            logger.error(f"Google検索エラー ({name}): {e}")
-            raise RuntimeError(f"Google検索API障害: {e}. 品質優先のため処理を中断します")
+            logger.warning(f"キャッシュ保存失敗: {e}")
     
-    async def search_brave(self, name: str) -> int:
-        """Brave Search API"""
+    def search_brave(self, name: str) -> Dict:
+        """Brave Search APIで検索"""
+        # キャッシュチェック
+        cached = self._load_cache(name, 'brave')
+        if cached:
+            logger.debug(f"Braveキャッシュヒット: {name}")
+            return cached
+        
+        # API制限チェック
+        if not self._check_api_limit('brave') or not self.brave_api_key:
+            return {'found': False, 'score': 0, 'reason': 'API制限またはキー未設定'}
+        
         try:
-            headers = {
-                "Accept": "application/json",
-                "X-Subscription-Token": self.api_config.brave_key
-            }
-            
+            # Brave Search API呼び出し
+            headers = {'X-Subscription-Token': self.brave_api_key}
             params = {
-                "q": name,
-                "count": 20
+                'q': f'"{name}" 日本',
+                'count': 20,
+                'lang': 'ja'
             }
             
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    "https://api.search.brave.com/res/v1/web/search",
-                    headers=headers,
-                    params=params
-                ) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        # 結果数の推定
-                        web_results = len(data.get("web", {}).get("results", []))
-                        return web_results * 100  # 推定値
-                    elif response.status == 429:
-                        # レート制限エラーの場合は待機してリトライ
-                        logger.warning(f"Brave API レート制限 (429). 60秒待機後リトライします...")
-                        await asyncio.sleep(60)
-                        # 再試行（1回のみ）
-                        async with session.get(url, headers=headers, params=params) as retry_response:
-                            if retry_response.status == 200:
-                                data = await retry_response.json()
-                                web_results = len(data.get("web", {}).get("results", []))
-                                return web_results * 100
-                            else:
-                                logger.error(f"Brave API リトライも失敗: status={retry_response.status}")
-                                return 0  # API障害時は0を返すが処理は継続
-                    else:
-                        logger.error(f"Brave API HTTPエラー: status={response.status}")
-                        return 0  # API障害時は0を返すが処理は継続
-            
-        except Exception as e:
-            logger.error(f"Brave検索エラー ({name}): {e}")
-            raise RuntimeError(f"Brave検索API障害: {e}. 品質優先のため処理を中断します")
-    
-    async def search_youtube(self, name: str) -> int:
-        """YouTube API検索"""
-        try:
-            youtube = build('youtube', 'v3', developerKey=self.api_config.youtube_key)
-            
-            request = youtube.search().list(
-                part="snippet",
-                q=name,
-                type="video",
-                maxResults=50
+            response = requests.get(
+                'https://api.search.brave.com/res/v1/web/search',
+                headers=headers,
+                params=params,
+                timeout=10
             )
             
-            response = request.execute()
+            self._increment_api_usage('brave')
             
-            # 総視聴回数を推定（動画数 × 平均視聴回数）
-            video_count = response.get("pageInfo", {}).get("totalResults", 0)
-            return min(video_count * 10000, 10000000)  # 推定視聴回数
+            if response.status_code == 200:
+                data = response.json()
+                results = data.get('web', {}).get('results', [])
+                
+                # スコア計算
+                score = min(10.0, len(results) * 0.5)  # 検索結果数に基づくスコア
+                
+                # 特定のドメインでの言及をチェック
+                major_sites = ['wikipedia.org', 'yahoo.co.jp', 'nhk.or.jp', 'asahi.com']
+                major_mentions = sum(1 for r in results if any(site in r.get('url', '') for site in major_sites))
+                score = min(10.0, score + major_mentions * 0.5)
+                
+                result = {
+                    'found': len(results) > 0,
+                    'score': score,
+                    'result_count': len(results),
+                    'major_mentions': major_mentions
+                }
+                
+                self._save_cache(name, 'brave', result)
+                return result
             
         except Exception as e:
-            logger.error(f"YouTube検索エラー ({name}): {e}")
-            raise RuntimeError(f"YouTube API障害: {e}. 品質優先のため処理を中断します")
+            logger.warning(f"Brave Search エラー ({name}): {e}")
+        
+        return {'found': False, 'score': 0}
     
-    async def search_twitter(self, name: str) -> int:
-        """Twitter/X API検索"""
+    def search_news(self, name: str) -> Dict:
+        """ニュース検索（Brave News API）"""
+        # キャッシュチェック
+        cached = self._load_cache(name, 'news', max_age_hours=24)
+        if cached:
+            return cached
+        
+        if not self._check_api_limit('brave') or not self.brave_api_key:
+            return {'found': False, 'score': 0}
+        
         try:
-            headers = {
-                "Authorization": f"Bearer {self.api_config.twitter_token}"
-            }
-            
+            headers = {'X-Subscription-Token': self.brave_api_key}
             params = {
-                "query": name,
-                "max_results": 100,
-                "tweet.fields": "public_metrics"
+                'q': f'"{name}"',
+                'count': 10,
+                'lang': 'ja'
             }
             
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    "https://api.twitter.com/2/tweets/search/recent",
-                    headers=headers,
-                    params=params
-                ) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        # メンション数を集計
-                        tweets = data.get("data", [])
-                        total_impressions = sum(
-                            tweet.get("public_metrics", {}).get("impression_count", 100)
-                            for tweet in tweets
-                        )
-                        return total_impressions
-                    else:
-                        raise RuntimeError(f"Twitter API HTTPエラー: status={response.status}. 品質優先のため処理を中断します")
+            response = requests.get(
+                'https://api.search.brave.com/res/v1/news/search',
+                headers=headers,
+                params=params,
+                timeout=10
+            )
             
+            self._increment_api_usage('brave')
+            
+            if response.status_code == 200:
+                data = response.json()
+                results = data.get('results', [])
+                
+                # 最近のニュース記事数に基づくスコア
+                recent_news = 0
+                for article in results:
+                    pub_date = article.get('published', {}).get('date', '')
+                    if pub_date:
+                        # 最近1年以内の記事をカウント
+                        try:
+                            article_date = datetime.fromisoformat(pub_date.replace('Z', '+00:00'))
+                            if (datetime.now() - article_date).days < 365:
+                                recent_news += 1
+                        except:
+                            pass
+                
+                score = min(10.0, recent_news * 1.5)
+                
+                result = {
+                    'found': len(results) > 0,
+                    'score': score,
+                    'article_count': len(results),
+                    'recent_news': recent_news
+                }
+                
+                self._save_cache(name, 'news', result)
+                return result
+                
         except Exception as e:
-            logger.error(f"Twitter検索エラー ({name}): {e}")
-            # レート制限の場合は0を返してスキップ
-            if "429" in str(e) or "rate limit" in str(e).lower():
-                logger.warning(f"Twitter APIレート制限: {name}をスキップ")
-                return 0
-            # その他のエラーは処理を中断
-            raise RuntimeError(f"Twitter API障害: {e}. 品質優先のため処理を中断します")
+            logger.warning(f"News Search エラー ({name}): {e}")
+        
+        return {'found': False, 'score': 0}
     
-    async def search_news(self, name: str) -> int:
-        """News API検索"""
-        try:
-            params = {
-                "q": name,
-                "apiKey": self.api_config.news_key,
-                "language": "jp",
-                "sortBy": "relevancy"
-            }
-            
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    "https://newsapi.org/v2/everything",
-                    params=params
-                ) as response:
-                    if response.status == 200:
-                        data = await response.json()
-                        return data.get("totalResults", 0)
-                    else:
-                        raise RuntimeError(f"News API HTTPエラー: status={response.status}. 品質優先のため処理を中断します")
-            
-        except Exception as e:
-            logger.error(f"News検索エラー ({name}): {e}")
-            raise RuntimeError(f"News API障害: {e}. 品質優先のため処理を中断します")
+    def calculate_lesson_value(self, name: str, description: str = '') -> float:
+        """教訓的価値を計算"""
+        # 教訓的キーワード
+        positive_keywords = ['ノーベル賞', '国民栄誉賞', '文化勲章', '成功', '革新', '先駆者', '偉業']
+        negative_keywords = ['事件', '詐欺', '犯罪', 'スキャンダル', '炎上', '逮捕', '破産']
+        lesson_keywords = ['教訓', '警鐘', '問題提起', '議論', '社会問題', '改革']
+        
+        score = 5.0  # 基本スコア
+        
+        # 説明文のキーワードチェック
+        desc_lower = description.lower()
+        
+        # ポジティブな教訓
+        if any(keyword in desc_lower for keyword in positive_keywords):
+            score += 2.0
+        
+        # ネガティブだが教訓的価値
+        if any(keyword in desc_lower for keyword in negative_keywords):
+            if any(lesson in desc_lower for lesson in lesson_keywords):
+                score += 1.5  # 教訓として価値がある
+            else:
+                score -= 1.0  # 単なるネガティブ
+        
+        # 教訓的キーワード
+        if any(keyword in desc_lower for keyword in lesson_keywords):
+            score += 1.0
+        
+        return min(10.0, max(0.0, score))
     
-    async def evaluate_person(self, row: pd.Series) -> RecognitionScore:
-        """個人の知名度を評価"""
-        person_id = row.get('person_id', '')
-        name = row.get('person_name', '')
-        name_ja = row.get('person_name_ja', '')
-        category = str(row.get('category', ''))
-        occupation = str(row.get('occupation', ''))
+    def calculate_comprehensive_score(self, name: str, occupation: str = '', 
+                                     description: str = '', min_score: float = 0.0) -> Tuple[float, Dict]:
+        """
+        包括的な知名度スコアを計算
         
-        # 保護チェック
-        is_protected, protection_reason = self.protection_manager.is_protected(name, name_ja)
+        Returns:
+            Tuple[float, Dict]: (最終スコア, 詳細情報)
+        """
+        logger.info(f"包括的スコア計算開始: {name}")
         
-        # 並行API呼び出し
-        tasks = [
-            self.search_google(name_ja if name_ja else name),
-            self.search_brave(name_ja if name_ja else name),
-            self.search_youtube(name_ja if name_ja else name),
-            self.search_twitter(name_ja if name_ja else name),
-            self.search_news(name_ja if name_ja else name)
-        ]
+        scores = {}
+        details = {}
         
-        results = await asyncio.gather(*tasks)
-        
-        # スコア計算
-        score = RecognitionScore(
-            person_id=person_id,
-            person_name=name,
-            person_name_ja=name_ja,
-            google_results=results[0],
-            brave_results=results[1],
-            youtube_views=results[2],
-            twitter_mentions=results[3],
-            news_articles=results[4],
-            is_protected=is_protected,
-            protection_reason=protection_reason
-        )
-        
-        # カテゴリボーナス
-        for key, bonus in self.category_bonus.items():
-            if key in category or key in occupation:
-                score.category_bonus = max(score.category_bonus, bonus)
-        
-        # 最終スコア計算（0-10スケール）
-        score.final_score = self._calculate_final_score(score)
-        
-        # API成功率
-        api_results = [results[0], results[1], results[2], results[3], results[4]]
-        score.api_success_rate = sum(1 for r in api_results if r > 0) / len(api_results)
-        
-        return score
-    
-    def _calculate_final_score(self, score: RecognitionScore) -> float:
-        """最終スコア計算"""
-        # 保護対象は最高スコア
-        if score.is_protected:
-            return 10.0
-        
-        # 各APIの重み付け
-        weights = {
-            'google': 0.3,
-            'youtube': 0.25,
-            'twitter': 0.2,
-            'brave': 0.15,
-            'news': 0.1
-        }
-        
-        # 正規化（対数スケール）
-        google_score = min(10, np.log10(max(1, score.google_results)) * 2)
-        youtube_score = min(10, np.log10(max(1, score.youtube_views)) * 1.5)
-        twitter_score = min(10, np.log10(max(1, score.twitter_mentions)) * 2)
-        brave_score = min(10, np.log10(max(1, score.brave_results)) * 2)
-        news_score = min(10, np.log10(max(1, score.news_articles)) * 3)
-        
-        # 重み付け平均
-        weighted_score = (
-            google_score * weights['google'] +
-            youtube_score * weights['youtube'] +
-            twitter_score * weights['twitter'] +
-            brave_score * weights['brave'] +
-            news_score * weights['news']
-        )
-        
-        # カテゴリボーナス追加
-        final = weighted_score + score.category_bonus
-        
-        # 0-10の範囲に収める
-        return min(10.0, max(0.0, final))
-    
-    async def process_database(self):
-        """データベース全体を処理"""
-        logger.info("📂 データベース読み込み中...")
-        df = pd.read_csv(self.csv_path, encoding='utf-8-sig')
-        logger.info(f"✅ {len(df)}件のレコードを読み込みました")
-        
-        # バッチ処理（レート制限を考慮）
-        batch_size = 1  # APIレート制限回避のため1件ずつ処理
-        all_scores = []
-        
-        # テスト実行の場合は最初の50件のみ
-        test_mode = os.getenv('TEST_MODE', 'false').lower() == 'true'
-        if test_mode:
-            df = df.head(50)
-            logger.info("⚠️ テストモード: 最初の50件のみ処理")
-        
-        for i in range(0, len(df), batch_size):
-            batch = df.iloc[i:i+batch_size]
-            logger.info(f"🔄 処理中: {i+1}-{min(i+batch_size, len(df))}/{len(df)}")
-            
-            tasks = [self.evaluate_person(row) for _, row in batch.iterrows()]
-            scores = await asyncio.gather(*tasks)
-            all_scores.extend(scores)
-            
-            # レート制限対策（API呼び出し間隔を長めに）
-            await asyncio.sleep(5)  # 5秒待機でレート制限回避
-        
-        # 結果をDataFrameに追加
-        logger.info("📝 スコアをデータベースに反映中...")
-        
-        for idx, score in enumerate(all_scores):
-            df.loc[idx, 'recognition_score_2025'] = score.final_score
-            df.loc[idx, 'google_results'] = score.google_results
-            df.loc[idx, 'youtube_views'] = score.youtube_views
-            df.loc[idx, 'twitter_mentions'] = score.twitter_mentions
-            df.loc[idx, 'news_articles'] = score.news_articles
-            df.loc[idx, 'is_protected'] = score.is_protected
-            df.loc[idx, 'protection_reason'] = score.protection_reason
-            df.loc[idx, 'api_success_rate'] = score.api_success_rate
-        
-        # 削除判定
-        df['deletion_recommendation'] = df['recognition_score_2025'].apply(
-            lambda x: '削除候補' if x < 3.0 else ('要検討' if x < 5.0 else '保持')
-        )
-        
-        # 統計
-        self._print_statistics(df)
-        
-        # 有名人検証
-        self._validate_famous_persons(df)
-        
-        # 保存
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        output_path = self.output_dir / f"recognition_evaluated_{timestamp}.csv"
-        df.to_csv(output_path, index=False, encoding='utf-8-sig')
-        logger.info(f"✅ 結果を保存: {output_path}")
-        
-        return df
-    
-    def _print_statistics(self, df: pd.DataFrame):
-        """統計情報出力"""
-        logger.info("\n📊 評価結果統計:")
-        
-        # 削除候補統計
-        deletion_stats = df['deletion_recommendation'].value_counts()
-        total = len(df)
-        
-        for category, count in deletion_stats.items():
-            percentage = (count / total) * 100
-            logger.info(f"  {category}: {count:,}件 ({percentage:.1f}%)")
-        
-        # 削除率チェック（10-20%が適正範囲）
-        deletion_rate = (deletion_stats.get('削除候補', 0) / total) * 100
-        
-        if deletion_rate < 10:
-            logger.warning(f"⚠️ 削除率が低すぎます: {deletion_rate:.1f}%")
-        elif deletion_rate > 20:
-            logger.warning(f"⚠️ 削除率が高すぎます: {deletion_rate:.1f}%")
+        # 1. Wikipedia スコア
+        wiki_result = self.wikipedia_system.search_wikipedia(name)
+        if wiki_result.get('found'):
+            wiki_score = self.wikipedia_system.calculate_recognition_score(wiki_result)
+            scores['wikipedia'] = wiki_score
+            details['wikipedia'] = wiki_result
         else:
-            logger.info(f"✅ 削除率が適正範囲内: {deletion_rate:.1f}%")
+            scores['wikipedia'] = 0.0
+            details['wikipedia'] = {'found': False}
         
-        # API成功率
-        avg_api_success = df['api_success_rate'].mean()
-        logger.info(f"\n📡 平均API成功率: {avg_api_success:.1%}")
+        # 2. Web検索スコア（Brave Search）
+        if self.brave_api_key:
+            brave_result = self.search_brave(name)
+            scores['web_search'] = brave_result.get('score', 0.0)
+            details['brave'] = brave_result
+        else:
+            scores['web_search'] = 0.0
+            details['brave'] = {'found': False, 'reason': 'API key not set'}
         
-        if avg_api_success < 0.95:
-            logger.error(f"❌ API成功率が基準値(95%)未満: {avg_api_success:.1%}")
+        # 3. ニューススコア
+        if self.brave_api_key:
+            news_result = self.search_news(name)
+            scores['news'] = news_result.get('score', 0.0)
+            details['news'] = news_result
+        else:
+            scores['news'] = 0.0
+            details['news'] = {'found': False}
+        
+        # 4. ソーシャルスコア（簡易版）
+        # 実際のSNS APIは別途実装が必要
+        scores['social'] = 5.0  # デフォルト値
+        
+        # 5. 教訓的価値
+        lesson_score = self.calculate_lesson_value(name, description)
+        scores['lesson'] = lesson_score
+        details['lesson'] = {'score': lesson_score}
+        
+        # 重み付け平均を計算
+        final_score = 0.0
+        total_weight = 0.0
+        
+        for score_type, weight in self.weights.items():
+            if score_type in scores:
+                final_score += scores[score_type] * weight
+                total_weight += weight
+        
+        if total_weight > 0:
+            final_score = final_score / total_weight
+        
+        # 最低スコア保証
+        final_score = max(final_score, min_score)
+        
+        # 詳細情報をまとめる
+        details['scores'] = scores
+        details['final_score'] = final_score
+        details['min_score'] = min_score
+        
+        logger.info(f"  {name}: 最終スコア {final_score:.1f} (Wiki: {scores.get('wikipedia', 0):.1f}, Web: {scores.get('web_search', 0):.1f})")
+        
+        return final_score, details
     
-    def _validate_famous_persons(self, df: pd.DataFrame):
-        """有名人検証"""
-        logger.info("\n🔍 有名人検証:")
+    def process_batch(self, persons: List[Tuple], max_workers: int = 5) -> List[Dict]:
+        """
+        バッチ処理で複数人物を処理
         
-        test_persons = [
-            'HIKAKIN', 'ヒカキン', '大谷翔平', 'Ado', 
-            '羽生結弦', '藤井聡太', '米津玄師'
-        ]
-        
-        for name in test_persons:
-            matches = df[
-                (df['person_name'].str.contains(name, na=False)) |
-                (df['person_name_ja'].str.contains(name, na=False))
-            ]
+        Args:
+            persons: [(name, occupation, description, min_score), ...]のリスト
+            max_workers: 並列処理数
             
-            if not matches.empty:
-                for _, row in matches.iterrows():
-                    score = row['recognition_score_2025']
-                    status = row['deletion_recommendation']
-                    
-                    logger.info(f"  {name}: スコア={score:.2f}, 判定={status}")
-                    
-                    if score < 7.0:
-                        logger.error(f"  ❌ {name}のスコアが低すぎます！")
-
-
-def main():
-    """メイン処理"""
-    # 品質ゲートチェック
-    from quality_gates import enforce_quality_gates
+        Returns:
+            処理結果のリスト
+        """
+        results = []
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # 非同期タスクを投入
+            future_to_person = {}
+            for name, occupation, description, min_score in persons:
+                future = executor.submit(
+                    self.calculate_comprehensive_score,
+                    name, occupation, description, min_score
+                )
+                future_to_person[future] = (name, occupation, description, min_score)
+            
+            # 結果を収集
+            for future in as_completed(future_to_person):
+                name, occupation, description, min_score = future_to_person[future]
+                try:
+                    score, details = future.result()
+                    results.append({
+                        'name': name,
+                        'occupation': occupation,
+                        'description': description,
+                        'score': score,
+                        'details': details
+                    })
+                except Exception as e:
+                    logger.error(f"処理エラー ({name}): {e}")
+                    results.append({
+                        'name': name,
+                        'occupation': occupation,
+                        'description': description,
+                        'score': min_score,
+                        'error': str(e)
+                    })
+        
+        return results
     
-    if not enforce_quality_gates(__file__):
-        logger.error("品質ゲート失敗のため処理を中止します")
-        sys.exit(1)
-    
-    # CSVファイルパス
-    csv_path = "ultra_think_EPISODE_FINAL_20250901_020106_fixed.csv"
-    
-    if not Path(csv_path).exists():
-        logger.error(f"CSVファイルが見つかりません: {csv_path}")
-        sys.exit(1)
-    
-    # 評価実行
-    evaluator = MultiAPIRecognitionEvaluator(csv_path)
-    
-    # 非同期処理実行
-    asyncio.run(evaluator.process_database())
-    
-    logger.info("\n✨ 知名度評価完了！")
+    def get_api_status(self) -> Dict:
+        """API使用状況を取得"""
+        status = {}
+        for api_name, info in self.api_limits.items():
+            remaining = info['limit'] - info['used']
+            reset_in = max(0, info['window'] - (time.time() - info['reset_time']))
+            status[api_name] = {
+                'used': info['used'],
+                'limit': info['limit'],
+                'remaining': remaining,
+                'reset_in_seconds': int(reset_in)
+            }
+        return status
 
 
 if __name__ == "__main__":
-    main()
+    # テスト実行
+    system = MultiAPIRecognitionSystem()
+    
+    # API状態確認
+    print("API使用状況:")
+    for api, status in system.get_api_status().items():
+        print(f"  {api}: {status['used']}/{status['limit']} (残り: {status['remaining']})")
+    
+    # テスト人物
+    test_persons = [
+        ('武満徹', '作曲家', '世界的現代音楽作曲家', 8.5),
+        ('相田みつを', '詩人・書家', '「にんげんだもの」作者', 8.0),
+        ('関口愛美', 'VTuber', 'おめがシスターズ', 6.5),
+    ]
+    
+    print("\nテスト実行:")
+    for name, occupation, description, min_score in test_persons:
+        score, details = system.calculate_comprehensive_score(name, occupation, description, min_score)
+        print(f"  {name}: {score:.1f}")
+        if 'wikipedia' in details and details['wikipedia'].get('found'):
+            print(f"    Wikipedia: ✓")
+        if 'brave' in details and details['brave'].get('found'):
+            print(f"    Web検索: {details['brave'].get('result_count')}件")

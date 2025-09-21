@@ -297,10 +297,10 @@ class FactChecker:
         """レポートの最終評価"""
         # 違反の重大度に基づいてスコアを計算
         score_deductions = {
-            "critical": 30,
-            "high": 20,
-            "medium": 10,
-            "low": 5
+            "critical": 50,  # より厳格に
+            "high": 30,      # より厳格に
+            "medium": 20,    # より厳格に
+            "low": 10        # より厳格に
         }
 
         total_score = 100.0
@@ -310,14 +310,14 @@ class FactChecker:
 
         report.total_score = max(0, total_score)
 
-        # 結果の判定
+        # 結果の判定（より厳格な基準）
         if len(report.violations) == 0:
             report.result = FactCheckResult.VERIFIED
         elif any(v.severity == "critical" for v in report.violations):
             report.result = FactCheckResult.INCORRECT
-        elif total_score < 50:
+        elif total_score < 60:  # 閾値を上げる
             report.result = FactCheckResult.SUSPICIOUS
-        elif total_score < 80:
+        elif total_score < 85:  # 閾値を上げる
             report.result = FactCheckResult.PARTIAL
         else:
             report.result = FactCheckResult.UNVERIFIED

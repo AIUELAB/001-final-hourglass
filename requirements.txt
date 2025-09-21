@@ -14,6 +14,20 @@ aiohttp==3.10.2
 aiofiles==23.2.1
 websockets==12.0
 
+# FastAPI
+fastapi==0.109.1
+uvicorn[standard]==0.27.0
+redis==5.0.1
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+slowapi==0.1.9
+
+# Monitoring
+prometheus-fastapi-instrumentator==6.1.0
+
 # JSON/YAML
 pyyaml==6.0.1
 jsonschema==4.22.0

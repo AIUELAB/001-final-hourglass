@@ -105,7 +105,7 @@ class PremiumEpisodeGenerator:
             "anthropic_api_key": os.environ.get("ANTHROPIC_API_KEY", ""),
             "model": "gpt-4",
             "max_tokens": 500,
-            "temperature": 0.7,
+            "temperature": 0.2,  # 低温度で創作性を抑制、事実重視
             "episodes_per_person": 3,
             "quality_threshold": 75.0,
             "max_retries": 3,
@@ -466,7 +466,7 @@ class PremiumEpisodeGenerator:
                         {"role": "user", "content": prompt}
                     ],
                     max_tokens=self.config.get('max_tokens', 500),
-                    temperature=self.config.get('temperature', 0.7)
+                    temperature=self.config.get('temperature', 0.2)  # ハルシネーション防止
                 )
                 return response.choices[0].message.content
             except AttributeError as e:
@@ -481,7 +481,7 @@ class PremiumEpisodeGenerator:
                 response = self.anthropic_client.messages.create(
                     model="claude-3-haiku-20240307",  # より安価なモデルを使用
                     max_tokens=self.config.get('max_tokens', 500),
-                    temperature=self.config.get('temperature', 0.7),
+                    temperature=self.config.get('temperature', 0.2),  # 創作性を抑制
                     messages=[
                         {"role": "user", "content": prompt}
                     ]

@@ -98,7 +98,45 @@ class ViolationType(Enum):
     # RULE_118-120: 事実正確性ルール (v3.2) - ハルシネーション防止
     EPISODE_FACTUAL_ERROR = "事実誤認検出"
     EPISODE_HALLUCINATION = "ハルシネーション検出"
+    # RULE_121-125: エピソード完全性ルール (v3.3) - エピソード短縮防止
+    EPISODE_INCOMPLETE_TEXT = "エピソードテキスト不完全"
+    EPISODE_MISSING_DATABASE_ENTRY = "データベースエントリ欠落"
+    EPISODE_TRUNCATED_OUTPUT = "出力途中切断"
+    EPISODE_MISSING_EDUCATIONAL_CONTEXT = "教育的文脈欠落"
+    EPISODE_CSV_ESCAPE_ERROR = "CSVエスケープエラー"
     EPISODE_SOURCE_UNVERIFIED = "情報源未検証"
+    # RULE_126-130: データ鮮度・選定品質ルール (v3.4) - 最新データ反映保証
+    EPISODE_STALE_DATA = "古いデータ使用"
+    EPISODE_BETTER_OPTION_AVAILABLE = "より良い選択肢存在"
+    EPISODE_INSUFFICIENT_COMPARISON = "候補比較不足"
+    EPISODE_EXTERNAL_INCONSISTENCY = "外部データ不整合"
+    EPISODE_SEASONAL_UPDATE_NEEDED = "シーズン中更新必要"
+    # RULE_131-133: 功績主体性ルール (v3.5) - 功績の正確な帰属
+    ACHIEVEMENT_OWNERSHIP_ERROR = "功績の主体性誤認"
+    ACHIEVEMENT_PRIORITY_ERROR = "優先順位不適正"
+    MANUAL_CREATION_DETECTED = "手動作成検出"
+    GROUP_ENTITY_PROHIBITED = "グループエンティティ禁止"
+    GROUP_MEMBER_SPLIT_REQUIRED = "グループメンバー分割要求"
+    LOW_FAME_THRESHOLD = "個人知名度閾値未満"
+    SUBJECTIVE_EXPRESSION = "主観的表現使用"
+    VALUE_JUDGMENT = "価値判断含有"
+    NON_FACTUAL_DESCRIPTION = "非事実的記述"
+    # RULE_140-143: 感動価値ルール (v4.3)
+    LOW_EMOTIONAL_VALUE = "感動価値不足"
+    MAJOR_EVENT_PRIORITY = "重要大会軽視"
+    LACK_OF_DRAMA = "ドラマ性欠如"
+    LOW_EMPATHY_POTENTIAL = "共感性不足"
+    # RULE_144-150: センセーショナル価値ルール (v5.0)
+    LACK_OF_STORY = "ストーリー性不足"
+    POOR_CONTEXT = "コンテキスト不足"
+    LOW_EMPATHY = "共感性欠如"
+    UNCLEAR_SIGNIFICANCE = "意味付け不明確"
+    AGE_OVER_VALUE = "年齢優先による価値低下"
+    RIGID_AGE_SELECTION = "年齢選択の硬直性"
+    NO_COMPARISON_EVALUATION = "複数候補の比較不足"
+    # RULE_151-152: 文字数・文末ルール (v5.1)
+    EPISODE_LENGTH_VIOLATION = "文字数制限違反"
+    EPISODE_BLAND_ENDING = "味気ない名詞終わり"
 
 
 @dataclass
@@ -1769,6 +1807,179 @@ if "credit balance" in error_str:
             'grade': self._calculate_grade(total_score)
         }
 
+    def check_emotional_value(self, episode_data: Dict, all_facts: List[Dict] = None) -> List[Dict]:
+        """
+        RULE_140: 感動価値の必須化
+        RULE_141: オリンピック・世界大会優先
+        RULE_142: ドラマ性要素の評価
+        RULE_143: 共感可能性チェック
+        """
+        violations = []
+
+        episode_text = episode_data.get('episode_text', '')
+        emotional_score = episode_data.get('emotional_score', 0)
+        person_name = episode_data.get('person_name', '')
+
+        # RULE_140: 感動価値不足
+        if emotional_score < 0.7:
+            administrative_keywords = ['設立', '開業', '指導に当たる', '就任', '後進の指導']
+            if any(k in episode_text for k in administrative_keywords):
+                violations.append({
+                    'rule_id': 'RULE_140',
+                    'type': ViolationType.LOW_EMOTIONAL_VALUE.value,
+                    'message': f'{person_name}: 感動価値不足（スコア:{emotional_score:.2f}）- 事務的内容',
+                    'severity': 'high'
+                })
+
+        # RULE_141: オリンピック・世界大会の軽視
+        if all_facts:
+            olympic_keywords = ['オリンピック', '五輪', '世界選手権', 'ワールドカップ', 'ノーベル賞']
+            has_major_event = False
+            selected_has_major = False
+
+            for fact in all_facts:
+                fact_text = str(fact.get('fact', ''))
+                if any(k in fact_text for k in olympic_keywords):
+                    has_major_event = True
+                    break
+
+            for k in olympic_keywords:
+                if k in episode_text:
+                    selected_has_major = True
+                    break
+
+            if has_major_event and not selected_has_major:
+                violations.append({
+                    'rule_id': 'RULE_141',
+                    'type': ViolationType.MAJOR_EVENT_PRIORITY.value,
+                    'message': f'{person_name}: 重要大会の実績があるのに選択されていません',
+                    'severity': 'high'
+                })
+
+        # RULE_142: ドラマ性欠如
+        drama_keywords = ['復活', '奇跡', '伝説', '涙', '挫折', '克服', '初', '史上',
+                         '世界初', '日本初', '最年少', '最高齢', '唯一']
+        drama_count = sum(1 for k in drama_keywords if k in episode_text)
+
+        if drama_count == 0:
+            violations.append({
+                'rule_id': 'RULE_142',
+                'type': ViolationType.LACK_OF_DRAMA.value,
+                'message': f'{person_name}: ドラマ性要素が不足しています',
+                'severity': 'medium'
+            })
+
+        # RULE_143: 共感可能性不足
+        business_keywords = ['買収', '上場', '設立', '開業', 'M&A', '時価総額']
+        universal_keywords = ['挑戦', '夢', '努力', '成功', '失敗', '復活', '初', '達成']
+
+        business_count = sum(1 for k in business_keywords if k in episode_text)
+        universal_count = sum(1 for k in universal_keywords if k in episode_text)
+
+        if business_count > 0 and universal_count == 0:
+            violations.append({
+                'rule_id': 'RULE_143',
+                'type': ViolationType.LOW_EMPATHY_POTENTIAL.value,
+                'message': f'{person_name}: 共感可能性が低い（ビジネス寄りの内容）',
+                'severity': 'medium'
+            })
+
+        return violations
+
+
+    def check_sensational_value(self, episode_data: Dict, all_facts: List[Dict] = None) -> List[Dict]:
+        """
+        センセーショナル価値のチェック（RULE_144-150）
+
+        Args:
+            episode_data: エピソードデータ
+            all_facts: その人物の全事実データ
+
+        Returns:
+            違反リスト
+        """
+        violations = []
+        person_name = episode_data.get('person_name', '不明')
+        episode_text = episode_data.get('episode_text', '')
+        age = episode_data.get('age', 0)
+
+        # RULE_144: ストーリー性の確保
+        story_keywords = ['転換', '初めて', 'きっかけ', '瞬間', '困難', '挫折',
+                         '克服', '復活', '奇跡', '挑戦']
+        if not any(k in episode_text for k in story_keywords):
+            violations.append({
+                'rule_id': 'RULE_144',
+                'type': ViolationType.LACK_OF_STORY.value,
+                'message': f'{person_name}: ストーリー性不足 - 転換点や困難克服の要素なし',
+                'severity': 'medium'
+            })
+
+        # RULE_145: コンテキストの豊富化
+        if len(episode_text) < 100:
+            violations.append({
+                'rule_id': 'RULE_145',
+                'type': ViolationType.POOR_CONTEXT.value,
+                'message': f'{person_name}: コンテキスト不足 - 背景説明が少ない',
+                'severity': 'medium'
+            })
+
+        # RULE_146: 共感性の最大化
+        empathy_keywords = ['同じ', '誰もが', '勇気', '希望', '夢', '憧れ']
+        if not any(k in episode_text for k in empathy_keywords):
+            violations.append({
+                'rule_id': 'RULE_146',
+                'type': ViolationType.LOW_EMPATHY.value,
+                'message': f'{person_name}: 共感性不足 - ユーザーとの接点が弱い',
+                'severity': 'medium'
+            })
+
+        # RULE_147: 意味付けの明確化
+        significance_keywords = ['重要', '意味', '歴史', '画期的', '世界を変えた']
+        if not any(k in episode_text for k in significance_keywords):
+            if not ('これは' in episode_text or 'この' in episode_text):
+                violations.append({
+                    'rule_id': 'RULE_147',
+                    'type': ViolationType.UNCLEAR_SIGNIFICANCE.value,
+                    'message': f'{person_name}: 意味付け不明確 - なぜ重要かの説明なし',
+                    'severity': 'low'
+                })
+
+        # RULE_148: 最も重要な瞬間を優先
+        # 年齢が極端に高い場合の警告
+        if age > 60:
+            if all_facts and any(f.get('age', 0) < 30 for f in all_facts):
+                violations.append({
+                    'rule_id': 'RULE_148',
+                    'type': ViolationType.AGE_OVER_VALUE.value,
+                    'message': f'{person_name}: より若い年齢に重要な出来事がある可能性',
+                    'severity': 'low'
+                })
+
+        # RULE_149: 年齢制約より価値を重視
+        # ヘレン・ケラーのような特別なケース
+        if person_name == "ヘレン・ケラー" and age != 7:
+            if all_facts and any(f.get('age') == 7 for f in all_facts):
+                violations.append({
+                    'rule_id': 'RULE_149',
+                    'type': ViolationType.RIGID_AGE_SELECTION.value,
+                    'message': f'{person_name}: 7歳のWater!エピソードがより価値が高い',
+                    'severity': 'high'
+                })
+
+        # RULE_150: 複数年齢候補の比較評価
+        if all_facts and len(all_facts) > 1:
+            # 選択された事実が本当に最適かチェック
+            selected_score = episode_data.get('algorithm_score', 0)
+            if selected_score == 0:
+                violations.append({
+                    'rule_id': 'RULE_150',
+                    'type': ViolationType.NO_COMPARISON_EVALUATION.value,
+                    'message': f'{person_name}: 複数候補の比較評価が不十分',
+                    'severity': 'low'
+                })
+
+        return violations
+
     def _calculate_grade(self, total_score: float) -> str:
         """スコアに基づいてグレードを計算"""
         if total_score >= 80:
@@ -2234,6 +2445,250 @@ if "credit balance" in error_str:
 
         return violations
 
+    def check_episode_completeness(self, episode_text: str, person_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        エピソードの完全性をチェック (RULE_121-125) - v3.3
+
+        Args:
+            episode_text: エピソードテキスト
+            person_data: 人物データ
+
+        Returns:
+            違反リスト
+        """
+        violations = []
+
+        # RULE_121: エピソードテキスト不完全チェック
+        # 文章の開始と終了の整合性確認
+        if episode_text.startswith('「'):
+            if not episode_text.endswith('」') and not episode_text.endswith('」。'):
+                violations.append({
+                    'type': ViolationType.EPISODE_INCOMPLETE_TEXT.value,
+                    'message': 'エピソードの引用符が閉じられていません',
+                    'severity': 'critical',
+                    'suggestion': '文末に閉じ括弧「」を追加してください',
+                    'rule_id': 'RULE_121'
+                })
+
+        # 文末の句点チェック
+        if not episode_text.endswith('。') and not episode_text.endswith('」'):
+            violations.append({
+                'type': ViolationType.EPISODE_INCOMPLETE_TEXT.value,
+                'message': 'エピソードが句点で終わっていません',
+                'severity': 'high',
+                'suggestion': '文末に句点を追加してください',
+                'rule_id': 'RULE_121'
+            })
+
+        # RULE_122: データベースエントリ欠落チェック
+        # verified_facts_database_103persons.json の存在確認
+        person_name = person_data.get('person_name_display', '')
+        if person_name and not self._check_database_entry_exists(person_name):
+            violations.append({
+                'type': ViolationType.EPISODE_MISSING_DATABASE_ENTRY.value,
+                'message': f'{person_name}の検証済み事実データベースエントリが見つかりません',
+                'severity': 'critical',
+                'suggestion': 'verified_facts_database_103persons.jsonにデータを追加してください',
+                'rule_id': 'RULE_122'
+            })
+
+        # RULE_123: 出力途中切断チェック
+        # 異常に短いエピソードの検出
+        if len(episode_text) < 50:
+            violations.append({
+                'type': ViolationType.EPISODE_TRUNCATED_OUTPUT.value,
+                'message': f'エピソードが異常に短いです（{len(episode_text)}文字）',
+                'severity': 'critical',
+                'suggestion': '最低50文字以上のエピソードを生成してください',
+                'rule_id': 'RULE_123'
+            })
+
+        # 文章の急な終了パターン
+        truncation_patterns = [
+            r'[^。」]$',  # 句読点なしで終了
+            r'\.\.\.$',   # ...で終了
+            r'、$',       # 読点で終了
+            r'[をがはでに]$'  # 助詞で終了
+        ]
+        for pattern in truncation_patterns:
+            if re.search(pattern, episode_text):
+                violations.append({
+                    'type': ViolationType.EPISODE_TRUNCATED_OUTPUT.value,
+                    'message': '文章が不自然に途切れています',
+                    'severity': 'high',
+                    'suggestion': '文章を完結させてください',
+                    'rule_id': 'RULE_123'
+                })
+                break
+
+        # RULE_124: 教育的文脈欠落チェック
+        educational_keywords = [
+            '意味', '意義', '教訓', '学び', '示す', '象徴', '重要',
+            'これは', 'この出来事は', 'という', 'ことで'
+        ]
+        has_educational_context = any(keyword in episode_text for keyword in educational_keywords)
+
+        # 特に歴史的人物の場合は教育的文脈が必要
+        if person_data.get('category') in ['歴史人物', '文化・芸術', '科学者']:
+            if not has_educational_context and len(episode_text) > 100:
+                violations.append({
+                    'type': ViolationType.EPISODE_MISSING_EDUCATIONAL_CONTEXT.value,
+                    'message': '歴史的・文化的人物のエピソードに教育的文脈が含まれていません',
+                    'severity': 'medium',
+                    'suggestion': 'エピソードの意義や教訓を追加してください',
+                    'rule_id': 'RULE_124'
+                })
+
+        # RULE_125: CSVエスケープエラーチェック
+        # CSVで問題となる文字の検出
+        csv_problematic_chars = [
+            ('"', '二重引用符'),
+            ('\n', '改行'),
+            ('\r', 'キャリッジリターン'),
+            ('\t', 'タブ')
+        ]
+
+        for char, char_name in csv_problematic_chars:
+            if char in episode_text and not (char == '"' and '""' in episode_text):
+                violations.append({
+                    'type': ViolationType.EPISODE_CSV_ESCAPE_ERROR.value,
+                    'message': f'CSV出力で問題となる文字が含まれています: {char_name}',
+                    'severity': 'high',
+                    'suggestion': f'{char_name}を適切にエスケープするか削除してください',
+                    'rule_id': 'RULE_125'
+                })
+
+        return violations
+
+    def check_character_length_and_ending(self, episode_data: Dict) -> List[Dict]:
+        """
+        RULE_151: 文字数制限チェック（150-250文字）
+        RULE_152: 文末表現チェック（名詞終わりの回避）
+        """
+        violations = []
+        episode_text = episode_data.get('episode_text', '')
+        person_name = episode_data.get('person_name', '不明')
+
+        # RULE_151: 文字数制限チェック
+        text_length = len(episode_text)
+        if text_length < 150:
+            violations.append({
+                'rule_id': 'RULE_151',
+                'type': ViolationType.EPISODE_LENGTH_VIOLATION.value,
+                'message': f'{person_name}: エピソードが短すぎます（{text_length}文字 < 150文字）',
+                'severity': 'high'
+            })
+        elif text_length > 250:
+            violations.append({
+                'rule_id': 'RULE_151',
+                'type': ViolationType.EPISODE_LENGTH_VIOLATION.value,
+                'message': f'{person_name}: エピソードが長すぎます（{text_length}文字 > 250文字）',
+                'severity': 'medium'
+            })
+
+        # RULE_152: 文末表現チェック
+        bland_endings = [
+            'ました。', 'でした。', 'ていました。', 'していました。',
+            'ありました。', 'いました。', 'きました。', 'りました。'
+        ]
+
+        if any(episode_text.endswith(ending) for ending in bland_endings):
+            violations.append({
+                'rule_id': 'RULE_152',
+                'type': ViolationType.EPISODE_BLAND_ENDING.value,
+                'message': f'{person_name}: 味気ない過去形で終わっています - より活気のある表現を推奨',
+                'severity': 'low'
+            })
+
+        return violations
+
+    def check_data_freshness(self, person_data: Dict[str, Any], episode_fact: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        データ鮮度とエピソード選定品質をチェック (RULE_126-130) - v3.4
+
+        Args:
+            person_data: 人物の全データ（facts含む）
+            episode_fact: 選定されたエピソードの事実データ
+
+        Returns:
+            違反リスト
+        """
+        violations = []
+        current_year = 2025  # 現在年
+
+        # RULE_126: データ鮮度チェック
+        if 'year' in episode_fact:
+            fact_year = episode_fact.get('year', 0)
+            if current_year - fact_year > 1:
+                violations.append({
+                    'type': ViolationType.EPISODE_STALE_DATA.value,
+                    'message': f'エピソードのデータが{current_year - fact_year}年前と古い',
+                    'severity': 'high' if current_year - fact_year > 2 else 'medium',
+                    'suggestion': f'{current_year-1}年または{current_year}年のデータに更新を推奨',
+                    'rule_id': 'RULE_126'
+                })
+
+        # RULE_127: より良い選択肢の存在チェック
+        if 'facts' in person_data:
+            all_facts = person_data['facts']
+            episode_score = (episode_fact.get('emotional_score', 0) *
+                           episode_fact.get('educational_score', 0))
+
+            # 時代性を考慮したスコア計算
+            better_facts = []
+            for fact in all_facts:
+                fact_year = fact.get('year', 0) if 'year' in fact else 2020
+                recency_bonus = 1 + (fact_year - 2020) * 0.02  # 年あたり2%ボーナス
+
+                # 歴史的重要性を考慮
+                historical_bonus = 1.2 if any(kw in fact.get('keywords', [])
+                                             for kw in ['史上初', '世界初', '唯一', 'ワールドシリーズ', '50-50']) else 1.0
+
+                adjusted_score = (fact.get('emotional_score', 0) *
+                                fact.get('educational_score', 0) *
+                                recency_bonus * historical_bonus)
+
+                if adjusted_score > episode_score * 1.1:  # 10%以上良いスコア
+                    better_facts.append({
+                        'fact': fact.get('fact', ''),
+                        'score': adjusted_score,
+                        'year': fact_year
+                    })
+
+            if better_facts:
+                best_alternative = max(better_facts, key=lambda x: x['score'])
+                violations.append({
+                    'type': ViolationType.EPISODE_BETTER_OPTION_AVAILABLE.value,
+                    'message': f'より良い選択肢が存在: {best_alternative["fact"][:50]}...',
+                    'severity': 'high',
+                    'suggestion': f'{best_alternative["year"]}年の偉業を使用することを推奨',
+                    'rule_id': 'RULE_127'
+                })
+
+        return violations
+
+    def _check_database_entry_exists(self, person_name: str) -> bool:
+        """
+        データベースエントリの存在確認（ヘルパーメソッド）
+
+        Args:
+            person_name: 人物名
+
+        Returns:
+            存在する場合True
+        """
+        try:
+            db_path = Path('verified_facts_database_103persons.json')
+            if not db_path.exists():
+                return False
+
+            with open(db_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                verified_facts = data.get('verified_facts', {})
+                return person_name in verified_facts
+        except Exception:
+            return False
+
     def validate_episode_generation(self, person_data: Dict[str, Any], episodes: List[str]) -> Dict[str, Any]:
         """
         エピソード生成の妥当性を検証
@@ -2272,6 +2727,42 @@ if "credit balance" in error_str:
                 person_data.get('person_name_display', ''),
                 person_data  # person_dataを渡す
             )
+
+            # エピソード完全性チェック（RULE_121-125追加）
+            completeness_violations = self.check_episode_completeness(
+                episode,
+                person_data
+            )
+            if completeness_violations:
+                violations.extend(completeness_violations)
+
+            # 感動価値チェック（RULE_140-143追加）
+            episode_with_meta = {
+                'episode_text': episode,
+                'person_name': person_data.get('person_name_display', ''),
+                'emotional_score': self.calculate_episode_score(episode, age)['scores']['emotional_impact'] / 25
+            }
+            emotional_violations = self.check_emotional_value(
+                episode_with_meta,
+                person_data.get('facts', [])
+            )
+            if emotional_violations:
+                violations.extend(emotional_violations)
+
+            # センセーショナル価値チェック（RULE_144-150追加）
+            sensational_violations = self.check_sensational_value(
+                {**episode_with_meta, 'age': age},
+                person_data.get('facts', [])
+            )
+            if sensational_violations:
+                violations.extend(sensational_violations)
+
+            # 文字数・文末チェック（RULE_151-152追加）
+            length_violations = self.check_character_length_and_ending(
+                {**episode_with_meta, 'age': age}
+            )
+            if length_violations:
+                violations.extend(length_violations)
 
             if violations:
                 validation_result['violations'].extend(violations)
@@ -2326,6 +2817,240 @@ if "credit balance" in error_str:
             validation_result['valid'] = False
 
         return validation_result
+
+
+
+
+    def check_achievement_ownership(self, episode_text: str, person_info: Dict) -> List[Dict]:
+        """
+        RULE_131: 功績の主体性確認
+        - 「結成」「創設」「設立」は実際の発起人を確認
+        - 誤帰属の検出と修正要求
+        - 参加型功績の適切な表現確認
+        """
+        violations = []
+        person_name = person_info.get('person_name_display', '')
+
+        # YMOと坂本龍一の特別チェック
+        if person_name == '坂本龍一' and 'YMO' in episode_text:
+            if '結成し' in episode_text and '参加' not in episode_text:
+                violations.append({
+                    'rule_id': 'RULE_131',
+                    'type': ViolationType.ACHIEVEMENT_OWNERSHIP_ERROR.value,
+                    'message': 'YMOは細野晴臣が結成、坂本龍一は参加メンバー',
+                    'severity': 'critical'
+                })
+
+        # 一般的な功績帰属チェック
+        ownership_terms = {
+            '結成': '実際の発起人確認必要',
+            '創設': '初期メンバーか確認必要',
+            '設立': '設立者か確認必要'
+        }
+
+        for term, message in ownership_terms.items():
+            if term in episode_text:
+                # 主体性を明示する語があるか確認
+                if not any(word in episode_text for word in ['参加', '加入', 'メンバーとして', '誘われ']):
+                    # 主導的に見える表現の場合、検証が必要
+                    violations.append({
+                        'rule_id': 'RULE_131',
+                        'type': ViolationType.ACHIEVEMENT_OWNERSHIP_ERROR.value,
+                        'message': f'「{term}」使用時は{message}',
+                        'severity': 'high'
+                    })
+
+        return violations
+
+    def check_achievement_priority(self, selected_fact: Dict, all_facts: List[Dict]) -> List[Dict]:
+        """
+        RULE_132: 優先順位の適正化
+        - 個人の主導的功績 > 共同功績 > 参加功績
+        - 国際的賞 > 国内賞 > 商業的成功
+        """
+        violations = []
+
+        # 選択された事実のタイプを確認
+        selected_ownership = selected_fact.get('ownership_type', 'individual')
+        selected_importance = selected_fact.get('importance_score', 1.0)
+
+        # より重要な事実があるか確認
+        for fact in all_facts:
+            if fact == selected_fact:
+                continue
+
+            fact_ownership = fact.get('ownership_type', 'individual')
+            fact_importance = fact.get('importance_score', 1.0)
+
+            # 個人功績が参加功績より優先されていない場合
+            if (selected_ownership == 'participation' and
+                fact_ownership == 'individual' and
+                fact_importance > selected_importance * 0.8):  # 20%のマージン
+                violations.append({
+                    'rule_id': 'RULE_132',
+                    'type': ViolationType.ACHIEVEMENT_PRIORITY_ERROR.value,
+                    'message': f"個人功績が存在するのに参加功績を選択: {fact.get('fact', '')[:50]}",
+                    'severity': 'high'
+                })
+                break
+
+        return violations
+
+    def check_manual_creation(self, episode_data: Dict) -> List[Dict]:
+        """
+        RULE_133: 手動作成の検出と拒否
+        - データベースを使用していないエピソードを検出
+        - ハードコーディングを検出
+        """
+        violations = []
+
+        # ソースの確認
+        sources = episode_data.get('sources', '')
+        if 'manual_entry' in sources.lower() or '手動' in sources:
+            violations.append({
+                'rule_id': 'RULE_133',
+                'type': ViolationType.MANUAL_CREATION_DETECTED.value,
+                'message': '手動作成エピソード検出 - データベース使用必須',
+                'severity': 'critical'
+            })
+
+        # スコアが手動設定された可能性をチェック
+        algorithm_score = episode_data.get('algorithm_score', 0)
+        # キリのいい数字は手動設定の可能性
+        if algorithm_score in [1.5, 2.0, 1.8, 1.7, 1.6, 1.4] and '音楽史料' in sources:
+            violations.append({
+                'rule_id': 'RULE_133',
+                'type': ViolationType.MANUAL_CREATION_DETECTED.value,
+                'message': 'スコアが手動設定された可能性',
+                'severity': 'medium'
+            })
+
+        return violations
+
+    def check_group_entity_prohibition(self, episode_data: Dict) -> List[Dict]:
+        """
+        RULE_134: グループエンティティ禁止
+        - GROUP_で始まるperson_idを検出
+        - グループ名義のエピソードを拒否
+        """
+        violations = []
+
+        person_id = episode_data.get('person_id', '')
+        person_name = episode_data.get('person_name', '')
+
+        # GROUP_で始まるIDの検出
+        if person_id.startswith('GROUP_'):
+            violations.append({
+                'rule_id': 'RULE_134',
+                'type': ViolationType.GROUP_ENTITY_PROHIBITED.value,
+                'message': f'グループエンティティ検出: {person_id} ({person_name}) - 個人エピソードのみ許可',
+                'severity': 'critical'
+            })
+
+        # 既知のグループ名チェック
+        known_groups = ['嵐', 'SMAP', 'TOKIO', 'V6', 'KinKi Kids', 'AKB48', 'NMB48', 'SKE48',
+                       'モーニング娘。', '乃木坂46', '欅坂46', '日向坂46', 'Perfume']
+        if person_name in known_groups:
+            violations.append({
+                'rule_id': 'RULE_135',
+                'type': ViolationType.GROUP_MEMBER_SPLIT_REQUIRED.value,
+                'message': f'グループ「{person_name}」は個人メンバーに分割必須',
+                'severity': 'high'
+            })
+
+        return violations
+
+    def check_individual_fame_threshold(self, person_data: Dict) -> List[Dict]:
+        """
+        RULE_136: 個人知名度閾値チェック
+        - 個人として独立した功績がない場合は削除
+        - 知名度スコア < 5.0 の場合は削除候補
+        """
+        violations = []
+
+        # 知名度スコアのチェック（仮想的な閾値）
+        fame_score = person_data.get('fame_score', 0)
+        if fame_score < 5.0:
+            violations.append({
+                'rule_id': 'RULE_136',
+                'type': ViolationType.LOW_FAME_THRESHOLD.value,
+                'message': f'個人知名度が閾値未満: {fame_score:.2f} < 5.0',
+                'severity': 'medium'
+            })
+
+        # 個人功績のチェック
+        individual_achievements = person_data.get('individual_achievements', 0)
+        if individual_achievements == 0:
+            violations.append({
+                'rule_id': 'RULE_136',
+                'type': ViolationType.LOW_FAME_THRESHOLD.value,
+                'message': '個人としての独立した功績なし - グループ活動のみ',
+                'severity': 'high'
+            })
+
+        return violations
+
+    def check_objectivity(self, episode_text: str) -> List[Dict]:
+        """
+        RULE_137: 主観的表現の検出
+        RULE_138: 価値判断の排除確認
+        RULE_139: 事実ベース記述の検証
+        """
+        violations = []
+
+        # 主観的表現リスト
+        subjective_expressions = [
+            '偉業', '革命的', '画期的', '素晴らしい', '感動的',
+            '永遠に記憶', '世界中の人々', '人類の未来', '明るく照らす',
+            '勇気を与え', '感動と勇気', '深い影響', '大きな影響',
+            '重要な転換点', '革新的な発想', '賜物'
+        ]
+
+        # 価値判断を含む表現
+        value_judgments = [
+            'その功績は', '重要な', '大きな', '革命的な', '画期的な',
+            '素晴らしい', '偉大な', '歴史的な'
+        ]
+
+        # RULE_137: 主観的表現の検出
+        for expr in subjective_expressions:
+            if expr in episode_text:
+                violations.append({
+                    'rule_id': 'RULE_137',
+                    'type': ViolationType.SUBJECTIVE_EXPRESSION.value,
+                    'message': f'主観的表現「{expr}」が使用されています',
+                    'severity': 'medium'
+                })
+
+        # RULE_138: 価値判断の検出
+        for judgment in value_judgments:
+            if judgment in episode_text:
+                violations.append({
+                    'rule_id': 'RULE_138',
+                    'type': ViolationType.VALUE_JUDGMENT.value,
+                    'message': f'価値判断「{judgment}」が含まれています',
+                    'severity': 'medium'
+                })
+
+        # RULE_139: 定型文の検出
+        template_phrases = [
+            'その功績は永遠に記憶されるでしょう',
+            'この出来事は日本の歴史において重要な転換点',
+            'この発見は科学技術の進歩に革命的な貢献',
+            'この作品は日本文化の新たな地平を切り開き',
+            'このビジネスの成功は、革新的な発想と実行力の賜物'
+        ]
+
+        for phrase in template_phrases:
+            if phrase in episode_text:
+                violations.append({
+                    'rule_id': 'RULE_139',
+                    'type': ViolationType.NON_FACTUAL_DESCRIPTION.value,
+                    'message': f'定型的な主観表現が使用されています',
+                    'severity': 'high'
+                })
+
+        return violations
 
 
 def main():

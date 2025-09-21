@@ -54,6 +54,31 @@ tmp/
 temp/
 cache/
 
+# Large data directories
+ultra_think_improvements/
+archive_json/
+emergency_backups/
+ultra_think_*/
+superclaude_venv/
+*.csv
+backup_*.csv
+*.backup*
+
+# iOS apps
+ios-apps/
+
+# Database files (will be mounted as volumes)
+*.db
+*.sqlite
+*.json
+
+# Test and sample data
+test_*.py
+sample_*.py
+PHASE*.md
+REPORT*.md
+STATUS*.md
+
 # CI/CD
 .github/
 .gitlab-ci.yml

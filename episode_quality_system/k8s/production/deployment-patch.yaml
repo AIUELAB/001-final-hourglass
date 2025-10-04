@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: episode-factory
+spec:
+  replicas: 5
+  template:
+    spec:
+      containers:
+      - name: episode-factory
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        env:
+        - name: EPISODE_FACTORY_ENV
+          value: "production"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: ENABLE_PROFILING
+          value: "false"
+        - name: RATE_LIMIT_PER_MINUTE
+          value: "1000"

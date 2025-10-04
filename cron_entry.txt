@@ -1,0 +1,17 @@
+# PDCAガーディアン ルール同期システム
+# 毎日午前3時に実行
+0 3 * * * /Users/admin/Documents/AIUELAB/001-final-hourglass/scripts/run_daily_sync.sh
+
+# 別の実行時間オプション（コメントアウト済み）：
+
+# 毎日午前9時に実行
+# 0 9 * * * /Users/admin/Documents/AIUELAB/001-final-hourglass/scripts/run_daily_sync.sh
+
+# 平日のみ午前6時に実行
+# 0 6 * * 1-5 /Users/admin/Documents/AIUELAB/001-final-hourglass/scripts/run_daily_sync.sh
+
+# 6時間ごとに実行
+# 0 */6 * * * /Users/admin/Documents/AIUELAB/001-final-hourglass/scripts/run_daily_sync.sh
+
+# 1時間ごとに実行（テスト用）
+# 0 * * * * /Users/admin/Documents/AIUELAB/001-final-hourglass/scripts/run_daily_sync.sh

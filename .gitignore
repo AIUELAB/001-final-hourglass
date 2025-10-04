@@ -244,3 +244,6 @@ checkpoints*/
 archive*/
 deletion_backups/
 emergency_backups/
+# 埋め込みGitリポジトリ（サブモジュールではない）
+ebook-mcp/
+ios-apps/

@@ -1,0 +1,16 @@
+# Session Directory Gitignore
+# Keep structure but ignore temporary/large files
+
+# Ignore all snapshot files except the most recent
+snapshots/*
+!snapshots/.gitkeep
+!snapshots/latest.md
+
+# Ignore recovery temp files
+recovery/*.tmp
+recovery/*.lock
+
+# Keep configuration and important files
+!STATUS.md
+!SESSION_LOG.md
+!.gitignore

@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: episode-factory-pdb
+  labels:
+    app: episode-factory
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: episode-factory
+  unhealthyPodEvictionPolicy: IfHealthyBudget

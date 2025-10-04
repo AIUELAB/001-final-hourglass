@@ -1,0 +1,103 @@
+---
+# Deployment for Quality Orchestrator
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quality-orchestrator
+  namespace: quality-system
+  labels:
+    app: quality-orchestrator
+    component: core
+    version: "4.0.0"
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: quality-orchestrator
+  template:
+    metadata:
+      labels:
+        app: quality-orchestrator
+        component: core
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: orchestrator
+        image: quality-system/orchestrator:4.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8002
+          name: api
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: SERVICE_NAME
+          value: "orchestrator"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: CODEX_SERVER_URL
+          value: "http://codex-server:8001"
+        - name: REDIS_URL
+          value: "redis://redis:6379"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: quality-secrets
+              key: database-url
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: quality-secrets
+              key: jwt-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: api
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: api
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: models
+          mountPath: /app/models
+        - name: cache
+          mountPath: /app/.cache
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: models-pvc
+      - name: cache
+        emptyDir:
+          sizeLimit: 1Gi
+      nodeSelector:
+        workload: compute
+      tolerations:
+      - key: "workload"
+        operator: "Equal"
+        value: "compute"
+        effect: "NoSchedule"

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エピソード品質監視ダッシュボード</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title .icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        .metric {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            height: 200px;
+        }
+
+        .category-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .category-value {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-good {
+            background-color: #4caf50;
+        }
+
+        .status-warning {
+            background-color: #ff9800;
+        }
+
+        .status-error {
+            background-color: #f44336;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .timeline-date {
+            min-width: 100px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        #refreshTime {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 エピソード品質監視ダッシュボード</h1>
+
+        <div class="dashboard-grid">
+            <!-- 総エピソード数 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">📚</span>
+                    総エピソード数
+                </div>
+                <div class="metric" id="totalEpisodes">65</div>
+                <div class="subtitle">Phase 1 目標: 100件</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%"></div>
+                </div>
+            </div>
+
+            <!-- 週次追加数 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">📈</span>
+                    今週の追加数
+                </div>
+                <div class="metric" id="weeklyAdded">6</div>
+                <div class="subtitle">目標: 10件/週</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%"></div>
+                </div>
+            </div>
+
+            <!-- 品質スコア -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">⭐</span>
+                    平均品質スコア
+                </div>
+                <div class="metric" id="qualityScore">8.3</div>
+                <div class="subtitle">目標: 8.0以上</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 83%"></div>
+                </div>
+            </div>
+
+            <!-- 有効率 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">✅</span>
+                    有効率
+                </div>
+                <div class="metric" id="validRate">100%</div>
+                <div class="subtitle">文字数・品質基準達成</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- カテゴリー分布 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">📂</span>
+                    カテゴリー分布
+                </div>
+                <ul class="category-list" id="categoryList">
+                    <li class="category-item">
+                        <span class="category-name">
+                            <span class="status-indicator status-warning"></span>
+                            スポーツ
+                        </span>
+                        <span class="category-value">29.2%</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-name">
+                            <span class="status-indicator status-good"></span>
+                            ビジネス
+                        </span>
+                        <span class="category-value">12.3%</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-name">
+                            <span class="status-indicator status-good"></span>
+                            音楽
+                        </span>
+                        <span class="category-value">10.8%</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-name">
+                            <span class="status-indicator status-error"></span>
+                            科学
+                        </span>
+                        <span class="category-value">6.2%</span>
+                    </li>
+                    <li class="category-item">
+                        <span class="category-name">
+                            <span class="status-indicator status-error"></span>
+                            テクノロジー
+                        </span>
+                        <span class="category-value">1.5%</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 次週予定 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">📅</span>
+                    次週追加予定
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">テクノロジー</div>
+                        <div class="timeline-content">イーロン・マスク、ビル・ゲイツ</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">建築</div>
+                        <div class="timeline-content">隈研吾、伊東豊雄</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">医学</div>
+                        <div class="timeline-content">本庶佑、大隅良典</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">宇宙</div>
+                        <div class="timeline-content">毛利衛</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- フェーズ進捗 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="icon">🎯</span>
+                    フェーズ進捗状況
+                </div>
+                <div style="margin-top: 20px;">
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Phase 1</span>
+                            <span style="font-weight: bold;">65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Phase 2</span>
+                            <span style="font-weight: bold;">13%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 13%"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Phase 3</span>
+                            <span style="font-weight: bold;">6.5%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 6.5%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="subtitle" style="margin-top: 15px;">
+                    推定完了: Phase 1まで3.5週
+                </div>
+            </div>
+        </div>
+
+        <!-- アクションボタン -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">⚡</span>
+                クイックアクション
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary pulse" onclick="generateBatch()">
+                    週次バッチ生成
+                </button>
+                <button class="btn btn-primary" onclick="mergeData()">
+                    データ統合実行
+                </button>
+                <button class="btn btn-secondary" onclick="exportReport()">
+                    レポート出力
+                </button>
+                <button class="btn btn-secondary" onclick="refreshData()">
+                    データ更新
+                </button>
+            </div>
+        </div>
+
+        <div id="refreshTime">最終更新: <span id="lastUpdate"></span></div>
+    </div>
+
+    <script>
+        // 現在時刻を表示
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleString('ja-JP');
+            document.getElementById('lastUpdate').textContent = timeStr;
+        }
+
+        // 初期化
+        updateTime();
+
+        // 定期的に時刻更新（1分ごと）
+        setInterval(updateTime, 60000);
+
+        // ボタンのアクション（デモ用）
+        function generateBatch() {
+            alert('週次バッチ生成を開始します\n\n実際の環境では python3 weekly_episode_generator_fixed.py が実行されます');
+        }
+
+        function mergeData() {
+            alert('データ統合を開始します\n\n実際の環境では python3 auto_merge_system.py が実行されます');
+        }
+
+        function exportReport() {
+            alert('レポートを出力します\n\n実際の環境では weekly_report_*.md が生成されます');
+        }
+
+        function refreshData() {
+            alert('データを更新しました');
+            updateTime();
+        }
+
+        // データの自動更新（デモ用）
+        function animateProgress() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+
+        // ページ読み込み時のアニメーション
+        window.addEventListener('load', () => {
+            animateProgress();
+        });
+    </script>
+</body>
+</html>

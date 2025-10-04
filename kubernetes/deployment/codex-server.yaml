@@ -1,0 +1,87 @@
+---
+# Deployment for Codex MCP Server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codex-server
+  namespace: quality-system
+  labels:
+    app: codex-server
+    component: mcp
+    version: "4.0.0"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: codex-server
+  template:
+    metadata:
+      labels:
+        app: codex-server
+        component: mcp
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      containers:
+      - name: codex
+        image: quality-system/codex:4.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8001
+          name: api
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: SERVICE_NAME
+          value: "codex"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: CACHE_ENABLED
+          value: "true"
+        - name: MAX_WORKERS
+          value: "10"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: api
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: api
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      nodeSelector:
+        workload: compute
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - codex-server
+              topologyKey: kubernetes.io/hostname

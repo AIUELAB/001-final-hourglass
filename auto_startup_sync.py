@@ -2,7 +2,7 @@ from src.secure_config import config
 #!/usr/bin/env python3
 """
 Claude Code起動時自動同期システム
-起動時に最新のultra_think_*.csvファイルをGoogle Sheetsと自動同期
+起動時にtrusted_episodes_latest.csvファイルをGoogle Sheetsと自動同期
 全ルールも自動適用（Wikipedia検証を含む）
 """
 
@@ -109,26 +109,26 @@ class StartupSync:
             return False
     
     def find_latest_ultra_think_csv(self):
-        """最新のultra_think_*.csvファイルを検索"""
+        """trusted_episodes_latest.csvファイルを検索"""
         try:
-            csv_files = list(Path('.').glob('ultra_think_*.csv'))
-            if not csv_files:
-                self.sync_log.append("⚠️ ultra_think_*.csvファイルが見つかりません")
+            # 新方針: trusted_episodes_latest.csvのみを使用
+            trusted_csv = Path('trusted_episodes_latest.csv')
+            if not trusted_csv.exists():
+                self.sync_log.append("⚠️ trusted_episodes_latest.csvファイルが見つかりません")
                 return None
-            
-            # 更新日時でソート
-            latest_file = max(csv_files, key=lambda x: x.stat().st_mtime)
-            self.latest_csv = latest_file.name
-            
+
+            # trusted_episodes_latest.csvを使用
+            self.latest_csv = trusted_csv.name
+
             # ファイル情報
-            file_stat = latest_file.stat()
+            file_stat = trusted_csv.stat()
             file_size_mb = file_stat.st_size / (1024 * 1024)
             mod_time = datetime.fromtimestamp(file_stat.st_mtime).strftime('%Y-%m-%d %H:%M:%S')
-            
-            self.sync_log.append(f"📁 最新CSVファイル: {self.latest_csv}")
+
+            self.sync_log.append(f"📁 検証済みCSVファイル: {self.latest_csv}")
             self.sync_log.append(f"   サイズ: {file_size_mb:.2f} MB")
             self.sync_log.append(f"   更新日時: {mod_time}")
-            
+
             return self.latest_csv
             
         except Exception as e:
@@ -275,18 +275,15 @@ class StartupSync:
                 removed_file = f"removed_placeholders_{timestamp}.csv"
                 removed_df.to_csv(removed_file, index=False)
                 
-                # クリーンなデータを保存
-                output_file = f"ultra_think_VERIFIED_{timestamp}.csv"
-                df_clean.to_csv(output_file, index=False)
+                # 注意: trusted_episodes_latest.csvを直接更新はしない
+                # 問題があれば手動で対応することを推奨
+                self.sync_log.append("⚠️ trusted_episodes_latest.csvの更新が必要な問題が検出されました")
                 
                 # 設定を更新
                 self.save_config({
-                    'csv_file': output_file,
+                    'csv_file': 'trusted_episodes_latest.csv',
                     'last_wikipedia_verify': datetime.now().isoformat()
                 })
-                
-                # CSVファイルを更新
-                self.latest_csv = output_file
                 
                 # Google Sheetsに再同期
                 if self.sheet:

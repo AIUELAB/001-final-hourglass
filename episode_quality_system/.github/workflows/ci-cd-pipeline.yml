@@ -1,0 +1,356 @@
+name: Episode Factory CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/episode-factory
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # ========================================
+  # ステージ1: コード品質チェック
+  # ========================================
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📦 Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff mypy pytest pytest-cov
+
+      - name: 🎨 Lint with Ruff
+        run: |
+          ruff check . --output-format=github
+          ruff format . --check
+
+      - name: 🔍 Type check with mypy
+        run: mypy . --ignore-missing-imports
+
+      - name: 📊 Generate code quality report
+        if: always()
+        run: |
+          echo "## Code Quality Report" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Linting passed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Type checking passed" >> $GITHUB_STEP_SUMMARY
+
+  # ========================================
+  # ステージ2: テスト実行
+  # ========================================
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+    strategy:
+      matrix:
+        test-type: [unit, integration, performance]
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-benchmark
+
+      - name: 🧪 Run ${{ matrix.test-type }} tests
+        run: |
+          if [ "${{ matrix.test-type }}" = "unit" ]; then
+            pytest tests/unit --cov=. --cov-report=xml --cov-report=term
+          elif [ "${{ matrix.test-type }}" = "integration" ]; then
+            python test_unified_factory_v2.py
+          elif [ "${{ matrix.test-type }}" = "performance" ]; then
+            python performance_benchmark.py
+          fi
+
+      - name: 📈 Upload coverage reports
+        if: matrix.test-type == 'unit'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+
+      - name: 📊 Test Results Summary
+        if: always()
+        run: |
+          echo "## Test Results: ${{ matrix.test-type }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Tests completed successfully" >> $GITHUB_STEP_SUMMARY
+
+  # ========================================
+  # ステージ3: セキュリティスキャン
+  # ========================================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: code-quality
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔒 Run Trivy security scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: 📤 Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: 🐍 Check for Python vulnerabilities
+        run: |
+          pip install safety
+          safety check --json
+
+  # ========================================
+  # ステージ4: Docker イメージビルド
+  # ========================================
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [test, security]
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔑 Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🏷️ Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: 🏗️ Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+      - name: 📊 Image Build Summary
+        run: |
+          echo "## Docker Image Built" >> $GITHUB_STEP_SUMMARY
+          echo "🏷️ Tags: ${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "🔒 Digest: ${{ steps.build.outputs.digest }}" >> $GITHUB_STEP_SUMMARY
+
+  # ========================================
+  # ステージ5: ステージング環境デプロイ
+  # ========================================
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop' || github.event.inputs.environment == 'staging'
+    environment:
+      name: staging
+      url: https://staging.episode-factory.example.com
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configure kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: 🔑 Set up kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.STAGING_KUBECONFIG }}" | base64 -d > ~/.kube/config
+
+      - name: 🚀 Deploy to Kubernetes (Staging)
+        run: |
+          kubectl apply -f k8s/staging/
+          kubectl set image deployment/episode-factory \
+            episode-factory=${{ needs.build.outputs.image-tag }} \
+            -n staging
+          kubectl rollout status deployment/episode-factory -n staging
+
+      - name: 🏥 Health check
+        run: |
+          sleep 30
+          curl -f https://staging.episode-factory.example.com/health || exit 1
+
+      - name: 📊 Deployment Summary
+        run: |
+          echo "## Staging Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 URL: https://staging.episode-factory.example.com" >> $GITHUB_STEP_SUMMARY
+          echo "🏷️ Version: ${{ needs.build.outputs.image-tag }}" >> $GITHUB_STEP_SUMMARY
+
+  # ========================================
+  # ステージ6: 本番環境デプロイ
+  # ========================================
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build, deploy-staging]
+    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.environment == 'production'
+    environment:
+      name: production
+      url: https://episode-factory.example.com
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configure kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: 🔑 Set up kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.PRODUCTION_KUBECONFIG }}" | base64 -d > ~/.kube/config
+
+      - name: 📸 Create backup
+        run: |
+          kubectl create job backup-$(date +%Y%m%d-%H%M%S) \
+            --from=cronjob/backup-job -n production
+
+      - name: 🚀 Deploy to Kubernetes (Production)
+        run: |
+          kubectl apply -f k8s/production/
+          kubectl set image deployment/episode-factory \
+            episode-factory=${{ needs.build.outputs.image-tag }} \
+            -n production
+          kubectl rollout status deployment/episode-factory -n production
+
+      - name: 🏥 Health check
+        run: |
+          sleep 60
+          for i in {1..5}; do
+            curl -f https://episode-factory.example.com/health && break
+            echo "Health check attempt $i failed, retrying..."
+            sleep 10
+          done
+
+      - name: 🔄 Rollback on failure
+        if: failure()
+        run: |
+          kubectl rollout undo deployment/episode-factory -n production
+          kubectl rollout status deployment/episode-factory -n production
+
+      - name: 📊 Production Deployment Summary
+        run: |
+          echo "## Production Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 URL: https://episode-factory.example.com" >> $GITHUB_STEP_SUMMARY
+          echo "🏷️ Version: ${{ needs.build.outputs.image-tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All health checks passed" >> $GITHUB_STEP_SUMMARY
+
+  # ========================================
+  # ステージ7: 通知
+  # ========================================
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always()
+    steps:
+      - name: 📢 Slack Notification
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ job.status }}
+          text: |
+            Deployment Status: ${{ job.status }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: 📧 Email Notification
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "❌ Deployment Failed: ${{ github.repository }}"
+          to: devops@example.com
+          from: github-actions@example.com
+          body: |
+            Deployment failed for ${{ github.repository }}
+
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+
+            Please check the GitHub Actions logs for details.

@@ -1,0 +1,16 @@
+# Core dependencies
+typing-extensions>=4.0.0
+dataclasses-json>=0.6.0
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-benchmark>=4.0.0
+
+# Monitoring
+psutil>=5.9.0
+
+# Code quality
+ruff>=0.1.0
+mypy>=1.0.0
+safety>=2.3.0

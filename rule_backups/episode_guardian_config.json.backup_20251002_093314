@@ -1,0 +1,214 @@
+{
+  "episode_guardian": {
+    "version": "1.0.0",
+    "last_updated": "2025-10-01",
+    "strict_mode": true,
+    "use_unified_validator": true,
+    "fail_fast": true,
+    "description": "EpisodeGuardian統合ルール管理システムの設定ファイル"
+  },
+  "validation_rules": {
+    "entity_type": {
+      "enabled": true,
+      "priority": 1,
+      "description": "Entity Type検証（個人/グループ区別）",
+      "rules": [
+        "ENTITY_TYPE_001",
+        "ENTITY_TYPE_002",
+        "ENTITY_TYPE_003"
+      ]
+    },
+    "format": {
+      "enabled": true,
+      "priority": 2,
+      "description": "形式ルール（文字数、定型文、年号等）",
+      "rules": [
+        "FORMAT_001",
+        "FORMAT_002",
+        "FORMAT_003",
+        "FORMAT_004"
+      ]
+    },
+    "content": {
+      "enabled": true,
+      "priority": 3,
+      "description": "内容ルール（具体性、事実確認）",
+      "rules": [
+        "CONTENT_001",
+        "CONTENT_002",
+        "CONTENT_003"
+      ]
+    }
+  },
+  "known_groups_sources": {
+    "primary": "group_member_database.py",
+    "manual_list": [
+      "サカナクション",
+      "XJAPAN",
+      "X JAPAN",
+      "SEKAI NO OWARI",
+      "L'Arc~en~Ciel",
+      "BTS",
+      "GLAY",
+      "B'z",
+      "Mr.Children",
+      "EXILE",
+      "嵐",
+      "ピース",
+      "キングコング",
+      "SAKEROCK",
+      "BUMP OF CHICKEN",
+      "RADWIMPS",
+      "UVERworld",
+      "ONE OK ROCK",
+      "AKB48",
+      "モーニング娘。",
+      "ゆず",
+      "DREAMS COME TRUE",
+      "サザンオールスターズ"
+    ],
+    "auto_update": true,
+    "description": "既知のグループ名のデータソース"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/episode_guardian.log",
+    "console": true,
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "rotation": {
+      "enabled": true,
+      "max_bytes": 10485760,
+      "backup_count": 5
+    }
+  },
+  "metrics": {
+    "enabled": true,
+    "track_group_detections": true,
+    "export_interval": 3600,
+    "export_path": "logs/episode_guardian_metrics.json"
+  },
+  "integration": {
+    "unified_validation_system": {
+      "enabled": true,
+      "module": "unified_validation_system_with_persistence",
+      "function": "create_validator"
+    },
+    "pdca_guardian": {
+      "enabled": false,
+      "module": "pdca_guardian",
+      "description": "170+のPDCAルールとの統合（将来実装）"
+    }
+  },
+  "quality_gates": {
+    "entity_type_check": {
+      "mandatory": true,
+      "severity": "CRITICAL",
+      "description": "個人/グループ区別は必須チェック"
+    },
+    "format_check": {
+      "mandatory": true,
+      "severity": "CRITICAL"
+    },
+    "content_check": {
+      "mandatory": true,
+      "severity": "CRITICAL"
+    }
+  },
+  "regression_tests": {
+    "ep010_sakanaction": {
+      "enabled": true,
+      "description": "EP010グループ混入問題の再発防止テスト",
+      "person_name": "サカナクション",
+      "expected_result": "FAIL",
+      "expected_rule": "ENTITY_TYPE_001"
+    }
+  },
+  "unified_rules": {
+    "version": "1.0.0",
+    "last_updated": "2025-10-02T09:32:45.990864",
+    "total_rules": 73,
+    "categories": {
+      "entity_type": [
+        "ENTITY_TYPE_001"
+      ],
+      "data_quality": [
+        "RULE_001",
+        "RULE_148",
+        "RULE_153",
+        "RULE_002",
+        "RULE_003",
+        "RULE_004",
+        "RULE_005",
+        "RULE_008",
+        "RULE_009",
+        "RULE_011",
+        "RULE_017",
+        "RULE_077",
+        "RULE_078",
+        "RULE_079",
+        "RULE_080",
+        "RULE_098",
+        "RULE_099",
+        "RULE_106",
+        "RULE_107",
+        "RULE_108",
+        "RULE_112",
+        "RULE_113",
+        "RULE_116",
+        "RULE_117",
+        "RULE_122",
+        "RULE_123",
+        "RULE_124",
+        "RULE_125",
+        "RULE_126",
+        "RULE_127",
+        "RULE_131",
+        "RULE_132",
+        "RULE_133",
+        "RULE_134",
+        "RULE_135",
+        "RULE_136",
+        "RULE_137",
+        "RULE_138",
+        "RULE_139",
+        "RULE_140",
+        "RULE_141",
+        "RULE_142",
+        "RULE_143",
+        "RULE_144",
+        "RULE_145",
+        "RULE_146",
+        "RULE_147",
+        "RULE_149",
+        "RULE_150",
+        "RULE_152",
+        "RULE_155",
+        "RULE_156",
+        "RULE_157",
+        "RULE_158",
+        "RULE_159",
+        "RULE_163",
+        "RULE_164",
+        "RULE_165",
+        "RULE_167",
+        "RULE_168",
+        "RULE_169"
+      ],
+      "episode_format": [
+        "FORMAT_001",
+        "RULE_115",
+        "RULE_121",
+        "RULE_151",
+        "RULE_160",
+        "RULE_101"
+      ],
+      "episode_content": [
+        "RULE_100",
+        "RULE_118",
+        "RULE_161",
+        "RULE_162",
+        "RULE_166"
+      ]
+    }
+  }
+}

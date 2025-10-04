@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: episode-factory-config
+  labels:
+    app: episode-factory
+data:
+  environment: "production"
+  validation_mode: "optimized"
+  min_quality_score: "70.0"
+  max_attempts: "5"
+  use_cache: "true"
+  log_level: "INFO"
+  max_workers: "4"
+  request_timeout_ms: "1000"
+  cache_ttl_seconds: "3600"
+  metrics_enabled: "true"
+  metrics_port: "9090"
+  health_check_port: "8000"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  labels:
+    app: episode-factory
+data:
+  nginx.conf: |
+    events {
+      worker_connections 1024;
+    }
+
+    http {
+      upstream episode_factory {
+        least_conn;
+        server episode-factory:80 max_fails=3 fail_timeout=30s;
+      }
+
+      server {
+        listen 80;
+        server_name _;
+
+        location / {
+          proxy_pass http://episode_factory;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+
+          # Timeouts
+          proxy_connect_timeout 60s;
+          proxy_send_timeout 60s;
+          proxy_read_timeout 60s;
+
+          # Buffering
+          proxy_buffering on;
+          proxy_buffer_size 4k;
+          proxy_buffers 8 4k;
+          proxy_busy_buffers_size 8k;
+        }
+
+        location /health {
+          access_log off;
+          proxy_pass http://episode_factory/health;
+        }
+
+        location /metrics {
+          allow 10.0.0.0/8;
+          deny all;
+          proxy_pass http://episode_factory:9090/metrics;
+        }
+      }
+    }

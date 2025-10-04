@@ -1,0 +1,470 @@
+INFO:__main__:テスト対象人物: 10件読み込み
+INFO:__main__:================================================================================
+INFO:__main__:人物: さくらももこ (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: 架空キャラクターのため作品名を表示
+INFO:__main__:表示形式: (ちびまる子ちゃん)
+INFO:__main__:括弧テキスト: ちびまる子ちゃん
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: モンキー・D・ルフィ (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: 架空キャラクターのため作品名を表示
+INFO:__main__:表示形式: (ONE PIECE)
+INFO:__main__:括弧テキスト: ONE PIECE
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: 又吉直樹 (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (ピース)
+INFO:__main__:括弧テキスト: ピース
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: 上田晋也 (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (くりぃむしちゅー)
+INFO:__main__:括弧テキスト: くりぃむしちゅー
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: ノブ (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (千鳥)
+INFO:__main__:括弧テキスト: 千鳥
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: hyde (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (L'Arc～en～Ciel)
+INFO:__main__:括弧テキスト: L'Arc～en～Ciel
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: 野田洋次郎 (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (RADWIMPS)
+INFO:__main__:括弧テキスト: RADWIMPS
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: TERU (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (GLAY)
+INFO:__main__:括弧テキスト: GLAY
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+WARNING:bracket_display_engine:⚠️ 括弧内ワード 'GLAY' がエピソード本文に含まれています: ['GLAYが30歳のとき、音楽業界で大きな転機を迎']
+WARNING:__main__:⚠️ 括弧内ワードの重複検出: ['GLAYが30歳のとき、音楽業界で大きな転機を迎']
+INFO:__main__:================================================================================
+INFO:__main__:人物: しばゆー (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (東海オンエア)
+INFO:__main__:括弧テキスト: 東海オンエア
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:================================================================================
+INFO:__main__:人物: ぺけたん (30歳)
+INFO:__main__:括弧表示: True
+INFO:__main__:理由: データベースで明示的に表示指定
+INFO:__main__:表示形式: (Fischer's)
+INFO:__main__:括弧テキスト: Fischer's
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:__main__:✅ 括弧内ワード重複なし
+INFO:__main__:結果を保存: test_10_episodes_results_20251002_120110.json
+INFO:__main__:レポートを保存: test_10_episodes_results_20251002_120110_report.md
+📂 Loading Few-Shot database from CSV...
+📂 Reading from episodes_validated_100_20251001.csv...
+✅ Loaded 100 examples
+📊 Building category index...
+
+📈 Category Statistics:
+  アニメ: 2 examples
+  エンターテインメント: 10 examples
+  スポーツ: 31 examples
+  テクノロジー: 5 examples
+  ビジネス: 10 examples
+  伝統芸能: 1 examples
+  医学: 2 examples
+  将棋: 2 examples
+  建築: 1 examples
+  政治: 4 examples
+  教育: 2 examples
+  文化: 3 examples
+  文学: 6 examples
+  映画: 4 examples
+  漫画: 2 examples
+  科学: 6 examples
+  芸術: 1 examples
+  音楽: 8 examples
+================================================================================
+Phase 5: 括弧表示システム 10エピソードテスト
+================================================================================
+
+[1/10] さくらももこ
+⚠️ Category '漫画・アニメ' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 9.4/10.0
+Episode Length: 230 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 6.5/10.0
+Episode Length: 216 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 5.9/10.0
+Episode Length: 209 chars
+
+⚠️ Max iterations reached
+❌ [ちびまる子ちゃん] - 3回反復, スコア9.4
+
+[2/10] モンキー・D・ルフィ
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.9/10.0
+Episode Length: 236 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 9.4/10.0
+Episode Length: 210 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 7.5/10.0
+Episode Length: 202 chars
+
+⚠️ Max iterations reached
+❌ [ONE PIECE] - 3回反復, スコア9.4
+
+[3/10] 又吉直樹
+⚠️ Category '文化・学術' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 9.5/10.0
+Episode Length: 251 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: reduce_text
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.5/10.0
+Episode Length: 220 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.1/10.0
+Episode Length: 224 chars
+
+⚠️ Max iterations reached
+❌ [ピース] - 3回反復, スコア9.5
+
+[4/10] 上田晋也
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 9.5/10.0
+Episode Length: 214 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 7.9/10.0
+Episode Length: 209 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 6.9/10.0
+Episode Length: 210 chars
+
+⚠️ Max iterations reached
+❌ [くりぃむしちゅー] - 3回反復, スコア9.5
+
+[5/10] ノブ
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.8/10.0
+Episode Length: 212 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 5.9/10.0
+Episode Length: 214 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 5.5/10.0
+Episode Length: 221 chars
+
+⚠️ Max iterations reached
+❌ [千鳥] - 3回反復, スコア8.8
+
+[6/10] hyde
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 9.9/10.0
+Episode Length: 248 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 7.2/10.0
+Episode Length: 240 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 6.2/10.0
+Episode Length: 234 chars
+
+⚠️ Max iterations reached
+❌ [L'Arc～en～Ciel] - 3回反復, スコア9.9
+
+[7/10] 野田洋次郎
+⚠️ Category 'エンタメ' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.8/10.0
+Episode Length: 257 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: reduce_text
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 6.0/10.0
+Episode Length: 178 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: expand_text
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 6.2/10.0
+Episode Length: 211 chars
+
+⚠️ Max iterations reached
+❌ [RADWIMPS] - 3回反復, スコア8.8
+
+[8/10] TERU
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.0/10.0
+Episode Length: 212 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.0/10.0
+Episode Length: 202 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 8.4/10.0
+Episode Length: 206 chars
+
+⚠️ Max iterations reached
+❌ [GLAY] - 3回反復, スコア8.4
+
+[9/10] しばゆー
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 9.9/10.0
+Episode Length: 232 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 7.9/10.0
+Episode Length: 217 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 6.6/10.0
+Episode Length: 223 chars
+
+⚠️ Max iterations reached
+❌ [東海オンエア] - 3回反復, スコア9.9
+
+[10/10] ぺけたん
+⚠️ Category 'その他' not found, using all examples
+
+🔄 Iteration 1/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 10.0/10.0
+Episode Length: 244 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 2/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 7.9/10.0
+Episode Length: 223 chars
+
+🔧 Generating improvement suggestions...
+Improvements to apply: 
+
+🔄 Iteration 3/3
+============================================================
+📝 Calling openai (gpt-4o)...
+Status: ❌ FAIL
+Gate Score: 7.6/10.0
+Episode Length: 216 chars
+
+⚠️ Max iterations reached
+❌ [Fischer's] - 3回反復, スコア10.0
+
+================================================================================
+テスト結果サマリー
+================================================================================
+生成成功: 0/10
+括弧表示: 10/10
+重複エラー: 1/10
+
+✅ Phase 5テスト完了！

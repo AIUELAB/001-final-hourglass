@@ -1,0 +1,27 @@
+---
+# Service for Quality Orchestrator
+apiVersion: v1
+kind: Service
+metadata:
+  name: quality-orchestrator
+  namespace: quality-system
+  labels:
+    app: quality-orchestrator
+    component: core
+spec:
+  type: ClusterIP
+  selector:
+    app: quality-orchestrator
+  ports:
+  - port: 8002
+    targetPort: api
+    protocol: TCP
+    name: api
+  - port: 9090
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800

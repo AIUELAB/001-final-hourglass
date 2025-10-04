@@ -1,0 +1,44 @@
+[Unit]
+Description=MCP Management System
+Documentation=https://github.com/your-repo/mcp-management
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=admin
+Group=admin
+WorkingDirectory=/Users/admin/Documents/AIUELAB/001-final-hourglass
+
+# 環境変数の読み込み
+EnvironmentFile=-/Users/admin/Documents/AIUELAB/001-final-hourglass/.env
+
+# メインコマンド
+ExecStart=/usr/bin/python3 /Users/admin/Documents/AIUELAB/001-final-hourglass/mcp_management_system.py start-all
+
+# 再起動ポリシー
+Restart=always
+RestartSec=10
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# プロセス管理
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=30
+
+# リソース制限
+LimitNOFILE=4096
+LimitNPROC=512
+
+# セキュリティ設定
+NoNewPrivileges=true
+PrivateTmp=true
+
+# ログ設定
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=mcp-manager
+
+[Install]
+WantedBy=multi-user.target

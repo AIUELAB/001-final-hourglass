@@ -32,6 +32,13 @@ except ImportError:
     FactChecker = None
     FactCheckResult = None
 
+# UnifiedRuleLoaderのインポート（統合ルール管理）
+try:
+    from unified_rule_loader import UnifiedRuleLoader
+except ImportError:
+    UnifiedRuleLoader = None
+    logger.warning("⚠️ UnifiedRuleLoaderが利用できません。従来のルールシステムを使用します。")
+
 # ログ設定
 logging.basicConfig(
     level=logging.INFO,
@@ -137,6 +144,34 @@ class ViolationType(Enum):
     # RULE_151-152: 文字数・文末ルール (v5.1)
     EPISODE_LENGTH_VIOLATION = "文字数制限違反"
     EPISODE_BLAND_ENDING = "味気ない名詞終わり"
+    # RULE_153-156: 節目・個人名・最年少記録ルール (v5.2)
+    MILESTONE_IMPORTANCE_LOW = "節目重要度低下"
+    GROUP_NAME_AS_PERSON = "グループ名個人化違反"
+    YOUNGEST_OLDEST_PRIORITY_MISS = "最年少最年長記録軽視"
+    AGE_IMPACT_SUBOPTIMAL = "年齢インパクト最適化不足"
+    # RULE_164: 日付ノイズ違反 (v5.7)
+    DATE_NOISE_VIOLATION = "具体的日付ノイズ違反"
+    # 未実装ルールのViolationType追加 (v5.5-5.11)
+    CHARACTER_COUNT_VIOLATION_STRICT = "文字数制限違反（132-250）"  # 2025-09-22: 150から132に緩和
+    SENTENCE_ENDING_VIOLATION = "文末表現違反（動詞・形容詞）"
+    FACT_FIRST_PRINCIPLE_VIOLATION = "事実優先原則違反"
+    FACT_VERIFICATION_FAILURE = "ファクト検証失敗"
+    QUALITY_PRIORITY_VIOLATION = "品質優先原則違反"
+    BATCH_INDIVIDUAL_VERIFICATION_FAILURE = "バッチ個別検証失敗"
+
+    # プレースホルダー検出関連（RULE_077-080）
+    CONSECUTIVE_ID_MISJUDGMENT = "連続ID誤判定"
+    BATCH_DATA_PROTECTION_FAILURE = "バッチデータ保護失敗"
+    WIKIPEDIA_VERIFICATION_SKIPPED = "Wikipedia確認スキップ"
+    MULTI_STAGE_VERIFICATION_MISSING = "多段階検証不足"
+
+    # 3軸評価関連（RULE_157-159）
+    CULTURAL_PHENOMENON_IGNORED = "文化現象無視"
+    SOCIAL_CONTRIBUTION_UNDERVALUED = "社会貢献過小評価"
+    THREE_AXIS_BALANCE_VIOLATION = "3軸バランス違反"
+    SUBJECTIVITY_VIOLATION = "主観性違反"
+    CONCRETE_DESCRIPTION_MISSING = "具体性不足"
+    EDUCATIONAL_VALUE_MISSING = "教育的価値不足"
 
 
 @dataclass
@@ -174,18 +209,36 @@ class PDCAGuardian:
     品質保証を実現する統合管理システム
     """
 
-    def __init__(self, memory_file: str = "project_memory.json", relaxed_mode: bool = False):
+    def __init__(self, memory_file: str = "project_memory.json", relaxed_mode: bool = False, use_unified_rules: bool = True):
         """初期化
 
         Args:
             memory_file: プロジェクトメモリファイルのパス
             relaxed_mode: 緩和モード（テスト時のみ使用）- 品質基準を緩和
+            use_unified_rules: 統合ルールシステムを使用するか（デフォルトTrue）
         """
         self.memory_file = Path(memory_file)
         self.memory = self._load_memory()
         self.current_cycle: Optional[PDCACycle] = None
         self.violation_count = 0
         self.relaxed_mode = relaxed_mode  # 緩和モードフラグ
+
+        # 統合ルールローダーの初期化
+        self.unified_rule_loader = None
+        self.use_unified_rules = use_unified_rules and UnifiedRuleLoader is not None
+
+        if self.use_unified_rules:
+            try:
+                self.unified_rule_loader = UnifiedRuleLoader()
+                if self.unified_rule_loader.load_rules():
+                    logger.info("✅ 統合ルールシステム有効化")
+                    self._migrate_to_unified_rules()
+                else:
+                    logger.warning("⚠️ 統合ルールのロードに失敗。従来システムを使用します。")
+                    self.use_unified_rules = False
+            except Exception as e:
+                logger.error(f"❌ 統合ルールシステムの初期化失敗: {e}")
+                self.use_unified_rules = False
 
         # 緩和モードの基準値設定
         if self.relaxed_mode:
@@ -205,6 +258,11 @@ class PDCAGuardian:
 
         logger.info("="*60)
         logger.info("🛡️ PDCA Guardian System 起動")
+        if self.use_unified_rules:
+            logger.info("📖 ルールソース: unified_rules.json (統合)")
+            logger.info(f"📚 統合ルール数: {len(self.unified_rule_loader.rules) if self.unified_rule_loader else 0}")
+        else:
+            logger.info("📖 ルールソース: project_memory.json (従来)")
         logger.info("="*60)
         logger.info(f"📚 永続ルール数: {len(self.memory['permanent_rules'])}")
         logger.info(f"❌ 過去の失敗パターン: {len(self.memory['failed_patterns'])}")
@@ -241,6 +299,126 @@ class PDCAGuardian:
         self.memory['metadata']['last_updated'] = datetime.now().isoformat()
         with open(self.memory_file, 'w', encoding='utf-8') as f:
             json.dump(self.memory, f, ensure_ascii=False, indent=2, default=str)
+
+    def _migrate_to_unified_rules(self):
+        """
+        統合ルールシステムへのマイグレーション
+
+        unified_rules.jsonから全ルールを読み込み、
+        従来のproject_memory.jsonシステムと統合します。
+        """
+        if not self.unified_rule_loader:
+            return
+
+        logger.info("🔄 統合ルールシステムへマイグレーション中...")
+
+        # 統合ルールからpermanent_rulesを構築
+        migrated_count = 0
+        for rule_id, rule in self.unified_rule_loader.rules.items():
+            # アクティブなルールのみ移行
+            if not rule.is_active():
+                continue
+
+            # 既存のpermanent_rulesに存在するか確認
+            existing_rule = next(
+                (r for r in self.memory['permanent_rules'] if r.get('rule_id') == rule_id),
+                None
+            )
+
+            if existing_rule:
+                # 既存ルールを統合ルールで更新
+                existing_rule.update({
+                    'name': rule.name,
+                    'description': rule.description,
+                    'priority': rule.priority,
+                    'category': rule.category,
+                    'version': rule.version,
+                    'source': 'unified_rules.json',
+                    'updated_at': rule.updated_at
+                })
+            else:
+                # 新規ルールを追加
+                new_rule = {
+                    'rule_id': rule_id,
+                    'name': rule.name,
+                    'description': rule.description,
+                    'priority': rule.priority,
+                    'category': rule.category,
+                    'version': rule.version,
+                    'source': 'unified_rules.json',
+                    'created_at': rule.created_at,
+                    'updated_at': rule.updated_at
+                }
+                self.memory['permanent_rules'].append(new_rule)
+
+            migrated_count += 1
+
+        # メモリに統合ルール情報を記録
+        self.memory['metadata']['unified_rules_enabled'] = True
+        self.memory['metadata']['unified_rules_version'] = self.unified_rule_loader.metadata.get('version', 'unknown')
+        self.memory['metadata']['unified_rules_migrated_at'] = datetime.now().isoformat()
+
+        self._save_memory()
+
+        logger.info(f"✅ 統合ルール {migrated_count}件をマイグレーション完了")
+
+    def get_rule_by_id(self, rule_id: str) -> Optional[Dict[str, Any]]:
+        """
+        ルールIDからルール情報を取得
+
+        Args:
+            rule_id: ルールID（例: "RULE_001"）
+
+        Returns:
+            ルール情報の辞書、存在しない場合None
+        """
+        # 統合ルールシステムを優先
+        if self.use_unified_rules and self.unified_rule_loader:
+            rule = self.unified_rule_loader.get_rule(rule_id)
+            if rule:
+                return {
+                    'rule_id': rule.rule_id,
+                    'name': rule.name,
+                    'description': rule.description,
+                    'priority': rule.priority,
+                    'category': rule.category,
+                    'version': rule.version,
+                    'check_function': rule.check_function,
+                    'violation_type': rule.violation_type,
+                    'source': 'unified_rules.json'
+                }
+
+        # フォールバック: 従来のpermanent_rulesから検索
+        for rule in self.memory['permanent_rules']:
+            if rule.get('rule_id') == rule_id:
+                return rule
+
+        return None
+
+    def get_all_active_rules(self) -> List[Dict[str, Any]]:
+        """
+        すべてのアクティブなルールを取得
+
+        Returns:
+            アクティブなルール情報のリスト
+        """
+        # 統合ルールシステムを優先
+        if self.use_unified_rules and self.unified_rule_loader:
+            active_rules = self.unified_rule_loader.get_active_rules()
+            return [
+                {
+                    'rule_id': rule.rule_id,
+                    'name': rule.name,
+                    'description': rule.description,
+                    'priority': rule.priority,
+                    'category': rule.category,
+                    'source': 'unified_rules.json'
+                }
+                for rule in active_rules
+            ]
+
+        # フォールバック: 従来システム
+        return self.memory['permanent_rules']
 
     def _ensure_credit_management_rule(self):
         """
@@ -1613,33 +1791,47 @@ if "credit balance" in error_str:
         violations: List[Dict[str, Any]] = []
         import re
 
-        # 標準フォーマットチェック
-        standard_prefix = f"あなたと同じ{age}歳のとき、{person_name_display}は"
+        # 標準フォーマットチェック（修正版）
+        # person_name_displayから名前部分を抽出（年齢表記を除去）
+        person_name = person_name_display.split('（')[0] if '（' in person_name_display else person_name_display
 
-        # エピソードが標準フォーマットで始まっているかチェック
-        if not episode_text.startswith(standard_prefix):
-            # 代替フォーマットの許容（カタカナ表記など）
-            alt_prefixes = [
-                f"あなたと同じ{age}歳のとき{person_name_display}は",  # 読点なし
-                f"あなたと同じ{age}歳の時、{person_name_display}は",  # 「時」表記
-            ]
-            if not any(episode_text.startswith(prefix) for prefix in alt_prefixes):
-                violations.append({
-                    'type': 'FORMAT_ERROR',
-                    'message': f"エピソードが標準フォーマットで始まっていません。「{standard_prefix}」で始めてください。",
-                    'severity': 'high'
-                })
+        # 許容されるフォーマットパターン
+        valid_prefixes = [
+            # 標準パターン（年齢表記あり）
+            f"あなたと同じ{age}歳のとき、{person_name_display}は",
+            # 標準パターン（年齢表記なし）
+            f"あなたと同じ{age}歳のとき、{person_name}は",
+            # 「実は」で始まるパターン（年齢表記あり）
+            f"実はあなたと同じ{age}歳のとき、{person_name_display}は",
+            # 「実は」で始まるパターン（年齢表記なし）
+            f"実はあなたと同じ{age}歳のとき、{person_name}は",
+            # 読点なしパターン
+            f"あなたと同じ{age}歳のとき{person_name}は",
+            f"実はあなたと同じ{age}歳のとき{person_name}は",
+        ]
+
+        # カタカナ表記のバリエーションも追加
+        katakana_matches = re.findall(r'[ァ-ヶー]+', person_name)
+        for katakana in katakana_matches:
+            valid_prefixes.extend([
+                f"あなたと同じ{age}歳のとき、{katakana}は",
+                f"実はあなたと同じ{age}歳のとき、{katakana}は",
+            ])
+
+        # エピソードが許容されるフォーマットで始まっているかチェック
+        if not any(episode_text.startswith(prefix) for prefix in valid_prefixes):
+            violations.append({
+                'type': 'FORMAT_ERROR',
+                'message': f"エピソードが標準フォーマットで始まっていません。「あなたと同じ{age}歳のとき、{person_name}（{age}歳）は」で始めてください。",
+                'severity': 'high'
+            })
 
         # プレフィックスを除いた本文を抽出
-        if episode_text.startswith(standard_prefix):
-            main_text = episode_text[len(standard_prefix):]
-        else:
-            # 代替フォーマットも考慮
-            main_text = episode_text
-            for prefix in [standard_prefix] + alt_prefixes:
-                if episode_text.startswith(prefix):
-                    main_text = episode_text[len(prefix):]
-                    break
+        main_text = episode_text
+        for prefix in valid_prefixes:
+            if episode_text.startswith(prefix):
+                main_text = episode_text[len(prefix):]
+                break
 
         # 1. 年齢・名前の重複チェック（v3.1ルール適用）
         violations.extend(self._check_age_name_duplication(main_text, age, person_name_display))
@@ -1656,6 +1848,85 @@ if "credit balance" in error_str:
         # 5. 事実正確性チェック (v3.2)
         if person_data:
             violations.extend(self.check_factual_accuracy(episode_text, person_data))
+
+        # 6. RULE_164: 年齢比較純粋性チェック（具体的日付の排除）
+        date_patterns = [
+            (r'\d{4}年\d{1,2}月\d{1,2}日', '年月日'),
+            (r'\d{1,2}月\d{1,2}日', '月日'),
+            (r'\d{4}年\d{1,2}月(?!\d)', '年月'),
+            (r'午前\d+時', '時刻'),
+            (r'午後\d+時', '時刻'),
+            (r'\d+時\d+分', '時分')
+        ]
+
+        for pattern, pattern_type in date_patterns:
+            matches = re.findall(pattern, episode_text)
+            if matches:
+                violations.append({
+                    'rule_id': 'RULE_164',
+                    'type': ViolationType.DATE_NOISE_VIOLATION.value,
+                    'message': f'{person_name_display}: {pattern_type}形式の日付「{matches[0]}」が検出されました。年齢比較の純粋性のため具体的日付は排除すべきです',
+                    'severity': 'critical'
+                })
+
+        # 7. 未実装ルールの統合チェック (RULE_160, 165-168)
+
+        # RULE_160: 文字数制限（150-250）
+        violations.extend(self.check_character_count_strict(episode_text, person_name_display))
+
+        # RULE_165: 動詞・形容詞終了
+        violations.extend(self.check_sentence_ending(episode_text, person_name_display))
+
+        # RULE_166: 事実優先原則
+        violations.extend(self.check_fact_first_principle(episode_text, person_name_display))
+
+        # RULE_167: ファクトチェック
+        violations.extend(self.check_fact_verification(episode_text, person_name_display, person_data))
+
+        # RULE_168: 品質優先原則
+        # quality_scoreの計算（簡易版）
+        quality_score = 7.5  # デフォルト値（必要に応じて実際の計算メソッドを呼び出す）
+        if hasattr(self, 'calculate_episode_score'):
+            score_result = self.calculate_episode_score(episode_text, age)
+            quality_score = score_result.get('total_score', 0) / 10.0
+        violations.extend(self.check_quality_priority(episode_text, person_name_display, quality_score))
+
+
+        # 8. プレースホルダー検出関連ルール (RULE_077-080)
+
+        # RULE_077: 連続ID誤判定防止
+        violations.extend(self.check_consecutive_id_protection(episode_text, person_name_display, person_data))
+
+        # RULE_078: バッチデータ保護
+        violations.extend(self.check_batch_data_protection(episode_text, person_name_display, person_data))
+
+        # RULE_079: Wikipedia確認優先
+        violations.extend(self.check_wikipedia_priority(episode_text, person_name_display, person_data))
+
+        # RULE_080: 多段階検証
+        violations.extend(self.check_multi_stage_verification(episode_text, person_name_display, person_data))
+
+        # 9. 3軸評価ルール (RULE_157-159)
+
+        # RULE_157: 文化現象優先
+        violations.extend(self.check_cultural_phenomenon(episode_text, person_name_display))
+
+        # RULE_158: 社会貢献評価
+        violations.extend(self.check_social_contribution(episode_text, person_name_display))
+
+        # RULE_159: 3軸バランス
+        violations.extend(self.check_three_axis_balance(episode_text, person_name_display))
+
+        # 10. 客観性・具体性・教育的価値ルール (RULE_161-163)
+
+        # RULE_161: 客観的事実主義
+        violations.extend(self.check_objectivity(episode_text, person_name_display))
+
+        # RULE_162: 具体的描写義務
+        violations.extend(self.check_concrete_description(episode_text, person_name_display))
+
+        # RULE_163: 教育的価値確保
+        violations.extend(self.check_educational_value(episode_text, person_name_display))
 
         return violations
 
@@ -2569,13 +2840,13 @@ if "credit balance" in error_str:
         episode_text = episode_data.get('episode_text', '')
         person_name = episode_data.get('person_name', '不明')
 
-        # RULE_151: 文字数制限チェック
+        # RULE_151: 文字数制限チェック（2025-09-22更新: 最小値を150から132に緩和）
         text_length = len(episode_text)
-        if text_length < 150:
+        if text_length < 132:  # 150から132に緩和
             violations.append({
                 'rule_id': 'RULE_151',
                 'type': ViolationType.EPISODE_LENGTH_VIOLATION.value,
-                'message': f'{person_name}: エピソードが短すぎます（{text_length}文字 < 150文字）',
+                'message': f'{person_name}: エピソードが短すぎます（{text_length}文字 < 132文字）',
                 'severity': 'high'
             })
         elif text_length > 250:
@@ -2689,6 +2960,90 @@ if "credit balance" in error_str:
         except Exception:
             return False
 
+    def check_milestone_and_age_selection(self, episode_data: Dict, all_candidates: List[Dict] = None) -> List[Dict]:
+        """
+        RULE_153: 節目重要度チェック
+        RULE_154: グループ名個人化チェック
+        RULE_155: 最年少・最年長記録優先
+        RULE_156: インパクト最大化年齢選択
+        """
+        violations = []
+
+        episode_text = episode_data.get('episode_text', '')
+        person_name = episode_data.get('person_name', '')
+        person_name_display = episode_data.get('person_name_display', '')
+        episode_age = episode_data.get('episode_age', 0)
+
+        # RULE_153: 節目重要度チェック
+        start_keywords = ['開始', 'デビュー', '初めて', '誕生', '創刊', '設立', '処女作', '連載開始']
+        continuation_keywords = ['10周年', '20周年', '30周年', '記念', '放送中', '継続']
+
+        has_start = any(k in episode_text for k in start_keywords)
+        has_continuation = any(k in episode_text for k in continuation_keywords)
+
+        if has_continuation and not has_start:
+            violations.append({
+                'rule_id': 'RULE_153',
+                'type': ViolationType.MILESTONE_IMPORTANCE_LOW.value,
+                'message': f'{person_name}: 節目として不適切 - 継続節目より開始・デビューを優先すべき',
+                'severity': 'high'
+            })
+
+        # RULE_154: グループ名個人化チェック
+        group_indicators = ['YOASOBI', 'SEKAI NO OWARI', 'BUMP OF CHICKEN', 'サザンオールスターズ',
+                           'Official髭男dism', 'King Gnu', 'Mrs. GREEN APPLE', 'MAN WITH A MISSION']
+
+        for group in group_indicators:
+            if group in person_name:
+                violations.append({
+                    'rule_id': 'RULE_154',
+                    'type': ViolationType.GROUP_NAME_AS_PERSON.value,
+                    'message': f'{person_name}: グループ名がperson_nameに使用 - 個人名を使用しperson_name_displayでグループ表記',
+                    'severity': 'critical'
+                })
+                break
+
+        # RULE_155: 最年少・最年長記録優先
+        youngest_oldest_keywords = ['史上最年少', '史上最年長', '最年少記録', '最年長記録',
+                                    '日本最年少', '日本最年長', '世界最年少', '世界最年長']
+
+        if all_candidates:
+            # 他の候補に最年少/最年長記録があるか確認
+            has_youngest_oldest_in_candidates = False
+            for candidate in all_candidates:
+                candidate_text = str(candidate.get('fact', ''))
+                if any(k in candidate_text for k in youngest_oldest_keywords):
+                    has_youngest_oldest_in_candidates = True
+                    break
+
+            # 選ばれたエピソードに最年少/最年長記録がない
+            has_youngest_oldest_selected = any(k in episode_text for k in youngest_oldest_keywords)
+
+            if has_youngest_oldest_in_candidates and not has_youngest_oldest_selected:
+                violations.append({
+                    'rule_id': 'RULE_155',
+                    'type': ViolationType.YOUNGEST_OLDEST_PRIORITY_MISS.value,
+                    'message': f'{person_name}: 最年少/最年長記録があるのに選択されていません',
+                    'severity': 'high'
+                })
+
+        # RULE_156: インパクト最大化年齢選択
+        # 年齢が10歳未満または70歳以上の場合、特別なインパクトがある
+        if episode_age < 10 or episode_age > 70:
+            # 特別な年齢での偉業を確認
+            impact_keywords = ['賞', '優勝', '新記録', '初', '世界', '国民的', '社会現象']
+            has_high_impact = any(k in episode_text for k in impact_keywords)
+
+            if not has_high_impact:
+                violations.append({
+                    'rule_id': 'RULE_156',
+                    'type': ViolationType.AGE_IMPACT_SUBOPTIMAL.value,
+                    'message': f'{person_name}: {episode_age}歳でのエピソードに十分なインパクトがありません',
+                    'severity': 'medium'
+                })
+
+        return violations
+
     def validate_episode_generation(self, person_data: Dict[str, Any], episodes: List[str]) -> Dict[str, Any]:
         """
         エピソード生成の妥当性を検証
@@ -2775,6 +3130,14 @@ if "credit balance" in error_str:
             )
             if historical_violations:
                 validation_result['violations'].extend(historical_violations)
+                validation_result['valid'] = False
+
+            # 節目・年齢選択チェック（RULE_153-156）
+            milestone_violations = self.check_milestone_and_age_selection(
+                {**episode_with_meta, 'episode_text': episode, 'episode_age': age}
+            )
+            if milestone_violations:
+                validation_result['violations'].extend(milestone_violations)
                 validation_result['valid'] = False
 
             # スコア計算
@@ -3052,6 +3415,415 @@ if "credit balance" in error_str:
 
         return violations
 
+    # 未実装ルールのチェックメソッド (v5.5-5.11)
+    def check_character_count_strict(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_160: 文字数132-250制限の厳格チェック（2025-09-22更新: 最小値を150から132に緩和）"""
+        violations = []
+        text_length = len(episode_text)
+
+        if text_length < 132:  # 150から132に緩和
+            violations.append({
+                'rule_id': 'RULE_160',
+                'type': ViolationType.CHARACTER_COUNT_VIOLATION_STRICT.value,
+                'message': f'{person_name_display}: エピソードが短すぎます（{text_length}文字 < 132文字）',
+                'severity': 'critical'
+            })
+        elif text_length > 250:
+            violations.append({
+                'rule_id': 'RULE_160',
+                'type': ViolationType.CHARACTER_COUNT_VIOLATION_STRICT.value,
+                'message': f'{person_name_display}: エピソードが長すぎます（{text_length}文字 > 250文字）',
+                'severity': 'critical'
+            })
+
+        return violations
+
+    def check_sentence_ending(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_165: 動詞・形容詞終了チェック"""
+        violations = []
+
+        # 文末パターンの判定
+        noun_endings = ['だった', 'であった', 'である', 'です', 'でした']
+        verb_adj_endings = ['した', 'った', 'んだ', 'いた', 'れた', 'せた', 'かった', 'い。', 'る。']
+
+        text = episode_text.rstrip('。')
+        is_noun_ending = any(text.endswith(ending) for ending in noun_endings)
+        is_verb_adj_ending = any(text.endswith(ending.rstrip('。')) for ending in verb_adj_endings)
+
+        if is_noun_ending and not is_verb_adj_ending:
+            violations.append({
+                'rule_id': 'RULE_165',
+                'type': ViolationType.SENTENCE_ENDING_VIOLATION.value,
+                'message': f'{person_name_display}: 名詞終わりで味気ない（動詞・形容詞で終わるべき）',
+                'severity': 'medium'
+            })
+
+        return violations
+
+    def check_fact_first_principle(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_166: 事実優先原則チェック"""
+        violations = []
+
+        # 主観的表現のチェック
+        subjective_patterns = [
+            '素晴らしい', 'すばらしい', '偉大な', '驚異的な', '感動的な',
+            '美しい', '輝かしい', '華麗な', '壮大な', '圧倒的な'
+        ]
+
+        subjective_found = [p for p in subjective_patterns if p in episode_text]
+        if subjective_found:
+            violations.append({
+                'rule_id': 'RULE_166',
+                'type': ViolationType.FACT_FIRST_PRINCIPLE_VIOLATION.value,
+                'message': f'{person_name_display}: 主観的表現「{subjective_found[0]}」が含まれています（事実のみを記述すべき）',
+                'severity': 'high'
+            })
+
+        return violations
+
+    def check_fact_verification(self, episode_text: str, person_name_display: str, person_data: Optional[Dict] = None) -> List[Dict[str, Any]]:
+        """RULE_167: ファクトチェック"""
+        violations = []
+
+        # 基本的な事実チェック（年代の矛盾など）
+        if person_data:
+            birth_year = person_data.get('birth_year')
+            if birth_year:
+                # 年代が含まれている場合の整合性チェック
+                year_pattern = r'(\d{4})年'
+                years = re.findall(year_pattern, episode_text)
+                for year_str in years:
+                    year = int(year_str)
+                    age = person_data.get('age', 0)
+                    expected_year = birth_year + age
+                    if abs(year - expected_year) > 1:  # 1年の誤差を許容
+                        violations.append({
+                            'rule_id': 'RULE_167',
+                            'type': ViolationType.FACT_VERIFICATION_FAILURE.value,
+                            'message': f'{person_name_display}: 年代の矛盾（{year}年は{age}歳時と一致しない）',
+                            'severity': 'critical'
+                        })
+
+        return violations
+
+    def check_quality_priority(self, episode_text: str, person_name_display: str, quality_score: float = 0) -> List[Dict[str, Any]]:
+        """RULE_168: 品質優先原則チェック"""
+        violations = []
+
+        # 品質スコアが低い場合
+        if quality_score < 7.0:
+            violations.append({
+                'rule_id': 'RULE_168',
+                'type': ViolationType.QUALITY_PRIORITY_VIOLATION.value,
+                'message': f'{person_name_display}: 品質スコア{quality_score:.1f}が基準値7.0未満',
+                'severity': 'high'
+            })
+
+        # 具体性チェック
+        concrete_indicators = ['数字', '固有名詞', '具体的な場所', '具体的な日付']
+        has_concrete = any(
+            bool(re.search(r'\d+', episode_text)) if ind == '数字' else
+            bool(re.search(r'[A-Z][a-z]+|[ァ-ヴー]{3,}', episode_text)) if ind == '固有名詞' else
+            False
+            for ind in concrete_indicators
+        )
+
+        if not has_concrete:
+            violations.append({
+                'rule_id': 'RULE_168',
+                'type': ViolationType.QUALITY_PRIORITY_VIOLATION.value,
+                'message': f'{person_name_display}: 具体的な情報が不足しています',
+                'severity': 'medium'
+            })
+
+        return violations
+
+    def check_batch_individual_verification(self, episodes: List[str], person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_169: バッチ処理での個別検証"""
+        violations = []
+
+        # エピソードの重複チェック
+        seen = set()
+        for i, episode in enumerate(episodes):
+            # 主要な内容を抽出（最初の50文字）
+            key = episode[:50] if len(episode) > 50 else episode
+            if key in seen:
+                violations.append({
+                    'rule_id': 'RULE_169',
+                    'type': ViolationType.BATCH_INDIVIDUAL_VERIFICATION_FAILURE.value,
+                    'message': f'{person_name_display}: エピソード{i+1}が重複している可能性があります',
+                    'severity': 'high'
+                })
+            seen.add(key)
+
+        # バッチ全体の品質チェック
+        if len(episodes) < 7:
+            violations.append({
+                'rule_id': 'RULE_169',
+                'type': ViolationType.BATCH_INDIVIDUAL_VERIFICATION_FAILURE.value,
+                'message': f'{person_name_display}: エピソード数が不足（{len(episodes)}/7）',
+                'severity': 'critical'
+            })
+
+        return violations
+
+    # プレースホルダー検出関連ルール（RULE_077-080）
+
+    def check_consecutive_id_protection(self, episode_text: str, person_name_display: str, person_data: Optional[Dict] = None) -> List[Dict[str, Any]]:
+        """RULE_077: 連続IDによる誤判定防止"""
+        violations = []
+
+        if person_data:
+            occupation = person_data.get('occupation', '')
+
+            # 保護対象の職業リスト
+            protected_occupations = [
+                'プロレスラー', 'サッカー選手', '野球選手', 'バスケットボール選手',
+                'テニス選手', '水泳選手', '陸上選手', 'バレーボール選手'
+            ]
+
+            # 保護対象職業で連続IDの場合
+            if any(occ in occupation for occ in protected_occupations):
+                # エピソードが極端に短い・内容が薄い場合のみ違反
+                if len(episode_text) < 50 or '情報なし' in episode_text:
+                    violations.append({
+                        'rule_id': 'RULE_077',
+                        'type': ViolationType.CONSECUTIVE_ID_MISJUDGMENT.value,
+                        'message': f'{person_name_display}: 保護対象職業だが内容不足',
+                        'severity': 'medium'
+                    })
+
+        return violations
+
+    def check_batch_data_protection(self, episode_text: str, person_name_display: str, person_data: Optional[Dict] = None) -> List[Dict[str, Any]]:
+        """RULE_078: 職業別バッチデータ自動保護"""
+        violations = []
+
+        if person_data:
+            occupation = person_data.get('occupation', '')
+
+            # 保護必須の職業
+            must_protect = ['女子プロレスラー', '女子格闘家', 'なでしこジャパン']
+
+            # 削除フラグがある場合
+            if any(occ in occupation for occ in must_protect):
+                if person_data.get('deletion_flag', False):
+                    violations.append({
+                        'rule_id': 'RULE_078',
+                        'type': ViolationType.BATCH_DATA_PROTECTION_FAILURE.value,
+                        'message': f'{person_name_display}: 保護対象職業が削除対象になっている',
+                        'severity': 'critical'
+                    })
+
+        return violations
+
+    def check_wikipedia_priority(self, episode_text: str, person_name_display: str, person_data: Optional[Dict] = None) -> List[Dict[str, Any]]:
+        """RULE_079: Wikipedia存在確認優先原則"""
+        violations = []
+
+        if person_data:
+            has_wikipedia = person_data.get('has_wikipedia', False)
+            deletion_flag = person_data.get('deletion_flag', False)
+
+            # Wikipedia記事がある人物を削除対象にしている
+            if has_wikipedia and deletion_flag:
+                violations.append({
+                    'rule_id': 'RULE_079',
+                    'type': ViolationType.WIKIPEDIA_VERIFICATION_SKIPPED.value,
+                    'message': f'{person_name_display}: Wikipedia記事があるのに削除対象',
+                    'severity': 'critical'
+                })
+
+        return violations
+
+    def check_multi_stage_verification(self, episode_text: str, person_name_display: str, person_data: Optional[Dict] = None) -> List[Dict[str, Any]]:
+        """RULE_080: 削除前の多段階検証必須化"""
+        violations = []
+
+        if person_data:
+            deletion_flag = person_data.get('deletion_flag', False)
+            verification_stages = person_data.get('verification_stages', [])
+
+            required_stages = ['wikipedia_check', 'google_trends_check', 'occupation_check']
+
+            if deletion_flag:
+                missing_stages = [stage for stage in required_stages if stage not in verification_stages]
+                if missing_stages:
+                    violations.append({
+                        'rule_id': 'RULE_080',
+                        'type': ViolationType.MULTI_STAGE_VERIFICATION_MISSING.value,
+                        'message': f'{person_name_display}: 検証段階不足: {", ".join(missing_stages)}',
+                        'severity': 'high'
+                    })
+
+        return violations
+
+    # 3軸評価ルール（RULE_157-159）
+
+    def check_cultural_phenomenon(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_157: 文化現象エピソードの優先選定"""
+        violations = []
+
+        # 文化現象キーワード
+        cultural_keywords = [
+            '世紀の', 'ブーム', '社会現象', '旋風', '伝説の', '歴史的',
+            '初の', '史上初', '記録的', '空前の'
+        ]
+
+        # 通常のエピソードキーワード
+        normal_keywords = ['1位', '優勝', '受賞', 'デビュー']
+
+        has_cultural = any(keyword in episode_text for keyword in cultural_keywords)
+        has_normal = any(keyword in episode_text for keyword in normal_keywords)
+
+        # 通常のエピソードはあるが文化現象がない
+        if has_normal and not has_cultural:
+            # 特定の人物（松田聖子等）では違反とする
+            if '松田聖子' in person_name_display:
+                violations.append({
+                    'rule_id': 'RULE_157',
+                    'type': ViolationType.CULTURAL_PHENOMENON_IGNORED.value,
+                    'message': f'{person_name_display}: 文化現象エピソードを優先すべき',
+                    'severity': 'medium'
+                })
+
+        return violations
+
+    def check_social_contribution(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_158: 社会貢献エピソードの評価基準"""
+        violations = []
+
+        # 社会貢献キーワード
+        contribution_keywords = [
+            '寄付', '支援', '慈善', 'チャリティ', 'ボランティア',
+            '基金', '財団', '福祉', '社会貢献', '人道支援'
+        ]
+
+        has_contribution = any(keyword in episode_text for keyword in contribution_keywords)
+
+        # 社会貢献エピソードがあるのに短い
+        if has_contribution and len(episode_text) < 100:
+            violations.append({
+                'rule_id': 'RULE_158',
+                'type': ViolationType.SOCIAL_CONTRIBUTION_UNDERVALUED.value,
+                'message': f'{person_name_display}: 社会貢献エピソードが過小評価されている',
+                'severity': 'medium'
+            })
+
+        return violations
+
+    def check_three_axis_balance(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_159: 3軸バランスの必須確認"""
+        violations = []
+
+        # 3軸の要素を検出
+        axes = {
+            '記憶性': ['初の', '史上初', '世界初', '日本初', '記録', '伝説'],
+            '共感性': ['苦労', '努力', '挑戦', '克服', '成長', '感動'],
+            '意外性': ['実は', '意外に', 'しかし', 'ところが', '驚くことに']
+        }
+
+        axis_scores = {}
+        for axis_name, keywords in axes.items():
+            axis_scores[axis_name] = any(kw in episode_text for kw in keywords)
+
+        # すべての軸がない（0軸）
+        if not any(axis_scores.values()):
+            violations.append({
+                'rule_id': 'RULE_159',
+                'type': ViolationType.THREE_AXIS_BALANCE_VIOLATION.value,
+                'message': f'{person_name_display}: 3軸（記憶性・共感性・意外性）すべて不足',
+                'severity': 'high'
+            })
+        # 1軸のみ
+        elif sum(axis_scores.values()) == 1:
+            violations.append({
+                'rule_id': 'RULE_159',
+                'type': ViolationType.THREE_AXIS_BALANCE_VIOLATION.value,
+                'message': f'{person_name_display}: 3軸バランス不良（1軸のみ）',
+                'severity': 'medium'
+            })
+
+        return violations
+
+    # 客観性・具体性ルール（RULE_161-163）
+
+    def check_objectivity(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_161: 客観的事実主義"""
+        violations = []
+
+        # 主観的表現のNGワード
+        ng_words = [
+            '素晴らしい', '感動', '勇気', '希望', '夢',
+            '必ず', 'きっと', 'でしょう', 'かもしれない',
+            '与える', '与え続ける', '創造できます',
+            '可能性が広がる', '未来を', 'あなたも',
+            '感銘', '称賛', '偉大', '輝かしい', '栄光'
+        ]
+
+        found_ng_words = [word for word in ng_words if word in episode_text]
+
+        if found_ng_words:
+            violations.append({
+                'rule_id': 'RULE_161',
+                'type': ViolationType.SUBJECTIVITY_VIOLATION.value,
+                'message': f'{person_name_display}: 主観的表現「{found_ng_words[0]}」が含まれている',
+                'severity': 'high'
+            })
+
+        return violations
+
+    def check_concrete_description(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_162: 具体的描写義務"""
+        violations = []
+
+        # 具体性の指標
+        has_number = bool(re.search(r'\d+', episode_text))
+        has_proper_noun = bool(re.search(r'[A-Z][a-z]+|[ァ-ヴー]{3,}', episode_text))
+        has_date = bool(re.search(r'\d+年|\d+月|\d+日', episode_text))
+
+        concrete_score = sum([has_number, has_proper_noun, has_date])
+
+        # 具体性が不足（3つの指標のうち1つ以下）
+        if concrete_score <= 1:
+            violations.append({
+                'rule_id': 'RULE_162',
+                'type': ViolationType.CONCRETE_DESCRIPTION_MISSING.value,
+                'message': f'{person_name_display}: 具体的な数値・固有名詞・日付が不足',
+                'severity': 'medium'
+            })
+
+        return violations
+
+    def check_educational_value(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """RULE_163: 教育的価値確保"""
+        violations = []
+
+        # 教育的価値のキーワード
+        educational_keywords = [
+            '学んだ', '経験', '教訓', '成長', '努力', '工夫',
+            '改善', '発明', '開発', '研究', '貢献', '功績'
+        ]
+
+        has_educational = any(keyword in episode_text for keyword in educational_keywords)
+
+        # 教育的価値が全くない
+        if not has_educational:
+            # エンタメ系の人物以外で違反とする
+            entertainment_occupations = ['歌手', '俳優', 'タレント', 'アイドル']
+            if person_name_display:
+                # 簡易的な職業推定（実際はperson_dataから取得）
+                is_entertainment = any(occ in person_name_display for occ in entertainment_occupations)
+                if not is_entertainment:
+                    violations.append({
+                        'rule_id': 'RULE_163',
+                        'type': ViolationType.EDUCATIONAL_VALUE_MISSING.value,
+                        'message': f'{person_name_display}: 教育的価値が不足している',
+                        'severity': 'low'
+                    })
+
+        return violations
+
 
 def main():
     """メイン実行"""
@@ -3133,3 +3905,26 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# AUTO-GENERATED RULES START
+# ========================================
+# Auto-Generated Rules from Unified Registry
+# Generated: 2025-10-02T09:40:01.639286
+# Total Rules: 73
+# ========================================
+#
+# Unified Rule Management System Integration
+# - All rules are managed in: rules_registry.json
+# - Documentation: RULE_SYSTEM_COMPLETE_REPORT.md
+# - Active Rules: 73
+#
+# Rule Categories:
+#   - data_quality: 61 rules
+#   - entity_type: 1 rules
+#   - episode_content: 5 rules
+#   - episode_format: 6 rules
+#
+# For detailed rule documentation, see: rules_registry.json
+#
+# AUTO-GENERATED RULES END

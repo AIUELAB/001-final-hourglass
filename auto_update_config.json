@@ -101,8 +101,8 @@
   },
   
   "file_patterns": {
-    "csv_pattern": "ultra_think_*.csv",
-    "backup_pattern": "backup_ultra_think_*.csv",
+    "csv_pattern": "trusted_episodes_latest.csv",
+    "backup_pattern": "backup_trusted_episodes_*.csv",
     "watch_directories": ["."],
     "ignore_patterns": ["*.tmp", "*.lock", "~*"]
   },

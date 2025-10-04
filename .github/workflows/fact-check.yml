@@ -1,0 +1,64 @@
+name: Fact Check Documentation
+
+on:
+  push:
+    paths:
+      - 'claudedocs/**/*.md'
+      - 'scripts/fact_checker.py'
+      - 'episode_database.db'
+  pull_request:
+    paths:
+      - 'claudedocs/**/*.md'
+      - 'scripts/fact_checker.py'
+      - 'episode_database.db'
+
+jobs:
+  fact-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run fact checker
+        id: fact_check
+        run: |
+          python3 scripts/fact_checker.py
+        continue-on-error: true
+
+      - name: Check for errors
+        if: steps.fact_check.outcome == 'failure'
+        run: |
+          echo "❌ ファクトチェックで誤記が検出されました"
+          echo ""
+          echo "修正方法:"
+          echo "  1. ローカルで実行: python3 scripts/fact_checker.py"
+          echo "  2. 自動修正: python3 scripts/fact_checker.py --fix"
+          echo "  3. 修正をコミット: git add . && git commit --amend"
+          echo ""
+          exit 1
+
+      - name: Success message
+        if: steps.fact_check.outcome == 'success'
+        run: |
+          echo "✅ ファクトチェック完了（誤記なし）"
+
+      - name: Upload fact check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fact-check-report
+          path: |
+            claudedocs/fact_check_report_*.md
+            database_stats_history.jsonl
+          retention-days: 30

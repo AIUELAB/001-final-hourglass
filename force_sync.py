@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Ultra Think データベース強制同期スクリプト
-最新のCSVファイルを検出してGoogle Sheetsに同期
+trusted_episodes_latest.csvファイルをGoogle Sheetsに同期
 """
 
 import os
@@ -40,26 +40,25 @@ def format_spreadsheet_name(csv_filename):
     return ' '.join(parts)
 
 def find_latest_ultra_think_csv():
-    """最新のultra_think_*.csvファイルを見つける"""
-    csv_files = glob.glob("ultra_think_*.csv")
-    if not csv_files:
+    """trusted_episodes_latest.csvファイルを確認"""
+    trusted_csv = "trusted_episodes_latest.csv"
+    if not os.path.exists(trusted_csv):
         return None
-    
-    # ファイル更新日時でソート
-    latest_file = max(csv_files, key=lambda f: os.path.getmtime(f))
-    return latest_file
+
+    # trusted_episodes_latest.csvのみを使用
+    return trusted_csv
 
 def update_config_with_latest_csv():
-    """設定ファイルを最新のCSVファイルで更新"""
+    """設定ファイルをtrusted_episodes_latest.csvで更新"""
     config_file = "sheets_config.json"
-    
-    # 最新のCSVファイルを取得
+
+    # trusted_episodes_latest.csvファイルを取得
     latest_csv = find_latest_ultra_think_csv()
     if not latest_csv:
-        print("❌ ultra_think_*.csvファイルが見つかりません")
+        print("❌ trusted_episodes_latest.csvファイルが見つかりません")
         return None
-    
-    print(f"📁 最新のCSVファイル: {latest_csv}")
+
+    print(f"📁 検証済みCSVファイル: {latest_csv}")
     
     # 設定を読み込み
     with open(config_file, 'r', encoding='utf-8') as f:
@@ -83,10 +82,10 @@ def update_config_with_latest_csv():
 def main():
     """メイン実行関数"""
     print("=" * 50)
-    print("🚀 Ultra Think データベース強制同期")
+    print("🚀 Ultra Think 検証済みデータベース強制同期")
     print("=" * 50)
-    
-    # 最新のCSVファイルで設定を更新
+
+    # trusted_episodes_latest.csvで設定を更新
     latest_csv = update_config_with_latest_csv()
     if not latest_csv:
         return False

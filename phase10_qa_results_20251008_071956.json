@@ -1,0 +1,5181 @@
+[
+  {
+    "person_id": "P012",
+    "person_name": "天野浩",
+    "age": 54,
+    "char_count": 231,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "天野浩",
+      "passed": false,
+      "detected": [
+        "画期的な",
+        "革新的な"
+      ]
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "天野浩",
+      "char_count": 231,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "天野浩",
+      "expected_age": 54,
+      "found_ages": [
+        "54",
+        "54"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "天野浩",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P013",
+    "person_name": "益川敏英",
+    "age": 68,
+    "char_count": 225,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "益川敏英",
+      "passed": false,
+      "detected": [
+        "革新的な"
+      ]
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "益川敏英",
+      "char_count": 225,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "益川敏英",
+      "expected_age": 68,
+      "found_ages": [
+        "68",
+        "68"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "益川敏英",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P015",
+    "person_name": "隈研吾",
+    "age": 66,
+    "char_count": 224,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "隈研吾",
+      "passed": false,
+      "detected": [
+        "革新的な"
+      ]
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "隈研吾",
+      "char_count": 224,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "隈研吾",
+      "expected_age": 66,
+      "found_ages": [
+        "66",
+        "66"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "隈研吾",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P016",
+    "person_name": "伊東豊雄",
+    "age": 71,
+    "char_count": 268,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "伊東豊雄",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "伊東豊雄",
+      "char_count": 268,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "伊東豊雄",
+      "expected_age": 71,
+      "found_ages": [
+        "71"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "伊東豊雄",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P017",
+    "person_name": "妹島和世",
+    "age": 54,
+    "char_count": 208,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "妹島和世",
+      "passed": false,
+      "detected": [
+        "革新的な"
+      ]
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "妹島和世",
+      "char_count": 208,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "妹島和世",
+      "expected_age": 54,
+      "found_ages": [
+        "54",
+        "54"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "妹島和世",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P018",
+    "person_name": "村上春樹",
+    "age": 70,
+    "char_count": 220,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "村上春樹",
+      "passed": false,
+      "detected": [
+        "革新的な"
+      ]
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "村上春樹",
+      "char_count": 220,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "村上春樹",
+      "expected_age": 70,
+      "found_ages": [
+        "70",
+        "70"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "村上春樹",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P019",
+    "person_name": "草間彌生",
+    "age": 93,
+    "char_count": 210,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "草間彌生",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "草間彌生",
+      "char_count": 210,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "草間彌生",
+      "expected_age": 93,
+      "found_ages": [
+        "93"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "草間彌生",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P020",
+    "person_name": "若田光一",
+    "age": 50,
+    "char_count": 248,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "若田光一",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "若田光一",
+      "char_count": 248,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "若田光一",
+      "expected_age": 50,
+      "found_ages": [
+        "50"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "若田光一",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P021",
+    "person_name": "赤﨑勇",
+    "age": 85,
+    "char_count": 235,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "赤﨑勇",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "赤﨑勇",
+      "char_count": 235,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "赤﨑勇",
+      "expected_age": 85,
+      "found_ages": [
+        "85"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "赤﨑勇",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P022",
+    "person_name": "利根川進",
+    "age": 48,
+    "char_count": 268,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "利根川進",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "利根川進",
+      "char_count": 268,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "利根川進",
+      "expected_age": 48,
+      "found_ages": [
+        "48"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "利根川進",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P023",
+    "person_name": "田中耕一",
+    "age": 43,
+    "char_count": 231,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "田中耕一",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "田中耕一",
+      "char_count": 231,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "田中耕一",
+      "expected_age": 43,
+      "found_ages": [
+        "43"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "田中耕一",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P027",
+    "person_name": "中村修二",
+    "age": 60,
+    "char_count": 212,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "中村修二",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "中村修二",
+      "char_count": 212,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "中村修二",
+      "expected_age": 60,
+      "found_ages": [
+        "60"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "中村修二",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P028",
+    "person_name": "古川聡",
+    "age": 47,
+    "char_count": 239,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "古川聡",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "古川聡",
+      "char_count": 239,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "古川聡",
+      "expected_age": 47,
+      "found_ages": [
+        "47"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "古川聡",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P029",
+    "person_name": "山海嘉之",
+    "age": 56,
+    "char_count": 218,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "山海嘉之",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "山海嘉之",
+      "char_count": 218,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "山海嘉之",
+      "expected_age": 56,
+      "found_ages": [
+        "56"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "山海嘉之",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P030",
+    "person_name": "栗山英樹",
+    "age": 62,
+    "char_count": 250,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "栗山英樹",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "栗山英樹",
+      "char_count": 250,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "栗山英樹",
+      "expected_age": 62,
+      "found_ages": [
+        "62"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "栗山英樹",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P031",
+    "person_name": "黒澤明",
+    "age": 41,
+    "char_count": 251,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "黒澤明",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "黒澤明",
+      "char_count": 251,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "黒澤明",
+      "expected_age": 41,
+      "found_ages": [
+        "41"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "黒澤明",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P032",
+    "person_name": "三島由紀夫",
+    "age": 44,
+    "char_count": 236,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "三島由紀夫",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "三島由紀夫",
+      "char_count": 236,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "三島由紀夫",
+      "expected_age": 44,
+      "found_ages": [
+        "44"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "三島由紀夫",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P035",
+    "person_name": "孫正義",
+    "age": 44,
+    "char_count": 240,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "孫正義",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "孫正義",
+      "char_count": 240,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "孫正義",
+      "expected_age": 44,
+      "found_ages": [
+        "44"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "孫正義",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P036",
+    "person_name": "永守重信",
+    "age": 45,
+    "char_count": 227,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "永守重信",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "永守重信",
+      "char_count": 227,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "永守重信",
+      "expected_age": 45,
+      "found_ages": [
+        "45"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "永守重信",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P038",
+    "person_name": "西川伸一",
+    "age": 60,
+    "char_count": 212,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "西川伸一",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "西川伸一",
+      "char_count": 212,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "西川伸一",
+      "expected_age": 60,
+      "found_ages": [
+        "60"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "西川伸一",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P039",
+    "person_name": "審良静男",
+    "age": 57,
+    "char_count": 223,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "審良静男",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "審良静男",
+      "char_count": 223,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "審良静男",
+      "expected_age": 57,
+      "found_ages": [
+        "57"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "審良静男",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P040",
+    "person_name": "緒方貞子",
+    "age": 63,
+    "char_count": 242,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "緒方貞子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "緒方貞子",
+      "char_count": 242,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "緒方貞子",
+      "expected_age": 63,
+      "found_ages": [
+        "63"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "緒方貞子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P041",
+    "person_name": "明石康",
+    "age": 61,
+    "char_count": 219,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "明石康",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "明石康",
+      "char_count": 219,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "明石康",
+      "expected_age": 61,
+      "found_ages": [
+        "61"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "明石康",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P042",
+    "person_name": "久石譲",
+    "age": 47,
+    "char_count": 232,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "久石譲",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "久石譲",
+      "char_count": 232,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "久石譲",
+      "expected_age": 47,
+      "found_ages": [
+        "47"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "久石譲",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P043",
+    "person_name": "玉置浩二",
+    "age": 56,
+    "char_count": 266,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "玉置浩二",
+      "passed": false,
+      "detected": [
+        "伝説的な"
+      ]
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "玉置浩二",
+      "char_count": 266,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "玉置浩二",
+      "expected_age": 56,
+      "found_ages": [
+        "56"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "玉置浩二",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P064",
+    "person_name": "Ado",
+    "age": 21,
+    "char_count": 248,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "Ado",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "Ado",
+      "char_count": 248,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "Ado",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "Ado",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P065",
+    "person_name": "HIKAKIN",
+    "age": 30,
+    "char_count": 209,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "HIKAKIN",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "HIKAKIN",
+      "char_count": 209,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "HIKAKIN",
+      "expected_age": 30,
+      "found_ages": [
+        "30"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "HIKAKIN",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P066",
+    "person_name": "YOSHIKI",
+    "age": 23,
+    "char_count": 197,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "YOSHIKI",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "YOSHIKI",
+      "char_count": 197,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "YOSHIKI",
+      "expected_age": 23,
+      "found_ages": [
+        "23"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "YOSHIKI",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P067",
+    "person_name": "あいみょん",
+    "age": 23,
+    "char_count": 184,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "あいみょん",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "あいみょん",
+      "char_count": 184,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "あいみょん",
+      "expected_age": 23,
+      "found_ages": [
+        "23",
+        "20"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 20歳（正: 23歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "あいみょん",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P068",
+    "person_name": "さくらももこ",
+    "age": 21,
+    "char_count": 195,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "さくらももこ",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "さくらももこ",
+      "char_count": 195,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "さくらももこ",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "さくらももこ",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P070",
+    "person_name": "イチロー",
+    "age": 45,
+    "char_count": 240,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "イチロー",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "イチロー",
+      "char_count": 240,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "イチロー",
+      "expected_age": 45,
+      "found_ages": [
+        "45"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "イチロー",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P071",
+    "person_name": "イモトアヤコ",
+    "age": 21,
+    "char_count": 193,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "イモトアヤコ",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "イモトアヤコ",
+      "char_count": 193,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "イモトアヤコ",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "イモトアヤコ",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P073",
+    "person_name": "羽生結弦",
+    "age": 19,
+    "char_count": 184,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "羽生結弦",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "羽生結弦",
+      "char_count": 184,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "羽生結弦",
+      "expected_age": 19,
+      "found_ages": [
+        "19",
+        "19"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "羽生結弦",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P075",
+    "person_name": "スティーブ・ジョブズ",
+    "age": 52,
+    "char_count": 192,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "スティーブ・ジョブズ",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "スティーブ・ジョブズ",
+      "char_count": 192,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "スティーブ・ジョブズ",
+      "expected_age": 52,
+      "found_ages": [
+        "52"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "スティーブ・ジョブズ",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P076",
+    "person_name": "ビル・ゲイツ",
+    "age": 40,
+    "char_count": 185,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "ビル・ゲイツ",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "ビル・ゲイツ",
+      "char_count": 185,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "ビル・ゲイツ",
+      "expected_age": 40,
+      "found_ages": [
+        "40"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "ビル・ゲイツ",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P077",
+    "person_name": "ヘレン・ケラー",
+    "age": 7,
+    "char_count": 190,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "ヘレン・ケラー",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "ヘレン・ケラー",
+      "char_count": 190,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "ヘレン・ケラー",
+      "expected_age": 7,
+      "found_ages": [
+        "7"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "ヘレン・ケラー",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P078",
+    "person_name": "マザー・テレサ",
+    "age": 40,
+    "char_count": 231,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "マザー・テレサ",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "マザー・テレサ",
+      "char_count": 231,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "マザー・テレサ",
+      "expected_age": 40,
+      "found_ages": [
+        "40"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "マザー・テレサ",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P079",
+    "person_name": "マリー・キュリー",
+    "age": 36,
+    "char_count": 250,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "マリー・キュリー",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "マリー・キュリー",
+      "char_count": 250,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "マリー・キュリー",
+      "expected_age": 36,
+      "found_ages": [
+        "36"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "マリー・キュリー",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P080",
+    "person_name": "マーティン・ルーサー・キング・ジュニア",
+    "age": 34,
+    "char_count": 221,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "マーティン・ルーサー・キング・ジュニア",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "マーティン・ルーサー・キング・ジュニア",
+      "char_count": 221,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "マーティン・ルーサー・キング・ジュニア",
+      "expected_age": 34,
+      "found_ages": [
+        "34",
+        "35"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 35歳（正: 34歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "マーティン・ルーサー・キング・ジュニア",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P081",
+    "person_name": "三島由紀夫",
+    "age": 24,
+    "char_count": 230,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "三島由紀夫",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "三島由紀夫",
+      "char_count": 230,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "三島由紀夫",
+      "expected_age": 24,
+      "found_ages": [
+        "24",
+        "26"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 26歳（正: 24歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "三島由紀夫",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P082",
+    "person_name": "三木谷浩史",
+    "age": 32,
+    "char_count": 215,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "三木谷浩史",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "三木谷浩史",
+      "char_count": 215,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "三木谷浩史",
+      "expected_age": 32,
+      "found_ages": [],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "三木谷浩史",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P083",
+    "person_name": "上田桃子",
+    "age": 21,
+    "char_count": 205,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "上田桃子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "上田桃子",
+      "char_count": 205,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "上田桃子",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "上田桃子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P084",
+    "person_name": "久保建英",
+    "age": 20,
+    "char_count": 227,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "久保建英",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "久保建英",
+      "char_count": 227,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "久保建英",
+      "expected_age": 20,
+      "found_ages": [
+        "20",
+        "10",
+        "15"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 10歳（正: 20歳）",
+        "不一致: 15歳（正: 20歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "久保建英",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P085",
+    "person_name": "伊調馨",
+    "age": 20,
+    "char_count": 236,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "伊調馨",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "伊調馨",
+      "char_count": 236,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "伊調馨",
+      "expected_age": 20,
+      "found_ages": [
+        "20"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "伊調馨",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P086",
+    "person_name": "八村塁",
+    "age": 21,
+    "char_count": 200,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "八村塁",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "八村塁",
+      "char_count": 200,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "八村塁",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "八村塁",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P087",
+    "person_name": "内村航平",
+    "age": 27,
+    "char_count": 195,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "内村航平",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "内村航平",
+      "char_count": 195,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "内村航平",
+      "expected_age": 27,
+      "found_ages": [
+        "27"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "内村航平",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P088",
+    "person_name": "前澤友作",
+    "age": 29,
+    "char_count": 201,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "前澤友作",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "前澤友作",
+      "char_count": 201,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "前澤友作",
+      "expected_age": 29,
+      "found_ages": [
+        "29"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "前澤友作",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P089",
+    "person_name": "北島康介",
+    "age": 21,
+    "char_count": 230,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "北島康介",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "北島康介",
+      "char_count": 230,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "北島康介",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "北島康介",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P090",
+    "person_name": "北野武",
+    "age": 50,
+    "char_count": 210,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "北野武",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "北野武",
+      "char_count": 210,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "北野武",
+      "expected_age": 50,
+      "found_ages": [
+        "50"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "北野武",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P091",
+    "person_name": "又吉直樹",
+    "age": 35,
+    "char_count": 224,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "又吉直樹",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "又吉直樹",
+      "char_count": 224,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "又吉直樹",
+      "expected_age": 35,
+      "found_ages": [
+        "35"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "又吉直樹",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P092",
+    "person_name": "古賀稔彦",
+    "age": 24,
+    "char_count": 197,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "古賀稔彦",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "古賀稔彦",
+      "char_count": 197,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "古賀稔彦",
+      "expected_age": 24,
+      "found_ages": [
+        "24"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "古賀稔彦",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P093",
+    "person_name": "吉田沙保里",
+    "age": 30,
+    "char_count": 220,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "吉田沙保里",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "吉田沙保里",
+      "char_count": 220,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "吉田沙保里",
+      "expected_age": 30,
+      "found_ages": [],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "吉田沙保里",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P094",
+    "person_name": "吉田秀彦",
+    "age": 23,
+    "char_count": 191,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "吉田秀彦",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "吉田秀彦",
+      "char_count": 191,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "吉田秀彦",
+      "expected_age": 23,
+      "found_ages": [
+        "23"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "吉田秀彦",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P095",
+    "person_name": "坂本龍一",
+    "age": 35,
+    "char_count": 184,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "坂本龍一",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "坂本龍一",
+      "char_count": 184,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "坂本龍一",
+      "expected_age": 35,
+      "found_ages": [
+        "35"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "坂本龍一",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P096",
+    "person_name": "堀江貴文",
+    "age": 24,
+    "char_count": 181,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "堀江貴文",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "堀江貴文",
+      "char_count": 181,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "堀江貴文",
+      "expected_age": 24,
+      "found_ages": [
+        "23"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 23歳（正: 24歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "堀江貴文",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P097",
+    "person_name": "夏目漱石",
+    "age": 39,
+    "char_count": 190,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "夏目漱石",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "夏目漱石",
+      "char_count": 190,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "夏目漱石",
+      "expected_age": 39,
+      "found_ages": [
+        "39",
+        "49"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 49歳（正: 39歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "夏目漱石",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P098",
+    "person_name": "大江健三郎",
+    "age": 23,
+    "char_count": 202,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "大江健三郎",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "大江健三郎",
+      "char_count": 202,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "大江健三郎",
+      "expected_age": 23,
+      "found_ages": [
+        "23"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "大江健三郎",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P099",
+    "person_name": "大谷翔平",
+    "age": 29,
+    "char_count": 187,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "大谷翔平",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "大谷翔平",
+      "char_count": 187,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "大谷翔平",
+      "expected_age": 29,
+      "found_ages": [
+        "29"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "大谷翔平",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P100",
+    "person_name": "大隅良典",
+    "age": 71,
+    "char_count": 191,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "大隅良典",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "大隅良典",
+      "char_count": 191,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "大隅良典",
+      "expected_age": 71,
+      "found_ages": [
+        "71"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "大隅良典",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P101",
+    "person_name": "奈良美智",
+    "age": 40,
+    "char_count": 184,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "奈良美智",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "奈良美智",
+      "char_count": 184,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "奈良美智",
+      "expected_age": 40,
+      "found_ages": [
+        "40"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "奈良美智",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P102",
+    "person_name": "孫正義",
+    "age": 54,
+    "char_count": 244,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "孫正義",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "孫正義",
+      "char_count": 244,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "孫正義",
+      "expected_age": 54,
+      "found_ages": [
+        "54"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "孫正義",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P103",
+    "person_name": "安倍晋三",
+    "age": 65,
+    "char_count": 234,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "安倍晋三",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "安倍晋三",
+      "char_count": 234,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "安倍晋三",
+      "expected_age": 65,
+      "found_ages": [
+        "67"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 67歳（正: 65歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "安倍晋三",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P104",
+    "person_name": "安藤忠雄",
+    "age": 54,
+    "char_count": 248,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "安藤忠雄",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "安藤忠雄",
+      "char_count": 248,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "安藤忠雄",
+      "expected_age": 54,
+      "found_ages": [
+        "54"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "安藤忠雄",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P105",
+    "person_name": "室伏広治",
+    "age": 29,
+    "char_count": 257,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "室伏広治",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "室伏広治",
+      "char_count": 257,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "室伏広治",
+      "expected_age": 29,
+      "found_ages": [
+        "29"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "室伏広治",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P106",
+    "person_name": "宮崎駿",
+    "age": 60,
+    "char_count": 184,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "宮崎駿",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "宮崎駿",
+      "char_count": 184,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "宮崎駿",
+      "expected_age": 60,
+      "found_ages": [
+        "60"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "宮崎駿",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P107",
+    "person_name": "宮里藍",
+    "age": 18,
+    "char_count": 194,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "宮里藍",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "宮里藍",
+      "char_count": 194,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "宮里藍",
+      "expected_age": 18,
+      "found_ages": [
+        "18"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "宮里藍",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P108",
+    "person_name": "小泉純一郎",
+    "age": 59,
+    "char_count": 208,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "小泉純一郎",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "小泉純一郎",
+      "char_count": 208,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "小泉純一郎",
+      "expected_age": 59,
+      "found_ages": [
+        "59"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "小泉純一郎",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P109",
+    "person_name": "小澤征爾",
+    "age": 37,
+    "char_count": 195,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "小澤征爾",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "小澤征爾",
+      "char_count": 195,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "小澤征爾",
+      "expected_age": 37,
+      "found_ages": [
+        "37"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "小澤征爾",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P110",
+    "person_name": "山中伸弥",
+    "age": 50,
+    "char_count": 192,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "山中伸弥",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "山中伸弥",
+      "char_count": 192,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "山中伸弥",
+      "expected_age": 50,
+      "found_ages": [
+        "50"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "山中伸弥",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P111",
+    "person_name": "岡田准一",
+    "age": 15,
+    "char_count": 218,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "岡田准一",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "岡田准一",
+      "char_count": 218,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "岡田准一",
+      "expected_age": 15,
+      "found_ages": [
+        "15"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "岡田准一",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P112",
+    "person_name": "川端康成",
+    "age": 27,
+    "char_count": 180,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "川端康成",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "川端康成",
+      "char_count": 180,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "川端康成",
+      "expected_age": 27,
+      "found_ages": [
+        "27"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "川端康成",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P113",
+    "person_name": "平野美宇",
+    "age": 17,
+    "char_count": 186,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "平野美宇",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "平野美宇",
+      "char_count": 186,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "平野美宇",
+      "expected_age": 17,
+      "found_ages": [
+        "17"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "平野美宇",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P114",
+    "person_name": "手塚治虫",
+    "age": 40,
+    "char_count": 185,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "手塚治虫",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "手塚治虫",
+      "char_count": 185,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "手塚治虫",
+      "expected_age": 40,
+      "found_ages": [
+        "40"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "手塚治虫",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P115",
+    "person_name": "新垣結衣",
+    "age": 18,
+    "char_count": 220,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "新垣結衣",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "新垣結衣",
+      "char_count": 220,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "新垣結衣",
+      "expected_age": 18,
+      "found_ages": [
+        "18"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "新垣結衣",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P116",
+    "person_name": "新海誠",
+    "age": 43,
+    "char_count": 195,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "新海誠",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "新海誠",
+      "char_count": 195,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "新海誠",
+      "expected_age": 43,
+      "found_ages": [
+        "43"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "新海誠",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P117",
+    "person_name": "星野源",
+    "age": 35,
+    "char_count": 184,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "星野源",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "星野源",
+      "char_count": 184,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "星野源",
+      "expected_age": 35,
+      "found_ages": [
+        "35"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "星野源",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P118",
+    "person_name": "是枝裕和",
+    "age": 56,
+    "char_count": 194,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "是枝裕和",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "是枝裕和",
+      "char_count": 194,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "是枝裕和",
+      "expected_age": 56,
+      "found_ages": [
+        "56"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "是枝裕和",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P119",
+    "person_name": "本庶佑",
+    "age": 76,
+    "char_count": 187,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "本庶佑",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "本庶佑",
+      "char_count": 187,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "本庶佑",
+      "expected_age": 76,
+      "found_ages": [
+        "76"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "本庶佑",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P120",
+    "person_name": "本田宗一郎",
+    "age": 58,
+    "char_count": 266,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "本田宗一郎",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "本田宗一郎",
+      "char_count": 266,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "本田宗一郎",
+      "expected_age": 58,
+      "found_ages": [
+        "58"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "本田宗一郎",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P121",
+    "person_name": "村上春樹",
+    "age": 38,
+    "char_count": 209,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "村上春樹",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "村上春樹",
+      "char_count": 209,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "村上春樹",
+      "expected_age": 38,
+      "found_ages": [
+        "38"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "村上春樹",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P122",
+    "person_name": "村上隆",
+    "age": 45,
+    "char_count": 188,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "村上隆",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "村上隆",
+      "char_count": 188,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "村上隆",
+      "expected_age": 45,
+      "found_ages": [
+        "45"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "村上隆",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P123",
+    "person_name": "松下幸之助",
+    "age": 56,
+    "char_count": 237,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "松下幸之助",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "松下幸之助",
+      "char_count": 237,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "松下幸之助",
+      "expected_age": 56,
+      "found_ages": [
+        "56"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "松下幸之助",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P124",
+    "person_name": "松井秀喜",
+    "age": 22,
+    "char_count": 191,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "松井秀喜",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "松井秀喜",
+      "char_count": 191,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "松井秀喜",
+      "expected_age": 22,
+      "found_ages": [
+        "22"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "松井秀喜",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P125",
+    "person_name": "松山英樹",
+    "age": 29,
+    "char_count": 246,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "松山英樹",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "松山英樹",
+      "char_count": 246,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "松山英樹",
+      "expected_age": 29,
+      "found_ages": [
+        "29"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "松山英樹",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P126",
+    "person_name": "松本人志",
+    "age": 31,
+    "char_count": 199,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "松本人志",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "松本人志",
+      "char_count": 199,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "松本人志",
+      "expected_age": 31,
+      "found_ages": [
+        "31"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "松本人志",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P127",
+    "person_name": "松田聖子",
+    "age": 26,
+    "char_count": 181,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "松田聖子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "松田聖子",
+      "char_count": 181,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "松田聖子",
+      "expected_age": 26,
+      "found_ages": [
+        "26"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "松田聖子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P128",
+    "person_name": "柳井正",
+    "age": 35,
+    "char_count": 190,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "柳井正",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "柳井正",
+      "char_count": 190,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "柳井正",
+      "expected_age": 35,
+      "found_ages": [
+        "35"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "柳井正",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P129",
+    "person_name": "梶田隆章",
+    "age": 56,
+    "char_count": 217,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "梶田隆章",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "梶田隆章",
+      "char_count": 217,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "梶田隆章",
+      "expected_age": 56,
+      "found_ages": [],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "梶田隆章",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P130",
+    "person_name": "横尾忠則",
+    "age": 50,
+    "char_count": 181,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "横尾忠則",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "横尾忠則",
+      "char_count": 181,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "横尾忠則",
+      "expected_age": 50,
+      "found_ages": [
+        "50"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "横尾忠則",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P131",
+    "person_name": "櫻井翔",
+    "age": 32,
+    "char_count": 180,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "櫻井翔",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "櫻井翔",
+      "char_count": 180,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "櫻井翔",
+      "expected_age": 32,
+      "found_ages": [
+        "32"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "櫻井翔",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P132",
+    "person_name": "池江璃花子",
+    "age": 21,
+    "char_count": 208,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "池江璃花子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "池江璃花子",
+      "char_count": 208,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "池江璃花子",
+      "expected_age": 21,
+      "found_ages": [
+        "21"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "池江璃花子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P133",
+    "person_name": "浅田真央",
+    "age": 24,
+    "char_count": 277,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "浅田真央",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "浅田真央",
+      "char_count": 277,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "浅田真央",
+      "expected_age": 24,
+      "found_ages": [
+        "24"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "浅田真央",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P134",
+    "person_name": "渋野日向子",
+    "age": 20,
+    "char_count": 241,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "渋野日向子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "渋野日向子",
+      "char_count": 241,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "渋野日向子",
+      "expected_age": 20,
+      "found_ages": [
+        "20"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "渋野日向子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P135",
+    "person_name": "渡辺謙",
+    "age": 44,
+    "char_count": 236,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "渡辺謙",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "渡辺謙",
+      "char_count": 236,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "渡辺謙",
+      "expected_age": 44,
+      "found_ages": [
+        "44"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "渡辺謙",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P136",
+    "person_name": "満屋裕明",
+    "age": 35,
+    "char_count": 189,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "満屋裕明",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "満屋裕明",
+      "char_count": 189,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "満屋裕明",
+      "expected_age": 35,
+      "found_ages": [
+        "34"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 34歳（正: 35歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "満屋裕明",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P137",
+    "person_name": "王貞治",
+    "age": 37,
+    "char_count": 236,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "王貞治",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "王貞治",
+      "char_count": 236,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "王貞治",
+      "expected_age": 37,
+      "found_ages": [
+        "37"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "王貞治",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P138",
+    "person_name": "田中将大",
+    "age": 25,
+    "char_count": 216,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "田中将大",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "田中将大",
+      "char_count": 216,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "田中将大",
+      "expected_age": 25,
+      "found_ages": [
+        "25"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "田中将大",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P139",
+    "person_name": "盛田昭夫",
+    "age": 58,
+    "char_count": 216,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "盛田昭夫",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "盛田昭夫",
+      "char_count": 216,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "盛田昭夫",
+      "expected_age": 58,
+      "found_ages": [
+        "58"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "盛田昭夫",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P140",
+    "person_name": "石川遼",
+    "age": 15,
+    "char_count": 213,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "石川遼",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "石川遼",
+      "char_count": 213,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "石川遼",
+      "expected_age": 15,
+      "found_ages": [
+        "15"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "石川遼",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P141",
+    "person_name": "福山雅治",
+    "age": 46,
+    "char_count": 200,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "福山雅治",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "福山雅治",
+      "char_count": 200,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "福山雅治",
+      "expected_age": 46,
+      "found_ages": [
+        "46"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "福山雅治",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P142",
+    "person_name": "福沢諭吉",
+    "age": 35,
+    "char_count": 252,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "福沢諭吉",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "福沢諭吉",
+      "char_count": 252,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "福沢諭吉",
+      "expected_age": 35,
+      "found_ages": [
+        "35"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "福沢諭吉",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P143",
+    "person_name": "稲盛和夫",
+    "age": 52,
+    "char_count": 185,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "稲盛和夫",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "稲盛和夫",
+      "char_count": 185,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "稲盛和夫",
+      "expected_age": 52,
+      "found_ages": [],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "稲盛和夫",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P144",
+    "person_name": "米津玄師",
+    "age": 27,
+    "char_count": 199,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "米津玄師",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "米津玄師",
+      "char_count": 199,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "米津玄師",
+      "expected_age": 27,
+      "found_ages": [
+        "27"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "米津玄師",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P145",
+    "person_name": "紀平梨花",
+    "age": 16,
+    "char_count": 206,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "紀平梨花",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "紀平梨花",
+      "char_count": 206,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "紀平梨花",
+      "expected_age": 16,
+      "found_ages": [
+        "16"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "紀平梨花",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P146",
+    "person_name": "綾瀬はるか",
+    "age": 18,
+    "char_count": 214,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "綾瀬はるか",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "綾瀬はるか",
+      "char_count": 214,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "綾瀬はるか",
+      "expected_age": 18,
+      "found_ages": [
+        "18"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "綾瀬はるか",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P147",
+    "person_name": "羽生善治",
+    "age": 27,
+    "char_count": 206,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "羽生善治",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "羽生善治",
+      "char_count": 206,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "羽生善治",
+      "expected_age": 27,
+      "found_ages": [
+        "27",
+        "19",
+        "24"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 19歳（正: 27歳）",
+        "不一致: 24歳（正: 27歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "羽生善治",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P148",
+    "person_name": "羽生結弦",
+    "age": 23,
+    "char_count": 233,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "羽生結弦",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "羽生結弦",
+      "char_count": 233,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "羽生結弦",
+      "expected_age": 23,
+      "found_ages": [
+        "23"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "羽生結弦",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P149",
+    "person_name": "芥川龍之介",
+    "age": 23,
+    "char_count": 207,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "芥川龍之介",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "芥川龍之介",
+      "char_count": 207,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "芥川龍之介",
+      "expected_age": 23,
+      "found_ages": [
+        "23"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "芥川龍之介",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P150",
+    "person_name": "草間彌生",
+    "age": 87,
+    "char_count": 272,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "草間彌生",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "草間彌生",
+      "char_count": 272,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "草間彌生",
+      "expected_age": 87,
+      "found_ages": [
+        "87",
+        "10"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 10歳（正: 87歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "草間彌生",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P151",
+    "person_name": "荒川静香",
+    "age": 24,
+    "char_count": 181,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "荒川静香",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "荒川静香",
+      "char_count": 181,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "荒川静香",
+      "expected_age": 24,
+      "found_ages": [
+        "24"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "荒川静香",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P152",
+    "person_name": "落合陽一",
+    "age": 24,
+    "char_count": 207,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "落合陽一",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "落合陽一",
+      "char_count": 207,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "落合陽一",
+      "expected_age": 24,
+      "found_ages": [
+        "27",
+        "29"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 27歳（正: 24歳）",
+        "不一致: 29歳（正: 24歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "落合陽一",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P153",
+    "person_name": "藤井聡太",
+    "age": 19,
+    "char_count": 237,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "藤井聡太",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "藤井聡太",
+      "char_count": 237,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "藤井聡太",
+      "expected_age": 19,
+      "found_ages": [
+        "19",
+        "17"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 17歳（正: 19歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "藤井聡太",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P154",
+    "person_name": "西野亮廣",
+    "age": 19,
+    "char_count": 201,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "西野亮廣",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "西野亮廣",
+      "char_count": 201,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "西野亮廣",
+      "expected_age": 19,
+      "found_ages": [
+        "19"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "西野亮廣",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P155",
+    "person_name": "豊田章男",
+    "age": 53,
+    "char_count": 235,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "豊田章男",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "豊田章男",
+      "char_count": 235,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "豊田章男",
+      "expected_age": 53,
+      "found_ages": [
+        "53"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "豊田章男",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P156",
+    "person_name": "遠藤章",
+    "age": 46,
+    "char_count": 212,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "遠藤章",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "遠藤章",
+      "char_count": 212,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "遠藤章",
+      "expected_age": 46,
+      "found_ages": [
+        "40"
+      ],
+      "passed": false,
+      "issues": [
+        "不一致: 40歳（正: 46歳）"
+      ]
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "遠藤章",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P157",
+    "person_name": "野口みずき",
+    "age": 26,
+    "char_count": 238,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "野口みずき",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "野口みずき",
+      "char_count": 238,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "野口みずき",
+      "expected_age": 26,
+      "found_ages": [
+        "26"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "野口みずき",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P158",
+    "person_name": "野村萬斎",
+    "age": 54,
+    "char_count": 182,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "野村萬斎",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "野村萬斎",
+      "char_count": 182,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "野村萬斎",
+      "expected_age": 54,
+      "found_ages": [
+        "54"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "野村萬斎",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P159",
+    "person_name": "野茂英雄",
+    "age": 26,
+    "char_count": 185,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "野茂英雄",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "野茂英雄",
+      "char_count": 185,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "野茂英雄",
+      "expected_age": 26,
+      "found_ages": [
+        "26"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "野茂英雄",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P160",
+    "person_name": "錦織圭",
+    "age": 24,
+    "char_count": 180,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "錦織圭",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "錦織圭",
+      "char_count": 180,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "錦織圭",
+      "expected_age": 24,
+      "found_ages": [
+        "24"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "錦織圭",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P161",
+    "person_name": "長嶋茂雄",
+    "age": 38,
+    "char_count": 230,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "長嶋茂雄",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "長嶋茂雄",
+      "char_count": 230,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "長嶋茂雄",
+      "expected_age": 38,
+      "found_ages": [
+        "38"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "長嶋茂雄",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P162",
+    "person_name": "高橋尚子",
+    "age": 28,
+    "char_count": 251,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "高橋尚子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "高橋尚子",
+      "char_count": 251,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "高橋尚子",
+      "expected_age": 28,
+      "found_ages": [
+        "28"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "高橋尚子",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P163",
+    "person_name": "黒澤明",
+    "age": 44,
+    "char_count": 276,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "黒澤明",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "黒澤明",
+      "char_count": 276,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "黒澤明",
+      "expected_age": 44,
+      "found_ages": [
+        "44"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "黒澤明",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P164",
+    "person_name": "三木谷浩史",
+    "age": 40,
+    "char_count": 213,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "三木谷浩史",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "三木谷浩史",
+      "char_count": 213,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "三木谷浩史",
+      "expected_age": 40,
+      "found_ages": [
+        "40"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "三木谷浩史",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P165",
+    "person_name": "出澤剛",
+    "age": 43,
+    "char_count": 185,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "出澤剛",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "出澤剛",
+      "char_count": 185,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "出澤剛",
+      "expected_age": 43,
+      "found_ages": [
+        "43"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "出澤剛",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P166",
+    "person_name": "前澤友作",
+    "age": 38,
+    "char_count": 231,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "前澤友作",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "前澤友作",
+      "char_count": 231,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "前澤友作",
+      "expected_age": 38,
+      "found_ages": [
+        "38"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "前澤友作",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P167",
+    "person_name": "南場智子",
+    "age": 42,
+    "char_count": 220,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "南場智子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "南場智子",
+      "char_count": 220,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "南場智子",
+      "expected_age": 42,
+      "found_ages": [
+        "42"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "南場智子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P168",
+    "person_name": "堀江貴文",
+    "age": 32,
+    "char_count": 200,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "堀江貴文",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "堀江貴文",
+      "char_count": 200,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "堀江貴文",
+      "expected_age": 32,
+      "found_ages": [
+        "32"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "堀江貴文",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P169",
+    "person_name": "孫正義",
+    "age": 44,
+    "char_count": 196,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "孫正義",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "孫正義",
+      "char_count": 196,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "孫正義",
+      "expected_age": 44,
+      "found_ages": [
+        "44"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "孫正義",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P170",
+    "person_name": "安宅和人",
+    "age": 48,
+    "char_count": 225,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "安宅和人",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "安宅和人",
+      "char_count": 225,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "安宅和人",
+      "expected_age": 48,
+      "found_ages": [
+        "48"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "安宅和人",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P171",
+    "person_name": "小林雅",
+    "age": 44,
+    "char_count": 224,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "小林雅",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "小林雅",
+      "char_count": 224,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "小林雅",
+      "expected_age": 44,
+      "found_ages": [
+        "44"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "小林雅",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P172",
+    "person_name": "小橋賢児",
+    "age": 40,
+    "char_count": 210,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "小橋賢児",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "小橋賢児",
+      "char_count": 210,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "小橋賢児",
+      "expected_age": 40,
+      "found_ages": [
+        "40"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "小橋賢児",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P173",
+    "person_name": "小泉文明",
+    "age": 42,
+    "char_count": 234,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "小泉文明",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "小泉文明",
+      "char_count": 234,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "小泉文明",
+      "expected_age": 42,
+      "found_ages": [
+        "42"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "小泉文明",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P174",
+    "person_name": "岡島悦子",
+    "age": 48,
+    "char_count": 224,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "岡島悦子",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "岡島悦子",
+      "char_count": 224,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "岡島悦子",
+      "expected_age": 48,
+      "found_ages": [
+        "48"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "岡島悦子",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P175",
+    "person_name": "川鍋一朗",
+    "age": 46,
+    "char_count": 218,
+    "all_passed": false,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "川鍋一朗",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "川鍋一朗",
+      "char_count": 218,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "川鍋一朗",
+      "expected_age": 46,
+      "found_ages": [
+        "46"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "川鍋一朗",
+      "passed": false,
+      "issues": [
+        "検証困難な影響人数"
+      ]
+    }
+  },
+  {
+    "person_id": "P176",
+    "person_name": "柳井正",
+    "age": 52,
+    "char_count": 213,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "柳井正",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "柳井正",
+      "char_count": 213,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "柳井正",
+      "expected_age": 52,
+      "found_ages": [
+        "52"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "柳井正",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P177",
+    "person_name": "梅田望夫",
+    "age": 47,
+    "char_count": 236,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "梅田望夫",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "梅田望夫",
+      "char_count": 236,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "梅田望夫",
+      "expected_age": 47,
+      "found_ages": [
+        "47"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "梅田望夫",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P178",
+    "person_name": "森川亮",
+    "age": 45,
+    "char_count": 234,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "森川亮",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "森川亮",
+      "char_count": 234,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "森川亮",
+      "expected_age": 45,
+      "found_ages": [
+        "45"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "森川亮",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P179",
+    "person_name": "永守重信",
+    "age": 45,
+    "char_count": 219,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "永守重信",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "永守重信",
+      "char_count": 219,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "永守重信",
+      "expected_age": 45,
+      "found_ages": [
+        "45"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "永守重信",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P180",
+    "person_name": "田中良和",
+    "age": 36,
+    "char_count": 192,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "田中良和",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "田中良和",
+      "char_count": 192,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "田中良和",
+      "expected_age": 36,
+      "found_ages": [
+        "36"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "田中良和",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P181",
+    "person_name": "笠原健治",
+    "age": 30,
+    "char_count": 226,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "笠原健治",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "笠原健治",
+      "char_count": 226,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "笠原健治",
+      "expected_age": 30,
+      "found_ages": [
+        "30"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "笠原健治",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P182",
+    "person_name": "藤田晋",
+    "age": 35,
+    "char_count": 224,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "藤田晋",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "藤田晋",
+      "char_count": 224,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "藤田晋",
+      "expected_age": 35,
+      "found_ages": [
+        "35"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "藤田晋",
+      "passed": true,
+      "issues": []
+    }
+  },
+  {
+    "person_id": "P183",
+    "person_name": "西川潔",
+    "age": 50,
+    "char_count": 220,
+    "all_passed": true,
+    "subjective": {
+      "check": "subjective_expression",
+      "person_name": "西川潔",
+      "passed": true,
+      "detected": []
+    },
+    "char_count_check": {
+      "check": "character_count",
+      "person_name": "西川潔",
+      "char_count": 220,
+      "passed": true,
+      "issue": null
+    },
+    "age_consistency": {
+      "check": "age_consistency",
+      "person_name": "西川潔",
+      "expected_age": 50,
+      "found_ages": [
+        "50"
+      ],
+      "passed": true,
+      "issues": []
+    },
+    "numeric": {
+      "check": "numeric_values",
+      "person_name": "西川潔",
+      "passed": true,
+      "issues": []
+    }
+  }
+]

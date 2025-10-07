@@ -1,0 +1,88 @@
+{
+  "failure_id": "FAIL_20251008_001",
+  "timestamp": "2025-10-08T07:43:00Z",
+  "category": "LOGIC_ERROR",
+  "severity": "P0",
+  "title": "アインシュタイン誤削除問題",
+  "description": "「日本の偉人ではない」という誤った判定基準により、アルベルト・アインシュタインが削除対象とされた",
+
+  "root_cause": {
+    "immediate": "fix_foreign_persons.pyに「日本の偉人データベース」という誤った前提が記述された",
+    "underlying": "プロジェクト要件の「対象範囲（国籍・分野）」が明確に定義されていなかった",
+    "systemic": "要件定義プロセスにレビューゲートが存在しなかった"
+  },
+
+  "5_whys": [
+    "Why 1: アインシュタインが削除された → 「日本の偉人ではない」判定",
+    "Why 2: その判定基準が適用された → 削除ロジックに国籍制限が含まれた",
+    "Why 3: 国籍制限が含まれた → 要件定義が不明確だった",
+    "Why 4: 要件定義が不明確だった → 対象範囲の明示的定義がなかった",
+    "Why 5: 明示的定義がなかった → 要件レビュープロセスが欠如していた"
+  ],
+
+  "impact": {
+    "data_loss": "アインシュタイン含む3件の世界的偉人が削除",
+    "scope": "Week 1-6データベース全体（146件中3件）",
+    "severity_score": 10
+  },
+
+  "affected_files": [
+    "fix_foreign_persons.py",
+    "final_hourglass_master_v8_foreign_removed_*.csv"
+  ],
+
+  "kaizen_actions": [
+    {
+      "action_id": "KA_001",
+      "type": "PREVENTION",
+      "priority": "P0",
+      "description": "要件定義ドキュメントの作成（REQUIREMENTS.md）",
+      "implementation": "プロジェクト対象範囲を明示的に定義",
+      "status": "pending"
+    },
+    {
+      "action_id": "KA_002",
+      "type": "DETECTION",
+      "priority": "P0",
+      "description": "削除判定の事前承認システム導入",
+      "implementation": "削除理由の妥当性を人間が承認するゲート追加",
+      "status": "pending"
+    },
+    {
+      "action_id": "KA_003",
+      "type": "VALIDATION",
+      "priority": "P1",
+      "description": "削除ロジックの自動テスト作成",
+      "implementation": "「世界的偉人」の誤削除を検出するユニットテスト",
+      "status": "pending"
+    },
+    {
+      "action_id": "KA_004",
+      "type": "DOCUMENTATION",
+      "priority": "P1",
+      "description": "fix_foreign_persons.pyの削除または無効化",
+      "implementation": "誤った前提を含むスクリプトの削除",
+      "status": "pending"
+    }
+  ],
+
+  "lessons_learned": [
+    "暗黙の前提（日本人限定）は明示的に検証すべき",
+    "削除判定には必ず人間のレビューを挟む",
+    "「偉人」の定義に国籍制限は不要（グローバルな視点を維持）",
+    "要件定義は抽象的ではなく、具体的な包含/除外基準を記載すべき"
+  ],
+
+  "recurrence_prevention": {
+    "short_term": [
+      "fix_foreign_persons.pyを削除",
+      "削除済みレコード（アインシュタイン等）の復元",
+      "REQUIREMENTS.mdの作成"
+    ],
+    "long_term": [
+      "削除承認ワークフローの実装",
+      "要件レビュープロセスの確立",
+      "データ損失防止テストスイートの構築"
+    ]
+  }
+}

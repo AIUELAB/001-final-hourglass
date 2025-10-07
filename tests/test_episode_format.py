@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+"""
+エピソード冒頭フォーマット統一性テスト
+
+RCA-Kaizen Loop: FAIL_20251008_002 (KA_007)
+再発防止のための自動テスト
+
+Test Coverage:
+1. 冒頭フォーマット統一性（100%準拠必須）
+2. 年齢整合性（CSV年齢とエピソード内年齢の一致）
+3. 人物名一致性（CSV人物名とエピソード内人物名の一致）
+4. 文字数範囲（180-280文字厳守）
+5. 主観表現禁止（18パターン）
+
+Author: Final Hourglass Project
+Date: 2025-10-08
+Version: 1.0.0
+"""
+
+import pytest
+import pandas as pd
+import re
+from pathlib import Path
+
+
+class TestEpisodeFormat:
+    """
+    エピソード冒頭フォーマット統一性テスト
+    """
+
+    @pytest.fixture
+    def df(self):
+        """
+        最新のCSVファイルを読み込み
+        """
+        csv_files = list(Path(".").glob("final_hourglass_week1_6_*.csv"))
+        latest_csv = max(csv_files, key=lambda p: p.stat().st_mtime)
+        return pd.read_csv(latest_csv, encoding='utf-8-sig')
+
+    @pytest.fixture
+    def qualified_records(self, df):
+        """
+        合格レコードのみを抽出
+        """
+        return df[df['ステータス'] == '合格']
+
+    def test_opening_format_consistency(self, qualified_records):
+        """
+        テスト1: 冒頭フォーマット統一性（100%準拠必須）
+
+        すべての合格レコードが以下のフォーマットに従うこと:
+        「あなたと同じ{年齢}歳のとき、{人物名}は」
+
+        REQUIREMENTS.md v1.1.0準拠
+        """
+        pattern = r'^あなたと同じ(\d+)歳のとき、(.+?)は'
+        violations = []
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+            match = re.match(pattern, episode)
+
+            if not match:
+                violations.append({
+                    'person_id': row['人物ID'],
+                    'person_name': row['人物名'],
+                    'age': row['年齢'],
+                    'episode_start': episode[:60]
+                })
+
+        assert len(violations) == 0, (
+            f"フォーマット違反: {len(violations)}件\n"
+            f"違反レコード:\n" +
+            "\n".join([
+                f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): {v['episode_start']}..."
+                for v in violations
+            ])
+        )
+
+    def test_age_consistency(self, qualified_records):
+        """
+        テスト2: 年齢整合性
+
+        エピソード冒頭の年齢がCSVの年齢カラムと一致すること
+        """
+        pattern = r'^あなたと同じ(\d+)歳のとき、'
+        inconsistencies = []
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+            match = re.match(pattern, episode)
+
+            if match:
+                episode_age = int(match.group(1))
+                csv_age = int(row['年齢'])
+
+                if episode_age != csv_age:
+                    inconsistencies.append({
+                        'person_id': row['人物ID'],
+                        'person_name': row['人物名'],
+                        'csv_age': csv_age,
+                        'episode_age': episode_age
+                    })
+
+        assert len(inconsistencies) == 0, (
+            f"年齢不整合: {len(inconsistencies)}件\n"
+            f"不整合レコード:\n" +
+            "\n".join([
+                f"  {i['person_id']} - {i['person_name']}: CSV={i['csv_age']}歳 vs エピソード={i['episode_age']}歳"
+                for i in inconsistencies
+            ])
+        )
+
+    def test_person_name_consistency(self, qualified_records):
+        """
+        テスト3: 人物名一致性
+
+        エピソード冒頭の人物名がCSVの人物名カラムと一致すること
+        （完全一致、部分一致、または通称許可）
+        """
+        pattern = r'^あなたと同じ\d+歳のとき、(.+?)は'
+        inconsistencies = []
+
+        # 通称・別名マッピング
+        aliases = {
+            'マーティン・ルーサー・キング・ジュニア': ['キング牧師', 'マーティン・ルーサー・キング'],
+            '綾瀬はるか': ['綾瀬']
+        }
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+            match = re.match(pattern, episode)
+
+            if match:
+                episode_name = match.group(1)
+                csv_name = str(row['人物名'])
+
+                # 完全一致チェック
+                if episode_name == csv_name:
+                    continue
+
+                # 部分一致チェック（CSV名がエピソード名に含まれる）
+                if csv_name in episode_name:
+                    continue
+
+                # エピソード名がCSV名に含まれる（姓のみ等）
+                if episode_name in csv_name:
+                    continue
+
+                # 通称・別名チェック
+                if csv_name in aliases and episode_name in aliases[csv_name]:
+                    continue
+
+                # すべてのチェックに失敗した場合は不整合
+                inconsistencies.append({
+                    'person_id': row['人物ID'],
+                    'csv_name': csv_name,
+                    'episode_name': episode_name
+                })
+
+        assert len(inconsistencies) == 0, (
+            f"人物名不整合: {len(inconsistencies)}件\n"
+            f"不整合レコード:\n" +
+            "\n".join([
+                f"  {i['person_id']}: CSV={i['csv_name']} vs エピソード={i['episode_name']}"
+                for i in inconsistencies
+            ])
+        )
+
+    def test_character_count_range(self, qualified_records):
+        """
+        テスト4: 文字数範囲（180-280文字厳守）
+
+        REQUIREMENTS.md v1.1.0準拠
+        """
+        violations = []
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+            char_count = len(episode)
+            csv_char_count = int(row['文字数'])
+
+            if not (180 <= char_count <= 280):
+                violations.append({
+                    'person_id': row['人物ID'],
+                    'person_name': row['人物名'],
+                    'actual_count': char_count,
+                    'csv_count': csv_char_count
+                })
+
+        assert len(violations) == 0, (
+            f"文字数範囲外: {len(violations)}件\n"
+            f"違反レコード:\n" +
+            "\n".join([
+                f"  {v['person_id']} - {v['person_name']}: {v['actual_count']}文字（CSV: {v['csv_count']}）"
+                for v in violations
+            ])
+        )
+
+    def test_subjective_expression_prohibition(self, qualified_records):
+        """
+        テスト5: 主観表現禁止（18パターン）
+
+        REQUIREMENTS.md v1.1.0準拠
+        """
+        subjective_patterns = [
+            "画期的な", "革新的な", "伝説的な",
+            "素晴らしい", "偉大な", "美しい",
+            "驚異的な", "卓越した", "優れた",
+            "圧倒的な", "輝かしい", "見事な",
+            "劇的な", "華々しい", "栄光の",
+            "歴史的な", "快挙", "偉業"
+        ]
+
+        violations = []
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+            detected = [p for p in subjective_patterns if p in episode]
+
+            if detected:
+                violations.append({
+                    'person_id': row['人物ID'],
+                    'person_name': row['人物名'],
+                    'detected_patterns': detected
+                })
+
+        assert len(violations) == 0, (
+            f"主観表現検出: {len(violations)}件\n"
+            f"違反レコード:\n" +
+            "\n".join([
+                f"  {v['person_id']} - {v['person_name']}: {v['detected_patterns']}"
+                for v in violations
+            ])
+        )
+
+    def test_overall_compliance_rate(self, qualified_records):
+        """
+        テスト6: 総合準拠率（統計情報）
+
+        目標: 100%準拠
+        """
+        pattern = r'^あなたと同じ(\d+)歳のとき、(.+?)は'
+        compliant_count = 0
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+            if re.match(pattern, episode):
+                compliant_count += 1
+
+        total_count = len(qualified_records)
+        compliance_rate = (compliant_count / total_count) * 100
+
+        print(f"\n📊 総合統計:")
+        print(f"合格レコード: {total_count}")
+        print(f"フォーマット準拠: {compliant_count}")
+        print(f"準拠率: {compliance_rate:.1f}%")
+
+        assert compliance_rate == 100.0, (
+            f"準拠率が100%未満: {compliance_rate:.1f}%\n"
+            f"不準拠レコード: {total_count - compliant_count}件"
+        )
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "--tb=short"])

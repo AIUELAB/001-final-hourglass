@@ -40,8 +40,8 @@ class TestDeletionLogic:
         """
         国籍による削除が行われていないことを確認
         """
-        # Week 1-6完成版CSV
-        csv_path = Path("final_hourglass_week1_6_complete_20251008_072653.csv")
+        # Week 1-6復元版CSV（最新）
+        csv_path = Path("final_hourglass_week1_6_final_20251008_075039.csv")
 
         if not csv_path.exists():
             pytest.skip("Week 1-6 CSV not found")
@@ -60,7 +60,7 @@ class TestDeletionLogic:
         """
         世界的偉人が削除されていないことを確認
         """
-        csv_path = Path("final_hourglass_week1_6_complete_20251008_072653.csv")
+        csv_path = Path("final_hourglass_week1_6_final_20251008_075039.csv")
 
         if not csv_path.exists():
             pytest.skip("Week 1-6 CSV not found")
@@ -80,7 +80,7 @@ class TestDeletionLogic:
         """
         削除理由が妥当であることを確認
         """
-        csv_path = Path("final_hourglass_week1_6_complete_20251008_072653.csv")
+        csv_path = Path("final_hourglass_week1_6_final_20251008_075039.csv")
 
         if not csv_path.exists():
             pytest.skip("Week 1-6 CSV not found")
@@ -121,7 +121,7 @@ class TestDeletionLogic:
         """
         削除理由が必ず記録されていることを確認
         """
-        csv_path = Path("final_hourglass_week1_6_complete_20251008_072653.csv")
+        csv_path = Path("final_hourglass_week1_6_final_20251008_075039.csv")
 
         if not csv_path.exists():
             pytest.skip("Week 1-6 CSV not found")
@@ -139,7 +139,7 @@ class TestDeletionLogic:
         """
         分野による削除が行われていないことを確認
         """
-        csv_path = Path("final_hourglass_week1_6_complete_20251008_072653.csv")
+        csv_path = Path("final_hourglass_week1_6_final_20251008_075039.csv")
 
         if not csv_path.exists():
             pytest.skip("Week 1-6 CSV not found")

@@ -1,0 +1,142 @@
+{
+  "failure_id": "FAIL_20251008_004",
+  "timestamp": "2025-10-08T10:35:00Z",
+  "category": "QUALITY_ERROR",
+  "severity": "P2",
+  "title": "エピソード内年齢情報重複問題",
+  "description": "145件中3件（2.07%）で年齢情報が括弧付きで重複。「あなたと同じ66歳のとき、隈研吾（66歳）は」のような冗長な表現が日本語の自然性を損なっている。",
+  "impact": {
+    "scope": "DATA_QUALITY",
+    "affected_records": 3,
+    "total_records": 145,
+    "violation_rate": "2.07%"
+  },
+  "detection": {
+    "method": "USER_REPORTED",
+    "detection_date": "2025-10-08",
+    "detection_trigger": "ユーザーからの日本語不自然性指摘"
+  },
+  "root_cause_analysis": {
+    "five_whys": [
+      {
+        "why": 1,
+        "question": "なぜ3件で年齢情報が重複したのか？",
+        "answer": "LLM生成時に人物名の後に括弧付き年齢を追加した"
+      },
+      {
+        "why": 2,
+        "question": "なぜLLMが括弧付き年齢を追加したのか？",
+        "answer": "プロンプトに「年齢重複禁止」の明示的制約がなかった"
+      },
+      {
+        "why": 3,
+        "question": "なぜプロンプトに制約がなかったのか？",
+        "answer": "冒頭フォーマット要件に「年齢は冒頭のみ」という明示がなかった"
+      },
+      {
+        "why": 4,
+        "question": "なぜ自動テストで検出されなかったのか？",
+        "answer": "test_opening_format_consistencyが冒頭部分のみをチェックし、本文中の重複を検証していなかった"
+      },
+      {
+        "why": 5,
+        "question": "なぜ本文中の重複検証がなかったのか？",
+        "answer": "REQUIREMENTS.mdに「年齢情報は1回のみ」という要件が存在しなかった"
+      }
+    ],
+    "immediate_cause": "LLM生成時に括弧付き年齢を追加",
+    "underlying_cause": "年齢重複禁止の制約が未定義",
+    "systemic_cause": "年齢重複検証プロセスが存在しなかった"
+  },
+  "kaizen_actions": [
+    {
+      "action_id": "KA_013",
+      "type": "CORRECTION",
+      "priority": "P1",
+      "description": "3件の年齢重複削除",
+      "implementation": "fix_age_duplication.py",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "3件すべて修正成功（100%）、文字数範囲内を維持"
+    },
+    {
+      "action_id": "KA_014",
+      "type": "VALIDATION",
+      "priority": "P0",
+      "description": "test_age_duplication_prohibition自動テスト追加",
+      "implementation": "tests/test_episode_format.py（8つ目のテストケース）",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "括弧付き年齢を自動検出、再発防止を保証"
+    },
+    {
+      "action_id": "KA_015",
+      "type": "PREVENTION",
+      "priority": "P1",
+      "description": "REQUIREMENTS.md v1.3.0更新（年齢重複禁止要件追加）",
+      "implementation": "年齢情報の出現回数を明記：冒頭の1回のみ、括弧付き禁止",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "要件定義書にルールが永続化"
+    },
+    {
+      "action_id": "KA_016",
+      "type": "AUTOMATION",
+      "priority": "P2",
+      "description": "fix_age_duplication.py自動修正システム構築",
+      "implementation": "正規表現ベースの自動削除システム",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "将来の修正作業を自動化、3件を5文字削減（文字数範囲内維持）"
+    }
+  ],
+  "lessons_learned": [
+    {
+      "lesson_id": "LL_006",
+      "category": "REQUIREMENTS",
+      "description": "日本語の自然性は品質要件として明示的に定義する必要がある",
+      "application": "文法的正しさだけでなく、冗長性・読みやすさも品質基準に含める"
+    },
+    {
+      "lesson_id": "LL_007",
+      "category": "VALIDATION",
+      "description": "ユーザーからのフィードバックは品質盲点の発見に有効",
+      "application": "定期的なユーザーレビューと品質改善サイクルの確立"
+    },
+    {
+      "lesson_id": "LL_008",
+      "category": "TESTING",
+      "description": "冒頭だけでなく、エピソード全体の構造検証が必要",
+      "application": "テストケースは部分的ではなく、全体的な品質を保証する設計に"
+    }
+  ],
+  "verification": {
+    "test_results": {
+      "test_age_duplication_prohibition": "PASS",
+      "total_tests": 8,
+      "all_passed": true,
+      "test_file": "tests/test_episode_format.py"
+    },
+    "final_metrics": {
+      "total_records": 145,
+      "age_duplication_before": 3,
+      "age_duplication_after": 0,
+      "fix_success_rate": "100%",
+      "char_count_reduction_per_record": "約5文字（「（66歳）」削除）"
+    }
+  },
+  "related_failures": [
+    "FAIL_20251008_einstein_deletion",
+    "FAIL_20251008_format_inconsistency",
+    "FAIL_20251008_003"
+  ],
+  "documentation": [
+    "REQUIREMENTS.md v1.3.0",
+    "fix_age_duplication.py",
+    "tests/test_episode_format.py::test_age_duplication_prohibition"
+  ],
+  "prevention_status": "ACTIVE",
+  "recurrence_risk": "LOW",
+  "review_date": "2025-11-08",
+  "notes": "3件の年齢重複を100%修正完了。日本語の自然性向上のため、括弧付き年齢を完全排除。自動テストで再発防止を保証。"
+}

@@ -1,0 +1,157 @@
+{
+  "failure_id": "FAIL_20251008_005",
+  "timestamp": "2025-10-08T13:20:00Z",
+  "category": "QUALITY_ERROR",
+  "severity": "P1",
+  "title": "エピソード内時間情報重複問題（年齢と西暦の並記）",
+  "description": "112件（76.71%）で「63歳のとき」+「1994年7月」のように時間情報が重複。日本語として冗長かつ、年齢と西暦の矛盾を引き起こすリスクがある。",
+  "impact": {
+    "scope": "DATA_QUALITY",
+    "affected_records": 112,
+    "total_records": 146,
+    "violation_rate": "76.71%"
+  },
+  "detection": {
+    "method": "USER_REPORTED",
+    "detection_date": "2025-10-08",
+    "detection_trigger": "ユーザーからのP040緒方貞子エピソードにおける日本語不自然性指摘"
+  },
+  "root_cause_analysis": {
+    "five_whys": [
+      {
+        "why": 1,
+        "question": "なぜ112件で時間情報が重複したのか？",
+        "answer": "冒頭の年齢に加え、本文中に西暦年（YYYY年MM月等）を記載した"
+      },
+      {
+        "why": 2,
+        "question": "なぜ西暦年を追加したのか？",
+        "answer": "具体性向上のため日付を追加したが、年齢との重複を考慮しなかった"
+      },
+      {
+        "why": 3,
+        "question": "なぜ年齢との重複を考慮しなかったのか？",
+        "answer": "「時間情報は年齢のみ」という明示的制約がREQUIREMENTS.mdに存在しなかった"
+      },
+      {
+        "why": 4,
+        "question": "なぜ自動テストで検出されなかったのか？",
+        "answer": "時間情報重複を検出するテストが存在しなかった"
+      },
+      {
+        "why": 5,
+        "question": "なぜ時間情報重複検出テストがなかったのか？",
+        "answer": "年齢と西暦の整合性チェック機構が存在せず、品質要件として定義されていなかった"
+      }
+    ],
+    "immediate_cause": "LLM生成時に西暦年を追加",
+    "underlying_cause": "時間情報単一性の制約が未定義",
+    "systemic_cause": "時間情報重複検証プロセスが存在しなかった"
+  },
+  "kaizen_actions": [
+    {
+      "action_id": "KA_017",
+      "type": "CORRECTION",
+      "priority": "P1",
+      "description": "全エピソードの西暦年表記削除",
+      "implementation": "fix_date_duplication.py",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "102件修正（69.86%）、平均11.02文字削減、10件が文字数範囲外のため追加対応必要"
+    },
+    {
+      "action_id": "KA_018",
+      "type": "VALIDATION",
+      "priority": "P0",
+      "description": "test_time_information_singularity自動テスト追加",
+      "implementation": "tests/test_episode_format.py（9つ目のテストケース）",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "西暦年表記（YYYY年）を自動検出、再発防止を保証"
+    },
+    {
+      "action_id": "KA_019",
+      "type": "PREVENTION",
+      "priority": "P1",
+      "description": "REQUIREMENTS.md v1.4.0更新（時間情報単一性要件追加）",
+      "implementation": "時間情報は年齢のみで表現、西暦年表記禁止を明記",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "要件定義書にルールが永続化、3つの理由（冗長性・矛盾リスク・日本語不自然性）を文書化"
+    },
+    {
+      "action_id": "KA_020",
+      "type": "AUTOMATION",
+      "priority": "P2",
+      "description": "date_duplication_detector.py検出システム構築",
+      "implementation": "正規表現ベースの西暦年検出、年齢との整合性チェック",
+      "status": "COMPLETED",
+      "completion_date": "2025-10-08",
+      "outcome": "112件（76.71%）の時間情報重複を検出、詳細レポート生成"
+    }
+  ],
+  "lessons_learned": [
+    {
+      "lesson_id": "LL_009",
+      "category": "REQUIREMENTS",
+      "description": "日本語の文章構造における時間枠の扱いは明示的に定義する必要がある",
+      "application": "時間枠を一度設定したら再提示は不要という日本語の原則を品質基準に含める"
+    },
+    {
+      "lesson_id": "LL_010",
+      "category": "DATA_VALIDATION",
+      "description": "年齢と西暦の整合性チェックは自動化必須",
+      "application": "生年データと組み合わせて年齢-西暦矛盾を自動検出する機構を構築"
+    },
+    {
+      "lesson_id": "LL_011",
+      "category": "JAPANESE_LANGUAGE",
+      "description": "日本語の冗長性は英語以上に不自然に感じられる",
+      "application": "時間・場所・人物等の情報は必要最小限の出現回数に抑える"
+    },
+    {
+      "lesson_id": "LL_012",
+      "category": "USER_FEEDBACK",
+      "description": "ユーザーからの「不自然」という直感的フィードバックは重要な品質指標",
+      "application": "定量的メトリクスだけでなく、読みやすさ・自然性も品質基準に含める"
+    }
+  ],
+  "verification": {
+    "test_results": {
+      "test_time_information_singularity": "PENDING",
+      "total_tests": 9,
+      "test_file": "tests/test_episode_format.py"
+    },
+    "detection_metrics": {
+      "total_records": 146,
+      "year_mention_count": 112,
+      "year_mention_rate": "76.71%",
+      "duplication_count": 112,
+      "duplication_rate": "76.71%"
+    },
+    "fix_metrics": {
+      "fixed_count": 102,
+      "fixed_rate": "69.86%",
+      "skipped_count": 34,
+      "out_of_range_count": 10,
+      "total_chars_removed": 1124,
+      "avg_chars_removed": "11.02"
+    },
+    "final_validation": "PENDING - pytest実行後に更新"
+  },
+  "related_failures": [
+    "FAIL_20251008_002",
+    "FAIL_20251008_003",
+    "FAIL_20251008_004"
+  ],
+  "documentation": [
+    "REQUIREMENTS.md v1.4.0",
+    "date_duplication_detector.py",
+    "fix_date_duplication.py",
+    "tests/test_episode_format.py::test_time_information_singularity"
+  ],
+  "prevention_status": "ACTIVE",
+  "recurrence_risk": "LOW",
+  "review_date": "2025-11-08",
+  "notes": "112件（76.71%）の時間情報重複を検出。102件を自動修正完了（平均11.02文字削除）。10件が文字数範囲外のため追加対応が必要。日本語の自然性向上のため、西暦年表記を完全排除。自動テストで再発防止を保証。"
+}

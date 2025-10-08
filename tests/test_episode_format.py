@@ -6,6 +6,7 @@ RCA-Kaizen Loop:
 - FAIL_20251008_002 (KA_007): 冒頭フォーマット
 - FAIL_20251008_003 (KA_012): 時系列バランス
 - FAIL_20251008_004 (KA_014): 年齢重複禁止
+- FAIL_20251008_005 (KA_018): 時間情報重複禁止
 
 再発防止のための自動テスト
 
@@ -17,11 +18,12 @@ Test Coverage:
 5. 主観表現禁止（18パターン）
 6. 総合準拠率（統計情報）
 7. 時系列バランス（該当年齢時 ≥ 66.7%）
-8. 年齢重複禁止（括弧付き年齢の排除）← NEW
+8. 年齢重複禁止（括弧付き年齢の排除）
+9. 時間情報単一性（西暦年表記の排除）← NEW
 
 Author: Final Hourglass Project
 Date: 2025-10-08
-Version: 1.2.0
+Version: 1.3.0
 """
 
 import pytest
@@ -364,6 +366,56 @@ class TestEpisodeFormat:
                 f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): {v['episode_excerpt']}..."
                 for v in violations
             ])
+        )
+
+    def test_time_information_singularity(self, qualified_records):
+        """
+        テスト9: 時間情報単一性（西暦年表記の排除）
+
+        エピソード内の時間情報は冒頭の年齢のみとし、
+        本文中の西暦年表記（YYYY年）を禁止
+
+        理由:
+        1. 年齢で時間枠を設定済みのため冗長
+        2. 年齢と西暦の矛盾リスク
+        3. 日本語として不自然（時間枠の重複）
+
+        REQUIREMENTS.md v1.4.0準拠
+        RCA-Kaizen Loop: FAIL_20251008_005 (KA_018)
+        """
+        # 西暦年表記パターン（YYYY年）
+        year_pattern = r'\d{4}年'
+        violations = []
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+
+            # 西暦年表記を検出
+            matches = re.findall(year_pattern, episode)
+            if matches:
+                violations.append({
+                    'person_id': row['人物ID'],
+                    'person_name': row['人物名'],
+                    'age': row['年齢'],
+                    'year_mentions': matches,
+                    'episode_excerpt': episode[:100]
+                })
+
+        total_count = len(qualified_records)
+
+        print(f"\n📊 時間情報単一性検証統計:")
+        print(f"合格レコード: {total_count}")
+        print(f"✅ 西暦年表記なし: {total_count - len(violations)}")
+        print(f"❌ 西暦年表記検出: {len(violations)}")
+
+        assert len(violations) == 0, (
+            f"西暦年表記検出: {len(violations)}件\n"
+            f"違反レコード:\n" +
+            "\n".join([
+                f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): "
+                f"検出年={v['year_mentions']} - {v['episode_excerpt']}..."
+                for v in violations[:10]
+            ]) + (f"\n  ... 他 {len(violations) - 10}件" if len(violations) > 10 else "")
         )
 
 

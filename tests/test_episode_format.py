@@ -181,9 +181,9 @@ class TestEpisodeFormat:
 
     def test_character_count_range(self, qualified_records):
         """
-        テスト4: 文字数範囲（180-280文字厳守）
+        テスト4: 文字数範囲（175-280文字厳守）
 
-        REQUIREMENTS.md v1.1.0準拠
+        REQUIREMENTS.md v1.5.0準拠（Phase 14で緩和）
         """
         violations = []
 
@@ -192,7 +192,7 @@ class TestEpisodeFormat:
             char_count = len(episode)
             csv_char_count = int(row['文字数'])
 
-            if not (180 <= char_count <= 280):
+            if not (175 <= char_count <= 280):
                 violations.append({
                     'person_id': row['人物ID'],
                     'person_name': row['人物名'],

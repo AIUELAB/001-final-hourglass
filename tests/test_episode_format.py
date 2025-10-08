@@ -2,7 +2,11 @@
 """
 エピソード冒頭フォーマット統一性テスト
 
-RCA-Kaizen Loop: FAIL_20251008_002 (KA_007), FAIL_20251008_003 (KA_012)
+RCA-Kaizen Loop:
+- FAIL_20251008_002 (KA_007): 冒頭フォーマット
+- FAIL_20251008_003 (KA_012): 時系列バランス
+- FAIL_20251008_004 (KA_014): 年齢重複禁止
+
 再発防止のための自動テスト
 
 Test Coverage:
@@ -11,11 +15,13 @@ Test Coverage:
 3. 人物名一致性（CSV人物名とエピソード内人物名の一致）
 4. 文字数範囲（180-280文字厳守）
 5. 主観表現禁止（18パターン）
-6. 時系列バランス（該当年齢時 ≥ 66.7%）
+6. 総合準拠率（統計情報）
+7. 時系列バランス（該当年齢時 ≥ 66.7%）
+8. 年齢重複禁止（括弧付き年齢の排除）← NEW
 
 Author: Final Hourglass Project
 Date: 2025-10-08
-Version: 1.1.0
+Version: 1.2.0
 """
 
 import pytest
@@ -316,6 +322,48 @@ class TestEpisodeFormat:
                 f"[該当年齢時:{v['main_age_chars']}文字、後続:{v['subsequent_chars']}文字]"
                 for v in violations[:10]  # 最初の10件のみ表示
             ]) + (f"\n  ... 他 {len(violations) - 10}件" if len(violations) > 10 else "")
+        )
+
+    def test_age_duplication_prohibition(self, qualified_records):
+        """
+        テスト8: 年齢重複禁止（括弧付き年齢の排除）
+
+        エピソード内で年齢情報は冒頭の1回のみ出現すること
+        括弧付き年齢（XX歳）の使用を禁止
+
+        REQUIREMENTS.md v1.3.0準拠
+        RCA-Kaizen Loop: FAIL_20251008_004 (KA_014)
+        """
+        # 括弧付き年齢パターン
+        pattern = r'（\d+歳）'
+        violations = []
+
+        for idx, row in qualified_records.iterrows():
+            episode = str(row['エピソード本文'])
+
+            # 括弧付き年齢を検出
+            if re.search(pattern, episode):
+                violations.append({
+                    'person_id': row['人物ID'],
+                    'person_name': row['人物名'],
+                    'age': row['年齢'],
+                    'episode_excerpt': episode[:100]
+                })
+
+        total_count = len(qualified_records)
+
+        print(f"\n📊 年齢重複検証統計:")
+        print(f"合格レコード: {total_count}")
+        print(f"✅ 年齢重複なし: {total_count - len(violations)}")
+        print(f"❌ 年齢重複検出: {len(violations)}")
+
+        assert len(violations) == 0, (
+            f"年齢重複検出: {len(violations)}件\n"
+            f"違反レコード:\n" +
+            "\n".join([
+                f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): {v['episode_excerpt']}..."
+                for v in violations
+            ])
         )
 
 

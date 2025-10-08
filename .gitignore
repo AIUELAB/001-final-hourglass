@@ -243,6 +243,7 @@ fastlane/test_output
 !.rca_kaizen/failures/*.json
 # Final production CSV (最終成果物)
 !final_hourglass_week1_6_final_*.csv
+!final_hourglass_week1_6_age_fixed_*.csv
 backup_*/
 checkpoints*/
 archive*/

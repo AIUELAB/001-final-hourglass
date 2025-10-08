@@ -191,8 +191,8 @@ class DateDuplicationFixer:
             result = self.process_record(row, min_chars, max_chars)
             results.append(result)
 
-            # 修正適用
-            if result['status'] == 'fixed':
+            # 修正適用（out_of_rangeでも西暦年削除は適用）
+            if result['status'] in ['fixed', 'out_of_range'] and result['chars_removed'] > 0:
                 fixed_df.at[idx, 'エピソード本文'] = result['fixed_episode']
 
         # 統計情報

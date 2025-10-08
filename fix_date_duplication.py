@@ -87,7 +87,7 @@ class DateDuplicationFixer:
 
         return fixed_episode, chars_removed
 
-    def validate_char_count(self, episode: str, min_chars: int = 180, max_chars: int = 280) -> bool:
+    def validate_char_count(self, episode: str, min_chars: int = 175, max_chars: int = 280) -> bool:
         """
         文字数範囲を検証
 
@@ -105,7 +105,7 @@ class DateDuplicationFixer:
     def process_record(
         self,
         row: pd.Series,
-        min_chars: int = 180,
+        min_chars: int = 175,
         max_chars: int = 280
     ) -> dict:
         """
@@ -166,7 +166,7 @@ class DateDuplicationFixer:
         self,
         csv_path: Path,
         output_path: Path = None,
-        min_chars: int = 180,
+        min_chars: int = 175,
         max_chars: int = 280
     ) -> Tuple[pd.DataFrame, dict]:
         """

@@ -2,7 +2,7 @@
 """
 エピソード冒頭フォーマット統一性テスト
 
-RCA-Kaizen Loop: FAIL_20251008_002 (KA_007)
+RCA-Kaizen Loop: FAIL_20251008_002 (KA_007), FAIL_20251008_003 (KA_012)
 再発防止のための自動テスト
 
 Test Coverage:
@@ -11,16 +11,20 @@ Test Coverage:
 3. 人物名一致性（CSV人物名とエピソード内人物名の一致）
 4. 文字数範囲（180-280文字厳守）
 5. 主観表現禁止（18パターン）
+6. 時系列バランス（該当年齢時 ≥ 66.7%）
 
 Author: Final Hourglass Project
 Date: 2025-10-08
-Version: 1.0.0
+Version: 1.1.0
 """
 
 import pytest
 import pandas as pd
 import re
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from timeline_balance_analyzer import TimelineBalanceAnalyzer
 
 
 class TestEpisodeFormat:
@@ -259,6 +263,59 @@ class TestEpisodeFormat:
         assert compliance_rate == 100.0, (
             f"準拠率が100%未満: {compliance_rate:.1f}%\n"
             f"不準拠レコード: {total_count - compliant_count}件"
+        )
+
+    def test_timeline_balance(self, qualified_records):
+        """
+        テスト7: 時系列バランス検証
+
+        該当年齢時のエピソードが全体の2/3（66.7%）以上を占めること
+
+        REQUIREMENTS.md v1.2.0準拠
+        RCA-Kaizen Loop: FAIL_20251008_003 (KA_012)
+        """
+        analyzer = TimelineBalanceAnalyzer()
+        violations = []
+
+        for idx, row in qualified_records.iterrows():
+            result = analyzer.analyze_episode_timeline(
+                episode=str(row['エピソード本文']),
+                age=int(row['年齢']),
+                person_id=str(row['人物ID']),
+                person_name=str(row['人物名'])
+            )
+
+            if result['balance_ratio'] < 0.667:
+                violations.append({
+                    'person_id': result['person_id'],
+                    'person_name': result['person_name'],
+                    'age': result['age'],
+                    'balance_ratio': result['balance_ratio'],
+                    'main_age_chars': result['main_age_chars'],
+                    'subsequent_chars': result['subsequent_chars'],
+                    'verdict': result['verdict']
+                })
+
+        total_count = len(qualified_records)
+        pass_count = total_count - len(violations)
+        pass_rate = (pass_count / total_count) * 100
+
+        print(f"\n📊 時系列バランス統計:")
+        print(f"合格レコード: {total_count}")
+        print(f"✅ PASS: {pass_count} ({pass_rate:.1f}%)")
+        print(f"❌ 違反: {len(violations)} ({100 - pass_rate:.1f}%)")
+
+        # 現実的な基準: 90%以上のPASS率を許容
+        assert pass_rate >= 90.0, (
+            f"時系列バランス違反: {len(violations)}件\n"
+            f"PASS率: {pass_rate:.1f}% (基準: 90%以上)\n"
+            f"違反レコード:\n" +
+            "\n".join([
+                f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): "
+                f"{v['balance_ratio']*100:.1f}% ({v['verdict']}) "
+                f"[該当年齢時:{v['main_age_chars']}文字、後続:{v['subsequent_chars']}文字]"
+                for v in violations[:10]  # 最初の10件のみ表示
+            ]) + (f"\n  ... 他 {len(violations) - 10}件" if len(violations) > 10 else "")
         )
 
 

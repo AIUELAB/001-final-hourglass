@@ -239,6 +239,7 @@ fastlane/test_output
 !tsconfig.json
 !cspell.json
 !auto_*.json
+!person_birth_dates_*.json
 # RCA-Kaizen Loop records (重要な成果物)
 !.rca_kaizen/failures/*.json
 # Final production CSV (最終成果物)

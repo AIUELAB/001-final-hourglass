@@ -14,6 +14,7 @@ MCP自動データ収集スクリプト
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import json
 import logging
 import time
@@ -359,7 +360,7 @@ class AutoBracketMetadataCollector:
         Returns:
             収集結果リスト
         """
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 

@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional, Set, Any
 import sqlite3
+from src.database_utils import get_connection
 import hashlib
 from urllib.parse import quote
 import re
@@ -66,7 +67,7 @@ class WikipediaSearchCache:
     
     def __init__(self, cache_file: str = "wikipedia_cache.db"):
         self.cache_file = cache_file
-        self.conn = sqlite3.connect(self.cache_file)
+        self.conn = get_connection(self.cache_file)
         self.create_table()
         
     def create_table(self):

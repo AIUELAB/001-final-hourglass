@@ -15,14 +15,23 @@ Created: 2025-10-02
 """
 
 import sqlite3
+from src.database_utils import get_db_connection
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
 import csv
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - [%(levelname)s] - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Rule 201インポート（オプション）
+try:
+    from rules.rule_201_episode_selection_criteria import Rule201EpisodeSelectionCriteria
+    RULE_201_AVAILABLE = True
+except ImportError:
+    RULE_201_AVAILABLE = False
+    logger.warning("Rule 201が利用できません。優先度評価機能は無効化されます。")
 
 
 @dataclass
@@ -78,57 +87,194 @@ class CategoryBasedCandidateSelector:
         TargetPerson("菅義偉", "政治", 3),
     ]
 
-    def __init__(self, db_path: str = "episode_database.db"):
+    def __init__(self, db_path: str = "episode_database.db", enable_priority_scoring: bool = True):
         self.db_path = db_path
+        self.excluded_persons: set = set()  # 除外する人物名のセット
+        self.enable_priority_scoring = enable_priority_scoring and RULE_201_AVAILABLE
+
+        # Rule 201初期化（優先度評価用）
+        if self.enable_priority_scoring:
+            self.priority_gate = Rule201EpisodeSelectionCriteria()
+            logger.info("✅ Rule 201による優先度評価を有効化しました")
+        else:
+            self.priority_gate = None
+            if enable_priority_scoring and not RULE_201_AVAILABLE:
+                logger.warning("⚠️ Rule 201が利用できないため、優先度評価は無効化されました")
+
+    def load_excluded_persons_from_csv(self, csv_path: str):
+        """
+        既存データベースから除外人物リストを読み込み
+
+        Args:
+            csv_path: 既存エピソードデータベースのCSVパス
+        """
+        try:
+            with open(csv_path, 'r', encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    person_name = row.get('人物名', '')
+                    if person_name:
+                        self.excluded_persons.add(person_name)
+
+            logger.info(f"✅ 除外リスト読み込み完了: {len(self.excluded_persons)}件")
+        except FileNotFoundError:
+            logger.warning(f"⚠️ 除外リストファイルが見つかりません: {csv_path}")
+        except Exception as e:
+            logger.error(f"❌ 除外リスト読み込みエラー: {e}")
+
+    def add_excluded_person(self, person_name: str):
+        """除外リストに人物を追加"""
+        self.excluded_persons.add(person_name)
+
+    def add_excluded_persons(self, person_names: List[str]):
+        """除外リストに複数人物を追加"""
+        self.excluded_persons.update(person_names)
+
+    def clear_excluded_persons(self):
+        """除外リストをクリア"""
+        self.excluded_persons.clear()
 
     def select_from_database(self, max_candidates: int = 50) -> List[Dict]:
         """データベースから有名人を選定"""
 
-        conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
+        with get_db_connection(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
 
-        selected = []
-        found_names = set()
+            selected = []
+            found_names = set()
 
-        # 優先度順に選定
-        for priority in [1, 2, 3]:
-            if len(selected) >= max_candidates:
-                break
-
-            priority_persons = [p for p in self.FAMOUS_JAPANESE_PERSONS if p.priority == priority]
-
-            for target in priority_persons:
+            # 優先度順に選定
+            for priority in [1, 2, 3]:
                 if len(selected) >= max_candidates:
                     break
 
-                # データベースから検索（部分一致）
-                query = """
-                    SELECT person_id, person_name_ja, person_name_en, birth_year, category
-                    FROM persons
-                    WHERE person_name_ja LIKE ?
-                    AND birth_year IS NOT NULL
-                """
-                cursor.execute(query, (f"%{target.name}%",))
-                rows = cursor.fetchall()
+                priority_persons = [p for p in self.FAMOUS_JAPANESE_PERSONS if p.priority == priority]
 
-                for row in rows:
-                    person = dict(row)
-                    person_name = person['person_name_ja']
+                for target in priority_persons:
+                    if len(selected) >= max_candidates:
+                        break
 
-                    # 重複チェック
-                    if person_name not in found_names:
-                        person['priority'] = target.priority
-                        person['target_category'] = target.category
-                        selected.append(person)
-                        found_names.add(person_name)
+                    # データベースから検索（部分一致）
+                    query = """
+                        SELECT person_id, person_name_ja, person_name_en, birth_year, category
+                        FROM persons
+                        WHERE person_name_ja LIKE ?
+                        AND birth_year IS NOT NULL
+                    """
+                    cursor.execute(query, (f"%{target.name}%",))
+                    rows = cursor.fetchall()
 
-                        logger.info(f"  選定: {person_name} (優先度: {target.priority})")
+                    for row in rows:
+                        person = dict(row)
+                        person_name = person['person_name_ja']
 
-        conn.close()
+                        # 除外リストチェック
+                        if person_name in self.excluded_persons:
+                            logger.debug(f"  除外: {person_name} (除外リストに存在)")
+                            continue
+
+                        # 重複チェック
+                        if person_name not in found_names:
+                            person['priority'] = target.priority
+                            person['target_category'] = target.category
+                            selected.append(person)
+                            found_names.add(person_name)
+
+                            logger.info(f"  選定: {person_name} (優先度: {target.priority})")
 
         logger.info(f"✅ 選定完了: {len(selected)}名")
         return selected
+
+    def select_with_priority(self, max_candidates: int = 130, target_tier1_ratio: float = 0.4) -> List[Dict]:
+        """
+        優先度ベースの候補選定（Rule 201統合版）
+
+        Args:
+            max_candidates: 選定する候補数
+            target_tier1_ratio: Tier 1の目標比率（デフォルト40%）
+
+        Returns:
+            優先度順にソートされた候補リスト
+        """
+        # まず全候補を取得（多めに）
+        all_candidates = self.select_from_database(max_candidates=max_candidates * 3)
+
+        if not self.enable_priority_scoring or not all_candidates:
+            # Rule 201が無効の場合は通常の選定結果をそのまま返す
+            return all_candidates[:max_candidates]
+
+        logger.info(f"\n🎯 Rule 201による優先度評価を開始")
+
+        # 各候補の優先度を評価
+        tier1_candidates = []
+        tier2_candidates = []
+        tier3_candidates = []
+
+        for candidate in all_candidates:
+            # Rule 201で評価
+            tier, score, details = self.priority_gate.evaluate_priority({
+                'description': f"{candidate.get('category', '')} 分野の著名人",
+                'person_name': candidate.get('person_name_ja', ''),
+                'category': candidate.get('category', ''),
+                'priority': candidate.get('priority', 3)
+            })
+
+            # 候補に優先度情報を追加
+            candidate['tier'] = tier
+            candidate['priority_score'] = score
+            candidate['tier_details'] = details
+
+            # Tier別に分類
+            if tier == 1:
+                tier1_candidates.append(candidate)
+            elif tier == 2:
+                tier2_candidates.append(candidate)
+            else:
+                tier3_candidates.append(candidate)
+
+        # 各Tierをスコア順にソート
+        tier1_candidates.sort(key=lambda x: x['priority_score'], reverse=True)
+        tier2_candidates.sort(key=lambda x: x['priority_score'], reverse=True)
+        tier3_candidates.sort(key=lambda x: x['priority_score'], reverse=True)
+
+        # 目標Tier比率に基づいて選定
+        target_tier1 = int(max_candidates * target_tier1_ratio)
+        target_tier2 = int(max_candidates * 0.35)
+        target_tier3 = max_candidates - target_tier1 - target_tier2
+
+        selected = []
+        selected.extend(tier1_candidates[:target_tier1])
+
+        remaining = max_candidates - len(selected)
+        if remaining > 0:
+            selected.extend(tier2_candidates[:min(target_tier2, remaining)])
+
+        remaining = max_candidates - len(selected)
+        if remaining > 0:
+            selected.extend(tier3_candidates[:min(target_tier3, remaining)])
+
+        # 不足分は残りのTier 1/2から補充
+        remaining = max_candidates - len(selected)
+        if remaining > 0:
+            extra_tier1 = tier1_candidates[target_tier1:]
+            extra_tier2 = tier2_candidates[target_tier2:]
+            extra = extra_tier1 + extra_tier2
+            extra.sort(key=lambda x: x['priority_score'], reverse=True)
+            selected.extend(extra[:remaining])
+
+        # 統計情報を表示
+        final_tier1 = sum(1 for c in selected if c['tier'] == 1)
+        final_tier2 = sum(1 for c in selected if c['tier'] == 2)
+        final_tier3 = sum(1 for c in selected if c['tier'] == 3)
+
+        logger.info(f"\n📊 優先度ベース選定結果:")
+        logger.info(f"   総数: {len(selected)}名")
+        logger.info(f"   Tier 1: {final_tier1}名 ({final_tier1/len(selected)*100:.1f}%) - 目標≥40%")
+        logger.info(f"   Tier 2: {final_tier2}名 ({final_tier2/len(selected)*100:.1f}%) - 目標≥35%")
+        logger.info(f"   Tier 3: {final_tier3}名 ({final_tier3/len(selected)*100:.1f}%) - 目標≤25%")
+
+        return selected[:max_candidates]
 
     def export_to_csv(self, persons: List[Dict], output_path: str):
         """CSV出力（UTF-8 BOM）"""

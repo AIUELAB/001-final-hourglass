@@ -116,11 +116,16 @@ class Rule:
 class UnifiedRuleRegistry:
     """統合ルールレジストリ"""
 
-    def __init__(self, registry_path: str = "rules_registry.json"):
+    def __init__(self, registry_path: str = "rules_registry.json", event_bus=None):
         self.registry_path = Path(registry_path)
         self.rules: Dict[str, Rule] = {}
         self.history: List[Dict] = []
         self.checksum: Optional[str] = None
+
+        # Phase 2: イベントバス統合
+        self.event_bus = event_bus
+        if self.event_bus:
+            logger.info("✅ UnifiedRuleRegistry: イベントバス統合モード")
 
         self._load_registry()
 
@@ -302,6 +307,17 @@ class UnifiedRuleRegistry:
 
         self._save_registry()
         logger.info(f"✅ ルール追加: {rule.rule_id}")
+
+        # Phase 2: イベント発行
+        if self.event_bus:
+            self.event_bus.publish(
+                event_type='rule_added',
+                rule_id=rule.rule_id,
+                rule_data=rule.to_dict(),
+                source='UnifiedRuleRegistry'
+            )
+            logger.debug(f"📢 イベント発行: rule_added - {rule.rule_id}")
+
         return True
 
     def update_rule(self, rule_id: str, updates: Dict) -> bool:
@@ -337,6 +353,17 @@ class UnifiedRuleRegistry:
 
         self._save_registry()
         logger.info(f"✅ ルール更新: {rule_id}")
+
+        # Phase 2: イベント発行
+        if self.event_bus:
+            self.event_bus.publish(
+                event_type='rule_updated',
+                rule_id=rule_id,
+                rule_data=rule.to_dict(),
+                source='UnifiedRuleRegistry'
+            )
+            logger.debug(f"📢 イベント発行: rule_updated - {rule_id}")
+
         return True
 
     def deprecate_rule(self, rule_id: str, replacement_id: Optional[str] = None) -> bool:
@@ -362,6 +389,17 @@ class UnifiedRuleRegistry:
 
         self._save_registry()
         logger.info(f"⚠️ ルール非推奨化: {rule_id}")
+
+        # Phase 2: イベント発行（deprecateは内部的にdisabled扱い）
+        if self.event_bus:
+            self.event_bus.publish(
+                event_type='rule_disabled',
+                rule_id=rule_id,
+                rule_data=self.rules[rule_id].to_dict(),
+                source='UnifiedRuleRegistry'
+            )
+            logger.debug(f"📢 イベント発行: rule_disabled - {rule_id}")
+
         return True
 
     def detect_conflicts(self) -> List[Tuple[str, str, str]]:

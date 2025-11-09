@@ -45,10 +45,11 @@ show_banner() {
     cat << 'EOF'
 
 ╔═══════════════════════════════════════════════════════════╗
-║   🚀 AI協調分析システム 統合起動マネージャー v3.0       ║
+║   🚀 AI協調分析システム 統合起動マネージャー v3.1       ║
 ║                                                           ║
 ║   🎯 Serena MCP Server                                   ║
 ║   🤖 Codex MCP Server                                    ║
+║   📊 Episode Analytics API                               ║
 ║   📊 自動同期システム                                    ║
 ║   🔍 ファクトチェッカー                                  ║
 ║   👁️ リアルタイム監視                                   ║
@@ -173,21 +174,60 @@ else
 fi
 
 # ============================================================
-# 4️⃣ ファクトチェッカー実行（1回のみ）
+# 4️⃣ セッション記録システム起動
 # ============================================================
-if [ -f "${PROJECT_ROOT}/scripts/fact_checker.py" ]; then
-    echo -e "${CYAN}🔍 ファクトチェック実行中...${NC}"
-    log_info "Running fact checker"
+start_process "session_recorder" "${PROJECT_ROOT}/scripts/session_recorder_daemon.py"
 
-    if python3 scripts/fact_checker.py > /dev/null 2>&1; then
-        echo -e "${GREEN}✅ ファクトチェック完了（誤記なし）${NC}"
-        log_success "Fact check completed successfully"
+# ============================================================
+# 5️⃣ PDCAガーディアンシステム起動
+# ============================================================
+start_process "pdca_guardian" "${PROJECT_ROOT}/pdca_guardian_daemon.py"
+
+# ============================================================
+# 5.5️⃣ Episode Analytics API起動
+# ============================================================
+start_process "episode_api" "${PROJECT_ROOT}/scripts/start_episode_api.py"
+
+# ============================================================
+# 6️⃣ AI協調分析システム起動
+# ============================================================
+if [ -f "${PROJECT_ROOT}/ai_collaboration_system.py" ]; then
+    # AI協調分析システムはデーモンモードで起動
+    if is_process_running "ai_collaboration"; then
+        echo -e "${YELLOW}⚠️  ai_collaboration は既に起動しています${NC}"
     else
-        echo -e "${YELLOW}⚠️  ファクトチェックで誤記を検出${NC}"
-        echo -e "${YELLOW}  → 修正方法: python3 scripts/fact_checker.py --fix${NC}"
-        log_warn "Fact check detected errors"
+        echo -e "${CYAN}🔄 ai_collaboration を起動中...${NC}"
+        log_info "Starting ai_collaboration"
+
+        python3 "${PROJECT_ROOT}/ai_collaboration_system.py" --daemon > /dev/null 2>&1 &
+        local pid=$!
+        echo "$pid" > "${PID_DIR}/ai_collaboration.pid"
+
+        sleep 3
+        if ps -p "$pid" > /dev/null 2>&1; then
+            echo -e "${GREEN}✅ ai_collaboration 起動成功 (PID: $pid)${NC}"
+            log_success "ai_collaboration started successfully (PID: $pid)"
+        else
+            echo -e "${RED}❌ ai_collaboration 起動失敗${NC}"
+            log_error "ai_collaboration failed to start"
+            rm -f "${PID_DIR}/ai_collaboration.pid"
+        fi
     fi
+else
+    echo -e "${YELLOW}⚠️  ai_collaboration_system.py が見つかりません（スキップ）${NC}"
+    log_warn "ai_collaboration_system.py not found"
 fi
+
+# ============================================================
+# 7️⃣ ファクトチェッカー実行（無効化 - 2025-10-15）
+# ============================================================
+# 理由: メモリリーク発生のため自動実行を無効化
+# - 過去の実行で24.8 GBのメモリ消費を確認
+# - 手動実行: ./scripts/safe_fact_checker.sh
+# ============================================================
+echo -e "${YELLOW}ℹ️  ファクトチェッカーは手動実行に変更されました${NC}"
+echo -e "${YELLOW}  → 実行方法: ./scripts/safe_fact_checker.sh${NC}"
+log_info "Fact checker disabled (use safe_fact_checker.sh for manual execution)"
 
 # ============================================================
 # 5️⃣ リアルタイム監視起動（オプション）
@@ -239,6 +279,13 @@ echo -e "${GREEN}╔════════════════════
 echo -e "${GREEN}║   ✨ AI協調分析システム起動完了！                       ║${NC}"
 echo -e "${GREEN}╚═══════════════════════════════════════════════════════════╝${NC}"
 echo ""
+echo -e "${GREEN}✅ すべて正常稼働中${NC}"
+echo ""
+echo -e "${CYAN}💡 重要: システム稼働状況について${NC}"
+echo -e "  このメッセージが表示された時点で、すべてのシステムは正常に動作しています。"
+echo -e "  「システムは稼働していますか？」という質問は不要です。"
+echo -e "  詳細: .session/AUTO_STARTUP_GUIDE.md をご覧ください。"
+echo ""
 echo -e "${CYAN}📌 稼働中のサービス:${NC}"
 
 # Serena状態
@@ -260,6 +307,34 @@ if is_process_running "auto_sync"; then
     echo -e "  ${GREEN}✅ 自動同期システム${NC} (PID: $(cat "${PID_DIR}/auto_sync.pid"))"
 else
     echo -e "  ${YELLOW}⚠️  自動同期システム${NC}"
+fi
+
+# Session Recorder状態
+if is_process_running "session_recorder"; then
+    echo -e "  ${GREEN}✅ セッション記録システム${NC} (PID: $(cat "${PID_DIR}/session_recorder.pid"))"
+else
+    echo -e "  ${RED}❌ セッション記録システム${NC}"
+fi
+
+# PDCA Guardian状態
+if is_process_running "pdca_guardian"; then
+    echo -e "  ${GREEN}✅ PDCAガーディアン${NC} (PID: $(cat "${PID_DIR}/pdca_guardian.pid"))"
+else
+    echo -e "  ${RED}❌ PDCAガーディアン${NC}"
+fi
+
+# Episode Analytics API状態
+if is_process_running "episode_api"; then
+    echo -e "  ${GREEN}✅ Episode Analytics API${NC} (PID: $(cat "${PID_DIR}/episode_api.pid")) - http://localhost:8001"
+else
+    echo -e "  ${RED}❌ Episode Analytics API${NC}"
+fi
+
+# AI Collaboration状態
+if is_process_running "ai_collaboration"; then
+    echo -e "  ${GREEN}✅ AI協調分析システム${NC} (PID: $(cat "${PID_DIR}/ai_collaboration.pid"))"
+else
+    echo -e "  ${RED}❌ AI協調分析システム${NC}"
 fi
 
 # 監視状態

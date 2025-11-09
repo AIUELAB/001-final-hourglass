@@ -19,6 +19,9 @@ from ultra_high_quality_prompt import UltraHighQualityPromptGenerator
 from instant_quality_gate import InstantQualityGate, QualityGateResult
 from auto_fix_engine import AutoFixEngine
 
+# Phase 4.9 (2025-11-01): QualityGateSystem統合（日本語品質チェッカーv2含む）
+from quality_gate_system import QualityGateSystem, ApprovalStatus
+
 
 @dataclass
 class IterationResult:
@@ -94,6 +97,10 @@ class SmartIterationEngine:
         self.prompt_generator = UltraHighQualityPromptGenerator()
         self.quality_gate = InstantQualityGate()
         self.fix_engine = AutoFixEngine()
+
+        # Phase 4.9 (2025-11-01): QualityGateSystem統合
+        # 日本語品質チェッカーv2を含む統一品質ゲートシステム
+        self.quality_gate_system = QualityGateSystem()
 
         # LLM評価器（HybridImpactEvaluator統合）
         self.llm_evaluator = None
@@ -227,6 +234,32 @@ class SmartIterationEngine:
                 target_age=age,
                 person_name=person_name
             )
+
+            # Phase 4.9 (2025-11-01): 日本語品質チェック（QualityGateSystem）
+            print(f"🔍 Phase 4.9: 日本語品質チェック実行中...")
+            episode_data = {
+                'person_name': person_name,
+                'episode_age': age,
+                'episode_content': episode_text,
+                'category': category
+            }
+
+            # QualityGateSystemで検証（日本語品質チェッカーv2含む）
+            gate_system_result = self.quality_gate_system.validate_episode_sync(episode_data)
+
+            # 自動修正が実施された場合、テキストを更新
+            if 'episode_content' in episode_data and episode_data['episode_content'] != episode_text:
+                episode_text = episode_data['episode_content']
+                print(f"✅ 日本語品質チェック: 自動修正を適用しました")
+
+            # 日本語品質チェックの結果をgate_resultに反映
+            if gate_system_result.status != ApprovalStatus.APPROVED:
+                gate_result.passed = False
+                for violation in gate_system_result.violations:
+                    if 'JAPANESE_QUALITY' in violation or 'RULE_300' in violation:
+                        print(f"⚠️ {violation}")
+            else:
+                print(f"✅ 日本語品質チェック: 合格")
 
             # 結果記録
             iter_result = IterationResult(

@@ -1797,10 +1797,14 @@ if "credit balance" in error_str:
 
         # 許容されるフォーマットパターン
         valid_prefixes = [
+            # 標準パターン（年齢表記あり - Phase 1対応: 括弧付き年齢）
+            f"あなたと同じ{age}歳のとき、{person_name}（{age}歳）は",
             # 標準パターン（年齢表記あり）
             f"あなたと同じ{age}歳のとき、{person_name_display}は",
             # 標準パターン（年齢表記なし）
             f"あなたと同じ{age}歳のとき、{person_name}は",
+            # 「実は」で始まるパターン（年齢表記あり - Phase 1対応）
+            f"実はあなたと同じ{age}歳のとき、{person_name}（{age}歳）は",
             # 「実は」で始まるパターン（年齢表記あり）
             f"実はあなたと同じ{age}歳のとき、{person_name_display}は",
             # 「実は」で始まるパターン（年齢表記なし）
@@ -3507,10 +3511,10 @@ if "credit balance" in error_str:
         return violations
 
     def check_quality_priority(self, episode_text: str, person_name_display: str, quality_score: float = 0) -> List[Dict[str, Any]]:
-        """RULE_168: 品質優先原則チェック"""
+        """RULE_168: 品質優先原則チェック（厳格な基準: 7.0）"""
         violations = []
 
-        # 品質スコアが低い場合
+        # 品質スコアが低い場合（厳格な基準: 7.0）
         if quality_score < 7.0:
             violations.append({
                 'rule_id': 'RULE_168',
@@ -3713,36 +3717,79 @@ if "credit balance" in error_str:
         return violations
 
     def check_three_axis_balance(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
-        """RULE_159: 3軸バランスの必須確認"""
+        """RULE_159: 3軸バランスの必須確認（RCA-Kaizen適用: 客観的事実ベースのキーワード）"""
         violations = []
 
-        # 3軸の要素を検出
+        # 3軸の要素を検出（客観的事実ベース - RCA-KAIZEN_001対応）
         axes = {
-            '記憶性': ['初の', '史上初', '世界初', '日本初', '記録', '伝説'],
-            '共感性': ['苦労', '努力', '挑戦', '克服', '成長', '感動'],
-            '意外性': ['実は', '意外に', 'しかし', 'ところが', '驚くことに']
+            '記憶性': [
+                # 記録・初系
+                '初の', '史上初', '世界初', '日本初', '初めて', '記録',
+                # 受賞・栄誉系
+                '受賞', '表彰', '選出', '受章', 'ノーベル', '文化勲章', '国民栄誉賞',
+                # 歴史的事実系
+                '創設', '設立', '開発', '発明', '発見', '確立', '創造', '創始',
+                # 影響・普及系
+                '広まった', '普及', '標準', '採用された', '影響を与えた', '導入された'
+            ],
+            '共感性': [
+                # 困難・障害系（客観的）
+                '失敗', '中断', '困難', '課題', '制約', '限界', '障害', '問題',
+                # 継続・持続系（客観的）
+                '続けた', '継続', '取り組んだ', '従事', '専念', '尽力', '研究', '探求',
+                # 協力・チーム系（客観的）
+                '協力', '共同', 'チーム', 'グループ', 'メンバー', 'パートナー', '連携',
+                # 支援・貢献系（客観的）
+                '支援', '貢献', '寄与', '協力', '援助', '協働', '助力', '後援'
+            ],
+            '意外性': [
+                # 転換・変化系
+                'しかし', 'ところが', 'だが', '一方で', '対照的に', 'それでも',
+                # 発見・判明系
+                '判明', '発見', '明らかに', '実際には', '事実上', '証明',
+                # 予想外・例外系
+                '予想外', '例外的', '異例', '珍しい', '稀な', '独特', 'ユニーク',
+                # 逆転・反転系
+                '逆転', '転換', '変化', '変更', '修正', '改訂', '転機', '契機',
+                # 時系列展開系（RCA-Kaizen Phase 5追加）
+                'その後', 'やがて', '次第に', 'ついに', 'ほどなく', 'まもなく',
+                # 起点・発展系（RCA-Kaizen Phase 5追加）
+                '基に', '元に', 'もとに', '踏まえ', '活かし', '生かし',
+                # 進歩・改善系（RCA-Kaizen Phase 5追加）
+                '向上', '進歩', '改善', '進化', '発展', '拡大', '拡張', '促進',
+                # 進展・実現系（RCA-Kaizen Phase 5追加）
+                '進めた', '進んだ', '実現', '達成', '成功', '完成', '策定', '制定'
+            ]
         }
 
         axis_scores = {}
         for axis_name, keywords in axes.items():
             axis_scores[axis_name] = any(kw in episode_text for kw in keywords)
 
-        # すべての軸がない（0軸）
-        if not any(axis_scores.values()):
+        # 厳格な3軸評価（RCA-Kaizen適用後、キーワードは客観的事実ベース）
+        axis_count = sum(axis_scores.values())
+        if axis_count == 0:
             violations.append({
                 'rule_id': 'RULE_159',
                 'type': ViolationType.THREE_AXIS_BALANCE_VIOLATION.value,
                 'message': f'{person_name_display}: 3軸（記憶性・共感性・意外性）すべて不足',
                 'severity': 'high'
             })
-        # 1軸のみ
-        elif sum(axis_scores.values()) == 1:
+        elif axis_count == 1:
             violations.append({
                 'rule_id': 'RULE_159',
                 'type': ViolationType.THREE_AXIS_BALANCE_VIOLATION.value,
                 'message': f'{person_name_display}: 3軸バランス不良（1軸のみ）',
                 'severity': 'medium'
             })
+        elif axis_count == 2:
+            violations.append({
+                'rule_id': 'RULE_159',
+                'type': ViolationType.THREE_AXIS_BALANCE_VIOLATION.value,
+                'message': f'{person_name_display}: 3軸バランス不良（2軸のみ、3軸すべて必要）',
+                'severity': 'low'
+            })
+        # axis_count == 3 の場合のみ合格（厳格な基準）
 
         return violations
 

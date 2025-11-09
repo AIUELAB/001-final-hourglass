@@ -9,6 +9,7 @@
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import sys
 import os
 from datetime import datetime
@@ -79,7 +80,7 @@ def run_migration(db_path: str, dry_run: bool = False) -> bool:
     print(f"\n🚀 マイグレーション実行中...")
 
     try:
-        conn = sqlite3.connect(db_path)
+        conn = get_connection(db_path)
         cursor = conn.cursor()
 
         for i, stmt in enumerate(sql_statements, 1):
@@ -140,7 +141,7 @@ def verify_migration(db_path: str) -> bool:
     ]
 
     try:
-        conn = sqlite3.connect(db_path)
+        conn = get_connection(db_path)
         cursor = conn.cursor()
 
         # personsテーブルのカラム一覧取得

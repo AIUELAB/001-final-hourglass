@@ -467,10 +467,13 @@ def main():
     parser.add_argument('--log-level', default='INFO', help='Log level')
     args = parser.parse_args()
 
+    # 環境変数SERVICE_PORTを最優先、次にコマンドライン引数、最後にデフォルト
+    port = int(os.getenv('SERVICE_PORT', args.port))
+
     # ログレベル設定
     logging.getLogger().setLevel(getattr(logging, args.log_level.upper()))
 
-    server = CodexMCPServer(port=args.port)
+    server = CodexMCPServer(port=port)
 
     try:
         asyncio.run(server.start())

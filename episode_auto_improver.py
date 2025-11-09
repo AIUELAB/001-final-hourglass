@@ -15,6 +15,8 @@ from openai import OpenAI
 
 from episode_guardian import create_episode_guardian
 from optimized_episode_evaluator import OptimizedEpisodeEvaluator
+from unified_quality_validator import UnifiedQualityValidator, ValidationLevel
+from validation_monitor import ValidationMonitor
 
 
 @dataclass
@@ -49,6 +51,11 @@ class EpisodeAutoImprover:
         self.guardian = create_episode_guardian()
         self.evaluator = OptimizedEpisodeEvaluator(use_llm=False, batch_size=1)
         self.batch_size = batch_size
+
+        # Unified Quality Validator統合（Phase 2.2）
+        self.validator = UnifiedQualityValidator(validation_level=ValidationLevel.STRICT)
+        self.monitor = ValidationMonitor()
+        self.quality_gate_rejections = 0
 
         # 成功例（3件）
         self.successful_examples = """
@@ -250,23 +257,54 @@ class EpisodeAutoImprover:
 
             improved_text = response.choices[0].message.content.strip()
 
-            # ルール準拠チェック
-            test_episode = episode.copy()
-            test_episode['episode_text'] = improved_text
-            validation_result = self.guardian.validate_episode(test_episode)
+            # 🛡️ Unified Quality Validator検証（Phase 2.2統合）
+            validation_result = self.validator.validate_episode(
+                episode_text=improved_text,
+                person_name=person_name,
+                episode_age=episode_age,
+                pipeline_name="EpisodeAutoImprover",
+                strict_mode=True
+            )
 
-            if not validation_result.is_valid:
+            # 監視記録
+            self.monitor.record_validation(
+                "EpisodeAutoImprover",
+                validation_result.to_dict()
+            )
+
+            # 品質ゲート判定
+            if not validation_result.is_valid():
+                self.quality_gate_rejections += 1
                 return ImprovementResult(
                     episode_id=episode_id,
                     person_name=person_name,
                     episode_age=episode_age,
                     original_text=original_text,
-                    improved_text=improved_text,
+                    improved_text=original_text,  # 品質違反時は元のテキストに戻す
                     original_score=current_score,
-                    improved_score=0,
+                    improved_score=current_score,
                     phase=phase,
                     success=False,
-                    error_message=f"ルール違反: {validation_result.message}"
+                    error_message=f"Quality gate rejection: {len(validation_result.violations)} violations"
+                )
+
+            # 旧ルール準拠チェック（二重チェック）
+            test_episode = episode.copy()
+            test_episode['episode_text'] = improved_text
+            guardian_result = self.guardian.validate_episode(test_episode)
+
+            if not guardian_result.is_valid:
+                return ImprovementResult(
+                    episode_id=episode_id,
+                    person_name=person_name,
+                    episode_age=episode_age,
+                    original_text=original_text,
+                    improved_text=original_text,  # 品質違反時は元のテキストに戻す
+                    original_score=current_score,
+                    improved_score=current_score,
+                    phase=phase,
+                    success=False,
+                    error_message=f"ルール違反: {guardian_result.message}"
                 )
 
             # 改善後のスコア評価

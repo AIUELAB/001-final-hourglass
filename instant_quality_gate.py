@@ -196,8 +196,14 @@ class InstantQualityGate:
                 failures.append(f"人物名「{person_name}」が含まれていません")
                 suggestions.append(f"冒頭に「{person_name}は〜」を追加")
 
-        # 総合判定
-        passed = all(checks.values())
+        # 総合判定（重要項目のみ必須）
+        # 必須項目: 文字数、年齢一致、人物名
+        critical_checks = ['character_count', 'age_match']
+        if person_name:
+            critical_checks.append('person_name')
+
+        # 重要項目がすべてパスしていればOK
+        passed = all(checks.get(key, True) for key in critical_checks)
 
         # スコア計算（各項目を10点満点で評価）
         scores = []

@@ -20,13 +20,14 @@ import fcntl
 import hashlib
 import sys
 
-# Serena統合モジュールをインポート
+# Serena統合モジュールをインポート（一時的に無効化）
 sys.path.insert(0, str(Path(__file__).parent))
-try:
-    from serena_memory_integration import SerenaMemoryManager
-    SERENA_AVAILABLE = True
-except ImportError:
-    SERENA_AVAILABLE = False
+# try:
+#     from serena_memory_integration import SerenaMemoryManager
+#     SERENA_AVAILABLE = True
+# except ImportError:
+#     SERENA_AVAILABLE = False
+SERENA_AVAILABLE = False  # 一時的に無効化（JSONエラー回避）
 
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -35,6 +36,14 @@ STATUS_FILE = SESSION_DIR / "STATUS.md"
 LOG_FILE = SESSION_DIR / "SESSION_LOG.md"
 SNAPSHOT_DIR = SESSION_DIR / "snapshots"
 RECOVERY_DIR = SESSION_DIR / "recovery"
+
+# 統合イベントバスのインポート
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+try:
+    from event_bus import get_event_bus, QualityEvent
+    EVENT_BUS_AVAILABLE = True
+except ImportError:
+    EVENT_BUS_AVAILABLE = False
 
 
 class SessionRecorder:
@@ -49,6 +58,12 @@ class SessionRecorder:
             self.serena = SerenaMemoryManager(PROJECT_ROOT)
         else:
             self.serena = None
+
+        # イベントバス統合
+        if EVENT_BUS_AVAILABLE:
+            self.event_bus = get_event_bus()
+        else:
+            self.event_bus = None
 
     def _generate_session_id(self) -> str:
         """セッションIDを生成"""
@@ -107,6 +122,21 @@ class SessionRecorder:
                 },
                 ttl=86400  # 24時間保持
             )
+
+        # イベントバスにユーザー操作を通知
+        if self.event_bus:
+            self.event_bus.publish(QualityEvent(
+                event_type='metric',
+                source='kairos',
+                severity='info',
+                data={
+                    'description': 'ユーザープロンプト記録',
+                    'prompt_summary': prompt[:100] if len(prompt) > 100 else prompt,
+                    'timestamp': timestamp,
+                    'session_id': self.session_id
+                },
+                session_id=self.session_id
+            ))
 
     def record_response(self, response: str, metadata: Optional[Dict] = None):
         """
@@ -241,6 +271,21 @@ class SessionRecorder:
                 "last_updated": existing_data.get("last_updated")
             })
 
+        # イベントバスにセッション更新を通知
+        if self.event_bus:
+            self.event_bus.publish(QualityEvent(
+                event_type='metric',
+                source='kairos',
+                severity='info',
+                data={
+                    'description': 'セッション状態更新',
+                    'session_id': existing_data.get('session_id'),
+                    'current_task': existing_data.get('current_task'),
+                    'timestamp': timestamp
+                },
+                session_id=existing_data.get('session_id')
+            ))
+
     def _read_status(self) -> Dict:
         """既存のSTATUS.mdからデータを読み込み"""
         if not STATUS_FILE.exists():
@@ -334,6 +379,21 @@ class SessionRecorder:
                 "current_focus": "Recovery point saved",
                 "git_commit": recovery_data["git_commit"]
             })
+
+        # イベントバスに復元ポイント保存を通知
+        if self.event_bus:
+            self.event_bus.publish(QualityEvent(
+                event_type='metric',
+                source='kairos',
+                severity='info',
+                data={
+                    'description': '復元ポイント保存',
+                    'session_id': self.session_id,
+                    'git_commit': recovery_data["git_commit"],
+                    'timestamp': recovery_data["timestamp"]
+                },
+                session_id=self.session_id
+            ))
 
     def _get_git_commit(self) -> Optional[str]:
         """現在のGitコミットハッシュを取得"""

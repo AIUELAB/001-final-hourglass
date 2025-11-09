@@ -12,6 +12,7 @@ AI-based Recommendation System - Phase 11.5
 import argparse
 import json
 import sqlite3
+from src.database_utils import get_connection
 import statistics
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
@@ -105,13 +106,13 @@ class AIRecommendationSystem:
 
     def _init_database_tables(self):
         """データベーステーブルの初期化"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         # AI推奨履歴テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS ai_recommendations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 recommendation_id TEXT UNIQUE NOT NULL,
                 timestamp TEXT NOT NULL,
                 recommendation_type TEXT NOT NULL,
@@ -132,7 +133,7 @@ class AIRecommendationSystem:
         # 推奨フィードバックテーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS recommendation_feedback (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 recommendation_id TEXT NOT NULL,
                 feedback_timestamp TEXT NOT NULL,
                 implemented INTEGER NOT NULL,
@@ -148,7 +149,7 @@ class AIRecommendationSystem:
         # モデル性能履歴テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS model_performance_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 model_name TEXT NOT NULL,
                 accuracy REAL NOT NULL,
                 precision_score REAL NOT NULL,
@@ -163,7 +164,7 @@ class AIRecommendationSystem:
         # 学習データテーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS recommendation_training_data (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 feature_vector TEXT NOT NULL,
                 recommendation_label TEXT NOT NULL,
                 priority_label TEXT NOT NULL,
@@ -221,7 +222,7 @@ class AIRecommendationSystem:
 
     def collect_system_features(self) -> Optional[Dict[str, float]]:
         """システムの現在の特徴量を収集"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         features = {}
@@ -584,7 +585,7 @@ class AIRecommendationSystem:
 
     def _save_recommendation(self, rec: AIRecommendation):
         """推奨事項をデータベースに保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         try:
@@ -620,7 +621,7 @@ class AIRecommendationSystem:
 
     def show_recommendations_history(self, limit: int = 10):
         """推奨履歴を表示"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""

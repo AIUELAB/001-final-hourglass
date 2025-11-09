@@ -15,6 +15,7 @@
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import json
 import logging
 from typing import Dict, List
@@ -67,7 +68,7 @@ class BracketMetadataImporter:
             self.logger.warning(f"ファイルが見つかりません: {json_path}")
             return
 
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         for item in data:
@@ -124,7 +125,7 @@ class BracketMetadataImporter:
             self.logger.warning(f"ファイルが見つかりません: {json_path}")
             return
 
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         for item in data:
@@ -189,7 +190,7 @@ class BracketMetadataImporter:
             self.logger.warning(f"ファイルが見つかりません: {json_path}")
             return
 
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         for item in data:
@@ -278,7 +279,7 @@ class BracketMetadataImporter:
         print("インポート検証")
         print("="*80)
 
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 

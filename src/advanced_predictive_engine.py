@@ -14,6 +14,7 @@ import sys
 import json
 import pickle
 import sqlite3
+from src.database_utils import get_connection
 import logging
 import numpy as np
 import pandas as pd
@@ -116,7 +117,7 @@ class AdvancedPredictiveEngine:
 
     def _init_database(self):
         """データベーステーブルを初期化"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         # 高度予測履歴テーブル
@@ -141,7 +142,7 @@ class AdvancedPredictiveEngine:
         # AutoML実験履歴テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS automl_experiments (
-                experiment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                experiment_id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 best_model_name TEXT NOT NULL,
                 best_params TEXT,
@@ -554,7 +555,7 @@ class AdvancedPredictiveEngine:
 
     def _save_prediction(self, prediction: AdvancedPrediction):
         """予測を保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -583,7 +584,7 @@ class AdvancedPredictiveEngine:
 
     def _save_automl_experiment(self, results: AutoMLResults):
         """AutoML実験結果を保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""

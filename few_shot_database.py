@@ -14,6 +14,12 @@ from dataclasses import dataclass, asdict
 from typing import List, Dict, Optional
 from pathlib import Path
 import re
+import logging
+
+# パフォーマンス最適化のインポート
+from src.performance_optimizations import FewShotCacheOptimizer
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -90,6 +96,10 @@ class FewShotDatabase:
         self.csv_path = Path(csv_path)
         self.examples: List[FewShotExample] = []
         self.category_index: Dict[str, List[FewShotExample]] = {}
+
+        # パフォーマンス最適化: キャッシュオプティマイザーの初期化
+        self.cache_optimizer = FewShotCacheOptimizer()
+        logger.info("✅ FewShotCacheOptimizer initialized")
 
     def load_from_csv(self) -> None:
         """CSVファイルから読み込み"""
@@ -201,7 +211,42 @@ class FewShotDatabase:
         min_score: float = 30.0
     ) -> List[FewShotExample]:
         """
-        カテゴリ別の最良例を取得
+        カテゴリ別の最良例を取得（キャッシュ対応版）
+
+        Args:
+            category: カテゴリ名
+            n: 取得する例の数
+            min_score: 最低スコア（5要素合計の推定値）
+
+        Returns:
+            上位n個のFewShotExample
+        """
+        # キャッシュキー生成
+        cache_key = f"examples:{category}:{n}:{min_score}"
+
+        # キャッシュチェック
+        cached_result = self.cache_optimizer.example_cache.get(cache_key)
+        if cached_result is not None:
+            logger.debug(f"✅ Cache hit: {category}")
+            return cached_result
+
+        # キャッシュミス: 元の処理を実行
+        logger.debug(f"⚠️ Cache miss: {category}")
+        result = self._get_best_examples_uncached(category, n, min_score)
+
+        # キャッシュに保存
+        self.cache_optimizer.example_cache.set(cache_key, result)
+
+        return result
+
+    def _get_best_examples_uncached(
+        self,
+        category: str,
+        n: int = 3,
+        min_score: float = 30.0
+    ) -> List[FewShotExample]:
+        """
+        カテゴリ別の最良例を取得（キャッシュなし版）
 
         Args:
             category: カテゴリ名
@@ -244,6 +289,15 @@ class FewShotDatabase:
             if example.person_name == person_name:
                 return example
         return None
+
+    def get_cache_stats(self) -> Dict:
+        """
+        キャッシュ統計を取得
+
+        Returns:
+            キャッシュヒット率、ミス率などの統計情報
+        """
+        return self.cache_optimizer.get_cache_stats()
 
     def export_to_json(self, output_path: str = "few_shot_database.json") -> None:
         """JSON形式でエクスポート"""

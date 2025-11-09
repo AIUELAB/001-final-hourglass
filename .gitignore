@@ -1,12 +1,30 @@
-# Byte-compiled / optimized / DLL files
+# ========================================
+# AIUELAB統一 .gitignore テンプレート
+# ========================================
+# Purpose: LSP/インデクサの過負荷を防ぐための除外規則
+# Version: 2.0.0
+# Last Updated: 2025-11-04
+# ========================================
+
+# ========================================
+# Node.js / npm
+# ========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ========================================
+# Python
+# ========================================
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -20,236 +38,276 @@ parts/
 sdist/
 var/
 wheels/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# pipenv
-Pipfile.lock
-
-# poetry
-poetry.lock
-
-# pdm
-.pdm.toml
-.pdm-python
-.pdm-build/
-
-# PEP 582
-__pypackages__/
-
-# Celery stuff
-
-# Environment variables and secrets
-.env
-.env.*
-*.env
-.env.local
-.env.production
-.env.staging
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.env.mcp
-env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+env/
+.venv
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
+# Python キャッシュ（追加）
+.pytest_cache/
 .mypy_cache/
-.dmypy.json
-dmypy.json
+.ruff_cache/
+.ipynb_checkpoints/
 
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# IDEs
-.idea/
+# ========================================
+# IDEs / Editors
+# ========================================
 .vscode/
-.devcontainer/
+.idea/
 *.swp
 *.swo
 *~
 .DS_Store
+*.sublime-project
+*.sublime-workspace
 
-# Project specific
+# ========================================
+# Build Outputs
+# ========================================
+dist/
+build/
+out/
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# ========================================
+# Testing
+# ========================================
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+coverage/
+*.cover
+.hypothesis/
+
+# ========================================
+# Environment Variables
+# ========================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.mcp
+.env.mysql
+
+# ========================================
+# Temporary Files
+# ========================================
+*.tmp
+*.temp
+*.bak
+*.backup
+tmp/
+temp/
+
+# ========================================
+# Database Files
+# ========================================
 *.db
 *.sqlite
 *.sqlite3
-logs/
-temp/
-tmp/
-cache/
-uploads/
-bin/*.tar.gz
-pyproject.toml.backup
+*.db-journal
 
-# Secrets and API Keys - CRITICAL SECURITY SECTION
-secrets/
-key/
-keys/
-*.pem
-*.key
-*.crt
-*.p12
-api_keys.json
-credentials.json
-firebase-*.json
-*firebase*adminsdk*.json
-service-account*.json
-/Users/admin/Documents/key/
-config/keys.json
-.env.production.local
-.env.development.local
-
-# Claude Code specific
-.claude/
-claude-artifacts/
-
-# MCP specific
-mcp-config/claude_desktop_config.local.json
-.mcp-cache/
-
-# Node.js (for MCP servers)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
-yarn.lock
-
-# macOS
+# ========================================
+# MacOS
+# ========================================
 .DS_Store
 .AppleDouble
 .LSOverride
+._*
 
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
+# ========================================
+# Crash Resilience System (Project-Specific)
+# ========================================
+.sre/telemetry/metrics/
+.sre/telemetry/logs/
+.aiuelab/snapshots/
+.aiuelab/state/
 
-# Linux
-.directory
-.Trash-*
+# ========================================
+# MCP Servers
+# ========================================
+*.mcp.log
 
-# n8n local data
+# ========================================
+# Documentation (Generated)
+# ========================================
+site/
+docs/_build/
+
+# ========================================
+# Large Binary Files
+# ========================================
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.tar.gz
+*.rar
+
+# ========================================
+# AIUELAB プロジェクト固有の除外（重要）
+# ========================================
+
+# バックアップCSVファイル
+*.backup_*.csv
+*_backup_*.csv
+*.backup.csv
+*_BACKUP_*.csv
+*_OLD.csv
+MASTER_EPISODES*.backup_*.csv
+MASTER_EPISODES*_OLD.csv
+
+# チェックポイントファイル
+*_checkpoint_*.csv
+*_CHECKPOINT_*.csv
+
+# チェックポイントディレクトリ
+checkpoints/
+checkpoints_final/
+checkpoints_massive/
+checkpoints_ultimate/
+backup/
+backups/
+.rollback_snapshots/
+
+# ログとキャッシュ
+logs/
+.cache/
+.tech_cache/
+.continuous_improvement/
+.profiling/
+.quality_metrics/
+
+# セッション管理（一部）
+.session/snapshots/
+.session/*.backup_*
+.session/SESSION_CHECKPOINT_*.md
+.session/SESSION_LOG_*.md
+.startup_snapshots/
+
+# PIDファイル
+.pids/
+
+# RCA-Kaizen レポート（アーカイブ）
+.rca_kaizen/reports/
+.rca_kaizen/*_REPORT.md
+.rca_kaizen/*_COMPLETION*.md
+.rca_kaizen/*_FINAL_*.md
+
+# API関連
+.api_credits.json
+.retry_statistics.json
+
+# 一時分析ファイル
+.phase*_analysis.json
+.phase*_checkpoint.json
+.phase*_result.json
+*_temp_*.json
+
+# 大量の一時CSVファイル
+batch_*.csv
+test_*.csv
+temp_*.csv
+debug_*.csv
+sample_*.csv
+
+# データベースバックアップ
+DATABASE_*.csv
+*_database_*.csv
+
+# Ultra Think関連の大量ファイル
+ultra_think_improvements/
+ultra_think_*.csv
+
+# 古いエピソードファイル
+#episodes_*.csv
+all_episodes_*.csv
+all_episodes_*.csv.backup_*
+*_validated_*.csv
+*_fixed_*.csv
+*_COMPLETE_*.csv
+*_PHASE*_*.csv
+
+# N8Nワークフロー
 .n8n/
 
-# iOS Build Artifacts - CRITICAL
-ios-apps/final-hourglass/DerivedData/
-**/DerivedData/
-*.xcodeproj/xcuserdata/
-*.xcworkspace/xcuserdata/
-*.app/
-*.ipa/
-*.dSYM/
-Pods/
-Carthage/
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots/**/*.png
-fastlane/test_output
+# 監査レポート
+audit_reports/
 
-# Large data files
-*.csv
-*.json
-!package.json
-!tsconfig.json
-!cspell.json
-!auto_*.json
-!person_birth_dates_*.json
-# RCA-Kaizen Loop records (重要な成果物)
-!.rca_kaizen/failures/*.json
-# Final production CSV (最終成果物)
-!final_hourglass_week1_6_final_*.csv
-!final_hourglass_week1_6_age_fixed_*.csv
-backup_*/
-checkpoints*/
-archive*/
-deletion_backups/
-emergency_backups/
-# 埋め込みGitリポジトリ（サブモジュールではない）
-ebook-mcp/
-ios-apps/
+# 変更履歴
+.changes/
+
+# ロックファイル
+.locks/
+
+# Phase完了フラグ
+.phase*_100percent_result.json
+.phase*_completion_judgment.json
+
+# その他の一時ファイル
+*.jsonl
+*_log_*.json
+*_status_*.json
+*.backup_20*
+*_report_*.json
+*_results_*.json
+*_completion_*.json
+*_summary_*.json
+
+# Gitignoreバックアップ
+.gitignore.backup.*
+.gitignore_backup_*
+
+# ドキュメントバックアップ
+claudedocs/*_REPORT_2025*.md
+claudedocs/*_report_2025*.md
+claudedocs/*_LOG_2025*.md
+claudedocs/PHASE*_COMPLETE_*.md
+claudedocs/*_COMPLETION_2025*.md
+claudedocs/MYSQL_PHASE*.md
+claudedocs/*_20251*.md
+
+# カバレッジレポート
+.coverage*.json
+htmlcov/
+
+# 削除レポート
+DELETED_*.csv
+DELETION_*.csv
+*_CANDIDATES_*.csv
+
+# アーカイブディレクトリ（古いスクリプト）
+# 注: archive/README.mdは追跡する
+archive/batch_scripts/
+archive/analysis_scripts/
+archive/old_scripts/
+archive/deprecated/
+
+# ===========================================
+# 除外しないファイル（重要なファイルを保護）
+# ===========================================
+# 以下のファイルは必ず追跡する
+!MASTER_EPISODES_v1.0.0_20251031_japanese_fixed.csv
+!requirements*.txt
+!README*.md
+!CHANGELOG.md
+!CLAUDE.md
+!.session/STATUS.md
+!.session/SESSION_LOG.md
+!.session/SYSTEM_AUTO_GUIDE.md
+
+# MASTER_EPISODESの他のバージョンは除外
+MASTER_EPISODES*.csv
+MASTER_EPISODES*.backup*
+!MASTER_EPISODES_v1.0.0_20251031_japanese_fixed.csv

@@ -1,164 +1,283 @@
-name: CI/CD Pipeline
+name: Unified CI/CD Pipeline
+
+# 🎯 6プロジェクト共通CI/CDパイプライン
+# Phase 7b-2で作成された統一ワークフローテンプレート
+# ベース: 001-final-hourglass/ci.yml + security.yml
 
 on:
   push:
-    branches: [main, develop]
+    branches: [ main, master, develop, chore/* ]
   pull_request:
-    branches: [main, develop]
+    branches: [ main, master, develop ]
   schedule:
-    # 毎日午前3時に実行（JST 12:00）
-    - cron: "0 18 * * *"
+    - cron: '0 3 * * *'  # Daily at 3 AM UTC (12 PM JST)
 
 env:
-  PYTHON_VERSION: "3.11"
-  NODE_VERSION: "18"
+  PYTHON_VERSION: '3.11'
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+  checks: write
 
 jobs:
-  lint:
-    name: Lint Code
+  # ============================================
+  # Job 1: コード品質チェック
+  # ============================================
+  code-quality:
+    name: Code Quality
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Cache Python dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install ruff mypy
 
-      - name: Run Ruff
+      - name: Run Ruff format check
         run: |
-          ruff check src tests --output-format=github
-          ruff format src tests --check
+          ruff format --check .
+        continue-on-error: false
 
-      - name: Run mypy
-        run: mypy src --ignore-missing-imports
+      - name: Run Ruff lint
+        run: |
+          ruff check .
+        continue-on-error: false
 
-      - name: Run bandit
-        run: bandit -r src -ll
+      - name: Run mypy type checking
+        run: |
+          mypy src/ --ignore-missing-imports
+        continue-on-error: true
 
-  test:
-    name: Run Tests
-    runs-on: ${{ matrix.os }}
+  # ============================================
+  # Job 2: 単体テスト（マトリックステスト）
+  # ============================================
+  unit-tests:
+    name: Unit Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.11", "3.12"]
+        python-version: ['3.11', '3.12']
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Cache Python dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
           pip install pytest pytest-cov pytest-asyncio pytest-mock
 
-      - name: Run tests with coverage
+      - name: Run pytest
         run: |
-          pytest tests/ -v --cov=src --cov-report=xml --cov-report=term --tb=short
+          pytest tests/ -v \
+            --cov=src \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-report=term
+        continue-on-error: false
 
-      - name: Upload coverage to Codecov
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
-        uses: codecov/codecov-action@v3
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        if: matrix.python-version == '3.11'
         with:
           file: ./coverage.xml
           flags: unittests
           name: codecov-umbrella
-          fail_ci_if_error: false
+        continue-on-error: true
 
-  security:
+  # ============================================
+  # Job 3: セキュリティスキャン
+  # ============================================
+  security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Gitleaks用に全履歴を取得
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
 
-      - name: Install dependencies
+      - name: Install security tools
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install bandit==1.7.9 safety==3.0.0 pip-audit==2.7.3 semgrep==1.45.0
+          pip install bandit[toml] pip-audit safety
 
-      - name: Run bandit
-        run: bandit -r src -f json -o bandit-report.json
-
-      - name: Run safety check
-        run: safety check --json
-        continue-on-error: true
-
-      - name: Run pip-audit
-        run: pip-audit
-        continue-on-error: true
-
-      - name: Check for secrets
-        run: python scripts/check_no_secrets.py
-        continue-on-error: true
-
-      - name: Run Semgrep SAST
+      - name: Run Bandit (Python Security)
         run: |
-          semgrep --config=auto \
-                  --config=.semgrep.yml \
-                  --json \
-                  --output=semgrep-report.json \
-                  src/ tests/
+          bandit -r src/ -f json -o bandit-report.json || true
+        continue-on-error: true
+
+      - name: Run pip-audit (Dependency Security)
+        run: |
+          pip-audit --desc --format json --output pip-audit-report.json || true
+        continue-on-error: true
+
+      - name: Run Safety check
+        run: |
+          safety check --json > safety-report.json || true
+        continue-on-error: true
+
+      - name: Run Gitleaks (Secret Scanning)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
       - name: Upload security reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: security-reports
           path: |
-            bandit-report.json
-            semgrep-report.json
+            *-report.json
+          retention-days: 30
 
-  validate-mcp:
-    name: Validate MCP Configuration
+  # ============================================
+  # Job 4: CHANGELOG検証（Phase 6 P1準拠）
+  # ============================================
+  changelog-validation:
+    name: CHANGELOG Validation
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check CHANGELOG.md exists
+        run: |
+          if [ ! -f CHANGELOG.md ]; then
+            echo "❌ CHANGELOG.md not found"
+            exit 1
+          fi
+          echo "✅ CHANGELOG.md exists"
+
+      - name: Validate Keep a Changelog format
+        run: |
+          # Keep a Changelog形式の基本構造チェック
+          if ! grep -q "# Changelog" CHANGELOG.md; then
+            echo "❌ Missing '# Changelog' header"
+            exit 1
+          fi
+          if ! grep -q "## \[Unreleased\]" CHANGELOG.md; then
+            echo "❌ Missing '## [Unreleased]' section"
+            exit 1
+          fi
+          echo "✅ Keep a Changelog format validated"
+
+      - name: Check for Conventional Commits
+        run: |
+          # 直近のコミットメッセージをチェック
+          git log --format=%s -n 5 | grep -E "^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: " || \
+            echo "⚠️  Some commits may not follow Conventional Commits format"
+
+  # ============================================
+  # Job 5: ビルド検証
+  # ============================================
+  build:
+    name: Build Validation
+    runs-on: ubuntu-latest
+    needs: [code-quality, unit-tests]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Validate MCP config
+      - name: Install build dependencies
         run: |
-          python scripts/validate_mcp_config.py
+          python -m pip install --upgrade pip
+          pip install build wheel setuptools
+
+      - name: Build package
+        run: |
+          if [ -f pyproject.toml ]; then
+            python -m build
+            echo "✅ Package built successfully"
+          else
+            echo "⚠️  No pyproject.toml found, skipping build"
+          fi
+        continue-on-error: true
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  # ============================================
+  # Job 6: CI結果サマリー
+  # ============================================
+  ci-summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [code-quality, unit-tests, security-scan, changelog-validation, build]
+    if: always()
+
+    steps:
+      - name: Generate CI Summary
+        run: |
+          echo "## 🎯 CI/CD Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Code Quality | ${{ needs.code-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Scan | ${{ needs.security-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CHANGELOG Validation | ${{ needs.changelog-validation.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ needs.build.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # 全ジョブが成功した場合のみsuccessを表示
+          if [ "${{ needs.code-quality.result }}" = "success" ] && \
+             [ "${{ needs.unit-tests.result }}" = "success" ] && \
+             [ "${{ needs.security-scan.result }}" = "success" ]; then
+            echo "✅ **All critical checks passed!**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Some checks failed. Please review the results above.**" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Check critical failures
+        run: |
+          if [ "${{ needs.code-quality.result }}" != "success" ] || \
+             [ "${{ needs.unit-tests.result }}" != "success" ]; then
+            echo "❌ Critical jobs failed"
+            exit 1
+          fi

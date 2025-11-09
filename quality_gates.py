@@ -18,6 +18,23 @@ import importlib.util
 import subprocess
 from priority_japanese_config import get_japanese_priority, get_priority_display
 
+# Phase 4.2: FactCheckerQualityGate統合
+try:
+    from rules.rule_191_fact_checker_system import FactCheckerQualityGate
+    FACT_CHECKER_AVAILABLE = True
+except ImportError:
+    FACT_CHECKER_AVAILABLE = False
+    logging.warning("FactCheckerQualityGate is not available")
+
+# RCA-Kaizen #017: Rule 197, 198統合
+try:
+    from rules.rule_197_age_duplication_quality_gate import Rule197AgeDuplicationQualityGate
+    from rules.rule_198_polite_form_quality_gate import Rule198PoliteFormQualityGate
+    RCA_017_GATES_AVAILABLE = True
+except ImportError:
+    RCA_017_GATES_AVAILABLE = False
+    logging.warning("RCA-Kaizen #017 Quality Gates are not available")
+
 # ログ設定
 logging.basicConfig(
     level=logging.INFO,
@@ -401,9 +418,160 @@ class NoSimpleFallbackGate(QualityGate):
             return self.status
 
 
+class FactCheckGate(QualityGate):
+    """事実検証品質ゲート（Phase 4.2統合）"""
+
+    def __init__(self):
+        super().__init__("事実検証", "HIGH")
+        self.fact_checker_gate = FactCheckerQualityGate() if FACT_CHECKER_AVAILABLE else None
+
+    def check(self, context: Dict[str, Any]) -> GateStatus:
+        """エピソード内の事実検証"""
+        try:
+            if not self.fact_checker_gate:
+                self.message = "FactChecker未導入 - スキップ"
+                self.status = GateStatus.SKIPPED
+                return self.status
+
+            script_path = context.get("script_path")
+            if not script_path:
+                self.status = GateStatus.SKIPPED
+                return self.status
+
+            # エピソード生成スクリプトの場合のみチェック
+            if not any(word in script_path.lower() for word in ['episode', 'generate', 'batch_week']):
+                self.message = "エピソード生成スクリプトではない - スキップ"
+                self.status = GateStatus.SKIPPED
+                return self.status
+
+            with open(script_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            # 「初の」表現を含むテストエピソードを検証
+            test_patterns = []
+            import re
+            # スクリプト内のテストエピソードを検出
+            test_episode_matches = re.findall(r'["\']([^"\']*初の[^"\']*)["\']', content)
+
+            if test_episode_matches:
+                # 最初の5件をサンプル検証
+                violations = []
+                for i, episode in enumerate(test_episode_matches[:5]):
+                    # 人物名抽出（簡易）
+                    person_match = re.search(r'([^\s、。]+)(?:は|が).*初の', episode)
+                    person_name = person_match.group(1) if person_match else "不明"
+
+                    # 事実検証実行
+                    passed, error = self.fact_checker_gate.validate(
+                        episode_text=episode,
+                        person_name=person_name,
+                        strict_mode=False
+                    )
+
+                    if error:
+                        violations.append(f"エピソード{i+1}: {error}")
+
+                if violations:
+                    self.message = f"事実検証失敗: {len(violations)}件"
+                    self.details = {"violations": violations[:3]}
+                    self.status = GateStatus.WARNING  # 警告レベル
+                else:
+                    self.message = f"事実検証完了: {len(test_episode_matches)}件のテストエピソード確認"
+                    self.status = GateStatus.PASSED
+            else:
+                self.message = "「初の」表現なし - 検証不要"
+                self.status = GateStatus.PASSED
+
+            return self.status
+
+        except Exception as e:
+            self.message = f"チェック中にエラー: {str(e)}"
+            self.status = GateStatus.WARNING  # エラーは警告レベル
+            return self.status
+
+
+class AgeDuplicationGate(QualityGate):
+    """年齢重複検出ゲート（RCA-Kaizen #017: Rule 197）"""
+
+    def __init__(self):
+        super().__init__("年齢重複検出", "HIGH")
+        self.rule_197 = Rule197AgeDuplicationQualityGate() if RCA_017_GATES_AVAILABLE else None
+
+    def check(self, context: Dict[str, Any]) -> GateStatus:
+        """年齢重複パターンの検出"""
+        if not RCA_017_GATES_AVAILABLE or not self.rule_197:
+            self.message = "Rule 197が利用できません"
+            self.status = GateStatus.SKIPPED
+            return self.status
+
+        try:
+            episode_data = context.get('episode_data', {})
+            if not episode_data:
+                self.message = "エピソードデータがありません"
+                self.status = GateStatus.SKIPPED
+                return self.status
+
+            result = self.rule_197.validate(episode_data)
+
+            if result['passed']:
+                self.message = "年齢重複なし"
+                self.status = GateStatus.PASSED
+            else:
+                self.message = f"年齢重複検出: {result.get('reason', '詳細不明')}"
+                self.details = result
+                self.status = GateStatus.FAILED
+
+            return self.status
+
+        except Exception as e:
+            self.message = f"チェック中にエラー: {str(e)}"
+            self.status = GateStatus.FAILED
+            return self.status
+
+
+class PoliteFormGate(QualityGate):
+    """丁寧語検証ゲート（RCA-Kaizen #017: Rule 198）"""
+
+    def __init__(self):
+        super().__init__("丁寧語検証", "MEDIUM")
+        self.rule_198 = Rule198PoliteFormQualityGate() if RCA_017_GATES_AVAILABLE else None
+
+    def check(self, context: Dict[str, Any]) -> GateStatus:
+        """丁寧語（です・ます調）の検証"""
+        if not RCA_017_GATES_AVAILABLE or not self.rule_198:
+            self.message = "Rule 198が利用できません"
+            self.status = GateStatus.SKIPPED
+            return self.status
+
+        try:
+            episode_data = context.get('episode_data', {})
+            if not episode_data:
+                self.message = "エピソードデータがありません"
+                self.status = GateStatus.SKIPPED
+                return self.status
+
+            result = self.rule_198.validate(episode_data)
+
+            if result['passed']:
+                self.message = "丁寧語（です・ます調）を適切に使用"
+                self.details = result.get('details', {})
+                self.status = GateStatus.PASSED
+            else:
+                self.message = f"常体検出: {result.get('reason', '詳細不明')}"
+                self.details = result
+                self.status = GateStatus.FAILED
+
+            return self.status
+
+        except Exception as e:
+            self.message = f"チェック中にエラー: {str(e)}"
+            self.status = GateStatus.FAILED
+            return self.status
+
+
 class TimeEstimationGate(QualityGate):
     """時間見積もり品質ゲート（RULE_015実装）"""
-    
+
     def __init__(self):
         super().__init__("時間見積もり妥当性", "CRITICAL")
     
@@ -494,6 +662,9 @@ class QualityGateSystem:
             NoCalibrationScoreGate(),
             NoSimpleFallbackGate(),  # CRITICAL: 品質妥協版禁止
             TimeEstimationGate(),     # CRITICAL: 時間見積もり妥当性
+            FactCheckGate(),          # Phase 4.2: 事実検証
+            AgeDuplicationGate(),     # RCA-Kaizen #017: Rule 197
+            PoliteFormGate(),         # RCA-Kaizen #017: Rule 198
             APIUsageGate(),
             ProtectionListGate(),
             ErrorHandlingGate()

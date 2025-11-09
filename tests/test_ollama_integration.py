@@ -11,13 +11,31 @@ import pytest
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.ollama_integration import (
-    OllamaManager,
-    code_review,
-    explain_code,
-    generate_tests,
-    refactor_code,
-)
+# Ollamaはoptional依存関係のため、インストールされていない場合はスキップ
+ollama_available = False
+try:
+    import ollama
+    ollama_available = True
+except ImportError:
+    pass
+
+pytestmark = pytest.mark.skipif(not ollama_available, reason="ollama not installed (optional dependency)")
+
+if ollama_available:
+    from src.ollama_integration import (
+        OllamaManager,
+        code_review,
+        explain_code,
+        generate_tests,
+        refactor_code,
+    )
+else:
+    # Dummy classes for skipped tests
+    OllamaManager = None
+    code_review = None
+    explain_code = None
+    generate_tests = None
+    refactor_code = None
 
 
 class TestOllamaManager:

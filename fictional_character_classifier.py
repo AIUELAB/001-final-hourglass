@@ -15,6 +15,7 @@
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import logging
 import re
 from typing import Dict, List, Tuple, Optional
@@ -342,7 +343,7 @@ def classify_batch_from_database(
     Returns:
         判定結果リスト
     """
-    conn = sqlite3.connect(db_path)
+    conn = get_connection(db_path)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 

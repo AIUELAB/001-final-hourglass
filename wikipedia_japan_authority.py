@@ -12,6 +12,7 @@ import json
 import time
 import os
 import sqlite3
+from src.database_utils import get_connection
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime, timedelta
 import re
@@ -41,7 +42,7 @@ class WikipediaJapanAuthority:
         
     def init_cache_db(self):
         """Initialize SQLite cache database"""
-        conn = sqlite3.connect(self.cache_db)
+        conn = get_connection(self.cache_db)
         cursor = conn.cursor()
         
         cursor.execute('''
@@ -121,7 +122,7 @@ class WikipediaJapanAuthority:
     
     def get_cached_result(self, query: str) -> Optional[Dict]:
         """Get cached Wikipedia result if still valid"""
-        conn = sqlite3.connect(self.cache_db)
+        conn = get_connection(self.cache_db)
         cursor = conn.cursor()
         
         cursor.execute('''
@@ -147,7 +148,7 @@ class WikipediaJapanAuthority:
     
     def save_to_cache(self, query: str, result: Dict):
         """Save Wikipedia result to cache"""
-        conn = sqlite3.connect(self.cache_db)
+        conn = get_connection(self.cache_db)
         cursor = conn.cursor()
         
         cursor.execute('''

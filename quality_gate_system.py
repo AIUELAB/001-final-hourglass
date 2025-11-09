@@ -21,6 +21,13 @@ from enum import Enum
 from pdca_guardian import PDCAGuardian
 from src.fact_checker import FactChecker
 
+# Phase 4.2: FactCheckerQualityGate統合
+from rules.rule_191_fact_checker_system import FactCheckerQualityGate
+
+# Phase 4 (2025-11-01): 日本語品質チェッカーv2統合
+# Phase 4.3 (2025-11-04): v3に更新 - 「となっました」問題を完全解決
+from src.japanese_quality_checker_v3 import JapaneseQualityCheckerV3
+
 
 class ApprovalStatus(Enum):
     """承認ステータス"""
@@ -71,6 +78,13 @@ class QualityGateSystem:
         self.pdca_guardian = PDCAGuardian()
         self.fact_checker = FactChecker()
 
+        # Phase 4.2: FactCheckerQualityGate統合
+        self.fact_checker_gate = FactCheckerQualityGate()
+
+        # Phase 4 (2025-11-01): 日本語品質チェッカーv2統合
+        # Phase 4.3 (2025-11-04): v3に更新 - 「となっました」問題を完全解決
+        self.japanese_checker = JapaneseQualityCheckerV3(strict_mode=True)
+
         # 品質基準
         self.MIN_QUALITY_SCORE = self.config.get("min_quality_score", 8.0)
         self.MAX_REJECTION_RATE = self.config.get("max_rejection_rate", 0.2)
@@ -80,7 +94,12 @@ class QualityGateSystem:
             "total_attempts": 0,
             "approved": 0,
             "rejected": 0,
-            "violations_by_type": {}
+            "violations_by_type": {},
+            "fact_check_passed": 0,  # Phase 4.2
+            "fact_check_failed": 0,  # Phase 4.2
+            "japanese_quality_passed": 0,  # Phase 4 (2025-11-01)
+            "japanese_quality_failed": 0,  # Phase 4 (2025-11-01)
+            "japanese_quality_auto_fixed": 0  # Phase 4 (2025-11-01)
         }
 
         # 環境変数でゲート承認を管理
@@ -107,6 +126,23 @@ class QualityGateSystem:
         """承認フラグを設定"""
         os.environ['QUALITY_GATE_APPROVED'] = 'true'
 
+    def validate_episode_sync(self, episode_data: Dict) -> ValidationResult:
+        """
+        エピソードを検証（同期版）
+
+        Args:
+            episode_data: エピソードデータ
+
+        Returns:
+            ValidationResult: 検証結果
+
+        Note:
+            Phase 4.9 (2025-11-01): 同期コードから呼び出すためのラッパーメソッド
+            内部でasyncio.run()を使用してvalidate_episode()を実行
+        """
+        import asyncio
+        return asyncio.run(self.validate_episode(episode_data))
+
     async def validate_episode(self, episode_data: Dict) -> ValidationResult:
         """
         エピソードを検証
@@ -127,6 +163,92 @@ class QualityGateSystem:
         person_name_display = episode_data.get('person_name_display', episode_data.get('person_name', ''))
 
         pdca_violations = []
+
+        # 【RCA-Kaizen追加】禁止セクションチェック（【評価】等）
+        forbidden_sections = ['【評価】', '【検証】', '【分析】', '【コメント】', '【考察】']
+        for section in forbidden_sections:
+            if section in episode_text:
+                violations.append(f"RULE_192_FORBIDDEN_SECTION: エピソード本文に{section}セクションが含まれています")
+                suggestions.append(f"{section}セクションを削除してください。エピソード本文は純粋な物語のみで構成すること")
+                self.stats["violations_by_type"]["RULE_192"] = \
+                    self.stats["violations_by_type"].get("RULE_192", 0) + 1
+
+        # 【RCA-Kaizen追加】年齢表現繰り返しチェック（RULE_193）
+        age_str = f"{age}歳"
+        age_count = episode_text.count(age_str)
+
+        # 基準: 年齢表現は2回まで許容（冒頭の「あなたと同じ〜歳のとき」＋1回まで）
+        if age_count >= 3:
+            severity = "HIGH" if age_count >= 4 else "MEDIUM"
+            violations.append(f"RULE_193_AGE_REPETITION: 年齢表現「{age_str}」が{age_count}回出現（許容: 2回まで、重大度: {severity}）")
+            suggestions.append(f"年齢表現「{age_str}」を削減してください。冒頭の「あなたと同じ{age}歳のとき」以外は1回までに抑えること")
+            self.stats["violations_by_type"]["RULE_193"] = \
+                self.stats["violations_by_type"].get("RULE_193", 0) + 1
+
+        # 【RCA-Kaizen追加】空白行チェック（RULE_194）
+        newline_count = episode_text.count('\n')
+        has_double_newline = '\n\n' in episode_text
+
+        # 基準: 改行は1回のみ（2段落構成）、連続改行（\n\n）は禁止
+        if newline_count > 1 or has_double_newline:
+            severity = "HIGH" if newline_count > 2 else "MEDIUM"
+            violations.append(f"RULE_194_BLANK_LINE: 不要な空白行が検出されました（改行: {newline_count}回、期待値: 1回）")
+            suggestions.append("段落間は改行1回のみとし、空白行（連続改行）を削除してください")
+            self.stats["violations_by_type"]["RULE_194"] = \
+                self.stats["violations_by_type"].get("RULE_194", 0) + 1
+
+        # 【RCA-Kaizen追加】架空エピソード注釈チェック（RULE_195）
+        fictional_markers = ['※このエピソードは架空', '※架空のエピソード', '※実在の人物', '※注：この']
+        for marker in fictional_markers:
+            if marker in episode_text:
+                violations.append(f"RULE_195_FICTIONAL_MARKER: 架空エピソードの注釈が検出されました")
+                suggestions.append("架空エピソード注釈を削除してください。本番環境では実在の人物のみを扱います")
+                self.stats["violations_by_type"]["RULE_195"] = \
+                    self.stats["violations_by_type"].get("RULE_195", 0) + 1
+                break
+
+        # 【RCA-Kaizen追加】専門分野整合性チェック（RULE_196）
+        # LLMハルシネーション防止: 柔道選手がボクシング記述を持つ等の誤認を検出
+        sport_incompatibility = {
+            # 柔道選手が絶対に持ち得ないキーワード
+            '柔道': ['ボクシング', 'K-1', 'キックボクシング', 'WBC', 'WBA', 'WBO', 'IBF', 'リング', 'ノックアウト'],
+            # サッカー選手が絶対に持ち得ないキーワード
+            'サッカー': ['野球', 'プロ野球', 'ホームラン', '甲子園', '投手', '打者', '本塁打', '柔道', '一本'],
+            # 野球選手が絶対に持ち得ないキーワード
+            '野球': ['サッカー', 'Jリーグ', 'ワールドカップ', 'ゴール', 'PK', '柔道', '内股'],
+            # ボクサーが絶対に持ち得ないキーワード
+            'ボクシング': ['柔道', '内股', '背負投', '寝技', 'サッカー', 'ゴール'],
+            # K-1選手が絶対に持ち得ないキーワード
+            'K-1': ['柔道', '内股', '野球', 'ホームラン', 'サッカー', 'ゴール']
+        }
+
+        # 人物名から専門分野を推定（簡易版）
+        detected_specialty = None
+        category = episode_data.get('category', '')
+
+        # カテゴリがスポーツの場合、エピソード内容から専門分野を判定
+        if 'スポーツ' in category:
+            for specialty, _ in sport_incompatibility.items():
+                if specialty in episode_text:
+                    detected_specialty = specialty
+                    break
+
+        # 専門分野が検出された場合、不適切なキーワードをチェック
+        if detected_specialty:
+            incompatible_keywords = sport_incompatibility[detected_specialty]
+            found_incompatible = [kw for kw in incompatible_keywords if kw in episode_text]
+
+            if found_incompatible:
+                violations.append(
+                    f"RULE_196_FACT_CHECK: 専門分野の不一致が検出されました - "
+                    f"{detected_specialty}選手のエピソードに不適切なキーワード: {', '.join(found_incompatible)}"
+                )
+                suggestions.append(
+                    f"{detected_specialty}選手のエピソードから、{', '.join(found_incompatible)}に関する記述を削除してください。"
+                    f"異なるスポーツの情報が混入している可能性があります（LLMハルシネーション）"
+                )
+                self.stats["violations_by_type"]["RULE_196"] = \
+                    self.stats["violations_by_type"].get("RULE_196", 0) + 1
 
         # エピソード品質チェック
         quality_violations = self.pdca_guardian.check_episode_quality(episode_text, age, person_name_display)
@@ -149,15 +271,63 @@ class QualityGateSystem:
                 violations.append(f"センセーショナル: {v.get('message', '')}")
                 suggestions.append(v.get('suggestion', ''))
 
-        # 2. 事実確認
+        # 2. 事実確認（Phase 4.2: FactCheckerQualityGate使用）
         if self.config.get("enable_fact_checking", True):
             try:
-                fact_result = await self._verify_facts(episode_data)
-                if not fact_result['valid']:
-                    violations.append(f"事実確認失敗: {fact_result['reason']}")
-                    suggestions.append(fact_result.get('suggestion', '事実を再確認してください'))
+                # FactCheckerQualityGateを使用した高度な事実検証
+                fact_check_passed, fact_check_error = self.fact_checker_gate.validate(
+                    episode_text=episode_text,
+                    person_name=person_name_display,
+                    strict_mode=False  # 警告として扱う
+                )
+
+                if fact_check_error is not None:  # 検証失敗
+                    violations.append(f"事実検証失敗: {fact_check_error}")
+                    suggestions.append("「初の〜」表現の事実を確認してください")
+                    self.stats["fact_check_failed"] += 1
+                else:  # 検証合格
+                    self.stats["fact_check_passed"] += 1
+                    scores['fact_check'] = 10.0  # 満点
+
             except Exception as e:
                 violations.append(f"事実確認エラー: {str(e)}")
+                self.stats["fact_check_failed"] += 1
+
+        # 2.5. 日本語品質チェック（Phase 4, 2025-11-01）
+        if self.config.get("enable_japanese_quality_check", True):
+            try:
+                japanese_result = self.japanese_checker.fix(episode_text, dry_run=False)
+
+                if not japanese_result.is_valid:
+                    # 問題が検出された場合
+                    if japanese_result.changes_made > 0:
+                        # 自動修正が実施された場合
+                        episode_data['episode_content'] = japanese_result.fixed_text
+                        episode_text = japanese_result.fixed_text  # 更新されたテキストを使用
+                        self.stats["japanese_quality_auto_fixed"] += 1
+
+                        # 警告として記録（自動修正済み）
+                        for issue in japanese_result.issues:
+                            suggestions.append(
+                                f"[自動修正済み] {issue.pattern_name}: {issue.description} "
+                                f"(重要度: {issue.severity.value})"
+                            )
+                    else:
+                        # 自動修正できない問題がある場合
+                        self.stats["japanese_quality_failed"] += 1
+                        for issue in japanese_result.issues:
+                            violations.append(
+                                f"RULE_300_JAPANESE_QUALITY: {issue.pattern_name} - {issue.description}"
+                            )
+                            suggestions.append(issue.suggestion)
+                else:
+                    # 問題なし
+                    self.stats["japanese_quality_passed"] += 1
+                    scores['japanese_quality'] = 10.0  # 満点
+
+            except Exception as e:
+                violations.append(f"日本語品質チェックエラー: {str(e)}")
+                self.stats["japanese_quality_failed"] += 1
 
         # 3. 品質スコア計算
         quality_score = self._calculate_quality_score(episode_data)

@@ -7,13 +7,18 @@
 2. 4つのPhaseによる多段階評価（100点満点）
 3. 詳細なフィードバックと改善提案
 4. OpenAI/Anthropic両対応
+5. Phase 7.3 Week 4, Day 2: LLMレスポンスキャッシング統合
 """
 
 import os
 import json
+import asyncio
 from typing import Optional, Dict, List
 from dataclasses import dataclass, asdict
 import time
+
+# Phase 7.3 Week 4, Day 2: LLMレスポンスキャッシング統合
+from scripts.llm_response_cache import LLMResponseCache, CachedLLMClient
 
 
 @dataclass
@@ -80,11 +85,12 @@ class AdvancedEvaluationResult:
 class AdvancedLLMEvaluator:
     """次世代LLM評価システム"""
 
-    def __init__(self, provider: str = "openai", model: Optional[str] = None):
+    def __init__(self, provider: str = "openai", model: Optional[str] = None, enable_cache: bool = True):
         """
         Args:
             provider: "openai" or "anthropic"
             model: モデル名（Noneの場合はデフォルト）
+            enable_cache: キャッシュの有効化（Phase 7.3 Week 4, Day 2）
         """
         self.provider = provider.lower()
         self.min_passing_score = 60
@@ -102,9 +108,27 @@ class AdvancedLLMEvaluator:
         else:
             raise ValueError(f"未対応のプロバイダー: {provider}")
 
-    def evaluate(self, episode_text: str, person_name: str, age: int) -> AdvancedEvaluationResult:
+        # Phase 7.3 Week 4, Day 2: LLMレスポンスキャッシング初期化
+        self.enable_cache = enable_cache
+        if enable_cache:
+            self.llm_cache = LLMResponseCache(
+                cache_dir="cache/llm_responses",
+                default_ttl=86400,  # 24時間
+                max_memory_entries=1000,
+                enable_disk_cache=True
+            )
+            self.cached_client = CachedLLMClient(
+                cache=self.llm_cache,
+                provider=self.provider,
+                model=self.model
+            )
+        else:
+            self.llm_cache = None
+            self.cached_client = None
+
+    async def evaluate_async(self, episode_text: str, person_name: str, age: int) -> AdvancedEvaluationResult:
         """
-        Chain-of-Thought評価を実施
+        Chain-of-Thought評価を実施（非同期版、Phase 7.3 Week 4, Day 2: キャッシング対応）
 
         Args:
             episode_text: エピソードテキスト
@@ -119,11 +143,28 @@ class AdvancedLLMEvaluator:
         # プロンプト作成
         prompt = self._create_cot_prompt(episode_text, person_name, age)
 
-        # API呼び出し
-        if self.provider == "openai":
-            response = self._call_openai(prompt)
+        # API呼び出し（キャッシュ対応）
+        if self.enable_cache and self.cached_client:
+            # Phase 7.3 Week 4, Day 2: キャッシュ統合
+            # プロンプトは決定的（episode_text, person_name, age のみ使用）
+            async def llm_call():
+                if self.provider == "openai":
+                    return await self._call_openai_async(prompt)
+                else:
+                    return await self._call_anthropic_async(prompt)
+
+            response, was_cached = await self.cached_client.call_llm_with_cache(
+                person_name=person_name,
+                age=age,
+                prompt=prompt,
+                llm_function=llm_call
+            )
         else:
-            response = self._call_anthropic(prompt)
+            # キャッシュ無効時は直接API呼び出し
+            if self.provider == "openai":
+                response = await self._call_openai_async(prompt)
+            else:
+                response = await self._call_anthropic_async(prompt)
 
         # レスポンスをパース
         result = self._parse_cot_response(response, episode_text, person_name, age)
@@ -133,6 +174,20 @@ class AdvancedLLMEvaluator:
         result.model_used = f"{self.provider}/{self.model}"
 
         return result
+
+    def evaluate(self, episode_text: str, person_name: str, age: int) -> AdvancedEvaluationResult:
+        """
+        Chain-of-Thought評価を実施（同期版、後方互換性のため維持）
+
+        Args:
+            episode_text: エピソードテキスト
+            person_name: 人物名
+            age: 年齢
+
+        Returns:
+            AdvancedEvaluationResult: 高度な評価結果
+        """
+        return asyncio.run(self.evaluate_async(episode_text, person_name, age))
 
     def _create_cot_prompt(self, episode_text: str, person_name: str, age: int) -> str:
         """Chain-of-Thought評価用プロンプトを生成"""
@@ -266,17 +321,17 @@ class AdvancedLLMEvaluator:
 - 改善提案は最大3つまでとしてください
 """
 
-    def _call_openai(self, prompt: str) -> str:
-        """OpenAI APIを呼び出し"""
+    async def _call_openai_async(self, prompt: str) -> str:
+        """OpenAI APIを呼び出し（非同期版、Phase 7.3 Week 4, Day 2）"""
         try:
             import openai
         except ImportError:
             raise ImportError("openaiパッケージがインストールされていません: pip install openai")
 
-        client = openai.OpenAI(api_key=self.api_key)
+        client = openai.AsyncOpenAI(api_key=self.api_key)
 
         try:
-            response = client.chat.completions.create(
+            response = await client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": "あなたは段階的推論を得意とする、厳格で客観的なエピソード評価者です。"},
@@ -289,17 +344,21 @@ class AdvancedLLMEvaluator:
         except Exception as e:
             raise RuntimeError(f"OpenAI API呼び出しエラー: {e}")
 
-    def _call_anthropic(self, prompt: str) -> str:
-        """Anthropic APIを呼び出し"""
+    def _call_openai(self, prompt: str) -> str:
+        """OpenAI APIを呼び出し（同期版、後方互換性のため維持）"""
+        return asyncio.run(self._call_openai_async(prompt))
+
+    async def _call_anthropic_async(self, prompt: str) -> str:
+        """Anthropic APIを呼び出し（非同期版、Phase 7.3 Week 4, Day 2）"""
         try:
             import anthropic
         except ImportError:
             raise ImportError("anthropicパッケージがインストールされていません: pip install anthropic")
 
-        client = anthropic.Anthropic(api_key=self.api_key)
+        client = anthropic.AsyncAnthropic(api_key=self.api_key)
 
         try:
-            message = client.messages.create(
+            message = await client.messages.create(
                 model=self.model,
                 max_tokens=4096,
                 temperature=0.3,
@@ -310,6 +369,10 @@ class AdvancedLLMEvaluator:
             return message.content[0].text
         except Exception as e:
             raise RuntimeError(f"Anthropic API呼び出しエラー: {e}")
+
+    def _call_anthropic(self, prompt: str) -> str:
+        """Anthropic APIを呼び出し（同期版、後方互換性のため維持）"""
+        return asyncio.run(self._call_anthropic_async(prompt))
 
     def _parse_cot_response(
         self,

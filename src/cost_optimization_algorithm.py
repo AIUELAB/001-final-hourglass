@@ -12,6 +12,7 @@ Cost Optimization Algorithm - Phase 11.4
 import argparse
 import json
 import sqlite3
+from src.database_utils import get_connection
 import statistics
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
@@ -103,13 +104,13 @@ class CostOptimizationAlgorithm:
 
     def _init_database_tables(self):
         """データベーステーブルの初期化"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         # リソースコスト履歴テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS resource_costs (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 resource_type TEXT NOT NULL,
                 current_usage REAL NOT NULL,
@@ -125,7 +126,7 @@ class CostOptimizationAlgorithm:
         # 最適化推奨履歴テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS optimization_recommendations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 resource_type TEXT NOT NULL,
                 recommendation_type TEXT NOT NULL,
@@ -146,7 +147,7 @@ class CostOptimizationAlgorithm:
         # コストシミュレーション履歴テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS cost_simulations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 scenario_name TEXT NOT NULL,
                 current_monthly_cost REAL NOT NULL,
@@ -165,7 +166,7 @@ class CostOptimizationAlgorithm:
         # コスト最適化計画テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS cost_optimization_plans (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 plan_data TEXT NOT NULL,
                 status TEXT DEFAULT 'active',
@@ -178,7 +179,7 @@ class CostOptimizationAlgorithm:
 
     def analyze_resource_costs(self, resource_type: str) -> Optional[ResourceCost]:
         """リソースコストの分析"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         # リソースタイプに応じてカラム名をマッピング
@@ -550,7 +551,7 @@ class CostOptimizationAlgorithm:
 
     def _save_resource_cost(self, timestamp: str, cost: ResourceCost):
         """リソースコストをデータベースに保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -576,7 +577,7 @@ class CostOptimizationAlgorithm:
         self, timestamp: str, rec: OptimizationRecommendation
     ):
         """最適化推奨事項をデータベースに保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -606,7 +607,7 @@ class CostOptimizationAlgorithm:
 
     def _save_cost_simulation(self, timestamp: str, sim: CostSimulation):
         """コストシミュレーションをデータベースに保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -634,7 +635,7 @@ class CostOptimizationAlgorithm:
 
     def _save_optimization_plan(self, timestamp: str, plan_data: Dict[str, Any]):
         """コスト最適化計画をデータベースに保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -647,7 +648,7 @@ class CostOptimizationAlgorithm:
 
     def show_history(self, limit: int = 10):
         """コスト最適化計画の履歴を表示"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""

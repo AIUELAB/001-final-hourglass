@@ -15,9 +15,10 @@ import signal
 from pathlib import Path
 from datetime import datetime
 
-# port_utilsをインポート
+# port_utilsとport_registryをインポート
 sys.path.insert(0, str(Path(__file__).parent))
-from port_utils import check_port_status, wait_for_port, check_http_endpoint
+from port_utils import wait_for_port, check_http_endpoint
+from port_registry import get_registry, update_allocation
 
 
 def load_config():
@@ -65,65 +66,74 @@ def kill_process_gracefully(pid: int, timeout: int = 5):
 
 
 def start_codex_server(config: dict):
-    """Codex MCPサーバーを起動"""
+    """Codex MCPサーバーを起動（ポートレジストリ対応版）"""
     codex_settings = config.get('codex_settings', {})
 
     if not codex_settings.get('auto_start_codex', False):
         print("  ⚠️ Codex自動起動が無効になっています")
         return False
 
-    port = codex_settings.get('codex_port', 8765)
+    preferred_port = codex_settings.get('codex_port', 8765)
     project_path = codex_settings.get('project_path', os.getcwd())
     pid_file = Path(project_path) / ".pids" / "codex.pid"
 
     print(f"\n🚀 Codex MCPサーバー起動処理...")
-    print(f"  ポート: {port}")
+    print(f"  優先ポート: {preferred_port}")
     print(f"  プロジェクト: {project_path}")
 
-    # ポート状態の詳細チェック
-    status, existing_pid = check_port_status(port, "codex", pid_file)
+    # === ポートレジストリを使用した割り当て ===
+    registry = get_registry()
+    allocated_port, allocation_status = registry.allocate_port(
+        service_name="codex",
+        project_path=project_path,
+        preferred_port=preferred_port,
+        health_endpoint=f"http://localhost:{preferred_port}/health"
+    )
 
-    if status == 'reusable':
-        print(f"  ✅ 既存のCodexサーバー(PID: {existing_pid})を再利用します")
-        print(f"  ℹ️ ポート{port}で正常稼働中のため起動をスキップ")
+    print(f"  ポート割り当て: {allocated_port} (status={allocation_status})")
+
+    # 既存プロセスを再利用する場合
+    if allocation_status == 'reused':
+        print(f"  ✅ 既存のCodexサーバーを再利用します (port={allocated_port})")
+        print(f"  ℹ️ ポート{allocated_port}で正常稼働中のため起動をスキップ")
 
         # ヘルスチェック
-        health_url = f"http://localhost:{port}/health"
+        health_url = f"http://localhost:{allocated_port}/health"
         if check_http_endpoint(health_url):
             print(f"  ✅ ヘルスチェック成功")
             return True
         else:
-            print(f"  ⚠️ ヘルスチェック失敗、再起動します")
-            status = 'unhealthy'
+            print(f"  ⚠️ ヘルスチェック失敗、新規起動します")
+            # 既存の割り当てを解放して新規起動
+            registry.release_port(allocated_port, project_path)
+            allocated_port, _ = registry.allocate_port(
+                service_name="codex",
+                project_path=project_path,
+                preferred_port=preferred_port,
+                health_endpoint=f"http://localhost:{preferred_port}/health"
+            )
 
-    if status == 'unhealthy' or status == 'occupied':
-        print(f"  ⚠️ ポート{port}が不正な状態です (PID: {existing_pid})")
-        if kill_process_gracefully(existing_pid):
-            print("  ✅ 既存プロセスを終了しました")
-        else:
-            print("  ❌ プロセス終了に失敗")
-            return False
-        time.sleep(1)
-
-    elif status == 'available':
-        print(f"  ✅ ポート{port}は利用可能です")
+    # ポートが優先ポートと異なる場合は警告
+    if allocated_port != preferred_port:
+        print(f"  ⚠️ 優先ポート{preferred_port}は使用中のため、ポート{allocated_port}を使用します")
 
     # サーバー起動
     server_script = Path(project_path) / "codex_mcp_server.py"
 
     if not server_script.exists():
         print(f"  ❌ サーバースクリプトが見つかりません: {server_script}")
+        registry.release_port(allocated_port, project_path)
         return False
 
     # バックグラウンドで起動
     log_file = Path(project_path) / "codex_server.log"
 
     try:
-        # Python3で直接起動
+        # Python3で直接起動（動的ポート番号を使用）
         cmd = [
             sys.executable,
             str(server_script),
-            "--port", str(port),
+            "--port", str(allocated_port),  # 動的ポート
             "--log-level", codex_settings.get('log_level', 'INFO')
         ]
 
@@ -145,20 +155,27 @@ def start_codex_server(config: dict):
         with open(pid_file, 'w') as f:
             f.write(str(process.pid))
 
+        # レジストリにPIDを登録
+        update_allocation(allocated_port, process.pid, "healthy")
+
         # ポートが開くまで待機
-        print(f"  ⏳ ポート{port}の起動を待機中...")
-        if not wait_for_port(port, timeout=10):
+        print(f"  ⏳ ポート{allocated_port}の起動を待機中...")
+        # ✅ FIX: タイムアウトを30秒に延長
+        if not wait_for_port(allocated_port, timeout=30):
             print(f"  ❌ サーバーが起動しませんでした（タイムアウト）")
+            registry.release_port(allocated_port, project_path)
             return False
 
-        print(f"  ✅ Codex MCPサーバーが起動しました (ポート: {port})")
+        print(f"  ✅ Codex MCPサーバーが起動しました (ポート: {allocated_port})")
 
         # ヘルスチェック
-        health_url = f"http://localhost:{port}/health"
+        health_url = f"http://localhost:{allocated_port}/health"
         if check_http_endpoint(health_url):
             print(f"  ✅ ヘルスチェック成功")
+            update_allocation(allocated_port, process.pid, "healthy")
         else:
             print(f"  ⚠️ ヘルスチェックは失敗しましたが起動は成功")
+            update_allocation(allocated_port, process.pid, "unhealthy")
 
         return True
 

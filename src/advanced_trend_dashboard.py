@@ -18,6 +18,7 @@ Phase 11.1の高度予測エンジン結果を可視化
 import os
 import sys
 import sqlite3
+from src.database_utils import get_connection
 import json
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -91,13 +92,13 @@ class AdvancedTrendDashboard:
 
     def _init_database_tables(self):
         """データベーステーブル初期化"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         # advanced_prediction_history テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS advanced_prediction_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 prediction_id TEXT NOT NULL UNIQUE,
                 timestamp TEXT NOT NULL,
                 failure_probability REAL NOT NULL,
@@ -113,7 +114,7 @@ class AdvancedTrendDashboard:
         # automl_experiments テーブル（既存スキーマを尊重）
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS automl_experiments (
-                experiment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                experiment_id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 best_model_name TEXT NOT NULL,
                 best_params TEXT,
@@ -233,7 +234,7 @@ class AdvancedTrendDashboard:
 
     def _get_summary_metrics(self, hours: int) -> DashboardMetrics:
         """サマリーメトリクス取得"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
@@ -323,7 +324,7 @@ class AdvancedTrendDashboard:
 
     def _analyze_prediction_trends(self, hours: int) -> Dict[str, Any]:
         """予測トレンド分析"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
@@ -384,7 +385,7 @@ class AdvancedTrendDashboard:
 
     def _get_automl_history(self, limit: int = 10) -> List[Dict[str, Any]]:
         """AutoML実験履歴取得"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cursor.execute("""
@@ -414,7 +415,7 @@ class AdvancedTrendDashboard:
 
     def _analyze_model_agreement(self, hours: int) -> Dict[str, Any]:
         """モデル合意度分析"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
@@ -457,7 +458,7 @@ class AdvancedTrendDashboard:
 
     def _analyze_risk_distribution(self, hours: int) -> Dict[str, Any]:
         """リスクレベル分布分析"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
@@ -484,7 +485,7 @@ class AdvancedTrendDashboard:
 
     def _analyze_contributing_factors(self, hours: int) -> Dict[str, Any]:
         """寄与因子分析"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()

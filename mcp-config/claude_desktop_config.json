@@ -11,39 +11,6 @@
       ],
       "env": {}
     },
-    "serena-local": {
-      "command": "/path/to/uv",
-      "args": [
-        "run",
-        "--directory",
-        "/path/to/serena",
-        "serena-mcp-server",
-        "--project",
-        "/Users/admin/Documents/AIUELAB/001-final-hourglass"
-      ],
-      "env": {},
-      "disabled": true
-    },
-    "serena-docker": {
-      "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "--network",
-        "host",
-        "-v",
-        "/Users/admin/Documents/Cursor/AnalyTube/claude-code-template-mcp:/workspaces/projects",
-        "ghcr.io/oraios/serena:latest",
-        "serena-mcp-server",
-        "--transport",
-        "stdio",
-        "--project",
-        "/workspaces/projects"
-      ],
-      "env": {},
-      "disabled": true
-    },
     "filesystem": {
       "command": "npx",
       "args": [
@@ -55,58 +22,85 @@
     },
     "github": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       }
     },
     "fetch": {
       "command": "uvx",
-      "args": ["mcp-server-fetch"],
+      "args": [
+        "mcp-server-fetch"
+      ],
       "env": {}
     },
     "context7": {
       "command": "npx",
-      "args": ["-y", "@context7/mcp-server"],
+      "args": [
+        "-y",
+        "@context7/mcp-server"
+      ],
       "env": {}
     },
     "brave-search": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
       "env": {
         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
       }
     },
     "playwright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest"],
+      "args": [
+        "@playwright/mcp@latest"
+      ],
       "env": {}
     },
     "ide": {
       "command": "npx",
-      "args": ["-y", "@win32user/mcp-ide"],
+      "args": [
+        "-y",
+        "@win32user/mcp-ide"
+      ],
       "env": {}
     },
     "firecrawl": {
       "command": "uvx",
-      "args": ["firecrawl-mcp-server"],
+      "args": [
+        "firecrawl-mcp-server"
+      ],
       "env": {
         "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
       }
     },
     "memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
       "env": {}
     },
     "puppeteer": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ],
       "env": {}
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
       "env": {}
     },
     "postgres": {
@@ -120,7 +114,10 @@
     },
     "slack": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-slack"
+      ],
       "env": {
         "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
         "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
@@ -128,7 +125,10 @@
     },
     "gitlab": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-gitlab"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-gitlab"
+      ],
       "env": {
         "GITLAB_PERSONAL_ACCESS_TOKEN": "${GITLAB_TOKEN}",
         "GITLAB_API_URL": "https://gitlab.com/api/v4"
@@ -136,14 +136,20 @@
     },
     "google-maps": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-google-maps"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-google-maps"
+      ],
       "env": {
         "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}"
       }
     },
     "aws": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-aws"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-aws"
+      ],
       "env": {
         "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
         "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
@@ -152,14 +158,20 @@
     },
     "gcp": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-gcp"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-gcp"
+      ],
       "env": {
         "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}"
       }
     },
     "azure": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-azure"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-azure"
+      ],
       "env": {
         "AZURE_SUBSCRIPTION_ID": "${AZURE_SUBSCRIPTION_ID}",
         "AZURE_CLIENT_ID": "${AZURE_CLIENT_ID}",
@@ -169,19 +181,28 @@
     },
     "docker": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-docker"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-docker"
+      ],
       "env": {}
     },
     "kubernetes": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-kubernetes"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-kubernetes"
+      ],
       "env": {
         "KUBECONFIG": "${HOME}/.kube/config"
       }
     },
     "smithery-cli": {
       "command": "npx",
-      "args": ["-y", "@smithery/cli-mcp"],
+      "args": [
+        "-y",
+        "@smithery/cli-mcp"
+      ],
       "env": {
         "SMITHERY_API_KEY": "${SMITHERY_API_KEY}"
       },
@@ -189,16 +210,96 @@
     },
     "smithery-stdout": {
       "command": "npx",
-      "args": ["-y", "@smithery/stdout-mcp-server"],
-      "env": {},
-      "disabled": true
+      "args": [
+        "-y",
+        "@smithery/stdout-mcp-server"
+      ],
+      "env": {}
     },
     "codex": {
       "command": "codex",
-      "args": ["mcp"],
+      "args": [
+        "mcp"
+      ],
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}"
       }
+    },
+    "xcodebuild": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "xcodebuildmcp"
+      ],
+      "env": {},
+      "description": "Xcode project management, simulator control, and iOS app utilities"
+    },
+    "enhanced-postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "enhanced-postgres-mcp-server",
+        "postgresql://localhost/dbname"
+      ],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      },
+      "description": "Enhanced PostgreSQL server with read and write capabilities",
+      "disabled": true
+    },
+    "mcp-inspector": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/inspector"
+      ],
+      "env": {},
+      "description": "MCP debugging and inspection tool"
+    },
+    "mcp-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@magneticwatermelon/mcp-toolkit"
+      ],
+      "env": {},
+      "description": "Build and ship MCP servers with zero-config"
+    },
+    "mcp-sdk": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/sdk"
+      ],
+      "env": {},
+      "description": "Official MCP SDK for TypeScript - Build MCP clients and servers"
+    },
+    "ref-tools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "ref-tools-mcp"
+      ],
+      "env": {},
+      "description": "Reference tools for code navigation and documentation"
+    },
+    "puppeteer-hisma": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@hisma/server-puppeteer"
+      ],
+      "env": {},
+      "description": "Improved Puppeteer MCP server (v0.6.5 fork) for advanced browser automation"
+    },
+    "mcp-use": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-use"
+      ],
+      "env": {},
+      "description": "Opinionated MCP Framework - Build MCP Agents, Clients, and Servers with MCP-UI support"
     }
   }
 }

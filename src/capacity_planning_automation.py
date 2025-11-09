@@ -15,6 +15,7 @@ Capacity Planning Automation System
 import os
 import sys
 import sqlite3
+from src.database_utils import get_connection
 import json
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -106,13 +107,13 @@ class CapacityPlanningAutomation:
 
     def _init_database_tables(self):
         """データベーステーブル初期化"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         # capacity_forecasts テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS capacity_forecasts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 resource_type TEXT NOT NULL,
                 current_usage REAL NOT NULL,
@@ -128,7 +129,7 @@ class CapacityPlanningAutomation:
         # capacity_recommendations テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS capacity_recommendations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 timestamp TEXT NOT NULL,
                 resource_type TEXT NOT NULL,
                 action TEXT NOT NULL,
@@ -145,7 +146,7 @@ class CapacityPlanningAutomation:
         # capacity_plans テーブル
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS capacity_plans (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 plan_id TEXT NOT NULL UNIQUE,
                 generated_at TEXT NOT NULL,
                 forecast_period_days INTEGER NOT NULL,
@@ -248,7 +249,7 @@ class CapacityPlanningAutomation:
 
     def _collect_resource_data(self, days: int) -> Dict[str, List[Tuple[str, float]]]:
         """リソース使用量データ収集"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         cutoff_time = (datetime.now() - timedelta(days=days)).isoformat()
@@ -572,7 +573,7 @@ class CapacityPlanningAutomation:
 
     def _save_capacity_plan(self, plan: CapacityPlan):
         """容量計画をデータベースに保存"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
         plan_id = f"plan_{datetime.now().strftime('%Y%m%d_%H%M%S')}"

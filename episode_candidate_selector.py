@@ -16,6 +16,7 @@ Created: 2025-10-02
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import json
 import csv
 from pathlib import Path
@@ -143,7 +144,7 @@ class EpisodeCandidateSelector:
 
     def _query_database(self, categories: Optional[List[str]] = None) -> List[Dict]:
         """データベースクエリ"""
-        conn = sqlite3.connect(self.db_path)
+        conn = get_connection(self.db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 

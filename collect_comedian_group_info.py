@@ -14,6 +14,7 @@
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import json
 import logging
 from typing import Dict, List, Optional, Tuple
@@ -230,7 +231,7 @@ class ComedianGroupInfoCollector:
         Returns:
             収集結果リスト
         """
-        conn = sqlite3.connect(db_path)
+        conn = get_connection(db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 

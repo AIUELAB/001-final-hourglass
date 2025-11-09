@@ -10,6 +10,7 @@
 
 import csv
 import sqlite3
+from src.database_utils import get_connection
 from datetime import datetime
 from typing import List, Dict
 
@@ -39,7 +40,7 @@ def export_persons_to_csv(
     print(f"出力先: {output_path}\n")
 
     # データベース接続
-    conn = sqlite3.connect(db_path)
+    conn = get_connection(db_path)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 

@@ -6,6 +6,7 @@ RULE_179-181を使用してすべてのエピソードを評価し、品質レ�
 """
 
 import sqlite3
+from src.database_utils import get_connection
 import sys
 import logging
 from pathlib import Path
@@ -38,7 +39,7 @@ class EpisodeEvaluator:
 
     def connect(self):
         """データベース接続"""
-        self.conn = sqlite3.connect(self.db_path)
+        self.conn = get_connection(self.db_path)
         self.conn.row_factory = sqlite3.Row
 
     def close(self):

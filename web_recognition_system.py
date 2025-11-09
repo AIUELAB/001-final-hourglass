@@ -12,6 +12,7 @@ Google Search APIとWeb検索による知名度測定システムの完全実装
 import asyncio
 import json
 import sqlite3
+from src.database_utils import get_connection
 import pandas as pd
 import requests
 import time
@@ -37,7 +38,7 @@ class WebRecognitionSystem:
         
     def setup_cache_db(self):
         """キャッシュデータベースセットアップ"""
-        conn = sqlite3.connect(self.cache_db)
+        conn = get_connection(self.cache_db)
         conn.execute('''
             CREATE TABLE IF NOT EXISTS recognition_cache (
                 person_name TEXT PRIMARY KEY,
@@ -62,7 +63,7 @@ class WebRecognitionSystem:
         
     def get_cached_result(self, person_name: str, provider: str = "") -> Optional[Dict]:
         """キャッシュから結果取得"""
-        conn = sqlite3.connect(self.cache_db)
+        conn = get_connection(self.cache_db)
         cursor = conn.cursor()
         
         cutoff_time = datetime.now() - self.cache_duration
@@ -97,7 +98,7 @@ class WebRecognitionSystem:
     
     def cache_result(self, result_data: Dict):
         """結果をキャッシュに保存"""
-        conn = sqlite3.connect(self.cache_db)
+        conn = get_connection(self.cache_db)
         
         conn.execute('''
             INSERT OR REPLACE INTO recognition_cache 

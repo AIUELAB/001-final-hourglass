@@ -6,6 +6,7 @@
 
 import json
 import sqlite3
+from src.database_utils import get_connection
 import time
 import hashlib
 from typing import Any, Dict, Optional, Tuple
@@ -78,7 +79,7 @@ class ThreeLayerCache:
     
     def _init_sqlite(self):
         """SQLite初期化"""
-        conn = sqlite3.connect(self.sqlite_path)
+        conn = get_connection(self.sqlite_path)
         cursor = conn.cursor()
         
         cursor.execute('''
@@ -238,7 +239,7 @@ class ThreeLayerCache:
     
     def _get_from_sqlite(self, key: str) -> Optional[Any]:
         """SQLiteから取得"""
-        conn = sqlite3.connect(self.sqlite_path)
+        conn = get_connection(self.sqlite_path)
         cursor = conn.cursor()
         
         cursor.execute('''
@@ -280,7 +281,7 @@ class ThreeLayerCache:
     
     def _set_to_sqlite(self, key: str, value: Any, ttl: int, api_name: str):
         """SQLiteに設定"""
-        conn = sqlite3.connect(self.sqlite_path)
+        conn = get_connection(self.sqlite_path)
         cursor = conn.cursor()
         
         # シリアライズ
@@ -313,7 +314,7 @@ class ThreeLayerCache:
             del self.redis_cache[key]
         
         # SQLite
-        conn = sqlite3.connect(self.sqlite_path)
+        conn = get_connection(self.sqlite_path)
         cursor = conn.cursor()
         cursor.execute('DELETE FROM cache WHERE key LIKE ?', (f'%{pattern}%',))
         conn.commit()
@@ -340,7 +341,7 @@ class ThreeLayerCache:
             del self.redis_cache[key]
         
         # SQLite
-        conn = sqlite3.connect(self.sqlite_path)
+        conn = get_connection(self.sqlite_path)
         cursor = conn.cursor()
         cursor.execute('''
             DELETE FROM cache 
@@ -375,7 +376,7 @@ class ThreeLayerCache:
     def optimize_cache_distribution(self):
         """キャッシュ分布の最適化"""
         # SQLiteから頻繁にアクセスされるエントリを上位層にプロモート
-        conn = sqlite3.connect(self.sqlite_path)
+        conn = get_connection(self.sqlite_path)
         cursor = conn.cursor()
         
         cursor.execute('''

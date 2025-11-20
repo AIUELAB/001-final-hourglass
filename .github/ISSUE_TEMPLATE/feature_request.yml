@@ -1,0 +1,70 @@
+name: ✨ Feature Request
+description: 新機能のリクエストを作成する
+title: '[Feature]: '
+labels: [enhancement]
+assignees:
+- gunzitakashi
+
+body:
+- type: markdown
+  attributes:
+    value: |
+      ## 新機能リクエスト
+
+      新機能のアイデアをありがとうございます！以下の情報を記入してください。
+
+- type: textarea
+  id: problem
+  attributes:
+    label: 🎯 解決したい課題
+    description: この機能が解決する問題は何ですか？
+    placeholder: 現在、...という問題があります...
+  validations:
+    required: true
+
+- type: textarea
+  id: solution
+  attributes:
+    label: 💡 提案する解決策
+    description: どのような機能を追加すべきだと考えますか？
+    placeholder: '...という機能があれば、...が実現できます...'
+  validations:
+    required: true
+
+- type: textarea
+  id: alternatives
+  attributes:
+    label: 🔄 検討した代替案
+    description: 他に検討した方法はありますか？
+    placeholder: '...も検討しましたが、...という理由で適していません...'
+
+- type: dropdown
+  id: priority
+  attributes:
+    label: ⚡ 優先度
+    description: この機能の重要度を選択してください
+    options:
+    - 低（あると便利）
+    - 中（重要だが急ぎではない）
+    - 高（早急に必要）
+    - 緊急（ブロッカー）
+  validations:
+    required: true
+
+- type: textarea
+  id: additional
+  attributes:
+    label: 📎 追加情報
+    description: その他の関連情報があれば記載してください
+    placeholder: 参考資料、モックアップ、類似機能の例等...
+
+- type: checkboxes
+  id: terms
+  attributes:
+    label: ✔️ 確認事項
+    description: 以下の項目を確認してください
+    options:
+    - label: 既存のIssueで同じ機能が提案されていないか確認しました
+      required: true
+    - label: この機能がプロジェクトの目的に合致していると考えています
+      required: true

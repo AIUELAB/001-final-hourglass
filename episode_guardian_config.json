@@ -13,7 +13,22 @@
     "file": "logs/episode_guardian.log"
   },
   "unified_rules": {
-    "enabled": true,
-    "source": "unified_rules.json"
+    "version": "1.0.0",
+    "last_updated": "2025-11-21T16:08:46.523811",
+    "total_rules": 4,
+    "categories": {
+      "entity_type": [
+        "ENTITY_TYPE_001"
+      ],
+      "data_quality": [
+        "RULE_001"
+      ],
+      "episode_format": [
+        "FORMAT_001"
+      ],
+      "episode_content": [
+        "RULE_100"
+      ]
+    }
   }
 }

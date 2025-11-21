@@ -94,6 +94,60 @@ AWARDS_MASTER_LIST: List[AwardInfo] = [
               ["MVP", "最優秀選手"]),
     AwardInfo("世界記録", "international", "critical",
               ["世界記録", "世界新記録", "World Record"]),
+
+    # === 音楽コンクール（Critical/High）- RULE_207追加 ===
+    AwardInfo("ショパン国際ピアノコンクール", "international", "critical",
+              ["ショパンコンクール", "ショパン国際", "Chopin Competition"]),
+    AwardInfo("チャイコフスキー国際コンクール", "international", "critical",
+              ["チャイコフスキーコンクール", "チャイコフスキー国際", "Tchaikovsky"]),
+    AwardInfo("エリザベート王妃国際音楽コンクール", "international", "high",
+              ["エリザベート王妃", "Queen Elisabeth"]),
+    AwardInfo("ヴァン・クライバーン国際ピアノコンクール", "international", "high",
+              ["ヴァン・クライバーン", "Van Cliburn"]),
+    AwardInfo("リーズ国際ピアノコンクール", "international", "high",
+              ["リーズ国際", "Leeds"]),
+
+    # === 児童文学（Critical）- RULE_207追加 ===
+    AwardInfo("国際アンデルセン賞", "international", "critical",
+              ["アンデルセン賞", "国際アンデルセン", "Hans Christian Andersen Award"]),
+
+    # === 科学・学術（Critical/High）- RULE_207追加 ===
+    AwardInfo("フィールズ賞", "international", "critical",
+              ["フィールズ賞", "Fields Medal"]),
+    AwardInfo("ラスカー賞", "international", "critical",
+              ["ラスカー賞", "Lasker Award"]),
+    AwardInfo("京都賞", "international", "high",
+              ["京都賞", "Kyoto Prize"]),
+    AwardInfo("ウルフ賞", "international", "high",
+              ["ウルフ賞", "Wolf Prize"]),
+    AwardInfo("日本学士院賞", "national", "high",
+              ["日本学士院賞", "学士院賞"]),
+
+    # === 建築（Critical） ===
+    AwardInfo("プリツカー賞", "international", "critical",
+              ["プリツカー賞", "Pritzker", "建築のノーベル賞"]),
+
+    # === 演劇・ミュージカル ===
+    AwardInfo("トニー賞", "international", "high",
+              ["トニー賞", "Tony Award"]),
+    AwardInfo("エミー賞", "international", "high",
+              ["エミー賞", "Emmy Award"]),
+
+    # === 日本の文学賞（追加） ===
+    AwardInfo("吉川英治文学賞", "national", "high",
+              ["吉川英治文学賞", "吉川英治賞"]),
+    AwardInfo("谷崎潤一郎賞", "national", "high",
+              ["谷崎潤一郎賞", "谷崎賞"]),
+    AwardInfo("読売文学賞", "national", "high",
+              ["読売文学賞"]),
+
+    # === 日本の芸術賞 ===
+    AwardInfo("芸術選奨文部科学大臣賞", "national", "high",
+              ["芸術選奨", "文部科学大臣賞"]),
+    AwardInfo("毎日芸術賞", "national", "high",
+              ["毎日芸術賞"]),
+    AwardInfo("朝日賞", "national", "high",
+              ["朝日賞"]),
 ]
 
 

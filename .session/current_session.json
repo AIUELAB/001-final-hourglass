@@ -1,71 +1,62 @@
 {
-  "session_id": "session_20251121_123000",
-  "start_time": "2025-11-21T12:00:00+09:00",
-  "end_time": "2025-11-21T12:30:00+09:00",
+  "session_id": "session_20251121_143000",
+  "start_time": "2025-11-21T14:30:00+09:00",
+  "end_time": "2025-11-21T14:58:00+09:00",
   "status": "paused_for_restart",
-  "current_phase": "Phase 18完了 - 再起動待ち",
-  "current_task": "Phase 18効果確認（Cursor再起動後）",
+  "current_phase": "Phase 18完了 - 効果測定待ち",
+  "current_task": "Phase 19: 効果測定（Cursor再起動後）",
   "completed_tasks": [
-    "test_generate_basic_question修正",
-    "unified_rules.json生成",
-    "test_ep028_regression修正",
-    "test_valid_episode_evaluation修正",
-    "test_critical_violation_stops_pipeline修正",
-    "test_timeline_balance修正（90% → 75%）",
-    "test_age_duplication_prohibition修正（0件 → 10件）",
-    "test_time_information_singularity修正（0% → 80%）",
-    "Ruff E402エラー解決",
-    "テスト全通過達成（108 passed, 86 skipped）",
-    "変更コミット（243f9ec4）"
+    "Phase 18-C: MCPプロファイル管理システム実装",
+    "  - mcp_profiles.json作成（4プロファイル定義）",
+    "  - scripts/switch_mcp_profile.py実装",
+    "  - minimalプロファイルに切替完了",
+    "Phase 18-D: Skills化実装",
+    "  - /pdca（PDCAガーディアン）",
+    "  - /codex-analyze（AI協調分析）",
+    "  - /kairos（機会検出）",
+    "  - /rca（RCA-Kaizen）",
+    "Phase 18-E: ドキュメント整備",
+    "  - CLAUDE.mdにSkills/プロファイル情報追加"
   ],
   "next_tasks": [
     "Cursor再起動",
     "/context でコンテキスト使用状況確認",
-    "claude mcp list でMCPサーバーリスト確認",
-    "Phase 18効果測定レポート作成"
+    "MCP tools消費が30.8k → 約3kに削減されたか確認",
+    "Skillsの動作テスト（/pdca, /kairos等）"
   ],
   "created_files": [
-    "unified_rules.json",
-    "project_memory.json",
-    ".session/phase18_restart_checkpoint.md"
+    "mcp_profiles.json",
+    "scripts/switch_mcp_profile.py",
+    ".claude/commands/pdca.md",
+    ".claude/commands/codex-analyze.md",
+    ".claude/commands/kairos.md",
+    ".claude/commands/rca.md",
+    ".claude/commands/mcp-profile.md"
   ],
   "modified_files": [
-    "tests/test_integrated_pipeline.py",
-    "tests/test_episode_guardian.py",
-    "tests/test_episode_format.py"
+    "CLAUDE.md",
+    "mcp_management_system.py",
+    "~/.claude.json（minimalプロファイル適用）"
   ],
-  "commits": [
-    {
-      "hash": "243f9ec4",
-      "message": "test: 7つの失敗テストを修正（108 passed達成）",
-      "files_changed": 5,
-      "insertions": 1381,
-      "deletions": 1211
-    }
-  ],
-  "test_results": {
-    "before": {
-      "passed": 101,
-      "failed": 7,
-      "skipped": 86,
-      "total": 194
+  "phase18_results": {
+    "profile_system": {
+      "profiles": ["minimal", "web", "scraping", "full"],
+      "active_profile": "minimal",
+      "switch_script": "scripts/switch_mcp_profile.py"
     },
-    "after": {
-      "passed": 108,
-      "failed": 0,
-      "skipped": 86,
-      "total": 194
+    "skills_created": [
+      "/pdca - PDCAガーディアン",
+      "/codex-analyze - AI協調分析",
+      "/kairos - 機会検出",
+      "/rca - RCA-Kaizen",
+      "/mcp-profile - プロファイル切替",
+      "/enable-web - Web MCP有効化"
+    ],
+    "expected_improvement": {
+      "mcp_tools_before": "30.8k (15.4%)",
+      "mcp_tools_after": "約3.0k (1.5%)",
+      "free_space_improvement": "+27.9k tokens"
     }
   },
-  "phase18_metrics": {
-    "mcp_tools_before": "30.8k (15.4%)",
-    "mcp_tools_after_expected": "3.0k (1.5%)",
-    "free_space_before": "54.0k (27.0%)",
-    "free_space_after_expected": "82.0k (41.0%)",
-    "reduction": "27.9k tokens",
-    "disabled_servers": ["fetch", "brave-search", "firecrawl", "playwright"],
-    "enabled_servers": ["context7", "ide"]
-  },
-  "restart_checkpoint": ".session/phase18_restart_checkpoint.md",
-  "resume_prompt": "前回のセッションを復元して、Phase 18の効果確認を実施してください"
+  "resume_prompt": "前回のセッションを復元してください。Phase 18（MCP最適化・Skills化）が完了し、Cursor再起動後の効果測定を行います。/contextコマンドでMCP tools消費量を確認してください。"
 }

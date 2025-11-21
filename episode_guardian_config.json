@@ -1,0 +1,19 @@
+{
+  "episode_guardian": {
+    "version": "3.0.0",
+    "strict_mode": true,
+    "use_unified_validator": true
+  },
+  "known_groups_sources": [
+    "group_member_database.py",
+    "manual_group_list"
+  ],
+  "logging": {
+    "level": "INFO",
+    "file": "logs/episode_guardian.log"
+  },
+  "unified_rules": {
+    "enabled": true,
+    "source": "unified_rules.json"
+  }
+}

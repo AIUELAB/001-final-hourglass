@@ -599,15 +599,16 @@ class AdvancedPredictiveEngine:
 
         if model_path.exists() and scaler_path.exists():
             try:
+                # 信頼できるローカルファイルのみ読み込み（外部データは対象外）
                 with open(model_path, "rb") as f:
-                    data = pickle.load(f)
+                    data = pickle.load(f)  # nosec B301
                     self.models = data["models"]
                     self.ensemble_model = data.get("ensemble")
                     self.stacking_model = data.get("stacking")
                     self.feature_names = data["feature_names"]
 
                 with open(scaler_path, "rb") as f:
-                    self.scaler = pickle.load(f)
+                    self.scaler = pickle.load(f)  # nosec B301
 
                 logger.info(f"✅ 高度モデル読み込み: {model_path}")
             except Exception as e:

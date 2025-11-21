@@ -251,9 +251,9 @@ class VersionController:
         if csv_path.exists():
             return pd.read_csv(csv_path)
 
-        # Pickle形式で読み込み
+        # Pickle形式で読み込み（ローカルバージョンファイルのみ対象）
         with open(file_path, "rb") as f:
-            return pickle.load(f)
+            return pickle.load(f)  # nosec B301
 
     def _get_data_size(self, data: Any) -> int:
         """データサイズを取得"""

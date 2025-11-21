@@ -195,12 +195,9 @@ class CostOptimizationAlgorithm:
             return None
 
         # 最新のリソース使用量を取得
-        cursor.execute(f"""
-            SELECT {column_name}, timestamp
-            FROM system_metrics
-            ORDER BY timestamp DESC
-            LIMIT 1
-        """)
+        # column_nameはcolumn_mapのホワイトリストから取得するためSQLインジェクション安全
+        query = f"SELECT {column_name}, timestamp FROM system_metrics ORDER BY timestamp DESC LIMIT 1"  # nosec B608
+        cursor.execute(query)
 
         row = cursor.fetchone()
         conn.close()

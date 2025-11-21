@@ -193,11 +193,11 @@ class CacheManager:
         """ブラウザキャッシュ回避用のURL生成"""
         timestamp = int(time.time())
 
-        # バージョンハッシュ生成
+        # バージョンハッシュ生成（セキュリティ用途ではないためMD5使用）
         if version:
-            version_hash = hashlib.md5(version.encode()).hexdigest()[:8]
+            version_hash = hashlib.md5(version.encode(), usedforsecurity=False).hexdigest()[:8]
         else:
-            version_hash = hashlib.md5(str(timestamp).encode()).hexdigest()[:8]
+            version_hash = hashlib.md5(str(timestamp).encode(), usedforsecurity=False).hexdigest()[:8]
 
         # URLパラメータ追加
         separator = "&" if "?" in base_url else "?"

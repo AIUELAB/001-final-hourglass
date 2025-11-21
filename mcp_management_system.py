@@ -160,6 +160,43 @@ class UnifiedMCPManager:
 
         # 他のMCPサーバー設定をここに追加可能
 
+        # プロファイル設定の読み込みと適用
+        self._apply_profile_settings()
+
+    def _apply_profile_settings(self):
+        """mcp_profiles.jsonからプロファイル設定を読み込んで適用"""
+        profiles_file = PROJECT_ROOT / "mcp_profiles.json"
+
+        if not profiles_file.exists():
+            self.log("プロファイル設定ファイルが見つかりません。デフォルト設定を使用します。", "INFO")
+            return
+
+        try:
+            with open(profiles_file, 'r', encoding='utf-8') as f:
+                profiles_data = json.load(f)
+
+            active_profile = profiles_data.get("active_profile", "minimal")
+            profile_config = profiles_data["profiles"][active_profile]
+            mcp_settings = profile_config["mcps"]
+
+            self.log(f"プロファイル '{active_profile}' を適用中...", "INFO")
+
+            # 各MCPサーバーのauto_startフラグを設定
+            for server_name, server_obj in self.servers.items():
+                # プロファイル設定に従ってauto_startを設定
+                if server_name in mcp_settings:
+                    server_obj.auto_start = mcp_settings[server_name]
+                    status = "有効" if server_obj.auto_start else "無効"
+                    self.log(f"  {server_name}: {status}", "INFO")
+
+            self.log(f"プロファイル '{active_profile}' の適用完了", "SUCCESS")
+            self.log(f"  推定コンテキスト: {profile_config['estimated_context_usage']}", "INFO")
+            self.log(f"  推定Free space: {profile_config['estimated_free_space']}", "INFO")
+
+        except Exception as e:
+            self.log(f"プロファイル設定の読み込みエラー: {e}", "ERROR")
+            self.log("デフォルト設定を使用します。", "INFO")
+
     def log(self, message: str, level: str = "INFO"):
         """ログ記録"""
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S")

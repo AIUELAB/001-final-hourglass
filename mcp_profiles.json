@@ -1,0 +1,185 @@
+{
+  "version": "1.0.0",
+  "description": "MCP統合管理システム - プロファイル定義",
+  "active_profile": "minimal",
+  "profiles": {
+    "minimal": {
+      "description": "最小構成（コンテキスト節約優先）",
+      "use_case": "通常の開発作業、コード編集、ファイル操作",
+      "mcps": {
+        "serena": true,
+        "codex": true,
+        "context7": true,
+        "ide": true,
+        "fetch": false,
+        "brave-search": false,
+        "firecrawl": false,
+        "playwright": false
+      },
+      "estimated_context_usage": "3.0k",
+      "estimated_free_space": "53.8k (26.9%)"
+    },
+    "web": {
+      "description": "Web検索・URL取得",
+      "use_case": "Web検索、URLコンテンツ取得、簡単な情報収集",
+      "mcps": {
+        "serena": true,
+        "codex": true,
+        "context7": true,
+        "ide": true,
+        "fetch": true,
+        "brave-search": true,
+        "firecrawl": false,
+        "playwright": false
+      },
+      "estimated_context_usage": "7.9k",
+      "estimated_free_space": "48.9k (24.5%)"
+    },
+    "scraping": {
+      "description": "Webスクレイピング・ブラウザ自動化",
+      "use_case": "Webスクレイピング、サイト全体のクロール、ブラウザ自動化、スクリーンショット",
+      "mcps": {
+        "serena": true,
+        "codex": true,
+        "context7": true,
+        "ide": true,
+        "fetch": true,
+        "brave-search": true,
+        "firecrawl": true,
+        "playwright": true
+      },
+      "estimated_context_usage": "30.0k",
+      "estimated_free_space": "26.8k (13.4%)"
+    },
+    "full": {
+      "description": "全機能有効",
+      "use_case": "すべてのMCP機能が必要な複雑なタスク",
+      "mcps": {
+        "serena": true,
+        "codex": true,
+        "context7": true,
+        "ide": true,
+        "fetch": true,
+        "brave-search": true,
+        "firecrawl": true,
+        "playwright": true
+      },
+      "estimated_context_usage": "30.8k",
+      "estimated_free_space": "26.0k (13.0%)"
+    }
+  },
+  "auto_switch_rules": [
+    {
+      "keywords": [
+        "検索",
+        "調べて",
+        "探して",
+        "search",
+        "find"
+      ],
+      "profile": "web",
+      "priority": 1
+    },
+    {
+      "keywords": [
+        "スクレイピング",
+        "scraping",
+        "クロール",
+        "crawl",
+        "サイト全体",
+        "ブラウザ",
+        "browser",
+        "スクリーンショット",
+        "screenshot"
+      ],
+      "profile": "scraping",
+      "priority": 2
+    },
+    {
+      "keywords": [
+        "URL",
+        "取得",
+        "fetch",
+        "ダウンロード"
+      ],
+      "profile": "web",
+      "priority": 1
+    }
+  ],
+  "mcp_definitions": {
+    "serena": {
+      "display_name": "Serena MCP",
+      "description": "セマンティックコード検索・LSP統合",
+      "transport": "SSE",
+      "always_active": true,
+      "estimated_context": "1.0k"
+    },
+    "codex": {
+      "display_name": "Codex MCP",
+      "description": "AI協調機能統合",
+      "transport": "HTTP",
+      "always_active": true,
+      "estimated_context": "0.5k"
+    },
+    "context7": {
+      "display_name": "Context7",
+      "description": "ライブラリドキュメント取得",
+      "transport": "HTTP",
+      "always_active": true,
+      "estimated_context": "1.8k"
+    },
+    "ide": {
+      "display_name": "IDE",
+      "description": "IDE統合（診断、コード実行）",
+      "transport": "STDIO",
+      "always_active": true,
+      "estimated_context": "1.3k"
+    },
+    "fetch": {
+      "display_name": "Fetch",
+      "description": "Web URL取得",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "0.8k"
+    },
+    "brave-search": {
+      "display_name": "Brave Search",
+      "description": "Web・画像・ニュース・動画検索",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "4.1k"
+    },
+    "firecrawl": {
+      "display_name": "Firecrawl",
+      "description": "高度なWebスクレイピング",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "8.3k"
+    },
+    "playwright": {
+      "display_name": "Playwright",
+      "description": "ブラウザ自動化・E2Eテスト",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "13.8k"
+    }
+  },
+  "fallback_strategy": {
+    "firecrawl": [
+      "fetch",
+      "playwright"
+    ],
+    "playwright": [
+      "fetch"
+    ],
+    "brave-search": [
+      "fetch"
+    ]
+  },
+  "metadata": {
+    "created_at": "2025-11-21",
+    "phase": "Phase 18-C",
+    "purpose": "統合MCP管理システムのプロファイルベース実装",
+    "author": "Claude Code (Sonnet 4.5)"
+  }
+}

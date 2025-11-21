@@ -16,14 +16,12 @@ Phase 11.1の高度予測エンジン結果を可視化
 """
 
 import json
-import os
-import sqlite3
 import statistics
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from src.database_utils import get_connection
 
@@ -511,7 +509,6 @@ class AdvancedTrendDashboard:
             (cutoff_time,),
         )
 
-        all_factors = []
         factor_importance = {}
 
         for row in cursor.fetchall():

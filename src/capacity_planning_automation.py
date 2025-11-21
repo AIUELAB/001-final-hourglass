@@ -13,9 +13,6 @@ Capacity Planning Automation System
 """
 
 import json
-import os
-import sqlite3
-import statistics
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -31,7 +28,6 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 try:
     import numpy as np
     from sklearn.linear_model import LinearRegression
-    from sklearn.preprocessing import StandardScaler
 
     SKLEARN_AVAILABLE = True
 except ImportError:

@@ -7,12 +7,9 @@ Google Sheetsへのアトミック更新と完全なデータ置換を保証
 Ultra Think Mode対応
 """
 
-import hashlib
 import json
 import logging
-import os
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -24,8 +21,6 @@ from googleapiclient.discovery import build
 # ローカルインポート
 try:
     from src.cache_manager import CacheManager
-    from src.integrity_checker import IntegrityChecker
-    from src.version_controller import VersionController
 except ImportError:
     # 開発時の相対インポート
     from cache_manager import CacheManager
@@ -153,12 +148,10 @@ class AutoUpdater:
             batch_update_body = {"requests": requests, "includeSpreadsheetInResponse": False}
 
             # キャッシュ無効化ヘッダー追加
-            cache_headers = self.cache_manager.clear_google_sheets_cache()
+            self.cache_manager.clear_google_sheets_cache()
 
             # batchUpdate実行
-            response = (
-                self.service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id, body=batch_update_body).execute()
-            )
+            (self.service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id, body=batch_update_body).execute())
 
             # 結果記録
             result["success"] = True

@@ -4,14 +4,12 @@ Fact Checker System - 事実確認システム
 PDCAガーディアンと連携してエピソードの事実正確性を検証
 """
 
-import hashlib
-import json
 import logging
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 # ログ設定
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - [FactChecker] - %(message)s")

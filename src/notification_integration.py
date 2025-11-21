@@ -8,24 +8,22 @@ and automation tasks. Includes decorators and context managers for seamless usag
 import functools
 import logging
 import os
-import sys
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Callable, Dict, Generator, Optional, TypeVar, Union
+from typing import Any, Callable, Dict, Generator, Optional, TypeVar
 
 from dotenv import load_dotenv
 
 from .notification_system import (
     AudioNotificationSystem,
     NotificationType,
-    get_notification_system,
 )
 
 # Type variable for decorated functions
-F = TypeVar('F', bound=Callable[..., Any])
+F = TypeVar("F", bound=Callable[..., Any])
 
 # Load notification configuration
-load_dotenv('.env.notifications')
+load_dotenv(".env.notifications")
 
 
 class NotificationConfig:
@@ -33,42 +31,42 @@ class NotificationConfig:
 
     def __init__(self) -> None:
         """Initialize configuration from environment variables."""
-        self.enabled = self._get_bool_env('NOTIFICATIONS_ENABLED', True)
-        self.volume = self._get_float_env('NOTIFICATIONS_VOLUME', 0.7)
-        self.max_duration = self._get_float_env('NOTIFICATIONS_MAX_DURATION', 2.0)
-        self.sounds_dir = self._get_str_env('NOTIFICATIONS_SOUNDS_DIR', 'sounds')
+        self.enabled = self._get_bool_env("NOTIFICATIONS_ENABLED", True)
+        self.volume = self._get_float_env("NOTIFICATIONS_VOLUME", 0.7)
+        self.max_duration = self._get_float_env("NOTIFICATIONS_MAX_DURATION", 2.0)
+        self.sounds_dir = self._get_str_env("NOTIFICATIONS_SOUNDS_DIR", "sounds")
 
         # Notification type preferences
-        self.notify_task_start = self._get_bool_env('NOTIFY_TASK_START', True)
-        self.notify_task_complete = self._get_bool_env('NOTIFY_TASK_COMPLETE', True)
-        self.notify_progress = self._get_bool_env('NOTIFY_PROGRESS', False)
-        self.notify_success = self._get_bool_env('NOTIFY_SUCCESS', True)
-        self.notify_error = self._get_bool_env('NOTIFY_ERROR', True)
-        self.notify_warning = self._get_bool_env('NOTIFY_WARNING', True)
-        self.notify_info = self._get_bool_env('NOTIFY_INFO', False)
-        self.notify_waiting = self._get_bool_env('NOTIFY_WAITING', True)
+        self.notify_task_start = self._get_bool_env("NOTIFY_TASK_START", True)
+        self.notify_task_complete = self._get_bool_env("NOTIFY_TASK_COMPLETE", True)
+        self.notify_progress = self._get_bool_env("NOTIFY_PROGRESS", False)
+        self.notify_success = self._get_bool_env("NOTIFY_SUCCESS", True)
+        self.notify_error = self._get_bool_env("NOTIFY_ERROR", True)
+        self.notify_warning = self._get_bool_env("NOTIFY_WARNING", True)
+        self.notify_info = self._get_bool_env("NOTIFY_INFO", False)
+        self.notify_waiting = self._get_bool_env("NOTIFY_WAITING", True)
 
         # Integration settings
-        self.integrate_data_scripts = self._get_bool_env('INTEGRATE_WITH_DATA_SCRIPTS', True)
-        self.integrate_automation = self._get_bool_env('INTEGRATE_WITH_AUTOMATION', True)
-        self.integrate_tests = self._get_bool_env('INTEGRATE_WITH_TESTS', True)
-        self.integrate_builds = self._get_bool_env('INTEGRATE_WITH_BUILDS', True)
+        self.integrate_data_scripts = self._get_bool_env("INTEGRATE_WITH_DATA_SCRIPTS", True)
+        self.integrate_automation = self._get_bool_env("INTEGRATE_WITH_AUTOMATION", True)
+        self.integrate_tests = self._get_bool_env("INTEGRATE_WITH_TESTS", True)
+        self.integrate_builds = self._get_bool_env("INTEGRATE_WITH_BUILDS", True)
 
         # Advanced settings
-        self.repeat_error = self._get_int_env('REPEAT_ERROR_NOTIFICATIONS', 2)
-        self.repeat_success = self._get_int_env('REPEAT_SUCCESS_NOTIFICATIONS', 1)
-        self.repeat_warning = self._get_int_env('REPEAT_WARNING_NOTIFICATIONS', 1)
-        self.repeat_delay = self._get_float_env('REPEAT_DELAY', 0.5)
+        self.repeat_error = self._get_int_env("REPEAT_ERROR_NOTIFICATIONS", 2)
+        self.repeat_success = self._get_int_env("REPEAT_SUCCESS_NOTIFICATIONS", 1)
+        self.repeat_warning = self._get_int_env("REPEAT_WARNING_NOTIFICATIONS", 1)
+        self.repeat_delay = self._get_float_env("REPEAT_DELAY", 0.5)
 
         # Debug settings
-        self.debug = self._get_bool_env('NOTIFICATIONS_DEBUG', False)
-        self.log_file = self._get_str_env('NOTIFICATIONS_LOG_FILE', '')
-        self.verbose = self._get_bool_env('NOTIFICATIONS_VERBOSE', False)
+        self.debug = self._get_bool_env("NOTIFICATIONS_DEBUG", False)
+        self.log_file = self._get_str_env("NOTIFICATIONS_LOG_FILE", "")
+        self.verbose = self._get_bool_env("NOTIFICATIONS_VERBOSE", False)
 
     def _get_bool_env(self, key: str, default: bool) -> bool:
         """Get boolean environment variable."""
         value = os.getenv(key, str(default)).lower()
-        return value in ('true', '1', 'yes', 'on')
+        return value in ("true", "1", "yes", "on")
 
     def _get_float_env(self, key: str, default: float) -> float:
         """Get float environment variable."""
@@ -167,6 +165,7 @@ def notify_with_sound(
     Returns:
         Decorated function
     """
+
     def decorator(func: F) -> F:
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -190,6 +189,7 @@ def notify_with_sound(
                 raise
 
         return wrapper
+
     return decorator
 
 
@@ -205,26 +205,21 @@ def notify_task_progress(
     Returns:
         Decorated function
     """
+
     def decorator(func: F) -> F:
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             func_name = func.__name__
 
             # Start notification
-            play_notification(
-                NotificationType.TASK_START,
-                f"Starting {func_name} ({total_steps} steps)"
-            )
+            play_notification(NotificationType.TASK_START, f"Starting {func_name} ({total_steps} steps)")
 
             try:
                 # Execute function with progress tracking
                 result = func(*args, **kwargs)
 
                 # Completion notification
-                play_notification(
-                    NotificationType.TASK_COMPLETE,
-                    f"Completed {func_name}"
-                )
+                play_notification(NotificationType.TASK_COMPLETE, f"Completed {func_name}")
 
                 return result
             except Exception as e:
@@ -233,6 +228,7 @@ def notify_task_progress(
                 raise
 
         return wrapper
+
     return decorator
 
 
@@ -255,6 +251,7 @@ def notification_context(
     Yields:
         Function to send progress notifications
     """
+
     def progress(message: str) -> None:
         """Send a progress notification."""
         play_notification(NotificationType.PROGRESS, f"{task_name}: {message}")
@@ -305,26 +302,17 @@ def setup_notification_logging(level: int = logging.WARNING) -> None:
 # Integration helper functions for common data scripts
 def notify_data_quality_check(func: F) -> F:
     """Decorator specifically for data quality check functions."""
-    return notify_with_sound(
-        NotificationType.TASK_START,
-        "Running data quality check"
-    )(func)
+    return notify_with_sound(NotificationType.TASK_START, "Running data quality check")(func)
 
 
 def notify_data_processing(func: F) -> F:
     """Decorator specifically for data processing functions."""
-    return notify_with_sound(
-        NotificationType.TASK_START,
-        "Processing data"
-    )(func)
+    return notify_with_sound(NotificationType.TASK_START, "Processing data")(func)
 
 
 def notify_automation_task(func: F) -> F:
     """Decorator specifically for automation tasks."""
-    return notify_with_sound(
-        NotificationType.TASK_START,
-        "Running automation task"
-    )(func)
+    return notify_with_sound(NotificationType.TASK_START, "Running automation task")(func)
 
 
 # Quick notification functions with configuration awareness
@@ -358,12 +346,14 @@ def get_notification_status() -> Dict[str, Any]:
     """Get current notification system status."""
     system = get_configured_notification_system()
     status = system.get_status()
-    status.update({
-        "config_enabled": config.enabled,
-        "config_volume": config.volume,
-        "integration_data_scripts": config.integrate_data_scripts,
-        "integration_automation": config.integrate_automation,
-    })
+    status.update(
+        {
+            "config_enabled": config.enabled,
+            "config_volume": config.volume,
+            "integration_data_scripts": config.integrate_data_scripts,
+            "integration_automation": config.integrate_automation,
+        }
+    )
     return status
 
 

@@ -9,7 +9,7 @@ import os
 import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 import yaml
 
@@ -95,7 +95,7 @@ class ProjectConfigManager:
 
     def _load_global_config(self) -> Dict[str, Any]:
         """グローバル設定を読み込み"""
-        global_config_file = self.global_config_dir / "CLAUDE.md"
+        self.global_config_dir / "CLAUDE.md"
         config = {
             "default_flags": [],
             "default_mode": None,

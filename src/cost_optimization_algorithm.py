@@ -11,12 +11,11 @@ Cost Optimization Algorithm - Phase 11.4
 
 import argparse
 import json
-import sqlite3
 import statistics
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from src.database_utils import get_connection
 
@@ -210,7 +209,7 @@ class CostOptimizationAlgorithm:
             return None
 
         current_usage = row[0]
-        timestamp = row[1]
+        row[1]
 
         # コスト設定を取得
         cost_config = self.cost_config.get(resource_type, {})

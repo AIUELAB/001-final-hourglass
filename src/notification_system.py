@@ -181,13 +181,11 @@ class AudioNotificationSystem:
         success = False
         for _ in range(repeat):
             # Try custom sound file first
-            if self._play_custom_sound(notification_type):
-                success = True
-            # Fall back to system sound
-            elif self._play_system_sound(notification_type):
-                success = True
-            # Fall back to generated beep
-            elif self._play_generated_beep(notification_type):
+            if (
+                self._play_custom_sound(notification_type)
+                or self._play_system_sound(notification_type)
+                or self._play_generated_beep(notification_type)
+            ):
                 success = True
             else:
                 self.logger.warning(f"Failed to play {notification_type.value} notification")

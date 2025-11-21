@@ -178,28 +178,27 @@ class RemoteMCPClient:
             "scope": scope,
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(token_endpoint, data=data) as response:
-                if response.status != 200:
-                    raise aiohttp.ClientResponseError(
-                        request_info=response.request_info,
-                        history=(),
-                        status=response.status,
-                        message="OAuth token request failed",
-                    )
-
-                token_data = await response.json()
-
-                expires_in = token_data.get("expires_in", 3600)
-                expires_at = datetime.now() + timedelta(seconds=expires_in)
-
-                return OAuthToken(
-                    access_token=token_data["access_token"],
-                    token_type=token_data.get("token_type", "Bearer"),
-                    expires_at=expires_at,
-                    refresh_token=token_data.get("refresh_token"),
-                    scope=token_data.get("scope"),
+        async with aiohttp.ClientSession() as session, session.post(token_endpoint, data=data) as response:
+            if response.status != 200:
+                raise aiohttp.ClientResponseError(
+                    request_info=response.request_info,
+                    history=(),
+                    status=response.status,
+                    message="OAuth token request failed",
                 )
+
+            token_data = await response.json()
+
+            expires_in = token_data.get("expires_in", 3600)
+            expires_at = datetime.now() + timedelta(seconds=expires_in)
+
+            return OAuthToken(
+                access_token=token_data["access_token"],
+                token_type=token_data.get("token_type", "Bearer"),
+                expires_at=expires_at,
+                refresh_token=token_data.get("refresh_token"),
+                scope=token_data.get("scope"),
+            )
 
     async def _refresh_oauth_token(self, refresh_token: str) -> OAuthToken:
         """Refresh OAuth token"""
@@ -215,24 +214,23 @@ class RemoteMCPClient:
             "client_secret": client_secret,
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(token_endpoint, data=data) as response:
-                if response.status != 200:
-                    # Refresh failed, get new token
-                    return await self._request_oauth_token()
+        async with aiohttp.ClientSession() as session, session.post(token_endpoint, data=data) as response:
+            if response.status != 200:
+                # Refresh failed, get new token
+                return await self._request_oauth_token()
 
-                token_data = await response.json()
+            token_data = await response.json()
 
-                expires_in = token_data.get("expires_in", 3600)
-                expires_at = datetime.now() + timedelta(seconds=expires_in)
+            expires_in = token_data.get("expires_in", 3600)
+            expires_at = datetime.now() + timedelta(seconds=expires_in)
 
-                return OAuthToken(
-                    access_token=token_data["access_token"],
-                    token_type=token_data.get("token_type", "Bearer"),
-                    expires_at=expires_at,
-                    refresh_token=token_data.get("refresh_token", refresh_token),
-                    scope=token_data.get("scope"),
-                )
+            return OAuthToken(
+                access_token=token_data["access_token"],
+                token_type=token_data.get("token_type", "Bearer"),
+                expires_at=expires_at,
+                refresh_token=token_data.get("refresh_token", refresh_token),
+                scope=token_data.get("scope"),
+            )
 
     def _connect_sse(self) -> None:
         """Connect to SSE endpoint"""
@@ -261,7 +259,7 @@ class RemoteMCPClient:
             # Don't fail - server might not have health endpoint
 
     NOT_CONNECTED_ERROR = "Not connected"
-    
+
     async def send_request(self, method: str, params: dict | None = None) -> Any:
         """Send request to remote MCP server"""
         if not self.session:

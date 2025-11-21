@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "disabled": true,
+      "reason": "低頻度使用のため無効化。Web取得が必要な場合は一時的に有効化。"
+    },
+    "brave-search": {
+      "disabled": true,
+      "reason": "低頻度使用のため無効化。Web検索が必要な場合は一時的に有効化。"
+    },
+    "firecrawl": {
+      "disabled": true,
+      "reason": "低頻度使用のため無効化。高度なスクレイピングが必要な場合は一時的に有効化。"
+    },
+    "playwright": {
+      "disabled": true,
+      "reason": "低頻度使用のため無効化。ブラウザ自動化が必要な場合は一時的に有効化。"
+    }
+  },
+  "optimization": {
+    "target": "コンテキストFree spaceを80%以上確保",
+    "estimated_reduction": "27.9k tokens",
+    "date_applied": "2025-11-21"
+  }
+}

@@ -3957,20 +3957,20 @@ if __name__ == "__main__":
 # AUTO-GENERATED RULES START
 # ========================================
 # Auto-Generated Rules from Unified Registry
-# Generated: 2025-10-02T09:40:01.639286
-# Total Rules: 73
+# Generated: 2025-11-21T16:08:46.519708
+# Total Rules: 4
 # ========================================
 #
 # Unified Rule Management System Integration
 # - All rules are managed in: rules_registry.json
 # - Documentation: RULE_SYSTEM_COMPLETE_REPORT.md
-# - Active Rules: 73
+# - Active Rules: 4
 #
 # Rule Categories:
-#   - data_quality: 61 rules
+#   - data_quality: 1 rules
 #   - entity_type: 1 rules
-#   - episode_content: 5 rules
-#   - episode_format: 6 rules
+#   - episode_content: 1 rules
+#   - episode_format: 1 rules
 #
 # For detailed rule documentation, see: rules_registry.json
 #

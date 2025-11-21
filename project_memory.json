@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-11-21T10:37:57.763995",
+    "last_updated": "2025-11-21T10:39:14.524378"
+  },
+  "permanent_rules": [
+    {
+      "rule_id": "RULE_100",
+      "name": "APIクレジット管理",
+      "description": "APIクレジット枯渇時は必ず明示的な課金促進メッセージを表示する",
+      "priority": "CRITICAL",
+      "category": "API管理",
+      "conditions": [
+        "APIクレジット不足エラーの検出",
+        "insufficient credit エラー",
+        "credit balance too low エラー",
+        "rate limit エラー（クレジット関連）"
+      ],
+      "actions": [
+        "処理を即座に停止",
+        "明確な課金促進メッセージを表示",
+        "課金手順の詳細ガイドを提供",
+        "クレジット購入の目安金額を提示"
+      ],
+      "prohibited": [
+        "サイレントフォールバック",
+        "ローカル生成への自動切り替え",
+        "ダミーデータでの処理継続",
+        "エラーの隠蔽や無視"
+      ],
+      "implementation_examples": {
+        "correct": "\nif \"credit balance\" in error_str or \"insufficient\" in error_str:\n    logger.error(\"\"\"\n⚠️ ========================================\n   Anthropic APIのクレジットが不足しています！\n========================================\n【必要な対処】\n1. https://console.anthropic.com/ にアクセス\n2. Plans & Billingでクレジットを購入\n3. 購入後、エピソード生成を再実行\n\n【クレジット購入の目安】\n- テスト用: $10（約2,000人分のエピソード生成可能）\n- 小規模: $50（約10,000人分のエピソード生成可能）\n- 本番用: $100（約20,000人分のエピソード生成可能）\n    \"\"\")\n    raise SystemNotReadyError(\"APIクレジット不足のため処理を停止しました\")\n                ",
+        "incorrect": "\n# ❌ 絶対禁止\nif \"credit balance\" in error_str:\n    return self.generate_fallback_episode()  # サイレントフォールバック\n                "
+      },
+      "created_at": "2025-11-21T10:39:14.524367",
+      "enforced": true
+    }
+  ],
+  "quality_metrics": {},
+  "failed_patterns": [],
+  "success_patterns": [],
+  "pdca_history": [],
+  "improvement_log": []
+}

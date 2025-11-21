@@ -227,9 +227,12 @@ class AudioNotificationSystem:
                     except (subprocess.CalledProcessError, FileNotFoundError):
                         continue
             elif self.platform == "windows":
-                import os
-
-                os.system(f'start /wait "" "{sound_file}"')
+                # shell=Falseでインジェクション防止
+                subprocess.run(
+                    ["cmd", "/c", "start", "/wait", "", str(sound_file)],
+                    shell=False,
+                    check=False,
+                )
                 return True
         except Exception as e:
             self.logger.debug(f"Failed to play sound file {sound_file}: {e}")

@@ -318,10 +318,10 @@ class ProjectConfigManager:
 
     def _save_project_config(self, config: ProjectConfig) -> None:
         """プロジェクト設定を保存"""
-        # プロジェクトパスのハッシュを使ってファイル名を作成
+        # プロジェクトパスのハッシュを使ってファイル名を作成（セキュリティ用途外）
         import hashlib
 
-        project_hash = hashlib.md5(config.project_path.encode()).hexdigest()[:12]
+        project_hash = hashlib.md5(config.project_path.encode(), usedforsecurity=False).hexdigest()[:12]
 
         config_file = self.projects_config_dir / f"{project_hash}.json"
 
@@ -332,7 +332,7 @@ class ProjectConfigManager:
         """保存された設定を読み込み"""
         import hashlib
 
-        project_hash = hashlib.md5(project_path.encode()).hexdigest()[:12]
+        project_hash = hashlib.md5(project_path.encode(), usedforsecurity=False).hexdigest()[:12]
 
         config_file = self.projects_config_dir / f"{project_hash}.json"
 

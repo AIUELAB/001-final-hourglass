@@ -113,8 +113,8 @@ class LearningSystem:
                 continue
 
     def get_project_id(self, project_path: str) -> str:
-        """プロジェクトパスからIDを生成"""
-        return hashlib.md5(project_path.encode()).hexdigest()[:12]
+        """プロジェクトパスからIDを生成（セキュリティ用途ではない）"""
+        return hashlib.md5(project_path.encode(), usedforsecurity=False).hexdigest()[:12]
 
     def learn_from_success(self, context: Dict[str, Any], action: str, result: str) -> str:
         """成功事例から学習"""
@@ -218,14 +218,14 @@ class LearningSystem:
     def get_similar_patterns(self, context: Dict[str, Any], limit: int = 5) -> List[Pattern]:
         """類似パターンを取得"""
         context_str = json.dumps(context, sort_keys=True)
-        context_hash = hashlib.md5(context_str.encode()).hexdigest()
+        context_hash = hashlib.md5(context_str.encode(), usedforsecurity=False).hexdigest()
 
-        # キャッシュチェック
+        # キャッシュチェック（ローカルキャッシュファイルのみ）
         cache_file = self.cache_dir / f"similar_{context_hash}.pkl"
         if cache_file.exists() and cache_file.stat().st_mtime > (datetime.now() - timedelta(hours=1)).timestamp():
             try:
                 with open(cache_file, "rb") as f:
-                    return pickle.load(f)[:limit]
+                    return pickle.load(f)[:limit]  # nosec B301
             except Exception:
                 pass
 
@@ -295,7 +295,7 @@ class LearningSystem:
         if not entry.reusable or entry.confidence < 0.7:
             return None
 
-        pattern_id = hashlib.md5(f"{entry.action}{entry.result}".encode()).hexdigest()[:12]
+        pattern_id = hashlib.md5(f"{entry.action}{entry.result}".encode(), usedforsecurity=False).hexdigest()[:12]
 
         # 既存パターンをチェック
         if pattern_id in self.patterns_cache:

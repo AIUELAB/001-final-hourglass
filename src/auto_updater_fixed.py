@@ -7,9 +7,7 @@ Google Sheetsのアトミック更新、完全置換、キャッシュ管理
 作成日: 2025-08-31
 """
 
-import json
 import logging
-import os
 import time
 from datetime import datetime
 from pathlib import Path
@@ -18,7 +16,6 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 
 from .cache_manager import CacheManager
 
@@ -159,9 +156,7 @@ class AutoUpdaterFixed:
             # アトミック実行
             batch_update_body = {"requests": requests, "includeSpreadsheetInResponse": False}
 
-            response = (
-                self.service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id, body=batch_update_body).execute()
-            )
+            (self.service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id, body=batch_update_body).execute())
 
             result["success"] = True
             result["rows_updated"] = total_rows

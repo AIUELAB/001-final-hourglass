@@ -5,7 +5,6 @@ SuperClaude Metrics Tracking System
 """
 
 import json
-import os
 import statistics
 import time
 from collections import defaultdict

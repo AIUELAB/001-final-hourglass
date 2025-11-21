@@ -14,9 +14,9 @@ import json
 import sqlite3
 import statistics
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from src.database_utils import get_connection
 

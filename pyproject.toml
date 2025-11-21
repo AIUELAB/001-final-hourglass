@@ -182,14 +182,30 @@ warn_unused_configs = true
 [[tool.mypy.overrides]]
 ignore_errors = true
 module = [
-  "src.headless_mode",
-  "src.performance_optimizer",
-  "src.error_recovery",
-  "src.remote_mcp_integration",
-  "src.playwright_mcp_examples",
+  "src.advanced_trend_dashboard",
+  "src.ai_recommendation_system",
+  "src.auto_updater",
+  "src.auto_updater_fixed",
   "src.beartype_integration",
+  "src.cache_manager",
+  "src.capacity_planning_automation",
+  "src.cost_optimization_algorithm",
+  "src.error_recovery",
+  "src.fact_checker",
+  "src.headless_mode",
+  "src.integrity_checker",
   "src.mcp_examples",
-  "src.ollama_integration"
+  "src.notification_integration",
+  "src.notification_system",
+  "src.ollama_integration",
+  "src.performance_optimizer",
+  "src.playwright_mcp_examples",
+  "src.remote_mcp_integration",
+  "src.secure_config",
+  "src.superclaude_learning",
+  "src.superclaude_project_config",
+  "src.sync_projects.service",
+  "src.version_controller"
 ]
 
 [tool.pyright]

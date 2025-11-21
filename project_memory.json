@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2025-11-21T10:57:28.888466",
+    "last_updated": "2025-11-21T11:08:31.140455",
+    "unified_rules_enabled": true,
+    "unified_rules_version": "v1.0.0",
+    "unified_rules_migrated_at": "2025-11-21T11:08:31.140045"
+  },
+  "permanent_rules": [
+    {
+      "rule_id": "RULE_100",
+      "name": "APIクレジット管理",
+      "description": "APIクレジット枯渇時は必ず明示的な課金促進メッセージを表示する",
+      "priority": "CRITICAL",
+      "category": "API管理",
+      "conditions": [
+        "APIクレジット不足エラーの検出",
+        "insufficient credit エラー",
+        "credit balance too low エラー",
+        "rate limit エラー（クレジット関連）"
+      ],
+      "actions": [
+        "処理を即座に停止",
+        "明確な課金促進メッセージを表示",
+        "課金手順の詳細ガイドを提供",
+        "クレジット購入の目安金額を提示"
+      ],
+      "prohibited": [
+        "サイレントフォールバック",
+        "ローカル生成への自動切り替え",
+        "ダミーデータでの処理継続",
+        "エラーの隠蔽や無視"
+      ],
+      "implementation_examples": {
+        "correct": "\nif \"credit balance\" in error_str or \"insufficient\" in error_str:\n    logger.error(\"\"\"\n⚠️ ========================================\n   Anthropic APIのクレジットが不足しています！\n========================================\n【必要な対処】\n1. https://console.anthropic.com/ にアクセス\n2. Plans & Billingでクレジットを購入\n3. 購入後、エピソード生成を再実行\n\n【クレジット購入の目安】\n- テスト用: $10（約2,000人分のエピソード生成可能）\n- 小規模: $50（約10,000人分のエピソード生成可能）\n- 本番用: $100（約20,000人分のエピソード生成可能）\n    \"\"\")\n    raise SystemNotReadyError(\"APIクレジット不足のため処理を停止しました\")\n                ",
+        "incorrect": "\n# ❌ 絶対禁止\nif \"credit balance\" in error_str:\n    return self.generate_fallback_episode()  # サイレントフォールバック\n                "
+      },
+      "created_at": "2025-11-21T11:08:31.140445",
+      "enforced": true
+    },
+    {
+      "rule_id": "CONTENT_005",
+      "name": "未来実績汚染禁止",
+      "description": "該当年齢時点で未来の実績を記述してはならない",
+      "priority": "CRITICAL",
+      "category": "content",
+      "version": "v1.0.0",
+      "source": "unified_rules.json",
+      "created_at": "2025-10-02",
+      "updated_at": "2025-11-21"
+    },
+    {
+      "rule_id": "FORMAT_006",
+      "name": "エピソード冒頭フォーマット",
+      "description": "エピソード冒頭は「あなたと同じN歳のとき、人物名（N歳）は...」で始まる",
+      "priority": "HIGH",
+      "category": "format",
+      "version": "v1.0.0",
+      "source": "unified_rules.json",
+      "created_at": "2025-10-02",
+      "updated_at": "2025-11-21"
+    },
+    {
+      "rule_id": "DATA_QUALITY_001",
+      "name": "基本データ品質",
+      "description": "データの完全性と正確性を保証",
+      "priority": "HIGH",
+      "category": "data_quality",
+      "version": "v1.0.0",
+      "source": "unified_rules.json",
+      "created_at": "2025-10-02",
+      "updated_at": "2025-11-21"
+    }
+  ],
+  "quality_metrics": {},
+  "failed_patterns": [],
+  "success_patterns": [],
+  "pdca_history": [],
+  "improvement_log": []
+}

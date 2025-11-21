@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "version": "v1.0.0",
+    "generated_at": "2025-11-21T12:00:00+09:00",
+    "description": "統合ルールシステム - 最小限の初期設定",
+    "total_rules": 3,
+    "active_rules": 3,
+    "categories": ["content", "format", "data_quality"]
+  },
+  "rules": {
+    "CONTENT_005": {
+      "rule_id": "CONTENT_005",
+      "name": "未来実績汚染禁止",
+      "description": "該当年齢時点で未来の実績を記述してはならない",
+      "category": "content",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "status": "active",
+      "version": "v1.0.0",
+      "created_at": "2025-10-02",
+      "updated_at": "2025-11-21",
+      "source_file": "unified_rules.json",
+      "check_function": "check_future_achievement_contamination",
+      "violation_type": "future_achievement_contamination",
+      "tags": ["temporal", "accuracy"]
+    },
+    "FORMAT_006": {
+      "rule_id": "FORMAT_006",
+      "name": "エピソード冒頭フォーマット",
+      "description": "エピソード冒頭は「あなたと同じN歳のとき、人物名（N歳）は...」で始まる",
+      "category": "format",
+      "priority": "HIGH",
+      "severity": "HIGH",
+      "status": "active",
+      "version": "v1.0.0",
+      "created_at": "2025-10-02",
+      "updated_at": "2025-11-21",
+      "source_file": "unified_rules.json",
+      "check_function": "check_episode_format",
+      "violation_type": "format_violation",
+      "tags": ["format", "structure"]
+    },
+    "DATA_QUALITY_001": {
+      "rule_id": "DATA_QUALITY_001",
+      "name": "基本データ品質",
+      "description": "データの完全性と正確性を保証",
+      "category": "data_quality",
+      "priority": "HIGH",
+      "severity": "HIGH",
+      "status": "active",
+      "version": "v1.0.0",
+      "created_at": "2025-10-02",
+      "updated_at": "2025-11-21",
+      "source_file": "unified_rules.json",
+      "check_function": "check_data_quality",
+      "violation_type": "data_quality_violation",
+      "tags": ["quality", "validation"]
+    }
+  },
+  "categories": {
+    "content": {
+      "name": "コンテンツ品質",
+      "description": "エピソード内容の品質と正確性",
+      "rules": ["CONTENT_005"]
+    },
+    "format": {
+      "name": "フォーマット",
+      "description": "エピソードの構造と形式",
+      "rules": ["FORMAT_006"]
+    },
+    "data_quality": {
+      "name": "データ品質",
+      "description": "データの完全性と整合性",
+      "rules": ["DATA_QUALITY_001"]
+    }
+  }
+}

@@ -55,3 +55,65 @@ class TestCodexMCPIntegration:
         assert launcher.codex_path == "/usr/bin/codex"
         assert launcher.extra_args == ["--arg1"]
         assert launcher.process is None
+
+    def test_launcher_init_empty_args(self):
+        """空の追加引数でLauncher初期化"""
+        launcher = CodexMCPLauncher(codex_path="/usr/bin/codex", extra_args=[])
+        assert launcher.extra_args == []
+
+    def test_launcher_stop_no_process(self):
+        """プロセスなしでstop呼び出し"""
+        launcher = CodexMCPLauncher(codex_path="/usr/bin/codex", extra_args=[])
+        launcher.process = None
+        launcher.stop()  # エラーなく完了
+        assert launcher.process is None
+
+
+class TestCodexArgParser:
+    """引数パーサーのテスト"""
+
+    def test_build_arg_parser(self):
+        """パーサー構築テスト"""
+        from codex_mcp_integration import _build_arg_parser
+
+        parser = _build_arg_parser()
+        assert parser is not None
+
+    def test_parse_smoke_arg(self):
+        """--smokeオプションパース"""
+        from codex_mcp_integration import _build_arg_parser
+
+        parser = _build_arg_parser()
+        args = parser.parse_args(["--smoke", "2.5"])
+        assert args.smoke == 2.5
+
+    def test_parse_arg_option(self):
+        """--argオプションパース"""
+        from codex_mcp_integration import _build_arg_parser
+
+        parser = _build_arg_parser()
+        args = parser.parse_args(["--arg", "verbose", "--arg", "debug"])
+        assert "verbose" in args.arg
+        assert "debug" in args.arg
+
+    def test_parse_no_args(self):
+        """引数なしパース"""
+        from codex_mcp_integration import _build_arg_parser
+
+        parser = _build_arg_parser()
+        args = parser.parse_args([])
+        assert args.smoke is None
+        assert args.arg == []
+
+
+class TestCodexMain:
+    """main関数のテスト"""
+
+    def test_main_no_args(self, capsys):
+        """引数なしでmain呼び出し"""
+        from codex_mcp_integration import main
+
+        result = main([])
+        assert result == 0
+        captured = capsys.readouterr()
+        assert "使い方" in captured.out

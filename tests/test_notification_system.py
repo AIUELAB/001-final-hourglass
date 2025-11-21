@@ -75,3 +75,60 @@ class TestAudioNotificationSystem:
 
         system2 = AudioNotificationSystem(volume=1.0)
         assert system2.volume == 1.0
+
+    def test_volume_clamp_min(self):
+        """音量下限クランプ"""
+        system = AudioNotificationSystem(volume=-0.5)
+        assert system.volume == 0.0
+
+    def test_volume_clamp_max(self):
+        """音量上限クランプ"""
+        system = AudioNotificationSystem(volume=1.5)
+        assert system.volume == 1.0
+
+    def test_platform_detection(self):
+        """プラットフォーム検出"""
+        system = AudioNotificationSystem()
+        assert system.platform in ["darwin", "linux", "windows"]
+
+    def test_sound_config_exists(self):
+        """サウンド設定存在確認"""
+        system = AudioNotificationSystem()
+        assert hasattr(system, "sound_config")
+        assert NotificationType.SUCCESS in system.sound_config
+        assert NotificationType.ERROR in system.sound_config
+
+    def test_sound_config_has_frequency(self):
+        """サウンド設定の周波数"""
+        system = AudioNotificationSystem()
+        config = system.sound_config[NotificationType.SUCCESS]
+        assert "frequency" in config
+        assert isinstance(config["frequency"], list)
+
+    def test_sound_config_has_duration(self):
+        """サウンド設定の持続時間"""
+        system = AudioNotificationSystem()
+        config = system.sound_config[NotificationType.SUCCESS]
+        assert "duration" in config
+
+    def test_sound_config_has_description(self):
+        """サウンド設定の説明"""
+        system = AudioNotificationSystem()
+        config = system.sound_config[NotificationType.SUCCESS]
+        assert "description" in config
+
+    def test_all_notification_types_have_config(self):
+        """全通知タイプに設定があることを確認"""
+        system = AudioNotificationSystem()
+        for ntype in [
+            NotificationType.SUCCESS,
+            NotificationType.ERROR,
+            NotificationType.WARNING,
+            NotificationType.INFO,
+        ]:
+            assert ntype in system.sound_config
+
+    def test_logger_exists(self):
+        """ロガー存在確認"""
+        system = AudioNotificationSystem()
+        assert hasattr(system, "logger")

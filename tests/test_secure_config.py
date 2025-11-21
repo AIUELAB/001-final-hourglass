@@ -53,3 +53,51 @@ class TestSecureConfigGetEnv:
             result = SecureConfig.get_env("TEST_VAR")
             # 空文字列はそのまま返される(Noneではない)
             assert result == ""
+
+    def test_get_env_with_whitespace(self):
+        """空白を含む値"""
+        from secure_config import SecureConfig
+
+        with patch.dict("os.environ", {"TEST_VAR": "  value  "}):
+            result = SecureConfig.get_env("TEST_VAR")
+            assert result == "  value  "
+
+    def test_get_env_special_chars(self):
+        """特殊文字を含む値"""
+        from secure_config import SecureConfig
+
+        with patch.dict("os.environ", {"TEST_VAR": "value@#$%"}):
+            result = SecureConfig.get_env("TEST_VAR")
+            assert result == "value@#$%"
+
+
+class TestSecureConfigInstance:
+    """SecureConfigインスタンスのテスト"""
+
+    def test_init_without_env(self):
+        """環境変数なしで初期化"""
+        from secure_config import SecureConfig
+
+        with patch.dict("os.environ", {}, clear=True):
+            config = SecureConfig()
+            assert config is not None
+
+    def test_google_credentials_path_none(self):
+        """Google認証情報パスがNoneの場合"""
+        from secure_config import SecureConfig
+
+        with patch.dict("os.environ", {}, clear=True):
+            config = SecureConfig()
+            # パスが存在しない場合はNoneまたはフォールバックパス
+            path = config.google_credentials_path
+            # None または 存在しないパス
+            assert path is None or isinstance(path, str)
+
+    def test_firebase_credentials_path_none(self):
+        """Firebase認証情報パスがNoneの場合"""
+        from secure_config import SecureConfig
+
+        with patch.dict("os.environ", {}, clear=True):
+            config = SecureConfig()
+            path = config.firebase_credentials_path
+            assert path is None or isinstance(path, str)

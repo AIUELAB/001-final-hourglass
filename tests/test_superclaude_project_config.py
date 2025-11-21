@@ -67,3 +67,93 @@ class TestProjectConfig:
         """デフォルトモード設定"""
         config = ProjectConfig(project_name="test", project_path="/path", default_mode="orchestrate")
         assert config.default_mode == "orchestrate"
+
+    def test_with_custom_rules(self):
+        """カスタムルール設定"""
+        config = ProjectConfig(
+            project_name="test",
+            project_path="/path",
+            custom_rules=[{"rule": "no_console_log"}],
+            validation_rules=["lint", "test"],
+        )
+        assert len(config.custom_rules) == 1
+        assert len(config.validation_rules) == 2
+
+    def test_with_env_vars(self):
+        """環境変数設定"""
+        config = ProjectConfig(
+            project_name="test",
+            project_path="/path",
+            env_vars={"API_KEY": "secret", "DEBUG": "true"},
+        )
+        assert config.env_vars["API_KEY"] == "secret"
+
+    def test_version(self):
+        """バージョン設定"""
+        config = ProjectConfig(project_name="test", project_path="/path")
+        assert config.version == "1.0.0"
+
+
+class TestProjectConfigManager:
+    """ProjectConfigManagerのテスト"""
+
+    def test_init(self):
+        """初期化テスト"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert manager.global_config_dir.exists()
+
+    def test_config_filenames(self):
+        """設定ファイル名リスト"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert ".superclaude.json" in manager.CONFIG_FILENAMES
+            assert ".superclaude.yaml" in manager.CONFIG_FILENAMES
+
+    def test_projects_config_dir_creation(self):
+        """プロジェクト設定ディレクトリ作成"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert (manager.global_config_dir / "projects").exists()
+
+    def test_project_configs_cache(self):
+        """プロジェクト設定キャッシュ"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert isinstance(manager.project_configs, dict)
+
+    def test_current_project_init(self):
+        """現在プロジェクト初期化"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert manager.current_project is None
+
+    def test_global_config_loaded(self):
+        """グローバル設定読み込み"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert isinstance(manager.global_config, dict)

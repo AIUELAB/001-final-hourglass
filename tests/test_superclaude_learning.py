@@ -68,3 +68,69 @@ class TestLearningEntry:
         assert entry.outcome == "success"
         assert entry.confidence == 0.0
         assert entry.reusable is False
+
+    def test_with_confidence(self):
+        """confidence付きエントリ"""
+        entry = LearningEntry(
+            entry_id="e2",
+            timestamp="2025-01-01",
+            session_id="s2",
+            entry_type="optimization",
+            context={},
+            action="optimize",
+            result="faster",
+            outcome="success",
+            confidence=0.85,
+            reusable=True,
+        )
+        assert entry.confidence == 0.85
+        assert entry.reusable is True
+
+
+class TestLearningSystem:
+    """LearningSystemのテスト"""
+
+    def test_init(self):
+        """初期化テスト"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            assert system.learning_dir.exists()
+            assert system.patterns_dir.exists()
+            assert system.projects_dir.exists()
+
+    def test_patterns_cache_init(self):
+        """パターンキャッシュ初期化"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            assert isinstance(system.patterns_cache, dict)
+
+    def test_projects_cache_init(self):
+        """プロジェクトキャッシュ初期化"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            assert isinstance(system.projects_cache, dict)
+
+    def test_directory_structure(self):
+        """ディレクトリ構造テスト"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            assert (system.learning_dir / "patterns").exists()
+            assert (system.learning_dir / "projects").exists()
+            assert (system.learning_dir / "entries").exists()
+            assert (system.learning_dir / "cache").exists()

@@ -157,3 +157,49 @@ class TestProjectConfigManager:
         with tempfile.TemporaryDirectory() as tmpdir:
             manager = ProjectConfigManager(global_config_dir=tmpdir)
             assert isinstance(manager.global_config, dict)
+
+    def test_create_project_config(self):
+        """プロジェクト設定作成"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            config = manager.create_project_config(tmpdir, {"default_mode": "test"})
+            # macOS: /var -> /private/var symlink対応
+            assert Path(config.project_path).resolve() == Path(tmpdir).resolve()
+            assert config.default_mode == "test"
+
+    def test_get_active_config_no_project(self):
+        """プロジェクトなしのアクティブ設定"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            config = manager.get_active_config()
+            assert isinstance(config, dict)
+
+    def test_get_project_summary_not_found(self):
+        """存在しないプロジェクトのサマリー"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            summary = manager.get_project_summary("/nonexistent/path")
+            assert summary["status"] == "No configuration found"
+
+    def test_get_timestamp(self):
+        """タイムスタンプ取得"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            ts = manager._get_timestamp()
+            assert "T" in ts  # ISO format

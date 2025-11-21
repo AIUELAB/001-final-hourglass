@@ -134,3 +134,55 @@ class TestLearningSystem:
             assert (system.learning_dir / "projects").exists()
             assert (system.learning_dir / "entries").exists()
             assert (system.learning_dir / "cache").exists()
+
+    def test_get_project_id(self):
+        """プロジェクトID生成"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            id1 = system.get_project_id("/path/to/project")
+            id2 = system.get_project_id("/path/to/project")
+            id3 = system.get_project_id("/different/path")
+            assert id1 == id2
+            assert id1 != id3
+            assert len(id1) == 12
+
+    def test_learn_from_success(self):
+        """成功事例学習"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            context = {"session_id": "test", "tool": "pytest"}
+            entry_id = system.learn_from_success(context, "pytest tests/", "All passed")
+            assert entry_id.startswith("entry_")
+
+    def test_learn_project_convention(self):
+        """プロジェクト規約学習"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            system.learn_project_convention("/test/project", "test_command", "pytest")
+            knowledge = system.get_project_knowledge("/test/project")
+            assert knowledge is not None
+            assert knowledge.conventions["test_command"] == "pytest"
+
+    def test_get_learning_stats(self):
+        """学習統計取得"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            stats = system.get_learning_stats()
+            assert "total_patterns" in stats
+            assert "total_projects" in stats

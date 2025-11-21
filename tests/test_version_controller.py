@@ -62,3 +62,56 @@ class TestVersionController:
             versions_path = Path(tmpdir) / "versions"
             vc = VersionController(versions_dir=str(versions_path))
             assert (versions_path / "snapshots").exists()
+
+    def test_calculate_hash_string(self):
+        """文字列ハッシュ計算テスト"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            hash1 = vc.calculate_hash("test data")
+            hash2 = vc.calculate_hash("test data")
+            hash3 = vc.calculate_hash("different data")
+            assert hash1 == hash2
+            assert hash1 != hash3
+
+    def test_calculate_hash_dict(self):
+        """辞書ハッシュ計算テスト"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            data = {"key": "value", "number": 123}
+            hash1 = vc.calculate_hash(data)
+            hash2 = vc.calculate_hash(data)
+            assert hash1 == hash2
+            assert len(hash1) == 64  # SHA256
+
+    def test_calculate_hash_dataframe(self):
+        """DataFrameハッシュ計算テスト"""
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            df = pd.DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
+            hash1 = vc.calculate_hash(df)
+            assert len(hash1) == 64
+
+    def test_save_and_load_history(self):
+        """履歴保存・読み込みテスト"""
+        import json
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            vc.version_history = [{"version": "v1", "timestamp": "2025-01-01"}]
+            vc._save_history()
+
+            # ファイルが作成されたことを確認
+            assert vc.history_file.exists()
+
+            # 新しいインスタンスで読み込み
+            vc2 = VersionController(versions_dir=tmpdir)
+            assert len(vc2.version_history) == 1
+            assert vc2.version_history[0]["version"] == "v1"
+
+    def test_logger_exists(self):
+        """ロガー存在確認"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            assert hasattr(vc, "logger")

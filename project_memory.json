@@ -2,10 +2,10 @@
   "metadata": {
     "version": "1.0.0",
     "created": "2025-11-21T10:37:57.763995",
-    "last_updated": "2025-11-21T21:41:53.814872",
+    "last_updated": "2025-11-21T22:52:34.103506",
     "unified_rules_enabled": true,
     "unified_rules_version": "v1.0.0",
-    "unified_rules_migrated_at": "2025-11-21T21:41:53.814281"
+    "unified_rules_migrated_at": "2025-11-21T22:52:34.102813"
   },
   "permanent_rules": [
     {
@@ -36,7 +36,7 @@
         "correct": "\nif \"credit balance\" in error_str or \"insufficient\" in error_str:\n    logger.error(\"\"\"\n⚠️ ========================================\n   Anthropic APIのクレジットが不足しています！\n========================================\n【必要な対処】\n1. https://console.anthropic.com/ にアクセス\n2. Plans & Billingでクレジットを購入\n3. 購入後、エピソード生成を再実行\n\n【クレジット購入の目安】\n- テスト用: $10（約2,000人分のエピソード生成可能）\n- 小規模: $50（約10,000人分のエピソード生成可能）\n- 本番用: $100（約20,000人分のエピソード生成可能）\n    \"\"\")\n    raise SystemNotReadyError(\"APIクレジット不足のため処理を停止しました\")\n                ",
         "incorrect": "\n# ❌ 絶対禁止\nif \"credit balance\" in error_str:\n    return self.generate_fallback_episode()  # サイレントフォールバック\n                "
       },
-      "created_at": "2025-11-21T21:41:53.814860",
+      "created_at": "2025-11-21T22:52:34.103493",
       "enforced": true
     },
     {

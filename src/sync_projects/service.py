@@ -92,13 +92,6 @@ def sync_from_json(input_json: Path, output_dir: Path) -> ParseResult:
 
     for warn in result.warnings:
         logger.warning(warn)
-    
+
     # Return success result with project
-    return ParseResult(
-        success=True,
-        project=project,
-        errors=result.errors,
-        warnings=result.warnings
-    )
-
-
+    return ParseResult(success=True, project=project, errors=result.errors, warnings=result.warnings)

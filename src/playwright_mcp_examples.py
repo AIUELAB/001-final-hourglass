@@ -33,7 +33,7 @@ class BrowserAction:
 
 class PlaywrightMCPExamples:
     """Playwright MCPの使用例を示すクラス"""
-    
+
     # 定数定義
     MSG_GET_PAGE_STRUCTURE = "ページ構造を取得"
 
@@ -387,11 +387,7 @@ def main():
     examples.show_usage_instructions()
 
     # サマリー表示
-    console.print(
-        Panel.fit(
-            f"✅ 合計 {len(examples.actions_log)} アクションの例を表示しました", style="green"
-        )
-    )
+    console.print(Panel.fit(f"✅ 合計 {len(examples.actions_log)} アクションの例を表示しました", style="green"))
 
 
 if __name__ == "__main__":

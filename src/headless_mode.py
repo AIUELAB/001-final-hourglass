@@ -249,11 +249,11 @@ class HeadlessExecutor:
             TaskType.OPTIMIZE: self._run_optimize,
             TaskType.SECURITY: self._run_security_scan,
         }
-        
+
         executor = task_executors.get(task_type)
         if executor is None:
             raise ValueError(f"Unknown task type: {task_type}")
-        
+
         return await executor(params, files)
 
     async def _run_tests(self, params: dict, files: list[str]) -> dict:

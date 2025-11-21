@@ -4,35 +4,34 @@ Fact Checker System - 事実確認システム
 PDCAガーディアンと連携してエピソードの事実正確性を検証
 """
 
-import re
+import hashlib
 import json
 import logging
-from typing import Dict, List, Optional, Tuple, Any
-from datetime import datetime
+import re
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-import hashlib
+from typing import Any, Dict, List, Optional, Tuple
 
 # ログ設定
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - [FactChecker] - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - [FactChecker] - %(message)s")
 logger = logging.getLogger(__name__)
 
 
 class FactCheckResult(Enum):
     """事実確認結果"""
-    VERIFIED = "verified"           # 検証済み
-    UNVERIFIED = "unverified"       # 未検証
-    INCORRECT = "incorrect"         # 誤り
-    SUSPICIOUS = "suspicious"       # 疑わしい
-    PARTIAL = "partial"            # 部分的に正しい
+
+    VERIFIED = "verified"  # 検証済み
+    UNVERIFIED = "unverified"  # 未検証
+    INCORRECT = "incorrect"  # 誤り
+    SUSPICIOUS = "suspicious"  # 疑わしい
+    PARTIAL = "partial"  # 部分的に正しい
 
 
 @dataclass
 class FactCheckViolation:
     """事実確認違反情報"""
+
     violation_type: str
     message: str
     severity: str  # critical, high, medium, low
@@ -44,6 +43,7 @@ class FactCheckViolation:
 @dataclass
 class FactCheckReport:
     """事実確認レポート"""
+
     person_id: str
     person_name: str
     timestamp: str
@@ -67,8 +67,8 @@ class FactChecker:
             "major_events": [
                 {"year": 2006, "event": "第90代内閣総理大臣就任"},
                 {"year": 2012, "event": "第96代内閣総理大臣就任"},
-                {"year": 2022, "event": "銃撃事件により死去"}
-            ]
+                {"year": 2022, "event": "銃撃事件により死去"},
+            ],
         },
         "イチロー": {
             "birth_year": 1973,
@@ -77,8 +77,8 @@ class FactChecker:
                 {"year": 2001, "event": "MLB新人王・MVP同時受賞"},
                 {"year": 2004, "event": "シーズン262安打記録"},
                 {"year": 2016, "event": "MLB通算3000本安打達成"},
-                {"year": 2019, "event": "現役引退"}
-            ]
+                {"year": 2019, "event": "現役引退"},
+            ],
         },
         "HIKAKIN": {
             "birth_year": 1989,
@@ -87,28 +87,28 @@ class FactChecker:
             "platforms": ["YouTube", "TikTok"],
             "milestones": [
                 {"year": 2013, "event": "YouTube登録者100万人突破"},
-                {"year": 2018, "event": "YouTube登録者600万人突破"}
-            ]
-        }
+                {"year": 2018, "event": "YouTube登録者600万人突破"},
+            ],
+        },
     }
 
     # ハルシネーションパターン
     HALLUCINATION_PATTERNS = [
-        (r'世界で初めて', '世界初の主張は要検証'),
-        (r'日本で唯一', '唯一性の主張は要検証'),
-        (r'史上最[年若高]', '最上級表現は要検証'),
-        (r'\d{5,}[万億]', '巨大な数値は要検証'),
-        (r'全[国世界]で\d+位', 'ランキング情報は要検証'),
-        (r'ノーベル賞', '受賞歴は要検証'),
-        (r'ギネス[記録認定]', 'ギネス記録は要検証')
+        (r"世界で初めて", "世界初の主張は要検証"),
+        (r"日本で唯一", "唯一性の主張は要検証"),
+        (r"史上最[年若高]", "最上級表現は要検証"),
+        (r"\d{5,}[万億]", "巨大な数値は要検証"),
+        (r"全[国世界]で\d+位", "ランキング情報は要検証"),
+        (r"ノーベル賞", "受賞歴は要検証"),
+        (r"ギネス[記録認定]", "ギネス記録は要検証"),
     ]
 
     # 時代錯誤パターン
     ANACHRONISM_PATTERNS = [
-        (r'江戸時代.*インターネット', '時代錯誤：江戸時代にインターネットは存在しない'),
-        (r'明治.*テレビ', '時代錯誤：明治時代にテレビは存在しない'),
-        (r'昭和初期.*スマートフォン', '時代錯誤：昭和初期にスマートフォンは存在しない'),
-        (r'戦前.*コンピュータ', '時代錯誤：戦前にコンピュータは一般的でない')
+        (r"江戸時代.*インターネット", "時代錯誤：江戸時代にインターネットは存在しない"),
+        (r"明治.*テレビ", "時代錯誤：明治時代にテレビは存在しない"),
+        (r"昭和初期.*スマートフォン", "時代錯誤：昭和初期にスマートフォンは存在しない"),
+        (r"戦前.*コンピュータ", "時代錯誤：戦前にコンピュータは一般的でない"),
     ]
 
     def __init__(self, wikipedia_api=None):
@@ -121,12 +121,14 @@ class FactChecker:
         self.wikipedia_api = wikipedia_api
         self.cache = {}
 
-    def check_episode(self,
-                     person_id: str,
-                     person_name: str,
-                     episode_text: str,
-                     birth_year: Optional[int] = None,
-                     metadata: Optional[Dict] = None) -> FactCheckReport:
+    def check_episode(
+        self,
+        person_id: str,
+        person_name: str,
+        episode_text: str,
+        birth_year: Optional[int] = None,
+        metadata: Optional[Dict] = None,
+    ) -> FactCheckReport:
         """
         エピソードの事実確認
 
@@ -145,7 +147,7 @@ class FactChecker:
             person_name=person_name,
             timestamp=datetime.now().isoformat(),
             result=FactCheckResult.VERIFIED,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         # 1. ハルシネーション検出
@@ -156,14 +158,10 @@ class FactChecker:
 
         # 3. 年代整合性チェック
         if birth_year:
-            self._check_chronological_consistency(
-                episode_text, birth_year, report
-            )
+            self._check_chronological_consistency(episode_text, birth_year, report)
 
         # 4. 既知の事実との照合
-        self._verify_known_facts(
-            person_name, episode_text, report
-        )
+        self._verify_known_facts(person_name, episode_text, report)
 
         # 5. 数値の妥当性チェック
         self._check_numerical_validity(episode_text, report)
@@ -182,7 +180,7 @@ class FactChecker:
                     message=f"ハルシネーションの可能性: {description}",
                     severity="high",
                     suggestion="Wikipedia等の信頼できる情報源で検証が必要",
-                    confidence=0.8
+                    confidence=0.8,
                 )
                 report.violations.append(violation)
                 report.unverified_claims.append(description)
@@ -197,23 +195,20 @@ class FactChecker:
                     severity="critical",
                     evidence=pattern,
                     suggestion="歴史的事実を確認し、正しい時代背景に修正",
-                    confidence=0.95
+                    confidence=0.95,
                 )
                 report.violations.append(violation)
 
-    def _check_chronological_consistency(self,
-                                        text: str,
-                                        birth_year: int,
-                                        report: FactCheckReport):
+    def _check_chronological_consistency(self, text: str, birth_year: int, report: FactCheckReport):
         """年代の整合性チェック"""
         # 年齢と年代の抽出
-        age_matches = re.findall(r'(\d+)歳', text)
-        year_matches = re.findall(r'(19|20)\d{2}年', text)
+        age_matches = re.findall(r"(\d+)歳", text)
+        year_matches = re.findall(r"(19|20)\d{2}年", text)
 
         for age_str in age_matches:
             age = int(age_str)
             for year_str in year_matches:
-                year = int(year_str.replace('年', ''))
+                year = int(year_str.replace("年", ""))
                 expected_birth = year - age
 
                 if abs(expected_birth - birth_year) > 1:
@@ -223,14 +218,11 @@ class FactChecker:
                         severity="high",
                         evidence=f"{year}年, {age}歳",
                         suggestion="正しい年齢または年代に修正",
-                        confidence=0.9
+                        confidence=0.9,
                     )
                     report.violations.append(violation)
 
-    def _verify_known_facts(self,
-                           person_name: str,
-                           text: str,
-                           report: FactCheckReport):
+    def _verify_known_facts(self, person_name: str, text: str, report: FactCheckReport):
         """既知の事実との照合"""
         if person_name not in self.KNOWN_FACTS:
             return
@@ -240,15 +232,11 @@ class FactChecker:
         # 生没年チェック
         if "birth_year" in facts:
             birth_year_pattern = f"{facts['birth_year']}年.*生"
-            if re.search(r'\d{4}年.*生', text):
+            if re.search(r"\d{4}年.*生", text):
                 if not re.search(birth_year_pattern, text):
-                    report.unverified_claims.append(
-                        f"生年が既知の事実（{facts['birth_year']}年）と異なる可能性"
-                    )
+                    report.unverified_claims.append(f"生年が既知の事実（{facts['birth_year']}年）と異なる可能性")
             else:
-                report.verified_facts.append(
-                    f"生年: {facts['birth_year']}年"
-                )
+                report.verified_facts.append(f"生年: {facts['birth_year']}年")
 
         # 重要イベントの確認
         if "major_events" in facts:
@@ -257,14 +245,12 @@ class FactChecker:
                 event_desc = event["event"]
 
                 if str(event_year) in text:
-                    report.verified_facts.append(
-                        f"{event_year}年: {event_desc}"
-                    )
+                    report.verified_facts.append(f"{event_year}年: {event_desc}")
 
     def _check_numerical_validity(self, text: str, report: FactCheckReport):
         """数値の妥当性チェック"""
         # 異常に大きな数値のチェック
-        large_numbers = re.findall(r'(\d{6,})[^年]', text)
+        large_numbers = re.findall(r"(\d{6,})[^年]", text)
         for num_str in large_numbers:
             num = int(num_str)
             if num > 1000000000:  # 10億以上
@@ -274,12 +260,12 @@ class FactChecker:
                     severity="medium",
                     evidence=num_str,
                     suggestion="数値の正確性を確認",
-                    confidence=0.7
+                    confidence=0.7,
                 )
                 report.violations.append(violation)
 
         # パーセンテージの妥当性
-        percentages = re.findall(r'(\d+(?:\.\d+)?)[%％]', text)
+        percentages = re.findall(r"(\d+(?:\.\d+)?)[%％]", text)
         for pct_str in percentages:
             pct = float(pct_str)
             if pct > 100:
@@ -289,7 +275,7 @@ class FactChecker:
                     severity="critical",
                     evidence=f"{pct}%",
                     suggestion="正しい割合に修正",
-                    confidence=1.0
+                    confidence=1.0,
                 )
                 report.violations.append(violation)
 
@@ -298,9 +284,9 @@ class FactChecker:
         # 違反の重大度に基づいてスコアを計算
         score_deductions = {
             "critical": 50,  # より厳格に
-            "high": 30,      # より厳格に
-            "medium": 20,    # より厳格に
-            "low": 10        # より厳格に
+            "high": 30,  # より厳格に
+            "medium": 20,  # より厳格に
+            "low": 10,  # より厳格に
         }
 
         total_score = 100.0
@@ -333,11 +319,11 @@ class FactChecker:
             str: サマリーテキスト
         """
         lines = [
-            f"【事実確認レポート】",
+            "【事実確認レポート】",
             f"人物: {report.person_name} (ID: {report.person_id})",
             f"結果: {report.result.value}",
             f"スコア: {report.total_score:.1f}/100",
-            ""
+            "",
         ]
 
         if report.violations:
@@ -371,15 +357,10 @@ def test_fact_checker():
     この記録は84年ぶりの更新となった。
     """
 
-    report1 = checker.check_episode(
-        person_id="P001",
-        person_name="イチロー",
-        episode_text=episode1,
-        birth_year=1973
-    )
+    report1 = checker.check_episode(person_id="P001", person_name="イチロー", episode_text=episode1, birth_year=1973)
 
     print(checker.generate_summary(report1))
-    print("\n" + "="*50 + "\n")
+    print("\n" + "=" * 50 + "\n")
 
     # テストケース2: ハルシネーションを含むエピソード
     episode2 = """
@@ -387,26 +368,17 @@ def test_fact_checker():
     2025年にノーベル平和賞を受賞した。
     """
 
-    report2 = checker.check_episode(
-        person_id="P002",
-        person_name="HIKAKIN",
-        episode_text=episode2,
-        birth_year=1989
-    )
+    report2 = checker.check_episode(person_id="P002", person_name="HIKAKIN", episode_text=episode2, birth_year=1989)
 
     print(checker.generate_summary(report2))
-    print("\n" + "="*50 + "\n")
+    print("\n" + "=" * 50 + "\n")
 
     # テストケース3: 時代錯誤を含むエピソード
     episode3 = """
     江戸時代にインターネットで情報発信を始めた侍。
     """
 
-    report3 = checker.check_episode(
-        person_id="P003",
-        person_name="架空の侍",
-        episode_text=episode3
-    )
+    report3 = checker.check_episode(person_id="P003", person_name="架空の侍", episode_text=episode3)
 
     print(checker.generate_summary(report3))
 

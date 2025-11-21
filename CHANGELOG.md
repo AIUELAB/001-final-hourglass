@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Phase 18** - コンテキスト最適化とシステム起動改善 (2025-11-21)
+  - 低頻度MCPサーバーの選択的無効化（playwright, firecrawl, brave-search, fetch）
+  - MCP toolsトークン使用量 27.9k削減（30.8k → 3.0k予定）
+  - Free space 40% → 54%達成（再起動後）
+  - 大きな緑色の起動バナー追加（システム状態の視覚的確認）
+  - 一時有効化スラッシュコマンド `/enable-web` 追加
+  - カスタム実装フラグ `disabled: true` による柔軟な管理
+  - PR #6: feat/context-optimization (5d291427, 05cc371d)
 - Phase 7b - 統一CI/CD設定の展開完了（6プロジェクト統合）
   - 統一GitHub Actionsワークフロー（6ジョブ: code-quality, unit-tests, security-scan, changelog-validation, build, ci-summary）
   - 統一pre-commit設定（11カテゴリのフック統合）
@@ -98,4 +106,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **types**: mypy green pass set 2 – fix decorator delay int; beartype cached typing; performance list_tools return typing (4debc2c)
 - **types**: mypy green pass set 1 – session get return typing; with_retry wrapper typing; headless review result typing; performance Optimizer Coroutine/AsyncIterator; avoid false detect-private-key; beartype create_user value types (0b5906c)
 - **shellcheck**: quote env export and avoid SC2199 by iterating args (08049e7)
-

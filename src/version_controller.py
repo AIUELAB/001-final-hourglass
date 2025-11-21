@@ -257,9 +257,7 @@ class VersionController:
 
     def _get_data_size(self, data: Any) -> int:
         """データサイズを取得"""
-        if isinstance(data, pd.DataFrame):
-            return len(data)
-        elif isinstance(data, (list, dict)):
+        if isinstance(data, pd.DataFrame) or isinstance(data, (list, dict)):
             return len(data)
         else:
             return 1

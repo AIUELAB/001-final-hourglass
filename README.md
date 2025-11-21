@@ -3,13 +3,9 @@
 <!-- cSpell:words Ollama mkdocstrings isort numpy Docstrings firecrawl pytest Apidog venv myuser myrepo modelcontextprotocol FIRECRAWL -->
 
 <!-- Security Badges -->
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/[YOUR_USERNAME]/claude-code-template-mcp/badge)](https://securityscorecards.dev/viewer/?uri=github.com/[YOUR_USERNAME]/claude-code-template-mcp)
-[![CodeQL](https://github.com/[YOUR_USERNAME]/claude-code-template-mcp/workflows/CodeQL/badge.svg)](https://github.com/[YOUR_USERNAME]/claude-code-template-mcp/security/code-scanning)
-[![Gitleaks](https://github.com/[YOUR_USERNAME]/claude-code-template-mcp/workflows/Gitleaks%20Secret%20Detection/badge.svg)](https://github.com/[YOUR_USERNAME]/claude-code-template-mcp/actions/workflows/gitleaks.yml)
-[![SBOM](https://github.com/[YOUR_USERNAME]/claude-code-template-mcp/workflows/SBOM%20Generation%20and%20Vulnerability%20Scan/badge.svg)](https://github.com/[YOUR_USERNAME]/claude-code-template-mcp/actions/workflows/sbom.yml)
-[![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/[YOUR_USERNAME]/claude-code-template-mcp/main.svg)](https://results.pre-commit.ci/latest/github/[YOUR_USERNAME]/claude-code-template-mcp/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Test Coverage](https://img.shields.io/badge/coverage-17%25-yellow.svg)](./tests/)
 
 **2025年最新ベストプラクティス対応**のClaude Codeプロジェクトテンプレートです。GitHub、Web検索、ブラウザ自動化、クラウドサービス連携など、25以上のMCPサーバーがすぐに使えます。
 

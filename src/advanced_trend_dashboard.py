@@ -15,25 +15,27 @@ Phase 11.1の高度予測エンジン結果を可視化
 - アラート管理
 """
 
-import os
-import sys
-import sqlite3
-from src.database_utils import get_connection
 import json
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass
+import os
+import sqlite3
 import statistics
+import sys
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+from src.database_utils import get_connection
 
 # プロジェクトルート設定
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 try:
+    import plotly.express as px
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
-    import plotly.express as px
+
     PLOTLY_AVAILABLE = True
 except ImportError:
     PLOTLY_AVAILABLE = False
@@ -47,6 +49,7 @@ except ImportError:
 @dataclass
 class PredictionTrend:
     """予測トレンドデータ"""
+
     timestamp: str
     failure_probability: float
     risk_level: str
@@ -57,6 +60,7 @@ class PredictionTrend:
 @dataclass
 class AutoMLExperiment:
     """AutoML実験データ"""
+
     experiment_id: str
     timestamp: str
     best_model: str
@@ -69,6 +73,7 @@ class AutoMLExperiment:
 @dataclass
 class DashboardMetrics:
     """ダッシュボードメトリクス"""
+
     total_predictions: int
     avg_failure_probability: float
     avg_model_agreement: float
@@ -129,11 +134,7 @@ class AdvancedTrendDashboard:
         conn.commit()
         conn.close()
 
-    def generate_comprehensive_dashboard(
-        self,
-        hours: int = 24,
-        include_plots: bool = True
-    ) -> Dict[str, Any]:
+    def generate_comprehensive_dashboard(self, hours: int = 24, include_plots: bool = True) -> Dict[str, Any]:
         """
         包括的ダッシュボード生成
 
@@ -156,9 +157,9 @@ class AdvancedTrendDashboard:
             "metadata": {
                 "generated_at": datetime.now().isoformat(),
                 "analysis_period_hours": hours,
-                "plotly_enabled": PLOTLY_AVAILABLE and include_plots
+                "plotly_enabled": PLOTLY_AVAILABLE and include_plots,
             },
-            "sections": {}
+            "sections": {},
         }
 
         # セクション1: サマリーメトリクス
@@ -240,32 +241,44 @@ class AdvancedTrendDashboard:
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
 
         # 総予測数
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT COUNT(*) FROM advanced_prediction_history
             WHERE timestamp >= ?
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
         total_predictions = cursor.fetchone()[0]
 
         # 平均障害確率
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT AVG(failure_probability) FROM advanced_prediction_history
             WHERE timestamp >= ?
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
         avg_failure_prob = cursor.fetchone()[0] or 0.0
 
         # 平均モデル合意度
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT AVG(model_agreement) FROM advanced_prediction_history
             WHERE timestamp >= ?
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
         avg_agreement = cursor.fetchone()[0] or 0.0
 
         # リスクレベル別カウント
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT risk_level, COUNT(*) FROM advanced_prediction_history
             WHERE timestamp >= ?
             GROUP BY risk_level
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
         risk_counts = dict(cursor.fetchall())
 
         # 最新予測
@@ -284,7 +297,7 @@ class AdvancedTrendDashboard:
                 failure_probability=latest_row[2],
                 risk_level=latest_row[3],
                 model_agreement=latest_row[4],
-                ensemble_predictions=json.loads(latest_row[5])
+                ensemble_predictions=json.loads(latest_row[5]),
             )
 
         # 最新AutoML実験
@@ -306,7 +319,7 @@ class AdvancedTrendDashboard:
                 best_score=latest_exp_row[3] or 0.0,
                 cv_mean=latest_exp_row[3] or 0.0,
                 cv_std=latest_exp_row[4] or 0.0,
-                model_scores=cv_scores_data
+                model_scores=cv_scores_data,
             )
 
         conn.close()
@@ -319,7 +332,7 @@ class AdvancedTrendDashboard:
             medium_risk_count=risk_counts.get("MEDIUM", 0),
             low_risk_count=risk_counts.get("LOW", 0),
             latest_prediction=latest_prediction,
-            latest_experiment=latest_experiment
+            latest_experiment=latest_experiment,
         )
 
     def _analyze_prediction_trends(self, hours: int) -> Dict[str, Any]:
@@ -329,34 +342,30 @@ class AdvancedTrendDashboard:
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT timestamp, failure_probability, model_agreement, risk_level
             FROM advanced_prediction_history
             WHERE timestamp >= ?
             ORDER BY timestamp ASC
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
 
         rows = cursor.fetchall()
         conn.close()
 
         if not rows:
-            return {
-                "data_points": 0,
-                "time_series": [],
-                "statistics": {}
-            }
+            return {"data_points": 0, "time_series": [], "statistics": {}}
 
         time_series = []
         failure_probs = []
         agreements = []
 
         for row in rows:
-            time_series.append({
-                "timestamp": row[0],
-                "failure_probability": row[1],
-                "model_agreement": row[2],
-                "risk_level": row[3]
-            })
+            time_series.append(
+                {"timestamp": row[0], "failure_probability": row[1], "model_agreement": row[2], "risk_level": row[3]}
+            )
             failure_probs.append(row[1])
             agreements.append(row[2])
 
@@ -366,49 +375,50 @@ class AdvancedTrendDashboard:
                 "median": round(statistics.median(failure_probs), 4),
                 "min": round(min(failure_probs), 4),
                 "max": round(max(failure_probs), 4),
-                "std_dev": round(statistics.stdev(failure_probs), 4) if len(failure_probs) > 1 else 0.0
+                "std_dev": round(statistics.stdev(failure_probs), 4) if len(failure_probs) > 1 else 0.0,
             },
             "model_agreement": {
                 "mean": round(statistics.mean(agreements), 4),
                 "median": round(statistics.median(agreements), 4),
                 "min": round(min(agreements), 4),
                 "max": round(max(agreements), 4),
-                "std_dev": round(statistics.stdev(agreements), 4) if len(agreements) > 1 else 0.0
-            }
+                "std_dev": round(statistics.stdev(agreements), 4) if len(agreements) > 1 else 0.0,
+            },
         }
 
-        return {
-            "data_points": len(time_series),
-            "time_series": time_series,
-            "statistics": statistics_data
-        }
+        return {"data_points": len(time_series), "time_series": time_series, "statistics": statistics_data}
 
     def _get_automl_history(self, limit: int = 10) -> List[Dict[str, Any]]:
         """AutoML実験履歴取得"""
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT experiment_id, timestamp, best_model_name,
                    mean_cv_score, std_cv_score, cv_scores
             FROM automl_experiments
             ORDER BY timestamp DESC
             LIMIT ?
-        """, (limit,))
+        """,
+            (limit,),
+        )
 
         experiments = []
         for row in cursor.fetchall():
             cv_scores_data = json.loads(row[5]) if row[5] else {}
-            experiments.append({
-                "experiment_id": str(row[0]),
-                "timestamp": row[1],
-                "best_model": row[2],
-                "best_score": row[3] or 0.0,
-                "cv_mean": row[3] or 0.0,
-                "cv_std": row[4] or 0.0,
-                "model_scores": cv_scores_data,
-                "training_duration": None  # 既存スキーマにはない
-            })
+            experiments.append(
+                {
+                    "experiment_id": str(row[0]),
+                    "timestamp": row[1],
+                    "best_model": row[2],
+                    "best_score": row[3] or 0.0,
+                    "cv_mean": row[3] or 0.0,
+                    "cv_std": row[4] or 0.0,
+                    "model_scores": cv_scores_data,
+                    "training_duration": None,  # 既存スキーマにはない
+                }
+            )
 
         conn.close()
         return experiments
@@ -420,28 +430,27 @@ class AdvancedTrendDashboard:
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT model_agreement
             FROM advanced_prediction_history
             WHERE timestamp >= ?
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
 
         agreements = [row[0] for row in cursor.fetchall()]
         conn.close()
 
         if not agreements:
-            return {
-                "count": 0,
-                "statistics": {},
-                "distribution": {}
-            }
+            return {"count": 0, "statistics": {}, "distribution": {}}
 
         # 合意度の分布
         distribution = {
             "excellent": sum(1 for a in agreements if a >= 0.95),  # 95%以上
             "good": sum(1 for a in agreements if 0.85 <= a < 0.95),  # 85-95%
             "fair": sum(1 for a in agreements if 0.75 <= a < 0.85),  # 75-85%
-            "poor": sum(1 for a in agreements if a < 0.75)  # 75%未満
+            "poor": sum(1 for a in agreements if a < 0.75),  # 75%未満
         }
 
         return {
@@ -451,9 +460,9 @@ class AdvancedTrendDashboard:
                 "median": round(statistics.median(agreements), 4),
                 "min": round(min(agreements), 4),
                 "max": round(max(agreements), 4),
-                "std_dev": round(statistics.stdev(agreements), 4) if len(agreements) > 1 else 0.0
+                "std_dev": round(statistics.stdev(agreements), 4) if len(agreements) > 1 else 0.0,
             },
-            "distribution": distribution
+            "distribution": distribution,
         }
 
     def _analyze_risk_distribution(self, hours: int) -> Dict[str, Any]:
@@ -463,21 +472,24 @@ class AdvancedTrendDashboard:
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT risk_level, COUNT(*) as count,
                    AVG(failure_probability) as avg_prob,
                    AVG(model_agreement) as avg_agreement
             FROM advanced_prediction_history
             WHERE timestamp >= ?
             GROUP BY risk_level
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
 
         distribution = {}
         for row in cursor.fetchall():
             distribution[row[0]] = {
                 "count": row[1],
                 "avg_failure_probability": round(row[2], 4),
-                "avg_model_agreement": round(row[3], 4)
+                "avg_model_agreement": round(row[3], 4),
             }
 
         conn.close()
@@ -490,11 +502,14 @@ class AdvancedTrendDashboard:
 
         cutoff_time = (datetime.now() - timedelta(hours=hours)).isoformat()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT contributing_factors
             FROM advanced_prediction_history
             WHERE timestamp >= ?
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
 
         all_factors = []
         factor_importance = {}
@@ -517,26 +532,17 @@ class AdvancedTrendDashboard:
             avg_importance[factor] = round(statistics.mean(importances), 4)
 
         # 重要度順にソート
-        sorted_factors = sorted(
-            avg_importance.items(),
-            key=lambda x: x[1],
-            reverse=True
-        )
+        sorted_factors = sorted(avg_importance.items(), key=lambda x: x[1], reverse=True)
 
         return {
             "total_unique_factors": len(sorted_factors),
             "top_factors": [
-                {"feature": name, "avg_importance": importance}
-                for name, importance in sorted_factors[:10]
+                {"feature": name, "avg_importance": importance} for name, importance in sorted_factors[:10]
             ],
-            "all_factors": dict(sorted_factors)
+            "all_factors": dict(sorted_factors),
         }
 
-    def _generate_alerts(
-        self,
-        metrics: DashboardMetrics,
-        trends: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+    def _generate_alerts(self, metrics: DashboardMetrics, trends: Dict[str, Any]) -> List[Dict[str, Any]]:
         """アラート生成"""
         alerts = []
 
@@ -545,40 +551,48 @@ class AdvancedTrendDashboard:
         if total > 0:
             high_risk_ratio = metrics.high_risk_count / total
             if high_risk_ratio > 0.3:  # 30%以上
-                alerts.append({
-                    "level": "critical",
-                    "category": "risk_distribution",
-                    "message": f"高リスク予測の割合が高い: {high_risk_ratio*100:.1f}% ({metrics.high_risk_count}/{total})",
-                    "timestamp": datetime.now().isoformat()
-                })
+                alerts.append(
+                    {
+                        "level": "critical",
+                        "category": "risk_distribution",
+                        "message": f"高リスク予測の割合が高い: {high_risk_ratio*100:.1f}% ({metrics.high_risk_count}/{total})",
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
         # 平均モデル合意度が低い場合
         if metrics.avg_model_agreement < 0.75:
-            alerts.append({
-                "level": "high",
-                "category": "model_agreement",
-                "message": f"モデル合意度が低い: {metrics.avg_model_agreement*100:.1f}%",
-                "timestamp": datetime.now().isoformat()
-            })
+            alerts.append(
+                {
+                    "level": "high",
+                    "category": "model_agreement",
+                    "message": f"モデル合意度が低い: {metrics.avg_model_agreement*100:.1f}%",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         # 最新予測が高リスクの場合
         if metrics.latest_prediction and metrics.latest_prediction.risk_level == "HIGH":
-            alerts.append({
-                "level": "high",
-                "category": "latest_prediction",
-                "message": f"最新予測が高リスク: 障害確率 {metrics.latest_prediction.failure_probability*100:.1f}%",
-                "timestamp": datetime.now().isoformat()
-            })
+            alerts.append(
+                {
+                    "level": "high",
+                    "category": "latest_prediction",
+                    "message": f"最新予測が高リスク: 障害確率 {metrics.latest_prediction.failure_probability*100:.1f}%",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         # 予測データポイントが少ない場合
         data_points = trends.get("data_points", 0)
         if data_points < 5:
-            alerts.append({
-                "level": "info",
-                "category": "data_availability",
-                "message": f"予測データポイントが少ない: {data_points}件",
-                "timestamp": datetime.now().isoformat()
-            })
+            alerts.append(
+                {
+                    "level": "info",
+                    "category": "data_availability",
+                    "message": f"予測データポイントが少ない: {data_points}件",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         return alerts
 
@@ -640,9 +654,7 @@ class AdvancedTrendDashboard:
         agreements = [point["model_agreement"] * 100 for point in time_series]
 
         fig = make_subplots(
-            rows=2, cols=1,
-            subplot_titles=("障害確率の推移", "モデル合意度の推移"),
-            vertical_spacing=0.15
+            rows=2, cols=1, subplot_titles=("障害確率の推移", "モデル合意度の推移"), vertical_spacing=0.15
         )
 
         # 障害確率
@@ -650,12 +662,13 @@ class AdvancedTrendDashboard:
             go.Scatter(
                 x=timestamps,
                 y=failure_probs,
-                mode='lines+markers',
-                name='障害確率',
-                line=dict(color='#e74c3c', width=2),
-                marker=dict(size=6)
+                mode="lines+markers",
+                name="障害確率",
+                line=dict(color="#e74c3c", width=2),
+                marker=dict(size=6),
             ),
-            row=1, col=1
+            row=1,
+            col=1,
         )
 
         # モデル合意度
@@ -663,23 +676,20 @@ class AdvancedTrendDashboard:
             go.Scatter(
                 x=timestamps,
                 y=agreements,
-                mode='lines+markers',
-                name='モデル合意度',
-                line=dict(color='#3498db', width=2),
-                marker=dict(size=6)
+                mode="lines+markers",
+                name="モデル合意度",
+                line=dict(color="#3498db", width=2),
+                marker=dict(size=6),
             ),
-            row=2, col=1
+            row=2,
+            col=1,
         )
 
         fig.update_xaxes(title_text="時刻", row=2, col=1)
         fig.update_yaxes(title_text="障害確率 (%)", row=1, col=1)
         fig.update_yaxes(title_text="モデル合意度 (%)", row=2, col=1)
 
-        fig.update_layout(
-            title_text="予測トレンド分析",
-            height=600,
-            showlegend=True
-        )
+        fig.update_layout(title_text="予測トレンド分析", height=600, showlegend=True)
 
         return fig
 
@@ -688,27 +698,22 @@ class AdvancedTrendDashboard:
         labels = list(risk_dist.keys())
         values = [risk_dist[label]["count"] for label in labels]
 
-        colors = {
-            "HIGH": "#e74c3c",
-            "MEDIUM": "#f39c12",
-            "LOW": "#27ae60"
-        }
+        colors = {"HIGH": "#e74c3c", "MEDIUM": "#f39c12", "LOW": "#27ae60"}
         color_list = [colors.get(label, "#95a5a6") for label in labels]
 
-        fig = go.Figure(data=[
-            go.Pie(
-                labels=labels,
-                values=values,
-                marker=dict(colors=color_list),
-                textinfo='label+percent',
-                hovertemplate='<b>%{label}</b><br>件数: %{value}<br>割合: %{percent}<extra></extra>'
-            )
-        ])
-
-        fig.update_layout(
-            title_text="リスクレベル分布",
-            height=400
+        fig = go.Figure(
+            data=[
+                go.Pie(
+                    labels=labels,
+                    values=values,
+                    marker=dict(colors=color_list),
+                    textinfo="label+percent",
+                    hovertemplate="<b>%{label}</b><br>件数: %{value}<br>割合: %{percent}<extra></extra>",
+                )
+            ]
         )
+
+        fig.update_layout(title_text="リスクレベル分布", height=400)
 
         return fig
 
@@ -718,22 +723,19 @@ class AdvancedTrendDashboard:
         labels = ["優秀 (≥95%)", "良好 (85-95%)", "普通 (75-85%)", "要改善 (<75%)"]
         values = [dist["excellent"], dist["good"], dist["fair"], dist["poor"]]
 
-        fig = go.Figure(data=[
-            go.Bar(
-                x=labels,
-                y=values,
-                marker=dict(color=['#27ae60', '#3498db', '#f39c12', '#e74c3c']),
-                text=values,
-                textposition='auto'
-            )
-        ])
-
-        fig.update_layout(
-            title_text="モデル合意度分布",
-            xaxis_title="合意度レベル",
-            yaxis_title="予測回数",
-            height=400
+        fig = go.Figure(
+            data=[
+                go.Bar(
+                    x=labels,
+                    y=values,
+                    marker=dict(color=["#27ae60", "#3498db", "#f39c12", "#e74c3c"]),
+                    text=values,
+                    textposition="auto",
+                )
+            ]
         )
+
+        fig.update_layout(title_text="モデル合意度分布", xaxis_title="合意度レベル", yaxis_title="予測回数", height=400)
 
         return fig
 
@@ -743,22 +745,21 @@ class AdvancedTrendDashboard:
         features = [f["feature"] for f in top_factors]
         importances = [f["avg_importance"] * 100 for f in top_factors]
 
-        fig = go.Figure(data=[
-            go.Bar(
-                x=importances,
-                y=features,
-                orientation='h',
-                marker=dict(color='#3498db'),
-                text=[f"{imp:.2f}%" for imp in importances],
-                textposition='auto'
-            )
-        ])
+        fig = go.Figure(
+            data=[
+                go.Bar(
+                    x=importances,
+                    y=features,
+                    orientation="h",
+                    marker=dict(color="#3498db"),
+                    text=[f"{imp:.2f}%" for imp in importances],
+                    textposition="auto",
+                )
+            ]
+        )
 
         fig.update_layout(
-            title_text="寄与因子分析（Top 10）",
-            xaxis_title="平均重要度 (%)",
-            yaxis_title="特徴量",
-            height=500
+            title_text="寄与因子分析（Top 10）", xaxis_title="平均重要度 (%)", yaxis_title="特徴量", height=500
         )
 
         return fig
@@ -769,22 +770,24 @@ class AdvancedTrendDashboard:
         cv_scores = [exp["cv_mean"] for exp in automl]
         cv_stds = [exp["cv_std"] for exp in automl]
 
-        fig = go.Figure(data=[
-            go.Bar(
-                x=experiment_ids,
-                y=cv_scores,
-                error_y=dict(type='data', array=cv_stds),
-                marker=dict(color='#9b59b6'),
-                text=[f"{score:.4f}" for score in cv_scores],
-                textposition='auto'
-            )
-        ])
+        fig = go.Figure(
+            data=[
+                go.Bar(
+                    x=experiment_ids,
+                    y=cv_scores,
+                    error_y=dict(type="data", array=cv_stds),
+                    marker=dict(color="#9b59b6"),
+                    text=[f"{score:.4f}" for score in cv_scores],
+                    textposition="auto",
+                )
+            ]
+        )
 
         fig.update_layout(
             title_text="AutoML実験履歴（CVスコア）",
             xaxis_title="実験ID",
             yaxis_title="CVスコア（F1-weighted）",
-            height=400
+            height=400,
         )
 
         return fig
@@ -796,14 +799,14 @@ class AdvancedTrendDashboard:
         print(f"  平均障害確率: {metrics.avg_failure_probability*100:.2f}%")
         print(f"  平均モデル合意度: {metrics.avg_model_agreement*100:.2f}%")
         print()
-        print(f"  【リスクレベル分布】")
+        print("  【リスクレベル分布】")
         print(f"    - HIGH: {metrics.high_risk_count}件")
         print(f"    - MEDIUM: {metrics.medium_risk_count}件")
         print(f"    - LOW: {metrics.low_risk_count}件")
 
         if metrics.latest_prediction:
             print()
-            print(f"  【最新予測】")
+            print("  【最新予測】")
             print(f"    - 時刻: {metrics.latest_prediction.timestamp}")
             print(f"    - 障害確率: {metrics.latest_prediction.failure_probability*100:.2f}%")
             print(f"    - リスクレベル: {metrics.latest_prediction.risk_level}")
@@ -816,16 +819,20 @@ class AdvancedTrendDashboard:
         if trends["data_points"] > 0:
             stats = trends["statistics"]
             print()
-            print(f"  【障害確率統計】")
+            print("  【障害確率統計】")
             print(f"    - 平均: {stats['failure_probability']['mean']*100:.2f}%")
             print(f"    - 中央値: {stats['failure_probability']['median']*100:.2f}%")
-            print(f"    - 最小/最大: {stats['failure_probability']['min']*100:.2f}% / {stats['failure_probability']['max']*100:.2f}%")
+            print(
+                f"    - 最小/最大: {stats['failure_probability']['min']*100:.2f}% / {stats['failure_probability']['max']*100:.2f}%"
+            )
             print(f"    - 標準偏差: {stats['failure_probability']['std_dev']*100:.2f}%")
             print()
-            print(f"  【モデル合意度統計】")
+            print("  【モデル合意度統計】")
             print(f"    - 平均: {stats['model_agreement']['mean']*100:.2f}%")
             print(f"    - 中央値: {stats['model_agreement']['median']*100:.2f}%")
-            print(f"    - 最小/最大: {stats['model_agreement']['min']*100:.2f}% / {stats['model_agreement']['max']*100:.2f}%")
+            print(
+                f"    - 最小/最大: {stats['model_agreement']['min']*100:.2f}% / {stats['model_agreement']['max']*100:.2f}%"
+            )
 
     def _print_automl_history(self, experiments: List[Dict[str, Any]]):
         """AutoML実験履歴表示"""
@@ -833,11 +840,11 @@ class AdvancedTrendDashboard:
 
         if experiments:
             print()
-            print(f"  【最新5実験】")
+            print("  【最新5実験】")
             for i, exp in enumerate(experiments[:5], 1):
                 print(f"  {i}. [{exp['timestamp']}] {exp['best_model']}")
                 print(f"     CVスコア: {exp['cv_mean']:.4f} ± {exp['cv_std']:.4f}")
-                if exp.get('training_duration'):
+                if exp.get("training_duration"):
                     print(f"     訓練時間: {exp['training_duration']:.2f}秒")
 
     def _print_agreement_analysis(self, analysis: Dict[str, Any]):
@@ -851,12 +858,12 @@ class AdvancedTrendDashboard:
 
         print(f"  予測数: {analysis['count']}件")
         print()
-        print(f"  【統計】")
+        print("  【統計】")
         print(f"    - 平均: {stats['mean']*100:.2f}%")
         print(f"    - 中央値: {stats['median']*100:.2f}%")
         print(f"    - 最小/最大: {stats['min']*100:.2f}% / {stats['max']*100:.2f}%")
         print()
-        print(f"  【分布】")
+        print("  【分布】")
         print(f"    - 優秀 (≥95%): {dist['excellent']}件")
         print(f"    - 良好 (85-95%): {dist['good']}件")
         print(f"    - 普通 (75-85%): {dist['fair']}件")
@@ -879,10 +886,10 @@ class AdvancedTrendDashboard:
         """寄与因子分析表示"""
         print(f"  ユニーク因子数: {analysis['total_unique_factors']}")
 
-        if analysis['top_factors']:
+        if analysis["top_factors"]:
             print()
-            print(f"  【Top 10 寄与因子】")
-            for i, factor in enumerate(analysis['top_factors'][:10], 1):
+            print("  【Top 10 寄与因子】")
+            for i, factor in enumerate(analysis["top_factors"][:10], 1):
                 print(f"  {i}. {factor['feature']}: {factor['avg_importance']*100:.2f}%")
 
     def _print_alerts(self, alerts: List[Dict[str, Any]]):
@@ -891,21 +898,13 @@ class AdvancedTrendDashboard:
 
         if alerts:
             print()
-            level_symbols = {
-                "critical": "🔴",
-                "high": "🟡",
-                "info": "🔵"
-            }
+            level_symbols = {"critical": "🔴", "high": "🟡", "info": "🔵"}
             for i, alert in enumerate(alerts, 1):
                 symbol = level_symbols.get(alert["level"], "⚪")
                 print(f"  {i}. {symbol} [{alert['level'].upper()}] {alert['message']}")
                 print(f"     カテゴリ: {alert['category']}")
 
-    def save_dashboard(
-        self,
-        dashboard: Dict[str, Any],
-        filename: Optional[str] = None
-    ) -> Path:
+    def save_dashboard(self, dashboard: Dict[str, Any], filename: Optional[str] = None) -> Path:
         """ダッシュボードをJSON形式で保存"""
         if filename is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -913,7 +912,7 @@ class AdvancedTrendDashboard:
 
         output_path = self.reports_dir / filename
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(dashboard, f, indent=2, ensure_ascii=False)
 
         print(f"\n✅ ダッシュボード保存: {output_path}")
@@ -935,10 +934,7 @@ def main():
     dashboard_system = AdvancedTrendDashboard()
 
     if args.generate:
-        dashboard = dashboard_system.generate_comprehensive_dashboard(
-            hours=args.hours,
-            include_plots=args.plots
-        )
+        dashboard = dashboard_system.generate_comprehensive_dashboard(hours=args.hours, include_plots=args.plots)
 
         if args.save:
             dashboard_system.save_dashboard(dashboard)

@@ -12,25 +12,27 @@ Capacity Planning Automation System
 - 成長トレンド分析
 """
 
-import os
-import sys
-import sqlite3
-from src.database_utils import get_connection
 import json
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass
+import os
+import sqlite3
 import statistics
+import sys
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+from src.database_utils import get_connection
 
 # プロジェクトルート設定
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 try:
+    import numpy as np
     from sklearn.linear_model import LinearRegression
     from sklearn.preprocessing import StandardScaler
-    import numpy as np
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
@@ -41,6 +43,7 @@ except ImportError:
 @dataclass
 class ResourceMetrics:
     """リソースメトリクス"""
+
     timestamp: str
     cpu_percent: float
     memory_percent: float
@@ -50,6 +53,7 @@ class ResourceMetrics:
 @dataclass
 class CapacityForecast:
     """容量予測"""
+
     resource_type: str
     current_usage: float
     predicted_usage_7d: float
@@ -63,6 +67,7 @@ class CapacityForecast:
 @dataclass
 class ScalingRecommendation:
     """スケーリング推奨事項"""
+
     resource_type: str
     action: str  # "scale_up", "scale_down", "no_action"
     urgency: str  # "critical", "high", "medium", "low"
@@ -75,6 +80,7 @@ class ScalingRecommendation:
 @dataclass
 class CapacityPlan:
     """容量計画"""
+
     generated_at: str
     forecast_period_days: int
     forecasts: List[CapacityForecast]
@@ -92,11 +98,7 @@ class CapacityPlanningAutomation:
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
         # 容量閾値（パーセント）
-        self.capacity_thresholds = {
-            "cpu": 80.0,
-            "memory": 85.0,
-            "disk": 90.0
-        }
+        self.capacity_thresholds = {"cpu": 80.0, "memory": 85.0, "disk": 90.0}
 
         # 予測モデル
         self.models = {}
@@ -161,11 +163,7 @@ class CapacityPlanningAutomation:
         conn.commit()
         conn.close()
 
-    def generate_capacity_plan(
-        self,
-        forecast_days: int = 90,
-        history_days: int = 30
-    ) -> CapacityPlan:
+    def generate_capacity_plan(self, forecast_days: int = 90, history_days: int = 30) -> CapacityPlan:
         """
         容量計画を生成
 
@@ -199,11 +197,7 @@ class CapacityPlanningAutomation:
         print("-" * 80)
         forecasts = []
         for resource_type in ["cpu", "memory", "disk"]:
-            forecast = self._generate_forecast(
-                resource_type,
-                resource_data[resource_type],
-                forecast_days
-            )
+            forecast = self._generate_forecast(resource_type, resource_data[resource_type], forecast_days)
             forecasts.append(forecast)
             self._print_forecast(forecast)
         print()
@@ -235,7 +229,7 @@ class CapacityPlanningAutomation:
             forecasts=forecasts,
             recommendations=recommendations,
             alerts=alerts,
-            summary=summary
+            summary=summary,
         )
 
         # データベースに保存
@@ -255,22 +249,21 @@ class CapacityPlanningAutomation:
         cutoff_time = (datetime.now() - timedelta(days=days)).isoformat()
 
         # system_metricsテーブルからデータ取得
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT timestamp, cpu_percent, memory_percent, disk_percent
             FROM system_metrics
             WHERE timestamp >= ?
             ORDER BY timestamp ASC
-        """, (cutoff_time,))
+        """,
+            (cutoff_time,),
+        )
 
         rows = cursor.fetchall()
         conn.close()
 
         # リソースタイプ別に整理
-        resource_data = {
-            "cpu": [],
-            "memory": [],
-            "disk": []
-        }
+        resource_data = {"cpu": [], "memory": [], "disk": []}
 
         for row in rows:
             timestamp = row[0]
@@ -281,10 +274,7 @@ class CapacityPlanningAutomation:
         return resource_data
 
     def _generate_forecast(
-        self,
-        resource_type: str,
-        data: List[Tuple[str, float]],
-        forecast_days: int
+        self, resource_type: str, data: List[Tuple[str, float]], forecast_days: int
     ) -> CapacityForecast:
         """容量予測を生成"""
 
@@ -299,7 +289,7 @@ class CapacityPlanningAutomation:
                 predicted_usage_90d=current_usage,
                 capacity_threshold=self.capacity_thresholds[resource_type],
                 days_until_threshold=None,
-                growth_rate_daily=0.0
+                growth_rate_daily=0.0,
             )
 
         # 現在の使用率
@@ -321,9 +311,7 @@ class CapacityPlanningAutomation:
 
         # 閾値到達までの日数計算
         threshold = self.capacity_thresholds[resource_type]
-        days_until_threshold = self._calculate_days_until_threshold(
-            current_usage, growth_rate, threshold
-        )
+        days_until_threshold = self._calculate_days_until_threshold(current_usage, growth_rate, threshold)
 
         return CapacityForecast(
             resource_type=resource_type,
@@ -333,7 +321,7 @@ class CapacityPlanningAutomation:
             predicted_usage_90d=round(max(0, min(100, pred_90d)), 2),
             capacity_threshold=threshold,
             days_until_threshold=days_until_threshold,
-            growth_rate_daily=round(growth_rate, 4)
+            growth_rate_daily=round(growth_rate, 4),
         )
 
     def _calculate_growth_rate(self, values: List[float]) -> float:
@@ -352,11 +340,7 @@ class CapacityPlanningAutomation:
         growth_rate = (last_val - first_val) / days
         return growth_rate
 
-    def _ml_forecast(
-        self,
-        data: List[Tuple[str, float]],
-        forecast_days: int
-    ) -> Tuple[float, float, float]:
+    def _ml_forecast(self, data: List[Tuple[str, float]], forecast_days: int) -> Tuple[float, float, float]:
         """機械学習ベースの予測"""
         # データを時間インデックスと値に分割
         timestamps = [datetime.fromisoformat(ts) for ts, _ in data]
@@ -364,10 +348,7 @@ class CapacityPlanningAutomation:
 
         # 時間インデックス（エポック秒からの経過日数）
         start_time = timestamps[0]
-        X = np.array([
-            (ts - start_time).total_seconds() / 86400
-            for ts in timestamps
-        ]).reshape(-1, 1)
+        X = np.array([(ts - start_time).total_seconds() / 86400 for ts in timestamps]).reshape(-1, 1)
 
         # 線形回帰モデル
         model = LinearRegression()
@@ -382,10 +363,7 @@ class CapacityPlanningAutomation:
         return pred_7d, pred_30d, pred_90d
 
     def _calculate_days_until_threshold(
-        self,
-        current_usage: float,
-        growth_rate: float,
-        threshold: float
+        self, current_usage: float, growth_rate: float, threshold: float
     ) -> Optional[int]:
         """閾値到達までの日数計算"""
         if growth_rate <= 0:
@@ -397,10 +375,7 @@ class CapacityPlanningAutomation:
         days = (threshold - current_usage) / growth_rate
         return int(days) if days > 0 else None
 
-    def _generate_recommendations(
-        self,
-        forecasts: List[CapacityForecast]
-    ) -> List[ScalingRecommendation]:
+    def _generate_recommendations(self, forecasts: List[CapacityForecast]) -> List[ScalingRecommendation]:
         """スケーリング推奨事項の生成"""
         recommendations = []
 
@@ -411,10 +386,7 @@ class CapacityPlanningAutomation:
 
         return recommendations
 
-    def _analyze_forecast_and_recommend(
-        self,
-        forecast: CapacityForecast
-    ) -> Optional[ScalingRecommendation]:
+    def _analyze_forecast_and_recommend(self, forecast: CapacityForecast) -> Optional[ScalingRecommendation]:
         """予測を分析して推奨事項を生成"""
 
         resource_type = forecast.resource_type
@@ -464,15 +436,13 @@ class CapacityPlanningAutomation:
                 current_capacity=round(current, 2),
                 recommended_capacity=round(recommended_capacity, 2),
                 reason=reason,
-                estimated_days_until_needed=days_until
+                estimated_days_until_needed=days_until,
             )
 
         return None
 
     def _generate_alerts(
-        self,
-        forecasts: List[CapacityForecast],
-        recommendations: List[ScalingRecommendation]
+        self, forecasts: List[CapacityForecast], recommendations: List[ScalingRecommendation]
     ) -> List[Dict[str, Any]]:
         """アラートの生成"""
         alerts = []
@@ -481,39 +451,45 @@ class CapacityPlanningAutomation:
         for forecast in forecasts:
             if forecast.days_until_threshold is not None and forecast.days_until_threshold <= 30:
                 level = "critical" if forecast.days_until_threshold <= 7 else "high"
-                alerts.append({
-                    "level": level,
-                    "category": "capacity_shortage",
-                    "resource": forecast.resource_type,
-                    "message": f"{forecast.resource_type.upper()}容量が{forecast.days_until_threshold}日後に閾値到達の予測",
-                    "current_usage": forecast.current_usage,
-                    "threshold": forecast.capacity_threshold,
-                    "timestamp": datetime.now().isoformat()
-                })
+                alerts.append(
+                    {
+                        "level": level,
+                        "category": "capacity_shortage",
+                        "resource": forecast.resource_type,
+                        "message": f"{forecast.resource_type.upper()}容量が{forecast.days_until_threshold}日後に閾値到達の予測",
+                        "current_usage": forecast.current_usage,
+                        "threshold": forecast.capacity_threshold,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
         # 緊急推奨事項アラート
         for rec in recommendations:
             if rec.urgency in ["critical", "high"]:
-                alerts.append({
-                    "level": rec.urgency,
-                    "category": "scaling_recommendation",
-                    "resource": rec.resource_type,
-                    "message": f"{rec.resource_type.upper()}: {rec.action} - {rec.reason}",
-                    "action": rec.action,
-                    "timestamp": datetime.now().isoformat()
-                })
+                alerts.append(
+                    {
+                        "level": rec.urgency,
+                        "category": "scaling_recommendation",
+                        "resource": rec.resource_type,
+                        "message": f"{rec.resource_type.upper()}: {rec.action} - {rec.reason}",
+                        "action": rec.action,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
         # 高成長率アラート
         for forecast in forecasts:
             if forecast.growth_rate_daily > 1.0:  # 1日あたり1%以上の成長
-                alerts.append({
-                    "level": "info",
-                    "category": "high_growth_rate",
-                    "resource": forecast.resource_type,
-                    "message": f"{forecast.resource_type.upper()}の使用率が高い成長率（日次{forecast.growth_rate_daily:.2f}%）を示しています",
-                    "growth_rate": forecast.growth_rate_daily,
-                    "timestamp": datetime.now().isoformat()
-                })
+                alerts.append(
+                    {
+                        "level": "info",
+                        "category": "high_growth_rate",
+                        "resource": forecast.resource_type,
+                        "message": f"{forecast.resource_type.upper()}の使用率が高い成長率（日次{forecast.growth_rate_daily:.2f}%）を示しています",
+                        "growth_rate": forecast.growth_rate_daily,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
         return alerts
 
@@ -521,13 +497,13 @@ class CapacityPlanningAutomation:
         self,
         forecasts: List[CapacityForecast],
         recommendations: List[ScalingRecommendation],
-        alerts: List[Dict[str, Any]]
+        alerts: List[Dict[str, Any]],
     ) -> Dict[str, Any]:
         """サマリー生成"""
 
         # 最も緊急性の高いリソース
         most_critical = None
-        min_days = float('inf')
+        min_days = float("inf")
 
         for forecast in forecasts:
             if forecast.days_until_threshold is not None and forecast.days_until_threshold < min_days:
@@ -556,7 +532,7 @@ class CapacityPlanningAutomation:
             "overall_status": overall_status,
             "status_message": status_message,
             "most_critical_resource": most_critical,
-            "days_until_critical": int(min_days) if min_days != float('inf') else None,
+            "days_until_critical": int(min_days) if min_days != float("inf") else None,
             "total_recommendations": len(recommendations),
             "critical_recommendations": critical_recommendations,
             "high_recommendations": high_recommendations,
@@ -565,10 +541,10 @@ class CapacityPlanningAutomation:
                 forecast.resource_type: {
                     "current": forecast.current_usage,
                     "predicted_30d": forecast.predicted_usage_30d,
-                    "growth_rate": forecast.growth_rate_daily
+                    "growth_rate": forecast.growth_rate_daily,
                 }
                 for forecast in forecasts
-            }
+            },
         }
 
     def _save_capacity_plan(self, plan: CapacityPlan):
@@ -579,70 +555,89 @@ class CapacityPlanningAutomation:
         plan_id = f"plan_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
         # 容量計画を保存
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO capacity_plans
             (plan_id, generated_at, forecast_period_days, forecasts, recommendations, alerts, summary)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            plan_id,
-            plan.generated_at,
-            plan.forecast_period_days,
-            json.dumps([{
-                "resource_type": f.resource_type,
-                "current_usage": f.current_usage,
-                "predicted_usage_7d": f.predicted_usage_7d,
-                "predicted_usage_30d": f.predicted_usage_30d,
-                "predicted_usage_90d": f.predicted_usage_90d,
-                "growth_rate_daily": f.growth_rate_daily,
-                "days_until_threshold": f.days_until_threshold
-            } for f in plan.forecasts]),
-            json.dumps([{
-                "resource_type": r.resource_type,
-                "action": r.action,
-                "urgency": r.urgency,
-                "current_capacity": r.current_capacity,
-                "recommended_capacity": r.recommended_capacity,
-                "reason": r.reason,
-                "estimated_days": r.estimated_days_until_needed
-            } for r in plan.recommendations]),
-            json.dumps(plan.alerts),
-            json.dumps(plan.summary)
-        ))
+        """,
+            (
+                plan_id,
+                plan.generated_at,
+                plan.forecast_period_days,
+                json.dumps(
+                    [
+                        {
+                            "resource_type": f.resource_type,
+                            "current_usage": f.current_usage,
+                            "predicted_usage_7d": f.predicted_usage_7d,
+                            "predicted_usage_30d": f.predicted_usage_30d,
+                            "predicted_usage_90d": f.predicted_usage_90d,
+                            "growth_rate_daily": f.growth_rate_daily,
+                            "days_until_threshold": f.days_until_threshold,
+                        }
+                        for f in plan.forecasts
+                    ]
+                ),
+                json.dumps(
+                    [
+                        {
+                            "resource_type": r.resource_type,
+                            "action": r.action,
+                            "urgency": r.urgency,
+                            "current_capacity": r.current_capacity,
+                            "recommended_capacity": r.recommended_capacity,
+                            "reason": r.reason,
+                            "estimated_days": r.estimated_days_until_needed,
+                        }
+                        for r in plan.recommendations
+                    ]
+                ),
+                json.dumps(plan.alerts),
+                json.dumps(plan.summary),
+            ),
+        )
 
         # 個別の予測と推奨事項も保存
         for forecast in plan.forecasts:
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO capacity_forecasts
                 (timestamp, resource_type, current_usage, predicted_usage_7d,
                  predicted_usage_30d, predicted_usage_90d, growth_rate_daily, days_until_threshold)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                plan.generated_at,
-                forecast.resource_type,
-                forecast.current_usage,
-                forecast.predicted_usage_7d,
-                forecast.predicted_usage_30d,
-                forecast.predicted_usage_90d,
-                forecast.growth_rate_daily,
-                forecast.days_until_threshold
-            ))
+            """,
+                (
+                    plan.generated_at,
+                    forecast.resource_type,
+                    forecast.current_usage,
+                    forecast.predicted_usage_7d,
+                    forecast.predicted_usage_30d,
+                    forecast.predicted_usage_90d,
+                    forecast.growth_rate_daily,
+                    forecast.days_until_threshold,
+                ),
+            )
 
         for rec in plan.recommendations:
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO capacity_recommendations
                 (timestamp, resource_type, action, urgency, current_capacity,
                  recommended_capacity, reason, estimated_days)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                plan.generated_at,
-                rec.resource_type,
-                rec.action,
-                rec.urgency,
-                rec.current_capacity,
-                rec.recommended_capacity,
-                rec.reason,
-                rec.estimated_days_until_needed
-            ))
+            """,
+                (
+                    plan.generated_at,
+                    rec.resource_type,
+                    rec.action,
+                    rec.urgency,
+                    rec.current_capacity,
+                    rec.recommended_capacity,
+                    rec.reason,
+                    rec.estimated_days_until_needed,
+                ),
+            )
 
         conn.commit()
         conn.close()
@@ -663,12 +658,7 @@ class CapacityPlanningAutomation:
 
     def _print_recommendation(self, rec: ScalingRecommendation):
         """推奨事項を表示"""
-        urgency_symbols = {
-            "critical": "🔴",
-            "high": "🟡",
-            "medium": "🟠",
-            "low": "🟢"
-        }
+        urgency_symbols = {"critical": "🔴", "high": "🟡", "medium": "🟠", "low": "🟢"}
         symbol = urgency_symbols.get(rec.urgency, "⚪")
 
         print(f"  {symbol} [{rec.urgency.upper()}] {rec.resource_type.upper()}: {rec.action}")
@@ -681,19 +671,11 @@ class CapacityPlanningAutomation:
 
     def _print_alert(self, alert: Dict[str, Any]):
         """アラートを表示"""
-        level_symbols = {
-            "critical": "🔴",
-            "high": "🟡",
-            "info": "🔵"
-        }
+        level_symbols = {"critical": "🔴", "high": "🟡", "info": "🔵"}
         symbol = level_symbols.get(alert["level"], "⚪")
         print(f"  {symbol} [{alert['level'].upper()}] {alert['message']}")
 
-    def save_capacity_plan_report(
-        self,
-        plan: CapacityPlan,
-        filename: Optional[str] = None
-    ) -> Path:
+    def save_capacity_plan_report(self, plan: CapacityPlan, filename: Optional[str] = None) -> Path:
         """容量計画レポートをJSON形式で保存"""
         if filename is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -713,7 +695,7 @@ class CapacityPlanningAutomation:
                     "predicted_usage_90d": f.predicted_usage_90d,
                     "capacity_threshold": f.capacity_threshold,
                     "days_until_threshold": f.days_until_threshold,
-                    "growth_rate_daily": f.growth_rate_daily
+                    "growth_rate_daily": f.growth_rate_daily,
                 }
                 for f in plan.forecasts
             ],
@@ -725,15 +707,15 @@ class CapacityPlanningAutomation:
                     "current_capacity": r.current_capacity,
                     "recommended_capacity": r.recommended_capacity,
                     "reason": r.reason,
-                    "estimated_days_until_needed": r.estimated_days_until_needed
+                    "estimated_days_until_needed": r.estimated_days_until_needed,
                 }
                 for r in plan.recommendations
             ],
             "alerts": plan.alerts,
-            "summary": plan.summary
+            "summary": plan.summary,
         }
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(plan_dict, f, indent=2, ensure_ascii=False)
 
         print(f"\n✅ 容量計画レポート保存: {output_path}")
@@ -755,10 +737,7 @@ def main():
     capacity_system = CapacityPlanningAutomation()
 
     if args.generate:
-        plan = capacity_system.generate_capacity_plan(
-            forecast_days=args.forecast_days,
-            history_days=args.history_days
-        )
+        plan = capacity_system.generate_capacity_plan(forecast_days=args.forecast_days, history_days=args.history_days)
 
         # サマリー表示
         print()
@@ -768,9 +747,9 @@ def main():
         summary = plan.summary
         print(f"総合ステータス: {summary['overall_status'].upper()}")
         print(f"ステータスメッセージ: {summary['status_message']}")
-        if summary['most_critical_resource']:
+        if summary["most_critical_resource"]:
             print(f"最も重要なリソース: {summary['most_critical_resource'].upper()}")
-            if summary['days_until_critical']:
+            if summary["days_until_critical"]:
                 print(f"クリティカルまで: {summary['days_until_critical']}日")
         print(f"推奨事項総数: {summary['total_recommendations']}件")
         print(f"  - Critical: {summary['critical_recommendations']}件")

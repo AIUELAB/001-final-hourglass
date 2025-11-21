@@ -1145,6 +1145,25 @@ Free space: 54k (27%) → 82k (41%)
 削減量: 27.9k
 ```
 
+**⚠️ 重要**: この設定はClaude Code再起動後に反映されます。
+
+### 実装方法
+
+`.claude/claude_code_config.json`で`disabled: true`フラグを使用：
+
+```json
+{
+  "mcpServers": {
+    "fetch": { "disabled": true },
+    "brave-search": { "disabled": true },
+    "firecrawl": { "disabled": true },
+    "playwright": { "disabled": true }
+  }
+}
+```
+
+**注意**: この`disabled`フラグはカスタム実装です。公式にサポートされている方法は`claude mcp remove <server-name>`コマンドです。
+
 ### 一時的に有効化する方法
 
 Web検索・スクレイピングが必要な場合：

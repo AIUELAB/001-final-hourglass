@@ -1,0 +1,87 @@
+{
+  "rules": {
+    "RULE_001": {
+      "rule_id": "RULE_001",
+      "name": "calibrated_score使用禁止",
+      "description": "calibrated_scoreの使用は禁止。必ず実際のAPIで算出したスコアを使用すること。",
+      "category": "data_quality",
+      "priority": 1,
+      "status": "active",
+      "source_file": "pdca_guardian.py",
+      "function_name": null,
+      "created_at": "2025-11-21T11:20:21.051894",
+      "updated_at": "2025-11-21T11:20:21.051942",
+      "version": "v1.0.0",
+      "related_rules": [],
+      "replaces": null,
+      "replaced_by": null,
+      "tags": [
+        "api",
+        "scoring",
+        "data_quality"
+      ],
+      "examples": []
+    },
+    "RULE_100": {
+      "rule_id": "RULE_100",
+      "name": "クレジット管理の永久化",
+      "description": "すべてのエピソードとCSV出力に開発クレジットを付与すること。",
+      "category": "episode_content",
+      "priority": 2,
+      "status": "active",
+      "source_file": "pdca_guardian.py",
+      "function_name": null,
+      "created_at": "2025-11-21T11:20:21.051952",
+      "updated_at": "2025-11-21T11:20:21.051954",
+      "version": "v1.0.0",
+      "related_rules": [],
+      "replaces": null,
+      "replaced_by": null,
+      "tags": [
+        "credit",
+        "metadata"
+      ],
+      "examples": []
+    },
+    "ENTITY_TYPE_001": {
+      "rule_id": "ENTITY_TYPE_001",
+      "name": "グループ名の個人誤登録防止",
+      "description": "グループ名が個人として登録されていないかチェック",
+      "category": "entity_type",
+      "priority": 1,
+      "status": "active",
+      "source_file": "episode_guardian.py",
+      "function_name": null,
+      "created_at": "2025-11-21T11:20:21.052027",
+      "updated_at": "2025-11-21T11:20:21.052031",
+      "version": "v1.0.0",
+      "related_rules": [],
+      "replaces": null,
+      "replaced_by": null,
+      "tags": [],
+      "examples": []
+    },
+    "FORMAT_001": {
+      "rule_id": "FORMAT_001",
+      "name": "エピソード文字数範囲チェック",
+      "description": "エピソードは180-250文字の範囲内であること",
+      "category": "episode_format",
+      "priority": 2,
+      "status": "active",
+      "source_file": "episode_guardian.py",
+      "function_name": null,
+      "created_at": "2025-11-21T11:20:21.052037",
+      "updated_at": "2025-11-21T11:20:21.052039",
+      "version": "v1.0.0",
+      "related_rules": [],
+      "replaces": null,
+      "replaced_by": null,
+      "tags": [],
+      "examples": []
+    }
+  },
+  "history": [],
+  "checksum": "caa0dcd1e5a441bb865925d9d1ba0ceb4d788052b1e983f410713483d036244c",
+  "last_updated": "2025-11-21T11:20:21.052698",
+  "version": "1.0.0"
+}

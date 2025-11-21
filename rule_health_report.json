@@ -1,0 +1,75 @@
+{
+  "timestamp": "2025-11-21T12:00:00.383743",
+  "summary": {
+    "total_checks": 5,
+    "pass": 2,
+    "warn": 2,
+    "fail": 2
+  },
+  "checks": [
+    {
+      "check_name": "ドキュメント完全性",
+      "status": "PASS",
+      "message": "ドキュメント率 100.0% (閾値: 95.0%以上)",
+      "details": {
+        "total_rules": 4,
+        "documented_rules": 4,
+        "documentation_rate": 100.0
+      },
+      "timestamp": "2025-11-21T12:00:00.381038"
+    },
+    {
+      "check_name": "矛盾検出",
+      "status": "PASS",
+      "message": "矛盾なし (0件)",
+      "details": {
+        "contradiction_count": 0,
+        "contradictions": []
+      },
+      "timestamp": "2025-11-21T12:00:00.381066"
+    },
+    {
+      "check_name": "同期ステータス",
+      "status": "WARN",
+      "message": "同期レポートが見つかりません",
+      "details": {
+        "sync_report_exists": false
+      },
+      "timestamp": "2025-11-21T12:00:00.381146"
+    },
+    {
+      "check_name": "ファイル整合性",
+      "status": "FAIL",
+      "message": "1件の問題を検出",
+      "details": {
+        "issues": [
+          "episode_guardian_config.json が存在しません"
+        ]
+      },
+      "timestamp": "2025-11-21T12:00:00.383511"
+    },
+    {
+      "check_name": "ルール統計",
+      "status": "WARN",
+      "message": "1件の統計異常",
+      "details": {
+        "total_rules": 4,
+        "active_rules": 4,
+        "deprecated_rules": 0
+      },
+      "timestamp": "2025-11-21T12:00:00.383534"
+    },
+    {
+      "check_name": "総合判定",
+      "status": "FAIL",
+      "message": "ヘルスチェック失敗: 1件のFAIL, 2件のWARN",
+      "details": {
+        "total_checks": 5,
+        "pass_count": 2,
+        "warn_count": 2,
+        "fail_count": 1
+      },
+      "timestamp": "2025-11-21T12:00:00.383550"
+    }
+  ]
+}

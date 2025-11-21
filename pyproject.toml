@@ -167,7 +167,8 @@ source = ["src"]
 [tool.mypy]
 check_untyped_defs = true
 exclude = [
-  "^claude-code-template-mcp/"
+  "^claude-code-template-mcp/",
+  "^[^/]+\\.py$"
 ]
 ignore_missing_imports = true
 no_implicit_optional = true

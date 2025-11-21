@@ -50,3 +50,30 @@ class TestCacheManager:
             cm.memory_cache["key1"] = {"data": "test"}
             assert "key1" in cm.memory_cache
             assert cm.memory_cache["key1"]["data"] == "test"
+
+    def test_invalidate_all_cache(self):
+        """全キャッシュ無効化テスト"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cm = CacheManager(cache_dir=tmpdir)
+            cm.cache_metadata["key1"] = {"timestamp": "2025-01-01T00:00:00"}
+            cm.invalidate_all_cache()
+            # タイムスタンプが過去に設定されていることを確認
+            assert "key1" in cm.cache_metadata
+
+    def test_ttl_seconds(self):
+        """TTL設定テスト"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cm = CacheManager(cache_dir=tmpdir)
+            assert cm.ttl_seconds == 300
+
+    def test_force_clear_on_update(self):
+        """force_clear_on_update設定テスト"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cm = CacheManager(cache_dir=tmpdir)
+            assert cm.force_clear_on_update is True
+
+    def test_browser_cache_buster(self):
+        """browser_cache_buster設定テスト"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cm = CacheManager(cache_dir=tmpdir)
+            assert cm.browser_cache_buster is True

@@ -17,7 +17,7 @@ Features:
 import asyncio
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Annotated, Generic, Literal, TypeVar, Union
+from typing import Annotated, Any, Generic, Literal, TypeVar, Union
 
 from beartype import beartype
 from beartype.vale import Is
@@ -34,9 +34,7 @@ def calculate_average(numbers: list[float]) -> float:
 
 # Complex type annotations
 @beartype
-def process_config(
-    config: dict[str, str | int | bool | None], strict_mode: bool = False
-) -> dict[str, str]:
+def process_config(config: dict[str, str | int | bool | None], strict_mode: bool = False) -> dict[str, str]:
     """Process configuration with complex type checking."""
     result = {}
     for key, value in config.items():
@@ -134,10 +132,7 @@ PercentFloat = Annotated[float, Is[lambda x: 0.0 <= x <= 1.0]]
 PortNumber = Annotated[int, Is[lambda x: 1 <= x <= 65535]]
 IPv4Address = Annotated[
     str,
-    Is[
-        lambda x: all(0 <= int(part) <= 255 for part in x.split(".") if part.isdigit())
-        and len(x.split(".")) == 4
-    ],
+    Is[lambda x: all(0 <= int(part) <= 255 for part in x.split(".") if part.isdigit()) and len(x.split(".")) == 4],
 ]
 
 
@@ -154,8 +149,6 @@ class NetworkConfig:
 
 
 # Recursive types
-from typing import Any
-
 JSONValue = Union[None, bool, int, float, str, list["JSONValue"], dict[str, "JSONValue"]]
 
 
@@ -282,9 +275,7 @@ def example_usage():
 
     # Network configuration
     try:
-        config = NetworkConfig(
-            hostname="api.example.com", ip_address="192.168.1.1", port=8080, load_factor=0.75
-        )
+        config = NetworkConfig(hostname="api.example.com", ip_address="192.168.1.1", port=8080, load_factor=0.75)
         print(f"✅ Network config: {config.hostname}:{config.port}")
     except Exception as e:
         print(f"❌ Error: {e}")

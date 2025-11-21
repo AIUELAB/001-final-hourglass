@@ -12,19 +12,21 @@ AI-based Recommendation System - Phase 11.5
 import argparse
 import json
 import sqlite3
-from src.database_utils import get_connection
 import statistics
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+
+from src.database_utils import get_connection
 
 try:
-    import numpy as np
-    from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-    from sklearn.preprocessing import StandardScaler
-    from sklearn.model_selection import train_test_split
     import joblib
+    import numpy as np
+    from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
+
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
@@ -40,9 +42,11 @@ except ImportError:
 # データクラス
 # ==========================================
 
+
 @dataclass
 class AIRecommendation:
     """AI推奨事項"""
+
     recommendation_id: str
     timestamp: str
     recommendation_type: str  # capacity/cost/performance/security
@@ -61,6 +65,7 @@ class AIRecommendation:
 @dataclass
 class RecommendationFeedback:
     """推奨事項のフィードバック"""
+
     recommendation_id: str
     feedback_timestamp: str
     implemented: bool
@@ -73,6 +78,7 @@ class RecommendationFeedback:
 @dataclass
 class ModelPerformanceMetrics:
     """モデル性能メトリクス"""
+
     model_name: str
     accuracy: float
     precision: float
@@ -85,6 +91,7 @@ class ModelPerformanceMetrics:
 # ==========================================
 # メインクラス
 # ==========================================
+
 
 class AIRecommendationSystem:
     """AIベースの推奨システム"""
@@ -203,20 +210,11 @@ class AIRecommendationSystem:
 
         try:
             if self.recommendation_model:
-                joblib.dump(
-                    self.recommendation_model,
-                    self.models_dir / "ai_recommendation_model.pkl"
-                )
+                joblib.dump(self.recommendation_model, self.models_dir / "ai_recommendation_model.pkl")
             if self.priority_model:
-                joblib.dump(
-                    self.priority_model,
-                    self.models_dir / "ai_priority_model.pkl"
-                )
+                joblib.dump(self.priority_model, self.models_dir / "ai_priority_model.pkl")
             if self.scaler:
-                joblib.dump(
-                    self.scaler,
-                    self.models_dir / "ai_scaler.pkl"
-                )
+                joblib.dump(self.scaler, self.models_dir / "ai_scaler.pkl")
         except Exception as e:
             print(f"⚠️  モデル保存失敗: {e}")
 
@@ -396,40 +394,44 @@ class AIRecommendationSystem:
         # ルール1: 高CPU使用率
         if features.get("cpu_usage", 0) > 80:
             rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_cpu_high"
-            recommendations.append(AIRecommendation(
-                recommendation_id=rec_id,
-                timestamp=timestamp,
-                recommendation_type="performance",
-                action="scale_up",
-                target_resource="CPU",
-                priority="high",
-                confidence_score=0.95,
-                estimated_impact=0.8,
-                estimated_savings=0.0,
-                implementation_effort="medium",
-                reasoning="CPU使用率が80%を超えています。スケールアップを推奨します。",
-                supporting_data={"cpu_usage": features["cpu_usage"]},
-                alternative_actions=["optimize", "load_balance"]
-            ))
+            recommendations.append(
+                AIRecommendation(
+                    recommendation_id=rec_id,
+                    timestamp=timestamp,
+                    recommendation_type="performance",
+                    action="scale_up",
+                    target_resource="CPU",
+                    priority="high",
+                    confidence_score=0.95,
+                    estimated_impact=0.8,
+                    estimated_savings=0.0,
+                    implementation_effort="medium",
+                    reasoning="CPU使用率が80%を超えています。スケールアップを推奨します。",
+                    supporting_data={"cpu_usage": features["cpu_usage"]},
+                    alternative_actions=["optimize", "load_balance"],
+                )
+            )
 
         # ルール2: 高メモリ使用率
         if features.get("memory_usage", 0) > 85:
             rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_mem_high"
-            recommendations.append(AIRecommendation(
-                recommendation_id=rec_id,
-                timestamp=timestamp,
-                recommendation_type="performance",
-                action="scale_up",
-                target_resource="MEMORY",
-                priority="high",
-                confidence_score=0.93,
-                estimated_impact=0.75,
-                estimated_savings=0.0,
-                implementation_effort="medium",
-                reasoning="メモリ使用率が85%を超えています。スケールアップを推奨します。",
-                supporting_data={"memory_usage": features["memory_usage"]},
-                alternative_actions=["optimize", "cache_clear"]
-            ))
+            recommendations.append(
+                AIRecommendation(
+                    recommendation_id=rec_id,
+                    timestamp=timestamp,
+                    recommendation_type="performance",
+                    action="scale_up",
+                    target_resource="MEMORY",
+                    priority="high",
+                    confidence_score=0.93,
+                    estimated_impact=0.75,
+                    estimated_savings=0.0,
+                    implementation_effort="medium",
+                    reasoning="メモリ使用率が85%を超えています。スケールアップを推奨します。",
+                    supporting_data={"memory_usage": features["memory_usage"]},
+                    alternative_actions=["optimize", "cache_clear"],
+                )
+            )
 
         # ルール3: 容量閾値接近
         if features.get("min_days_until_threshold", 999) <= 14:
@@ -437,21 +439,23 @@ class AIRecommendationSystem:
             days = features["min_days_until_threshold"]
             priority = "critical" if days <= 7 else "high"
 
-            recommendations.append(AIRecommendation(
-                recommendation_id=rec_id,
-                timestamp=timestamp,
-                recommendation_type="capacity",
-                action="scale_up",
-                target_resource="STORAGE",
-                priority=priority,
-                confidence_score=0.90,
-                estimated_impact=0.85,
-                estimated_savings=0.0,
-                implementation_effort="low",
-                reasoning=f"容量閾値まで{days:.0f}日です。容量拡張を推奨します。",
-                supporting_data={"days_until_threshold": days},
-                alternative_actions=["cleanup", "archive"]
-            ))
+            recommendations.append(
+                AIRecommendation(
+                    recommendation_id=rec_id,
+                    timestamp=timestamp,
+                    recommendation_type="capacity",
+                    action="scale_up",
+                    target_resource="STORAGE",
+                    priority=priority,
+                    confidence_score=0.90,
+                    estimated_impact=0.85,
+                    estimated_savings=0.0,
+                    implementation_effort="low",
+                    reasoning=f"容量閾値まで{days:.0f}日です。容量拡張を推奨します。",
+                    supporting_data={"days_until_threshold": days},
+                    alternative_actions=["cleanup", "archive"],
+                )
+            )
 
         # ルール4: 高無駄率
         if features.get("avg_waste_percentage", 0) > 50:
@@ -459,48 +463,50 @@ class AIRecommendationSystem:
             waste = features["avg_waste_percentage"]
             estimated_savings = waste * 0.01 * 500  # 仮の計算
 
-            recommendations.append(AIRecommendation(
-                recommendation_id=rec_id,
-                timestamp=timestamp,
-                recommendation_type="cost",
-                action="optimize",
-                target_resource="ALL",
-                priority="medium",
-                confidence_score=0.85,
-                estimated_impact=0.6,
-                estimated_savings=estimated_savings,
-                implementation_effort="high",
-                reasoning=f"リソースの無駄が{waste:.1f}%あります。最適化を推奨します。",
-                supporting_data={"waste_percentage": waste},
-                alternative_actions=["scale_down", "consolidate"]
-            ))
+            recommendations.append(
+                AIRecommendation(
+                    recommendation_id=rec_id,
+                    timestamp=timestamp,
+                    recommendation_type="cost",
+                    action="optimize",
+                    target_resource="ALL",
+                    priority="medium",
+                    confidence_score=0.85,
+                    estimated_impact=0.6,
+                    estimated_savings=estimated_savings,
+                    implementation_effort="high",
+                    reasoning=f"リソースの無駄が{waste:.1f}%あります。最適化を推奨します。",
+                    supporting_data={"waste_percentage": waste},
+                    alternative_actions=["scale_down", "consolidate"],
+                )
+            )
 
         # ルール5: 高障害確率
         if features.get("failure_probability", 0) > 0.5:
             rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_failure"
             prob = features["failure_probability"]
 
-            recommendations.append(AIRecommendation(
-                recommendation_id=rec_id,
-                timestamp=timestamp,
-                recommendation_type="security",
-                action="optimize",
-                target_resource="SYSTEM",
-                priority="high",
-                confidence_score=0.88,
-                estimated_impact=0.9,
-                estimated_savings=0.0,
-                implementation_effort="high",
-                reasoning=f"障害確率が{prob * 100:.1f}%と高いです。予防保守を推奨します。",
-                supporting_data={"failure_probability": prob},
-                alternative_actions=["backup", "monitoring"]
-            ))
+            recommendations.append(
+                AIRecommendation(
+                    recommendation_id=rec_id,
+                    timestamp=timestamp,
+                    recommendation_type="security",
+                    action="optimize",
+                    target_resource="SYSTEM",
+                    priority="high",
+                    confidence_score=0.88,
+                    estimated_impact=0.9,
+                    estimated_savings=0.0,
+                    implementation_effort="high",
+                    reasoning=f"障害確率が{prob * 100:.1f}%と高いです。予防保守を推奨します。",
+                    supporting_data={"failure_probability": prob},
+                    alternative_actions=["backup", "monitoring"],
+                )
+            )
 
         return recommendations
 
-    def _generate_ml_recommendations(
-        self, features: Dict[str, float], timestamp: str
-    ) -> List[AIRecommendation]:
+    def _generate_ml_recommendations(self, features: Dict[str, float], timestamp: str) -> List[AIRecommendation]:
         """MLベースの推奨事項を生成"""
         if not SKLEARN_AVAILABLE or not self.recommendation_model:
             return []
@@ -541,7 +547,7 @@ class AIRecommendationSystem:
                 implementation_effort="medium",
                 reasoning=f"機械学習モデルによる推奨（信頼度{confidence * 100:.1f}%）",
                 supporting_data=features,
-                alternative_actions=[]
+                alternative_actions=[],
             )
 
             return [recommendation]
@@ -553,25 +559,24 @@ class AIRecommendationSystem:
     def _prepare_feature_vector(self, features: Dict[str, float]) -> List[float]:
         """特徴ベクトルの準備"""
         feature_order = [
-            "cpu_usage", "memory_usage", "disk_usage",
-            "memory_used_gb", "disk_used_gb",
-            "failure_probability", "model_agreement",
-            "avg_growth_rate", "min_days_until_threshold",
-            "avg_waste_percentage", "recent_incidents"
+            "cpu_usage",
+            "memory_usage",
+            "disk_usage",
+            "memory_used_gb",
+            "disk_used_gb",
+            "failure_probability",
+            "model_agreement",
+            "avg_growth_rate",
+            "min_days_until_threshold",
+            "avg_waste_percentage",
+            "recent_incidents",
         ]
 
         return [features.get(key, 0.0) for key in feature_order]
 
-    def _rank_recommendations(
-        self, recommendations: List[AIRecommendation]
-    ) -> List[AIRecommendation]:
+    def _rank_recommendations(self, recommendations: List[AIRecommendation]) -> List[AIRecommendation]:
         """推奨事項をランク付け"""
-        priority_scores = {
-            "critical": 4,
-            "high": 3,
-            "medium": 2,
-            "low": 1
-        }
+        priority_scores = {"critical": 4, "high": 3, "medium": 2, "low": 1}
 
         def score_recommendation(rec: AIRecommendation) -> float:
             priority_score = priority_scores.get(rec.priority, 1)
@@ -589,28 +594,31 @@ class AIRecommendationSystem:
         cursor = conn.cursor()
 
         try:
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO ai_recommendations (
                     recommendation_id, timestamp, recommendation_type, action,
                     target_resource, priority, confidence_score, estimated_impact,
                     estimated_savings, implementation_effort, reasoning,
                     supporting_data, alternative_actions
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                rec.recommendation_id,
-                rec.timestamp,
-                rec.recommendation_type,
-                rec.action,
-                rec.target_resource,
-                rec.priority,
-                rec.confidence_score,
-                rec.estimated_impact,
-                rec.estimated_savings,
-                rec.implementation_effort,
-                rec.reasoning,
-                json.dumps(rec.supporting_data, ensure_ascii=False),
-                json.dumps(rec.alternative_actions, ensure_ascii=False)
-            ))
+            """,
+                (
+                    rec.recommendation_id,
+                    rec.timestamp,
+                    rec.recommendation_type,
+                    rec.action,
+                    rec.target_resource,
+                    rec.priority,
+                    rec.confidence_score,
+                    rec.estimated_impact,
+                    rec.estimated_savings,
+                    rec.implementation_effort,
+                    rec.reasoning,
+                    json.dumps(rec.supporting_data, ensure_ascii=False),
+                    json.dumps(rec.alternative_actions, ensure_ascii=False),
+                ),
+            )
 
             conn.commit()
         except sqlite3.IntegrityError:
@@ -624,13 +632,16 @@ class AIRecommendationSystem:
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT recommendation_id, timestamp, recommendation_type, action,
                    target_resource, priority, confidence_score
             FROM ai_recommendations
             ORDER BY created_at DESC
             LIMIT ?
-        """, (limit,))
+        """,
+            (limit,),
+        )
 
         rows = cursor.fetchall()
         conn.close()
@@ -657,29 +668,13 @@ class AIRecommendationSystem:
 # メイン処理
 # ==========================================
 
+
 def main():
     parser = argparse.ArgumentParser(description="AI-based Recommendation System - Phase 11.5")
-    parser.add_argument(
-        "--generate",
-        action="store_true",
-        help="AI推奨事項を生成"
-    )
-    parser.add_argument(
-        "--history",
-        action="store_true",
-        help="推奨履歴を表示"
-    )
-    parser.add_argument(
-        "--limit",
-        type=int,
-        default=10,
-        help="履歴表示の件数"
-    )
-    parser.add_argument(
-        "--save",
-        action="store_true",
-        help="結果をJSONファイルに保存"
-    )
+    parser.add_argument("--generate", action="store_true", help="AI推奨事項を生成")
+    parser.add_argument("--history", action="store_true", help="推奨履歴を表示")
+    parser.add_argument("--limit", type=int, default=10, help="履歴表示の件数")
+    parser.add_argument("--save", action="store_true", help="結果をJSONファイルに保存")
 
     args = parser.parse_args()
 

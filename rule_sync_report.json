@@ -1,0 +1,10 @@
+{
+  "sync_timestamp": "2025-11-21T16:08:46.524314",
+  "total_rules": 4,
+  "active_rules": 4,
+  "targets_synced": [
+    "pdca_guardian",
+    "episode_guardian"
+  ],
+  "checksum": "2fee9570601019cfa4c49d3890078555c0904751b12b385b52d88f3600654dbd"
+}

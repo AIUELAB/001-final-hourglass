@@ -12,21 +12,23 @@ Cost Optimization Algorithm - Phase 11.4
 import argparse
 import json
 import sqlite3
-from src.database_utils import get_connection
 import statistics
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
+from src.database_utils import get_connection
 
 # ==========================================
 # データクラス
 # ==========================================
 
+
 @dataclass
 class ResourceCost:
     """リソースコスト情報"""
+
     resource_type: str
     current_usage: float  # 現在の使用量（%）
     allocated_capacity: float  # 割り当て容量
@@ -39,6 +41,7 @@ class ResourceCost:
 @dataclass
 class OptimizationRecommendation:
     """コスト最適化推奨事項"""
+
     resource_type: str
     recommendation_type: str  # reduce_capacity/increase_efficiency/consolidate/terminate
     current_cost: float
@@ -56,6 +59,7 @@ class OptimizationRecommendation:
 @dataclass
 class CostSimulation:
     """コスト削減シミュレーション"""
+
     scenario_name: str
     current_monthly_cost: float
     projected_monthly_cost: float
@@ -72,6 +76,7 @@ class CostSimulation:
 # メインクラス
 # ==========================================
 
+
 class CostOptimizationAlgorithm:
     """コスト最適化アルゴリズム"""
 
@@ -83,16 +88,16 @@ class CostOptimizationAlgorithm:
         self.cost_config = {
             "CPU": {
                 "unit_cost": 0.05,  # $0.05/vCPU/hour
-                "unit_name": "vCPU"
+                "unit_name": "vCPU",
             },
             "MEMORY": {
                 "unit_cost": 0.01,  # $0.01/GB/hour
-                "unit_name": "GB"
+                "unit_name": "GB",
             },
             "DISK": {
                 "unit_cost": 0.001,  # $0.001/GB/hour
-                "unit_name": "GB"
-            }
+                "unit_name": "GB",
+            },
         }
 
         # 最適化しきい値
@@ -183,11 +188,7 @@ class CostOptimizationAlgorithm:
         cursor = conn.cursor()
 
         # リソースタイプに応じてカラム名をマッピング
-        column_map = {
-            "CPU": "cpu_percent",
-            "MEMORY": "memory_percent",
-            "DISK": "disk_percent"
-        }
+        column_map = {"CPU": "cpu_percent", "MEMORY": "memory_percent", "DISK": "disk_percent"}
 
         column_name = column_map.get(resource_type)
         if not column_name:
@@ -234,12 +235,10 @@ class CostOptimizationAlgorithm:
             unit_cost=unit_cost,
             monthly_cost=monthly_cost,
             utilization_rate=utilization_rate,
-            waste_percentage=waste_percentage
+            waste_percentage=waste_percentage,
         )
 
-    def _analyze_cost_and_recommend(
-        self, cost: ResourceCost
-    ) -> Optional[OptimizationRecommendation]:
+    def _analyze_cost_and_recommend(self, cost: ResourceCost) -> Optional[OptimizationRecommendation]:
         """コスト分析から推奨事項を生成"""
 
         resource_type = cost.resource_type
@@ -276,8 +275,8 @@ class CostOptimizationAlgorithm:
                 action_items=[
                     f"現在の容量{cost.allocated_capacity:.1f}から{target_capacity:.1f}に削減",
                     "削減後の監視を2週間実施",
-                    "パフォーマンステストを実行"
-                ]
+                    "パフォーマンステストを実行",
+                ],
             )
 
         # 高無駄率の場合
@@ -304,11 +303,7 @@ class CostOptimizationAlgorithm:
                 priority="medium",
                 risk_level="medium",
                 description=f"{resource_type}の無駄が{waste:.1f}%あるため、効率化を推奨",
-                action_items=[
-                    "リソース使用パターンの最適化",
-                    "自動スケーリングの設定",
-                    "使用率のモニタリング強化"
-                ]
+                action_items=["リソース使用パターンの最適化", "自動スケーリングの設定", "使用率のモニタリング強化"],
             )
 
         return None
@@ -366,7 +361,7 @@ class CostOptimizationAlgorithm:
                 print(f"    年間削減額: ${rec.annual_savings:.2f}")
                 print(f"    ROI: {rec.roi_months:.1f}ヶ月")
                 print(f"    説明: {rec.description}")
-                print(f"    アクション:")
+                print("    アクション:")
                 for action in rec.action_items:
                     print(f"      - {action}")
                 print()
@@ -393,10 +388,10 @@ class CostOptimizationAlgorithm:
             print(f"    実装コスト: ${sim.implementation_cost:.2f}")
             print(f"    ROI: {sim.roi_months:.1f}ヶ月")
             print(f"    信頼度: {sim.confidence_level * 100:.1f}%")
-            print(f"    前提条件:")
+            print("    前提条件:")
             for assumption in sim.assumptions:
                 print(f"      - {assumption}")
-            print(f"    リスク:")
+            print("    リスク:")
             for risk in sim.risks:
                 print(f"      - {risk}")
             print()
@@ -412,11 +407,7 @@ class CostOptimizationAlgorithm:
         total_current_cost = sum(c.monthly_cost for c in costs)
         total_savings = sum(r.monthly_savings for r in recommendations)
         total_annual_savings = total_savings * 12
-        avg_roi = (
-            statistics.mean([r.roi_months for r in recommendations])
-            if recommendations
-            else 0
-        )
+        avg_roi = statistics.mean([r.roi_months for r in recommendations]) if recommendations else 0
 
         print(f"現在の総コスト: ${total_current_cost:.2f}/月")
         print(f"削減可能額: ${total_savings:.2f}/月 (${total_annual_savings:.2f}/年)")
@@ -437,8 +428,8 @@ class CostOptimizationAlgorithm:
                 "total_annual_savings": total_annual_savings,
                 "savings_percentage": (total_savings / total_current_cost * 100) if total_current_cost > 0 else 0,
                 "average_roi_months": avg_roi,
-                "recommendation_count": len(recommendations)
-            }
+                "recommendation_count": len(recommendations),
+            },
         }
 
         # データベースに計画を保存
@@ -447,9 +438,7 @@ class CostOptimizationAlgorithm:
         return plan_data
 
     def _generate_cost_simulations(
-        self,
-        costs: List[ResourceCost],
-        recommendations: List[OptimizationRecommendation]
+        self, costs: List[ResourceCost], recommendations: List[OptimizationRecommendation]
     ) -> List[CostSimulation]:
         """コスト削減シミュレーションの生成"""
         simulations = []
@@ -465,26 +454,24 @@ class CostOptimizationAlgorithm:
             annual_savings = total_savings * 12
             roi = total_impl_cost / total_savings if total_savings > 0 else 999
 
-            simulations.append(CostSimulation(
-                scenario_name="全推奨事項の実装",
-                current_monthly_cost=current_total_cost,
-                projected_monthly_cost=projected_cost,
-                monthly_savings=total_savings,
-                annual_savings=annual_savings,
-                implementation_cost=total_impl_cost,
-                roi_months=roi,
-                confidence_level=0.85,
-                assumptions=[
-                    "すべての推奨事項が計画通りに実装される",
-                    "リソース使用パターンが現在と同じ",
-                    "コスト削減効果が即座に発揮される"
-                ],
-                risks=[
-                    "実装中のダウンタイムによる損失",
-                    "予期しない互換性問題",
-                    "移行作業の遅延"
-                ]
-            ))
+            simulations.append(
+                CostSimulation(
+                    scenario_name="全推奨事項の実装",
+                    current_monthly_cost=current_total_cost,
+                    projected_monthly_cost=projected_cost,
+                    monthly_savings=total_savings,
+                    annual_savings=annual_savings,
+                    implementation_cost=total_impl_cost,
+                    roi_months=roi,
+                    confidence_level=0.85,
+                    assumptions=[
+                        "すべての推奨事項が計画通りに実装される",
+                        "リソース使用パターンが現在と同じ",
+                        "コスト削減効果が即座に発揮される",
+                    ],
+                    risks=["実装中のダウンタイムによる損失", "予期しない互換性問題", "移行作業の遅延"],
+                )
+            )
 
         # シナリオ2: 高優先度のみ実装
         high_priority = [r for r in recommendations if r.priority == "high"]
@@ -495,25 +482,20 @@ class CostOptimizationAlgorithm:
             annual_savings = total_savings * 12
             roi = total_impl_cost / total_savings if total_savings > 0 else 999
 
-            simulations.append(CostSimulation(
-                scenario_name="高優先度のみ実装",
-                current_monthly_cost=current_total_cost,
-                projected_monthly_cost=projected_cost,
-                monthly_savings=total_savings,
-                annual_savings=annual_savings,
-                implementation_cost=total_impl_cost,
-                roi_months=roi,
-                confidence_level=0.95,
-                assumptions=[
-                    "高優先度項目のみ実装",
-                    "リスクの低い変更のみ実施",
-                    "段階的な実装"
-                ],
-                risks=[
-                    "全体的なコスト削減効果は限定的",
-                    "残りの推奨事項の先送り"
-                ]
-            ))
+            simulations.append(
+                CostSimulation(
+                    scenario_name="高優先度のみ実装",
+                    current_monthly_cost=current_total_cost,
+                    projected_monthly_cost=projected_cost,
+                    monthly_savings=total_savings,
+                    annual_savings=annual_savings,
+                    implementation_cost=total_impl_cost,
+                    roi_months=roi,
+                    confidence_level=0.95,
+                    assumptions=["高優先度項目のみ実装", "リスクの低い変更のみ実施", "段階的な実装"],
+                    risks=["全体的なコスト削減効果は限定的", "残りの推奨事項の先送り"],
+                )
+            )
 
         # シナリオ3: 段階的実装（6ヶ月計画）
         if recommendations:
@@ -526,26 +508,24 @@ class CostOptimizationAlgorithm:
             projected_cost = current_total_cost - avg_savings
             annual_savings = total_savings * 12  # 最終的な年間削減額
 
-            simulations.append(CostSimulation(
-                scenario_name="段階的実装（6ヶ月計画）",
-                current_monthly_cost=current_total_cost,
-                projected_monthly_cost=projected_cost,
-                monthly_savings=avg_savings,
-                annual_savings=annual_savings,
-                implementation_cost=total_impl_cost,
-                roi_months=total_impl_cost / avg_savings if avg_savings > 0 else 999,
-                confidence_level=0.90,
-                assumptions=[
-                    "6ヶ月で段階的に実装",
-                    "初月50%、3ヶ月目75%、6ヶ月目100%の効果",
-                    "リスクを最小化しながら実装"
-                ],
-                risks=[
-                    "削減効果の発現が遅い",
-                    "実装期間中のコスト増加の可能性",
-                    "計画の遅延リスク"
-                ]
-            ))
+            simulations.append(
+                CostSimulation(
+                    scenario_name="段階的実装（6ヶ月計画）",
+                    current_monthly_cost=current_total_cost,
+                    projected_monthly_cost=projected_cost,
+                    monthly_savings=avg_savings,
+                    annual_savings=annual_savings,
+                    implementation_cost=total_impl_cost,
+                    roi_months=total_impl_cost / avg_savings if avg_savings > 0 else 999,
+                    confidence_level=0.90,
+                    assumptions=[
+                        "6ヶ月で段階的に実装",
+                        "初月50%、3ヶ月目75%、6ヶ月目100%の効果",
+                        "リスクを最小化しながら実装",
+                    ],
+                    risks=["削減効果の発現が遅い", "実装期間中のコスト増加の可能性", "計画の遅延リスク"],
+                )
+            )
 
         return simulations
 
@@ -554,53 +534,57 @@ class CostOptimizationAlgorithm:
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO resource_costs (
                 timestamp, resource_type, current_usage, allocated_capacity,
                 unit_cost, monthly_cost, utilization_rate, waste_percentage
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            timestamp,
-            cost.resource_type,
-            cost.current_usage,
-            cost.allocated_capacity,
-            cost.unit_cost,
-            cost.monthly_cost,
-            cost.utilization_rate,
-            cost.waste_percentage
-        ))
+        """,
+            (
+                timestamp,
+                cost.resource_type,
+                cost.current_usage,
+                cost.allocated_capacity,
+                cost.unit_cost,
+                cost.monthly_cost,
+                cost.utilization_rate,
+                cost.waste_percentage,
+            ),
+        )
 
         conn.commit()
         conn.close()
 
-    def _save_optimization_recommendation(
-        self, timestamp: str, rec: OptimizationRecommendation
-    ):
+    def _save_optimization_recommendation(self, timestamp: str, rec: OptimizationRecommendation):
         """最適化推奨事項をデータベースに保存"""
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO optimization_recommendations (
                 timestamp, resource_type, recommendation_type, current_cost,
                 optimized_cost, monthly_savings, annual_savings, roi_months,
                 implementation_cost, priority, risk_level, description, action_items
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            timestamp,
-            rec.resource_type,
-            rec.recommendation_type,
-            rec.current_cost,
-            rec.optimized_cost,
-            rec.monthly_savings,
-            rec.annual_savings,
-            rec.roi_months,
-            rec.implementation_cost,
-            rec.priority,
-            rec.risk_level,
-            rec.description,
-            json.dumps(rec.action_items, ensure_ascii=False)
-        ))
+        """,
+            (
+                timestamp,
+                rec.resource_type,
+                rec.recommendation_type,
+                rec.current_cost,
+                rec.optimized_cost,
+                rec.monthly_savings,
+                rec.annual_savings,
+                rec.roi_months,
+                rec.implementation_cost,
+                rec.priority,
+                rec.risk_level,
+                rec.description,
+                json.dumps(rec.action_items, ensure_ascii=False),
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -610,25 +594,28 @@ class CostOptimizationAlgorithm:
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO cost_simulations (
                 timestamp, scenario_name, current_monthly_cost, projected_monthly_cost,
                 monthly_savings, annual_savings, implementation_cost, roi_months,
                 confidence_level, assumptions, risks
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            timestamp,
-            sim.scenario_name,
-            sim.current_monthly_cost,
-            sim.projected_monthly_cost,
-            sim.monthly_savings,
-            sim.annual_savings,
-            sim.implementation_cost,
-            sim.roi_months,
-            sim.confidence_level,
-            json.dumps(sim.assumptions, ensure_ascii=False),
-            json.dumps(sim.risks, ensure_ascii=False)
-        ))
+        """,
+            (
+                timestamp,
+                sim.scenario_name,
+                sim.current_monthly_cost,
+                sim.projected_monthly_cost,
+                sim.monthly_savings,
+                sim.annual_savings,
+                sim.implementation_cost,
+                sim.roi_months,
+                sim.confidence_level,
+                json.dumps(sim.assumptions, ensure_ascii=False),
+                json.dumps(sim.risks, ensure_ascii=False),
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -638,10 +625,13 @@ class CostOptimizationAlgorithm:
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO cost_optimization_plans (timestamp, plan_data)
             VALUES (?, ?)
-        """, (timestamp, json.dumps(plan_data, ensure_ascii=False)))
+        """,
+            (timestamp, json.dumps(plan_data, ensure_ascii=False)),
+        )
 
         conn.commit()
         conn.close()
@@ -651,12 +641,15 @@ class CostOptimizationAlgorithm:
         conn = get_connection(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT timestamp, plan_data
             FROM cost_optimization_plans
             ORDER BY created_at DESC
             LIMIT ?
-        """, (limit,))
+        """,
+            (limit,),
+        )
 
         rows = cursor.fetchall()
         conn.close()
@@ -685,29 +678,13 @@ class CostOptimizationAlgorithm:
 # メイン処理
 # ==========================================
 
+
 def main():
     parser = argparse.ArgumentParser(description="Cost Optimization Algorithm - Phase 11.4")
-    parser.add_argument(
-        "--generate",
-        action="store_true",
-        help="コスト最適化計画を生成"
-    )
-    parser.add_argument(
-        "--history",
-        action="store_true",
-        help="コスト最適化計画の履歴を表示"
-    )
-    parser.add_argument(
-        "--limit",
-        type=int,
-        default=10,
-        help="履歴表示の件数"
-    )
-    parser.add_argument(
-        "--save",
-        action="store_true",
-        help="結果をJSONファイルに保存"
-    )
+    parser.add_argument("--generate", action="store_true", help="コスト最適化計画を生成")
+    parser.add_argument("--history", action="store_true", help="コスト最適化計画の履歴を表示")
+    parser.add_argument("--limit", type=int, default=10, help="履歴表示の件数")
+    parser.add_argument("--save", action="store_true", help="結果をJSONファイルに保存")
 
     args = parser.parse_args()
 

@@ -2,24 +2,31 @@
   "mcpServers": {
     "fetch": {
       "disabled": true,
-      "reason": "低頻度使用のため無効化。Web取得が必要な場合は一時的に有効化。"
+      "reason": "低頻度使用のため無効化。Web取得が必要な場合は一時的に有効化。",
+      "note": "カスタム実装。公式にはサポートされていません。"
     },
     "brave-search": {
       "disabled": true,
-      "reason": "低頻度使用のため無効化。Web検索が必要な場合は一時的に有効化。"
+      "reason": "低頻度使用のため無効化。Web検索が必要な場合は一時的に有効化。",
+      "note": "カスタム実装。公式にはサポートされていません。"
     },
     "firecrawl": {
       "disabled": true,
-      "reason": "低頻度使用のため無効化。高度なスクレイピングが必要な場合は一時的に有効化。"
+      "reason": "低頻度使用のため無効化。高度なスクレイピングが必要な場合は一時的に有効化。",
+      "note": "カスタム実装。公式にはサポートされていません。"
     },
     "playwright": {
       "disabled": true,
-      "reason": "低頻度使用のため無効化。ブラウザ自動化が必要な場合は一時的に有効化。"
+      "reason": "低頻度使用のため無効化。ブラウザ自動化が必要な場合は一時的に有効化。",
+      "note": "カスタム実装。公式にはサポートされていません。"
     }
   },
   "optimization": {
     "target": "コンテキストFree spaceを80%以上確保",
+    "method": "Low-frequency MCPサーバーの無効化（カスタム実装）",
     "estimated_reduction": "27.9k tokens",
-    "date_applied": "2025-11-21"
+    "date_applied": "2025-11-21",
+    "restart_required": true,
+    "alternative_method": "公式: claude mcp remove <server-name>"
   }
 }

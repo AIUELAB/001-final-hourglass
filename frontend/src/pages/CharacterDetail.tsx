@@ -89,111 +89,29 @@ export function CharacterDetail() {
 
         {/* 基本情報 */}
         <div className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-blue-50 rounded-lg p-4">
               <div className="text-sm text-gray-600 mb-1">ジャンル</div>
               <div className="text-lg font-bold text-blue-900">{character.genre}</div>
             </div>
             <div className="bg-purple-50 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-1">年齢</div>
-              <div className="text-lg font-bold text-purple-900">{character.age_in_story}</div>
-            </div>
-            <div className="bg-green-50 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-1">検証状態</div>
-              <div className="text-lg font-bold text-green-900">{character.validation_status}</div>
+              <div className="text-sm text-gray-600 mb-1">エピソードカテゴリ</div>
+              <div className="text-lg font-bold text-purple-900">{character.episode_category}</div>
             </div>
           </div>
 
-          {/* 主要エピソード */}
+          {/* エピソード本文 */}
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-              <span className="mr-2">🎯</span>
-              主要エピソード
+              <span className="mr-2">📖</span>
+              エピソード
             </h2>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {character.key_episode}
+            <div className="bg-gray-50 rounded-lg p-6 border-l-4 border-blue-500">
+              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-base">
+                {character.episode_text}
               </p>
             </div>
           </section>
-
-          {/* 詳細な達成記録 */}
-          <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-              <span className="mr-2">🏆</span>
-              詳細な達成記録
-            </h2>
-            <div className="bg-yellow-50 rounded-lg p-6 border-l-4 border-yellow-400">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {character.detailed_achievements}
-              </p>
-            </div>
-          </section>
-
-          {/* ストーリー展開 */}
-          {character.story_events && (
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                <span className="mr-2">📖</span>
-                ストーリー展開
-              </h2>
-              <div className="bg-blue-50 rounded-lg p-6">
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {character.story_events}
-                </p>
-              </div>
-            </section>
-          )}
-
-          {/* 成長物語 */}
-          {character.growth_narrative && (
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                <span className="mr-2">🌱</span>
-                成長物語
-              </h2>
-              <div className="bg-green-50 rounded-lg p-6">
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {character.growth_narrative}
-                </p>
-              </div>
-            </section>
-          )}
-
-          {/* キュレーターノート */}
-          {character.curator_notes && (
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                <span className="mr-2">📝</span>
-                キュレーターノート
-              </h2>
-              <div className="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-400">
-                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {character.curator_notes}
-                </p>
-              </div>
-            </section>
-          )}
-
-          {/* Wikipedia リンク */}
-          {character.wikipedia_url && (
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                <span className="mr-2">🔗</span>
-                外部リンク
-              </h2>
-              <a
-                href={character.wikipedia_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                <span className="mr-2">📚</span>
-                Wikipediaで詳細を見る
-                <span className="ml-2">→</span>
-              </a>
-            </section>
-          )}
 
           {/* 戻るボタン */}
           <div className="pt-6 border-t border-gray-200">

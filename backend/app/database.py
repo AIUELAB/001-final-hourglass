@@ -189,6 +189,66 @@ class Database:
 
         return [dict(row) for row in cursor.fetchall()]
 
+    def get_episode_category_stats(self) -> List[dict]:
+        """
+        エピソードカテゴリ統計取得（ジャンルの詳細分析）
+
+        Returns:
+            カテゴリごとの統計リスト
+        """
+        if not self.conn:
+            raise RuntimeError("データベース未接続")
+
+        cursor = self.conn.cursor()
+        # 現在のデータベースにはepisode_categoryがないため、genreの上位カテゴリを抽出
+        cursor.execute("""
+            SELECT
+                CASE
+                    WHEN genre LIKE '%政治%' THEN '政治・行政'
+                    WHEN genre LIKE '%科学%' OR genre LIKE '%技術%' THEN '科学・技術'
+                    WHEN genre LIKE '%芸術%' OR genre LIKE '%音楽%' OR genre LIKE '%文学%' THEN '芸術・文化'
+                    WHEN genre LIKE '%スポーツ%' THEN 'スポーツ'
+                    WHEN genre LIKE '%漫画%' OR genre LIKE '%アニメ%' THEN '漫画・アニメ'
+                    WHEN genre LIKE '%ビジネス%' OR genre LIKE '%経営%' THEN 'ビジネス'
+                    ELSE 'その他'
+                END as category,
+                COUNT(*) as count,
+                ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM characters), 1) as percentage
+            FROM characters
+            GROUP BY category
+            ORDER BY count DESC
+        """)
+
+        return [dict(row) for row in cursor.fetchall()]
+
+    def get_work_stats(self, limit: int = 20) -> List[dict]:
+        """
+        作品統計取得（上位N件）
+
+        Args:
+            limit: 取得件数
+
+        Returns:
+            作品ごとの統計リスト
+        """
+        if not self.conn:
+            raise RuntimeError("データベース未接続")
+
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT
+                work_title,
+                COUNT(*) as count,
+                ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM characters WHERE work_title != ''), 1) as percentage
+            FROM characters
+            WHERE work_title != ''
+            GROUP BY work_title
+            ORDER BY count DESC
+            LIMIT ?
+        """, (limit,))
+
+        return [dict(row) for row in cursor.fetchall()]
+
     def insert_character(self, data: dict):
         """
         キャラクター挿入

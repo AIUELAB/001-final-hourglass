@@ -24,7 +24,9 @@ from app.models import (
     CharacterList,
     StatsSummary,
     GenreStats,
-    GenderStats
+    GenderStats,
+    EpisodeCategoryStats,
+    WorkStats
 )
 from app.database import db
 from app.utils.csv_loader import import_csv_to_db, get_default_csv_path
@@ -244,6 +246,36 @@ async def get_gender_stats():
             count=male_count,
             percentage=round(male_count / total * 100, 1)
         )
+    ]
+
+
+@app.get("/api/stats/episode-categories", response_model=list[EpisodeCategoryStats])
+async def get_episode_category_stats():
+    """エピソードカテゴリ分布取得"""
+    stats = db.get_episode_category_stats()
+
+    return [
+        EpisodeCategoryStats(
+            category=s['category'],
+            count=s['count'],
+            percentage=s['percentage']
+        )
+        for s in stats
+    ]
+
+
+@app.get("/api/stats/works", response_model=list[WorkStats])
+async def get_work_stats(limit: int = Query(20, ge=1, le=50, description="取得件数")):
+    """作品別キャラクター数取得（上位N件）"""
+    stats = db.get_work_stats(limit=limit)
+
+    return [
+        WorkStats(
+            work_title=s['work_title'],
+            count=s['count'],
+            percentage=s['percentage']
+        )
+        for s in stats
     ]
 
 

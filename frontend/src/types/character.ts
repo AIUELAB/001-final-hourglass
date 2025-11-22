@@ -44,3 +44,15 @@ export interface GenderStats {
   count: number;
   percentage: number;
 }
+
+export interface EpisodeCategoryStats {
+  category: string;
+  count: number;
+  percentage: number;
+}
+
+export interface WorkStats {
+  work_title: string;
+  count: number;
+  percentage: number;
+}

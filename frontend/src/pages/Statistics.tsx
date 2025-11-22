@@ -6,8 +6,8 @@
 
 import { useEffect, useState } from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getStatsSummary, getGenreStats, getGenderStats } from '../api/client';
-import type { StatsSummary, GenreStats, GenderStats } from '../types/character';
+import { getStatsSummary, getGenreStats, getGenderStats, getEpisodeCategoryStats, getWorkStats } from '../api/client';
+import type { StatsSummary, GenreStats, GenderStats, EpisodeCategoryStats, WorkStats } from '../types/character';
 
 // グラフの色設定
 const COLORS = ['#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#14B8A6', '#F97316'];
@@ -16,20 +16,26 @@ export function Statistics() {
   const [summary, setSummary] = useState<StatsSummary | null>(null);
   const [genreStats, setGenreStats] = useState<GenreStats[]>([]);
   const [genderStats, setGenderStats] = useState<GenderStats[]>([]);
+  const [categoryStats, setCategoryStats] = useState<EpisodeCategoryStats[]>([]);
+  const [workStats, setWorkStats] = useState<WorkStats[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStatistics = async () => {
       setLoading(true);
       try {
-        const [summaryData, genreData, genderData] = await Promise.all([
+        const [summaryData, genreData, genderData, categoryData, workData] = await Promise.all([
           getStatsSummary(),
           getGenreStats(),
           getGenderStats(),
+          getEpisodeCategoryStats(),
+          getWorkStats(20),
         ]);
         setSummary(summaryData);
         setGenreStats(genreData);
         setGenderStats(genderData);
+        setCategoryStats(categoryData);
+        setWorkStats(workData);
       } catch (error) {
         console.error('統計データの取得に失敗:', error);
       } finally {
@@ -221,6 +227,78 @@ export function Statistics() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* 追加グラフセクション */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+          {/* エピソードカテゴリ分布グラフ */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              エピソードカテゴリ分布
+            </h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={categoryStats as any}
+                  dataKey="count"
+                  nameKey="category"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label={(entry: any) => `${entry.category}: ${entry.percentage.toFixed(1)}%`}
+                >
+                  {categoryStats.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="mt-4 space-y-2">
+              {categoryStats.map((stat, index) => (
+                <div key={stat.category} className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <div
+                      className="w-4 h-4 rounded-full mr-3"
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    />
+                    <span className="text-gray-700 font-medium">{stat.category}</span>
+                  </div>
+                  <span className="text-gray-600">
+                    {stat.count.toLocaleString()}件 ({stat.percentage.toFixed(1)}%)
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 作品別キャラクター数グラフ（TOP 20） */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              作品別キャラクター数（TOP 20）
+            </h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={workStats} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis
+                  dataKey="work_title"
+                  type="category"
+                  width={150}
+                  style={{ fontSize: '11px' }}
+                  tick={{ width: 150 }}
+                />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="count" fill="#10B981" name="キャラクター数">
+                  {workStats.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 

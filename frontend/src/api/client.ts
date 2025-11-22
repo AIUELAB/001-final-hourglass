@@ -5,7 +5,7 @@
  */
 
 import axios from 'axios';
-import type { Character, CharacterList, StatsSummary, GenreStats, GenderStats } from '../types/character';
+import type { Character, CharacterList, StatsSummary, GenreStats, GenderStats, EpisodeCategoryStats, WorkStats } from '../types/character';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
@@ -79,6 +79,24 @@ export const getGenreStats = async (): Promise<GenreStats[]> => {
  */
 export const getGenderStats = async (): Promise<GenderStats[]> => {
   const response = await apiClient.get<GenderStats[]>('/stats/gender');
+  return response.data;
+};
+
+/**
+ * エピソードカテゴリ統計取得
+ */
+export const getEpisodeCategoryStats = async (): Promise<EpisodeCategoryStats[]> => {
+  const response = await apiClient.get<EpisodeCategoryStats[]>('/stats/episode-categories');
+  return response.data;
+};
+
+/**
+ * 作品統計取得（上位N件）
+ */
+export const getWorkStats = async (limit: number = 20): Promise<WorkStats[]> => {
+  const response = await apiClient.get<WorkStats[]>('/stats/works', {
+    params: { limit },
+  });
   return response.data;
 };
 

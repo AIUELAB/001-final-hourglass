@@ -50,3 +50,17 @@ class GenderStats(BaseModel):
     gender: str
     count: int
     percentage: float
+
+
+class EpisodeCategoryStats(BaseModel):
+    """エピソードカテゴリ統計モデル"""
+    category: str
+    count: int
+    percentage: float
+
+
+class WorkStats(BaseModel):
+    """作品統計モデル"""
+    work_title: str
+    count: int
+    percentage: float

@@ -64,3 +64,40 @@ class WorkStats(BaseModel):
     work_title: str
     count: int
     percentage: float
+
+
+class FameScore(BaseModel):
+    """有名度スコアモデル"""
+    id: int
+    person_name: str
+    fame_tier: int
+    fame_score: int
+    composite_score: int
+    wikipedia_ja: bool
+    textbook: bool
+    award_level: int
+    notoriety: bool
+    last_updated: str
+
+
+class FameRanking(BaseModel):
+    """有名度ランキングモデル"""
+    total: int
+    rankings: list[FameScore]
+
+
+class FameDetail(BaseModel):
+    """有名度詳細モデル"""
+    person_name: str
+    fame_tier: int
+    fame_score: int
+    composite_score: int
+    quality_score: float
+    wikipedia_ja: bool
+    textbook: bool
+    award_level: int
+    notoriety: bool
+    category: str
+    person_type: str
+    evaluation_breakdown: dict
+    last_updated: str

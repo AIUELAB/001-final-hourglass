@@ -5,7 +5,7 @@
  */
 
 import axios from 'axios';
-import type { Character, CharacterList, StatsSummary, GenreStats, GenderStats, EpisodeCategoryStats, WorkStats } from '../types/character';
+import type { Character, CharacterList, StatsSummary, GenreStats, GenderStats, EpisodeCategoryStats, WorkStats, FameRanking } from '../types/character';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
@@ -105,5 +105,18 @@ export const getWorkStats = async (limit: number = 20): Promise<WorkStats[]> => 
  */
 export const healthCheck = async (): Promise<{ status: string; message: string }> => {
   const response = await apiClient.get('/health');
+  return response.data;
+};
+
+/**
+ * 有名度ランキング取得
+ */
+export const getFameRanking = async (
+  limit: number = 100,
+  orderBy: 'fame_score' | 'composite_score' = 'fame_score'
+): Promise<FameRanking> => {
+  const response = await apiClient.get<FameRanking>('/stats/fame-ranking', {
+    params: { limit, order_by: orderBy },
+  });
   return response.data;
 };

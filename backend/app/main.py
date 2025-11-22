@@ -176,10 +176,10 @@ async def get_stats_summary():
     }
 
     # 全キャラクター取得
-    all_characters, total = db.get_all_characters(page=1, page_size=1000)
+    all_characters, total = db.get_all_characters(page=1, page_size=3000)
 
-    # 女性・男性カウント
-    female_count = sum(1 for c in all_characters if c.character_name in female_characters)
+    # 女性・男性カウント（dictとして処理）
+    female_count = sum(1 for c in all_characters if c.get('character_name') in female_characters)
     male_count = total - female_count
 
     # ジャンル数
@@ -227,10 +227,10 @@ async def get_gender_stats():
     }
 
     # 全キャラクター取得
-    all_characters, total = db.get_all_characters(page=1, page_size=1000)
+    all_characters, total = db.get_all_characters(page=1, page_size=3000)
 
-    # 女性・男性カウント
-    female_count = sum(1 for c in all_characters if c.character_name in female_characters)
+    # 女性・男性カウント（dictとして処理）
+    female_count = sum(1 for c in all_characters if c.get('character_name') in female_characters)
     male_count = total - female_count
 
     return [

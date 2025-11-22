@@ -1,34 +1,105 @@
 {
-  "session_id": "session_20251121_190000",
-  "current_task": "Phase 21-25完了",
-  "completed_tasks": [
-    "Phase 21: テストカバレッジ向上（6%→17%、+16テストファイル）",
-    "Phase 22: ドキュメント整備（READMEバッジ修正）",
-    "Phase 23: コード品質改善（69件修正、-150行）",
-    "Phase 24: mypy設定最適化（76→0エラー）",
-    "Phase 25: フォーマット統一（import順序修正）"
-  ],
-  "next_steps": [
-    "iOS開発継続（final-hourglass iOS）",
-    "セキュリティ警告対応（bandit）",
-    "テストカバレッジさらなる向上（17%→25%目標）"
-  ],
-  "context": "品質改善フェーズ完了。ruff/mypy/pytest全てパス。256テスト合格、カバレッジ17%。",
-  "quality_metrics": {
-    "ruff_errors": 0,
-    "mypy_errors": 0,
-    "pytest_passed": 256,
-    "pytest_skipped": 86,
-    "coverage": "17%"
+  "session_date": "2025-11-22",
+  "session_start_time": "09:30",
+  "session_end_time": "10:00",
+  "session_summary": "ドキュメント統合・品質要件完全明記作業",
+  "session_type": "documentation",
+  "episodes_data": {
+    "start_episodes": 2614,
+    "end_episodes": 2614,
+    "added_episodes": 0,
+    "start_coverage": "11.55%",
+    "end_coverage": "11.55%"
   },
-  "commits": [
-    "fceaf741 - テスト追加",
-    "0e0dd6cc - README修正",
-    "7c556038 - 未使用コード削除",
-    "e1f17607 - コード簡素化",
-    "a7d31900 - スタイル修正",
-    "89b0ee71 - mypy設定修正",
-    "23c27992 - mypy ignore拡張"
+  "main_tasks_completed": [
+    "✅ ドキュメント統合: FINAL_HOURGLASS_SYSTEM_COMPLETE_REPORT.md + THINK_DIFFERENT.md",
+    "✅ 人生の節目（24カテゴリ）を完全明記",
+    "✅ ユーザー体験設計目標（6要素）を追加",
+    "✅ 統合ドキュメント構成: Part I (Philosophy) + Part II (Technical)",
+    "✅ milestone keywords拡張（セクション7.3）",
+    "✅ ユーザー体験設計目標セクション追加（セクション7.4）",
+    "✅ RULE_162に人生の節目への参照追加",
+    "✅ THINK_DIFFERENT.mdをアーカイブに移動"
   ],
-  "timestamp": "2025-11-21T19:30:00+09:00"
+  "updated_files": [
+    {
+      "file": "FINAL_HOURGLASS_SYSTEM_COMPLETE_REPORT.md",
+      "action": "統合・拡張",
+      "changes": [
+        "Part I: The Philosophy追加（THINK_DIFFERENT全体）",
+        "人生の節目24カテゴリ明記",
+        "ユーザー体験設計目標6要素明記",
+        "milestone keywords拡張",
+        "RULE_162拡張"
+      ],
+      "size": "58KB",
+      "lines": 1829
+    },
+    {
+      "file": "archive/docs/THINK_DIFFERENT.md.archived",
+      "action": "アーカイブ",
+      "original": "THINK_DIFFERENT.md"
+    }
+  ],
+  "key_additions": {
+    "life_milestones_24": [
+      "記録", "事件", "偉業", "挫折", "発見", "復活", "転機", "転落",
+      "喪失", "遭遇", "達成", "挑戦", "受賞", "表彰", "叙勲", "選出",
+      "退任", "出会い", "別れ", "決断", "転職", "結婚", "離婚", "誕生", "死別"
+    ],
+    "user_experience_goals_6": [
+      "関心 (Interest)",
+      "感銘 (Impression)",
+      "興味深い (Fascinating)",
+      "活力 (Vitality)",
+      "面白い (Engaging)",
+      "センセーショナル (Sensational)"
+    ]
+  },
+  "git_status": {
+    "branch": "main",
+    "last_commit": "928aac13",
+    "uncommitted_changes": true,
+    "changed_files": [
+      "FINAL_HOURGLASS_SYSTEM_COMPLETE_REPORT.md",
+      "archive/docs/THINK_DIFFERENT.md.archived"
+    ]
+  },
+  "next_steps": {
+    "immediate": [
+      "統合ドキュメントのコミット",
+      "README.mdの更新（統合ドキュメントへの参照）"
+    ],
+    "upcoming": [
+      "さらにカテゴリ追加（不足分野の確認）",
+      "エピソード品質チェック（重複・テンプレート検出）",
+      "ダッシュボード機能改善"
+    ]
+  },
+  "background_processes": {
+    "backend": {
+      "command": "cd backend && python3 -m uvicorn app.main:app --reload --port 8000",
+      "status": "running",
+      "note": "次回起動時に再起動が必要"
+    },
+    "frontend": {
+      "command": "cd frontend && npm run dev",
+      "status": "running",
+      "note": "次回起動時に再起動が必要"
+    }
+  },
+  "key_files": {
+    "main_documentation": "FINAL_HOURGLASS_SYSTEM_COMPLETE_REPORT.md",
+    "quality_rules": "episode_quality_rules_v3_1.md",
+    "quality_guardian": "pdca_guardian.py",
+    "main_csv": "MASTER_EPISODES_CURRENT.csv",
+    "dashboard": "episode_database_dashboard_v2.html"
+  },
+  "restoration_command": "前回のセッションを復元してください",
+  "notes": [
+    "ドキュメント統合により、プロジェクトの哲学と技術仕様が1ファイルに統合されました",
+    "人生の節目24カテゴリとユーザー体験設計目標が完全に明記されました",
+    "THINK_DIFFERENT.mdはarchive/docs/に保存されています",
+    "バックグラウンドプロセス（Backend/Frontend）が実行中です"
+  ]
 }

@@ -7,6 +7,7 @@ FastAPI メインアプリケーション
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from typing import Optional
 import sys
 import os
@@ -253,15 +254,27 @@ async def get_gender_stats():
 
 @app.get("/")
 async def root():
-    """ルートエンドポイント"""
-    return {
-        "message": "最期の砂時計 キャラクターデータベースAPI",
-        "version": "1.0.0",
-        "docs": "/docs",
-        "endpoints": {
-            "characters": "/api/characters",
-            "search": "/api/characters/search/?q=桜木",
-            "filter": "/api/characters/filter/?genre=スポーツ漫画",
-            "stats": "/api/stats/summary"
+    """ルートエンドポイント - HTMLダッシュボードを返す"""
+    # プロジェクトルートのHTMLファイルを返す
+    html_path = Path(__file__).parent.parent.parent / "episode_database_dashboard_v2.html"
+
+    if html_path.exists():
+        return FileResponse(
+            html_path,
+            media_type="text/html",
+            headers={"Cache-Control": "no-cache"}
+        )
+    else:
+        # HTMLが見つからない場合はJSON情報を返す
+        return {
+            "message": "最期の砂時計 キャラクターデータベースAPI",
+            "version": "1.0.0",
+            "docs": "/docs",
+            "dashboard": "episode_database_dashboard_v2.html not found",
+            "endpoints": {
+                "characters": "/api/characters",
+                "search": "/api/characters/search/?q=桜木",
+                "filter": "/api/characters/filter/?genre=スポーツ漫画",
+                "stats": "/api/stats/summary"
+            }
         }
-    }

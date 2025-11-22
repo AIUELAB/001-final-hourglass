@@ -1,11 +1,48 @@
-# Claude Code MCP テンプレートプロジェクト 🏆 v2.0
+# Final Hourglass - 最期の砂時計 ⏳
 
-<!-- cSpell:words Ollama mkdocstrings isort numpy Docstrings firecrawl pytest Apidog venv myuser myrepo modelcontextprotocol FIRECRAWL -->
-
-<!-- Security Badges -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Test Coverage](https://img.shields.io/badge/coverage-17%25-yellow.svg)](./tests/)
+[![Episodes](https://img.shields.io/badge/episodes-2614-brightgreen.svg)](./MASTER_EPISODES_CURRENT.csv)
+[![Progress](https://img.shields.io/badge/progress-11.55%25-yellow.svg)](./MASTER_EPISODES_CURRENT.csv)
+
+**人生の節目を記録し、最期に振り返る究極のエピソード生成システム**
+
+> "The ones who refuse to compromise on quality"
+> "The ones who believe in evidence over assumptions"
+> "The ones who push the human race forward"
+
+## 📖 ドキュメント
+
+### 📚 完全ドキュメント
+**[FINAL_HOURGLASS_SYSTEM_COMPLETE_REPORT.md](./FINAL_HOURGLASS_SYSTEM_COMPLETE_REPORT.md)** - プロジェクトの哲学と技術仕様の統合ドキュメント（1,829行）
+
+**Part I: The Philosophy** - Think Different（品質哲学、10の品質ゲート、ビジョン）
+**Part II: The Technical Specification** - 技術仕様（ルール詳細、評価システム、実装ガイド）
+
+### 📊 現在の状況
+- **エピソード数**: 2,614件
+- **達成率**: 11.55% / 目標 22,630件
+- **実在人物**: 2,550件
+- **架空キャラクター**: 51件（知名度保護対象）
+
+---
+
+## 🎯 プロジェクト概要
+
+Final Hourglassは、著名人や架空キャラクターの人生における重要な節目（24カテゴリ）を記録し、最期に振り返るためのエピソード生成システムです。
+
+### 人生の節目（24カテゴリ）
+記録、事件、偉業、挫折、発見、復活、転機、転落、喪失、遭遇、達成、挑戦、受賞、表彰、叙勲、選出、退任、出会い、別れ、決断、転職、結婚、離婚、誕生、死別
+
+### ユーザー体験設計目標
+関心、感銘、興味深い、活力、面白い、センセーショナル
+
+---
+
+# Claude Code MCP テンプレートプロジェクト 🏆 v2.0
+
+<!-- cSpell:words Ollama mkdocstrings isort numpy Docstrings firecrawl pytest Apidog venv myuser myrepo modelcontextprotocol FIRECRAWL -->
 
 **2025年最新ベストプラクティス対応**のClaude Codeプロジェクトテンプレートです。GitHub、Web検索、ブラウザ自動化、クラウドサービス連携など、25以上のMCPサーバーがすぐに使えます。
 

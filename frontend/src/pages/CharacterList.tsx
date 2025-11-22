@@ -6,7 +6,7 @@
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getCharacters, searchCharacters } from '../api/client';
+import { getCharacters, searchCharacters, filterCharacters, getGenreStats } from '../api/client';
 import type { Character } from '../types/character';
 
 export function CharacterList() {
@@ -16,12 +16,18 @@ export function CharacterList() {
   const [pageSize] = useState(50);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState<string>('');
+  const [genres, setGenres] = useState<string[]>([]);
 
   const fetchCharacters = async () => {
     setLoading(true);
     try {
       if (searchQuery.trim()) {
         const results = await searchCharacters(searchQuery);
+        setCharacters(results);
+        setTotal(results.length);
+      } else if (selectedGenre) {
+        const results = await filterCharacters(selectedGenre);
         setCharacters(results);
         setTotal(results.length);
       } else {
@@ -37,8 +43,20 @@ export function CharacterList() {
   };
 
   useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const stats = await getGenreStats();
+        setGenres(stats.map(s => s.genre));
+      } catch (error) {
+        console.error('ジャンルの取得に失敗:', error);
+      }
+    };
+    fetchGenres();
+  }, []);
+
+  useEffect(() => {
     fetchCharacters();
-  }, [page]);
+  }, [page, selectedGenre]);
 
   const handleSearch = () => {
     setPage(1);
@@ -74,7 +92,7 @@ export function CharacterList() {
       </div>
 
       {/* 検索バー */}
-      <div className="mb-6 flex gap-3">
+      <div className="mb-4 flex gap-3">
         <input
           type="text"
           value={searchQuery}
@@ -100,6 +118,42 @@ export function CharacterList() {
           >
             クリア
           </button>
+        )}
+      </div>
+
+      {/* ジャンルフィルター */}
+      <div className="mb-6 flex gap-3 items-center">
+        <label className="text-gray-700 font-medium">ジャンル:</label>
+        <select
+          value={selectedGenre}
+          onChange={(e) => {
+            setSelectedGenre(e.target.value);
+            setPage(1);
+          }}
+          className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
+        >
+          <option value="">全てのジャンル</option>
+          {genres.map((genre) => (
+            <option key={genre} value={genre}>
+              {genre}
+            </option>
+          ))}
+        </select>
+        {selectedGenre && (
+          <button
+            onClick={() => {
+              setSelectedGenre('');
+              setPage(1);
+            }}
+            className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+          >
+            フィルタークリア
+          </button>
+        )}
+        {(searchQuery || selectedGenre) && (
+          <div className="ml-auto text-sm text-gray-600">
+            {total.toLocaleString()}件 の結果
+          </div>
         )}
       </div>
 
@@ -138,13 +192,15 @@ export function CharacterList() {
               </div>
 
               <div className="flex items-center text-gray-600">
-                <span className="font-medium mr-2">年齢:</span>
-                <span>{character.age_in_story}</span>
+                <span className="font-medium mr-2">カテゴリ:</span>
+                <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">
+                  {character.episode_category}
+                </span>
               </div>
 
               <div className="mt-3 pt-3 border-t border-gray-200">
                 <p className="text-gray-700 text-xs line-clamp-3">
-                  {character.key_episode}
+                  {character.episode_text}
                 </p>
               </div>
             </div>
@@ -157,7 +213,7 @@ export function CharacterList() {
       </div>
 
       {/* ページネーション */}
-      {!searchQuery && (
+      {!searchQuery && !selectedGenre && (
         <div className="flex justify-center items-center space-x-4">
           <button
             onClick={() => setPage(Math.max(1, page - 1))}

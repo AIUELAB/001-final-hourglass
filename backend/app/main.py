@@ -8,6 +8,7 @@ FastAPI メインアプリケーション
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from typing import Optional
 import sys
 import os
@@ -27,10 +28,12 @@ from app.models import (
     GenreStats,
     GenderStats,
     EpisodeCategoryStats,
-    WorkStats
+    WorkStats,
+    FameScore,
+    FameRanking
 )
 from app.database import db
-from app.utils.csv_loader import import_csv_to_db, get_default_csv_path
+from app.utils.csv_loader import import_csv_to_db, get_default_csv_path, get_csv_modification_time
 
 
 # FastAPIアプリケーション初期化
@@ -52,6 +55,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 静的ファイルマウント（CSVファイルへのアクセス用）
+project_root = Path(__file__).parent.parent.parent
+app.mount("/data", StaticFiles(directory=str(project_root)), name="data")
 
 
 @app.on_event("startup")
@@ -89,6 +96,70 @@ async def shutdown():
 async def health_check():
     """ヘルスチェックエンドポイント"""
     return {"status": "healthy", "message": "API is running"}
+
+
+# ========================================
+# データ管理エンドポイント
+# ========================================
+
+@app.get("/api/data/version")
+async def get_data_version():
+    """
+    CSVデータのバージョン情報取得
+
+    Returns:
+        - csv_path: CSVファイルパス
+        - last_modified: 最終更新時刻（UNIXタイムスタンプ）
+        - last_modified_iso: 最終更新時刻（ISO 8601形式）
+    """
+    from datetime import datetime
+
+    csv_path = get_default_csv_path()
+    mtime = get_csv_modification_time(str(csv_path))
+
+    return {
+        "csv_path": str(csv_path),
+        "last_modified": mtime,
+        "last_modified_iso": datetime.fromtimestamp(mtime).isoformat() if mtime > 0 else None,
+        "exists": csv_path.exists()
+    }
+
+
+@app.post("/api/data/refresh")
+async def refresh_data():
+    """
+    CSVデータを強制的に再読み込み
+
+    データベースの既存データを削除し、CSVから再インポートします。
+
+    Returns:
+        - success: 成功フラグ
+        - count: インポート件数
+        - message: メッセージ
+    """
+    try:
+        csv_path = get_default_csv_path()
+
+        if not csv_path.exists():
+            raise HTTPException(
+                status_code=404,
+                detail=f"CSVファイルが見つかりません: {csv_path}"
+            )
+
+        # 強制再インポート
+        count = import_csv_to_db(db, str(csv_path), force=True)
+
+        return {
+            "success": True,
+            "count": count,
+            "message": f"データを再読み込みしました（{count}件）"
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"データ再読み込みエラー: {str(e)}"
+        )
 
 
 # ========================================
@@ -167,23 +238,12 @@ async def filter_characters(
 async def get_stats_summary():
     """統計サマリー取得"""
 
-    # 女性キャラクターリスト
-    female_characters = {
-        'フグ田サザエ', 'ナミ', 'ニコ・ロビン', '毛利蘭', '竈門禰豆子',
-        '胡蝶しのぶ', '浅倉南', '月野うさぎ', '綾波レイ',
-        '猪熊柔', '渚美都', '大林萬理子', '速水ヒロ', '恩田希', '猪野井香鈴',
-        '鹿目まどか', '暁美ほむら', '美墨なぎさ（キュアブラック）', '平沢唯', '涼宮ハルヒ',
-        '峰不二子', 'ナウシカ', '神楽', 'リナ・インバース',
-        '咲', '田所恵', '見崎鳴',
-        '春野サクラ', '灰原哀', 'アスナ（結城明日奈）'
-    }
-
     # 全キャラクター取得
-    all_characters, total = db.get_all_characters(page=1, page_size=3000)
+    all_characters, total = db.get_all_characters(page=1, page_size=10000)
 
-    # 女性・男性カウント（dictとして処理）
-    female_count = sum(1 for c in all_characters if c.get('character_name') in female_characters)
-    male_count = total - female_count
+    # curator_notesから実在/架空を判定（"Type: FICTIONAL" または "Type: REAL" 形式）
+    fictional_count = sum(1 for c in all_characters if 'TYPE: FICTIONAL' in c.get('curator_notes', '').upper())
+    real_count = total - fictional_count
 
     # ジャンル数
     genre_stats = db.get_genre_stats()
@@ -192,9 +252,9 @@ async def get_stats_summary():
     return StatsSummary(
         total_characters=total,
         total_genres=total_genres,
-        female_count=female_count,
-        male_count=male_count,
-        female_ratio=round(female_count / total * 100, 1),
+        female_count=fictional_count,
+        male_count=real_count,
+        female_ratio=round(fictional_count / total * 100, 1) if total > 0 else 0,
         era_range="1960年代～2020年代"
     )
 
@@ -218,34 +278,23 @@ async def get_genre_stats():
 async def get_gender_stats():
     """性別比率取得"""
 
-    # 女性キャラクターリスト
-    female_characters = {
-        'フグ田サザエ', 'ナミ', 'ニコ・ロビン', '毛利蘭', '竈門禰豆子',
-        '胡蝶しのぶ', '浅倉南', '月野うさぎ', '綾波レイ',
-        '猪熊柔', '渚美都', '大林萬理子', '速水ヒロ', '恩田希', '猪野井香鈴',
-        '鹿目まどか', '暁美ほむら', '美墨なぎさ（キュアブラック）', '平沢唯', '涼宮ハルヒ',
-        '峰不二子', 'ナウシカ', '神楽', 'リナ・インバース',
-        '咲', '田所恵', '見崎鳴',
-        '春野サクラ', '灰原哀', 'アスナ（結城明日奈）'
-    }
-
     # 全キャラクター取得
-    all_characters, total = db.get_all_characters(page=1, page_size=3000)
+    all_characters, total = db.get_all_characters(page=1, page_size=10000)
 
-    # 女性・男性カウント（dictとして処理）
-    female_count = sum(1 for c in all_characters if c.get('character_name') in female_characters)
-    male_count = total - female_count
+    # curator_notesから実在/架空を判定（"Type: FICTIONAL" または "Type: REAL" 形式）
+    fictional_count = sum(1 for c in all_characters if 'TYPE: FICTIONAL' in c.get('curator_notes', '').upper())
+    real_count = total - fictional_count
 
     return [
         GenderStats(
-            gender="女性",
-            count=female_count,
-            percentage=round(female_count / total * 100, 1)
+            gender="架空",
+            count=fictional_count,
+            percentage=round(fictional_count / total * 100, 1) if total > 0 else 0
         ),
         GenderStats(
-            gender="男性",
-            count=male_count,
-            percentage=round(male_count / total * 100, 1)
+            gender="実在",
+            count=real_count,
+            percentage=round(real_count / total * 100, 1) if total > 0 else 0
         )
     ]
 
@@ -280,33 +329,112 @@ async def get_work_stats(limit: int = Query(20, ge=1, le=50, description="取得
     ]
 
 
+@app.get("/api/stats/fame-ranking", response_model=FameRanking)
+async def get_fame_ranking(
+    limit: int = Query(100, ge=1, le=500, description="取得件数"),
+    order_by: str = Query('fame_score', description="ソートフィールド (fame_score/composite_score)")
+):
+    """
+    有名度ランキング取得
+
+    - **limit**: 取得件数（最大500）
+    - **order_by**: ソートフィールド
+      - fame_score: 有名度スコア順
+      - composite_score: 総合スコア順
+    """
+    rankings, total = db.get_fame_ranking(limit=limit, order_by=order_by)
+
+    return FameRanking(
+        total=total,
+        rankings=[
+            FameScore(
+                id=r['id'],
+                person_name=r['person_name'],
+                fame_tier=r['fame_tier'],
+                fame_score=r['fame_score'],
+                composite_score=r['composite_score'],
+                wikipedia_ja=r['wikipedia_ja'],
+                textbook=r['textbook'],
+                award_level=r['award_level'],
+                notoriety=r['notoriety'],
+                last_updated=r['last_updated']
+            )
+            for r in rankings
+        ]
+    )
+
+
 # ========================================
 # ルートエンドポイント
 # ========================================
 
 @app.get("/")
 async def root():
-    """ルートエンドポイント - HTMLダッシュボードを返す"""
-    # preservedディレクトリのHTMLファイルを返す
+    """ルートエンドポイント - HTMLダッシュボード v3を返す"""
+    # preservedディレクトリのHTMLファイルを返す（v3がデフォルト）
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v3.html"
+
+    if html_path.exists():
+        return FileResponse(
+            html_path,
+            media_type="text/html",
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
+    else:
+        # HTMLが見つからない場合はJSON情報を返す
+        return {
+            "message": "最期の砂時計 キャラクターデータベースAPI",
+            "version": "3.0.0",
+            "docs": "/docs",
+            "dashboard": f"episode_database_dashboard_v3.html not found at {html_path}",
+            "endpoints": {
+                "characters": "/api/characters",
+                "search": "/api/characters/search/?q=桜木",
+                "filter": "/api/characters/filter/?genre=スポーツ漫画",
+                "stats": "/api/stats/summary",
+                "v2": "/v2",
+                "v3": "/v3"
+            }
+        }
+
+
+@app.get("/v2")
+async def dashboard_v2():
+    """ダッシュボード v2 へのアクセス"""
     html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v2.html"
 
     if html_path.exists():
         return FileResponse(
             html_path,
             media_type="text/html",
-            headers={"Cache-Control": "no-cache"}
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
         )
     else:
-        # HTMLが見つからない場合はJSON情報を返す
-        return {
-            "message": "最期の砂時計 キャラクターデータベースAPI",
-            "version": "1.0.0",
-            "docs": "/docs",
-            "dashboard": f"episode_database_dashboard_v2.html not found at {html_path}",
-            "endpoints": {
-                "characters": "/api/characters",
-                "search": "/api/characters/search/?q=桜木",
-                "filter": "/api/characters/filter/?genre=スポーツ漫画",
-                "stats": "/api/stats/summary"
+        raise HTTPException(status_code=404, detail="Dashboard v2 not found")
+
+
+@app.get("/v3")
+async def dashboard_v3():
+    """ダッシュボード v3 へのアクセス"""
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v3.html"
+
+    if html_path.exists():
+        return FileResponse(
+            html_path,
+            media_type="text/html",
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0"
             }
-        }
+        )
+    else:
+        raise HTTPException(status_code=404, detail="Dashboard v3 not found")

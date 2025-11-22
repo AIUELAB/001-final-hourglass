@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-11-22T08:46:34.627055",
+  "timestamp": "2025-11-22T20:46:38.433743",
   "summary": {
     "total_checks": 5,
-    "pass": 4,
-    "warn": 2,
+    "pass": 3,
+    "warn": 3,
     "fail": 0
   },
   "checks": [
@@ -16,7 +16,7 @@
         "documented_rules": 4,
         "documentation_rate": 100.0
       },
-      "timestamp": "2025-11-22T08:46:34.624036"
+      "timestamp": "2025-11-22T20:46:38.431187"
     },
     {
       "check_name": "矛盾検出",
@@ -26,22 +26,22 @@
         "contradiction_count": 0,
         "contradictions": []
       },
-      "timestamp": "2025-11-22T08:46:34.624102"
+      "timestamp": "2025-11-22T20:46:38.431218"
     },
     {
       "check_name": "同期ステータス",
-      "status": "PASS",
-      "message": "同期正常 (16.6時間前)",
+      "status": "WARN",
+      "message": "同期が古い (28.6時間前, 閾値: 24時間)",
       "details": {
         "last_sync": "2025-11-21T16:08:46.524314",
-        "age_hours": 16.630027784166668,
+        "age_hours": 28.631085320555556,
         "checksum_match": true,
         "targets_synced": [
           "pdca_guardian",
           "episode_guardian"
         ]
       },
-      "timestamp": "2025-11-22T08:46:34.624352"
+      "timestamp": "2025-11-22T20:46:38.431483"
     },
     {
       "check_name": "ファイル整合性",
@@ -50,7 +50,7 @@
       "details": {
         "issues": []
       },
-      "timestamp": "2025-11-22T08:46:34.626709"
+      "timestamp": "2025-11-22T20:46:38.433552"
     },
     {
       "check_name": "ルール統計",
@@ -61,19 +61,19 @@
         "active_rules": 4,
         "deprecated_rules": 0
       },
-      "timestamp": "2025-11-22T08:46:34.626742"
+      "timestamp": "2025-11-22T20:46:38.433579"
     },
     {
       "check_name": "総合判定",
       "status": "WARN",
-      "message": "ヘルスチェック警告: 1件のWARN",
+      "message": "ヘルスチェック警告: 2件のWARN",
       "details": {
         "total_checks": 5,
-        "pass_count": 4,
-        "warn_count": 1,
+        "pass_count": 3,
+        "warn_count": 2,
         "fail_count": 0
       },
-      "timestamp": "2025-11-22T08:46:34.626760"
+      "timestamp": "2025-11-22T20:46:38.433598"
     }
   ]
 }

@@ -1,6 +1,7 @@
 """データベース操作"""
 
 import sqlite3
+import csv
 from typing import Optional, List, Tuple
 from pathlib import Path
 
@@ -280,6 +281,68 @@ class Database:
             data.get('curator_notes', ''),
         ))
         self.conn.commit()
+
+    def get_fame_ranking(self, limit: int = 100, order_by: str = 'fame_score') -> Tuple[List[dict], int]:
+        """
+        有名度ランキング取得（CSVから直接読み取り）
+
+        Args:
+            limit: 取得件数
+            order_by: ソートフィールド ('fame_score', 'composite_score')
+
+        Returns:
+            (ランキングリスト, 総件数)
+        """
+        # CSVファイルパス
+        csv_path = Path(__file__).parent.parent.parent / "MASTER_EPISODES_CURRENT.csv"
+
+        rankings = []
+        row_id = 0
+
+        try:
+            with open(csv_path, 'r', encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f)
+
+                for row in reader:
+                    # fame_scoreが存在し、空でない場合のみ追加
+                    fame_score = row.get('fame_score', '')
+                    if fame_score and fame_score.isdigit():
+                        row_id += 1
+                        rankings.append({
+                            'id': row_id,
+                            'person_name': row.get('person_name', ''),
+                            'fame_tier': int(row.get('fame_tier', 0)),
+                            'fame_score': int(fame_score),
+                            'composite_score': int(row.get('composite_score', 0)) if row.get('composite_score', '').isdigit() else 0,
+                            'wikipedia_ja': row.get('wikipedia_ja', '').upper() == 'TRUE',
+                            'textbook': row.get('textbook', '').upper() == 'TRUE',
+                            'award_level': int(row.get('award_level', 0)),
+                            'notoriety': row.get('notoriety', '').upper() == 'TRUE',
+                            'last_updated': row.get('fame_score_updated_at', ''),
+                            'category': row.get('category', ''),
+                            'person_type': row.get('person_type', ''),
+                            'quality_score': float(row.get('quality_score', 0) or 0)
+                        })
+
+            # ソート
+            if order_by == 'composite_score':
+                rankings.sort(key=lambda x: x['composite_score'], reverse=True)
+            else:
+                rankings.sort(key=lambda x: x['fame_score'], reverse=True)
+
+            total = len(rankings)
+
+            # 上位N件取得
+            rankings = rankings[:limit]
+
+            return rankings, total
+
+        except FileNotFoundError:
+            print(f"❌ CSVファイルが見つかりません: {csv_path}")
+            return [], 0
+        except Exception as e:
+            print(f"❌ ランキング取得エラー: {e}")
+            return [], 0
 
 
 # グローバルインスタンス

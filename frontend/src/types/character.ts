@@ -56,3 +56,21 @@ export interface WorkStats {
   count: number;
   percentage: number;
 }
+
+export interface FameScore {
+  id: number;
+  person_name: string;
+  fame_tier: number;
+  fame_score: number;
+  composite_score: number;
+  wikipedia_ja: boolean;
+  textbook: boolean;
+  award_level: number;
+  notoriety: boolean;
+  last_updated: string;
+}
+
+export interface FameRanking {
+  total: number;
+  rankings: FameScore[];
+}

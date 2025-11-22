@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { Statistics } from './pages/Statistics'
 import { CharacterList } from './pages/CharacterList'
 import { CharacterDetail } from './pages/CharacterDetail'
+import { FameRanking } from './pages/FameRanking'
 
 function App() {
   return (
@@ -28,6 +29,12 @@ function App() {
                   >
                     📚 キャラクター一覧
                   </Link>
+                  <Link
+                    to="/ranking"
+                    className="px-4 py-2 rounded-lg hover:bg-white/20 transition-colors"
+                  >
+                    🏆 有名度ランキング
+                  </Link>
                 </div>
               </div>
               <div className="text-sm opacity-90">
@@ -42,6 +49,7 @@ function App() {
           <Route path="/" element={<Statistics />} />
           <Route path="/characters" element={<CharacterList />} />
           <Route path="/characters/:id" element={<CharacterDetail />} />
+          <Route path="/ranking" element={<FameRanking />} />
         </Routes>
       </div>
     </BrowserRouter>

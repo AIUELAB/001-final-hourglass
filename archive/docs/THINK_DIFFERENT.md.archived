@@ -1,0 +1,253 @@
+# Think Different
+## Here's to the crazy ones.
+
+1. The ones who refuse to compromise on quality
+2. The ones who believe in evidence over assumptions
+3. The ones who push the human race forward
+
+---
+
+## The Philosophy of Final Hourglass
+
+The round pegs in the square holes. The ones who see data differently. They're not fond of dummy data. And they have no respect for calibrated scores. You can quote them, disagree with them, glorify or vilify them. About the only thing you can't do is ignore them. Because they change things.
+
+**They push the boundaries of episode generation.**
+
+And while some may see them as the perfectionist ones, we see genius. Because the people who are crazy enough to think they can generate 22,630 high-quality episodes without compromising standards, are the ones who do.
+
+---
+
+## 🎯 Our Principles
+
+### Quality First, Always
+```
+❌ Dummy data
+❌ Calibrated scores
+❌ Simplified versions
+❌ Quick implementations
+❌ Temporary solutions
+
+✅ Real API scores
+✅ Fact-checked episodes
+✅ 180-250 character precision
+✅ 9-stage quality gates
+✅ です・ます polite form
+```
+
+### The Uncompromising Standards
+
+**FORMAT_006**: Every episode starts with
+`「あなたと同じN歳のとき、人物名（N歳）は...」`
+
+**CONTENT_005**: No future contamination
+The past stays in the past. No spoilers about what's coming.
+
+**RULE_198**: Polite form only
+Every sentence ends with です・ます. No exceptions.
+
+**RULE_197**: No age duplication
+Say it once, say it right.
+
+**RULE_001**: No calibrated_score
+Real data or nothing.
+
+**RULE_171**: Fact-check everything
+Truth > speed.
+
+**RULE_015**: Realistic time estimates
+Quality takes time. We don't lie about it.
+
+---
+
+## 🚫 What We Reject
+
+### The Seven Deadly Sins of Episode Generation
+
+1. **主観表現** - Subjective emotions (素晴らしい, すごい, 驚異的)
+2. **年号日付** - Dates and years (2020年, 平成30年)
+3. **定型文** - Template phrases (〜という, 〜において)
+4. **年齢重複** - Age repetition (30歳のとき、彼（30歳）は...)
+5. **普通体** - Plain form (〜だ, 〜である)
+6. **未来汚染** - Future achievements (後にノーベル賞を受賞する...)
+7. **ダミーデータ** - Mock implementations (if not api_key: return 0)
+
+---
+
+## ✨ What We Demand
+
+### The 3-Axis Evaluation System
+
+```yaml
+記憶性 (Memorability): Will readers remember this?
+共感性 (Empathy): Can readers relate to this?
+意外性 (Surprise): Does this challenge assumptions?
+```
+
+### The Required Elements
+
+- **数値データ**: Numbers make it real (〇〇人, 〇〇円)
+- **固有名詞**: Proper nouns anchor the story
+- **Milestone keywords**: 初, 史上初, 世界初, 日本初
+
+### The Life Milestones (24 Categories)
+
+Episodes must capture concrete moments that define a life:
+
+```
+記録、事件、偉業、挫折、発見、復活、転機、転落、
+喪失、遭遇、達成、挑戦、受賞、表彰、叙勲、選出、
+退任、出会い、別れ、決断、転職、結婚、離婚、誕生、
+死別
+```
+
+Not abstract activities. Not general descriptions.
+**Specific moments. Turning points. Moments that matter.**
+
+### The User Experience Goal
+
+Every episode must inspire:
+
+```
+関心 (Interest): "I didn't know that"
+感銘 (Impression): "That's remarkable"
+興味深い (Fascinating): "Tell me more"
+活力 (Vitality): "I can do this too"
+面白い (Engaging): "What a story"
+センセーショナル (Sensational): "I'll remember this"
+```
+
+**We don't write for databases.**
+**We write for hearts.**
+
+---
+
+## 🏛️ The 10 Quality Gates
+
+Like the circles of quality hell, every script must pass all gates:
+
+```
+【Gate 1】システム準備確認 (SystemReadinessGate) - CRITICAL
+         API設定、依存関係、保護リストの確認
+
+【Gate 2】calibrated_score使用禁止 (NoCalibrationScoreGate) - CRITICAL
+         RULE_001: ダミースコア完全排除
+
+【Gate 3】品質妥協版禁止 (NoSimpleFallbackGate) - CRITICAL
+         simplified_, fast_, 簡易版の検出と拒否
+
+【Gate 4】時間見積もり妥当性 (TimeEstimationGate) - CRITICAL
+         RULE_015: 非現実的な時間短縮の検出
+
+【Gate 5】事実検証 (FactCheckGate) - HIGH
+         RULE_171: 「初の」表現のファクトチェック
+
+【Gate 6】年齢重複検出 (AgeDuplicationGate) - HIGH
+         Rule 197: 同一年齢の繰り返し禁止
+
+【Gate 7】丁寧語検証 (PoliteFormGate) - MEDIUM
+         Rule 198: です・ます調統一、常体禁止
+
+【Gate 8】API使用確認 (APIUsageGate) - HIGH
+         認識システムでのAPI必須化
+
+【Gate 9】保護リスト確認 (ProtectionListGate) - HIGH
+         教科書人物・知名度保護対象の確認
+
+【Gate 10】エラーハンドリング (ErrorHandlingGate) - MEDIUM
+          適切な例外処理の実装確認
+          ↓
+      最終承認
+```
+
+---
+
+## 💎 The Data
+
+```
+Current: 2,614 episodes
+Target: 22,630 episodes
+Progress: 11.55%
+
+Real persons: 2,550
+Fictional characters: 51 (知名度保護対象)
+
+Quality gates passed: 100%
+Dummy data tolerance: 0%
+```
+
+---
+
+## 🌟 The Vision
+
+We're not building a database.
+We're building a monument to human achievement.
+
+We're not generating episodes.
+We're capturing the moments that define us.
+
+We're not writing stories.
+We're preserving the truth for those who come after.
+
+---
+
+## 🔥 The Commitment
+
+**品質妥協版禁止** (NoSimpleFallbackGate)
+```
+Forbidden file names:
+- simple_*, simplified_*, シンプル
+- fast_*, quick_*, 高速, rapid_
+- 簡易, lite_*, minimal_*, basic_
+
+Forbidden comments:
+- "simplified version"
+- "quick implementation"
+- "temporary solution"
+- "fallback", "mock implementation"
+```
+
+We don't do "good enough."
+We do "right."
+
+---
+
+## 📚 The Philosophy Incarnate
+
+This is not just code.
+This is a statement.
+
+A statement that quality matters.
+That truth matters.
+That the people who lived these moments deserve better than approximations.
+
+**They deserve perfection.**
+
+And the people who are crazy enough to think they can achieve it,
+Are the ones who do.
+
+---
+
+## 🎬 The Credits
+
+```
+System: Final Hourglass Episode Generation System
+Version: v1.0.0
+Philosophy: Think Different
+Status: In Progress (11.55% → 100%)
+
+Generated with dedication, verified with rigor, delivered with pride.
+```
+
+---
+
+**Think Different**: https://www.apple.com
+**Final Hourglass**: Building the future by honoring the past.
+
+---
+
+*The crazy ones. The misfits. The rebels. The troublemakers.*
+*The ones who see things differently.*
+*The ones who change the world.*
+
+**We are Final Hourglass.**
+**And we think different.**

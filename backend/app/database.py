@@ -308,6 +308,67 @@ class Database:
                     fame_score = row.get('fame_score', '')
                     if fame_score and fame_score.isdigit():
                         row_id += 1
+
+                        # Phase 1: 3軸スコアの読み込み（float変換、空の場合はNone）
+                        memorability_score = None
+                        empathy_score = None
+                        surprise_score = None
+
+                        try:
+                            mem_str = row.get('記憶性スコア', '').strip()
+                            if mem_str:
+                                memorability_score = float(mem_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            emp_str = row.get('共感性スコア', '').strip()
+                            if emp_str:
+                                empathy_score = float(emp_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            sur_str = row.get('意外性スコア', '').strip()
+                            if sur_str:
+                                surprise_score = float(sur_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        # Phase 2: 4軸スコアの読み込み（float変換、空の場合はNone）
+                        generation_quality_score = None
+                        educational_value = None
+                        storytelling_quality = None
+                        factual_density = None
+
+                        try:
+                            gen_str = row.get('生成品質スコア', '').strip()
+                            if gen_str:
+                                generation_quality_score = float(gen_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            edu_str = row.get('教育的価値', '').strip()
+                            if edu_str:
+                                educational_value = float(edu_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            story_str = row.get('ストーリー品質', '').strip()
+                            if story_str:
+                                storytelling_quality = float(story_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            fact_str = row.get('事実密度', '').strip()
+                            if fact_str:
+                                factual_density = float(fact_str)
+                        except (ValueError, AttributeError):
+                            pass
+
                         rankings.append({
                             'id': row_id,
                             'person_name': row.get('person_name', ''),
@@ -321,7 +382,17 @@ class Database:
                             'last_updated': row.get('fame_score_updated_at', ''),
                             'category': row.get('category', ''),
                             'person_type': row.get('person_type', ''),
-                            'quality_score': float(row.get('quality_score', 0) or 0)
+                            'quality_score': float(row.get('quality_score', 0) or 0),
+                            # Phase 1: 3軸評価カラム
+                            'milestone_tags': row.get('人生の節目タグ', ''),
+                            'memorability_score': memorability_score,
+                            'empathy_score': empathy_score,
+                            'surprise_score': surprise_score,
+                            # Phase 2: 4軸評価カラム
+                            'generation_quality_score': generation_quality_score,
+                            'educational_value': educational_value,
+                            'storytelling_quality': storytelling_quality,
+                            'factual_density': factual_density
                         })
 
             # ソート

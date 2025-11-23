@@ -587,6 +587,56 @@
             white-space: pre-wrap;
         }
 
+        /* 7軸スコアセル用スタイル */
+        .score-cell {
+            padding: 8px !important;
+            vertical-align: top !important;
+            font-size: 0.9em;
+            line-height: 1.4;
+            min-width: 150px;
+        }
+
+        .composite-score {
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 6px;
+            font-size: 1.1em;
+        }
+
+        .axis-scores {
+            font-size: 0.85em;
+            color: #4b5563;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+            padding: 1px 0;
+        }
+
+        .score-label {
+            color: #6b7280;
+            margin-right: 4px;
+            min-width: 40px;
+        }
+
+        .score-cell.no-scores {
+            text-align: center;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .score-cell .missing {
+            color: #d1d5db;
+            font-size: 1.2em;
+        }
+
+        .text-muted {
+            color: #9ca3af;
+            font-size: 0.8em;
+        }
+
         /* バッジ */
         .badge {
             display: inline-block;
@@ -819,7 +869,7 @@
             <div class="stat-card">
                 <h3>総エピソード数</h3>
                 <div class="value" id="total-episodes">-</div>
-                <div class="label">Total Episodes</div>
+                <div class="label">Total Episodes (14-75歳)</div>
             </div>
             <div class="stat-card">
                 <h3>目標総数</h3>
@@ -842,12 +892,17 @@
             <div class="stat-card">
                 <h3>実在人物</h3>
                 <div class="value" id="real-episodes">-</div>
-                <div class="label">Real Person Episodes</div>
+                <div class="label">Real Person Episodes (14-75歳)</div>
             </div>
             <div class="stat-card">
                 <h3>架空キャラクター</h3>
                 <div class="value" id="fictional-episodes">-</div>
-                <div class="label">Fictional Character Episodes</div>
+                <div class="label">Fictional Character Episodes (14-75歳)</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h3>🎁 ボーナスコンテンツ</h3>
+                <div class="value" id="bonus-episodes" style="color: white;">-</div>
+                <div class="label" style="color: rgba(255,255,255,0.9);">範囲外エピソード (14歳未満・75歳超)</div>
             </div>
         </div>
         </div>
@@ -1037,6 +1092,9 @@
                             <th width="90px" class="sortable" data-sort="fame_score">
                                 有名度 <span class="sort-icon">⬍</span>
                             </th>
+                            <th width="150px" class="sortable" data-sort="composite_score">
+                                7軸スコア <span class="sort-icon">⬍</span>
+                            </th>
                             <th width="120px" class="sortable" data-sort="category">
                                 カテゴリ <span class="sort-icon">⬍</span>
                             </th>
@@ -1150,22 +1208,34 @@
 
             // allEpisodesが初期化されているか確認
             if (allEpisodes && allEpisodes.length > 0) {
-                // 総エピソード数は実際のデータ件数を使用（実在+架空）
-                document.getElementById('total-episodes').textContent = allEpisodes.length.toLocaleString();
-
-                // 実在/架空の内訳（実際のデータから計算）
-                const realCount = allEpisodes.filter(ep => (ep.person_type || "").toUpperCase().includes("REAL")).length;
-                const fictionalCount = allEpisodes.filter(ep => (ep.person_type || "").toUpperCase().includes("FICTIONAL")).length;
-
-                document.getElementById('real-episodes').textContent = realCount.toLocaleString();
-                document.getElementById('fictional-episodes').textContent = fictionalCount.toLocaleString();
+                // 年齢が不明（null, undefined, NaN）かどうかを判定するヘルパー関数
+                const isNoAge = (age) => age === null || age === undefined || Number.isNaN(age);
 
                 // 達成率と不足数を実際のデータから動的に計算
                 const inRangeEpisodes = allEpisodes.filter(ep => ep.age >= 14 && ep.age <= 75);
+                const bonusEpisodes = allEpisodes.filter(ep => isNoAge(ep.age) || ep.age < 14 || ep.age > 75);
                 const targetTotal = 22630;  // (75-14+1) × 365 = 62 × 365
                 const gap = targetTotal - inRangeEpisodes.length;
                 const coveragePercent = ((inRangeEpisodes.length / targetTotal) * 100).toFixed(2);
 
+                // 総エピソード数は14-75歳の範囲内のみ（メイン指標）
+                document.getElementById('total-episodes').textContent = inRangeEpisodes.length.toLocaleString();
+
+                // 実在/架空の内訳（範囲内のみ）
+                const realCount = inRangeEpisodes.filter(ep => (ep.person_type || "").toUpperCase().includes("REAL")).length;
+                const fictionalCount = inRangeEpisodes.filter(ep => (ep.person_type || "").toUpperCase().includes("FICTIONAL")).length;
+
+                document.getElementById('real-episodes').textContent = realCount.toLocaleString();
+                document.getElementById('fictional-episodes').textContent = fictionalCount.toLocaleString();
+
+                // ボーナスコンテンツ（範囲外エピソード + 年齢不明）
+                const bonusCount = bonusEpisodes.length;
+                const bonusUnder14 = bonusEpisodes.filter(ep => !isNoAge(ep.age) && ep.age < 14).length;
+                const bonusOver75 = bonusEpisodes.filter(ep => !isNoAge(ep.age) && ep.age > 75).length;
+                const bonusNoAge = bonusEpisodes.filter(ep => isNoAge(ep.age)).length;
+                document.getElementById('bonus-episodes').textContent = `${bonusCount} (14歳未満: ${bonusUnder14}, 75歳超: ${bonusOver75}, 年齢不明: ${bonusNoAge})`;
+
+                // 達成率と不足数
                 document.getElementById('gap-count').textContent = gap.toLocaleString();
                 document.getElementById('coverage-percent').textContent = coveragePercent + '%';
 
@@ -1179,6 +1249,12 @@
                 document.getElementById('fictional-episodes').textContent = '0';
                 document.getElementById('gap-count').textContent = stats.gap.toLocaleString();
                 document.getElementById('coverage-percent').textContent = stats.overall_coverage_percent + '%';
+
+                // ボーナスコンテンツ（ヒートマップデータでは利用不可）
+                const bonusElement = document.getElementById('bonus-episodes');
+                if (bonusElement) {
+                    bonusElement.textContent = 'N/A（CSVデータが必要）';
+                }
 
                 // プログレスバー更新
                 const progressFill = document.getElementById('coverage-progress');
@@ -1522,6 +1598,7 @@
                 console.log('✅ API統計データ取得成功:', data);
 
                 // 統計カードを更新
+                // 注意: APIデータは範囲内外の区別がないため、全エピソード数として扱う
                 document.getElementById('total-episodes').textContent = data.total_characters.toLocaleString();
 
                 const target = 22630;
@@ -1540,6 +1617,12 @@
                 // 実在人物と架空キャラクター
                 document.getElementById('real-episodes').textContent = data.male_count.toLocaleString();
                 document.getElementById('fictional-episodes').textContent = data.female_count.toLocaleString();
+
+                // ボーナスコンテンツ（APIデータでは利用不可）
+                const bonusElement = document.getElementById('bonus-episodes');
+                if (bonusElement) {
+                    bonusElement.textContent = 'N/A（CSVデータが必要）';
+                }
 
             } catch (error) {
                 console.error('❌ API統計データ取得エラー:', error);
@@ -1845,7 +1928,12 @@
                             return {
                                 id: index + 1,
                                 person_name: row['人物名'] || row['person_name'] || '',
-                                age: parseInt(row['年齢'] || row['age']) || 0,
+                                age: (() => {
+                                    const ageStr = row['年齢'] || row['age'];
+                                    if (!ageStr || ageStr === '' || ageStr === 'NaN') return null;
+                                    const ageNum = parseFloat(ageStr);
+                                    return Number.isNaN(ageNum) ? null : ageNum;
+                                })(),
                                 slot: slotNum,
                                 category: categoryJa,
                                 episode_text: row['エピソード'] || row['episode'] || row['episode_text'] || '',
@@ -1853,7 +1941,16 @@
                                 work_title: row['work_title'] || row['作品名'] || '',
                                 episode_count: parseFloat(row['episode_count']) || 1,
                                 fame_score: parseInt(row["fame_score"]) || 0,
-                                fame_tier: parseInt(row["fame_tier"]) || 0
+                                fame_tier: parseInt(row["fame_tier"]) || 0,
+                                // 7軸スコア
+                                composite_score: parseFloat(row['composite_score']) || null,
+                                memorability_score: parseFloat(row['記憶性スコア']) || null,
+                                empathy_score: parseFloat(row['共感性スコア']) || null,
+                                surprise_score: parseFloat(row['意外性スコア']) || null,
+                                generation_quality_score: parseFloat(row['生成品質スコア']) || null,
+                                educational_value: parseFloat(row['教育的価値']) || null,
+                                storytelling_quality: parseFloat(row['ストーリー品質']) || null,
+                                factual_density: parseFloat(row['事実密度']) || null
                             };
                         }).filter(ep => ep.person_name && ep.episode_text);
 
@@ -2021,6 +2118,18 @@
                         valA = a.fame_score || 0;
                         valB = b.fame_score || 0;
                         break;
+                    case 'composite_score':
+                        valA = a.composite_score || 0;
+                        valB = b.composite_score || 0;
+                        break;
+                    case 'work':
+                        valA = (a.work_title || '').toLowerCase();
+                        valB = (b.work_title || '').toLowerCase();
+                        break;
+                    case 'entity':
+                        valA = (a.person_type || '').toUpperCase();
+                        valB = (b.person_type || '').toUpperCase();
+                        break;
                     default:
                         return 0;
                 }
@@ -2062,7 +2171,7 @@
             if (pageEpisodes.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="9" class="loading-cell" style="color: #6c757d;">
+                        <td colspan="10" class="loading-cell" style="color: #6c757d;">
                             検索結果がありません
                         </td>
                     </tr>
@@ -2098,6 +2207,31 @@
                                 <span class="badge" style="background: ${ep.fame_score >= 80 ? '#9333ea' : ep.fame_score >= 60 ? '#3b82f6' : '#6b7280'}; color: white; font-weight: 600;">
                                     ${ep.fame_score || '-'}
                                 </span>
+                            </td>
+                            <td class="score-cell${ep.composite_score ? '' : ' no-scores'}">
+                                ${ep.composite_score ? `
+                                    <div class="composite-score">総合: <strong>${ep.composite_score.toFixed(1)}</strong></div>
+                                    <div class="axis-scores">
+                                        <div class="score-row">
+                                            <span><span class="score-label">記憶:</span>${ep.memorability_score ? ep.memorability_score.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                            <span><span class="score-label">共感:</span>${ep.empathy_score ? ep.empathy_score.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                        <div class="score-row">
+                                            <span><span class="score-label">意外:</span>${ep.surprise_score ? ep.surprise_score.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                            <span><span class="score-label">品質:</span>${ep.generation_quality_score ? ep.generation_quality_score.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                        <div class="score-row">
+                                            <span><span class="score-label">教育:</span>${ep.educational_value ? ep.educational_value.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                            <span><span class="score-label">物語:</span>${ep.storytelling_quality ? ep.storytelling_quality.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                        <div class="score-row">
+                                            <span><span class="score-label">事実:</span>${ep.factual_density ? ep.factual_density.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="composite-score">総合: <span class="missing">-</span></div>
+                                    <div class="axis-scores text-muted">スコア未算出</div>
+                                `}
                             </td>
                             <td>
                                 <span class="badge ${categoryClass}">${ep.category}</span>

@@ -5,15 +5,20 @@ FastAPI メインアプリケーション
 最期の砂時計キャラクターデータベースAPI
 """
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse, Response
 from fastapi.staticfiles import StaticFiles
+from fastapi.security import OAuth2PasswordRequestForm
 from typing import Optional
+from datetime import timedelta
 import sys
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import io
+import csv
+import json
 
 # 環境変数の読み込み
 load_dotenv()
@@ -30,10 +35,42 @@ from app.models import (
     EpisodeCategoryStats,
     WorkStats,
     FameScore,
-    FameRanking
+    FameRanking,
+    # Phase 3: 分析モデル
+    AxisStatistics,
+    DistributionBin,
+    CorrelationRow,
+    TopPerformer,
+    ScoreSummary,
+    # Phase 4: 検索・品質モデル
+    EpisodeSearchResult,
+    EpisodeSearchResponse,
+    SearchStatsResponse,
+    QualityReport,
+    # Phase 5: エピソード管理モデル
+    Episode,
+    EpisodeList,
+    EpisodeCreate,
+    EpisodeUpdate,
+    EpisodeDeleteResponse,
+    # Phase 5: 認証モデル
+    Token,
+    User
 )
 from app.database import db
 from app.utils.csv_loader import import_csv_to_db, get_default_csv_path, get_csv_modification_time
+from app.analytics import ScoreAnalytics
+from app.utils.advanced_search import AdvancedSearchEngine
+from app.utils.data_quality import DataQualityManager
+from app.utils.episode_manager import EpisodeManager
+from app.utils.auth_simple import (
+    authenticate_user,
+    create_access_token,
+    get_current_user,
+    get_user,
+    require_role,
+    ACCESS_TOKEN_EXPIRE_MINUTES
+)
 
 
 # FastAPIアプリケーション初期化
@@ -96,6 +133,96 @@ async def shutdown():
 async def health_check():
     """ヘルスチェックエンドポイント"""
     return {"status": "healthy", "message": "API is running"}
+
+
+# ========================================
+# Phase 5: 認証エンドポイント
+# ========================================
+
+@app.post("/api/auth/token", response_model=Token)
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    """
+    ログインエンドポイント
+
+    ユーザー名とパスワードで認証し、JWTアクセストークンを発行します。
+
+    Args:
+        form_data: OAuth2PasswordRequestForm（username, password）
+
+    Returns:
+        Token: アクセストークンとトークンタイプ
+
+    Raises:
+        HTTPException: 認証失敗時（401）
+
+    Example:
+        デフォルトユーザー:
+        - admin / admin123 (管理者)
+        - editor / editor123 (編集者)
+        - viewer / viewer123 (閲覧者)
+    """
+    user = authenticate_user(form_data.username, form_data.password)
+
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="ユーザー名またはパスワードが正しくありません",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if user.get("disabled", False):
+        raise HTTPException(
+            status_code=401,
+            detail="このアカウントは無効化されています",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # JWTトークン生成
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user["username"], "role": user["role"]},
+        expires_delta=access_token_expires
+    )
+
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+@app.get("/api/auth/me", response_model=User)
+async def get_current_user_info(current_username: str = Depends(get_current_user)):
+    """
+    現在のユーザー情報取得
+
+    JWTトークンから現在のユーザー情報を取得します。
+
+    Args:
+        current_username: 認証済みユーザー名（自動取得）
+
+    Returns:
+        User: ユーザー情報
+
+    Raises:
+        HTTPException: ユーザーが見つからない場合（404）
+
+    Example:
+        認証ヘッダー:
+        Authorization: Bearer <access_token>
+    """
+    user = get_user(current_username)
+
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail="ユーザーが見つかりません"
+        )
+
+    # パスワードハッシュを除外してレスポンス
+    return User(
+        username=user["username"],
+        email=user["email"],
+        full_name=user["full_name"],
+        role=user["role"],
+        disabled=user.get("disabled", False)
+    )
 
 
 # ========================================
@@ -357,7 +484,17 @@ async def get_fame_ranking(
                 textbook=r['textbook'],
                 award_level=r['award_level'],
                 notoriety=r['notoriety'],
-                last_updated=r['last_updated']
+                last_updated=r['last_updated'],
+                # Phase 1: 3軸評価カラム
+                milestone_tags=r.get('milestone_tags'),
+                memorability_score=r.get('memorability_score'),
+                empathy_score=r.get('empathy_score'),
+                surprise_score=r.get('surprise_score'),
+                # Phase 2: 4軸評価カラム
+                generation_quality_score=r.get('generation_quality_score'),
+                educational_value=r.get('educational_value'),
+                storytelling_quality=r.get('storytelling_quality'),
+                factual_density=r.get('factual_density')
             )
             for r in rankings
         ]
@@ -438,3 +575,422 @@ async def dashboard_v3():
         )
     else:
         raise HTTPException(status_code=404, detail="Dashboard v3 not found")
+
+
+# ========================================
+# Phase 3: 分析エンドポイント
+# ========================================
+
+@app.get("/api/analytics/summary", response_model=ScoreSummary)
+async def get_analytics_summary():
+    """7軸スコアの総合サマリー"""
+    csv_path = get_default_csv_path()
+    analytics = ScoreAnalytics(str(csv_path))
+
+    summary = analytics.get_score_summary()
+
+    return ScoreSummary(
+        total_episodes=summary['total_episodes'],
+        axes=[
+            AxisStatistics(**axis)
+            for axis in summary['axes']
+        ]
+    )
+
+
+@app.get("/api/analytics/distribution")
+async def get_score_distribution(bin_size: float = Query(0.5, ge=0.1, le=2.0)):
+    """スコア分布ヒストグラム"""
+    csv_path = get_default_csv_path()
+    analytics = ScoreAnalytics(str(csv_path))
+
+    distributions = analytics.calculate_distribution(bin_size=bin_size)
+
+    return {
+        "bin_size": bin_size,
+        "distributions": {
+            axis: [DistributionBin(**bin) for bin in bins]
+            for axis, bins in distributions.items()
+        }
+    }
+
+
+@app.get("/api/analytics/correlation")
+async def get_correlation_matrix():
+    """軸間の相関係数マトリックス"""
+    csv_path = get_default_csv_path()
+    analytics = ScoreAnalytics(str(csv_path))
+
+    matrix = analytics.calculate_correlation_matrix()
+
+    return {
+        "matrix": [CorrelationRow(**row) for row in matrix]
+    }
+
+
+@app.get("/api/analytics/top-performers")
+async def get_top_performers(top_n: int = Query(50, ge=1, le=200)):
+    """総合スコア上位のエピソード"""
+    csv_path = get_default_csv_path()
+    analytics = ScoreAnalytics(str(csv_path))
+
+    performers = analytics.get_top_performers(top_n=top_n)
+
+    return {
+        "total": len(performers),
+        "top_n": top_n,
+        "performers": [TopPerformer(**p) for p in performers]
+    }
+
+
+# ========================================
+# Phase 4: 高度な検索エンドポイント
+# ========================================
+
+@app.get("/api/search/advanced", response_model=EpisodeSearchResponse)
+async def advanced_search(
+    query: Optional[str] = Query(None, description="検索クエリ（人物名・エピソード）"),
+    min_memorability_score: Optional[float] = Query(None, ge=0, le=10, description="記憶性スコア最小値"),
+    max_memorability_score: Optional[float] = Query(None, ge=0, le=10, description="記憶性スコア最大値"),
+    min_empathy_score: Optional[float] = Query(None, ge=0, le=10, description="共感性スコア最小値"),
+    max_empathy_score: Optional[float] = Query(None, ge=0, le=10, description="共感性スコア最大値"),
+    min_surprise_score: Optional[float] = Query(None, ge=0, le=10, description="意外性スコア最小値"),
+    max_surprise_score: Optional[float] = Query(None, ge=0, le=10, description="意外性スコア最大値"),
+    min_generation_quality: Optional[float] = Query(None, ge=0, le=10, description="生成品質スコア最小値"),
+    max_generation_quality: Optional[float] = Query(None, ge=0, le=10, description="生成品質スコア最大値"),
+    min_educational_value: Optional[float] = Query(None, ge=0, le=10, description="教育的価値最小値"),
+    max_educational_value: Optional[float] = Query(None, ge=0, le=10, description="教育的価値最大値"),
+    min_storytelling_quality: Optional[float] = Query(None, ge=0, le=10, description="ストーリー品質最小値"),
+    max_storytelling_quality: Optional[float] = Query(None, ge=0, le=10, description="ストーリー品質最大値"),
+    min_factual_density: Optional[float] = Query(None, ge=0, le=10, description="事実密度最小値"),
+    max_factual_density: Optional[float] = Query(None, ge=0, le=10, description="事実密度最大値"),
+    min_composite_score: Optional[float] = Query(None, ge=0, le=10, description="総合スコア最小値"),
+    max_composite_score: Optional[float] = Query(None, ge=0, le=10, description="総合スコア最大値"),
+    min_age: Optional[float] = Query(None, ge=0, le=150, description="年齢最小値"),
+    max_age: Optional[float] = Query(None, ge=0, le=150, description="年齢最大値"),
+    sort_by: str = Query('composite_score', description="ソート基準"),
+    order: str = Query('desc', description="並び順（asc/desc）"),
+    page: int = Query(1, ge=1, description="ページ番号"),
+    page_size: int = Query(20, ge=1, le=100, description="ページサイズ")
+):
+    """
+    高度な検索
+
+    7軸スコア、総合スコア、年齢範囲などの複数条件で検索
+    """
+    csv_path = get_default_csv_path()
+    search_engine = AdvancedSearchEngine(str(csv_path))
+
+    results, total = search_engine.search(
+        query=query,
+        min_memorability_score=min_memorability_score,
+        max_memorability_score=max_memorability_score,
+        min_empathy_score=min_empathy_score,
+        max_empathy_score=max_empathy_score,
+        min_surprise_score=min_surprise_score,
+        max_surprise_score=max_surprise_score,
+        min_generation_quality=min_generation_quality,
+        max_generation_quality=max_generation_quality,
+        min_educational_value=min_educational_value,
+        max_educational_value=max_educational_value,
+        min_storytelling_quality=min_storytelling_quality,
+        max_storytelling_quality=max_storytelling_quality,
+        min_factual_density=min_factual_density,
+        max_factual_density=max_factual_density,
+        min_composite_score=min_composite_score,
+        max_composite_score=max_composite_score,
+        min_age=min_age,
+        max_age=max_age,
+        sort_by=sort_by,
+        order=order,
+        page=page,
+        page_size=page_size
+    )
+
+    search_results = [
+        EpisodeSearchResult(
+            person_name=r.get('person_name', ''),
+            age=r.get('age', ''),
+            episode=r.get('episode', ''),
+            composite_score=r.get('composite_score', 0.0),
+            memorability_score=r.get('記憶性スコア', 0.0),
+            empathy_score=r.get('共感性スコア', 0.0),
+            surprise_score=r.get('意外性スコア', 0.0),
+            generation_quality_score=r.get('生成品質スコア', 0.0),
+            educational_value=r.get('教育的価値', 0.0),
+            storytelling_quality=r.get('ストーリー品質', 0.0),
+            factual_density=r.get('事実密度', 0.0)
+        )
+        for r in results
+    ]
+
+    return EpisodeSearchResponse(
+        total=total,
+        page=page,
+        page_size=page_size,
+        results=search_results
+    )
+
+
+@app.get("/api/search/stats", response_model=SearchStatsResponse)
+async def get_search_stats():
+    """
+    検索統計情報取得
+
+    スコア範囲、年齢範囲などの統計情報
+    """
+    csv_path = get_default_csv_path()
+    search_engine = AdvancedSearchEngine(str(csv_path))
+
+    stats = search_engine.get_search_stats()
+
+    return SearchStatsResponse(
+        total_episodes=stats['total_episodes'],
+        score_ranges=stats['score_ranges'],
+        age_range=stats['age_range']
+    )
+
+
+# ========================================
+# Phase 4: データ品質管理API
+# ========================================
+
+@app.get("/api/quality/report", response_model=QualityReport)
+async def get_quality_report():
+    """
+    データ品質レポート取得
+
+    重複検出、外れ値検出、完全性チェックを含む総合品質レポート
+    """
+    csv_path = get_default_csv_path()
+    quality_manager = DataQualityManager(str(csv_path))
+
+    report = quality_manager.get_quality_report()
+
+    return QualityReport(**report)
+
+
+# ========================================
+# Phase 4: データエクスポートAPI
+# ========================================
+
+@app.get("/api/export/csv")
+async def export_csv(
+    query: Optional[str] = Query(None),
+    min_composite_score: Optional[float] = Query(None, ge=0, le=10)
+):
+    """
+    CSV形式でエクスポート
+
+    フィルタリング条件に合致するエピソードをCSV形式でダウンロード
+    """
+    csv_path = get_default_csv_path()
+    search_engine = AdvancedSearchEngine(str(csv_path))
+
+    # 検索実行
+    results, total = search_engine.search(
+        query=query,
+        min_composite_score=min_composite_score,
+        page=1,
+        page_size=10000  # 全件取得
+    )
+
+    # CSV生成
+    output = io.StringIO()
+    if results:
+        fieldnames = list(results[0].keys())
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(results)
+
+    output.seek(0)
+
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=episodes_export.csv"
+        }
+    )
+
+
+@app.get("/api/export/json")
+async def export_json(
+    query: Optional[str] = Query(None),
+    min_composite_score: Optional[float] = Query(None, ge=0, le=10)
+):
+    """
+    JSON形式でエクスポート
+
+    フィルタリング条件に合致するエピソードをJSON形式でダウンロード
+    """
+    csv_path = get_default_csv_path()
+    search_engine = AdvancedSearchEngine(str(csv_path))
+
+    # 検索実行
+    results, total = search_engine.search(
+        query=query,
+        min_composite_score=min_composite_score,
+        page=1,
+        page_size=10000  # 全件取得
+    )
+
+    # JSON生成
+    json_data = json.dumps(
+        {
+            "total": total,
+            "results": results
+        },
+        ensure_ascii=False,
+        indent=2
+    )
+
+    return Response(
+        content=json_data,
+        media_type="application/json",
+        headers={
+            "Content-Disposition": f"attachment; filename=episodes_export.json"
+        }
+    )
+
+
+# ========================================
+# Phase 5: エピソード管理CRUD API
+# ========================================
+
+@app.get("/api/episodes", response_model=EpisodeList)
+async def list_episodes(
+    page: int = Query(1, ge=1, description="ページ番号"),
+    page_size: int = Query(20, ge=1, le=100, description="ページサイズ"),
+    person_type: Optional[str] = Query(None, description="人物タイプフィルター（REAL/FICTIONAL）")
+):
+    """エピソード一覧取得
+
+    ページングとフィルタリング機能を提供
+    """
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    episodes, total = episode_manager.list_episodes(
+        page=page,
+        page_size=page_size,
+        filter_person_type=person_type
+    )
+
+    return EpisodeList(
+        total=total,
+        page=page,
+        page_size=page_size,
+        episodes=episodes
+    )
+
+
+@app.get("/api/episodes/search", response_model=EpisodeList)
+async def search_episodes(
+    q: str = Query(..., min_length=1, description="検索クエリ"),
+    page: int = Query(1, ge=1, description="ページ番号"),
+    page_size: int = Query(20, ge=1, le=100, description="ページサイズ")
+):
+    """エピソード検索
+
+    人物名またはエピソードテキストで検索
+    """
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    episodes, total = episode_manager.search_episodes(
+        query=q,
+        page=page,
+        page_size=page_size
+    )
+
+    return EpisodeList(
+        total=total,
+        page=page,
+        page_size=page_size,
+        episodes=episodes
+    )
+
+
+@app.get("/api/episodes/{person_id}", response_model=Episode)
+async def get_episode(person_id: str):
+    """エピソード詳細取得
+
+    person_idでエピソードを取得
+    """
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    episode = episode_manager.get_episode_by_id(person_id)
+    if not episode:
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
+
+    return episode
+
+
+@app.post("/api/episodes", response_model=Episode, status_code=201)
+async def create_episode(
+    episode_data: EpisodeCreate,
+    current_user: dict = Depends(require_role(["admin", "editor"]))
+):
+    """エピソード作成
+
+    新しいエピソードを追加
+
+    **権限**: admin, editor
+    """
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    try:
+        episode = episode_manager.create_episode(episode_data)
+        return episode
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"エピソード作成に失敗しました: {str(e)}")
+
+
+@app.put("/api/episodes/{person_id}", response_model=Episode)
+async def update_episode(
+    person_id: str,
+    episode_data: EpisodeUpdate,
+    current_user: dict = Depends(require_role(["admin", "editor"]))
+):
+    """エピソード更新
+
+    既存のエピソードを更新
+
+    **権限**: admin, editor
+    """
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    episode = episode_manager.update_episode(person_id, episode_data)
+    if not episode:
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
+
+    return episode
+
+
+@app.delete("/api/episodes/{person_id}", response_model=EpisodeDeleteResponse)
+async def delete_episode(
+    person_id: str,
+    current_user: dict = Depends(require_role(["admin"]))
+):
+    """エピソード削除
+
+    エピソードをCSVから削除
+
+    **権限**: admin のみ
+    """
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    success = episode_manager.delete_episode(person_id)
+    if not success:
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
+
+    return EpisodeDeleteResponse(
+        success=True,
+        message="エピソードが正常に削除されました",
+        deleted_person_id=person_id
+    )

@@ -1,0 +1,288 @@
+"""データ品質管理モジュール
+
+重複検出、異常値検出、完全性チェック、品質スコア算出を提供
+"""
+
+import csv
+import statistics
+from typing import List, Dict, Tuple, Set
+from pathlib import Path
+from collections import defaultdict
+
+
+class DataQualityManager:
+    """データ品質管理クラス"""
+
+    def __init__(self, csv_path: str):
+        """
+        初期化
+
+        Args:
+            csv_path: CSVファイルパス
+        """
+        self.csv_path = Path(csv_path)
+        self.episodes: List[Dict] = []
+        self.score_columns = [
+            '記憶性スコア',
+            '共感性スコア',
+            '意外性スコア',
+            '生成品質スコア',
+            '教育的価値',
+            'ストーリー品質',
+            '事実密度'
+        ]
+        self.load_episodes()
+
+    def load_episodes(self):
+        """CSVからエピソードデータを読み込み"""
+        self.episodes = []
+
+        with open(self.csv_path, 'r', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f)
+
+            for row_num, row in enumerate(reader, start=2):  # ヘッダー行は1行目
+                episode = dict(row)
+                episode['row_number'] = row_num
+
+                # スコアを数値化
+                for col in self.score_columns:
+                    value = row.get(col, '').strip()
+                    if value:
+                        try:
+                            episode[col] = float(value)
+                        except ValueError:
+                            episode[col] = None
+                    else:
+                        episode[col] = None
+
+                # 年齢を数値化
+                try:
+                    episode['age_numeric'] = float(row.get('age', '0'))
+                except ValueError:
+                    episode['age_numeric'] = None
+
+                self.episodes.append(episode)
+
+    def detect_duplicates(self) -> List[Dict]:
+        """
+        重複エピソードの検出
+
+        Returns:
+            重複情報のリスト
+        """
+        duplicates = []
+        seen: Dict[Tuple[str, str], List[Dict]] = defaultdict(list)
+
+        # 人物名+年齢でグループ化
+        for ep in self.episodes:
+            person_name = ep.get('person_name', '').strip()
+            age = ep.get('age', '').strip()
+
+            if person_name and age:
+                key = (person_name, age)
+                seen[key].append(ep)
+
+        # 重複を抽出
+        for key, episodes in seen.items():
+            if len(episodes) > 1:
+                person_name, age = key
+                duplicates.append({
+                    'person_name': person_name,
+                    'age': age,
+                    'count': len(episodes),
+                    'row_numbers': [ep['row_number'] for ep in episodes]
+                })
+
+        return duplicates
+
+    def detect_outliers(self, threshold: float = 3.0) -> List[Dict]:
+        """
+        統計的外れ値の検出（平均±threshold標準偏差）
+
+        Args:
+            threshold: 標準偏差の倍数（デフォルト: 3.0）
+
+        Returns:
+            外れ値情報のリスト
+        """
+        outliers = []
+
+        for col in self.score_columns:
+            # 有効なスコアのみ抽出
+            scores = [ep[col] for ep in self.episodes if ep.get(col) is not None]
+
+            if len(scores) < 2:
+                continue
+
+            mean = statistics.mean(scores)
+            stdev = statistics.stdev(scores)
+
+            # 外れ値を検出
+            for ep in self.episodes:
+                score = ep.get(col)
+                if score is None:
+                    continue
+
+                z_score = abs(score - mean) / stdev if stdev > 0 else 0
+
+                if z_score > threshold:
+                    outliers.append({
+                        'person_name': ep.get('person_name', ''),
+                        'age': ep.get('age', ''),
+                        'row_number': ep['row_number'],
+                        'axis': col,
+                        'score': score,
+                        'mean': mean,
+                        'stdev': stdev,
+                        'z_score': z_score
+                    })
+
+        return outliers
+
+    def check_completeness(self) -> Dict:
+        """
+        データ完全性チェック
+
+        Returns:
+            完全性チェック結果
+        """
+        total = len(self.episodes)
+        issues = []
+
+        # 必須フィールドチェック
+        required_fields = ['person_name', 'age', 'episode']
+        for field in required_fields:
+            missing_count = sum(1 for ep in self.episodes if not ep.get(field, '').strip())
+            if missing_count > 0:
+                issues.append({
+                    'type': 'missing_required_field',
+                    'field': field,
+                    'count': missing_count,
+                    'percentage': (missing_count / total) * 100
+                })
+
+        # スコア範囲チェック（0-10の範囲外）
+        for col in self.score_columns:
+            out_of_range = []
+            for ep in self.episodes:
+                score = ep.get(col)
+                if score is not None and (score < 0 or score > 10):
+                    out_of_range.append({
+                        'person_name': ep.get('person_name', ''),
+                        'age': ep.get('age', ''),
+                        'row_number': ep['row_number'],
+                        'score': score
+                    })
+
+            if out_of_range:
+                issues.append({
+                    'type': 'score_out_of_range',
+                    'axis': col,
+                    'count': len(out_of_range),
+                    'examples': out_of_range[:5]  # 最初の5件のみ
+                })
+
+        # スコア欠損チェック
+        for col in self.score_columns:
+            missing_count = sum(1 for ep in self.episodes if ep.get(col) is None)
+            if missing_count > 0:
+                issues.append({
+                    'type': 'missing_score',
+                    'axis': col,
+                    'count': missing_count,
+                    'percentage': (missing_count / total) * 100
+                })
+
+        return {
+            'total_episodes': total,
+            'issues': issues,
+            'issues_count': len(issues)
+        }
+
+    def calculate_quality_score(self) -> Dict:
+        """
+        データ品質スコアの算出
+
+        Returns:
+            品質スコア情報
+        """
+        total = len(self.episodes)
+        duplicates = self.detect_duplicates()
+        outliers = self.detect_outliers()
+        completeness = self.check_completeness()
+
+        # 品質スコア計算（0-100）
+        score = 100.0
+
+        # 重複ペナルティ（重複率 × 20）
+        duplicate_rate = len(duplicates) / total if total > 0 else 0
+        score -= duplicate_rate * 20
+
+        # 外れ値ペナルティ（外れ値率 × 15）
+        outlier_rate = len(outliers) / total if total > 0 else 0
+        score -= outlier_rate * 15
+
+        # 完全性ペナルティ（問題数 × 5）
+        score -= min(completeness['issues_count'] * 5, 30)
+
+        # 0-100の範囲に収める
+        score = max(0, min(100, score))
+
+        return {
+            'quality_score': round(score, 2),
+            'total_episodes': total,
+            'duplicate_count': len(duplicates),
+            'duplicate_rate': round(duplicate_rate * 100, 2),
+            'outlier_count': len(outliers),
+            'outlier_rate': round(outlier_rate * 100, 2),
+            'completeness_issues': completeness['issues_count'],
+            'grade': self._get_quality_grade(score)
+        }
+
+    def _get_quality_grade(self, score: float) -> str:
+        """
+        品質スコアからグレードを取得
+
+        Args:
+            score: 品質スコア（0-100）
+
+        Returns:
+            グレード（A+, A, B, C, D, F）
+        """
+        if score >= 95:
+            return 'A+'
+        elif score >= 90:
+            return 'A'
+        elif score >= 80:
+            return 'B'
+        elif score >= 70:
+            return 'C'
+        elif score >= 60:
+            return 'D'
+        else:
+            return 'F'
+
+    def get_quality_report(self) -> Dict:
+        """
+        総合品質レポート取得
+
+        Returns:
+            総合品質レポート
+        """
+        quality_score = self.calculate_quality_score()
+        duplicates = self.detect_duplicates()
+        outliers = self.detect_outliers()
+        completeness = self.check_completeness()
+
+        return {
+            'summary': quality_score,
+            'duplicates': {
+                'count': len(duplicates),
+                'details': duplicates[:10]  # 最初の10件
+            },
+            'outliers': {
+                'count': len(outliers),
+                'details': outliers[:10]  # 最初の10件
+            },
+            'completeness': completeness
+        }

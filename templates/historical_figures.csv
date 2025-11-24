@@ -1,0 +1,16 @@
+person_name,category,person_type,role,achievement,achievement_year
+坂本龍馬,歴史,HISTORICAL_FIGURE,政治家,薩長同盟の仲介,1866
+西郷隆盛,歴史,HISTORICAL_FIGURE,軍人・政治家,明治維新の立役者,1868
+大久保利通,歴史,HISTORICAL_FIGURE,政治家,明治政府の中心人物,1873
+木戸孝允,歴史,HISTORICAL_FIGURE,政治家,版籍奉還の推進,1869
+勝海舟,歴史,HISTORICAL_FIGURE,軍人・政治家,江戸無血開城の交渉,1868
+伊藤博文,歴史,HISTORICAL_FIGURE,政治家,初代内閣総理大臣就任,1885
+高杉晋作,歴史,HISTORICAL_FIGURE,軍人,奇兵隊の創設,1863
+福沢諭吉,歴史,HISTORICAL_FIGURE,思想家・教育者,慶應義塾の創設,1868
+新島襄,歴史,HISTORICAL_FIGURE,教育者,同志社英学校の創設,1875
+津田梅子,歴史,HISTORICAL_FIGURE,教育者,女子英学塾の創設,1900
+夏目漱石,歴史,HISTORICAL_FIGURE,文学者,近代文学の確立,1905
+岡倉天心,歴史,HISTORICAL_FIGURE,美術家・思想家,日本美術の保存活動,1890
+岩崎弥太郎,歴史,HISTORICAL_FIGURE,実業家,三菱商会の創業,1870
+大隈重信,歴史,HISTORICAL_FIGURE,政治家・教育者,東京専門学校の創設,1882
+陸奥宗光,歴史,HISTORICAL_FIGURE,政治家・外交官,日英通商航海条約の締結,1894

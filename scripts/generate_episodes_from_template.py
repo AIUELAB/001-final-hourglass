@@ -71,15 +71,29 @@ def calculate_quality_scores(episode_text: str) -> Dict[str, float]:
     return scores
 
 
-def generate_episode(person_name: str, category: str, person_type: str) -> Optional[Dict]:
+def generate_episode(
+    person_name: str,
+    category: str,
+    person_type: str,
+    award_name: Optional[str] = None,
+    award_year: Optional[str] = None,
+) -> Optional[Dict]:
     """エピソードを生成"""
 
     print(f"\n{'='*80}")
     print(f"生成中: {person_name} ({category})")
+    if award_name:
+        print(f"受賞: {award_name}" + (f" ({award_year}年)" if award_year else ""))
     print(f"{'='*80}")
 
-    # ランダムな年齢を生成（20-70歳）
-    age = random.randint(20, 70)
+    # 年齢の決定
+    if award_year and award_year.isdigit():
+        # 受賞年が指定されている場合、受賞時の年齢を推定（仮に50歳前後）
+        # 実際は生年から計算すべきだが、ここでは受賞年齢として扱う
+        age = random.randint(40, 65)
+    else:
+        # ランダムな年齢を生成（20-70歳）
+        age = random.randint(20, 70)
 
     # プロンプト作成
     prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
@@ -88,7 +102,16 @@ def generate_episode(person_name: str, category: str, person_type: str) -> Optio
 
 人物名: {person_name}
 カテゴリ: {category}
-年齢: {age}歳
+年齢: {age}歳"""
+
+    # 受賞情報をプロンプトに追加
+    if award_name:
+        prompt += f"""
+受賞した賞: {award_name}"""
+        if award_year:
+            prompt += f" ({award_year}年)"
+
+    prompt += """
 
 エピソードの要件:
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で始める
@@ -96,9 +119,16 @@ def generate_episode(person_name: str, category: str, person_type: str) -> Optio
 3. 記憶に残る印象的な内容にする
 4. 200-300文字程度
 5. 教育的価値のある内容にする
-6. 事実に基づいた内容にする（架空の内容は避ける）
+6. 事実に基づいた内容にする（架空の内容は避ける）"""
 
-エピソードテキスト:"""
+    # 受賞エピソードの場合の追加要件
+    if award_name:
+        prompt += f"""
+7. {award_name}受賞のエピソードを中心に生成する
+8. 受賞に至った経緯や背景を含める
+9. 受賞の意義や影響について触れる"""
+
+    prompt += "\n\nエピソードテキスト:"
 
     try:
         # Anthropic API呼び出し
@@ -116,6 +146,39 @@ def generate_episode(person_name: str, category: str, person_type: str) -> Optio
 
         # 品質スコア計算
         scores = calculate_quality_scores(episode_text)
+
+        # award_levelの決定
+        award_level_value = ""
+        if award_name:
+            if "ノーベル" in award_name:
+                award_level_value = "NOBEL"
+            elif any(
+                x in award_name
+                for x in ["フィールズ", "プリツカー", "チューリング", "ラスカー"]
+            ):
+                award_level_value = "INTERNATIONAL_TOP"
+            elif any(
+                x in award_name
+                for x in [
+                    "アカデミー",
+                    "オスカー",
+                    "カンヌ",
+                    "ベルリン",
+                    "ベネチア",
+                    "グラミー",
+                    "エミー",
+                ]
+            ):
+                award_level_value = "INTERNATIONAL"
+            elif any(x in award_name for x in ["直木", "芥川", "日本アカデミー", "文化勲章"]):
+                award_level_value = "NATIONAL"
+            elif any(x in award_name for x in ["オリンピック", "金メダル"]):
+                award_level_value = "OLYMPIC"
+            else:
+                award_level_value = "AWARD"
+
+        # 人生の節目タグ
+        milestone_tags = "受賞" if award_name else ""
 
         # エピソードデータ作成
         episode = {
@@ -141,12 +204,12 @@ def generate_episode(person_name: str, category: str, person_type: str) -> Optio
             "fame_tier": "",
             "wikipedia_ja": "",
             "textbook": "",
-            "award_level": "",
+            "award_level": award_level_value,
             "notoriety": "",
             "fame_score": 70.0,
             "composite_score": scores["composite_score"],
             "fame_score_updated_at": "",
-            "人生の節目タグ": "",
+            "人生の節目タグ": milestone_tags,
             "記憶性スコア": scores["記憶性スコア"],
             "共感性スコア": scores["共感性スコア"],
             "意外性スコア": scores["意外性スコア"],
@@ -210,10 +273,14 @@ def main():
         person_name = row["person_name"]
         category = row["category"]
         person_type = row["person_type"]
+        award_name = row.get("award_name", "")  # オプションカラム
+        award_year = row.get("award_year", "")  # オプションカラム
 
         print(f"\n[{i}/{len(template_rows)}] {person_name}")
 
-        episode = generate_episode(person_name, category, person_type)
+        episode = generate_episode(
+            person_name, category, person_type, award_name, award_year
+        )
 
         if episode:
             generated_episodes.append(episode)

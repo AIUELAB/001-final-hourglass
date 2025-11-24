@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エピソードテーブル レイアウトモック</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .comparison {
+            margin-bottom: 40px;
+        }
+
+        /* 現在のレイアウト（横並び） */
+        .current-layout {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .current-layout table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .current-layout th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-size: 0.85em;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .current-layout td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* 提案レイアウト（縦3行） */
+        .proposed-layout {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .proposed-layout table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .proposed-layout th {
+            background: #f8f9fa;
+            padding: 8px 6px;
+            text-align: center;
+            font-size: 0.75em;
+            border-bottom: 2px solid #dee2e6;
+            white-space: nowrap;
+        }
+
+        .proposed-layout td {
+            padding: 8px 6px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        /* 縦3行の識別情報セル */
+        .id-cell {
+            padding: 6px 8px !important;
+            min-width: 180px;
+            text-align: left !important;
+        }
+
+        .episode-text-cell {
+            text-align: left !important;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .id-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .id-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .id-label {
+            font-size: 0.7em;
+            color: #6c757d;
+            font-weight: 600;
+            min-width: 80px;
+            text-transform: uppercase;
+        }
+
+        /* 基本情報セル（年齢・スロット・エピソード数） */
+        .basic-info-cell {
+            padding: 6px 8px !important;
+            min-width: 120px;
+            text-align: left !important;
+        }
+
+        .basic-label {
+            font-size: 0.7em;
+            color: #6c757d;
+            font-weight: 600;
+            min-width: 70px;
+        }
+
+        /* 有名度セル（有名度・エピ有名度） */
+        .fame-cell {
+            padding: 6px 8px !important;
+            min-width: 100px;
+            text-align: left !important;
+        }
+
+        .fame-label {
+            font-size: 0.7em;
+            color: #6c757d;
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        /* 分類情報セル（カテゴリ・実在/架空・作品） */
+        .category-cell {
+            padding: 6px 8px !important;
+            min-width: 130px;
+            text-align: left !important;
+        }
+
+        .category-label {
+            font-size: 0.7em;
+            color: #6c757d;
+            font-weight: 600;
+            min-width: 70px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-episode {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge-person {
+            background: #6366f1;
+            color: white;
+        }
+
+        .badge-age {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .person-name {
+            font-weight: 600;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .pros {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .pros h4 {
+            margin: 0 0 8px 0;
+            color: #065f46;
+        }
+
+        .pros ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 エピソードテーブル レイアウト改善提案（最終版）</h1>
+
+    <div class="note">
+        <strong>💡 提案内容:</strong> 関連情報を縦並びでグループ化し、14カラム→7カラムへ劇的にコンパクト化
+    </div>
+
+    <!-- 現在のレイアウト -->
+    <div class="comparison">
+        <h2>❌ 現在のレイアウト（横並び - 幅が広い）</h2>
+        <div class="current-layout">
+            <table style="font-size: 0.8em;">
+                <thead>
+                    <tr>
+                        <th>エピソードID</th>
+                        <th>パーソナルID</th>
+                        <th>人物名</th>
+                        <th>年齢</th>
+                        <th>スロット</th>
+                        <th>エピソード数</th>
+                        <th>有名度</th>
+                        <th>エピ有名度</th>
+                        <th>総合</th>
+                        <th>カテゴリ</th>
+                        <th>実在/架空</th>
+                        <th>作品</th>
+                        <th>文字数</th>
+                        <th>エピソード全文</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-episode">EP-001,449</span></td>
+                        <td><span class="badge badge-person">P-000,001</span></td>
+                        <td><strong>湯川秀樹</strong></td>
+                        <td><span class="badge badge-age">42歳</span></td>
+                        <td>第1日</td>
+                        <td>1</td>
+                        <td>92.5</td>
+                        <td>87.3</td>
+                        <td>179.8</td>
+                        <td>科学</td>
+                        <td>👤 実在</td>
+                        <td>-</td>
+                        <td><span class="badge" style="background: #8b5cf6; color: white;">1,234文字</span></td>
+                        <td>1949年、湯川秀樹は日本人として初めてノーベル賞を受賞...</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-episode">EP-001,450</span></td>
+                        <td><span class="badge badge-person">P-000,002</span></td>
+                        <td><strong>朝永振一郎</strong></td>
+                        <td><span class="badge badge-age">59歳</span></td>
+                        <td>第1日</td>
+                        <td>1</td>
+                        <td>88.2</td>
+                        <td>85.1</td>
+                        <td>173.3</td>
+                        <td>科学</td>
+                        <td>👤 実在</td>
+                        <td>-</td>
+                        <td><span class="badge" style="background: #8b5cf6; color: white;">1,189文字</span></td>
+                        <td>1965年、朝永振一郎は量子電気力学の研究でノーベル...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 提案レイアウト -->
+    <div class="comparison">
+        <h2>✅ 提案レイアウト（縦並びグループ化 - 超コンパクト）</h2>
+        <div class="proposed-layout">
+<table>
+                <thead>
+                    <tr>
+                        <th>識別情報</th>
+                        <th>基本情報</th>
+                        <th>有名度系</th>
+                        <th>総合</th>
+                        <th>分類情報</th>
+                        <th>文字数</th>
+                        <th>エピソード全文</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="id-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="id-label">Episode</span>
+                                    <span class="badge badge-episode">EP-001,449</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="id-label">Person</span>
+                                    <span class="badge badge-person">P-000,001</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="id-label">名前</span>
+                                    <span class="person-name">👤 <strong>湯川秀樹</strong></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="basic-info-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="basic-label">年齢</span>
+                                    <span class="badge badge-age">42歳</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="basic-label">スロット</span>
+                                    <span>第1日</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="basic-label">エピ数</span>
+                                    <span>1</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="fame-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="fame-label">有名度</span>
+                                    <span>92.5</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="fame-label">エピ有名度</span>
+                                    <span>87.3</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>179.8</td>
+                        <td class="category-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="category-label">カテゴリ</span>
+                                    <span>科学</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="category-label">実在/架空</span>
+                                    <span>👤 実在</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="category-label">作品</span>
+                                    <span>-</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge" style="background: #8b5cf6; color: white;">1,234文字</span></td>
+                        <td class="episode-text-cell">1949年、湯川秀樹は日本人として初めてノーベル賞を受賞...</td>
+                    </tr>
+                    <tr>
+                        <td class="id-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="id-label">Episode</span>
+                                    <span class="badge badge-episode">EP-001,450</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="id-label">Person</span>
+                                    <span class="badge badge-person">P-000,002</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="id-label">名前</span>
+                                    <span class="person-name">👤 <strong>朝永振一郎</strong></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="basic-info-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="basic-label">年齢</span>
+                                    <span class="badge badge-age">59歳</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="basic-label">スロット</span>
+                                    <span>第1日</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="basic-label">エピ数</span>
+                                    <span>1</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="fame-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="fame-label">有名度</span>
+                                    <span>88.2</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="fame-label">エピ有名度</span>
+                                    <span>85.1</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>173.3</td>
+                        <td class="category-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="category-label">カテゴリ</span>
+                                    <span>科学</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="category-label">実在/架空</span>
+                                    <span>👤 実在</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="category-label">作品</span>
+                                    <span>-</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge" style="background: #8b5cf6; color: white;">1,189文字</span></td>
+                        <td class="episode-text-cell">1965年、朝永振一郎は量子電気力学の研究でノーベル...</td>
+                    </tr>
+                    <tr>
+                        <td class="id-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="id-label">Episode</span>
+                                    <span class="badge badge-episode">EP-001,451</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="id-label">Person</span>
+                                    <span class="badge badge-person">P-000,123</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="id-label">名前</span>
+                                    <span class="person-name">🎭 <strong>ドラえもん</strong></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="basic-info-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="basic-label">年齢</span>
+                                    <span class="badge badge-age">-2歳</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="basic-label">スロット</span>
+                                    <span>第15日</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="basic-label">エピ数</span>
+                                    <span>3</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="fame-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="fame-label">有名度</span>
+                                    <span>95.8</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="fame-label">エピ有名度</span>
+                                    <span>91.2</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>187.0</td>
+                        <td class="category-cell">
+                            <div class="id-stack">
+                                <div class="id-row">
+                                    <span class="category-label">カテゴリ</span>
+                                    <span>文化</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="category-label">実在/架空</span>
+                                    <span>🎭 架空</span>
+                                </div>
+                                <div class="id-row">
+                                    <span class="category-label">作品</span>
+                                    <span>ドラえもん</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge" style="background: #8b5cf6; color: white;">1,456文字</span></td>
+                        <td class="episode-text-cell">1969年、藤子・F・不二雄によって生み出されたドラえもん...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pros">
+        <h4>✨ メリット</h4>
+        <ul>
+            <li><strong>テーブル幅が劇的に削減される</strong>（14カラム → 7カラム = 50%削減）</li>
+            <li><strong>識別情報が1箇所にまとまり視認性向上</strong> - エピソードID、パーソナルID、人物名が縦3行で見やすく</li>
+            <li><strong>基本情報が1箇所にまとまり効率的</strong> - 年齢、スロット、エピソード数が縦3行で見やすく</li>
+            <li><strong>有名度系が1箇所にまとまり比較しやすい</strong> - 有名度とエピ有名度が縦2行で見やすく</li>
+            <li><strong>分類情報が1箇所にまとまり整理される</strong> - カテゴリ、実在/架空、作品が縦3行で見やすく</li>
+            <li><strong>ラベル付きで各項目の意味が明確</strong> - すべての項目にラベルが付き、直感的に理解可能</li>
+            <li><strong>水平スクロールがほぼ不要</strong> - 全カラムを表示しても画面内に収まりやすい</li>
+            <li><strong>ソート機能は維持</strong> - 各項目でソート可能</li>
+            <li><strong>データの構造が明確</strong> - 関連情報がグループ化され、一目瞭然</li>
+        </ul>
+    </div>
+
+    <div class="note">
+        <strong>📊 カラム構成:</strong> 識別情報(3行) + 基本情報(3行) + 有名度系(2行) + 総合 + 分類情報(3行) + 文字数 + エピソード全文 = <strong>7カラム</strong>
+    </div>
+
+    <div class="note">
+        <strong>📝 注意:</strong> ソート機能は引き続き全項目で利用可能（Episode ID, Person ID, 人物名, 年齢, スロット, エピソード数, 有名度, エピ有名度, 総合, カテゴリ, 実在/架空, 作品, 文字数）
+    </div>
+
+</body>
+</html>

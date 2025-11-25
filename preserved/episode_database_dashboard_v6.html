@@ -1053,6 +1053,11 @@
                 <div class="value" id="bonus-episodes" style="color: white;">-</div>
                 <div class="label" style="color: rgba(255,255,255,0.9);">範囲外エピソード (14歳未満・75歳超)</div>
             </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); color: white;">
+                <h3>🎭 EPUP品質監視</h3>
+                <div class="value" id="meta-explanation-count" style="color: #22c55e;">0</div>
+                <div class="label" style="color: rgba(255,255,255,0.9);">メタ的説明検出数（架空キャラ）</div>
+            </div>
         </div>
         </div>
         <!-- タブ1: 統計情報 終了 -->
@@ -1383,6 +1388,27 @@
 
                 document.getElementById('real-episodes').textContent = realCount.toLocaleString();
                 document.getElementById('fictional-episodes').textContent = fictionalCount.toLocaleString();
+
+                // EPUP: メタ的説明検出カウンター
+                const metaPatterns = [
+                    /は架空の(キャラクター|人物|存在)であり/,
+                    /実在(しない|の人物ではない)/,
+                    /エピソード(は|が)存在しません/,
+                    /公式(な|の)?描写は.*存在しない/,
+                    /申し訳ございませんが/,
+                    /架空.*ため/
+                ];
+                const metaExplanationCount = allEpisodes.filter(ep => {
+                    const ptype = (ep.person_type || '').toUpperCase();
+                    if (!ptype.includes('FICTIONAL')) return false;
+                    const text = ep.episode_text || '';
+                    return metaPatterns.some(p => p.test(text));
+                }).length;
+                const metaElement = document.getElementById('meta-explanation-count');
+                if (metaElement) {
+                    metaElement.textContent = metaExplanationCount.toLocaleString();
+                    metaElement.style.color = metaExplanationCount > 0 ? '#ef4444' : '#22c55e';
+                }
 
                 // ボーナスコンテンツ（範囲外エピソード + 年齢不明）
                 const bonusCount = bonusEpisodes.length;

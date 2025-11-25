@@ -71,6 +71,53 @@
 
 ---
 
+## 🔀 Git/MCP運用フロー
+
+### 日常の標準フロー（main直接push）
+
+```bash
+# 作業開始
+git pull origin main
+
+# 作業完了後
+git status              # 変更確認
+git add .               # ステージ
+git commit -m "type: 説明"
+git push origin main
+```
+
+### コミットメッセージ形式
+
+| type | 用途 |
+|------|------|
+| `fix:` | バグ修正 |
+| `feat:` | 新機能 |
+| `docs:` | ドキュメント |
+| `chore:` | 雑務・設定変更 |
+| `style:` | フォーマット |
+
+### MCP GitHub活用
+
+| 操作 | MCPツール |
+|------|----------|
+| 履歴確認 | `mcp__github__list_commits` |
+| Issue作成 | `mcp__github__create_issue` |
+| Issue一覧 | `mcp__github__list_issues` |
+| ファイル確認 | `mcp__github__get_file_contents` |
+
+**重要**: MCP操作後は必ず `git pull origin main` でローカル同期
+
+### トラブル対処
+
+| エラー | 対処 |
+|--------|------|
+| non-fast-forward | `git pull --rebase origin main` |
+| コンフリクト | 手動解決 → `git add` → `git rebase --continue` |
+
+詳細: `docs/GIT_MCP_WORKFLOW.md`
+
+---
+
 ## 📊 CSVファイル規約
 
 - **UTF-8 BOM必須**: `encoding='utf-8-sig'`

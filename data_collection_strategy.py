@@ -17,7 +17,7 @@ CURRENT_STATUS = {
 
 # カテゴリ別収集計画
 COLLECTION_PLAN = {
-    
+
     # ========== 優先度1: 日本市場向け（2,400人） ==========
     'japanese_priority': {
         'お笑い芸人': {
@@ -57,7 +57,7 @@ COLLECTION_PLAN = {
             'episode_types': ['デビュー年', '受賞年', '代表作発表年', '引退年']
         }
     },
-    
+
     # ========== 優先度2: 架空キャラクター（1,500人） ==========
     'fictional_characters': {
         'アニメ・漫画': {
@@ -85,7 +85,7 @@ COLLECTION_PLAN = {
             'episode_types': ['転生年齢', 'レベルアップ年齢', '覚醒年齢']
         }
     },
-    
+
     # ========== 優先度3: 歴史的教訓（500人） ==========
     'historical_lessons': {
         '独裁者・戦争犯罪者': {
@@ -113,7 +113,7 @@ COLLECTION_PLAN = {
             'episode_types': ['当選年', '汚職開始年', '発覚年', '有罪判決年']
         }
     },
-    
+
     # ========== 優先度4: テクノロジー・起業家（800人） ==========
     'technology_entrepreneurs': {
         'シリコンバレー': {
@@ -141,7 +141,7 @@ COLLECTION_PLAN = {
             'episode_types': ['入社年', '代表作発売年', '独立年', 'GOTY受賞年']
         }
     },
-    
+
     # ========== 優先度5: スポーツ選手（1,000人） ==========
     'sports_athletes': {
         'サッカー': {
@@ -169,7 +169,7 @@ COLLECTION_PLAN = {
             'episode_types': ['プロ転向年', '世界大会優勝年', '引退年']
         }
     },
-    
+
     # ========== 優先度6: その他必須カテゴリ（560人） ==========
     'other_essential': {
         'ノーベル賞受賞者': {
@@ -233,10 +233,10 @@ COST_ESTIMATION = {
 
 def generate_collection_script():
     """データ収集用のスクリプトを生成"""
-    
+
     script = """
 # データ収集計画サマリー
-    
+
 ## 必要人数: 6,260人
 ## 推定コスト: $2,225 (約334,000円)
 
@@ -244,7 +244,7 @@ def generate_collection_script():
 
 #### 1. 日本市場向け (2,400人)
 - お笑い芸人: 300人
-- YouTuber/VTuber: 400人  
+- YouTuber/VTuber: 400人
 - アイドル/声優: 500人
 - 日本のスポーツ選手: 600人
 - 日本の起業家: 300人
@@ -292,16 +292,16 @@ def generate_collection_script():
 - 全カテゴリをバランスよくカバー
 - 日本市場に最適化されたコンテンツ
     """
-    
+
     return script
 
 def calculate_episodes_distribution():
     """エピソード分布の計算"""
-    
+
     total_people = CURRENT_STATUS['required_total']
     episodes_per_person = 3
     total_episodes = total_people * episodes_per_person
-    
+
     # 年齢別エピソード分布
     age_distribution = {
         '0-9歳': total_episodes * 0.05,    # 5%
@@ -313,7 +313,7 @@ def calculate_episodes_distribution():
         '60-69歳': total_episodes * 0.05,  # 5%
         '70歳以上': total_episodes * 0.05  # 5%
     }
-    
+
     return {
         'total_people': total_people,
         'total_episodes': total_episodes,
@@ -322,16 +322,16 @@ def calculate_episodes_distribution():
 
 def main():
     """メイン処理"""
-    
+
     print("=" * 70)
     print("📊 12,410人データベース構築計画")
     print("=" * 70)
-    
+
     # 現状分析
     print("\n【現在の状況】")
     for key, value in CURRENT_STATUS.items():
         print(f"  {key}: {value:,}")
-    
+
     # 収集計画
     print("\n【カテゴリ別収集計画】")
     total_planned = 0
@@ -341,18 +341,18 @@ def main():
         print(f"\n{category}: {category_total:,}人")
         for subcat, details in subcategories.items():
             print(f"  └─ {subcat}: {details['target']}人")
-    
+
     print(f"\n合計収集予定: {total_planned:,}人")
-    
+
     # コスト見積もり
     print("\n【コスト見積もり】")
     print(f"推定総コスト: ${COST_ESTIMATION['total_estimated_cost_usd']:,}")
     print(f"推定総コスト（円）: ¥{COST_ESTIMATION['total_estimated_cost_jpy']:,}")
-    
+
     print("\n内訳:")
     for source, details in COST_ESTIMATION['data_sources'].items():
         print(f"  {source}: ${details['total_cost']}")
-    
+
     # エピソード分布
     episodes_dist = calculate_episodes_distribution()
     print("\n【エピソード分布計画】")
@@ -360,14 +360,14 @@ def main():
     print("\n年齢別分布:")
     for age_range, count in episodes_dist['age_distribution'].items():
         print(f"  {age_range}: {int(count):,}エピソード")
-    
+
     # スクリプト生成
     script = generate_collection_script()
-    
+
     # ファイル出力
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_file = f"data_collection_plan_{timestamp}.json"
-    
+
     output_data = {
         'timestamp': timestamp,
         'current_status': CURRENT_STATUS,
@@ -376,12 +376,12 @@ def main():
         'episodes_distribution': episodes_dist,
         'summary': script
     }
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output_data, f, ensure_ascii=False, indent=2)
-    
+
     print(f"\n✅ 計画書を作成しました: {output_file}")
-    
+
     return output_file
 
 if __name__ == "__main__":

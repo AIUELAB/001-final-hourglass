@@ -11,7 +11,7 @@ def generate_quality_report():
     # 修正前後のファイルを読み込み
     before_df = pd.read_csv('ultra_think_JAPANESE_DISPLAY_FIXED_20250828_192840.csv')
     after_df = pd.read_csv('ultra_think_HAJIME_FIXED_20250828_194909.csv')
-    
+
     # 統計を計算
     stats = {
         'total_records': len(after_df),
@@ -20,22 +20,22 @@ def generate_quality_report():
         'hajime_fixed': False,
         'changes': []
     }
-    
+
     # 日本語文字の判定
     def has_japanese(text):
         if pd.isna(text):
             return False
         return bool(re.search(r'[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]', str(text)))
-    
+
     # 変更を検出
     for idx in after_df.index:
         person_id = after_df.loc[idx, 'person_id']
         before_row = before_df[before_df['person_id'] == person_id]
-        
+
         if not before_row.empty:
             before_display = before_row.iloc[0]['person_name_display']
             after_display = after_df.loc[idx, 'person_name_display']
-            
+
             if before_display != after_display:
                 stats['changes'].append({
                     'person_id': person_id,
@@ -44,7 +44,7 @@ def generate_quality_report():
                     'after': after_display,
                     'has_japanese': has_japanese(after_display)
                 })
-                
+
                 if person_id == 'P000104':
                     stats['hajime_fixed'] = True
                     stats['hajime_details'] = {
@@ -52,7 +52,7 @@ def generate_quality_report():
                         'after': after_display,
                         'correct': after_display == 'はじめしゃちょー'
                     }
-    
+
     # レポートを生成
     report_lines = [
         "# 🌟 はじめしゃちょー修正 品質検証レポート",
@@ -69,7 +69,7 @@ def generate_quality_report():
         "## 🎯 P000104（はじめしゃちょー）の検証結果",
         ""
     ]
-    
+
     if stats['hajime_fixed']:
         details = stats['hajime_details']
         report_lines.extend([
@@ -87,7 +87,7 @@ def generate_quality_report():
         ])
     else:
         report_lines.append("⚠️ P000104の修正が確認できません\n")
-    
+
     # 全修正内容
     report_lines.extend([
         "## 📝 修正された全レコード",
@@ -95,18 +95,18 @@ def generate_quality_report():
         "| person_id | 名前 | 修正前 | 修正後 | 状態 |",
         "|-----------|------|--------|--------|------|"
     ])
-    
+
     for change in stats['changes']:
         status = "🌟 重要" if change['person_id'] == 'P000104' else "✅ 完了"
         report_lines.append(
             f"| {change['person_id']} | {change['person_name']} | "
             f"{change['before']} | {change['after']} | {status} |"
         )
-    
+
     # YouTuberの日本語表記率
     japanese_youtubers_df = after_df[(after_df['nationality'] == '日本') & (after_df['occupation'] == 'YouTuber')]
     jp_display_count = sum(1 for _, row in japanese_youtubers_df.iterrows() if has_japanese(row['person_name_display']))
-    
+
     report_lines.extend([
         "",
         "## 📈 改善指標",
@@ -136,20 +136,20 @@ def generate_quality_report():
         "---",
         f"*レポート生成: {datetime.now().isoformat()}*"
     ])
-    
+
     # レポートを保存
     report_content = '\n'.join(report_lines)
     report_file = f'HAJIME_QUALITY_REPORT_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
-    
+
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report_content)
-    
+
     print(report_content)
-    
+
     # 統計をJSONでも保存
     with open('hajime_quality_stats.json', 'w', encoding='utf-8') as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
-    
+
     return report_file, stats
 
 if __name__ == "__main__":

@@ -108,12 +108,12 @@ YouTuberから100人
     ├─→ 明らかに有名（500人）→ API検証必須
     ├─→ おそらく有名（1,500人）→ ML判定＋サンプルAPI
     └─→ おそらく無名（2,701人）→ ML判定のみ
-    
+
 [ステップ2: 処理実行]
     ├─→ API検証（500人）: 詳細な調査
     ├─→ ML判定（4,201人）: AIによる推定
     └─→ 品質チェック: 結果の妥当性確認
-    
+
 [ステップ3: 結果統合]
     └─→ 最終スコア算出
 ```
@@ -141,11 +141,11 @@ from datetime import datetime
 
 class SimpleRecognitionSystem:
     """初心者向けのシンプルな知名度評価システム"""
-    
+
     def __init__(self):
         print("🚀 システムを初期化しています...")
         self.results = []
-        
+
     def load_data(self, filename):
         """CSVファイルを読み込む"""
         print(f"📂 {filename}を読み込んでいます...")
@@ -153,11 +153,11 @@ class SimpleRecognitionSystem:
         self.data = pd.read_csv(filename)
         print(f"✅ {len(self.data)}件のデータを読み込みました")
         return self.data
-    
+
     def select_sample(self, sample_size=500):
         """500人をランダムに選ぶ"""
         print(f"🎲 {sample_size}人をランダムに選んでいます...")
-        
+
         # 全データから500件をランダムに選ぶ
         total_count = len(self.data)
         if total_count <= sample_size:
@@ -167,14 +167,14 @@ class SimpleRecognitionSystem:
             # ランダムに500件選ぶ
             indices = random.sample(range(total_count), sample_size)
             self.sample = self.data.iloc[indices]
-        
+
         print(f"✅ {len(self.sample)}人を選びました")
         return self.sample
-    
+
     def calculate_ml_score(self, person_name):
         """ML（機械学習）でスコアを推定する（簡易版）"""
         score = 0.0
-        
+
         # 名前の長さでざっくり判定（本来はもっと複雑）
         if "HIKAKIN" in person_name:
             score = 9.5
@@ -184,28 +184,28 @@ class SimpleRecognitionSystem:
             score = random.uniform(3.0, 5.0)
         else:
             score = random.uniform(4.0, 7.0)
-        
+
         return round(score, 2)
-    
+
     def process_with_api(self, person_name):
         """APIで詳細に調査する（デモ版）"""
         print(f"  🔍 APIで調査中: {person_name}")
-        
+
         # 実際のAPI呼び出しの代わりに待機
         time.sleep(1)  # 1秒待つ（API制限対策）
-        
+
         # デモ用のダミースコア
         base_score = self.calculate_ml_score(person_name)
         api_boost = random.uniform(0, 1.0)
-        
+
         return round(base_score + api_boost, 2)
-    
+
     def process_all(self):
         """全体を処理する"""
         print("\n" + "="*50)
         print("📊 処理を開始します")
         print("="*50 + "\n")
-        
+
         # 1. サンプル（500人）をAPI処理
         print("【Phase 1】サンプルのAPI処理")
         sample_results = []
@@ -218,16 +218,16 @@ class SimpleRecognitionSystem:
                 'recognition_score': score,
                 'method': 'API'
             })
-            
+
             # 進捗表示
             if (i + 1) % 10 == 0:
                 print(f"  進捗: {i+1}/{len(self.sample)}件完了")
-        
+
         # 2. 残りをML処理
         print("\n【Phase 2】残りのML処理")
         sample_ids = set(self.sample.index)
         ml_count = 0
-        
+
         for i, row in self.data.iterrows():
             if i not in sample_ids:
                 person_name = row.get('person_name', f'Person_{i}')
@@ -239,55 +239,55 @@ class SimpleRecognitionSystem:
                     'method': 'ML'
                 })
                 ml_count += 1
-                
+
                 # 進捗表示
                 if ml_count % 100 == 0:
                     print(f"  ML処理: {ml_count}件完了")
-        
+
         # サンプル結果を追加
         self.results.extend(sample_results)
-        
+
         print(f"\n✅ 全処理完了！")
         print(f"  - API処理: {len(sample_results)}件")
         print(f"  - ML処理: {ml_count}件")
         print(f"  - 合計: {len(self.results)}件")
-    
+
     def save_results(self):
         """結果を保存する"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"recognition_results_{timestamp}.csv"
-        
+
         # DataFrameに変換して保存
         df = pd.DataFrame(self.results)
         df.to_csv(filename, index=False, encoding='utf-8-sig')
-        
+
         print(f"\n💾 結果を保存しました: {filename}")
-        
+
         # 統計情報を表示
         print("\n📊 統計情報:")
         print(f"  - 平均スコア: {df['recognition_score'].mean():.2f}")
         print(f"  - 最高スコア: {df['recognition_score'].max():.2f}")
         print(f"  - 最低スコア: {df['recognition_score'].min():.2f}")
-        
+
         return filename
 
 # 実行方法
 if __name__ == "__main__":
     # システムを作成
     system = SimpleRecognitionSystem()
-    
+
     # データを読み込む
     system.load_data("ultra_think_EPISODE_FINAL_20250901_020106_fixed.csv")
-    
+
     # 500人のサンプルを選ぶ
     system.select_sample(500)
-    
+
     # 処理を実行
     system.process_all()
-    
+
     # 結果を保存
     system.save_results()
-    
+
     print("\n🎉 すべての処理が完了しました！")
 ```
 
@@ -302,22 +302,22 @@ if __name__ == "__main__":
 def check_quality(results_file):
     """結果の品質をチェックする"""
     df = pd.read_csv(results_file)
-    
+
     # 1. 有名人のスコアが高いか確認
     famous_people = ["HIKAKIN", "大谷翔平", "新垣結衣"]
     for person in famous_people:
         score = df[df['person_name'].str.contains(person)]['recognition_score']
         if not score.empty and score.values[0] < 7.0:
             print(f"⚠️ 警告: {person}のスコアが低すぎます: {score.values[0]}")
-    
+
     # 2. 分布を確認
     high_score = (df['recognition_score'] > 7.0).sum()
     low_score = (df['recognition_score'] < 3.0).sum()
-    
+
     print(f"スコア分布:")
     print(f"  - 高スコア(>7.0): {high_score}人 ({high_score/len(df)*100:.1f}%)")
     print(f"  - 低スコア(<3.0): {low_score}人 ({low_score/len(df)*100:.1f}%)")
-    
+
     # 3. 妥当性判定
     if high_score / len(df) > 0.5:
         print("⚠️ 高スコアが多すぎます。調整が必要かもしれません。")

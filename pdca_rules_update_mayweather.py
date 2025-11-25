@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 
 def add_mayweather_rules():
     """メイウェザー問題から学んだルールを追加"""
-    
+
     # project_memory.jsonを読み込み
     memory_file = Path("project_memory.json")
-    
+
     if memory_file.exists():
         with open(memory_file, 'r', encoding='utf-8') as f:
             memory = json.load(f)
@@ -36,7 +36,7 @@ def add_mayweather_rules():
             "pdca_history": [],
             "improvement_log": []
         }
-    
+
     # 新しいルールを追加
     new_rules = [
         {
@@ -109,7 +109,7 @@ def add_mayweather_rules():
             ]
         }
     ]
-    
+
     # 失敗パターンに追加
     failed_pattern = {
         "pattern_id": "FAIL_MAYWEATHER_001",
@@ -120,11 +120,11 @@ def add_mayweather_rules():
         "lesson_learned": "外国人名の正規化と複数パターン検索の必要性",
         "prevention": "RULE_NAME_NORMALIZATION_001, RULE_ATHLETE_EVALUATION_001"
     }
-    
+
     # メモリに追加
     memory['permanent_rules'].extend(new_rules)
     memory['failed_patterns'].append(failed_pattern)
-    
+
     # 改善ログに記録
     improvement = {
         "date": datetime.now().isoformat(),
@@ -134,19 +134,19 @@ def add_mayweather_rules():
         "expected_impact": "外国人アスリートの適切な評価"
     }
     memory['improvement_log'].append(improvement)
-    
+
     # メタデータ更新
     memory['metadata']['last_updated'] = datetime.now().isoformat()
     memory['metadata']['version'] = "1.1.0"  # バージョンアップ
-    
+
     # 保存
     with open(memory_file, 'w', encoding='utf-8') as f:
         json.dump(memory, f, ensure_ascii=False, indent=2)
-    
+
     logger.info("✅ PDCAガーディアンルールを更新しました")
     logger.info(f"  追加ルール数: {len(new_rules)}")
     logger.info(f"  失敗パターン記録: 1件")
-    
+
     return memory
 
 def display_rules(memory):
@@ -154,7 +154,7 @@ def display_rules(memory):
     print("\n" + "="*60)
     print("📋 追加されたPDCAガーディアンルール")
     print("="*60)
-    
+
     for rule in memory['permanent_rules'][-4:]:  # 最新4件
         print(f"\n🔸 {rule['rule_id']}")
         print(f"  カテゴリ: {rule['category']}")
@@ -164,11 +164,11 @@ def display_rules(memory):
             print("  チェック項目:")
             for check in rule['checks']:
                 print(f"    - {check}")
-    
+
     print("\n" + "="*60)
     print("❌ 記録された失敗パターン")
     print("="*60)
-    
+
     latest_fail = memory['failed_patterns'][-1]
     print(f"\nパターンID: {latest_fail['pattern_id']}")
     print(f"問題: {latest_fail['description']}")
@@ -180,12 +180,12 @@ if __name__ == "__main__":
     logger.info("="*60)
     logger.info("🛡️ PDCAガーディアンルール更新開始")
     logger.info("="*60)
-    
+
     # ルール追加
     memory = add_mayweather_rules()
-    
+
     # 表示
     display_rules(memory)
-    
+
     print("\n✅ PDCAガーディアンシステムが強化されました")
     print("  今後、同様の問題は自動的に検出・防止されます")

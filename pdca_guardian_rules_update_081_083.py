@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_wikipedia_protection_rules():
     """Wikipedia保護ルール追加"""
-    
+
     new_rules = [
         {
             "rule_id": "RULE_081",
@@ -89,16 +89,16 @@ def add_wikipedia_protection_rules():
             "reason": "誤削除の完全防止"
         }
     ]
-    
+
     # 既存のルールファイルを読み込み（存在する場合）
     rules_file = Path("pdca_guardian_rules.json")
-    
+
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "last_updated": None}
-    
+
     # 新しいルールを追加
     for rule in new_rules:
         # 重複チェック
@@ -107,21 +107,21 @@ def add_wikipedia_protection_rules():
             logger.info(f"✅ ルール追加: {rule['rule_id']} - {rule['name']}")
         else:
             logger.info(f"ℹ️ ルール既存: {rule['rule_id']}")
-    
+
     # 更新日時を記録
     existing_rules['last_updated'] = datetime.now().isoformat()
     existing_rules['total_rules'] = len(existing_rules.get('rules', []))
-    
+
     # ファイルに保存
     with open(rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"💾 PDCAルール保存: {rules_file}")
     logger.info(f"📊 総ルール数: {existing_rules['total_rules']}")
-    
+
     # 実装チェックリスト生成
     generate_implementation_checklist(new_rules)
-    
+
     return new_rules
 
 
@@ -132,7 +132,7 @@ def generate_implementation_checklist(rules):
         "created_at": datetime.now().isoformat(),
         "rules": []
     }
-    
+
     for rule in rules:
         checklist["rules"].append({
             "rule_id": rule["rule_id"],
@@ -160,14 +160,14 @@ def generate_implementation_checklist(rules):
                 }
             ]
         })
-    
+
     # チェックリスト保存
     checklist_file = f"pdca_implementation_checklist_{datetime.now().strftime('%Y%m%d')}.json"
     with open(checklist_file, 'w', encoding='utf-8') as f:
         json.dump(checklist, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"📋 チェックリスト生成: {checklist_file}")
-    
+
     # マークダウンレポート生成
     generate_markdown_report(rules)
 
@@ -186,7 +186,7 @@ def generate_markdown_report(rules):
     report.append("")
     report.append("## 追加ルール")
     report.append("")
-    
+
     for rule in rules:
         report.append(f"### {rule['rule_id']}: {rule['name']}")
         report.append("")
@@ -196,7 +196,7 @@ def generate_markdown_report(rules):
         report.append("")
         report.append(f"**理由**: {rule['reason']}")
         report.append("")
-        
+
         if 'implementation' in rule:
             report.append("**実装詳細**:")
             report.append(f"- トリガー: {rule['implementation']['trigger']}")
@@ -207,17 +207,17 @@ def generate_markdown_report(rules):
                 report.append("- 判定基準:")
                 for criterion in rule['implementation']['criteria']:
                     report.append(f"  - {criterion}")
-        
+
         if 'examples' in rule:
             report.append("")
             report.append("**例**:")
             for example in rule['examples']:
                 report.append(f"- {example}")
-        
+
         report.append("")
         report.append("---")
         report.append("")
-    
+
     report.append("## 実装状況")
     report.append("")
     report.append("| コンポーネント | ファイル | 状態 |")
@@ -235,12 +235,12 @@ def generate_markdown_report(rules):
     report.append("3. 自動テストの充実")
     report.append("4. 監査ログの強化")
     report.append("")
-    
+
     # レポート保存
     report_file = f"PDCA_RULES_081_083_REPORT_{datetime.now().strftime('%Y%m%d')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
-    
+
     logger.info(f"📄 レポート生成: {report_file}")
 
 
@@ -249,21 +249,21 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 PDCAガーディアンルール追加 (RULE_081-083)")
     logger.info("=" * 60)
-    
+
     # ルール追加
     new_rules = add_wikipedia_protection_rules()
-    
+
     # サマリー表示
     logger.info("\n" + "=" * 60)
     logger.info("📊 追加ルールサマリー")
     logger.info("=" * 60)
-    
+
     for rule in new_rules:
         logger.info(f"  {rule['rule_id']}: {rule['name']}")
         logger.info(f"    重要度: {rule['severity']}")
         logger.info(f"    理由: {rule['reason']}")
         logger.info("")
-    
+
     logger.info("✅ PDCAガーディアンルール追加完了")
     logger.info("📋 二度と同じ過ちを繰り返さないための仕組みを構築しました")
 

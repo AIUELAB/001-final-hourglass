@@ -13,11 +13,11 @@ from typing import Optional
 
 class SimpleNotification:
     """シンプルな音声通知クラス"""
-    
+
     def __init__(self):
         self.system = platform.system()
         self.enabled = self._check_audio_capability()
-        
+
     def _check_audio_capability(self) -> bool:
         """音声機能が利用可能かチェック"""
         if self.system == "Darwin":  # macOS
@@ -29,7 +29,7 @@ class SimpleNotification:
         elif self.system == "Windows":
             return True  # winsound is built-in
         return False
-    
+
     def _command_exists(self, command: str) -> bool:
         """コマンドが存在するかチェック"""
         try:
@@ -42,13 +42,13 @@ class SimpleNotification:
             return True
         except:
             return False
-    
+
     def play_sound(self, sound_type: str = "default") -> None:
         """音を再生"""
         if not self.enabled:
             print(f"🔔 [{sound_type}] (音声通知は利用できません)")
             return
-            
+
         try:
             if self.system == "Darwin":  # macOS
                 self._play_macos_sound(sound_type)
@@ -58,7 +58,7 @@ class SimpleNotification:
                 self._play_windows_sound(sound_type)
         except Exception as e:
             print(f"🔔 [{sound_type}] (音声再生エラー: {e})")
-    
+
     def _play_macos_sound(self, sound_type: str) -> None:
         """macOSで音を再生"""
         # osascriptでビープ音を鳴らす（最も確実）
@@ -68,14 +68,14 @@ class SimpleNotification:
             count = 1
         else:
             count = 1
-            
+
         script = f'beep {count}'
         subprocess.run(
             ["osascript", "-e", script],
             capture_output=True,
             timeout=2
         )
-        
+
     def _play_linux_sound(self, sound_type: str) -> None:
         """Linuxで音を再生"""
         # pactl or beep command
@@ -100,7 +100,7 @@ class SimpleNotification:
         else:
             # ASCII bell
             print("\a", end="", flush=True)
-    
+
     def _play_windows_sound(self, sound_type: str) -> None:
         """Windowsで音を再生"""
         import winsound
@@ -147,21 +147,21 @@ def test_notifications():
     """通知システムのテスト"""
     print("🎵 音声通知システムテスト")
     print("=" * 40)
-    
+
     print("\n1. 成功通知テスト...")
     notify_success("処理が成功しました")
-    
+
     import time
     time.sleep(1)
-    
+
     print("\n2. エラー通知テスト...")
     notify_error("エラーが発生しました")
-    
+
     time.sleep(1)
-    
+
     print("\n3. 完了通知テスト...")
     notify_complete("すべてのタスクが完了しました")
-    
+
     print("\n" + "=" * 40)
     print("✅ テスト完了！")
 

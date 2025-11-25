@@ -163,10 +163,10 @@ def backup_database():
 with notification_context(task_name="database migration") as progress:
     progress("Creating backup")
     create_backup()
-    
+
     progress("Running migration")
     run_migration()
-    
+
     progress("Verifying results")
     verify_migration()
 # Automatically plays success or error notification
@@ -185,7 +185,7 @@ from src.notification_integration import (
 for i, item in enumerate(items):
     if i % 100 == 0:  # Every 100 items
         quick_notify_progress(f"Processed {i}/{len(items)} items")
-    
+
     process_item(item)
 
 quick_notify_success(f"Processed all {len(items)} items")

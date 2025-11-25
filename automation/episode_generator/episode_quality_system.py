@@ -10,7 +10,7 @@ from typing import Dict, List, Optional
 
 class EpisodeQualityEvaluator:
     """エピソード品質評価器"""
-    
+
     def __init__(self):
         # 評価基準の重み付け
         self.weights = {
@@ -20,7 +20,7 @@ class EpisodeQualityEvaluator:
             'coherence': 0.15,       # 一貫性
             'age_relevance': 0.15    # 年齢との関連性
         }
-        
+
         # 感情的な言葉のリスト
         self.emotional_words = [
             '感動', '驚き', '喜び', '悲しみ', '希望', '絶望', '勇気', '恐怖',
@@ -29,40 +29,40 @@ class EpisodeQualityEvaluator:
             '初めて', '最初', '革命', '画期的', '歴史的', '伝説', '奇跡',
             '運命', '偉大', '革新', '突破', '克服', '挑戦', '成功', '失敗'
         ]
-        
+
         # 具体的な要素を示す言葉
         self.specific_indicators = [
             '年', '歳', '月', '日', '時', '円', 'ドル', '人', '個', '回',
             '%', '第', '初', '最', '約', '以上', '以下', '世界', '日本',
             '発明', '発見', '開発', '設立', '創業', '発表', '受賞', '達成'
         ]
-        
+
     def evaluate_episode(self, episode_text: str, age: int) -> Dict:
         """
         エピソードを評価
-        
+
         Args:
             episode_text: エピソードのテキスト
             age: 対象年齢
-            
+
         Returns:
             評価結果の辞書
         """
         scores = {}
-        
+
         # 各項目を評価
         scores['specificity'] = self._evaluate_specificity(episode_text)
         scores['emotional_impact'] = self._evaluate_emotional_impact(episode_text)
         scores['length'] = self._evaluate_length(episode_text)
         scores['coherence'] = self._evaluate_coherence(episode_text)
         scores['age_relevance'] = self._evaluate_age_relevance(episode_text, age)
-        
+
         # 総合スコアを計算
         total_score = sum(
-            scores[key] * self.weights[key] 
+            scores[key] * self.weights[key]
             for key in scores
         )
-        
+
         # 詳細な評価結果を返す
         return {
             'quality_score': round(total_score, 2),
@@ -72,54 +72,54 @@ class EpisodeQualityEvaluator:
             'strengths': self._identify_strengths(scores),
             'improvements': self._identify_improvements(scores)
         }
-    
+
     def _evaluate_specificity(self, text: str) -> float:
         """具体性を評価（0-100）"""
         score = 0
         text_lower = text.lower()
-        
+
         # 具体的な数字が含まれているか
         numbers = re.findall(r'\d+', text)
         if numbers:
             score += min(len(numbers) * 10, 30)
-        
+
         # 具体的な指標語が含まれているか
         specific_count = sum(1 for word in self.specific_indicators if word in text)
         score += min(specific_count * 5, 40)
-        
+
         # 固有名詞（大文字で始まる単語）の数
         proper_nouns = re.findall(r'[A-Z][a-z]+|[ァ-ヴー]+', text)
         if proper_nouns:
             score += min(len(proper_nouns) * 5, 30)
-        
+
         return min(score, 100)
-    
+
     def _evaluate_emotional_impact(self, text: str) -> float:
         """感情的インパクトを評価（0-100）"""
         score = 0
         text_lower = text.lower()
-        
+
         # 感情的な言葉の使用
         emotional_count = sum(1 for word in self.emotional_words if word in text)
         score += min(emotional_count * 15, 60)
-        
+
         # 感嘆符や疑問符の使用
         exclamations = text.count('！') + text.count('!')
         questions = text.count('？') + text.count('?')
         score += min((exclamations + questions) * 10, 20)
-        
+
         # 引用符の使用（直接話法）
         quotes = text.count('「') + text.count('」') + text.count('"')
         if quotes > 0:
             score += 20
-        
+
         return min(score, 100)
-    
+
     def _evaluate_length(self, text: str) -> float:
         """長さの適切性を評価（0-100）"""
         # 理想的な長さは100-300文字
         length = len(text)
-        
+
         if 100 <= length <= 300:
             return 100
         elif 50 <= length < 100:
@@ -130,49 +130,49 @@ class EpisodeQualityEvaluator:
             return 30
         else:  # > 500
             return 50
-    
+
     def _evaluate_coherence(self, text: str) -> float:
         """文章の一貫性を評価（0-100）"""
         score = 100
-        
+
         # 文の数を数える
         sentences = re.split(r'[。！？\n]', text)
         sentences = [s for s in sentences if s.strip()]
-        
+
         if len(sentences) == 0:
             return 0
-        
+
         # 文が短すぎたり長すぎたりしないか
         for sentence in sentences:
             if len(sentence) < 10:
                 score -= 10
             elif len(sentence) > 100:
                 score -= 5
-        
+
         # 接続詞や順序を示す言葉があるか
         connectors = ['そして', 'しかし', 'また', 'さらに', 'その後', 'やがて', 'ついに']
         connector_count = sum(1 for word in connectors if word in text)
         if connector_count > 0:
             score = min(score + connector_count * 5, 100)
-        
+
         return max(score, 0)
-    
+
     def _evaluate_age_relevance(self, text: str, age: int) -> float:
         """年齢との関連性を評価（0-100）"""
         score = 50  # ベーススコア
-        
+
         # 年齢が直接言及されているか
         age_str = str(age)
         if age_str in text:
             score += 30
-        
+
         # 年齢に関連する言葉があるか
         age_words = ['歳', '才', '年齢', '当時']
         for word in age_words:
             if word in text:
                 score += 10
                 break
-        
+
         # 成長段階に応じた言葉があるか
         if age < 20:
             youth_words = ['子供', '少年', '少女', '学生', '青春']
@@ -186,13 +186,13 @@ class EpisodeQualityEvaluator:
             mature_words = ['中年', '熟年', '経験', '円熟']
             if any(word in text for word in mature_words):
                 score += 10
-        
+
         return min(score, 100)
-    
+
     def _generate_feedback(self, scores: Dict[str, float]) -> str:
         """評価に基づくフィードバックを生成"""
         feedback_parts = []
-        
+
         if scores['specificity'] < 50:
             feedback_parts.append("より具体的な数字や固有名詞を追加してください")
         if scores['emotional_impact'] < 50:
@@ -203,9 +203,9 @@ class EpisodeQualityEvaluator:
             feedback_parts.append("文章の流れと一貫性を改善してください")
         if scores['age_relevance'] < 50:
             feedback_parts.append("年齢との関連性をより明確にしてください")
-        
+
         return "。".join(feedback_parts) if feedback_parts else "良質なエピソードです"
-    
+
     def _identify_strengths(self, scores: Dict[str, float]) -> List[str]:
         """強みを特定"""
         strengths = []
@@ -222,7 +222,7 @@ class EpisodeQualityEvaluator:
                 elif key == 'age_relevance':
                     strengths.append("年齢との関連性が明確")
         return strengths
-    
+
     def _identify_improvements(self, scores: Dict[str, float]) -> List[str]:
         """改善点を特定"""
         improvements = []
@@ -244,7 +244,7 @@ class EpisodeQualityEvaluator:
 if __name__ == "__main__":
     # テスト実行
     evaluator = EpisodeQualityEvaluator()
-    
+
     # サンプルエピソード
     sample_episodes = [
         {
@@ -260,7 +260,7 @@ if __name__ == "__main__":
             'age': 12
         }
     ]
-    
+
     for i, episode in enumerate(sample_episodes, 1):
         print(f"\n=== エピソード {i} ===")
         print(f"テキスト: {episode['text'][:50]}...")

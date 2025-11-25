@@ -15,6 +15,7 @@ from typing import Dict, List
 DOMESTIC_SPORTS_CSV = "generated/domestic_sports_legends_episodes.csv"
 MASTER_CSV = "MASTER_EPISODES_CURRENT.csv"
 
+
 def is_valid_episode(row_dict: Dict[str, str]) -> bool:
     """エピソードが有効かチェック"""
     # person_idが空でないかチェック

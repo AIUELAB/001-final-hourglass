@@ -19,12 +19,12 @@ from wikipedia_japanese_translator import WikipediaJapaneseTranslator
 
 class IntegratedTranslationPipeline:
     """統合翻訳パイプライン"""
-    
+
     def __init__(self):
         self.wikipedia_translator = WikipediaJapaneseTranslator()
         self.phonetic_converter = PhoneticKatakanaConverter()
         self.custom_dictionary = CustomTranslationDictionary()
-        
+
         self.stats = {
             'total': 0,
             'already_japanese': 0,
@@ -34,15 +34,15 @@ class IntegratedTranslationPipeline:
             'fallback_converted': 0,
             'failed': 0
         }
-        
+
         self.translation_log = []
-    
+
     def is_japanese(self, text: str) -> bool:
         """日本語文字を含むか判定"""
         if not text:
             return False
         return any(ord(c) > 0x3000 for c in text)
-    
+
     def simple_katakana_fallback(self, name: str) -> str:
         """最終手段: シンプルなカタカナ変換"""
         # 基本的な音素変換テーブル
@@ -54,7 +54,7 @@ class IntegratedTranslationPipeline:
             'u': 'ウ', 'v': 'ヴ', 'w': 'ウ', 'x': 'クス', 'y': 'イ',
             'z': 'ズ'
         }
-        
+
         # 複合音の変換
         name_lower = name.lower()
         name_lower = name_lower.replace('th', 'ス')
@@ -66,7 +66,7 @@ class IntegratedTranslationPipeline:
         name_lower = name_lower.replace('sion', 'ジョン')
         name_lower = name_lower.replace('oo', 'ウー')
         name_lower = name_lower.replace('ee', 'イー')
-        
+
         # 文字ごとの変換
         result = []
         for char in name_lower:
@@ -76,92 +76,92 @@ class IntegratedTranslationPipeline:
                 result.append('・')
             elif not char.isalpha():
                 result.append(char)
-        
+
         return ''.join(result) if result else name
-    
+
     def translate_single_name(self, name: str, wikidata_id: str = '', nationality: str = '') -> Tuple[str, str]:
         """単一の名前を翻訳（複数手法を試行）"""
-        
+
         # すでに日本語の場合
         if self.is_japanese(name):
             self.stats['already_japanese'] += 1
             return name, 'already_japanese'
-        
+
         # ステップ1: Wikipedia日本語版
         if wikidata_id:
             jp_name = self.wikipedia_translator.get_japanese_name_from_english(name, wikidata_id)
             if jp_name and jp_name != name:
                 self.stats['wikipedia_translated'] += 1
                 return jp_name, 'wikipedia'
-        
+
         # ステップ2: カスタム辞書
         jp_name = self.custom_dictionary.translate_name(name)
         if jp_name and jp_name != name:
             self.stats['dictionary_translated'] += 1
             return jp_name, 'dictionary'
-        
+
         # ステップ3: 音声ベースカタカナ変換
         jp_name = self.phonetic_converter.process_name(name, nationality)
         if jp_name and jp_name != name:
             self.stats['phonetic_converted'] += 1
             return jp_name, 'phonetic'
-        
+
         # ステップ4: 最終手段のシンプル変換
         jp_name = self.simple_katakana_fallback(name)
         if jp_name and jp_name != name:
             self.stats['fallback_converted'] += 1
             return jp_name, 'fallback'
-        
+
         # 翻訳失敗（ありえないはず）
         self.stats['failed'] += 1
         return name, 'failed'
-    
+
     def process_database(self, input_file: str = None) -> Tuple[str, Dict]:
         """データベース全体を処理して100%翻訳を達成"""
-        
+
         # 入力ファイル決定
         if not input_file:
             input_file = 'perfect_database_20250824_172451.json'
-        
+
         print("🚀 統合翻訳パイプライン開始")
         print(f"  入力: {input_file}")
         print("  目標: 100%翻訳達成")
         print("")
-        
+
         # データ読み込み
         with open(input_file, 'r', encoding='utf-8') as f:
             all_data = json.load(f)
-        
+
         self.stats['total'] = len(all_data)
-        
+
         # プログレスバー用の変数
         processed = 0
         last_percent = 0
-        
+
         # 各レコードを処理
         for key, value in all_data.items():
             if isinstance(value, dict):
                 processed += 1
-                
+
                 # プログレス表示
                 percent = int(processed / self.stats['total'] * 100)
                 if percent > last_percent and percent % 10 == 0:
                     print(f"  進捗: {percent}% ({processed}/{self.stats['total']})")
                     last_percent = percent
-                
+
                 name = value.get('name', '')
                 wikidata_id = value.get('wikidata_id', '')
                 nationality = value.get('nationality', '')
-                
+
                 if name:
                     # 翻訳実行
                     translated_name, method = self.translate_single_name(name, wikidata_id, nationality)
-                    
+
                     if translated_name != name:
                         value['original_name'] = name
                         value['name'] = translated_name
                         value['translation_method'] = method
-                        
+
                         # ログ記録（最初の100件）
                         if len(self.translation_log) < 100:
                             self.translation_log.append({
@@ -170,13 +170,13 @@ class IntegratedTranslationPipeline:
                                 'method': method,
                                 'nationality': nationality
                             })
-                
+
                 # レート制限対策
                 if processed % 100 == 0:
                     time.sleep(0.1)
-        
+
         print(f"  進捗: 100% ({processed}/{self.stats['total']})")
-        
+
         # 統計計算
         translated_total = (
             self.stats['wikipedia_translated'] +
@@ -184,37 +184,37 @@ class IntegratedTranslationPipeline:
             self.stats['phonetic_converted'] +
             self.stats['fallback_converted']
         )
-        
+
         # 出力ファイル保存
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"perfect_100_translated_{timestamp}.json"
-        
+
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
-        
+
         # CSV形式でも保存
         csv_file = f"perfect_100_translated_{timestamp}.csv"
         self.save_as_csv(all_data, csv_file)
-        
+
         # 翻訳ログ保存
         log_file = f"translation_log_{timestamp}.json"
         with open(log_file, 'w', encoding='utf-8') as f:
             json.dump(self.translation_log, f, ensure_ascii=False, indent=2)
-        
+
         # レポート生成
         self.generate_report(timestamp, translated_total)
-        
+
         print("\n✅ 統合翻訳完了!")
         print(f"  出力: {output_file}")
         print(f"  CSV: {csv_file}")
         print(f"  ログ: {log_file}")
-        
+
         return output_file, self.stats
-    
+
     def save_as_csv(self, data: Dict, csv_file: str):
         """データをCSV形式で保存"""
         import pandas as pd
-        
+
         # 辞書をリストに変換
         records = []
         for key, value in data.items():
@@ -222,11 +222,11 @@ class IntegratedTranslationPipeline:
                 record = {'id': key}
                 record.update(value)
                 records.append(record)
-        
+
         # DataFrameに変換してCSV保存
         df = pd.DataFrame(records)
         df.to_csv(csv_file, index=False, encoding='utf-8')
-    
+
     def generate_report(self, timestamp: str, translated_total: int):
         """最終レポートを生成"""
         report = f"""# 🎉 100%翻訳達成レポート
@@ -255,14 +255,14 @@ class IntegratedTranslationPipeline:
 
 ## 📝 翻訳サンプル（最初の20件）
 """
-        
+
         for i, log in enumerate(self.translation_log[:20], 1):
             report += f"\n{i}. **{log['original']}** → **{log['translated']}**"
             report += f"\n   - 手法: {log['method']}"
             if log['nationality']:
                 report += f", 国籍: {log['nationality']}"
             report += "\n"
-        
+
         report += f"""
 ## ✅ 品質保証
 
@@ -282,28 +282,28 @@ class IntegratedTranslationPipeline:
 *Integrated Translation Pipeline v1.0*
 *100%翻訳達成 - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 """
-        
+
         report_file = f"translation_report_{timestamp}.md"
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"  レポート: {report_file}")
 
 
 def main():
     """メイン実行"""
     pipeline = IntegratedTranslationPipeline()
-    
+
     # 統合翻訳パイプライン実行
     output_file, stats = pipeline.process_database()
-    
+
     # 最終統計
     print("\n📊 最終統計:")
     print(f"  Wikipedia翻訳: {stats['wikipedia_translated']:,}件")
     print(f"  辞書翻訳: {stats['dictionary_translated']:,}件")
     print(f"  音声変換: {stats['phonetic_converted']:,}件")
     print(f"  フォールバック: {stats['fallback_converted']:,}件")
-    
+
     total_translated = (
         stats['wikipedia_translated'] +
         stats['dictionary_translated'] +
@@ -311,10 +311,10 @@ def main():
         stats['fallback_converted'] +
         stats['already_japanese']
     )
-    
+
     success_rate = total_translated / max(stats['total'], 1) * 100
     print(f"\n🏆 最終翻訳成功率: {success_rate:.2f}%")
-    
+
     if success_rate >= 99.9:
         print("✨ 100%翻訳達成！完璧なデータベースが完成しました！")
     else:

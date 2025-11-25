@@ -49,13 +49,13 @@ class PersonValidation:
 
 class UltraThinkFastValidator:
     """超高速ローカル辞書ベース検証エンジン"""
-    
+
     def __init__(self):
         """初期化"""
         self.whitelist = {}
         self.blacklist_patterns = {}
         self.load_dictionaries()
-        
+
         # 統計情報
         self.stats = {
             'total_processed': 0,
@@ -67,7 +67,7 @@ class UltraThinkFastValidator:
             'deleted': 0,
             'processing_time': 0
         }
-        
+
     def load_dictionaries(self):
         """辞書ファイルを読み込み"""
         # ホワイトリストを読み込み
@@ -80,7 +80,7 @@ class UltraThinkFastValidator:
         else:
             if USE_RICH:
                 console.print(f"[yellow]⚠️ ホワイトリストが見つかりません[/yellow]")
-        
+
         # ブラックパターンを読み込み
         blacklist_file = "blacklist_patterns.json"
         if Path(blacklist_file).exists():
@@ -91,18 +91,18 @@ class UltraThinkFastValidator:
         else:
             if USE_RICH:
                 console.print(f"[yellow]⚠️ ブラックパターンが見つかりません[/yellow]")
-    
+
     def normalize_name(self, name: str) -> List[str]:
         """名前を正規化して複数のバリエーションを生成"""
         if not name or name == 'nan':
             return []
-        
+
         variations = [name]
-        
+
         # スペースの除去
         variations.append(name.replace(' ', ''))
         variations.append(name.replace('　', ''))
-        
+
         # カッコの処理
         if '（' in name and '）' in name:
             # カッコ内を抽出
@@ -111,13 +111,13 @@ class UltraThinkFastValidator:
                 variations.append(match.group(1))
             # カッコを除去
             variations.append(re.sub(r'（.+?）', '', name).strip())
-        
+
         # 「・」の処理
         variations.append(name.replace('・', ''))
         variations.append(name.replace('・', ' '))
-        
+
         return list(set(filter(None, variations)))
-    
+
     def check_whitelist(self, person_names: List[str]) -> Tuple[bool, float, str]:
         """ホワイトリストチェック"""
         for name in person_names:
@@ -127,39 +127,39 @@ class UltraThinkFastValidator:
                 reason = f"Wikipedia掲載確認済み（{name}）"
                 return True, confidence, reason
         return False, 0.0, ""
-    
+
     def check_blacklist_patterns(self, occupation: str, category: str) -> Tuple[bool, float, str]:
         """ブラックパターンチェック"""
         if not self.blacklist_patterns:
             return False, 0.0, ""
-        
+
         rules = self.blacklist_patterns.get('rules', {})
         auto_delete = rules.get('auto_delete', {})
-        
+
         # 職業による自動削除
         if occupation in auto_delete.get('occupations', []):
             return True, 0.9, f"削除対象職業: {occupation}"
-        
+
         # 職業パターンマッチング
         for pattern in auto_delete.get('patterns', []):
             if pattern['type'] == 'suffix' and occupation.endswith(pattern['value']):
                 return True, pattern['confidence'], f"削除パターン: *{pattern['value']}"
             elif pattern['type'] == 'contains' and pattern['value'] in occupation:
                 return True, pattern['confidence'], f"削除パターン: *{pattern['value']}*"
-        
+
         # カテゴリによる判定
         category_patterns = self.blacklist_patterns.get('category_patterns', {})
         if category in category_patterns:
             cat_info = category_patterns[category]
             if cat_info.get('rate', 0) > 0.3:  # 30%以上削除されたカテゴリ
                 return True, 0.7, f"高削除率カテゴリ: {category}"
-        
+
         return False, 0.0, ""
-    
+
     def validate_person(self, row: pd.Series, row_index: int) -> PersonValidation:
         """個別人物の検証"""
         self.stats['total_processed'] += 1
-        
+
         # 名前の取得と正規化
         person_names = []
         if pd.notna(row.get('person_name_ja')):
@@ -168,13 +168,13 @@ class UltraThinkFastValidator:
             person_names.extend(self.normalize_name(str(row['person_name_display'])))
         if pd.notna(row.get('person_name')):
             person_names.extend(self.normalize_name(str(row['person_name'])))
-        
+
         person_names = list(set(filter(None, person_names)))
-        
+
         # 職業とカテゴリ
         occupation = str(row.get('occupation', '')) if pd.notna(row.get('occupation')) else ''
         category = str(row.get('category', '')) if pd.notna(row.get('category')) else ''
-        
+
         # 1. ホワイトリストチェック（最優先）
         is_whitelist, confidence, reason = self.check_whitelist(person_names)
         if is_whitelist:
@@ -188,7 +188,7 @@ class UltraThinkFastValidator:
                 reason=reason,
                 row_index=row_index
             )
-        
+
         # 2. ブラックパターンチェック
         is_blacklist, confidence, reason = self.check_blacklist_patterns(occupation, category)
         if is_blacklist and confidence >= 0.8:
@@ -202,10 +202,10 @@ class UltraThinkFastValidator:
                 reason=reason,
                 row_index=row_index
             )
-        
+
         # 3. 認知度による判定
         name_recognition = float(row.get('name_recognition', 0)) if pd.notna(row.get('name_recognition')) else 0
-        
+
         if name_recognition >= 60:
             # 高認知度は維持
             self.stats['kept'] += 1
@@ -228,7 +228,7 @@ class UltraThinkFastValidator:
                 reason=f"低認知度: {name_recognition:.1f}%",
                 row_index=row_index
             )
-        
+
         # 4. その他は要確認
         self.stats['reviews_needed'] += 1
         return PersonValidation(
@@ -239,27 +239,27 @@ class UltraThinkFastValidator:
             reason="追加検証が必要",
             row_index=row_index
         )
-    
+
     def process_database(self, csv_file: str, output_file: Optional[str] = None) -> pd.DataFrame:
         """データベース全体を処理"""
         start_time = time.time()
-        
+
         # データ読み込み
         if USE_RICH:
-            console.print(Panel.fit("[bold cyan]Ultra Think 高速検証システム[/bold cyan]", 
+            console.print(Panel.fit("[bold cyan]Ultra Think 高速検証システム[/bold cyan]",
                                    subtitle="Local Dictionary Based v1.0"))
             console.print("\n[yellow]📂 データベース読み込み中...[/yellow]")
-        
+
         df = pd.read_csv(csv_file, encoding='utf-8')
         total_persons = len(df)
-        
+
         if USE_RICH:
             console.print(f"[green]✅ {total_persons}件の人物データを読み込みました[/green]")
-        
+
         # 検証結果リスト
         validations = []
         rows_to_delete = []
-        
+
         # プログレスバーの設定
         if USE_RICH:
             with Progress(
@@ -269,57 +269,57 @@ class UltraThinkFastValidator:
                 TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
                 TimeElapsedColumn()
             ) as progress:
-                
+
                 task = progress.add_task("[cyan]高速検証中...", total=total_persons)
-                
+
                 for idx, row in df.iterrows():
                     validation = self.validate_person(row, idx)
                     validations.append(validation)
-                    
+
                     if validation.decision in [ValidationDecision.DELETE, ValidationDecision.BLACKLIST]:
                         rows_to_delete.append(idx)
-                    
+
                     progress.update(task, advance=1)
         else:
             # プログレスバーなし
             for idx, row in df.iterrows():
                 validation = self.validate_person(row, idx)
                 validations.append(validation)
-                
+
                 if validation.decision in [ValidationDecision.DELETE, ValidationDecision.BLACKLIST]:
                     rows_to_delete.append(idx)
-        
+
         # 削除処理
         if rows_to_delete:
             if USE_RICH:
                 console.print(f"\n[red]🗑️ {len(rows_to_delete)}件の人物を削除中...[/red]")
-            
+
             # 削除前のバックアップ
             deleted_df = df.iloc[rows_to_delete]
             deleted_file = f"fast_deleted_persons_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
             deleted_df.to_csv(deleted_file, index=False, encoding='utf-8')
-            
+
             # 削除実行
             df = df.drop(rows_to_delete)
             df = df.reset_index(drop=True)
-            
+
             if USE_RICH:
                 console.print(f"[yellow]💾 削除データをバックアップ: {deleted_file}[/yellow]")
-        
+
         # 処理時間計算
         self.stats['processing_time'] = time.time() - start_time
-        
+
         # 結果保存
         if output_file is None:
             output_file = f"ultra_think_FAST_VALIDATED_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-        
+
         df.to_csv(output_file, index=False, encoding='utf-8')
-        
+
         # 統計レポート表示
         self.display_report(output_file, validations)
-        
+
         return df
-    
+
     def display_report(self, output_file: str, validations: List[PersonValidation]):
         """処理結果レポートを表示"""
         if USE_RICH:
@@ -327,7 +327,7 @@ class UltraThinkFastValidator:
             table = Table(title="高速検証レポート", show_header=True, header_style="bold magenta")
             table.add_column("項目", style="cyan", width=30)
             table.add_column("値", justify="right", style="green")
-            
+
             table.add_row("総処理数", f"{self.stats['total_processed']:,}")
             table.add_row("ホワイトリストヒット", f"{self.stats['whitelist_hits']:,}")
             table.add_row("ブラックリストヒット", f"{self.stats['blacklist_hits']:,}")
@@ -337,22 +337,22 @@ class UltraThinkFastValidator:
             table.add_row("処理時間", f"{self.stats['processing_time']:.2f}秒")
             table.add_row("処理速度", f"{self.stats['total_processed']/self.stats['processing_time']:.0f}件/秒")
             table.add_row("出力ファイル", output_file)
-            
+
             console.print("\n")
             console.print(table)
-            
+
             # 決定内訳
             decision_counts = {}
             for v in validations:
                 decision_counts[v.decision.value] = decision_counts.get(v.decision.value, 0) + 1
-            
+
             console.print("\n[bold cyan]決定内訳:[/bold cyan]")
             for decision, count in decision_counts.items():
                 percentage = (count / len(validations)) * 100
                 console.print(f"  {decision}: {count:,}件 ({percentage:.1f}%)")
-            
+
             console.print(f"\n[green]✅ 高速検証完了！[/green]")
-            
+
             # APIとの比較
             api_time = 574.63  # Wikipedia API検証の実際の時間
             speedup = api_time / self.stats['processing_time']
@@ -380,15 +380,15 @@ class UltraThinkFastValidator:
 def main():
     """メイン実行関数"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description='Ultra Think 高速検証システム')
     parser.add_argument('input', nargs='?', help='入力CSVファイル')
     parser.add_argument('-o', '--output', help='出力CSVファイル')
-    parser.add_argument('--original', action='store_true', 
+    parser.add_argument('--original', action='store_true',
                        help='オリジナルデータ（5558件）を処理')
-    
+
     args = parser.parse_args()
-    
+
     # 入力ファイルの決定
     if args.original:
         input_file = "ultra_think_COMPLETE_FIXED_20250828_003356.csv"
@@ -403,15 +403,15 @@ def main():
         else:
             print("CSVファイルが見つかりません")
             return
-    
+
     if USE_RICH:
         console.print(f"[cyan]📁 処理対象: {input_file}[/cyan]")
     else:
         print(f"処理対象: {input_file}")
-    
+
     # バリデーター作成
     validator = UltraThinkFastValidator()
-    
+
     # 処理実行
     result_df = validator.process_database(input_file, args.output)
 

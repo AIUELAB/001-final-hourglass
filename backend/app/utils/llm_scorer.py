@@ -5,11 +5,12 @@ LLMベースの7軸スコアリングモジュール
 Claude APIを使用してエピソードの7軸スコアを自動評価する
 """
 
-import os
 import json
+import os
 import time
-from typing import Dict, Optional, List, Tuple
 from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
+
 import anthropic
 from dotenv import load_dotenv
 
@@ -18,13 +19,13 @@ load_dotenv()
 
 # 7軸の定義
 SEVEN_AXES = [
-    "記憶性スコア",      # Memorability: 印象に残りやすさ
-    "共感性スコア",      # Empathy: 感情移入しやすさ
-    "意外性スコア",      # Surprise: 予想外の展開・事実
-    "生成品質スコア",    # Generation Quality: 文章の質
-    "教育的価値",        # Educational Value: 学びになる度合い
-    "ストーリー品質",    # Story Quality: 物語としての完成度
-    "事実密度",          # Factual Density: 具体的事実の密度
+    "記憶性スコア",  # Memorability: 印象に残りやすさ
+    "共感性スコア",  # Empathy: 感情移入しやすさ
+    "意外性スコア",  # Surprise: 予想外の展開・事実
+    "生成品質スコア",  # Generation Quality: 文章の質
+    "教育的価値",  # Educational Value: 学びになる度合い
+    "ストーリー品質",  # Story Quality: 物語としての完成度
+    "事実密度",  # Factual Density: 具体的事実の密度
 ]
 
 # 評価プロンプト
@@ -102,6 +103,7 @@ SCORING_PROMPT = """あなたはエピソード品質評価の専門家です。
 @dataclass
 class ScoreResult:
     """スコア結果を保持するデータクラス"""
+
     scores: Dict[str, float]
     reasoning: Dict[str, str]
     raw_response: str
@@ -130,13 +132,7 @@ class LLMScorer:
         self.total_tokens = 0
 
     def score_episode(
-        self,
-        person_name: str,
-        age: float,
-        category: str,
-        episode_type: str,
-        episode_text: str,
-        retry_count: int = 2
+        self, person_name: str, age: float, category: str, episode_type: str, episode_text: str, retry_count: int = 2
     ) -> ScoreResult:
         """
         単一エピソードをスコアリング
@@ -153,21 +149,13 @@ class LLMScorer:
             ScoreResult: スコア結果
         """
         prompt = SCORING_PROMPT.format(
-            person_name=person_name,
-            age=age,
-            category=category,
-            episode_type=episode_type,
-            episode_text=episode_text
+            person_name=person_name, age=age, category=category, episode_type=episode_type, episode_text=episode_text
         )
 
         for attempt in range(retry_count + 1):
             try:
                 response = self.client.messages.create(
-                    model=self.model,
-                    max_tokens=1024,
-                    messages=[
-                        {"role": "user", "content": prompt}
-                    ]
+                    model=self.model, max_tokens=1024, messages=[{"role": "user", "content": prompt}]
                 )
 
                 self.request_count += 1
@@ -182,30 +170,16 @@ class LLMScorer:
                     time.sleep(5 * (attempt + 1))  # バックオフ
                     continue
                 return ScoreResult(
-                    scores={},
-                    reasoning={},
-                    raw_response="",
-                    success=False,
-                    error_message="Rate limit exceeded"
+                    scores={}, reasoning={}, raw_response="", success=False, error_message="Rate limit exceeded"
                 )
             except Exception as e:
                 if attempt < retry_count:
                     time.sleep(1)
                     continue
-                return ScoreResult(
-                    scores={},
-                    reasoning={},
-                    raw_response="",
-                    success=False,
-                    error_message=str(e)
-                )
+                return ScoreResult(scores={}, reasoning={}, raw_response="", success=False, error_message=str(e))
 
         return ScoreResult(
-            scores={},
-            reasoning={},
-            raw_response="",
-            success=False,
-            error_message="Max retries exceeded"
+            scores={}, reasoning={}, raw_response="", success=False, error_message="Max retries exceeded"
         )
 
     def _parse_response(self, raw_text: str) -> ScoreResult:
@@ -229,7 +203,7 @@ class LLMScorer:
                     reasoning={},
                     raw_response=raw_text,
                     success=False,
-                    error_message="No JSON found in response"
+                    error_message="No JSON found in response",
                 )
 
             json_str = raw_text[json_start:json_end]
@@ -251,35 +225,17 @@ class LLMScorer:
                     scores[axis] = 5.0  # デフォルト値
                     reasoning[axis] = "未評価"
 
-            return ScoreResult(
-                scores=scores,
-                reasoning=reasoning,
-                raw_response=raw_text,
-                success=True
-            )
+            return ScoreResult(scores=scores, reasoning=reasoning, raw_response=raw_text, success=True)
 
         except json.JSONDecodeError as e:
             return ScoreResult(
-                scores={},
-                reasoning={},
-                raw_response=raw_text,
-                success=False,
-                error_message=f"JSON parse error: {e}"
+                scores={}, reasoning={}, raw_response=raw_text, success=False, error_message=f"JSON parse error: {e}"
             )
         except Exception as e:
-            return ScoreResult(
-                scores={},
-                reasoning={},
-                raw_response=raw_text,
-                success=False,
-                error_message=str(e)
-            )
+            return ScoreResult(scores={}, reasoning={}, raw_response=raw_text, success=False, error_message=str(e))
 
     def score_batch(
-        self,
-        episodes: List[Dict],
-        delay: float = 0.5,
-        progress_callback=None
+        self, episodes: List[Dict], delay: float = 0.5, progress_callback=None
     ) -> List[Tuple[Dict, ScoreResult]]:
         """
         複数エピソードを一括スコアリング
@@ -300,7 +256,7 @@ class LLMScorer:
                 age=float(episode.get("age", 0)),
                 category=episode.get("category", ""),
                 episode_type=episode.get("episode_type", ""),
-                episode_text=episode.get("episode_text", "")
+                episode_text=episode.get("episode_text", ""),
             )
 
             results.append((episode, result))
@@ -323,14 +279,11 @@ class LLMScorer:
         return {
             "request_count": self.request_count,
             "total_tokens": self.total_tokens,
-            "estimated_cost_usd": self.total_tokens * 0.000003  # 概算
+            "estimated_cost_usd": self.total_tokens * 0.000003,  # 概算
         }
 
 
-def compare_scores(
-    existing_scores: Dict[str, float],
-    llm_scores: Dict[str, float]
-) -> Dict[str, Dict]:
+def compare_scores(existing_scores: Dict[str, float], llm_scores: Dict[str, float]) -> Dict[str, Dict]:
     """
     既存スコアとLLMスコアを比較
 
@@ -352,7 +305,7 @@ def compare_scores(
             "existing": existing,
             "llm": llm,
             "difference": round(diff, 2),
-            "significant": abs(diff) >= 1.5  # 1.5点以上の差は有意
+            "significant": abs(diff) >= 1.5,  # 1.5点以上の差は有意
         }
 
     return comparison
@@ -368,7 +321,7 @@ if __name__ == "__main__":
         age=20,
         category="漫画・アニメ",
         episode_type="INNOVATION",
-        episode_text="1947年、手塚治虫は『新宝島』を発表。映画的なコマ割りと動きのある表現で、日本漫画の表現技法を革新した。この作品は40万部を売り上げ、多くの漫画家に影響を与えた。"
+        episode_text="1947年、手塚治虫は『新宝島』を発表。映画的なコマ割りと動きのある表現で、日本漫画の表現技法を革新した。この作品は40万部を売り上げ、多くの漫画家に影響を与えた。",
     )
 
     if result.success:

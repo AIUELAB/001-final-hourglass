@@ -109,7 +109,7 @@ person_data = {
         'occupation': 'サッカー選手',
         'description': '川崎フロンターレ所属のプロサッカー選手'
     },
-    
+
     # スコア3.8の著名人
     'P000615': {
         'person_name_display': 'ショーン・キング',
@@ -119,7 +119,7 @@ person_data = {
         'occupation': '活動家・ジャーナリスト',
         'description': 'アメリカの人権活動家、ジャーナリスト'
     },
-    
+
     # スコア3.5の一般著名人
     'P005412': {
         'person_name_display': '高橋三郎',
@@ -313,7 +313,7 @@ person_data = {
         'occupation': '文芸評論家',
         'description': '近代日本の代表的文芸評論家'
     },
-    
+
     # スコア3.4の一般著名人
     'P015935': {
         'person_name_display': 'エリッサ',
@@ -731,7 +731,7 @@ person_data = {
         'occupation': '一般著名人',
         'description': '一般的な著名人'
     },
-    
+
     # スコア3.0の一般著名人
     'P000136': {
         'person_name_display': 'ゆん (ヴァンゆん)',
@@ -748,7 +748,7 @@ for person_id in target_ids:
     if person_id in person_data:
         data = person_data[person_id]
         mask = df['person_id'] == person_id
-        
+
         for column, value in data.items():
             df.loc[mask, column] = value
 

@@ -105,9 +105,7 @@ class SessionManager:
 
             # バックアップを作成(自動保存以外の場合)
             if not is_auto_save:
-                backup_file = (
-                    self.backup_dir / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-                )
+                backup_file = self.backup_dir / f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
                 with backup_file.open("w", encoding="utf-8") as f:
                     json.dump(self.session_data, f, indent=2, ensure_ascii=False)
 
@@ -233,9 +231,7 @@ class SessionManager:
         Args:
             name: チェックポイント名
         """
-        checkpoint_file = (
-            self.backup_dir / f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        checkpoint_file = self.backup_dir / f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
         try:
             with checkpoint_file.open("w", encoding="utf-8") as f:

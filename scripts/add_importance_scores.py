@@ -131,7 +131,9 @@ def main():
             for score_name, score_value in scores.items():
                 row[score_name] = str(score_value)
             updated_count += 1
-            print(f"✅ スコア適用: {row.get('person_name', '?')} ({age}歳) - 重要度={scores['episode_importance_score']}")
+            print(
+                f"✅ スコア適用: {row.get('person_name', '?')} ({age}歳) - 重要度={scores['episode_importance_score']}"
+            )
         else:
             # 新規カラムに空文字を設定
             for col in NEW_COLUMNS:
@@ -140,7 +142,7 @@ def main():
 
     # マスターCSVに書き戻し
     with open(MASTER_CSV, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=final_header, extrasaction='ignore')
+        writer = csv.DictWriter(f, fieldnames=final_header, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -161,9 +163,9 @@ def main():
             total_importance += scores["episode_importance_score"]
         avg_importance = total_importance / len(ISHINOMORI_SCORES)
         print(f"平均重要度スコア: {avg_importance:.2f}点 / 10.00点")
-        print(f"最高スコア: 9.65点 (ギネス世界記録)")
-        print(f"最低スコア: 7.65点 (姉の死)")
-        print(f"スコア範囲: 2.00点")
+        print("最高スコア: 9.65点 (ギネス世界記録)")
+        print("最低スコア: 7.65点 (姉の死)")
+        print("スコア範囲: 2.00点")
 
     print("\n" + "=" * 80)
 

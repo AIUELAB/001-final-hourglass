@@ -24,23 +24,23 @@ class UltraThinkComprehensiveAdditions:
         self.report_file = f"ULTRA_THINK_COMPREHENSIVE_REPORT_{self.timestamp}.md"
         self.stats_file = f"ultra_think_comprehensive_stats_{self.timestamp}.json"
         self.next_person_id = 10000  # Starting ID for new persons
-        
+
     def generate_episode_id(self) -> str:
         """エピソードIDの生成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         random_part = hashlib.md5(str(datetime.now().timestamp()).encode()).hexdigest()[:6].upper()
         return f"EP_{timestamp}_{random_part}"
-    
+
     def generate_person_id(self) -> str:
         """人物IDの生成"""
         person_id = f"P{self.next_person_id:06d}"
         self.next_person_id += 1
         return person_id
-    
+
     def generate_hash(self, content: str) -> str:
         """ハッシュの生成"""
         return hashlib.md5(content.encode()).hexdigest()
-    
+
     def load_existing_data(self) -> List[Dict[str, Any]]:
         """既存データの読み込み（エピソード形式）"""
         data = []
@@ -53,12 +53,12 @@ class UltraThinkComprehensiveAdditions:
                         row = {k.replace('\ufeff', ''): v for k, v in row.items()}
                     data.append(row)
         return data
-    
+
     def create_episode_entry(self, person: Dict[str, Any]) -> Dict[str, Any]:
         """エピソード形式のエントリーを作成"""
         episode_id = self.generate_episode_id()
         person_id = person.get('person_id', self.generate_person_id())
-        
+
         # エピソード形式に変換
         entry = {
             'episode_id': episode_id,
@@ -97,13 +97,13 @@ class UltraThinkComprehensiveAdditions:
                 'historical_impact': str(person.get('historical_impact', 8))
             }, ensure_ascii=False)
         }
-        
+
         return entry
-    
+
     def get_all_additions(self) -> List[Dict[str, Any]]:
         """全ての追加人物を取得"""
         additions = []
-        
+
         # アーティスト
         additions.extend([
             {
@@ -181,7 +181,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": ["文化勲章"]
             }
         ])
-        
+
         # SF作家
         additions.extend([
             {
@@ -223,7 +223,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": ["泉鏡花文学賞", "川端康成文学賞"]
             }
         ])
-        
+
         # MTV賞受賞者
         additions.extend([
             {
@@ -301,7 +301,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": ["MTV Movie Award Best Hero", "MTV Movie Award Best Performance in a Movie"]
             }
         ])
-        
+
         # テックリーダー（イリヤ・サツケバー）
         additions.extend([
             {
@@ -341,7 +341,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": []
             }
         ])
-        
+
         # ノーベル賞受賞者（日本人）
         additions.extend([
             {
@@ -445,7 +445,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": ["ノーベル化学賞(2019)"]
             }
         ])
-        
+
         # グラミー賞受賞者
         additions.extend([
             {
@@ -497,7 +497,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": ["グラミー賞16回受賞"]
             }
         ])
-        
+
         # アカデミー賞受賞者
         additions.extend([
             {
@@ -537,7 +537,7 @@ class UltraThinkComprehensiveAdditions:
                 "awards": ["アカデミー賞主演女優賞3回"]
             }
         ])
-        
+
         # 芥川賞・直木賞受賞者
         additions.extend([
             {
@@ -577,9 +577,9 @@ class UltraThinkComprehensiveAdditions:
                 "awards": []
             }
         ])
-        
+
         return additions
-    
+
     def check_duplicate(self, existing_data: List[Dict], person: Dict) -> bool:
         """重複チェック"""
         for existing in existing_data:
@@ -587,19 +587,19 @@ class UltraThinkComprehensiveAdditions:
                 existing.get('person_name') == person.get('person_name')):
                 return True
         return False
-    
+
     def process(self):
         """メイン処理"""
         print("🎯 Ultra Think 包括的追加処理開始...")
-        
+
         # 既存データ読み込み
         print("\n📂 既存データ読み込み中...")
         existing_data = self.load_existing_data()
         print(f"  ✅ {len(existing_data)}件の既存データ読み込み完了")
-        
+
         # 追加する人物を取得
         all_additions = self.get_all_additions()
-        
+
         # 統計情報
         stats = {
             "total_input": len(existing_data),
@@ -612,10 +612,10 @@ class UltraThinkComprehensiveAdditions:
             "duplicates_skipped": 0,
             "total_output": 0
         }
-        
+
         # 新規追加処理
         added_people = []
-        
+
         print("\n🎯 新規人物追加中...")
         for person in all_additions:
             # 重複チェック（簡易版）
@@ -626,13 +626,13 @@ class UltraThinkComprehensiveAdditions:
                     is_duplicate = True
                     stats['duplicates_skipped'] += 1
                     break
-            
+
             if not is_duplicate:
                 # エピソード形式に変換
                 episode_entry = self.create_episode_entry(person)
                 existing_data.append(episode_entry)
                 added_people.append(person)
-                
+
                 # カテゴリ別カウント
                 if person.get('occupation') in ['アーティスト', '芸術家', '現代美術家']:
                     stats['artists_added'] += 1
@@ -646,37 +646,37 @@ class UltraThinkComprehensiveAdditions:
                     stats['nobel_winners_added'] += 1
                 else:
                     stats['award_winners_added'] += 1
-        
+
         print(f"  📌 {len(added_people)}名の新規人物を追加")
         print(f"  ⚠️  {stats['duplicates_skipped']}名の重複をスキップ")
-        
+
         # CSVファイル書き出し（エピソード形式）
         print("\n📝 統合データ書き出し中...")
         fieldnames = list(existing_data[0].keys()) if existing_data else []
-        
+
         with open(self.output_file, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(existing_data)
-        
+
         stats['total_output'] = len(existing_data)
         print(f"  ✅ 書き出し完了: {stats['total_output']}件")
-        
+
         # レポート作成
         self.create_report(stats, added_people)
-        
+
         # 統計情報保存
         with open(self.stats_file, 'w', encoding='utf-8') as f:
             json.dump(stats, f, ensure_ascii=False, indent=2)
-        
+
         print(f"\n📋 レポート: {self.report_file}")
         print(f"📊 統計: {self.stats_file}")
-        
+
         print("\n" + "=" * 50)
         print("✨ Ultra Think 包括的追加完了!")
         print(f"📁 出力ファイル: {self.output_file}")
         print("=" * 50)
-    
+
     def create_report(self, stats: Dict, added_people: List[Dict]):
         """レポートの作成"""
         report = f"""# 🎯 Ultra Think 包括的追加レポート
@@ -691,7 +691,7 @@ class UltraThinkComprehensiveAdditions:
 ### 追加結果
 - **既存データ数**: {stats['total_input']:,}件
 - **アーティスト追加**: {stats['artists_added']}名
-- **作家追加**: {stats['writers_added']}名  
+- **作家追加**: {stats['writers_added']}名
 - **俳優追加**: {stats['actors_added']}名
 - **テックリーダー追加**: {stats['tech_leaders_added']}名
 - **ノーベル賞受賞者追加**: {stats['nobel_winners_added']}名
@@ -771,7 +771,7 @@ class UltraThinkComprehensiveAdditions:
 今後、コレクターメソッドの実装により、
 目標の12,410人達成が可能となります。
 """
-        
+
         with open(self.report_file, 'w', encoding='utf-8') as f:
             f.write(report)
 

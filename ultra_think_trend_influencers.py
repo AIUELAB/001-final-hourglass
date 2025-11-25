@@ -32,7 +32,7 @@ class Person:
 def load_existing_database() -> tuple[List[Dict], Set[str]]:
     """既存データベースを読み込み、名前セットも返す"""
     latest_file = "ultra_think_12410/ULTRA_THINK_FINAL_INTEGRATED_20250825_150304.json"
-    
+
     if os.path.exists(latest_file):
         with open(latest_file, 'r', encoding='utf-8-sig') as f:
             existing = json.load(f)
@@ -41,7 +41,7 @@ def load_existing_database() -> tuple[List[Dict], Set[str]]:
         alt_file = "ultra_think_12410/ultra_think_15410_japanese_famous_20250825_145951.json"
         with open(alt_file, 'r', encoding='utf-8-sig') as f:
             existing = json.load(f)
-    
+
     # 名前セット作成（重複チェック用）
     name_set = set()
     for person in existing:
@@ -51,13 +51,13 @@ def load_existing_database() -> tuple[List[Dict], Set[str]]:
             name_set.add(person['person_name'].lower())
         if 'person_name_ja' in person:
             name_set.add(person['person_name_ja'])
-    
+
     return existing, name_set
 
 def create_trend_people() -> List[Person]:
     """トレンド人物リストを作成"""
     people = []
-    
+
     # 世界的YouTuber
     global_youtubers = [
         {"name": "MrBeast", "ja": "ミスタービースト", "year": 1998, "nat": "アメリカ", "followers": "2億人+"},
@@ -71,7 +71,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Casey Neistat", "ja": "ケイシー・ナイスタット", "year": 1981, "nat": "アメリカ", "followers": "1200万人+"},
         {"name": "Rhett and Link", "ja": "レット＆リンク", "year": 1977, "nat": "アメリカ", "followers": "1800万人+"},
     ]
-    
+
     for yt in global_youtubers:
         people.append(Person(
             name=yt["name"],
@@ -84,7 +84,7 @@ def create_trend_people() -> List[Person]:
             platform="YouTube",
             followers=yt["followers"]
         ))
-    
+
     # 日本のYouTuber（追加分）
     japanese_youtubers = [
         {"name": "Hajime Syacho", "ja": "はじめしゃちょー", "year": 1993, "followers": "1000万人+"},
@@ -98,7 +98,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Yuka Kinoshita", "ja": "木下ゆうか", "year": 1985, "followers": "550万人+"},
         {"name": "Kazunari Ninomiya Gaming", "ja": "二宮和也（ジャニーズ）", "year": 1983, "followers": "100万人+"},
     ]
-    
+
     for yt in japanese_youtubers:
         people.append(Person(
             name=yt["name"],
@@ -111,7 +111,7 @@ def create_trend_people() -> List[Person]:
             platform="YouTube",
             followers=yt["followers"]
         ))
-    
+
     # TikToker
     tiktokers = [
         {"name": "Charli D'Amelio", "ja": "チャーリー・ダミリオ", "year": 2004, "nat": "アメリカ", "followers": "1.5億人+"},
@@ -125,7 +125,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Hinata", "ja": "ひなた", "year": 2003, "nat": "日本", "followers": "500万人+"},
         {"name": "Noel Deyzel", "ja": "ノエル・デイゼル", "year": 1987, "nat": "南アフリカ", "followers": "1000万人+"},
     ]
-    
+
     for tt in tiktokers:
         people.append(Person(
             name=tt["name"],
@@ -138,7 +138,7 @@ def create_trend_people() -> List[Person]:
             platform="TikTok",
             followers=tt["followers"]
         ))
-    
+
     # Instagram インフルエンサー
     instagrammers = [
         {"name": "Kylie Jenner", "ja": "カイリー・ジェンナー", "year": 1997, "nat": "アメリカ", "followers": "3.9億人+"},
@@ -152,7 +152,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Rola", "ja": "ローラ", "year": 1990, "nat": "日本", "followers": "700万人+"},
         {"name": "Kiko Mizuhara", "ja": "水原希子", "year": 1990, "nat": "日本", "followers": "600万人+"},
     ]
-    
+
     for ig in instagrammers:
         people.append(Person(
             name=ig["name"],
@@ -165,7 +165,7 @@ def create_trend_people() -> List[Person]:
             platform="Instagram",
             followers=ig["followers"]
         ))
-    
+
     # VTuber
     vtubers = [
         {"name": "Gawr Gura", "ja": "がうる・ぐら", "year": 2020, "nat": "世界", "followers": "440万人+"},
@@ -179,7 +179,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Sakura Miko", "ja": "さくらみこ", "year": 2018, "nat": "日本", "followers": "180万人+"},
         {"name": "Kuzuha", "ja": "葛葉", "year": 2018, "nat": "日本", "followers": "170万人+"},
     ]
-    
+
     for vt in vtubers:
         people.append(Person(
             name=vt["name"],
@@ -192,7 +192,7 @@ def create_trend_people() -> List[Person]:
             platform="YouTube",
             followers=vt["followers"]
         ))
-    
+
     # ゲーム配信者・ストリーマー
     streamers = [
         {"name": "Ninja", "ja": "ニンジャ", "year": 1991, "nat": "アメリカ", "followers": "1800万人+"},
@@ -206,7 +206,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Shaka", "ja": "釈迦", "year": 1991, "nat": "日本", "followers": "80万人+"},
         {"name": "Crazy Raccoon", "ja": "クレイジーラクーン", "year": 2018, "nat": "日本", "followers": "150万人+"},
     ]
-    
+
     for st in streamers:
         people.append(Person(
             name=st["name"],
@@ -219,7 +219,7 @@ def create_trend_people() -> List[Person]:
             platform="Twitch/YouTube",
             followers=st["followers"]
         ))
-    
+
     # 現代のビジネスインフルエンサー
     business_influencers = [
         {"name": "Gary Vaynerchuk", "ja": "ゲイリー・ヴェイナチャック", "year": 1975, "nat": "アメリカ", "occ": "起業家"},
@@ -233,7 +233,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Dan Lok", "ja": "ダン・ロック", "year": 1981, "nat": "カナダ", "occ": "起業家"},
         {"name": "Takafumi Horie", "ja": "堀江貴文", "year": 1972, "nat": "日本", "occ": "実業家"},
     ]
-    
+
     for bi in business_influencers:
         people.append(Person(
             name=bi["name"],
@@ -246,7 +246,7 @@ def create_trend_people() -> List[Person]:
             platform="複数",
             description="ビジネスインフルエンサー"
         ))
-    
+
     # K-POPアイドル（個人）
     kpop_idols = [
         {"name": "IU", "ja": "アイユー", "year": 1993},
@@ -260,7 +260,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Felix Lee", "ja": "フィリックス（Stray Kids）", "year": 2000},
         {"name": "Kang Daniel", "ja": "カン・ダニエル", "year": 1996},
     ]
-    
+
     for idol in kpop_idols:
         people.append(Person(
             name=idol["name"],
@@ -272,7 +272,7 @@ def create_trend_people() -> List[Person]:
             occupation="K-POPアイドル",
             platform="複数"
         ))
-    
+
     # テック系インフルエンサー
     tech_influencers = [
         {"name": "Marques Brownlee", "ja": "マーケス・ブラウンリー", "year": 1993, "nat": "アメリカ"},
@@ -286,7 +286,7 @@ def create_trend_people() -> List[Person]:
         {"name": "Kazuya Sakoda", "ja": "瀬戸弘司", "year": 1980, "nat": "日本"},
         {"name": "Drikin", "ja": "ドリキン", "year": 1974, "nat": "日本"},
     ]
-    
+
     for tech in tech_influencers:
         people.append(Person(
             name=tech["name"],
@@ -298,13 +298,13 @@ def create_trend_people() -> List[Person]:
             occupation="Tech YouTuber",
             platform="YouTube"
         ))
-    
+
     return people
 
 def generate_mass_trend_people(count: int) -> List[Person]:
     """大量のトレンド人物を生成"""
     people = []
-    
+
     categories = [
         ("ファッションインフルエンサー", 200),
         ("フィットネスインフルエンサー", 150),
@@ -322,7 +322,7 @@ def generate_mass_trend_people(count: int) -> List[Person]:
         ("暗号資産インフルエンサー", 50),
         ("eスポーツ選手", 100),
     ]
-    
+
     for category, num in categories:
         for i in range(num):
             people.append(Person(
@@ -336,33 +336,33 @@ def generate_mass_trend_people(count: int) -> List[Person]:
                 platform="複数",
                 description=f"現代の{category}"
             ))
-    
+
     return people
 
 def main():
     """メイン処理"""
     print("🚀 Ultra Think トレンド人物追加開始")
     print("=" * 60)
-    
+
     # 既存データベース読み込み
     print("📂 既存データベース読み込み中...")
     existing_people, existing_names = load_existing_database()
     print(f"  ✅ {len(existing_people)}人の既存データを読み込み")
-    
+
     # トレンド人物作成
     print("\n📱 トレンド人物作成中...")
     trend_people = create_trend_people()
-    
+
     # 大量追加
     print("✨ 追加トレンド人物大量生成中...")
     mass_people = generate_mass_trend_people(1400)
     trend_people.extend(mass_people)
-    
+
     # 重複チェック
     print("\n🔍 重複チェック中...")
     unique_trend = []
     duplicates = 0
-    
+
     for person in trend_people:
         # 複数の名前フィールドでチェック
         names_to_check = [
@@ -370,72 +370,72 @@ def main():
             person.person_name_ja,
             person.person_name_display
         ]
-        
+
         is_duplicate = False
         for name in names_to_check:
             if name in existing_names:
                 duplicates += 1
                 is_duplicate = True
                 break
-        
+
         if not is_duplicate:
             unique_trend.append(person)
             # 追加した名前を既存セットに追加（後続の重複チェック用）
             existing_names.add(person.name.lower())
             existing_names.add(person.person_name_ja)
-    
+
     print(f"  ✅ 重複除外: {duplicates}人")
     print(f"  ✅ 新規追加: {len(unique_trend)}人")
-    
+
     # 既存データと統合
     print("\n📊 データ統合中...")
     # PersonオブジェクトをDictに変換
     trend_dicts = [asdict(p) for p in unique_trend]
     final_people = existing_people + trend_dicts
-    
+
     # カテゴリ統計
     category_stats = {}
     for person in trend_dicts:
         cat = person.get('category', '不明')
         category_stats[cat] = category_stats.get(cat, 0) + 1
-    
+
     print("\n📈 追加カテゴリ統計:")
     for cat, count in sorted(category_stats.items(), key=lambda x: x[1], reverse=True):
         print(f"  - {cat}: {count}人")
-    
+
     # 保存
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = "ultra_think_12410"
     os.makedirs(output_dir, exist_ok=True)
-    
+
     # JSON保存
     json_file = f"{output_dir}/ultra_think_trend_{len(final_people)}_{timestamp}.json"
     print(f"\n💾 JSON保存中: {json_file}")
     with open(json_file, 'w', encoding='utf-8') as f:
         json.dump(final_people, f, ensure_ascii=False, indent=2)
-    
+
     # CSV保存
     csv_file = f"{output_dir}/ultra_think_trend_{len(final_people)}_{timestamp}.csv"
     print(f"💾 CSV保存中: {csv_file}")
-    
+
     # 全フィールド収集
     all_fields = set()
     for person in final_people:
         all_fields.update(person.keys())
     fieldnames = sorted(list(all_fields))
-    
+
     with open(csv_file, 'w', encoding='utf-8-sig', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(final_people)
-    
+
     # レポート生成
     print("\n📝 レポート生成中...")
     report = generate_trend_report(len(existing_people), len(unique_trend), len(final_people), category_stats)
     report_file = f"{output_dir}/TREND_INFLUENCER_REPORT_{timestamp}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
-    
+
     # 結果表示
     print("=" * 60)
     print("✨ トレンド人物追加完了！")
@@ -450,7 +450,7 @@ def main():
 def generate_trend_report(before: int, added: int, total: int, categories: Dict) -> str:
     """トレンドレポート生成"""
     timestamp = datetime.now().isoformat()
-    
+
     report = f"""# 📱 Ultra Think トレンド人物追加レポート
 
 ## 📅 生成日時
@@ -464,10 +464,10 @@ def generate_trend_report(before: int, added: int, total: int, categories: Dict)
 
 ## 📊 追加カテゴリ内訳
 """
-    
+
     for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
         report += f"- {cat}: {count:,}人\n"
-    
+
     report += f"""
 ## ✨ 追加された主要プラットフォーム
 - YouTube（YouTuber、VTuber）
@@ -509,7 +509,7 @@ def generate_trend_report(before: int, added: int, total: int, categories: Dict)
 *Ultra Think Trend Influencer Report*
 *Generated: {timestamp}*
 """
-    
+
     return report
 
 if __name__ == "__main__":

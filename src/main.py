@@ -14,7 +14,6 @@ from dotenv import load_dotenv
 from loguru import logger
 from rich.console import Console
 from rich.table import Table
-
 from sync_projects.cli import cli_sync_projects
 
 # 環境変数の読み込み

@@ -13,7 +13,7 @@
 **誤り**: 19歳「NSC入学」
 **正解**: 19歳「笑福亭松之助に弟子入り」
 
-**理由**: 
+**理由**:
 - NSC（吉本総合芸能学院）は1982年開校
 - さんまは1974年にデビュー（NSCより8年前）
 - さんまは落語家として弟子入りし、後に漫才師に転向
@@ -42,15 +42,15 @@ def verify_person_data(person):
     # 1. 基本情報の検証
     if person['birth_year'] > current_year:
         return False  # 未来の生年は誤り
-    
+
     # 2. 年齢とエピソードの整合性
     for age, event in person['episodes']:
         event_year = person['birth_year'] + age
         # 歴史的事実と照合
-        
+
     # 3. 組織・番組の存在確認
     # NSCは1982年以降のみ有効など
-    
+
     return True
 ```
 

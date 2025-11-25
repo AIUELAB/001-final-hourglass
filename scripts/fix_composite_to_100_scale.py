@@ -6,20 +6,31 @@ composite_scoreは7軸スコアの平均 × 10 で、0-100スケールである�
 誤って0-10スケールに修正してしまったので、元に戻す
 """
 
-import pandas as pd
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
+import pandas as pd
 
 CSV_PATH = Path(__file__).parent.parent / "MASTER_EPISODES_CURRENT.csv"
-BACKUP_PATH = Path(__file__).parent.parent / f"MASTER_EPISODES_CURRENT_backup_before_100scale_fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+BACKUP_PATH = (
+    Path(__file__).parent.parent
+    / f"MASTER_EPISODES_CURRENT_backup_before_100scale_fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+)
 
 
 def calculate_composite_score_100(row: pd.Series) -> float:
     """7軸スコアからcomposite_scoreを計算（0-100スケール）"""
     seven_axes = []
 
-    for axis in ['記憶性スコア', '共感性スコア', '意外性スコア', '生成品質スコア',
-                 '教育的価値', 'ストーリー品質', '事実密度']:
+    for axis in [
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
+    ]:
         val = row.get(axis)
         if pd.notna(val):
             try:
@@ -42,21 +53,21 @@ def main():
 
     # Step 1: CSVファイル読み込み
     print("Step 1: CSVファイル読み込み中...")
-    df = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
+    df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
     print(f"  ✅ 読み込み完了: {len(df):,}件")
     print()
 
     # Step 2: バックアップ作成
     print("Step 2: バックアップ作成中...")
-    df.to_csv(BACKUP_PATH, index=False, encoding='utf-8-sig')
+    df.to_csv(BACKUP_PATH, index=False, encoding="utf-8-sig")
     print(f"  ✅ バックアップ作成: {BACKUP_PATH}")
     print()
 
     # Step 3: 現在の状態確認
     print("Step 3: 現在のcomposite_score範囲確認...")
-    current_min = df['composite_score'].min()
-    current_max = df['composite_score'].max()
-    current_avg = df['composite_score'].mean()
+    current_min = df["composite_score"].min()
+    current_max = df["composite_score"].max()
+    current_avg = df["composite_score"].mean()
     print(f"  現在の範囲: {current_min:.2f} - {current_max:.2f}")
     print(f"  現在の平均: {current_avg:.2f}")
     print()
@@ -74,7 +85,7 @@ def main():
             continue
 
         # composite_scoreを設定
-        df.at[idx, 'composite_score'] = expected
+        df.at[idx, "composite_score"] = expected
         fixed_count += 1
 
         # 進捗表示（100件ごと）
@@ -87,16 +98,16 @@ def main():
 
     # Step 5: 修正後の範囲確認
     print("Step 5: 修正後のcomposite_score範囲確認...")
-    new_min = df['composite_score'].min()
-    new_max = df['composite_score'].max()
-    new_avg = df['composite_score'].mean()
+    new_min = df["composite_score"].min()
+    new_max = df["composite_score"].max()
+    new_avg = df["composite_score"].mean()
     print(f"  修正後の範囲: {new_min:.2f} - {new_max:.2f}")
     print(f"  修正後の平均: {new_avg:.2f}")
     print()
 
     # Step 6: CSVファイル保存
     print("Step 6: CSVファイル保存中...")
-    df.to_csv(CSV_PATH, index=False, encoding='utf-8-sig')
+    df.to_csv(CSV_PATH, index=False, encoding="utf-8-sig")
     print(f"  ✅ 保存完了: {CSV_PATH}")
     print()
 
@@ -112,13 +123,13 @@ def main():
 
     print("  サンプル:")
     for person_name, age in verification_samples:
-        sample = df[(df['person_name'] == person_name) & (df['age'] == age)]
+        sample = df[(df["person_name"] == person_name) & (df["age"] == age)]
 
         if len(sample) == 0:
             continue
 
         row = sample.iloc[0]
-        composite = row['composite_score']
+        composite = row["composite_score"]
 
         print(f"    {person_name} ({age}歳): composite_score = {composite:.2f}")
 
@@ -129,7 +140,7 @@ def main():
     print("✅ 全エピソードのcomposite_scoreを0-100スケールに修正しました！")
     print("=" * 80)
     print()
-    print(f"📊 サマリー:")
+    print("📊 サマリー:")
     print(f"  - 修正件数: {fixed_count:,}件")
     print(f"  - スキップ件数: {skipped_count:,}件")
     print(f"  - 修正前平均: {current_avg:.2f}")

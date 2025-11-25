@@ -7,9 +7,10 @@
 import os
 from datetime import datetime, timedelta
 from typing import Optional
-from jose import JWTError, jwt
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
 
 # OAuth2スキーム
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/token")
@@ -100,10 +101,7 @@ def get_current_user_with_role(current_user: str = Depends(get_current_user)) ->
     """
     user = get_user(current_user)
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="ユーザーが見つかりません"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="ユーザーが見つかりません")
     return {"username": user["username"], "role": user["role"]}
 
 
@@ -124,13 +122,15 @@ def require_role(allowed_roles: list[str]):
         ):
             ...
     """
+
     def role_checker(user: dict = Depends(get_current_user_with_role)) -> dict:
         if user["role"] not in allowed_roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"この操作には {', '.join(allowed_roles)} の権限が必要です"
+                detail=f"この操作には {', '.join(allowed_roles)} の権限が必要です",
             )
         return user
+
     return role_checker
 
 

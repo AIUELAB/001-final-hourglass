@@ -16,23 +16,23 @@ def check_drive_space():
         credentials = Credentials.from_service_account_file(
             config.google_credentials_path, scopes=SCOPES
         )
-        
+
         # Drive APIクライアント作成
         service = build('drive', 'v3', credentials=credentials)
-        
+
         # About情報を取得
         about = service.about().get(fields="storageQuota").execute()
-        
+
         quota = about.get('storageQuota', {})
-        
+
         # 容量情報を表示
         total = int(quota.get('limit', 0))
         used = int(quota.get('usage', 0))
-        
+
         if total > 0:
             remaining = total - used
             percentage = (used / total) * 100
-            
+
             print(f"📊 Google Drive容量情報")
             print(f"━━━━━━━━━━━━━━━━━━━━")
             print(f"総容量: {total / (1024**3):.2f} GB")
@@ -41,7 +41,7 @@ def check_drive_space():
             print(f"使用率: {percentage:.1f}%")
         else:
             print("サービスアカウントには容量制限がありません")
-            
+
     except Exception as e:
         print(f"エラー: {e}")
         print("\nサービスアカウントを使用している場合、")

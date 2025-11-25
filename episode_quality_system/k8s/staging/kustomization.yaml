@@ -9,24 +9,24 @@ commonLabels:
   environment: staging
 
 bases:
-  - ../base
+- ../base
 
 patchesStrategicMerge:
-  - deployment-patch.yaml
+- deployment-patch.yaml
 
 configMapGenerator:
-  - name: episode-factory-config
-    behavior: merge
-    literals:
-      - environment=staging
-      - log_level=DEBUG
-      - min_quality_score=60.0
-      - max_attempts=10
+- name: episode-factory-config
+  behavior: merge
+  literals:
+  - environment=staging
+  - log_level=DEBUG
+  - min_quality_score=60.0
+  - max_attempts=10
 
 replicas:
-  - name: episode-factory
-    count: 2
+- name: episode-factory
+  count: 2
 
 images:
-  - name: ghcr.io/your-org/episode-factory
-    newTag: develop
+- name: ghcr.io/your-org/episode-factory
+  newTag: develop

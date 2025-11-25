@@ -8,7 +8,7 @@
 
 ### **優れた知名度評価システムは既に存在していた**
 
-1. **ultra_think_japanese_recognition_calibrator.py** 
+1. **ultra_think_japanese_recognition_calibrator.py**
    - ユーザー指示通りの完璧な実装
    - 教育重視 35%、メディア露出 30%、SNS言及 20%、グローバル 15%
    - 日本人ユーザー向けに最適化
@@ -26,7 +26,7 @@
 ```
 07:48 - japanese_calibrated_20250827_074817.csv (5,726人、較正済み)
         ↓
-08:00 - ultra_think_mega_20250827_080002.csv (6,500人、プレースホルダー) 
+08:00 - ultra_think_mega_20250827_080002.csv (6,500人、プレースホルダー)
         ↓
 08:01 - ultra_think_FINAL_MERGED_20250827_080142.csv (統合)
 ```
@@ -72,7 +72,7 @@
    ```python
    # mega_collectorでの実装
    'name_recognition': random.randint(40, 85)  # ← ランダム！
-   
+
    # 本来使うべきだった実装
    from ultra_think_japanese_recognition_calibrator import JapaneseRecognitionCalibrator
    calibrator = JapaneseRecognitionCalibrator()
@@ -187,14 +187,14 @@ def add_persons_with_quality_check(persons, batch_size=100):
     for batch in chunks(persons, batch_size):
         # 1. 較正適用
         calibrated = apply_calibration(batch)
-        
+
         # 2. 品質チェック
         if not quality_check(calibrated):
             return False
-            
+
         # 3. データベースに追加
         database.add(calibrated)
-        
+
         # 4. 進捗報告
         report_progress()
 ```

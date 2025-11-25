@@ -33,11 +33,11 @@ class CodeIssue:
 
 class AppStoreCodeQualityChecker:
     """App Store Guidelines準拠のコード品質チェッカー"""
-    
+
     def __init__(self, project_path: str):
         self.project_path = Path(project_path)
         self.issues: List[CodeIssue] = []
-        
+
         # App Store Guidelines違反パターン
         self.private_api_patterns = [
             # Guidelines 2.5.1: プライベートAPI使用禁止
@@ -47,7 +47,7 @@ class AppStoreCodeQualityChecker:
             r'UIDevice\._[a-zA-Z]',  # UIDeviceのプライベートAPI
             r'_UIAlertController',  # プライベートクラス使用
         ]
-        
+
         # プライバシー関連パターン（Guidelines 5.1）
         self.privacy_violation_patterns = [
             r'UIDevice\.current\.identifierForVendor',  # デバイス識別子
@@ -59,7 +59,7 @@ class AppStoreCodeQualityChecker:
             r'CNContactStore',  # 連絡先アクセス
             r'PHPhotoLibrary',  # 写真ライブラリアクセス
         ]
-        
+
         # パフォーマンス問題パターン（Guidelines 2.4）
         self.performance_issue_patterns = [
             r'synchronousRequest',  # 同期通信
@@ -67,7 +67,7 @@ class AppStoreCodeQualityChecker:
             r'for.*in.*array.*{.*sleep',  # ループ内でのスリープ
             r'UIImage\(named:.*\).*\.jpegData',  # 毎回画像変換
         ]
-        
+
         # セキュリティ問題パターン（Guidelines 5.1.3）
         self.security_issue_patterns = [
             r'UserDefaults\.standard\.set.*password',  # パスワードのUserDefaults保存
@@ -79,27 +79,27 @@ class AppStoreCodeQualityChecker:
     def run_quality_check(self) -> Dict[str, Any]:
         """品質チェックを実行"""
         print("🔍 App Store Guidelines準拠コード品質チェックを開始...")
-        
+
         # 1. Swiftファイルの解析
         swift_files = self._find_swift_files()
         for swift_file in swift_files:
             self._analyze_swift_file(swift_file)
-        
+
         # 2. Info.plistの検証
         self._check_info_plist()
-        
+
         # 3. Entitlementsの検証
         self._check_entitlements()
-        
+
         # 4. Xcodeプロジェクト設定の検証
         self._check_xcode_settings()
-        
+
         # 5. 依存関係の検証
         self._check_dependencies()
-        
+
         # 6. リソースファイルの検証
         self._check_resources()
-        
+
         return self._generate_report()
 
     def _find_swift_files(self) -> List[Path]:
@@ -108,11 +108,11 @@ class AppStoreCodeQualityChecker:
         for root, dirs, files in os.walk(self.project_path):
             # 除外ディレクトリ
             dirs[:] = [d for d in dirs if d not in ['.git', 'Pods', 'DerivedData', '.build']]
-            
+
             for file in files:
                 if file.endswith('.swift'):
                     swift_files.append(Path(root) / file)
-        
+
         return swift_files
 
     def _analyze_swift_file(self, file_path: Path):
@@ -121,23 +121,23 @@ class AppStoreCodeQualityChecker:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
                 lines = content.split('\n')
-                
+
                 for line_num, line in enumerate(lines, 1):
                     # プライベートAPI使用チェック
                     self._check_private_api_usage(file_path, line_num, line)
-                    
+
                     # プライバシー違反チェック
                     self._check_privacy_violations(file_path, line_num, line)
-                    
+
                     # パフォーマンス問題チェック
                     self._check_performance_issues(file_path, line_num, line)
-                    
+
                     # セキュリティ問題チェック
                     self._check_security_issues(file_path, line_num, line)
-                    
+
                     # その他のApp Store Guidelines違反
                     self._check_other_violations(file_path, line_num, line)
-                
+
         except Exception as e:
             self.issues.append(CodeIssue(
                 file_path=str(file_path),
@@ -172,7 +172,7 @@ class AppStoreCodeQualityChecker:
             (r'AVCaptureDevice.*requestAccess.*video', "カメラアクセス理由をInfo.plistに記載"),
             (r'PHPhotoLibrary.*requestAuthorization', "写真ライブラリアクセス理由をInfo.plistに記載"),
         ]
-        
+
         for pattern, suggestion in privacy_checks:
             if re.search(pattern, line):
                 self.issues.append(CodeIssue(
@@ -193,7 +193,7 @@ class AppStoreCodeQualityChecker:
             (r'DispatchQueue\.main\.sync', "メインキューでの同期実行は避けてください"),
             (r'Thread\.sleep', "UIスレッドでのスリープは避けてください"),
         ]
-        
+
         for pattern, suggestion in performance_checks:
             if re.search(pattern, line):
                 self.issues.append(CodeIssue(
@@ -214,7 +214,7 @@ class AppStoreCodeQualityChecker:
             (r'NSLog.*(?:password|token|secret)', "機密情報をログ出力しないでください"),
             (r'print.*(?:password|token|secret)', "機密情報をprint文で出力しないでください"),
         ]
-        
+
         for pattern, suggestion in security_checks:
             if re.search(pattern, line, re.IGNORECASE):
                 self.issues.append(CodeIssue(
@@ -235,7 +235,7 @@ class AppStoreCodeQualityChecker:
             (r'exit\(', "アプリの強制終了は避けてください"),
             (r'abort\(\)', "アプリの異常終了は避けてください"),
         ]
-        
+
         for pattern, suggestion in other_checks:
             if re.search(pattern, line):
                 severity = "error" if "exit" in pattern or "abort" in pattern else "warning"
@@ -252,20 +252,20 @@ class AppStoreCodeQualityChecker:
     def _check_info_plist(self):
         """Info.plistの検証"""
         info_plist_path = self.project_path / "Info.plist"
-        
+
         # 複数の可能な場所を検索
         possible_paths = [
             self.project_path / "Info.plist",
             self.project_path / "Supporting Files" / "Info.plist",
             next(self.project_path.glob("**/Info.plist"), None)
         ]
-        
+
         info_plist_path = None
         for path in possible_paths:
             if path and path.exists():
                 info_plist_path = path
                 break
-        
+
         if not info_plist_path:
             self.issues.append(CodeIssue(
                 file_path="Info.plist",
@@ -277,15 +277,15 @@ class AppStoreCodeQualityChecker:
                 suggestion="Info.plistファイルは必須です"
             ))
             return
-        
+
         try:
             # plistlib使用（Pythonビルトイン）
             import plistlib
             with open(info_plist_path, 'rb') as f:
                 plist_data = plistlib.load(f)
-            
+
             self._validate_info_plist_content(plist_data, info_plist_path)
-            
+
         except Exception as e:
             self.issues.append(CodeIssue(
                 file_path=str(info_plist_path),
@@ -304,7 +304,7 @@ class AppStoreCodeQualityChecker:
             ("CFBundleShortVersionString", "Version Stringは必須です"),
             ("CFBundleName", "Bundle Nameは必須です"),
         ]
-        
+
         for key, message in required_keys:
             if key not in plist_data:
                 self.issues.append(CodeIssue(
@@ -316,7 +316,7 @@ class AppStoreCodeQualityChecker:
                     guideline_ref="2.1",
                     suggestion=message
                 ))
-        
+
         # プライバシー関連Usage Description検証
         privacy_keys = {
             "NSCameraUsageDescription": "カメラ使用時",
@@ -327,10 +327,10 @@ class AppStoreCodeQualityChecker:
             "NSContactsUsageDescription": "連絡先アクセス時",
             "NSCalendarsUsageDescription": "カレンダーアクセス時",
         }
-        
+
         # 実際にこれらのAPIが使用されているかチェック（簡易版）
         # より詳細な実装では、コード解析結果との照合が必要
-        
+
         for key, usage_context in privacy_keys.items():
             if key in plist_data:
                 description = plist_data[key]
@@ -348,15 +348,15 @@ class AppStoreCodeQualityChecker:
     def _check_entitlements(self):
         """Entitlementsファイルの検証"""
         entitlements_files = list(self.project_path.glob("**/*.entitlements"))
-        
+
         for entitlements_file in entitlements_files:
             try:
                 import plistlib
                 with open(entitlements_file, 'rb') as f:
                     entitlements_data = plistlib.load(f)
-                
+
                 self._validate_entitlements(entitlements_data, entitlements_file)
-                
+
             except Exception as e:
                 self.issues.append(CodeIssue(
                     file_path=str(entitlements_file),
@@ -375,7 +375,7 @@ class AppStoreCodeQualityChecker:
             "com.apple.private.skip-library-validation",
             "com.apple.rootless.install.heritable",
         ]
-        
+
         for entitlement in dangerous_entitlements:
             if entitlement in entitlements_data and entitlements_data[entitlement]:
                 self.issues.append(CodeIssue(
@@ -391,21 +391,21 @@ class AppStoreCodeQualityChecker:
     def _check_xcode_settings(self):
         """Xcodeプロジェクト設定の検証"""
         project_files = list(self.project_path.glob("**/*.xcodeproj/project.pbxproj"))
-        
+
         for project_file in project_files:
             try:
                 with open(project_file, 'r', encoding='utf-8') as f:
                     content = f.read()
-                
+
                 # デバッグ設定が本番に残っていないかチェック
                 if 'DEBUG = 1' in content and 'RELEASE' in content:
                     # より詳細な解析が必要
                     pass
-                
+
                 # HTTPSの使用確認
                 if 'NSAppTransportSecurity' in content:
                     self._check_ats_settings(content, project_file)
-                
+
             except Exception as e:
                 self.issues.append(CodeIssue(
                     file_path=str(project_file),
@@ -435,12 +435,12 @@ class AppStoreCodeQualityChecker:
         podfile_path = self.project_path / "Podfile"
         if podfile_path.exists():
             self._check_cocoapods_dependencies(podfile_path)
-        
+
         # Swift Package Manager
         package_swift_path = self.project_path / "Package.swift"
         if package_swift_path.exists():
             self._check_spm_dependencies(package_swift_path)
-        
+
         # Carthage
         cartfile_path = self.project_path / "Cartfile"
         if cartfile_path.exists():
@@ -451,13 +451,13 @@ class AppStoreCodeQualityChecker:
         try:
             with open(podfile_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             # 古いバージョンやセキュリティリスクのあるライブラリ検出
             risky_pods = [
                 ("AFNetworking", "2.0", "古いバージョンのAFNetworkingにはセキュリティリスクがあります"),
                 ("Alamofire", "4.0", "古いバージョンのAlamofireを使用しています"),
             ]
-            
+
             lines = content.split('\n')
             for line_num, line in enumerate(lines, 1):
                 for pod_name, risky_version, message in risky_pods:
@@ -471,7 +471,7 @@ class AppStoreCodeQualityChecker:
                             guideline_ref="2.5.3",
                             suggestion=message
                         ))
-                        
+
         except Exception as e:
             self.issues.append(CodeIssue(
                 file_path=str(podfile_path),
@@ -496,10 +496,10 @@ class AppStoreCodeQualityChecker:
         """リソースファイルの検証"""
         # アイコンファイルのチェック
         self._check_app_icons()
-        
+
         # Launch Storyboardのチェック
         self._check_launch_storyboard()
-        
+
         # 不要なファイルのチェック
         self._check_unnecessary_files()
 
@@ -507,7 +507,7 @@ class AppStoreCodeQualityChecker:
         """アプリアイコンのチェック"""
         # App Iconディレクトリの検索
         icon_dirs = list(self.project_path.glob("**/AppIcon.appiconset"))
-        
+
         if not icon_dirs:
             self.issues.append(CodeIssue(
                 file_path="AppIcon.appiconset",
@@ -536,22 +536,22 @@ class AppStoreCodeQualityChecker:
                 suggestion="Contents.jsonファイルが必要です"
             ))
             return
-        
+
         try:
             with open(contents_json, 'r', encoding='utf-8') as f:
                 contents = json.load(f)
-            
+
             # 必要なサイズの確認
             required_sizes = ["60x60", "76x76", "83.5x83.5", "1024x1024"]  # iOS用基本サイズ
-            
+
             images = contents.get("images", [])
             available_sizes = set()
-            
+
             for image in images:
                 size = image.get("size", "")
                 if size:
                     available_sizes.add(size)
-                
+
                 # ファイル名の確認
                 filename = image.get("filename", "")
                 if filename:
@@ -565,7 +565,7 @@ class AppStoreCodeQualityChecker:
                             message=f"アイコンファイルが見つかりません: {filename}",
                             guideline_ref="2.1"
                         ))
-            
+
             for required_size in required_sizes:
                 if required_size not in available_sizes:
                     self.issues.append(CodeIssue(
@@ -577,7 +577,7 @@ class AppStoreCodeQualityChecker:
                         guideline_ref="2.1",
                         suggestion=f"{required_size}サイズのアイコンを追加してください"
                     ))
-                        
+
         except Exception as e:
             self.issues.append(CodeIssue(
                 file_path=str(contents_json),
@@ -591,7 +591,7 @@ class AppStoreCodeQualityChecker:
     def _check_launch_storyboard(self):
         """Launch Storyboardのチェック"""
         launch_storyboards = list(self.project_path.glob("**/LaunchScreen.storyboard"))
-        
+
         if not launch_storyboards:
             self.issues.append(CodeIssue(
                 file_path="LaunchScreen.storyboard",
@@ -613,7 +613,7 @@ class AppStoreCodeQualityChecker:
             "*.bak",
             "*.orig",
         ]
-        
+
         for pattern in unnecessary_patterns:
             unnecessary_files = list(self.project_path.glob(f"**/{pattern}"))
             for file_path in unnecessary_files:
@@ -633,7 +633,7 @@ class AppStoreCodeQualityChecker:
         errors = [issue for issue in self.issues if issue.severity == "error"]
         warnings = [issue for issue in self.issues if issue.severity == "warning"]
         infos = [issue for issue in self.issues if issue.severity == "info"]
-        
+
         # 統計情報
         stats = {
             "total_issues": len(self.issues),
@@ -642,10 +642,10 @@ class AppStoreCodeQualityChecker:
             "infos": len(infos),
             "files_checked": len(self._find_swift_files()),
         }
-        
+
         # スコア計算（100点満点）
         score = max(0, 100 - (len(errors) * 10) - (len(warnings) * 3) - (len(infos) * 1))
-        
+
         # ガイドライン別の問題集計
         guideline_breakdown = {}
         for issue in self.issues:
@@ -653,7 +653,7 @@ class AppStoreCodeQualityChecker:
             if guideline not in guideline_breakdown:
                 guideline_breakdown[guideline] = {"errors": 0, "warnings": 0, "infos": 0}
             guideline_breakdown[guideline][issue.severity + "s"] += 1
-        
+
         report = {
             "timestamp": datetime.now().isoformat(),
             "project_path": str(self.project_path),
@@ -674,32 +674,32 @@ class AppStoreCodeQualityChecker:
             "guideline_breakdown": guideline_breakdown,
             "recommendations": self._generate_recommendations(errors, warnings)
         }
-        
+
         return report
 
     def _generate_recommendations(self, errors: List[CodeIssue], warnings: List[CodeIssue]) -> List[str]:
         """改善推奨事項の生成"""
         recommendations = []
-        
+
         if errors:
             recommendations.append("🚨 エラー項目の修正が最優先です。これらはApp Storeリジェクトの原因となります。")
-        
+
         if warnings:
             recommendations.append("⚠️ 警告項目の確認と修正を推奨します。")
-        
+
         # よくある問題の対策提案
         private_api_errors = [e for e in errors if e.issue_type == "private_api_usage"]
         if private_api_errors:
             recommendations.append("📱 プライベートAPIの使用を削除し、公開APIに置き換えてください。")
-        
+
         privacy_warnings = [w for w in warnings if w.issue_type == "privacy_violation"]
         if privacy_warnings:
             recommendations.append("🔒 プライバシー関連APIの使用理由をInfo.plistに記載してください。")
-        
+
         security_errors = [e for e in errors if e.issue_type == "security_issue"]
         if security_errors:
             recommendations.append("🛡️ セキュリティ問題を修正してください。機密情報の適切な管理が必要です。")
-        
+
         return recommendations
 
 def main():
@@ -708,21 +708,21 @@ def main():
     parser.add_argument("project_path", help="プロジェクトパス")
     parser.add_argument("-o", "--output", help="出力ファイルパス", default="quality_report.json")
     parser.add_argument("-v", "--verbose", action="store_true", help="詳細出力")
-    
+
     args = parser.parse_args()
-    
+
     if not os.path.exists(args.project_path):
         print(f"エラー: プロジェクトパス '{args.project_path}' が見つかりません")
         sys.exit(1)
-    
+
     # 品質チェック実行
     checker = AppStoreCodeQualityChecker(args.project_path)
     report = checker.run_quality_check()
-    
+
     # 結果出力
     with open(args.output, 'w', encoding='utf-8') as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
-    
+
     # コンソール出力
     print(f"\n{'='*60}")
     print("📊 App Store Guidelines準拠 品質チェック結果")
@@ -733,7 +733,7 @@ def main():
     print(f"  - エラー: {report['statistics']['errors']}")
     print(f"  - 警告: {report['statistics']['warnings']}")
     print(f"  - 情報: {report['statistics']['infos']}")
-    
+
     if args.verbose:
         print("\n📋 問題詳細:")
         for issue in report['issues']:
@@ -744,14 +744,14 @@ def main():
             if issue['suggestion']:
                 print(f"   💡 {issue['suggestion']}")
             print()
-    
+
     if report['recommendations']:
         print("\n💡 推奨事項:")
         for rec in report['recommendations']:
             print(f"   {rec}")
-    
+
     print(f"\n詳細レポート: {args.output}")
-    
+
     # 終了コード設定
     if report['statistics']['errors'] > 0:
         sys.exit(1)

@@ -20,18 +20,18 @@ class UltraThinkMassCollectorExtended:
         self.existing_file = "ultra_think_extended_20250825_164753.csv"
         if not os.path.exists(self.existing_file):
             self.existing_file = "ultra_think_ultimate_1211_20250825_163049.csv"
-        
+
         self.output_csv = f"ultra_think_massive_{self.timestamp}.csv"
         self.output_json = f"ultra_think_massive_{self.timestamp}.json"
         self.report_file = f"MASSIVE_COLLECTION_REPORT_{self.timestamp}.md"
-        
+
         # 既存データを読み込み
         self.existing_data = self.load_existing_data()
         self.existing_names = {r.get('person_name', '') for r in self.existing_data}
-        
+
         # 収集データ
         self.new_data = []
-        
+
         # 統計
         self.stats = {
             'phase4_actor': 0,
@@ -43,7 +43,7 @@ class UltraThinkMassCollectorExtended:
             'duplicates_skipped': 0,
             'total_collected': 0
         }
-    
+
     def load_existing_data(self) -> List[Dict]:
         """既存データを読み込み"""
         try:
@@ -52,8 +52,8 @@ class UltraThinkMassCollectorExtended:
                 return list(reader)
         except:
             return []
-    
-    def create_person_record(self, 
+
+    def create_person_record(self,
                            person_name: str,
                            person_name_ja: str,
                            person_name_display: str,
@@ -65,11 +65,11 @@ class UltraThinkMassCollectorExtended:
                            is_animal: bool = False,
                            group_name: Optional[str] = None) -> Dict:
         """人物レコードを作成"""
-        
+
         # グループメンバーの場合、表示名を調整
         if group_name:
             person_name_display = f"{person_name_ja}（{group_name}）"
-        
+
         return {
             'batch_id': f'extended_{self.timestamp}',
             'birth_year': str(birth_year) if birth_year else '',
@@ -95,32 +95,32 @@ class UltraThinkMassCollectorExtended:
             'platform': '',
             'subcategory': ''
         }
-    
+
     def add_person(self, **kwargs) -> bool:
         """人物を追加（重複チェック付き）"""
         person_name = kwargs.get('person_name', '')
-        
+
         # 重複チェック
         if person_name in self.existing_names:
             self.stats['duplicates_skipped'] += 1
             return False
-        
+
         # レコード作成
         record = self.create_person_record(**kwargs)
         self.new_data.append(record)
         self.existing_names.add(person_name)
         self.stats['total_collected'] += 1
-        
+
         # プログレス表示
         if self.stats['total_collected'] % 100 == 0:
             print(f"  収集済み: {self.stats['total_collected']}件")
-        
+
         return True
-    
+
     def phase4_actors_actresses(self):
         """Phase 4: 俳優・女優収集"""
         print("\n🎭 Phase 4: 俳優・女優収集開始...")
-        
+
         actors = [
             # 日本の女優
             ("Yui Aragaki", "新垣結衣", "新垣結衣", 1988, "日本", "女優"),
@@ -143,7 +143,7 @@ class UltraThinkMassCollectorExtended:
             ("Emi Takei", "武井咲", "武井咲", 1993, "日本", "女優"),
             ("Nanao", "菜々緒", "菜々緒", 1988, "日本", "女優"),
             ("Yuko Takeuchi", "竹内結子", "竹内結子", 1980, "日本", "女優"),
-            
+
             # 日本の男優（追加）
             ("Takeru Satoh", "佐藤健", "佐藤健", 1989, "日本", "俳優"),
             ("Ryunosuke Kamiki", "神木隆之介", "神木隆之介", 1993, "日本", "俳優"),
@@ -165,7 +165,7 @@ class UltraThinkMassCollectorExtended:
             ("Toshiyuki Nishida", "西田敏行", "西田敏行", 1947, "日本", "俳優"),
             ("Ken Watanabe", "渡辺謙", "渡辺謙", 1959, "日本", "俳優"),
             ("Koji Yakusho", "役所広司", "役所広司", 1956, "日本", "俳優"),
-            
+
             # ベテラン女優
             ("Sayuri Yoshinaga", "吉永小百合", "吉永小百合", 1945, "日本", "女優"),
             ("Yoshiko Mita", "三田佳子", "三田佳子", 1941, "日本", "女優"),
@@ -178,7 +178,7 @@ class UltraThinkMassCollectorExtended:
             ("Kou Shibasaki", "柴咲コウ", "柴咲コウ", 1981, "日本", "女優"),
             ("Mao Inoue", "井上真央", "井上真央", 1987, "日本", "女優"),
         ]
-        
+
         for actor_data in actors:
             person_name, person_name_ja, display, birth_year, nationality, occupation = actor_data
             if self.add_person(
@@ -191,13 +191,13 @@ class UltraThinkMassCollectorExtended:
                 category="現代のイノベーター"
             ):
                 self.stats['phase4_actor'] += 1
-        
+
         print(f"  ✓ Phase 4完了: {self.stats['phase4_actor']}件収集")
-    
+
     def phase5_sports_athletes(self):
         """Phase 5: スポーツ選手収集"""
         print("\n⚽ Phase 5: スポーツ選手収集開始...")
-        
+
         athletes = [
             # 野球レジェンド
             ("Sadaharu Oh", "王貞治", "王貞治", 1940, "日本", "元野球選手"),
@@ -214,7 +214,7 @@ class UltraThinkMassCollectorExtended:
             ("Tomoya Mori", "森友哉", "森友哉", 1995, "日本", "野球選手"),
             ("Yuki Yanagita", "柳田悠岐", "柳田悠岐", 1988, "日本", "野球選手"),
             ("Masataka Yoshida", "吉田正尚", "吉田正尚", 1993, "日本", "野球選手"),
-            
+
             # サッカー
             ("Hidetoshi Nakata", "中田英寿", "中田英寿", 1977, "日本", "元サッカー選手"),
             ("Keisuke Honda", "本田圭佑", "本田圭佑", 1986, "日本", "元サッカー選手"),
@@ -231,11 +231,11 @@ class UltraThinkMassCollectorExtended:
             ("Ao Tanaka", "田中碧", "田中碧", 1998, "日本", "サッカー選手"),
             ("Ritsu Doan", "堂安律", "堂安律", 1998, "日本", "サッカー選手"),
             ("Junya Ito", "伊東純也", "伊東純也", 1993, "日本", "サッカー選手"),
-            
+
             # テニス
             ("Kimiko Date", "伊達公子", "伊達公子", 1970, "日本", "元テニス選手"),
             ("Ai Sugiyama", "杉山愛", "杉山愛", 1975, "日本", "元テニス選手"),
-            
+
             # フィギュアスケート（追加）
             ("Mao Asada", "浅田真央", "浅田真央", 1990, "日本", "元フィギュアスケート選手"),
             ("Yuna Kim", "キム・ヨナ", "キム・ヨナ", 1990, "韓国", "元フィギュアスケート選手"),
@@ -244,17 +244,17 @@ class UltraThinkMassCollectorExtended:
             ("Midori Ito", "伊藤みどり", "伊藤みどり", 1969, "日本", "元フィギュアスケート選手"),
             ("Daisuke Takahashi", "高橋大輔", "高橋大輔", 1986, "日本", "フィギュアスケート選手"),
             ("Nathan Chen", "ネイサン・チェン", "ネイサン・チェン", 1999, "アメリカ", "フィギュアスケート選手"),
-            
+
             # 水泳
             ("Kosuke Kitajima", "北島康介", "北島康介", 1982, "日本", "元水泳選手"),
             ("Daiya Seto", "瀬戸大也", "瀬戸大也", 1994, "日本", "水泳選手"),
             ("Rikako Ikee", "池江璃花子", "池江璃花子", 2000, "日本", "水泳選手"),
-            
+
             # 体操
             ("Kohei Uchimura", "内村航平", "内村航平", 1989, "日本", "体操選手"),
             ("Kenzo Shirai", "白井健三", "白井健三", 1996, "日本", "元体操選手"),
             ("Daiki Hashimoto", "橋本大輝", "橋本大輝", 2001, "日本", "体操選手"),
-            
+
             # 柔道
             ("Yasuhiro Yamashita", "山下泰裕", "山下泰裕", 1957, "日本", "元柔道選手"),
             ("Tadahiro Nomura", "野村忠宏", "野村忠宏", 1974, "日本", "元柔道選手"),
@@ -262,32 +262,32 @@ class UltraThinkMassCollectorExtended:
             ("Kaori Matsumoto", "松本薫", "松本薫", 1987, "日本", "元柔道選手"),
             ("Uta Abe", "阿部詩", "阿部詩", 2000, "日本", "柔道選手"),
             ("Hifumi Abe", "阿部一二三", "阿部一二三", 1997, "日本", "柔道選手"),
-            
+
             # レスリング
             ("Saori Yoshida", "吉田沙保里", "吉田沙保里", 1982, "日本", "元レスリング選手"),
             ("Kaori Icho", "伊調馨", "伊調馨", 1984, "日本", "元レスリング選手"),
             ("Risako Kawai", "川井梨紗子", "川井梨紗子", 1994, "日本", "レスリング選手"),
             ("Yukako Kawai", "川井友香子", "川井友香子", 1997, "日本", "レスリング選手"),
-            
+
             # ボクシング
             ("Naoya Inoue", "井上尚弥", "井上尚弥", 1993, "日本", "ボクシング選手"),
             ("Kazuto Ioka", "井岡一翔", "井岡一翔", 1989, "日本", "ボクシング選手"),
             ("Ryota Murata", "村田諒太", "村田諒太", 1986, "日本", "元ボクシング選手"),
-            
+
             # バスケットボール
             ("Rui Hachimura", "八村塁", "八村塁", 1998, "日本", "バスケットボール選手"),
             ("Yuta Watanabe", "渡邊雄太", "渡邊雄太", 1994, "日本", "バスケットボール選手"),
-            
+
             # ゴルフ
             ("Hideki Matsuyama", "松山英樹", "松山英樹", 1992, "日本", "ゴルフ選手"),
             ("Hinako Shibuno", "渋野日向子", "渋野日向子", 1998, "日本", "ゴルフ選手"),
-            
+
             # 陸上
             ("Yoshihide Kiryu", "桐生祥秀", "桐生祥秀", 1995, "日本", "陸上選手"),
             ("Shuhei Tada", "多田修平", "多田修平", 1996, "日本", "陸上選手"),
             ("Ryuji Miura", "三浦龍司", "三浦龍司", 2002, "日本", "陸上選手"),
         ]
-        
+
         for athlete_data in athletes:
             person_name, person_name_ja, display, birth_year, nationality, occupation = athlete_data
             if self.add_person(
@@ -300,13 +300,13 @@ class UltraThinkMassCollectorExtended:
                 category="現代のイノベーター"
             ):
                 self.stats['phase5_sports'] += 1
-        
+
         print(f"  ✓ Phase 5完了: {self.stats['phase5_sports']}件収集")
-    
+
     def phase6_foreign_celebrities(self):
         """Phase 6: 海外有名人収集"""
         print("\n🌍 Phase 6: 海外有名人収集開始...")
-        
+
         celebrities = [
             # ハリウッド俳優
             ("Tom Cruise", "トム・クルーズ", "トム・クルーズ", 1962, "アメリカ", "俳優"),
@@ -319,7 +319,7 @@ class UltraThinkMassCollectorExtended:
             ("Chris Hemsworth", "クリス・ヘムズワース", "クリス・ヘムズワース", 1983, "オーストラリア", "俳優"),
             ("Ryan Reynolds", "ライアン・レイノルズ", "ライアン・レイノルズ", 1976, "カナダ", "俳優"),
             ("Tom Holland", "トム・ホランド", "トム・ホランド", 1996, "イギリス", "俳優"),
-            
+
             # ハリウッド女優
             ("Scarlett Johansson", "スカーレット・ヨハンソン", "スカーレット・ヨハンソン", 1984, "アメリカ", "女優"),
             ("Emma Watson", "エマ・ワトソン", "エマ・ワトソン", 1990, "イギリス", "女優"),
@@ -330,7 +330,7 @@ class UltraThinkMassCollectorExtended:
             ("Gal Gadot", "ガル・ガドット", "ガル・ガドット", 1985, "イスラエル", "女優"),
             ("Margot Robbie", "マーゴット・ロビー", "マーゴット・ロビー", 1990, "オーストラリア", "女優"),
             ("Zendaya", "ゼンデイヤ", "ゼンデイヤ", 1996, "アメリカ", "女優"),
-            
+
             # サッカー選手
             ("Lionel Messi", "リオネル・メッシ", "メッシ", 1987, "アルゼンチン", "サッカー選手"),
             ("Cristiano Ronaldo", "クリスティアーノ・ロナウド", "ロナウド", 1985, "ポルトガル", "サッカー選手"),
@@ -342,7 +342,7 @@ class UltraThinkMassCollectorExtended:
             ("Robert Lewandowski", "ロベルト・レヴァンドフスキ", "レヴァンドフスキ", 1988, "ポーランド", "サッカー選手"),
             ("Karim Benzema", "カリム・ベンゼマ", "ベンゼマ", 1987, "フランス", "サッカー選手"),
             ("Luka Modric", "ルカ・モドリッチ", "モドリッチ", 1985, "クロアチア", "サッカー選手"),
-            
+
             # バスケットボール選手
             ("LeBron James", "レブロン・ジェームズ", "レブロン", 1984, "アメリカ", "バスケットボール選手"),
             ("Stephen Curry", "ステフィン・カリー", "カリー", 1988, "アメリカ", "バスケットボール選手"),
@@ -350,13 +350,13 @@ class UltraThinkMassCollectorExtended:
             ("Giannis Antetokounmpo", "ヤニス・アデトクンボ", "ヤニス", 1994, "ギリシャ", "バスケットボール選手"),
             ("Nikola Jokic", "ニコラ・ヨキッチ", "ヨキッチ", 1995, "セルビア", "バスケットボール選手"),
             ("Luka Doncic", "ルカ・ドンチッチ", "ドンチッチ", 1999, "スロベニア", "バスケットボール選手"),
-            
+
             # テニス選手
             ("Roger Federer", "ロジャー・フェデラー", "フェデラー", 1981, "スイス", "元テニス選手"),
             ("Rafael Nadal", "ラファエル・ナダル", "ナダル", 1986, "スペイン", "テニス選手"),
             ("Novak Djokovic", "ノバク・ジョコビッチ", "ジョコビッチ", 1987, "セルビア", "テニス選手"),
             ("Serena Williams", "セリーナ・ウィリアムズ", "セリーナ", 1981, "アメリカ", "元テニス選手"),
-            
+
             # 音楽アーティスト
             ("Taylor Swift", "テイラー・スウィフト", "テイラー・スウィフト", 1989, "アメリカ", "歌手"),
             ("Ariana Grande", "アリアナ・グランデ", "アリアナ・グランデ", 1993, "アメリカ", "歌手"),
@@ -374,13 +374,13 @@ class UltraThinkMassCollectorExtended:
             ("Dua Lipa", "デュア・リパ", "デュア・リパ", 1995, "イギリス", "歌手"),
             ("The Weeknd", "ザ・ウィークエンド", "ザ・ウィークエンド", 1990, "カナダ", "歌手"),
             ("Post Malone", "ポスト・マローン", "ポスト・マローン", 1995, "アメリカ", "歌手"),
-            
+
             # K-POP（追加）
             ("IU", "アイユー", "IU", 1993, "韓国", "歌手"),
             ("G-Dragon", "G-DRAGON", "G-DRAGON", 1988, "韓国", "歌手"),
             ("Psy", "サイ", "PSY", 1977, "韓国", "歌手"),
         ]
-        
+
         for celeb_data in celebrities:
             person_name, person_name_ja, display, birth_year, nationality, occupation = celeb_data
             if self.add_person(
@@ -393,13 +393,13 @@ class UltraThinkMassCollectorExtended:
                 category="現代のイノベーター"
             ):
                 self.stats['phase6_foreign'] += 1
-        
+
         print(f"  ✓ Phase 6完了: {self.stats['phase6_foreign']}件収集")
-    
+
     def phase7_youtubers_streamers(self):
         """Phase 7: YouTuber・配信者収集"""
         print("\n📹 Phase 7: YouTuber・配信者収集開始...")
-        
+
         youtubers = [
             # コムドット
             ("Yamato", "やまと", "やまと（コムドット）", 1998, "日本", "YouTuber", "コムドット"),
@@ -407,85 +407,85 @@ class UltraThinkMassCollectorExtended:
             ("Yuma", "ゆうま", "ゆうま（コムドット）", 1998, "日本", "YouTuber", "コムドット"),
             ("Hyuga", "ひゅうが", "ひゅうが（コムドット）", 1998, "日本", "YouTuber", "コムドット"),
             ("Amugiri", "あむぎり", "あむぎり（コムドット）", 1999, "日本", "YouTuber", "コムドット"),
-            
+
             # スカイピース
             ("Teo", "テオくん", "テオくん（スカイピース）", 1995, "日本", "YouTuber", "スカイピース"),
             ("Ini", "☆イニ☆", "☆イニ☆（スカイピース）", 1995, "日本", "YouTuber", "スカイピース"),
-            
+
             # 平成フラミンゴ
             ("NICO", "にこ", "にこ（平成フラミンゴ）", 1992, "日本", "YouTuber", "平成フラミンゴ"),
             ("RIHO", "りほ", "りほ（平成フラミンゴ）", 1994, "日本", "YouTuber", "平成フラミンゴ"),
-            
+
             # カジサック
             ("Kajisac", "カジサック", "カジサック", 1980, "日本", "YouTuber"),
-            
+
             # ヒカル
             ("Hikaru", "ヒカル", "ヒカル", 1991, "日本", "YouTuber"),
-            
+
             # ラファエル
             ("Raphael", "ラファエル", "ラファエル", 1989, "日本", "YouTuber"),
-            
+
             # てんちむ
             ("Tenchim", "てんちむ", "てんちむ", 1993, "日本", "YouTuber"),
-            
+
             # ゆきりぬ
             ("Yukirinu", "ゆきりぬ", "ゆきりぬ", 1996, "日本", "YouTuber"),
-            
+
             # エミリン
             ("Emirin", "エミリン", "エミリン", 1993, "日本", "YouTuber"),
-            
+
             # 朝倉未来
             ("Mikuru Asakura", "朝倉未来", "朝倉未来", 1992, "日本", "YouTuber"),
-            
+
             # 朝倉海
             ("Kai Asakura", "朝倉海", "朝倉海", 1993, "日本", "YouTuber"),
-            
+
             # ヴァンゆん
             ("Vanyu", "ヴァンビ", "ヴァンビ（ヴァンゆん）", 1995, "日本", "YouTuber", "ヴァンゆん"),
             ("Yun", "ゆん", "ゆん（ヴァンゆん）", 1996, "日本", "YouTuber", "ヴァンゆん"),
-            
+
             # ばんばんざい
             ("Ryuga", "りゅうが", "りゅうが（ばんばんざい）", 1999, "日本", "YouTuber", "ばんばんざい"),
             ("Miyuu", "みゆ", "みゆ（ばんばんざい）", 1999, "日本", "YouTuber", "ばんばんざい"),
             ("Ginjiro", "ぎんじろう", "ぎんじろう（ばんばんざい）", 1999, "日本", "YouTuber", "ばんばんざい"),
-            
+
             # パパラピーズ
             ("Tanukana", "タヌカナ", "タヌカナ（パパラピーズ）", 1995, "日本", "YouTuber", "パパラピーズ"),
             ("Jukiya", "じゅきや", "じゅきや（パパラピーズ）", 1995, "日本", "YouTuber", "パパラピーズ"),
-            
+
             # なこなこチャンネル
             ("Nagomi", "なごみ", "なごみ（なこなこ）", 2000, "日本", "YouTuber", "なこなこチャンネル"),
             ("Koki", "こーくん", "こーくん（なこなこ）", 2000, "日本", "YouTuber", "なこなこチャンネル"),
-            
+
             # 夕闇に誘いし漆黒の天使達
             ("Yami", "やみ", "やみ（夕闇）", 1995, "日本", "YouTuber", "夕闇に誘いし漆黒の天使達"),
             ("Kuro", "くろ", "くろ（夕闇）", 1995, "日本", "YouTuber", "夕闇に誘いし漆黒の天使達"),
-            
+
             # きりたんぽ
             ("Kiritanpo", "きりたんぽ", "きりたんぽ", 1993, "日本", "YouTuber"),
-            
+
             # けみお
             ("Kemio", "けみお", "けみお", 1995, "日本", "YouTuber"),
-            
+
             # ゆうこす
             ("Yukos", "ゆうこす", "ゆうこす", 1994, "日本", "YouTuber"),
-            
+
             # ねお
             ("Neo", "ねお", "ねお", 2001, "日本", "YouTuber"),
-            
+
             # みきぽん
             ("Mikipon", "みきぽん", "みきぽん", 1992, "日本", "YouTuber"),
-            
+
             # さぁや
             ("Saaya", "さぁや", "さぁや", 1995, "日本", "YouTuber"),
-            
+
             # あやなん
             ("Ayanan", "あやなん", "あやなん", 1993, "日本", "YouTuber"),
-            
+
             # しばなん
             ("Shibanan", "しばなん", "しばなん", 1993, "日本", "YouTuber"),
         ]
-        
+
         for youtuber_data in youtubers:
             if len(youtuber_data) == 7:  # グループメンバー
                 person_name, person_name_ja, display, birth_year, nationality, occupation, group_name = youtuber_data
@@ -512,13 +512,13 @@ class UltraThinkMassCollectorExtended:
                     category="現代のイノベーター"
                 ):
                     self.stats['phase7_youtuber'] += 1
-        
+
         print(f"  ✓ Phase 7完了: {self.stats['phase7_youtuber']}件収集")
-    
+
     def phase8_historical_figures(self):
         """Phase 8: 歴史上の人物（追加）収集"""
         print("\n📚 Phase 8: 歴史上の人物（追加）収集開始...")
-        
+
         historical = [
             # 日本の戦国武将（追加）
             ("Mitsuhide Akechi", "明智光秀", "明智光秀", 1528, "日本", "武将"),
@@ -531,7 +531,7 @@ class UltraThinkMassCollectorExtended:
             ("Yukimura Sanada", "真田幸村", "真田幸村", 1567, "日本", "武将"),
             ("Kanetsugu Naoe", "直江兼続", "直江兼続", 1560, "日本", "武将"),
             ("Yoshihiro Shimazu", "島津義弘", "島津義弘", 1535, "日本", "武将"),
-            
+
             # 幕末の志士（追加）
             ("Takamori Saigo", "西郷隆盛", "西郷隆盛", 1828, "日本", "政治家"),
             ("Toshimichi Okubo", "大久保利通", "大久保利通", 1830, "日本", "政治家"),
@@ -542,7 +542,7 @@ class UltraThinkMassCollectorExtended:
             ("Soji Okita", "沖田総司", "沖田総司", 1842, "日本", "新選組隊士"),
             ("Kaishu Katsu", "勝海舟", "勝海舟", 1823, "日本", "政治家"),
             ("Shoin Yoshida", "吉田松陰", "吉田松陰", 1830, "日本", "思想家"),
-            
+
             # 日本の文化人（追加）
             ("Hokusai Katsushika", "葛飾北斎", "葛飾北斎", 1760, "日本", "浮世絵師"),
             ("Hiroshige Utagawa", "歌川広重", "歌川広重", 1797, "日本", "浮世絵師"),
@@ -550,7 +550,7 @@ class UltraThinkMassCollectorExtended:
             ("Basho Matsuo", "松尾芭蕉", "松尾芭蕉", 1644, "日本", "俳人"),
             ("Rikyu Sen", "千利休", "千利休", 1522, "日本", "茶人"),
             ("Chikamatsu Monzaemon", "近松門左衛門", "近松門左衛門", 1653, "日本", "劇作家"),
-            
+
             # 世界の歴史的人物（追加）
             ("George Washington", "ジョージ・ワシントン", "ジョージ・ワシントン", 1732, "アメリカ", "初代大統領"),
             ("Benjamin Franklin", "ベンジャミン・フランクリン", "ベンジャミン・フランクリン", 1706, "アメリカ", "政治家"),
@@ -569,7 +569,7 @@ class UltraThinkMassCollectorExtended:
             ("Mao Zedong", "毛沢東", "毛沢東", 1893, "中国", "政治家"),
             ("Deng Xiaoping", "鄧小平", "鄧小平", 1904, "中国", "政治家"),
             ("Ho Chi Minh", "ホー・チ・ミン", "ホー・チ・ミン", 1890, "ベトナム", "革命家"),
-            
+
             # 科学者・発明家（追加）
             ("Galileo Galilei", "ガリレオ・ガリレイ", "ガリレオ", 1564, "イタリア", "天文学者"),
             ("Johannes Kepler", "ヨハネス・ケプラー", "ケプラー", 1571, "ドイツ", "天文学者"),
@@ -584,7 +584,7 @@ class UltraThinkMassCollectorExtended:
             ("Francis Crick", "フランシス・クリック", "クリック", 1916, "イギリス", "分子生物学者"),
             ("Stephen Hawking", "スティーヴン・ホーキング", "ホーキング", 1942, "イギリス", "物理学者"),
         ]
-        
+
         for hist_data in historical:
             person_name, person_name_ja, display, birth_year, nationality, occupation = hist_data
             if self.add_person(
@@ -597,13 +597,13 @@ class UltraThinkMassCollectorExtended:
                 category="歴史的偉人"
             ):
                 self.stats['phase8_historical'] += 1
-        
+
         print(f"  ✓ Phase 8完了: {self.stats['phase8_historical']}件収集")
-    
+
     def phase9_others(self):
         """Phase 9: その他有名人収集"""
         print("\n🌟 Phase 9: その他有名人収集開始...")
-        
+
         others = [
             # 有名な動物
             ("Hachiko", "ハチ公", "ハチ公", 1923, "日本", "忠犬", False, True),
@@ -612,7 +612,7 @@ class UltraThinkMassCollectorExtended:
             ("Shabani", "シャバーニ", "シャバーニ", 1996, "オランダ", "ゴリラ", False, True),
             ("Shan Shan", "シャンシャン", "シャンシャン", 2017, "日本", "パンダ", False, True),
             ("Rascal", "ラスカル", "ラスカル", 1977, "アメリカ", "アライグマ", True, True),
-            
+
             # 競走馬（追加）
             ("Orfevre", "オルフェーヴル", "オルフェーヴル", 2008, "日本", "競走馬", False, True),
             ("Deep Impact", "ディープインパクト", "ディープインパクト", 2002, "日本", "競走馬", False, True),
@@ -624,7 +624,7 @@ class UltraThinkMassCollectorExtended:
             ("Tokai Teio", "トウカイテイオー", "トウカイテイオー", 1988, "日本", "競走馬", False, True),
             ("Mejiro McQueen", "メジロマックイーン", "メジロマックイーン", 1987, "日本", "競走馬", False, True),
             ("Special Week", "スペシャルウィーク", "スペシャルウィーク", 1995, "日本", "競走馬", False, True),
-            
+
             # 実業家（追加）
             ("Elon Musk", "イーロン・マスク", "イーロン・マスク", 1971, "南アフリカ", "実業家"),
             ("Jeff Bezos", "ジェフ・ベゾス", "ジェフ・ベゾス", 1964, "アメリカ", "実業家"),
@@ -638,7 +638,7 @@ class UltraThinkMassCollectorExtended:
             ("Masayoshi Son", "孫正義", "孫正義", 1957, "日本", "実業家"),
             ("Tadashi Yanai", "柳井正", "柳井正", 1949, "日本", "実業家"),
             ("Hiroshi Mikitani", "三木谷浩史", "三木谷浩史", 1965, "日本", "実業家"),
-            
+
             # ファッションデザイナー
             ("Coco Chanel", "ココ・シャネル", "ココ・シャネル", 1883, "フランス", "デザイナー"),
             ("Christian Dior", "クリスチャン・ディオール", "ディオール", 1905, "フランス", "デザイナー"),
@@ -650,7 +650,7 @@ class UltraThinkMassCollectorExtended:
             ("Yohji Yamamoto", "山本耀司", "山本耀司", 1943, "日本", "デザイナー"),
             ("Kenzo Takada", "高田賢三", "ケンゾー", 1939, "日本", "デザイナー"),
             ("Issey Miyake", "三宅一生", "三宅一生", 1938, "日本", "デザイナー"),
-            
+
             # 映画監督
             ("Steven Spielberg", "スティーヴン・スピルバーグ", "スピルバーグ", 1946, "アメリカ", "映画監督"),
             ("George Lucas", "ジョージ・ルーカス", "ジョージ・ルーカス", 1944, "アメリカ", "映画監督"),
@@ -667,7 +667,7 @@ class UltraThinkMassCollectorExtended:
             ("Mamoru Hosoda", "細田守", "細田守", 1967, "日本", "アニメ監督"),
             ("Hideaki Anno", "庵野秀明", "庵野秀明", 1960, "日本", "アニメ監督"),
         ]
-        
+
         for other_data in others:
             if len(other_data) == 8:  # 動物
                 person_name, person_name_ja, display, birth_year, nationality, occupation, is_fictional, is_animal = other_data
@@ -695,58 +695,58 @@ class UltraThinkMassCollectorExtended:
                     category="現代のイノベーター"
                 ):
                     self.stats['phase9_others'] += 1
-        
+
         print(f"  ✓ Phase 9完了: {self.stats['phase9_others']}件収集")
-    
+
     def collect_all(self):
         """全フェーズのデータを収集"""
         print("=" * 60)
         print("🚀 Ultra Think Massive Collection 開始")
         print("=" * 60)
-        
+
         # Phase 4: 俳優・女優
         self.phase4_actors_actresses()
-        
+
         # Phase 5: スポーツ選手
         self.phase5_sports_athletes()
-        
+
         # Phase 6: 海外有名人
         self.phase6_foreign_celebrities()
-        
+
         # Phase 7: YouTuber・配信者
         self.phase7_youtubers_streamers()
-        
+
         # Phase 8: 歴史上の人物
         self.phase8_historical_figures()
-        
+
         # Phase 9: その他
         self.phase9_others()
-        
+
         print(f"\n✅ 収集完了")
         print(f"  総収集数: {self.stats['total_collected']}件")
         print(f"  重複スキップ: {self.stats['duplicates_skipped']}件")
-    
+
     def save_data(self):
         """データを保存"""
         # 既存データと新規データを結合
         all_data = self.existing_data + self.new_data
-        
+
         # CSV保存
         with open(self.output_csv, 'w', encoding='utf-8-sig', newline='') as f:
             if all_data:
                 writer = csv.DictWriter(f, fieldnames=all_data[0].keys())
                 writer.writeheader()
                 writer.writerows(all_data)
-        
+
         # JSON保存
         with open(self.output_json, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
-        
+
         print(f"\n💾 保存完了:")
         print(f"  - CSV: {self.output_csv}")
         print(f"  - JSON: {self.output_json}")
         print(f"  - 総レコード数: {len(all_data)}件")
-    
+
     def generate_report(self):
         """収集レポートを生成"""
         report = f"""# Ultra Think Massive Collection Report
@@ -787,10 +787,10 @@ class UltraThinkMassCollectorExtended:
 - 歴史上の人物: 戦国武将、幕末の志士、世界の偉人
 - その他: 動物、競走馬、実業家、デザイナー、映画監督
 """
-        
+
         with open(self.report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"\n📝 レポート生成: {self.report_file}")
 
 

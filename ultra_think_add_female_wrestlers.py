@@ -224,7 +224,7 @@ class UltraThinkFemaleWrestlersAdder:
                 "note": "OZアカデミー代表"
             }
         ]
-        
+
         # 現代の女子プロレスラー
         self.modern_wrestlers = [
             {
@@ -368,7 +368,7 @@ class UltraThinkFemaleWrestlersAdder:
                 "note": "スターダム所属、元MMA選手"
             }
         ]
-        
+
         # 関連ジャンル（女子格闘家など）
         self.related_fighters = [
             {
@@ -442,27 +442,27 @@ class UltraThinkFemaleWrestlersAdder:
                 "note": "元DEEP女子王者"
             }
         ]
-        
+
         self.stats = {
             'total_input': 0,
             'wrestlers_added': 0,
             'fighters_added': 0,
             'total_output': 0
         }
-        
+
     def generate_episode_id(self, person_idx: int) -> str:
         """エピソードID生成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         return f"EP_{timestamp}_FW{person_idx:04d}"
-    
+
     def generate_person_id(self, current_max: int, idx: int) -> str:
         """person_ID生成"""
         return f"P{current_max + idx:06d}"
-    
+
     def create_person_row(self, person: Dict, episode_id: str, person_id: str) -> Dict:
         """人物データを24フィールド形式に変換"""
         timestamp = datetime.now().isoformat()
-        
+
         # 拡張データ
         extended_data = {
             "original_batch_id": "female_wrestlers_addition",
@@ -476,7 +476,7 @@ class UltraThinkFemaleWrestlersAdder:
             "note": person.get('note', ''),
             "conversion_date": timestamp
         }
-        
+
         return {
             "episode_id": episode_id,
             "person_id": person_id,
@@ -503,27 +503,27 @@ class UltraThinkFemaleWrestlersAdder:
             "is_published": "true",
             "extended_data": json.dumps(extended_data, ensure_ascii=False)
         }
-    
+
     def process_and_add(self, input_file: str) -> str:
         """既存ファイルに女子プロレスラーを追加"""
         print("🥊 Ultra Think 女子プロレスラー追加開始...")
-        
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"ultra_think_WITH_FEMALE_WRESTLERS_{timestamp}.csv"
-        
+
         # 1. 既存データ読み込み
         print("\n📂 既存データ読み込み中...")
         existing_rows = []
         fieldnames = None
-        
+
         with open(input_file, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
             fieldnames = reader.fieldnames
             existing_rows = list(reader)
             self.stats['total_input'] = len(existing_rows)
-        
+
         print(f"  ✅ {self.stats['total_input']:,}件の既存データ読み込み完了")
-        
+
         # 現在の最大person_id取得
         max_person_id = 0
         for row in existing_rows:
@@ -533,12 +533,12 @@ class UltraThinkFemaleWrestlersAdder:
                 max_person_id = max(max_person_id, num)
             except (ValueError, IndexError):
                 pass
-        
+
         # 2. 新規データ作成
         print("\n🎯 女子プロレスラー追加中...")
         new_rows = []
         person_idx = 1
-        
+
         # 黄金期レスラー
         print("  📌 黄金期レスラー追加...")
         for wrestler in self.golden_age_wrestlers:
@@ -548,7 +548,7 @@ class UltraThinkFemaleWrestlersAdder:
             new_rows.append(new_row)
             self.stats['wrestlers_added'] += 1
             person_idx += 1
-        
+
         # 現代レスラー
         print("  📌 現代レスラー追加...")
         for wrestler in self.modern_wrestlers:
@@ -558,7 +558,7 @@ class UltraThinkFemaleWrestlersAdder:
             new_rows.append(new_row)
             self.stats['wrestlers_added'] += 1
             person_idx += 1
-        
+
         # 関連格闘家
         print("  📌 女子格闘家追加...")
         for fighter in self.related_fighters:
@@ -568,28 +568,28 @@ class UltraThinkFemaleWrestlersAdder:
             new_rows.append(new_row)
             self.stats['fighters_added'] += 1
             person_idx += 1
-        
+
         print(f"  ✅ {len(new_rows)}名の新規人物を追加")
-        
+
         # 3. データ統合と書き出し
         print("\n📝 統合データ書き出し中...")
         all_rows = existing_rows + new_rows
-        
+
         with open(output_file, 'w', encoding='utf-8-sig', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
-            
+
             for row in all_rows:
                 writer.writerow(row)
                 self.stats['total_output'] += 1
-        
+
         print(f"  ✅ 書き出し完了: {self.stats['total_output']:,}件")
-        
+
         # 4. レポート作成
         self.create_report(timestamp, output_file, input_file)
-        
+
         return output_file
-    
+
     def create_report(self, timestamp: str, output_file: str, input_file: str):
         """追加レポート作成"""
         report = f"""# 🥊 Ultra Think 女子プロレスラー追加レポート
@@ -635,39 +635,39 @@ class UltraThinkFemaleWrestlersAdder:
 データベースのジェンダーバランスが大幅に改善され、
 日本女子プロレスおよび格闘技の歴史が適切に表現されるようになりました。
 """
-        
+
         report_file = f"ULTRA_THINK_FEMALE_WRESTLERS_REPORT_{timestamp}.md"
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"\n📋 レポート: {report_file}")
-        
+
         # 統計をJSON保存
         stats_file = f"ultra_think_female_wrestlers_stats_{timestamp}.json"
         with open(stats_file, 'w', encoding='utf-8') as f:
             json.dump(self.stats, f, ensure_ascii=False, indent=2)
-        
+
         print(f"📊 統計: {stats_file}")
 
 def main():
     adder = UltraThinkFemaleWrestlersAdder()
-    
+
     # 入力ファイル（最新のクリーンデータ）
     input_file = "ultra_think_FINAL_CLEAN_20250827_060225.csv"
-    
+
     # ファイル存在確認
     if not os.path.exists(input_file):
         print(f"❌ ファイルが見つかりません: {input_file}")
         return None
-    
+
     # 処理実行
     output_file = adder.process_and_add(input_file)
-    
+
     print("\n" + "=" * 50)
     print("✨ Ultra Think 女子プロレスラー追加完了!")
     print(f"📁 出力ファイル: {output_file}")
     print("=" * 50)
-    
+
     return output_file
 
 if __name__ == "__main__":

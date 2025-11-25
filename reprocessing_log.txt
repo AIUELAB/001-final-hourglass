@@ -5,15 +5,15 @@
 2025-09-10 02:40:39,903 - [INFO] - データ読み込み: 4718件
 2025-09-10 02:40:39,903 - [INFO] - バッチサイズ: 200
 2025-09-10 02:40:39,903 - [INFO] - 並列ワーカー: 10
-2025-09-10 02:40:39,903 - [INFO] - 
+2025-09-10 02:40:39,903 - [INFO] -
 📦 バッチ処理: 1-200/4718
 2025-09-10 02:40:39,960 - [INFO] - 進捗: 100件処理 | 削除率: 13.0% | Wikipedia: 87 | 救済: 5 | キャッシュ: 100.0%
 2025-09-10 02:40:39,993 - [INFO] - 進捗: 200件処理 | 削除率: 18.0% | Wikipedia: 164 | 救済: 10 | キャッシュ: 100.0%
-2025-09-10 02:40:40,496 - [INFO] - 
+2025-09-10 02:40:40,496 - [INFO] -
 📦 バッチ処理: 201-400/4718
 2025-09-10 02:40:40,546 - [INFO] - 進捗: 300件処理 | 削除率: 21.7% | Wikipedia: 236 | 救済: 11 | キャッシュ: 100.7%
 2025-09-10 02:40:40,576 - [INFO] - 進捗: 400件処理 | 削除率: 24.5% | Wikipedia: 302 | 救済: 18 | キャッシュ: 100.0%
-2025-09-10 02:40:41,081 - [INFO] - 
+2025-09-10 02:40:41,081 - [INFO] -
 📦 バッチ処理: 401-600/4718
 2025-09-10 02:40:41,142 - [INFO] - 進捗: 500件処理 | 削除率: 26.0% | Wikipedia: 371 | 救済: 32 | キャッシュ: 100.4%
 2025-09-10 02:40:41,142 - [WARNING] - ⚠️ 削除率が高い: 26.0%
@@ -73,7 +73,7 @@
 2025-09-10 02:40:44,232 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=若槻禮次郎&lllimit=500&llprop=url
 2025-09-10 02:40:44,435 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=アレックス・ロドリゲス&lllimit=500&llprop=url
 2025-09-10 02:40:44,743 - [INFO] - 進捗: 600件処理 | 削除率: 25.0% | Wikipedia: 450 | 救済: 40 | キャッシュ: 98.5%
-2025-09-10 02:40:45,247 - [INFO] - 
+2025-09-10 02:40:45,247 - [INFO] -
 📦 バッチ処理: 601-800/4718
 2025-09-10 02:40:45,249 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=キース・リチャーズ&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:40:45,251 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=チャーリー・ワッツ&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -908,7 +908,7 @@
 2025-09-10 02:41:13,098 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=鎌田大地&lllimit=500&llprop=url
 2025-09-10 02:41:13,484 - [INFO] - 進捗: 800件処理 | 削除率: 32.0% | Wikipedia: 544 | 救済: 44 | キャッシュ: 74.0%
 2025-09-10 02:41:13,484 - [WARNING] - ⚠️ 削除率が高い: 32.0%
-2025-09-10 02:41:13,990 - [INFO] - 
+2025-09-10 02:41:13,990 - [INFO] -
 📦 バッチ処理: 801-1000/4718
 2025-09-10 02:41:13,990 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=鍵山翔太&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:41:13,991 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=鍵山次郎&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -1647,7 +1647,7 @@
 2025-09-10 02:41:36,132 - [INFO] - 進捗: 1000件処理 | 削除率: 38.1% | Wikipedia: 619 | 救済: 44 | キャッシュ: 59.2%
 2025-09-10 02:41:36,132 - [WARNING] - ⚠️ 削除率が高い: 38.1%
 2025-09-10 02:41:36,150 - [INFO] - チェックポイント保存: checkpoint_1000_20250910_024136.csv
-2025-09-10 02:41:36,655 - [INFO] - 
+2025-09-10 02:41:36,655 - [INFO] -
 📦 バッチ処理: 1001-1200/4718
 2025-09-10 02:41:36,656 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=姫野太郎&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:41:36,659 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=山内翔太&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -2348,7 +2348,7 @@
 2025-09-10 02:41:55,891 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=大橋悠依&lllimit=500&llprop=url
 2025-09-10 02:41:56,198 - [INFO] - 進捗: 1200件処理 | 削除率: 42.8% | Wikipedia: 686 | 救済: 45 | キャッシュ: 49.3%
 2025-09-10 02:41:56,198 - [WARNING] - ⚠️ 削除率が高い: 42.8%
-2025-09-10 02:41:56,701 - [INFO] - 
+2025-09-10 02:41:56,701 - [INFO] -
 📦 バッチ処理: 1201-1400/4718
 2025-09-10 02:41:56,702 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=アンドリュー・ン&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:41:56,703 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=山本杏&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -3174,7 +3174,7 @@
 2025-09-10 02:42:20,602 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=井上尚弥&lllimit=500&llprop=url
 2025-09-10 02:42:20,918 - [INFO] - 進捗: 1400件処理 | 削除率: 44.1% | Wikipedia: 783 | 救済: 45 | キャッシュ: 42.3%
 2025-09-10 02:42:20,918 - [WARNING] - ⚠️ 削除率が高い: 44.1%
-2025-09-10 02:42:21,431 - [INFO] - 
+2025-09-10 02:42:21,431 - [INFO] -
 📦 バッチ処理: 1401-1600/4718
 2025-09-10 02:42:21,434 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=深津次郎&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:42:21,435 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=深津太郎&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -3860,7 +3860,7 @@
 2025-09-10 02:42:40,221 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=松本人志&lllimit=500&llprop=url
 2025-09-10 02:42:40,558 - [INFO] - 進捗: 1600件処理 | 削除率: 47.1% | Wikipedia: 846 | 救済: 45 | キャッシュ: 37.0%
 2025-09-10 02:42:40,558 - [WARNING] - ⚠️ 削除率が高い: 47.1%
-2025-09-10 02:42:41,061 - [INFO] - 
+2025-09-10 02:42:41,061 - [INFO] -
 📦 バッチ処理: 1601-1800/4718
 2025-09-10 02:42:41,062 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=佐藤大輔&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:42:41,062 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=佐藤和也&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -4519,7 +4519,7 @@
 2025-09-10 02:42:58,921 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=千賀滉大&lllimit=500&llprop=url
 2025-09-10 02:42:59,228 - [INFO] - 進捗: 1800件処理 | 削除率: 49.8% | Wikipedia: 904 | 救済: 45 | キャッシュ: 32.9%
 2025-09-10 02:42:59,228 - [WARNING] - ⚠️ 削除率が高い: 49.8%
-2025-09-10 02:42:59,729 - [INFO] - 
+2025-09-10 02:42:59,729 - [INFO] -
 📦 バッチ処理: 1801-2000/4718
 2025-09-10 02:42:59,730 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=園田太郎&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:42:59,730 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=園田翔太&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -5402,7 +5402,7 @@
 2025-09-10 02:43:28,424 - [INFO] - 進捗: 2000件処理 | 削除率: 49.6% | Wikipedia: 1007 | 救済: 62 | キャッシュ: 29.8%
 2025-09-10 02:43:28,424 - [WARNING] - ⚠️ 削除率が高い: 49.6%
 2025-09-10 02:43:28,440 - [INFO] - チェックポイント保存: checkpoint_2000_20250910_024328.csv
-2025-09-10 02:43:28,942 - [INFO] - 
+2025-09-10 02:43:28,942 - [INFO] -
 📦 バッチ処理: 2001-2200/4718
 2025-09-10 02:43:28,943 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=クリスティーナ・フェルナンデス&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:43:28,944 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=テオ&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -6693,7 +6693,7 @@
 2025-09-10 02:44:17,097 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=釘宮理恵&lllimit=500&llprop=url
 2025-09-10 02:44:17,442 - [INFO] - 進捗: 2200件処理 | 削除率: 46.3% | Wikipedia: 1181 | 救済: 101 | キャッシュ: 27.1%
 2025-09-10 02:44:17,442 - [WARNING] - ⚠️ 削除率が高い: 46.3%
-2025-09-10 02:44:17,947 - [INFO] - 
+2025-09-10 02:44:17,947 - [INFO] -
 📦 バッチ処理: 2201-2400/4718
 2025-09-10 02:44:17,949 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=飯豊まりえ&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:44:17,949 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=宮川大輔&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -7932,7 +7932,7 @@
 2025-09-10 02:45:01,971 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=松尾芭蕉&lllimit=500&llprop=url
 2025-09-10 02:45:02,491 - [INFO] - 進捗: 2400件処理 | 削除率: 44.0% | Wikipedia: 1343 | 救済: 115 | キャッシュ: 24.8%
 2025-09-10 02:45:02,491 - [WARNING] - ⚠️ 削除率が高い: 44.0%
-2025-09-10 02:45:02,996 - [INFO] - 
+2025-09-10 02:45:02,996 - [INFO] -
 📦 バッチ処理: 2401-2600/4718
 2025-09-10 02:45:02,997 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=フランツ・カフカ&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:45:02,998 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=ハンス・クリスチャン・アンデルセン&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -9080,7 +9080,7 @@
 2025-09-10 02:45:40,907 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=モハメド・アリ&lllimit=500&llprop=url
 2025-09-10 02:45:41,418 - [INFO] - 進捗: 2600件処理 | 削除率: 42.1% | Wikipedia: 1506 | 救済: 122 | キャッシュ: 22.9%
 2025-09-10 02:45:41,418 - [WARNING] - ⚠️ 削除率が高い: 42.1%
-2025-09-10 02:45:41,922 - [INFO] - 
+2025-09-10 02:45:41,922 - [INFO] -
 📦 バッチ処理: 2601-2800/4718
 2025-09-10 02:45:41,923 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=エマ・ワトソン&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:45:41,924 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=エミネム&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -10221,7 +10221,7 @@
 2025-09-10 02:46:20,969 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=ドラえもん&lllimit=500&llprop=url
 2025-09-10 02:46:21,292 - [INFO] - 進捗: 2800件処理 | 削除率: 40.2% | Wikipedia: 1673 | 救済: 136 | キャッシュ: 21.4%
 2025-09-10 02:46:21,292 - [WARNING] - ⚠️ 削除率が高い: 40.2%
-2025-09-10 02:46:21,798 - [INFO] - 
+2025-09-10 02:46:21,798 - [INFO] -
 📦 バッチ処理: 2801-3000/4718
 2025-09-10 02:46:21,799 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=ピカチュウ （ポケットモンスター）&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:46:21,800 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=マリオ （スーパーマリオシリーズ）&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -11306,7 +11306,7 @@
 2025-09-10 02:47:01,760 - [INFO] - 進捗: 3000件処理 | 削除率: 39.4% | Wikipedia: 1819 | 救済: 152 | キャッシュ: 20.0%
 2025-09-10 02:47:01,760 - [WARNING] - ⚠️ 削除率が高い: 39.4%
 2025-09-10 02:47:01,782 - [INFO] - チェックポイント保存: checkpoint_3000_20250910_024701.csv
-2025-09-10 02:47:02,285 - [INFO] - 
+2025-09-10 02:47:02,285 - [INFO] -
 📦 バッチ処理: 3001-3200/4718
 2025-09-10 02:47:02,287 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=佐藤篤志&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:47:02,287 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=佐藤美月&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -12252,7 +12252,7 @@
 2025-09-10 02:47:33,297 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=江戸川コナン&lllimit=500&llprop=url
 2025-09-10 02:47:33,709 - [INFO] - 進捗: 3200件処理 | 削除率: 39.6% | Wikipedia: 1934 | 救済: 158 | キャッシュ: 18.8%
 2025-09-10 02:47:33,709 - [WARNING] - ⚠️ 削除率が高い: 39.6%
-2025-09-10 02:47:34,215 - [INFO] - 
+2025-09-10 02:47:34,215 - [INFO] -
 📦 バッチ処理: 3201-3400/4718
 2025-09-10 02:47:34,216 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=武田義隆&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:47:34,217 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=武藤敬司&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -13216,7 +13216,7 @@
 2025-09-10 02:48:06,241 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=斎藤元彦&lllimit=500&llprop=url
 2025-09-10 02:48:06,549 - [INFO] - 進捗: 3400件処理 | 削除率: 39.6% | Wikipedia: 2053 | 救済: 168 | キャッシュ: 17.7%
 2025-09-10 02:48:06,549 - [WARNING] - ⚠️ 削除率が高い: 39.6%
-2025-09-10 02:48:07,054 - [INFO] - 
+2025-09-10 02:48:07,054 - [INFO] -
 📦 バッチ処理: 3401-3600/4718
 2025-09-10 02:48:07,055 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=中村七海&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:48:07,057 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=中村修二&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -14244,7 +14244,7 @@
 2025-09-10 02:48:43,038 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=目黒蓮&lllimit=500&llprop=url
 2025-09-10 02:48:43,445 - [INFO] - 進捗: 3600件処理 | 削除率: 39.1% | Wikipedia: 2191 | 救済: 176 | キャッシュ: 16.8%
 2025-09-10 02:48:43,445 - [WARNING] - ⚠️ 削除率が高い: 39.1%
-2025-09-10 02:48:43,950 - [INFO] - 
+2025-09-10 02:48:43,950 - [INFO] -
 📦 バッチ処理: 3601-3800/4718
 2025-09-10 02:48:43,951 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=真田幸村&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:48:43,951 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=真田昌幸&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -15331,7 +15331,7 @@
 2025-09-10 02:49:23,508 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=置鮎龍太郎&lllimit=500&llprop=url
 2025-09-10 02:49:23,820 - [INFO] - 進捗: 3800件処理 | 削除率: 38.4% | Wikipedia: 2340 | 救済: 196 | キャッシュ: 16.0%
 2025-09-10 02:49:23,820 - [WARNING] - ⚠️ 削除率が高い: 38.4%
-2025-09-10 02:49:24,325 - [INFO] - 
+2025-09-10 02:49:24,325 - [INFO] -
 📦 バッチ処理: 3801-4000/4718
 2025-09-10 02:49:24,326 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=和田信綱&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:49:24,327 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=ムケシュ・アンバニ&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -16406,7 +16406,7 @@
 2025-09-10 02:50:02,941 - [INFO] - 進捗: 4000件処理 | 削除率: 37.9% | Wikipedia: 2483 | 救済: 212 | キャッシュ: 15.2%
 2025-09-10 02:50:02,942 - [WARNING] - ⚠️ 削除率が高い: 37.9%
 2025-09-10 02:50:02,970 - [INFO] - チェックポイント保存: checkpoint_4000_20250910_025002.csv
-2025-09-10 02:50:03,475 - [INFO] - 
+2025-09-10 02:50:03,475 - [INFO] -
 📦 バッチ処理: 4001-4200/4718
 2025-09-10 02:50:03,476 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=大久保康綱&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:50:03,477 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=大久保宗定&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -17411,7 +17411,7 @@
 2025-09-10 02:50:38,215 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=鈴木善幸&lllimit=500&llprop=url
 2025-09-10 02:50:38,538 - [INFO] - 進捗: 4200件処理 | 削除率: 37.7% | Wikipedia: 2615 | 救済: 229 | キャッシュ: 14.6%
 2025-09-10 02:50:38,538 - [WARNING] - ⚠️ 削除率が高い: 37.7%
-2025-09-10 02:50:39,041 - [INFO] - 
+2025-09-10 02:50:39,041 - [INFO] -
 📦 バッチ処理: 4201-4400/4718
 2025-09-10 02:50:39,042 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=鈴木正政&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:50:39,042 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=鈴木清家&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -18433,7 +18433,7 @@
 2025-09-10 02:51:13,826 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=鳩山由紀夫&lllimit=500&llprop=url
 2025-09-10 02:51:14,183 - [INFO] - 進捗: 4400件処理 | 削除率: 37.5% | Wikipedia: 2748 | 救済: 238 | キャッシュ: 14.0%
 2025-09-10 02:51:14,183 - [WARNING] - ⚠️ 削除率が高い: 37.5%
-2025-09-10 02:51:14,686 - [INFO] - 
+2025-09-10 02:51:14,686 - [INFO] -
 📦 バッチ処理: 4401-4600/4718
 2025-09-10 02:51:14,688 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=ダレノガレ明美&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:51:14,688 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=小坂菜緒&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -19600,7 +19600,7 @@
 2025-09-10 02:51:56,681 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=蔣経国&lllimit=500&llprop=url
 2025-09-10 02:51:57,002 - [INFO] - 進捗: 4600件処理 | 削除率: 36.6% | Wikipedia: 2915 | 救済: 267 | キャッシュ: 13.4%
 2025-09-10 02:51:57,002 - [WARNING] - ⚠️ 削除率が高い: 36.6%
-2025-09-10 02:51:57,505 - [INFO] - 
+2025-09-10 02:51:57,505 - [INFO] -
 📦 バッチ処理: 4601-4718/4718
 2025-09-10 02:51:57,506 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=マルクス・ペルソン&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
 2025-09-10 02:51:57,506 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=info&titles=ゴジラ （ゴジラシリーズ）&inprop=protection|talkid|watched|watchers|visitingwatchers|notificationtimestamp|subjectid|url|readable|preload|displaytitle|varianttitles
@@ -20313,7 +20313,7 @@
 2025-09-10 02:52:24,429 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=孫悟飯&lllimit=500&llprop=url
 2025-09-10 02:52:24,594 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=links&titles=進撃の巨人の登場人物&pllimit=500
 2025-09-10 02:52:25,150 - [INFO] - Request URL: https://ja.wikipedia.org/w/api.php?format=json&redirects=1&action=query&prop=langlinks&titles=進撃の巨人の登場人物&lllimit=500&llprop=url
-2025-09-10 02:52:25,998 - [INFO] - 
+2025-09-10 02:52:25,998 - [INFO] -
 ============================================================
 2025-09-10 02:52:25,998 - [INFO] - 📊 最終レポート
 2025-09-10 02:52:25,998 - [INFO] - ============================================================
@@ -20326,6 +20326,6 @@
 2025-09-10 02:52:25,998 - [INFO] - キャッシュヒット率: 13.0%
 2025-09-10 02:52:25,998 - [INFO] - API呼び出し: 4103
 2025-09-10 02:52:25,999 - [ERROR] - ❌ 削除率が異常に高いです
-2025-09-10 02:52:25,999 - [INFO] - 
+2025-09-10 02:52:25,999 - [INFO] -
 ✅ 結果ファイル: reprocessed_ALL_20250910_025225.csv
 2025-09-10 02:52:25,999 - [INFO] - 📊 統計ファイル: reprocessed_ALL_20250910_025225_stats.json

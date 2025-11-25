@@ -32,7 +32,7 @@ COMPREHENSIVE_CATEGORIES = {
             '宇宙飛行士': ['astronaut', 'cosmonaut', '宇宙飛行士'],
             'ノーベル賞受賞科学者': ['nobel laureate scientist'],
         },
-        
+
         '芸術': {
             '画家': ['painter', 'painting', '画家'],
             '彫刻家': ['sculptor', 'sculpture', '彫刻家'],
@@ -55,7 +55,7 @@ COMPREHENSIVE_CATEGORIES = {
             'パフォーマンスアーティスト': ['performance artist'],
             'デジタルアーティスト': ['digital artist', 'NFT'],
         },
-        
+
         '音楽': {
             'クラシック作曲家': ['classical composer', 'baroque', 'romantic'],
             '現代音楽作曲家': ['contemporary composer', 'modern'],
@@ -82,7 +82,7 @@ COMPREHENSIVE_CATEGORIES = {
             'J-POPアーティスト': ['j-pop', 'japanese pop'],
             'グラミー賞受賞者': ['grammy winner', 'grammy award'],
         },
-        
+
         '文学・執筆': {
             '小説家': ['novelist', 'fiction writer', '小説家'],
             '詩人': ['poet', 'poetry', '詩人'],
@@ -105,7 +105,7 @@ COMPREHENSIVE_CATEGORIES = {
             'ノーベル文学賞受賞者': ['nobel literature'],
             'ピューリッツァー賞受賞者': ['pulitzer prize'],
         },
-        
+
         'エンターテインメント': {
             '映画俳優': ['film actor', 'movie star', '映画俳優'],
             '舞台俳優': ['stage actor', 'theater', '舞台俳優'],
@@ -132,7 +132,7 @@ COMPREHENSIVE_CATEGORIES = {
             'トニー賞受賞者': ['tony award', 'broadway'],
             'カンヌ映画祭受賞者': ['cannes winner', 'palme'],
         },
-        
+
         'スポーツ': {
             'サッカー選手': ['soccer player', 'footballer', 'サッカー'],
             '野球選手': ['baseball player', 'baseball', '野球'],
@@ -166,7 +166,7 @@ COMPREHENSIVE_CATEGORIES = {
             'FIFA選手': ['FIFA player', 'world cup'],
             'スポーツ殿堂入り': ['hall of fame', 'HOF'],
         },
-        
+
         '政治・指導者': {
             '大統領': ['president', '大統領'],
             '首相': ['prime minister', 'premier', '首相'],
@@ -188,7 +188,7 @@ COMPREHENSIVE_CATEGORIES = {
             '中央銀行総裁': ['central bank governor'],
             'ノーベル平和賞受賞者': ['nobel peace prize'],
         },
-        
+
         '軍事': {
             '将軍': ['general', 'field marshal', '将軍'],
             '提督': ['admiral', 'fleet admiral', '提督'],
@@ -205,7 +205,7 @@ COMPREHENSIVE_CATEGORIES = {
             '軍事戦略家': ['military strategist', 'tactician'],
             '兵器開発者': ['weapons developer', 'arms'],
         },
-        
+
         'ビジネス・産業': {
             '起業家': ['entrepreneur', 'founder', '起業家'],
             'CEO': ['CEO', 'chief executive', 'CEO'],
@@ -227,7 +227,7 @@ COMPREHENSIVE_CATEGORIES = {
             'フォーブス長者番付': ['forbes billionaire'],
             'フォーチュン500 CEO': ['fortune 500'],
         },
-        
+
         '宗教・哲学': {
             '哲学者': ['philosopher', 'philosophy', '哲学者'],
             '神学者': ['theologian', 'theology', '神学者'],
@@ -249,7 +249,7 @@ COMPREHENSIVE_CATEGORIES = {
             '預言者': ['prophet', 'messenger'],
             '神秘主義者': ['mystic', 'mysticism'],
         },
-        
+
         '活動家・社会運動': {
             '人権活動家': ['human rights', 'civil rights'],
             '女性運動家': ['feminist', 'women rights'],
@@ -267,7 +267,7 @@ COMPREHENSIVE_CATEGORIES = {
             '反核活動家': ['anti-nuclear', 'disarmament'],
             'NGO創設者': ['NGO founder', 'non-profit'],
         },
-        
+
         '法律・司法': {
             '弁護士': ['lawyer', 'attorney', '弁護士'],
             '検察官': ['prosecutor', 'district attorney'],
@@ -284,7 +284,7 @@ COMPREHENSIVE_CATEGORIES = {
             '特許弁護士': ['patent attorney'],
             '国際司法裁判所判事': ['ICJ judge'],
         },
-        
+
         '教育': {
             '教育者': ['educator', 'teacher', '教師'],
             '大学教授': ['professor', 'academic', '教授'],
@@ -297,7 +297,7 @@ COMPREHENSIVE_CATEGORIES = {
             '教育理論家': ['education theorist'],
             '学習科学研究者': ['learning scientist'],
         },
-        
+
         '探検・冒険': {
             '探検家': ['explorer', 'expedition', '探検家'],
             '航海者': ['navigator', 'sailor', '航海者'],
@@ -310,7 +310,7 @@ COMPREHENSIVE_CATEGORIES = {
             '旅行家': ['traveler', 'voyager'],
             '自然写真家': ['nature photographer', 'wildlife'],
         },
-        
+
         'メディア・放送': {
             'アナウンサー': ['announcer', 'anchor', 'アナウンサー'],
             'ニュースキャスター': ['news anchor', 'newscaster'],
@@ -322,7 +322,7 @@ COMPREHENSIVE_CATEGORIES = {
             'ドキュメンタリー制作者': ['documentary filmmaker'],
             'ビデオグラファー': ['videographer', 'video'],
         },
-        
+
         '料理・食文化': {
             'シェフ': ['chef', 'cook', 'シェフ'],
             'パティシエ': ['pastry chef', 'patissier'],
@@ -335,7 +335,7 @@ COMPREHENSIVE_CATEGORIES = {
             '郷土料理専門家': ['regional cuisine expert'],
             '栄養士': ['nutritionist', 'dietitian'],
         },
-        
+
         'ファッション・美容': {
             'ファッションデザイナー': ['fashion designer', 'couture'],
             'モデル': ['model', 'supermodel', 'モデル'],
@@ -349,7 +349,7 @@ COMPREHENSIVE_CATEGORIES = {
             'ファッションアイコン': ['fashion icon', 'style icon'],
         },
     },
-    
+
     # ============ 時代カテゴリ ============
     'era_categories': {
         '先史時代': 'prehistoric',
@@ -377,7 +377,7 @@ COMPREHENSIVE_CATEGORIES = {
         '21世紀中期（2010-2020年）': '21st_mid',
         '現代（2020年-）': 'contemporary',
     },
-    
+
     # ============ 地域カテゴリ ============
     'region_categories': {
         # 北アメリカ
@@ -386,7 +386,7 @@ COMPREHENSIVE_CATEGORIES = {
         'メキシコ': 'Mexico',
         '中央アメリカ': 'Central_America',
         'カリブ海地域': 'Caribbean',
-        
+
         # 南アメリカ
         'ブラジル': 'Brazil',
         'アルゼンチン': 'Argentina',
@@ -395,7 +395,7 @@ COMPREHENSIVE_CATEGORIES = {
         'コロンビア': 'Colombia',
         'ベネズエラ': 'Venezuela',
         '南米その他': 'South_America_Other',
-        
+
         # ヨーロッパ
         'イギリス': 'UK',
         'フランス': 'France',
@@ -414,7 +414,7 @@ COMPREHENSIVE_CATEGORIES = {
         'バルカン半島': 'Balkans',
         'バルト三国': 'Baltic',
         '東欧': 'Eastern_Europe',
-        
+
         # アジア
         '日本': 'Japan',
         '中国': 'China',
@@ -432,7 +432,7 @@ COMPREHENSIVE_CATEGORIES = {
         'シンガポール': 'Singapore',
         '東南アジアその他': 'Southeast_Asia_Other',
         '中央アジア': 'Central_Asia',
-        
+
         # 中東
         'イスラエル': 'Israel',
         'パレスチナ': 'Palestine',
@@ -446,7 +446,7 @@ COMPREHENSIVE_CATEGORIES = {
         'ヨルダン': 'Jordan',
         'トルコ': 'Turkey',
         '中東その他': 'Middle_East_Other',
-        
+
         # アフリカ
         '南アフリカ': 'South_Africa',
         'ナイジェリア': 'Nigeria',
@@ -461,12 +461,12 @@ COMPREHENSIVE_CATEGORIES = {
         '東アフリカ': 'East_Africa',
         '中央アフリカ': 'Central_Africa',
         '北アフリカ': 'North_Africa',
-        
+
         # オセアニア
         'オーストラリア': 'Australia',
         'ニュージーランド': 'New_Zealand',
         '太平洋諸島': 'Pacific_Islands',
-        
+
         # 古代文明
         '古代エジプト': 'Ancient_Egypt',
         '古代ギリシャ': 'Ancient_Greece',
@@ -479,7 +479,7 @@ COMPREHENSIVE_CATEGORIES = {
         'オスマン帝国': 'Ottoman_Empire',
         'モンゴル帝国': 'Mongol_Empire',
     },
-    
+
     # ============ 特別タグ ============
     'special_tags': {
         # 受賞歴
@@ -490,13 +490,13 @@ COMPREHENSIVE_CATEGORIES = {
         'ノーベル文学賞': 'Nobel_Literature',
         'ノーベル平和賞': 'Nobel_Peace',
         'ノーベル経済学賞': 'Nobel_Economics',
-        
+
         'アカデミー賞受賞者': 'Academy_Award',
         'アカデミー作品賞': 'Oscar_Best_Picture',
         'アカデミー監督賞': 'Oscar_Best_Director',
         'アカデミー主演男優賞': 'Oscar_Best_Actor',
         'アカデミー主演女優賞': 'Oscar_Best_Actress',
-        
+
         'グラミー賞受賞者': 'Grammy_Award',
         'エミー賞受賞者': 'Emmy_Award',
         'トニー賞受賞者': 'Tony_Award',
@@ -504,7 +504,7 @@ COMPREHENSIVE_CATEGORIES = {
         'カンヌ映画祭パルムドール': 'Palme_dOr',
         'ヴェネツィア映画祭金獅子賞': 'Golden_Lion',
         'ベルリン映画祭金熊賞': 'Golden_Bear',
-        
+
         'フィールズ賞': 'Fields_Medal',
         'チューリング賞': 'Turing_Award',
         'プリツカー賞': 'Pritzker_Prize',
@@ -512,7 +512,7 @@ COMPREHENSIVE_CATEGORIES = {
         'ブッカー賞': 'Booker_Prize',
         '芥川賞': 'Akutagawa_Prize',
         '直木賞': 'Naoki_Prize',
-        
+
         # スポーツ関連
         'オリンピック金メダリスト': 'Olympic_Gold',
         'オリンピック複数メダリスト': 'Olympic_Multiple',
@@ -524,7 +524,7 @@ COMPREHENSIVE_CATEGORIES = {
         'MLB殿堂入り': 'MLB_Hall_of_Fame',
         'NBA殿堂入り': 'NBA_Hall_of_Fame',
         'NFL殿堂入り': 'NFL_Hall_of_Fame',
-        
+
         # 年齢・寿命関連
         '長寿（100歳以上）': 'Centenarian',
         '超長寿（110歳以上）': 'Supercentenarian',
@@ -536,7 +536,7 @@ COMPREHENSIVE_CATEGORIES = {
         '戦死': 'Killed_in_War',
         '事故死': 'Accidental_Death',
         '自殺': 'Suicide',
-        
+
         # 国籍・民族
         '日本人': 'Japanese',
         '在日外国人': 'Foreign_in_Japan',
@@ -547,13 +547,13 @@ COMPREHENSIVE_CATEGORIES = {
         'ヒスパニック系': 'Hispanic',
         'ネイティブアメリカン': 'Native_American',
         'アボリジニ': 'Aboriginal',
-        
+
         # 性別・ジェンダー
         '女性先駆者': 'Female_Pioneer',
         '初の女性○○': 'First_Female',
         'LGBTQ+': 'LGBTQ',
         'トランスジェンダー': 'Transgender',
-        
+
         # その他の特徴
         '億万長者': 'Billionaire',
         'フォーブス400': 'Forbes_400',
@@ -580,7 +580,7 @@ def export_category_structure():
     """カテゴリ構造をJSONファイルとして出力"""
     import json
     from datetime import datetime
-    
+
     # 統計情報を計算
     stats = {
         'main_categories_count': sum(len(subcats) for subcats in COMPREHENSIVE_CATEGORIES['main_categories'].values()),
@@ -588,7 +588,7 @@ def export_category_structure():
         'region_categories_count': len(COMPREHENSIVE_CATEGORIES['region_categories']),
         'special_tags_count': len(COMPREHENSIVE_CATEGORIES['special_tags']),
     }
-    
+
     output = {
         'metadata': {
             'created_at': datetime.now().isoformat(),
@@ -598,21 +598,21 @@ def export_category_structure():
         },
         'categories': COMPREHENSIVE_CATEGORIES
     }
-    
+
     # JSONファイルとして保存
     output_file = f'comprehensive_categories_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    
+
     return output_file, stats
 
 if __name__ == "__main__":
     file, stats = export_category_structure()
-    
+
     print("="*60)
     print("📚 包括的カテゴリ定義システム")
     print("="*60)
-    
+
     print("\n📊 カテゴリ統計:")
     print(f"  メインカテゴリ・サブカテゴリ: {stats['main_categories_count']}種類")
     print(f"  時代カテゴリ: {stats['era_categories_count']}種類")
@@ -620,5 +620,5 @@ if __name__ == "__main__":
     print(f"  特別タグ: {stats['special_tags_count']}種類")
     print("  ────────────────────────")
     print(f"  合計: {sum(stats.values())}種類のカテゴリ")
-    
+
     print(f"\n✅ カテゴリ定義ファイル作成: {file}")

@@ -11,7 +11,7 @@ from typing import Dict, Optional, Tuple
 
 class CustomTranslationDictionary:
     """カスタム翻訳辞書システム"""
-    
+
     def __init__(self):
         self.dictionary = self.build_comprehensive_dictionary()
         self.translation_cache = self.load_cache()
@@ -21,7 +21,7 @@ class CustomTranslationDictionary:
             'cached': 0,
             'not_found': 0
         }
-    
+
     def load_cache(self) -> Dict[str, str]:
         """翻訳キャッシュを読み込み"""
         cache_file = Path('translation_cache.json')
@@ -29,12 +29,12 @@ class CustomTranslationDictionary:
             with open(cache_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return {}
-    
+
     def save_cache(self):
         """翻訳キャッシュを保存"""
         with open('translation_cache.json', 'w', encoding='utf-8') as f:
             json.dump(self.translation_cache, f, ensure_ascii=False, indent=2)
-    
+
     def build_comprehensive_dictionary(self) -> Dict[str, str]:
         """包括的な翻訳辞書を構築"""
         return {
@@ -58,7 +58,7 @@ class CustomTranslationDictionary:
             'Vespasian': 'ウェスパシアヌス',
             'Titus': 'ティトゥス',
             'Domitian': 'ドミティアヌス',
-            
+
             # 古代ギリシャの人物
             'Socrates': 'ソクラテス',
             'Plato': 'プラトン',
@@ -72,7 +72,7 @@ class CustomTranslationDictionary:
             'Sophocles': 'ソフォクレス',
             'Euripides': 'エウリピデス',
             'Archimedes': 'アルキメデス',
-            
+
             # 中世・近世の君主
             'Charlemagne': 'カール大帝',
             'Napoleon Bonaparte': 'ナポレオン・ボナパルト',
@@ -84,7 +84,7 @@ class CustomTranslationDictionary:
             'Frederick the Great': 'フリードリヒ大王',
             'Charles V': 'カール5世',
             'Philip II': 'フェリペ2世',
-            
+
             # 作曲家
             'Johann Sebastian Bach': 'ヨハン・セバスティアン・バッハ',
             'Ludwig van Beethoven': 'ルートヴィヒ・ヴァン・ベートーヴェン',
@@ -101,7 +101,7 @@ class CustomTranslationDictionary:
             'Igor Stravinsky': 'イーゴリ・ストラヴィンスキー',
             'Antonio Vivaldi': 'アントニオ・ヴィヴァルディ',
             'George Frideric Handel': 'ゲオルク・フリードリヒ・ヘンデル',
-            
+
             # 科学者
             'Albert Einstein': 'アルベルト・アインシュタイン',
             'Isaac Newton': 'アイザック・ニュートン',
@@ -117,7 +117,7 @@ class CustomTranslationDictionary:
             'Werner Heisenberg': 'ヴェルナー・ハイゼンベルク',
             'Erwin Schrödinger': 'エルヴィン・シュレーディンガー',
             'Stephen Hawking': 'スティーヴン・ホーキング',
-            
+
             # 哲学者・思想家
             'René Descartes': 'ルネ・デカルト',
             'Immanuel Kant': 'イマヌエル・カント',
@@ -132,7 +132,7 @@ class CustomTranslationDictionary:
             'Karl Marx': 'カール・マルクス',
             'Sigmund Freud': 'ジークムント・フロイト',
             'Carl Jung': 'カール・ユング',
-            
+
             # 作家・詩人
             'William Shakespeare': 'ウィリアム・シェイクスピア',
             'Johann Wolfgang von Goethe': 'ヨハン・ヴォルフガング・フォン・ゲーテ',
@@ -148,7 +148,7 @@ class CustomTranslationDictionary:
             'Ernest Hemingway': 'アーネスト・ヘミングウェイ',
             'George Orwell': 'ジョージ・オーウェル',
             'Franz Kafka': 'フランツ・カフカ',
-            
+
             # 画家・芸術家
             'Leonardo da Vinci': 'レオナルド・ダ・ヴィンチ',
             'Michelangelo': 'ミケランジェロ',
@@ -160,7 +160,7 @@ class CustomTranslationDictionary:
             'Pierre-Auguste Renoir': 'ピエール＝オーギュスト・ルノワール',
             'Salvador Dalí': 'サルバドール・ダリ',
             'Andy Warhol': 'アンディ・ウォーホル',
-            
+
             # 現代の有名人（音楽）
             'The Beatles': 'ザ・ビートルズ',
             'John Lennon': 'ジョン・レノン',
@@ -174,7 +174,7 @@ class CustomTranslationDictionary:
             'David Bowie': 'デヴィッド・ボウイ',
             'Freddie Mercury': 'フレディ・マーキュリー',
             'Prince': 'プリンス',
-            
+
             # 映画俳優・監督
             'Charlie Chaplin': 'チャーリー・チャップリン',
             'Marilyn Monroe': 'マリリン・モンロー',
@@ -185,7 +185,7 @@ class CustomTranslationDictionary:
             'Steven Spielberg': 'スティーヴン・スピルバーグ',
             'Martin Scorsese': 'マーティン・スコセッシ',
             'Quentin Tarantino': 'クエンティン・タランティーノ',
-            
+
             # 日本の歴史人物（ローマ字表記）
             'Oda Nobunaga': '織田信長',
             'Toyotomi Hideyoshi': '豊臣秀吉',
@@ -196,7 +196,7 @@ class CustomTranslationDictionary:
             'Sakamoto Ryoma': '坂本龍馬',
             'Saigo Takamori': '西郷隆盛',
             'Okubo Toshimichi': '大久保利通',
-            
+
             # 単名の有名人
             'Plato': 'プラトン',
             'Aristotle': 'アリストテレス',
@@ -209,7 +209,7 @@ class CustomTranslationDictionary:
             'Jesus': 'イエス',
             'Muhammad': 'ムハンマド',
             'Moses': 'モーセ',
-            
+
             # 頻出する名前の部分
             'Saint': '聖',
             'Pope': '教皇',
@@ -225,26 +225,26 @@ class CustomTranslationDictionary:
             'Emperor': '皇帝',
             'Empress': '皇后',
         }
-    
+
     def translate_name(self, name: str) -> Optional[str]:
         """名前を辞書で翻訳"""
-        
+
         # 完全一致を探す
         if name in self.dictionary:
             self.stats['translated'] += 1
             return self.dictionary[name]
-        
+
         # 部分一致を探す（姓名の順序を考慮）
         for eng_name, jp_name in self.dictionary.items():
             if eng_name.lower() == name.lower():
                 self.stats['translated'] += 1
                 return jp_name
-        
+
         # 名前の一部が辞書にある場合
         parts = name.split()
         translated_parts = []
         found_translation = False
-        
+
         for part in parts:
             if part in self.dictionary:
                 translated_parts.append(self.dictionary[part])
@@ -258,17 +258,17 @@ class CustomTranslationDictionary:
                         break
                 else:
                     translated_parts.append(part)
-        
+
         if found_translation:
             self.stats['translated'] += 1
             return '・'.join(translated_parts)
-        
+
         self.stats['not_found'] += 1
         return None
-    
+
     def translate_database(self, input_file: str = None) -> Tuple[str, Dict]:
         """データベース全体を辞書翻訳"""
-        
+
         # 入力ファイル決定（前段階の出力を優先）
         if not input_file:
             from pathlib import Path
@@ -281,25 +281,25 @@ class CustomTranslationDictionary:
                     input_file = str(sorted(wikipedia_files)[-1])
                 else:
                     input_file = 'perfect_database_20250824_172451.json'
-        
+
         print("📚 カスタム辞書翻訳開始")
         print(f"  入力: {input_file}")
         print(f"  辞書サイズ: {len(self.dictionary)}項目")
-        
+
         # データ読み込み
         with open(input_file, 'r', encoding='utf-8') as f:
             all_data = json.load(f)
-        
+
         # 翻訳処理
         translated_count = 0
         for key, value in all_data.items():
             if isinstance(value, dict):
                 name = value.get('name', '')
-                
+
                 # 英語名の場合のみ処理
                 if name and not any(ord(c) > 0x3000 for c in name):
                     self.stats['processed'] += 1
-                    
+
                     # キャッシュチェック
                     cache_key = f"dict_{name}"
                     if cache_key in self.translation_cache:
@@ -308,7 +308,7 @@ class CustomTranslationDictionary:
                         self.stats['cached'] += 1
                         translated_count += 1
                         continue
-                    
+
                     # 辞書翻訳
                     japanese_name = self.translate_name(name)
                     if japanese_name:
@@ -316,38 +316,38 @@ class CustomTranslationDictionary:
                         value['name'] = japanese_name
                         self.translation_cache[cache_key] = japanese_name
                         translated_count += 1
-                        
+
                         if translated_count <= 10:
                             print(f"  ✓ {name} → {japanese_name}")
-        
+
         # キャッシュ保存
         self.save_cache()
-        
+
         # 出力ファイル保存
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"dictionary_translated_{timestamp}.json"
-        
+
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
-        
+
         print("\n📊 辞書翻訳結果:")
         print(f"  処理: {self.stats['processed']}件")
         print(f"  翻訳成功: {self.stats['translated']}件")
         print(f"  キャッシュ使用: {self.stats['cached']}件")
         print(f"  辞書にない: {self.stats['not_found']}件")
         print(f"  出力: {output_file}")
-        
+
         return output_file, self.stats
 
 
 def main():
     """メイン実行"""
     dictionary = CustomTranslationDictionary()
-    
+
     # カスタム辞書翻訳実行
     output_file, stats = dictionary.translate_database()
-    
+
     # 成功率計算
     if stats['processed'] > 0:
         success_rate = stats['translated'] / stats['processed'] * 100

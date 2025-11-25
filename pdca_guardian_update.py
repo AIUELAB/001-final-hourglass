@@ -15,7 +15,7 @@ def load_project_memory() -> Dict[str, Any]:
     memory_path = "project_memory.json"
     if not os.path.exists(memory_path):
         raise FileNotFoundError(f"{memory_path} が見つかりません")
-    
+
     with open(memory_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
@@ -23,14 +23,14 @@ def load_project_memory() -> Dict[str, Any]:
 def save_project_memory(memory: Dict[str, Any]) -> None:
     """プロジェクトメモリを保存"""
     memory['metadata']['last_updated'] = datetime.now().isoformat()
-    
+
     with open("project_memory.json", 'w', encoding='utf-8') as f:
         json.dump(memory, f, ensure_ascii=False, indent=2)
 
 
 def add_new_rules(memory: Dict[str, Any]) -> Dict[str, Any]:
     """5つの新しいCRITICALルールを追加"""
-    
+
     new_rules = [
         {
             "id": "RULE_019",
@@ -83,23 +83,23 @@ def add_new_rules(memory: Dict[str, Any]) -> Dict[str, Any]:
             "enforcement": "return 0、return []、mock data等を検出したら即座にSystemNotReadyErrorを発生"
         }
     ]
-    
+
     # 既存のルールリストに追加
     existing_ids = {rule['id'] for rule in memory['permanent_rules']}
-    
+
     for rule in new_rules:
         if rule['id'] not in existing_ids:
             memory['permanent_rules'].append(rule)
             print(f"✅ {rule['id']}: {rule['rule'][:50]}... を追加しました")
         else:
             print(f"⚠️ {rule['id']} は既に存在します")
-    
+
     return memory
 
 
 def update_quality_metrics(memory: Dict[str, Any]) -> Dict[str, Any]:
     """品質メトリクスを更新"""
-    
+
     # 新しいメトリクスを追加
     new_metrics = {
         "monthly_addition_limit": {
@@ -124,19 +124,19 @@ def update_quality_metrics(memory: Dict[str, Any]) -> Dict[str, Any]:
             "action": "ダミーデータは1件も許容しない"
         }
     }
-    
+
     # 既存のメトリクスに追加
     for key, value in new_metrics.items():
         if key not in memory['quality_metrics']:
             memory['quality_metrics'][key] = value
             print(f"📊 品質メトリクス '{key}' を追加しました")
-    
+
     return memory
 
 
 def add_failed_patterns(memory: Dict[str, Any]) -> Dict[str, Any]:
     """失敗パターンを追加"""
-    
+
     new_failed_patterns = [
         {
             "id": "FAIL_007",
@@ -163,14 +163,14 @@ def add_failed_patterns(memory: Dict[str, Any]) -> Dict[str, Any]:
             "prevention": "全4,701人を個別に評価"
         }
     ]
-    
+
     existing_fail_ids = {p['id'] for p in memory.get('failed_patterns', [])}
-    
+
     for pattern in new_failed_patterns:
         if pattern['id'] not in existing_fail_ids:
             memory['failed_patterns'].append(pattern)
             print(f"❌ 失敗パターン {pattern['id']}: {pattern['pattern']} を追加しました")
-    
+
     return memory
 
 
@@ -181,29 +181,29 @@ def main():
     print("5つの新しいCRITICALルールを追加")
     print("=" * 60)
     print()
-    
+
     try:
         # プロジェクトメモリをロード
         print("📂 プロジェクトメモリをロード中...")
         memory = load_project_memory()
         print(f"✅ 現在のルール数: {len(memory['permanent_rules'])}")
         print()
-        
+
         # 新しいルールを追加
         print("🔧 新しいCRITICALルールを追加中...")
         memory = add_new_rules(memory)
         print()
-        
+
         # 品質メトリクスを更新
         print("📊 品質メトリクスを更新中...")
         memory = update_quality_metrics(memory)
         print()
-        
+
         # 失敗パターンを追加
         print("❌ 失敗パターンを追加中...")
         memory = add_failed_patterns(memory)
         print()
-        
+
         # 改善ログを追加
         improvement_entry = {
             "date": datetime.now().isoformat(),
@@ -214,13 +214,13 @@ def main():
             "impact": "客観的で持続可能な知名度評価システムの実現"
         }
         memory['improvement_log'].append(improvement_entry)
-        
+
         # 保存
         print("💾 プロジェクトメモリを保存中...")
         save_project_memory(memory)
         print(f"✅ 更新完了！ 新しいルール数: {len(memory['permanent_rules'])}")
         print()
-        
+
         # サマリー
         print("=" * 60)
         print("📋 追加されたCRITICALルール:")
@@ -233,7 +233,7 @@ def main():
         print()
         print("✅ Phase 1 完了！")
         print("次は Phase 2: Wikipedia中心の知名度評価システムの実装です")
-        
+
     except Exception as e:
         print(f"❌ エラーが発生しました: {str(e)}")
         raise

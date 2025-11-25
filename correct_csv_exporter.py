@@ -14,7 +14,7 @@ from typing import Dict, List, Tuple
 
 class CorrectCSVExporter:
     """仕様書準拠のCSVエクスポーター"""
-    
+
     def __init__(self):
         # 元の仕様書のカラム定義（順序も維持）
         self.original_columns = [
@@ -36,7 +36,7 @@ class CorrectCSVExporter:
             'data_source',        # データソース
             'created_at'          # 作成日時
         ]
-        
+
         # 新規追加カラム（末尾に追加）
         self.additional_columns = [
             'birth_year',          # 生誕年（英語表記）
@@ -44,17 +44,17 @@ class CorrectCSVExporter:
             'name_display_type',   # 芸名/歴史的人物
             'is_criminal'          # 犯罪者フラグ
         ]
-        
+
         self.stats = {
             'total': 0,
             'exported': 0,
             'mapping_success': 0,
             'mapping_failed': 0
         }
-    
+
     def map_data_to_original_structure(self, key: str, person: Dict) -> Dict:
         """データを元の構造にマッピング"""
-        
+
         # 元のカラムへのマッピング
         row = {
             'id': key,
@@ -75,18 +75,18 @@ class CorrectCSVExporter:
             'data_source': person.get('data_source', 'wikidata'),
             'created_at': person.get('created_at', datetime.now().strftime("%Y-%m-%d"))
         }
-        
+
         # 新規カラムの追加
         row['birth_year'] = person.get('birth_year', 0)
         row['advanced_grade'] = person.get('advanced_grade', '')
         row['name_display_type'] = person.get('name_display_type', '')
         row['is_criminal'] = 1 if person.get('is_criminal') else 0
-        
+
         return row
-    
+
     def export_with_correct_structure(self, input_file: str = None) -> Tuple[str, Dict]:
         """正しい構造でCSVエクスポート"""
-        
+
         # 最新のデータファイルを探す
         if not input_file:
             candidates = list(Path('.').glob('final_with_birth_year_*.json'))
@@ -99,18 +99,18 @@ class CorrectCSVExporter:
                 else:
                     print("⚠️ 入力ファイルが見つかりません")
                     return None, self.stats
-        
+
         print("📊 正しいカラム構造でCSV生成開始")
         print(f"  入力: {input_file}")
         print(f"  元のカラム数: {len(self.original_columns)}")
         print(f"  追加カラム数: {len(self.additional_columns)}")
-        
+
         # データ読み込み
         with open(input_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
+
         self.stats['total'] = len(data)
-        
+
         # CSVデータ準備
         rows = []
         for key, value in data.items():
@@ -123,57 +123,57 @@ class CorrectCSVExporter:
                 except Exception as e:
                     print(f"  ⚠️ マッピングエラー ({key}): {e}")
                     self.stats['mapping_failed'] += 1
-        
+
         # ソート（grade → impact_score → person_name_display）
         rows.sort(key=lambda x: (
             x['grade'] if x['grade'] != 'N/A' else 'ZZ',
             -x['impact_score'],
             x['person_name_display']
         ))
-        
+
         # CSVファイル作成（UTF-8 BOM付き）
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"correct_structure_{timestamp}.csv"
-        
+
         # 全カラムリスト（元のカラム + 追加カラム）
         all_columns = self.original_columns + self.additional_columns
-        
+
         # BOM付きUTF-8で書き込み
         with open(output_file, 'w', encoding='utf-8-sig', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=all_columns)
-            
+
             # ヘッダー書き込み
             writer.writeheader()
-            
+
             # データ書き込み
             writer.writerows(rows)
-        
+
         # レポート出力
         print("\n✅ 正しい構造でCSV生成完了")
         print(f"  出力ファイル: {output_file}")
         print(f"  エクスポート: {self.stats['exported']:,}/{self.stats['total']:,}件")
         print(f"  マッピング成功: {self.stats['mapping_success']:,}件")
         print(f"  マッピング失敗: {self.stats['mapping_failed']:,}件")
-        
+
         print("\n📋 カラム構造:")
         print(f"  元のカラム (1-17): {', '.join(self.original_columns)}")
         print(f"  追加カラム (18-21): {', '.join(self.additional_columns)}")
-        
+
         print("\n⚠️ ルール遵守:")
         print("  ✅ 元のカラム名を維持")
         print("  ✅ 元のカラム順序を維持")
         print("  ✅ 新規カラムは末尾に追加")
         print("  ✅ 勝手な変更なし")
-        
+
         # ルール記録ファイル作成
         self.save_rules()
-        
+
         return output_file, self.stats
-    
+
     def save_rules(self):
         """ルール違反防止の記録"""
         rules_file = "CSV_EXPORT_RULES.md"
-        
+
         rules_content = """# CSV エクスポートルール
 
 ## 厳守事項
@@ -234,20 +234,20 @@ class CorrectCSVExporter:
 *このルールは厳守すること。違反は二度手間を生む。*
 *記録日時: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 """
-        
+
         with open(rules_file, 'w', encoding='utf-8') as f:
             f.write(rules_content)
-        
+
         print(f"\n📝 ルール記録: {rules_file}")
 
 
 def main():
     """メイン実行"""
     exporter = CorrectCSVExporter()
-    
+
     # 正しい構造でCSV生成
     csv_file, stats = exporter.export_with_correct_structure()
-    
+
     if csv_file:
         print("\n" + "="*60)
         print("✅ 正しいカラム構造でCSV生成完了")

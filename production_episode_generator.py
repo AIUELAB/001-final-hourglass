@@ -258,7 +258,7 @@ class ProductionEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_PRODUCTION_EPISODE_GENERATOR_001",
             gate_type="pre_processing",
@@ -374,7 +374,7 @@ class ProductionEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理完了")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_PRODUCTION_EPISODE_GENERATOR_002",
             gate_type="post_processing",

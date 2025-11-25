@@ -6,7 +6,7 @@
 # APIキー設定 (実際の値は環境変数または.envファイルで管理)
 # =============================================================================
 brave_api_key: ${BRAVE_API_KEY}
-google_api_key: ${GOOGLE_API_KEY} 
+google_api_key: ${GOOGLE_API_KEY}
 google_search_engine_id: ${GOOGLE_SEARCH_ENGINE_ID}
 
 # =============================================================================
@@ -35,7 +35,7 @@ safety:
   require_manual_review_for_historical: true
   historical_cutoff_year: 1950
   cultural_significance_protection: true
-  
+
   # 自動保護条件
   auto_protect:
     wikipedia_languages_threshold: 5    # 5言語以上のWikipedia
@@ -50,11 +50,11 @@ performance:
   max_workers: 4           # 並列処理の最大ワーカー数
   api_delay: 1.0          # API呼び出し間隔（秒）
   request_timeout: 15      # APIリクエストタイムアウト（秒）
-  
+
   # Wikipedia API制限
   wikipedia_requests_per_second: 10
   wikipedia_concurrent_requests: 5
-  
+
   # Web検索API制限
   brave_requests_per_minute: 60
   google_requests_per_day: 100
@@ -63,7 +63,7 @@ performance:
 # 品質評価基準
 # =============================================================================
 quality_criteria:
-  
+
   # Wikipedia品質評価
   wikipedia:
     minimum_article_length: 100       # 最小記事長（文字数）
@@ -71,14 +71,14 @@ quality_criteria:
     disambiguation_penalty: -3.0      # 曖昧さ回避ページのペナルティ
     redirect_penalty: -2.0            # リダイレクトページのペナルティ
     pageviews_bonus_threshold: 1000   # ページビューボーナス閾値
-    
+
   # Web検索評価
   web_search:
     minimum_results_threshold: 100    # 最小検索結果数
     high_authority_bonus: 1.5         # 高権威ドメインボーナス
     news_mention_bonus: 1.0           # ニュース言及ボーナス
     academic_mention_bonus: 1.0       # 学術言及ボーナス
-    
+
   # メタデータ品質評価
   metadata:
     required_fields_weight: 0.4       # 必須フィールドの重み
@@ -90,27 +90,27 @@ quality_criteria:
 # カテゴリ別特別処理
 # =============================================================================
 category_rules:
-  
+
   # 歴史カテゴリの特別保護
   historical:
-    categories: ["歴史", "歴史上の人物", "政治家（歴史）", "武将"]
+    categories: [歴史, 歴史上の人物, 政治家（歴史）, 武将]
     minimum_score_override: 4.0      # 最低保証スコア
     require_manual_review: true      # 必須人間レビュー
-    
+
   # 文化カテゴリの保護
   cultural:
-    categories: ["文学", "芸術", "音楽", "映画", "科学", "哲学"]
+    categories: [文学, 芸術, 音楽, 映画, 科学, 哲学]
     minimum_score_override: 3.0
     cultural_significance_check: true
-    
+
   # エンターテイメント
   entertainment:
-    categories: ["エンターテイメント", "スポーツ", "芸能"]
+    categories: [エンターテイメント, スポーツ, 芸能]
     web_presence_weight: 0.5         # Web存在感を重視
-    
+
   # その他カテゴリ（厳格評価）
   others:
-    categories: ["その他", "不明"]
+    categories: [その他, 不明]
     strict_evaluation: true
     placeholder_sensitivity: 2.0     # プレースホルダー検出感度UP
 
@@ -118,50 +118,50 @@ category_rules:
 # 出力設定
 # =============================================================================
 output:
-  
+
   # レポート生成設定
   reports:
     generate_summary: true
     generate_detailed_json: true
     generate_csv_recommendations: true
     generate_delete_candidates_list: true
-    
+
   # ファイル名設定
   filename_patterns:
-    summary: "deletion_summary_{timestamp}.json"
-    detailed: "deletion_analysis_complete_{timestamp}.json"
-    recommendations: "deletion_recommendations_{timestamp}.csv"
-    delete_candidates: "delete_candidates_{timestamp}.csv"
-    
+    summary: deletion_summary_{timestamp}.json
+    detailed: deletion_analysis_complete_{timestamp}.json
+    recommendations: deletion_recommendations_{timestamp}.csv
+    delete_candidates: delete_candidates_{timestamp}.csv
+
   # ディレクトリ設定
-  output_directory: "deletion_results"
-  backup_directory: "deletion_backups"
-  log_directory: "deletion_logs"
+  output_directory: deletion_results
+  backup_directory: deletion_backups
+  log_directory: deletion_logs
 
 # =============================================================================
 # データ処理設定
 # =============================================================================
 data_processing:
-  
+
   # CSV入力設定
   csv_input:
-    encoding: "utf-8"
-    delimiter: ","
+    encoding: utf-8
+    delimiter: ','
     skip_empty_rows: true
-    
+
   # フィールドマッピング
   field_mapping:
-    person_id: "person_id"
-    person_name: "person_name"
-    person_name_ja: "person_name_ja"
-    category: "category"
-    nationality: "nationality"
-    occupation: "occupation"
-    name_recognition: "name_recognition"
-    episode_text: "episode_text"
-    source: "source"
-    created_at: "created_at"
-    
+    person_id: person_id
+    person_name: person_name
+    person_name_ja: person_name_ja
+    category: category
+    nationality: nationality
+    occupation: occupation
+    name_recognition: name_recognition
+    episode_text: episode_text
+    source: source
+    created_at: created_at
+
   # データ検証
   validation:
     check_required_fields: true
@@ -172,40 +172,40 @@ data_processing:
 # ログ設定
 # =============================================================================
 logging:
-  level: "INFO"
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  
+  level: INFO
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
   # ファイル出力
   file_logging:
     enabled: true
     max_size_mb: 50
     backup_count: 5
-    
+
   # 進捗表示
   progress:
     show_progress_bar: true
     update_interval: 100     # 100件ごとに進捗表示
-    
+
 # =============================================================================
 # 実験的機能 (β版)
 # =============================================================================
 experimental:
-  
+
   # 機械学習による品質予測
   ml_quality_prediction:
     enabled: false
-    model_path: "models/quality_predictor.pkl"
+    model_path: models/quality_predictor.pkl
     confidence_threshold: 0.8
-    
+
   # 動的閾値調整
   adaptive_thresholds:
     enabled: false
     adjustment_frequency: 1000    # 1000件ごとに調整
-    
+
   # クラスター分析による異常検出
   anomaly_detection:
     enabled: false
-    clustering_method: "kmeans"
+    clustering_method: kmeans
     outlier_threshold: 2.0
 
 # =============================================================================

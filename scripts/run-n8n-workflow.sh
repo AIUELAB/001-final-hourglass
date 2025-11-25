@@ -32,7 +32,7 @@ if [ -z "$1" ]; then
     echo "5) 💾 プロジェクトをバックアップ"
     echo ""
     read -p "番号を選択してください (1-5): " choice
-    
+
     case $choice in
         1) WORKFLOW="deploy_to_vercel" ;;
         2) WORKFLOW="run_automation" ;;

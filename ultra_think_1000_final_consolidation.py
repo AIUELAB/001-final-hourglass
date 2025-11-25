@@ -20,14 +20,14 @@ logger = logging.getLogger(__name__)
 
 class UltraThink1000FinalConsolidator:
     """1000人規模への最終データ統合"""
-    
+
     def __init__(self):
         self.all_people: List[Dict[str, Any]] = []
         self.source_files = []
-        
+
     def load_all_data(self):
         """全データの読み込み"""
-        
+
         # 500人規模統合データ
         file_500 = "ultra_think_500_consolidated_20250825_133106.csv"
         if Path(file_500).exists():
@@ -38,7 +38,7 @@ class UltraThink1000FinalConsolidator:
                 self.all_people.extend(data_500)
                 self.source_files.append(file_500)
                 logger.info(f"500人規模: {len(data_500)}人読み込み完了")
-        
+
         # Phase 11-15のデータ
         phase_11_15_pattern = "ultra_think_phase_11_15_complete_*.csv"
         phase_11_15_files = glob.glob(phase_11_15_pattern)
@@ -51,7 +51,7 @@ class UltraThink1000FinalConsolidator:
                 self.all_people.extend(phase_11_15_data)
                 self.source_files.append(latest_file)
                 logger.info(f"Phase 11-15: {len(phase_11_15_data)}人読み込み完了")
-    
+
     def remove_duplicates(self):
         """重複除去（名前ベース）"""
         unique_people = {}
@@ -59,12 +59,12 @@ class UltraThink1000FinalConsolidator:
             key = person.get('person_name', '')
             if key and key not in unique_people:
                 unique_people[key] = person
-        
+
         original_count = len(self.all_people)
         self.all_people = list(unique_people.values())
         removed = original_count - len(self.all_people)
         logger.info(f"重複除去: {removed}件削除、{len(self.all_people)}人残存")
-    
+
     def validate_data_quality(self) -> Dict[str, Any]:
         """データ品質の検証"""
         validation = {
@@ -81,13 +81,13 @@ class UltraThink1000FinalConsolidator:
             'empty_names': [],
             'quality_score': 100.0
         }
-        
+
         for idx, person in enumerate(self.all_people):
             # 必須フィールドチェック
             for field in validation['missing_fields'].keys():
                 if not person.get(field):
                     validation['missing_fields'][field] += 1
-            
+
             # birth_yearの妥当性チェック
             try:
                 birth_year = int(person.get('birth_year', 0))
@@ -99,18 +99,18 @@ class UltraThink1000FinalConsolidator:
                     })
             except:
                 pass
-            
+
             # 空の名前チェック
             if not person.get('person_name', '').strip():
                 validation['empty_names'].append(idx)
-        
+
         # 品質スコア計算
         total_checks = len(self.all_people) * len(validation['missing_fields'])
         total_missing = sum(validation['missing_fields'].values())
         validation['quality_score'] = ((total_checks - total_missing) / total_checks) * 100
-        
+
         return validation
-    
+
     def analyze_comprehensive_stats(self) -> Dict[str, Any]:
         """包括的な統計分析"""
         stats = {
@@ -123,25 +123,25 @@ class UltraThink1000FinalConsolidator:
             'gender_estimate': {'male': 0, 'female': 0, 'unknown': 0},
             'century_distribution': {}
         }
-        
+
         # 女性の名前パターン（簡易判定）
-        female_indicators = ['Queen', 'Empress', '女王', '女帝', 'Marie', 'Maria', 
-                            'Mary', 'Elizabeth', 'Catherine', 'Eleanor', 'Joan', 
+        female_indicators = ['Queen', 'Empress', '女王', '女帝', 'Marie', 'Maria',
+                            'Mary', 'Elizabeth', 'Catherine', 'Eleanor', 'Joan',
                             'Florence', 'Mother', 'Sister', 'Lady', 'Princess']
-        
+
         for person in self.all_people:
             # カテゴリ別
             category = person.get('main_category', '不明')
             stats['by_category'][category] = stats['by_category'].get(category, 0) + 1
-            
+
             # 国籍別
             nationality = person.get('nationality', '不明')
             stats['by_nationality'][nationality] = stats['by_nationality'].get(nationality, 0) + 1
-            
+
             # フェーズ別
             phase = str(person.get('phase', '不明'))
             stats['by_phase'][phase] = stats['by_phase'].get(phase, 0) + 1
-            
+
             # 職業タイプ別
             occupation = person.get('occupation', '不明')
             if '王' in occupation or '皇帝' in occupation or '大統領' in occupation or '首相' in occupation:
@@ -161,7 +161,7 @@ class UltraThink1000FinalConsolidator:
             else:
                 occ_type = 'その他'
             stats['by_occupation_type'][occ_type] = stats['by_occupation_type'].get(occ_type, 0) + 1
-            
+
             # 性別推定（簡易）
             name = person.get('person_name', '')
             name_ja = person.get('person_name_ja', '')
@@ -172,7 +172,7 @@ class UltraThink1000FinalConsolidator:
             else:
                 # デフォルトは男性（歴史的偏り）
                 stats['gender_estimate']['male'] += 1
-            
+
             # 世紀別分布
             try:
                 birth_year = int(person.get('birth_year', 0))
@@ -183,25 +183,25 @@ class UltraThink1000FinalConsolidator:
                 stats['century_distribution'][century] = stats['century_distribution'].get(century, 0) + 1
             except:
                 pass
-        
+
         return stats
-    
+
     def save_final_database(self):
         """最終データベースの保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # 全フィールドを収集
         all_fields = set()
         for person in self.all_people:
             all_fields.update(person.keys())
-        
+
         # 優先フィールドを先頭に配置
-        priority_fields = ['person_name', 'person_name_ja', 'person_name_display', 
-                          'birth_year', 'nationality', 'occupation', 'main_category', 
+        priority_fields = ['person_name', 'person_name_ja', 'person_name_display',
+                          'birth_year', 'nationality', 'occupation', 'main_category',
                           'subcategory', 'phase']
         other_fields = sorted([f for f in all_fields if f not in priority_fields])
         fieldnames = priority_fields + other_fields
-        
+
         # CSV保存
         csv_file = f"ultra_think_1000_final_{timestamp}.csv"
         with open(csv_file, 'w', encoding='utf-8-sig', newline='') as f:
@@ -209,20 +209,20 @@ class UltraThink1000FinalConsolidator:
             writer.writeheader()
             for person in self.all_people:
                 writer.writerow(person)
-        
+
         # JSON保存
         json_file = f"ultra_think_1000_final_{timestamp}.json"
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(self.all_people, f, ensure_ascii=False, indent=2)
-        
+
         logger.info(f"最終データベース保存完了: {csv_file}, {json_file}")
         return csv_file, json_file
-    
+
     def generate_final_report(self, stats: Dict[str, Any], validation: Dict[str, Any]):
         """最終統合レポート生成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = f"ULTRA_THINK_1000_FINAL_REPORT_{timestamp}.md"
-        
+
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(f"""# 🏆 Ultra Think 1000人規模最終統合レポート
 
@@ -240,29 +240,29 @@ class UltraThink1000FinalConsolidator:
             for category, count in sorted(stats['by_category'].items(), key=lambda x: x[1], reverse=True):
                 percentage = (count / stats['total_count']) * 100
                 f.write(f"- {category}: {count}人 ({percentage:.1f}%)\n")
-            
+
             f.write(f"""
 ## 🌍 国籍別TOP30
 """)
             nationality_sorted = sorted(stats['by_nationality'].items(), key=lambda x: x[1], reverse=True)[:30]
             for nationality, count in nationality_sorted:
                 f.write(f"- {nationality}: {count}人\n")
-            
+
             f.write(f"""
 ## 💼 職業タイプ別分析
 """)
             for occ_type, count in sorted(stats['by_occupation_type'].items(), key=lambda x: x[1], reverse=True):
                 percentage = (count / stats['total_count']) * 100
                 f.write(f"- {occ_type}: {count}人 ({percentage:.1f}%)\n")
-            
+
             f.write(f"""
 ## ⏰ 世紀別分布
 """)
-            century_sorted = sorted(stats['century_distribution'].items(), 
+            century_sorted = sorted(stats['century_distribution'].items(),
                                    key=lambda x: (-10000 if '紀元前' in x[0] else int(x[0].replace('世紀', ''))))
             for century, count in century_sorted:
                 f.write(f"- {century}: {count}人\n")
-            
+
             f.write(f"""
 ## 👥 性別推定（簡易判定）
 - 男性: {stats['gender_estimate']['male']}人 ({stats['gender_estimate']['male']/stats['total_count']*100:.1f}%)
@@ -274,7 +274,7 @@ class UltraThink1000FinalConsolidator:
             for phase in sorted([p for p in stats['by_phase'].keys() if p != '不明'], key=lambda x: int(x) if x.isdigit() else 999):
                 count = stats['by_phase'][phase]
                 f.write(f"- フェーズ{phase}: {count}人\n")
-            
+
             f.write(f"""
 ## ✅ データ品質検証結果
 
@@ -283,13 +283,13 @@ class UltraThink1000FinalConsolidator:
             for field, missing in validation['missing_fields'].items():
                 completeness = ((stats['total_count'] - missing) / stats['total_count']) * 100
                 f.write(f"- {field}: {missing}件欠損 (完全性: {completeness:.1f}%)\n")
-            
+
             if validation['invalid_birth_years']:
                 f.write(f"""
 ### ⚠️ 不正な生年データ
 - 検出数: {len(validation['invalid_birth_years'])}件
 """)
-            
+
             f.write(f"""
 ## 🎯 Ultra Think戦略の総括
 
@@ -308,7 +308,7 @@ class UltraThink1000FinalConsolidator:
 
 ### 🚀 活用可能性
 - 教育コンテンツの自動生成
-- AI対話システムの知識ベース強化  
+- AI対話システムの知識ベース強化
 - 歴史学習アプリケーションの開発
 - 文化理解促進プログラム
 - 多言語学習教材の作成
@@ -342,10 +342,10 @@ class UltraThink1000FinalConsolidator:
 *Generated: {datetime.now().isoformat()}*
 *Copyright (C) 2025 Ultra Think Project*
 """)
-        
+
         logger.info(f"最終レポート生成完了: {report_file}")
         return report_file
-    
+
     def run_final_consolidation(self):
         """最終統合処理の実行"""
         logger.info("""
@@ -353,25 +353,25 @@ class UltraThink1000FinalConsolidator:
         Ultra Think 1000人規模最終統合開始
         ========================================
         """)
-        
+
         # データ読み込み
         self.load_all_data()
-        
+
         # 重複除去
         self.remove_duplicates()
-        
+
         # データ品質検証
         validation = self.validate_data_quality()
-        
+
         # 包括的統計分析
         stats = self.analyze_comprehensive_stats()
-        
+
         # 最終データベース保存
         csv_file, json_file = self.save_final_database()
-        
+
         # 最終レポート生成
         report_file = self.generate_final_report(stats, validation)
-        
+
         logger.info(f"""
         ========================================
         🏆 Ultra Think 1000人規模統合完了！
@@ -384,14 +384,14 @@ class UltraThink1000FinalConsolidator:
         - {report_file}
         ========================================
         """)
-        
+
         return stats, validation
 
 def main():
     """メイン実行"""
     consolidator = UltraThink1000FinalConsolidator()
     stats, validation = consolidator.run_final_consolidation()
-    
+
     print(f"\n🏆 **Ultra Think 1000人規模データベース完成！**")
     print(f"📊 総人数: {stats['total_count']}人")
     print(f"✅ データ品質スコア: {validation['quality_score']:.1f}%")

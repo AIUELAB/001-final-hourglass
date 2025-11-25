@@ -1,244 +1,244 @@
 # Prometheusアラートルール定義
 groups:
   # 可用性アラート
-  - name: availability
-    interval: 30s
-    rules:
-      - alert: ServiceDown
-        expr: up{job="episode-factory"} == 0
-        for: 2m
-        labels:
-          severity: critical
-          team: sre
-        annotations:
-          summary: "Episode Factory service is down"
-          description: "{{ $labels.instance }} has been down for more than 2 minutes."
-          runbook_url: "https://wiki.example.com/runbooks/episode-factory/service-down"
+- name: availability
+  interval: 30s
+  rules:
+  - alert: ServiceDown
+    expr: up{job="episode-factory"} == 0
+    for: 2m
+    labels:
+      severity: critical
+      team: sre
+    annotations:
+      summary: Episode Factory service is down
+      description: '{{ $labels.instance }} has been down for more than 2 minutes.'
+      runbook_url: https://wiki.example.com/runbooks/episode-factory/service-down
 
-      - alert: HighErrorRate
-        expr: |
-          (
-            sum(rate(episode_factory_errors_total[5m]))
-            /
-            sum(rate(episode_factory_requests_total[5m]))
-          ) > 0.01
-        for: 5m
-        labels:
-          severity: warning
-          team: sre
-        annotations:
-          summary: "High error rate detected"
-          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes."
-          dashboard: "https://grafana.example.com/d/episode-factory"
+  - alert: HighErrorRate
+    expr: |
+      (
+        sum(rate(episode_factory_errors_total[5m]))
+        /
+        sum(rate(episode_factory_requests_total[5m]))
+      ) > 0.01
+    for: 5m
+    labels:
+      severity: warning
+      team: sre
+    annotations:
+      summary: High error rate detected
+      description: Error rate is {{ $value | humanizePercentage }} for the last 5 minutes.
+      dashboard: https://grafana.example.com/d/episode-factory
 
-      - alert: SLOViolation
-        expr: |
-          (
-            sum(rate(episode_factory_requests_total{status="success"}[5m]))
-            /
-            sum(rate(episode_factory_requests_total[5m]))
-          ) < 0.999
-        for: 5m
-        labels:
-          severity: critical
-          team: sre
-          slo: availability
-        annotations:
-          summary: "SLO violation: Availability below 99.9%"
-          description: "Current availability: {{ $value | humanizePercentage }}"
-          impact: "Users may experience service disruptions"
+  - alert: SLOViolation
+    expr: |
+      (
+        sum(rate(episode_factory_requests_total{status="success"}[5m]))
+        /
+        sum(rate(episode_factory_requests_total[5m]))
+      ) < 0.999
+    for: 5m
+    labels:
+      severity: critical
+      team: sre
+      slo: availability
+    annotations:
+      summary: 'SLO violation: Availability below 99.9%'
+      description: 'Current availability: {{ $value | humanizePercentage }}'
+      impact: Users may experience service disruptions
 
   # パフォーマンスアラート
-  - name: performance
-    interval: 30s
-    rules:
-      - alert: HighLatency
-        expr: |
-          histogram_quantile(0.99,
-            sum(rate(episode_factory_response_time_seconds_bucket[5m]))
-            by (le)
-          ) > 0.1
-        for: 5m
-        labels:
-          severity: warning
-          team: sre
-        annotations:
-          summary: "P99 latency above threshold"
-          description: "P99 latency is {{ $value | humanizeDuration }} (threshold: 100ms)"
+- name: performance
+  interval: 30s
+  rules:
+  - alert: HighLatency
+    expr: |
+      histogram_quantile(0.99,
+        sum(rate(episode_factory_response_time_seconds_bucket[5m]))
+        by (le)
+      ) > 0.1
+    for: 5m
+    labels:
+      severity: warning
+      team: sre
+    annotations:
+      summary: P99 latency above threshold
+      description: 'P99 latency is {{ $value | humanizeDuration }} (threshold: 100ms)'
 
-      - alert: HighP95Latency
-        expr: |
-          histogram_quantile(0.95,
-            sum(rate(episode_factory_response_time_seconds_bucket[5m]))
-            by (le)
-          ) > 0.05
-        for: 10m
-        labels:
-          severity: warning
-          team: dev
-        annotations:
-          summary: "P95 latency above threshold"
-          description: "P95 latency is {{ $value | humanizeDuration }} (threshold: 50ms)"
+  - alert: HighP95Latency
+    expr: |
+      histogram_quantile(0.95,
+        sum(rate(episode_factory_response_time_seconds_bucket[5m]))
+        by (le)
+      ) > 0.05
+    for: 10m
+    labels:
+      severity: warning
+      team: dev
+    annotations:
+      summary: P95 latency above threshold
+      description: 'P95 latency is {{ $value | humanizeDuration }} (threshold: 50ms)'
 
-      - alert: LowThroughput
-        expr: sum(rate(episode_factory_requests_total[1m])) < 10
-        for: 5m
-        labels:
-          severity: info
-          team: sre
-        annotations:
-          summary: "Low request throughput"
-          description: "Current throughput: {{ $value }} req/s (expected: >10 req/s)"
+  - alert: LowThroughput
+    expr: sum(rate(episode_factory_requests_total[1m])) < 10
+    for: 5m
+    labels:
+      severity: info
+      team: sre
+    annotations:
+      summary: Low request throughput
+      description: 'Current throughput: {{ $value }} req/s (expected: >10 req/s)'
 
   # リソースアラート
-  - name: resources
-    interval: 30s
-    rules:
-      - alert: HighMemoryUsage
-        expr: |
-          (
-            container_memory_usage_bytes{name="episode-factory"}
-            /
-            container_spec_memory_limit_bytes{name="episode-factory"}
-          ) > 0.8
-        for: 5m
-        labels:
-          severity: warning
-          team: sre
-        annotations:
-          summary: "High memory usage"
-          description: "Memory usage is {{ $value | humanizePercentage }} of limit"
-          action: "Consider scaling up or optimizing memory usage"
+- name: resources
+  interval: 30s
+  rules:
+  - alert: HighMemoryUsage
+    expr: |
+      (
+        container_memory_usage_bytes{name="episode-factory"}
+        /
+        container_spec_memory_limit_bytes{name="episode-factory"}
+      ) > 0.8
+    for: 5m
+    labels:
+      severity: warning
+      team: sre
+    annotations:
+      summary: High memory usage
+      description: Memory usage is {{ $value | humanizePercentage }} of limit
+      action: Consider scaling up or optimizing memory usage
 
-      - alert: HighCPUUsage
-        expr: |
-          rate(container_cpu_usage_seconds_total{name="episode-factory"}[5m]) > 0.8
-        for: 5m
-        labels:
-          severity: warning
-          team: sre
-        annotations:
-          summary: "High CPU usage"
-          description: "CPU usage is {{ $value | humanizePercentage }}"
+  - alert: HighCPUUsage
+    expr: |
+      rate(container_cpu_usage_seconds_total{name="episode-factory"}[5m]) > 0.8
+    for: 5m
+    labels:
+      severity: warning
+      team: sre
+    annotations:
+      summary: High CPU usage
+      description: CPU usage is {{ $value | humanizePercentage }}
 
-      - alert: DiskSpaceWarning
-        expr: |
-          (
-            node_filesystem_avail_bytes{mountpoint="/"}
-            /
-            node_filesystem_size_bytes{mountpoint="/"}
-          ) < 0.2
-        for: 10m
-        labels:
-          severity: warning
-          team: ops
-        annotations:
-          summary: "Low disk space"
-          description: "Only {{ $value | humanizePercentage }} disk space remaining"
+  - alert: DiskSpaceWarning
+    expr: |
+      (
+        node_filesystem_avail_bytes{mountpoint="/"}
+        /
+        node_filesystem_size_bytes{mountpoint="/"}
+      ) < 0.2
+    for: 10m
+    labels:
+      severity: warning
+      team: ops
+    annotations:
+      summary: Low disk space
+      description: Only {{ $value | humanizePercentage }} disk space remaining
 
   # 品質アラート
-  - name: quality
-    interval: 30s
-    rules:
-      - alert: LowQualityScore
-        expr: avg(episode_factory_quality_score) < 90
-        for: 15m
-        labels:
-          severity: warning
-          team: product
-        annotations:
-          summary: "Episode quality score below threshold"
-          description: "Average quality score: {{ $value }} (threshold: 90)"
-          dashboard: "https://grafana.example.com/d/quality"
+- name: quality
+  interval: 30s
+  rules:
+  - alert: LowQualityScore
+    expr: avg(episode_factory_quality_score) < 90
+    for: 15m
+    labels:
+      severity: warning
+      team: product
+    annotations:
+      summary: Episode quality score below threshold
+      description: 'Average quality score: {{ $value }} (threshold: 90)'
+      dashboard: https://grafana.example.com/d/quality
 
-      - alert: ValidationFailures
-        expr: rate(episode_factory_validation_failures_total[5m]) > 0.1
-        for: 10m
-        labels:
-          severity: warning
-          team: dev
-        annotations:
-          summary: "High validation failure rate"
-          description: "Validation failure rate: {{ $value }} per second"
+  - alert: ValidationFailures
+    expr: rate(episode_factory_validation_failures_total[5m]) > 0.1
+    for: 10m
+    labels:
+      severity: warning
+      team: dev
+    annotations:
+      summary: High validation failure rate
+      description: 'Validation failure rate: {{ $value }} per second'
 
   # エラーバジェットアラート
-  - name: error_budget
-    interval: 1m
-    rules:
-      - alert: ErrorBudgetBurnRateHigh
-        expr: |
-          (
-            1 - (
-              sum(rate(episode_factory_requests_total{status="success"}[1h]))
-              /
-              sum(rate(episode_factory_requests_total[1h]))
-            )
-          ) > (0.0005 * 14.4)
-        for: 5m
-        labels:
-          severity: critical
-          team: sre
-          burn_rate: fast
-        annotations:
-          summary: "Error budget burn rate is too high"
-          description: "Burning {{ $value | humanizePercentage }} of monthly budget per hour"
-          action: "Immediate intervention required to prevent SLO breach"
+- name: error_budget
+  interval: 1m
+  rules:
+  - alert: ErrorBudgetBurnRateHigh
+    expr: |
+      (
+        1 - (
+          sum(rate(episode_factory_requests_total{status="success"}[1h]))
+          /
+          sum(rate(episode_factory_requests_total[1h]))
+        )
+      ) > (0.0005 * 14.4)
+    for: 5m
+    labels:
+      severity: critical
+      team: sre
+      burn_rate: fast
+    annotations:
+      summary: Error budget burn rate is too high
+      description: Burning {{ $value | humanizePercentage }} of monthly budget per hour
+      action: Immediate intervention required to prevent SLO breach
 
-      - alert: ErrorBudget50PercentConsumed
-        expr: |
-          (
-            sum(increase(episode_factory_errors_total[30d]))
-            /
-            sum(increase(episode_factory_requests_total[30d]))
-          ) > (0.0005 * 0.5)
-        for: 1h
-        labels:
-          severity: warning
-          team: sre
-        annotations:
-          summary: "50% of error budget consumed"
-          description: "Error budget consumption: {{ $value | humanizePercentage }}"
+  - alert: ErrorBudget50PercentConsumed
+    expr: |
+      (
+        sum(increase(episode_factory_errors_total[30d]))
+        /
+        sum(increase(episode_factory_requests_total[30d]))
+      ) > (0.0005 * 0.5)
+    for: 1h
+    labels:
+      severity: warning
+      team: sre
+    annotations:
+      summary: 50% of error budget consumed
+      description: 'Error budget consumption: {{ $value | humanizePercentage }}'
 
-      - alert: ErrorBudget80PercentConsumed
-        expr: |
-          (
-            sum(increase(episode_factory_errors_total[30d]))
-            /
-            sum(increase(episode_factory_requests_total[30d]))
-          ) > (0.0005 * 0.8)
-        for: 30m
-        labels:
-          severity: critical
-          team: sre
-        annotations:
-          summary: "80% of error budget consumed"
-          description: "Only 20% of error budget remaining for this month"
-          action: "Feature freeze recommended until budget recovers"
+  - alert: ErrorBudget80PercentConsumed
+    expr: |
+      (
+        sum(increase(episode_factory_errors_total[30d]))
+        /
+        sum(increase(episode_factory_requests_total[30d]))
+      ) > (0.0005 * 0.8)
+    for: 30m
+    labels:
+      severity: critical
+      team: sre
+    annotations:
+      summary: 80% of error budget consumed
+      description: Only 20% of error budget remaining for this month
+      action: Feature freeze recommended until budget recovers
 
   # セキュリティアラート
-  - name: security
-    interval: 30s
-    rules:
-      - alert: UnauthorizedAccessAttempts
-        expr: rate(episode_factory_auth_failures_total[5m]) > 10
-        for: 2m
-        labels:
-          severity: warning
-          team: security
-        annotations:
-          summary: "High rate of authentication failures"
-          description: "{{ $value }} auth failures per second detected"
-          action: "Check for potential security breach"
+- name: security
+  interval: 30s
+  rules:
+  - alert: UnauthorizedAccessAttempts
+    expr: rate(episode_factory_auth_failures_total[5m]) > 10
+    for: 2m
+    labels:
+      severity: warning
+      team: security
+    annotations:
+      summary: High rate of authentication failures
+      description: '{{ $value }} auth failures per second detected'
+      action: Check for potential security breach
 
-      - alert: SuspiciousTrafficPattern
-        expr: |
-          stddev_over_time(
-            rate(episode_factory_requests_total[5m])[1h:5m]
-          ) > 100
-        for: 10m
-        labels:
-          severity: info
-          team: security
-        annotations:
-          summary: "Unusual traffic pattern detected"
-          description: "Traffic standard deviation: {{ $value }}"
+  - alert: SuspiciousTrafficPattern
+    expr: |
+      stddev_over_time(
+        rate(episode_factory_requests_total[5m])[1h:5m]
+      ) > 100
+    for: 10m
+    labels:
+      severity: info
+      team: security
+    annotations:
+      summary: Unusual traffic pattern detected
+      description: 'Traffic standard deviation: {{ $value }}'

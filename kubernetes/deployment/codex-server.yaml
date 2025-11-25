@@ -1,4 +1,3 @@
----
 # Deployment for Codex MCP Server
 apiVersion: apps/v1
 kind: Deployment
@@ -8,7 +7,7 @@ metadata:
   labels:
     app: codex-server
     component: mcp
-    version: "4.0.0"
+    version: 4.0.0
 spec:
   replicas: 2
   strategy:
@@ -25,8 +24,8 @@ spec:
         app: codex-server
         component: mcp
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9090"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9090'
     spec:
       containers:
       - name: codex
@@ -41,20 +40,20 @@ spec:
           protocol: TCP
         env:
         - name: SERVICE_NAME
-          value: "codex"
+          value: codex
         - name: LOG_LEVEL
-          value: "INFO"
+          value: INFO
         - name: CACHE_ENABLED
-          value: "true"
+          value: 'true'
         - name: MAX_WORKERS
-          value: "10"
+          value: '10'
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "250m"
+            memory: 256Mi
+            cpu: 250m
           limits:
-            memory: "1Gi"
-            cpu: "1000m"
+            memory: 1Gi
+            cpu: 1000m
         livenessProbe:
           httpGet:
             path: /health

@@ -63,7 +63,7 @@ Successfully restored **61 culturally significant entries** to the database:
 
 ### By Media Type
 - **Anime/Manga**: 39 characters (68%)
-- **Video Games**: 7 characters (12%) 
+- **Video Games**: 7 characters (12%)
 - **Children's Media**: 8 characters (14%)
 - **Classic Series**: 3 characters (5%)
 

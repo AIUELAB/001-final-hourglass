@@ -89,11 +89,7 @@ class MCPDataProcessor:
                 state=str(issue.get("state") or ""),
                 created_at=created_at_val,
                 author=str(issue.get("user", {}).get("login") or "unknown"),
-                labels=[
-                    str(label.get("name"))
-                    for label in issue.get("labels", [])
-                    if label.get("name") is not None
-                ],
+                labels=[str(label.get("name")) for label in issue.get("labels", []) if label.get("name") is not None],
                 body=str(body_raw) if body_raw is not None else None,
             )
             processed_issues.append(processed_issue)
@@ -118,9 +114,7 @@ class MCPDataProcessor:
             labels_str = ", ".join(issue.labels) if issue.labels else "No labels"
             table.add_row(
                 str(issue.number),
-                issue.title[:MAX_TITLE_LENGTH] + "..."
-                if len(issue.title) > MAX_TITLE_LENGTH
-                else issue.title,
+                issue.title[:MAX_TITLE_LENGTH] + "..." if len(issue.title) > MAX_TITLE_LENGTH else issue.title,
                 issue.state,
                 issue.author,
                 labels_str,
@@ -316,9 +310,7 @@ class MCPOrchestrator:
             ]
         )
 
-        research["summary"] = (
-            f"Research on '{topic}' completed successfully with data from multiple sources."
-        )
+        research["summary"] = f"Research on '{topic}' completed successfully with data from multiple sources."
 
         return research
 

@@ -13,21 +13,21 @@ from comprehensive_categories_extended import EXTENDED_CATEGORIES
 
 def categorize_with_extended_categories(person):
     """拡張カテゴリシステムで人物を分類"""
-    
+
     name = person.get('name', '').lower()
     name_ja = person.get('name_ja', '').lower()
     occupation = person.get('occupation', '').lower()
     nationality = person.get('nationality', '').lower()
     description = person.get('description', '').lower()
-    
+
     # 全てのテキストを結合して検索用
     full_text = f"{name} {name_ja} {occupation} {nationality} {description}"
-    
+
     # 結果を格納
     main_category = None
     subcategory = None
     special_tags = []
-    
+
     # ========== 歴史的教訓カテゴリのチェック ==========
     for cat_name, cat_info in EXTENDED_CATEGORIES['historical_lessons']['categories'].items():
         keywords = cat_info.get('keywords', [])
@@ -37,7 +37,7 @@ def categorize_with_extended_categories(person):
                 subcategory = cat_name
                 special_tags.append('負の歴史')
                 break
-        
+
         # 具体的な人名でチェック
         examples = cat_info.get('examples', '')
         if examples:
@@ -48,7 +48,7 @@ def categorize_with_extended_categories(person):
                     subcategory = cat_name
                     special_tags.append('負の歴史')
                     break
-    
+
     # ========== 日本のサブカルチャーのチェック ==========
     if not main_category:
         for cat_name, cat_info in EXTENDED_CATEGORIES['japanese_subculture']['categories'].items():
@@ -57,7 +57,7 @@ def categorize_with_extended_categories(person):
                 if keyword.lower() in full_text:
                     main_category = '日本サブカルチャー'
                     subcategory = cat_name
-                    
+
                     # 細分類もチェック
                     if 'subcategories' in cat_info:
                         for subcat_name, subcat_list in cat_info['subcategories'].items():
@@ -66,7 +66,7 @@ def categorize_with_extended_categories(person):
                                     special_tags.append(subcat_name)
                                     break
                     break
-    
+
     # ========== テクノロジー・起業家のチェック ==========
     if not main_category:
         tech_keywords = [
@@ -74,24 +74,24 @@ def categorize_with_extended_categories(person):
             'startup', 'founder', 'ceo', 'entrepreneur', 'business',
             'テクノロジー', '起業家', 'IT', 'ソフトウェア', 'プログラマー'
         ]
-        
+
         unicorn_founders = [
             'zuckerberg', 'bezos', 'musk', 'gates', 'jobs', 'wozniak',
             'page', 'brin', 'dorsey', 'systrom', 'spiegel', 'chesky',
             '孫正義', '三木谷', '堀江貴文', '前澤友作', '山田進太郎'
         ]
-        
+
         for keyword in tech_keywords:
             if keyword in full_text:
                 main_category = 'テクノロジー・起業家'
-                
+
                 # ユニコーン創業者チェック
                 for founder in unicorn_founders:
                     if founder in full_text:
                         subcategory = 'ユニコーン創業者'
                         special_tags.append('革新者')
                         break
-                
+
                 if not subcategory:
                     if 'ai' in full_text or 'artificial intelligence' in full_text:
                         subcategory = 'AI研究者'
@@ -102,7 +102,7 @@ def categorize_with_extended_categories(person):
                     else:
                         subcategory = 'テック起業家'
                 break
-    
+
     # ========== 日本の偉人チェック ==========
     if not main_category and ('japan' in nationality or '日本' in nationality):
         japanese_categories = {
@@ -113,7 +113,7 @@ def categorize_with_extended_categories(person):
             '漫画家': ['手塚治虫', '鳥山明', '尾田栄一郎', '宮崎駿', '富野由悠季'],
             '音楽家': ['坂本龍一', '久石譲', 'YMO', 'X JAPAN', 'B\'z'],
         }
-        
+
         for cat_name, names in japanese_categories.items():
             for person_name in names:
                 if person_name in name_ja or person_name.lower() in full_text:
@@ -121,7 +121,7 @@ def categorize_with_extended_categories(person):
                     subcategory = cat_name
                     special_tags.append('日本文化')
                     break
-    
+
     # ========== 基本カテゴリのチェック ==========
     if not main_category:
         basic_categories = {
@@ -135,7 +135,7 @@ def categorize_with_extended_categories(person):
             '俳優・芸能人': ['actor', 'actress', 'celebrity', '俳優', '女優', 'タレント'],
             '活動家': ['activist', 'movement', 'rights', '活動家', '運動家'],
         }
-        
+
         for cat_name, keywords in basic_categories.items():
             for keyword in keywords:
                 if keyword in full_text:
@@ -143,12 +143,12 @@ def categorize_with_extended_categories(person):
                     break
             if main_category:
                 break
-    
+
     # デフォルトカテゴリ
     if not main_category:
         main_category = 'その他'
         subcategory = '未分類'
-    
+
     # 時代タグを追加
     birth_year = person.get('birth_year', '')
     if birth_year:
@@ -172,7 +172,7 @@ def categorize_with_extended_categories(person):
                 special_tags.append('21世紀')
         except:
             pass
-    
+
     return {
         'main_category': main_category,
         'subcategory': subcategory or '',
@@ -182,10 +182,10 @@ def categorize_with_extended_categories(person):
 def add_fictional_characters():
     """架空の人物を追加"""
     fictional_people = []
-    
+
     if 'fictional_characters' not in EXTENDED_CATEGORIES:
         return fictional_people
-    
+
     for category_name, cat_info in EXTENDED_CATEGORIES['fictional_characters']['categories'].items():
         if 'characters' not in cat_info:
             continue
@@ -194,7 +194,7 @@ def add_fictional_characters():
             events_dict = {}
             for age, event in age_events:
                 events_dict[str(age)] = event
-            
+
             fictional_person = {
                 'id': f"fictional_{char_name.replace(' ', '_').replace('・', '_').lower()}",
                 'name': char_name,
@@ -212,33 +212,33 @@ def add_fictional_characters():
                 'key_ages': json.dumps(events_dict, ensure_ascii=False) if events_dict else ''
             }
             fictional_people.append(fictional_person)
-    
+
     return fictional_people
 
 def main():
     """メイン処理"""
-    
+
     # 入力CSVファイル
     input_file = 'all_famous_people_20250821_224848.csv'
-    
+
     # 出力CSVファイル
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_file = f'extended_categorized_people_{timestamp}.csv'
-    
+
     print(f"📚 CSVファイルを読み込み中: {input_file}")
-    
+
     # 既存のデータを読み込み
     people = []
     with open(input_file, 'r', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             people.append(row)
-    
+
     print(f"✅ {len(people)}人の実在人物データを読み込みました")
-    
+
     # 拡張カテゴリで分類
     print("🏷️ 拡張カテゴリで分類中...")
-    
+
     category_stats = {
         '歴史的教訓': {'count': 0, 'subcategories': {}},
         '日本サブカルチャー': {'count': 0, 'subcategories': {}},
@@ -246,14 +246,14 @@ def main():
         '日本の偉人': {'count': 0, 'subcategories': {}},
         '架空の人物': {'count': 0, 'subcategories': {}},
     }
-    
+
     for person in people:
         categories = categorize_with_extended_categories(person)
         person['main_category'] = categories['main_category']
         person['subcategory'] = categories['subcategory']
         person['special_tags'] = categories['special_tags']
         person['key_ages'] = ''  # 後で年齢別エピソードを追加
-        
+
         # 統計を更新
         main_cat = categories['main_category']
         if main_cat in category_stats:
@@ -263,51 +263,51 @@ def main():
                 if sub not in category_stats[main_cat]['subcategories']:
                     category_stats[main_cat]['subcategories'][sub] = 0
                 category_stats[main_cat]['subcategories'][sub] += 1
-    
+
     # 架空の人物を追加
     print("🎭 架空の人物を追加中...")
     fictional_people = add_fictional_characters()
     people.extend(fictional_people)
     category_stats['架空の人物']['count'] = len(fictional_people)
-    
+
     print(f"✅ {len(fictional_people)}人の架空人物を追加しました")
-    
+
     # CSVに書き出し
     print(f"💾 拡張カテゴリ付きCSVファイルを作成中: {output_file}")
-    
+
     with open(output_file, 'w', newline='', encoding='utf-8-sig') as csvfile:
         fieldnames = [
             'id', 'name', 'name_ja', 'birth_year', 'death_year', 'death_age',
-            'nationality', 'occupation', 'main_category', 'subcategory', 
+            'nationality', 'occupation', 'main_category', 'subcategory',
             'special_tags', 'source', 'wikidata_id', 'description', 'key_ages'
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='ignore')
-        
+
         writer.writeheader()
         writer.writerows(people)
-    
+
     # 統計を表示
     print("\n📊 拡張カテゴリ統計:")
     print("=" * 70)
-    
+
     total = len(people)
     for main_cat, stats in category_stats.items():
         if stats['count'] > 0:
             percentage = (stats['count'] / total) * 100
             print(f"\n【{main_cat}】: {stats['count']:,}人 ({percentage:.1f}%)")
-            
+
             # サブカテゴリを表示
-            for sub_cat, count in sorted(stats['subcategories'].items(), 
+            for sub_cat, count in sorted(stats['subcategories'].items(),
                                         key=lambda x: x[1], reverse=True)[:5]:
                 sub_percentage = (count / stats['count']) * 100
                 print(f"  └─ {sub_cat}: {count}人 ({sub_percentage:.1f}%)")
-    
+
     print("=" * 70)
     print(f"合計: {total:,}人")
-    
+
     # 重要な発見を表示
     print("\n🔍 注目すべき発見:")
-    
+
     # 歴史的教訓カテゴリの人物
     historical_lessons = [p for p in people if p.get('main_category') == '歴史的教訓']
     if historical_lessons:
@@ -316,7 +316,7 @@ def main():
             name = person.get('name_ja') or person.get('name')
             subcategory = person.get('subcategory', '')
             print(f"  - {name} ({subcategory})")
-    
+
     # 日本サブカルチャーの人物
     subculture = [p for p in people if p.get('main_category') == '日本サブカルチャー']
     if subculture:
@@ -325,16 +325,16 @@ def main():
             name = person.get('name_ja') or person.get('name')
             subcategory = person.get('subcategory', '')
             print(f"  - {name} ({subcategory})")
-    
+
     print("\n✅ 処理完了！")
     print(f"📄 出力ファイル: {output_file}")
     print(f"📊 総人数: {len(people)}人（実在: {len(people) - len(fictional_people)}人、架空: {len(fictional_people)}人）")
-    
+
     # 必要人数との差を計算
     required = 12410
     current = len(people)
     shortage = required - current
-    
+
     if shortage > 0:
         print(f"\n⚠️ 必要人数まであと {shortage:,}人不足しています")
         print("💡 追加で収集すべきカテゴリ:")
@@ -344,7 +344,7 @@ def main():
         print("  - 現代のスタートアップ創業者")
     else:
         print(f"\n✅ 必要人数を達成しました！（余剰: {-shortage:,}人）")
-    
+
     return output_file
 
 if __name__ == "__main__":

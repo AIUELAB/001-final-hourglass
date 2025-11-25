@@ -246,14 +246,14 @@ TOTAL_RECORDS=17000
 
 for start in $(seq 0 $BATCH_SIZE $TOTAL_RECORDS); do
   echo "Processing batch: $start - $((start + BATCH_SIZE))"
-  
+
   python web_recognition_system.py \
     --csv-file "$CSV_FILE" \
     --mode brave \
     --batch-size $BATCH_SIZE \
     --start-from $start \
     --rate-limit 2.0
-    
+
   # バッチ間休憩
   sleep 60
 done

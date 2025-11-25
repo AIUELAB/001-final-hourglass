@@ -24,7 +24,7 @@
 - **保持**: P000141（句読点あり版）
 
 ### 2. 高類似度重複 (51ペア)
-**代表例**: 
+**代表例**:
 - P015985「George Washington」vs P000753「George Washington」(100%一致)
 - P015986「Thomas Jefferson」vs P000949「Thomas Jefferson」(100%一致)
 - 認知度の高い方を保持

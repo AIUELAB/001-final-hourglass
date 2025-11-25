@@ -58,7 +58,7 @@ def get_priority_html(priority: str) -> str:
 # テスト用
 if __name__ == "__main__":
     print("優先度の日本語表示テスト:\n")
-    
+
     for eng, jp in PRIORITY_JAPANESE.items():
         print(f"{eng:10} → {jp}")
         print(f"  説明: {PRIORITY_DESCRIPTIONS[eng]}")

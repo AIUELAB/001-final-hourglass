@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_batch_data_protection_rules():
     """バッチデータ保護ルールの追加"""
-    
+
     new_rules = [
         {
             "rule_id": "RULE_077",
@@ -131,21 +131,21 @@ def add_batch_data_protection_rules():
             }
         }
     ]
-    
+
     # 既存のPDCAルールファイルを読み込み
     pdca_rules_file = Path("pdca_rules.json")
-    
+
     if pdca_rules_file.exists():
         with open(pdca_rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "version": "1.0.0", "last_updated": None}
-    
+
     # 新しいルールを追加
     existing_rules["rules"].extend(new_rules)
     existing_rules["last_updated"] = datetime.now().isoformat()
     existing_rules["version"] = "1.1.0"
-    
+
     # 更新内容を記録
     update_log = {
         "timestamp": datetime.now().isoformat(),
@@ -155,30 +155,30 @@ def add_batch_data_protection_rules():
         "implemented_by": "PDCAGuardianSystem",
         "validation_status": "ACTIVE"
     }
-    
+
     if "update_history" not in existing_rules:
         existing_rules["update_history"] = []
     existing_rules["update_history"].append(update_log)
-    
+
     # ファイルに保存
     with open(pdca_rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info("=" * 60)
     logger.info("✅ PDCAガーディアンルール追加完了")
     logger.info("=" * 60)
-    
+
     for rule in new_rules:
         logger.info(f"  {rule['rule_id']}: {rule['name']}")
         logger.info(f"    優先度: {rule['priority']}")
         logger.info(f"    カテゴリ: {rule['category']}")
-    
+
     return new_rules
 
 
 def create_validation_checklist():
     """検証チェックリスト生成"""
-    
+
     checklist = {
         "title": "プレースホルダー検出前チェックリスト",
         "version": "2.0.0",
@@ -236,13 +236,13 @@ def create_validation_checklist():
             return 'CAN_DELETE'
         """
     }
-    
+
     checklist_file = Path("placeholder_detection_checklist.json")
     with open(checklist_file, 'w', encoding='utf-8') as f:
         json.dump(checklist, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"\n📋 チェックリスト作成: {checklist_file}")
-    
+
     return checklist
 
 
@@ -251,13 +251,13 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 PDCAガーディアンルール追加処理開始")
     logger.info("=" * 60)
-    
+
     # ルール追加
     new_rules = add_batch_data_protection_rules()
-    
+
     # チェックリスト作成
     checklist = create_validation_checklist()
-    
+
     # サマリー出力
     logger.info("\n" + "=" * 60)
     logger.info("📊 追加完了サマリー")
@@ -269,7 +269,7 @@ def main():
     logger.info("  2. 削除前に必ずチェックリストを実行")
     logger.info("  3. Wikipedia検証を最優先で実施")
     logger.info("  4. 削除率20%超過時は自動停止")
-    
+
     # 教訓の記録
     lesson_learned = {
         "incident_date": "2025-09-11",
@@ -289,11 +289,11 @@ def main():
             "削除率監視による自動停止機能"
         ]
     }
-    
+
     lesson_file = Path("lessons_learned_20250911.json")
     with open(lesson_file, 'w', encoding='utf-8') as f:
         json.dump(lesson_learned, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"\n📚 教訓記録: {lesson_file}")
     logger.info("\n✅ PDCAガーディアンルール追加完了")
     logger.info("⚠️ 二度と同じ過ちを繰り返さないよう、これらのルールは永続的に適用されます")

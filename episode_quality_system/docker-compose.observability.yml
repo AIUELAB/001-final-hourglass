@@ -8,26 +8,26 @@ services:
     container_name: episode-factory-jaeger
     restart: unless-stopped
     ports:
-      - "5775:5775/udp"  # Zipkin compact thrift
-      - "6831:6831/udp"  # Jaeger compact thrift
-      - "6832:6832/udp"  # Jaeger binary thrift
-      - "5778:5778"      # Config HTTP
-      - "16686:16686"    # Jaeger UI
-      - "14268:14268"    # Jaeger collector HTTP
-      - "14250:14250"    # Jaeger gRPC
-      - "9411:9411"      # Zipkin compatible endpoint
+    - 5775:5775/udp      # Zipkin compact thrift
+    - 6831:6831/udp      # Jaeger compact thrift
+    - 6832:6832/udp      # Jaeger binary thrift
+    - 5778:5778          # Config HTTP
+    - 16686:16686        # Jaeger UI
+    - 14268:14268        # Jaeger collector HTTP
+    - 14250:14250        # Jaeger gRPC
+    - 9411:9411          # Zipkin compatible endpoint
     environment:
-      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
-      - SPAN_STORAGE_TYPE=badger
-      - BADGER_EPHEMERAL=false
-      - BADGER_DIRECTORY_VALUE=/badger/data
-      - BADGER_DIRECTORY_KEY=/badger/key
+    - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    - SPAN_STORAGE_TYPE=badger
+    - BADGER_EPHEMERAL=false
+    - BADGER_DIRECTORY_VALUE=/badger/data
+    - BADGER_DIRECTORY_KEY=/badger/key
     volumes:
-      - jaeger-data:/badger
+    - jaeger-data:/badger
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=tracing"
+    - com.episode-factory.service=tracing
 
   # Elasticsearch - ログストレージ
   elasticsearch:
@@ -35,18 +35,18 @@ services:
     container_name: episode-factory-elasticsearch
     restart: unless-stopped
     ports:
-      - "9200:9200"
-      - "9300:9300"
+    - 9200:9200
+    - 9300:9300
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+    - xpack.security.enabled=false
+    - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+    - elasticsearch-data:/usr/share/elasticsearch/data
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=logging"
+    - com.episode-factory.service=logging
 
   # Logstash - ログ処理パイプライン
   logstash:
@@ -54,19 +54,19 @@ services:
     container_name: episode-factory-logstash
     restart: unless-stopped
     ports:
-      - "5000:5000/tcp"
-      - "5000:5000/udp"
-      - "9600:9600"
+    - 5000:5000/tcp
+    - 5000:5000/udp
+    - 9600:9600
     volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
     environment:
-      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+    - LS_JAVA_OPTS=-Xmx256m -Xms256m
     depends_on:
-      - elasticsearch
+    - elasticsearch
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=logging"
+    - com.episode-factory.service=logging
 
   # Kibana - ログ可視化
   kibana:
@@ -74,15 +74,15 @@ services:
     container_name: episode-factory-kibana
     restart: unless-stopped
     ports:
-      - "5601:5601"
+    - 5601:5601
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
-      - elasticsearch
+    - elasticsearch
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=logging"
+    - com.episode-factory.service=logging
 
   # Prometheus - メトリクス収集（既存を拡張）
   prometheus-extended:
@@ -90,22 +90,22 @@ services:
     container_name: episode-factory-prometheus-extended
     restart: unless-stopped
     ports:
-      - "9092:9090"
+    - 9092:9090
     volumes:
-      - ./prometheus-extended.yml:/etc/prometheus/prometheus.yml:ro
-      - ./alerts.yml:/etc/prometheus/alerts.yml:ro
-      - prometheus-extended-data:/prometheus
+    - ./prometheus-extended.yml:/etc/prometheus/prometheus.yml:ro
+    - ./alerts.yml:/etc/prometheus/alerts.yml:ro
+    - prometheus-extended-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.enable-lifecycle'
-      - '--storage.tsdb.retention.time=30d'
+    - --config.file=/etc/prometheus/prometheus.yml
+    - --storage.tsdb.path=/prometheus
+    - --web.console.libraries=/usr/share/prometheus/console_libraries
+    - --web.console.templates=/usr/share/prometheus/consoles
+    - --web.enable-lifecycle
+    - --storage.tsdb.retention.time=30d
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=monitoring"
+    - com.episode-factory.service=monitoring
 
   # AlertManager - アラート管理
   alertmanager:
@@ -113,17 +113,17 @@ services:
     container_name: episode-factory-alertmanager
     restart: unless-stopped
     ports:
-      - "9093:9093"
+    - 9093:9093
     volumes:
-      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
-      - alertmanager-data:/alertmanager
+    - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    - alertmanager-data:/alertmanager
     command:
-      - '--config.file=/etc/alertmanager/alertmanager.yml'
-      - '--storage.path=/alertmanager'
+    - --config.file=/etc/alertmanager/alertmanager.yml
+    - --storage.path=/alertmanager
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=alerting"
+    - com.episode-factory.service=alerting
 
   # Grafana Extended - 高度なダッシュボード
   grafana-extended:
@@ -131,27 +131,27 @@ services:
     container_name: episode-factory-grafana-extended
     restart: unless-stopped
     ports:
-      - "3001:3000"
+    - 3001:3000
     volumes:
-      - grafana-extended-data:/var/lib/grafana
-      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
-      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
-      - ./grafana/plugins:/var/lib/grafana/plugins
+    - grafana-extended-data:/var/lib/grafana
+    - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    - ./grafana/plugins:/var/lib/grafana/plugins
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=episode123
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel,grafana-clock-panel,alexanderzobnin-zabbix-app
-      - GF_SERVER_ROOT_URL=http://localhost:3001
-      - GF_ANALYTICS_REPORTING_ENABLED=false
-      - GF_FEATURE_TOGGLES_ENABLE=tempoSearch tempoBackendSearch
+    - GF_SECURITY_ADMIN_USER=admin
+    - GF_SECURITY_ADMIN_PASSWORD=episode123
+    - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel,grafana-clock-panel,alexanderzobnin-zabbix-app
+    - GF_SERVER_ROOT_URL=http://localhost:3001
+    - GF_ANALYTICS_REPORTING_ENABLED=false
+    - GF_FEATURE_TOGGLES_ENABLE=tempoSearch tempoBackendSearch
     depends_on:
-      - prometheus-extended
-      - elasticsearch
-      - jaeger
+    - prometheus-extended
+    - elasticsearch
+    - jaeger
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=dashboard"
+    - com.episode-factory.service=dashboard
 
   # Loki - ログアグリゲーション（Prometheus形式）
   loki:
@@ -159,15 +159,15 @@ services:
     container_name: episode-factory-loki
     restart: unless-stopped
     ports:
-      - "3100:3100"
+    - 3100:3100
     volumes:
-      - ./loki-config.yml:/etc/loki/local-config.yaml:ro
-      - loki-data:/loki
+    - ./loki-config.yml:/etc/loki/local-config.yaml:ro
+    - loki-data:/loki
     command: -config.file=/etc/loki/local-config.yaml
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=logging"
+    - com.episode-factory.service=logging
 
   # Promtail - ログコレクター（Loki用）
   promtail:
@@ -175,16 +175,16 @@ services:
     container_name: episode-factory-promtail
     restart: unless-stopped
     volumes:
-      - /var/log:/var/log:ro
-      - ./promtail-config.yml:/etc/promtail/config.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /var/log:/var/log:ro
+    - ./promtail-config.yml:/etc/promtail/config.yml:ro
+    - /var/run/docker.sock:/var/run/docker.sock:ro
     command: -config.file=/etc/promtail/config.yml
     depends_on:
-      - loki
+    - loki
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=logging"
+    - com.episode-factory.service=logging
 
   # Tempo - 分散トレーシングバックエンド
   tempo:
@@ -192,17 +192,17 @@ services:
     container_name: episode-factory-tempo
     restart: unless-stopped
     ports:
-      - "3200:3200"   # Tempo
-      - "4317:4317"   # OTLP gRPC
-      - "4318:4318"   # OTLP HTTP
+    - 3200:3200       # Tempo
+    - 4317:4317       # OTLP gRPC
+    - 4318:4318       # OTLP HTTP
     volumes:
-      - ./tempo-config.yml:/etc/tempo.yml:ro
-      - tempo-data:/tmp/tempo
-    command: [ "-config.file=/etc/tempo.yml" ]
+    - ./tempo-config.yml:/etc/tempo.yml:ro
+    - tempo-data:/tmp/tempo
+    command: [-config.file=/etc/tempo.yml]
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=tracing"
+    - com.episode-factory.service=tracing
 
   # Node Exporter - ホストメトリクス
   node-exporter:
@@ -210,20 +210,20 @@ services:
     container_name: episode-factory-node-exporter
     restart: unless-stopped
     ports:
-      - "9100:9100"
+    - 9100:9100
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    - --path.procfs=/host/proc
+    - --path.rootfs=/rootfs
+    - --path.sysfs=/host/sys
+    - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=monitoring"
+    - com.episode-factory.service=monitoring
 
   # cAdvisor - コンテナメトリクス
   cadvisor:
@@ -231,20 +231,20 @@ services:
     container_name: episode-factory-cadvisor
     restart: unless-stopped
     ports:
-      - "8080:8080"
+    - 8080:8080
     volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker:/var/lib/docker:ro
-      - /cgroup:/cgroup:ro
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    - /cgroup:/cgroup:ro
     devices:
-      - /dev/kmsg:/dev/kmsg
+    - /dev/kmsg:/dev/kmsg
     privileged: true
     networks:
-      - episode-network
+    - episode-network
     labels:
-      - "com.episode-factory.service=monitoring"
+    - com.episode-factory.service=monitoring
 
 networks:
   episode-network:

@@ -17,9 +17,9 @@ def quick_collect():
         'User-Agent': 'HourglassApp/1.0',
         'Accept': 'application/sparql-results+json'
     }
-    
+
     all_people = []
-    
+
     # クエリ1: 日本の有名人（エンターテインメント）
     query1 = """
     SELECT DISTINCT ?person ?personLabel ?birthDate ?occupationLabel
@@ -33,7 +33,7 @@ def quick_collect():
     }
     LIMIT 500
     """
-    
+
     # クエリ2: 世界的に有名なアスリート
     query2 = """
     SELECT DISTINCT ?person ?personLabel ?birthDate ?nationalityLabel
@@ -47,7 +47,7 @@ def quick_collect():
     }
     LIMIT 500
     """
-    
+
     # クエリ3: ノーベル賞受賞者
     query3 = """
     SELECT DISTINCT ?person ?personLabel ?birthDate ?awardLabel
@@ -60,13 +60,13 @@ def quick_collect():
     }
     LIMIT 300
     """
-    
+
     queries = [
         (query1, 'エンターテインメント'),
         (query2, 'スポーツ'),
         (query3, '文化・芸術')
     ]
-    
+
     for query, category in queries:
         print(f"{category}収集中...")
         try:
@@ -100,17 +100,17 @@ def quick_collect():
         except Exception as e:
             print(f"  エラー: {e}")
         time.sleep(1)
-    
+
     # CSVに保存
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"wikidata_quick_{timestamp}.csv"
-    
+
     with open(filename, 'w', newline='', encoding='utf-8-sig') as f:
         if all_people:
             writer = csv.DictWriter(f, fieldnames=all_people[0].keys())
             writer.writeheader()
             writer.writerows(all_people)
-    
+
     print(f"\n合計 {len(all_people)}人を {filename} に保存")
     return filename
 

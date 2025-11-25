@@ -64,7 +64,7 @@ for _, row in japanese_youtubers.iterrows():
     person_name = str(row['person_name'])
     person_name_ja = str(row['person_name_ja'])
     person_name_display = str(row['person_name_display'])
-    
+
     # 有名YouTuberの可能性があるか
     is_famous = False
     for pattern in famous_patterns:
@@ -73,7 +73,7 @@ for _, row in japanese_youtubers.iterrows():
            pattern.lower() in person_name_display.lower():
             is_famous = True
             break
-    
+
     # 問題があるか確認
     if should_have_japanese_display(row):
         problems.append({

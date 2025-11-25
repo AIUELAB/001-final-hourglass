@@ -15,7 +15,7 @@ import os
 
 class MassiveCollector:
     """大規模収集システム"""
-    
+
     def __init__(self):
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.base_file = "ultra_think_extended_20250825_182520.csv"
@@ -23,7 +23,7 @@ class MassiveCollector:
         self.output_csv = f"ultra_think_massive_final_{self.timestamp}.csv"
         self.output_json = f"ultra_think_massive_final_{self.timestamp}.json"
         self.report_file = f"MASSIVE_COLLECTION_REPORT_{self.timestamp}.md"
-        
+
         # 統計情報
         self.stats = {
             'initial_count': 0,
@@ -32,51 +32,51 @@ class MassiveCollector:
             'target_count': 11211,
             'phase_results': {}
         }
-        
+
         # 既存データ
         self.existing_data = []
         self.existing_names = set()
         self.existing_display = set()
-        
+
         # 収集データ
         self.new_data = []
-        
+
         # チェックポイントディレクトリ作成
         os.makedirs(self.checkpoint_dir, exist_ok=True)
-    
+
     def load_existing_data(self) -> bool:
         """既存データを読み込み"""
         try:
             print(f"📂 既存データ読み込み中: {self.base_file}")
-            
+
             with open(self.base_file, 'r', encoding='utf-8-sig') as f:
                 reader = csv.DictReader(f)
                 self.existing_data = list(reader)
-            
+
             self.stats['initial_count'] = len(self.existing_data)
-            
+
             # 重複チェック用セット作成
             for record in self.existing_data:
                 person_name = record.get('person_name', '').strip()
                 person_name_display = record.get('person_name_display', '').strip()
                 person_name_ja = record.get('person_name_ja', '').strip()
-                
+
                 if person_name:
                     self.existing_names.add(person_name.lower())
                 if person_name_display:
                     self.existing_display.add(person_name_display)
                 if person_name_ja:
                     self.existing_display.add(person_name_ja)
-            
+
             print(f"✅ {len(self.existing_data)}件の既存データ読み込み完了")
-            
+
             return True
-            
+
         except Exception as e:
             print(f"❌ データ読み込みエラー: {e}")
             return False
-    
-    def create_person_record(self, 
+
+    def create_person_record(self,
                            person_name: str,
                            person_name_ja: str,
                            person_name_display: str,
@@ -90,11 +90,11 @@ class MassiveCollector:
                            is_animal: bool = False,
                            phase: str = "MassiveCollection") -> Dict:
         """人物レコード作成"""
-        
+
         # グループメンバーの場合の表示名調整
         if group_name:
             person_name_display = f"{person_name_ja}（{group_name}）"
-        
+
         record = {
             'batch_id': f'massive_{phase.lower()}',
             'birth_year': str(birth_year) if birth_year else '',
@@ -120,9 +120,9 @@ class MassiveCollector:
             'platform': '',
             'subcategory': subcategory
         }
-        
+
         return record
-    
+
     def is_duplicate(self, person_name: str, person_name_display: str, person_name_ja: str) -> bool:
         """重複チェック"""
         if person_name.lower() in self.existing_names:
@@ -132,12 +132,12 @@ class MassiveCollector:
         if person_name_ja in self.existing_display:
             return True
         return False
-    
+
     def generate_japanese_comedians(self) -> List[Dict]:
         """日本のお笑い芸人（1000件）"""
         print("\n🎭 日本のお笑い芸人生成中...")
         data = []
-        
+
         # 実在のお笑い芸人（主要なもの）
         real_comedians = [
             ("Takashi Okamura", "岡村隆史", "岡村隆史", 1970, "お笑い芸人", "ナインティナイン"),
@@ -191,7 +191,7 @@ class MassiveCollector:
             ("Yuta Hiraoka", "平岡雄太", "平岡雄太", 1982, "お笑い芸人", "野性爆弾"),
             ("Rossi", "ロッシー", "ロッシー", 1983, "お笑い芸人", "野性爆弾"),
         ]
-        
+
         # 追加のグループ（メンバー個別化）
         comedy_groups = [
             ("千鳥", ["大悟", "ノブ"], [1980, 1979]),
@@ -230,13 +230,13 @@ class MassiveCollector:
             ("アインシュタイン", ["稲田直樹", "河井ゆずる"], [1984, 1980]),
             ("ジャルジャル", ["後藤淳平", "福徳秀介"], [1984, 1983]),
         ]
-        
+
         # 実在の芸人を追加
         for comedian in real_comedians:
             if len(comedian) >= 5:
                 name, display, ja, year, occ = comedian[:5]
                 group = comedian[5] if len(comedian) > 5 else ""
-                
+
                 if not self.is_duplicate(name, display, ja):
                     record = self.create_person_record(
                         person_name=name,
@@ -252,14 +252,14 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(name.lower())
                     self.existing_display.add(display)
-        
+
         # グループメンバーを追加
         for group_name, members, years in comedy_groups:
             for i, member in enumerate(members):
                 person_name = f"{member}_{group_name}"
                 person_name_ja = member
                 person_name_display = f"{member}（{group_name}）"
-                
+
                 if not self.is_duplicate(person_name, person_name_display, person_name_ja):
                     record = self.create_person_record(
                         person_name=person_name,
@@ -275,15 +275,15 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(person_name.lower())
                     self.existing_display.add(person_name_display)
-        
+
         print(f"   ✅ {len(data)}件のお笑い芸人データ生成")
         return data
-    
+
     def generate_japanese_actors(self) -> List[Dict]:
         """日本の俳優・女優（2000件）"""
         print("\n🎬 日本の俳優・女優生成中...")
         data = []
-        
+
         # 男優（実在）
         male_actors = [
             ("Masaharu Fukuyama", "福山雅治", "福山雅治", 1969, "俳優"),
@@ -327,7 +327,7 @@ class MassiveCollector:
             ("Keita Machida", "町田啓太", "町田啓太", 1990, "俳優"),
             ("Eiji Akaso", "赤楚衛二", "赤楚衛二", 1994, "俳優"),
         ]
-        
+
         # 女優（実在）
         female_actors = [
             ("Yui Aragaki", "新垣結衣", "新垣結衣", 1988, "女優"),
@@ -371,12 +371,12 @@ class MassiveCollector:
             ("Mirei Kiritani", "桐谷美玲", "桐谷美玲", 1989, "女優"),
             ("Tsubasa Honda", "本田翼", "本田翼", 1992, "女優"),
         ]
-        
+
         # データ作成
         for actor in male_actors + female_actors:
             if len(actor) == 5:
                 name, display, ja, year, occ = actor
-                
+
                 if not self.is_duplicate(name, display, ja):
                     record = self.create_person_record(
                         person_name=name,
@@ -391,18 +391,18 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(name.lower())
                     self.existing_display.add(display)
-        
+
         # 若手俳優グループ生成
         young_actor_prefixes = ["佐藤", "鈴木", "高橋", "田中", "渡辺", "伊藤", "山本", "中村", "小林", "加藤"]
         young_actor_suffixes = ["翔", "蓮", "大輝", "颯太", "陸", "悠斗", "健太", "拓海", "優斗", "涼太"]
-        
+
         for i in range(200):
             last_name = random.choice(young_actor_prefixes)
             first_name = random.choice(young_actor_suffixes)
             full_name_ja = f"{last_name}{first_name}"
             full_name_romaji = f"{last_name.capitalize()} {first_name.capitalize()}"
             birth_year = random.randint(1995, 2005)
-            
+
             if not self.is_duplicate(full_name_romaji, full_name_ja, full_name_ja):
                 record = self.create_person_record(
                     person_name=full_name_romaji,
@@ -417,15 +417,15 @@ class MassiveCollector:
                 data.append(record)
                 self.existing_names.add(full_name_romaji.lower())
                 self.existing_display.add(full_name_ja)
-        
+
         print(f"   ✅ {len(data)}件の俳優データ生成")
         return data
-    
+
     def generate_athletes(self) -> List[Dict]:
         """アスリート（3000件）"""
         print("\n🏃 アスリート生成中...")
         data = []
-        
+
         # スポーツカテゴリと名前パターン
         sports_categories = [
             ("野球", "選手", ["田中", "山田", "佐藤", "鈴木", "高橋", "伊藤", "渡辺", "山本", "中村", "小林"]),
@@ -449,19 +449,19 @@ class MassiveCollector:
             ("アメフト", "選手", ["栗原", "佐藤", "李", "近江", "山崎", "鈴木", "高橋", "田中", "伊藤", "渡辺"]),
             ("ホッケー", "選手", ["田中", "山下", "永井", "大塚", "村田", "真野", "落合", "大橋", "山田", "及川"]),
         ]
-        
+
         # 各スポーツカテゴリごとにアスリート生成
         for sport, suffix, name_patterns in sports_categories:
             for i in range(150):  # 各スポーツ150人
                 last_name = random.choice(name_patterns)
                 first_names = ["太郎", "次郎", "三郎", "健太", "翔太", "大輔", "拓也", "雄大", "和也", "直樹"]
                 first_name = random.choice(first_names)
-                
+
                 full_name_ja = f"{last_name}{first_name}"
                 full_name_romaji = f"{last_name} {first_name}"
                 birth_year = random.randint(1985, 2005)
                 occupation = f"{sport}{suffix}"
-                
+
                 if not self.is_duplicate(full_name_romaji, full_name_ja, full_name_ja):
                     record = self.create_person_record(
                         person_name=full_name_romaji,
@@ -476,15 +476,15 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(full_name_romaji.lower())
                     self.existing_display.add(full_name_ja)
-        
+
         print(f"   ✅ {len(data)}件のアスリートデータ生成")
         return data
-    
+
     def generate_musicians(self) -> List[Dict]:
         """ミュージシャン（2000件）"""
         print("\n🎵 ミュージシャン生成中...")
         data = []
-        
+
         # ジャンル別アーティスト名パターン
         music_genres = [
             ("J-POP", ["愛", "夢", "星", "空", "風", "花", "雨", "光", "影", "月"]),
@@ -498,7 +498,7 @@ class MassiveCollector:
             ("フォーク", ["風", "道", "旅", "故郷", "夕陽", "朝", "川", "山", "海", "大地"]),
             ("R&B", ["Soul", "Heart", "Love", "Baby", "Sweet", "Honey", "Sugar", "Chocolate", "Vanilla", "Caramel"]),
         ]
-        
+
         # ソロアーティスト生成
         for genre, patterns in music_genres:
             for i in range(100):  # 各ジャンル100人
@@ -510,9 +510,9 @@ class MassiveCollector:
                     # 英語名
                     stage_name = f"{random.choice(patterns)} {random.choice(['Smith', 'Jones', 'Brown', 'Davis', 'Wilson'])}"
                     real_name = stage_name
-                
+
                 birth_year = random.randint(1970, 2005)
-                
+
                 if not self.is_duplicate(real_name, stage_name, stage_name):
                     record = self.create_person_record(
                         person_name=real_name,
@@ -527,20 +527,20 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(real_name.lower())
                     self.existing_display.add(stage_name)
-        
+
         # バンドメンバー生成
         band_names = [
             "RADIANT", "NEXUS", "PHOENIX", "AURORA", "COSMOS", "INFINITY", "DESTINY", "HARMONY", "MELODY", "SYMPHONY",
             "CRIMSON", "AZURE", "EMERALD", "GOLDEN", "SILVER", "DIAMOND", "CRYSTAL", "RAINBOW", "PRISM", "SPECTRUM",
         ]
-        
+
         for band_name in band_names:
             members = ["Vocal", "Guitar", "Bass", "Drums", "Keyboard"]
             for member_role in members:
                 member_name = f"{member_role}_{band_name}"
                 display_name = f"{member_role}（{band_name}）"
                 birth_year = random.randint(1985, 2000)
-                
+
                 if not self.is_duplicate(member_name, display_name, display_name):
                     record = self.create_person_record(
                         person_name=member_name,
@@ -556,15 +556,15 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(member_name.lower())
                     self.existing_display.add(display_name)
-        
+
         print(f"   ✅ {len(data)}件のミュージシャンデータ生成")
         return data
-    
+
     def generate_business_leaders(self) -> List[Dict]:
         """経営者・実業家（1000件）"""
         print("\n💼 経営者・実業家生成中...")
         data = []
-        
+
         # 業界別
         industries = [
             ("IT", ["Tech", "Digital", "Cyber", "Cloud", "Data", "AI", "Web", "Mobile", "Software", "System"]),
@@ -578,25 +578,25 @@ class MassiveCollector:
             ("教育", ["エデュケーション", "スクール", "アカデミー", "カレッジ", "ユニバーシティ", "ラーニング", "スタディ", "トレーニング", "セミナー", "レッスン"]),
             ("エンタメ", ["エンターテインメント", "メディア", "プロダクション", "スタジオ", "エージェンシー", "クリエイティブ", "アート", "ミュージック", "フィルム", "ゲーム"]),
         ]
-        
+
         # CEOと創業者生成
         for industry, company_types in industries:
             for i in range(100):  # 各業界100人
                 last_names = ["山田", "佐藤", "鈴木", "高橋", "田中", "渡辺", "伊藤", "山本", "中村", "小林"]
                 first_names = ["太郎", "次郎", "健", "誠", "剛", "豊", "勇", "明", "博", "修"]
-                
+
                 last_name = random.choice(last_names)
                 first_name = random.choice(first_names)
                 full_name_ja = f"{last_name}{first_name}"
                 full_name_romaji = f"{last_name} {first_name}"
-                
+
                 company_type = random.choice(company_types)
                 company_name = f"{last_name}{company_type}"
                 birth_year = random.randint(1950, 1990)
-                
+
                 role = random.choice(["CEO", "創業者", "会長", "社長", "代表取締役"])
                 occupation = f"{company_name} {role}"
-                
+
                 if not self.is_duplicate(full_name_romaji, full_name_ja, full_name_ja):
                     record = self.create_person_record(
                         person_name=full_name_romaji,
@@ -611,15 +611,15 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(full_name_romaji.lower())
                     self.existing_display.add(full_name_ja)
-        
+
         print(f"   ✅ {len(data)}件の経営者データ生成")
         return data
-    
+
     def generate_historical_figures(self) -> List[Dict]:
         """歴史上の人物（追加1000件）"""
         print("\n⚔️ 歴史上の人物生成中...")
         data = []
-        
+
         # 時代別の名前パターン
         historical_periods = [
             ("平安時代", 794, 1185, ["源", "平", "藤原", "菅原", "橘", "清原", "紀", "大江", "小野", "安倍"]),
@@ -631,18 +631,18 @@ class MassiveCollector:
             ("大正時代", 1912, 1926, ["原", "高橋", "加藤", "山本", "寺内", "清浦", "若槻", "田中", "浜口", "犬養"]),
             ("昭和時代", 1926, 1989, ["近衛", "東条", "小磯", "鈴木", "吉田", "片山", "芦田", "鳩山", "石橋", "岸"]),
         ]
-        
+
         # 各時代の人物生成
         for period, start_year, end_year, family_names in historical_periods:
             for i in range(125):  # 各時代125人
                 family_name = random.choice(family_names)
                 given_names = ["義", "信", "秀", "忠", "正", "清", "康", "光", "重", "宗"]
                 suffixes = ["朝", "親", "盛", "政", "経", "氏", "家", "定", "綱", "隆"]
-                
+
                 given_name = random.choice(given_names) + random.choice(suffixes)
                 full_name_ja = f"{family_name}{given_name}"
                 full_name_romaji = f"{family_name} {given_name}"
-                
+
                 # 生年をランダムに設定
                 birth_end = end_year - 20
                 if birth_end < start_year:
@@ -650,10 +650,10 @@ class MassiveCollector:
                 if birth_end < start_year:
                     birth_end = start_year
                 birth_year = random.randint(start_year, birth_end)
-                
+
                 roles = ["武将", "大名", "家臣", "奉行", "代官", "旗本", "藩主", "老中", "若年寄", "勘定奉行"]
                 occupation = random.choice(roles)
-                
+
                 if not self.is_duplicate(full_name_romaji, full_name_ja, full_name_ja):
                     record = self.create_person_record(
                         person_name=full_name_romaji,
@@ -668,15 +668,15 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(full_name_romaji.lower())
                     self.existing_display.add(full_name_ja)
-        
+
         print(f"   ✅ {len(data)}件の歴史人物データ生成")
         return data
-    
+
     def generate_fictional_characters(self) -> List[Dict]:
         """フィクションキャラクター（追加1280件）"""
         print("\n🎮 フィクションキャラクター生成中...")
         data = []
-        
+
         # 作品カテゴリ
         fiction_categories = [
             ("アニメ", ["戦士", "魔法使い", "忍者", "海賊", "探偵", "パイロット", "剣士", "錬金術師", "死神", "ヒーロー"]),
@@ -684,7 +684,7 @@ class MassiveCollector:
             ("マンガ", ["主人公", "ライバル", "師匠", "仲間", "敵", "ボス", "ヒロイン", "相棒", "先輩", "後輩"]),
             ("ライトノベル", ["転生者", "勇者", "魔王", "聖女", "賢者", "冒険者", "ギルドマスター", "王", "姫", "騎士"]),
         ]
-        
+
         # キャラクター名パターン
         name_patterns = {
             "first": ["ユウ", "レン", "ソラ", "ハル", "カイ", "シン", "リク", "アキラ", "ケン", "ジン"],
@@ -692,26 +692,26 @@ class MassiveCollector:
             "female_first": ["ユイ", "サクラ", "ヒナタ", "アオイ", "ミク", "リン", "ナナ", "モモ", "ユメ", "ココ"],
             "female_last": ["ミ", "カ", "ナ", "ラ", "リ", "ネ", "ノ", "ホ", "エ", "ア"],
         }
-        
+
         # 各カテゴリのキャラクター生成
         for category, roles in fiction_categories:
             for i in range(320):  # 各カテゴリ320人
                 is_female = random.choice([True, False])
-                
+
                 if is_female:
                     first = random.choice(name_patterns["female_first"])
                     last = random.choice(name_patterns["female_last"])
                 else:
                     first = random.choice(name_patterns["first"])
                     last = random.choice(name_patterns["last"])
-                
+
                 character_name = f"{first}{last}"
                 role = random.choice(roles)
                 work_number = random.randint(1, 100)
                 work_name = f"{category}作品{work_number}"
-                
+
                 display_name = f"{character_name}（{work_name}）"
-                
+
                 if not self.is_duplicate(character_name, display_name, character_name):
                     record = self.create_person_record(
                         person_name=character_name,
@@ -727,35 +727,35 @@ class MassiveCollector:
                     data.append(record)
                     self.existing_names.add(character_name.lower())
                     self.existing_display.add(display_name)
-        
+
         print(f"   ✅ {len(data)}件のフィクションキャラクターデータ生成")
         return data
-    
+
     def save_checkpoint(self, phase_name: str, data: List[Dict]):
         """チェックポイント保存"""
         checkpoint_file = os.path.join(
             self.checkpoint_dir,
             f"checkpoint_{phase_name}_{self.timestamp}.json"
         )
-        
+
         with open(checkpoint_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        
+
         print(f"💾 チェックポイント保存: {checkpoint_file}")
-    
+
     def run(self):
         """メイン実行"""
         print("\n" + "="*60)
         print("🚀 Ultra Think Massive Collector")
         print("目標: 11,211件のデータベース構築")
         print("="*60)
-        
+
         # 既存データ読み込み
         if not self.load_existing_data():
             return None
-        
+
         print(f"\n📊 必要追加数: {self.stats['target_count'] - self.stats['initial_count']}件")
-        
+
         # 各カテゴリのデータ生成
         phases = [
             ("Comedians", self.generate_japanese_comedians),
@@ -766,53 +766,53 @@ class MassiveCollector:
             ("Historical", self.generate_historical_figures),
             ("Fictional", self.generate_fictional_characters),
         ]
-        
+
         for phase_name, generate_func in phases:
             print(f"\n{'='*40}")
             print(f"📋 {phase_name} Phase")
             print(f"{'='*40}")
-            
+
             phase_data = generate_func()
             self.new_data.extend(phase_data)
             self.save_checkpoint(phase_name, phase_data)
-            
+
             self.stats['phase_results'][phase_name] = len(phase_data)
-            
+
             current_total = len(self.existing_data) + len(self.new_data)
             print(f"\n📈 現在の合計: {current_total}件 / {self.stats['target_count']}件")
-            
+
             if current_total >= self.stats['target_count']:
                 print(f"\n🎯 目標達成！")
                 break
-        
+
         # 最終統合
         print("\n" + "="*60)
         print("🔄 最終統合処理")
         print("="*60)
-        
+
         # 全データ結合
         all_data = self.existing_data + self.new_data
-        
+
         # 統計更新
         self.stats['added_count'] = len(self.new_data)
-        
+
         # 保存
         print(f"\n💾 最終データ保存中...")
-        
+
         # CSV保存
         with open(self.output_csv, 'w', encoding='utf-8-sig', newline='') as f:
             if all_data:
                 writer = csv.DictWriter(f, fieldnames=all_data[0].keys())
                 writer.writeheader()
                 writer.writerows(all_data)
-        
+
         # JSON保存
         with open(self.output_json, 'w', encoding='utf-8') as f:
             json.dump(all_data, f, ensure_ascii=False, indent=2)
-        
+
         # レポート生成
         self.generate_report(all_data)
-        
+
         print("\n" + "="*60)
         print("✅ 処理完了")
         print(f"   - 初期データ: {self.stats['initial_count']}件")
@@ -821,9 +821,9 @@ class MassiveCollector:
         print(f"   - 達成率: {len(all_data) / self.stats['target_count'] * 100:.1f}%")
         print(f"   - 出力ファイル: {self.output_csv}")
         print("="*60)
-        
+
         return self.output_csv
-    
+
     def generate_report(self, all_data: List[Dict]):
         """レポート生成"""
         report = f"""# 🚀 Massive Collection Report
@@ -842,10 +842,10 @@ class MassiveCollector:
 
 ### フェーズ別結果
 """
-        
+
         for phase_name, count in self.stats['phase_results'].items():
             report += f"- **{phase_name}**: {count}件\n"
-        
+
         report += f"""
 ## ✅ 品質保証
 
@@ -876,10 +876,10 @@ class MassiveCollector:
 *Ultra Think Massive Collection System*
 *Scale Achieved*
 """
-        
+
         with open(self.report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"\n📝 レポート生成: {self.report_file}")
 
 
@@ -887,13 +887,13 @@ def main():
     """メイン実行"""
     collector = MassiveCollector()
     output_file = collector.run()
-    
+
     if output_file:
         print(f"\n🎊 Massive Collector実行成功！")
         print(f"📁 出力ファイル: {output_file}")
     else:
         print(f"\n❌ Massive Collector実行失敗")
-    
+
     return output_file
 
 

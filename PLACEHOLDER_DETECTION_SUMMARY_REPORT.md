@@ -187,7 +187,7 @@ The confirmed placeholders contained duplicate episode entries for the following
 This detection system represents a **production-ready solution** featuring:
 - **Multi-method detection** with 95%+ accuracy
 - **Risk-based prioritization** for safe removal
-- **Comprehensive backup and recovery** 
+- **Comprehensive backup and recovery**
 - **Detailed audit trails** for compliance
 - **Optimized performance** for large datasets
 - **Extensible architecture** for future enhancements

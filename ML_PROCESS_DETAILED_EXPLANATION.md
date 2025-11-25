@@ -27,7 +27,7 @@
 ```python
 def extract_features(person_name):
     """人物名から特徴を抽出する"""
-    
+
     features = {
         "名前の長さ": len(person_name),
         "カタカナの割合": count_katakana(person_name) / len(person_name),
@@ -36,7 +36,7 @@ def extract_features(person_name):
         "特殊文字の有無": has_special_chars(person_name),
         "数字の有無": has_numbers(person_name)
     }
-    
+
     return features
 ```
 
@@ -58,30 +58,30 @@ def extract_features(person_name):
 ```python
 def judge_by_name_pattern(person_name):
     """名前のパターンから有名度を推定"""
-    
+
     score = 5.0  # 基準スコア（中間値）
-    
+
     # パターン1: YouTuber系の名前
     if "ちゃん" in person_name or "くん" in person_name:
         score += 1.0  # YouTuberの可能性
         print(f"💡 '{person_name}' → YouTuber系の名前パターン検出")
-    
+
     # パターン2: グループ名
     if len(person_name) > 10:
         score += 1.5  # グループ名の可能性
         print(f"💡 '{person_name}' → グループ名の可能性（長い名前）")
-    
+
     # パターン3: 外国人名
     katakana_ratio = count_katakana(person_name) / len(person_name)
     if katakana_ratio > 0.5:
         score += 0.8  # 外国人有名人の可能性
         print(f"💡 '{person_name}' → 外国人名パターン検出")
-    
+
     # パターン4: 芸名
     if person_name == person_name.encode('ascii', 'ignore').decode('ascii'):
         score += 2.0  # 英字のみ = 芸名やYouTuber名
         print(f"💡 '{person_name}' → 英字芸名パターン")
-    
+
     return score
 ```
 
@@ -90,25 +90,25 @@ def judge_by_name_pattern(person_name):
 ```python
 def judge_by_statistics(person_data):
     """過去のデータから学習したパターンで判定"""
-    
+
     # 既知の有名人との類似度を計算
     similarity_scores = []
-    
+
     known_patterns = {
         "YouTuber": ["ひらがな多い", "〜TV", "〜チャンネル"],
         "芸能人": ["漢字2-3文字", "苗字+名前"],
         "スポーツ選手": ["漢字3-4文字", "一般的な名前"],
         "アーティスト": ["カタカナ", "英字", "特殊な読み"]
     }
-    
+
     # 各カテゴリとの類似度を計算
     for category, patterns in known_patterns.items():
         match_count = sum(1 for p in patterns if matches_pattern(person_data, p))
         similarity_scores.append((category, match_count))
-    
+
     # 最も類似度の高いカテゴリを特定
     best_category = max(similarity_scores, key=lambda x: x[1])
-    
+
     return estimate_score_by_category(best_category)
 ```
 
@@ -121,19 +121,19 @@ def judge_by_statistics(person_data):
 ```python
 def calculate_ml_score(person_data):
     """複数の要素を組み合わせて最終スコアを計算"""
-    
+
     # 1. 名前パターンスコア（40%の重み）
     name_score = judge_by_name_pattern(person_data['name'])
-    
+
     # 2. 文字種別スコア（30%の重み）
     char_score = judge_by_character_type(person_data['name'])
-    
+
     # 3. 長さスコア（20%の重み）
     length_score = judge_by_name_length(person_data['name'])
-    
+
     # 4. 特殊パターンスコア（10%の重み）
     special_score = judge_special_patterns(person_data['name'])
-    
+
     # 重み付け平均
     final_score = (
         name_score * 0.4 +
@@ -141,7 +141,7 @@ def calculate_ml_score(person_data):
         length_score * 0.2 +
         special_score * 0.1
     )
-    
+
     return round(final_score, 2)
 ```
 
@@ -182,7 +182,7 @@ def calculate_ml_score(person_data):
 - 一般名ペナルティ: -1.5
 - 短い名前: -0.5
     ↓
-【最終スコア】: 3.0/10.0 
+【最終スコア】: 3.0/10.0
 ```
 
 ### ケース3: 「コムドット」の判定プロセス
@@ -221,7 +221,7 @@ LEARNED_PATTERNS = {
         },
         "base_score": 8.5
     },
-    
+
     "芸能人": {
         "examples": ["新垣結衣", "綾瀬はるか", "石原さとみ"],
         "features": {
@@ -231,7 +231,7 @@ LEARNED_PATTERNS = {
         },
         "base_score": 8.0
     },
-    
+
     "一般人": {
         "examples": ["山田太郎", "鈴木一郎", "佐藤花子"],
         "features": {
@@ -247,13 +247,13 @@ def match_learned_pattern(person_name):
     """学習済みパターンとマッチング"""
     best_match = None
     best_similarity = 0
-    
+
     for category, pattern in LEARNED_PATTERNS.items():
         similarity = calculate_similarity(person_name, pattern)
         if similarity > best_similarity:
             best_similarity = similarity
             best_match = category
-    
+
     return best_match, LEARNED_PATTERNS[best_match]["base_score"]
 ```
 
@@ -289,19 +289,19 @@ def match_learned_pattern(person_name):
 ```python
 def simple_ml_judge(name):
     """超シンプルなML判定"""
-    
+
     # ルール1: ひらがなだけ → YouTuber系？
     if all(char in 'あいうえお...ん' for char in name):
         return 7.0  # 高めのスコア
-    
+
     # ルール2: カタカナ多い → 外国人？
     if name.count('ー') > 0:  # 長音記号がある
         return 6.5  # やや高め
-    
+
     # ルール3: 4文字の漢字 → 一般人？
     if len(name) == 4 and all(is_kanji(char) for char in name):
         return 3.0  # 低めのスコア
-    
+
     # それ以外
     return 5.0  # 中間値
 ```

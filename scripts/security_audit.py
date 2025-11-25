@@ -18,9 +18,7 @@ class SecurityAuditor:
 
     def add_issue(self, severity: str, category: str, message: str, file: str = None):
         """Add a security issue."""
-        self.issues.append(
-            {"severity": severity, "category": category, "message": message, "file": file}
-        )
+        self.issues.append({"severity": severity, "category": category, "message": message, "file": file})
 
     def check_dependencies(self):
         """Check for known vulnerabilities in dependencies."""

@@ -17,19 +17,19 @@ def parse_env_file(file_path: Path) -> Dict[str, str]:
     if not file_path.exists():
         return env_vars
 
-    with open(file_path, 'r', encoding='utf-8') as f:
+    with open(file_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
 
             # コメントや空行はスキップ
-            if not line or line.startswith('#'):
+            if not line or line.startswith("#"):
                 continue
 
             # KEY=value形式をパース
-            match = re.match(r'^([A-Z_][A-Z0-9_]*)\s*=\s*(.*)$', line)
+            match = re.match(r"^([A-Z_][A-Z0-9_]*)\s*=\s*(.*)$", line)
             if match:
                 key = match.group(1)
-                value = match.group(2).strip('"\'')
+                value = match.group(2).strip("\"'")
                 env_vars[key] = value
 
     return env_vars
@@ -40,33 +40,32 @@ def create_template_value(key: str, value: str) -> str:
     # キー名から適切なプレースホルダーを生成
     key_lower = key.lower()
 
-    if 'api_key' in key_lower or 'apikey' in key_lower:
-        return 'your-api-key-here'
-    elif 'token' in key_lower:
-        return 'your-token-here'
-    elif 'secret' in key_lower:
-        return 'your-secret-here'
-    elif 'password' in key_lower or 'passwd' in key_lower:
-        return 'your-password-here'
-    elif 'url' in key_lower:
-        if 'database' in key_lower or 'db' in key_lower:
-            return 'postgresql://user:password@localhost:5432/dbname'
+    if "api_key" in key_lower or "apikey" in key_lower:
+        return "your-api-key-here"
+    elif "token" in key_lower:
+        return "your-token-here"
+    elif "secret" in key_lower:
+        return "your-secret-here"
+    elif "password" in key_lower or "passwd" in key_lower:
+        return "your-password-here"
+    elif "url" in key_lower:
+        if "database" in key_lower or "db" in key_lower:
+            return "postgresql://user:password@localhost:5432/dbname"
         else:
-            return 'https://example.com'
-    elif 'host' in key_lower:
-        return 'localhost'
-    elif 'port' in key_lower:
-        return '8080'
-    elif 'debug' in key_lower:
-        return 'false'
-    elif 'env' in key_lower or 'environment' in key_lower:
-        return 'development'
+            return "https://example.com"
+    elif "host" in key_lower:
+        return "localhost"
+    elif "port" in key_lower:
+        return "8080"
+    elif "debug" in key_lower:
+        return "false"
+    elif "env" in key_lower or "environment" in key_lower:
+        return "development"
     else:
         return f'your-{key.lower().replace("_", "-")}-here'
 
 
-def update_template_file(template_path: Path, env_vars: Dict[str, str],
-                        existing_template: Dict[str, str]) -> bool:
+def update_template_file(template_path: Path, env_vars: Dict[str, str], existing_template: Dict[str, str]) -> bool:
     """テンプレートファイルを更新"""
     updated = False
 
@@ -79,7 +78,7 @@ def update_template_file(template_path: Path, env_vars: Dict[str, str],
             print(f"  - {var}")
 
         # テンプレートファイルに追記
-        with open(template_path, 'a', encoding='utf-8') as f:
+        with open(template_path, "a", encoding="utf-8") as f:
             f.write("\n# Automatically added by sync_env_template.py\n")
             for var in sorted(new_vars):
                 template_value = create_template_value(var, env_vars[var])
@@ -97,11 +96,11 @@ def main():
 
     # チェックする環境変数ファイルのペア
     env_pairs = [
-        ('.env', '.env.example'),
-        ('.env.mcp', '.env.mcp.example'),
-        ('.env.local', '.env.local.example'),
-        ('.env.development', '.env.development.example'),
-        ('.env.production', '.env.production.example'),
+        (".env", ".env.example"),
+        (".env.mcp", ".env.mcp.example"),
+        (".env.local", ".env.local.example"),
+        (".env.development", ".env.development.example"),
+        (".env.production", ".env.production.example"),
     ]
 
     has_updates = False
@@ -123,7 +122,7 @@ def main():
         # テンプレートファイルが存在しない場合は作成
         if not template_path.exists():
             print(f"📝 Creating new template file: {template_file}")
-            with open(template_path, 'w', encoding='utf-8') as f:
+            with open(template_path, "w", encoding="utf-8") as f:
                 f.write(f"# Environment variables template for {env_file}\n")
                 f.write("# Copy this file to " + env_file + " and fill in your values\n\n")
 

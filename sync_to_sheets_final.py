@@ -11,24 +11,24 @@ import os
 
 def sync_to_sheets():
     """修正済みデータをGoogle Sheetsに同期"""
-    
+
     print("📊 Google Sheets同期を開始...")
     print("=" * 60)
-    
+
     # 最新の修正済みCSVファイル
     csv_file = 'ultra_think_AUTO_CLASSIFIED_20250829_195846.csv'
-    
+
     # 最終的なCSVファイル名を作成
     final_csv_name = f'ultra_think_GROUP_AGENCY_FIXED_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-    
+
     try:
         # CSVファイルをコピー
         subprocess.run(['cp', csv_file, final_csv_name], check=True)
         print(f"✅ 最終CSVファイル作成: {final_csv_name}")
-        
+
         # force_sync.pyを使用して同期
         print("\n🔄 Google Sheetsと同期中...")
-        
+
         # force_sync.pyを実行
         result = subprocess.run(
             ['python3', 'force_sync.py'],
@@ -36,12 +36,12 @@ def sync_to_sheets():
             text=True,
             timeout=30
         )
-        
+
         if result.returncode == 0:
             print("✅ Google Sheets同期成功！")
         else:
             print(f"⚠️ 同期中にエラーが発生しました: {result.stderr}")
-            
+
             # 代替方法: auto_startup_sync.pyを試す
             print("\n🔄 代替同期方法を試行中...")
             result2 = subprocess.run(
@@ -50,16 +50,16 @@ def sync_to_sheets():
                 text=True,
                 timeout=30
             )
-            
+
             if result2.returncode == 0:
                 print("✅ 代替方法で同期成功！")
-        
+
         # sync_log.jsonを更新
         sync_log = []
         if os.path.exists('sync_log.json'):
             with open('sync_log.json', 'r', encoding='utf-8') as f:
                 sync_log = json.load(f)
-        
+
         # 新しいエントリーを追加
         new_entry = {
             'timestamp': datetime.now().isoformat(),
@@ -73,24 +73,24 @@ def sync_to_sheets():
                 'total_fixed': 16
             }
         }
-        
+
         # 最新のエントリーを先頭に追加
         sync_log.insert(0, new_entry)
-        
+
         # 最新10件のみ保持
         sync_log = sync_log[:10]
-        
+
         # sync_log.jsonを保存
         with open('sync_log.json', 'w', encoding='utf-8') as f:
             json.dump(sync_log, f, ensure_ascii=False, indent=2)
-        
+
         print(f"\n📄 同期ログ更新: sync_log.json")
-        
+
         # 修正サマリーレポート作成
         create_fix_report(final_csv_name)
-        
+
         return True
-        
+
     except subprocess.TimeoutExpired:
         print("⚠️ 同期がタイムアウトしました")
         return False
@@ -100,9 +100,9 @@ def sync_to_sheets():
 
 def create_fix_report(csv_file):
     """修正レポートを作成"""
-    
+
     print("\n📄 修正レポート作成中...")
-    
+
     report_content = f"""# グループ・事務所誤分類修正レポート
 
 ## 修正日時
@@ -170,16 +170,16 @@ P000013（HIKAKIN）のperson_name_displayに「(UUUM)」が表示されてい�
 ## Google Sheets
 同期済み - 最新データが反映されています
 """
-    
+
     report_file = f'GROUP_AGENCY_FIX_REPORT_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report_content)
-    
+
     print(f"✅ レポート作成完了: {report_file}")
 
 if __name__ == "__main__":
     success = sync_to_sheets()
-    
+
     if success:
         print("\n" + "=" * 60)
         print("🎉 すべての修正が完了し、Google Sheetsと同期されました！")

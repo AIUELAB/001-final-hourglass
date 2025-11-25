@@ -12,28 +12,26 @@ IDEキャッシュクリア自動化スクリプト
 - PyCharm
 """
 
+import logging
 import os
 import shutil
 import subprocess
 import sys
-import logging
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 # ログ設定
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('ide_cache_clear.log'),
-        logging.StreamHandler(sys.stdout)
-    ]
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("ide_cache_clear.log"), logging.StreamHandler(sys.stdout)],
 )
 logger = logging.getLogger(__name__)
 
 # 定数定義
-APPLICATION_SUPPORT = 'Application Support'
-PYCHARM_PATTERN = 'PyCharm*'
+APPLICATION_SUPPORT = "Application Support"
+PYCHARM_PATTERN = "PyCharm*"
+
 
 class IDECacheCleaner:
     """IDEキャッシュクリアクラス"""
@@ -41,26 +39,26 @@ class IDECacheCleaner:
     def __init__(self):
         self.home_dir = Path.home()
         self.cache_dirs = {
-            'cursor': [
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Cursor' / 'Cache',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Cursor' / 'Code Cache',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Cursor' / 'GPUCache',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Cursor' / 'CachedData',
+            "cursor": [
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Cursor" / "Cache",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Cursor" / "Code Cache",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Cursor" / "GPUCache",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Cursor" / "CachedData",
             ],
-            'vscode': [
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Code' / 'Cache',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Code' / 'Code Cache',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Code' / 'GPUCache',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Code' / 'CachedData',
+            "vscode": [
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Code" / "Cache",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Code" / "Code Cache",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Code" / "GPUCache",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "Code" / "CachedData",
             ],
-            'intellij': [
-                self.home_dir / 'Library' / 'Caches' / 'JetBrains',
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / 'JetBrains',
+            "intellij": [
+                self.home_dir / "Library" / "Caches" / "JetBrains",
+                self.home_dir / "Library" / APPLICATION_SUPPORT / "JetBrains",
             ],
-            'pycharm': [
-                self.home_dir / 'Library' / 'Caches' / PYCHARM_PATTERN,
-                self.home_dir / 'Library' / APPLICATION_SUPPORT / PYCHARM_PATTERN,
-            ]
+            "pycharm": [
+                self.home_dir / "Library" / "Caches" / PYCHARM_PATTERN,
+                self.home_dir / "Library" / APPLICATION_SUPPORT / PYCHARM_PATTERN,
+            ],
         }
 
     def get_installed_ides(self) -> List[str]:
@@ -68,20 +66,20 @@ class IDECacheCleaner:
         installed = []
 
         # Cursor
-        if (self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Cursor').exists():
-            installed.append('cursor')
+        if (self.home_dir / "Library" / APPLICATION_SUPPORT / "Cursor").exists():
+            installed.append("cursor")
 
         # VS Code
-        if (self.home_dir / 'Library' / APPLICATION_SUPPORT / 'Code').exists():
-            installed.append('vscode')
+        if (self.home_dir / "Library" / APPLICATION_SUPPORT / "Code").exists():
+            installed.append("vscode")
 
         # IntelliJ
-        if (self.home_dir / 'Library' / 'Caches' / 'JetBrains').exists():
-            installed.append('intellij')
+        if (self.home_dir / "Library" / "Caches" / "JetBrains").exists():
+            installed.append("intellij")
 
         # PyCharm
-        if any((self.home_dir / 'Library' / 'Caches').glob(PYCHARM_PATTERN)):
-            installed.append('pycharm')
+        if any((self.home_dir / "Library" / "Caches").glob(PYCHARM_PATTERN)):
+            installed.append("pycharm")
 
         return installed
 
@@ -105,7 +103,7 @@ class IDECacheCleaner:
 
     def clear_ide_cache(self, ide_name: str) -> Dict[str, int]:
         """指定されたIDEのキャッシュをクリア"""
-        results = {'success': 0, 'failed': 0}
+        results = {"success": 0, "failed": 0}
 
         if ide_name not in self.cache_dirs:
             logger.error(f"未対応のIDE: {ide_name}")
@@ -115,9 +113,9 @@ class IDECacheCleaner:
 
         for cache_dir in self.cache_dirs[ide_name]:
             if self.clear_cache_directory(cache_dir):
-                results['success'] += 1
+                results["success"] += 1
             else:
-                results['failed'] += 1
+                results["failed"] += 1
 
         return results
 
@@ -136,18 +134,18 @@ class IDECacheCleaner:
     def restart_ide(self, ide_name: str) -> bool:
         """IDEを再起動"""
         try:
-            if ide_name == 'cursor':
-                subprocess.run(['killall', 'Cursor'], check=False)
-                subprocess.run(['open', '-a', 'Cursor'], check=True)
-            elif ide_name == 'vscode':
-                subprocess.run(['killall', 'Code'], check=False)
-                subprocess.run(['open', '-a', 'Visual Studio Code'], check=True)
-            elif ide_name == 'intellij':
-                subprocess.run(['killall', 'IntelliJ IDEA'], check=False)
-                subprocess.run(['open', '-a', 'IntelliJ IDEA'], check=True)
-            elif ide_name == 'pycharm':
-                subprocess.run(['killall', 'PyCharm'], check=False)
-                subprocess.run(['open', '-a', 'PyCharm'], check=True)
+            if ide_name == "cursor":
+                subprocess.run(["killall", "Cursor"], check=False)
+                subprocess.run(["open", "-a", "Cursor"], check=True)
+            elif ide_name == "vscode":
+                subprocess.run(["killall", "Code"], check=False)
+                subprocess.run(["open", "-a", "Visual Studio Code"], check=True)
+            elif ide_name == "intellij":
+                subprocess.run(["killall", "IntelliJ IDEA"], check=False)
+                subprocess.run(["open", "-a", "IntelliJ IDEA"], check=True)
+            elif ide_name == "pycharm":
+                subprocess.run(["killall", "PyCharm"], check=False)
+                subprocess.run(["open", "-a", "PyCharm"], check=True)
             else:
                 logger.error(f"未対応のIDE再起動: {ide_name}")
                 return False
@@ -168,6 +166,7 @@ class IDECacheCleaner:
             results[ide] = self.restart_ide(ide)
 
         return results
+
 
 def main():
     """メイン関数"""
@@ -191,14 +190,14 @@ def main():
     # 結果表示
     print("\n📊 キャッシュクリア結果:")
     for ide, results in cache_results.items():
-        success = results['success']
-        failed = results['failed']
+        success = results["success"]
+        failed = results["failed"]
         total = success + failed
         print(f"  {ide.upper()}: {success}/{total} 成功")
 
     # IDE再起動の確認
     restart = input("\n🔄 IDEを再起動しますか？ (y/N): ").lower().strip()
-    if restart in ['y', 'yes']:
+    if restart in ["y", "yes"]:
         print("\n🔄 IDE再起動を実行中...")
         restart_results = cleaner.restart_all_ides()
 
@@ -209,6 +208,7 @@ def main():
 
     print("\n✨ キャッシュクリア完了！")
     print("💡 削除済みファイルのエラー表示が解消されるはずです")
+
 
 if __name__ == "__main__":
     main()

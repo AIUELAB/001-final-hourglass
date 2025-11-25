@@ -12,8 +12,8 @@ IDEキャッシュクリア統合スクリプト
 """
 
 import argparse
-import sys
 import logging
+import sys
 from pathlib import Path
 
 # スクリプトディレクトリをパスに追加
@@ -26,13 +26,11 @@ from file_deletion_monitor import FileDeletionMonitor
 # ログ設定
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('auto_cache_cleaner.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("auto_cache_cleaner.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
+
 
 def manual_cleanup():
     """手動キャッシュクリア"""
@@ -59,8 +57,8 @@ def manual_cleanup():
     total_failed = 0
 
     for ide, results in cache_results.items():
-        success = results['success']
-        failed = results['failed']
+        success = results["success"]
+        failed = results["failed"]
         total = success + failed
         total_success += success
         total_failed += failed
@@ -70,7 +68,7 @@ def manual_cleanup():
 
     # IDE再起動の確認
     restart = input("\n🔄 IDEを再起動しますか？ (y/N): ").lower().strip()
-    if restart in ['y', 'yes']:
+    if restart in ["y", "yes"]:
         print("\n🔄 IDE再起動を実行中...")
         restart_results = cleaner.restart_all_ides()
 
@@ -80,6 +78,7 @@ def manual_cleanup():
             print(f"  {ide.upper()}: {status}")
 
     print("\n✨ キャッシュクリア完了！")
+
 
 def start_monitoring(auto_restart: bool = False):
     """監視モードを開始"""
@@ -93,7 +92,8 @@ def start_monitoring(auto_restart: bool = False):
         target_dirs = ["."]
     else:
         import json
-        with open(config_file, 'r', encoding='utf-8') as f:
+
+        with open(config_file, "r", encoding="utf-8") as f:
             config = json.load(f)
             target_dirs = config.get("target_directories", ["."])
 
@@ -109,6 +109,7 @@ def start_monitoring(auto_restart: bool = False):
     except KeyboardInterrupt:
         print("\n👋 監視を終了します")
 
+
 def main():
     """メイン関数"""
     parser = argparse.ArgumentParser(
@@ -119,20 +120,12 @@ def main():
   python auto_cache_cleaner.py              # 手動キャッシュクリア
   python auto_cache_cleaner.py --monitor    # ファイル削除監視モード
   python auto_cache_cleaner.py --monitor --auto-restart  # 自動再起動付き監視
-        """
+        """,
     )
 
-    parser.add_argument(
-        '--monitor',
-        action='store_true',
-        help='ファイル削除監視モードを有効にする'
-    )
+    parser.add_argument("--monitor", action="store_true", help="ファイル削除監視モードを有効にする")
 
-    parser.add_argument(
-        '--auto-restart',
-        action='store_true',
-        help='IDE自動再起動を有効にする（監視モードでのみ有効）'
-    )
+    parser.add_argument("--auto-restart", action="store_true", help="IDE自動再起動を有効にする（監視モードでのみ有効）")
 
     args = parser.parse_args()
 
@@ -143,6 +136,7 @@ def main():
         start_monitoring(args.auto_restart)
     else:
         manual_cleanup()
+
 
 if __name__ == "__main__":
     main()

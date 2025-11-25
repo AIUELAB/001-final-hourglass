@@ -7,10 +7,10 @@
 - **自動承認モード**: 有効
   - `~/.claude/auto-mode-status`: 🟢 AUTO-ACCEPT
   - 環境変数 `CLAUDE_SKIP_ALL_PERMISSIONS=true` 設定済み
-  
+
 - **高速モード**: 利用可能
   - 専用スクリプト: `scripts/claude-fast-mode.sh`
-  
+
 - **承認音**: 有効
   - 自動承認時に通知音が再生されます
 

@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_comprehensive_quality_rules():
     """包括的品質保証ルール追加"""
-    
+
     new_rules = [
         {
             "rule_id": "RULE_093",
@@ -34,7 +34,7 @@ def add_comprehensive_quality_rules():
                 def detect_consecutive_ids(df):
                     consecutive_groups = []
                     df_sorted = df.sort_values('person_id')
-                    
+
                     for i in range(len(df_sorted) - 5):
                         ids = df_sorted.iloc[i:i+6]['person_id'].tolist()
                         if are_consecutive(ids):
@@ -44,7 +44,7 @@ def add_comprehensive_quality_rules():
                                     'ids': ids,
                                     'occupation': occupations[0]
                                 })
-                    
+
                     return consecutive_groups
                 """,
                 "threshold": {
@@ -84,7 +84,7 @@ def add_comprehensive_quality_rules():
                 def detect_same_surname_groups(df):
                     df['surname'] = df['person_name'].str.split().str[0]
                     suspicious_groups = []
-                    
+
                     for (surname, occupation), group in df.groupby(['surname', 'occupation']):
                         if len(group) >= 8:
                             # Wikipedia検証
@@ -92,7 +92,7 @@ def add_comprehensive_quality_rules():
                             for _, person in group.iterrows():
                                 if verify_wikipedia(person['person_name']):
                                     verified += 1
-                            
+
                             verification_rate = verified / len(group)
                             if verification_rate < 0.3:
                                 suspicious_groups.append({
@@ -101,7 +101,7 @@ def add_comprehensive_quality_rules():
                                     'count': len(group),
                                     'verification_rate': verification_rate
                                 })
-                    
+
                     return suspicious_groups
                 """,
                 "thresholds": {
@@ -136,7 +136,7 @@ def add_comprehensive_quality_rules():
                 def detect_generic_names(df):
                     generic_patterns = ['太郎', '次郎', '三郎', '健太', '大輔']
                     suspicious_names = []
-                    
+
                     for pattern in generic_patterns:
                         matching = df[df['person_name'].str.contains(pattern)]
                         if len(matching) >= 5:
@@ -148,7 +148,7 @@ def add_comprehensive_quality_rules():
                                     'count': len(matching),
                                     'main_occupation': occupation_dist.index[0]
                                 })
-                    
+
                     return suspicious_names
                 """,
                 "thresholds": {
@@ -199,16 +199,16 @@ def add_comprehensive_quality_rules():
             "reason": "継続的な品質監視により問題の早期発見と対処が可能"
         }
     ]
-    
+
     # 既存のルールファイルを読み込み
     rules_file = Path("pdca_guardian_rules.json")
-    
+
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "last_updated": None}
-    
+
     # 新しいルールを追加
     for rule in new_rules:
         # 重複チェック
@@ -222,18 +222,18 @@ def add_comprehensive_quality_rules():
                     existing_rules['rules'][i] = rule
                     logger.info(f"🔄 ルール更新: {rule['rule_id']} - {rule['name']}")
                     break
-    
+
     # 更新日時を記録
     existing_rules['last_updated'] = datetime.now().isoformat()
     existing_rules['total_rules'] = len(existing_rules.get('rules', []))
-    
+
     # ファイルに保存
     with open(rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"💾 PDCAルール保存: {rules_file}")
     logger.info(f"📊 総ルール数: {existing_rules['total_rules']}")
-    
+
     return new_rules
 
 
@@ -278,12 +278,12 @@ def generate_quality_report():
     report.append("- データ品質向上: Wikipedia記載率改善")
     report.append("- 継続的監視: 週次監査による早期発見体制確立")
     report.append("")
-    
+
     # レポート保存
     report_file = f"PDCA_RULES_093_096_REPORT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
-    
+
     logger.info(f"📄 レポート生成: {report_file}")
 
 
@@ -292,13 +292,13 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 PDCAガーディアンルール追加 (RULE_093-096)")
     logger.info("=" * 60)
-    
+
     # ルール追加
     new_rules = add_comprehensive_quality_rules()
-    
+
     # レポート生成
     generate_quality_report()
-    
+
     logger.info("\n" + "=" * 60)
     logger.info("✅ PDCAガーディアンルール追加完了")
     logger.info("=" * 60)

@@ -9,7 +9,7 @@ from typing import Dict, List, Optional, Tuple
 
 class ExtendedHistoricalFacts:
     """拡張版歴史的事実データベース"""
-    
+
     def __init__(self):
         # 有名人の事実データベース
         # フォーマット: {人物名: {'birth_year': 誕生年, 'facts': [(年齢, 事実)]}}
@@ -54,7 +54,7 @@ class ExtendedHistoricalFacts:
                     (44, "ノーベル化学賞を単独で受賞し、2つの異なる分野でノーベル賞を受賞した初の人物となる")
                 ]
             },
-            
+
             # 芸術家・音楽家
             "ピカソ": {
                 'birth_year': 1881,
@@ -95,7 +95,7 @@ class ExtendedHistoricalFacts:
                     (54, "完全に聴力を失った状態で交響曲第9番「合唱」を初演")
                 ]
             },
-            
+
             # 実業家・起業家
             "スティーブ・ジョブズ": {
                 'birth_year': 1955,
@@ -141,7 +141,7 @@ class ExtendedHistoricalFacts:
                     (51, "Twitterを440億ドルで買収し、「X」へとリブランディング")
                 ]
             },
-            
+
             # 政治家・指導者
             "リンカーン": {
                 'birth_year': 1809,
@@ -171,7 +171,7 @@ class ExtendedHistoricalFacts:
                     (79, "ノーベル文学賞を受賞し、文筆家としても評価される")
                 ]
             },
-            
+
             # スポーツ選手
             "マイケル・ジョーダン": {
                 'birth_year': 1963,
@@ -201,7 +201,7 @@ class ExtendedHistoricalFacts:
                     (43, "交通事故から復帰し、マスターズで11年ぶりのメジャー優勝")
                 ]
             },
-            
+
             # 作家・思想家
             "シェイクスピア": {
                 'birth_year': 1564,
@@ -231,47 +231,47 @@ class ExtendedHistoricalFacts:
                 ]
             }
         }
-    
+
     def get_facts_for_person(self, person_name: str) -> Optional[Dict]:
         """特定の人物の全事実データを取得"""
         return self.facts.get(person_name)
-    
+
     def get_fact_at_age(self, person_name: str, age: int) -> Optional[str]:
         """特定の人物の特定年齢の事実を取得"""
         person_data = self.facts.get(person_name)
         if not person_data:
             return None
-        
+
         facts = person_data.get('facts', [])
         for fact_age, fact_text in facts:
             if fact_age == age:
                 return fact_text
-        
+
         return None
-    
+
     def get_available_persons(self) -> List[str]:
         """利用可能な人物名のリストを取得"""
         return list(self.facts.keys())
-    
+
     def get_person_age_range(self, person_name: str) -> Optional[Tuple[int, int]]:
         """人物のエピソードが利用可能な年齢範囲を取得"""
         person_data = self.facts.get(person_name)
         if not person_data or 'facts' not in person_data:
             return None
-        
+
         ages = [age for age, _ in person_data['facts']]
         if not ages:
             return None
-        
+
         return (min(ages), max(ages))
-    
+
     def add_person(self, person_name: str, birth_year: int, facts: List[Tuple[int, str]]):
         """新しい人物を追加"""
         self.facts[person_name] = {
             'birth_year': birth_year,
             'facts': facts
         }
-    
+
     def search_facts_by_keyword(self, keyword: str) -> List[Tuple[str, int, str]]:
         """キーワードで事実を検索"""
         results = []
@@ -285,17 +285,17 @@ class ExtendedHistoricalFacts:
 if __name__ == "__main__":
     # テスト実行
     db = ExtendedHistoricalFacts()
-    
+
     print("=== 有名人データベース ===")
     print(f"登録人物数: {len(db.get_available_persons())}人")
     print(f"登録人物: {', '.join(db.get_available_persons())}")
-    
+
     # サンプル検索
     print("\n=== アインシュタインの26歳のエピソード ===")
     fact = db.get_fact_at_age("アインシュタイン", 26)
     if fact:
         print(f"26歳: {fact}")
-    
+
     print("\n=== 「ノーベル」を含むエピソード検索 ===")
     results = db.search_facts_by_keyword("ノーベル")
     for person, age, fact in results[:5]:  # 最初の5件を表示

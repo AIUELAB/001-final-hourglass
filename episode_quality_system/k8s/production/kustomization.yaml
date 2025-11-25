@@ -9,30 +9,30 @@ commonLabels:
   environment: production
 
 bases:
-  - ../base
+- ../base
 
 patchesStrategicMerge:
-  - deployment-patch.yaml
+- deployment-patch.yaml
 
 configMapGenerator:
-  - name: episode-factory-config
-    behavior: merge
-    literals:
-      - environment=production
-      - log_level=INFO
-      - min_quality_score=70.0
-      - max_attempts=5
+- name: episode-factory-config
+  behavior: merge
+  literals:
+  - environment=production
+  - log_level=INFO
+  - min_quality_score=70.0
+  - max_attempts=5
 
 secretGenerator:
-  - name: episode-factory-secrets
-    behavior: replace
-    envs:
-      - secrets.env
+- name: episode-factory-secrets
+  behavior: replace
+  envs:
+  - secrets.env
 
 replicas:
-  - name: episode-factory
-    count: 5
+- name: episode-factory
+  count: 5
 
 images:
-  - name: ghcr.io/your-org/episode-factory
-    newTag: v2.0.0
+- name: ghcr.io/your-org/episode-factory
+  newTag: v2.0.0

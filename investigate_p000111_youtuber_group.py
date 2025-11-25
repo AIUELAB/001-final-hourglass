@@ -53,22 +53,22 @@ for idx, row in youtubers.iterrows():
     name = str(row['person_name'])
     name_display = str(row['person_name_display'])
     name_ja = str(row['person_name_ja'])
-    
+
     # 名前にグループパターンが含まれるか確認
     is_group = False
     for pattern in group_patterns:
         if pattern in name or pattern in name_display or pattern in name_ja:
             is_group = True
             break
-    
+
     # または、複数人を示唆する名前（カタカナ・ひらがな・漢字の組み合わせ）
     if '・' in name or '・' in name_display or '・' in name_ja:
         is_group = True
-    
+
     if is_group:
         # 括弧がついているか確認
         has_parentheses = '(' in name_display or '（' in name_display
-        
+
         potential_groups.append({
             'person_id': row['person_id'],
             'person_name': name,

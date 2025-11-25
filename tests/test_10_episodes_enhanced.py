@@ -11,14 +11,16 @@ test_10_episodes_enhanced.py のテストスイート
 6. エラーハンドリングのテスト
 """
 
-import pytest
 import csv
 import os
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
 
 # テスト対象モジュールのインポート
 import sys
+from pathlib import Path
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # add_10_episodes.pyに必要な関数が実装されていないためテストをスキップ
@@ -26,14 +28,14 @@ pytestmark = pytest.mark.skip(reason="add_10_episodes module missing required fu
 
 try:
     from add_10_episodes import (
+        DataQualityError,
+        ErrorSeverity,
         sanitize_csv_field,
-        write_safe_csv,
         validate_and_convert_score,
         validate_deletion_rate,
         validate_quality_gates,
         validate_system_readiness,
-        DataQualityError,
-        ErrorSeverity
+        write_safe_csv,
     )
 except (ImportError, AttributeError):
     # Dummy implementations for skipped tests
@@ -51,6 +53,7 @@ except (ImportError, AttributeError):
 # フィクスチャ
 # ================================================================================
 
+
 @pytest.fixture
 def temp_csv_dir(tmp_path):
     """一時CSVディレクトリ"""
@@ -64,29 +67,29 @@ def sample_episodes():
     """サンプルエピソードデータ"""
     return [
         {
-            'person_name': '太郎',
-            'episode_age': '25',
-            'category': 'スポーツ',
-            'weighted_score': '8.5',
-            'episode_text': 'テストエピソード1',
-            'character_count': '10'
+            "person_name": "太郎",
+            "episode_age": "25",
+            "category": "スポーツ",
+            "weighted_score": "8.5",
+            "episode_text": "テストエピソード1",
+            "character_count": "10",
         },
         {
-            'person_name': '花子',
-            'episode_age': '30',
-            'category': '芸能',
-            'weighted_score': '7.2',
-            'episode_text': 'テストエピソード2',
-            'character_count': '10'
+            "person_name": "花子",
+            "episode_age": "30",
+            "category": "芸能",
+            "weighted_score": "7.2",
+            "episode_text": "テストエピソード2",
+            "character_count": "10",
         },
         {
-            'person_name': 'HIKAKIN',
-            'episode_age': '35',
-            'category': 'YouTuber',
-            'weighted_score': '9.0',
-            'episode_text': '日本トップYouTuber',
-            'character_count': '15'
-        }
+            "person_name": "HIKAKIN",
+            "episode_age": "35",
+            "category": "YouTuber",
+            "weighted_score": "9.0",
+            "episode_text": "日本トップYouTuber",
+            "character_count": "15",
+        },
     ]
 
 
@@ -105,21 +108,25 @@ def mock_results():
 # CSVサニタイゼーションのテスト
 # ================================================================================
 
+
 class TestCSVSanitization:
     """CSVサニタイゼーションのテスト"""
 
-    @pytest.mark.parametrize("input_val,expected", [
-        ("=SUM(A1:A10)", "'=SUM(A1:A10)"),
-        ("+123-456", "'+123-456"),
-        ("@username", "'@username"),
-        ("-negative", "'-negative"),
-        ("\ttab", "'\ttab"),
-        ("\rcarriage", "'\rcarriage"),
-        ("normal text", "normal text"),
-        (123, 123),
-        (None, None),
-        ("", ""),
-    ])
+    @pytest.mark.parametrize(
+        "input_val,expected",
+        [
+            ("=SUM(A1:A10)", "'=SUM(A1:A10)"),
+            ("+123-456", "'+123-456"),
+            ("@username", "'@username"),
+            ("-negative", "'-negative"),
+            ("\ttab", "'\ttab"),
+            ("\rcarriage", "'\rcarriage"),
+            ("normal text", "normal text"),
+            (123, 123),
+            (None, None),
+            ("", ""),
+        ],
+    )
     def test_sanitize_csv_field(self, input_val, expected):
         """CSV数式インジェクション対策の検証"""
         result = sanitize_csv_field(input_val)
@@ -129,11 +136,8 @@ class TestCSVSanitization:
         """安全なCSV書き込みの検証"""
         output_file = temp_csv_dir / "output.csv"
 
-        data = [
-            {'name': '太郎', 'formula': '=SUM(A1:A10)'},
-            {'name': '花子', 'text': 'normal text'}
-        ]
-        fieldnames = ['name', 'formula', 'text']
+        data = [{"name": "太郎", "formula": "=SUM(A1:A10)"}, {"name": "花子", "text": "normal text"}]
+        fieldnames = ["name", "formula", "text"]
 
         write_safe_csv(str(output_file), data, fieldnames)
 
@@ -141,41 +145,48 @@ class TestCSVSanitization:
         assert output_file.exists()
 
         # 内容検証（BOM付きUTF-8）
-        with open(output_file, 'r', encoding='utf-8-sig') as f:
+        with open(output_file, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             rows = list(reader)
 
             # 数式がサニタイズされているか
-            assert rows[0]['formula'] == "'=SUM(A1:A10)"
-            assert rows[1].get('text', '') == 'normal text'
+            assert rows[0]["formula"] == "'=SUM(A1:A10)"
+            assert rows[1].get("text", "") == "normal text"
 
 
 # ================================================================================
 # スコア検証のテスト
 # ================================================================================
 
+
 class TestScoreValidation:
     """スコア検証のテスト"""
 
-    @pytest.mark.parametrize("input_score,expected", [
-        ("8.5", 85.0),
-        (7.2, 72.0),
-        ("10", 100.0),
-        ("0", 0.0),
-        (5.5, 55.0),
-    ])
+    @pytest.mark.parametrize(
+        "input_score,expected",
+        [
+            ("8.5", 85.0),
+            (7.2, 72.0),
+            ("10", 100.0),
+            ("0", 0.0),
+            (5.5, 55.0),
+        ],
+    )
     def test_valid_scores(self, input_score, expected):
         """正常系: 有効なスコア"""
         result = validate_and_convert_score(input_score, "テスト太郎")
         assert result == expected
 
-    @pytest.mark.parametrize("input_score", [
-        "invalid",
-        None,
-        "",
-        "  ",
-        "abc",
-    ])
+    @pytest.mark.parametrize(
+        "input_score",
+        [
+            "invalid",
+            None,
+            "",
+            "  ",
+            "abc",
+        ],
+    )
     def test_invalid_scores_fallback(self, input_score):
         """異常系: 無効なスコア（フォールバック）"""
         result = validate_and_convert_score(input_score, "テスト太郎")
@@ -206,6 +217,7 @@ class TestScoreValidation:
 # ================================================================================
 # 削除率検証のテスト
 # ================================================================================
+
 
 class TestDeletionRate:
     """削除率検証のテスト"""
@@ -239,7 +251,7 @@ class TestDeletionRate:
             validate_deletion_rate(test_episodes, results)
 
         assert "削除率が異常に高い" in str(excinfo.value)
-        assert excinfo.value.context['deletion_rate'] == 50.0
+        assert excinfo.value.context["deletion_rate"] == 50.0
 
     def test_empty_data(self):
         """エッジケース: 空データ"""
@@ -250,6 +262,7 @@ class TestDeletionRate:
 # ================================================================================
 # 品質ゲートのテスト
 # ================================================================================
+
 
 class TestQualityGates:
     """品質ゲートのテスト"""
@@ -265,16 +278,16 @@ class TestQualityGates:
             validate_quality_gates([])
 
         assert "エピソードデータが空です" in str(excinfo.value)
-        assert excinfo.value.context['gate'] == "Gate 1: データ品質検証"
+        assert excinfo.value.context["gate"] == "Gate 1: データ品質検証"
 
     def test_dummy_data_detection(self):
         """異常系: ダミーデータ検出"""
         episodes = [
             {
-                'person_name': 'テスト',
-                'category': 'テスト',
-                'weighted_score': '8.0',
-                'episode_text': 'TODO: 後で実装する'
+                "person_name": "テスト",
+                "category": "テスト",
+                "weighted_score": "8.0",
+                "episode_text": "TODO: 後で実装する",
             }
         ]
 
@@ -282,16 +295,16 @@ class TestQualityGates:
             validate_quality_gates(episodes)
 
         assert "ダミーデータ検出" in str(excinfo.value)
-        assert excinfo.value.context['gate'] == "Gate 2: ダミーデータ検出"
+        assert excinfo.value.context["gate"] == "Gate 2: ダミーデータ検出"
 
     def test_invalid_score_detection(self):
         """異常系: 異常なスコア検出"""
         episodes = [
             {
-                'person_name': 'テスト',
-                'category': 'テスト',
-                'weighted_score': '15.0',  # 範囲外
-                'episode_text': '正常なテキスト'
+                "person_name": "テスト",
+                "category": "テスト",
+                "weighted_score": "15.0",  # 範囲外
+                "episode_text": "正常なテキスト",
             }
         ]
 
@@ -307,10 +320,10 @@ class TestQualityGates:
         # 90%が同じカテゴリ
         episodes = [
             {
-                'person_name': f'人物{i}',
-                'category': 'スポーツ' if i < 90 else '芸能',
-                'weighted_score': '8.0',
-                'episode_text': 'テストエピソード'
+                "person_name": f"人物{i}",
+                "category": "スポーツ" if i < 90 else "芸能",
+                "weighted_score": "8.0",
+                "episode_text": "テストエピソード",
             }
             for i in range(100)
         ]
@@ -324,11 +337,12 @@ class TestQualityGates:
 # システム準備確認のテスト
 # ================================================================================
 
+
 class TestSystemReadiness:
     """システム準備確認のテスト"""
 
-    @patch('os.path.exists')
-    @patch('os.getenv')
+    @patch("os.path.exists")
+    @patch("os.getenv")
     def test_validate_system_readiness_success(self, mock_getenv, mock_exists):
         """正常系: システム準備完了"""
         mock_exists.return_value = True
@@ -337,7 +351,7 @@ class TestSystemReadiness:
         # 例外が発生しないことを確認
         validate_system_readiness()
 
-    @patch('os.path.exists')
+    @patch("os.path.exists")
     def test_missing_required_file(self, mock_exists):
         """異常系: 必須ファイルが存在しない"""
         mock_exists.return_value = False
@@ -347,8 +361,8 @@ class TestSystemReadiness:
 
         assert "必要なファイルが見つかりません" in str(excinfo.value)
 
-    @patch('os.path.exists')
-    @patch('os.getenv')
+    @patch("os.path.exists")
+    @patch("os.getenv")
     def test_missing_environment_variable(self, mock_getenv, mock_exists):
         """異常系: 環境変数が設定されていない"""
         mock_exists.return_value = True
@@ -364,6 +378,7 @@ class TestSystemReadiness:
 # エラーハンドリングのテスト
 # ================================================================================
 
+
 class TestErrorHandling:
     """エラーハンドリングのテスト"""
 
@@ -372,30 +387,27 @@ class TestErrorHandling:
         error = DataQualityError("テストエラー", test_key="test_value")
 
         assert error.severity == ErrorSeverity.CRITICAL
-        assert error.context['test_key'] == "test_value"
+        assert error.context["test_key"] == "test_value"
 
     def test_error_message_and_context(self):
         """エラーメッセージとコンテキスト"""
-        error = DataQualityError(
-            "削除率が異常",
-            deletion_rate=50.0,
-            threshold=45.0
-        )
+        error = DataQualityError("削除率が異常", deletion_rate=50.0, threshold=45.0)
 
         assert "削除率が異常" in str(error)
-        assert error.context['deletion_rate'] == 50.0
-        assert error.context['threshold'] == 45.0
+        assert error.context["deletion_rate"] == 50.0
+        assert error.context["threshold"] == 45.0
 
 
 # ================================================================================
 # 統合テスト
 # ================================================================================
 
+
 class TestIntegration:
     """統合テスト"""
 
-    @patch('os.path.exists')
-    @patch('os.getenv')
+    @patch("os.path.exists")
+    @patch("os.getenv")
     def test_full_quality_gate_flow(self, mock_getenv, mock_exists, sample_episodes):
         """品質ゲート全体フロー"""
         mock_exists.return_value = True
@@ -409,10 +421,7 @@ class TestIntegration:
 
         # スコア検証
         for ep in sample_episodes:
-            score = validate_and_convert_score(
-                ep['weighted_score'],
-                ep['person_name']
-            )
+            score = validate_and_convert_score(ep["weighted_score"], ep["person_name"])
             assert 0 <= score <= 100
 
     def test_csv_workflow(self, temp_csv_dir, sample_episodes):
@@ -420,35 +429,35 @@ class TestIntegration:
         output_file = temp_csv_dir / "test_output.csv"
 
         # 書き込み
-        write_safe_csv(
-            str(output_file),
-            sample_episodes,
-            list(sample_episodes[0].keys())
-        )
+        write_safe_csv(str(output_file), sample_episodes, list(sample_episodes[0].keys()))
 
         # 読み込み
-        with open(output_file, 'r', encoding='utf-8-sig') as f:
+        with open(output_file, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             rows = list(reader)
 
             assert len(rows) == len(sample_episodes)
-            assert rows[0]['person_name'] == '太郎'
+            assert rows[0]["person_name"] == "太郎"
 
 
 # ================================================================================
 # パラメトリックテスト
 # ================================================================================
 
+
 class TestParametric:
     """パラメトリックテスト"""
 
-    @pytest.mark.parametrize("episodes_count,failed_count,expected_rate", [
-        (100, 15, 15.0),
-        (100, 10, 10.0),
-        (100, 20, 20.0),
-        (50, 10, 20.0),
-        (200, 30, 15.0),
-    ])
+    @pytest.mark.parametrize(
+        "episodes_count,failed_count,expected_rate",
+        [
+            (100, 15, 15.0),
+            (100, 10, 10.0),
+            (100, 20, 20.0),
+            (50, 10, 20.0),
+            (200, 30, 15.0),
+        ],
+    )
     def test_deletion_rate_calculation(self, episodes_count, failed_count, expected_rate):
         """削除率計算の検証"""
         test_episodes = [Mock() for _ in range(episodes_count)]
@@ -462,6 +471,7 @@ class TestParametric:
 # ================================================================================
 # エッジケーステスト
 # ================================================================================
+
 
 class TestEdgeCases:
     """エッジケーステスト"""
@@ -487,5 +497,5 @@ class TestEdgeCases:
         assert result is None
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v', '--tb=short'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "--tb=short"])

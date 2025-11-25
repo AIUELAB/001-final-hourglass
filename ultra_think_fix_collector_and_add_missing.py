@@ -19,7 +19,7 @@ class UltraThinkCollectorFixer:
         self.output_file = f"ultra_think_COMPLETE_FIXED_{self.timestamp}.csv"
         self.report_file = f"ULTRA_THINK_COLLECTOR_FIX_REPORT_{self.timestamp}.md"
         self.stats_file = f"ultra_think_collector_fix_stats_{self.timestamp}.json"
-        
+
     def load_existing_data(self) -> List[Dict[str, Any]]:
         """既存データの読み込み"""
         data = []
@@ -29,7 +29,7 @@ class UltraThinkCollectorFixer:
                 for row in reader:
                     data.append(row)
         return data
-    
+
     def get_writers_to_add(self) -> List[Dict[str, Any]]:
         """追加するSF作家・作家リスト"""
         writers = [
@@ -93,7 +93,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 75,
                 "note": "「幻魔大戦」「ウルフガイ」シリーズの作者"
             },
-            
+
             # 海外のSF作家
             {
                 "person_name": "Isaac Asimov",
@@ -143,7 +143,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 85,
                 "note": "「アンドロイドは電気羊の夢を見るか？」「高い城の男」の作者"
             },
-            
+
             # その他の著名作家
             {
                 "person_name": "Haruki Murakami",
@@ -179,9 +179,9 @@ class UltraThinkCollectorFixer:
                 "note": "「キッチン」「TUGUMI」などで知られる作家"
             }
         ]
-        
+
         return writers
-    
+
     def get_additional_musicians(self) -> List[Dict[str, Any]]:
         """追加する関連ミュージシャン"""
         musicians = [
@@ -220,7 +220,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 80,
                 "note": "イエスのキーボーディストでソロでも成功"
             },
-            
+
             # ハードロック/メタル
             {
                 "person_name": "Tony Iommi",
@@ -255,7 +255,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 85,
                 "note": "アイアン・メイデンのヴォーカリスト、パイロットでもある"
             },
-            
+
             # エレクトロニック/アンビエント
             {
                 "person_name": "Brian Eno",
@@ -290,7 +290,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 82,
                 "note": "本名ジョエル・ジマーマン、EDMの代表的アーティスト"
             },
-            
+
             # クラシック/現代音楽
             {
                 "person_name": "Henryk Gorecki",
@@ -326,7 +326,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 78,
                 "note": "ミニマル音楽の創始者の一人"
             },
-            
+
             # 日本のミュージシャン
             {
                 "person_name": "Ryuichi Sakamoto",
@@ -364,9 +364,9 @@ class UltraThinkCollectorFixer:
                 "note": "サディスティック・ミカ・バンド、YMOのドラマー"
             }
         ]
-        
+
         return musicians
-    
+
     def get_additional_artists(self) -> List[Dict[str, Any]]:
         """追加する芸術家・文化人"""
         artists = [
@@ -416,7 +416,7 @@ class UltraThinkCollectorFixer:
                 "name_recognition": 85,
                 "note": "「時をかける少女」「サマーウォーズ」の監督"
             },
-            
+
             # 漫画家
             {
                 "person_name": "Osamu Tezuka",
@@ -454,9 +454,9 @@ class UltraThinkCollectorFixer:
                 "note": "「ONE PIECE」の作者"
             }
         ]
-        
+
         return artists
-    
+
     def check_duplicate(self, existing_data: List[Dict], person: Dict) -> bool:
         """重複チェック"""
         for existing in existing_data:
@@ -464,21 +464,21 @@ class UltraThinkCollectorFixer:
                 existing.get('person_name') == person.get('person_name')):
                 return True
         return False
-    
+
     def process(self):
         """メイン処理"""
         print("🔧 Ultra Think コレクター修正 & 欠落人物追加開始...")
-        
+
         # 既存データ読み込み
         print("\n📂 既存データ読み込み中...")
         existing_data = self.load_existing_data()
         print(f"  ✅ {len(existing_data)}件の既存データ読み込み完了")
-        
+
         # 追加する人物を取得
         writers = self.get_writers_to_add()
         musicians = self.get_additional_musicians()
         artists = self.get_additional_artists()
-        
+
         # 統計情報
         stats = {
             "total_input": len(existing_data),
@@ -488,20 +488,20 @@ class UltraThinkCollectorFixer:
             "duplicates_skipped": 0,
             "total_output": 0
         }
-        
+
         # 新規追加処理
         added_people = []
         all_new_people = writers + musicians + artists
-        
+
         print("\n🎯 新規人物追加中...")
         for person in all_new_people:
             if not self.check_duplicate(existing_data, person):
                 # 必須フィールドの設定
-                for field in ['age', 'grade', 'rank', 'total_score', 'accuracy_score', 
+                for field in ['age', 'grade', 'rank', 'total_score', 'accuracy_score',
                              'impact_score', 'influence_score', 'uniqueness_score']:
                     if field not in person:
                         person[field] = ''
-                
+
                 # 24フィールドに合わせる
                 person_24fields = {
                     'person_name': person.get('person_name', ''),
@@ -529,10 +529,10 @@ class UltraThinkCollectorFixer:
                     'episode_impact': '',
                     'episode_keywords': ''
                 }
-                
+
                 existing_data.append(person_24fields)
                 added_people.append(person_24fields)
-                
+
                 # カテゴリ別カウント
                 if person in writers:
                     stats['writers_added'] += 1
@@ -542,10 +542,10 @@ class UltraThinkCollectorFixer:
                     stats['artists_added'] += 1
             else:
                 stats['duplicates_skipped'] += 1
-        
+
         print(f"  📌 {len(added_people)}名の新規人物を追加")
         print(f"  ⚠️  {stats['duplicates_skipped']}名の重複をスキップ")
-        
+
         # CSVファイル書き出し
         print("\n📝 統合データ書き出し中...")
         fieldnames = [
@@ -556,30 +556,30 @@ class UltraThinkCollectorFixer:
             'episode_title', 'episode_display_title', 'episode_summary',
             'episode_details', 'episode_impact', 'episode_keywords'
         ]
-        
+
         with open(self.output_file, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(existing_data)
-        
+
         stats['total_output'] = len(existing_data)
         print(f"  ✅ 書き出し完了: {stats['total_output']}件")
-        
+
         # レポート作成
         self.create_report(stats, added_people)
-        
+
         # 統計情報保存
         with open(self.stats_file, 'w', encoding='utf-8') as f:
             json.dump(stats, f, ensure_ascii=False, indent=2)
-        
+
         print(f"\n📋 レポート: {self.report_file}")
         print(f"📊 統計: {self.stats_file}")
-        
+
         print("\n" + "=" * 50)
         print("✨ Ultra Think コレクター修正完了!")
         print(f"📁 出力ファイル: {self.output_file}")
         print("=" * 50)
-        
+
         # 空のコレクターメソッドについての提案
         print("\n🔧 コレクターメソッドの修正提案:")
         print("  以下の空メソッドを実装する必要があります:")
@@ -590,7 +590,7 @@ class UltraThinkCollectorFixer:
         print("  5. _collect_entertainment() - エンターテインメント (1,500人)")
         print("\n  これらのメソッドにWikidata SPARQLクエリを実装することで")
         print("  目標の12,410人を達成できます。")
-    
+
     def create_report(self, stats: Dict, added_people: List[Dict]):
         """レポートの作成"""
         report = f"""# 🔧 Ultra Think コレクター修正 & 欠落人物追加レポート
@@ -677,7 +677,7 @@ class UltraThinkCollectorFixer:
 これらの改善により、目標の12,410人を達成し、
 より包括的で価値の高いデータベースを構築できます。
 """
-        
+
         with open(self.report_file, 'w', encoding='utf-8') as f:
             f.write(report)
 

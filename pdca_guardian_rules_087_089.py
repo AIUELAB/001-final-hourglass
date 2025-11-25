@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_google_compliant_rules():
     """Google検索準拠ルール追加"""
-    
+
     new_rules = [
         {
             "rule_id": "RULE_087",
@@ -55,12 +55,12 @@ def add_google_compliant_rules():
                 if wiki_result:
                     if wiki_result['display_title'] != display_name:
                         return False, wiki_result['display_title']
-                
+
                 # ひらがなチェック（芸名以外は漢字優先）
                 if is_hiragana_only(display_name) and not is_stage_name(person_name):
                     if has_kanji(person_name):
                         return False, person_name
-                
+
                 return True, display_name
             """,
             "created_at": datetime.now().isoformat(),
@@ -141,16 +141,16 @@ def add_google_compliant_rules():
             "reason": "不適切なひらがな表記による可読性低下を防止"
         }
     ]
-    
+
     # 既存のルールファイルを読み込み
     rules_file = Path("pdca_guardian_rules.json")
-    
+
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "last_updated": None}
-    
+
     # 新しいルールを追加
     for rule in new_rules:
         # 重複チェック
@@ -159,21 +159,21 @@ def add_google_compliant_rules():
             logger.info(f"✅ ルール追加: {rule['rule_id']} - {rule['name']}")
         else:
             logger.info(f"ℹ️ ルール既存: {rule['rule_id']}")
-    
+
     # 更新日時を記録
     existing_rules['last_updated'] = datetime.now().isoformat()
     existing_rules['total_rules'] = len(existing_rules.get('rules', []))
-    
+
     # ファイルに保存
     with open(rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"💾 PDCAルール保存: {rules_file}")
     logger.info(f"📊 総ルール数: {existing_rules['total_rules']}")
-    
+
     # 実装ガイド生成
     generate_implementation_guide(new_rules)
-    
+
     return new_rules
 
 
@@ -242,14 +242,14 @@ def generate_implementation_guide(rules):
             }
         ]
     }
-    
+
     # ガイド保存
     guide_file = f"google_compliant_implementation_guide_{datetime.now().strftime('%Y%m%d')}.json"
     with open(guide_file, 'w', encoding='utf-8') as f:
         json.dump(guide, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"📋 実装ガイド生成: {guide_file}")
-    
+
     # マークダウンレポート生成
     generate_markdown_report(rules)
 
@@ -268,7 +268,7 @@ def generate_markdown_report(rules):
     report.append("")
     report.append("## 追加ルール")
     report.append("")
-    
+
     for rule in rules:
         report.append(f"### {rule['rule_id']}: {rule['name']}")
         report.append("")
@@ -278,13 +278,13 @@ def generate_markdown_report(rules):
         report.append("")
         report.append(f"**理由**: {rule['reason']}")
         report.append("")
-        
+
         if 'examples' in rule:
             report.append("**例**:")
             for example in rule['examples']:
                 report.append(f"- {example}")
             report.append("")
-    
+
     report.append("## 発見された問題と修正")
     report.append("")
     report.append("| 問題カテゴリ | 件数 | 例 |")
@@ -293,7 +293,7 @@ def generate_markdown_report(rules):
     report.append("| カタカナ誤表記 | 1件 | PSY→サイ |")
     report.append("| スペース誤用 | 10件 | いかりや長介→いかりや ちょうすけ |")
     report.append("")
-    
+
     report.append("## 実装状況")
     report.append("")
     report.append("| コンポーネント | ファイル | 状態 |")
@@ -302,7 +302,7 @@ def generate_markdown_report(rules):
     report.append("| 修正スクリプト | fix_display_names_google_compliant.py | ✅ 実装済み |")
     report.append("| PDCAルール | pdca_guardian_rules.json | ✅ 更新済み |")
     report.append("")
-    
+
     report.append("## 修正結果")
     report.append("")
     report.append("- 21件の表示名を修正")
@@ -310,7 +310,7 @@ def generate_markdown_report(rules):
     report.append("- 24時間キャッシュによる高速化")
     report.append("- 自動修正提案システムの構築")
     report.append("")
-    
+
     report.append("## 今後の改善点")
     report.append("")
     report.append("1. Google Knowledge Graph APIの統合")
@@ -318,12 +318,12 @@ def generate_markdown_report(rules):
     report.append("3. 表記ゆれ辞書の充実")
     report.append("4. リアルタイム監視システムの構築")
     report.append("")
-    
+
     # レポート保存
     report_file = f"PDCA_RULES_087_089_REPORT_{datetime.now().strftime('%Y%m%d')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
-    
+
     logger.info(f"📄 レポート生成: {report_file}")
 
 
@@ -332,21 +332,21 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 PDCAガーディアンルール追加 (RULE_087-089)")
     logger.info("=" * 60)
-    
+
     # ルール追加
     new_rules = add_google_compliant_rules()
-    
+
     # サマリー表示
     logger.info("\n" + "=" * 60)
     logger.info("📊 追加ルールサマリー")
     logger.info("=" * 60)
-    
+
     for rule in new_rules:
         logger.info(f"  {rule['rule_id']}: {rule['name']}")
         logger.info(f"    重要度: {rule['severity']}")
         logger.info(f"    理由: {rule['reason']}")
         logger.info("")
-    
+
     logger.info("✅ PDCAガーディアンルール追加完了")
     logger.info("📋 Google検索準拠の表示名ルールを確立しました")
 

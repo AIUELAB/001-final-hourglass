@@ -162,12 +162,12 @@ WantedBy=multi-user.target
 server {
     listen 80;
     server_name recognition.example.com;
-    
+
     location / {
         root /opt/recognition/static;
         try_files $uri /monitoring_dashboard.html;
     }
-    
+
     location /api {
         proxy_pass http://localhost:8000;
         proxy_set_header Host $host;

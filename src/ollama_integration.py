@@ -271,7 +271,9 @@ def refactor_code(code: str, model: str = DEFAULT_CODE_MODEL) -> str:
         >>> print(refactored)  # Suggests: for item in items: print(item)
     """
     manager = OllamaManager(model)
-    system = "You are an expert at code refactoring. Suggest improvements for clarity, performance, and maintainability."
+    system = (
+        "You are an expert at code refactoring. Suggest improvements for clarity, performance, and maintainability."
+    )
     prompt = f"Refactor this code:\n\n{code}"
     return manager.chat(prompt, system)
 

@@ -5,9 +5,10 @@
 MASTER_EPISODES_CURRENT.csvのslot値をバックエンドデータベースに反映
 """
 
-import pandas as pd
 import sys
 from pathlib import Path
+
+import pandas as pd
 
 # プロジェクトルートをパスに追加
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -29,7 +30,7 @@ def sync_slots_to_database():
 
     # Step 1: CSVファイル読み込み
     print("Step 1: CSVファイル読み込み中...")
-    df = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
+    df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
     print(f"  ✅ 読み込み完了: {len(df):,}件")
     print(f"  スロット割り当て済み: {df['slot'].notna().sum():,}件")
     print()
@@ -40,7 +41,7 @@ def sync_slots_to_database():
     try:
         # 既存のエピソード数を確認
         total_episodes_db = db.query(Episode).count()
-        print(f"  ✅ データベース接続成功")
+        print("  ✅ データベース接続成功")
         print(f"  データベース内エピソード数: {total_episodes_db:,}件")
         print()
 
@@ -52,8 +53,8 @@ def sync_slots_to_database():
         error_count = 0
 
         for idx, row in df.iterrows():
-            episode_id = row['episode_id']
-            slot_value = row['slot']
+            episode_id = row["episode_id"]
+            slot_value = row["slot"]
 
             # スロット値がNaNの場合はスキップ
             if pd.isna(slot_value):
@@ -80,7 +81,7 @@ def sync_slots_to_database():
         # 最終コミット
         db.commit()
 
-        print(f"  ✅ データベース同期完了")
+        print("  ✅ データベース同期完了")
         print()
 
         # Step 4: 検証
@@ -93,15 +94,19 @@ def sync_slots_to_database():
         # データベース内のスロット分布を確認
         print("  データベース内のスロット分布:")
         from sqlalchemy import func
-        slot_distribution = db.query(
-            Episode.slot,
-            func.count(Episode.slot)
-        ).filter(Episode.slot.isnot(None)).group_by(Episode.slot).order_by(Episode.slot).all()
+
+        slot_distribution = (
+            db.query(Episode.slot, func.count(Episode.slot))
+            .filter(Episode.slot.isnot(None))
+            .group_by(Episode.slot)
+            .order_by(Episode.slot)
+            .all()
+        )
 
         total_with_slot = sum(count for _, count in slot_distribution)
         for slot, count in slot_distribution:
             pct = count / total_with_slot * 100 if total_with_slot > 0 else 0
-            bar = '█' * int(pct / 2)
+            bar = "█" * int(pct / 2)
             print(f"    slot {int(slot):2d}: {count:4d}件 ({pct:5.1f}%) {bar}")
         print()
 
@@ -110,7 +115,7 @@ def sync_slots_to_database():
         print("✅ スロット値のデータベース同期が完了しました！")
         print("=" * 80)
         print()
-        print(f"📊 サマリー:")
+        print("📊 サマリー:")
         print(f"  - CSV総エピソード数: {len(df):,}件")
         print(f"  - 更新成功: {updated_count:,}件")
         print(f"  - スキップ: {skipped_count:,}件")
@@ -120,6 +125,7 @@ def sync_slots_to_database():
     except Exception as e:
         print(f"❌ エラーが発生しました: {e}")
         import traceback
+
         traceback.print_exc()
         db.rollback()
     finally:

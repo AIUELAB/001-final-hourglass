@@ -20,7 +20,7 @@ class EnhancedWikidataCollector:
             'Accept': 'application/sparql-results+json'
         }
         self.collected_people = []
-        
+
     def execute_query(self, sparql_query, retry=3):
         """SPARQLクエリを実行（リトライ付き）"""
         for attempt in range(retry):
@@ -38,7 +38,7 @@ class EnhancedWikidataCollector:
                 if attempt < retry - 1:
                     time.sleep(2)
         return None
-    
+
     def get_entertainers(self, limit=800):
         """エンターテイナー（俳優、歌手、芸人）を取得"""
         query = f"""
@@ -56,7 +56,7 @@ class EnhancedWikidataCollector:
         LIMIT {limit}
         """
         return self.execute_query(query)
-    
+
     def get_actors(self, limit=600):
         """俳優を取得"""
         query = f"""
@@ -73,7 +73,7 @@ class EnhancedWikidataCollector:
         LIMIT {limit}
         """
         return self.execute_query(query)
-    
+
     def get_musicians(self, limit=600):
         """音楽家・歌手を取得"""
         query = f"""
@@ -90,7 +90,7 @@ class EnhancedWikidataCollector:
         LIMIT {limit}
         """
         return self.execute_query(query)
-    
+
     def get_athletes_extended(self, limit=500):
         """スポーツ選手（拡張版）"""
         query = f"""
@@ -108,7 +108,7 @@ class EnhancedWikidataCollector:
         LIMIT {limit}
         """
         return self.execute_query(query)
-    
+
     def process_results(self, results, category):
         """クエリ結果を処理"""
         people = []
@@ -131,12 +131,12 @@ class EnhancedWikidataCollector:
                 }
                 people.append(person)
         return people
-    
+
     def categorize(self, occupation):
         """職業をメインカテゴリに分類"""
         entertainment = ['俳優', '歌手', '音楽家', '芸人', 'タレント', '声優', 'アイドル']
         sports = ['選手', 'アスリート', 'プレイヤー', '力士', '騎手']
-        
+
         for e in entertainment:
             if e in occupation:
                 return 'エンターテインメント'
@@ -144,28 +144,28 @@ class EnhancedWikidataCollector:
             if s in occupation:
                 return 'スポーツ'
         return '文化・芸術'
-    
+
     def collect_all(self):
         """すべてのデータを収集"""
         print("エンターテイナー収集中...")
         entertainers = self.get_entertainers(800)
         self.collected_people.extend(self.process_results(entertainers, 'エンターテイナー'))
         time.sleep(1)
-        
+
         print("俳優収集中...")
         actors = self.get_actors(600)
         self.collected_people.extend(self.process_results(actors, '俳優'))
         time.sleep(1)
-        
+
         print("音楽家収集中...")
         musicians = self.get_musicians(600)
         self.collected_people.extend(self.process_results(musicians, '音楽家'))
         time.sleep(1)
-        
+
         print("スポーツ選手収集中...")
         athletes = self.get_athletes_extended(500)
         self.collected_people.extend(self.process_results(athletes, 'スポーツ選手'))
-        
+
         # 重複削除
         seen = set()
         unique_people = []
@@ -174,17 +174,17 @@ class EnhancedWikidataCollector:
             if key not in seen:
                 seen.add(key)
                 unique_people.append(person)
-        
+
         self.collected_people = unique_people
         print(f"収集完了: {len(self.collected_people)}人")
         return self.collected_people
-    
+
     def save_to_csv(self, filename=None):
         """CSVファイルに保存"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"wikidata_enhanced_{timestamp}.csv"
-        
+
         if self.collected_people:
             df = pd.DataFrame(self.collected_people)
             df.to_csv(filename, index=False, encoding='utf-8-sig')

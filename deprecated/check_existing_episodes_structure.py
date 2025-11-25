@@ -17,31 +17,31 @@ db = firestore.client()
 
 def analyze_existing_episodes():
     """既存のFirestoreエピソードの構造を分析"""
-    
+
     print("🔍 既存のFirestoreエピソード構造を分析中...")
     print("=" * 60)
-    
+
     try:
         # エピソードコレクションを取得
         episodes_ref = db.collection('episodes')
         episodes = episodes_ref.limit(10).stream()  # まず10件で確認
-        
+
         # フィールド情報を収集
         all_fields = set()
         sample_episodes = []
         episode_count = 0
-        
+
         for episode_doc in episodes:
             episode_count += 1
             data = episode_doc.to_dict()
             data['_doc_id'] = episode_doc.id
             sample_episodes.append(data)
             all_fields.update(data.keys())
-        
+
         if episode_count == 0:
             print("❌ エピソードが見つかりません")
             return None
-        
+
         print(f"✅ {episode_count}件のエピソードを分析")
         print("\n📋 既存フィールド一覧:")
         print("-" * 60)
@@ -52,18 +52,18 @@ def analyze_existing_episodes():
                 if field in ep and ep[field] is not None:
                     sample_value = ep[field]
                     break
-            
+
             # 型を判定
             field_type = type(sample_value).__name__ if sample_value is not None else "None"
-            
+
             # 表示用に値を短縮
             if isinstance(sample_value, str) and len(str(sample_value)) > 50:
                 display_value = str(sample_value)[:47] + "..."
             else:
                 display_value = str(sample_value)
-            
+
             print(f"- {field} ({field_type}): {display_value}")
-        
+
         # 最初のエピソードの詳細を表示
         if sample_episodes:
             print("\n📝 サンプルエピソード（1件目）:")
@@ -75,20 +75,20 @@ def analyze_existing_episodes():
                 else:
                     display_value = value
                 print(f"  {key}: {display_value}")
-        
+
         return all_fields, sample_episodes
-        
+
     except Exception as e:
         print(f"❌ エラー: {str(e)}")
         return None, None
 
 def create_field_mapping():
     """既存フィールドから新スキーマへのマッピングを作成"""
-    
+
     print("\n" + "=" * 60)
     print("📊 フィールドマッピング分析")
     print("=" * 60)
-    
+
     # 新スキーマのフィールド
     new_schema = [
         'episode_id', 'person_id', 'episode_hash',
@@ -99,7 +99,7 @@ def create_field_mapping():
         'name_recognition', 'accuracy_score', 'impact_score', 'source',
         'created_at', 'is_published', 'extended_data'
     ]
-    
+
     # 既存フィールドから新フィールドへのマッピング候補
     field_mapping = {
         # 既存 → 新規
@@ -120,7 +120,7 @@ def create_field_mapping():
         'created_at': 'created_at',
         'is_published': 'is_published'
     }
-    
+
     print("\n🔄 フィールドマッピング候補:")
     print("-" * 60)
     print("既存フィールド → 新フィールド")
@@ -130,22 +130,22 @@ def create_field_mapping():
             print(f"- {old_field} → {new_field}")
         else:
             print(f"- {old_field} → (統合/削除)")
-    
+
     print("\n⚠️ 新規追加が必要なフィールド:")
     mapped_new_fields = set(field_mapping.values()) - {None}
     unmapped_new_fields = set(new_schema) - mapped_new_fields
     for field in sorted(unmapped_new_fields):
         print(f"- {field}")
-    
+
     return field_mapping
 
 def check_migration_feasibility():
     """移行可能性をチェック"""
-    
+
     print("\n" + "=" * 60)
     print("✅ 移行可能性評価")
     print("=" * 60)
-    
+
     # 移行評価
     feasibility = {
         '可能': [
@@ -169,12 +169,12 @@ def check_migration_feasibility():
             'era (yearから判定)'
         ]
     }
-    
+
     for status, items in feasibility.items():
         print(f"\n【{status}】")
         for item in items:
             print(f"  - {item}")
-    
+
     print("\n📌 結論:")
     print("✅ 既存データは新スキーマに移行可能")
     print("⚠️ ただし、以下の処理が必要:")
@@ -186,21 +186,21 @@ def check_migration_feasibility():
 if __name__ == "__main__":
     print("🚀 Firestore Episodes スキーマ分析")
     print("=" * 60)
-    
+
     # 既存構造を分析
     fields, episodes = analyze_existing_episodes()
-    
+
     if fields:
         # フィールドマッピング作成
         mapping = create_field_mapping()
-        
+
         # 移行可能性チェック
         check_migration_feasibility()
-        
+
         # 分析結果を保存
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = f'firestore_schema_analysis_{timestamp}.json'
-        
+
         with open(report_file, 'w', encoding='utf-8') as f:
             json.dump({
                 'existing_fields': sorted(list(fields)),
@@ -208,5 +208,5 @@ if __name__ == "__main__":
                 'sample_count': len(episodes) if episodes else 0,
                 'analysis_date': timestamp
             }, f, ensure_ascii=False, indent=2)
-        
+
         print(f"\n📄 分析レポート保存: {report_file}")

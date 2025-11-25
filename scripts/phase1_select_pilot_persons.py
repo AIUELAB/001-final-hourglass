@@ -10,11 +10,11 @@ Phase 1: パイロット対象人物選定スクリプト
 3. データ品質の確保（Wikipedia記事あり、birth_year確定）
 """
 
-import sqlite3
 import json
-from pathlib import Path
+import sqlite3
 from datetime import datetime
-from typing import List, Dict, Any
+from pathlib import Path
+from typing import Any, Dict, List
 
 
 class PilotPersonSelector:
@@ -35,7 +35,7 @@ class PilotPersonSelector:
             GROUP BY category
             ORDER BY count DESC
         """)
-        return {row['category']: row['count'] for row in cursor.fetchall()}
+        return {row["category"]: row["count"] for row in cursor.fetchall()}
 
     def select_diverse_sample(self) -> List[Dict[str, Any]]:
         """
@@ -55,15 +55,15 @@ class PilotPersonSelector:
 
         # カテゴリ別選定数
         category_targets = {
-            'スポーツ': 3,
-            'エンタメ': 3,
-            '政治': 2,
-            '文化・芸術': 2,
-            '学術・科学': 1,
-            'テクノロジー': 1,
-            '歴史': 2,
-            '架空の存在': 1,
-            'その他': 2,
+            "スポーツ": 3,
+            "エンタメ": 3,
+            "政治": 2,
+            "文化・芸術": 2,
+            "学術・科学": 1,
+            "テクノロジー": 1,
+            "歴史": 2,
+            "架空の存在": 1,
+            "その他": 2,
         }
 
         selected_persons = []
@@ -93,15 +93,17 @@ class PilotPersonSelector:
             rows = cursor.fetchall()
 
             for row in rows:
-                selected_persons.append({
-                    'person_id': row['person_id'],
-                    'person_name_ja': row['person_name_ja'],
-                    'person_name_en': row['person_name_en'],
-                    'category': row['category'],
-                    'recognition_score': row['recognition_score'],
-                    'birth_year': row['birth_year'],
-                    'entity_type': row['entity_type'],
-                })
+                selected_persons.append(
+                    {
+                        "person_id": row["person_id"],
+                        "person_name_ja": row["person_name_ja"],
+                        "person_name_en": row["person_name_en"],
+                        "category": row["category"],
+                        "recognition_score": row["recognition_score"],
+                        "birth_year": row["birth_year"],
+                        "entity_type": row["entity_type"],
+                    }
+                )
 
         return selected_persons
 
@@ -115,14 +117,14 @@ class PilotPersonSelector:
 
         # スコア帯別の追加人数
         score_ranges = [
-            (9.0, 10.0, 2),   # 超有名
-            (7.0, 9.0, 2),    # 有名
-            (5.0, 7.0, 2),    # 一般的
-            (0.0, 5.0, 2),    # やや低い
+            (9.0, 10.0, 2),  # 超有名
+            (7.0, 9.0, 2),  # 有名
+            (5.0, 7.0, 2),  # 一般的
+            (0.0, 5.0, 2),  # やや低い
         ]
 
         # 既存の選定IDを除外
-        existing_ids = [p['person_id'] for p in current_selection]
+        existing_ids = [p["person_id"] for p in current_selection]
 
         additional_persons = []
 
@@ -144,86 +146,86 @@ class PilotPersonSelector:
                   AND birth_year IS NOT NULL
                 ORDER BY RANDOM()
                 LIMIT ?
-            """.format(placeholders=','.join('?' * len(existing_ids)))
+            """.format(placeholders=",".join("?" * len(existing_ids)))
 
             cursor.execute(query, existing_ids + [min_score, max_score, count])
             rows = cursor.fetchall()
 
             for row in rows:
                 person = {
-                    'person_id': row['person_id'],
-                    'person_name_ja': row['person_name_ja'],
-                    'person_name_en': row['person_name_en'],
-                    'category': row['category'],
-                    'recognition_score': row['recognition_score'],
-                    'birth_year': row['birth_year'],
-                    'entity_type': row['entity_type'],
+                    "person_id": row["person_id"],
+                    "person_name_ja": row["person_name_ja"],
+                    "person_name_en": row["person_name_en"],
+                    "category": row["category"],
+                    "recognition_score": row["recognition_score"],
+                    "birth_year": row["birth_year"],
+                    "entity_type": row["entity_type"],
                 }
                 additional_persons.append(person)
-                existing_ids.append(person['person_id'])
+                existing_ids.append(person["person_id"])
 
         return additional_persons
 
     def validate_selection(self, persons: List[Dict]) -> Dict[str, Any]:
         """選定結果の検証"""
         validation = {
-            'total_count': len(persons),
-            'category_distribution': {},
-            'score_distribution': {
-                'super_famous': 0,  # 9.0以上
-                'famous': 0,         # 7.0-9.0
-                'general': 0,        # 5.0-7.0
-                'lower': 0,          # 5.0未満
+            "total_count": len(persons),
+            "category_distribution": {},
+            "score_distribution": {
+                "super_famous": 0,  # 9.0以上
+                "famous": 0,  # 7.0-9.0
+                "general": 0,  # 5.0-7.0
+                "lower": 0,  # 5.0未満
             },
-            'entity_type_distribution': {},
-            'has_birth_year': 0,
-            'missing_birth_year': 0,
+            "entity_type_distribution": {},
+            "has_birth_year": 0,
+            "missing_birth_year": 0,
         }
 
         for person in persons:
             # カテゴリ分布
-            category = person['category']
-            validation['category_distribution'][category] = \
-                validation['category_distribution'].get(category, 0) + 1
+            category = person["category"]
+            validation["category_distribution"][category] = validation["category_distribution"].get(category, 0) + 1
 
             # スコア分布
-            score = person['recognition_score'] or 0.0
+            score = person["recognition_score"] or 0.0
             if score >= 9.0:
-                validation['score_distribution']['super_famous'] += 1
+                validation["score_distribution"]["super_famous"] += 1
             elif score >= 7.0:
-                validation['score_distribution']['famous'] += 1
+                validation["score_distribution"]["famous"] += 1
             elif score >= 5.0:
-                validation['score_distribution']['general'] += 1
+                validation["score_distribution"]["general"] += 1
             else:
-                validation['score_distribution']['lower'] += 1
+                validation["score_distribution"]["lower"] += 1
 
             # エンティティタイプ分布
-            entity_type = person['entity_type']
-            validation['entity_type_distribution'][entity_type] = \
-                validation['entity_type_distribution'].get(entity_type, 0) + 1
+            entity_type = person["entity_type"]
+            validation["entity_type_distribution"][entity_type] = (
+                validation["entity_type_distribution"].get(entity_type, 0) + 1
+            )
 
             # 生年確認
-            if person['birth_year']:
-                validation['has_birth_year'] += 1
+            if person["birth_year"]:
+                validation["has_birth_year"] += 1
             else:
-                validation['missing_birth_year'] += 1
+                validation["missing_birth_year"] += 1
 
         return validation
 
     def save_selection(self, persons: List[Dict], output_path: str = "phase1_pilot_persons.json"):
         """選定結果を保存"""
         output = {
-            'metadata': {
-                'phase': 'Phase 1 - Pilot',
-                'created_at': datetime.now().isoformat(),
-                'total_count': len(persons),
-                'target_range': '15-20 persons',
+            "metadata": {
+                "phase": "Phase 1 - Pilot",
+                "created_at": datetime.now().isoformat(),
+                "total_count": len(persons),
+                "target_range": "15-20 persons",
             },
-            'validation': self.validate_selection(persons),
-            'persons': persons,
+            "validation": self.validate_selection(persons),
+            "persons": persons,
         }
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(output, f, ensure_ascii=False, indent=2)
 
         print(f"✅ 選定結果を保存: {output_path}")
@@ -231,37 +233,39 @@ class PilotPersonSelector:
 
     def print_summary(self, selection_output: Dict):
         """選定サマリーを表示"""
-        metadata = selection_output['metadata']
-        validation = selection_output['validation']
-        persons = selection_output['persons']
+        metadata = selection_output["metadata"]
+        validation = selection_output["validation"]
+        persons = selection_output["persons"]
 
         print("\n" + "=" * 60)
         print("  Phase 1: パイロット対象人物選定結果")
         print("=" * 60)
         print(f"\n📊 総選定数: {metadata['total_count']}人")
 
-        print(f"\n📂 カテゴリ別分布:")
-        for category, count in validation['category_distribution'].items():
+        print("\n📂 カテゴリ別分布:")
+        for category, count in validation["category_distribution"].items():
             print(f"   - {category}: {count}人")
 
-        print(f"\n⭐ 知名度レベル分布:")
+        print("\n⭐ 知名度レベル分布:")
         print(f"   - 超有名（9.0以上）: {validation['score_distribution']['super_famous']}人")
         print(f"   - 有名（7.0-9.0）: {validation['score_distribution']['famous']}人")
         print(f"   - 一般的（5.0-7.0）: {validation['score_distribution']['general']}人")
         print(f"   - やや低い（5.0未満）: {validation['score_distribution']['lower']}人")
 
-        print(f"\n🏷️ エンティティタイプ分布:")
-        for entity_type, count in validation['entity_type_distribution'].items():
+        print("\n🏷️ エンティティタイプ分布:")
+        for entity_type, count in validation["entity_type_distribution"].items():
             print(f"   - {entity_type}: {count}人")
 
-        print(f"\n📅 生年データ:")
+        print("\n📅 生年データ:")
         print(f"   - 生年確定: {validation['has_birth_year']}人")
         print(f"   - 生年不明: {validation['missing_birth_year']}人")
 
-        print(f"\n👥 選定された人物リスト:")
+        print("\n👥 選定された人物リスト:")
         for i, person in enumerate(persons, 1):
-            print(f"   {i:2d}. {person['person_name_ja']:<20} "
-                  f"（{person['category']:<15} / スコア: {person['recognition_score']:.1f}）")
+            print(
+                f"   {i:2d}. {person['person_name_ja']:<20} "
+                f"（{person['category']:<15} / スコア: {person['recognition_score']:.1f}）"
+            )
 
         print("\n" + "=" * 60)
         print("  次のステップ:")
@@ -309,12 +313,12 @@ def main():
 
     # Step 5: 目標範囲内に調整（15-20人）
     if len(all_selected) > 20:
-        print(f"   ⚠️ 選定数が20人を超過。上位20人に絞り込みます。")
+        print("   ⚠️ 選定数が20人を超過。上位20人に絞り込みます。")
         # 知名度スコア順にソート
-        all_selected.sort(key=lambda x: x['recognition_score'] or 0, reverse=True)
+        all_selected.sort(key=lambda x: x["recognition_score"] or 0, reverse=True)
         all_selected = all_selected[:20]
     elif len(all_selected) < 15:
-        print(f"   ⚠️ 選定数が15人未満。追加選定が必要です。")
+        print("   ⚠️ 選定数が15人未満。追加選定が必要です。")
 
     # Step 6: 検証
     print("\n🔍 選定結果の検証中...")
@@ -332,6 +336,7 @@ def main():
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     sys.exit(main())

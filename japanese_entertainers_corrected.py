@@ -11,15 +11,15 @@ from datetime import datetime
 
 def create_corrected_entertainers_database():
     """修正された日本のエンターテイナーデータベース"""
-    
+
     entertainers = []
-    
+
     # ========== お笑い芸人（事実確認済み） ==========
     comedians = [
         # レジェンド・大御所
         {
-            'name': 'ビートたけし', 
-            'name_ja': 'ビートたけし', 
+            'name': 'ビートたけし',
+            'name_ja': 'ビートたけし',
             'birth_year': 1947,
             'episodes': [
                 (27, 'ツービート結成'),
@@ -66,7 +66,7 @@ def create_corrected_entertainers_database():
                 (70, 'ブラタモリ開始')
             ]
         },
-        
+
         # ダウンタウン
         {
             'name': '松本人志',
@@ -92,7 +92,7 @@ def create_corrected_entertainers_database():
                 (54, 'プレバト!!司会')
             ]
         },
-        
+
         # ナインティナイン
         {
             'name': '岡村隆史',
@@ -117,7 +117,7 @@ def create_corrected_entertainers_database():
                 (50, '青空レストラン司会')
             ]
         },
-        
+
         # M-1王者
         {
             'name': '中川家・礼二',
@@ -144,7 +144,7 @@ def create_corrected_entertainers_database():
             ]
         },
     ]
-    
+
     # ========== YouTuber（事実確認済み） ==========
     youtubers = [
         {
@@ -185,7 +185,7 @@ def create_corrected_entertainers_database():
             ]
         },
     ]
-    
+
     # ========== アイドル（事実確認済み） ==========
     idols = [
         {
@@ -213,21 +213,21 @@ def create_corrected_entertainers_database():
             ]
         },
     ]
-    
+
     # データを整形して返す
     all_entertainers = comedians + youtubers + idols
-    
+
     for person_data in all_entertainers:
         episodes_dict = {}
         if 'episodes' in person_data:
             for age, event in person_data['episodes']:
                 episodes_dict[str(age)] = event
-        
+
         # 死亡年齢を計算
         death_age = None
         if 'death_year' in person_data and person_data['death_year']:
             death_age = person_data['death_year'] - person_data['birth_year']
-        
+
         # 職業を判定
         if person_data in comedians:
             occupation = 'お笑い芸人'
@@ -235,7 +235,7 @@ def create_corrected_entertainers_database():
             occupation = 'YouTuber'
         else:
             occupation = 'アイドル'
-        
+
         person = {
             'id': f"jp_{person_data['name'].replace(' ', '_').replace('・', '_').lower()}",
             'name': person_data['name'],
@@ -254,20 +254,20 @@ def create_corrected_entertainers_database():
             'key_ages': json.dumps(episodes_dict, ensure_ascii=False)
         }
         entertainers.append(person)
-    
+
     return entertainers
 
 def main():
     """メイン処理"""
-    
+
     print("📝 修正版日本エンターテイナーデータベースを作成中...")
-    
+
     entertainers = create_corrected_entertainers_database()
-    
+
     # CSVファイルに出力
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_file = f"japanese_entertainers_corrected_{timestamp}.csv"
-    
+
     with open(output_file, 'w', newline='', encoding='utf-8-sig') as csvfile:
         fieldnames = [
             'id', 'name', 'name_ja', 'birth_year', 'death_year', 'death_age',
@@ -275,21 +275,21 @@ def main():
             'special_tags', 'source', 'wikidata_id', 'description', 'key_ages'
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        
+
         writer.writeheader()
         writer.writerows(entertainers)
-    
+
     print(f"\n✅ {len(entertainers)}人のエンターテイナーデータを修正しました")
-    
+
     # 修正内容を表示
     print("\n📋 主な修正内容:")
     print("  ✓ 明石家さんま: NSC入学 → 笑福亭松之助に弟子入り")
     print("  ✓ 各芸人の年齢別エピソードを事実確認")
     print("  ✓ 死去した芸人の情報を追加（志村けん）")
     print("  ✓ 結婚、受賞などの重要イベントを追加")
-    
+
     print(f"\n📄 ファイル出力: {output_file}")
-    
+
     return output_file
 
 if __name__ == "__main__":

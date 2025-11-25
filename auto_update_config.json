@@ -5,7 +5,7 @@
     "created_date": "2025-08-31",
     "description": "Ultra Think自動更新システム設定 - キャッシュクリアと完全置換保証"
   },
-  
+
   "cache_management": {
     "enabled": true,
     "force_clear_on_update": true,
@@ -20,7 +20,7 @@
     "purge_old_data_hours": 24,
     "invalidate_on_change": true
   },
-  
+
   "atomic_update": {
     "enabled": true,
     "use_batch_update": true,
@@ -33,7 +33,7 @@
     "force_full_replacement": true,
     "clear_before_write": true
   },
-  
+
   "version_control": {
     "enabled": true,
     "track_changes": true,
@@ -44,7 +44,7 @@
     "hash_validation": true,
     "timestamp_format": "YYYYMMDD_HHMMSS"
   },
-  
+
   "integrity_checks": {
     "enabled": true,
     "check_before_sync": true,
@@ -60,7 +60,7 @@
     "repair_warnings": true,
     "generate_reports": true
   },
-  
+
   "google_sheets": {
     "spreadsheet_id": "1G0ec3d5DHGiahLetsqey9W23HGFOn2tkEacsFd5ZSps",
     "sheet_name": "Ultra Think",
@@ -79,7 +79,7 @@
       "X-Cache-Bypass": "1"
     }
   },
-  
+
   "browser_refresh": {
     "enabled": true,
     "auto_refresh_after_update": true,
@@ -89,7 +89,7 @@
     "javascript_refresh": true,
     "clear_browser_cache": true
   },
-  
+
   "monitoring": {
     "enabled": true,
     "log_all_operations": true,
@@ -99,14 +99,14 @@
     "max_log_entries": 1000,
     "log_retention_days": 30
   },
-  
+
   "file_patterns": {
     "csv_pattern": "trusted_episodes_latest.csv",
     "backup_pattern": "backup_trusted_episodes_*.csv",
     "watch_directories": ["."],
     "ignore_patterns": ["*.tmp", "*.lock", "~*"]
   },
-  
+
   "performance": {
     "parallel_processing": true,
     "max_workers": 5,
@@ -115,7 +115,7 @@
     "timeout_seconds": 300,
     "optimize_for_speed": true
   },
-  
+
   "error_handling": {
     "max_retries": 3,
     "exponential_backoff": true,
@@ -124,7 +124,7 @@
     "auto_recovery": true,
     "preserve_last_good_state": true
   },
-  
+
   "scheduled_updates": {
     "enabled": false,
     "cron_expression": "0 */6 * * *",
@@ -132,7 +132,7 @@
     "debounce_seconds": 5,
     "batch_updates": true
   },
-  
+
   "security": {
     "validate_data_source": true,
     "check_file_integrity": true,
@@ -140,7 +140,7 @@
     "prevent_injection": true,
     "audit_logging": true
   },
-  
+
   "notifications": {
     "enabled": true,
     "channels": {
@@ -157,7 +157,7 @@
       "integrity_check_failed": true
     }
   },
-  
+
   "advanced": {
     "ultra_think_mode": true,
     "aggressive_cache_clearing": true,

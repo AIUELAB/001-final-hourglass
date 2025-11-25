@@ -45,7 +45,7 @@ def hello():
     """
     # URLパラメータから名前を取得
     name = request.args.get('name', 'ゲスト')
-    
+
     return jsonify({
         "message": f"こんにちは、{name}さん！"
     })
@@ -57,7 +57,7 @@ def hello():
 def calculate():
     """
     POSTリクエストで計算を実行
-    
+
     使い方:
     curl -X POST http://localhost:5000/calculate \
          -H "Content-Type: application/json" \
@@ -69,7 +69,7 @@ def calculate():
         a = data.get('a', 0)
         b = data.get('b', 0)
         operation = data.get('operation', 'add')
-        
+
         # 計算を実行
         if operation == 'add':
             result = a + b
@@ -84,14 +84,14 @@ def calculate():
                 return jsonify({"error": "0で割ることはできません"}), 400
         else:
             return jsonify({"error": "不明な操作です"}), 400
-        
+
         return jsonify({
             "result": result,
             "operation": operation,
             "a": a,
             "b": b
         })
-        
+
     except Exception as e:
         # エラーが発生した場合
         return jsonify({"error": str(e)}), 500
@@ -113,22 +113,22 @@ def handle_data():
         data = request.get_json()
         key = data.get('key')
         value = data.get('value')
-        
+
         if not key:
             return jsonify({"error": "キーが必要です"}), 400
-        
+
         stored_data[key] = value
-        
+
         return jsonify({
             "message": "保存しました",
             "key": key,
             "value": value
         })
-    
+
     else:
         # データを取得
         key = request.args.get('key')
-        
+
         if key:
             # 特定のキーのデータを返す
             value = stored_data.get(key, None)
@@ -151,14 +151,14 @@ def protected_route():
     """
     # ヘッダーからAPIキーを取得
     api_key = request.headers.get('X-API-Key')
-    
+
     # 環境変数から正しいAPIキーを取得
     correct_api_key = os.getenv('API_KEY', 'secret-key-123')
-    
+
     # APIキーをチェック
     if api_key != correct_api_key:
         return jsonify({"error": "認証エラー：APIキーが無効です"}), 401
-    
+
     return jsonify({
         "message": "🔓 認証成功！秘密のデータにアクセスできます",
         "secret_data": "これは保護されたデータです"
@@ -184,11 +184,11 @@ if __name__ == '__main__':
     # デバッグモードで起動（開発時のみ）
     # 本番環境では debug=False にする
     port = int(os.getenv('PORT', 5000))
-    
+
     print("=" * 50)
     print("🚀 APIサーバーが起動しました！")
     print(f"📍 URL: http://localhost:{port}")
     print("🛑 終了するには Ctrl+C を押してください")
     print("=" * 50)
-    
+
     app.run(debug=True, port=port)

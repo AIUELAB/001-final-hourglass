@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 
 class DatabaseTransformer:
     """データベース変換クラス"""
-    
+
     def __init__(self, input_file: str):
         """初期化"""
         self.input_file = input_file
         self.df = pd.read_csv(input_file, encoding='utf-8-sig')
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # カテゴリマッピング
         self.category_mappings = {
             'スポーツ': ['選手', 'オリンピック', 'メダリスト', 'チャンピオン', '監督', 'コーチ', '野球', 'サッカー', 'ボクサー', '力士', '格闘', 'ゴルフ', 'テニス', 'フィギュア', '水泳', '陸上', 'バスケ', 'バレー', 'ラグビー', '卓球', 'バドミントン', '体操', 'レスリング', '柔道', '空手', '剣道'],
@@ -34,7 +34,7 @@ class DatabaseTransformer:
             '宗教・思想': ['宗教家', '僧侶', '神父', '牧師', '哲学者', '思想家', '教育者', '活動家'],
             '犯罪・事件': ['犯罪者', '殺人犯', 'テロリスト', '詐欺師', '事件', '犯人']
         }
-        
+
         # グループ名パターン（括弧で表示される）
         self.group_patterns = [
             (r'YOASOBI', ['Ayase', 'ikura']),
@@ -57,30 +57,30 @@ class DatabaseTransformer:
             (r'ONE OK ROCK', ['Taka', 'Toru', 'Ryota', 'Tomoya']),
             (r'BUMP OF CHICKEN', ['藤原基央', '増川弘明', '直井由文', '升秀夫']),
         ]
-        
+
         logger.info("="*60)
         logger.info("📊 データベース変換処理開始")
         logger.info("="*60)
         logger.info(f"入力ファイル: {input_file}")
         logger.info(f"レコード数: {len(self.df)}")
-        
+
     def determine_category(self, row) -> str:
         """カテゴリを判定"""
         occupation = str(row.get('occupation', '')).lower()
         description = str(row.get('description', '')).lower()
         category_col = str(row.get('category', '')).lower()
-        
+
         combined_text = f"{occupation} {description} {category_col}"
-        
+
         # カテゴリマッピングでチェック
         for category, keywords in self.category_mappings.items():
             for keyword in keywords:
                 if keyword.lower() in combined_text:
                     return category
-        
+
         # デフォルト
         return 'その他'
-    
+
     def determine_nationality(self, name: str) -> str:
         """国籍を判定"""
         # カタカナのみの名前は外国人の可能性が高い
@@ -102,17 +102,17 @@ class DatabaseTransformer:
                 return '韓国'
             else:
                 return '外国'  # 国籍不明の外国人
-        
+
         # 漢字が含まれていれば日本人
         if re.search(r'[\u4e00-\u9fff]', name):
             return '日本'
-        
+
         # ひらがなが含まれていれば日本人
         if re.search(r'[\u3040-\u309f]', name):
             return '日本'
-        
+
         return '日本'  # デフォルト
-    
+
     def romanize_japanese(self, name: str) -> str:
         """日本語名をローマ字に変換"""
         # 簡易的なローマ字変換テーブル
@@ -134,7 +134,7 @@ class DatabaseTransformer:
             'わ': 'wa', 'を': 'wo', 'ん': 'n',
             'ー': '-', '・': ' '
         }
-        
+
         # カタカナをひらがなに変換
         name_hiragana = ''
         for char in name:
@@ -142,7 +142,7 @@ class DatabaseTransformer:
                 # カタカナをひらがなに変換
                 char = chr(ord(char) - ord('ァ') + ord('ぁ'))
             name_hiragana += char
-        
+
         # ひらがなをローマ字に変換
         result = ''
         for char in name_hiragana:
@@ -152,9 +152,9 @@ class DatabaseTransformer:
                 result += ' '
             else:
                 result += char
-        
+
         return result
-    
+
     def get_display_name(self, name: str) -> str:
         """表示名を取得（グループ名付き）"""
         # グループメンバーかチェック
@@ -162,18 +162,18 @@ class DatabaseTransformer:
             for member in members:
                 if member in name or name in member:
                     return f"{name} ({group_name})"
-        
+
         # 既に括弧がある場合はそのまま
         if '(' in name and ')' in name:
             return name
-        
+
         # 特定のパターン（所属が明確な場合）
         if 'AKB' in name or 'SKE' in name or 'NMB' in name or 'HKT' in name:
             # アイドルグループメンバー
             return name
-        
+
         return name
-    
+
     def get_person_name(self, name: str, nationality: str) -> str:
         """言語表記の名前を取得"""
         if nationality == '日本':
@@ -183,40 +183,40 @@ class DatabaseTransformer:
             # 外国人名はそのまま（またはカタカナから推測）
             # ここでは簡易的にカタカナをそのままローマ字風に
             return name.replace('・', ' ')
-    
+
     def transform(self):
         """データベースを変換"""
         logger.info("\n📝 変換処理開始")
-        
+
         # 新しいカラムを追加
         transformed_data = []
-        
+
         for idx, row in self.df.iterrows():
             if idx % 100 == 0:
                 logger.info(f"  処理中: {idx}/{len(self.df)}")
-            
+
             name = row['name']
-            
+
             # カテゴリ判定
             category = self.determine_category(row)
-            
+
             # 国籍判定
             nationality = self.determine_nationality(name)
-            
+
             # 職業（既存のoccupationを使用、なければdescriptionから）
             occupation = row.get('occupation', '')
             if pd.isna(occupation) or occupation == '':
                 occupation = row.get('description', '').split('、')[0] if pd.notna(row.get('description')) else ''
-            
+
             # person_name（言語表記）
             person_name = self.get_person_name(name, nationality)
-            
+
             # person_name_display（表示名）
             person_name_display = self.get_display_name(name)
-            
+
             # person_name_ja（日本語名）
             person_name_ja = name
-            
+
             # 新しい行を作成
             new_row = row.to_dict()
             new_row['category'] = category
@@ -225,24 +225,24 @@ class DatabaseTransformer:
             new_row['person_name'] = person_name
             new_row['person_name_display'] = person_name_display
             new_row['person_name_ja'] = person_name_ja
-            
+
             # nameカラムは削除（person_name_displayに置き換え）
             if 'name' in new_row:
                 del new_row['name']
-            
+
             transformed_data.append(new_row)
-        
+
         # データフレーム作成
         self.df_transformed = pd.DataFrame(transformed_data)
-        
+
         # カラムの順序を調整（ultra_think_EPISODE_FINALの順序に近づける）
         column_order = [
             'person_id',
             'person_name',
-            'person_name_display', 
+            'person_name_display',
             'person_name_ja',
             'category',
-            'nationality', 
+            'nationality',
             'occupation',
             'recognition_score',
             'wikipedia_found',
@@ -261,48 +261,48 @@ class DatabaseTransformer:
             'original_min_score',
             'api_details'
         ]
-        
+
         # 存在するカラムのみを並び替え
         existing_columns = [col for col in column_order if col in self.df_transformed.columns]
         self.df_transformed = self.df_transformed[existing_columns]
-        
+
         logger.info(f"✅ 変換完了: {len(self.df_transformed)}件")
-        
+
     def save_results(self):
         """結果を保存"""
         output_file = f"database_episode_format_{self.timestamp}.csv"
-        
+
         # UTF-8 BOM付きで保存（Excel対応）
         self.df_transformed.to_csv(output_file, index=False, encoding='utf-8-sig')
-        
+
         logger.info(f"\n💾 出力ファイル: {output_file}")
-        
+
         # 統計情報
         logger.info("\n📊 カテゴリ別統計:")
         category_counts = self.df_transformed['category'].value_counts()
         for cat, count in category_counts.items():
             logger.info(f"  {cat}: {count}名")
-        
+
         logger.info("\n🌍 国籍別統計:")
         nationality_counts = self.df_transformed['nationality'].value_counts().head(10)
         for nat, count in nationality_counts.items():
             logger.info(f"  {nat}: {count}名")
-        
+
         # サンプル出力
         logger.info("\n📋 変換サンプル（最初の5件）:")
         sample_cols = ['person_id', 'person_name_display', 'category', 'nationality']
         for idx, row in self.df_transformed.head(5).iterrows():
             logger.info(f"  {row['person_id']}: {row['person_name_display']} ({row['category']}, {row['nationality']})")
-        
+
         return output_file
 
 def main():
     """メイン処理"""
     import glob
-    
+
     # 最新のデータベースファイルを取得
     db_file = 'database_fixed_20250910_104141.csv'
-    
+
     if not Path(db_file).exists():
         # 他のファイルを探す
         db_files = glob.glob("database_fixed_*.csv")
@@ -311,14 +311,14 @@ def main():
         else:
             logger.error("変換対象のデータベースファイルが見つかりません")
             return
-    
+
     logger.info(f"対象ファイル: {db_file}")
-    
+
     # 変換実行
     transformer = DatabaseTransformer(db_file)
     transformer.transform()
     output_file = transformer.save_results()
-    
+
     logger.info("\n" + "="*60)
     logger.info("✅ 変換処理完了")
     logger.info("="*60)

@@ -10,19 +10,19 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         .header {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -30,7 +30,7 @@
             margin-bottom: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        
+
         .header h1 {
             color: #333;
             font-size: 2.5rem;
@@ -39,7 +39,7 @@
             align-items: center;
             gap: 15px;
         }
-        
+
         .status-badge {
             display: inline-block;
             padding: 8px 20px;
@@ -48,25 +48,25 @@
             font-weight: bold;
             animation: pulse 2s infinite;
         }
-        
+
         .status-running {
             background: linear-gradient(135deg, #00c851 0%, #00ff00 100%);
             color: white;
         }
-        
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-        
+
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
         }
-        
+
         .card {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
@@ -74,11 +74,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
-        
+
         .card:hover {
             transform: translateY(-5px);
         }
-        
+
         .card-title {
             font-size: 1.3rem;
             color: #555;
@@ -89,7 +89,7 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .metric {
             display: flex;
             justify-content: space-between;
@@ -99,18 +99,18 @@
             background: #f8f9fa;
             border-radius: 10px;
         }
-        
+
         .metric-label {
             color: #666;
             font-size: 0.95rem;
         }
-        
+
         .metric-value {
             font-size: 1.3rem;
             font-weight: bold;
             color: #333;
         }
-        
+
         .progress-container {
             background: #e0e0e0;
             border-radius: 50px;
@@ -119,7 +119,7 @@
             margin: 20px 0;
             position: relative;
         }
-        
+
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
@@ -133,7 +133,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .progress-bar::before {
             content: '';
             position: absolute;
@@ -144,51 +144,51 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             animation: shimmer 2s infinite;
         }
-        
+
         @keyframes shimmer {
             0% { left: -100%; }
             100% { left: 100%; }
         }
-        
+
         .quality-gates {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
-        
+
         .gate {
             padding: 15px;
             border-radius: 10px;
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .gate-passed {
             background: #d4edda;
             color: #155724;
             border: 2px solid #c3e6cb;
         }
-        
+
         .gate-pending {
             background: #fff3cd;
             color: #856404;
             border: 2px solid #ffeeba;
         }
-        
+
         .gate-failed {
             background: #f8d7da;
             color: #721c24;
             border: 2px solid #f5c6cb;
         }
-        
+
         .api-status {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .api-item {
             padding: 10px;
             border-radius: 8px;
@@ -198,7 +198,7 @@
             color: #2e7d32;
             border: 1px solid #81c784;
         }
-        
+
         .time-display {
             font-size: 3rem;
             font-weight: bold;
@@ -207,7 +207,7 @@
             margin: 20px 0;
             font-family: 'Courier New', monospace;
         }
-        
+
         .log-viewer {
             background: #1e1e1e;
             color: #00ff00;
@@ -220,14 +220,14 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-        
+
         .log-line {
             margin: 5px 0;
             padding: 5px;
             border-left: 3px solid #00ff00;
             padding-left: 10px;
         }
-        
+
         .eta-section {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
@@ -236,7 +236,7 @@
             text-align: center;
             margin: 20px 0;
         }
-        
+
         .refresh-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -249,12 +249,12 @@
             margin: 20px auto;
             display: block;
         }
-        
+
         .refresh-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        
+
         .footer {
             text-align: center;
             color: white;
@@ -272,7 +272,7 @@
             </h1>
             <p style="color: #666; margin-top: 10px;">リアルタイムモニタリングダッシュボード</p>
         </div>
-        
+
         <div class="dashboard">
             <!-- 進行状況カード -->
             <div class="card">
@@ -295,7 +295,7 @@
                     <span class="metric-value" id="apiCalls">0</span>
                 </div>
             </div>
-            
+
             <!-- 時間情報カード -->
             <div class="card">
                 <h2 class="card-title">⏱️ 時間情報</h2>
@@ -314,7 +314,7 @@
                     <div style="margin-top: 10px; font-size: 0.9rem;">残り時間: <span id="remainingTime">5-8時間</span></div>
                 </div>
             </div>
-            
+
             <!-- 品質ゲート状況 -->
             <div class="card">
                 <h2 class="card-title">🛡️ 品質ゲート状況</h2>
@@ -336,7 +336,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- API状態カード -->
             <div class="card">
                 <h2 class="card-title">🔑 API接続状態</h2>
@@ -355,7 +355,7 @@
                     <span class="metric-value" id="apiSuccessRate">100%</span>
                 </div>
             </div>
-            
+
             <!-- パフォーマンス指標 -->
             <div class="card">
                 <h2 class="card-title">⚡ パフォーマンス指標</h2>
@@ -376,7 +376,7 @@
                     <span class="metric-value" id="cpuUsage">--</span>
                 </div>
             </div>
-            
+
             <!-- 最新ログ -->
             <div class="card" style="grid-column: span 2;">
                 <h2 class="card-title">📝 最新ログ</h2>
@@ -390,53 +390,53 @@
                 </div>
             </div>
         </div>
-        
+
         <button class="refresh-btn" onclick="refreshData()">🔄 データを更新</button>
-        
+
         <div class="footer">
             <p>© 2025 Ultimate Recognition System - Quality First Edition</p>
             <p style="margin-top: 10px; font-size: 0.9rem;">自動更新: 30秒ごと | ログファイル: quality_recognition_output.log</p>
         </div>
     </div>
-    
+
     <script>
         // 開始時刻
         const startTime = new Date('2025-09-07T17:05:04');
-        
+
         // 時計を更新
         function updateClock() {
             const now = new Date();
             const timeStr = now.toTimeString().split(' ')[0];
             document.getElementById('currentTime').textContent = timeStr;
-            
+
             // 経過時間を計算
             const elapsed = now - startTime;
             const hours = Math.floor(elapsed / 3600000);
             const minutes = Math.floor((elapsed % 3600000) / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
-            
+
             const elapsedStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             document.getElementById('elapsedTime').textContent = elapsedStr;
-            
+
             // 推定進行率（時間ベース、5-8時間想定）
             const minDuration = 5 * 3600000; // 5時間
             const maxDuration = 8 * 3600000; // 8時間
             const estimatedProgress = Math.min(100, (elapsed / minDuration) * 100);
             document.getElementById('estimatedProgress').textContent = `${estimatedProgress.toFixed(1)}%`;
-            
+
             // 残り時間
             const remainingMin = Math.max(0, minDuration - elapsed);
             const remainingMax = Math.max(0, maxDuration - elapsed);
             const remainingHoursMin = Math.floor(remainingMin / 3600000);
             const remainingHoursMax = Math.floor(remainingMax / 3600000);
-            
+
             if (remainingHoursMin > 0) {
                 document.getElementById('remainingTime').textContent = `${remainingHoursMin}-${remainingHoursMax}時間`;
             } else {
                 document.getElementById('remainingTime').textContent = '処理完了間近';
             }
         }
-        
+
         // データを更新（実際のログファイルから読み取る処理が必要）
         async function refreshData() {
             try {
@@ -445,25 +445,25 @@
                 const progress = Math.random() * 100;
                 document.getElementById('progressBar').style.width = progress + '%';
                 document.getElementById('progressText').textContent = progress.toFixed(1) + '%';
-                
+
                 const processed = Math.floor(4701 * progress / 100);
                 document.getElementById('processed').textContent = `${processed.toLocaleString()} / 4,701`;
-                
+
                 // API呼び出し回数（デモ）
                 const apiCalls = Math.floor(processed * 4); // 1レコードあたり4回のAPI呼び出し想定
                 document.getElementById('apiCalls').textContent = apiCalls.toLocaleString();
-                
+
                 // 処理速度
                 const elapsedMinutes = (new Date() - startTime) / 60000;
                 const speed = processed / elapsedMinutes;
                 document.getElementById('processingSpeed').textContent = `${speed.toFixed(1)} rec/min`;
-                
+
                 // 平均処理時間
                 if (processed > 0) {
                     const avgTime = (elapsedMinutes * 60) / processed;
                     document.getElementById('avgProcessTime').textContent = `${avgTime.toFixed(2)}秒`;
                 }
-                
+
                 // 新しいログを追加（デモ）
                 const logViewer = document.getElementById('logViewer');
                 const newLog = document.createElement('div');
@@ -473,18 +473,18 @@
                 newLog.textContent = `${timeStr} 処理中... レコード ${processed}/${4701}`;
                 logViewer.appendChild(newLog);
                 logViewer.scrollTop = logViewer.scrollHeight;
-                
+
             } catch (error) {
                 console.error('データ更新エラー:', error);
             }
         }
-        
+
         // 1秒ごとに時計を更新
         setInterval(updateClock, 1000);
-        
+
         // 30秒ごとにデータを更新
         setInterval(refreshData, 30000);
-        
+
         // 初期実行
         updateClock();
         refreshData();

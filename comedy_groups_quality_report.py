@@ -10,11 +10,11 @@ def generate_quality_report():
     # 修正前後のファイルを読み込み
     before_df = pd.read_csv('ultra_think_FAST_VALIDATED_20250828_181901.csv')
     after_df = pd.read_csv('ultra_think_COMEDY_GROUPS_FIXED_20250828_190550.csv')
-    
+
     # お笑い芸人のみフィルタ
     before_comedians = before_df[before_df['occupation'] == 'お笑い芸人'].copy()
     after_comedians = after_df[after_df['occupation'] == 'お笑い芸人'].copy()
-    
+
     # 統計を計算
     stats = {
         'total_comedians': len(after_comedians),
@@ -24,26 +24,26 @@ def generate_quality_report():
         'corrected_groups': 0,
         'p000057_status': None
     }
-    
+
     # グループ名の有無をカウント
     for _, row in before_comedians.iterrows():
         if '(' in str(row['person_name_display']) and ')' in str(row['person_name_display']):
             stats['before_with_groups'] += 1
-    
+
     for _, row in after_comedians.iterrows():
         if '(' in str(row['person_name_display']) and ')' in str(row['person_name_display']):
             stats['after_with_groups'] += 1
-    
+
     # 変更を検出
     changes = []
     for idx in after_comedians.index:
         person_id = after_comedians.loc[idx, 'person_id']
         before_row = before_comedians[before_comedians['person_id'] == person_id]
-        
+
         if not before_row.empty:
             before_display = before_row.iloc[0]['person_name_display']
             after_display = after_comedians.loc[idx, 'person_name_display']
-            
+
             if before_display != after_display:
                 changes.append({
                     'person_id': person_id,
@@ -52,14 +52,14 @@ def generate_quality_report():
                     'before': before_display,
                     'after': after_display
                 })
-                
+
                 # グループが新規追加されたか
                 if '(' not in str(before_display) and '(' in str(after_display):
                     stats['newly_added_groups'] += 1
                 # グループが修正されたか
                 elif '(' in str(before_display) and '(' in str(after_display):
                     stats['corrected_groups'] += 1
-    
+
     # P000057の状態を確認
     p000057_after = after_comedians[after_comedians['person_id'] == 'P000057']
     if not p000057_after.empty:
@@ -69,7 +69,7 @@ def generate_quality_report():
             'person_name_display': p000057_after.iloc[0]['person_name_display'],
             'has_group': '(ジャングルポケット)' in str(p000057_after.iloc[0]['person_name_display'])
         }
-    
+
     # レポートを生成
     report_lines = [
         "# 🎭 お笑い芸人グループ名修正 品質検証レポート",
@@ -88,7 +88,7 @@ def generate_quality_report():
         "## 🎯 P000057（おたけ）の状態",
         ""
     ]
-    
+
     if stats['p000057_status']:
         p = stats['p000057_status']
         report_lines.extend([
@@ -100,22 +100,22 @@ def generate_quality_report():
         ])
     else:
         report_lines.append("⚠️ P000057が見つかりませんでした\n")
-    
+
     # 主要な変更例
     report_lines.extend([
         "## 📝 主要な変更例（最初の20件）",
         ""
     ])
-    
+
     for change in changes[:20]:
         report_lines.append(f"- **{change['person_id']}**: {change['before']} → {change['after']}")
-    
+
     if len(changes) > 20:
         report_lines.append(f"\n... 他{len(changes) - 20}件の変更")
-    
+
     # 改善率
     improvement_rate = ((stats['after_with_groups'] - stats['before_with_groups']) / stats['total_comedians']) * 100
-    
+
     report_lines.extend([
         "",
         "## 📈 改善指標",
@@ -139,16 +139,16 @@ def generate_quality_report():
         "---",
         f"*レポート生成: {datetime.now().isoformat()}*"
     ])
-    
+
     # レポートを保存
     report_content = '\n'.join(report_lines)
     report_file = f'COMEDY_GROUPS_QUALITY_REPORT_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
-    
+
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report_content)
-    
+
     print(report_content)
-    
+
     # 統計をJSONでも保存
     with open('comedy_groups_quality_stats.json', 'w', encoding='utf-8') as f:
         json.dump({
@@ -156,7 +156,7 @@ def generate_quality_report():
             'changes_count': len(changes),
             'changes_sample': changes[:10]
         }, f, ensure_ascii=False, indent=2)
-    
+
     return report_file, stats
 
 if __name__ == "__main__":

@@ -5,16 +5,16 @@ name: iOS App Store Compliance CI/CD
 
 on:
   push:
-    branches: [ main, develop, release/* ]
+    branches: [main, develop, release/*]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   schedule:
     # 毎日午前2時（JST）に定期実行
-    - cron: '0 17 * * *'
+  - cron: 0 17 * * *
 
 env:
   XCODE_VERSION: '15.0'
-  IOS_SIMULATOR_DEVICE: 'iPhone 15'
+  IOS_SIMULATOR_DEVICE: iPhone 15
   IOS_SIMULATOR_OS: '17.0'
 
 jobs:
@@ -25,28 +25,28 @@ jobs:
     name: App Store Guidelines Compliance Check
     runs-on: macos-14
     timeout-minutes: 30
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0  # 全履歴取得（コード変更分析のため）
-    
+
     - name: 🔧 Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: ${{ env.XCODE_VERSION }}
-    
+
     - name: 🐍 Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-        cache: 'pip'
-    
+        cache: pip
+
     - name: 📦 Install Python Dependencies
       run: |
         pip install -r ios-apps/development-system/requirements.txt || echo "requirements.txt not found"
-    
+
     - name: 🔍 Code Quality Check
       run: |
         if [ -f "ios-apps/development-system/scripts/code_quality_check.py" ]; then
@@ -54,7 +54,7 @@ jobs:
         else
           echo "Code quality checker not found, skipping..."
         fi
-    
+
     - name: 📊 Upload Code Quality Report
       if: always()
       uses: actions/upload-artifact@v4
@@ -62,7 +62,7 @@ jobs:
         name: code-quality-report
         path: code_quality_report.json
         retention-days: 30
-    
+
     - name: ❌ Fail on Critical Issues
       run: |
         if [ -f "code_quality_report.json" ]; then
@@ -86,25 +86,25 @@ jobs:
     name: Privacy Compliance Audit
     runs-on: macos-14
     timeout-minutes: 20
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-    
+
     - name: 🔍 Info.plist Privacy Check
       run: |
         echo "🔍 Checking Info.plist for privacy compliance..."
-        
+
         # Info.plistファイルを検索
         INFO_PLIST=$(find . -name "Info.plist" -not -path "./Pods/*" | head -1)
-        
+
         if [ -z "$INFO_PLIST" ]; then
           echo "❌ Info.plist not found"
           exit 1
         fi
-        
+
         echo "📄 Found Info.plist: $INFO_PLIST"
-        
+
         # プライバシー関連キーの確認
         PRIVACY_KEYS=(
           "NSCameraUsageDescription"
@@ -114,7 +114,7 @@ jobs:
           "NSContactsUsageDescription"
           "NSUserTrackingUsageDescription"
         )
-        
+
         for key in "${PRIVACY_KEYS[@]}"; do
           if plutil -extract "$key" raw "$INFO_PLIST" >/dev/null 2>&1; then
             DESCRIPTION=$(plutil -extract "$key" raw "$INFO_PLIST" 2>/dev/null)
@@ -125,18 +125,18 @@ jobs:
             fi
           fi
         done
-    
+
     - name: 🔒 Security Scan
       run: |
         echo "🔒 Running security scan..."
-        
+
         # HTTPリンクの検出
         HTTP_USAGE=$(grep -r "http://" --include="*.swift" --include="*.m" . | grep -v "localhost" | grep -v "127.0.0.1" || true)
         if [ -n "$HTTP_USAGE" ]; then
           echo "⚠️  HTTP URLs found (HTTPS recommended):"
           echo "$HTTP_USAGE"
         fi
-        
+
         # ハードコーディングされた機密情報の検出
         SECRET_PATTERNS=("password" "api.*key" "secret" "token")
         for pattern in "${SECRET_PATTERNS[@]}"; do
@@ -156,22 +156,22 @@ jobs:
     timeout-minutes: 45
     strategy:
       matrix:
-        device: ['iPhone SE (3rd generation)', 'iPhone 15', 'iPhone 15 Pro Max']
+        device: [iPhone SE (3rd generation), iPhone 15, iPhone 15 Pro Max]
         ios-version: ['17.0']
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-    
+
     - name: 🔧 Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: ${{ env.XCODE_VERSION }}
-    
+
     - name: 📱 List Available Simulators
       run: |
         xcrun simctl list devices available
-    
+
     - name: 🧹 Clean Build Directory
       run: |
         if [ -d "build" ]; then
@@ -180,13 +180,13 @@ jobs:
         if [ -d "DerivedData" ]; then
           rm -rf DerivedData
         fi
-    
+
     - name: 🔨 Build Project
       run: |
         # プロジェクトファイルを検索
         PROJECT_FILE=$(find . -name "*.xcodeproj" | head -1)
         WORKSPACE_FILE=$(find . -name "*.xcworkspace" | head -1)
-        
+
         if [ -n "$WORKSPACE_FILE" ]; then
           echo "📁 Using workspace: $WORKSPACE_FILE"
           BUILD_TARGET="-workspace $WORKSPACE_FILE"
@@ -197,11 +197,11 @@ jobs:
           echo "❌ No Xcode project or workspace found"
           exit 1
         fi
-        
+
         # スキーム名を推定（プロジェクト名から）
         SCHEME_NAME=$(basename "$PROJECT_FILE" .xcodeproj)
         echo "🎯 Using scheme: $SCHEME_NAME"
-        
+
         # ビルド実行
         xcodebuild \
           $BUILD_TARGET \
@@ -209,40 +209,40 @@ jobs:
           -destination "platform=iOS Simulator,name=${{ matrix.device }},OS=${{ matrix.ios-version }}" \
           clean build \
           CODE_SIGNING_ALLOWED=NO
-    
+
     - name: 🧪 Run Unit Tests
       run: |
         PROJECT_FILE=$(find . -name "*.xcodeproj" | head -1)
         WORKSPACE_FILE=$(find . -name "*.xcworkspace" | head -1)
-        
+
         if [ -n "$WORKSPACE_FILE" ]; then
           BUILD_TARGET="-workspace $WORKSPACE_FILE"
         elif [ -n "$PROJECT_FILE" ]; then
           BUILD_TARGET="-project $PROJECT_FILE"
         fi
-        
+
         SCHEME_NAME=$(basename "$PROJECT_FILE" .xcodeproj)
-        
+
         xcodebuild test \
           $BUILD_TARGET \
           -scheme "$SCHEME_NAME" \
           -destination "platform=iOS Simulator,name=${{ matrix.device }},OS=${{ matrix.ios-version }}" \
           -resultBundlePath test_results_unit.xcresult \
           CODE_SIGNING_ALLOWED=NO || echo "Unit tests completed with warnings/failures"
-    
+
     - name: 🖥️ Run UI Tests
       run: |
         PROJECT_FILE=$(find . -name "*.xcodeproj" | head -1)
         WORKSPACE_FILE=$(find . -name "*.xcworkspace" | head -1)
-        
+
         if [ -n "$WORKSPACE_FILE" ]; then
           BUILD_TARGET="-workspace $WORKSPACE_FILE"
         elif [ -n "$PROJECT_FILE" ]; then
           BUILD_TARGET="-project $PROJECT_FILE"
         fi
-        
+
         SCHEME_NAME=$(basename "$PROJECT_FILE" .xcodeproj)
-        
+
         # UIテストは失敗することがあるため、継続実行
         xcodebuild test \
           $BUILD_TARGET \
@@ -250,7 +250,7 @@ jobs:
           -destination "platform=iOS Simulator,name=${{ matrix.device }},OS=${{ matrix.ios-version }}" \
           -resultBundlePath test_results_ui.xcresult \
           CODE_SIGNING_ALLOWED=NO || echo "UI tests completed with warnings/failures"
-    
+
     - name: 📊 Upload Test Results
       if: always()
       uses: actions/upload-artifact@v4
@@ -268,29 +268,29 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 30
     needs: [test-suite]
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-    
+
     - name: 🔧 Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: ${{ env.XCODE_VERSION }}
-    
+
     - name: 🚀 Performance Test
       run: |
         PROJECT_FILE=$(find . -name "*.xcodeproj" | head -1)
         WORKSPACE_FILE=$(find . -name "*.xcworkspace" | head -1)
-        
+
         if [ -n "$WORKSPACE_FILE" ]; then
           BUILD_TARGET="-workspace $WORKSPACE_FILE"
         elif [ -n "$PROJECT_FILE" ]; then
           BUILD_TARGET="-project $PROJECT_FILE"
         fi
-        
+
         SCHEME_NAME=$(basename "$PROJECT_FILE" .xcodeproj)
-        
+
         # パフォーマンステスト実行
         xcodebuild test \
           $BUILD_TARGET \
@@ -299,7 +299,7 @@ jobs:
           -testPlan "PerformanceTests" \
           -resultBundlePath performance_results.xcresult \
           CODE_SIGNING_ALLOWED=NO || echo "Performance tests completed"
-    
+
     - name: 📈 Upload Performance Results
       if: always()
       uses: actions/upload-artifact@v4
@@ -317,16 +317,16 @@ jobs:
     timeout-minutes: 30
     needs: [guidelines-compliance, privacy-audit, test-suite]
     if: startsWith(github.ref, 'refs/heads/release/') || github.ref == 'refs/heads/main'
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-    
+
     - name: 🔧 Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: ${{ env.XCODE_VERSION }}
-    
+
     - name: 🔑 Import Code-Signing Certificates
       if: ${{ secrets.BUILD_CERTIFICATE_BASE64 != '' }}
       env:
@@ -338,35 +338,35 @@ jobs:
         security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
         security default-keychain -s build.keychain
         security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-        
+
         # 証明書インポート
         echo $BUILD_CERTIFICATE_BASE64 | base64 --decode > certificate.p12
         security import certificate.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
-        
+
         # プロビジョニングプロファイルの設置
         if [ -n "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" ]; then
           echo ${{ secrets.PROVISIONING_PROFILE_BASE64 }} | base64 --decode > profile.mobileprovision
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
         fi
-    
+
     - name: 🏗️ Build Archive
       run: |
         PROJECT_FILE=$(find . -name "*.xcodeproj" | head -1)
         WORKSPACE_FILE=$(find . -name "*.xcworkspace" | head -1)
-        
+
         if [ -n "$WORKSPACE_FILE" ]; then
           BUILD_TARGET="-workspace $WORKSPACE_FILE"
         elif [ -n "$PROJECT_FILE" ]; then
           BUILD_TARGET="-project $PROJECT_FILE"
         fi
-        
+
         SCHEME_NAME=$(basename "$PROJECT_FILE" .xcodeproj)
         ARCHIVE_PATH="$RUNNER_TEMP/$SCHEME_NAME.xcarchive"
-        
+
         echo "📁 Archive path: $ARCHIVE_PATH"
-        
+
         xcodebuild archive \
           $BUILD_TARGET \
           -scheme "$SCHEME_NAME" \
@@ -374,9 +374,9 @@ jobs:
           -archivePath "$ARCHIVE_PATH" \
           SKIP_INSTALL=NO \
           BUILD_LIBRARY_FOR_DISTRIBUTION=YES
-        
+
         echo "ARCHIVE_PATH=$ARCHIVE_PATH" >> $GITHUB_ENV
-    
+
     - name: 📦 Export IPA
       if: ${{ secrets.BUILD_CERTIFICATE_BASE64 != '' }}
       run: |
@@ -399,13 +399,13 @@ jobs:
         </dict>
         </plist>
         EOF
-        
+
         # IPA作成
         xcodebuild -exportArchive \
           -archivePath "$ARCHIVE_PATH" \
           -exportPath "$RUNNER_TEMP/export" \
           -exportOptionsPlist ExportOptions.plist
-    
+
     - name: 📤 Upload Archive Artifacts
       if: always()
       uses: actions/upload-artifact@v4
@@ -425,16 +425,16 @@ jobs:
     timeout-minutes: 15
     needs: [guidelines-compliance, privacy-audit, test-suite]
     if: always()
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-    
+
     - name: 📥 Download All Artifacts
       uses: actions/download-artifact@v4
       with:
         path: artifacts
-    
+
     - name: 📊 Generate Summary Report
       run: |
         echo "# 🍎 iOS App Store 準拠レポート" > compliance_report.md
@@ -443,33 +443,33 @@ jobs:
         echo "**ブランチ**: ${{ github.ref_name }}" >> compliance_report.md
         echo "**コミット**: ${{ github.sha }}" >> compliance_report.md
         echo "" >> compliance_report.md
-        
+
         echo "## 📋 チェック結果" >> compliance_report.md
         echo "" >> compliance_report.md
-        
+
         # ジョブ結果の確認
         if [ "${{ needs.guidelines-compliance.result }}" = "success" ]; then
           echo "✅ **Guidelines準拠チェック**: 合格" >> compliance_report.md
         else
           echo "❌ **Guidelines準拠チェック**: 不合格" >> compliance_report.md
         fi
-        
+
         if [ "${{ needs.privacy-audit.result }}" = "success" ]; then
           echo "✅ **プライバシー監査**: 合格" >> compliance_report.md
         else
           echo "❌ **プライバシー監査**: 不合格" >> compliance_report.md
         fi
-        
+
         if [ "${{ needs.test-suite.result }}" = "success" ]; then
           echo "✅ **テストスイート**: 合格" >> compliance_report.md
         else
           echo "❌ **テストスイート**: 不合格" >> compliance_report.md
         fi
-        
+
         echo "" >> compliance_report.md
         echo "## 📁 生成物" >> compliance_report.md
         echo "" >> compliance_report.md
-        
+
         # アーティファクトの一覧
         if [ -d "artifacts" ]; then
           echo "以下のアーティファクトが生成されました：" >> compliance_report.md
@@ -477,29 +477,29 @@ jobs:
             echo "- $(basename "$file")" >> compliance_report.md
           done
         fi
-        
+
         echo "" >> compliance_report.md
         echo "## 🔗 詳細情報" >> compliance_report.md
         echo "" >> compliance_report.md
         echo "詳細なテスト結果とレポートは、GitHub Actions の Artifacts セクションからダウンロードできます。" >> compliance_report.md
-    
+
     - name: 📤 Upload Final Report
       uses: actions/upload-artifact@v4
       with:
         name: compliance-report
         path: compliance_report.md
         retention-days: 90
-    
+
     - name: 📝 Comment PR (if applicable)
       if: github.event_name == 'pull_request'
       uses: actions/github-script@v7
       with:
         script: |
           const fs = require('fs');
-          
+
           if (fs.existsSync('compliance_report.md')) {
             const report = fs.readFileSync('compliance_report.md', 'utf8');
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -518,17 +518,17 @@ jobs:
     needs: [archive]
     if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
     environment: production
-    
+
     steps:
     - name: 📥 Checkout Repository
       uses: actions/checkout@v4
-    
+
     - name: 📥 Download Archive
       uses: actions/download-artifact@v4
       with:
         name: ios-archive
         path: archive
-    
+
     - name: 🚀 Upload to App Store Connect
       env:
         APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
@@ -537,23 +537,23 @@ jobs:
       run: |
         if [ -n "$APP_STORE_CONNECT_API_KEY" ]; then
           echo "🔑 App Store Connect API認証情報が設定されています"
-          
+
           # API Key ファイルの作成
           echo "$APP_STORE_CONNECT_API_KEY" > AuthKey.p8
-          
+
           # IPAファイルの検索
           IPA_FILE=$(find archive -name "*.ipa" | head -1)
-          
+
           if [ -n "$IPA_FILE" ]; then
             echo "📱 IPAファイルが見つかりました: $IPA_FILE"
-            
+
             # App Store Connectにアップロード
             xcrun altool --upload-app \
               --type ios \
               --file "$IPA_FILE" \
               --api-key "$APP_STORE_CONNECT_API_KEY_ID" \
               --api-issuer "$APP_STORE_CONNECT_API_ISSUER_ID"
-              
+
             echo "✅ App Store Connectへのアップロード完了"
           else
             echo "❌ IPAファイルが見つかりません"
@@ -563,7 +563,7 @@ jobs:
           echo "ℹ️  App Store Connect API認証情報が未設定です"
           echo "自動アップロードをスキップします"
         fi
-    
+
     - name: 📧 Notify Success
       if: success()
       run: |

@@ -49,7 +49,7 @@ user_list = [
     "クリスティアーノ・ロナウド", "リオネル・メッシ", "ネイマール", "キリアン・エムバペ",
     "レブロン・ジェームズ", "ステフィン・カリー", "マイケル・ジョーダン", "ウサイン・ボルト",
     "ロジャー・フェデラー", "ラファエル・ナダル", "ノバク・ジョコビッチ", "タイガー・ウッズ",
-    
+
     # 架空キャラクター
     "孫悟空", "ベジータ", "フリーザ", "モンキー・D・ルフィ", "ロロノア・ゾロ", "サンジ",
     "うずまきナルト", "うちはサスケ", "竈門炭治郎", "竈門禰豆子", "煉獄杏寿郎",
@@ -127,7 +127,7 @@ def normalize_name(name):
         parts = name.split('・')
         if len(parts) >= 2:
             # アニメキャラクターの場合はそのまま
-            if any(keyword in name for keyword in ['呪術廻戦', 'SPY×FAMILY', 'チェンソーマン', 
+            if any(keyword in name for keyword in ['呪術廻戦', 'SPY×FAMILY', 'チェンソーマン',
                                                      '推しの子', 'ブルーロック', 'ハイキュー',
                                                      'DEATH NOTE', '鋼の錬金術師', 'HUNTER×HUNTER',
                                                      '幽☆遊☆白書', 'るろうに剣心', 'スラムダンク',
@@ -164,7 +164,7 @@ found_persons = []
 
 for person in user_list:
     normalized = normalize_name(person)
-    
+
     # 完全一致チェック
     if person in db_names or normalized in db_normalized:
         found_persons.append(person)
@@ -177,7 +177,7 @@ for person in user_list:
                     found = True
                     found_persons.append(person)
                     break
-        
+
         if not found:
             missing_persons.append(person)
 
@@ -190,7 +190,7 @@ print("=" * 60)
 if missing_persons:
     print("\n📋 データベースに存在しない人物:")
     print("-" * 60)
-    
+
     # カテゴリ別に分類
     categories = {
         'お笑い芸人': [],
@@ -205,9 +205,9 @@ if missing_persons:
         '架空キャラクター': [],
         'その他': []
     }
-    
+
     for person in missing_persons:
-        if any(keyword in person for keyword in ['お笑い', 'ダウンタウン', 'サンドウィッチマン', 
+        if any(keyword in person for keyword in ['お笑い', 'ダウンタウン', 'サンドウィッチマン',
                                                   'さまぁ〜ず', 'バナナマン', 'ナインティナイン',
                                                   'ウッチャンナンチャン', '千鳥', 'オリエンタルラジオ']):
             categories['お笑い芸人'].append(person)
@@ -239,7 +239,7 @@ if missing_persons:
             categories['架空キャラクター'].append(person)
         else:
             categories['その他'].append(person)
-    
+
     # カテゴリ別に出力
     for category, persons in categories.items():
         if persons:
@@ -259,7 +259,7 @@ with open(report_path, 'w', encoding='utf-8') as f:
     f.write(f"- ユーザーリスト: {len(user_list)}人\n")
     f.write(f"- データベースに存在: {len(found_persons)}人\n")
     f.write(f"- データベースに欠落: {len(missing_persons)}人\n\n")
-    
+
     if missing_persons:
         f.write(f"## 📋 欠落人物リスト\n\n")
         for person in missing_persons:

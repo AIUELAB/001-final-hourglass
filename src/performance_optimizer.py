@@ -306,9 +306,7 @@ class StreamProcessor:
     def __init__(self, chunk_size: int = 1024):
         self.chunk_size = chunk_size
 
-    async def process_file(
-        self, file_path: Path, processor: Callable[[bytes], Any]
-    ) -> AsyncIterator[Any]:
+    async def process_file(self, file_path: Path, processor: Callable[[bytes], Any]) -> AsyncIterator[Any]:
         """Process file in chunks"""
         async with aiofiles.open(file_path, "rb") as f:
             while True:

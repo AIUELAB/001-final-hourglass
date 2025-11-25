@@ -64,11 +64,11 @@ class TextbookPerson:
 class TextbookPersonProtector:
     """
     教科書掲載人物保護システム
-    
+
     文部科学省学習指導要領に基づく
     教育的重要人物の完全保護
     """
-    
+
     def __init__(self):
         """初期化"""
         self.textbook_persons = self._load_textbook_database()
@@ -79,16 +79,16 @@ class TextbookPersonProtector:
             'by_subject': {subject.value: 0 for subject in Subject},
             'by_grade': {grade.value: 0 for grade in Grade}
         }
-        
+
         logger.info(f"✅ 教科書データベース初期化: {len(self.textbook_persons)}名登録")
-    
+
     def _load_textbook_database(self) -> Dict[str, TextbookPerson]:
         """
         教科書掲載人物データベース
         学習指導要領必修人物＋頻出人物
         """
         database = {}
-        
+
         # ===== 日本史必修人物 =====
         japanese_history_persons = [
             # 古代
@@ -99,7 +99,7 @@ class TextbookPersonProtector:
             ('聖武天皇', 'Emperor Shomu', '奈良時代', 4, '天皇'),
             ('鑑真', 'Ganjin', '奈良時代', 4, '僧侶'),
             ('行基', 'Gyoki', '奈良時代', 3, '僧侶'),
-            
+
             # 平安時代
             ('桓武天皇', 'Emperor Kanmu', '平安時代', 4, '天皇'),
             ('藤原道長', 'Fujiwara no Michinaga', '平安時代', 5, '貴族・政治家'),
@@ -109,7 +109,7 @@ class TextbookPersonProtector:
             ('菅原道真', 'Sugawara no Michizane', '平安時代', 4, '学者・政治家'),
             ('空海', 'Kukai', '平安時代', 4, '僧侶'),
             ('最澄', 'Saicho', '平安時代', 4, '僧侶'),
-            
+
             # 鎌倉時代
             ('平清盛', 'Taira no Kiyomori', '平安末期', 4, '武士'),
             ('源頼朝', 'Minamoto no Yoritomo', '鎌倉時代', 5, '将軍'),
@@ -121,13 +121,13 @@ class TextbookPersonProtector:
             ('法然', 'Honen', '鎌倉時代', 4, '僧侶'),
             ('道元', 'Dogen', '鎌倉時代', 3, '僧侶'),
             ('栄西', 'Eisai', '鎌倉時代', 3, '僧侶'),
-            
+
             # 室町時代
             ('足利尊氏', 'Ashikaga Takauji', '室町時代', 4, '将軍'),
             ('足利義満', 'Ashikaga Yoshimitsu', '室町時代', 5, '将軍'),
             ('足利義政', 'Ashikaga Yoshimasa', '室町時代', 3, '将軍'),
             ('雪舟', 'Sesshu', '室町時代', 4, '画家'),
-            
+
             # 戦国・安土桃山時代
             ('織田信長', 'Oda Nobunaga', '戦国時代', 5, '戦国大名'),
             ('豊臣秀吉', 'Toyotomi Hideyoshi', '安土桃山時代', 5, '天下人'),
@@ -135,7 +135,7 @@ class TextbookPersonProtector:
             ('武田信玄', 'Takeda Shingen', '戦国時代', 3, '戦国大名'),
             ('上杉謙信', 'Uesugi Kenshin', '戦国時代', 3, '戦国大名'),
             ('フランシスコ・ザビエル', 'Francis Xavier', '戦国時代', 4, '宣教師'),
-            
+
             # 江戸時代
             ('徳川家光', 'Tokugawa Iemitsu', '江戸時代', 4, '将軍'),
             ('徳川綱吉', 'Tokugawa Tsunayoshi', '江戸時代', 3, '将軍'),
@@ -155,7 +155,7 @@ class TextbookPersonProtector:
             ('近松門左衛門', 'Chikamatsu Monzaemon', '江戸時代', 3, '劇作家'),
             ('松尾芭蕉', 'Matsuo Basho', '江戸時代', 4, '俳人'),
             ('ペリー', 'Matthew Perry', '江戸末期', 5, '提督'),
-            
+
             # 幕末・明治維新
             ('坂本龍馬', 'Sakamoto Ryoma', '幕末', 5, '志士'),
             ('西郷隆盛', 'Saigo Takamori', '幕末・明治', 5, '政治家'),
@@ -164,7 +164,7 @@ class TextbookPersonProtector:
             ('勝海舟', 'Katsu Kaishu', '幕末', 4, '幕臣'),
             ('吉田松陰', 'Yoshida Shoin', '幕末', 4, '思想家'),
             ('高杉晋作', 'Takasugi Shinsaku', '幕末', 3, '志士'),
-            
+
             # 明治時代
             ('明治天皇', 'Emperor Meiji', '明治', 5, '天皇'),
             ('伊藤博文', 'Ito Hirobumi', '明治', 5, '政治家'),
@@ -180,20 +180,20 @@ class TextbookPersonProtector:
             ('樋口一葉', 'Higuchi Ichiyo', '明治', 4, '作家'),
             ('正岡子規', 'Masaoka Shiki', '明治', 4, '俳人'),
             ('与謝野晶子', 'Yosano Akiko', '明治・大正', 3, '歌人'),
-            
+
             # 大正・昭和時代
             ('原敬', 'Hara Takashi', '大正', 3, '政治家'),
             ('犬養毅', 'Inukai Tsuyoshi', '昭和初期', 3, '政治家'),
             ('吉野作造', 'Yoshino Sakuzo', '大正', 3, '政治学者'),
             ('平塚らいてう', 'Hiratsuka Raicho', '大正・昭和', 3, '女性運動家'),
             ('市川房枝', 'Ichikawa Fusae', '昭和', 3, '女性運動家'),
-            
+
             # 戦後
             ('吉田茂', 'Yoshida Shigeru', '昭和', 4, '政治家'),
             ('田中角栄', 'Tanaka Kakuei', '昭和', 3, '政治家'),
             ('佐藤栄作', 'Sato Eisaku', '昭和', 3, '政治家'),
         ]
-        
+
         # 日本史人物を登録
         for i, (name, name_en, era, importance, category) in enumerate(japanese_history_persons):
             grades = self._determine_grades(importance)
@@ -209,14 +209,14 @@ class TextbookPersonProtector:
                 protection_reason=f'日本史教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 世界史必修人物 =====
         world_history_persons = [
             # 古代文明
             ('ハンムラビ', 'Hammurabi', '古代メソポタミア', 4, '王'),
             ('ツタンカーメン', 'Tutankhamun', '古代エジプト', 3, 'ファラオ'),
             ('クレオパトラ', 'Cleopatra', '古代エジプト', 4, '女王'),
-            
+
             # 古代ギリシア・ローマ
             ('ソクラテス', 'Socrates', '古代ギリシア', 5, '哲学者'),
             ('プラトン', 'Plato', '古代ギリシア', 5, '哲学者'),
@@ -225,7 +225,7 @@ class TextbookPersonProtector:
             ('カエサル', 'Julius Caesar', '古代ローマ', 5, '政治家・軍人'),
             ('アウグストゥス', 'Augustus', '古代ローマ', 4, '皇帝'),
             ('ネロ', 'Nero', '古代ローマ', 3, '皇帝'),
-            
+
             # 中国史
             ('孔子', 'Confucius', '春秋時代', 5, '思想家'),
             ('始皇帝', 'Qin Shi Huang', '秦', 5, '皇帝'),
@@ -240,35 +240,35 @@ class TextbookPersonProtector:
             ('孫文', 'Sun Yat-sen', '中華民国', 4, '革命家'),
             ('毛沢東', 'Mao Zedong', '中華人民共和国', 4, '政治家'),
             ('鄧小平', 'Deng Xiaoping', '中華人民共和国', 3, '政治家'),
-            
+
             # イスラム世界
             ('ムハンマド', 'Muhammad', 'イスラム', 5, '預言者'),
-            
+
             # 中世ヨーロッパ
             ('カール大帝', 'Charlemagne', 'フランク王国', 4, '皇帝'),
             ('ジャンヌ・ダルク', 'Joan of Arc', '中世フランス', 4, '軍人'),
-            
+
             # 大航海時代
             ('コロンブス', 'Christopher Columbus', '大航海時代', 5, '探検家'),
             ('マゼラン', 'Ferdinand Magellan', '大航海時代', 4, '探検家'),
             ('バスコ・ダ・ガマ', 'Vasco da Gama', '大航海時代', 4, '探検家'),
-            
+
             # ルネサンス
             ('レオナルド・ダ・ヴィンチ', 'Leonardo da Vinci', 'ルネサンス', 5, '芸術家・科学者'),
             ('ミケランジェロ', 'Michelangelo', 'ルネサンス', 5, '芸術家'),
             ('ラファエロ', 'Raphael', 'ルネサンス', 4, '画家'),
             ('ダンテ', 'Dante Alighieri', 'ルネサンス', 4, '詩人'),
-            
+
             # 宗教改革
             ('ルター', 'Martin Luther', '宗教改革', 5, '宗教改革者'),
             ('カルヴァン', 'John Calvin', '宗教改革', 4, '宗教改革者'),
-            
+
             # 絶対王政
             ('エリザベス1世', 'Elizabeth I', 'イギリス', 4, '女王'),
             ('ルイ14世', 'Louis XIV', 'フランス', 5, '国王'),
             ('ピョートル大帝', 'Peter the Great', 'ロシア', 4, '皇帝'),
             ('マリア・テレジア', 'Maria Theresa', 'オーストリア', 3, '女帝'),
-            
+
             # 市民革命
             ('クロムウェル', 'Oliver Cromwell', 'イギリス', 4, '政治家'),
             ('ワシントン', 'George Washington', 'アメリカ', 5, '大統領'),
@@ -279,17 +279,17 @@ class TextbookPersonProtector:
             ('ヴォルテール', 'Voltaire', 'フランス', 4, '思想家'),
             ('ロベスピエール', 'Robespierre', 'フランス', 4, '革命家'),
             ('ナポレオン', 'Napoleon Bonaparte', 'フランス', 5, '皇帝'),
-            
+
             # 産業革命
             ('ワット', 'James Watt', 'イギリス', 4, '発明家'),
             ('スティーブンソン', 'George Stephenson', 'イギリス', 3, '技術者'),
-            
+
             # 19世紀
             ('リンカーン', 'Abraham Lincoln', 'アメリカ', 5, '大統領'),
             ('ビスマルク', 'Otto von Bismarck', 'ドイツ', 4, '政治家'),
             ('ガリバルディ', 'Giuseppe Garibaldi', 'イタリア', 3, '革命家'),
             ('ヴィクトリア女王', 'Queen Victoria', 'イギリス', 4, '女王'),
-            
+
             # 20世紀
             ('レーニン', 'Vladimir Lenin', 'ソ連', 4, '革命家'),
             ('スターリン', 'Joseph Stalin', 'ソ連', 4, '政治家'),
@@ -303,7 +303,7 @@ class TextbookPersonProtector:
             ('マンデラ', 'Nelson Mandela', '南アフリカ', 4, '政治家'),
             ('ゴルバチョフ', 'Mikhail Gorbachev', 'ソ連', 4, '政治家'),
         ]
-        
+
         # 世界史人物を登録
         for i, (name, name_en, era, importance, category) in enumerate(world_history_persons):
             grades = self._determine_grades(importance)
@@ -319,7 +319,7 @@ class TextbookPersonProtector:
                 protection_reason=f'世界史教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 理科（科学者） =====
         scientists = [
             ('ガリレオ・ガリレイ', 'Galileo Galilei', [Subject.SCIENCE], 5, '天文学者'),
@@ -339,7 +339,7 @@ class TextbookPersonProtector:
             ('山中伸弥', 'Yamanaka Shinya', [Subject.SCIENCE], 4, '医学者'),
             ('大村智', 'Omura Satoshi', [Subject.SCIENCE], 3, '化学者'),
         ]
-        
+
         # 理科人物を登録
         for i, (name, name_en, subjects, importance, category) in enumerate(scientists):
             grades = self._determine_grades(importance)
@@ -355,7 +355,7 @@ class TextbookPersonProtector:
                 protection_reason=f'理科教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 国語（文学者） =====
         writers = [
             # 古典
@@ -366,13 +366,13 @@ class TextbookPersonProtector:
             ('鴨長明', 'Kamo no Chomei', 4, '随筆家'),
             ('吉田兼好', 'Yoshida Kenko', 4, '随筆家'),
             ('世阿弥', 'Zeami', 3, '能楽師'),
-            
+
             # 近世
             ('井原西鶴', 'Ihara Saikaku', 4, '作家'),
             ('松尾芭蕉', 'Matsuo Basho', 5, '俳人'),
             ('与謝蕪村', 'Yosa Buson', 3, '俳人・画家'),
             ('小林一茶', 'Kobayashi Issa', 3, '俳人'),
-            
+
             # 近現代
             ('夏目漱石', 'Natsume Soseki', 5, '作家'),
             ('森鴎外', 'Mori Ogai', 5, '作家'),
@@ -391,7 +391,7 @@ class TextbookPersonProtector:
             ('大江健三郎', 'Oe Kenzaburo', 4, '作家'),
             ('村上春樹', 'Murakami Haruki', 3, '作家'),
         ]
-        
+
         # 国語人物を登録
         for i, (name, name_en, importance, category) in enumerate(writers):
             grades = self._determine_grades(importance)
@@ -407,7 +407,7 @@ class TextbookPersonProtector:
                 protection_reason=f'国語教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 音楽 =====
         musicians = [
             ('バッハ', 'Johann Sebastian Bach', 5, '作曲家'),
@@ -422,7 +422,7 @@ class TextbookPersonProtector:
             ('山田耕筰', 'Yamada Kosaku', 3, '作曲家'),
             ('中田喜直', 'Nakada Yoshinao', 3, '作曲家'),
         ]
-        
+
         # 音楽人物を登録
         for i, (name, name_en, importance, category) in enumerate(musicians):
             grades = self._determine_grades(importance)
@@ -438,7 +438,7 @@ class TextbookPersonProtector:
                 protection_reason=f'音楽教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 美術 =====
         artists = [
             ('レオナルド・ダ・ヴィンチ', 'Leonardo da Vinci', 5, '画家'),
@@ -458,7 +458,7 @@ class TextbookPersonProtector:
             ('尾形光琳', 'Ogata Korin', 3, '画家'),
             ('横山大観', 'Yokoyama Taikan', 3, '日本画家'),
         ]
-        
+
         # 美術人物を登録
         for i, (name, name_en, importance, category) in enumerate(artists):
             grades = self._determine_grades(importance)
@@ -474,7 +474,7 @@ class TextbookPersonProtector:
                 protection_reason=f'美術教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 体育 =====
         athletes = [
             ('嘉納治五郎', 'Kano Jigoro', 4, '柔道創始者'),
@@ -482,7 +482,7 @@ class TextbookPersonProtector:
             ('人見絹枝', 'Hitomi Kinue', 3, '陸上選手'),
             ('クーベルタン', 'Pierre de Coubertin', 4, 'オリンピック創始者'),
         ]
-        
+
         # 体育人物を登録
         for i, (name, name_en, importance, category) in enumerate(athletes):
             grades = self._determine_grades(importance)
@@ -498,7 +498,7 @@ class TextbookPersonProtector:
                 protection_reason=f'体育教科書掲載（重要度{importance}）'
             )
             database[name] = person
-        
+
         # ===== 公民・倫理 =====
         thinkers = [
             # 西洋思想家
@@ -512,21 +512,21 @@ class TextbookPersonProtector:
             ('ニーチェ', 'Friedrich Nietzsche', 3, '哲学者'),
             ('フロイト', 'Sigmund Freud', 4, '心理学者'),
             ('ユング', 'Carl Jung', 3, '心理学者'),
-            
+
             # 東洋思想家
             ('孔子', 'Confucius', 5, '思想家'),
             ('孟子', 'Mencius', 4, '思想家'),
             ('老子', 'Laozi', 4, '思想家'),
             ('荘子', 'Zhuangzi', 3, '思想家'),
             ('ブッダ', 'Buddha', 5, '宗教家'),
-            
+
             # 経済学者
             ('アダム・スミス', 'Adam Smith', 5, '経済学者'),
             ('リカード', 'David Ricardo', 3, '経済学者'),
             ('ケインズ', 'John Maynard Keynes', 4, '経済学者'),
             ('シュンペーター', 'Joseph Schumpeter', 3, '経済学者'),
         ]
-        
+
         # 公民・倫理人物を登録
         for i, (name, name_en, importance, category) in enumerate(thinkers):
             grades = [Grade.HIGH_SCHOOL]  # 主に高校で学習
@@ -544,14 +544,14 @@ class TextbookPersonProtector:
             # 重複チェック（日本史・世界史と被る人物）
             if name not in database:
                 database[name] = person
-        
+
         return database
-    
+
     def _determine_grades(self, importance_level: int) -> List[Grade]:
         """重要度から学年を判定"""
         if importance_level >= 5:
             # 最重要人物は全学年
-            return [Grade.ELEMENTARY_LOW, Grade.ELEMENTARY_HIGH, 
+            return [Grade.ELEMENTARY_LOW, Grade.ELEMENTARY_HIGH,
                    Grade.JUNIOR_HIGH, Grade.HIGH_SCHOOL]
         elif importance_level >= 4:
             # 重要人物は小学校高学年から
@@ -562,7 +562,7 @@ class TextbookPersonProtector:
         else:
             # その他は高校のみ
             return [Grade.HIGH_SCHOOL]
-    
+
     def is_textbook_person(self, name: str) -> bool:
         """教科書掲載人物かどうか判定"""
         self.stats['total_checked'] += 1
@@ -570,47 +570,47 @@ class TextbookPersonProtector:
             self.stats['textbook_found'] += 1
             return True
         return False
-    
+
     def get_protection_info(self, name: str) -> Optional[TextbookPerson]:
         """保護情報取得"""
         return self.textbook_persons.get(name)
-    
+
     def should_protect(self, name: str) -> Tuple[bool, str]:
         """
         保護判定
-        
+
         Returns:
             (保護すべきか, 理由)
         """
         if name in self.textbook_persons:
             person = self.textbook_persons[name]
             self.stats['protected_count'] += 1
-            
+
             # 教科別カウント
             for subject in person.subjects:
                 self.stats['by_subject'][subject.value] += 1
-            
+
             # 学年別カウント
             for grade in person.grades:
                 self.stats['by_grade'][grade.value] += 1
-            
+
             return True, person.protection_reason
-        
+
         return False, "教科書未掲載"
-    
+
     def batch_protect(self, persons: List[Dict]) -> List[Dict]:
         """バッチ保護処理"""
         protected_persons = []
-        
+
         for person in persons:
             name = person.get('name', '')
-            
+
             # 教科書保護判定
             is_protected, reason = self.should_protect(name)
-            
+
             # 教科書情報取得
             textbook_info = self.get_protection_info(name)
-            
+
             # 結果を追加
             person_with_protection = person.copy()
             person_with_protection.update({
@@ -621,15 +621,15 @@ class TextbookPersonProtector:
                 'textbook_subjects': [s.value for s in textbook_info.subjects] if textbook_info else [],
                 'textbook_grades': [g.value for g in textbook_info.grades] if textbook_info else []
             })
-            
+
             protected_persons.append(person_with_protection)
-        
+
         return protected_persons
-    
+
     def export_textbook_database(self, output_path: str):
         """教科書データベースをエクスポート"""
         data = []
-        
+
         for name, person in self.textbook_persons.items():
             data.append({
                 'id': person.id,
@@ -642,15 +642,15 @@ class TextbookPersonProtector:
                 'category': person.category,
                 'protection_reason': person.protection_reason
             })
-        
+
         # 重要度でソート
         data.sort(key=lambda x: (-x['importance_level'], x['name']))
-        
+
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        
+
         logger.info(f"✅ 教科書データベースエクスポート完了: {output_path}")
-    
+
     def print_statistics(self):
         """統計情報表示"""
         print("\n" + "="*60)
@@ -660,34 +660,34 @@ class TextbookPersonProtector:
         print(f"チェック総数: {self.stats['total_checked']}名")
         print(f"教科書掲載検出: {self.stats['textbook_found']}名")
         print(f"保護対象数: {self.stats['protected_count']}名")
-        
+
         print("\n【教科別保護数】")
         for subject, count in self.stats['by_subject'].items():
             if count > 0:
                 print(f"  {subject}: {count}名")
-        
+
         print("\n【学年別保護数】")
         for grade, count in self.stats['by_grade'].items():
             if count > 0:
                 print(f"  {grade}: {count}名")
-        
+
         print("\n【重要度別人数】")
         importance_counts = {}
         for person in self.textbook_persons.values():
             level = person.importance_level
             importance_counts[level] = importance_counts.get(level, 0) + 1
-        
+
         for level in sorted(importance_counts.keys(), reverse=True):
             stars = '★' * level + '☆' * (5 - level)
             print(f"  {stars} (重要度{level}): {importance_counts[level]}名")
-        
+
         print("="*60)
 
 
 def main():
     """メイン実行"""
     protector = TextbookPersonProtector()
-    
+
     # テストデータ
     test_persons = [
         {'name': '織田信長', 'integrated_score': 5.0},
@@ -700,10 +700,10 @@ def main():
         {'name': 'HIKAKIN', 'integrated_score': 7.5},  # 教科書未掲載
         {'name': '架空太郎', 'integrated_score': 1.0},  # 教科書未掲載
     ]
-    
+
     # バッチ保護処理
     protected_persons = protector.batch_protect(test_persons)
-    
+
     # 結果表示
     print("\n保護判定結果:")
     print("-" * 60)
@@ -716,15 +716,15 @@ def main():
             print(f"  学習学年: {', '.join(person['textbook_grades'])}")
         print(f"  保護対象: {'はい' if person['is_protected'] else 'いいえ'}")
         print(f"  理由: {person['protection_reason']}")
-    
+
     # 統計表示
     protector.print_statistics()
-    
+
     # データベースエクスポート
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_path = f"textbook_persons_database_{timestamp}.json"
     protector.export_textbook_database(output_path)
-    
+
     print(f"\n✅ 完了！データベースは {output_path} に保存されました")
 
 

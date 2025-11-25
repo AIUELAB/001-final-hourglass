@@ -11,10 +11,10 @@ def generate_quality_report():
     # 修正前後のファイルを読み込み
     before_df = pd.read_csv('ultra_think_COMEDY_GROUPS_FIXED_20250828_190550.csv')
     after_df = pd.read_csv('ultra_think_JAPANESE_DISPLAY_FIXED_20250828_192840.csv')
-    
+
     # 指定されたperson_idリスト
     target_ids = ['P000064', 'P000065', 'P000066', 'P000067', 'P000068', 'P000069', 'P000070', 'P000073', 'P000074']
-    
+
     # 統計を計算
     stats = {
         'total_records': len(after_df),
@@ -26,23 +26,23 @@ def generate_quality_report():
         'musician_fixed': 0,
         'total_changes': 0
     }
-    
+
     # 日本語文字の判定
     def has_japanese(text):
         if pd.isna(text):
             return False
         return bool(re.search(r'[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]', str(text)))
-    
+
     # 変更を検出
     changes = []
     for idx in after_df.index:
         person_id = after_df.loc[idx, 'person_id']
         before_row = before_df[before_df['person_id'] == person_id]
-        
+
         if not before_row.empty:
             before_display = before_row.iloc[0]['person_name_display']
             after_display = after_df.loc[idx, 'person_name_display']
-            
+
             if before_display != after_display:
                 occupation = after_df.loc[idx, 'occupation']
                 changes.append({
@@ -54,7 +54,7 @@ def generate_quality_report():
                     'occupation': occupation,
                     'has_japanese_after': has_japanese(after_display)
                 })
-                
+
                 # 統計を更新
                 if occupation == 'YouTuber':
                     stats['youtuber_fixed'] += 1
@@ -62,23 +62,23 @@ def generate_quality_report():
                     stats['comedian_fixed'] += 1
                 elif occupation in ['ミュージシャン', '歌手', 'ギタリスト', 'ベーシスト', 'ドラマー']:
                     stats['musician_fixed'] += 1
-    
+
     stats['total_changes'] = len(changes)
-    
+
     # 指定されたperson_idの詳細を確認
     for pid in target_ids:
         before_row = before_df[before_df['person_id'] == pid]
         after_row = after_df[after_df['person_id'] == pid]
-        
+
         if not after_row.empty:
             before_display = before_row.iloc[0]['person_name_display'] if not before_row.empty else 'N/A'
             after_display = after_row.iloc[0]['person_name_display']
             person_name = after_row.iloc[0]['person_name']
             person_name_ja = after_row.iloc[0]['person_name_ja']
-            
+
             is_fixed = before_display != after_display
             has_jp = has_japanese(after_display)
-            
+
             stats['target_ids_details'].append({
                 'person_id': pid,
                 'person_name': person_name,
@@ -88,10 +88,10 @@ def generate_quality_report():
                 'fixed': is_fixed,
                 'has_japanese': has_jp
             })
-            
+
             if is_fixed:
                 stats['target_ids_fixed'] += 1
-    
+
     # レポートを生成
     report_lines = [
         "# 🌸 日本語表記修正 品質検証レポート",
@@ -112,17 +112,17 @@ def generate_quality_report():
         "| person_id | 名前 | 日本語名 | 修正前 | 修正後 | 状態 |",
         "|-----------|------|----------|--------|--------|------|"
     ]
-    
+
     for detail in stats['target_ids_details']:
         status = "✅ 修正済" if detail['fixed'] else "⚠️ 未変更"
         if detail['has_japanese']:
             status = "✅ 日本語表記"
-        
+
         report_lines.append(
             f"| {detail['person_id']} | {detail['person_name']} | {detail['person_name_ja']} | "
             f"{detail['before']} | {detail['after']} | {status} |"
         )
-    
+
     report_lines.extend([
         "",
         f"**指定ID修正率**: {stats['target_ids_fixed']}/9 ({stats['target_ids_fixed']/9*100:.1f}%)",
@@ -140,17 +140,17 @@ def generate_quality_report():
         "## 📝 主要な修正例（最初の30件）",
         ""
     ])
-    
+
     for i, change in enumerate(changes[:30], 1):
         jp_status = "🇯🇵" if change['has_japanese_after'] else "🌐"
         report_lines.append(
             f"{i}. {jp_status} **{change['person_id']}** ({change['occupation']}): "
             f"{change['before']} → {change['after']}"
         )
-    
+
     if len(changes) > 30:
         report_lines.append(f"\n... 他{len(changes) - 30}件の変更")
-    
+
     # 未修正の問題を分析
     japanese_df = after_df[after_df['nationality'] == '日本']
     still_english = []
@@ -162,7 +162,7 @@ def generate_quality_report():
                 'ja_name': row['person_name_ja'],
                 'occupation': row['occupation']
             })
-    
+
     report_lines.extend([
         "",
         "## ⚠️ 未解決の問題",
@@ -186,16 +186,16 @@ def generate_quality_report():
         "---",
         f"*レポート生成: {datetime.now().isoformat()}*"
     ])
-    
+
     # レポートを保存
     report_content = '\n'.join(report_lines)
     report_file = f'JAPANESE_DISPLAY_QUALITY_REPORT_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
-    
+
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report_content)
-    
+
     print(report_content)
-    
+
     # 統計をJSONでも保存
     with open('japanese_display_quality_stats.json', 'w', encoding='utf-8') as f:
         json.dump({
@@ -204,7 +204,7 @@ def generate_quality_report():
             'still_english_count': len(still_english),
             'sample_changes': changes[:10]
         }, f, ensure_ascii=False, indent=2)
-    
+
     return report_file, stats
 
 if __name__ == "__main__":

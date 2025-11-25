@@ -132,9 +132,7 @@ def test_json_processing():
     import json
 
     data = {
-        "users": [
-            {"id": i, "name": f"User{i}", "email": f"user{i}@example.com"} for i in range(100)
-        ],
+        "users": [{"id": i, "name": f"User{i}", "email": f"user{i}@example.com"} for i in range(100)],
         "metadata": {"timestamp": time.time(), "version": "1.0.0"},
     }
 

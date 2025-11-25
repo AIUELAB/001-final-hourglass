@@ -6,8 +6,9 @@ composite_score一貫性検証スクリプト
 同じルール（7軸スコアの平均）で行われているかを検証
 """
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 CSV_PATH = Path(__file__).parent.parent / "MASTER_EPISODES_CURRENT.csv"
 
@@ -16,8 +17,15 @@ def calculate_composite_score(row: pd.Series) -> float:
     """7軸スコアからcomposite_scoreを計算（共通ロジック）"""
     seven_axes = []
 
-    for axis in ['記憶性スコア', '共感性スコア', '意外性スコア', '生成品質スコア',
-                 '教育的価値', 'ストーリー品質', '事実密度']:
+    for axis in [
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
+    ]:
         val = row.get(axis)
         if pd.notna(val):
             try:
@@ -33,7 +41,7 @@ def calculate_composite_score(row: pd.Series) -> float:
 
 def verify_person(df: pd.DataFrame, person_name: str):
     """特定人物のcomposite_score検証"""
-    person_df = df[df['person_name'] == person_name].copy()
+    person_df = df[df["person_name"] == person_name].copy()
 
     if len(person_df) == 0:
         print(f"  ⚠️  {person_name}: データなし")
@@ -44,7 +52,7 @@ def verify_person(df: pd.DataFrame, person_name: str):
 
     for idx, row in person_df.iterrows():
         expected_composite = calculate_composite_score(row)
-        actual_composite = row['composite_score']
+        actual_composite = row["composite_score"]
 
         if expected_composite is None:
             print(f"  ⚠️  {row['age']}歳: 7軸スコア不完全（スキップ）")
@@ -59,7 +67,9 @@ def verify_person(df: pd.DataFrame, person_name: str):
         status = "✅" if diff < 0.0001 else "❌"
 
         if diff >= 0.0001:
-            print(f"  {status} {row['age']}歳: 期待={expected_composite:.6f}, 実際={actual_composite:.6f}, 差分={diff:.6f}")
+            print(
+                f"  {status} {row['age']}歳: 期待={expected_composite:.6f}, 実際={actual_composite:.6f}, 差分={diff:.6f}"
+            )
             all_ok = False
         else:
             print(f"  {status} {row['age']}歳: {actual_composite:.6f} (一致)")
@@ -75,17 +85,17 @@ def main():
 
     # CSVファイル読み込み
     print("CSVファイル読み込み中...")
-    df = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
+    df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
     print(f"✅ 読み込み完了: {len(df):,}件")
     print()
 
     # 検証対象の人物
     test_persons = [
         "石ノ森章太郎",  # 修正対象
-        "AKB48",         # 他の人物（サンプル）
-        "森三郎",        # 他の人物（サンプル）
-        "棚橋弘至",      # 他の人物（サンプル）
-        "梶田隆章",      # 他の人物（サンプル）
+        "AKB48",  # 他の人物（サンプル）
+        "森三郎",  # 他の人物（サンプル）
+        "棚橋弘至",  # 他の人物（サンプル）
+        "梶田隆章",  # 他の人物（サンプル）
     ]
 
     results = {}
@@ -132,7 +142,7 @@ def main():
 
     for idx, row in df.iterrows():
         expected = calculate_composite_score(row)
-        actual = row['composite_score']
+        actual = row["composite_score"]
 
         if expected is None:
             continue  # 7軸スコア不完全
@@ -150,7 +160,7 @@ def main():
             valid_count += 1
 
     print()
-    print(f"検証結果:")
+    print("検証結果:")
     print(f"  ✅ 一致: {valid_count:,}件")
     print(f"  ❌ 不整合: {inconsistent_count:,}件")
     print(f"  ⚠️  欠損: {missing_count:,}件")

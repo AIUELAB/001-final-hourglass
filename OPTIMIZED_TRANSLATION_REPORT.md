@@ -55,7 +55,7 @@
 ### 自動実行スクリプト
 ```bash
 # 10回連続実行（約5分）
-for i in {1..10}; do 
+for i in {1..10}; do
   echo "実行 $i/10"
   python3 optimized_translator.py
   sleep 5

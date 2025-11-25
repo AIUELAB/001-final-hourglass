@@ -169,29 +169,29 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🔄 同期開始" >> startup_hook.log
     show_loading $SYNC_PID &
     wait $SYNC_PID
     SYNC_EXIT=$?
-    
+
     if [ $SYNC_EXIT -eq 0 ]; then
         echo -e "${GREEN}✅ 同期完了！${NC}"
         echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✅ 同期完了" >> startup_hook.log
-        
+
         # 成功音を鳴らす（macOS）
         if [ "$(uname)" = "Darwin" ]; then
             afplay /System/Library/Sounds/Glass.aiff 2>/dev/null &
         fi
-        
+
         # ブラウザで自動表示（設定から読み込み）
         AUTO_OPEN=$(python -c "import json; print(json.load(open('startup_config.json'))['startup_settings']['auto_open_browser'])" 2>/dev/null)
-        
+
         if [ "$AUTO_OPEN" = "True" ]; then
             echo -e "${CYAN}🌐 ブラウザでスプレッドシートを開いています...${NC}"
             SHEET_URL=$(python -c "import json; print(json.load(open('spreadsheet_config.json'))['spreadsheet_config']['spreadsheet_url'])" 2>/dev/null)
-            
+
             if [ -n "$SHEET_URL" ]; then
                 open "$SHEET_URL"
                 echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🌐 ブラウザでスプレッドシートを開きました" >> startup_hook.log
             fi
         fi
-        
+
         # 成功メッセージ
         echo -e "${GREEN}"
         echo "╔═══════════════════════════════════════════════════╗"
@@ -200,11 +200,11 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] 🔄 同期開始" >> startup_hook.log
         echo "║   🔄 ファイル監視が有効になりました              ║"
         echo "╚═══════════════════════════════════════════════════╝"
         echo -e "${NC}"
-        
+
     else
         echo -e "${RED}❌ 同期エラーが発生しました${NC}"
         echo "[$(date '+%Y-%m-%d %H:%M:%S')] ❌ 同期エラー" >> startup_hook.log
-        
+
         # エラー音を鳴らす
         if [ "$(uname)" = "Darwin" ]; then
             afplay /System/Library/Sounds/Sosumi.aiff 2>/dev/null &
@@ -218,10 +218,10 @@ MONITOR_ENABLED=$(python -c "import json; print(json.load(open('startup_config.j
 if [ "$MONITOR_ENABLED" = "True" ]; then
     echo -e "${CYAN}👁️ リアルタイムファイル監視を開始${NC}"
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 👁️ 監視開始" >> startup_hook.log
-    
+
     # 既存の監視プロセスを終了
     pkill -f "watchdog" 2>/dev/null
-    
+
     # 新しい監視プロセスを開始
     nohup python -c "
 from watchdog.observers import Observer
@@ -247,7 +247,7 @@ except KeyboardInterrupt:
     observer.stop()
 observer.join()
 " > /dev/null 2>&1 &
-    
+
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 👁️ バックグラウンド監視プロセス起動" >> startup_hook.log
 fi
 

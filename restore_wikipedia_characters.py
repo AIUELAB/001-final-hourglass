@@ -20,7 +20,7 @@ class WikipediaCharacterRestorer:
         self.restoration_log = []
         self.validation_log = []
         self.false_positive_log = []
-        
+
         # Culturally significant fictional characters that should be restored
         self.significant_characters = {
             # Japanese cultural icons
@@ -41,7 +41,7 @@ class WikipediaCharacterRestorer:
             "しょくぱんまん": {"work": "アンパンマン", "significance": "Main character"},
             "カレーパンマン": {"work": "アンパンマン", "significance": "Main character"},
             "ドキンちゃん": {"work": "アンパンマン", "significance": "Main character"},
-            
+
             # Major anime/manga characters
             "孫悟空": {"work": "ドラゴンボール", "significance": "International anime icon"},
             "ベジータ": {"work": "ドラゴンボール", "significance": "Main character"},
@@ -77,7 +77,7 @@ class WikipediaCharacterRestorer:
             "桜木花道": {"work": "SLAM DUNK", "significance": "Sports anime icon"},
             "流川楓": {"work": "SLAM DUNK", "significance": "Main character"},
             "花垣武道": {"work": "東京リベンジャーズ", "significance": "Main character"},
-            
+
             # Video game characters
             "マリオ": {"work": "スーパーマリオ", "significance": "Gaming icon"},
             "ピカチュウ": {"work": "ポケットモンスター", "significance": "Global gaming icon"},
@@ -87,7 +87,7 @@ class WikipediaCharacterRestorer:
             "パックマン": {"work": "パックマン", "significance": "Classic gaming icon"},
             "ミュウツー": {"work": "ポケットモンスター", "significance": "Popular Pokémon"},
         }
-        
+
         # False positives - real people incorrectly removed
         self.false_positives = {
             "安室奈美恵": {"type": "singer", "significance": "Japanese pop icon"},
@@ -107,7 +107,7 @@ class WikipediaCharacterRestorer:
         csv_files = [f for f in os.listdir('.') if f.startswith('ultra_think_') and f.endswith('.csv')]
         if not csv_files:
             raise FileNotFoundError("No ultra_think CSV files found")
-        
+
         # Sort by modification time
         csv_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
         return csv_files[0]
@@ -117,7 +117,7 @@ class WikipediaCharacterRestorer:
         try:
             # Try both Japanese and English Wikipedia
             results = {}
-            
+
             # Japanese Wikipedia
             ja_url = f"https://ja.wikipedia.org/api/rest_v1/page/summary/{quote(name)}"
             try:
@@ -134,9 +134,9 @@ class WikipediaCharacterRestorer:
                     results['ja'] = {'exists': False}
             except:
                 results['ja'] = {'exists': False}
-            
+
             time.sleep(0.5)  # Rate limiting
-            
+
             # English Wikipedia
             en_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{quote(name)}"
             try:
@@ -153,9 +153,9 @@ class WikipediaCharacterRestorer:
                     results['en'] = {'exists': False}
             except:
                 results['en'] = {'exists': False}
-            
+
             return results
-            
+
         except Exception as e:
             return {'error': str(e), 'ja': {'exists': False}, 'en': {'exists': False}}
 
@@ -169,14 +169,14 @@ class WikipediaCharacterRestorer:
     def restore_character(self, df: pd.DataFrame, person_data: Dict, backup_df: pd.DataFrame) -> Optional[pd.Series]:
         """Restore a character from backup if found"""
         name = person_data.get('person_name_ja', '') or person_data.get('person_name_display', '') or person_data.get('person_name', '')
-        
+
         # Search in backup for this character
         matches = backup_df[
             (backup_df['person_name_ja'] == name) |
             (backup_df['person_name_display'] == name) |
             (backup_df['person_name'] == name)
         ]
-        
+
         if len(matches) > 0:
             return matches.iloc[0]
         return None
@@ -185,64 +185,64 @@ class WikipediaCharacterRestorer:
         """Main processing function"""
         print("🎭 Starting Wikipedia Character Restoration")
         print(f"📅 Timestamp: {self.timestamp}")
-        
+
         # Find and load latest CSV
         latest_csv = self.find_latest_csv()
         print(f"📁 Loading: {latest_csv}")
-        
+
         df = pd.read_csv(latest_csv, encoding='utf-8-sig')
         original_count = len(df)
         print(f"📊 Original records: {original_count:,}")
-        
+
         # Load backup files to find deleted characters
         backup_files = [
-            f for f in os.listdir('.') 
+            f for f in os.listdir('.')
             if f.startswith('backup_before_fictional') and f.endswith('.csv')
         ]
-        
+
         if not backup_files:
             print("⚠️ No fictional character backup files found")
             return
-        
+
         # Load the most recent backup
         backup_files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
         backup_file = backup_files[0]
         print(f"📁 Loading backup: {backup_file}")
-        
+
         backup_df = pd.read_csv(backup_file, encoding='utf-8-sig')
         print(f"📊 Backup records: {len(backup_df):,}")
-        
+
         # Create safety backup
         safety_backup = self.create_backup(df, "safety")
-        
+
         restored_count = 0
         false_positive_count = 0
         validation_results = []
-        
+
         # Process significant characters for restoration
         print("\n🔄 Processing significant characters...")
-        
+
         for name, info in self.significant_characters.items():
             print(f"\n📝 Checking: {name}")
-            
+
             # Check if already exists in current database
             existing = df[
                 (df['person_name_ja'] == name) |
                 (df['person_name_display'] == name) |
                 (df['person_name'] == name)
             ]
-            
+
             if len(existing) > 0:
                 print(f"✅ Already exists: {name}")
                 continue
-            
+
             # Search in backup
             backup_matches = backup_df[
                 (backup_df['person_name_ja'] == name) |
                 (backup_df['person_name_display'] == name) |
                 (backup_df['person_name'] == name)
             ]
-            
+
             if len(backup_matches) > 0:
                 # Verify on Wikipedia
                 wiki_result = self.verify_wikipedia(name, info['work'])
@@ -254,17 +254,17 @@ class WikipediaCharacterRestorer:
                     'wikipedia_en': wiki_result['en']['exists'],
                     'wiki_data': wiki_result
                 })
-                
+
                 # Restore the character
                 character_row = backup_matches.iloc[0].copy()
-                
+
                 # Update display name with work name if needed
                 if info['work'] and not f"（{info['work']}）" in character_row.get('person_name_display', ''):
                     character_row['person_name_display'] = f"{name}（{info['work']}）"
-                
+
                 # Add back to dataframe
                 df = pd.concat([df, character_row.to_frame().T], ignore_index=True)
-                
+
                 restored_count += 1
                 self.restoration_log.append({
                     'name': name,
@@ -274,45 +274,45 @@ class WikipediaCharacterRestorer:
                     'wikipedia_verified': wiki_result['ja']['exists'] or wiki_result['en']['exists'],
                     'restored_at': datetime.now().isoformat()
                 })
-                
+
                 print(f"✅ Restored: {name} ({info['work']})")
             else:
                 print(f"❌ Not found in backup: {name}")
-        
+
         # Process false positives (real people incorrectly removed)
         print("\n🔄 Processing false positives...")
-        
+
         for name, info in self.false_positives.items():
             print(f"\n📝 Checking false positive: {name}")
-            
+
             # Check if already exists in current database
             existing = df[
                 (df['person_name_ja'] == name) |
                 (df['person_name_display'] == name) |
                 (df['person_name'] == name)
             ]
-            
+
             if len(existing) > 0:
                 print(f"✅ Already exists: {name}")
                 continue
-            
+
             # Search in backup
             backup_matches = backup_df[
                 (backup_df['person_name_ja'] == name) |
                 (backup_df['person_name_display'] == name) |
                 (backup_df['person_name'] == name)
             ]
-            
+
             if len(backup_matches) > 0:
                 # Verify on Wikipedia
                 wiki_result = self.verify_wikipedia(name)
-                
+
                 # Restore the person
                 person_row = backup_matches.iloc[0].copy()
-                
+
                 # Add back to dataframe
                 df = pd.concat([df, person_row.to_frame().T], ignore_index=True)
-                
+
                 false_positive_count += 1
                 self.false_positive_log.append({
                     'name': name,
@@ -322,20 +322,20 @@ class WikipediaCharacterRestorer:
                     'wikipedia_verified': wiki_result['ja']['exists'] or wiki_result['en']['exists'],
                     'restored_at': datetime.now().isoformat()
                 })
-                
+
                 print(f"✅ False positive restored: {name} ({info['type']})")
             else:
                 print(f"❌ False positive not found in backup: {name}")
-        
+
         # Save results
         final_count = len(df)
         output_filename = f"ultra_think_WIKIPEDIA_RESTORED_{self.timestamp}.csv"
         df.to_csv(output_filename, index=False, encoding='utf-8-sig')
-        
+
         # Generate comprehensive report
-        self.generate_report(original_count, final_count, restored_count, 
+        self.generate_report(original_count, final_count, restored_count,
                            false_positive_count, validation_results, output_filename)
-        
+
         print(f"\n🎉 Restoration complete!")
         print(f"📊 Original: {original_count:,} → Final: {final_count:,}")
         print(f"✅ Characters restored: {restored_count}")
@@ -345,7 +345,7 @@ class WikipediaCharacterRestorer:
     def generate_report(self, original_count: int, final_count: int, restored_count: int,
                        false_positive_count: int, validation_results: List, output_filename: str):
         """Generate comprehensive restoration report"""
-        
+
         report_content = f"""# 🎭 Wikipedia Character Restoration Report
 
 **実行日時**: {datetime.now().strftime("%Y年%m月%d日 %H:%M:%S")}
@@ -366,13 +366,13 @@ class WikipediaCharacterRestorer:
 | キャラクター名 | 作品名 | 重要度 | 日本語Wikipedia | 英語Wikipedia | 復元状況 |
 |------------|--------|--------|----------------|---------------|----------|
 """
-        
+
         for result in validation_results:
             if result['name'] in [log['name'] for log in self.restoration_log]:
                 ja_status = "✅" if result['wikipedia_ja'] else "❌"
                 en_status = "✅" if result['wikipedia_en'] else "❌"
                 report_content += f"| {result['name']} | {result['work']} | {result['significance']} | {ja_status} | {en_status} | ✅復元済み |\n"
-        
+
         report_content += f"""
 
 ## 🔧 修正された誤削除（False Positives）
@@ -380,17 +380,17 @@ class WikipediaCharacterRestorer:
 | 人物名 | タイプ | 重要度 | 復元状況 |
 |-------|-------|--------|----------|
 """
-        
+
         for fp in self.false_positive_log:
             report_content += f"| {fp['name']} | {fp['type']} | {fp['significance']} | ✅復元済み |\n"
-        
+
         report_content += f"""
 
 ## 📋 詳細復元ログ
 
 ### 文化的重要キャラクター
 """
-        
+
         for log in self.restoration_log:
             report_content += f"""
 #### {log['name']}
@@ -400,12 +400,12 @@ class WikipediaCharacterRestorer:
 - **Wikipedia検証**: {"✅" if log['wikipedia_verified'] else "⚠️未確認"}
 - **復元日時**: {log['restored_at']}
 """
-        
+
         report_content += f"""
 
 ### 誤削除修正
 """
-        
+
         for fp in self.false_positive_log:
             report_content += f"""
 #### {fp['name']}
@@ -415,18 +415,18 @@ class WikipediaCharacterRestorer:
 - **Wikipedia検証**: {"✅" if fp['wikipedia_verified'] else "⚠️未確認"}
 - **復元日時**: {fp['restored_at']}
 """
-        
+
         report_content += f"""
 
 ## 🔍 Wikipedia検証詳細
 
 ### 検証成功
 """
-        
+
         verified_count = sum(1 for r in validation_results if r['wikipedia_ja'] or r['wikipedia_en'])
         report_content += f"- **検証成功**: {verified_count}/{len(validation_results)}件\n"
         report_content += f"- **成功率**: {verified_count/len(validation_results)*100:.1f}%\n\n"
-        
+
         for result in validation_results:
             if result['wikipedia_ja'] or result['wikipedia_en']:
                 report_content += f"**{result['name']}**:\n"
@@ -437,7 +437,7 @@ class WikipediaCharacterRestorer:
                     wiki_data = result['wiki_data']['en']
                     report_content += f"- English: {wiki_data.get('description', 'N/A')}\n"
                 report_content += "\n"
-        
+
         report_content += f"""
 
 ## 💾 出力ファイル
@@ -464,22 +464,22 @@ class WikipediaCharacterRestorer:
 *レポート生成: {datetime.now().isoformat()}*
 *スクリプト: restore_wikipedia_characters.py*
 """
-        
+
         # Save report
         report_filename = f"WIKIPEDIA_RESTORATION_REPORT_{self.timestamp}.md"
         with open(report_filename, 'w', encoding='utf-8') as f:
             f.write(report_content)
-        
+
         # Save JSON logs
         with open(f"restoration_log_{self.timestamp}.json", 'w', encoding='utf-8') as f:
             json.dump(self.restoration_log, f, ensure_ascii=False, indent=2)
-        
+
         with open(f"false_positive_log_{self.timestamp}.json", 'w', encoding='utf-8') as f:
             json.dump(self.false_positive_log, f, ensure_ascii=False, indent=2)
-        
+
         with open(f"wikipedia_validation_{self.timestamp}.json", 'w', encoding='utf-8') as f:
             json.dump(validation_results, f, ensure_ascii=False, indent=2)
-        
+
         print(f"📋 Report generated: {report_filename}")
 
 def main():

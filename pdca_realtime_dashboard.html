@@ -12,7 +12,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -20,12 +20,12 @@
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1600px;
             margin: 0 auto;
         }
-        
+
         .header {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -33,7 +33,7 @@
             margin-bottom: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
-        
+
         .title {
             font-size: 2.5em;
             color: #1e3c72;
@@ -42,7 +42,7 @@
             align-items: center;
             gap: 15px;
         }
-        
+
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -52,30 +52,30 @@
             font-size: 0.9em;
             font-weight: 600;
         }
-        
+
         .status-monitoring {
             background: linear-gradient(135deg, #00b09b, #96c93d);
             color: white;
         }
-        
+
         .status-alert {
             background: linear-gradient(135deg, #f2994a, #f2c94c);
             color: white;
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
-        
+
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+
         .metric-card {
             background: white;
             border-radius: 15px;
@@ -85,12 +85,12 @@
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .metric-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
-        
+
         .metric-card::before {
             content: '';
             position: absolute;
@@ -100,7 +100,7 @@
             height: 4px;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         }
-        
+
         .metric-label {
             color: #666;
             font-size: 0.9em;
@@ -108,36 +108,36 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .metric-value {
             font-size: 2.5em;
             font-weight: bold;
             color: #1e3c72;
             margin-bottom: 10px;
         }
-        
+
         .metric-trend {
             font-size: 0.9em;
             padding: 5px 12px;
             border-radius: 20px;
             display: inline-block;
         }
-        
+
         .trend-up {
             background: #d4f4dd;
             color: #28a745;
         }
-        
+
         .trend-down {
             background: #ffd4d4;
             color: #dc3545;
         }
-        
+
         .trend-stable {
             background: #e6f3ff;
             color: #007bff;
         }
-        
+
         .chart-container {
             background: white;
             border-radius: 15px;
@@ -145,14 +145,14 @@
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        
+
         .violations-list {
             background: white;
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        
+
         .violation-item {
             padding: 15px;
             margin-bottom: 15px;
@@ -161,26 +161,26 @@
             background: #f8f9fa;
             transition: transform 0.2s ease;
         }
-        
+
         .violation-item:hover {
             transform: translateX(5px);
         }
-        
+
         .violation-critical {
             border-left-color: #dc3545;
             background: #fff5f5;
         }
-        
+
         .violation-high {
             border-left-color: #ffc107;
             background: #fffdf5;
         }
-        
+
         .violation-medium {
             border-left-color: #17a2b8;
             background: #f0faff;
         }
-        
+
         .compliance-bar {
             width: 100%;
             height: 40px;
@@ -190,7 +190,7 @@
             position: relative;
             margin-top: 20px;
         }
-        
+
         .compliance-fill {
             height: 100%;
             background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
@@ -202,7 +202,7 @@
             font-weight: bold;
             transition: width 1s ease;
         }
-        
+
         .real-time-indicator {
             display: inline-block;
             width: 10px;
@@ -212,12 +212,12 @@
             animation: blink 1s infinite;
             margin-left: 10px;
         }
-        
+
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
-        
+
         .prediction-box {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -225,7 +225,7 @@
             border-radius: 10px;
             margin-top: 20px;
         }
-        
+
         .auto-fix-badge {
             background: #28a745;
             color: white;
@@ -250,7 +250,7 @@
                 最終更新: 2025年09月10日 12:18:26
             </p>
         </div>
-        
+
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="metric-label">コンプライアンス率</div>
@@ -261,7 +261,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="metric-card">
                 <div class="metric-label">総違反数</div>
                 <div class="metric-value">1680</div>
@@ -269,7 +269,7 @@
                     Critical: 1676
                 </div>
             </div>
-            
+
             <div class="metric-card">
                 <div class="metric-label">自動修正</div>
                 <div class="metric-value">1673</div>
@@ -277,7 +277,7 @@
                     成功率: 99.6%
                 </div>
             </div>
-            
+
             <div class="metric-card">
                 <div class="metric-label">24時間予測</div>
                 <div class="metric-value">40.0</div>
@@ -286,7 +286,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="chart-container">
             <h2>📊 違反トレンド分析</h2>
             <div class="prediction-box">
@@ -295,10 +295,10 @@
                 高リスク時間帯: 15時, 11時, 18時
             </div>
         </div>
-        
+
         <div class="violations-list">
             <h2>🚨 最近の違反 (リアルタイム更新)</h2>
-            
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -306,7 +306,7 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -314,7 +314,7 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -322,7 +322,7 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -330,7 +330,7 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -338,7 +338,7 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -346,7 +346,7 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_001</strong> - CRITICAL
             <span class="auto-fix-badge">自動修正済み</span>
@@ -354,34 +354,34 @@
             <small>15:50:55</small> - calibrated_scoreの使用が検出されました
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/test_calibrated_usage.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_012</strong> - CRITICAL
-            
+
             <br>
             <small>18:49:01</small> - person_name_displayフィールドが欠落しています
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/monitor_progress.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_012</strong> - CRITICAL
-            
+
             <br>
             <small>11:21:43</small> - person_name_displayフィールドが欠落しています
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/process_unlimited_api.py
         </div>
-        
+
         <div class="violation-item violation-critical">
             <strong>ルール RULE_012</strong> - CRITICAL
-            
+
             <br>
             <small>11:21:43</small> - person_name_displayフィールドが欠落しています
             <br>ファイル: /Users/admin/Documents/AIUELAB/001-final-hourglass/process_unlimited_api.py
         </div>
-        
+
         </div>
     </div>
-    
+
     <script>
         // 5秒ごとに自動更新
         setTimeout(() => {
@@ -390,4 +390,3 @@
     </script>
 </body>
 </html>
-        

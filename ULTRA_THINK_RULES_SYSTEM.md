@@ -13,7 +13,7 @@ Claude Code起動時およびデータ更新時に自動的に実行されます
 - **除外**: 芸名・アーティスト名は維持
 - **例**: `F. Scott Fitzgerald` → `F・スコット・フィッツジェラルド`
 
-### 2. 架空キャラクター作品名追加 (`ultra_think_fictional_character_enhancer.py`) 
+### 2. 架空キャラクター作品名追加 (`ultra_think_fictional_character_enhancer.py`)
 - **対象**: occupationが「架空キャラクター」
 - **処理**: Wikipedia APIで作品名を取得してperson_name_displayに追加
 - **形式**: `キャラクター名 (作品名)`

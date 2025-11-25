@@ -43,7 +43,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 5.0
         }
     ],
-    
+
     # 佐藤直樹
     'P002051': [
         {
@@ -91,7 +91,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 6.5
         }
     ],
-    
+
     # 鈴木健太
     'P005185': [
         {
@@ -139,7 +139,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 6.0
         }
     ],
-    
+
     # 中村太郎
     'P001662': [
         {
@@ -154,7 +154,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 3.0
         }
     ],
-    
+
     # 田中愛
     'P004401': [
         {
@@ -169,7 +169,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 5.0
         }
     ],
-    
+
     # 山本健太
     'P003039': [
         {
@@ -184,7 +184,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 3.0
         }
     ],
-    
+
     # 高橋三郎
     'P005412': [
         {
@@ -199,7 +199,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 3.0
         }
     ],
-    
+
     # 渡辺直樹と渡邊直樹（同一人物の可能性もあるが別々に扱う）
     'P004264': [
         {
@@ -214,7 +214,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 3.0
         }
     ],
-    
+
     'P004290': [
         {
             'new_id': 'P100017',
@@ -228,7 +228,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 3.0
         }
     ],
-    
+
     # 井上翔太
     'P001793': [
         {
@@ -243,7 +243,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 3.0
         }
     ],
-    
+
     # 佐藤翔
     'P002057': [
         {
@@ -258,7 +258,7 @@ HOMONYM_PERSONS = {
             'recognition_score': 5.0
         }
     ],
-    
+
     # 田中健太
     'P004382': [
         {

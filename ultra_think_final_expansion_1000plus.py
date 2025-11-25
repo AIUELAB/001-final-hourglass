@@ -33,18 +33,18 @@ class Person:
 
 class UltraThinkFinalExpansion:
     """最終拡張クラス - 1000人達成"""
-    
+
     def __init__(self):
         self.new_people = []
         self.existing_people = []
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
     def load_existing_data(self):
         """既存の997人データを読み込み"""
         print("📂 既存データ読み込み中...")
-        
+
         csv_file = "ultra_think_perfect_display_1000_20250825_142730.csv"
-        
+
         try:
             with open(csv_file, 'r', encoding='utf-8-sig') as f:
                 reader = csv.DictReader(f)
@@ -53,11 +53,11 @@ class UltraThinkFinalExpansion:
             print(f"  ✅ {len(self.existing_people)}人の既存データを読み込み")
         except Exception as e:
             print(f"  ❌ エラー: {e}")
-            
+
     def add_beatles_members(self):
         """ビートルズメンバーを追加"""
         print("\n🎸 ビートルズメンバー追加中...")
-        
+
         members = [
             Person(
                 person_name="John Lennon",
@@ -112,17 +112,17 @@ class UltraThinkFinalExpansion:
                 grade="S"
             )
         ]
-        
+
         for member in members:
             self.new_people.append(asdict(member))
             time.sleep(0.1)  # 負荷分散
-            
+
         print(f"  ✅ {len(members)}人のビートルズメンバーを追加")
-        
+
     def add_bts_members(self):
         """BTSメンバーを追加"""
         print("\n🎤 BTSメンバー追加中...")
-        
+
         members = [
             Person(
                 person_name="RM",
@@ -216,17 +216,17 @@ class UltraThinkFinalExpansion:
                 grade="S"
             )
         ]
-        
+
         for member in members:
             self.new_people.append(asdict(member))
             time.sleep(0.1)
-            
+
         print(f"  ✅ {len(members)}人のBTSメンバーを追加")
-        
+
     def add_blackpink_members(self):
         """ブラックピンクメンバーを追加"""
         print("\n💖 ブラックピンクメンバー追加中...")
-        
+
         members = [
             Person(
                 person_name="Jisoo",
@@ -281,17 +281,17 @@ class UltraThinkFinalExpansion:
                 grade="S"
             )
         ]
-        
+
         for member in members:
             self.new_people.append(asdict(member))
             time.sleep(0.1)
-            
+
         print(f"  ✅ {len(members)}人のブラックピンクメンバーを追加")
-        
+
     def add_tech_leaders(self):
         """現代のテックリーダーを追加"""
         print("\n💻 テックリーダー追加中...")
-        
+
         leaders = [
             Person(
                 person_name="Jeff Bezos",
@@ -359,17 +359,17 @@ class UltraThinkFinalExpansion:
                 grade="S"
             )
         ]
-        
+
         for leader in leaders:
             self.new_people.append(asdict(leader))
             time.sleep(0.1)
-            
+
         print(f"  ✅ {len(leaders)}人のテックリーダーを追加")
-        
+
     def add_japanese_classics(self):
         """日本の古典文学者・宗教家を追加"""
         print("\n🎌 日本の文化人追加中...")
-        
+
         classics = [
             Person(
                 person_name="Murasaki Shikibu",
@@ -437,17 +437,17 @@ class UltraThinkFinalExpansion:
                 grade="S"
             )
         ]
-        
+
         for classic in classics:
             self.new_people.append(asdict(classic))
             time.sleep(0.1)
-            
+
         print(f"  ✅ {len(classics)}人の日本文化人を追加")
-        
+
     def add_sports_legends(self):
         """スポーツレジェンドを追加"""
         print("\n⚽ スポーツレジェンド追加中...")
-        
+
         legends = [
             Person(
                 person_name="Cristiano Ronaldo",
@@ -515,53 +515,53 @@ class UltraThinkFinalExpansion:
                 grade="S"
             )
         ]
-        
+
         for legend in legends:
             self.new_people.append(asdict(legend))
             time.sleep(0.1)
-            
+
         print(f"  ✅ {len(legends)}人のスポーツレジェンドを追加")
-        
+
     def consolidate_all_data(self):
         """全データを統合"""
         print("\n🔄 データ統合中...")
-        
+
         # 既存データをdictのリストとして扱う
         all_people = self.existing_people + self.new_people
-        
+
         # 重複チェック
         unique_people = {}
         for person in all_people:
             key = person.get('person_name', '').lower().strip()
             if key and key not in unique_people:
                 unique_people[key] = person
-                
+
         self.final_people = list(unique_people.values())
         print(f"  ✅ 最終人数: {len(self.final_people)}人")
-        
+
     def save_final_database(self):
         """最終データベースを保存"""
         print("\n💾 最終データベース保存中...")
-        
+
         # 全フィールドを収集
         all_fields = set()
         for person in self.final_people:
             all_fields.update(person.keys())
-            
+
         # 標準フィールドを優先
         standard_fields = ['person_name', 'person_name_ja', 'person_name_display',
                           'birth_year', 'nationality', 'occupation', 'main_category',
                           'subcategory', 'description', 'historical_impact',
                           'educational_value', 'cultural_significance',
                           'global_recognition', 'grade', 'era', 'phase']
-        
+
         fieldnames = []
         for field in standard_fields:
             if field in all_fields:
                 fieldnames.append(field)
                 all_fields.remove(field)
         fieldnames.extend(sorted(list(all_fields)))
-        
+
         # CSV保存
         csv_file = f"ultra_think_1000plus_final_{self.timestamp}.csv"
         with open(csv_file, 'w', encoding='utf-8-sig', newline='') as f:
@@ -569,32 +569,32 @@ class UltraThinkFinalExpansion:
             writer.writeheader()
             writer.writerows(self.final_people)
         print(f"  ✅ CSV保存: {csv_file}")
-        
+
         # JSON保存
         json_file = f"ultra_think_1000plus_final_{self.timestamp}.json"
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(self.final_people, f, ensure_ascii=False, indent=2)
         print(f"  ✅ JSON保存: {json_file}")
-        
+
         return csv_file, json_file
-        
+
     def generate_final_report(self):
         """最終レポート生成"""
         print("\n📝 最終レポート生成中...")
-        
+
         report = []
         report.append("# 🎊 Ultra Think 1000人達成レポート")
         report.append("")
         report.append(f"## 📅 達成日時")
         report.append(f"{datetime.now().strftime('%Y年%m月%d日 %H:%M:%S')}")
         report.append("")
-        
+
         report.append("## 🎯 最終成果")
         report.append(f"- **最終人数**: {len(self.final_people)}人")
         report.append(f"- **既存データ**: {len(self.existing_people)}人")
         report.append(f"- **新規追加**: {len(self.new_people)}人")
         report.append("")
-        
+
         # 新規追加の内訳
         report.append("## 📊 新規追加内訳")
         report.append("- ビートルズメンバー: 4人")
@@ -605,76 +605,76 @@ class UltraThinkFinalExpansion:
         report.append("- スポーツレジェンド: 5人")
         report.append(f"- **合計**: 30人")
         report.append("")
-        
+
         # カテゴリ別集計
         categories = {}
         for person in self.final_people:
             cat = person.get('main_category', 'その他')
             categories[cat] = categories.get(cat, 0) + 1
-            
+
         report.append("## 📈 カテゴリ別集計")
         for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
             percentage = (count / len(self.final_people)) * 100
             report.append(f"- {cat}: {count}人 ({percentage:.1f}%)")
         report.append("")
-        
+
         report.append("## ✅ Ultra Think戦略の完全達成")
         report.append("- ✅ 目標1000人を突破")
         report.append("- ✅ グループメンバーの個別収録完了")
         report.append("- ✅ 現代の重要人物を網羅")
         report.append("- ✅ クラッシュゼロで完遂")
         report.append("")
-        
+
         report.append("---")
         report.append(f"*Ultra Think 1000+ Final Report*")
         report.append(f"*Generated: {datetime.now().isoformat()}*")
         report.append("")
-        
+
         # レポート保存
         report_file = f"ULTRA_THINK_1000PLUS_REPORT_{self.timestamp}.md"
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write('\n'.join(report))
         print(f"  ✅ レポート保存: {report_file}")
-        
+
         return report_file
-        
+
     def run(self):
         """拡張処理を実行"""
         print("🚀 Ultra Think 最終拡張開始 - 1000人達成へ")
         print("="*60)
-        
+
         try:
             # 既存データ読み込み
             self.load_existing_data()
-            
+
             # 新規人物追加（Ultra Think負荷分散）
             self.add_beatles_members()
             time.sleep(0.5)
-            
+
             self.add_bts_members()
             time.sleep(0.5)
-            
+
             self.add_blackpink_members()
             time.sleep(0.5)
-            
+
             self.add_tech_leaders()
             time.sleep(0.5)
-            
+
             self.add_japanese_classics()
             time.sleep(0.5)
-            
+
             self.add_sports_legends()
             time.sleep(0.5)
-            
+
             # データ統合
             self.consolidate_all_data()
-            
+
             # 保存
             csv_file, json_file = self.save_final_database()
-            
+
             # レポート生成
             report_file = self.generate_final_report()
-            
+
             print("\n" + "="*60)
             print("🎊 Ultra Think 1000人達成！")
             print(f"📊 最終人数: {len(self.final_people)}人")
@@ -683,7 +683,7 @@ class UltraThinkFinalExpansion:
             print(f"  - JSON: {json_file}")
             print(f"  - レポート: {report_file}")
             print("="*60)
-            
+
         except Exception as e:
             print(f"\n❌ エラーが発生しました: {e}")
             import traceback

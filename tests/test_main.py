@@ -54,9 +54,7 @@ class TestApplication:
     @pytest.fixture
     def app_config(self):
         """テスト用のAppConfigを作成"""
-        return AppConfig(
-            app_name="Test App", version="1.0.0", debug=False, environment="test", mcp_enabled=False
-        )
+        return AppConfig(app_name="Test App", version="1.0.0", debug=False, environment="test", mcp_enabled=False)
 
     @pytest.fixture
     def app(self, app_config):
@@ -107,9 +105,7 @@ class TestApplicationWithMCP:
     @pytest.fixture
     def mcp_config(self):
         """MCP有効なテスト用のAppConfigを作成"""
-        return AppConfig(
-            app_name="Test App MCP", version="1.0.0", debug=False, environment="test", mcp_enabled=True
-        )
+        return AppConfig(app_name="Test App MCP", version="1.0.0", debug=False, environment="test", mcp_enabled=True)
 
     @pytest.fixture
     def mcp_app(self, mcp_config):
@@ -129,9 +125,7 @@ class TestApplicationWithMCP:
     @patch("main.logger")
     def test_initialization_with_mcp_disabled(self, mock_logger):
         """MCP無効時の初期化で警告ログが出力されることをテスト"""
-        config = AppConfig(
-            app_name="Test App", version="1.0.0", debug=False, environment="test", mcp_enabled=False
-        )
+        config = AppConfig(app_name="Test App", version="1.0.0", debug=False, environment="test", mcp_enabled=False)
         app = Application(config)
 
         # MCP無効時の警告ログが呼ばれたことを確認
@@ -203,9 +197,7 @@ class TestApplicationWithMCP:
     @patch("main.console")
     def test_process_data_without_mcp(self, mock_console):
         """MCP無効時のprocess_dataでMCPメッセージが表示されないことをテスト"""
-        config = AppConfig(
-            app_name="Test App", version="1.0.0", debug=False, environment="test", mcp_enabled=False
-        )
+        config = AppConfig(app_name="Test App", version="1.0.0", debug=False, environment="test", mcp_enabled=False)
         app = Application(config)
         result = app.process_data()
 

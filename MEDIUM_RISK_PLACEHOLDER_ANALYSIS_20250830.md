@@ -163,7 +163,7 @@ The 7,596 MEDIUM risk entries are **predominantly legitimate famous people** who
 P004638: Anpanman / アンパンマン (Japanese cartoon character)
 P004554: Anya Forger / アーニャ・フォージャー (Spy x Family anime)
 P000001: Doraemon / ドラえもん (Japanese manga character)
-P004286: Loid Forger / ロイド・フォージャー (Spy x Family anime) 
+P004286: Loid Forger / ロイド・フォージャー (Spy x Family anime)
 P004295: Luigi / ルイージ (Nintendo character)
 P004561: Mario / マリオ (Nintendo character)
 P000483: Naruto Uzumaki / うずまきナルト (Naruto anime)

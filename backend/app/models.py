@@ -1,11 +1,13 @@
 """データモデル定義"""
 
+from typing import Literal, Optional
+
 from pydantic import BaseModel
-from typing import Optional, Literal
 
 
 class Character(BaseModel):
     """キャラクターモデル"""
+
     id: int
     character_name: str
     work_title: str
@@ -22,6 +24,7 @@ class Character(BaseModel):
 
 class CharacterList(BaseModel):
     """キャラクターリストモデル"""
+
     total: int
     page: int
     page_size: int
@@ -30,6 +33,7 @@ class CharacterList(BaseModel):
 
 class StatsSummary(BaseModel):
     """統計サマリーモデル"""
+
     total_characters: int
     total_genres: int
     female_count: int
@@ -40,6 +44,7 @@ class StatsSummary(BaseModel):
 
 class GenreStats(BaseModel):
     """ジャンル統計モデル"""
+
     genre: str
     count: int
     percentage: float
@@ -47,6 +52,7 @@ class GenreStats(BaseModel):
 
 class GenderStats(BaseModel):
     """性別統計モデル"""
+
     gender: str
     count: int
     percentage: float
@@ -54,6 +60,7 @@ class GenderStats(BaseModel):
 
 class EpisodeCategoryStats(BaseModel):
     """エピソードカテゴリ統計モデル"""
+
     category: str
     count: int
     percentage: float
@@ -61,6 +68,7 @@ class EpisodeCategoryStats(BaseModel):
 
 class WorkStats(BaseModel):
     """作品統計モデル"""
+
     work_title: str
     count: int
     percentage: float
@@ -68,6 +76,7 @@ class WorkStats(BaseModel):
 
 class FameScore(BaseModel):
     """有名度スコアモデル"""
+
     id: int
     person_name: str
     fame_tier: int
@@ -92,12 +101,14 @@ class FameScore(BaseModel):
 
 class FameRanking(BaseModel):
     """有名度ランキングモデル"""
+
     total: int
     rankings: list[FameScore]
 
 
 class FameDetail(BaseModel):
     """有名度詳細モデル"""
+
     person_name: str
     fame_tier: int
     fame_score: int
@@ -117,8 +128,10 @@ class FameDetail(BaseModel):
 # Phase 3: 分析モデル
 # ========================================
 
+
 class AxisStatistics(BaseModel):
     """軸統計モデル"""
+
     name: str
     count: int
     mean: float
@@ -130,6 +143,7 @@ class AxisStatistics(BaseModel):
 
 class DistributionBin(BaseModel):
     """分布ビンモデル"""
+
     range: str
     bin_start: float
     bin_end: float
@@ -139,6 +153,7 @@ class DistributionBin(BaseModel):
 
 class CorrelationRow(BaseModel):
     """相関行モデル"""
+
     axis: str
     記憶性スコア: float
     共感性スコア: float
@@ -151,6 +166,7 @@ class CorrelationRow(BaseModel):
 
 class TopPerformer(BaseModel):
     """トップパフォーマーモデル"""
+
     person_name: str
     age: str
     episode: str
@@ -166,6 +182,7 @@ class TopPerformer(BaseModel):
 
 class ScoreSummary(BaseModel):
     """スコアサマリーモデル"""
+
     total_episodes: int
     axes: list[AxisStatistics]
 
@@ -174,8 +191,10 @@ class ScoreSummary(BaseModel):
 # Phase 4: 高度な検索モデル
 # ========================================
 
+
 class EpisodeSearchResult(BaseModel):
     """エピソード検索結果"""
+
     person_name: str
     age: str
     episode: str
@@ -191,6 +210,7 @@ class EpisodeSearchResult(BaseModel):
 
 class EpisodeSearchResponse(BaseModel):
     """エピソード検索レスポンス"""
+
     total: int
     page: int
     page_size: int
@@ -199,6 +219,7 @@ class EpisodeSearchResponse(BaseModel):
 
 class SearchStatsResponse(BaseModel):
     """検索統計レスポンス"""
+
     total_episodes: int
     score_ranges: dict
     age_range: dict
@@ -208,8 +229,10 @@ class SearchStatsResponse(BaseModel):
 # Phase 4: データ品質管理モデル
 # ========================================
 
+
 class DuplicateInfo(BaseModel):
     """重複情報"""
+
     person_name: str
     age: str
     count: int
@@ -218,6 +241,7 @@ class DuplicateInfo(BaseModel):
 
 class OutlierInfo(BaseModel):
     """外れ値情報"""
+
     person_name: str
     age: str
     row_number: int
@@ -230,6 +254,7 @@ class OutlierInfo(BaseModel):
 
 class CompletenessIssue(BaseModel):
     """完全性問題"""
+
     type: str
     field: Optional[str] = None
     axis: Optional[str] = None
@@ -240,6 +265,7 @@ class CompletenessIssue(BaseModel):
 
 class QualitySummary(BaseModel):
     """品質サマリー"""
+
     quality_score: float
     total_episodes: int
     duplicate_count: int
@@ -252,6 +278,7 @@ class QualitySummary(BaseModel):
 
 class QualityReport(BaseModel):
     """品質レポート"""
+
     summary: QualitySummary
     duplicates: dict
     outliers: dict
@@ -262,8 +289,10 @@ class QualityReport(BaseModel):
 # Phase 5: エピソード管理（CRUD）モデル
 # ========================================
 
+
 class EpisodeBase(BaseModel):
     """エピソード基本モデル"""
+
     person_name: str
     age: str
     episode_text: str
@@ -277,6 +306,7 @@ class EpisodeBase(BaseModel):
 
 class EpisodeCreate(EpisodeBase):
     """エピソード作成モデル"""
+
     # 7軸スコアは作成時にオプション（後で評価可能）
     memorability_score: Optional[float] = None
     empathy_score: Optional[float] = None
@@ -292,6 +322,7 @@ class EpisodeCreate(EpisodeBase):
 
 class EpisodeUpdate(BaseModel):
     """エピソード更新モデル（すべてOptional）"""
+
     person_name: Optional[str] = None
     age: Optional[str] = None
     episode_text: Optional[str] = None
@@ -323,6 +354,7 @@ class Episode(BaseModel):
 
     CSVデータをそのまま読み込むため、すべてのフィールドをOptionalかstrで定義
     """
+
     person_id: str
     person_name: str
     age: str
@@ -374,6 +406,7 @@ class Episode(BaseModel):
 
 class EpisodeList(BaseModel):
     """エピソードリスト"""
+
     total: int
     page: int
     page_size: int
@@ -382,6 +415,7 @@ class EpisodeList(BaseModel):
 
 class EpisodeDeleteResponse(BaseModel):
     """エピソード削除レスポンス"""
+
     success: bool
     message: str
     deleted_person_id: str
@@ -391,19 +425,23 @@ class EpisodeDeleteResponse(BaseModel):
 # Phase 5: 認証関連モデル
 # ========================================
 
+
 class Token(BaseModel):
     """認証トークン"""
+
     access_token: str
     token_type: str
 
 
 class TokenData(BaseModel):
     """トークンデータ"""
+
     username: Optional[str] = None
 
 
 class User(BaseModel):
     """ユーザーモデル"""
+
     username: str
     email: str
     full_name: str
@@ -413,4 +451,5 @@ class User(BaseModel):
 
 class UserInDB(User):
     """DBに保存されるユーザーモデル"""
+
     hashed_password: str

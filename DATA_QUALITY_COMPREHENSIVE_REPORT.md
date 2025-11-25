@@ -42,7 +42,7 @@
 ### entity_type修復
 ```
 修正前: NULL 99.9% (4,700件)
-修正後: 
+修正後:
 - person: 4,593件 (97.7%)
 - fictional_character: 101件 (2.1%)
 - group: 8件 (0.2%)

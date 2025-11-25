@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 class RateLimitedWikipediaCollector:
     """API制限を考慮したWikipedia収集クラス"""
-    
+
     def __init__(self):
         # セッション設定（Keep-Alive）
         self.session = requests.Session()
@@ -30,23 +30,23 @@ class RateLimitedWikipediaCollector:
             'Accept-Encoding': 'gzip, deflate',
             'Connection': 'keep-alive'
         })
-        
+
         # レート制限設定
         self.min_delay = 2.0  # 最小遅延（秒）
         self.max_delay = 3.0  # 最大遅延（秒）
         self.batch_size = 50  # バッチサイズ
         self.max_retries = 3  # 最大リトライ回数
-        
+
         # 収集データ
         self.collected_people = []
         self.failed_requests = []
-        
+
         # API エンドポイント
         self.endpoints = {
             'ja': 'https://ja.wikipedia.org/w/api.php',
             'en': 'https://en.wikipedia.org/w/api.php'
         }
-        
+
         # カテゴリ別収集目標
         self.category_targets = {
             'エンターテインメント': 6000,
@@ -56,24 +56,24 @@ class RateLimitedWikipediaCollector:
             '政治・社会': 2000,
             '歴史的教訓': 1500
         }
-        
+
     def wait_with_jitter(self):
         """ジッター付き待機（API制限対策）"""
         delay = random.uniform(self.min_delay, self.max_delay)
         time.sleep(delay)
-        
+
     def make_request(self, endpoint: str, params: dict, retry_count: int = 0) -> Optional[dict]:
         """リトライ機能付きAPIリクエスト"""
         try:
             self.wait_with_jitter()  # レート制限対策
-            
+
             response = self.session.get(endpoint, params=params, timeout=30)
             response.raise_for_status()
             return response.json()
-            
+
         except requests.exceptions.RequestException as e:
             logger.warning(f"Request failed: {e}")
-            
+
             if retry_count < self.max_retries:
                 # エクスポネンシャルバックオフ
                 backoff_time = (2 ** retry_count) + random.uniform(0, 1)
@@ -84,7 +84,7 @@ class RateLimitedWikipediaCollector:
                 logger.error(f"Max retries exceeded for {params.get('titles', params.get('srsearch', ''))}")
                 self.failed_requests.append(params)
                 return None
-                
+
     def search_people(self, query: str, lang: str = 'ja', limit: int = 50) -> List[str]:
         """人物検索（タイトルリスト取得）"""
         endpoint = self.endpoints[lang]
@@ -97,21 +97,21 @@ class RateLimitedWikipediaCollector:
             'srnamespace': 0,
             'srwhat': 'text'
         }
-        
+
         data = self.make_request(endpoint, params)
         if data and 'query' in data:
             return [item['title'] for item in data['query'].get('search', [])]
         return []
-        
+
     def get_page_details(self, titles: List[str], lang: str = 'ja') -> List[Dict]:
         """ページ詳細情報取得（バッチ処理）"""
         endpoint = self.endpoints[lang]
         people = []
-        
+
         # バッチ処理
         for i in range(0, len(titles), 10):  # 10件ずつ処理
             batch_titles = titles[i:i+10]
-            
+
             params = {
                 'action': 'query',
                 'format': 'json',
@@ -122,36 +122,36 @@ class RateLimitedWikipediaCollector:
                 'inprop': 'url',
                 'titles': '|'.join(batch_titles)
             }
-            
+
             data = self.make_request(endpoint, params)
-            
+
             if data and 'query' in data and 'pages' in data['query']:
                 for page_id, page_data in data['query']['pages'].items():
                     if page_id != '-1':  # ページが存在する場合
                         person = self.extract_person_data(page_data, lang)
                         if person:
                             people.append(person)
-                            
+
         return people
-        
+
     def extract_person_data(self, page_data: Dict, lang: str) -> Optional[Dict]:
         """ページデータから人物情報を抽出"""
         title = page_data.get('title', '')
         extract = page_data.get('extract', '')
         categories = page_data.get('categories', [])
         url = page_data.get('fullurl', '')
-        
+
         # 認知度チェック（最低限の説明文があるか）
         if len(extract) < 100:
             return None
-            
+
         # カテゴリから職業・分野を推測
         occupation = self.infer_occupation(categories, extract)
         main_category = self.categorize_person(occupation, extract)
-        
+
         # 生年月日を抽出（簡易版）
         birth_date = self.extract_birth_date(extract)
-        
+
         return {
             'name': title,
             'birth_date': birth_date,
@@ -168,11 +168,11 @@ class RateLimitedWikipediaCollector:
             'data_source': f'wikipedia_{lang}',
             'url': url
         }
-        
+
     def infer_occupation(self, categories: List, extract: str) -> str:
         """カテゴリと説明文から職業を推測"""
         text = str(categories) + ' ' + extract
-        
+
         occupations = {
             '俳優': ['俳優', '女優', '出演', '映画'],
             '歌手': ['歌手', 'シンガー', '歌', 'ボーカル'],
@@ -183,13 +183,13 @@ class RateLimitedWikipediaCollector:
             '実業家': ['実業家', '起業家', 'CEO', '社長'],
             '科学者': ['科学者', '研究者', '博士', '教授']
         }
-        
+
         for occ, keywords in occupations.items():
             if any(kw in text for kw in keywords):
                 return occ
-                
+
         return '著名人'
-        
+
     def categorize_person(self, occupation: str, extract: str) -> str:
         """メインカテゴリを決定"""
         category_map = {
@@ -200,31 +200,31 @@ class RateLimitedWikipediaCollector:
             '歴史的教訓': ['武将', '歴史', '江戸', '明治'],
             '文化・芸術': ['作家', '画家', '芸術家', '音楽家']
         }
-        
+
         for cat, keywords in category_map.items():
             if any(kw in occupation or kw in extract for kw in keywords):
                 return cat
-                
+
         return '文化・芸術'
-        
+
     def extract_birth_date(self, extract: str) -> str:
         """説明文から生年月日を抽出（簡易版）"""
         import re
-        
+
         # パターン: 1990年1月1日
         pattern = r'(\d{4})年(\d{1,2})月(\d{1,2})日'
         match = re.search(pattern, extract)
         if match:
             return f"{match.group(1)}-{match.group(2):0>2}-{match.group(3):0>2}"
-            
+
         # パターン: 1990年生まれ
         pattern = r'(\d{4})年.*生'
         match = re.search(pattern, extract)
         if match:
             return f"{match.group(1)}-01-01"
-            
+
         return ''
-        
+
     def infer_nationality(self, extract: str, lang: str) -> str:
         """国籍を推測"""
         if lang == 'ja' and any(word in extract for word in ['日本', '東京', '大阪']):
@@ -234,38 +234,38 @@ class RateLimitedWikipediaCollector:
         elif 'イギリス' in extract or 'British' in extract:
             return 'イギリス'
         return ''
-        
+
     def calculate_impact_score(self, extract: str, categories: List) -> int:
         """影響力スコア計算"""
         score = 5  # 基本スコア
-        
+
         # 説明文の長さ
         if len(extract) > 500:
             score += 2
         elif len(extract) > 300:
             score += 1
-            
+
         # カテゴリ数
         if len(categories) > 10:
             score += 2
         elif len(categories) > 5:
             score += 1
-            
+
         return min(score, 10)
-        
+
     def calculate_japanese_relevance(self, extract: str, lang: str) -> int:
         """日本人関連度計算"""
         score = 5
-        
+
         if lang == 'ja':
             score += 3
-            
+
         japanese_keywords = ['日本', 'Japan', '東京', 'Tokyo', '大阪', 'Osaka']
         if any(kw in extract for kw in japanese_keywords):
             score += 2
-            
+
         return min(score, 10)
-        
+
     def assign_grade(self, extract: str, categories: List) -> str:
         """グレード割り当て"""
         if len(extract) > 500 and len(categories) > 10:
@@ -274,23 +274,23 @@ class RateLimitedWikipediaCollector:
             return 'B'
         else:
             return 'C'
-            
+
     def collect_by_category(self, category: str, queries: List[str], target_count: int):
         """カテゴリ別収集"""
         logger.info(f"Collecting {category}: target={target_count}")
         category_people = []
-        
+
         for query in queries:
             if len(category_people) >= target_count:
                 break
-                
+
             # 日本語版で検索
             logger.info(f"  Searching JA: {query}")
             ja_titles = self.search_people(query, 'ja', 100)
             if ja_titles:
                 ja_people = self.get_page_details(ja_titles[:50], 'ja')
                 category_people.extend(ja_people)
-                
+
             # 英語版で補完
             if len(category_people) < target_count:
                 logger.info(f"  Searching EN: {query}")
@@ -298,14 +298,14 @@ class RateLimitedWikipediaCollector:
                 if en_titles:
                     en_people = self.get_page_details(en_titles[:25], 'en')
                     category_people.extend(en_people)
-                    
+
         # カテゴリを統一
         for person in category_people:
             person['main_category'] = category
-            
+
         self.collected_people.extend(category_people[:target_count])
         logger.info(f"  Collected {len(category_people)} people for {category}")
-        
+
     def collect_all(self):
         """全カテゴリ収集"""
         # カテゴリ別クエリ
@@ -337,83 +337,83 @@ class RateLimitedWikipediaCollector:
                 '将軍', '武士', '忍者', '歴史上の人物', '古代 皇帝'
             ]
         }
-        
+
         # 各カテゴリを収集
         for category, queries in category_queries.items():
             target = self.category_targets[category]
             self.collect_by_category(category, queries, target)
-            
+
             # 進捗保存
             self.save_checkpoint()
-            
+
     def save_checkpoint(self):
         """進捗保存（中断対策）"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         checkpoint_file = f"checkpoint_{timestamp}.json"
-        
+
         with open(checkpoint_file, 'w', encoding='utf-8') as f:
             json.dump({
                 'collected': len(self.collected_people),
                 'failed': len(self.failed_requests),
                 'timestamp': timestamp
             }, f, ensure_ascii=False, indent=2)
-            
+
         logger.info(f"Checkpoint saved: {len(self.collected_people)} people")
-        
+
     def remove_duplicates(self):
         """重複削除"""
         seen = set()
         unique = []
-        
+
         for person in self.collected_people:
             key = (person['name'], person['birth_date'][:4] if person['birth_date'] else '')
             if key not in seen:
                 seen.add(key)
                 unique.append(person)
-                
+
         self.collected_people = unique
         logger.info(f"After deduplication: {len(self.collected_people)} people")
-        
+
     def save_to_csv(self):
         """最終データ保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"wikipedia_20k_{timestamp}.csv"
-        
+
         if self.collected_people:
             import pandas as pd
             df = pd.DataFrame(self.collected_people)
             df.to_csv(filename, index=False, encoding='utf-8-sig')
             logger.info(f"Saved {len(self.collected_people)} people to {filename}")
-            
+
         # 失敗リスト保存
         if self.failed_requests:
             with open(f"failed_{timestamp}.json", 'w') as f:
                 json.dump(self.failed_requests, f, indent=2)
-                
+
         return filename
 
 def main():
     """メイン処理"""
     collector = RateLimitedWikipediaCollector()
-    
+
     try:
         logger.info("Starting collection...")
         collector.collect_all()
-        
+
         logger.info("Removing duplicates...")
         collector.remove_duplicates()
-        
+
         logger.info("Saving data...")
         filename = collector.save_to_csv()
-        
+
         logger.info(f"Collection complete: {filename}")
         return filename
-        
+
     except KeyboardInterrupt:
         logger.info("Collection interrupted by user")
         collector.save_checkpoint()
         collector.save_to_csv()
-        
+
     except Exception as e:
         logger.error(f"Collection failed: {e}")
         collector.save_checkpoint()

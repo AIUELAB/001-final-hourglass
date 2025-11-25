@@ -16,7 +16,7 @@ import requests
 
 class DataCollectionFramework:
     """データ収集の品質を保証するフレームワーク"""
-    
+
     def __init__(self):
         self.wikidata_endpoint = "https://query.wikidata.org/sparql"
         self.quality_checks = {
@@ -25,7 +25,7 @@ class DataCollectionFramework:
             'no_label': 0,
             'mixed_language': 0
         }
-    
+
     @staticmethod
     def create_sparql_template(occupation_id: str, nationality_id: str = None) -> str:
         """
@@ -33,9 +33,9 @@ class DataCollectionFramework:
         必ず日本語優先で、英語フォールバック付き
         """
         nationality_filter = f"wdt:P27 wd:{nationality_id} ;" if nationality_id else ""
-        
+
         template = f"""
-        SELECT DISTINCT ?person ?personLabel ?personLabel_ja ?personLabel_en 
+        SELECT DISTINCT ?person ?personLabel ?personLabel_ja ?personLabel_en
                ?birthDate ?deathDate ?occupationLabel ?nationalityLabel
         WHERE {{
           ?person wdt:P31 wd:Q5 ;
@@ -45,21 +45,21 @@ class DataCollectionFramework:
           OPTIONAL {{ ?person wdt:P570 ?deathDate }}
           OPTIONAL {{ ?person wdt:P106 ?occupation }}
           OPTIONAL {{ ?person wdt:P27 ?nationality }}
-          
+
           # 日本語ラベルを明示的に取得
           OPTIONAL {{ ?person rdfs:label ?personLabel_ja . FILTER(LANG(?personLabel_ja) = "ja") }}
           # 英語ラベルを明示的に取得（フォールバック用）
           OPTIONAL {{ ?person rdfs:label ?personLabel_en . FILTER(LANG(?personLabel_en) = "en") }}
-          
+
           # サービスラベル（互換性のため）
-          SERVICE wikibase:label {{ 
+          SERVICE wikibase:label {{
             bd:serviceParam wikibase:language "ja,en" .
           }}
         }}
         LIMIT 100
         """
         return template
-    
+
     def validate_query_language_support(self, query: str) -> Dict[str, bool]:
         """
         SPARQLクエリが適切な言語サポートを持っているか検証
@@ -70,14 +70,14 @@ class DataCollectionFramework:
             'has_explicit_ja_filter': 'FILTER(LANG' in query and 'ja' in query,
             'has_fallback': 'en' in query
         }
-        
+
         validations['is_valid'] = (
-            validations['has_service_label'] and 
+            validations['has_service_label'] and
             validations['has_japanese_priority']
         )
-        
+
         return validations
-    
+
     def analyze_data_language(self, data: List[Dict]) -> Dict[str, int]:
         """
         収集されたデータの言語分布を分析
@@ -89,7 +89,7 @@ class DataCollectionFramework:
             'mixed': 0,
             'none': 0
         }
-        
+
         for item in data:
             name = item.get('name', '')
             if not name:
@@ -100,17 +100,17 @@ class DataCollectionFramework:
                 stats['english'] += 1
             else:
                 stats['mixed'] += 1
-        
+
         return stats
-    
+
     def _is_japanese(self, text: str) -> bool:
         """日本語文字（ひらがな、カタカナ、漢字）を含むか判定"""
         return bool(re.search(r'[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]', text))
-    
+
     def _is_english(self, text: str) -> bool:
         """英語（ASCII文字のみ）か判定"""
         return bool(re.match(r'^[a-zA-Z\s\-\.\']+$', text))
-    
+
     def execute_safe_query(self, query: str) -> List[Dict]:
         """
         言語検証付きでクエリを実行
@@ -120,11 +120,11 @@ class DataCollectionFramework:
         if not validation['is_valid']:
             print("⚠️ 警告: クエリに適切な言語設定がありません")
             print(f"  検証結果: {validation}")
-            
+
             # クエリを自動修正
             if not validation['has_service_label']:
                 query += '\nSERVICE wikibase:label { bd:serviceParam wikibase:language "ja,en" . }'
-        
+
         # クエリ実行
         try:
             response = requests.get(
@@ -132,26 +132,26 @@ class DataCollectionFramework:
                 params={'query': query, 'format': 'json'},
                 timeout=30
             )
-            
+
             if response.status_code == 200:
                 results = response.json()
                 items = results.get('results', {}).get('bindings', [])
-                
+
                 # 結果を処理して日本語を優先
                 processed_items = []
                 for item in items:
                     processed = self._process_item_with_language_priority(item)
                     processed_items.append(processed)
-                
+
                 return processed_items
             else:
                 print(f"❌ クエリ実行エラー: {response.status_code}")
                 return []
-                
+
         except Exception as e:
             print(f"❌ クエリ実行エラー: {e}")
             return []
-    
+
     def _process_item_with_language_priority(self, item: Dict) -> Dict:
         """
         アイテムを処理し、日本語ラベルを優先的に使用
@@ -160,14 +160,14 @@ class DataCollectionFramework:
         name_ja = item.get('personLabel_ja', {}).get('value', '')
         name_en = item.get('personLabel_en', {}).get('value', '')
         name_default = item.get('personLabel', {}).get('value', '')
-        
+
         # 優先順位: 日本語 > デフォルト > 英語
         name = name_ja or name_default or name_en
-        
+
         # Wikidata IDのままの場合は英語名を使用
         if name.startswith('Q') and name[1:].isdigit():
             name = name_en or name
-        
+
         return {
             'name': name,
             'original_name_ja': name_ja,
@@ -178,13 +178,13 @@ class DataCollectionFramework:
             'occupation': item.get('occupationLabel', {}).get('value', ''),
             'nationality': item.get('nationalityLabel', {}).get('value', '')
         }
-    
+
     def generate_quality_report(self, data: List[Dict]) -> str:
         """
         データ品質レポートを生成
         """
         stats = self.analyze_data_language(data)
-        
+
         report = f"""
 # データ収集品質レポート
 
@@ -205,14 +205,14 @@ class DataCollectionFramework:
             report += "- SPARQLクエリの言語設定を確認してください\n"
             report += "- SERVICE wikibase:labelに'ja,en'の順序を指定してください\n"
             report += "- 明示的な日本語ラベル取得を追加してください\n"
-        
+
         return report
 
 
 def demonstrate_framework():
     """フレームワークの使用例"""
     framework = DataCollectionFramework()
-    
+
     # 1. 標準化されたクエリテンプレートの生成
     print("📋 標準化されたSPARQLクエリテンプレート生成")
     query = framework.create_sparql_template(
@@ -220,13 +220,13 @@ def demonstrate_framework():
         nationality_id="Q17"      # 日本
     )
     print(query[:500] + "...")
-    
+
     # 2. クエリの言語サポート検証
     print("\n🔍 クエリの言語サポート検証")
     validation = framework.validate_query_language_support(query)
     for key, value in validation.items():
         print(f"  {key}: {value}")
-    
+
     # 3. サンプルデータで言語分析
     print("\n📊 サンプルデータの言語分析")
     sample_data = [
@@ -239,7 +239,7 @@ def demonstrate_framework():
     stats = framework.analyze_data_language(sample_data)
     print(f"  日本語: {stats['japanese']}/{stats['total']}")
     print(f"  英語: {stats['english']}/{stats['total']}")
-    
+
     print("\n✅ データ収集フレームワークの準備完了")
 
 

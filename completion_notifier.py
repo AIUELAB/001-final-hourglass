@@ -38,7 +38,7 @@ def send_notification(title, message, sound=True):
     display notification "{message}" with title "{title}"
     '''
     subprocess.run(['osascript', '-e', script])
-    
+
     if sound:
         # 完了音を再生
         subprocess.run(['afplay', '/System/Library/Sounds/Glass.aiff'])
@@ -59,7 +59,7 @@ def create_completion_report(output_file, start_time, end_time, progress_data):
     duration = end_time - start_time
     hours = int(duration.total_seconds() // 3600)
     minutes = int((duration.total_seconds() % 3600) // 60)
-    
+
     report = f"""
 # 🎉 知名度評価システム処理完了レポート
 
@@ -104,59 +104,59 @@ def create_completion_report(output_file, start_time, end_time, progress_data):
 ---
 生成日時: {datetime.now().strftime('%Y年%m月%d日 %H:%M:%S')}
 """
-    
+
     # レポートを保存
     report_file = f"COMPLETION_REPORT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
-    
+
     return report_file
 
 def main():
     """メイン監視ループ"""
     print("🔍 処理完了監視を開始しました...")
     print("   quality_first_recognition_system.pyの完了を待機中...")
-    
+
     start_time = datetime(2025, 9, 7, 17, 5, 4)
     last_status = True
     check_interval = 60  # 60秒ごとにチェック
-    
+
     while True:
         try:
             # プロセス状態確認
             is_running = check_process_running()
-            
+
             # プロセスが終了した場合
             if not is_running and last_status:
                 print("\n⚠️ プロセスが終了しました。完了確認中...")
-                
+
                 # 出力ファイルを確認
                 output_file = check_output_file()
                 progress_data = check_progress_data()
-                
+
                 if output_file:
                     # 成功通知
                     end_time = datetime.now()
                     print(f"\n✅ 処理が正常に完了しました！")
                     print(f"   出力ファイル: {output_file}")
-                    
+
                     # レポート作成
                     report_file = create_completion_report(
-                        output_file, start_time, end_time, 
+                        output_file, start_time, end_time,
                         progress_data or {}
                     )
                     print(f"   レポート: {report_file}")
-                    
+
                     # 通知送信
                     send_notification(
                         "知名度評価システム",
                         f"処理が完了しました！\\n出力: {output_file}",
                         sound=True
                     )
-                    
+
                     # ダッシュボードを開く
                     subprocess.run(['open', 'realtime_dashboard.html'])
-                    
+
                     print("\n🎉 すべての処理が完了しました！")
                     break
                 else:
@@ -168,9 +168,9 @@ def main():
                         sound=True
                     )
                     break
-            
+
             last_status = is_running
-            
+
             # 進捗状況を表示
             if is_running:
                 progress_data = check_progress_data()
@@ -179,10 +179,10 @@ def main():
                     total = progress_data.get('total_count', 4701)
                     percentage = (processed / total * 100) if total > 0 else 0
                     print(f"\r⏳ 処理中... {processed}/{total} ({percentage:.1f}%)", end="")
-            
+
             # 待機
             time.sleep(check_interval)
-            
+
         except KeyboardInterrupt:
             print("\n⚠️ 監視を中断しました")
             break

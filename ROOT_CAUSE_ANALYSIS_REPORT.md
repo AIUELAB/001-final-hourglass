@@ -51,7 +51,7 @@ entertainers.append({
 ```python
 def generate_entertainers(self, count: int) -> List[Dict[str, Any]]:
     types = ["Singer", "Actor", "Actress", "Comedian", "Dancer", "Musician", "Band Member", ...]
-    
+
     for i in range(count):
         ent_type = random.choice(types)
         stage_name = f"{ent_type} {random.randint(1, 999)}"  # ← 機械的な名前生成
@@ -107,7 +107,7 @@ def generate_entertainers(self, count: int) -> List[Dict[str, Any]]:
 ### データ汚染の規模
 - **総エントリー数**: 17,093件
 - **プレースホルダー推定数**: 約6,500件 (38%)
-- **影響を受けたフィールド**: 
+- **影響を受けたフィールド**:
   - person_name
   - person_name_ja
   - person_name_display

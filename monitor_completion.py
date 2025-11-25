@@ -28,13 +28,13 @@ def get_latest_progress():
     log_files = list(Path('.').glob('recognition_full_*.log'))
     if not log_files:
         return None, None
-    
+
     latest_log = max(log_files, key=lambda f: f.stat().st_mtime)
-    
+
     # 最後の進捗行を探す
     progress = None
     completed = False
-    
+
     try:
         with open(latest_log, 'r', encoding='utf-8') as f:
             lines = f.readlines()
@@ -50,7 +50,7 @@ def get_latest_progress():
                     completed = True
     except:
         pass
-    
+
     return progress, completed
 
 def notify_completion():
@@ -63,7 +63,7 @@ def notify_completion():
         ])
     except:
         pass
-    
+
     # コンソール通知
     print("\n" + "="*60)
     print("✅ 処理完了！")
@@ -77,12 +77,12 @@ def get_result_files():
         'stats': list(Path('.').glob('recognition_results_ALL_*_stats.json')),
         'report': list(Path('.').glob('FINAL_REPORT_*.md'))
     }
-    
+
     latest_files = {}
     for key, files in result_files.items():
         if files:
             latest_files[key] = max(files, key=lambda f: f.stat().st_mtime)
-    
+
     return latest_files
 
 def main():
@@ -90,36 +90,36 @@ def main():
     print("🔍 処理完了を監視中...")
     print(f"開始時刻: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("-" * 60)
-    
+
     check_count = 0
     last_progress = None
-    
+
     while True:
         check_count += 1
-        
+
         # プロセス確認
         is_running = check_process_running(71408)
-        
+
         # 進捗確認
         progress, completed = get_latest_progress()
-        
+
         # 進捗が更新された場合のみ表示
         if progress and progress != last_progress:
             print(f"[{datetime.now().strftime('%H:%M:%S')}] 進捗: {progress}")
             last_progress = progress
-        
+
         # 完了判定
         if completed or not is_running:
             print("\n" + "="*60)
-            
+
             if completed:
                 print("✅ 処理が正常に完了しました！")
             else:
                 print("⚠️ プロセスが終了しました")
-            
+
             # 結果ファイル確認
             result_files = get_result_files()
-            
+
             if result_files:
                 print("\n📁 生成されたファイル:")
                 if 'csv' in result_files:
@@ -128,10 +128,10 @@ def main():
                     print(f"  統計JSON: {result_files['stats']}")
                 if 'report' in result_files:
                     print(f"  最終レポート: {result_files['report']}")
-            
+
             # 完了通知
             notify_completion()
-            
+
             # 統計情報を読み込んで表示
             if 'stats' in result_files:
                 try:
@@ -145,13 +145,13 @@ def main():
                             print(f"  Wikipedia発見: {s.get('wikipedia_found', 0):,}")
                 except:
                     pass
-            
+
             print("="*60)
             break
-        
+
         # 10秒待機
         time.sleep(10)
-        
+
         # 5分ごとに状態表示
         if check_count % 30 == 0:
             print(f"[{datetime.now().strftime('%H:%M:%S')}] 監視継続中... (PID: 71408 {'実行中' if is_running else '停止'})")

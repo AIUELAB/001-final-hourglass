@@ -13,7 +13,7 @@ from typing import Dict, Tuple
 
 class LatestDatabaseExporter:
     """最新データベースのCSVエクスポート"""
-    
+
     def __init__(self):
         # 元の仕様書準拠のカラム定義
         self.columns = [
@@ -39,19 +39,19 @@ class LatestDatabaseExporter:
             'name_display_type',  # 芸名/歴史的人物
             'is_criminal'         # 犯罪者フラグ
         ]
-        
+
         self.stats = {
             'total': 0,
             'exported': 0,
             'grade_distribution': {}
         }
-    
+
     def export_to_csv(self, input_file: str = 'database_cleaned_20250824_195241.json') -> Tuple[str, Dict]:
         """データベースをCSVに出力"""
-        
+
         print("📊 最新データベースのCSV出力開始")
         print(f"  入力: {input_file}")
-        
+
         # データ読み込み
         try:
             with open(input_file, 'r', encoding='utf-8') as f:
@@ -59,12 +59,12 @@ class LatestDatabaseExporter:
         except FileNotFoundError:
             print(f"⚠️ ファイルが見つかりません: {input_file}")
             return None, self.stats
-        
+
         self.stats['total'] = len(data)
-        
+
         # CSVデータ準備
         rows = []
-        
+
         for key, value in data.items():
             if isinstance(value, dict):
                 # データマッピング
@@ -91,38 +91,38 @@ class LatestDatabaseExporter:
                     'name_display_type': value.get('name_display_type', ''),
                     'is_criminal': 1 if value.get('is_criminal') else 0
                 }
-                
+
                 rows.append(row)
                 self.stats['exported'] += 1
-                
+
                 # Grade分布統計
                 grade = row['grade']
                 if grade:
                     self.stats['grade_distribution'][grade] = \
                         self.stats['grade_distribution'].get(grade, 0) + 1
-        
+
         # Gradeと影響度でソート
         rows.sort(key=lambda x: (
             x['grade'] if x['grade'] and x['grade'] != 'N/A' else 'ZZ',
             -x['impact_score'],
             x['person_name_display']
         ))
-        
+
         # CSV出力（UTF-8 BOM付き）
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"latest_database_{timestamp}.csv"
-        
+
         with open(output_file, 'w', encoding='utf-8-sig', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=self.columns)
             writer.writeheader()
             writer.writerows(rows)
-        
+
         # レポート出力
         print("\n✅ CSV出力完了")
         print(f"  出力ファイル: {output_file}")
         print(f"  総レコード数: {self.stats['exported']:,}件")
         print("  エンコーディング: UTF-8 with BOM (Excel対応)")
-        
+
         # Grade分布
         print("\n📈 Grade分布:")
         for grade in sorted(self.stats['grade_distribution'].keys()):
@@ -130,19 +130,19 @@ class LatestDatabaseExporter:
             percentage = count / self.stats['exported'] * 100
             bar = '█' * min(int(percentage/2), 30)
             print(f"  Grade {grade}: {count:4,}件 ({percentage:5.1f}%) {bar}")
-        
+
         # サンプル表示
         print("\n📝 データサンプル（上位10件）:")
         for i, row in enumerate(rows[:10], 1):
             print(f"  {i}. {row['id']}: {row['person_name_display']} (Grade {row['grade']})")
-        
+
         return output_file, self.stats
-    
+
     def create_summary_report(self, csv_file: str):
         """サマリーレポート作成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = f"CSV_EXPORT_SUMMARY_{timestamp}.md"
-        
+
         report = f"""# 最新データベースCSV出力レポート
 
 ## ファイル情報
@@ -154,12 +154,12 @@ class LatestDatabaseExporter:
 - **総レコード数**: {self.stats['exported']:,}件
 - **Grade分布**:
 """
-        
+
         for grade in sorted(self.stats['grade_distribution'].keys()):
             count = self.stats['grade_distribution'][grade]
             percentage = count / self.stats['exported'] * 100
             report += f"  - Grade {grade}: {count:,}件 ({percentage:.1f}%)\n"
-        
+
         report += """
 
 ## カラム構成（21列）
@@ -180,26 +180,26 @@ class LatestDatabaseExporter:
 ---
 *CSV出力完了*
 """
-        
+
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"\n📄 サマリーレポート: {report_file}")
-        
+
         return report_file
 
 
 def main():
     """メイン実行"""
     exporter = LatestDatabaseExporter()
-    
+
     # CSV出力
     csv_file, stats = exporter.export_to_csv()
-    
+
     if csv_file:
         # サマリーレポート作成
         report_file = exporter.create_summary_report(csv_file)
-        
+
         print("\n" + "="*60)
         print("🏆 最新データベースCSV出力完了")
         print("="*60)

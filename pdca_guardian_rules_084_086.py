@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_group_display_rules():
     """グループ表示名ルール追加"""
-    
+
     new_rules = [
         {
             "rule_id": "RULE_084",
@@ -101,16 +101,16 @@ def add_group_display_rules():
             "reason": "手動メンテナンスの負荷軽減と一貫性確保"
         }
     ]
-    
+
     # 既存のルールファイルを読み込み
     rules_file = Path("pdca_guardian_rules.json")
-    
+
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "last_updated": None}
-    
+
     # 新しいルールを追加
     for rule in new_rules:
         # 重複チェック
@@ -119,21 +119,21 @@ def add_group_display_rules():
             logger.info(f"✅ ルール追加: {rule['rule_id']} - {rule['name']}")
         else:
             logger.info(f"ℹ️ ルール既存: {rule['rule_id']}")
-    
+
     # 更新日時を記録
     existing_rules['last_updated'] = datetime.now().isoformat()
     existing_rules['total_rules'] = len(existing_rules.get('rules', []))
-    
+
     # ファイルに保存
     with open(rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"💾 PDCAルール保存: {rules_file}")
     logger.info(f"📊 総ルール数: {existing_rules['total_rules']}")
-    
+
     # チェックリスト生成
     generate_validation_checklist(new_rules)
-    
+
     return new_rules
 
 
@@ -192,14 +192,14 @@ def generate_validation_checklist(rules):
             }
         ]
     }
-    
+
     # チェックリスト保存
     checklist_file = f"group_display_validation_checklist_{datetime.now().strftime('%Y%m%d')}.json"
     with open(checklist_file, 'w', encoding='utf-8') as f:
         json.dump(checklist, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"📋 チェックリスト生成: {checklist_file}")
-    
+
     # マークダウンレポート生成
     generate_markdown_report(rules)
 
@@ -218,7 +218,7 @@ def generate_markdown_report(rules):
     report.append("")
     report.append("## 追加ルール")
     report.append("")
-    
+
     for rule in rules:
         report.append(f"### {rule['rule_id']}: {rule['name']}")
         report.append("")
@@ -228,37 +228,37 @@ def generate_markdown_report(rules):
         report.append("")
         report.append(f"**理由**: {rule['reason']}")
         report.append("")
-        
+
         if 'implementation' in rule:
             report.append("**実装詳細**:")
             report.append(f"- トリガー: {rule['implementation']['trigger']}")
             report.append(f"- アクション: {rule['implementation']['action']}")
-            
+
             if 'validation_steps' in rule['implementation']:
                 report.append("- 検証ステップ:")
                 for step in rule['implementation']['validation_steps']:
                     report.append(f"  - {step}")
-            
+
             if 'check_points' in rule['implementation']:
                 report.append("- チェックポイント:")
                 for point in rule['implementation']['check_points']:
                     report.append(f"  - {point}")
-            
+
             if 'detection_methods' in rule['implementation']:
                 report.append("- 検出方法:")
                 for method in rule['implementation']['detection_methods']:
                     report.append(f"  - {method}")
-        
+
         if 'examples' in rule:
             report.append("")
             report.append("**例**:")
             for example in rule['examples']:
                 report.append(f"- {example}")
-        
+
         report.append("")
         report.append("---")
         report.append("")
-    
+
     report.append("## 実装状況")
     report.append("")
     report.append("| コンポーネント | ファイル | 状態 |")
@@ -281,12 +281,12 @@ def generate_markdown_report(rules):
     report.append("3. 新規グループの自動検出精度向上")
     report.append("4. 表記ゆれ対応の強化")
     report.append("")
-    
+
     # レポート保存
     report_file = f"PDCA_RULES_084_086_REPORT_{datetime.now().strftime('%Y%m%d')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
-    
+
     logger.info(f"📄 レポート生成: {report_file}")
 
 
@@ -295,21 +295,21 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 PDCAガーディアンルール追加 (RULE_084-086)")
     logger.info("=" * 60)
-    
+
     # ルール追加
     new_rules = add_group_display_rules()
-    
+
     # サマリー表示
     logger.info("\n" + "=" * 60)
     logger.info("📊 追加ルールサマリー")
     logger.info("=" * 60)
-    
+
     for rule in new_rules:
         logger.info(f"  {rule['rule_id']}: {rule['name']}")
         logger.info(f"    重要度: {rule['severity']}")
         logger.info(f"    理由: {rule['reason']}")
         logger.info("")
-    
+
     logger.info("✅ PDCAガーディアンルール追加完了")
     logger.info("📋 グループメンバー表示名の一貫性を保証する仕組みを構築しました")
 

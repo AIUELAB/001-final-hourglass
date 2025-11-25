@@ -5,9 +5,10 @@ slot欠損値修正スクリプト
 1,168件のslot欠損値をslot 13-365にバランスよく割り当てる
 """
 
-import pandas as pd
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
 
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -19,15 +20,15 @@ def fix_slot_missing_values():
     """slot欠損値を修正"""
 
     print("📋 CSVファイル読み込み中...")
-    df = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
+    df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
 
     # バックアップ作成
     print(f"💾 バックアップ作成: {BACKUP_PATH}")
-    df.to_csv(BACKUP_PATH, index=False, encoding='utf-8-sig')
+    df.to_csv(BACKUP_PATH, index=False, encoding="utf-8-sig")
 
     # 欠損値の確認
-    missing_count = df['slot'].isna().sum()
-    print(f"\n📊 修正前の状況:")
+    missing_count = df["slot"].isna().sum()
+    print("\n📊 修正前の状況:")
     print(f"  - 総行数: {len(df)}")
     print(f"  - slot欠損: {missing_count}件 ({missing_count / len(df) * 100:.2f}%)")
     print(f"  - slot範囲: {df['slot'].min():.0f} - {df['slot'].max():.0f}")
@@ -37,7 +38,7 @@ def fix_slot_missing_values():
         return
 
     # 欠損値のインデックスを取得
-    missing_indices = df[df['slot'].isna()].index.tolist()
+    missing_indices = df[df["slot"].isna()].index.tolist()
 
     # slot 13-365の範囲にランダムに割り当て
     # より均等な分布を目指す
@@ -59,28 +60,28 @@ def fix_slot_missing_values():
     np.random.shuffle(slots_to_assign)
 
     # 欠損値に割り当て
-    print(f"\n🔄 slot欠損値を修正中...")
+    print("\n🔄 slot欠損値を修正中...")
     for idx, slot_value in zip(missing_indices, slots_to_assign):
-        df.at[idx, 'slot'] = slot_value
+        df.at[idx, "slot"] = slot_value
 
     # 修正後の確認
-    missing_after = df['slot'].isna().sum()
-    print(f"\n📊 修正後の状況:")
+    missing_after = df["slot"].isna().sum()
+    print("\n📊 修正後の状況:")
     print(f"  - slot欠損: {missing_after}件 ({missing_after / len(df) * 100:.2f}%)")
     print(f"  - slot範囲: {df['slot'].min():.0f} - {df['slot'].max():.0f}")
     print(f"  - ユニークなslot数: {df['slot'].nunique()}")
 
     # slot分布の確認
-    print(f"\n📈 slot分布:")
-    slot_distribution = df['slot'].value_counts().sort_index()
+    print("\n📈 slot分布:")
+    slot_distribution = df["slot"].value_counts().sort_index()
     print(f"  - 最小エピソード数/slot: {slot_distribution.min()}")
     print(f"  - 最大エピソード数/slot: {slot_distribution.max()}")
     print(f"  - 平均エピソード数/slot: {slot_distribution.mean():.2f}")
 
     # 新しいslot範囲（13-365）の統計
-    new_slots = df[df['slot'] >= 13]['slot']
+    new_slots = df[df["slot"] >= 13]["slot"]
     if len(new_slots) > 0:
-        print(f"\n📊 新規割り当てslot（13-365）:")
+        print("\n📊 新規割り当てslot（13-365）:")
         print(f"  - エピソード数: {len(new_slots)}")
         new_slot_dist = new_slots.value_counts()
         print(f"  - 最小: {new_slot_dist.min()}件/slot")
@@ -89,7 +90,7 @@ def fix_slot_missing_values():
 
     # CSVを保存
     print(f"\n💾 CSVファイル保存中: {CSV_PATH}")
-    df.to_csv(CSV_PATH, index=False, encoding='utf-8-sig')
+    df.to_csv(CSV_PATH, index=False, encoding="utf-8-sig")
 
     print("\n✅ slot欠損値の修正が完了しました！")
     print(f"   修正件数: {missing_count}件")

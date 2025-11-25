@@ -173,9 +173,7 @@ def main():
                 print(f"  Line {line_num}: {secret_type}")
                 print(f"    {content}")
 
-        print(
-            f"\n❌ Found {sum(len(f) for _, f in all_findings)} potential secrets in {len(all_findings)} files!"
-        )
+        print(f"\n❌ Found {sum(len(f) for _, f in all_findings)} potential secrets in {len(all_findings)} files!")
         print("\n⚠️  Please review these findings and ensure no real secrets are committed.")
         sys.exit(1)
     else:

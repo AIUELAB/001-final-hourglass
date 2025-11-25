@@ -30,14 +30,14 @@
 def pre_validate():
     # 既存データ読み込み
     existing = load_existing_data()
-    
+
     # 重複チェック用セット作成
     existing_names = set()
     existing_display = set()
-    
+
     # エンコーディング確認
     verify_encoding()
-    
+
     return validation_context
 ```
 
@@ -47,17 +47,17 @@ def process_batch(batch_data):
     # 100件ごとに処理
     for i in range(0, len(data), 100):
         batch = data[i:i+100]
-        
+
         # バッチ処理
         processed = process(batch)
-        
+
         # 即座に検証
         validate_batch(processed)
-        
+
         # 問題があれば修正
         if has_errors:
             fix_and_retry(batch)
-        
+
         # チェックポイント保存
         save_checkpoint(processed)
 ```
@@ -210,18 +210,18 @@ for phase in phases:
     for batch in phase.get_batches(size=100):
         # 収集
         data = collect_batch(batch)
-        
+
         # 検証
         errors = validate(data)
-        
+
         # エラー処理
         if errors:
             fixed_data = fix_errors(errors, data)
             re_validate(fixed_data)
-        
+
         # 保存
         save_checkpoint(data)
-        
+
         # 進捗報告
         report_progress()
 ```
@@ -231,16 +231,16 @@ for phase in phases:
 def final_integration():
     # 全チェックポイント読み込み
     all_data = load_all_checkpoints()
-    
+
     # 最終検証
     final_validation(all_data)
-    
+
     # 重複除去
     deduplicate(all_data)
-    
+
     # 品質スコア計算
     calculate_quality_score()
-    
+
     # 最終出力
     save_final_database()
 ```

@@ -14,14 +14,14 @@
 - その他: 50件
 """
 
-import sqlite3
 import json
 import logging
+import sqlite3
 import time
-from typing import Dict, List, Optional, Tuple
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from dataclasses import dataclass, asdict
+from typing import Dict, List, Optional, Tuple
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class PersonMetadata:
     """人物メタデータ"""
+
     entity_type: str  # 'real_person' or 'fictional_character'
     group_affiliation: Optional[str] = None
     primary_work: Optional[str] = None
@@ -49,7 +50,11 @@ class MetadataCollector:
         "ピース": {"members": ["又吉直樹", "綾部祐二"], "status": "disbanded", "fame": "equal"},
         "くりぃむしちゅー": {"members": ["上田晋也", "有田哲平"], "status": "active", "fame": "group_more_famous"},
         "千鳥": {"members": ["ノブ", "大悟"], "status": "active", "fame": "group_more_famous"},
-        "サンドウィッチマン": {"members": ["伊達みきお", "富澤たけし"], "status": "active", "fame": "group_more_famous"},
+        "サンドウィッチマン": {
+            "members": ["伊達みきお", "富澤たけし"],
+            "status": "active",
+            "fame": "group_more_famous",
+        },
         "爆笑問題": {"members": ["太田光", "田中裕二"], "status": "active", "fame": "group_more_famous"},
         "ダウンタウン": {"members": ["松本人志", "浜田雅功"], "status": "active", "fame": "group_more_famous"},
         "とんねるず": {"members": ["石橋貴明", "木梨憲武"], "status": "disbanded", "fame": "group_more_famous"},
@@ -59,10 +64,18 @@ class MetadataCollector:
 
     # 既知のバンド（高信頼度）
     KNOWN_BANDS = {
-        "L'Arc～en～Ciel": {"members": ["hyde", "tetsuya", "ken", "yukihiro"], "status": "active", "fame": "group_more_famous"},
+        "L'Arc～en～Ciel": {
+            "members": ["hyde", "tetsuya", "ken", "yukihiro"],
+            "status": "active",
+            "fame": "group_more_famous",
+        },
         "RADWIMPS": {"members": ["野田洋次郎", "桑原彰", "武田祐介"], "status": "active", "fame": "group_more_famous"},
         "GLAY": {"members": ["TERU", "TAKURO", "HISASHI", "JIRO"], "status": "active", "fame": "group_more_famous"},
-        "X JAPAN": {"members": ["YOSHIKI", "TOSHI", "PATA", "HEATH", "SUGIZO"], "status": "hiatus", "fame": "group_more_famous"},
+        "X JAPAN": {
+            "members": ["YOSHIKI", "TOSHI", "PATA", "HEATH", "SUGIZO"],
+            "status": "hiatus",
+            "fame": "group_more_famous",
+        },
         "B'z": {"members": ["稲葉浩志", "松本孝弘"], "status": "active", "fame": "group_more_famous"},
         "サザンオールスターズ": {"members": ["桑田佳祐"], "status": "active", "fame": "group_more_famous"},
         "Mr.Children": {"members": ["桜井和寿"], "status": "active", "fame": "group_more_famous"},
@@ -70,8 +83,16 @@ class MetadataCollector:
 
     # 既知のYouTuberグループ（高信頼度）
     KNOWN_YOUTUBER_GROUPS = {
-        "東海オンエア": {"members": ["てつや", "しばゆー", "りょう", "としみつ", "ゆめまる", "虫眼鏡"], "status": "active", "fame": "group_more_famous"},
-        "Fischer's": {"members": ["シルクロード", "ンダホ", "ぺけたん", "ダーマ", "マサイ", "ザカオ", "モトキ"], "status": "active", "fame": "group_more_famous"},
+        "東海オンエア": {
+            "members": ["てつや", "しばゆー", "りょう", "としみつ", "ゆめまる", "虫眼鏡"],
+            "status": "active",
+            "fame": "group_more_famous",
+        },
+        "Fischer's": {
+            "members": ["シルクロード", "ンダホ", "ぺけたん", "ダーマ", "マサイ", "ザカオ", "モトキ"],
+            "status": "active",
+            "fame": "group_more_famous",
+        },
         "水溜りボンド": {"members": ["トミー", "カンタ"], "status": "active", "fame": "group_more_famous"},
         "はじめしゃちょー": {"members": [], "status": "active", "fame": "personal_more_famous"},  # ソロ
         "HIKAKIN": {"members": [], "status": "active", "fame": "personal_more_famous"},  # ソロ
@@ -115,7 +136,8 @@ class MetadataCollector:
         cursor = conn.cursor()
 
         # recognition_scoreは使用せず、カテゴリ優先で取得
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT person_id, person_name_ja, category, entity_type
             FROM persons
             WHERE show_group_in_bracket = 0  -- 未調査のみ
@@ -129,7 +151,9 @@ class MetadataCollector:
                 END,
                 RANDOM()  -- 同一カテゴリ内ではランダム
             LIMIT ?
-        """, (limit,))
+        """,
+            (limit,),
+        )
 
         persons = [dict(row) for row in cursor.fetchall()]
         conn.close()
@@ -147,8 +171,8 @@ class MetadataCollector:
         Returns:
             PersonMetadata
         """
-        person_name = person['person_name_ja']
-        category = person.get('category', 'その他')
+        person_name = person["person_name_ja"]
+        category = person.get("category", "その他")
 
         # Step 1: 既知データベースから検索（最高信頼度）
         metadata = self._check_known_database(person_name, category)
@@ -164,12 +188,7 @@ class MetadataCollector:
 
         # Step 3: デフォルト（実在人物、括弧表示なし）
         logger.info(f"ℹ️ デフォルト設定: {person_name} (実在人物、括弧なし)")
-        return PersonMetadata(
-            entity_type='real_person',
-            show_group_in_bracket=0,
-            confidence=0.5,
-            source='default'
-        )
+        return PersonMetadata(entity_type="real_person", show_group_in_bracket=0, confidence=0.5, source="default")
 
     def _check_known_database(self, person_name: str, category: str) -> Optional[PersonMetadata]:
         """
@@ -186,57 +205,57 @@ class MetadataCollector:
         if person_name in self.KNOWN_FICTIONAL_CHARACTERS:
             work_name = self.KNOWN_FICTIONAL_CHARACTERS[person_name]
             return PersonMetadata(
-                entity_type='fictional_character',
+                entity_type="fictional_character",
                 primary_work=work_name,
                 show_group_in_bracket=1,
                 bracket_display_text=work_name,
                 confidence=1.0,
-                source='known_fictional_characters'
+                source="known_fictional_characters",
             )
 
         # お笑い芸人チェック
         for group_name, group_data in self.KNOWN_COMEDIAN_GROUPS.items():
-            if person_name in group_data['members']:
-                show_bracket = 1 if group_data['status'] == 'active' else 0
+            if person_name in group_data["members"]:
+                show_bracket = 1 if group_data["status"] == "active" else 0
                 return PersonMetadata(
-                    entity_type='real_person',
+                    entity_type="real_person",
                     group_affiliation=group_name,
                     show_group_in_bracket=show_bracket,
                     bracket_display_text=group_name if show_bracket else None,
-                    group_status=group_data['status'],
-                    fame_level=group_data['fame'],
+                    group_status=group_data["status"],
+                    fame_level=group_data["fame"],
                     confidence=0.95,
-                    source='known_comedian_groups'
+                    source="known_comedian_groups",
                 )
 
         # バンドメンバーチェック
         for band_name, band_data in self.KNOWN_BANDS.items():
-            if person_name in band_data['members']:
-                show_bracket = 1 if band_data['status'] == 'active' else 0
+            if person_name in band_data["members"]:
+                show_bracket = 1 if band_data["status"] == "active" else 0
                 return PersonMetadata(
-                    entity_type='real_person',
+                    entity_type="real_person",
                     group_affiliation=band_name,
                     show_group_in_bracket=show_bracket,
                     bracket_display_text=band_name if show_bracket else None,
-                    group_status=band_data['status'],
-                    fame_level=band_data['fame'],
+                    group_status=band_data["status"],
+                    fame_level=band_data["fame"],
                     confidence=0.95,
-                    source='known_bands'
+                    source="known_bands",
                 )
 
         # YouTuberチェック
         for group_name, group_data in self.KNOWN_YOUTUBER_GROUPS.items():
-            if person_name in group_data['members']:
-                show_bracket = 1 if group_data['fame'] == 'group_more_famous' else 0
+            if person_name in group_data["members"]:
+                show_bracket = 1 if group_data["fame"] == "group_more_famous" else 0
                 return PersonMetadata(
-                    entity_type='real_person',
+                    entity_type="real_person",
                     group_affiliation=group_name,
                     show_group_in_bracket=show_bracket,
                     bracket_display_text=group_name if show_bracket else None,
-                    group_status=group_data['status'],
-                    fame_level=group_data['fame'],
+                    group_status=group_data["status"],
+                    fame_level=group_data["fame"],
                     confidence=0.95,
-                    source='known_youtuber_groups'
+                    source="known_youtuber_groups",
                 )
 
         return None
@@ -253,30 +272,30 @@ class MetadataCollector:
             PersonMetadata or None
         """
         # 漫画・アニメカテゴリ → 架空キャラクターの可能性高い
-        if category == '漫画・アニメ':
+        if category == "漫画・アニメ":
             return PersonMetadata(
-                entity_type='fictional_character',
+                entity_type="fictional_character",
                 show_group_in_bracket=0,  # 作品名不明のため一旦0
                 confidence=0.7,
-                source='category_inference'
+                source="category_inference",
             )
 
         # エンタメ → グループ所属の可能性
-        if category == 'エンタメ':
+        if category == "エンタメ":
             return PersonMetadata(
-                entity_type='real_person',
+                entity_type="real_person",
                 show_group_in_bracket=0,  # 不明のため一旦0
                 confidence=0.6,
-                source='category_inference'
+                source="category_inference",
             )
 
         # スポーツ → チーム所属の可能性
-        if category == 'スポーツ':
+        if category == "スポーツ":
             return PersonMetadata(
-                entity_type='real_person',
+                entity_type="real_person",
                 show_group_in_bracket=0,  # チーム名表示は通常不要
                 confidence=0.8,
-                source='category_inference'
+                source="category_inference",
             )
 
         return None
@@ -292,7 +311,8 @@ class MetadataCollector:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             UPDATE persons
             SET entity_type = ?,
                 group_affiliation = ?,
@@ -302,16 +322,18 @@ class MetadataCollector:
                 group_status = ?,
                 fame_level = ?
             WHERE person_id = ?
-        """, (
-            metadata.entity_type,
-            metadata.group_affiliation,
-            metadata.primary_work,
-            metadata.show_group_in_bracket,
-            metadata.bracket_display_text,
-            metadata.group_status,
-            metadata.fame_level,
-            person_id
-        ))
+        """,
+            (
+                metadata.entity_type,
+                metadata.group_affiliation,
+                metadata.primary_work,
+                metadata.show_group_in_bracket,
+                metadata.bracket_display_text,
+                metadata.group_status,
+                metadata.fame_level,
+                person_id,
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -339,28 +361,28 @@ class MetadataCollector:
 
         # 統計
         stats = {
-            'total': len(persons),
-            'high_confidence': 0,  # 信頼度0.9以上
-            'medium_confidence': 0,  # 信頼度0.7-0.9
-            'low_confidence': 0,  # 信頼度0.7未満
-            'fictional_character': 0,
-            'real_person': 0,
-            'with_bracket': 0,
-            'without_bracket': 0,
-            'sources': {
-                'known_fictional_characters': 0,
-                'known_comedian_groups': 0,
-                'known_bands': 0,
-                'known_youtuber_groups': 0,
-                'category_inference': 0,
-                'default': 0
-            }
+            "total": len(persons),
+            "high_confidence": 0,  # 信頼度0.9以上
+            "medium_confidence": 0,  # 信頼度0.7-0.9
+            "low_confidence": 0,  # 信頼度0.7未満
+            "fictional_character": 0,
+            "real_person": 0,
+            "with_bracket": 0,
+            "without_bracket": 0,
+            "sources": {
+                "known_fictional_characters": 0,
+                "known_comedian_groups": 0,
+                "known_bands": 0,
+                "known_youtuber_groups": 0,
+                "category_inference": 0,
+                "default": 0,
+            },
         }
 
         # メタデータ収集と更新
         for i, person in enumerate(persons, 1):
-            person_name = person['person_name_ja']
-            person_id = person['person_id']
+            person_name = person["person_name_ja"]
+            person_id = person["person_id"]
 
             print(f"\n[{i}/{len(persons)}] {person_name}")
 
@@ -373,23 +395,23 @@ class MetadataCollector:
 
                 # 統計更新
                 if metadata.confidence >= 0.9:
-                    stats['high_confidence'] += 1
+                    stats["high_confidence"] += 1
                 elif metadata.confidence >= 0.7:
-                    stats['medium_confidence'] += 1
+                    stats["medium_confidence"] += 1
                 else:
-                    stats['low_confidence'] += 1
+                    stats["low_confidence"] += 1
 
-                if metadata.entity_type == 'fictional_character':
-                    stats['fictional_character'] += 1
+                if metadata.entity_type == "fictional_character":
+                    stats["fictional_character"] += 1
                 else:
-                    stats['real_person'] += 1
+                    stats["real_person"] += 1
 
                 if metadata.show_group_in_bracket == 1:
-                    stats['with_bracket'] += 1
+                    stats["with_bracket"] += 1
                 else:
-                    stats['without_bracket'] += 1
+                    stats["without_bracket"] += 1
 
-                stats['sources'][metadata.source] += 1
+                stats["sources"][metadata.source] += 1
 
                 # 結果表示
                 print(f"  Entity Type: {metadata.entity_type}")
@@ -405,6 +427,7 @@ class MetadataCollector:
             except Exception as e:
                 logger.error(f"エラー: {person_name} - {e}")
                 import traceback
+
                 traceback.print_exc()
 
         # 結果サマリー
@@ -412,24 +435,26 @@ class MetadataCollector:
         print("Phase 1 完了サマリー")
         print("=" * 80)
         print(f"総処理件数: {stats['total']}")
-        print(f"\n信頼度分布:")
+        print("\n信頼度分布:")
         print(f"  高信頼度 (0.9+): {stats['high_confidence']} ({stats['high_confidence']/stats['total']*100:.1f}%)")
-        print(f"  中信頼度 (0.7-0.9): {stats['medium_confidence']} ({stats['medium_confidence']/stats['total']*100:.1f}%)")
+        print(
+            f"  中信頼度 (0.7-0.9): {stats['medium_confidence']} ({stats['medium_confidence']/stats['total']*100:.1f}%)"
+        )
         print(f"  低信頼度 (<0.7): {stats['low_confidence']} ({stats['low_confidence']/stats['total']*100:.1f}%)")
-        print(f"\nEntity Type:")
+        print("\nEntity Type:")
         print(f"  架空キャラクター: {stats['fictional_character']}")
         print(f"  実在人物: {stats['real_person']}")
-        print(f"\n括弧表示:")
+        print("\n括弧表示:")
         print(f"  表示あり: {stats['with_bracket']}")
         print(f"  表示なし: {stats['without_bracket']}")
-        print(f"\nデータソース:")
-        for source, count in stats['sources'].items():
+        print("\nデータソース:")
+        for source, count in stats["sources"].items():
             if count > 0:
                 print(f"  {source}: {count}")
 
         # JSON保存
         output_path = f"metadata_expansion_phase1_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(stats, f, ensure_ascii=False, indent=2)
 
         print(f"\n結果を保存: {output_path}")
@@ -441,9 +466,9 @@ def main():
     """メイン処理"""
     import argparse
 
-    parser = argparse.ArgumentParser(description='メタデータ拡張 Phase 1')
-    parser.add_argument('--db', default='episode_database.db', help='データベースパス')
-    parser.add_argument('--limit', type=int, default=500, help='処理件数')
+    parser = argparse.ArgumentParser(description="メタデータ拡張 Phase 1")
+    parser.add_argument("--db", default="episode_database.db", help="データベースパス")
+    parser.add_argument("--limit", type=int, default=500, help="処理件数")
 
     args = parser.parse_args()
 
@@ -459,5 +484,5 @@ def main():
         return 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     exit(main())

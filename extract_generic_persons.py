@@ -12,7 +12,7 @@ df = pd.read_csv(csv_file)
 
 # 一般著名人を抽出
 generic_persons = df[
-    (df['occupation'] == '一般著名人') & 
+    (df['occupation'] == '一般著名人') &
     (df['description'] == '一般的な著名人')
 ].copy()
 

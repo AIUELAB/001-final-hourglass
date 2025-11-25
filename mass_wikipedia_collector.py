@@ -21,21 +21,21 @@ class MassWikipediaCollector:
         self.session.headers.update({
             'User-Agent': 'HourglassApp/1.0 Mass Collection'
         })
-        
+
         # 実証済み設定
         self.delay = 0.2  # 0.2秒遅延
         self.batch_size = 3  # 3タイトルずつ
         self.all_collected = []
         self.checkpoint_file = 'mass_collection_checkpoint.json'
-        
+
         # 拡張クエリリスト（多様性確保）
         self.query_pool = self.create_query_pool()
         self.query_index = 0
-        
+
     def create_query_pool(self) -> List[str]:
         """大規模クエリプール作成"""
         queries = []
-        
+
         # エンターテインメント
         entertainment = [
             '日本 俳優', '日本 女優', '日本 歌手', 'お笑い芸人', 'アイドル',
@@ -44,7 +44,7 @@ class MassWikipediaCollector:
             '振付師', '演出家', '脚本家', 'K-POP', 'J-POP',
             'ロック歌手', 'ラッパー', 'DJ', 'VTuber', 'TikToker'
         ]
-        
+
         # スポーツ
         sports = [
             '野球選手', 'プロ野球', 'メジャーリーガー', 'サッカー選手', 'Jリーガー',
@@ -53,7 +53,7 @@ class MassWikipediaCollector:
             'フィギュアスケート', 'マラソン選手', '陸上選手', '水泳選手', '体操選手',
             'バスケットボール選手', 'バレーボール選手', 'ラグビー選手', 'F1ドライバー', 'プロゲーマー'
         ]
-        
+
         # ビジネス・テクノロジー
         business = [
             '起業家', '実業家', 'CEO', '社長', '創業者',
@@ -61,7 +61,7 @@ class MassWikipediaCollector:
             'AI研究者', 'データサイエンティスト', 'ゲームクリエイター', 'Web開発者',
             '経営者', '企業家', 'ベンチャー', 'イノベーター', '発明家'
         ]
-        
+
         # 文化・芸術
         culture = [
             '作家', '小説家', '詩人', '漫画家', '画家',
@@ -69,7 +69,7 @@ class MassWikipediaCollector:
             'デザイナー', 'イラストレーター', 'アーティスト', '芸術家', '美術家',
             '茶道', '華道', '日本画家', '版画家', '現代美術'
         ]
-        
+
         # 政治・社会
         politics = [
             '政治家', '首相', '大臣', '知事', '市長',
@@ -77,7 +77,7 @@ class MassWikipediaCollector:
             'ジャーナリスト', 'キャスター', 'アナウンサー', '評論家', '学者',
             '教授', '研究者', '弁護士', '裁判官', '検察官'
         ]
-        
+
         # 歴史
         history = [
             '戦国武将', '武士', '侍', '忍者', '大名',
@@ -85,14 +85,14 @@ class MassWikipediaCollector:
             '歴史上の人物', '偉人', '英雄', '探検家', '冒険家',
             '軍人', '提督', '元帥', '革命家', '思想家'
         ]
-        
+
         # 架空・キャラクター
         fictional = [
             'アニメキャラクター', '漫画キャラクター', 'ゲームキャラクター',
             '特撮ヒーロー', '仮面ライダー', 'ウルトラマン', '戦隊ヒーロー',
             'ディズニーキャラクター', 'ジブリキャラクター', 'ポケモン'
         ]
-        
+
         # すべて結合
         queries.extend(entertainment)
         queries.extend(sports)
@@ -101,9 +101,9 @@ class MassWikipediaCollector:
         queries.extend(politics)
         queries.extend(history)
         queries.extend(fictional)
-        
+
         return queries
-    
+
     def search(self, query: str) -> List[str]:
         """検索実行"""
         time.sleep(self.delay)
@@ -125,14 +125,14 @@ class MassWikipediaCollector:
         except:
             pass
         return []
-    
+
     def get_pages(self, titles: List[str]) -> List[Dict]:
         """ページ情報取得"""
         people = []
         for i in range(0, len(titles), self.batch_size):
             batch = titles[i:i+self.batch_size]
             time.sleep(self.delay)
-            
+
             try:
                 r = self.session.get(
                     'https://ja.wikipedia.org/w/api.php',
@@ -156,20 +156,20 @@ class MassWikipediaCollector:
                                 people.append(person)
             except:
                 pass
-                
+
         return people
-    
+
     def parse_page(self, pdata: Dict) -> Dict:
         """ページ解析"""
         title = pdata.get('title', '')
         extract = pdata.get('extract', '')
-        
+
         if len(extract) < 30:
             return None
-            
+
         categories = [c.get('title', '') for c in pdata.get('categories', [])]
         cat_text = ' '.join(categories) + ' ' + extract
-        
+
         return {
             'name': title,
             'birth_date': self.extract_year(extract),
@@ -185,13 +185,13 @@ class MassWikipediaCollector:
             'grade': 'B',
             'data_source': 'wikipedia_mass'
         }
-    
+
     def extract_year(self, text: str) -> str:
         """年抽出"""
         import re
         match = re.search(r'(\d{4})年', text)
         return f"{match.group(1)}-01-01" if match else ''
-    
+
     def infer_nationality(self, text: str) -> str:
         """国籍推定"""
         if '日本' in text:
@@ -203,7 +203,7 @@ class MassWikipediaCollector:
         elif '中国' in text:
             return '中国'
         return ''
-    
+
     def infer_occupation(self, text: str) -> str:
         """職業推定"""
         occupations = {
@@ -216,12 +216,12 @@ class MassWikipediaCollector:
             '実業家': ['実業', '社長', 'CEO'],
             'キャラクター': ['キャラクター', 'アニメ', '漫画']
         }
-        
+
         for occ, keywords in occupations.items():
             if any(kw in text for kw in keywords):
                 return occ
         return '著名人'
-    
+
     def categorize(self, text: str) -> str:
         """カテゴリ分類"""
         if any(w in text for w in ['俳優', '女優', '歌手', '芸能', 'アイドル', 'タレント']):
@@ -238,30 +238,30 @@ class MassWikipediaCollector:
             return 'エンターテインメント'
         else:
             return '文化・芸術'
-    
+
     def collect_batch(self, batch_size: int = 300, timeout: int = 85):
         """バッチ収集（85秒）"""
         start = time.time()
         batch_collected = []
-        
+
         while time.time() - start < timeout:
             # クエリプールから取得
             if self.query_index >= len(self.query_pool):
                 self.query_index = 0
-            
+
             query = self.query_pool[self.query_index]
             self.query_index += 1
-            
+
             titles = self.search(query)
             if titles:
                 people = self.get_pages(titles[:20])
                 batch_collected.extend(people)
-                
+
                 if len(batch_collected) >= batch_size:
                     break
-        
+
         return batch_collected
-    
+
     def save_checkpoint(self):
         """チェックポイント保存"""
         checkpoint = {
@@ -271,7 +271,7 @@ class MassWikipediaCollector:
         }
         with open(self.checkpoint_file, 'w') as f:
             json.dump(checkpoint, f)
-    
+
     def load_checkpoint(self):
         """チェックポイント読み込み"""
         if os.path.exists(self.checkpoint_file):
@@ -280,34 +280,34 @@ class MassWikipediaCollector:
                 self.query_index = checkpoint.get('query_index', 0)
                 return checkpoint
         return None
-    
+
     def collect_mass(self, target: int = 2000):
         """大規模収集（2000人）"""
         print(f"目標: {target}人収集")
-        
+
         # 既存データ読み込み
         existing_files = [
             'wikipedia_turbo_20250822_200648.csv',
             'wikidata_quick_20250822_193210.csv'
         ]
-        
+
         for file in existing_files:
             if os.path.exists(file):
                 df = pd.read_csv(file, encoding='utf-8-sig')
                 self.all_collected.extend(df.to_dict('records'))
                 print(f"既存データ読み込み: {file} ({len(df)}人)")
-        
+
         print(f"開始時点: {len(self.all_collected)}人")
-        
+
         # 新規収集
         rounds = 0
         while len(self.all_collected) < target:
             rounds += 1
             print(f"\nラウンド {rounds}:")
-            
+
             batch = self.collect_batch(300, 85)
             self.all_collected.extend(batch)
-            
+
             # 重複削除
             seen = set()
             unique = []
@@ -316,32 +316,32 @@ class MassWikipediaCollector:
                     seen.add(p['name'])
                     unique.append(p)
             self.all_collected = unique
-            
+
             print(f"  収集: {len(batch)}人")
             print(f"  累計: {len(self.all_collected)}人")
-            
+
             # チェックポイント保存
             self.save_checkpoint()
-            
+
             if rounds >= 10:  # 最大10ラウンド
                 break
-        
+
         print(f"\n収集完了: {len(self.all_collected)}人")
-    
+
     def save_final(self):
         """最終保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"wikipedia_mass_{timestamp}.csv"
-        
+
         if self.all_collected:
             df = pd.DataFrame(self.all_collected)
             df.to_csv(filename, index=False, encoding='utf-8-sig')
-            
+
             print(f"\n保存: {filename}")
             print(f"総人数: {len(self.all_collected)}")
             print("\nカテゴリ分布:")
             print(df['main_category'].value_counts())
-            
+
         return filename
 
 def main():

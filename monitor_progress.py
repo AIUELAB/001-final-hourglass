@@ -40,14 +40,14 @@ def get_latest_progress():
     log_files = list(Path('.').glob('recognition_full_*.log'))
     if not log_files:
         return None
-    
+
     latest_log = max(log_files, key=lambda f: f.stat().st_mtime)
-    
+
     # 最後の進捗行を探す
     progress = None
     errors = 0
     checkpoints = 0
-    
+
     try:
         with open(latest_log, 'r', encoding='utf-8') as f:
             lines = f.readlines()
@@ -63,7 +63,7 @@ def get_latest_progress():
                     checkpoints += 1
     except:
         pass
-    
+
     return {
         'progress': progress,
         'errors': errors,
@@ -88,12 +88,12 @@ def get_cache_stats():
 def display_dashboard():
     """ダッシュボード表示"""
     os.system('clear')
-    
+
     print("=" * 60)
     print("📊 Wikipedia知名度評価システム - 進捗モニター")
     print("=" * 60)
     print()
-    
+
     # プロセス情報
     process = get_process_info()
     if process['running']:
@@ -104,41 +104,41 @@ def display_dashboard():
         print(f"   開始時刻: {process['start_time']}")
     else:
         print("❌ プロセスが実行されていません")
-    
+
     print()
-    
+
     # 進捗情報
     progress_info = get_latest_progress()
     if progress_info and progress_info['progress']:
         print(f"📈 処理進捗: {progress_info['progress']}")
-        
+
         # 進捗バーを表示
         if '/' in progress_info['progress']:
             parts = progress_info['progress'].split('/')
             current = int(parts[0])
             total = int(parts[1].split()[0])
             percentage = current / total * 100
-            
+
             bar_length = 40
             filled = int(bar_length * percentage / 100)
             bar = '█' * filled + '░' * (bar_length - filled)
             print(f"   [{bar}] {percentage:.1f}%")
-            
+
             # 推定完了時刻
             if current > 0:
                 # 簡易計算
                 print(f"   推定残り時間: 計算中...")
-    
+
     print()
-    
+
     # キャッシュ統計
     cache = get_cache_stats()
     print(f"💾 キャッシュ統計:")
     print(f"   ファイル数: {cache['files']:,}")
     print(f"   サイズ: {cache['size_mb']:.2f} MB")
-    
+
     print()
-    
+
     # 更新時刻
     print(f"🕐 更新時刻: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print()

@@ -200,7 +200,7 @@ if [ -f "${PROJECT_ROOT}/ai_collaboration_system.py" ]; then
         log_info "Starting ai_collaboration"
 
         python3 "${PROJECT_ROOT}/ai_collaboration_system.py" --daemon > /dev/null 2>&1 &
-        local pid=$!
+        pid=$!
         echo "$pid" > "${PID_DIR}/ai_collaboration.pid"
 
         sleep 3

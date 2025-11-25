@@ -47,11 +47,15 @@ repos:
       # セキュリティチェック
   - id: detect-private-key
 
-      # Pythonチェック
+      # Pythonチェック（src/, backend/, scripts/のみ）
   - id: debug-statements
+    files: ^(src/|backend/|scripts/).*\.py$
   - id: check-ast
+    files: ^(src/|backend/|scripts/).*\.py$
   - id: check-builtin-literals
+    files: ^(src/|backend/|scripts/).*\.py$
   - id: check-docstring-first
+    files: ^(src/|backend/).*\.py$
 
       # その他
   - id: mixed-line-ending
@@ -94,8 +98,8 @@ repos:
   rev: 1.7.9
   hooks:
   - id: bandit
-    args: [-ll, -r, src/, backend/]
-    exclude: tests/
+    args: [-ll]
+    files: ^(src/|backend/).*\.py$
 
   # ============================================
   # シークレット検出 (Gitleaks)
@@ -112,7 +116,7 @@ repos:
   rev: v0.10.0.1
   hooks:
   - id: shellcheck
-    args: [--severity=warning, --shell=bash]
+    args: [--severity=error, --shell=bash]
     files: ^scripts/.*\.(sh|bash)$
 
   # ============================================

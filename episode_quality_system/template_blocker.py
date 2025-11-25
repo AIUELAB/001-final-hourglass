@@ -18,6 +18,7 @@ class ViolationType(Enum):
     DATE_NOISE = "日付ノイズ"
     SUPERLATIVE = "過剰な最上級"
     CLICHE = "陳腐な表現"
+    META_DISCLAIMER = "メタ的説明"  # EPUP: 架空キャラクター用
 
 @dataclass
 class Violation:
@@ -166,12 +167,48 @@ class TemplateBlocker:
             (r'伝説の', "客観的評価に変更"),
         ]
 
-    def check_episode(self, episode_text: str) -> Tuple[bool, List[Violation]]:
+        # EPUP: メタ的説明パターン（架空キャラクター用 - Critical）
+        # 架空キャラクターのエピソードで絶対に使用してはいけない表現
+        self.meta_disclaimer_patterns = [
+            # 存在否定系
+            (r'は架空の(キャラクター|人物|存在)であり', "作品世界内の視点で記述"),
+            (r'実在(しない|の人物ではない)', "作品世界内の視点で記述"),
+            (r'エピソード(は|が)存在しません', "作品内エピソードを記述"),
+            (r'公式(な|の)?描写は.*存在しない', "作品設定に基づいて記述"),
+            (r'実際の.*エピソード.*存在しません', "作品内エピソードを記述"),
+
+            # 生成拒否系
+            (r'申し訳ございませんが', "作品世界内の視点で生成"),
+            (r'生成することは(できません|適切ではありません)', "作品設定に基づいて生成"),
+            (r'別の.*人物.*でしたら', "架空キャラとして生成"),
+            (r'このような.*対応とさせていただきます', "作品内エピソードを生成"),
+
+            # メタ言及系
+            (r'年齢を重ね(たり|ること).*ない', "作品世界での成長を記述"),
+            (r'設定上は', "作品世界の事実として記述"),
+            (r'フィクション(である|として)', "作品内の事実として記述"),
+            (r'虚構(の|として)', "作品内の事実として記述"),
+            (r'創作(として|上)', "作品内の事実として記述"),
+            (r'物語(の中|として)', "作品内の事実として記述"),
+
+            # 情報不足言及系
+            (r'情報(が|は).*ない', "作品設定から外挿"),
+            (r'描写(が|は).*ない', "キャラクター設定から外挿"),
+            (r'言及(が|は).*ない', "作品世界観に基づいて記述"),
+
+            # その他メタ表現
+            (r'※.*キャラクター', "メタ注釈を削除"),
+            (r'※注：', "メタ注釈を削除"),
+            (r'架空.*ため', "作品世界内の視点で記述"),
+        ]
+
+    def check_episode(self, episode_text: str, person_type: str = None) -> Tuple[bool, List[Violation]]:
         """
         エピソードをチェック
 
         Args:
             episode_text: エピソードテキスト
+            person_type: 人物タイプ（"REAL" or "FICTIONAL"）- メタ的説明チェック用
 
         Returns:
             (ブロック判定, 違反リスト)
@@ -277,7 +314,55 @@ class TemplateBlocker:
                 ))
                 should_block = True
 
+        # 8. EPUP: メタ的説明チェック（Critical - 架空キャラクターのみ）
+        # person_typeがFICTIONAL、またはperson_type未指定でも
+        # メタ的説明が含まれていれば検出（安全側に倒す）
+        for pattern, suggestion in self.meta_disclaimer_patterns:
+            matches = re.finditer(pattern, episode_text)
+            for match in matches:
+                violations.append(Violation(
+                    type=ViolationType.META_DISCLAIMER,
+                    pattern=pattern,
+                    matched_text=match.group(),
+                    position=match.start(),
+                    severity="critical",
+                    suggestion=suggestion
+                ))
+                should_block = True
+
         return should_block, violations
+
+    def check_meta_disclaimer(self, episode_text: str) -> Tuple[bool, List[Violation]]:
+        """
+        EPUP: メタ的説明のみをチェック（架空キャラクターエピソード専用）
+
+        Args:
+            episode_text: エピソードテキスト
+
+        Returns:
+            (メタ説明検出フラグ, 違反リスト)
+        """
+        violations = []
+        has_meta = False
+
+        for pattern, suggestion in self.meta_disclaimer_patterns:
+            matches = re.finditer(pattern, episode_text)
+            for match in matches:
+                violations.append(Violation(
+                    type=ViolationType.META_DISCLAIMER,
+                    pattern=pattern,
+                    matched_text=match.group(),
+                    position=match.start(),
+                    severity="critical",
+                    suggestion=suggestion
+                ))
+                has_meta = True
+
+        return has_meta, violations
+
+    def get_meta_patterns(self) -> list:
+        """メタ的説明パターンのリストを取得（外部参照用）"""
+        return [pattern for pattern, _ in self.meta_disclaimer_patterns]
 
     def get_violation_report(self, violations: List[Violation]) -> str:
         """

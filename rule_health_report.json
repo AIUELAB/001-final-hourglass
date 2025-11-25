@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-25T12:00:01.172143",
+  "timestamp": "2025-11-25T23:23:52.522651",
   "summary": {
     "total_checks": 5,
     "pass": 3,
@@ -16,7 +16,7 @@
         "documented_rules": 4,
         "documentation_rate": 100.0
       },
-      "timestamp": "2025-11-25T12:00:01.152012"
+      "timestamp": "2025-11-25T23:23:52.518257"
     },
     {
       "check_name": "矛盾検出",
@@ -26,22 +26,22 @@
         "contradiction_count": 0,
         "contradictions": []
       },
-      "timestamp": "2025-11-25T12:00:01.152042"
+      "timestamp": "2025-11-25T23:23:52.518369"
     },
     {
       "check_name": "同期ステータス",
       "status": "WARN",
-      "message": "同期が古い (91.9時間前, 閾値: 24時間)",
+      "message": "同期が古い (103.3時間前, 閾値: 24時間)",
       "details": {
         "last_sync": "2025-11-21T16:08:46.524314",
-        "age_hours": 91.85406332611112,
+        "age_hours": 103.25166521194444,
         "checksum_match": true,
         "targets_synced": [
           "pdca_guardian",
           "episode_guardian"
         ]
       },
-      "timestamp": "2025-11-25T12:00:01.152301"
+      "timestamp": "2025-11-25T23:23:52.519090"
     },
     {
       "check_name": "ファイル整合性",
@@ -50,7 +50,7 @@
       "details": {
         "issues": []
       },
-      "timestamp": "2025-11-25T12:00:01.171894"
+      "timestamp": "2025-11-25T23:23:52.522421"
     },
     {
       "check_name": "ルール統計",
@@ -61,7 +61,7 @@
         "active_rules": 4,
         "deprecated_rules": 0
       },
-      "timestamp": "2025-11-25T12:00:01.171934"
+      "timestamp": "2025-11-25T23:23:52.522446"
     },
     {
       "check_name": "総合判定",
@@ -73,7 +73,7 @@
         "warn_count": 2,
         "fail_count": 0
       },
-      "timestamp": "2025-11-25T12:00:01.171960"
+      "timestamp": "2025-11-25T23:23:52.522456"
     }
   ]
 }

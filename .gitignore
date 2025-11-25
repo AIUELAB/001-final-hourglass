@@ -313,3 +313,4 @@ MASTER_EPISODES*.backup*
 !MASTER_EPISODES_v1.0.0_20251031_japanese_fixed.csv
 .session/SESSION_LOG.md
 episode_database_dashboard_v2.html
+.pids/

@@ -8,6 +8,11 @@ import statistics
 from typing import List, Dict, Tuple, Set
 from pathlib import Path
 from collections import defaultdict
+from app.utils.score_calculator import (
+    normalize_person_name,
+    calculate_text_similarity,
+    is_similar_episode
+)
 
 
 class DataQualityManager:
@@ -63,9 +68,19 @@ class DataQualityManager:
 
                 self.episodes.append(episode)
 
-    def detect_duplicates(self) -> List[Dict]:
+    def detect_duplicates(
+        self,
+        use_normalization: bool = True,
+        check_text_similarity: bool = True,
+        similarity_threshold: float = 0.8
+    ) -> List[Dict]:
         """
-        重複エピソードの検出
+        重複エピソードの検出（高度版）
+
+        Args:
+            use_normalization: 人物名正規化を使用するか
+            check_text_similarity: テキスト類似度チェックを行うか
+            similarity_threshold: 類似度の閾値（0.0-1.0）
 
         Returns:
             重複情報のリスト
@@ -73,27 +88,113 @@ class DataQualityManager:
         duplicates = []
         seen: Dict[Tuple[str, str], List[Dict]] = defaultdict(list)
 
-        # 人物名+年齢でグループ化
+        # 人物名+年齢でグループ化（正規化オプション付き）
         for ep in self.episodes:
             person_name = ep.get('person_name', '').strip()
             age = ep.get('age', '').strip()
 
             if person_name and age:
-                key = (person_name, age)
+                # 正規化を使用する場合
+                if use_normalization:
+                    normalized_name = normalize_person_name(person_name)
+                else:
+                    normalized_name = person_name
+
+                key = (normalized_name, age)
                 seen[key].append(ep)
 
         # 重複を抽出
         for key, episodes in seen.items():
             if len(episodes) > 1:
-                person_name, age = key
-                duplicates.append({
-                    'person_name': person_name,
-                    'age': age,
-                    'count': len(episodes),
-                    'row_numbers': [ep['row_number'] for ep in episodes]
-                })
+                normalized_name, age = key
+
+                # テキスト類似度チェック（オプション）
+                if check_text_similarity:
+                    # 類似グループを検出
+                    similar_groups = self._find_similar_text_groups(
+                        episodes, similarity_threshold
+                    )
+
+                    for group in similar_groups:
+                        if len(group) > 1:
+                            duplicates.append({
+                                'person_name': group[0].get('person_name', ''),
+                                'normalized_name': normalized_name,
+                                'age': age,
+                                'count': len(group),
+                                'row_numbers': [ep['row_number'] for ep in group],
+                                'duplicate_type': 'exact_or_similar',
+                                'similarity_checked': True
+                            })
+                else:
+                    duplicates.append({
+                        'person_name': episodes[0].get('person_name', ''),
+                        'normalized_name': normalized_name,
+                        'age': age,
+                        'count': len(episodes),
+                        'row_numbers': [ep['row_number'] for ep in episodes],
+                        'duplicate_type': 'name_age_match',
+                        'similarity_checked': False
+                    })
 
         return duplicates
+
+    def _find_similar_text_groups(
+        self,
+        episodes: List[Dict],
+        threshold: float
+    ) -> List[List[Dict]]:
+        """
+        エピソードテキストの類似度に基づいてグループ化
+
+        Args:
+            episodes: エピソードリスト
+            threshold: 類似度閾値
+
+        Returns:
+            類似エピソードのグループリスト
+        """
+        if len(episodes) <= 1:
+            return [episodes]
+
+        # 類似グループを検出
+        groups = []
+        assigned = set()
+
+        for i, ep1 in enumerate(episodes):
+            if i in assigned:
+                continue
+
+            group = [ep1]
+            assigned.add(i)
+
+            text1 = ep1.get('episode_text', '')
+
+            for j, ep2 in enumerate(episodes[i + 1:], start=i + 1):
+                if j in assigned:
+                    continue
+
+                text2 = ep2.get('episode_text', '')
+
+                if is_similar_episode(text1, text2, threshold):
+                    group.append(ep2)
+                    assigned.add(j)
+
+            groups.append(group)
+
+        return groups
+
+    def detect_duplicates_simple(self) -> List[Dict]:
+        """
+        重複エピソードの検出（旧バージョン互換）
+
+        Returns:
+            重複情報のリスト
+        """
+        return self.detect_duplicates(
+            use_normalization=False,
+            check_text_similarity=False
+        )
 
     def detect_outliers(self, threshold: float = 3.0) -> List[Dict]:
         """

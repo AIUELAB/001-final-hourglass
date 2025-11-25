@@ -314,3 +314,9 @@ MASTER_EPISODES*.backup*
 .session/SESSION_LOG.md
 episode_database_dashboard_v2.html
 .pids/
+
+# ========================================
+# ネストしたリポジトリ（独立管理）
+# ========================================
+ebook-mcp/
+ios-apps/final-hourglass/

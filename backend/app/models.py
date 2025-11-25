@@ -356,6 +356,8 @@ class Episode(BaseModel):
     fame_score: Optional[str] = None
     composite_score: Optional[str] = None
     fame_score_updated_at: Optional[str] = None
+    episode_fame_score: Optional[str] = None  # エピソード有名度スコア
+    episode_importance_score: Optional[str] = None  # エピソード重要度スコア
 
     # 7軸スコア（日本語カラム名）
     milestone_tags: Optional[str] = None

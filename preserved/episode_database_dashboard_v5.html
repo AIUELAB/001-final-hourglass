@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>エピソードメインデータベース v3 - 有名度ランキング対応</title>
+    <title>エピソードメインデータベース v5 - 7カラムレイアウト対応</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -996,7 +996,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 エピソードメインデータベース v3</h1>
+            <h1>📊 エピソードメインデータベース v5</h1>
             <p>実在人物 + 架空キャラクター - 有名度ランキング対応（年齢×曜日ヒートマップ対応）</p>
         </div>
 
@@ -2067,18 +2067,32 @@
                             const slotValue = row['slot'] || '';
                             const slotNum = slotValue && !isNaN(parseInt(slotValue)) ? parseInt(slotValue) : null;
 
-                            // episode_typeを日本語に変換
-                            const episodeTypeEn = row['episode_type'] || 'その他';
-                            const episodeTypeMap = {
-                                'ACHIEVEMENT': '達成',
-                                'CHALLENGE': '挑戦',
-                                'TURNING_POINT': '転機',
-                                'FAILURE': '失敗',
-                                'COMEBACK': '復活',
-                                'FOUNDING': '創業',
-                                'INNOVATION': '革新'
-                            };
-                            const categoryJa = episodeTypeMap[episodeTypeEn] || 'その他';
+                            // categoryはCSVから直接使用（既に日本語で入っている）
+                            const categoryValue = row['category'] || 'その他';
+
+                            // work_titleのクリーンアップ（タイムスタンプが入っている場合は除外）
+                            let workTitleValue = row['work_title'] || row['作品名'] || '';
+                            // タイムスタンプの形式（YYYY-MM-DD HH:MM:SS）を検出して除外
+                            if (workTitleValue && /^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(workTitleValue.trim())) {
+                                workTitleValue = '';
+                            }
+
+                            // person_typeの正規化
+                            const personTypeRaw = row['person_type'] || row['実在/架空'] || row['entity_type'] || '';
+                            const personTypeUpper = personTypeRaw.toUpperCase();
+                            const personType = personTypeUpper.includes('FICTIONAL') ? 'FICTIONAL' :
+                                              personTypeUpper.includes('架空') ? 'FICTIONAL' : 'REAL';
+
+                            // 実在の人物の場合、work_titleは強制的に空にする
+                            if (personType === 'REAL') {
+                                workTitleValue = '';
+                            }
+
+                            // fame_scoreの処理（空文字の場合はnullにする）- parseFloatで小数点を保持
+                            const fameScoreValue = row["fame_score"] && row["fame_score"].trim() !== ''
+                                ? parseFloat(row["fame_score"]) : null;
+                            const episodeFameScoreValue = row['episode_fame_score'] && row['episode_fame_score'].trim() !== ''
+                                ? parseFloat(row['episode_fame_score']) : null;
 
                             return {
                                 id: index + 1,
@@ -2092,17 +2106,24 @@
                                     return Number.isNaN(ageNum) ? null : ageNum;
                                 })(),
                                 slot: slotNum,
-                                category: categoryJa,
+                                category: categoryValue,
                                 episode_text: row['エピソード'] || row['episode'] || row['episode_text'] || '',
-                                person_type: row['person_type'] || row['実在/架空'] || row['entity_type'] || (row['fictional_check'] === 'True' ? 'FICTIONAL' : 'REAL'),
-                                work_title: row['work_title'] || row['作品名'] || '',
+                                person_type: personType,
+                                work_title: workTitleValue,
                                 episode_count: parseFloat(row['episode_count']) || 1,
-                                fame_score: parseInt(row["fame_score"]) || 0,
+                                fame_score: fameScoreValue,
                                 fame_tier: parseInt(row["fame_tier"]) || 0,
-                                episode_fame_score: parseInt(row['episode_fame_score']) || 0,
+                                episode_fame_score: episodeFameScoreValue,
                                 episode_fame_tier: parseInt(row['episode_fame_tier']) || 0,
                                 // 7軸スコア
                                 composite_score: parseFloat(row['composite_score']) || null,
+                                // 超総合スコア（有名人度 + エピ有名度 + 総合）
+                                super_total_score: (() => {
+                                    const fame = fameScoreValue || 0;
+                                    const episodeFame = episodeFameScoreValue || 0;
+                                    const composite = parseFloat(row['composite_score']) || 0;
+                                    return fame + episodeFame + composite;
+                                })(),
                                 memorability_score: parseFloat(row['記憶性スコア']) || null,
                                 empathy_score: parseFloat(row['共感性スコア']) || null,
                                 surprise_score: parseFloat(row['意外性スコア']) || null,
@@ -2301,13 +2322,17 @@
                         valA = a.episode_count || 1;
                         valB = b.episode_count || 1;
                         break;
+                    case 'super_total_score':
+                        valA = a.super_total_score !== null && a.super_total_score !== undefined ? a.super_total_score : -1;
+                        valB = b.super_total_score !== null && b.super_total_score !== undefined ? b.super_total_score : -1;
+                        break;
                     case 'fame_score':
-                        valA = a.fame_score || 0;
-                        valB = b.fame_score || 0;
+                        valA = a.fame_score !== null ? a.fame_score : -1;
+                        valB = b.fame_score !== null ? b.fame_score : -1;
                         break;
                     case 'episode_fame_score':
-                        valA = a.episode_fame_score || 0;
-                        valB = b.episode_fame_score || 0;
+                        valA = a.episode_fame_score !== null ? a.episode_fame_score : -1;
+                        valB = b.episode_fame_score !== null ? b.episode_fame_score : -1;
                         break;
                     case 'composite_score':
                         valA = a.composite_score || 0;
@@ -2318,8 +2343,11 @@
                         valB = (b.work_title || '').toLowerCase();
                         break;
                     case 'entity':
-                        valA = (a.person_type || '').toUpperCase();
-                        valB = (b.person_type || '').toUpperCase();
+                        // REAL=0, FICTIONAL=1 として数値化（昇順: 実在→架空、降順: 架空→実在）
+                        const typeA = (a.person_type || '').toUpperCase();
+                        const typeB = (b.person_type || '').toUpperCase();
+                        valA = typeA.includes('FICTIONAL') ? 1 : 0;
+                        valB = typeB.includes('FICTIONAL') ? 1 : 0;
                         break;
                     case 'length':
                         valA = (a.episode_text || '').length;
@@ -2419,28 +2447,40 @@
                                 </div>
                             </td>
 
-                            <!-- 有名度系セル（有名度、エピソード有名度） -->
+                            <!-- 有名度系セル（超総合、有名度、エピソード有名度、総合） -->
                             <td class="fame-cell">
                                 <div class="id-stack">
                                     <div class="id-row">
-                                        <span class="fame-label sortable-label" data-sort="fame_score">有名度 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge" style="background: ${ep.fame_score >= 80 ? '#9333ea' : ep.fame_score >= 60 ? '#3b82f6' : '#6b7280'}; color: white; font-weight: 600;">
-                                            ${ep.fame_score || '-'}
+                                        <span class="fame-label sortable-label" data-sort="super_total_score">超総合 <span class="sort-icon">⬍</span></span>
+                                        <span class="badge" style="background: ${ep.super_total_score !== null && ep.super_total_score >= 20 ? '#7c3aed' : ep.super_total_score !== null && ep.super_total_score >= 15 ? '#8b5cf6' : '#6b7280'}; color: white; font-weight: 600;">
+                                            ${ep.super_total_score !== null && ep.super_total_score !== undefined ? ep.super_total_score.toFixed(1) : '-'}
+                                        </span>
+                                    </div>
+                                    <div class="id-row">
+                                        <span class="fame-label sortable-label" data-sort="fame_score">有名人度 <span class="sort-icon">⬍</span></span>
+                                        <span class="badge" style="background: ${ep.fame_score !== null && ep.fame_score >= 8 ? '#9333ea' : ep.fame_score !== null && ep.fame_score >= 6 ? '#3b82f6' : '#6b7280'}; color: white; font-weight: 600;">
+                                            ${ep.fame_score !== null ? ep.fame_score.toFixed(1) : '-'}
                                         </span>
                                     </div>
                                     <div class="id-row">
                                         <span class="fame-label sortable-label" data-sort="episode_fame_score">エピ有名度 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge" style="background: ${ep.episode_fame_score >= 80 ? '#dc2626' : ep.episode_fame_score >= 60 ? '#ea580c' : '#78716c'}; color: white; font-weight: 600;">
-                                            ${ep.episode_fame_score || '-'}
+                                        <span class="badge" style="background: ${ep.episode_fame_score !== null && ep.episode_fame_score >= 8 ? '#dc2626' : ep.episode_fame_score !== null && ep.episode_fame_score >= 6 ? '#ea580c' : '#78716c'}; color: white; font-weight: 600;">
+                                            ${ep.episode_fame_score !== null ? ep.episode_fame_score.toFixed(1) : '-'}
+                                        </span>
+                                    </div>
+                                    <div class="id-row">
+                                        <span class="fame-label sortable-label" data-sort="composite_score">総合 <span class="sort-icon">⬍</span></span>
+                                        <span class="badge" style="background: ${ep.composite_score !== null && ep.composite_score >= 8 ? '#10b981' : ep.composite_score !== null && ep.composite_score >= 6 ? '#84cc16' : '#6b7280'}; color: white; font-weight: 600;">
+                                            ${ep.composite_score !== null ? ep.composite_score.toFixed(1) : '-'}
                                         </span>
                                     </div>
                                 </div>
                             </td>
 
                             <!-- 7軸スコアセル -->
-                            <td class="score-cell${ep.composite_score ? '' : ' no-scores'}">
-                                ${ep.composite_score ? `
-                                    <div class="composite-score">総合: <strong>${ep.composite_score.toFixed(1)}</strong></div>
+                            <td class="score-cell${ep.composite_score || ep.memorability_score || ep.empathy_score ? '' : ' no-scores'}">
+                                ${ep.composite_score || ep.memorability_score || ep.empathy_score ? `
+                                    <div class="composite-score">総合: <strong>${ep.composite_score ? ep.composite_score.toFixed(1) : '-'}</strong></div>
                                     <div class="axis-scores">
                                         <div class="score-row">
                                             <span><span class="score-label">記憶:</span>${ep.memorability_score ? ep.memorability_score.toFixed(1) : '<span class="missing">-</span>'}</span>

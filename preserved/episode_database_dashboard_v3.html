@@ -2099,7 +2099,8 @@
                                 episode_count: parseFloat(row['episode_count']) || 1,
                                 fame_score: parseInt(row["fame_score"]) || 0,
                                 fame_tier: parseInt(row["fame_tier"]) || 0,
-                                episode_fame_score: parseInt(row['episode_fame_score']) || 0,
+                                episode_fame_score: row['episode_fame_score'] && row['episode_fame_score'].trim() !== ''
+                                    ? parseInt(row['episode_fame_score']) : null,
                                 episode_fame_tier: parseInt(row['episode_fame_tier']) || 0,
                                 // 7軸スコア
                                 composite_score: parseFloat(row['composite_score']) || null,
@@ -2306,8 +2307,8 @@
                         valB = b.fame_score || 0;
                         break;
                     case 'episode_fame_score':
-                        valA = a.episode_fame_score || 0;
-                        valB = b.episode_fame_score || 0;
+                        valA = a.episode_fame_score !== null ? a.episode_fame_score : -1;
+                        valB = b.episode_fame_score !== null ? b.episode_fame_score : -1;
                         break;
                     case 'composite_score':
                         valA = a.composite_score || 0;
@@ -2430,8 +2431,8 @@
                                     </div>
                                     <div class="id-row">
                                         <span class="fame-label sortable-label" data-sort="episode_fame_score">エピ有名度 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge" style="background: ${ep.episode_fame_score >= 80 ? '#dc2626' : ep.episode_fame_score >= 60 ? '#ea580c' : '#78716c'}; color: white; font-weight: 600;">
-                                            ${ep.episode_fame_score || '-'}
+                                        <span class="badge" style="background: ${ep.episode_fame_score !== null && ep.episode_fame_score >= 80 ? '#dc2626' : ep.episode_fame_score !== null && ep.episode_fame_score >= 60 ? '#ea580c' : '#78716c'}; color: white; font-weight: 600;">
+                                            ${ep.episode_fame_score !== null ? ep.episode_fame_score : '-'}
                                         </span>
                                     </div>
                                 </div>

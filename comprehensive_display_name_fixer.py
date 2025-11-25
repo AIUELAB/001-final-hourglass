@@ -25,16 +25,16 @@ import re
 
 class ComprehensiveDisplayNameFixer:
     """Comprehensive fixer for all display name issues in the database."""
-    
+
     def __init__(self, input_file: str, output_dir: str = "."):
         """Initialize the fixer with input file and output directory."""
         self.input_file = Path(input_file)
         self.output_dir = Path(output_dir)
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # Setup logging
         self.setup_logging()
-        
+
         # Statistics tracking
         self.stats = {
             "total_records": 0,
@@ -45,22 +45,22 @@ class ComprehensiveDisplayNameFixer:
             "validation_errors": 0,
             "skipped_records": 0
         }
-        
+
         # Group membership validation
         self.valid_groups = self.load_valid_groups()
-        
+
         # Translation dictionary for names that need manual translation
         self.manual_translations = self.load_manual_translations()
-        
+
         # Correction rules for future automatic fixing
         self.correction_rules = []
-        
+
         self.logger.info(f"Initialized fixer for {self.input_file}")
-    
+
     def setup_logging(self) -> None:
         """Setup comprehensive logging system."""
         log_file = self.output_dir / f"display_name_fix_log_{self.timestamp}.log"
-        
+
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
@@ -70,7 +70,7 @@ class ComprehensiveDisplayNameFixer:
             ]
         )
         self.logger = logging.getLogger(__name__)
-    
+
     def load_valid_groups(self) -> Dict[str, Set[str]]:
         """Load valid group memberships to detect incorrect annotations."""
         return {
@@ -93,7 +93,7 @@ class ComprehensiveDisplayNameFixer:
                 "RM", "Jin", "Suga", "J-Hope", "Jimin", "V", "Jungkook"
             }
         }
-    
+
     def load_manual_translations(self) -> Dict[str, str]:
         """Load manual translations for names that can't be auto-fixed."""
         return {
@@ -114,30 +114,30 @@ class ComprehensiveDisplayNameFixer:
             "HIKAKIN": "HIKAKIN",  # YouTube name, keep as is
             "GACKT": "GACKT",  # Stage name, keep as is
         }
-    
+
     def is_japanese_text(self, text: str) -> bool:
         """Check if text contains Japanese characters."""
         japanese_pattern = re.compile(r'[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]')
         return bool(japanese_pattern.search(text))
-    
+
     def has_incorrect_group_annotation(self, person_name: str, display_name: str) -> Tuple[bool, str, str]:
         """Check if display name has incorrect group annotation."""
         # Extract group from display name pattern like "Name (GROUP)"
         group_match = re.search(r'\(([^)]+)\)', display_name)
         if not group_match:
             return False, "", ""
-        
+
         group_name = group_match.group(1)
         base_name = person_name.strip()
-        
+
         # Check if this person is actually in the group
         if group_name in self.valid_groups:
             valid_members = self.valid_groups[group_name]
             if base_name not in valid_members:
                 return True, group_name, base_name
-        
+
         return False, group_name, base_name
-    
+
     def fix_display_name(self, record: Dict[str, str]) -> Tuple[str, str, str]:
         """
         Fix display name for a record.
@@ -146,91 +146,91 @@ class ComprehensiveDisplayNameFixer:
         person_name = record.get('person_name', '').strip()
         current_display = record.get('person_name_display', '').strip()
         person_name_ja = record.get('person_name_ja', '').strip()
-        
+
         if not person_name or not current_display:
             return current_display, "skip", "Missing required fields"
-        
+
         # Check for incorrect group annotations first
         has_incorrect_group, incorrect_group, base_name = self.has_incorrect_group_annotation(
             person_name, current_display
         )
-        
+
         if has_incorrect_group:
             # Remove incorrect group annotation
             new_display = person_name_ja if person_name_ja else person_name
             return new_display, "group_fix", f"Removed incorrect ({incorrect_group}) annotation"
-        
+
         # Check if display name is non-Japanese but we have Japanese translation
         if not self.is_japanese_text(current_display) and person_name_ja and self.is_japanese_text(person_name_ja):
             return person_name_ja, "auto_ja", "Used existing person_name_ja"
-        
+
         # Check manual translation dictionary
         if person_name in self.manual_translations:
             return self.manual_translations[person_name], "manual_translation", "Applied manual translation"
-        
+
         # For non-Japanese names without translation, keep as is but flag for review
         if not self.is_japanese_text(current_display):
             return current_display, "needs_translation", "Non-Japanese name needs manual translation"
-        
+
         # Already Japanese, no change needed
         return current_display, "no_change", "Already correct"
-    
+
     def validate_fix(self, original: str, fixed: str, fix_type: str) -> bool:
         """Validate that the fix is reasonable."""
         if not fixed or fixed.strip() == "":
             return False
-        
+
         # Don't change if it's already the same
         if original == fixed:
             return True
-        
+
         # Validate group fixes
         if fix_type == "group_fix":
             # Should not contain group annotation anymore
             if re.search(r'\([^)]+\)', fixed):
                 return False
-        
+
         # Validate Japanese translations
         if fix_type in ["auto_ja", "manual_translation"]:
             # Should contain Japanese characters
             if not self.is_japanese_text(fixed):
                 return False
-        
+
         return True
-    
+
     def create_backup(self) -> Path:
         """Create backup of original file."""
         backup_path = self.output_dir / f"backup_before_display_fix_{self.timestamp}.csv"
         shutil.copy2(self.input_file, backup_path)
         self.logger.info(f"Created backup: {backup_path}")
         return backup_path
-    
+
     def process_records(self) -> List[Dict[str, str]]:
         """Process all records and apply fixes."""
         fixed_records = []
         fix_log = []
-        
+
         with open(self.input_file, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
-            
+
             for i, record in enumerate(reader, 1):
                 self.stats["total_records"] = i
-                
+
                 try:
                     original_display = record.get('person_name_display', '')
                     fixed_display, fix_type, reason = self.fix_display_name(record)
-                    
+
                     # Validate the fix
                     if not self.validate_fix(original_display, fixed_display, fix_type):
                         self.stats["validation_errors"] += 1
                         self.logger.warning(f"Validation failed for {record.get('person_id')}: {original_display} -> {fixed_display}")
                         fixed_records.append(record)  # Keep original
                         continue
-                    
+
                     # Update record if changed
                     if original_display != fixed_display:
                         record['person_name_display'] = fixed_display
-                        
+
                         # Update statistics
                         if fix_type == "auto_ja":
                             self.stats["auto_fixable_using_ja"] += 1
@@ -241,7 +241,7 @@ class ComprehensiveDisplayNameFixer:
                             self.stats["incorrect_groups_fixed"] += 1
                         elif fix_type == "needs_translation":
                             self.stats["needs_translation"] += 1
-                        
+
                         # Log the change
                         fix_entry = {
                             "person_id": record.get('person_id', ''),
@@ -253,24 +253,24 @@ class ComprehensiveDisplayNameFixer:
                             "line_number": i
                         }
                         fix_log.append(fix_entry)
-                        
+
                         self.logger.info(f"Fixed {record.get('person_id')}: {original_display} -> {fixed_display} ({fix_type})")
-                    
+
                     fixed_records.append(record)
-                    
+
                 except Exception as e:
                     self.logger.error(f"Error processing record {i}: {e}")
                     self.stats["skipped_records"] += 1
                     fixed_records.append(record)  # Keep original on error
-        
+
         # Save detailed fix log
         self.save_fix_log(fix_log)
         return fixed_records
-    
+
     def save_fix_log(self, fix_log: List[Dict]) -> None:
         """Save detailed log of all fixes applied."""
         log_file = self.output_dir / f"display_name_fixes_log_{self.timestamp}.json"
-        
+
         with open(log_file, 'w', encoding='utf-8') as f:
             json.dump({
                 "timestamp": self.timestamp,
@@ -278,26 +278,26 @@ class ComprehensiveDisplayNameFixer:
                 "statistics": self.stats,
                 "fixes": fix_log
             }, f, ensure_ascii=False, indent=2)
-        
+
         self.logger.info(f"Saved detailed fix log: {log_file}")
-    
+
     def save_corrected_csv(self, records: List[Dict[str, str]]) -> Path:
         """Save the corrected CSV file."""
         output_file = self.output_dir / f"ultra_think_DISPLAY_NAME_FIXED_{self.timestamp}.csv"
-        
+
         if not records:
             raise ValueError("No records to save")
-        
+
         fieldnames = records[0].keys()
-        
+
         with open(output_file, 'w', encoding='utf-8', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(records)
-        
+
         self.logger.info(f"Saved corrected file: {output_file}")
         return output_file
-    
+
     def generate_correction_rules(self) -> None:
         """Generate rules for future automatic correction."""
         rules = {
@@ -325,16 +325,16 @@ class ComprehensiveDisplayNameFixer:
             },
             "group_membership_validation": self.valid_groups
         }
-        
+
         # Convert sets to lists for JSON serialization
         serializable_rules = json.loads(json.dumps(rules, default=lambda x: list(x) if isinstance(x, set) else x))
-        
+
         rules_file = self.output_dir / f"display_name_correction_rules_{self.timestamp}.json"
         with open(rules_file, 'w', encoding='utf-8') as f:
             json.dump(serializable_rules, f, ensure_ascii=False, indent=2)
-        
+
         self.logger.info(f"Generated correction rules: {rules_file}")
-    
+
     def generate_report(self, output_file: Path, backup_file: Path) -> None:
         """Generate comprehensive report of all fixes."""
         report = {
@@ -363,20 +363,20 @@ class ComprehensiveDisplayNameFixer:
                 "quality_check": "Spot-check a sample of auto-fixes for accuracy"
             }
         }
-        
+
         # Save JSON report
         report_file = self.output_dir / f"DISPLAY_NAME_FIX_REPORT_{self.timestamp}.json"
         with open(report_file, 'w', encoding='utf-8') as f:
             json.dump(report, f, ensure_ascii=False, indent=2)
-        
+
         # Save markdown report
         markdown_report = self.generate_markdown_report(report)
         md_file = self.output_dir / f"DISPLAY_NAME_FIX_REPORT_{self.timestamp}.md"
         with open(md_file, 'w', encoding='utf-8') as f:
             f.write(markdown_report)
-        
+
         self.logger.info(f"Generated reports: {report_file}, {md_file}")
-    
+
     def generate_markdown_report(self, report: Dict) -> str:
         """Generate markdown version of the report."""
         return f"""# Display Name Fix Report - {report['fix_summary']['timestamp']}
@@ -430,28 +430,28 @@ Applied pre-defined translations for common Western and Korean names.
 ---
 *Report generated by Comprehensive Display Name Fixer*
 """
-    
+
     def run(self) -> None:
         """Execute the complete fixing process."""
         try:
             self.logger.info("Starting comprehensive display name fixing process...")
-            
+
             # Create backup
             backup_file = self.create_backup()
-            
+
             # Process all records
             self.logger.info("Processing records and applying fixes...")
             fixed_records = self.process_records()
-            
+
             # Save corrected file
             output_file = self.save_corrected_csv(fixed_records)
-            
+
             # Generate rules for future use
             self.generate_correction_rules()
-            
+
             # Generate comprehensive report
             self.generate_report(output_file, backup_file)
-            
+
             # Log final summary
             self.logger.info(f"Process completed successfully!")
             self.logger.info(f"Total records: {self.stats['total_records']:,}")
@@ -460,7 +460,7 @@ Applied pre-defined translations for common Western and Korean names.
             self.logger.info(f"Incorrect groups fixed: {self.stats['incorrect_groups_fixed']}")
             self.logger.info(f"Records needing translation: {self.stats['needs_translation']}")
             self.logger.info(f"Output file: {output_file}")
-            
+
         except Exception as e:
             self.logger.error(f"Process failed: {e}")
             raise
@@ -469,26 +469,26 @@ Applied pre-defined translations for common Western and Korean names.
 def main():
     """Main execution function."""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Fix all display name issues in Ultra Think database")
     parser.add_argument("input_file", help="Input CSV file path")
     parser.add_argument("--output-dir", "-o", default=".", help="Output directory (default: current)")
-    
+
     args = parser.parse_args()
-    
+
     # Validate input file
     if not Path(args.input_file).exists():
         print(f"Error: Input file {args.input_file} not found")
         return 1
-    
+
     # Create output directory if needed
     output_dir = Path(args.output_dir)
     output_dir.mkdir(exist_ok=True)
-    
+
     # Run the fixer
     fixer = ComprehensiveDisplayNameFixer(args.input_file, output_dir)
     fixer.run()
-    
+
     return 0
 
 

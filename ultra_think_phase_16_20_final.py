@@ -40,12 +40,12 @@ class CompletePerson:
 
 class UltraThinkFinalPhaseExpander:
     """フェーズ16〜20の最終拡張（1000人達成）"""
-    
+
     def __init__(self):
         self.collected_people: List[Dict[str, Any]] = []
         self.processed_phases = set()
         self.checkpoint_file = "ultra_think_phase_16_20_checkpoint.json"
-        
+
     def get_phase_16_people(self) -> List[CompletePerson]:
         """フェーズ16: 現代の科学者と環境活動家（50人）"""
         return [
@@ -60,7 +60,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Sylvia Earle", "シルビア・アール", "アール", 1935, "アメリカ", "海洋学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("E.O. Wilson", "E・O・ウィルソン", "ウィルソン", 1929, "アメリカ", "生物学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Naomi Klein", "ナオミ・クライン", "クライン", 1970, "カナダ", "ジャーナリスト", "現代のイノベーター", "フェーズ16", phase=16),
-            
+
             # 現代医学・生命科学
             CompletePerson("Anthony Fauci", "アンソニー・ファウチ", "ファウチ", 1940, "アメリカ", "免疫学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Katalin Kariko", "カタリン・カリコ", "カリコ", 1955, "ハンガリー", "生化学者", "現代のイノベーター", "フェーズ16", phase=16),
@@ -72,7 +72,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Svante Paabo", "スヴァンテ・ペーボ", "ペーボ", 1955, "スウェーデン", "遺伝学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Robert Langer", "ロバート・ランガー", "ランガー", 1948, "アメリカ", "生物医学工学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Feng Zhang", "フェン・チャン", "チャン", 1981, "中国", "生物工学者", "現代のイノベーター", "フェーズ16", phase=16),
-            
+
             # 宇宙科学・天文学
             CompletePerson("Brian Cox", "ブライアン・コックス", "コックス", 1968, "イギリス", "物理学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Neil deGrasse Tyson", "ニール・ドグラース・タイソン", "タイソン", 1958, "アメリカ", "天体物理学者", "現代のイノベーター", "フェーズ16", phase=16),
@@ -84,7 +84,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Jocelyn Bell Burnell", "ジョスリン・ベル・バーネル", "バーネル", 1943, "イギリス", "天文学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Vera Rubin", "ヴェラ・ルービン", "ルービン", 1928, "アメリカ", "天文学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Mae Jemison", "メイ・ジェミソン", "ジェミソン", 1956, "アメリカ", "宇宙飛行士", "現代のイノベーター", "フェーズ16", phase=16),
-            
+
             # コンピュータサイエンス
             CompletePerson("Vint Cerf", "ヴィント・サーフ", "サーフ", 1943, "アメリカ", "計算機科学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Bob Kahn", "ボブ・カーン", "カーン", 1938, "アメリカ", "計算機科学者", "現代のイノベーター", "フェーズ16", phase=16),
@@ -96,7 +96,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Rasmus Lerdorf", "ラスマス・ラードフ", "ラードフ", 1968, "グリーンランド", "プログラマー", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Brendan Eich", "ブレンダン・アイク", "アイク", 1961, "アメリカ", "プログラマー", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("John Resig", "ジョン・レシグ", "レシグ", 1984, "アメリカ", "プログラマー", "現代のイノベーター", "フェーズ16", phase=16),
-            
+
             # 数学者
             CompletePerson("Terence Tao", "テレンス・タオ", "タオ", 1975, "オーストラリア", "数学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Grigori Perelman", "グリゴリー・ペレルマン", "ペレルマン", 1966, "ロシア", "数学者", "現代のイノベーター", "フェーズ16", phase=16),
@@ -109,7 +109,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("June Huh", "ジューン・フー", "フー", 1983, "韓国", "数学者", "現代のイノベーター", "フェーズ16", phase=16),
             CompletePerson("Maryna Viazovska", "マリナ・ヴィヤゾフスカ", "ヴィヤゾフスカ", 1984, "ウクライナ", "数学者", "現代のイノベーター", "フェーズ16", phase=16),
         ]
-    
+
     def get_phase_17_people(self) -> List[CompletePerson]:
         """フェーズ17: 現代の社会運動家と人権活動家（50人）"""
         return [
@@ -124,7 +124,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("DeRay Mckesson", "デレイ・マケッソン", "マケッソン", 1985, "アメリカ", "活動家", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Shaun King", "ショーン・キング", "キング", 1979, "アメリカ", "活動家", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Linda Sarsour", "リンダ・サーサワー", "サーサワー", 1980, "アメリカ", "活動家", "現代のイノベーター", "フェーズ17", phase=17),
-            
+
             # LGBTQ+活動家
             CompletePerson("Harvey Milk", "ハーヴェイ・ミルク", "ミルク", 1930, "アメリカ", "政治家", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Marsha P. Johnson", "マーシャ・P・ジョンソン", "マーシャ", 1945, "アメリカ", "活動家", "現代のイノベーター", "フェーズ17", phase=17),
@@ -136,7 +136,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Sam Smith", "サム・スミス", "サム・スミス", 1992, "イギリス", "歌手", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Elliot Page", "エリオット・ペイジ", "ペイジ", 1987, "カナダ", "俳優", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Billy Porter", "ビリー・ポーター", "ポーター", 1969, "アメリカ", "俳優", "現代のイノベーター", "フェーズ17", phase=17),
-            
+
             # 教育改革者
             CompletePerson("Sal Khan", "サルマン・カーン", "カーン", 1976, "アメリカ", "教育者", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Sugata Mitra", "スガタ・ミトラ", "ミトラ", 1952, "インド", "教育研究者", "現代のイノベーター", "フェーズ17", phase=17),
@@ -148,7 +148,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Yong Zhao", "ヨン・ツァオ", "ツァオ", 1965, "中国", "教育学者", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Andreas Schleicher", "アンドレアス・シュライヒャー", "シュライヒャー", 1964, "ドイツ", "教育統計学者", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Linda Darling-Hammond", "リンダ・ダーリング＝ハモンド", "ダーリング＝ハモンド", 1951, "アメリカ", "教育学者", "現代のイノベーター", "フェーズ17", phase=17),
-            
+
             # ジャーナリスト・メディア
             CompletePerson("Bob Woodward", "ボブ・ウッドワード", "ウッドワード", 1943, "アメリカ", "ジャーナリスト", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Carl Bernstein", "カール・バーンスタイン", "バーンスタイン", 1944, "アメリカ", "ジャーナリスト", "現代のイノベーター", "フェーズ17", phase=17),
@@ -160,7 +160,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Julian Assange", "ジュリアン・アサンジ", "アサンジ", 1971, "オーストラリア", "ジャーナリスト", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Edward Snowden", "エドワード・スノーデン", "スノーデン", 1983, "アメリカ", "内部告発者", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Chelsea Manning", "チェルシー・マニング", "マニング", 1987, "アメリカ", "内部告発者", "現代のイノベーター", "フェーズ17", phase=17),
-            
+
             # 慈善活動家
             CompletePerson("Melinda French Gates", "メリンダ・フレンチ・ゲイツ", "メリンダ", 1964, "アメリカ", "慈善家", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("MacKenzie Scott", "マッケンジー・スコット", "スコット", 1970, "アメリカ", "慈善家", "現代のイノベーター", "フェーズ17", phase=17),
@@ -173,7 +173,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("David Koch", "デイヴィッド・コック", "デイヴィッド・コック", 1940, "アメリカ", "実業家・慈善家", "現代のイノベーター", "フェーズ17", phase=17),
             CompletePerson("Michael Dell", "マイケル・デル", "デル", 1965, "アメリカ", "起業家・慈善家", "現代のイノベーター", "フェーズ17", phase=17),
         ]
-    
+
     def get_phase_18_people(self) -> List[CompletePerson]:
         """フェーズ18: 現代文学と芸術の巨匠（50人）"""
         return [
@@ -198,7 +198,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Yu Hua", "余華", "余華", 1960, "中国", "作家", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Liu Cixin", "劉慈欣", "劉慈欣", 1963, "中国", "SF作家", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Ken Liu", "ケン・リュウ", "ケン・リュウ", 1976, "中国", "SF作家", "歴史的偉人", "フェーズ18", phase=18),
-            
+
             # 現代美術
             CompletePerson("David Hockney", "デイヴィッド・ホックニー", "ホックニー", 1937, "イギリス", "画家", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Gerhard Richter", "ゲルハルト・リヒター", "リヒター", 1932, "ドイツ", "画家", "歴史的偉人", "フェーズ18", phase=18),
@@ -210,7 +210,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Takashi Murakami", "村上隆", "村上隆", 1962, "日本", "芸術家", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Yayoi Kusama", "草間彌生", "草間彌生", 1929, "日本", "芸術家", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Marina Abramovic", "マリーナ・アブラモヴィッチ", "アブラモヴィッチ", 1946, "セルビア", "パフォーマンスアーティスト", "歴史的偉人", "フェーズ18", phase=18),
-            
+
             # 現代音楽
             CompletePerson("Philip Glass", "フィリップ・グラス", "グラス", 1937, "アメリカ", "作曲家", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Steve Reich", "スティーヴ・ライヒ", "ライヒ", 1936, "アメリカ", "作曲家", "歴史的偉人", "フェーズ18", phase=18),
@@ -222,7 +222,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Trent Reznor", "トレント・レズナー", "レズナー", 1965, "アメリカ", "ミュージシャン", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Jonny Greenwood", "ジョニー・グリーンウッド", "グリーンウッド", 1971, "イギリス", "ミュージシャン", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Max Richter", "マックス・リヒター", "リヒター", 1966, "イギリス", "作曲家", "歴史的偉人", "フェーズ18", phase=18),
-            
+
             # 映画監督（現代）
             CompletePerson("Paul Thomas Anderson", "ポール・トーマス・アンダーソン", "PTA", 1970, "アメリカ", "映画監督", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Wes Anderson", "ウェス・アンダーソン", "ウェス", 1969, "アメリカ", "映画監督", "歴史的偉人", "フェーズ18", phase=18),
@@ -235,7 +235,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Bong Joon-ho", "ポン・ジュノ", "ポン・ジュノ", 1969, "韓国", "映画監督", "歴史的偉人", "フェーズ18", phase=18),
             CompletePerson("Park Chan-wook", "パク・チャヌク", "パク・チャヌク", 1963, "韓国", "映画監督", "歴史的偉人", "フェーズ18", phase=18),
         ]
-    
+
     def get_phase_19_people(self) -> List[CompletePerson]:
         """フェーズ19: デジタル時代の文化アイコン（50人）"""
         return [
@@ -250,7 +250,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("David Dobrik", "デビッド・ドブリック", "ドブリック", 1996, "スロバキア", "YouTuber", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Casey Neistat", "ケイシー・ナイスタット", "ナイスタット", 1981, "アメリカ", "YouTuber", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("MKBHD", "マーケス・ブラウンリー", "MKBHD", 1993, "アメリカ", "YouTuber", "現代のイノベーター", "フェーズ19", phase=19),
-            
+
             # ポッドキャスター
             CompletePerson("Joe Rogan", "ジョー・ローガン", "ローガン", 1967, "アメリカ", "ポッドキャスター", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Marc Maron", "マーク・マロン", "マロン", 1963, "アメリカ", "ポッドキャスター", "現代のイノベーター", "フェーズ19", phase=19),
@@ -262,7 +262,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Tim Ferriss", "ティム・フェリス", "フェリス", 1977, "アメリカ", "起業家", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Sam Harris", "サム・ハリス", "ハリス", 1967, "アメリカ", "著述家", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Jordan Peterson", "ジョーダン・ピーターソン", "ピーターソン", 1962, "カナダ", "心理学者", "現代のイノベーター", "フェーズ19", phase=19),
-            
+
             # 現代音楽アーティスト
             CompletePerson("Beyonce", "ビヨンセ", "ビヨンセ", 1981, "アメリカ", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Taylor Swift", "テイラー・スウィフト", "テイラー", 1989, "アメリカ", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
@@ -274,7 +274,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Billie Eilish", "ビリー・アイリッシュ", "ビリー", 2001, "アメリカ", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Ed Sheeran", "エド・シーラン", "エド", 1991, "イギリス", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Adele", "アデル", "アデル", 1988, "イギリス", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
-            
+
             # K-POP・アジア音楽
             CompletePerson("BTS", "防弾少年団", "BTS", 1992, "韓国", "音楽グループ", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("BLACKPINK", "ブラックピンク", "ブラックピンク", 1995, "韓国", "音楽グループ", "現代のイノベーター", "フェーズ19", phase=19),
@@ -286,7 +286,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Ayumi Hamasaki", "浜崎あゆみ", "浜崎あゆみ", 1978, "日本", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Kenshi Yonezu", "米津玄師", "米津玄師", 1991, "日本", "歌手", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Hatsune Miku", "初音ミク", "初音ミク", 2007, "日本", "バーチャルシンガー", "現代のイノベーター", "フェーズ19", phase=19),
-            
+
             # デジタルアート・NFT
             CompletePerson("Beeple", "ビープル", "ビープル", 1981, "アメリカ", "デジタルアーティスト", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Pak", "パク", "パク", 1970, "不明", "デジタルアーティスト", "現代のイノベーター", "フェーズ19", phase=19),
@@ -299,7 +299,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Memo Akten", "メモ・アクテン", "アクテン", 1975, "トルコ", "アーティスト", "現代のイノベーター", "フェーズ19", phase=19),
             CompletePerson("Mario Klingemann", "マリオ・クリンゲマン", "クリンゲマン", 1970, "ドイツ", "AIアーティスト", "現代のイノベーター", "フェーズ19", phase=19),
         ]
-    
+
     def get_phase_20_people(self) -> List[CompletePerson]:
         """フェーズ20: 未来を創る若き革新者（36人）"""
         return [
@@ -314,7 +314,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Pedro Franceschi", "ペドロ・フランチェスキ", "フランチェスキ", 1996, "ブラジル", "起業家", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Melanie Perkins", "メラニー・パーキンス", "パーキンス", 1987, "オーストラリア", "起業家", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Cliff Obrecht", "クリフ・オブレヒト", "オブレヒト", 1986, "オーストラリア", "起業家", "現代のイノベーター", "フェーズ20", phase=20),
-            
+
             # 若手活動家
             CompletePerson("Amanda Gorman", "アマンダ・ゴーマン", "ゴーマン", 1998, "アメリカ", "詩人", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Vanessa Nakate", "ヴァネッサ・ナカテ", "ナカテ", 1996, "ウガンダ", "環境活動家", "現代のイノベーター", "フェーズ20", phase=20),
@@ -326,7 +326,7 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Helena Gualinga", "ヘレナ・グアリンガ", "グアリンガ", 2002, "エクアドル", "環境活動家", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Licypriya Kangujam", "リシプリヤ・カングジャム", "カングジャム", 2011, "インド", "環境活動家", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Ridhima Pandey", "リディマ・パンディ", "パンディ", 2008, "インド", "環境活動家", "現代のイノベーター", "フェーズ20", phase=20),
-            
+
             # 若手科学者・発明家
             CompletePerson("Gitanjali Rao", "ギタンジャリ・ラオ", "ラオ", 2005, "アメリカ", "発明家", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Kiara Nirghin", "キアラ・ニルギン", "ニルギン", 2000, "南アフリカ", "発明家", "現代のイノベーター", "フェーズ20", phase=20),
@@ -334,13 +334,13 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Rishab Jain", "リシャブ・ジャイン", "ジャイン", 2004, "アメリカ", "研究者", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Anika Chebrolu", "アニカ・チェブロル", "チェブロル", 2004, "アメリカ", "科学者", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Riya Karumanchi", "リヤ・カルマンチ", "カルマンチ", 2002, "カナダ", "発明家", "現代のイノベーター", "フェーズ20", phase=20),
-            
+
             # eスポーツ選手
             CompletePerson("Faker", "フェイカー", "フェイカー", 1996, "韓国", "プロゲーマー", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("s1mple", "シンプル", "シンプル", 1997, "ウクライナ", "プロゲーマー", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Bugha", "ブガ", "ブガ", 2002, "アメリカ", "プロゲーマー", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("N0tail", "ノーテイル", "ノーテイル", 1993, "デンマーク", "プロゲーマー", "現代のイノベーター", "フェーズ20", phase=20),
-            
+
             # TikTokクリエイター
             CompletePerson("Charli D'Amelio", "チャーリー・ダミリオ", "チャーリー", 2004, "アメリカ", "TikToker", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Addison Rae", "アディソン・レイ", "アディソン", 2000, "アメリカ", "TikToker", "現代のイノベーター", "フェーズ20", phase=20),
@@ -349,33 +349,33 @@ class UltraThinkFinalPhaseExpander:
             CompletePerson("Khaby Lame", "カービー・ラメ", "カービー", 2000, "セネガル", "TikToker", "現代のイノベーター", "フェーズ20", phase=20),
             CompletePerson("Dixie D'Amelio", "ディクシー・ダミリオ", "ディクシー", 2001, "アメリカ", "TikToker", "現代のイノベーター", "フェーズ20", phase=20),
         ]
-    
+
     def process_phase(self, phase_num: int, people_getter):
         """フェーズの処理（超小規模バッチ）"""
         if phase_num in self.processed_phases:
             logger.info(f"フェーズ{phase_num}は処理済みです")
             return
-        
+
         logger.info(f"フェーズ{phase_num}の処理を開始...")
         people = people_getter()
-        
+
         # 3人ずつの超小規模バッチで処理（最小単位）
         batch_size = 3
         for i in range(0, len(people), batch_size):
             batch = people[i:i+batch_size]
             logger.info(f"バッチ処理中: {i+1}-{min(i+batch_size, len(people))}/{len(people)}")
-            
+
             for person in batch:
                 person_dict = asdict(person)
                 self.collected_people.append(person_dict)
-            
+
             # API負荷対策（さらに短く）
             time.sleep(0.3)
-        
+
         self.processed_phases.add(phase_num)
         self.save_checkpoint()
         logger.info(f"フェーズ{phase_num}完了: {len(people)}人追加")
-    
+
     def save_checkpoint(self):
         """チェックポイントの保存"""
         try:
@@ -387,7 +387,7 @@ class UltraThinkFinalPhaseExpander:
             logger.info("チェックポイント保存完了")
         except Exception as e:
             logger.error(f"チェックポイント保存失敗: {e}")
-    
+
     def load_checkpoint(self):
         """チェックポイントの読み込み"""
         try:
@@ -399,11 +399,11 @@ class UltraThinkFinalPhaseExpander:
                     logger.info(f"チェックポイント読み込み完了: {len(self.processed_phases)}フェーズ処理済み")
         except Exception as e:
             logger.error(f"チェックポイント読み込み失敗: {e}")
-    
+
     def run_final_expansion(self):
         """フェーズ16〜20の最終拡張実行"""
         self.load_checkpoint()
-        
+
         phases = [
             (16, self.get_phase_16_people),
             (17, self.get_phase_17_people),
@@ -411,7 +411,7 @@ class UltraThinkFinalPhaseExpander:
             (19, self.get_phase_19_people),
             (20, self.get_phase_20_people),
         ]
-        
+
         for phase_num, getter in phases:
             try:
                 self.process_phase(phase_num, getter)
@@ -420,17 +420,17 @@ class UltraThinkFinalPhaseExpander:
             except Exception as e:
                 logger.error(f"フェーズ{phase_num}でエラー: {e}")
                 continue
-        
+
         # 最終データ保存
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         final_csv = f"ultra_think_phase_16_20_final_{timestamp}.csv"
         final_json = f"ultra_think_phase_16_20_final_{timestamp}.json"
-        
+
         # 全フィールドを収集
         all_fields = set()
         for person in self.collected_people:
             all_fields.update(person.keys())
-        
+
         # CSV保存
         with open(final_csv, 'w', encoding='utf-8-sig', newline='') as f:
             fieldnames = sorted(list(all_fields))
@@ -438,11 +438,11 @@ class UltraThinkFinalPhaseExpander:
             writer.writeheader()
             for person in self.collected_people:
                 writer.writerow(person)
-        
+
         # JSON保存
         with open(final_json, 'w', encoding='utf-8') as f:
             json.dump(self.collected_people, f, ensure_ascii=False, indent=2)
-        
+
         logger.info(f"""
         ========================================
         フェーズ16〜20最終拡張完了！
@@ -454,7 +454,7 @@ class UltraThinkFinalPhaseExpander:
         - {final_json}
         ========================================
         """)
-        
+
         return self.collected_people
 
 def main():
@@ -465,10 +465,10 @@ def main():
     1000人達成への最終拡張開始
     ========================================
     """)
-    
+
     expander = UltraThinkFinalPhaseExpander()
     people = expander.run_final_expansion()
-    
+
     logger.info(f"✅ 最終拡張完了: {len(people)}人のデータを収集")
     logger.info("🎯 1000人データベース構築への最終段階完了！")
 

@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_placeholder_detection_rules():
     """プレースホルダーデータ検出ルール追加"""
-    
+
     new_rules = [
         {
             "rule_id": "RULE_090",
@@ -46,12 +46,12 @@ def add_placeholder_detection_rules():
             "detection_logic": """
             def detect_placeholder_data(df):
                 suspicious_groups = []
-                
+
                 # 1. 連番IDチェック
                 for i in range(len(df) - 10):
                     if is_consecutive_ids(df.iloc[i:i+10]):
                         suspicious_groups.append(df.iloc[i:i+10])
-                
+
                 # 2. 同姓グループチェック
                 surname_groups = df.groupby(df['person_name'].str.split().str[0])
                 for surname, group in surname_groups:
@@ -60,7 +60,7 @@ def add_placeholder_detection_rules():
                         wiki_rate = check_wikipedia_existence_rate(group)
                         if wiki_rate < 0.3:
                             suspicious_groups.append(group)
-                
+
                 return suspicious_groups
             """,
             "examples": [
@@ -154,16 +154,16 @@ def add_placeholder_detection_rules():
             "reason": "俳優データの品質向上と架空データ排除のため"
         }
     ]
-    
+
     # 既存のルールファイルを読み込み
     rules_file = Path("pdca_guardian_rules.json")
-    
+
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "last_updated": None}
-    
+
     # 新しいルールを追加
     for rule in new_rules:
         # 重複チェック
@@ -172,18 +172,18 @@ def add_placeholder_detection_rules():
             logger.info(f"✅ ルール追加: {rule['rule_id']} - {rule['name']}")
         else:
             logger.info(f"ℹ️ ルール既存: {rule['rule_id']}")
-    
+
     # 更新日時を記録
     existing_rules['last_updated'] = datetime.now().isoformat()
     existing_rules['total_rules'] = len(existing_rules.get('rules', []))
-    
+
     # ファイルに保存
     with open(rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"💾 PDCAルール保存: {rules_file}")
     logger.info(f"📊 総ルール数: {existing_rules['total_rules']}")
-    
+
     return new_rules
 
 
@@ -191,50 +191,50 @@ def detect_and_remove_placeholders():
     """プレースホルダーデータの検出と削除"""
     import pandas as pd
     from improved_wikipedia_api import ImprovedWikipediaAPI
-    
+
     # データ読み込み
     csv_file = Path('ultra_think_database_final_20250912_033943.csv')
     if not csv_file.exists():
         csv_file = Path('ultra_think_GOOGLE_COMPLIANT_20250912_031819.csv')
-    
+
     df = pd.read_csv(csv_file)
     api = ImprovedWikipediaAPI()
-    
+
     # 疑わしい「加藤」姓の俳優
     suspicious_ids = [
         'P002180', 'P002191', 'P002197', 'P002200',
         'P002207', 'P002230', 'P002232'
     ]
-    
+
     logger.info("=" * 60)
     logger.info("プレースホルダーデータ削除処理")
     logger.info("=" * 60)
-    
+
     # 削除対象の確認
     to_delete = df[df['person_id'].isin(suspicious_ids)]
     logger.info(f"削除対象: {len(to_delete)}件")
-    
+
     for _, row in to_delete.iterrows():
         logger.info(f"  - {row['person_id']}: {row['person_name']} ({row['occupation']})")
-    
+
     # バックアップ作成
     backup_file = f"backup_before_placeholder_removal_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
     df.to_csv(backup_file, index=False, encoding='utf-8-sig')
     logger.info(f"📁 バックアップ作成: {backup_file}")
-    
+
     # 削除実行
     df_cleaned = df[~df['person_id'].isin(suspicious_ids)]
-    
+
     # 保存
     output_file = f"ultra_think_CLEANED_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
     df_cleaned.to_csv(output_file, index=False, encoding='utf-8-sig')
-    
+
     logger.info(f"✅ クリーンアップ完了")
     logger.info(f"  削除前: {len(df)}件")
     logger.info(f"  削除後: {len(df_cleaned)}件")
     logger.info(f"  削除数: {len(df) - len(df_cleaned)}件")
     logger.info(f"💾 保存先: {output_file}")
-    
+
     return df_cleaned
 
 
@@ -282,12 +282,12 @@ def generate_quality_report():
     report.append("3. 連番ID、類似名パターンの自動検出")
     report.append("4. 定期的なデータ品質監査の実施")
     report.append("")
-    
+
     # レポート保存
     report_file = f"PLACEHOLDER_DETECTION_REPORT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
-    
+
     logger.info(f"📄 レポート生成: {report_file}")
 
 
@@ -296,16 +296,16 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 プレースホルダーデータ対策実行")
     logger.info("=" * 60)
-    
+
     # 1. PDCAルール追加
     new_rules = add_placeholder_detection_rules()
-    
+
     # 2. プレースホルダーデータ削除
     cleaned_df = detect_and_remove_placeholders()
-    
+
     # 3. レポート生成
     generate_quality_report()
-    
+
     logger.info("\n" + "=" * 60)
     logger.info("✅ プレースホルダーデータ対策完了")
     logger.info("=" * 60)

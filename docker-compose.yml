@@ -8,21 +8,21 @@ services:
       dockerfile: Dockerfile
     container_name: recognition-system
     environment:
-      - SERPAPI_API_KEY=${SERPAPI_API_KEY}
-      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
-      - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
-      - NEWS_API_KEY=${NEWS_API_KEY}
-      - BRAVE_API_KEY=${BRAVE_API_KEY}
-      - REDIS_URL=redis://redis:6379
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/recognition
+    - SERPAPI_API_KEY=${SERPAPI_API_KEY}
+    - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+    - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+    - NEWS_API_KEY=${NEWS_API_KEY}
+    - BRAVE_API_KEY=${BRAVE_API_KEY}
+    - REDIS_URL=redis://redis:6379
+    - DATABASE_URL=postgresql://postgres:password@postgres:5432/recognition
     volumes:
-      - ./data:/app/data
-      - ./logs:/app/logs
+    - ./data:/app/data
+    - ./logs:/app/logs
     depends_on:
-      - redis
-      - postgres
+    - redis
+    - postgres
     networks:
-      - recognition-network
+    - recognition-network
     restart: unless-stopped
 
   # Redisキャッシュ
@@ -30,9 +30,9 @@ services:
     image: redis:7-alpine
     container_name: recognition-redis
     volumes:
-      - redis-data:/data
+    - redis-data:/data
     networks:
-      - recognition-network
+    - recognition-network
     restart: unless-stopped
 
   # PostgreSQLデータベース
@@ -40,13 +40,13 @@ services:
     image: postgres:15-alpine
     container_name: recognition-postgres
     environment:
-      - POSTGRES_DB=recognition
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+    - POSTGRES_DB=recognition
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=password
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+    - postgres-data:/var/lib/postgresql/data
     networks:
-      - recognition-network
+    - recognition-network
     restart: unless-stopped
 
   # 監視ダッシュボード
@@ -54,11 +54,11 @@ services:
     image: nginx:alpine
     container_name: recognition-dashboard
     volumes:
-      - ./monitoring_dashboard.html:/usr/share/nginx/html/index.html
+    - ./monitoring_dashboard.html:/usr/share/nginx/html/index.html
     ports:
-      - "80:80"
+    - 80:80
     networks:
-      - recognition-network
+    - recognition-network
     restart: unless-stopped
 
 networks:

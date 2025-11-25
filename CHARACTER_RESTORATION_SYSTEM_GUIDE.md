@@ -18,7 +18,7 @@ Based on the analysis of `removed_fictional_characters_20250831_073627.csv`:
 
 ### ✅ High-Profile Characters Found (9/11)
 - ✅ Doraemon - Japan's cultural ambassador
-- ✅ Anpanman - Children's cultural icon 
+- ✅ Anpanman - Children's cultural icon
 - ✅ Mario - Global gaming icon
 - ✅ Pikachu - Pokemon franchise mascot
 - ✅ Goku (Son Goku) - Dragon Ball protagonist

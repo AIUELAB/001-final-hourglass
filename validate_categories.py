@@ -12,7 +12,7 @@ from typing import Dict, List, Tuple
 
 class CategoryValidator:
     """カテゴリ検証クラス"""
-    
+
     def __init__(self):
         self.validation_results = {
             'total': 0,
@@ -24,7 +24,7 @@ class CategoryValidator:
             'mismatches': [],
             'category_accuracy': defaultdict(lambda: {'correct': 0, 'total': 0})
         }
-        
+
         # 期待されるマッピング
         self.expected_mappings = {
             '作曲家': '音楽',
@@ -43,52 +43,52 @@ class CategoryValidator:
             'アニメ監督': '映画・アニメ',
             'YouTuber': 'デジタルメディア'
         }
-    
+
     def validate(self, input_file: str) -> str:
         """データの整合性を検証"""
-        
+
         print("🔍 カテゴリ整合性検証開始")
         print(f"  入力: {input_file}")
         print("=" * 80)
-        
+
         # データ読み込み
         with open(input_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
+
         self.validation_results['total'] = len(data)
-        
+
         # 各レコードを検証
         for key, value in data.items():
             if isinstance(value, dict):
                 self.validate_record(key, value)
-        
+
         # レポート生成
         report_file = self.generate_report()
-        
+
         return report_file
-    
+
     def validate_record(self, key: str, record: Dict):
         """個別レコードの検証"""
-        
+
         occupation = record.get('occupation', '')
         main_category = record.get('main_category', '')
         subcategory = record.get('subcategory', '')
-        
+
         # フィールドの存在チェック
         if not occupation:
             self.validation_results['no_occupation'] += 1
             return
-        
+
         if not main_category and not subcategory:
             self.validation_results['no_category'] += 1
             return
-        
+
         if not main_category or not subcategory:
             self.validation_results['partial_category'] += 1
-        
+
         # 整合性チェック
         is_consistent = self.check_consistency(occupation, main_category, subcategory)
-        
+
         if is_consistent:
             self.validation_results['consistent'] += 1
         else:
@@ -102,7 +102,7 @@ class CategoryValidator:
                     'main_category': main_category,
                     'subcategory': subcategory
                 })
-        
+
         # 職業別の精度を記録
         for expected_occ, expected_cat in self.expected_mappings.items():
             if expected_occ in occupation:
@@ -110,10 +110,10 @@ class CategoryValidator:
                 if expected_cat in main_category:
                     self.validation_results['category_accuracy'][expected_occ]['correct'] += 1
                 break
-    
+
     def check_consistency(self, occupation: str, main_category: str, subcategory: str) -> bool:
         """整合性チェック"""
-        
+
         # 主要な職業の整合性チェック
         consistency_rules = {
             '作曲家': lambda m, s: '音楽' in m,
@@ -133,24 +133,24 @@ class CategoryValidator:
             '女王': lambda m, s: '王室' in m or '貴族' in m,
             'YouTuber': lambda m, s: 'デジタル' in m or 'メディア' in m,
         }
-        
+
         for key, check_func in consistency_rules.items():
             if key in occupation:
                 return check_func(main_category, subcategory)
-        
+
         # デフォルト: サブカテゴリが「その他」でない場合は整合性ありとみなす
         return subcategory and subcategory != 'その他'
-    
+
     def generate_report(self) -> str:
         """検証レポート生成"""
-        
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = f"VALIDATION_REPORT_{timestamp}.md"
-        
+
         # 整合性率計算
         valid_records = self.validation_results['total'] - self.validation_results['no_occupation']
         consistency_rate = (self.validation_results['consistent'] / valid_records * 100) if valid_records > 0 else 0
-        
+
         report = f"""# カテゴリ整合性検証レポート
 
 ## 📊 検証結果サマリー
@@ -167,13 +167,13 @@ class CategoryValidator:
 
 ## 🎯 職業別カテゴリ精度
 """
-        
+
         # 職業別精度
         for occupation, stats in sorted(self.validation_results['category_accuracy'].items()):
             if stats['total'] > 0:
                 accuracy = stats['correct'] / stats['total'] * 100
                 report += f"- **{occupation}**: {stats['correct']}/{stats['total']}件 ({accuracy:.1f}%)\n"
-        
+
         # 不整合サンプル
         report += f"\n## ⚠️ 不整合サンプル（最初の20件）\n"
         for i, mismatch in enumerate(self.validation_results['mismatches'][:20], 1):
@@ -184,21 +184,21 @@ class CategoryValidator:
 - メインカテゴリ: {mismatch['main_category']}
 - サブカテゴリ: {mismatch['subcategory']}
 """
-        
+
         # 改善提案
         report += f"""
 ## 💡 改善提案
 """
-        
+
         if consistency_rate < 90:
             report += "- カテゴリマッピングテーブルの拡充が必要\n"
-        
+
         if self.validation_results['no_occupation'] > 1000:
             report += "- 職業フィールドの欠損が多い（データ収集の改善が必要）\n"
-        
+
         if self.validation_results['partial_category'] > 100:
             report += "- サブカテゴリの設定ロジックの改善が必要\n"
-        
+
         report += f"""
 ## ✅ 結論
 - 修正により整合性が**{consistency_rate:.1f}%**に改善
@@ -208,11 +208,11 @@ class CategoryValidator:
 ---
 *検証完了: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 """
-        
+
         # レポート保存
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         # コンソール出力
         print("\n" + "=" * 80)
         print("📊 検証結果")
@@ -220,7 +220,7 @@ class CategoryValidator:
         print(f"整合性率: {consistency_rate:.1f}%")
         print(f"  整合性あり: {self.validation_results['consistent']:,}件")
         print(f"  整合性なし: {self.validation_results['inconsistent']:,}件")
-        
+
         print("\n職業別精度（主要カテゴリ）:")
         for occupation in ['作曲家', '科学者', '政治家', '作家', '俳優']:
             if occupation in self.validation_results['category_accuracy']:
@@ -228,21 +228,21 @@ class CategoryValidator:
                 if stats['total'] > 0:
                     accuracy = stats['correct'] / stats['total'] * 100
                     print(f"  {occupation}: {accuracy:.1f}% ({stats['correct']}/{stats['total']})")
-        
+
         print(f"\n📄 詳細レポート: {report_file}")
-        
+
         return report_file
 
 
 def main():
     """メイン実行"""
     validator = CategoryValidator()
-    
+
     # 修正済みデータファイルを検証
     input_file = 'category_fixed_20250825_101132.json'
-    
+
     report_file = validator.validate(input_file)
-    
+
     print("\n✅ 検証完了！")
     print(f"レポート: {report_file}")
 

@@ -12,13 +12,13 @@ from datetime import datetime
 def extract_groups_from_csv():
     # 修正済みのCSVを読み込み
     df = pd.read_csv('ultra_think_WRONG_GROUPS_FIXED.csv')
-    
+
     # お笑い芸人のみフィルタ
     comedians = df[df['occupation'] == 'お笑い芸人'].copy()
-    
+
     # グループ名を抽出（括弧内の文字列）
     group_members = defaultdict(list)
-    
+
     for _, row in comedians.iterrows():
         display_name = str(row['person_name_display'])
         # 括弧内のグループ名を抽出
@@ -27,7 +27,7 @@ def extract_groups_from_csv():
             member_name = match.group(1).strip()
             group_name = match.group(2).strip()
             group_members[group_name].append(member_name)
-    
+
     return group_members
 
 def load_existing_groups():
@@ -41,7 +41,7 @@ def load_existing_groups():
 def merge_groups(existing, new_groups):
     """既存のグループと新しいグループをマージ"""
     merged = existing.copy()
-    
+
     for group_name, members in new_groups.items():
         if group_name in merged:
             # 既存グループにメンバーを追加（重複除外）
@@ -51,15 +51,15 @@ def merge_groups(existing, new_groups):
         else:
             # 新規グループとして追加
             merged[group_name] = sorted(members)
-    
+
     return merged
 
 def main():
     print("📊 CSVからお笑いグループを抽出中...")
     new_groups = extract_groups_from_csv()
-    
+
     print(f"✅ {len(new_groups)}個のグループを検出")
-    
+
     # 主要な新規グループのリスト（手動追加分）
     additional_groups = {
         "ぼる塾": ["あんり", "きりやはるか", "はるか", "田辺智加"],
@@ -103,37 +103,37 @@ def main():
         "きつね": ["淡路", "大津"],
         "どぶろっく": ["江口直人", "森慎太郎"],
     }
-    
+
     # CSVから抽出したグループと手動追加分をマージ
     for group, members in additional_groups.items():
         if group in new_groups:
             new_groups[group] = list(set(new_groups[group] + members))
         else:
             new_groups[group] = members
-    
+
     # 既存のgroups_database.jsonを読み込み
     print("\n📂 既存のgroups_database.jsonを読み込み中...")
     existing_groups = load_existing_groups()
     print(f"  既存グループ数: {len(existing_groups)}")
-    
+
     # グループをマージ
     merged_groups = merge_groups(existing_groups, new_groups)
-    
+
     # バックアップを作成
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     with open(f'groups_database_backup_{timestamp}.json', 'w', encoding='utf-8') as f:
         json.dump(existing_groups, f, ensure_ascii=False, indent=2)
-    
+
     # 更新済みのデータベースを保存
     with open('groups_database.json', 'w', encoding='utf-8') as f:
         json.dump(merged_groups, f, ensure_ascii=False, indent=2)
-    
+
     # 統計を表示
     new_count = len(merged_groups) - len(existing_groups)
     print(f"\n✅ groups_database.jsonを更新しました")
     print(f"  新規追加グループ数: {new_count}")
     print(f"  合計グループ数: {len(merged_groups)}")
-    
+
     # 新規追加されたグループのリストを表示
     new_group_names = set(merged_groups.keys()) - set(existing_groups.keys())
     if new_group_names:
@@ -143,7 +143,7 @@ def main():
             print(f"  - {group}: {', '.join(members[:3])}{'...' if len(members) > 3 else ''}")
         if len(new_group_names) > 20:
             print(f"  ... 他{len(new_group_names) - 20}グループ")
-    
+
     return merged_groups, new_count
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@
 使用方法:
     checker = EpisodeFactChecker(anthropic_api_key=api_key)
     result = checker.check_episode(person_name, age, episode_text, category)
-    
+
     if result.status == "確認済み":
         # エピソードを保存
     elif result.status == "事実誤認":
@@ -38,7 +38,7 @@ class FactCheckResult:
     verification_sources: List[str]
     notes: str
     corrections: Optional[str] = None
-    
+
     def to_dict(self) -> Dict:
         """辞書形式に変換"""
         return asdict(self)
@@ -47,20 +47,20 @@ class FactCheckResult:
 class EpisodeFactChecker:
     """
     エピソードファクトチェッカー
-    
+
     LLMの知識ベースを活用してエピソードの事実関係を検証
     """
-    
+
     def __init__(self, anthropic_api_key: str):
         """
         初期化
-        
+
         Args:
             anthropic_api_key: Anthropic APIキー
         """
         self.client = anthropic.Anthropic(api_key=anthropic_api_key)
         self.model = "claude-3-5-sonnet-20241022"
-        
+
         # 統計情報
         self.stats = {
             'total_checks': 0,
@@ -68,7 +68,7 @@ class EpisodeFactChecker:
             'needs_review': 0,
             'errors': 0
         }
-    
+
     def check_episode(
         self,
         person_name: str,
@@ -78,20 +78,20 @@ class EpisodeFactChecker:
     ) -> FactCheckResult:
         """
         エピソードをファクトチェック
-        
+
         Args:
             person_name: 人物名
             age: 年齢
             episode_text: エピソード本文
             category: カテゴリ
-            
+
         Returns:
             FactCheckResult: 検証結果
         """
         self.stats['total_checks'] += 1
-        
+
         logger.info(f"  🔍 ファクトチェック開始: {person_name} ({age}歳)")
-        
+
         try:
             # LLMに事実確認を依頼
             verification_prompt = f"""
@@ -129,22 +129,22 @@ class EpisodeFactChecker:
 【修正案】
 (事実誤認の場合のみ、正しいエピソードの案を記載)
 """
-            
+
             response = self.client.messages.create(
                 model=self.model,
                 max_tokens=1000,
                 messages=[{"role": "user", "content": verification_prompt}]
             )
-            
+
             result_text = response.content[0].text
-            
+
             # 結果をパース
             status = self._extract_status(result_text)
             confidence = self._extract_confidence(result_text)
             sources = self._extract_sources(result_text)
             notes = self._extract_notes(result_text)
             corrections = self._extract_corrections(result_text)
-            
+
             # 統計更新
             if status == "確認済み":
                 self.stats['verified'] += 1
@@ -155,7 +155,7 @@ class EpisodeFactChecker:
             else:  # 事実誤認
                 self.stats['errors'] += 1
                 logger.error(f"  ❌ 事実誤認 (信頼度: {confidence:.2f})")
-            
+
             return FactCheckResult(
                 status=status,
                 confidence=confidence,
@@ -163,10 +163,10 @@ class EpisodeFactChecker:
                 notes=notes,
                 corrections=corrections
             )
-        
+
         except Exception as e:
             logger.error(f"  ❌ ファクトチェックエラー: {e}")
-            
+
             # エラー時はデフォルトで要確認
             return FactCheckResult(
                 status="要確認",
@@ -175,32 +175,32 @@ class EpisodeFactChecker:
                 notes=f"検証エラー: {str(e)}",
                 corrections=None
             )
-    
+
     def _extract_status(self, text: str) -> str:
         """判定ステータスを抽出"""
         text_lower = text.lower()
-        
+
         if "確認済み" in text or "confirmed" in text_lower:
             return "確認済み"
         elif "事実誤認" in text or "factual error" in text_lower or "incorrect" in text_lower:
             return "事実誤認"
         else:
             return "要確認"
-    
+
     def _extract_confidence(self, text: str) -> float:
         """信頼度スコアを抽出"""
         import re
-        
+
         # 【信頼度】セクションから数値を探す
         confidence_section = re.search(r'【信頼度】[^\d]*([\d.]+)', text)
-        
+
         if confidence_section:
             try:
                 score = float(confidence_section.group(1))
                 return max(0.0, min(1.0, score))
             except ValueError:
                 pass
-        
+
         # デフォルト: ステータスに応じた信頼度
         status = self._extract_status(text)
         if status == "確認済み":
@@ -209,15 +209,15 @@ class EpisodeFactChecker:
             return 0.7
         else:
             return 0.5
-    
+
     def _extract_sources(self, text: str) -> List[str]:
         """検証根拠を抽出"""
         sources = []
-        
+
         # 【検証根拠】セクションを探す
         import re
         sources_section = re.search(r'【検証根拠】(.*?)(?=【|$)', text, re.DOTALL)
-        
+
         if sources_section:
             content = sources_section.group(1)
             # 箇条書きを抽出
@@ -225,87 +225,87 @@ class EpisodeFactChecker:
                 line = line.strip()
                 if line.startswith('- '):
                     sources.append(line[2:].strip())
-        
+
         if not sources:
             sources = ["LLM知識ベース"]
-        
+
         return sources
-    
+
     def _extract_notes(self, text: str) -> str:
         """注意事項を抽出"""
         import re
-        
+
         # 【注意事項】セクションを探す
         notes_section = re.search(r'【注意事項】(.*?)(?=【|$)', text, re.DOTALL)
-        
+
         if notes_section:
             return notes_section.group(1).strip()
-        
+
         return "特になし"
-    
+
     def _extract_corrections(self, text: str) -> Optional[str]:
         """修正案を抽出"""
         import re
-        
+
         # 【修正案】セクションを探す
         corrections_section = re.search(r'【修正案】(.*?)(?=【|$)', text, re.DOTALL)
-        
+
         if corrections_section:
             content = corrections_section.group(1).strip()
             if content and content != "なし" and content != "特になし":
                 return content
-        
+
         return None
-    
+
     def batch_check_episodes(
         self,
         episodes: List[Dict]
     ) -> List[Dict]:
         """
         複数エピソードを一括でファクトチェック
-        
+
         Args:
             episodes: エピソードのリスト
-            
+
         Returns:
             List[Dict]: fact_check_resultフィールドが追加されたエピソードリスト
         """
         logger.info(f"\n📊 バッチファクトチェック開始: {len(episodes)}件")
-        
+
         checked_episodes = []
-        
+
         for i, ep in enumerate(episodes, 1):
             logger.info(f"\n  [{i}/{len(episodes)}] {ep.get('person_name')} ({ep.get('age')}歳)")
-            
+
             result = self.check_episode(
                 person_name=ep.get('person_name', ''),
                 age=ep.get('age', 0),
                 episode_text=ep.get('episode_text', ''),
                 category=ep.get('category', 'その他')
             )
-            
+
             # エピソードに検証結果を追加
             ep_with_check = ep.copy()
             ep_with_check['fact_check_result'] = result.status
             ep_with_check['fact_check_confidence'] = result.confidence
             ep_with_check['fact_check_sources'] = result.verification_sources
             ep_with_check['fact_check_notes'] = result.notes
-            
+
             if result.corrections:
                 ep_with_check['fact_check_corrections'] = result.corrections
-            
+
             checked_episodes.append(ep_with_check)
-            
+
             # レート制限対策
             time.sleep(1)
-        
+
         logger.info(f"\n✅ バッチファクトチェック完了")
         logger.info(f"  確認済み: {self.stats['verified']}件")
         logger.info(f"  要確認: {self.stats['needs_review']}件")
         logger.info(f"  事実誤認: {self.stats['errors']}件")
-        
+
         return checked_episodes
-    
+
     def get_stats(self) -> Dict:
         """統計情報を取得"""
         return {
@@ -324,14 +324,14 @@ class EpisodeFactChecker:
 def main():
     """テスト実行"""
     import os
-    
+
     api_key = os.getenv('ANTHROPIC_API_KEY')
     if not api_key:
         raise ValueError("ANTHROPIC_API_KEY環境変数が設定されていません")
-    
+
     # テスト
     checker = EpisodeFactChecker(api_key)
-    
+
     # テストエピソード
     test_episode = {
         'person_name': 'アイザック・ニュートン',
@@ -339,19 +339,19 @@ def main():
         'episode_text': 'あなたと同じ23歳のとき、アイザック・ニュートンは万有引力の法則を発見した',
         'category': '科学'
     }
-    
+
     logger.info(f"\n🔍 テストエピソード:")
     logger.info(f"  人物: {test_episode['person_name']}")
     logger.info(f"  年齢: {test_episode['age']}歳")
     logger.info(f"  エピソード: {test_episode['episode_text']}")
-    
+
     result = checker.check_episode(
         person_name=test_episode['person_name'],
         age=test_episode['age'],
         episode_text=test_episode['episode_text'],
         category=test_episode['category']
     )
-    
+
     logger.info(f"\n📊 検証結果:")
     logger.info(f"  判定: {result.status}")
     logger.info(f"  信頼度: {result.confidence:.2f}")
@@ -359,10 +359,10 @@ def main():
     for source in result.verification_sources:
         logger.info(f"    - {source}")
     logger.info(f"  注意事項: {result.notes}")
-    
+
     if result.corrections:
         logger.info(f"  修正案: {result.corrections}")
-    
+
     # 統計表示
     stats = checker.get_stats()
     logger.info(f"\n📊 統計情報:")

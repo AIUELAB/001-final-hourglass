@@ -13,7 +13,7 @@ def get_more_comedians() -> List[Dict]:
     追加のお笑い芸人（コンビ・トリオ分解）
     """
     comedians = []
-    
+
     groups = {
         "NON STYLE": [
             {"name": "Ishida Akira", "name_ja": "石田明", "birth": 1980},
@@ -98,7 +98,7 @@ def get_more_comedians() -> List[Dict]:
             {"name": "Shoji Tomoharu", "name_ja": "庄司智春", "birth": 1976},
         ],
     }
-    
+
     for group_name, members in groups.items():
         for member in members:
             comedians.append({
@@ -108,7 +108,7 @@ def get_more_comedians() -> List[Dict]:
                 "group": group_name,
                 "occupation": "お笑い芸人"
             })
-    
+
     return comedians
 
 def get_voice_actors_and_vtubers() -> List[Dict]:
@@ -116,7 +116,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
     声優とVTuber
     """
     people = []
-    
+
     # 男性声優
     male_voice_actors = [
         {"name": "Kamiya Hiroshi", "name_ja": "神谷浩史", "birth": 1975},
@@ -135,7 +135,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
         {"name": "Matsuoka Yoshitsugu", "name_ja": "松岡禎丞", "birth": 1986},
         {"name": "Hanae Natsuki", "name_ja": "花江夏樹", "birth": 1991},
     ]
-    
+
     # 女性声優
     female_voice_actors = [
         {"name": "Hanazawa Kana", "name_ja": "花澤香菜", "birth": 1989},
@@ -154,7 +154,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
         {"name": "Yuuki Aoi", "name_ja": "悠木碧", "birth": 1992},
         {"name": "Uesaka Sumire", "name_ja": "上坂すみれ", "birth": 1991},
     ]
-    
+
     # VTuber（ホロライブ）
     hololive = [
         {"name": "Shirakami Fubuki", "name_ja": "白上フブキ", "birth": 2018, "group": "ホロライブ"},
@@ -168,7 +168,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
         {"name": "Nekomata Okayu", "name_ja": "猫又おかゆ", "birth": 2019, "group": "ホロライブ"},
         {"name": "Tsunomaki Watame", "name_ja": "角巻わため", "birth": 2019, "group": "ホロライブ"},
     ]
-    
+
     # VTuber（にじさんじ）
     nijisanji = [
         {"name": "Tsukino Mito", "name_ja": "月ノ美兎", "birth": 2018, "group": "にじさんじ"},
@@ -182,7 +182,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
         {"name": "Kagami Hayato", "name_ja": "加賀美ハヤト", "birth": 2018, "group": "にじさんじ"},
         {"name": "Yashiro Kizuku", "name_ja": "社築", "birth": 2018, "group": "にじさんじ"},
     ]
-    
+
     # 声優データ
     for actor in male_voice_actors:
         people.append({
@@ -193,7 +193,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
             "occupation": "声優",
             "gender": "男性"
         })
-    
+
     for actor in female_voice_actors:
         people.append({
             "name": actor["name"],
@@ -203,7 +203,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
             "occupation": "声優",
             "gender": "女性"
         })
-    
+
     # VTuberデータ
     for vtuber in hololive + nijisanji:
         people.append({
@@ -214,7 +214,7 @@ def get_voice_actors_and_vtubers() -> List[Dict]:
             "occupation": "VTuber",
             "gender": None
         })
-    
+
     return people
 
 def get_athletes() -> List[Dict]:
@@ -222,7 +222,7 @@ def get_athletes() -> List[Dict]:
     プロスポーツ選手
     """
     athletes = []
-    
+
     # プロ野球選手
     baseball_players = [
         {"name": "Ohtani Shohei", "name_ja": "大谷翔平", "birth": 1994, "sport": "野球"},
@@ -241,7 +241,7 @@ def get_athletes() -> List[Dict]:
         {"name": "Okamoto Kazuma", "name_ja": "岡本和真", "birth": 1996, "sport": "野球"},
         {"name": "Makihara Hiromi", "name_ja": "牧原大成", "birth": 1992, "sport": "野球"},
     ]
-    
+
     # サッカー選手
     soccer_players = [
         {"name": "Mitoma Kaoru", "name_ja": "三笘薫", "birth": 1997, "sport": "サッカー"},
@@ -260,7 +260,7 @@ def get_athletes() -> List[Dict]:
         {"name": "Nakayama Yuta", "name_ja": "中山雄太", "birth": 1997, "sport": "サッカー"},
         {"name": "Ueda Ayase", "name_ja": "上田綺世", "birth": 1998, "sport": "サッカー"},
     ]
-    
+
     # バスケットボール選手
     basketball_players = [
         {"name": "Watanabe Yuta", "name_ja": "渡邊雄太", "birth": 1994, "sport": "バスケ"},
@@ -269,7 +269,7 @@ def get_athletes() -> List[Dict]:
         {"name": "Kawamura Yuki", "name_ja": "河村勇輝", "birth": 2001, "sport": "バスケ"},
         {"name": "Baba Yudai", "name_ja": "馬場雄大", "birth": 1995, "sport": "バスケ"},
     ]
-    
+
     # テニス選手
     tennis_players = [
         {"name": "Nishikori Kei", "name_ja": "錦織圭", "birth": 1989, "sport": "テニス"},
@@ -277,7 +277,7 @@ def get_athletes() -> List[Dict]:
         {"name": "Nishioka Yoshihito", "name_ja": "西岡良仁", "birth": 1995, "sport": "テニス"},
         {"name": "Daniel Taro", "name_ja": "ダニエル太郎", "birth": 1993, "sport": "テニス"},
     ]
-    
+
     # ゴルフ選手
     golf_players = [
         {"name": "Matsuyama Hideki", "name_ja": "松山英樹", "birth": 1992, "sport": "ゴルフ"},
@@ -285,7 +285,7 @@ def get_athletes() -> List[Dict]:
         {"name": "Kanaya Takumi", "name_ja": "金谷拓実", "birth": 1998, "sport": "ゴルフ"},
         {"name": "Nakajima Keita", "name_ja": "中島啓太", "birth": 2000, "sport": "ゴルフ"},
     ]
-    
+
     # フィギュアスケート選手
     figure_skaters = [
         {"name": "Hanyu Yuzuru", "name_ja": "羽生結弦", "birth": 1994, "sport": "フィギュア"},
@@ -294,7 +294,7 @@ def get_athletes() -> List[Dict]:
         {"name": "Sakamoto Kaori", "name_ja": "坂本花織", "birth": 2000, "sport": "フィギュア"},
         {"name": "Kihira Rika", "name_ja": "紀平梨花", "birth": 2002, "sport": "フィギュア"},
     ]
-    
+
     # ボクシング選手
     boxers = [
         {"name": "Inoue Naoya", "name_ja": "井上尚弥", "birth": 1993, "sport": "ボクシング"},
@@ -302,11 +302,11 @@ def get_athletes() -> List[Dict]:
         {"name": "Nakatani Junto", "name_ja": "中谷潤人", "birth": 1998, "sport": "ボクシング"},
         {"name": "Teraji Kenshiro", "name_ja": "寺地拳四朗", "birth": 1992, "sport": "ボクシング"},
     ]
-    
+
     # 全てのアスリートを統合
-    all_athletes = (baseball_players + soccer_players + basketball_players + 
+    all_athletes = (baseball_players + soccer_players + basketball_players +
                    tennis_players + golf_players + figure_skaters + boxers)
-    
+
     for athlete in all_athletes:
         athletes.append({
             "name": athlete["name"],
@@ -315,7 +315,7 @@ def get_athletes() -> List[Dict]:
             "sport": athlete["sport"],
             "occupation": f"{athlete['sport']}選手"
         })
-    
+
     return athletes
 
 def get_more_idols() -> List[Dict]:
@@ -323,7 +323,7 @@ def get_more_idols() -> List[Dict]:
     追加のアイドルグループメンバー
     """
     idols = []
-    
+
     # 乃木坂46
     nogizaka = [
         {"name": "Ikuta Erika", "name_ja": "生田絵梨花", "birth": 1997, "group": "乃木坂46"},
@@ -337,7 +337,7 @@ def get_more_idols() -> List[Dict]:
         {"name": "Endo Sakura", "name_ja": "遠藤さくら", "birth": 2001, "group": "乃木坂46"},
         {"name": "Kaki Haruka", "name_ja": "賀喜遥香", "birth": 2001, "group": "乃木坂46"},
     ]
-    
+
     # 櫻坂46
     sakurazaka = [
         {"name": "Sugai Yuuka", "name_ja": "菅井友香", "birth": 1995, "group": "櫻坂46"},
@@ -346,7 +346,7 @@ def get_more_idols() -> List[Dict]:
         {"name": "Yamasaki Ten", "name_ja": "山﨑天", "birth": 2005, "group": "櫻坂46"},
         {"name": "Tamura Hono", "name_ja": "田村保乃", "birth": 1998, "group": "櫻坂46"},
     ]
-    
+
     # 日向坂46
     hinatazaka = [
         {"name": "Sasaki Kumi", "name_ja": "佐々木久美", "birth": 1996, "group": "日向坂46"},
@@ -355,7 +355,7 @@ def get_more_idols() -> List[Dict]:
         {"name": "Kato Shiho", "name_ja": "加藤史帆", "birth": 1998, "group": "日向坂46"},
         {"name": "Kosaka Nao", "name_ja": "小坂菜緒", "birth": 2002, "group": "日向坂46"},
     ]
-    
+
     # AKB48
     akb48 = [
         {"name": "Mukaichi Mion", "name_ja": "向井地美音", "birth": 1998, "group": "AKB48"},
@@ -364,9 +364,9 @@ def get_more_idols() -> List[Dict]:
         {"name": "Chiba Erii", "name_ja": "千葉恵里", "birth": 2003, "group": "AKB48"},
         {"name": "Yamauchi Mizuki", "name_ja": "山内瑞葵", "birth": 2001, "group": "AKB48"},
     ]
-    
+
     all_idols = nogizaka + sakurazaka + hinatazaka + akb48
-    
+
     for idol in all_idols:
         idols.append({
             "name": idol["name"],
@@ -376,7 +376,7 @@ def get_more_idols() -> List[Dict]:
             "occupation": "アイドル",
             "nationality": "日本"
         })
-    
+
     return idols
 
 def create_person_record(person: Dict, category: str) -> Dict:
@@ -387,13 +387,13 @@ def create_person_record(person: Dict, category: str) -> Dict:
     name_ja = person.get('name_ja', '')
     birth_year = person.get('birth_year', None)
     group = person.get('group', None)
-    
+
     # 表示名の作成
     if group:
         display_name = f"{name_ja}（{group}）"
     else:
         display_name = name_ja
-    
+
     # カテゴリー別の設定
     if category == "comedian":
         main_cat = "エンタメ"
@@ -419,7 +419,7 @@ def create_person_record(person: Dict, category: str) -> Dict:
         main_cat = "その他"
         occupation = "有名人"
         nationality = "不明"
-    
+
     return {
         'batch_id': f'final_push_{category}',
         'birth_year': birth_year,
@@ -449,9 +449,9 @@ def create_person_record(person: Dict, category: str) -> Dict:
 
 def main():
     print("=== Ultra Think 最終プッシュ - 10,000人達成へ ===\n")
-    
+
     all_records = []
-    
+
     # 1. 追加のお笑い芸人
     print("1. 追加のお笑い芸人を収集中...")
     comedians = get_more_comedians()
@@ -459,7 +459,7 @@ def main():
         record = create_person_record(person, "comedian")
         all_records.append(record)
     print(f"   追加: {len(comedians)}人")
-    
+
     # 2. 声優・VTuber
     print("2. 声優・VTuberを収集中...")
     voice_actors = get_voice_actors_and_vtubers()
@@ -470,7 +470,7 @@ def main():
             record = create_person_record(person, "vtuber")
         all_records.append(record)
     print(f"   追加: {len(voice_actors)}人")
-    
+
     # 3. アスリート
     print("3. アスリートを収集中...")
     athletes = get_athletes()
@@ -478,7 +478,7 @@ def main():
         record = create_person_record(person, "athlete")
         all_records.append(record)
     print(f"   追加: {len(athletes)}人")
-    
+
     # 4. 追加のアイドル
     print("4. 追加のアイドルを収集中...")
     idols = get_more_idols()
@@ -486,47 +486,47 @@ def main():
         record = create_person_record(person, "idol")
         all_records.append(record)
     print(f"   追加: {len(idols)}人")
-    
+
     # DataFrame作成
     new_df = pd.DataFrame(all_records)
     print(f"\n合計新規追加: {len(new_df)}人")
-    
+
     # 既存データと統合
     print("\n既存データベースと統合中...")
     existing_file = 'ultra_think_WITH_YOUTUBERS_20250825_211423.csv'
-    
+
     try:
         existing_df = pd.read_csv(existing_file)
         print(f"既存: {len(existing_df)}人")
-        
+
         # 重複チェック（名前と生年で判定）
-        existing_names = set(zip(existing_df['person_name_ja'].fillna(''), 
+        existing_names = set(zip(existing_df['person_name_ja'].fillna(''),
                                 existing_df['birth_year'].fillna(0)))
-        new_names = set(zip(new_df['person_name_ja'].fillna(''), 
+        new_names = set(zip(new_df['person_name_ja'].fillna(''),
                            new_df['birth_year'].fillna(0)))
-        
+
         duplicates = new_names & existing_names
         if duplicates:
             print(f"重複: {len(duplicates)}人（除外）")
             mask = ~new_df.apply(lambda x: (x['person_name_ja'], x['birth_year']) in duplicates, axis=1)
             new_df = new_df[mask]
             print(f"重複除外後: {len(new_df)}人")
-        
+
         # 統合
         merged_df = pd.concat([existing_df, new_df], ignore_index=True)
-        
+
     except FileNotFoundError:
         print("既存ファイルなし")
         merged_df = new_df
-    
+
     # 保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     output_file = f'ultra_think_FINAL_10000_{timestamp}.csv'
     merged_df.to_csv(output_file, index=False, encoding='utf-8-sig')
-    
+
     print(f"\n✅ 保存完了: {output_file}")
     print(f"🎯 最終人数: {len(merged_df):,}人")
-    
+
     # 10,000人チェック
     if len(merged_df) >= 10000:
         print("\n🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉")
@@ -536,19 +536,19 @@ def main():
     else:
         remaining = 10000 - len(merged_df)
         print(f"\n10,000人まで残り: {remaining}人")
-    
+
     # カテゴリー別統計
     print("\n=== カテゴリー別統計 ===")
     category_counts = merged_df['main_category'].value_counts()
     for cat, count in category_counts.head(10).items():
         print(f"{cat}: {count:,}人 ({count/len(merged_df)*100:.1f}%)")
-    
+
     # 職業別統計（上位20）
     print("\n=== 職業別統計（Top 20）===")
     occupation_counts = merged_df['occupation'].value_counts()
     for occ, count in occupation_counts.head(20).items():
         print(f"{occ}: {count:,}人")
-    
+
     # レポート作成
     report = f"""
 # Ultra Think 10,000人達成レポート
@@ -562,7 +562,7 @@ def main():
 ## 🎯 今回追加したカテゴリー
 - お笑い芸人: {len(comedians)}人
 - 声優・VTuber: {len(voice_actors)}人
-- アスリート: {len(athletes)}人  
+- アスリート: {len(athletes)}人
 - アイドル: {len(idols)}人
 
 ## 📈 カテゴリー別分布
@@ -577,13 +577,13 @@ def main():
 ## 💾 出力ファイル
 {output_file}
 """
-    
+
     report_file = f'FINAL_10000_REPORT_{timestamp}.md'
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
-    
+
     print(f"\n📝 レポート: {report_file}")
-    
+
     return merged_df
 
 if __name__ == "__main__":

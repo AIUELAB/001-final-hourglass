@@ -16,19 +16,19 @@ from google_sheets_sync import GoogleSheetsSync
 def update_config_for_fast_validated():
     """設定ファイルを更新"""
     config_file = "sheets_config.json"
-    
+
     # 最新の高速検証ファイル
     validated_file = "ultra_think_FAST_VALIDATED_20250828_181901.csv"
-    
+
     # 設定を読み込み
     with open(config_file, 'r', encoding='utf-8') as f:
         config = json.load(f)
-    
+
     # CSVファイル名とシート名を更新
     config["csv_file"] = validated_file
     config["sheet_name"] = "Ultra Think FAST Validated 20250828"
     config["last_sync"] = datetime.now().isoformat()
-    
+
     # 検証方法を記録
     config["validation_method"] = "fast_local_dictionary"
     config["validation_stats"] = {
@@ -40,11 +40,11 @@ def update_config_for_fast_validated():
         "processing_time_seconds": 0.63,
         "speedup_factor": 912
     }
-    
+
     # 設定を保存
     with open(config_file, 'w', encoding='utf-8') as f:
         json.dump(config, f, ensure_ascii=False, indent=2)
-    
+
     print(f"✅ 設定ファイルを更新しました")
     return validated_file
 
@@ -53,28 +53,28 @@ def main():
     print("=" * 60)
     print("🚀 高速検証済みデータのGoogle Sheets同期")
     print("=" * 60)
-    
+
     # 設定更新
     csv_file = update_config_for_fast_validated()
     print(f"📁 同期対象: {csv_file}")
-    
+
     try:
         # GoogleSheetsSync インスタンスを作成
         sync = GoogleSheetsSync()
-        
+
         # 認証情報をセットアップ
         sync.setup_credentials()
         print("✅ Google Sheets API接続成功")
-        
+
         # スプレッドシートを作成または取得
         if not sync.create_or_get_spreadsheet():
             print("❌ スプレッドシートの作成/取得に失敗しました")
             return False
-        
+
         # CSVファイルをGoogle Sheetsにアップロード
         print("\n📊 データアップロード開始...")
         result = sync.upload_csv_to_sheets()
-        
+
         if result:
             # 同期ログを更新
             sync_log_file = "sync_log.json"
@@ -90,21 +90,21 @@ def main():
                 },
                 "message": "高速検証済みデータの同期完了"
             }
-            
+
             # 既存のログを読み込み
             logs = []
             if Path(sync_log_file).exists():
                 with open(sync_log_file, 'r', encoding='utf-8') as f:
                     logs = json.load(f)
-            
+
             # 新しいエントリを追加（最大10件保持）
             logs.insert(0, log_entry)
             logs = logs[:10]
-            
+
             # ログを保存
             with open(sync_log_file, 'w', encoding='utf-8') as f:
                 json.dump(logs, f, ensure_ascii=False, indent=2)
-            
+
             print("\n" + "=" * 60)
             print("✅ 同期完了！")
             print(f"📊 ファイル: {csv_file}")
@@ -113,7 +113,7 @@ def main():
             print(f"📝 シート名: {sync.sheet_name}")
             print(f"🔗 URL: https://docs.google.com/spreadsheets/d/{sync.spreadsheet_id}")
             print("=" * 60)
-            
+
             # 比較レポート
             print("\n📊 検証方法の比較:")
             print("┌────────────────┬──────────────┬──────────────┐")
@@ -124,12 +124,12 @@ def main():
             print("└────────────────┴──────────────┴──────────────┘")
             print("⚡ 高速化: 912倍")
             print("📈 精度: より多くの有名人を保持（5,183件 vs 3,617件）")
-            
+
             return True
         else:
             print("❌ 同期に失敗しました")
             return False
-            
+
     except Exception as e:
         print(f"❌ エラーが発生しました: {str(e)}")
         import traceback

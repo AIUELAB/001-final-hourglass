@@ -11,19 +11,19 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         h1 {
             color: white;
             text-align: center;
@@ -31,13 +31,13 @@
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        
+
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 20px;
         }
-        
+
         .card {
             background: white;
             border-radius: 15px;
@@ -45,12 +45,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
-        
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
-        
+
         .card h2 {
             color: #333;
             margin-bottom: 15px;
@@ -58,14 +58,14 @@
             border-bottom: 2px solid #667eea;
             padding-bottom: 10px;
         }
-        
+
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
-        
+
         .stat-item {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -73,52 +73,52 @@
             border-radius: 10px;
             text-align: center;
         }
-        
+
         .stat-number {
             font-size: 2em;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
         .stat-label {
             font-size: 0.9em;
             opacity: 0.9;
         }
-        
+
         .chart-container {
             position: relative;
             height: 300px;
             margin-top: 20px;
         }
-        
+
         .table-container {
             max-height: 400px;
             overflow-y: auto;
             margin-top: 15px;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         th, td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #eee;
         }
-        
+
         th {
             background: #f5f5f5;
             font-weight: bold;
             position: sticky;
             top: 0;
         }
-        
+
         tr:hover {
             background: #f9f9f9;
         }
-        
+
         .score-badge {
             display: inline-block;
             padding: 3px 8px;
@@ -126,22 +126,22 @@
             font-size: 0.85em;
             font-weight: bold;
         }
-        
+
         .score-high {
             background: #4caf50;
             color: white;
         }
-        
+
         .score-mid {
             background: #ff9800;
             color: white;
         }
-        
+
         .score-low {
             background: #f44336;
             color: white;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 30px;
@@ -150,7 +150,7 @@
             overflow: hidden;
             margin: 10px 0;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
@@ -161,7 +161,7 @@
             color: white;
             font-weight: bold;
         }
-        
+
         .timestamp {
             text-align: center;
             color: white;
@@ -174,7 +174,7 @@
 <body>
     <div class="container">
         <h1>📊 人物データベース最終分析ダッシュボード</h1>
-        
+
         <div class="dashboard">
             <!-- 基本統計 -->
             <div class="card">
@@ -198,7 +198,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- スコア分布チャート -->
             <div class="card">
                 <h2>📊 スコア分布</h2>
@@ -206,7 +206,7 @@
                     <canvas id="scoreChart"></canvas>
                 </div>
             </div>
-            
+
             <!-- カテゴリ分布チャート -->
             <div class="card">
                 <h2>🏷️ カテゴリ分布</h2>
@@ -214,7 +214,7 @@
                     <canvas id="categoryChart"></canvas>
                 </div>
             </div>
-            
+
             <!-- 進捗状況 -->
             <div class="card">
                 <h2>✅ データ品質指標</h2>
@@ -257,7 +257,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- トップ10人物 -->
             <div class="card">
                 <h2>🌟 最高スコア人物 TOP 10</h2>
@@ -336,7 +336,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <!-- カテゴリ詳細 -->
             <div class="card">
                 <h2>📂 カテゴリ別統計</h2>
@@ -404,12 +404,12 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="timestamp">
             最終更新: 2025年9月10日 13:30
         </div>
     </div>
-    
+
     <script>
         // スコア分布チャート
         const scoreCtx = document.getElementById('scoreChart').getContext('2d');
@@ -440,7 +440,7 @@
                 }
             }
         });
-        
+
         // カテゴリ分布チャート
         const categoryCtx = document.getElementById('categoryChart').getContext('2d');
         new Chart(categoryCtx, {

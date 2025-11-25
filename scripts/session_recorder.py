@@ -11,14 +11,14 @@ Claude Code/Cursorのクラッシュ対策のための自動記録
 - Serena MCP統合（メモリシステム）
 """
 
-import os
+import fcntl
+import hashlib
 import json
+import os
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-import fcntl
-import hashlib
-import sys
 
 # Serena統合モジュールをインポート（一時的に無効化）
 sys.path.insert(0, str(Path(__file__).parent))
@@ -40,7 +40,8 @@ RECOVERY_DIR = SESSION_DIR / "recovery"
 # 統合イベントバスのインポート
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 try:
-    from event_bus import get_event_bus, QualityEvent
+    from event_bus import QualityEvent, get_event_bus
+
     EVENT_BUS_AVAILABLE = True
 except ImportError:
     EVENT_BUS_AVAILABLE = False
@@ -115,28 +116,26 @@ class SessionRecorder:
         if self.serena:
             self.serena.write_memory(
                 key=f"prompt_{timestamp.replace(' ', '_').replace(':', '')}",
-                value={
-                    "prompt": prompt,
-                    "timestamp": timestamp,
-                    "metadata": metadata
-                },
-                ttl=86400  # 24時間保持
+                value={"prompt": prompt, "timestamp": timestamp, "metadata": metadata},
+                ttl=86400,  # 24時間保持
             )
 
         # イベントバスにユーザー操作を通知
         if self.event_bus:
-            self.event_bus.publish(QualityEvent(
-                event_type='metric',
-                source='kairos',
-                severity='info',
-                data={
-                    'description': 'ユーザープロンプト記録',
-                    'prompt_summary': prompt[:100] if len(prompt) > 100 else prompt,
-                    'timestamp': timestamp,
-                    'session_id': self.session_id
-                },
-                session_id=self.session_id
-            ))
+            self.event_bus.publish(
+                QualityEvent(
+                    event_type="metric",
+                    source="kairos",
+                    severity="info",
+                    data={
+                        "description": "ユーザープロンプト記録",
+                        "prompt_summary": prompt[:100] if len(prompt) > 100 else prompt,
+                        "timestamp": timestamp,
+                        "session_id": self.session_id,
+                    },
+                    session_id=self.session_id,
+                )
+            )
 
     def record_response(self, response: str, metadata: Optional[Dict] = None):
         """
@@ -176,9 +175,9 @@ class SessionRecorder:
                     "response": response[:500],  # 最初の500文字のみ
                     "full_length": len(response),
                     "timestamp": timestamp,
-                    "metadata": metadata
+                    "metadata": metadata,
                 },
-                ttl=86400  # 24時間保持
+                ttl=86400,  # 24時間保持
             )
 
     def update_status(
@@ -236,7 +235,13 @@ class SessionRecorder:
                 if existing_data.get("todos"):
                     f.write("## TODOリスト\n\n")
                     for todo in existing_data["todos"]:
-                        status_icon = "✅" if todo.get("status") == "completed" else "⏳" if todo.get("status") == "in_progress" else "⬜"
+                        status_icon = (
+                            "✅"
+                            if todo.get("status") == "completed"
+                            else "⏳"
+                            if todo.get("status") == "in_progress"
+                            else "⬜"
+                        )
                         f.write(f"- {status_icon} {todo.get('content', '')}\n")
                     f.write("\n")
 
@@ -262,29 +267,33 @@ class SessionRecorder:
 
         # Serenaメモリに保存（セッション状態）
         if self.serena:
-            self.serena.save_session_state({
-                "session_id": existing_data.get("session_id"),
-                "current_task": existing_data.get("current_task"),
-                "last_prompt": existing_data.get("last_prompt"),
-                "context": existing_data.get("context"),
-                "todos": existing_data.get("todos"),
-                "last_updated": existing_data.get("last_updated")
-            })
+            self.serena.save_session_state(
+                {
+                    "session_id": existing_data.get("session_id"),
+                    "current_task": existing_data.get("current_task"),
+                    "last_prompt": existing_data.get("last_prompt"),
+                    "context": existing_data.get("context"),
+                    "todos": existing_data.get("todos"),
+                    "last_updated": existing_data.get("last_updated"),
+                }
+            )
 
         # イベントバスにセッション更新を通知
         if self.event_bus:
-            self.event_bus.publish(QualityEvent(
-                event_type='metric',
-                source='kairos',
-                severity='info',
-                data={
-                    'description': 'セッション状態更新',
-                    'session_id': existing_data.get('session_id'),
-                    'current_task': existing_data.get('current_task'),
-                    'timestamp': timestamp
-                },
-                session_id=existing_data.get('session_id')
-            ))
+            self.event_bus.publish(
+                QualityEvent(
+                    event_type="metric",
+                    source="kairos",
+                    severity="info",
+                    data={
+                        "description": "セッション状態更新",
+                        "session_id": existing_data.get("session_id"),
+                        "current_task": existing_data.get("current_task"),
+                        "timestamp": timestamp,
+                    },
+                    session_id=existing_data.get("session_id"),
+                )
+            )
 
     def _read_status(self) -> Dict:
         """既存のSTATUS.mdからデータを読み込み"""
@@ -369,31 +378,35 @@ class SessionRecorder:
             self.serena.write_memory(
                 key="last_recovery_point",
                 value=recovery_data,
-                ttl=None  # 永続化
+                ttl=None,  # 永続化
             )
 
             # チェックポイントとしても保存
-            self.serena.save_checkpoint({
-                "files_modified": [],  # 実際には追跡する
-                "tasks_completed": [],
-                "current_focus": "Recovery point saved",
-                "git_commit": recovery_data["git_commit"]
-            })
+            self.serena.save_checkpoint(
+                {
+                    "files_modified": [],  # 実際には追跡する
+                    "tasks_completed": [],
+                    "current_focus": "Recovery point saved",
+                    "git_commit": recovery_data["git_commit"],
+                }
+            )
 
         # イベントバスに復元ポイント保存を通知
         if self.event_bus:
-            self.event_bus.publish(QualityEvent(
-                event_type='metric',
-                source='kairos',
-                severity='info',
-                data={
-                    'description': '復元ポイント保存',
-                    'session_id': self.session_id,
-                    'git_commit': recovery_data["git_commit"],
-                    'timestamp': recovery_data["timestamp"]
-                },
-                session_id=self.session_id
-            ))
+            self.event_bus.publish(
+                QualityEvent(
+                    event_type="metric",
+                    source="kairos",
+                    severity="info",
+                    data={
+                        "description": "復元ポイント保存",
+                        "session_id": self.session_id,
+                        "git_commit": recovery_data["git_commit"],
+                        "timestamp": recovery_data["timestamp"],
+                    },
+                    session_id=self.session_id,
+                )
+            )
 
     def _get_git_commit(self) -> Optional[str]:
         """現在のGitコミットハッシュを取得"""
@@ -417,6 +430,7 @@ class SessionRecorder:
 # ===================================
 # コマンドラインインターフェース
 # ===================================
+
 
 def main():
     """メイン関数（CLIテスト用）"""

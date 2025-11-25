@@ -5,20 +5,21 @@ FastAPI メインアプリケーション
 最期の砂時計キャラクターデータベースAPI
 """
 
-from fastapi import FastAPI, HTTPException, Query, Depends
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse, Response
-from fastapi.staticfiles import StaticFiles
-from fastapi.security import OAuth2PasswordRequestForm
-from typing import Optional
-from datetime import timedelta
-import sys
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-import io
 import csv
+import io
 import json
+import os
+import sys
+from datetime import timedelta
+from pathlib import Path
+from typing import Optional
+
+from dotenv import load_dotenv
+from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, Response, StreamingResponse
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.staticfiles import StaticFiles
 
 # 環境変数の読み込み
 load_dotenv()
@@ -26,58 +27,57 @@ load_dotenv()
 # プロジェクトルートをパスに追加
 sys.path.append(str(Path(__file__).parent.parent))
 
+from app.analytics import ScoreAnalytics
+from app.database import db
 from app.models import (
-    Character,
-    CharacterList,
-    StatsSummary,
-    GenreStats,
-    GenderStats,
-    EpisodeCategoryStats,
-    WorkStats,
-    FameScore,
-    FameRanking,
     # Phase 3: 分析モデル
     AxisStatistics,
-    DistributionBin,
+    Character,
+    CharacterList,
     CorrelationRow,
-    TopPerformer,
-    ScoreSummary,
-    # Phase 4: 検索・品質モデル
-    EpisodeSearchResult,
-    EpisodeSearchResponse,
-    SearchStatsResponse,
-    QualityReport,
+    DistributionBin,
     # Phase 5: エピソード管理モデル
     Episode,
-    EpisodeList,
+    EpisodeCategoryStats,
     EpisodeCreate,
-    EpisodeUpdate,
     EpisodeDeleteResponse,
+    EpisodeList,
+    EpisodeSearchResponse,
+    # Phase 4: 検索・品質モデル
+    EpisodeSearchResult,
+    EpisodeUpdate,
+    FameRanking,
+    FameScore,
+    GenderStats,
+    GenreStats,
+    QualityReport,
+    ScoreSummary,
+    SearchStatsResponse,
+    StatsSummary,
     # Phase 5: 認証モデル
     Token,
-    User
+    TopPerformer,
+    User,
+    WorkStats,
 )
-from app.database import db
-from app.utils.csv_loader import import_csv_to_db, get_default_csv_path, get_csv_modification_time
-from app.analytics import ScoreAnalytics
 from app.utils.advanced_search import AdvancedSearchEngine
-from app.utils.data_quality import DataQualityManager
-from app.utils.episode_manager import EpisodeManager
 from app.utils.auth_simple import (
+    ACCESS_TOKEN_EXPIRE_MINUTES,
     authenticate_user,
     create_access_token,
     get_current_user,
     get_user,
     require_role,
-    ACCESS_TOKEN_EXPIRE_MINUTES
 )
-
+from app.utils.csv_loader import get_csv_modification_time, get_default_csv_path, import_csv_to_db
+from app.utils.data_quality import DataQualityManager
+from app.utils.episode_manager import EpisodeManager
 
 # FastAPIアプリケーション初期化
 app = FastAPI(
     title="最期の砂時計 キャラクターデータベースAPI",
     description="100件の完璧なキャラクターデータベースを提供するREST API",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # CORS設定（フロントエンドからのアクセスを許可）
@@ -129,6 +129,7 @@ async def shutdown():
 # ヘルスチェック
 # ========================================
 
+
 @app.get("/api/health")
 async def health_check():
     """ヘルスチェックエンドポイント"""
@@ -138,6 +139,7 @@ async def health_check():
 # ========================================
 # Phase 5: 認証エンドポイント
 # ========================================
+
 
 @app.post("/api/auth/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -180,8 +182,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     # JWTトークン生成
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user["username"], "role": user["role"]},
-        expires_delta=access_token_expires
+        data={"sub": user["username"], "role": user["role"]}, expires_delta=access_token_expires
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
@@ -210,10 +211,7 @@ async def get_current_user_info(current_username: str = Depends(get_current_user
     user = get_user(current_username)
 
     if user is None:
-        raise HTTPException(
-            status_code=404,
-            detail="ユーザーが見つかりません"
-        )
+        raise HTTPException(status_code=404, detail="ユーザーが見つかりません")
 
     # パスワードハッシュを除外してレスポンス
     return User(
@@ -221,13 +219,14 @@ async def get_current_user_info(current_username: str = Depends(get_current_user
         email=user["email"],
         full_name=user["full_name"],
         role=user["role"],
-        disabled=user.get("disabled", False)
+        disabled=user.get("disabled", False),
     )
 
 
 # ========================================
 # データ管理エンドポイント
 # ========================================
+
 
 @app.get("/api/data/version")
 async def get_data_version():
@@ -248,7 +247,7 @@ async def get_data_version():
         "csv_path": str(csv_path),
         "last_modified": mtime,
         "last_modified_iso": datetime.fromtimestamp(mtime).isoformat() if mtime > 0 else None,
-        "exists": csv_path.exists()
+        "exists": csv_path.exists(),
     }
 
 
@@ -268,35 +267,26 @@ async def refresh_data():
         csv_path = get_default_csv_path()
 
         if not csv_path.exists():
-            raise HTTPException(
-                status_code=404,
-                detail=f"CSVファイルが見つかりません: {csv_path}"
-            )
+            raise HTTPException(status_code=404, detail=f"CSVファイルが見つかりません: {csv_path}")
 
         # 強制再インポート
         count = import_csv_to_db(db, str(csv_path), force=True)
 
-        return {
-            "success": True,
-            "count": count,
-            "message": f"データを再読み込みしました（{count}件）"
-        }
+        return {"success": True, "count": count, "message": f"データを再読み込みしました（{count}件）"}
 
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"データ再読み込みエラー: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"データ再読み込みエラー: {str(e)}")
 
 
 # ========================================
 # キャラクター関連エンドポイント
 # ========================================
 
+
 @app.get("/api/characters", response_model=CharacterList)
 async def get_characters(
     page: int = Query(1, ge=1, description="ページ番号"),
-    page_size: int = Query(20, ge=1, le=100, description="ページサイズ")
+    page_size: int = Query(20, ge=1, le=100, description="ページサイズ"),
 ):
     """
     全キャラクター取得（ページネーション対応）
@@ -306,12 +296,7 @@ async def get_characters(
     """
     characters, total = db.get_all_characters(page=page, page_size=page_size)
 
-    return CharacterList(
-        total=total,
-        page=page,
-        page_size=page_size,
-        characters=characters
-    )
+    return CharacterList(total=total, page=page, page_size=page_size, characters=characters)
 
 
 @app.get("/api/characters/{character_id}", response_model=Character)
@@ -330,9 +315,7 @@ async def get_character(character_id: int):
 
 
 @app.get("/api/characters/search/", response_model=list[Character])
-async def search_characters(
-    q: str = Query(..., min_length=1, description="検索クエリ")
-):
+async def search_characters(q: str = Query(..., min_length=1, description="検索クエリ")):
     """
     キャラクター検索
 
@@ -345,7 +328,7 @@ async def search_characters(
 @app.get("/api/characters/filter/", response_model=list[Character])
 async def filter_characters(
     genre: Optional[str] = Query(None, description="ジャンル"),
-    gender: Optional[str] = Query(None, description="性別（female/male）")
+    gender: Optional[str] = Query(None, description="性別（female/male）"),
 ):
     """
     キャラクターフィルタリング
@@ -361,6 +344,7 @@ async def filter_characters(
 # 統計関連エンドポイント
 # ========================================
 
+
 @app.get("/api/stats/summary", response_model=StatsSummary)
 async def get_stats_summary():
     """統計サマリー取得"""
@@ -369,7 +353,7 @@ async def get_stats_summary():
     all_characters, total = db.get_all_characters(page=1, page_size=10000)
 
     # curator_notesから実在/架空を判定（"Type: FICTIONAL" または "Type: REAL" 形式）
-    fictional_count = sum(1 for c in all_characters if 'TYPE: FICTIONAL' in c.get('curator_notes', '').upper())
+    fictional_count = sum(1 for c in all_characters if "TYPE: FICTIONAL" in c.get("curator_notes", "").upper())
     real_count = total - fictional_count
 
     # ジャンル数
@@ -382,7 +366,7 @@ async def get_stats_summary():
         female_count=fictional_count,
         male_count=real_count,
         female_ratio=round(fictional_count / total * 100, 1) if total > 0 else 0,
-        era_range="1960年代～2020年代"
+        era_range="1960年代～2020年代",
     )
 
 
@@ -391,14 +375,7 @@ async def get_genre_stats():
     """ジャンル分布取得"""
     stats = db.get_genre_stats()
 
-    return [
-        GenreStats(
-            genre=s['genre'],
-            count=s['count'],
-            percentage=s['percentage']
-        )
-        for s in stats
-    ]
+    return [GenreStats(genre=s["genre"], count=s["count"], percentage=s["percentage"]) for s in stats]
 
 
 @app.get("/api/stats/gender", response_model=list[GenderStats])
@@ -409,20 +386,14 @@ async def get_gender_stats():
     all_characters, total = db.get_all_characters(page=1, page_size=10000)
 
     # curator_notesから実在/架空を判定（"Type: FICTIONAL" または "Type: REAL" 形式）
-    fictional_count = sum(1 for c in all_characters if 'TYPE: FICTIONAL' in c.get('curator_notes', '').upper())
+    fictional_count = sum(1 for c in all_characters if "TYPE: FICTIONAL" in c.get("curator_notes", "").upper())
     real_count = total - fictional_count
 
     return [
         GenderStats(
-            gender="架空",
-            count=fictional_count,
-            percentage=round(fictional_count / total * 100, 1) if total > 0 else 0
+            gender="架空", count=fictional_count, percentage=round(fictional_count / total * 100, 1) if total > 0 else 0
         ),
-        GenderStats(
-            gender="実在",
-            count=real_count,
-            percentage=round(real_count / total * 100, 1) if total > 0 else 0
-        )
+        GenderStats(gender="実在", count=real_count, percentage=round(real_count / total * 100, 1) if total > 0 else 0),
     ]
 
 
@@ -431,14 +402,7 @@ async def get_episode_category_stats():
     """エピソードカテゴリ分布取得"""
     stats = db.get_episode_category_stats()
 
-    return [
-        EpisodeCategoryStats(
-            category=s['category'],
-            count=s['count'],
-            percentage=s['percentage']
-        )
-        for s in stats
-    ]
+    return [EpisodeCategoryStats(category=s["category"], count=s["count"], percentage=s["percentage"]) for s in stats]
 
 
 @app.get("/api/stats/works", response_model=list[WorkStats])
@@ -446,20 +410,13 @@ async def get_work_stats(limit: int = Query(20, ge=1, le=50, description="取得
     """作品別キャラクター数取得（上位N件）"""
     stats = db.get_work_stats(limit=limit)
 
-    return [
-        WorkStats(
-            work_title=s['work_title'],
-            count=s['count'],
-            percentage=s['percentage']
-        )
-        for s in stats
-    ]
+    return [WorkStats(work_title=s["work_title"], count=s["count"], percentage=s["percentage"]) for s in stats]
 
 
 @app.get("/api/stats/fame-ranking", response_model=FameRanking)
 async def get_fame_ranking(
     limit: int = Query(100, ge=1, le=500, description="取得件数"),
-    order_by: str = Query('fame_score', description="ソートフィールド (fame_score/composite_score)")
+    order_by: str = Query("fame_score", description="ソートフィールド (fame_score/composite_score)"),
 ):
     """
     有名度ランキング取得
@@ -475,35 +432,36 @@ async def get_fame_ranking(
         total=total,
         rankings=[
             FameScore(
-                id=r['id'],
-                person_name=r['person_name'],
-                fame_tier=r['fame_tier'],
-                fame_score=r['fame_score'],
-                composite_score=r['composite_score'],
-                wikipedia_ja=r['wikipedia_ja'],
-                textbook=r['textbook'],
-                award_level=r['award_level'],
-                notoriety=r['notoriety'],
-                last_updated=r['last_updated'],
+                id=r["id"],
+                person_name=r["person_name"],
+                fame_tier=r["fame_tier"],
+                fame_score=r["fame_score"],
+                composite_score=r["composite_score"],
+                wikipedia_ja=r["wikipedia_ja"],
+                textbook=r["textbook"],
+                award_level=r["award_level"],
+                notoriety=r["notoriety"],
+                last_updated=r["last_updated"],
                 # Phase 1: 3軸評価カラム
-                milestone_tags=r.get('milestone_tags'),
-                memorability_score=r.get('memorability_score'),
-                empathy_score=r.get('empathy_score'),
-                surprise_score=r.get('surprise_score'),
+                milestone_tags=r.get("milestone_tags"),
+                memorability_score=r.get("memorability_score"),
+                empathy_score=r.get("empathy_score"),
+                surprise_score=r.get("surprise_score"),
                 # Phase 2: 4軸評価カラム
-                generation_quality_score=r.get('generation_quality_score'),
-                educational_value=r.get('educational_value'),
-                storytelling_quality=r.get('storytelling_quality'),
-                factual_density=r.get('factual_density')
+                generation_quality_score=r.get("generation_quality_score"),
+                educational_value=r.get("educational_value"),
+                storytelling_quality=r.get("storytelling_quality"),
+                factual_density=r.get("factual_density"),
             )
             for r in rankings
-        ]
+        ],
     )
 
 
 # ========================================
 # ルートエンドポイント
 # ========================================
+
 
 @app.get("/")
 async def root():
@@ -518,8 +476,8 @@ async def root():
             headers={
                 "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
                 "Pragma": "no-cache",
-                "Expires": "0"
-            }
+                "Expires": "0",
+            },
         )
     else:
         # HTMLが見つからない場合はJSON情報を返す
@@ -534,8 +492,8 @@ async def root():
                 "filter": "/api/characters/filter/?genre=スポーツ漫画",
                 "stats": "/api/stats/summary",
                 "v2": "/v2",
-                "v3": "/v3"
-            }
+                "v3": "/v3",
+            },
         }
 
 
@@ -551,8 +509,8 @@ async def dashboard_v2():
             headers={
                 "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
                 "Pragma": "no-cache",
-                "Expires": "0"
-            }
+                "Expires": "0",
+            },
         )
     else:
         raise HTTPException(status_code=404, detail="Dashboard v2 not found")
@@ -570,8 +528,8 @@ async def dashboard_v3():
             headers={
                 "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
                 "Pragma": "no-cache",
-                "Expires": "0"
-            }
+                "Expires": "0",
+            },
         )
     else:
         raise HTTPException(status_code=404, detail="Dashboard v3 not found")
@@ -589,8 +547,8 @@ async def dashboard_v4():
             headers={
                 "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
                 "Pragma": "no-cache",
-                "Expires": "0"
-            }
+                "Expires": "0",
+            },
         )
     else:
         raise HTTPException(status_code=404, detail="Dashboard v4 not found")
@@ -599,6 +557,7 @@ async def dashboard_v4():
 # ========================================
 # Phase 3: 分析エンドポイント
 # ========================================
+
 
 @app.get("/api/analytics/summary", response_model=ScoreSummary)
 async def get_analytics_summary():
@@ -609,11 +568,7 @@ async def get_analytics_summary():
     summary = analytics.get_score_summary()
 
     return ScoreSummary(
-        total_episodes=summary['total_episodes'],
-        axes=[
-            AxisStatistics(**axis)
-            for axis in summary['axes']
-        ]
+        total_episodes=summary["total_episodes"], axes=[AxisStatistics(**axis) for axis in summary["axes"]]
     )
 
 
@@ -627,10 +582,7 @@ async def get_score_distribution(bin_size: float = Query(0.5, ge=0.1, le=2.0)):
 
     return {
         "bin_size": bin_size,
-        "distributions": {
-            axis: [DistributionBin(**bin) for bin in bins]
-            for axis, bins in distributions.items()
-        }
+        "distributions": {axis: [DistributionBin(**bin) for bin in bins] for axis, bins in distributions.items()},
     }
 
 
@@ -642,9 +594,7 @@ async def get_correlation_matrix():
 
     matrix = analytics.calculate_correlation_matrix()
 
-    return {
-        "matrix": [CorrelationRow(**row) for row in matrix]
-    }
+    return {"matrix": [CorrelationRow(**row) for row in matrix]}
 
 
 @app.get("/api/analytics/top-performers")
@@ -655,16 +605,13 @@ async def get_top_performers(top_n: int = Query(50, ge=1, le=200)):
 
     performers = analytics.get_top_performers(top_n=top_n)
 
-    return {
-        "total": len(performers),
-        "top_n": top_n,
-        "performers": [TopPerformer(**p) for p in performers]
-    }
+    return {"total": len(performers), "top_n": top_n, "performers": [TopPerformer(**p) for p in performers]}
 
 
 # ========================================
 # Phase 4: 高度な検索エンドポイント
 # ========================================
+
 
 @app.get("/api/search/advanced", response_model=EpisodeSearchResponse)
 async def advanced_search(
@@ -687,10 +634,10 @@ async def advanced_search(
     max_composite_score: Optional[float] = Query(None, ge=0, le=10, description="総合スコア最大値"),
     min_age: Optional[float] = Query(None, ge=0, le=150, description="年齢最小値"),
     max_age: Optional[float] = Query(None, ge=0, le=150, description="年齢最大値"),
-    sort_by: str = Query('composite_score', description="ソート基準"),
-    order: str = Query('desc', description="並び順（asc/desc）"),
+    sort_by: str = Query("composite_score", description="ソート基準"),
+    order: str = Query("desc", description="並び順（asc/desc）"),
     page: int = Query(1, ge=1, description="ページ番号"),
-    page_size: int = Query(20, ge=1, le=100, description="ページサイズ")
+    page_size: int = Query(20, ge=1, le=100, description="ページサイズ"),
 ):
     """
     高度な検索
@@ -723,32 +670,27 @@ async def advanced_search(
         sort_by=sort_by,
         order=order,
         page=page,
-        page_size=page_size
+        page_size=page_size,
     )
 
     search_results = [
         EpisodeSearchResult(
-            person_name=r.get('person_name', ''),
-            age=r.get('age', ''),
-            episode=r.get('episode', ''),
-            composite_score=r.get('composite_score', 0.0),
-            memorability_score=r.get('記憶性スコア', 0.0),
-            empathy_score=r.get('共感性スコア', 0.0),
-            surprise_score=r.get('意外性スコア', 0.0),
-            generation_quality_score=r.get('生成品質スコア', 0.0),
-            educational_value=r.get('教育的価値', 0.0),
-            storytelling_quality=r.get('ストーリー品質', 0.0),
-            factual_density=r.get('事実密度', 0.0)
+            person_name=r.get("person_name", ""),
+            age=r.get("age", ""),
+            episode=r.get("episode", ""),
+            composite_score=r.get("composite_score", 0.0),
+            memorability_score=r.get("記憶性スコア", 0.0),
+            empathy_score=r.get("共感性スコア", 0.0),
+            surprise_score=r.get("意外性スコア", 0.0),
+            generation_quality_score=r.get("生成品質スコア", 0.0),
+            educational_value=r.get("教育的価値", 0.0),
+            storytelling_quality=r.get("ストーリー品質", 0.0),
+            factual_density=r.get("事実密度", 0.0),
         )
         for r in results
     ]
 
-    return EpisodeSearchResponse(
-        total=total,
-        page=page,
-        page_size=page_size,
-        results=search_results
-    )
+    return EpisodeSearchResponse(total=total, page=page, page_size=page_size, results=search_results)
 
 
 @app.get("/api/search/stats", response_model=SearchStatsResponse)
@@ -764,15 +706,14 @@ async def get_search_stats():
     stats = search_engine.get_search_stats()
 
     return SearchStatsResponse(
-        total_episodes=stats['total_episodes'],
-        score_ranges=stats['score_ranges'],
-        age_range=stats['age_range']
+        total_episodes=stats["total_episodes"], score_ranges=stats["score_ranges"], age_range=stats["age_range"]
     )
 
 
 # ========================================
 # Phase 4: データ品質管理API
 # ========================================
+
 
 @app.get("/api/quality/report", response_model=QualityReport)
 async def get_quality_report():
@@ -793,10 +734,10 @@ async def get_quality_report():
 # Phase 4: データエクスポートAPI
 # ========================================
 
+
 @app.get("/api/export/csv")
 async def export_csv(
-    query: Optional[str] = Query(None),
-    min_composite_score: Optional[float] = Query(None, ge=0, le=10)
+    query: Optional[str] = Query(None), min_composite_score: Optional[float] = Query(None, ge=0, le=10)
 ):
     """
     CSV形式でエクスポート
@@ -811,7 +752,7 @@ async def export_csv(
         query=query,
         min_composite_score=min_composite_score,
         page=1,
-        page_size=10000  # 全件取得
+        page_size=10000,  # 全件取得
     )
 
     # CSV生成
@@ -827,16 +768,13 @@ async def export_csv(
     return StreamingResponse(
         iter([output.getvalue()]),
         media_type="text/csv",
-        headers={
-            "Content-Disposition": f"attachment; filename=episodes_export.csv"
-        }
+        headers={"Content-Disposition": "attachment; filename=episodes_export.csv"},
     )
 
 
 @app.get("/api/export/json")
 async def export_json(
-    query: Optional[str] = Query(None),
-    min_composite_score: Optional[float] = Query(None, ge=0, le=10)
+    query: Optional[str] = Query(None), min_composite_score: Optional[float] = Query(None, ge=0, le=10)
 ):
     """
     JSON形式でエクスポート
@@ -851,25 +789,16 @@ async def export_json(
         query=query,
         min_composite_score=min_composite_score,
         page=1,
-        page_size=10000  # 全件取得
+        page_size=10000,  # 全件取得
     )
 
     # JSON生成
-    json_data = json.dumps(
-        {
-            "total": total,
-            "results": results
-        },
-        ensure_ascii=False,
-        indent=2
-    )
+    json_data = json.dumps({"total": total, "results": results}, ensure_ascii=False, indent=2)
 
     return Response(
         content=json_data,
         media_type="application/json",
-        headers={
-            "Content-Disposition": f"attachment; filename=episodes_export.json"
-        }
+        headers={"Content-Disposition": "attachment; filename=episodes_export.json"},
     )
 
 
@@ -877,11 +806,12 @@ async def export_json(
 # Phase 5: エピソード管理CRUD API
 # ========================================
 
+
 @app.get("/api/episodes", response_model=EpisodeList)
 async def list_episodes(
     page: int = Query(1, ge=1, description="ページ番号"),
     page_size: int = Query(20, ge=1, le=100, description="ページサイズ"),
-    person_type: Optional[str] = Query(None, description="人物タイプフィルター（REAL/FICTIONAL）")
+    person_type: Optional[str] = Query(None, description="人物タイプフィルター（REAL/FICTIONAL）"),
 ):
     """エピソード一覧取得
 
@@ -890,25 +820,16 @@ async def list_episodes(
     csv_path = get_default_csv_path()
     episode_manager = EpisodeManager(str(csv_path))
 
-    episodes, total = episode_manager.list_episodes(
-        page=page,
-        page_size=page_size,
-        filter_person_type=person_type
-    )
+    episodes, total = episode_manager.list_episodes(page=page, page_size=page_size, filter_person_type=person_type)
 
-    return EpisodeList(
-        total=total,
-        page=page,
-        page_size=page_size,
-        episodes=episodes
-    )
+    return EpisodeList(total=total, page=page, page_size=page_size, episodes=episodes)
 
 
 @app.get("/api/episodes/search", response_model=EpisodeList)
 async def search_episodes(
     q: str = Query(..., min_length=1, description="検索クエリ"),
     page: int = Query(1, ge=1, description="ページ番号"),
-    page_size: int = Query(20, ge=1, le=100, description="ページサイズ")
+    page_size: int = Query(20, ge=1, le=100, description="ページサイズ"),
 ):
     """エピソード検索
 
@@ -917,18 +838,9 @@ async def search_episodes(
     csv_path = get_default_csv_path()
     episode_manager = EpisodeManager(str(csv_path))
 
-    episodes, total = episode_manager.search_episodes(
-        query=q,
-        page=page,
-        page_size=page_size
-    )
+    episodes, total = episode_manager.search_episodes(query=q, page=page, page_size=page_size)
 
-    return EpisodeList(
-        total=total,
-        page=page,
-        page_size=page_size,
-        episodes=episodes
-    )
+    return EpisodeList(total=total, page=page, page_size=page_size, episodes=episodes)
 
 
 @app.get("/api/episodes/{person_id}", response_model=Episode)
@@ -948,10 +860,7 @@ async def get_episode(person_id: str):
 
 
 @app.post("/api/episodes", response_model=Episode, status_code=201)
-async def create_episode(
-    episode_data: EpisodeCreate,
-    current_user: dict = Depends(require_role(["admin", "editor"]))
-):
+async def create_episode(episode_data: EpisodeCreate, current_user: dict = Depends(require_role(["admin", "editor"]))):
     """エピソード作成
 
     新しいエピソードを追加
@@ -970,9 +879,7 @@ async def create_episode(
 
 @app.put("/api/episodes/{person_id}", response_model=Episode)
 async def update_episode(
-    person_id: str,
-    episode_data: EpisodeUpdate,
-    current_user: dict = Depends(require_role(["admin", "editor"]))
+    person_id: str, episode_data: EpisodeUpdate, current_user: dict = Depends(require_role(["admin", "editor"]))
 ):
     """エピソード更新
 
@@ -991,10 +898,7 @@ async def update_episode(
 
 
 @app.delete("/api/episodes/{person_id}", response_model=EpisodeDeleteResponse)
-async def delete_episode(
-    person_id: str,
-    current_user: dict = Depends(require_role(["admin"]))
-):
+async def delete_episode(person_id: str, current_user: dict = Depends(require_role(["admin"]))):
     """エピソード削除
 
     エピソードをCSVから削除
@@ -1008,8 +912,4 @@ async def delete_episode(
     if not success:
         raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
 
-    return EpisodeDeleteResponse(
-        success=True,
-        message="エピソードが正常に削除されました",
-        deleted_person_id=person_id
-    )
+    return EpisodeDeleteResponse(success=True, message="エピソードが正常に削除されました", deleted_person_id=person_id)

@@ -8,120 +8,120 @@ version: 2.0.0
 slis:
   # 可用性
   availability:
-    description: "サービスが正常に応答する割合"
+    description: サービスが正常に応答する割合
     metric: |
       sum(rate(episode_factory_requests_total{status="success"}[5m]))
       /
       sum(rate(episode_factory_requests_total[5m]))
-    unit: "percentage"
+    unit: percentage
 
   # レイテンシ
   latency_p50:
-    description: "レスポンスタイムの50パーセンタイル"
+    description: レスポンスタイムの50パーセンタイル
     metric: |
       histogram_quantile(0.50,
         sum(rate(episode_factory_response_time_seconds_bucket[5m]))
         by (le)
       )
-    unit: "seconds"
+    unit: seconds
 
   latency_p95:
-    description: "レスポンスタイムの95パーセンタイル"
+    description: レスポンスタイムの95パーセンタイル
     metric: |
       histogram_quantile(0.95,
         sum(rate(episode_factory_response_time_seconds_bucket[5m]))
         by (le)
       )
-    unit: "seconds"
+    unit: seconds
 
   latency_p99:
-    description: "レスポンスタイムの99パーセンタイル"
+    description: レスポンスタイムの99パーセンタイル
     metric: |
       histogram_quantile(0.99,
         sum(rate(episode_factory_response_time_seconds_bucket[5m]))
         by (le)
       )
-    unit: "seconds"
+    unit: seconds
 
   # エラー率
   error_rate:
-    description: "エラーレスポンスの割合"
+    description: エラーレスポンスの割合
     metric: |
       sum(rate(episode_factory_errors_total[5m]))
       /
       sum(rate(episode_factory_requests_total[5m]))
-    unit: "percentage"
+    unit: percentage
 
   # 品質スコア
   quality_score:
-    description: "エピソード品質スコアの平均"
+    description: エピソード品質スコアの平均
     metric: |
       avg(episode_factory_quality_score)
-    unit: "score"
+    unit: score
 
   # スループット
   throughput:
-    description: "秒あたりのリクエスト数"
+    description: 秒あたりのリクエスト数
     metric: |
       sum(rate(episode_factory_requests_total[1m]))
-    unit: "requests/second"
+    unit: requests/second
 
 # SLO 定義
 slos:
   # Tier 1: クリティカルSLO（最重要）
   tier1:
-    - name: "可用性"
-      sli: availability
-      target: 99.95  # 月間ダウンタイム: 21.6分
-      window: 30d
-      alert_budget_consumption: 50  # エラーバジェット50%消費でアラート
-      criticality: critical
+  - name: 可用性
+    sli: availability
+    target: 99.95    # 月間ダウンタイム: 21.6分
+    window: 30d
+    alert_budget_consumption: 50    # エラーバジェット50%消費でアラート
+    criticality: critical
 
-    - name: "P99レイテンシ"
-      sli: latency_p99
-      target_value: 0.1  # 100ms以下
-      window: 30d
-      alert_budget_consumption: 80
-      criticality: critical
+  - name: P99レイテンシ
+    sli: latency_p99
+    target_value: 0.1    # 100ms以下
+    window: 30d
+    alert_budget_consumption: 80
+    criticality: critical
 
   # Tier 2: 重要SLO
   tier2:
-    - name: "P95レイテンシ"
-      sli: latency_p95
-      target_value: 0.05  # 50ms以下
-      window: 7d
-      alert_budget_consumption: 70
-      criticality: high
+  - name: P95レイテンシ
+    sli: latency_p95
+    target_value: 0.05    # 50ms以下
+    window: 7d
+    alert_budget_consumption: 70
+    criticality: high
 
-    - name: "エラー率"
-      sli: error_rate
-      target_value: 0.1  # 0.1%以下
-      window: 7d
-      alert_budget_consumption: 60
-      criticality: high
+  - name: エラー率
+    sli: error_rate
+    target_value: 0.1    # 0.1%以下
+    window: 7d
+    alert_budget_consumption: 60
+    criticality: high
 
-    - name: "品質スコア"
-      sli: quality_score
-      target: 95.0  # 95点以上
-      window: 7d
-      alert_budget_consumption: 70
-      criticality: high
+  - name: 品質スコア
+    sli: quality_score
+    target: 95.0    # 95点以上
+    window: 7d
+    alert_budget_consumption: 70
+    criticality: high
 
   # Tier 3: 標準SLO
   tier3:
-    - name: "P50レイテンシ"
-      sli: latency_p50
-      target_value: 0.02  # 20ms以下
-      window: 1d
-      alert_budget_consumption: 90
-      criticality: medium
+  - name: P50レイテンシ
+    sli: latency_p50
+    target_value: 0.02    # 20ms以下
+    window: 1d
+    alert_budget_consumption: 90
+    criticality: medium
 
-    - name: "スループット"
-      sli: throughput
-      target: 100  # 100 req/s以上
-      window: 1d
-      alert_budget_consumption: 90
-      criticality: medium
+  - name: スループット
+    sli: throughput
+    target: 100    # 100 req/s以上
+    window: 1d
+    alert_budget_consumption: 90
+    criticality: medium
 
 # エラーバジェット定義
 error_budgets:
@@ -139,44 +139,44 @@ error_budgets:
 alert_policies:
   # ページャー通知（緊急）
   pager:
-    - condition: "availability < 99.9"
-      duration: 5m
-      severity: critical
-      notify:
-        - oncall-engineer
-        - incident-commander
+  - condition: availability < 99.9
+    duration: 5m
+    severity: critical
+    notify:
+    - oncall-engineer
+    - incident-commander
 
-    - condition: "error_rate > 1"
-      duration: 5m
-      severity: critical
-      notify:
-        - oncall-engineer
+  - condition: error_rate > 1
+    duration: 5m
+    severity: critical
+    notify:
+    - oncall-engineer
 
   # Slack通知（警告）
   slack:
-    - condition: "availability < 99.95"
-      duration: 10m
-      severity: warning
-      channel: "#episode-factory-alerts"
+  - condition: availability < 99.95
+    duration: 10m
+    severity: warning
+    channel: '#episode-factory-alerts'
 
-    - condition: "latency_p99 > 0.15"
-      duration: 10m
-      severity: warning
-      channel: "#episode-factory-alerts"
+  - condition: latency_p99 > 0.15
+    duration: 10m
+    severity: warning
+    channel: '#episode-factory-alerts'
 
-    - condition: "quality_score < 90"
-      duration: 30m
-      severity: warning
-      channel: "#episode-factory-quality"
+  - condition: quality_score < 90
+    duration: 30m
+    severity: warning
+    channel: '#episode-factory-quality'
 
   # メール通知（情報）
   email:
-    - condition: "error_budget_consumed > 50"
-      duration: 1h
-      severity: info
-      recipients:
-        - sre-team@example.com
-        - product-team@example.com
+  - condition: error_budget_consumed > 50
+    duration: 1h
+    severity: info
+    recipients:
+    - sre-team@example.com
+    - product-team@example.com
 
 # バーンレート定義（エラーバジェット消費速度）
 burn_rates:
@@ -202,40 +202,40 @@ burn_rates:
 reporting:
   # SLOダッシュボード
   dashboards:
-    - name: "Episode Factory SLO Dashboard"
-      url: "https://grafana.example.com/d/slo-episode-factory"
-      refresh_interval: 30s
+  - name: Episode Factory SLO Dashboard
+    url: https://grafana.example.com/d/slo-episode-factory
+    refresh_interval: 30s
 
-    - name: "Error Budget Dashboard"
-      url: "https://grafana.example.com/d/error-budget"
-      refresh_interval: 1m
+  - name: Error Budget Dashboard
+    url: https://grafana.example.com/d/error-budget
+    refresh_interval: 1m
 
   # 定期レポート
   periodic_reports:
     daily:
-      schedule: "0 9 * * *"  # 毎日9:00
+      schedule: 0 9 * * *    # 毎日9:00
       recipients:
-        - sre-team@example.com
+      - sre-team@example.com
       include:
-        - slo_compliance
-        - error_budget_status
-        - incident_summary
+      - slo_compliance
+      - error_budget_status
+      - incident_summary
 
     weekly:
-      schedule: "0 9 * * 1"  # 毎週月曜9:00
+      schedule: 0 9 * * 1    # 毎週月曜9:00
       recipients:
-        - engineering@example.com
-        - product@example.com
+      - engineering@example.com
+      - product@example.com
       include:
-        - slo_trends
-        - improvement_recommendations
-        - capacity_planning
+      - slo_trends
+      - improvement_recommendations
+      - capacity_planning
 
     monthly:
-      schedule: "0 9 1 * *"  # 毎月1日9:00
+      schedule: 0 9 1 * *    # 毎月1日9:00
       recipients:
-        - leadership@example.com
+      - leadership@example.com
       include:
-        - executive_summary
-        - slo_review
-        - quarterly_projections
+      - executive_summary
+      - slo_review
+      - quarterly_projections

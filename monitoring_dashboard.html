@@ -10,19 +10,19 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         .header {
             background: white;
             border-radius: 15px;
@@ -30,25 +30,25 @@
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        
+
         .header h1 {
             color: #333;
             font-size: 2.5em;
             margin-bottom: 10px;
         }
-        
+
         .header .subtitle {
             color: #666;
             font-size: 1.2em;
         }
-        
+
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+
         .card {
             background: white;
             border-radius: 15px;
@@ -56,11 +56,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
         }
-        
+
         .card:hover {
             transform: translateY(-5px);
         }
-        
+
         .card-title {
             font-size: 1.2em;
             color: #666;
@@ -69,27 +69,27 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .card-value {
             font-size: 2.5em;
             font-weight: bold;
             color: #333;
             margin-bottom: 10px;
         }
-        
+
         .card-change {
             font-size: 0.9em;
             color: #999;
         }
-        
+
         .positive {
             color: #10b981;
         }
-        
+
         .negative {
             color: #ef4444;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 30px;
@@ -98,7 +98,7 @@
             overflow: hidden;
             margin-top: 20px;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
@@ -110,7 +110,7 @@
             color: white;
             font-weight: bold;
         }
-        
+
         .chart-container {
             background: white;
             border-radius: 15px;
@@ -118,39 +118,39 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
-        
+
         .chart-title {
             font-size: 1.5em;
             color: #333;
             margin-bottom: 20px;
         }
-        
+
         .status-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
-        
+
         .status-item {
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
             border-left: 4px solid #667eea;
         }
-        
+
         .status-label {
             color: #666;
             font-size: 0.9em;
             margin-bottom: 5px;
         }
-        
+
         .status-value {
             color: #333;
             font-size: 1.2em;
             font-weight: bold;
         }
-        
+
         .live-indicator {
             display: inline-block;
             width: 10px;
@@ -160,7 +160,7 @@
             animation: pulse 2s infinite;
             margin-right: 5px;
         }
-        
+
         @keyframes pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
@@ -172,7 +172,7 @@
                 box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
             }
         }
-        
+
         .log-container {
             background: white;
             border-radius: 15px;
@@ -181,35 +181,35 @@
             max-height: 400px;
             overflow-y: auto;
         }
-        
+
         .log-entry {
             padding: 10px;
             border-bottom: 1px solid #f0f0f0;
             font-family: 'Monaco', 'Courier New', monospace;
             font-size: 0.9em;
         }
-        
+
         .log-time {
             color: #999;
             margin-right: 10px;
         }
-        
+
         .log-level-info {
             color: #3b82f6;
         }
-        
+
         .log-level-success {
             color: #10b981;
         }
-        
+
         .log-level-warning {
             color: #f59e0b;
         }
-        
+
         .log-level-error {
             color: #ef4444;
         }
-        
+
         .control-panel {
             background: white;
             border-radius: 15px;
@@ -217,7 +217,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
-        
+
         .btn {
             padding: 12px 24px;
             border: none;
@@ -228,30 +228,30 @@
             transition: all 0.3s ease;
             margin-right: 10px;
         }
-        
+
         .btn-primary {
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-        
+
         .btn-primary:hover {
             opacity: 0.9;
         }
-        
+
         .btn-secondary {
             background: #f0f0f0;
             color: #666;
         }
-        
+
         .btn-secondary:hover {
             background: #e0e0e0;
         }
-        
+
         .btn-danger {
             background: #ef4444;
             color: white;
         }
-        
+
         .btn-danger:hover {
             background: #dc2626;
         }
@@ -266,7 +266,7 @@
                 リアルタイムモニタリング - 最適化版 v2.0
             </div>
         </div>
-        
+
         <div class="control-panel">
             <h3 style="margin-bottom: 15px;">制御パネル</h3>
             <button class="btn btn-primary" onclick="startProcessing()">処理開始</button>
@@ -274,7 +274,7 @@
             <button class="btn btn-danger" onclick="stopProcessing()">停止</button>
             <button class="btn btn-secondary" onclick="exportResults()">結果エクスポート</button>
         </div>
-        
+
         <div class="dashboard">
             <div class="card">
                 <div class="card-title">
@@ -285,7 +285,7 @@
                     <span class="positive">↑ 756件/時</span>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-title">
                     <span>⚡</span> 処理速度
@@ -293,7 +293,7 @@
                 <div class="card-value" id="processing-speed">0</div>
                 <div class="card-change">件/秒</div>
             </div>
-            
+
             <div class="card">
                 <div class="card-title">
                     <span>🎯</span> ML判定率
@@ -301,7 +301,7 @@
                 <div class="card-value" id="ml-rate">35%</div>
                 <div class="card-change">API呼び出し削減</div>
             </div>
-            
+
             <div class="card">
                 <div class="card-title">
                     <span>💾</span> キャッシュヒット率
@@ -311,7 +311,7 @@
                     <span class="positive">↑ 2.3%</span>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-title">
                     <span>⏱️</span> 推定残り時間
@@ -319,7 +319,7 @@
                 <div class="card-value" id="eta">0:45</div>
                 <div class="card-change">完了予定: 10:30</div>
             </div>
-            
+
             <div class="card">
                 <div class="card-title">
                     <span>✅</span> 成功率
@@ -330,7 +330,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="chart-container">
             <h3 class="chart-title">進捗状況</h3>
             <div class="progress-bar">
@@ -338,7 +338,7 @@
                     0%
                 </div>
             </div>
-            
+
             <div class="status-grid">
                 <div class="status-item">
                     <div class="status-label">総レコード数</div>
@@ -358,7 +358,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="chart-container">
             <h3 class="chart-title">API別処理状況</h3>
             <div class="status-grid">
@@ -394,7 +394,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="log-container">
             <h3 style="margin-bottom: 15px;">リアルタイムログ</h3>
             <div id="log-entries">
@@ -416,7 +416,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         // シミュレーション用のカウンター
         let processedCount = 0;
@@ -424,104 +424,104 @@
         let errors = 0;
         let isProcessing = false;
         let interval;
-        
+
         function startProcessing() {
             if (isProcessing) return;
             isProcessing = true;
-            
+
             addLog('INFO', '処理を開始しました');
-            
+
             interval = setInterval(() => {
                 // Update counters
                 processedCount += Math.floor(Math.random() * 10 + 5);
                 apiCalls += Math.floor(Math.random() * 8 + 2);
                 errors += Math.random() > 0.95 ? 1 : 0;
-                
+
                 // Cap at maximum
                 if (processedCount > 4701) {
                     processedCount = 4701;
                     stopProcessing();
                     addLog('SUCCESS', '全処理が完了しました！');
                 }
-                
+
                 updateDashboard();
             }, 1000);
         }
-        
+
         function pauseProcessing() {
             isProcessing = false;
             clearInterval(interval);
             addLog('WARNING', '処理を一時停止しました');
         }
-        
+
         function stopProcessing() {
             isProcessing = false;
             clearInterval(interval);
             addLog('ERROR', '処理を停止しました');
         }
-        
+
         function exportResults() {
             addLog('INFO', '結果をエクスポート中...');
             setTimeout(() => {
                 addLog('SUCCESS', 'エクスポート完了: results_20250907.csv');
             }, 1000);
         }
-        
+
         function updateDashboard() {
             // Update processed count
             document.getElementById('processed-count').textContent = processedCount.toLocaleString();
-            
+
             // Update processing speed
             const speed = (Math.random() * 5 + 10).toFixed(1);
             document.getElementById('processing-speed').textContent = speed;
-            
+
             // Update progress bar
             const progress = (processedCount / 4701 * 100).toFixed(1);
             const progressBar = document.getElementById('progress-bar');
             progressBar.style.width = progress + '%';
             progressBar.textContent = progress + '%';
-            
+
             // Update API calls
             document.getElementById('api-calls').textContent = apiCalls.toLocaleString();
-            
+
             // Update error count
             document.getElementById('error-count').textContent = errors;
-            
+
             // Update ETA
             const remaining = 4701 - processedCount;
             const eta = Math.floor(remaining / 10);
             const minutes = Math.floor(eta / 60);
             const seconds = eta % 60;
             document.getElementById('eta').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
+
             // Update cache rate dynamically
             const cacheRate = (15 + Math.random() * 5).toFixed(1);
             document.getElementById('cache-rate').textContent = cacheRate + '%';
         }
-        
+
         function addLog(level, message) {
             const logContainer = document.getElementById('log-entries');
             const time = new Date().toLocaleTimeString('ja-JP');
-            
+
             const logEntry = document.createElement('div');
             logEntry.className = 'log-entry';
-            
+
             const levelClass = `log-level-${level.toLowerCase()}`;
-            
+
             logEntry.innerHTML = `
                 <span class="log-time">${time}</span>
                 <span class="${levelClass}">[${level}]</span>
                 ${message}
             `;
-            
+
             logContainer.insertBefore(logEntry, logContainer.firstChild);
-            
+
             // Keep only last 10 entries
             while (logContainer.children.length > 10) {
                 logContainer.removeChild(logContainer.lastChild);
             }
         }
-        
+
         // Auto-start for demo
         setTimeout(() => {
             startProcessing();

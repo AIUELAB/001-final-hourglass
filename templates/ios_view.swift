@@ -230,7 +230,7 @@ struct BasicView_Previews: PreviewProvider {
  2. struct名を変更（BasicView → YourViewName）
  3. 必要な部分だけ残して、不要な部分を削除
  4. 独自の機能を追加
- 
+
  よく使うUI部品:
  - Text: テキスト表示
  - TextField: テキスト入力

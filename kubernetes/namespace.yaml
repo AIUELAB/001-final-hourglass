@@ -1,4 +1,3 @@
----
 # Namespace for Multi-Agent Quality System
 apiVersion: v1
 kind: Namespace
@@ -7,4 +6,4 @@ metadata:
   labels:
     name: quality-system
     environment: production
-    phase: "4"
+    phase: '4'

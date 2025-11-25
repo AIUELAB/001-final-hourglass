@@ -47,7 +47,9 @@ class ProjectModel(BaseModel):
     items: List[ProjectItem] = Field(default_factory=list)
     resources: List[ProjectResource] = Field(default_factory=list)
     raw: Dict[str, Any] = Field(default_factory=dict, description="元 JSON の生データ（トレーサビリティ用）")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="補助的なメタデータ（対象, 収益化, 開発情報など）")
+    metadata: Dict[str, Any] = Field(
+        default_factory=dict, description="補助的なメタデータ（対象, 収益化, 開発情報など）"
+    )
 
 
 class ParseResult(BaseModel):
@@ -82,13 +84,7 @@ def _extract_name(d: Dict[str, Any]) -> str:
 
 
 def _extract_id(d: Dict[str, Any], derived_name: str) -> str:
-    return (
-        d.get("id")
-        or d.get("project_id")
-        or d.get("uuid")
-        or _slugify_name(str(derived_name))
-        or "unknown-project"
-    )
+    return d.get("id") or d.get("project_id") or d.get("uuid") or _slugify_name(str(derived_name)) or "unknown-project"
 
 
 def _extract_description(d: Dict[str, Any]) -> Optional[str]:
@@ -240,5 +236,3 @@ def coerce_to_project(data: Dict[str, Any]) -> ParseResult:
     except ValidationError as ve:
         errors.append(f"project validation error: {ve}")
         return ParseResult(success=False, project=None, warnings=warnings, errors=errors)
-
-

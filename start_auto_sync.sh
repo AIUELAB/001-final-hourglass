@@ -83,7 +83,7 @@ case $mode in
         echo ""
         python3 auto_sync_watcher.py
         ;;
-    
+
     2)
         echo -e "${GREEN}🚀 バックグラウンドモードで起動${NC}"
         nohup python3 auto_sync_watcher.py > auto_sync_watcher.log 2>&1 &
@@ -92,17 +92,17 @@ case $mode in
         echo ""
         echo "ログを確認: tail -f auto_sync_watcher.log"
         echo "停止: kill $PID または pkill -f auto_sync_watcher.py"
-        
+
         # PIDファイルに保存
         echo $PID > auto_sync_watcher.pid
         ;;
-    
+
     3)
         echo -e "${GREEN}🚀 テストモード（60秒間）${NC}"
         timeout 60 python3 auto_sync_watcher.py
         echo -e "${GREEN}✅ テスト完了${NC}"
         ;;
-    
+
     *)
         echo -e "${RED}無効な選択です${NC}"
         exit 1

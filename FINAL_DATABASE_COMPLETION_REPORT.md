@@ -7,7 +7,7 @@
 
 ### 最終データベース統計
 - **総レコード数**: 3,045名
-- **出力ファイル**: 
+- **出力ファイル**:
   - DATABASE_FINAL_20250910_113203.csv
   - DATABASE_FINAL_LATEST.csv（最新版リンク）
   - DATABASE_FINAL_STATS_20250910_113203.json（統計情報）

@@ -8,20 +8,31 @@ composite_scoreは本来0-10スケール（7軸スコアの平均）であるべ
 修正方法: 7軸スコアの平均を再計算して設定
 """
 
-import pandas as pd
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
+import pandas as pd
 
 CSV_PATH = Path(__file__).parent.parent / "MASTER_EPISODES_CURRENT.csv"
-BACKUP_PATH = Path(__file__).parent.parent / f"MASTER_EPISODES_CURRENT_backup_before_fix_all_composite_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+BACKUP_PATH = (
+    Path(__file__).parent.parent
+    / f"MASTER_EPISODES_CURRENT_backup_before_fix_all_composite_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+)
 
 
 def calculate_composite_score(row: pd.Series) -> float:
     """7軸スコアからcomposite_scoreを計算（共通ロジック）"""
     seven_axes = []
 
-    for axis in ['記憶性スコア', '共感性スコア', '意外性スコア', '生成品質スコア',
-                 '教育的価値', 'ストーリー品質', '事実密度']:
+    for axis in [
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
+    ]:
         val = row.get(axis)
         if pd.notna(val):
             try:
@@ -43,13 +54,13 @@ def main():
 
     # Step 1: CSVファイル読み込み
     print("Step 1: CSVファイル読み込み中...")
-    df = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
+    df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
     print(f"  ✅ 読み込み完了: {len(df):,}件")
     print()
 
     # Step 2: バックアップ作成
     print("Step 2: バックアップ作成中...")
-    df.to_csv(BACKUP_PATH, index=False, encoding='utf-8-sig')
+    df.to_csv(BACKUP_PATH, index=False, encoding="utf-8-sig")
     print(f"  ✅ バックアップ作成: {BACKUP_PATH}")
     print()
 
@@ -61,7 +72,7 @@ def main():
 
     for idx, row in df.iterrows():
         expected = calculate_composite_score(row)
-        actual = row.get('composite_score')
+        actual = row.get("composite_score")
 
         if expected is None:
             missing_7axes_count += 1
@@ -95,7 +106,7 @@ def main():
             continue
 
         # composite_scoreを設定
-        df.at[idx, 'composite_score'] = expected
+        df.at[idx, "composite_score"] = expected
         fixed_count += 1
 
         # 進捗表示（100件ごと）
@@ -108,13 +119,13 @@ def main():
 
     # Step 5: CSVファイル保存
     print("Step 5: CSVファイル保存中...")
-    df.to_csv(CSV_PATH, index=False, encoding='utf-8-sig')
+    df.to_csv(CSV_PATH, index=False, encoding="utf-8-sig")
     print(f"  ✅ 保存完了: {CSV_PATH}")
     print()
 
     # Step 6: 検証
     print("Step 6: 修正結果の検証...")
-    df_verify = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
+    df_verify = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
 
     verification_samples = [
         ("石ノ森章太郎", 66.0),
@@ -128,14 +139,14 @@ def main():
     all_ok = True
 
     for person_name, age in verification_samples:
-        sample = df_verify[(df_verify['person_name'] == person_name) & (df_verify['age'] == age)]
+        sample = df_verify[(df_verify["person_name"] == person_name) & (df_verify["age"] == age)]
 
         if len(sample) == 0:
             continue
 
         row = sample.iloc[0]
         expected = calculate_composite_score(row)
-        actual = row['composite_score']
+        actual = row["composite_score"]
 
         if expected is None:
             continue
@@ -157,7 +168,7 @@ def main():
 
     for idx, row in df_verify.iterrows():
         expected = calculate_composite_score(row)
-        actual = row.get('composite_score')
+        actual = row.get("composite_score")
 
         if expected is None:
             continue
@@ -183,7 +194,7 @@ def main():
         print(f"⚠️  一部のエピソードで不整合があります: {inconsistent_count}件")
     print("=" * 80)
     print()
-    print(f"📊 サマリー:")
+    print("📊 サマリー:")
     print(f"  - 修正件数: {fixed_count:,}件")
     print(f"  - スキップ件数: {skipped_count:,}件")
     print(f"  - 一致確認: {consistent_count:,}件")

@@ -22,14 +22,14 @@ class BiographySeries:
 
 class BiographyBookDatabase:
     """主要出版社の偉人伝シリーズデータベース"""
-    
+
     def __init__(self):
         self.series_list = []
         self._initialize_series()
-    
+
     def _initialize_series(self):
         """各出版社のシリーズを初期化"""
-        
+
         # 1. 角川まんが学習シリーズ まんが人物伝（27巻）
         kadokawa_series = BiographySeries(
             publisher="KADOKAWA",
@@ -71,7 +71,7 @@ class BiographyBookDatabase:
             ]
         )
         self.series_list.append(kadokawa_series)
-        
+
         # 2. ポプラ社 コミック版世界の伝記（59巻以上）
         poplar_series = BiographySeries(
             publisher="ポプラ社",
@@ -102,7 +102,7 @@ class BiographyBookDatabase:
             ]
         )
         self.series_list.append(poplar_series)
-        
+
         # 3. 小学館版 学習まんが人物館（100巻以上）
         shogakukan_series = BiographySeries(
             publisher="小学館",
@@ -137,7 +137,7 @@ class BiographyBookDatabase:
             ]
         )
         self.series_list.append(shogakukan_series)
-        
+
         # 4. 学研 NEW日本の伝記シリーズ
         gakken_series = BiographySeries(
             publisher="学研",
@@ -163,7 +163,7 @@ class BiographyBookDatabase:
             ]
         )
         self.series_list.append(gakken_series)
-        
+
         # 5. 集英社 学習まんが世界の伝記NEXT
         shueisha_series = BiographySeries(
             publisher="集英社",
@@ -194,7 +194,7 @@ class BiographyBookDatabase:
             ]
         )
         self.series_list.append(shueisha_series)
-    
+
     def get_all_persons(self) -> Set[str]:
         """全シリーズの人物名（日本語）を取得"""
         all_persons = set()
@@ -202,7 +202,7 @@ class BiographyBookDatabase:
             for _, name_jp, _ in series.persons:
                 all_persons.add(name_jp)
         return all_persons
-    
+
     def get_persons_by_category(self) -> Dict[str, List[str]]:
         """カテゴリ別の人物リストを取得"""
         category_dict = {}
@@ -213,7 +213,7 @@ class BiographyBookDatabase:
                 if name_jp not in category_dict[category]:
                     category_dict[category].append(name_jp)
         return category_dict
-    
+
     def get_series_summary(self) -> Dict[str, Dict]:
         """各シリーズのサマリーを取得"""
         summary = {}
@@ -226,12 +226,12 @@ class BiographyBookDatabase:
                 "categories": list(set(cat for _, _, cat in series.persons))
             }
         return summary
-    
+
     def analyze_coverage(self) -> Dict:
         """偉人伝の網羅性を分析"""
         all_persons = self.get_all_persons()
         categories = self.get_persons_by_category()
-        
+
         analysis = {
             "total_unique_persons": len(all_persons),
             "total_series": len(self.series_list),
@@ -253,10 +253,10 @@ def main():
     logger.info("=" * 60)
     logger.info("偉人伝書籍シリーズ分析開始")
     logger.info("=" * 60)
-    
+
     # データベース初期化
     bio_db = BiographyBookDatabase()
-    
+
     # シリーズサマリー表示
     logger.info("\n📚 主要偉人伝シリーズ:")
     summary = bio_db.get_series_summary()
@@ -266,27 +266,27 @@ def main():
         logger.info(f"  巻数: {info['volume_count']}巻")
         logger.info(f"  対象: {info['target_age']}")
         logger.info(f"  収録人物数: {info['person_count']}名")
-    
+
     # 網羅性分析
     analysis = bio_db.analyze_coverage()
     logger.info("\n📊 網羅性分析:")
     logger.info(f"  総ユニーク人物数: {analysis['total_unique_persons']}名")
     logger.info(f"  総シリーズ数: {analysis['total_series']}シリーズ")
     logger.info(f"  総巻数: {analysis['total_volumes']}巻")
-    
+
     logger.info("\n📈 カテゴリ別TOP10:")
     for category, count in analysis['top_categories']:
         logger.info(f"  {category}: {count}名")
-    
+
     # 人物リスト出力
     all_persons = bio_db.get_all_persons()
     with open('biography_book_persons.txt', 'w', encoding='utf-8') as f:
         for person in sorted(all_persons):
             f.write(f"{person}\n")
-    
+
     logger.info(f"\n✅ 人物リストを biography_book_persons.txt に出力しました")
     logger.info(f"   総人物数: {len(all_persons)}名")
-    
+
     return bio_db
 
 

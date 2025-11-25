@@ -28,6 +28,7 @@ SNAPSHOT_DIR = SESSION_DIR / "snapshots"
 sys.path.insert(0, str(Path(__file__).parent))
 try:
     from serena_memory_integration import SerenaMemoryManager
+
     SERENA_AVAILABLE = True
 except ImportError:
     SERENA_AVAILABLE = False
@@ -85,12 +86,14 @@ class SessionRecovery:
                 with open(recovery_file, "r", encoding="utf-8") as f:
                     recovery_data = json.load(f)
 
-                recovery_points.append({
-                    "source": "file",
-                    "timestamp": recovery_data["timestamp"],
-                    "session_id": recovery_data["session_id"],
-                    "git_commit": recovery_data.get("git_commit")
-                })
+                recovery_points.append(
+                    {
+                        "source": "file",
+                        "timestamp": recovery_data["timestamp"],
+                        "session_id": recovery_data["session_id"],
+                        "git_commit": recovery_data.get("git_commit"),
+                    }
+                )
             except Exception:
                 pass
 
@@ -98,22 +101,22 @@ class SessionRecovery:
         if self.serena:
             latest_session = self.serena.load_latest_session()
             if latest_session:
-                recovery_points.append({
-                    "source": "serena",
-                    "timestamp": latest_session.get("last_updated"),
-                    "session_id": latest_session.get("session_id"),
-                    "current_task": latest_session.get("current_task")
-                })
+                recovery_points.append(
+                    {
+                        "source": "serena",
+                        "timestamp": latest_session.get("last_updated"),
+                        "session_id": latest_session.get("session_id"),
+                        "current_task": latest_session.get("current_task"),
+                    }
+                )
 
         # スナップショットからの復元ポイント
         if SNAPSHOT_DIR.exists():
             for snapshot in sorted(SNAPSHOT_DIR.glob("*.md"), reverse=True)[:5]:
                 if snapshot.name != "latest.md":
-                    recovery_points.append({
-                        "source": "snapshot",
-                        "timestamp": snapshot.stat().st_mtime,
-                        "file": str(snapshot.name)
-                    })
+                    recovery_points.append(
+                        {"source": "snapshot", "timestamp": snapshot.stat().st_mtime, "file": str(snapshot.name)}
+                    )
 
         return recovery_points
 
@@ -137,14 +140,14 @@ class SessionRecovery:
 
             # STATUS.mdの確認
             if STATUS_FILE.exists():
-                print(f"✅ STATUS.md found")
+                print("✅ STATUS.md found")
                 with open(STATUS_FILE, "r", encoding="utf-8") as f:
                     status_content = f.read()
                     print(f"   Preview: {status_content[:200]}...")
 
             # SESSION_LOG.mdの確認
             if LOG_FILE.exists():
-                print(f"✅ SESSION_LOG.md found")
+                print("✅ SESSION_LOG.md found")
                 with open(LOG_FILE, "r", encoding="utf-8") as f:
                     log_lines = f.readlines()
                     print(f"   Entries: {len([l for l in log_lines if l.startswith('##')])} sessions")
@@ -173,24 +176,24 @@ class SessionRecovery:
                 print("❌ No session found in Serena memory")
                 return False
 
-            print(f"📦 Restoring from Serena memory")
+            print("📦 Restoring from Serena memory")
             print(f"   Session ID: {latest_session.get('session_id')}")
             print(f"   Last updated: {latest_session.get('last_updated')}")
             print(f"   Current task: {latest_session.get('current_task', 'None')}")
 
             # TODO情報の表示
-            todos = latest_session.get('todos')
+            todos = latest_session.get("todos")
             if todos:
-                print(f"\n📋 TODOs:")
+                print("\n📋 TODOs:")
                 for i, todo in enumerate(todos[:5], 1):
-                    status = todo.get('status', 'pending')
-                    content = todo.get('content', '')
+                    status = todo.get("status", "pending")
+                    content = todo.get("content", "")
                     print(f"   {i}. [{status}] {content}")
 
             # 決定履歴の表示
             decisions = self.serena.read_memory("decisions") or []
             if decisions:
-                print(f"\n💡 Recent decisions:")
+                print("\n💡 Recent decisions:")
                 for decision in decisions[-3:]:
                     print(f"   - {decision.get('decision')}")
 
@@ -198,7 +201,7 @@ class SessionRecovery:
             blockers = self.serena.read_memory("blockers") or []
             active_blockers = [b for b in blockers if not b.get("resolved")]
             if active_blockers:
-                print(f"\n⚠️ Active blockers:")
+                print("\n⚠️ Active blockers:")
                 for blocker in active_blockers:
                     print(f"   - [{blocker.get('severity')}] {blocker.get('blocker')}")
 
@@ -317,6 +320,7 @@ class SessionRecovery:
 # ===========================================
 # コマンドラインインターフェース
 # ===========================================
+
 
 def main():
     """メイン関数"""

@@ -36,24 +36,24 @@ class Person:
 
 class UltraThink12410Phase1:
     """フェーズ1: 基盤強化クラス"""
-    
+
     def __init__(self):
         self.existing_people = []
         self.new_people = []
         self.batch_count = 0
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # 出力ディレクトリ作成
         self.output_dir = Path("ultra_think_12410")
         self.phase_dir = self.output_dir / "phase1_foundation"
         self.phase_dir.mkdir(parents=True, exist_ok=True)
-        
+
     def load_existing_data(self):
         """既存の1,014人データを読み込み"""
         print("📂 既存データ読み込み中...")
-        
+
         csv_file = "ultra_think_1000plus_final_20250825_143532.csv"
-        
+
         try:
             with open(csv_file, 'r', encoding='utf-8-sig') as f:
                 reader = csv.DictReader(f)
@@ -62,22 +62,22 @@ class UltraThink12410Phase1:
             print(f"  ✅ {len(self.existing_people)}人の既存データを読み込み")
         except Exception as e:
             print(f"  ❌ エラー: {e}")
-            
+
     def save_batch(self, people: List[Dict], batch_name: str):
         """バッチを保存（Ultra Think負荷分散）"""
         self.batch_count += 1
         batch_file = self.phase_dir / f"batch_{self.batch_count:03d}_{batch_name}.json"
-        
+
         with open(batch_file, 'w', encoding='utf-8') as f:
             json.dump(people, f, ensure_ascii=False, indent=2)
-            
+
         print(f"    💾 バッチ{self.batch_count}保存: {len(people)}人")
         time.sleep(0.5)  # 負荷分散
-        
+
     def add_world_leaders(self):
         """各大陸の歴史的指導者を追加"""
         print("\n🌍 各大陸の歴史的指導者追加中...")
-        
+
         leaders_batch1 = [
             # アフリカ
             Person(
@@ -215,19 +215,19 @@ class UltraThink12410Phase1:
                 grade="S"
             )
         ]
-        
+
         # バッチ保存
         batch_data = [asdict(p) for p in leaders_batch1]
         self.save_batch(batch_data, "world_leaders_1")
         self.new_people.extend(batch_data)
-        
+
         # 追加バッチ（簡略化のため主要人物のみ）
         print(f"  ✅ {len(leaders_batch1)}人の指導者を追加")
-        
+
     def add_nobel_laureates(self):
         """ノーベル賞受賞者を追加（サンプル）"""
         print("\n🏆 ノーベル賞受賞者追加中...")
-        
+
         # 主要な受賞者のみ（実際は900人以上）
         laureates = [
             # 物理学賞
@@ -367,17 +367,17 @@ class UltraThink12410Phase1:
                 grade="S"
             )
         ]
-        
+
         batch_data = [asdict(p) for p in laureates]
         self.save_batch(batch_data, "nobel_laureates_sample")
         self.new_people.extend(batch_data)
-        
+
         print(f"  ✅ {len(laureates)}人のノーベル賞受賞者を追加（サンプル）")
-        
+
     def add_olympic_champions(self):
         """オリンピック金メダリストを追加"""
         print("\n🥇 オリンピックチャンピオン追加中...")
-        
+
         champions = [
             Person(
                 person_name="Jesse Owens",
@@ -445,17 +445,17 @@ class UltraThink12410Phase1:
                 grade="S"
             )
         ]
-        
+
         batch_data = [asdict(p) for p in champions]
         self.save_batch(batch_data, "olympic_champions")
         self.new_people.extend(batch_data)
-        
+
         print(f"  ✅ {len(champions)}人のオリンピックチャンピオンを追加")
-        
+
     def add_national_heroes(self):
         """各国の国民的英雄を追加"""
         print("\n🦸 各国の国民的英雄追加中...")
-        
+
         heroes = [
             # アジア
             Person(
@@ -525,20 +525,20 @@ class UltraThink12410Phase1:
                 grade="S"
             )
         ]
-        
+
         batch_data = [asdict(p) for p in heroes]
         self.save_batch(batch_data, "national_heroes")
         self.new_people.extend(batch_data)
-        
+
         print(f"  ✅ {len(heroes)}人の国民的英雄を追加")
-        
+
     def consolidate_phase1(self):
         """フェーズ1データを統合"""
         print("\n📊 フェーズ1データ統合中...")
-        
+
         # 既存データと新規データを結合
         all_people = self.existing_people + self.new_people
-        
+
         # 重複チェック
         unique_people = {}
         for person in all_people:
@@ -546,16 +546,16 @@ class UltraThink12410Phase1:
                 key = person.get('person_name', '').lower().strip()
                 if key and key not in unique_people:
                     unique_people[key] = person
-                    
+
         final_people = list(unique_people.values())
-        
+
         # フェーズ1完了ファイル保存
         phase1_complete = self.phase_dir / f"phase1_complete_{self.timestamp}.json"
         with open(phase1_complete, 'w', encoding='utf-8') as f:
             json.dump(final_people, f, ensure_ascii=False, indent=2)
-            
+
         print(f"  ✅ フェーズ1完了: {len(final_people)}人")
-        
+
         # サマリー保存
         summary = {
             "phase": "Phase 1 - Foundation",
@@ -570,51 +570,51 @@ class UltraThink12410Phase1:
                 "national_heroes": 5
             }
         }
-        
+
         summary_file = self.phase_dir / f"phase1_summary_{self.timestamp}.json"
         with open(summary_file, 'w', encoding='utf-8') as f:
             json.dump(summary, f, ensure_ascii=False, indent=2)
-            
+
         return len(final_people)
-        
+
     def run(self):
         """フェーズ1を実行"""
         print("🚀 Ultra Think 12,410 - フェーズ1開始")
         print("="*60)
-        
+
         try:
             # 既存データ読み込み
             self.load_existing_data()
-            
+
             # 各カテゴリーの人物を追加（Ultra Think負荷分散）
             self.add_world_leaders()
             time.sleep(1)  # 負荷分散
-            
+
             self.add_nobel_laureates()
             time.sleep(1)
-            
+
             self.add_olympic_champions()
             time.sleep(1)
-            
+
             self.add_national_heroes()
             time.sleep(1)
-            
+
             # データ統合
             final_count = self.consolidate_phase1()
-            
+
             print("\n" + "="*60)
             print("✅ フェーズ1完了！")
             print(f"📊 現在の人数: {final_count}人")
             print(f"📁 出力先: {self.phase_dir}")
             print("="*60)
-            
+
             # 次フェーズへの準備
             print("\n💡 次のステップ:")
             print("  フェーズ2: 文化・芸術拡張（+2,000人）")
             print("  フェーズ3: 科学・技術革新者（+2,500人）")
             print("  フェーズ4: 現代のリーダー（+2,500人）")
             print("  フェーズ5: 最終統合（12,410人達成）")
-            
+
         except Exception as e:
             print(f"\n❌ エラーが発生しました: {e}")
             import traceback

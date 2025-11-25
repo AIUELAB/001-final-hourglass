@@ -23,9 +23,9 @@ log() {
     shift
     local message="$*"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    
+
     echo -e "${timestamp} [${level}] ${message}" | tee -a "$LOG_FILE"
-    
+
     case $level in
         "ERROR")
             echo -e "${RED}❌ ${message}${NC}" >&2
@@ -54,7 +54,7 @@ load_config() {
         log "WARN" "設定ファイルが見つかりません。デフォルト設定を作成します。"
         create_default_config
     fi
-    
+
     # JSON設定読み込み（jqが利用可能な場合）
     if command -v jq &> /dev/null; then
         PROJECT_NAME=$(jq -r '.project_name // "YourApp"' "$CONFIG_FILE")
@@ -75,7 +75,7 @@ load_config() {
 # デフォルト設定作成
 create_default_config() {
     mkdir -p "$(dirname "$CONFIG_FILE")"
-    
+
     cat > "$CONFIG_FILE" << EOF
 {
     "project_name": "YourApp",
@@ -109,35 +109,35 @@ EOF
 # Guidelines 2.1: App Completeness
 check_app_completeness() {
     log "INFO" "App Store Guidelines 2.1: アプリの完全性チェック開始"
-    
+
     # プロジェクトファイルの存在確認
     local xcodeproj_files=(*.xcodeproj)
     if [[ ! -e "${xcodeproj_files[0]}" ]]; then
         error_exit "Xcodeプロジェクトファイルが見つかりません"
     fi
-    
+
     # スキームの確認
     if ! xcodebuild -list -project "${xcodeproj_files[0]}" | grep -q "$SCHEME_NAME"; then
         error_exit "スキーム '$SCHEME_NAME' が見つかりません"
     fi
-    
+
     # ビルド可能性確認
     log "DEBUG" "ビルド可能性確認中..."
     if ! xcodebuild -scheme "$SCHEME_NAME" -destination 'generic/platform=iOS' clean build > /dev/null 2>&1; then
         error_exit "プロジェクトがビルドできません"
     fi
-    
+
     log "INFO" "✅ アプリ完全性チェック完了"
 }
 
 # Guidelines 2.5: Software Requirements
 check_software_requirements() {
     log "INFO" "App Store Guidelines 2.5: ソフトウェア要件チェック開始"
-    
+
     # iOS最小バージョンチェック
     local current_ios_version=$(xcrun simctl list runtimes | grep iOS | tail -1 | grep -o '[0-9]\+\.[0-9]\+' | head -1)
     log "DEBUG" "最小iOS対応バージョン: $MIN_IOS_VERSION, 現在のiOS: $current_ios_version"
-    
+
     # プライベートAPI使用チェック
     log "DEBUG" "プライベートAPI使用チェック実行中..."
     if python3 "$SCRIPT_DIR/code_quality_check.py" . > /tmp/quality_check.json; then
@@ -148,22 +148,22 @@ check_software_requirements() {
             fi
         fi
     fi
-    
+
     log "INFO" "✅ ソフトウェア要件チェック完了"
 }
 
 # Guidelines 5.1: Privacy
 check_privacy_compliance() {
     log "INFO" "App Store Guidelines 5.1: プライバシー準拠チェック開始"
-    
+
     # Info.plistのプライバシー設定確認
     local info_plist_path
     info_plist_path=$(find . -name "Info.plist" -not -path "./Pods/*" -not -path "./build/*" | head -1)
-    
+
     if [[ -z "$info_plist_path" ]]; then
         error_exit "Info.plistファイルが見つかりません"
     fi
-    
+
     # プライバシー説明文の確認
     local privacy_keys=(
         "NSCameraUsageDescription"
@@ -172,7 +172,7 @@ check_privacy_compliance() {
         "NSPhotoLibraryUsageDescription"
         "NSContactsUsageDescription"
     )
-    
+
     for key in "${privacy_keys[@]}"; do
         if grep -q "$key" "$info_plist_path"; then
             local description
@@ -184,12 +184,12 @@ check_privacy_compliance() {
             fi
         fi
     done
-    
+
     # ATT (App Tracking Transparency) 設定確認
     if grep -q "NSUserTrackingUsageDescription" "$info_plist_path"; then
         log "DEBUG" "App Tracking Transparency設定確認済み"
     fi
-    
+
     log "INFO" "✅ プライバシー準拠チェック完了"
 }
 
@@ -199,27 +199,27 @@ check_privacy_compliance() {
 
 run_comprehensive_tests() {
     log "INFO" "包括的テストスイート実行開始"
-    
+
     # 単体テスト
     log "DEBUG" "単体テスト実行中..."
     if ! xcodebuild test -scheme "$SCHEME_NAME" -destination 'platform=iOS Simulator,name=iPhone 14' -only-testing:"${SCHEME_NAME}Tests"; then
         log "ERROR" "単体テストが失敗しました"
         return 1
     fi
-    
+
     # UIテスト
     log "DEBUG" "UIテスト実行中..."
     if ! xcodebuild test -scheme "$SCHEME_NAME" -destination 'platform=iOS Simulator,name=iPhone 14' -only-testing:"${SCHEME_NAME}UITests"; then
         log "ERROR" "UIテストが失敗しました"
         return 1
     fi
-    
+
     # パフォーマンステスト
     log "DEBUG" "パフォーマンステスト実行中..."
     if ! xcodebuild test -scheme "$SCHEME_NAME" -destination 'platform=iOS Simulator,name=iPhone 14' -only-testing:"${SCHEME_NAME}PerformanceTests"; then
         log "WARN" "パフォーマンステストが失敗しました（継続）"
     fi
-    
+
     log "INFO" "✅ 包括的テスト完了"
 }
 
@@ -229,14 +229,14 @@ run_comprehensive_tests() {
 
 create_archive() {
     log "INFO" "アーカイブ作成開始"
-    
+
     local archive_path="$PROJECT_ROOT/build/$SCHEME_NAME.xcarchive"
     local export_path="$PROJECT_ROOT/build/export"
-    
+
     # クリーンビルド
     log "DEBUG" "クリーンビルド実行中..."
     xcodebuild clean -scheme "$SCHEME_NAME" || error_exit "クリーンビルドが失敗しました"
-    
+
     # アーカイブ作成
     log "DEBUG" "アーカイブ作成中..."
     if ! xcodebuild archive \
@@ -247,10 +247,10 @@ create_archive() {
         BUILD_LIBRARY_FOR_DISTRIBUTION=YES; then
         error_exit "アーカイブ作成が失敗しました"
     fi
-    
+
     # Export options作成
     create_export_options_plist "$export_path/ExportOptions.plist"
-    
+
     # IPA作成
     log "DEBUG" "IPA作成中..."
     if ! xcodebuild -exportArchive \
@@ -259,7 +259,7 @@ create_archive() {
         -exportOptionsPlist "$export_path/ExportOptions.plist"; then
         error_exit "IPA作成が失敗しました"
     fi
-    
+
     log "INFO" "✅ アーカイブ作成完了: $archive_path"
     echo "$archive_path"
 }
@@ -267,7 +267,7 @@ create_archive() {
 create_export_options_plist() {
     local plist_path=$1
     mkdir -p "$(dirname "$plist_path")"
-    
+
     cat > "$plist_path" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -300,33 +300,33 @@ EOF
 
 validate_metadata() {
     log "INFO" "App Store メタデータ検証開始"
-    
+
     # アプリアイコンの確認
     validate_app_icons
-    
+
     # スクリーンショットの確認（存在する場合）
     validate_screenshots
-    
+
     # プロモーション素材の確認
     validate_promotional_materials
-    
+
     log "INFO" "✅ メタデータ検証完了"
 }
 
 validate_app_icons() {
     local icon_dirs
     mapfile -t icon_dirs < <(find . -name "*.appiconset" -not -path "./Pods/*")
-    
+
     if [[ ${#icon_dirs[@]} -eq 0 ]]; then
         error_exit "アプリアイコンセットが見つかりません"
     fi
-    
+
     for icon_dir in "${icon_dirs[@]}"; do
         local contents_json="$icon_dir/Contents.json"
         if [[ ! -f "$contents_json" ]]; then
             error_exit "Contents.jsonが見つかりません: $icon_dir"
         fi
-        
+
         # 必要なサイズの確認
         local required_sizes=("60x60" "76x76" "83.5x83.5" "1024x1024")
         for size in "${required_sizes[@]}"; do
@@ -334,7 +334,7 @@ validate_app_icons() {
                 log "WARN" "必要なアイコンサイズが不足: $size in $icon_dir"
             fi
         done
-        
+
         log "DEBUG" "アプリアイコン確認完了: $icon_dir"
     done
 }
@@ -343,7 +343,7 @@ validate_screenshots() {
     local screenshots_dir="$PROJECT_ROOT/metadata/screenshots"
     if [[ -d "$screenshots_dir" ]]; then
         log "DEBUG" "スクリーンショット検証中..."
-        
+
         # 必要なサイズのスクリーンショットを確認
         local required_sizes=("6.7" "6.1" "5.5")  # iPhone用
         for size in "${required_sizes[@]}"; do
@@ -366,7 +366,7 @@ validate_promotional_materials() {
     local metadata_dir="$PROJECT_ROOT/metadata"
     if [[ -d "$metadata_dir" ]]; then
         log "DEBUG" "プロモーション素材確認中..."
-        
+
         # 説明文ファイルの確認
         if [[ -f "$metadata_dir/description.txt" ]]; then
             local desc_length
@@ -375,7 +375,7 @@ validate_promotional_materials() {
                 log "WARN" "アプリ説明文が4000文字を超えています"
             fi
         fi
-        
+
         # キーワードファイルの確認
         if [[ -f "$metadata_dir/keywords.txt" ]]; then
             local keywords_length
@@ -393,26 +393,26 @@ validate_promotional_materials() {
 
 security_audit() {
     log "INFO" "セキュリティ監査開始"
-    
+
     # HTTP通信の確認
     check_http_usage
-    
+
     # 機密情報のハードコーディング確認
     check_hardcoded_secrets
-    
+
     # キーチェーン使用確認
     check_keychain_usage
-    
+
     log "INFO" "✅ セキュリティ監査完了"
 }
 
 check_http_usage() {
     log "DEBUG" "HTTP通信使用確認中..."
-    
+
     # http:// の使用をチェック（localhost除く）
     local http_usage
     http_usage=$(grep -r "http://" --include="*.swift" --include="*.m" --include="*.mm" . | grep -v "localhost" | grep -v "127.0.0.1" || true)
-    
+
     if [[ -n "$http_usage" ]]; then
         log "WARN" "HTTP通信の使用が検出されました:"
         echo "$http_usage"
@@ -422,7 +422,7 @@ check_http_usage() {
 
 check_hardcoded_secrets() {
     log "DEBUG" "機密情報ハードコーディング確認中..."
-    
+
     # 一般的な機密情報パターン
     local secret_patterns=(
         "password.*="
@@ -431,7 +431,7 @@ check_hardcoded_secrets() {
         "token.*="
         "[0-9a-fA-F]{32,}" # 32文字以上のハッシュ値
     )
-    
+
     for pattern in "${secret_patterns[@]}"; do
         local matches
         matches=$(grep -r -i "$pattern" --include="*.swift" --include="*.m" --include="*.mm" . || true)
@@ -443,7 +443,7 @@ check_hardcoded_secrets() {
 
 check_keychain_usage() {
     log "DEBUG" "キーチェーン使用確認中..."
-    
+
     if grep -r "Keychain" --include="*.swift" . > /dev/null; then
         log "DEBUG" "キーチェーン使用を確認しました"
     else
@@ -457,10 +457,10 @@ check_keychain_usage() {
 
 generate_compliance_report() {
     log "INFO" "App Store Guidelines準拠レポート生成開始"
-    
+
     local report_file="$PROJECT_ROOT/reports/compliance_report_$(date +%Y%m%d_%H%M%S).md"
     mkdir -p "$(dirname "$report_file")"
-    
+
     cat > "$report_file" << EOF
 # App Store Guidelines準拠レポート
 
@@ -541,7 +541,7 @@ EOF
 main() {
     local verbose=false
     local command=""
-    
+
     # パラメータ解析
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -568,23 +568,23 @@ main() {
                 ;;
         esac
     done
-    
+
     # コマンドが指定されていない場合はヘルプ表示
     if [[ -z "$command" ]]; then
         show_help
         exit 1
     fi
-    
+
     # ログディレクトリ作成
     mkdir -p "$(dirname "$LOG_FILE")"
-    
+
     log "INFO" "App Store Guidelines準拠自動化スクリプト開始"
     log "DEBUG" "コマンド: $command"
     log "DEBUG" "設定ファイル: $CONFIG_FILE"
-    
+
     # 設定読み込み
     load_config
-    
+
     # コマンド実行
     case $command in
         check)
@@ -614,33 +614,33 @@ main() {
             ;;
         all)
             log "INFO" "全体処理を開始します..."
-            
+
             # 1. チェック
             check_app_completeness
             check_software_requirements
             check_privacy_compliance
-            
+
             # 2. テスト
             run_comprehensive_tests
-            
+
             # 3. セキュリティ監査
             security_audit
-            
+
             # 4. メタデータ検証
             validate_metadata
-            
+
             # 5. ビルド
             archive_path=$(create_archive)
-            
+
             # 6. レポート生成
             report_path=$(generate_compliance_report)
-            
+
             log "INFO" "✅ 全体処理が完了しました"
             log "INFO" "アーカイブ: $archive_path"
             log "INFO" "レポート: $report_path"
             ;;
     esac
-    
+
     log "INFO" "スクリプト実行完了"
 }
 

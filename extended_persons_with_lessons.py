@@ -6,7 +6,7 @@
 
 class ExtendedPersonsWithLessons:
     """教訓的価値のある人物を含む拡張リスト"""
-    
+
     def __init__(self):
         # 芸術家・文化人（必須追加）
         self.artists_and_cultural = [
@@ -31,7 +31,7 @@ class ExtendedPersonsWithLessons:
             ('坂茂', '建築家', 'プリツカー賞、紙管建築、災害支援', 7.0),
             ('荒木経惟', '写真家', '日本を代表する写真家、私写真', 7.5),
         ]
-        
+
         # 教訓的人物（社会的影響が大きかった事件関係者）
         self.lesson_figures = [
             # 日本の教訓的人物
@@ -41,7 +41,7 @@ class ExtendedPersonsWithLessons:
             ('小室哲哉', '音楽プロデューサー', '一世を風靡後の詐欺事件、復活', 7.5),
             ('野口英世', '医学者', '黄熱病研究、千円札の肖像、努力の人', 8.5),
             ('田中角栄', '政治家', 'ロッキード事件、今太閤と呼ばれた宰相', 9.0),
-            
+
             # 海外の教訓的人物
             ('テッド・カジンスキー', 'テロリスト・数学者', 'ユナボマー、技術文明への警鐘', 6.0),
             ('エドワード・スノーデン', '内部告発者', 'NSA機密暴露、プライバシー問題提起', 7.5),
@@ -52,7 +52,7 @@ class ExtendedPersonsWithLessons:
             ('ジェフリー・エプスタイン', '実業家', '富豪、性的人身売買事件', 5.0),
             ('サム・バンクマン＝フリード', '起業家', 'FTX創業者、暗号資産詐欺', 6.5),
         ]
-        
+
         # サブカルチャー界隈
         self.subculture = [
             # ゲームクリエイター
@@ -65,7 +65,7 @@ class ExtendedPersonsWithLessons:
             ('糸井重里', 'コピーライター', 'MOTHER シリーズ、ほぼ日刊イトイ新聞', 7.5),
             ('堀井雄二', 'ゲームデザイナー', 'ドラゴンクエストシリーズ', 8.5),
             ('鳥山明', '漫画家', 'ドラゴンボール、Dr.スランプ', 9.5),
-            
+
             # VTuber
             ('キズナアイ', 'VTuber', 'VTuberの先駆者、バーチャルYouTuber', 7.5),
             ('月ノ美兎', 'VTuber', 'にじさんじ、清楚系VTuber', 7.0),
@@ -77,7 +77,7 @@ class ExtendedPersonsWithLessons:
             ('輝夜月', 'VTuber', 'バーチャルYouTuber四天王', 6.5),
             ('ミライアカリ', 'VTuber', 'バーチャルYouTuber四天王', 6.5),
             ('電脳少女シロ', 'VTuber', 'バーチャルYouTuber四天王', 6.5),
-            
+
             # 声優
             ('野沢雅子', '声優', '悟空、鬼太郎、ドラゴンボール', 8.5),
             ('山寺宏一', '声優', '七色の声を持つ男、ディズニー作品', 8.0),
@@ -88,7 +88,7 @@ class ExtendedPersonsWithLessons:
             ('神谷浩史', '声優', 'リヴァイ兵長、人気男性声優', 7.0),
             ('中村悠一', '声優', '五条悟、人気男性声優', 7.0),
         ]
-        
+
         # ネット文化・ミーム
         self.internet_culture = [
             ('syamu_game', 'YouTuber', 'ネットミーム、伝説のYouTuber', 5.5),
@@ -104,7 +104,7 @@ class ExtendedPersonsWithLessons:
             ('コレコレ', '配信者', '暴露系配信者、ニコ生主', 6.5),
             ('ガーシー', '暴露系YouTuber', '元参議院議員、芸能界暴露', 6.5),
         ]
-        
+
         # ファッションデザイナー
         self.fashion_designers = [
             ('山本耀司', 'ファッションデザイナー', 'Yohji Yamamoto、黒の美学', 8.5),
@@ -118,7 +118,7 @@ class ExtendedPersonsWithLessons:
             ('阿部潤一', 'ファッションデザイナー', 'kolor、sacai出身', 6.5),
             ('皆川明', 'ファッションデザイナー', 'minä perhonen、テキスタイルデザイン', 6.5),
         ]
-        
+
         # YouTuber・インフルエンサー
         self.youtubers = [
             ('はじめしゃちょー', 'YouTuber', '日本トップYouTuber、実験系動画', 8.5),
@@ -142,7 +142,7 @@ class ExtendedPersonsWithLessons:
             ('朝倉未来', '格闘家・YouTuber', 'RIZIN、BreakingDown主催', 7.5),
             ('朝倉海', '格闘家・YouTuber', 'RIZIN、朝倉未来の弟', 7.0),
         ]
-        
+
         # お笑い芸人（追加分）
         self.comedians_additional = [
             ('有吉弘行', 'お笑い芸人', '毒舌芸人、冠番組多数', 8.5),
@@ -166,7 +166,7 @@ class ExtendedPersonsWithLessons:
             ('銀シャリ', 'お笑いコンビ', '鰻と橋本、M-1優勝', 6.5),
             ('マヂカルラブリー', 'お笑いコンビ', '野田クリスタルと村上、M-1優勝', 7.0),
         ]
-        
+
         # 国際的日本人
         self.global_japanese = [
             ('渡辺謙', '俳優', 'ハリウッド俳優、ラストサムライ', 8.5),
@@ -180,11 +180,11 @@ class ExtendedPersonsWithLessons:
             ('大坂なおみ', 'テニス選手', '全米・全豪優勝、世界ランキング1位', 8.5),
             ('八村塁', 'バスケットボール選手', 'NBA選手、ワシントン・ウィザーズ', 7.5),
         ]
-    
+
     def get_all_persons(self):
         """全人物リストを取得"""
         all_persons = []
-        
+
         # 各カテゴリから人物を追加
         categories = [
             ('芸術・文化', self.artists_and_cultural),
@@ -196,13 +196,13 @@ class ExtendedPersonsWithLessons:
             ('お笑い芸人', self.comedians_additional),
             ('国際的日本人', self.global_japanese),
         ]
-        
+
         for category_name, person_list in categories:
             for name, occupation, description, min_score in person_list:
                 all_persons.append((name, occupation, description, min_score, category_name))
-        
+
         return all_persons
-    
+
     def get_person_count(self):
         """総人数を取得"""
         total = (
@@ -216,7 +216,7 @@ class ExtendedPersonsWithLessons:
             len(self.global_japanese)
         )
         return total
-    
+
     def get_category_stats(self):
         """カテゴリ別統計を取得"""
         stats = {
@@ -235,16 +235,16 @@ class ExtendedPersonsWithLessons:
 if __name__ == "__main__":
     # テスト実行
     extended = ExtendedPersonsWithLessons()
-    
+
     print("=" * 60)
     print("📊 拡張人物リスト統計")
     print("=" * 60)
     print(f"総人数: {extended.get_person_count()}名")
-    
+
     print("\nカテゴリ別内訳:")
     for category, count in extended.get_category_stats().items():
         print(f"  {category}: {count}名")
-    
+
     print("\n主要人物サンプル:")
     all_persons = extended.get_all_persons()
     for i, (name, occupation, description, min_score, category) in enumerate(all_persons[:10]):

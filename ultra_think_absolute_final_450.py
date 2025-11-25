@@ -18,7 +18,7 @@ def create_japanese_historical_figures() -> List[Dict]:
         {"name": "紫式部", "name_ja": "紫式部", "birth_year": 973, "occupation": "作家"},
         {"name": "清少納言", "name_ja": "清少納言", "birth_year": 966, "occupation": "作家"},
         {"name": "安倍晴明", "name_ja": "安倍晴明", "birth_year": 921, "occupation": "陰陽師"},
-        
+
         # 平安末期〜鎌倉
         {"name": "平清盛", "name_ja": "平清盛", "birth_year": 1118, "occupation": "武将"},
         {"name": "源義経", "name_ja": "源義経", "birth_year": 1159, "occupation": "武将"},
@@ -28,13 +28,13 @@ def create_japanese_historical_figures() -> List[Dict]:
         {"name": "日蓮", "name_ja": "日蓮", "birth_year": 1222, "occupation": "僧侶"},
         {"name": "親鸞", "name_ja": "親鸞", "birth_year": 1173, "occupation": "僧侶"},
         {"name": "道元", "name_ja": "道元", "birth_year": 1200, "occupation": "僧侶"},
-        
+
         # 室町時代
         {"name": "足利尊氏", "name_ja": "足利尊氏", "birth_year": 1305, "occupation": "将軍"},
         {"name": "足利義満", "name_ja": "足利義満", "birth_year": 1358, "occupation": "将軍"},
         {"name": "一休宗純", "name_ja": "一休宗純", "birth_year": 1394, "occupation": "僧侶"},
         {"name": "世阿弥", "name_ja": "世阿弥", "birth_year": 1363, "occupation": "能楽師"},
-        
+
         # 戦国時代（追加）
         {"name": "北条早雲", "name_ja": "北条早雲", "birth_year": 1432, "occupation": "武将"},
         {"name": "斎藤道三", "name_ja": "斎藤道三", "birth_year": 1494, "occupation": "武将"},
@@ -59,7 +59,7 @@ def create_japanese_historical_figures() -> List[Dict]:
         {"name": "真田幸村", "name_ja": "真田幸村", "birth_year": 1567, "occupation": "武将"},
         {"name": "真田昌幸", "name_ja": "真田昌幸", "birth_year": 1547, "occupation": "武将"},
         {"name": "服部半蔵", "name_ja": "服部半蔵", "birth_year": 1542, "occupation": "忍者"},
-        
+
         # 江戸時代
         {"name": "徳川家康", "name_ja": "徳川家康", "birth_year": 1543, "occupation": "将軍"},
         {"name": "徳川秀忠", "name_ja": "徳川秀忠", "birth_year": 1579, "occupation": "将軍"},
@@ -83,7 +83,7 @@ def create_japanese_historical_figures() -> List[Dict]:
         {"name": "杉田玄白", "name_ja": "杉田玄白", "birth_year": 1733, "occupation": "医者"},
         {"name": "本居宣長", "name_ja": "本居宣長", "birth_year": 1730, "occupation": "国学者"},
         {"name": "伊能忠敬", "name_ja": "伊能忠敬", "birth_year": 1745, "occupation": "測量家"},
-        
+
         # 幕末
         {"name": "坂本龍馬", "name_ja": "坂本龍馬", "birth_year": 1836, "occupation": "志士"},
         {"name": "西郷隆盛", "name_ja": "西郷隆盛", "birth_year": 1828, "occupation": "志士"},
@@ -108,7 +108,7 @@ def create_japanese_historical_figures() -> List[Dict]:
         {"name": "山県有朋", "name_ja": "山県有朋", "birth_year": 1838, "occupation": "政治家"},
         {"name": "井上馨", "name_ja": "井上馨", "birth_year": 1836, "occupation": "政治家"},
         {"name": "板垣退助", "name_ja": "板垣退助", "birth_year": 1837, "occupation": "政治家"},
-        
+
         # 明治以降
         {"name": "福沢諭吉", "name_ja": "福沢諭吉", "birth_year": 1835, "occupation": "思想家"},
         {"name": "渋沢栄一", "name_ja": "渋沢栄一", "birth_year": 1840, "occupation": "実業家"},
@@ -142,7 +142,7 @@ def create_additional_japanese_celebrities() -> List[Dict]:
         {"name": "山口達也", "name_ja": "山口達也", "birth_year": 1972, "occupation": "タレント"},
         {"name": "松岡昌宏", "name_ja": "松岡昌宏", "birth_year": 1977, "occupation": "タレント"},
         {"name": "長瀬智也", "name_ja": "長瀬智也", "birth_year": 1978, "occupation": "タレント"},
-        
+
         # 女性タレント
         {"name": "和田アキ子", "name_ja": "和田アキ子", "birth_year": 1950, "occupation": "タレント"},
         {"name": "黒柳徹子", "name_ja": "黒柳徹子", "birth_year": 1933, "occupation": "タレント"},
@@ -156,7 +156,7 @@ def create_additional_japanese_celebrities() -> List[Dict]:
         {"name": "森三中黒沢", "name_ja": "黒沢かずこ", "birth_year": 1978, "occupation": "タレント"},
         {"name": "森三中村上", "name_ja": "村上知子", "birth_year": 1980, "occupation": "タレント"},
         {"name": "森三中大島", "name_ja": "大島美幸", "birth_year": 1980, "occupation": "タレント"},
-        
+
         # 文化人
         {"name": "池上彰", "name_ja": "池上彰", "birth_year": 1950, "occupation": "ジャーナリスト"},
         {"name": "林修", "name_ja": "林修", "birth_year": 1965, "occupation": "予備校講師"},
@@ -185,13 +185,13 @@ def create_world_leaders() -> List[Dict]:
         {"name": "Rishi Sunak", "name_ja": "リシ・スナク", "birth_year": 1980, "nationality": "イギリス", "occupation": "政治家"},
         {"name": "Giorgia Meloni", "name_ja": "ジョルジャ・メローニ", "birth_year": 1977, "nationality": "イタリア", "occupation": "政治家"},
         {"name": "Pedro Sánchez", "name_ja": "ペドロ・サンチェス", "birth_year": 1972, "nationality": "スペイン", "occupation": "政治家"},
-        
+
         # アジア
         {"name": "Xi Jinping", "name_ja": "習近平", "birth_year": 1953, "nationality": "中国", "occupation": "政治家"},
         {"name": "Narendra Modi", "name_ja": "ナレンドラ・モディ", "birth_year": 1950, "nationality": "インド", "occupation": "政治家"},
         {"name": "Yoon Suk-yeol", "name_ja": "尹錫悦", "birth_year": 1960, "nationality": "韓国", "occupation": "政治家"},
         {"name": "Tsai Ing-wen", "name_ja": "蔡英文", "birth_year": 1956, "nationality": "台湾", "occupation": "政治家"},
-        
+
         # その他
         {"name": "Vladimir Putin", "name_ja": "ウラジーミル・プーチン", "birth_year": 1952, "nationality": "ロシア", "occupation": "政治家"},
         {"name": "Volodymyr Zelensky", "name_ja": "ウォロディミル・ゼレンスキー", "birth_year": 1978, "nationality": "ウクライナ", "occupation": "政治家"},
@@ -213,7 +213,7 @@ def create_world_celebrities() -> List[Dict]:
         {"name": "Christian Bale", "name_ja": "クリスチャン・ベール", "birth_year": 1974, "nationality": "イギリス", "occupation": "俳優"},
         {"name": "Benedict Cumberbatch", "name_ja": "ベネディクト・カンバーバッチ", "birth_year": 1976, "nationality": "イギリス", "occupation": "俳優"},
         {"name": "Tom Hiddleston", "name_ja": "トム・ヒドルストン", "birth_year": 1981, "nationality": "イギリス", "occupation": "俳優"},
-        
+
         # 女優
         {"name": "Meryl Streep", "name_ja": "メリル・ストリープ", "birth_year": 1949, "nationality": "アメリカ", "occupation": "女優"},
         {"name": "Julia Roberts", "name_ja": "ジュリア・ロバーツ", "birth_year": 1967, "nationality": "アメリカ", "occupation": "女優"},
@@ -225,7 +225,7 @@ def create_world_celebrities() -> List[Dict]:
         {"name": "Jennifer Lawrence", "name_ja": "ジェニファー・ローレンス", "birth_year": 1990, "nationality": "アメリカ", "occupation": "女優"},
         {"name": "Margot Robbie", "name_ja": "マーゴット・ロビー", "birth_year": 1990, "nationality": "オーストラリア", "occupation": "女優"},
         {"name": "Gal Gadot", "name_ja": "ガル・ガドット", "birth_year": 1985, "nationality": "イスラエル", "occupation": "女優"},
-        
+
         # 監督
         {"name": "Steven Spielberg", "name_ja": "スティーブン・スピルバーグ", "birth_year": 1946, "nationality": "アメリカ", "occupation": "映画監督"},
         {"name": "Martin Scorsese", "name_ja": "マーティン・スコセッシ", "birth_year": 1942, "nationality": "アメリカ", "occupation": "映画監督"},
@@ -247,31 +247,31 @@ def create_additional_anime_characters() -> List[Dict]:
         {"name": "イーブイ", "name_ja": "イーブイ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "リザードン", "name_ja": "リザードン", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ミュウツー", "name_ja": "ミュウツー", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # マリオシリーズ
         {"name": "マリオ", "name_ja": "マリオ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ルイージ", "name_ja": "ルイージ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ピーチ姫", "name_ja": "ピーチ姫", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "クッパ", "name_ja": "クッパ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ヨッシー", "name_ja": "ヨッシー", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # ゼルダシリーズ
         {"name": "リンク", "name_ja": "リンク", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ゼルダ姫", "name_ja": "ゼルダ姫", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ガノンドロフ", "name_ja": "ガノンドロフ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # ファイナルファンタジー
         {"name": "クラウド", "name_ja": "クラウド・ストライフ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "セフィロス", "name_ja": "セフィロス", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ティファ", "name_ja": "ティファ・ロックハート", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "エアリス", "name_ja": "エアリス・ゲインズブール", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # ストリートファイター
         {"name": "リュウ", "name_ja": "リュウ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ケン", "name_ja": "ケン", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "春麗", "name_ja": "春麗", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ガイル", "name_ja": "ガイル", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # その他ゲーム
         {"name": "ソニック", "name_ja": "ソニック・ザ・ヘッジホッグ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "パックマン", "name_ja": "パックマン", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
@@ -288,13 +288,13 @@ def create_person_record(person_data: Dict) -> Dict:
     occupation = person_data.get('occupation', '')
     nationality = person_data.get('nationality', '日本')
     is_fictional = person_data.get('is_fictional', '')
-    
+
     # 表示名の作成
     if group:
         display_name = f"{name_ja}（{group}）"
     else:
         display_name = name_ja
-    
+
     return {
         'batch_id': 'absolute_final_450',
         'birth_year': birth_year,
@@ -324,104 +324,104 @@ def create_person_record(person_data: Dict) -> Dict:
 
 def main():
     print("=== Ultra Think 絶対最終450人で10,000人達成！ ===\n")
-    
+
     all_people = []
-    
+
     # 各カテゴリーから収集
     print("1. 日本の歴史的人物を収集中...")
     historical = create_japanese_historical_figures()
     all_people.extend(historical)
     print(f"   追加: {len(historical)}人")
-    
+
     print("2. 追加の日本の有名人を収集中...")
     celebrities = create_additional_japanese_celebrities()
     all_people.extend(celebrities)
     print(f"   追加: {len(celebrities)}人")
-    
+
     print("3. 世界の指導者を収集中...")
     leaders = create_world_leaders()
     all_people.extend(leaders)
     print(f"   追加: {len(leaders)}人")
-    
+
     print("4. 世界の有名人を収集中...")
     world_celebs = create_world_celebrities()
     all_people.extend(world_celebs)
     print(f"   追加: {len(world_celebs)}人")
-    
+
     print("5. アニメ・ゲームキャラクターを収集中...")
     characters = create_additional_anime_characters()
     all_people.extend(characters)
     print(f"   追加: {len(characters)}人")
-    
+
     print(f"\n合計新規追加: {len(all_people)}人")
-    
+
     # DataFrame作成
     records = []
     for person in all_people:
         record = create_person_record(person)
         records.append(record)
-    
+
     new_df = pd.DataFrame(records)
-    
+
     # 既存データと統合
     print("\n既存データベースと統合中...")
     existing_file = 'ultra_think_ACHIEVEMENT_10000_20250825_222149.csv'
-    
+
     try:
         existing_df = pd.read_csv(existing_file)
         print(f"既存: {len(existing_df)}人")
-        
+
         # 重複チェック
-        existing_names = set(zip(existing_df['person_name_ja'].fillna(''), 
+        existing_names = set(zip(existing_df['person_name_ja'].fillna(''),
                                 existing_df['birth_year'].fillna(0)))
-        new_names = set(zip(new_df['person_name_ja'].fillna(''), 
+        new_names = set(zip(new_df['person_name_ja'].fillna(''),
                            new_df['birth_year'].fillna(0)))
-        
+
         duplicates = new_names & existing_names
         if duplicates:
             print(f"重複: {len(duplicates)}人（除外）")
             mask = ~new_df.apply(lambda x: (x['person_name_ja'], x['birth_year']) in duplicates, axis=1)
             new_df = new_df[mask]
             print(f"重複除外後: {len(new_df)}人")
-        
+
         # 統合
         merged_df = pd.concat([existing_df, new_df], ignore_index=True)
-        
+
     except FileNotFoundError:
         print("既存ファイルが見つかりません")
         merged_df = new_df
-    
+
     # 保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     output_file = f'ultra_think_FINAL_10000_COMPLETE_{timestamp}.csv'
     merged_df.to_csv(output_file, index=False, encoding='utf-8-sig')
-    
+
     print(f"\n✅ 保存完了: {output_file}")
     print(f"🎯 最終人数: {len(merged_df):,}人")
-    
+
     # 10,000人チェック
     if len(merged_df) >= 10000:
         print("\n" + "="*70)
         print("🎉🎉🎉 祝！10,000人完全達成！！🎉🎉🎉")
         print("="*70)
         print(f"目標を{len(merged_df) - 10000}人上回りました！")
-        
+
         # 最終JSON保存
         json_file = f'ultra_think_FINAL_10000_COMPLETE_{timestamp}.json'
         merged_df.to_json(json_file, orient='records', force_ascii=False, indent=2)
         print(f"📄 JSON保存: {json_file}")
-        
+
         # 最終統計
         print("\n=== 最終統計 ===")
         print(f"総人数: {len(merged_df):,}人")
         print(f"日本人: {len(merged_df[merged_df['nationality'] == '日本']):,}人")
         print(f"外国人: {len(merged_df[merged_df['nationality'] != '日本']):,}人")
         print(f"架空キャラ: {len(merged_df[merged_df['is_fictional'] == 'TRUE']):,}人")
-        
+
     else:
         remaining = 10000 - len(merged_df)
         print(f"\n⏳ 10,000人まで残り: {remaining}人")
-    
+
     return merged_df
 
 if __name__ == "__main__":

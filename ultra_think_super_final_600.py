@@ -30,7 +30,7 @@ def create_anime_voice_actors() -> List[Dict]:
         {"name": "花江夏樹", "name_ja": "花江夏樹", "birth_year": 1991, "occupation": "声優"},
         {"name": "内田雄馬", "name_ja": "内田雄馬", "birth_year": 1992, "occupation": "声優"},
         {"name": "斉藤壮馬", "name_ja": "斉藤壮馬", "birth_year": 1991, "occupation": "声優"},
-        
+
         # 女性声優
         {"name": "林原めぐみ", "name_ja": "林原めぐみ", "birth_year": 1967, "occupation": "声優"},
         {"name": "三石琴乃", "name_ja": "三石琴乃", "birth_year": 1967, "occupation": "声優"},
@@ -59,7 +59,7 @@ def create_anime_voice_actors() -> List[Dict]:
 def create_additional_comedians() -> List[Dict]:
     """お笑い芸人（追加）"""
     comedians = []
-    
+
     # コンビ芸人（分解）
     duos = [
         ("オードリー", [("若林正恭", 1978), ("春日俊彰", 1979)]),
@@ -83,14 +83,14 @@ def create_additional_comedians() -> List[Dict]:
         ("ニューヨーク", [("嶋佐和也", 1986), ("屋敷裕政", 1988)]),
         ("トータルテンボス", [("大村朋宏", 1975), ("藤田憲右", 1975)]),
     ]
-    
+
     for group_name, members in duos:
         for name, year in members:
             comedians.append({
                 "name": name, "name_ja": name, "birth_year": year,
                 "group": group_name, "occupation": "お笑い芸人"
             })
-    
+
     # ピン芸人
     solo = [
         {"name": "有吉弘行", "name_ja": "有吉弘行", "birth_year": 1974, "occupation": "お笑い芸人"},
@@ -104,13 +104,13 @@ def create_additional_comedians() -> List[Dict]:
         {"name": "ブルゾンちえみ", "name_ja": "ブルゾンちえみ", "birth_year": 1990, "occupation": "お笑い芸人"},
     ]
     comedians.extend(solo)
-    
+
     return comedians
 
 def create_japanese_bands() -> List[Dict]:
     """日本のバンド（メンバー分解）"""
     bands = []
-    
+
     # SPITZ
     spitz = [
         ("草野マサムネ", 1967), ("三輪テツヤ", 1967),
@@ -121,7 +121,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "スピッツ", "occupation": "ミュージシャン"
         })
-    
+
     # Mr.Children
     mrchildren = [
         ("桜井和寿", 1970), ("田原健一", 1969),
@@ -132,7 +132,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "Mr.Children", "occupation": "ミュージシャン"
         })
-    
+
     # B'z
     bz = [("稲葉浩志", 1964), ("松本孝弘", 1961)]
     for name, year in bz:
@@ -140,7 +140,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "B'z", "occupation": "ミュージシャン"
         })
-    
+
     # ASIAN KUNG-FU GENERATION
     akfg = [
         ("後藤正文", 1976), ("喜多建介", 1977),
@@ -151,7 +151,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "ASIAN KUNG-FU GENERATION", "occupation": "ミュージシャン"
         })
-    
+
     # 東京事変
     tokyo_jihen = [
         ("椎名林檎", 1978), ("亀田誠治", 1964),
@@ -162,7 +162,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "東京事変", "occupation": "ミュージシャン"
         })
-    
+
     # SEKAI NO OWARI
     sekaowa = [
         ("Fukase", 1985), ("Nakajin", 1985),
@@ -173,7 +173,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "SEKAI NO OWARI", "occupation": "ミュージシャン"
         })
-    
+
     # ONE OK ROCK
     oor = [
         ("Taka", 1988), ("Toru", 1988),
@@ -184,7 +184,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "ONE OK ROCK", "occupation": "ミュージシャン"
         })
-    
+
     # King Gnu
     king_gnu = [
         ("常田大希", 1992), ("井口理", 1993),
@@ -195,7 +195,7 @@ def create_japanese_bands() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "King Gnu", "occupation": "ミュージシャン"
         })
-    
+
     return bands
 
 def create_additional_athletes() -> List[Dict]:
@@ -207,34 +207,34 @@ def create_additional_athletes() -> List[Dict]:
         {"name": "宮里藍", "name_ja": "宮里藍", "birth_year": 1985, "occupation": "プロゴルファー"},
         {"name": "横峯さくら", "name_ja": "横峯さくら", "birth_year": 1985, "occupation": "プロゴルファー"},
         {"name": "渋野日向子", "name_ja": "渋野日向子", "birth_year": 1998, "occupation": "プロゴルファー"},
-        
+
         # テニス
         {"name": "錦織圭", "name_ja": "錦織圭", "birth_year": 1989, "occupation": "テニス選手"},
         {"name": "大坂なおみ", "name_ja": "大坂なおみ", "birth_year": 1997, "occupation": "テニス選手"},
         {"name": "西岡良仁", "name_ja": "西岡良仁", "birth_year": 1995, "occupation": "テニス選手"},
         {"name": "伊達公子", "name_ja": "伊達公子", "birth_year": 1970, "occupation": "テニス選手"},
-        
+
         # 競馬
         {"name": "武豊", "name_ja": "武豊", "birth_year": 1969, "occupation": "騎手"},
         {"name": "福永祐一", "name_ja": "福永祐一", "birth_year": 1976, "occupation": "騎手"},
         {"name": "デムーロ", "name_ja": "デムーロ", "birth_year": 1979, "occupation": "騎手"},
         {"name": "ルメール", "name_ja": "ルメール", "birth_year": 1979, "occupation": "騎手"},
-        
+
         # 競輪
         {"name": "中野浩一", "name_ja": "中野浩一", "birth_year": 1955, "occupation": "競輪選手"},
-        
+
         # F1
         {"name": "佐藤琢磨", "name_ja": "佐藤琢磨", "birth_year": 1977, "occupation": "レーシングドライバー"},
         {"name": "小林可夢偉", "name_ja": "小林可夢偉", "birth_year": 1986, "occupation": "レーシングドライバー"},
         {"name": "角田裕毅", "name_ja": "角田裕毅", "birth_year": 2000, "occupation": "レーシングドライバー"},
-        
+
         # ラグビー
         {"name": "五郎丸歩", "name_ja": "五郎丸歩", "birth_year": 1986, "occupation": "ラグビー選手"},
         {"name": "田中史朗", "name_ja": "田中史朗", "birth_year": 1985, "occupation": "ラグビー選手"},
         {"name": "リーチマイケル", "name_ja": "リーチマイケル", "birth_year": 1988, "occupation": "ラグビー選手"},
         {"name": "松島幸太朗", "name_ja": "松島幸太朗", "birth_year": 1993, "occupation": "ラグビー選手"},
         {"name": "福岡堅樹", "name_ja": "福岡堅樹", "birth_year": 1992, "occupation": "ラグビー選手"},
-        
+
         # バレーボール
         {"name": "石川祐希", "name_ja": "石川祐希", "birth_year": 1995, "occupation": "バレーボール選手"},
         {"name": "西田有志", "name_ja": "西田有志", "birth_year": 2000, "occupation": "バレーボール選手"},
@@ -245,7 +245,7 @@ def create_additional_athletes() -> List[Dict]:
 def create_japanese_idols() -> List[Dict]:
     """日本のアイドル（追加）"""
     idols = []
-    
+
     # 乃木坂46
     nogizaka = [
         ("生田絵梨花", 1997), ("齋藤飛鳥", 1998), ("白石麻衣", 1992),
@@ -259,7 +259,7 @@ def create_japanese_idols() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "乃木坂46", "occupation": "アイドル"
         })
-    
+
     # 櫻坂46（元欅坂46）
     sakurazaka = [
         ("菅井友香", 1995), ("守屋茜", 1997), ("渡邉理佐", 1998),
@@ -271,7 +271,7 @@ def create_japanese_idols() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "櫻坂46", "occupation": "アイドル"
         })
-    
+
     # 日向坂46
     hinatazaka = [
         ("佐々木久美", 1996), ("加藤史帆", 1998), ("齊藤京子", 1997),
@@ -283,7 +283,7 @@ def create_japanese_idols() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "日向坂46", "occupation": "アイドル"
         })
-    
+
     # NiziU
     niziu = [
         ("マコ", 2001), ("リオ", 2002), ("マヤ", 2002),
@@ -295,7 +295,7 @@ def create_japanese_idols() -> List[Dict]:
             "name": name, "name_ja": name, "birth_year": year,
             "group": "NiziU", "occupation": "アイドル"
         })
-    
+
     return idols
 
 def create_traditional_artists() -> List[Dict]:
@@ -310,18 +310,18 @@ def create_traditional_artists() -> List[Dict]:
         {"name": "中村七之助", "name_ja": "中村七之助", "birth_year": 1983, "occupation": "歌舞伎役者"},
         {"name": "市川猿之助", "name_ja": "市川猿之助", "birth_year": 1975, "occupation": "歌舞伎役者"},
         {"name": "片岡愛之助", "name_ja": "片岡愛之助", "birth_year": 1972, "occupation": "歌舞伎役者"},
-        
+
         # 落語
         {"name": "桂文枝", "name_ja": "桂文枝", "birth_year": 1943, "occupation": "落語家"},
         {"name": "笑福亭鶴瓶", "name_ja": "笑福亭鶴瓶", "birth_year": 1951, "occupation": "落語家"},
         {"name": "立川志の輔", "name_ja": "立川志の輔", "birth_year": 1954, "occupation": "落語家"},
         {"name": "春風亭昇太", "name_ja": "春風亭昇太", "birth_year": 1959, "occupation": "落語家"},
         {"name": "柳家喬太郎", "name_ja": "柳家喬太郎", "birth_year": 1963, "occupation": "落語家"},
-        
+
         # 能楽
         {"name": "野村萬斎", "name_ja": "野村萬斎", "birth_year": 1966, "occupation": "狂言師"},
         {"name": "野村万作", "name_ja": "野村万作", "birth_year": 1931, "occupation": "狂言師"},
-        
+
         # クラシック音楽
         {"name": "小澤征爾", "name_ja": "小澤征爾", "birth_year": 1935, "occupation": "指揮者"},
         {"name": "佐渡裕", "name_ja": "佐渡裕", "birth_year": 1961, "occupation": "指揮者"},
@@ -352,14 +352,14 @@ def create_international_celebrities() -> List[Dict]:
         {"name": "Barack Obama", "name_ja": "バラク・オバマ", "birth_year": 1961, "nationality": "アメリカ", "occupation": "政治家"},
         {"name": "George W. Bush", "name_ja": "ジョージ・W・ブッシュ", "birth_year": 1946, "nationality": "アメリカ", "occupation": "政治家"},
         {"name": "Bill Clinton", "name_ja": "ビル・クリントン", "birth_year": 1946, "nationality": "アメリカ", "occupation": "政治家"},
-        
+
         # IT起業家
         {"name": "Elon Musk", "name_ja": "イーロン・マスク", "birth_year": 1971, "nationality": "アメリカ", "occupation": "実業家"},
         {"name": "Jeff Bezos", "name_ja": "ジェフ・ベゾス", "birth_year": 1964, "nationality": "アメリカ", "occupation": "実業家"},
         {"name": "Mark Zuckerberg", "name_ja": "マーク・ザッカーバーグ", "birth_year": 1984, "nationality": "アメリカ", "occupation": "実業家"},
         {"name": "Bill Gates", "name_ja": "ビル・ゲイツ", "birth_year": 1955, "nationality": "アメリカ", "occupation": "実業家"},
         {"name": "Steve Jobs", "name_ja": "スティーブ・ジョブズ", "birth_year": 1955, "nationality": "アメリカ", "occupation": "実業家"},
-        
+
         # ハリウッドスター
         {"name": "Tom Cruise", "name_ja": "トム・クルーズ", "birth_year": 1962, "nationality": "アメリカ", "occupation": "俳優"},
         {"name": "Brad Pitt", "name_ja": "ブラッド・ピット", "birth_year": 1963, "nationality": "アメリカ", "occupation": "俳優"},
@@ -368,14 +368,14 @@ def create_international_celebrities() -> List[Dict]:
         {"name": "Robert Downey Jr.", "name_ja": "ロバート・ダウニー・Jr", "birth_year": 1965, "nationality": "アメリカ", "occupation": "俳優"},
         {"name": "Angelina Jolie", "name_ja": "アンジェリーナ・ジョリー", "birth_year": 1975, "nationality": "アメリカ", "occupation": "女優"},
         {"name": "Scarlett Johansson", "name_ja": "スカーレット・ヨハンソン", "birth_year": 1984, "nationality": "アメリカ", "occupation": "女優"},
-        
+
         # ミュージシャン
         {"name": "Taylor Swift", "name_ja": "テイラー・スウィフト", "birth_year": 1989, "nationality": "アメリカ", "occupation": "歌手"},
         {"name": "Ariana Grande", "name_ja": "アリアナ・グランデ", "birth_year": 1993, "nationality": "アメリカ", "occupation": "歌手"},
         {"name": "Bruno Mars", "name_ja": "ブルーノ・マーズ", "birth_year": 1985, "nationality": "アメリカ", "occupation": "歌手"},
         {"name": "Ed Sheeran", "name_ja": "エド・シーラン", "birth_year": 1991, "nationality": "イギリス", "occupation": "歌手"},
         {"name": "Justin Bieber", "name_ja": "ジャスティン・ビーバー", "birth_year": 1994, "nationality": "カナダ", "occupation": "歌手"},
-        
+
         # スポーツ選手
         {"name": "Cristiano Ronaldo", "name_ja": "クリスティアーノ・ロナウド", "birth_year": 1985, "nationality": "ポルトガル", "occupation": "サッカー選手"},
         {"name": "Lionel Messi", "name_ja": "リオネル・メッシ", "birth_year": 1987, "nationality": "アルゼンチン", "occupation": "サッカー選手"},
@@ -408,19 +408,19 @@ def create_additional_manga_characters() -> List[Dict]:
         {"name": "幽助", "name_ja": "浦飯幽助", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "蔵馬", "name_ja": "蔵馬", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "飛影", "name_ja": "飛影", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # ガンダムシリーズ
         {"name": "アムロ・レイ", "name_ja": "アムロ・レイ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "シャア・アズナブル", "name_ja": "シャア・アズナブル", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "カミーユ・ビダン", "name_ja": "カミーユ・ビダン", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ジュドー・アーシタ", "name_ja": "ジュドー・アーシタ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # エヴァンゲリオン
         {"name": "碇シンジ", "name_ja": "碇シンジ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "綾波レイ", "name_ja": "綾波レイ", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "惣流・アスカ・ラングレー", "name_ja": "惣流・アスカ・ラングレー", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "渚カヲル", "name_ja": "渚カヲル", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
-        
+
         # その他人気作品
         {"name": "エレン・イェーガー", "name_ja": "エレン・イェーガー", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
         {"name": "ミカサ・アッカーマン", "name_ja": "ミカサ・アッカーマン", "birth_year": None, "is_fictional": "TRUE", "occupation": "架空のキャラクター"},
@@ -439,13 +439,13 @@ def create_person_record(person_data: Dict) -> Dict:
     occupation = person_data.get('occupation', '')
     nationality = person_data.get('nationality', '日本')
     is_fictional = person_data.get('is_fictional', '')
-    
+
     # 表示名の作成
     if group:
         display_name = f"{name_ja}（{group}）"
     else:
         display_name = name_ja
-    
+
     return {
         'batch_id': 'super_final_600',
         'birth_year': birth_year,
@@ -475,108 +475,108 @@ def create_person_record(person_data: Dict) -> Dict:
 
 def main():
     print("=== Ultra Think 超最終600人追加 ===\n")
-    
+
     all_people = []
-    
+
     # 各カテゴリーから収集
     print("1. 声優を収集中...")
     voice_actors = create_anime_voice_actors()
     all_people.extend(voice_actors)
     print(f"   追加: {len(voice_actors)}人")
-    
+
     print("2. お笑い芸人を収集中...")
     comedians = create_additional_comedians()
     all_people.extend(comedians)
     print(f"   追加: {len(comedians)}人")
-    
+
     print("3. 日本のバンドメンバーを収集中...")
     bands = create_japanese_bands()
     all_people.extend(bands)
     print(f"   追加: {len(bands)}人")
-    
+
     print("4. 追加アスリートを収集中...")
     athletes = create_additional_athletes()
     all_people.extend(athletes)
     print(f"   追加: {len(athletes)}人")
-    
+
     print("5. アイドルを収集中...")
     idols = create_japanese_idols()
     all_people.extend(idols)
     print(f"   追加: {len(idols)}人")
-    
+
     print("6. 伝統芸能・クラシック音楽家を収集中...")
     traditional = create_traditional_artists()
     all_people.extend(traditional)
     print(f"   追加: {len(traditional)}人")
-    
+
     print("7. 歴史的犯罪者を収集中...")
     criminals = create_famous_criminals()
     all_people.extend(criminals)
     print(f"   追加: {len(criminals)}人")
-    
+
     print("8. 国際的有名人を収集中...")
     international = create_international_celebrities()
     all_people.extend(international)
     print(f"   追加: {len(international)}人")
-    
+
     print("9. 漫画・アニメキャラクターを収集中...")
     characters = create_additional_manga_characters()
     all_people.extend(characters)
     print(f"   追加: {len(characters)}人")
-    
+
     print(f"\n合計新規追加: {len(all_people)}人")
-    
+
     # DataFrame作成
     records = []
     for person in all_people:
         record = create_person_record(person)
         records.append(record)
-    
+
     new_df = pd.DataFrame(records)
-    
+
     # 既存データと統合
     print("\n既存データベースと統合中...")
     existing_file = 'ultra_think_FINAL_TARGET_20250825_221546.csv'
-    
+
     try:
         existing_df = pd.read_csv(existing_file)
         print(f"既存: {len(existing_df)}人")
-        
+
         # 重複チェック
-        existing_names = set(zip(existing_df['person_name_ja'].fillna(''), 
+        existing_names = set(zip(existing_df['person_name_ja'].fillna(''),
                                 existing_df['birth_year'].fillna(0)))
-        new_names = set(zip(new_df['person_name_ja'].fillna(''), 
+        new_names = set(zip(new_df['person_name_ja'].fillna(''),
                            new_df['birth_year'].fillna(0)))
-        
+
         duplicates = new_names & existing_names
         if duplicates:
             print(f"重複: {len(duplicates)}人（除外）")
             mask = ~new_df.apply(lambda x: (x['person_name_ja'], x['birth_year']) in duplicates, axis=1)
             new_df = new_df[mask]
             print(f"重複除外後: {len(new_df)}人")
-        
+
         # 統合
         merged_df = pd.concat([existing_df, new_df], ignore_index=True)
-        
+
     except FileNotFoundError:
         print("既存ファイルが見つかりません")
         merged_df = new_df
-    
+
     # 保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     output_file = f'ultra_think_ACHIEVEMENT_10000_{timestamp}.csv'
     merged_df.to_csv(output_file, index=False, encoding='utf-8-sig')
-    
+
     print(f"\n✅ 保存完了: {output_file}")
     print(f"🎯 最終人数: {len(merged_df):,}人")
-    
+
     # 10,000人チェック
     if len(merged_df) >= 10000:
         print("\n" + "="*60)
         print("🎉🎉🎉 祝！10,000人達成！！🎉🎉🎉")
         print("="*60)
         print(f"目標を{len(merged_df) - 10000}人上回りました！")
-        
+
         # 最終レポート作成
         report_file = f'ULTRA_THINK_10000_VICTORY_{timestamp}.md'
         with open(report_file, 'w', encoding='utf-8') as f:
@@ -614,12 +614,12 @@ def main():
             f.write("\n---\n")
             f.write("*Ultra Think System - Mission Complete*\n")
             f.write("*10,000人データベース構築成功*\n")
-        
+
         print(f"📝 勝利レポート: {report_file}")
     else:
         remaining = 10000 - len(merged_df)
         print(f"\n⏳ 10,000人まで残り: {remaining}人")
-    
+
     return merged_df
 
 if __name__ == "__main__":

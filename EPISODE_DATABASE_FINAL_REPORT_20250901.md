@@ -69,9 +69,9 @@ Developed sophisticated detection system that:
 
 ### Detection Algorithm
 ```python
-Episode Value Score = 
-  Recognition (50%) + 
-  Setting Completeness (30%) + 
+Episode Value Score =
+  Recognition (50%) +
+  Setting Completeness (30%) +
   Data Completeness (20%)
 ```
 

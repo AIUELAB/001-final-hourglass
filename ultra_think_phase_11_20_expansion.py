@@ -40,12 +40,12 @@ class FinalPerson:
 
 class UltraThinkFinalExpander:
     """フェーズ11〜20の最終拡張"""
-    
+
     def __init__(self):
         self.collected_people: List[Dict[str, Any]] = []
         self.processed_phases = set()
         self.checkpoint_file = "ultra_think_phase_11_20_checkpoint.json"
-        
+
     def get_phase_11_people(self) -> List[FinalPerson]:
         """フェーズ11: アジアの現代指導者と革命家（50人）"""
         return [
@@ -60,7 +60,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Corazon Aquino", "コラソン・アキノ", "アキノ", 1933, "フィリピン", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Pol Pot", "ポル・ポト", "ポル・ポト", 1925, "カンボジア", "首相", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Norodom Sihanouk", "ノロドム・シハヌーク", "シハヌーク", 1922, "カンボジア", "国王", "現代のイノベーター", "フェーズ11", phase=11),
-            
+
             # 南アジア指導者
             FinalPerson("Sheikh Mujibur Rahman", "シェイク・ムジブル・ラフマン", "ムジブル", 1920, "バングラデシュ", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Zulfikar Ali Bhutto", "ズルフィカール・アリー・ブットー", "ブットー", 1928, "パキスタン", "首相", "現代のイノベーター", "フェーズ11", phase=11),
@@ -70,7 +70,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Manmohan Singh", "マンモハン・シン", "マンモハン・シン", 1932, "インド", "首相", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("J.R. Jayewardene", "J・R・ジャヤワルダナ", "ジャヤワルダナ", 1906, "スリランカ", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Solomon Bandaranaike", "ソロモン・バンダラナイケ", "バンダラナイケ", 1899, "スリランカ", "首相", "現代のイノベーター", "フェーズ11", phase=11),
-            
+
             # 中央アジア・西アジア
             FinalPerson("Nursultan Nazarbayev", "ヌルスルタン・ナザルバエフ", "ナザルバエフ", 1940, "カザフスタン", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Islam Karimov", "イスラム・カリモフ", "カリモフ", 1938, "ウズベキスタン", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
@@ -85,7 +85,7 @@ class UltraThinkFinalExpander:
             FinalPerson("King Hussein", "フセイン国王", "フセイン", 1935, "ヨルダン", "国王", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Anwar Sadat", "アンワル・サダト", "サダト", 1918, "エジプト", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Hosni Mubarak", "ホスニー・ムバラク", "ムバラク", 1928, "エジプト", "大統領", "現代のイノベーター", "フェーズ11", phase=11),
-            
+
             # アジアのビジネスリーダー
             FinalPerson("Masayoshi Son", "孫正義", "孫正義", 1957, "日本", "実業家", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Tadashi Yanai", "柳井正", "柳井正", 1949, "日本", "実業家", "現代のイノベーター", "フェーズ11", phase=11),
@@ -106,7 +106,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Lei Jun", "雷軍", "雷軍", 1969, "中国", "実業家", "現代のイノベーター", "フェーズ11", phase=11),
             FinalPerson("Terry Gou", "郭台銘", "郭台銘", 1950, "台湾", "実業家", "現代のイノベーター", "フェーズ11", phase=11),
         ]
-    
+
     def get_phase_12_people(self) -> List[FinalPerson]:
         """フェーズ12: アフリカの指導者と独立運動家（50人）"""
         return [
@@ -117,7 +117,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Muammar Gaddafi", "ムアンマル・アル＝カッザーフィー", "カダフィ", 1942, "リビア", "指導者", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Hassan II", "ハッサン2世", "ハッサン2世", 1929, "モロッコ", "国王", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Mohammed V", "ムハンマド5世", "ムハンマド5世", 1909, "モロッコ", "国王", "国民的英雄", "フェーズ12", phase=12),
-            
+
             # 西アフリカ
             FinalPerson("Leopold Sedar Senghor", "レオポール・セダール・サンゴール", "サンゴール", 1906, "セネガル", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Felix Houphouet-Boigny", "フェリックス・ウフェ＝ボワニ", "ウフェ＝ボワニ", 1905, "コートジボワール", "大統領", "国民的英雄", "フェーズ12", phase=12),
@@ -130,7 +130,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Samuel Doe", "サミュエル・ドウ", "ドウ", 1951, "リベリア", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Charles Taylor", "チャールズ・テイラー", "テイラー", 1948, "リベリア", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Ellen Johnson Sirleaf", "エレン・ジョンソン・サーリーフ", "サーリーフ", 1938, "リベリア", "大統領", "国民的英雄", "フェーズ12", phase=12),
-            
+
             # 東アフリカ
             FinalPerson("Meles Zenawi", "メレス・ゼナウィ", "メレス", 1955, "エチオピア", "首相", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Mengistu Haile Mariam", "メンギスツ・ハイレ・マリアム", "メンギスツ", 1937, "エチオピア", "議長", "国民的英雄", "フェーズ12", phase=12),
@@ -143,7 +143,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Milton Obote", "ミルトン・オボテ", "オボテ", 1925, "ウガンダ", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Paul Kagame", "ポール・カガメ", "カガメ", 1957, "ルワンダ", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Pierre Nkurunziza", "ピエール・ンクルンジザ", "ンクルンジザ", 1964, "ブルンジ", "大統領", "国民的英雄", "フェーズ12", phase=12),
-            
+
             # 中央アフリカ
             FinalPerson("Mobutu Sese Seko", "モブツ・セセ・セコ", "モブツ", 1930, "ザイール", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Laurent-Desire Kabila", "ローラン＝デジレ・カビラ", "カビラ", 1939, "コンゴ", "大統領", "国民的英雄", "フェーズ12", phase=12),
@@ -153,7 +153,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Omar Bongo", "オマル・ボンゴ", "ボンゴ", 1935, "ガボン", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Jean-Bedel Bokassa", "ジャン＝ベデル・ボカサ", "ボカサ", 1921, "中央アフリカ", "皇帝", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Idriss Deby", "イドリス・デビ", "デビ", 1952, "チャド", "大統領", "国民的英雄", "フェーズ12", phase=12),
-            
+
             # 南部アフリカ
             FinalPerson("Samora Machel", "サモラ・マシェル", "マシェル", 1933, "モザンビーク", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("Eduardo Mondlane", "エドゥアルド・モンドラーネ", "モンドラーネ", 1920, "モザンビーク", "独立運動家", "国民的英雄", "フェーズ12", phase=12),
@@ -168,7 +168,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Hastings Banda", "ヘイスティングス・バンダ", "バンダ", 1898, "マラウイ", "大統領", "国民的英雄", "フェーズ12", phase=12),
             FinalPerson("King Sobhuza II", "ソブーザ2世", "ソブーザ", 1899, "スワジランド", "国王", "国民的英雄", "フェーズ12", phase=12),
         ]
-    
+
     def get_phase_13_people(self) -> List[FinalPerson]:
         """フェーズ13: ラテンアメリカの革命家と文化人（50人）"""
         return [
@@ -183,7 +183,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Daniel Ortega", "ダニエル・オルテガ", "オルテガ", 1945, "ニカラグア", "大統領", "国民的英雄", "フェーズ13", phase=13),
             FinalPerson("Omar Torrijos", "オマル・トリホス", "トリホス", 1929, "パナマ", "最高司令官", "国民的英雄", "フェーズ13", phase=13),
             FinalPerson("Manuel Noriega", "マヌエル・ノリエガ", "ノリエガ", 1934, "パナマ", "最高司令官", "国民的英雄", "フェーズ13", phase=13),
-            
+
             # 南米の政治指導者
             FinalPerson("Juan Peron", "フアン・ペロン", "ペロン", 1895, "アルゼンチン", "大統領", "国民的英雄", "フェーズ13", phase=13),
             FinalPerson("Carlos Menem", "カルロス・メネム", "メネム", 1930, "アルゼンチン", "大統領", "国民的英雄", "フェーズ13", phase=13),
@@ -205,7 +205,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Jose Mujica", "ホセ・ムヒカ", "ムヒカ", 1935, "ウルグアイ", "大統領", "国民的英雄", "フェーズ13", phase=13),
             FinalPerson("Alfredo Stroessner", "アルフレド・ストロエスネル", "ストロエスネル", 1912, "パラグアイ", "大統領", "国民的英雄", "フェーズ13", phase=13),
             FinalPerson("Alvaro Uribe", "アルバロ・ウリベ", "ウリベ", 1952, "コロンビア", "大統領", "国民的英雄", "フェーズ13", phase=13),
-            
+
             # ラテンアメリカの文化人
             FinalPerson("Octavio Paz", "オクタビオ・パス", "パス", 1914, "メキシコ", "詩人", "歴史的偉人", "フェーズ13", phase=13),
             FinalPerson("Carlos Fuentes", "カルロス・フエンテス", "フエンテス", 1928, "メキシコ", "作家", "歴史的偉人", "フェーズ13", phase=13),
@@ -227,7 +227,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Tom Jobim", "トム・ジョビン", "ジョビン", 1927, "ブラジル", "作曲家", "歴史的偉人", "フェーズ13", phase=13),
             FinalPerson("Gilberto Gil", "ジルベルト・ジル", "ジル", 1942, "ブラジル", "音楽家", "歴史的偉人", "フェーズ13", phase=13),
         ]
-    
+
     def get_phase_14_people(self) -> List[FinalPerson]:
         """フェーズ14: 現代のテクノロジー・メディア・金融界の巨人（60人）"""
         return [
@@ -252,7 +252,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Brian Armstrong", "ブライアン・アームストロング", "アームストロング", 1983, "アメリカ", "CEO", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Sam Altman", "サム・アルトマン", "アルトマン", 1985, "アメリカ", "CEO", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Jensen Huang", "ジェンスン・ファン", "ファン", 1963, "台湾", "CEO", "現代のイノベーター", "フェーズ14", phase=14),
-            
+
             # 金融・投資界
             FinalPerson("Jamie Dimon", "ジェイミー・ダイモン", "ダイモン", 1956, "アメリカ", "CEO", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Lloyd Blankfein", "ロイド・ブランクファイン", "ブランクファイン", 1954, "アメリカ", "元CEO", "現代のイノベーター", "フェーズ14", phase=14),
@@ -269,7 +269,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Jerome Powell", "ジェローム・パウエル", "パウエル", 1953, "アメリカ", "FRB議長", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Mario Draghi", "マリオ・ドラギ", "ドラギ", 1947, "イタリア", "元ECB総裁", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Mark Carney", "マーク・カーニー", "カーニー", 1965, "カナダ", "元英中銀総裁", "現代のイノベーター", "フェーズ14", phase=14),
-            
+
             # メディア・エンタメ業界
             FinalPerson("Rupert Murdoch", "ルパート・マードック", "マードック", 1931, "オーストラリア", "メディア王", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Ted Turner", "テッド・ターナー", "ターナー", 1938, "アメリカ", "メディア王", "現代のイノベーター", "フェーズ14", phase=14),
@@ -286,7 +286,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Martin Scorsese", "マーティン・スコセッシ", "スコセッシ", 1942, "アメリカ", "映画監督", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("James Cameron", "ジェームズ・キャメロン", "キャメロン", 1954, "カナダ", "映画監督", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Peter Jackson", "ピーター・ジャクソン", "ジャクソン", 1961, "ニュージーランド", "映画監督", "現代のイノベーター", "フェーズ14", phase=14),
-            
+
             # ゲーム業界
             FinalPerson("Shigeru Miyamoto", "宮本茂", "宮本茂", 1952, "日本", "ゲームデザイナー", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Hideo Kojima", "小島秀夫", "小島秀夫", 1963, "日本", "ゲームデザイナー", "現代のイノベーター", "フェーズ14", phase=14),
@@ -299,7 +299,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Tim Sweeney", "ティム・スウィーニー", "スウィーニー", 1970, "アメリカ", "CEO", "現代のイノベーター", "フェーズ14", phase=14),
             FinalPerson("Markus Persson", "マルクス・ペルソン", "Notch", 1979, "スウェーデン", "ゲーム開発者", "現代のイノベーター", "フェーズ14", phase=14),
         ]
-    
+
     def get_phase_15_people(self) -> List[FinalPerson]:
         """フェーズ15: スポーツ界のレジェンドと現代のヒーロー（50人）"""
         return [
@@ -314,7 +314,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Franz Beckenbauer", "フランツ・ベッケンバウアー", "ベッケンバウアー", 1945, "ドイツ", "サッカー選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Johan Cruyff", "ヨハン・クライフ", "クライフ", 1947, "オランダ", "サッカー選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Michel Platini", "ミシェル・プラティニ", "プラティニ", 1955, "フランス", "サッカー選手", "現代のイノベーター", "フェーズ15", phase=15),
-            
+
             # バスケットボール
             FinalPerson("LeBron James", "レブロン・ジェームズ", "レブロン", 1984, "アメリカ", "バスケットボール選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Kobe Bryant", "コービー・ブライアント", "コービー", 1978, "アメリカ", "バスケットボール選手", "現代のイノベーター", "フェーズ15", phase=15),
@@ -326,7 +326,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Tim Duncan", "ティム・ダンカン", "ダンカン", 1976, "アメリカ", "バスケットボール選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Dirk Nowitzki", "ダーク・ノヴィツキー", "ノヴィツキー", 1978, "ドイツ", "バスケットボール選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Yao Ming", "姚明", "姚明", 1980, "中国", "バスケットボール選手", "現代のイノベーター", "フェーズ15", phase=15),
-            
+
             # テニス
             FinalPerson("Rafael Nadal", "ラファエル・ナダル", "ナダル", 1986, "スペイン", "テニス選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Novak Djokovic", "ノバク・ジョコビッチ", "ジョコビッチ", 1987, "セルビア", "テニス選手", "現代のイノベーター", "フェーズ15", phase=15),
@@ -338,7 +338,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Venus Williams", "ビーナス・ウィリアムズ", "ビーナス", 1980, "アメリカ", "テニス選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Maria Sharapova", "マリア・シャラポワ", "シャラポワ", 1987, "ロシア", "テニス選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Naomi Osaka", "大坂なおみ", "大坂なおみ", 1997, "日本", "テニス選手", "現代のイノベーター", "フェーズ15", phase=15),
-            
+
             # オリンピック選手
             FinalPerson("Michael Phelps", "マイケル・フェルプス", "フェルプス", 1985, "アメリカ", "水泳選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Carl Lewis", "カール・ルイス", "ルイス", 1961, "アメリカ", "陸上選手", "現代のイノベーター", "フェーズ15", phase=15),
@@ -347,7 +347,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Simone Biles", "シモーネ・バイルズ", "バイルズ", 1997, "アメリカ", "体操選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Katarina Witt", "カタリナ・ヴィット", "ヴィット", 1965, "ドイツ", "フィギュアスケート", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Yuzuru Hanyu", "羽生結弦", "羽生結弦", 1994, "日本", "フィギュアスケート", "現代のイノベーター", "フェーズ15", phase=15),
-            
+
             # その他のスポーツ
             FinalPerson("Tom Brady", "トム・ブレイディ", "ブレイディ", 1977, "アメリカ", "アメフト選手", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Wayne Gretzky", "ウェイン・グレツキー", "グレツキー", 1961, "カナダ", "アイスホッケー選手", "現代のイノベーター", "フェーズ15", phase=15),
@@ -363,7 +363,7 @@ class UltraThinkFinalExpander:
             FinalPerson("Shaun White", "ショーン・ホワイト", "ホワイト", 1986, "アメリカ", "スノーボーダー", "現代のイノベーター", "フェーズ15", phase=15),
             FinalPerson("Ichiro Suzuki", "イチロー", "イチロー", 1973, "日本", "野球選手", "現代のイノベーター", "フェーズ15", phase=15),
         ]
-    
+
     def load_checkpoint(self):
         """チェックポイントの読み込み"""
         try:
@@ -375,7 +375,7 @@ class UltraThinkFinalExpander:
                     logger.info(f"チェックポイント読み込み完了: {len(self.processed_phases)}フェーズ処理済み")
         except Exception as e:
             logger.error(f"チェックポイント読み込み失敗: {e}")
-    
+
     def save_checkpoint(self):
         """チェックポイントの保存"""
         try:
@@ -387,37 +387,37 @@ class UltraThinkFinalExpander:
             logger.info("チェックポイント保存完了")
         except Exception as e:
             logger.error(f"チェックポイント保存失敗: {e}")
-    
+
     def process_phase(self, phase_num: int, people_getter):
         """フェーズの処理（負荷分散）"""
         if phase_num in self.processed_phases:
             logger.info(f"フェーズ{phase_num}は処理済みです")
             return
-        
+
         logger.info(f"フェーズ{phase_num}の処理を開始...")
         people = people_getter()
-        
+
         # 5人ずつのバッチで処理（さらに小さく）
         batch_size = 5
         for i in range(0, len(people), batch_size):
             batch = people[i:i+batch_size]
             logger.info(f"バッチ処理中: {i+1}-{min(i+batch_size, len(people))}/{len(people)}")
-            
+
             for person in batch:
                 person_dict = asdict(person)
                 self.collected_people.append(person_dict)
-            
+
             # API負荷対策
             time.sleep(0.5)
-        
+
         self.processed_phases.add(phase_num)
         self.save_checkpoint()
         logger.info(f"フェーズ{phase_num}完了: {len(people)}人追加")
-    
+
     def run_expansion(self):
         """フェーズ11〜15の拡張実行"""
         self.load_checkpoint()
-        
+
         phases = [
             (11, self.get_phase_11_people),
             (12, self.get_phase_12_people),
@@ -425,7 +425,7 @@ class UltraThinkFinalExpander:
             (14, self.get_phase_14_people),
             (15, self.get_phase_15_people),
         ]
-        
+
         for phase_num, getter in phases:
             try:
                 self.process_phase(phase_num, getter)
@@ -434,17 +434,17 @@ class UltraThinkFinalExpander:
             except Exception as e:
                 logger.error(f"フェーズ{phase_num}でエラー: {e}")
                 continue
-        
+
         # 最終データ保存
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         final_csv = f"ultra_think_phase_11_15_complete_{timestamp}.csv"
         final_json = f"ultra_think_phase_11_15_complete_{timestamp}.json"
-        
+
         # 全フィールドを収集
         all_fields = set()
         for person in self.collected_people:
             all_fields.update(person.keys())
-        
+
         # CSV保存
         with open(final_csv, 'w', encoding='utf-8-sig', newline='') as f:
             fieldnames = sorted(list(all_fields))
@@ -452,11 +452,11 @@ class UltraThinkFinalExpander:
             writer.writeheader()
             for person in self.collected_people:
                 writer.writerow(person)
-        
+
         # JSON保存
         with open(final_json, 'w', encoding='utf-8') as f:
             json.dump(self.collected_people, f, ensure_ascii=False, indent=2)
-        
+
         logger.info(f"""
         ========================================
         フェーズ11〜15拡張完了！
@@ -468,7 +468,7 @@ class UltraThinkFinalExpander:
         - {final_json}
         ========================================
         """)
-        
+
         return self.collected_people
 
 def main():
@@ -479,10 +479,10 @@ def main():
     1000人規模への最終拡張開始
     ========================================
     """)
-    
+
     expander = UltraThinkFinalExpander()
     people = expander.run_expansion()
-    
+
     logger.info(f"✅ 拡張完了: {len(people)}人のデータを収集")
 
 if __name__ == "__main__":

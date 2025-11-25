@@ -23,9 +23,9 @@ spec:
         app: episode-factory
         version: v2.0.0
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9090"
-        prometheus.io/path: "/metrics"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9090'
+        prometheus.io/path: /metrics
     spec:
       serviceAccountName: episode-factory
       securityContext:

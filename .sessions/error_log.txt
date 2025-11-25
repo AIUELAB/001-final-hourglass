@@ -115,4 +115,3 @@ Traceback (most recent call last):
   File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 100, in fail_func
     raise ValueError("error")
 ValueError: error
-

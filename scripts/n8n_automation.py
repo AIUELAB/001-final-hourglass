@@ -59,12 +59,15 @@ class WorkflowTriggers:
             return {"skipped": True, "reason": N8N_NOT_RUNNING}
 
         # 特定のファイルパターンでワークフローをトリガー
-        if any(f.endswith('.test.py') for f in files):
-            return self.n8n.trigger_webhook("run-tests", {
-                "commit_message": message,
-                "test_files": [f for f in files if f.endswith('.test.py')],
-                "timestamp": datetime.now().isoformat()
-            })
+        if any(f.endswith(".test.py") for f in files):
+            return self.n8n.trigger_webhook(
+                "run-tests",
+                {
+                    "commit_message": message,
+                    "test_files": [f for f in files if f.endswith(".test.py")],
+                    "timestamp": datetime.now().isoformat(),
+                },
+            )
 
         return {"skipped": True, "reason": "No matching trigger"}
 
@@ -74,35 +77,39 @@ class WorkflowTriggers:
             return {"skipped": True, "reason": N8N_NOT_RUNNING}
 
         # エラー通知ワークフローをトリガー
-        return self.n8n.trigger_webhook("error-handler", {
-            "error_type": error_type,
-            "message": error_message,
-            "file": file_path,
-            "timestamp": datetime.now().isoformat()
-        })
+        return self.n8n.trigger_webhook(
+            "error-handler",
+            {
+                "error_type": error_type,
+                "message": error_message,
+                "file": file_path,
+                "timestamp": datetime.now().isoformat(),
+            },
+        )
 
     def on_build_complete(self, success: bool, duration: float, output: str) -> Dict[str, Any]:
         """ビルド完了時にn8nワークフローをトリガー"""
         if not self.n8n.check_health():
             return {"skipped": True, "reason": N8N_NOT_RUNNING}
 
-        return self.n8n.trigger_webhook("build-notification", {
-            "success": success,
-            "duration": duration,
-            "output": output[:1000],  # 最初の1000文字のみ
-            "timestamp": datetime.now().isoformat()
-        })
+        return self.n8n.trigger_webhook(
+            "build-notification",
+            {
+                "success": success,
+                "duration": duration,
+                "output": output[:1000],  # 最初の1000文字のみ
+                "timestamp": datetime.now().isoformat(),
+            },
+        )
 
     def on_deploy_request(self, environment: str, version: str) -> Dict[str, Any]:
         """デプロイリクエスト時にn8nワークフローをトリガー"""
         if not self.n8n.check_health():
             return {"skipped": True, "reason": N8N_NOT_RUNNING}
 
-        return self.n8n.trigger_webhook("deploy", {
-            "environment": environment,
-            "version": version,
-            "timestamp": datetime.now().isoformat()
-        })
+        return self.n8n.trigger_webhook(
+            "deploy", {"environment": environment, "version": version, "timestamp": datetime.now().isoformat()}
+        )
 
 
 def auto_trigger_n8n(event_type: str, **kwargs) -> Dict[str, Any]:
@@ -116,24 +123,16 @@ def auto_trigger_n8n(event_type: str, **kwargs) -> Dict[str, Any]:
     triggers = WorkflowTriggers()
 
     event_handlers = {
-        "git_commit": lambda: triggers.on_git_commit(
-            kwargs.get("message", ""),
-            kwargs.get("files", [])
-        ),
+        "git_commit": lambda: triggers.on_git_commit(kwargs.get("message", ""), kwargs.get("files", [])),
         "error": lambda: triggers.on_error_detection(
-            kwargs.get("error_type", "Unknown"),
-            kwargs.get("error_message", ""),
-            kwargs.get("file_path", "")
+            kwargs.get("error_type", "Unknown"), kwargs.get("error_message", ""), kwargs.get("file_path", "")
         ),
         "build": lambda: triggers.on_build_complete(
-            kwargs.get("success", False),
-            kwargs.get("duration", 0),
-            kwargs.get("output", "")
+            kwargs.get("success", False), kwargs.get("duration", 0), kwargs.get("output", "")
         ),
         "deploy": lambda: triggers.on_deploy_request(
-            kwargs.get("environment", "staging"),
-            kwargs.get("version", "latest")
-        )
+            kwargs.get("environment", "staging"), kwargs.get("version", "latest")
+        ),
     }
 
     handler = event_handlers.get(event_type)
@@ -145,7 +144,7 @@ def auto_trigger_n8n(event_type: str, **kwargs) -> Dict[str, Any]:
 
 def integrate_with_shell():
     """シェルコマンドと統合"""
-    script_content = '''#!/bin/bash
+    script_content = """#!/bin/bash
 # n8n自動化フック for Bash
 
 # Git pre-commit hook
@@ -181,7 +180,7 @@ from scripts.n8n_automation import auto_trigger_n8n
 auto_trigger_n8n('build', success=$success, duration=$duration, output='$output')
 "
 }
-'''
+"""
 
     with open("scripts/n8n_hooks.sh", "w", encoding="utf-8") as f:
         f.write(script_content)

@@ -41,7 +41,7 @@ from collector import AINewsCollector
 async def quick_check():
     collector = AINewsCollector('config.json')
     articles = await collector.collect_from_all_sources()
-    
+
     if articles:
         print(collector.format_for_display(articles[:5]))
         collector.save_daily_digest(articles)

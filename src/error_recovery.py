@@ -17,7 +17,6 @@ from loguru import logger
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
-
 from session_manager import get_session_manager
 
 console = Console()
@@ -75,9 +74,7 @@ class ErrorRecovery:
 
         logger.error(f"[{context}] {error_info['error_type']}: {error_info['error_message']}")
 
-    def display_error(
-        self, error: Exception, context: str = "", show_traceback: bool = False
-    ) -> None:
+    def display_error(self, error: Exception, context: str = "", show_traceback: bool = False) -> None:
         """
         エラーを見やすく表示
 
@@ -108,9 +105,7 @@ class ErrorRecovery:
         )
         console.print(panel)
 
-    def recover_from_error(
-        self, _error: Exception, recovery_action: Callable | None = None
-    ) -> bool:
+    def recover_from_error(self, _error: Exception, recovery_action: Callable | None = None) -> bool:
         """
         エラーから復旧を試みる
 
@@ -275,9 +270,7 @@ def setup_global_exception_handler():
 
 # 一般的なエラーに対する復旧アクション
 RECOVERY_ACTIONS = {
-    FileNotFoundError: lambda e: logger.info(
-        f"File not found: {e}. Creating necessary directories..."
-    ),
+    FileNotFoundError: lambda e: logger.info(f"File not found: {e}. Creating necessary directories..."),
     PermissionError: lambda e: logger.info(f"Permission denied: {e}. Check file permissions."),
     ConnectionError: lambda e: logger.info(f"Connection error: {e}. Check network connection."),
     KeyError: lambda e: logger.info(f"Key error: {e}. Check configuration."),
@@ -313,9 +306,7 @@ def error_handler(context: str = "", suppress: bool = False, show_traceback: boo
     def decorator(func: Callable[..., T]) -> Callable[..., T | None]:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> T | None:
-            with ErrorHandler(
-                context=context or func.__name__, suppress=suppress, show_traceback=show_traceback
-            ):
+            with ErrorHandler(context=context or func.__name__, suppress=suppress, show_traceback=show_traceback):
                 return func(*args, **kwargs)
 
         return wrapper

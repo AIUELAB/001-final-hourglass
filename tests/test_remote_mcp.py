@@ -19,13 +19,14 @@ import pytest
 aioresponses_available = False
 try:
     from aioresponses import aioresponses
+
     aioresponses_available = True
 except ImportError:
     pass
 
 pytestmark = pytest.mark.skipif(not aioresponses_available, reason="aioresponses not installed (dev dependency)")
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 if aioresponses_available:
     from src.remote_mcp_integration import (

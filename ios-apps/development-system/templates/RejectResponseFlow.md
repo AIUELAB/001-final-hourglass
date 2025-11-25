@@ -9,13 +9,13 @@ graph TD
     A[リジェクト通知受信] --> B{緊急リリース？}
     B -->|Yes| C[緊急対応チーム招集]
     B -->|No| D[通常対応フロー]
-    
+
     C --> E[24時間以内修正目標]
     D --> F[7日以内修正目標]
-    
+
     E --> G[リジェクト内容分析]
     F --> G
-    
+
     G --> H{リジェクト理由分類}
     H --> I[Technical Issues]
     H --> J[Design Issues]
@@ -128,10 +128,10 @@ echo "📋 問題の再現確認"
 reproduce_issue() {
     # テストケース実行
     xcodebuild test -scheme YourApp -destination 'platform=iOS Simulator,name=iPhone 14'
-    
+
     # クラッシュログ確認
     check_crash_logs
-    
+
     # パフォーマンス測定
     run_performance_tests
 }
@@ -141,10 +141,10 @@ echo "🛠️ 修正実装"
 implement_fix() {
     # バックアップ作成
     git checkout -b "hotfix/app-store-rejection-$(date +%Y%m%d)"
-    
+
     # 修正コード実装
     # [修正内容に応じて実装]
-    
+
     # 修正の検証
     run_fix_validation
 }
@@ -154,16 +154,16 @@ echo "🧪 包括的テスト実行"
 comprehensive_testing() {
     # 単体テスト
     run_unit_tests
-    
+
     # UIテスト  
     run_ui_tests
-    
+
     # 回帰テスト
     run_regression_tests
-    
+
     # パフォーマンステスト
     run_performance_tests
-    
+
     # メモリリークテスト
     run_memory_leak_tests
 }
@@ -173,10 +173,10 @@ echo "✅ 品質チェック"
 quality_check() {
     # コード品質チェック
     python3 scripts/code_quality_check.py .
-    
+
     # セキュリティチェック
     run_security_scan
-    
+
     # Guidelines準拠チェック
     run_guidelines_compliance_check
 }
@@ -192,16 +192,16 @@ echo "🎨 デザイン問題修正プロセス開始"
 # 1. HIG準拠チェック
 hig_compliance_check() {
     echo "📐 Human Interface Guidelines準拠確認"
-    
+
     # カラーコントラスト確認
     check_color_contrast
-    
+
     # タッチターゲットサイズ確認
     check_touch_targets
-    
+
     # フォントサイズ確認
     check_font_sizes
-    
+
     # レイアウト確認
     check_layout_constraints
 }
@@ -209,13 +209,13 @@ hig_compliance_check() {
 # 2. アクセシビリティ確認
 accessibility_check() {
     echo "♿ アクセシビリティ確認"
-    
+
     # VoiceOver対応
     check_voiceover_support
-    
+
     # Dynamic Type対応
     check_dynamic_type
-    
+
     # カラーバリエーション対応
     check_color_blind_support
 }
@@ -223,12 +223,12 @@ accessibility_check() {
 # 3. デバイス別確認
 device_compatibility_check() {
     echo "📱 デバイス互換性確認"
-    
+
     # iPhone各サイズでの表示確認
     test_on_iphone_se
     test_on_iphone_14
     test_on_iphone_14_pro_max
-    
+
     # iPad対応確認（Universal Appの場合）
     test_on_ipad
     test_on_ipad_pro
@@ -297,13 +297,13 @@ echo "📝 再提出前最終チェック"
 # 1. 修正内容の確認
 verify_fixes() {
     echo "✅ 修正内容確認"
-    
+
     # 指摘された問題の修正確認
     check_reported_issues_fixed
-    
+
     # 副作用の確認
     check_side_effects
-    
+
     # パフォーマンス影響確認
     check_performance_impact
 }
@@ -311,13 +311,13 @@ verify_fixes() {
 # 2. 全機能テスト
 full_functionality_test() {
     echo "🧪 全機能テスト"
-    
+
     # メイン機能テスト
     test_core_functionality
-    
+
     # エッジケーステスト
     test_edge_cases
-    
+
     # エラーハンドリングテスト
     test_error_handling
 }
@@ -325,10 +325,10 @@ full_functionality_test() {
 # 3. Guidelines準拠最終確認
 final_guidelines_check() {
     echo "📋 Guidelines最終確認"
-    
+
     # 修正に関連するGuidelines確認
     check_related_guidelines
-    
+
     # 全体的なGuidelines準拠確認
     run_full_guidelines_scan
 }
@@ -336,13 +336,13 @@ final_guidelines_check() {
 # 4. メタデータ確認
 metadata_verification() {
     echo "📊 メタデータ確認"
-    
+
     # What's New欄の更新
     update_whats_new
-    
+
     # バージョン番号の確認
     verify_version_number
-    
+
     # テスター用ノートの更新
     update_reviewer_notes
 }
@@ -359,7 +359,7 @@ metadata_verification() {
 class RejectAnalyzer:
     def generate_monthly_report(self):
         """月次リジェクト分析レポート生成"""
-        
+
         report = {
             "period": "2024年1月",
             "total_submissions": 5,
@@ -385,7 +385,7 @@ class RejectAnalyzer:
                 "プライバシー監査プロセスの強化"
             ]
         }
-        
+
         return report
 ```
 

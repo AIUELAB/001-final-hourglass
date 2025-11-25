@@ -35,9 +35,7 @@ def _find_codex_path() -> str:
     """
     codex_path = which("codex")
     if not codex_path:
-        raise FileNotFoundError(
-            "codex コマンドが見つかりません。`codex --version` が成功する状態にしてください。"
-        )
+        raise FileNotFoundError("codex コマンドが見つかりません。`codex --version` が成功する状態にしてください。")
     return codex_path
 
 
@@ -194,5 +192,3 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
-

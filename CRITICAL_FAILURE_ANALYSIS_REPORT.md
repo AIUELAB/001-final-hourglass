@@ -11,7 +11,7 @@
 ```
 表示されている例：
 - RomanのReligious Leader687
-- GreekのInventor341 
+- GreekのInventor341
 - Middle EasternのMerchant313
 - AmericanのRevolutionary422
 - JapaneseのRevolutionary587

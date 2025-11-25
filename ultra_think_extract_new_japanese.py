@@ -12,24 +12,24 @@ from datetime import datetime
 
 def extract_new_japanese_people():
     """新規追加の日本人有名人のみを抽出"""
-    
+
     # 元の12,410人データ
     original_file = "ultra_think_12410/ultra_think_12410_complete_20250825_145033.json"
     # 日本人追加後の14,431人データ
     japanese_file = "ultra_think_12410/ultra_think_15410_japanese_famous_20250825_145951.json"
-    
+
     print("📂 データ読み込み中...")
-    
+
     # 元データ読み込み
     with open(original_file, 'r', encoding='utf-8-sig') as f:
         original_people = json.load(f)
     print(f"  元データ: {len(original_people)}人")
-    
+
     # 日本人追加データ読み込み
     with open(japanese_file, 'r', encoding='utf-8-sig') as f:
         japanese_people = json.load(f)
     print(f"  追加後データ: {len(japanese_people)}人")
-    
+
     # 元データの名前セット作成（複数フィールド対応）
     original_names = set()
     for p in original_people:
@@ -37,63 +37,63 @@ def extract_new_japanese_people():
             original_names.add(p['name'])
         elif 'person_name' in p:
             original_names.add(p['person_name'])
-    
+
     # 新規追加分のみ抽出
     new_japanese = []
     for person in japanese_people:
         person_name = person.get('name') or person.get('person_name')
         if person_name and person_name not in original_names:
             new_japanese.append(person)
-    
+
     print(f"\n✨ 新規追加: {len(new_japanese)}人")
-    
+
     # カテゴリ分析
     categories = {}
     for person in new_japanese:
         cat = person.get('category', '不明')
         categories[cat] = categories.get(cat, 0) + 1
-    
+
     print("\n📊 新規追加のカテゴリ別:")
     for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True)[:10]:
         print(f"  - {cat}: {count}人")
-    
+
     # 最終統合データ作成
     print("\n🔄 最終統合中...")
     final_people = original_people + new_japanese
     print(f"  最終人数: {len(final_people)}人")
-    
+
     # 保存
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = "ultra_think_12410"
-    
+
     # 最終データ保存
     final_file = f"{output_dir}/ULTRA_THINK_FINAL_INTEGRATED_{timestamp}.json"
     with open(final_file, 'w', encoding='utf-8') as f:
         json.dump(final_people, f, ensure_ascii=False, indent=2)
-    
+
     # CSV保存
     csv_file = f"{output_dir}/ULTRA_THINK_FINAL_INTEGRATED_{timestamp}.csv"
-    
+
     # 全フィールド収集
     all_fields = set()
     for person in final_people:
         all_fields.update(person.keys())
     fieldnames = sorted(list(all_fields))
-    
+
     with open(csv_file, 'w', encoding='utf-8-sig', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(final_people)
-    
+
     # 最終レポート生成
     generate_final_achievement_report(final_people, len(original_people), len(new_japanese))
-    
+
     return len(final_people)
 
 def generate_final_achievement_report(people, original_count, new_japanese_count):
     """最終達成レポート生成"""
     timestamp = datetime.now().isoformat()
-    
+
     # 統計収集
     categories = {}
     nationalities = {}
@@ -102,35 +102,35 @@ def generate_final_achievement_report(people, original_count, new_japanese_count
     groups = 0
     fictional = 0
     animals = 0
-    
+
     for person in people:
         # カテゴリ
         cat = person.get('category', 'その他')
         categories[cat] = categories.get(cat, 0) + 1
-        
+
         # 国籍
         nat = person.get('nationality', '不明')
         nationalities[nat] = nationalities.get(nat, 0) + 1
-        
+
         # display_name
         if person.get('person_name_display'):
             has_display += 1
-        
+
         # 日本語名
         if person.get('person_name_ja'):
             has_japanese += 1
-        
+
         # グループメンバー
         display = person.get('person_name_display', '')
         if '（' in display and '）' in display:
             groups += 1
-        
+
         # 架空・動物
         if cat == '架空':
             fictional += 1
         elif cat == '動物':
             animals += 1
-    
+
     report = f"""# 🎊 Ultra Think 最終達成レポート
 
 ## 📅 達成日時
@@ -150,16 +150,16 @@ def generate_final_achievement_report(people, original_count, new_japanese_count
 
 ### カテゴリ別（上位15）
 """
-    
+
     for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True)[:15]:
         percentage = (count / len(people)) * 100
         report += f"- {cat}: {count:,}人 ({percentage:.1f}%)\n"
-    
+
     report += f"\n### 国籍別（上位15）\n"
     for nat, count in sorted(nationalities.items(), key=lambda x: x[1], reverse=True)[:15]:
         percentage = (count / len(people)) * 100
         report += f"- {nat}: {count:,}人 ({percentage:.1f}%)\n"
-    
+
     report += f"""
 ## ✨ 特別な成果
 - **日本語名完備**: {has_japanese:,}人
@@ -211,12 +211,12 @@ def generate_final_achievement_report(people, original_count, new_japanese_count
 *Total: {len(people):,} people*
 *Generated: {timestamp}*
 """
-    
+
     # レポート保存
     report_file = f"ultra_think_12410/ULTRA_THINK_FINAL_ACHIEVEMENT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
-    
+
     print(f"\n📝 最終レポート生成: {report_file}")
 
 if __name__ == "__main__":

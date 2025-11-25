@@ -11,10 +11,10 @@ Serena MCP Memory Integration
 """
 
 import json
+import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Any
-import subprocess
+from typing import Any, Dict, List, Optional
 
 
 class SerenaMemoryManager:
@@ -49,11 +49,7 @@ class SerenaMemoryManager:
                     memories = json.load(f)
 
             # 新しいメモリを追加
-            memories[key] = {
-                "value": value,
-                "timestamp": datetime.now().isoformat(),
-                "ttl": ttl
-            }
+            memories[key] = {"value": value, "timestamp": datetime.now().isoformat(), "ttl": ttl}
 
             # 保存
             with open(memory_file, "w", encoding="utf-8") as f:
@@ -175,7 +171,7 @@ class SerenaMemoryManager:
         self.write_memory(
             key=f"session_state_{timestamp}",
             value=session_data,
-            ttl=None  # 永続化
+            ttl=None,  # 永続化
         )
 
         # 最新セッションポインタを更新
@@ -184,8 +180,8 @@ class SerenaMemoryManager:
             value={
                 "session_id": session_data.get("session_id"),
                 "timestamp": timestamp,
-                "state_key": f"session_state_{timestamp}"
-            }
+                "state_key": f"session_state_{timestamp}",
+            },
         )
 
         return True
@@ -222,11 +218,8 @@ class SerenaMemoryManager:
 
         return self.write_memory(
             key=f"checkpoint_{timestamp}",
-            value={
-                **checkpoint_data,
-                "timestamp": timestamp
-            },
-            ttl=86400  # 24時間保持
+            value={**checkpoint_data, "timestamp": timestamp},
+            ttl=86400,  # 24時間保持
         )
 
     def save_decision(self, decision: str, reasoning: str) -> bool:
@@ -239,11 +232,7 @@ class SerenaMemoryManager:
         """
         decisions = self.read_memory("decisions") or []
 
-        decisions.append({
-            "decision": decision,
-            "reasoning": reasoning,
-            "timestamp": datetime.now().isoformat()
-        })
+        decisions.append({"decision": decision, "reasoning": reasoning, "timestamp": datetime.now().isoformat()})
 
         return self.write_memory("decisions", decisions)
 
@@ -257,12 +246,9 @@ class SerenaMemoryManager:
         """
         blockers = self.read_memory("blockers") or []
 
-        blockers.append({
-            "blocker": blocker,
-            "severity": severity,
-            "timestamp": datetime.now().isoformat(),
-            "resolved": False
-        })
+        blockers.append(
+            {"blocker": blocker, "severity": severity, "timestamp": datetime.now().isoformat(), "resolved": False}
+        )
 
         return self.write_memory("blockers", blockers)
 
@@ -301,7 +287,7 @@ class SerenaMemoryManager:
             "total_decisions": len(decisions),
             "recent_decisions": decisions[-5:] if decisions else [],
             "active_blockers": active_blockers,
-            "total_blockers": len(blockers)
+            "total_blockers": len(blockers),
         }
 
     def cleanup_old_checkpoints(self, keep_days: int = 7) -> int:
@@ -335,6 +321,7 @@ class SerenaMemoryManager:
 # コマンドラインインターフェース
 # ===========================================
 
+
 def main():
     """メイン関数（CLIテスト用）"""
     import sys
@@ -365,11 +352,13 @@ def main():
             print(json.dumps(summary, indent=2, ensure_ascii=False))
 
         elif command == "checkpoint":
-            manager.save_checkpoint({
-                "files_modified": ["example.py"],
-                "tasks_completed": ["Task 1"],
-                "current_focus": "Testing Serena integration"
-            })
+            manager.save_checkpoint(
+                {
+                    "files_modified": ["example.py"],
+                    "tasks_completed": ["Task 1"],
+                    "current_focus": "Testing Serena integration",
+                }
+            )
             print("✅ Checkpoint saved")
 
         else:

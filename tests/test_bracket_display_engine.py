@@ -9,9 +9,10 @@ bracket_display_engine.py のテストスイート
 4. 検証ロジックのテスト
 """
 
-import pytest
 import sys
 from pathlib import Path
+
+import pytest
 
 # テスト対象モジュールのインポート
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -20,16 +21,16 @@ from bracket_display_engine import (
     BracketDisplayEngine,
     BracketDisplayResult,
     EntityType,
-    GroupStatus,
     FameLevel,
+    GroupStatus,
+    create_episode_prompt_with_bracket_constraint,
     format_person_name_with_bracket,
-    create_episode_prompt_with_bracket_constraint
 )
-
 
 # ================================================================================
 # フィクスチャ
 # ================================================================================
+
 
 @pytest.fixture
 def engine():
@@ -44,7 +45,7 @@ def fictional_character_data():
         "person_name": "モンキー・D・ルフィ",
         "entity_type": "fictional_character",
         "primary_work": "ONE PIECE",
-        "category": "架空キャラクター"
+        "category": "架空キャラクター",
     }
 
 
@@ -57,7 +58,7 @@ def active_comedian_data():
         "category": "お笑い芸人",
         "group_affiliation": "ピース",
         "group_status": "active",
-        "fame_level": "equal"
+        "fame_level": "equal",
     }
 
 
@@ -70,13 +71,14 @@ def disbanded_band_data():
         "category": "ミュージシャン",
         "group_affiliation": "X JAPAN",
         "group_status": "disbanded",
-        "fame_level": "personal_more_famous"
+        "fame_level": "personal_more_famous",
     }
 
 
 # ================================================================================
 # 架空キャラクターのテスト
 # ================================================================================
+
 
 class TestFictionalCharacter:
     """架空キャラクターの判定テスト"""
@@ -105,18 +107,10 @@ class TestFictionalCharacter:
 
     def test_multiple_fictional_characters(self, engine):
         """複数の架空キャラクター"""
-        characters = [
-            ("竈門炭治郎", "鬼滅の刃"),
-            ("孫悟空", "ドラゴンボール"),
-            ("ドラえもん", "ドラえもん")
-        ]
+        characters = [("竈門炭治郎", "鬼滅の刃"), ("孫悟空", "ドラゴンボール"), ("ドラえもん", "ドラえもん")]
 
         for name, work in characters:
-            data = {
-                "person_name": name,
-                "entity_type": "fictional_character",
-                "primary_work": work
-            }
+            data = {"person_name": name, "entity_type": "fictional_character", "primary_work": work}
 
             result = engine.should_show_bracket(data)
 
@@ -128,6 +122,7 @@ class TestFictionalCharacter:
 # ================================================================================
 # グループ所属のテスト
 # ================================================================================
+
 
 class TestGroupAffiliation:
     """グループ所属の判定テスト"""
@@ -157,7 +152,7 @@ class TestGroupAffiliation:
             "category": "お笑い芸人",
             "group_affiliation": "テストグループ",
             "group_status": "hiatus",
-            "fame_level": "equal"
+            "fame_level": "equal",
         }
 
         result = engine.should_show_bracket(data)
@@ -173,7 +168,7 @@ class TestGroupAffiliation:
             "category": "YouTuber",
             "group_affiliation": "HIKAKIN & SEIKIN",
             "group_status": "active",
-            "fame_level": "personal_more_famous"
+            "fame_level": "personal_more_famous",
         }
 
         result = engine.should_show_bracket(data)
@@ -186,7 +181,7 @@ class TestGroupAffiliation:
         data = {
             "person_name": "テスト太郎",
             "entity_type": "real_person",
-            "category": "お笑い芸人"
+            "category": "お笑い芸人",
             # group_affiliation が未設定
         }
 
@@ -200,17 +195,13 @@ class TestGroupAffiliation:
 # カテゴリ別テスト
 # ================================================================================
 
+
 class TestCategoryBased:
     """カテゴリ別の判定テスト"""
 
-    @pytest.mark.parametrize("category", [
-        "お笑い芸人",
-        "コメディアン",
-        "ミュージシャン",
-        "バンド",
-        "YouTuber",
-        "アイドル"
-    ])
+    @pytest.mark.parametrize(
+        "category", ["お笑い芸人", "コメディアン", "ミュージシャン", "バンド", "YouTuber", "アイドル"]
+    )
     def test_eligible_categories(self, engine, category):
         """括弧表示対象カテゴリ"""
         data = {
@@ -219,7 +210,7 @@ class TestCategoryBased:
             "category": category,
             "group_affiliation": "テストグループ",
             "group_status": "active",
-            "fame_level": "group_more_famous"
+            "fame_level": "group_more_famous",
         }
 
         result = engine.should_show_bracket(data)
@@ -234,7 +225,7 @@ class TestCategoryBased:
             "category": "スポーツ選手",
             "group_affiliation": "テストチーム",
             "group_status": "active",
-            "fame_level": "equal"
+            "fame_level": "equal",
         }
 
         result = engine.should_show_bracket(data)
@@ -247,6 +238,7 @@ class TestCategoryBased:
 # 強制表示フラグのテスト
 # ================================================================================
 
+
 class TestForceDisplay:
     """強制表示フラグのテスト"""
 
@@ -256,7 +248,7 @@ class TestForceDisplay:
             "person_name": "テストメンバー",
             "entity_type": "real_person",
             "show_group_in_bracket": 1,
-            "bracket_display_text": "強制表示グループ"
+            "bracket_display_text": "強制表示グループ",
         }
 
         result = engine.should_show_bracket(data)
@@ -268,6 +260,7 @@ class TestForceDisplay:
 # ================================================================================
 # ワード除去のテスト
 # ================================================================================
+
 
 class TestWordRemoval:
     """ワード除去のテスト"""
@@ -322,6 +315,7 @@ class TestWordRemoval:
 # 検証ロジックのテスト
 # ================================================================================
 
+
 class TestValidation:
     """検証ロジックのテスト"""
 
@@ -353,6 +347,7 @@ class TestValidation:
 # ヘルパー関数のテスト
 # ================================================================================
 
+
 class TestHelperFunctions:
     """ヘルパー関数のテスト"""
 
@@ -364,7 +359,7 @@ class TestHelperFunctions:
             "category": "お笑い芸人",
             "group_affiliation": "ピース",
             "group_status": "active",
-            "fame_level": "equal"
+            "fame_level": "equal",
         }
 
         formatted_name, bracket_text = format_person_name_with_bracket(data)
@@ -380,7 +375,7 @@ class TestHelperFunctions:
             "category": "お笑い芸人",
             "group_affiliation": "ダウンタウン",
             "group_status": "active",
-            "fame_level": "group_more_famous"
+            "fame_level": "group_more_famous",
         }
 
         template = "あなたと同じ{age}歳のとき、{person_name}は"
@@ -397,16 +392,13 @@ class TestHelperFunctions:
 # 統合テスト
 # ================================================================================
 
+
 class TestIntegration:
     """統合テスト"""
 
     def test_full_workflow_fictional_character(self, engine):
         """架空キャラクターの全ワークフロー"""
-        data = {
-            "person_name": "竈門炭治郎",
-            "entity_type": "fictional_character",
-            "primary_work": "鬼滅の刃"
-        }
+        data = {"person_name": "竈門炭治郎", "entity_type": "fictional_character", "primary_work": "鬼滅の刃"}
 
         # 判定
         result = engine.should_show_bracket(data)
@@ -429,7 +421,7 @@ class TestIntegration:
             "category": "お笑い芸人",
             "group_affiliation": "ピース",
             "group_status": "active",
-            "fame_level": "equal"
+            "fame_level": "equal",
         }
 
         # 判定
@@ -447,5 +439,5 @@ class TestIntegration:
         assert is_valid == True
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v', '--tb=short'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "--tb=short"])

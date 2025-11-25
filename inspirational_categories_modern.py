@@ -37,7 +37,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度2: 若手成功者・天才 ============
     'priority_2_young_achievers': {
         'description': '若くして圧倒的な成果を達成した人物',
@@ -70,7 +70,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度3: 挫折からの復活・逆転人生 ============
     'priority_3_comeback_stories': {
         'description': '失敗や挫折を乗り越えて成功した人物',
@@ -103,7 +103,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度4: 社会変革者・活動家 ============
     'priority_4_changemakers': {
         'description': '社会を変えようと行動した人物',
@@ -136,7 +136,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度5: クリエイター・コンテンツ創造者 ============
     'priority_5_creators': {
         'description': '新しい表現やコンテンツを生み出した人物',
@@ -169,7 +169,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度6: 女性パイオニア ============
     'priority_6_female_pioneers': {
         'description': '男性中心分野で道を切り開いた女性',
@@ -197,7 +197,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度7: 遅咲きの成功者 ============
     'priority_7_late_bloomers': {
         'description': '40代以降で大成功した人物',
@@ -220,7 +220,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度8: 日本の現代成功者 ============
     'priority_8_japanese_modern': {
         'description': '日本人が特に共感しやすい現代の成功者',
@@ -243,7 +243,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度9: 学び直し・生涯学習 ============
     'priority_9_lifelong_learners': {
         'description': '常に学び続けて成長した人物',
@@ -266,7 +266,7 @@ INSPIRATIONAL_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 優先度10: ワークライフバランス実現者 ============
     'priority_10_balanced_life': {
         'description': '仕事と人生のバランスを実現した人物',
@@ -341,7 +341,7 @@ def export_inspirational_categories():
     """インスピレーショナルカテゴリをJSON出力"""
     import json
     from datetime import datetime
-    
+
     output = {
         'metadata': {
             'created_at': datetime.now().isoformat(),
@@ -354,25 +354,25 @@ def export_inspirational_categories():
         'statistics': {
             'total_priority_levels': len(INSPIRATIONAL_CATEGORIES),
             'total_subcategories': sum(
-                len(cat['categories']) 
+                len(cat['categories'])
                 for cat in INSPIRATIONAL_CATEGORIES.values()
             ),
         }
     }
-    
+
     output_file = f'inspirational_categories_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    
+
     return output_file
 
 if __name__ == "__main__":
     output_file = export_inspirational_categories()
-    
+
     print("="*60)
     print("🌟 現代人が感銘を受けるカテゴリ定義")
     print("="*60)
-    
+
     print("\n📊 優先度別カテゴリ:")
     for priority, category in INSPIRATIONAL_CATEGORIES.items():
         priority_num = priority.split('_')[1]
@@ -381,7 +381,7 @@ if __name__ == "__main__":
         print(f"  サブカテゴリ数: {len(category['categories'])}種類")
         for subcat_name in list(category['categories'].keys())[:3]:
             print(f"    ・{subcat_name}")
-    
+
     print("\n📈 年代別おすすめカテゴリ:")
     matrix = create_age_impact_matrix()
     for age_group, data in matrix.items():
@@ -389,5 +389,5 @@ if __name__ == "__main__":
         for cat in data['most_impactful']:
             cat_name = INSPIRATIONAL_CATEGORIES[cat]['description']
             print(f"  → {cat_name}")
-    
+
     print(f"\n✅ カテゴリ定義ファイル作成: {output_file}")

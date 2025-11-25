@@ -59,7 +59,7 @@ command_exists() {
 # Install audio dependencies based on OS
 install_audio_deps() {
     log_info "Installing audio dependencies for $OS..."
-    
+
     case "$OS" in
         "macos")
             # macOS has built-in audio support
@@ -138,7 +138,7 @@ install_linux_audio_deps() {
         log_warning "Unknown Linux distribution. Please install audio packages manually:"
         log_info "Required packages: pulseaudio, alsa-utils, sox, ffmpeg"
     fi
-    
+
     # Start PulseAudio if not running
     if ! pgrep -x pulseaudio > /dev/null; then
         log_info "Starting PulseAudio..."
@@ -149,7 +149,7 @@ install_linux_audio_deps() {
 # Test audio functionality
 test_audio() {
     log_info "Testing audio functionality..."
-    
+
     case "$OS" in
         "macos")
             test_macos_audio
@@ -169,7 +169,7 @@ test_audio() {
 # Test macOS audio
 test_macos_audio() {
     log_info "Testing macOS audio..."
-    
+
     # Test afplay with system sound
     if [ -f "/System/Library/Sounds/Tink.aiff" ]; then
         log_info "Testing afplay with system sound..."
@@ -181,7 +181,7 @@ test_macos_audio() {
     else
         log_warning "System sound file not found"
     fi
-    
+
     # Test osascript beep
     log_info "Testing osascript beep..."
     if osascript -e "beep"; then
@@ -194,13 +194,13 @@ test_macos_audio() {
 # Test Linux audio
 test_linux_audio() {
     log_info "Testing Linux audio..."
-    
+
     # Test PulseAudio
     if command_exists pactl; then
         log_info "Testing PulseAudio..."
         if pactl info >/dev/null 2>&1; then
             log_success "PulseAudio is running"
-            
+
             # Test sine wave generation
             log_info "Testing sine wave generation (3 seconds)..."
             MODULE_ID=$(pactl load-module module-sine frequency=500 2>/dev/null || echo "")
@@ -217,7 +217,7 @@ test_linux_audio() {
     else
         log_warning "pactl not found"
     fi
-    
+
     # Test ALSA
     if command_exists speaker-test; then
         log_info "Testing ALSA speaker-test (1 second)..."
@@ -229,7 +229,7 @@ test_linux_audio() {
     else
         log_warning "speaker-test not found"
     fi
-    
+
     # Test beep command
     if command_exists beep; then
         log_info "Testing beep command..."
@@ -253,12 +253,12 @@ test_windows_audio() {
 # Create notification hooks
 create_notification_hooks() {
     log_info "Creating notification hooks..."
-    
+
     # Create sounds directory
     SOUNDS_DIR="sounds"
     mkdir -p "$SOUNDS_DIR"
     log_success "Created sounds directory: $SOUNDS_DIR"
-    
+
     # Create environment file template
     if [ ! -f ".env.notifications" ]; then
         cat > .env.notifications << EOF
@@ -292,7 +292,7 @@ EOF
     else
         log_info "Notification configuration already exists: .env.notifications"
     fi
-    
+
     # Create sample notification wrapper script
     cat > scripts/notify_wrapper.sh << 'EOF'
 #!/bin/bash
@@ -342,7 +342,7 @@ EOF
 # Setup Python dependencies
 setup_python_deps() {
     log_info "Setting up Python dependencies..."
-    
+
     # Check if we're in a virtual environment
     if [ -z "$VIRTUAL_ENV" ] && [ ! -f "venv/bin/activate" ]; then
         log_warning "No virtual environment detected"
@@ -358,7 +358,7 @@ setup_python_deps() {
         source venv/bin/activate
         log_info "Activated existing virtual environment"
     fi
-    
+
     # Install Python packages if requirements exist
     if [ -f "requirements.txt" ]; then
         log_info "Installing Python requirements..."
@@ -372,7 +372,7 @@ setup_python_deps() {
 # Run notification system test
 test_notification_system() {
     log_info "Testing notification system..."
-    
+
     if python -c "
 import sys
 sys.path.append('src')
@@ -414,31 +414,31 @@ main() {
     echo "  Audio Notification System Setup"
     echo "=========================================="
     echo
-    
+
     # Detect OS
     detect_os
     echo
-    
+
     # Setup Python dependencies
     setup_python_deps
     echo
-    
+
     # Install audio dependencies
     install_audio_deps
     echo
-    
+
     # Test audio functionality
     test_audio
     echo
-    
+
     # Create notification hooks
     create_notification_hooks
     echo
-    
+
     # Test notification system
     test_notification_system
     echo
-    
+
     log_success "Audio notification system setup completed!"
     echo
     log_info "Usage examples:"

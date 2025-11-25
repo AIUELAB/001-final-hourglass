@@ -152,10 +152,7 @@ def generate_episode(
         if award_name:
             if "ノーベル" in award_name:
                 award_level_value = "NOBEL"
-            elif any(
-                x in award_name
-                for x in ["フィールズ", "プリツカー", "チューリング", "ラスカー"]
-            ):
+            elif any(x in award_name for x in ["フィールズ", "プリツカー", "チューリング", "ラスカー"]):
                 award_level_value = "INTERNATIONAL_TOP"
             elif any(
                 x in award_name
@@ -278,9 +275,7 @@ def main():
 
         print(f"\n[{i}/{len(template_rows)}] {person_name}")
 
-        episode = generate_episode(
-            person_name, category, person_type, award_name, award_year
-        )
+        episode = generate_episode(person_name, category, person_type, award_name, award_year)
 
         if episode:
             generated_episodes.append(episode)

@@ -23,7 +23,7 @@ class FinalDataIntegrator:
             '政治・社会': 1117,
             '歴史的教訓': 993
         }
-        
+
     def load_existing_data(self):
         """既存データの読み込み"""
         files = [
@@ -32,12 +32,12 @@ class FinalDataIntegrator:
             ('all_famous_people_20250821_224848.csv', '既存データ1'),
             ('categorized_famous_people_20250821_225727.csv', '既存データ2'),
         ]
-        
+
         for filename, source in files:
             try:
                 df = pd.read_csv(filename, encoding='utf-8-sig')
                 print(f"{source}: {len(df)}人読み込み")
-                
+
                 # データ形式を統一
                 for _, row in df.iterrows():
                     person = {
@@ -55,19 +55,19 @@ class FinalDataIntegrator:
                         'grade': str(row.get('grade', 'B')),
                         'data_source': source
                     }
-                    
+
                     # カテゴリ修正
                     if pd.isna(person['main_category']) or person['main_category'] == 'nan':
                         person['main_category'] = self.infer_category(person)
-                    
+
                     self.all_people.append(person)
             except Exception as e:
                 print(f"  {filename} 読み込みエラー: {e}")
-                
+
     def infer_category(self, person):
         """カテゴリを推測"""
         text = f"{person['occupation']} {person['description']}".lower()
-        
+
         if any(word in text for word in ['俳優', '歌手', '芸人', 'タレント', 'アイドル', '声優']):
             return 'エンターテインメント'
         elif any(word in text for word in ['選手', 'プレイヤー', 'アスリート', 'スポーツ']):
@@ -80,34 +80,34 @@ class FinalDataIntegrator:
             return '歴史的教訓'
         else:
             return '文化・芸術'
-    
+
     def remove_duplicates(self):
         """重複削除"""
         seen = set()
         unique = []
-        
+
         for person in self.all_people:
             # 名前と生年月日でユニーク判定
             key = (person['name'], person['birth_date'][:4] if person['birth_date'] else '')
-            
+
             if key not in seen and person['name']:
                 seen.add(key)
                 unique.append(person)
-        
+
         self.all_people = unique
         print(f"重複削除後: {len(self.all_people)}人")
-        
+
     def balance_categories(self):
         """カテゴリバランス調整"""
         # 現在のカテゴリ分布
         df = pd.DataFrame(self.all_people)
         current_counts = df['main_category'].value_counts().to_dict()
-        
+
         print("\n現在のカテゴリ分布:")
         for cat, count in current_counts.items():
             target = self.category_targets.get(cat, 0)
             print(f"  {cat}: {count}人 (目標: {target}人)")
-        
+
         # 不足分を補完
         for category, target in self.category_targets.items():
             current = current_counts.get(category, 0)
@@ -115,7 +115,7 @@ class FinalDataIntegrator:
                 shortage = target - current
                 print(f"\n{category}に{shortage}人追加が必要")
                 self.add_supplementary_data(category, shortage)
-                
+
     def add_supplementary_data(self, category, count):
         """補完データを追加"""
         # カテゴリ別の定番人物リスト
@@ -163,15 +163,15 @@ class FinalDataIntegrator:
                 ('手塚治虫', '1928-11-03', '漫画家', '鉄腕アトム'),
             ]
         }
-        
+
         base_list = supplements.get(category, [])
         added = 0
-        
+
         # 基本リストから追加
         for name, birth, occupation, desc in base_list * (count // len(base_list) + 1):
             if added >= count:
                 break
-                
+
             person = {
                 'name': f"{name}_{added}" if added > 0 else name,
                 'birth_date': birth,
@@ -189,7 +189,7 @@ class FinalDataIntegrator:
             }
             self.all_people.append(person)
             added += 1
-            
+
     def finalize_data(self):
         """最終データ調整"""
         # 目標数まで調整
@@ -200,7 +200,7 @@ class FinalDataIntegrator:
             # 不足分を追加
             shortage = self.target_total - len(self.all_people)
             print(f"\n最終調整: {shortage}人追加")
-            
+
             # カテゴリバランスを考慮して追加
             for i in range(shortage):
                 category = list(self.category_targets.keys())[i % 6]
@@ -220,30 +220,30 @@ class FinalDataIntegrator:
                     'data_source': 'filler'
                 }
                 self.all_people.append(person)
-                
+
     def save_final_data(self):
         """最終データを保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         csv_file = f"final_12410_complete_{timestamp}.csv"
         json_file = f"final_12410_firebase_{timestamp}.json"
-        
+
         # CSV保存
         df = pd.DataFrame(self.all_people)
         df.to_csv(csv_file, index=False, encoding='utf-8-sig')
-        
+
         # JSON保存（Firebase用）
         firebase_data = {}
         for i, person in enumerate(self.all_people):
             firebase_data[f"person_{i+1:05d}"] = person
-            
+
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(firebase_data, f, ensure_ascii=False, indent=2)
-            
+
         print("\n✅ 最終データ保存完了:")
         print(f"  CSV: {csv_file}")
         print(f"  JSON: {json_file}")
         print(f"  総人数: {len(self.all_people)}人")
-        
+
         # カテゴリ別集計
         df = pd.DataFrame(self.all_people)
         print("\n最終カテゴリ分布:")
@@ -251,27 +251,27 @@ class FinalDataIntegrator:
             target = self.category_targets.get(cat, 0)
             percentage = (count / target * 100) if target > 0 else 0
             print(f"  {cat}: {count}人 (目標: {target}人, 達成率: {percentage:.1f}%)")
-            
+
         return csv_file, json_file
 
 def main():
     integrator = FinalDataIntegrator()
-    
+
     print("1. 既存データ読み込み...")
     integrator.load_existing_data()
-    
+
     print("\n2. 重複削除...")
     integrator.remove_duplicates()
-    
+
     print("\n3. カテゴリバランス調整...")
     integrator.balance_categories()
-    
+
     print("\n4. 最終調整...")
     integrator.finalize_data()
-    
+
     print("\n5. データ保存...")
     csv_file, json_file = integrator.save_final_data()
-    
+
     return csv_file, json_file
 
 if __name__ == "__main__":

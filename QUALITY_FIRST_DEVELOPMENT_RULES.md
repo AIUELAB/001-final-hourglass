@@ -111,25 +111,25 @@ def quality_assured_process(batch_size=100):
     while True:
         # 1. 小規模バッチ生成
         batch = generate_batch(batch_size)
-        
+
         # 2. 品質チェック
         if not quality_check(batch):
             print("❌ 品質基準未達 - 処理停止")
             analyze_and_fix_quality_issues()
             continue
-            
+
         # 3. ルールチェック
         if not rule_compliance_check(batch):
             print("❌ ルール違反検出 - 処理停止")
             fix_rule_violations()
             continue
-            
+
         # 4. ユーザー条件チェック
         if not user_requirements_check(batch):
             print("❌ ユーザー要求未達 - 処理停止")
             review_user_requirements()
             continue
-            
+
         # 5. すべてクリアなら追加
         add_to_database(batch)
         report_progress()

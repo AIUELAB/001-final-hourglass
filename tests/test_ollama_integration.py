@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ollama_available = False
 try:
     import ollama
+
     ollama_available = True
 except ImportError:
     pass

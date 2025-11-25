@@ -1,4 +1,3 @@
----
 # Deployment for Quality Orchestrator
 apiVersion: apps/v1
 kind: Deployment
@@ -8,7 +7,7 @@ metadata:
   labels:
     app: quality-orchestrator
     component: core
-    version: "4.0.0"
+    version: 4.0.0
 spec:
   replicas: 3
   strategy:
@@ -25,9 +24,9 @@ spec:
         app: quality-orchestrator
         component: core
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "9090"
-        prometheus.io/path: "/metrics"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9090'
+        prometheus.io/path: /metrics
     spec:
       containers:
       - name: orchestrator
@@ -42,13 +41,13 @@ spec:
           protocol: TCP
         env:
         - name: SERVICE_NAME
-          value: "orchestrator"
+          value: orchestrator
         - name: LOG_LEVEL
-          value: "INFO"
+          value: INFO
         - name: CODEX_SERVER_URL
-          value: "http://codex-server:8001"
+          value: http://codex-server:8001
         - name: REDIS_URL
-          value: "redis://redis:6379"
+          value: redis://redis:6379
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
@@ -61,11 +60,11 @@ spec:
               key: jwt-secret
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: 512Mi
+            cpu: 500m
           limits:
-            memory: "2Gi"
-            cpu: "2000m"
+            memory: 2Gi
+            cpu: 2000m
         livenessProbe:
           httpGet:
             path: /health
@@ -97,7 +96,7 @@ spec:
       nodeSelector:
         workload: compute
       tolerations:
-      - key: "workload"
-        operator: "Equal"
-        value: "compute"
-        effect: "NoSchedule"
+      - key: workload
+        operator: Equal
+        value: compute
+        effect: NoSchedule

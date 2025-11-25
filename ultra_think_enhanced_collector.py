@@ -13,7 +13,7 @@ import random
 
 class EnhancedCelebrityCollector:
     """強化版有名人コレクター"""
-    
+
     def __init__(self):
         self.categories = {
             'エンタメ': self._generate_entertainers,
@@ -27,7 +27,7 @@ class EnhancedCelebrityCollector:
             '政治': self._generate_politicians,
             '社会活動家': self._generate_activists
         }
-        
+
         self.missing_patterns = {
             '女性タレント': ['女優', 'モデル', 'アイドル', 'グラビア'],
             '男性タレント': ['俳優', 'モデル', 'アイドル'],
@@ -39,11 +39,11 @@ class EnhancedCelebrityCollector:
             '声優': ['男性声優', '女性声優', 'ナレーター'],
             '料理人': ['シェフ', 'パティシエ', '和食', 'フレンチ']
         }
-    
+
     def _generate_entertainers(self, count: int = 100) -> List[Dict[str, Any]]:
         """エンタメ系の追加生成"""
         entertainers = []
-        
+
         # 見逃されていた日本のタレント
         japanese_entertainers = [
             {'name': '中居正広', 'name_ja': '中居正広', 'occupation': '司会者・元SMAP',
@@ -56,7 +56,7 @@ class EnhancedCelebrityCollector:
              'recognition': 90},
             {'name': '稲垣吾郎', 'name_ja': '稲垣吾郎', 'occupation': 'タレント・元SMAP',
              'recognition': 85},
-            
+
             # ジャニーズ系
             {'name': '山下智久', 'name_ja': '山下智久', 'occupation': '俳優・歌手',
              'recognition': 85},
@@ -66,7 +66,7 @@ class EnhancedCelebrityCollector:
              'recognition': 75},
             {'name': '平野紫耀', 'name_ja': '平野紫耀', 'occupation': 'アイドル・元King & Prince',
              'recognition': 80},
-            
+
             # 女性タレント
             {'name': '石原さとみ', 'name_ja': '石原さとみ', 'occupation': '女優',
              'recognition': 90},
@@ -78,7 +78,7 @@ class EnhancedCelebrityCollector:
              'recognition': 88},
             {'name': '戸田恵梨香', 'name_ja': '戸田恵梨香', 'occupation': '女優',
              'recognition': 85},
-            
+
             # ベテラン俳優
             {'name': '渡辺謙', 'name_ja': '渡辺謙', 'occupation': '俳優',
              'recognition': 90},
@@ -88,7 +88,7 @@ class EnhancedCelebrityCollector:
              'recognition': 88},
             {'name': '西田敏行', 'name_ja': '西田敏行', 'occupation': '俳優',
              'recognition': 90},
-            
+
             # 若手俳優
             {'name': '菅田将暉', 'name_ja': '菅田将暉', 'occupation': '俳優・歌手',
              'recognition': 85},
@@ -98,7 +98,7 @@ class EnhancedCelebrityCollector:
              'recognition': 80},
             {'name': '吉沢亮', 'name_ja': '吉沢亮', 'occupation': '俳優',
              'recognition': 78},
-            
+
             # お笑い（追加）
             {'name': 'みやぞん', 'name_ja': 'みやぞん', 'occupation': 'お笑い芸人・ANZEN漫才',
              'recognition': 75},
@@ -108,7 +108,7 @@ class EnhancedCelebrityCollector:
              'recognition': 80},
             {'name': '安藤なつ', 'name_ja': '安藤なつ', 'occupation': 'お笑い芸人・メイプル超合金',
              'recognition': 70},
-            
+
             # 声優
             {'name': '花澤香菜', 'name_ja': '花澤香菜', 'occupation': '声優',
              'recognition': 70},
@@ -119,7 +119,7 @@ class EnhancedCelebrityCollector:
             {'name': '水樹奈々', 'name_ja': '水樹奈々', 'occupation': '声優・歌手',
              'recognition': 70},
         ]
-        
+
         for person in japanese_entertainers[:min(count, len(japanese_entertainers))]:
             entertainers.append({
                 'person_name': person['name'],
@@ -130,13 +130,13 @@ class EnhancedCelebrityCollector:
                 'occupation': person['occupation'],
                 'name_recognition': str(person['recognition'])
             })
-        
+
         return entertainers
-    
+
     def _generate_athletes(self, count: int = 100) -> List[Dict[str, Any]]:
         """スポーツ選手の追加生成"""
         athletes = []
-        
+
         # 見逃されていたアスリート
         missing_athletes = [
             # 野球
@@ -152,7 +152,7 @@ class EnhancedCelebrityCollector:
              'recognition': 95},
             {'name': '長嶋茂雄', 'name_ja': '長嶋茂雄', 'sport': '野球',
              'recognition': 95},
-            
+
             # サッカー
             {'name': '三笘薫', 'name_ja': '三笘薫', 'sport': 'サッカー',
              'recognition': 80},
@@ -164,13 +164,13 @@ class EnhancedCelebrityCollector:
              'recognition': 85},
             {'name': '中村俊輔', 'name_ja': '中村俊輔', 'sport': 'サッカー',
              'recognition': 80},
-            
+
             # テニス
             {'name': '錦織圭', 'name_ja': '錦織圭', 'sport': 'テニス',
              'recognition': 85},
             {'name': '大坂なおみ', 'name_ja': '大坂なおみ', 'sport': 'テニス',
              'recognition': 90},
-            
+
             # フィギュアスケート
             {'name': '羽生結弦', 'name_ja': '羽生結弦', 'sport': 'フィギュアスケート',
              'recognition': 95},
@@ -178,19 +178,19 @@ class EnhancedCelebrityCollector:
              'recognition': 90},
             {'name': '宇野昌磨', 'name_ja': '宇野昌磨', 'sport': 'フィギュアスケート',
              'recognition': 75},
-            
+
             # ゴルフ
             {'name': '松山英樹', 'name_ja': '松山英樹', 'sport': 'ゴルフ',
              'recognition': 80},
             {'name': '渋野日向子', 'name_ja': '渋野日向子', 'sport': 'ゴルフ',
              'recognition': 75},
-            
+
             # 水泳
             {'name': '北島康介', 'name_ja': '北島康介', 'sport': '水泳',
              'recognition': 85},
             {'name': '池江璃花子', 'name_ja': '池江璃花子', 'sport': '水泳',
              'recognition': 80},
-            
+
             # 格闘技
             {'name': '井上尚弥', 'name_ja': '井上尚弥', 'sport': 'ボクシング',
              'recognition': 80},
@@ -201,7 +201,7 @@ class EnhancedCelebrityCollector:
             {'name': '朝倉海', 'name_ja': '朝倉海', 'sport': '総合格闘技',
              'recognition': 70},
         ]
-        
+
         for athlete in missing_athletes[:min(count, len(missing_athletes))]:
             athletes.append({
                 'person_name': athlete['name'],
@@ -212,13 +212,13 @@ class EnhancedCelebrityCollector:
                 'occupation': f"{athlete['sport']}選手",
                 'name_recognition': str(athlete['recognition'])
             })
-        
+
         return athletes
-    
+
     def _generate_academics(self, count: int = 50) -> List[Dict[str, Any]]:
         """学術・科学者の追加生成"""
         academics = []
-        
+
         # ノーベル賞受賞者
         nobel_winners = [
             {'name': '山中伸弥', 'name_ja': '山中伸弥', 'field': 'iPS細胞研究',
@@ -234,7 +234,7 @@ class EnhancedCelebrityCollector:
             {'name': '赤崎勇', 'name_ja': '赤崎勇', 'field': '半導体',
              'recognition': 60},
         ]
-        
+
         for academic in nobel_winners:
             academics.append({
                 'person_name': academic['name'],
@@ -245,13 +245,13 @@ class EnhancedCelebrityCollector:
                 'occupation': f"{academic['field']}研究者",
                 'name_recognition': str(academic['recognition'])
             })
-        
+
         return academics
-    
+
     def _generate_business(self, count: int = 50) -> List[Dict[str, Any]]:
         """ビジネス界の人物追加"""
         business_people = []
-        
+
         japanese_business = [
             {'name': '孫正義', 'name_ja': '孫正義', 'company': 'ソフトバンク',
              'recognition': 90},
@@ -264,7 +264,7 @@ class EnhancedCelebrityCollector:
             {'name': '堀江貴文', 'name_ja': '堀江貴文', 'company': '実業家',
              'recognition': 85},
         ]
-        
+
         for person in japanese_business:
             business_people.append({
                 'person_name': person['name'],
@@ -275,13 +275,13 @@ class EnhancedCelebrityCollector:
                 'occupation': f"{person['company']} 創業者/CEO",
                 'name_recognition': str(person['recognition'])
             })
-        
+
         return business_people
-    
+
     def _generate_artists(self, count: int = 50) -> List[Dict[str, Any]]:
         """文化・芸術界の人物追加"""
         artists = []
-        
+
         japanese_artists = [
             # 作家
             {'name': '村上春樹', 'name_ja': '村上春樹', 'field': '小説家',
@@ -290,7 +290,7 @@ class EnhancedCelebrityCollector:
              'recognition': 85},
             {'name': '宮部みゆき', 'name_ja': '宮部みゆき', 'field': '小説家',
              'recognition': 80},
-            
+
             # 漫画家
             {'name': '尾田栄一郎', 'name_ja': '尾田栄一郎', 'field': '漫画家（ONE PIECE）',
              'recognition': 85},
@@ -298,7 +298,7 @@ class EnhancedCelebrityCollector:
              'recognition': 80},
             {'name': '諫山創', 'name_ja': '諫山創', 'field': '漫画家（進撃の巨人）',
              'recognition': 75},
-            
+
             # 音楽家
             {'name': '坂本龍一', 'name_ja': '坂本龍一', 'field': '音楽家',
              'recognition': 85},
@@ -307,7 +307,7 @@ class EnhancedCelebrityCollector:
             {'name': '小室哲哉', 'name_ja': '小室哲哉', 'field': '音楽プロデューサー',
              'recognition': 80},
         ]
-        
+
         for artist in japanese_artists:
             artists.append({
                 'person_name': artist['name'],
@@ -318,17 +318,17 @@ class EnhancedCelebrityCollector:
                 'occupation': artist['field'],
                 'name_recognition': str(artist['recognition'])
             })
-        
+
         return artists
-    
+
     def _generate_historical(self, count: int = 30) -> List[Dict[str, Any]]:
         """歴史上の人物（追加）"""
         return []  # 既に十分収集済み
-    
+
     def _generate_influencers(self, count: int = 50) -> List[Dict[str, Any]]:
         """インフルエンサー追加"""
         influencers = []
-        
+
         japanese_influencers = [
             # YouTuber
             {'name': 'HIKAKIN', 'name_ja': 'ヒカキン', 'platform': 'YouTube',
@@ -343,14 +343,14 @@ class EnhancedCelebrityCollector:
              'recognition': 75},
             {'name': 'ラファエル', 'name_ja': 'ラファエル', 'platform': 'YouTube',
              'recognition': 70},
-            
+
             # TikToker
             {'name': 'じゅんや', 'name_ja': 'じゅんや', 'platform': 'TikTok',
              'recognition': 65},
             {'name': '景井ひな', 'name_ja': '景井ひな', 'platform': 'TikTok',
              'recognition': 60},
         ]
-        
+
         for influencer in japanese_influencers:
             influencers.append({
                 'person_name': influencer['name'],
@@ -361,17 +361,17 @@ class EnhancedCelebrityCollector:
                 'occupation': f"{influencer['platform']}クリエイター",
                 'name_recognition': str(influencer['recognition'])
             })
-        
+
         return influencers
-    
+
     def _generate_tech(self, count: int = 30) -> List[Dict[str, Any]]:
         """テクノロジー界の人物"""
         return []  # 後で実装
-    
+
     def _generate_politicians(self, count: int = 30) -> List[Dict[str, Any]]:
         """政治家"""
         politicians = []
-        
+
         japanese_politicians = [
             {'name': '岸田文雄', 'name_ja': '岸田文雄', 'position': '内閣総理大臣',
              'recognition': 85},
@@ -384,7 +384,7 @@ class EnhancedCelebrityCollector:
             {'name': '河野太郎', 'name_ja': '河野太郎', 'position': 'デジタル大臣',
              'recognition': 80},
         ]
-        
+
         for politician in japanese_politicians:
             politicians.append({
                 'person_name': politician['name'],
@@ -395,23 +395,23 @@ class EnhancedCelebrityCollector:
                 'occupation': politician['position'],
                 'name_recognition': str(politician['recognition'])
             })
-        
+
         return politicians
-    
+
     def _generate_activists(self, count: int = 20) -> List[Dict[str, Any]]:
         """社会活動家"""
         return []  # 後で実装
-    
+
     def collect_all_categories(self, persons_per_category: int = 50) -> List[Dict[str, Any]]:
         """全カテゴリから収集"""
         all_persons = []
-        
+
         for category, generator_func in self.categories.items():
             print(f"  📁 {category}カテゴリ生成中...")
             persons = generator_func(persons_per_category)
             all_persons.extend(persons)
             print(f"    ✅ {len(persons)}人追加")
-        
+
         # メタデータ追加
         timestamp = datetime.now().isoformat()
         for i, person in enumerate(all_persons):
@@ -421,52 +421,52 @@ class EnhancedCelebrityCollector:
                 person['episode_id'] = f"EP_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{i}"
             person['created_at'] = timestamp
             person['source'] = 'Ultra Think Enhanced Collector'
-        
+
         return all_persons
 
 
 def main():
     """メイン処理"""
-    
+
     print("="*60)
     print("🚀 Ultra Think 強化版コレクター")
     print("="*60)
-    
+
     # コレクター初期化
     collector = EnhancedCelebrityCollector()
-    
+
     # 全カテゴリから収集
     print("\n📋 有名人収集開始...")
     all_persons = collector.collect_all_categories(persons_per_category=50)
-    
+
     print(f"\n✅ 収集完了: {len(all_persons)}人")
-    
+
     # 既存データベースと統合
     latest_db = 'ULTRA_THINK_COMEDIAN_EXPANDED_20250827_082620.csv'
-    
+
     print(f"\n📊 既存データベースと統合中...")
     print(f"  ファイル: {latest_db}")
-    
+
     # 既存データ読み込み
     existing_persons = []
     with open(latest_db, 'r', encoding='utf-8') as f:
         content = f.read()
         if content.startswith('\ufeff'):
             content = content[1:]
-        
+
         import io
         csv_file = io.StringIO(content)
         reader = csv.DictReader(csv_file)
         existing_persons = list(reader)
-    
+
     print(f"  既存: {len(existing_persons)}人")
-    
+
     # 重複チェックして追加
     existing_names = set()
     for p in existing_persons:
         existing_names.add(p.get('person_name_ja', ''))
         existing_names.add(p.get('person_name', ''))
-    
+
     # 最大ID取得
     max_id = 0
     for p in existing_persons:
@@ -476,34 +476,34 @@ def main():
                 max_id = max(max_id, id_num)
             except:
                 pass
-    
+
     added_count = 0
     for person in all_persons:
         name_ja = person.get('person_name_ja', '')
         name_en = person.get('person_name', '')
-        
+
         if name_ja not in existing_names and name_en not in existing_names:
             max_id += 1
             person['person_id'] = f"P{str(max_id).zfill(6)}"
-            
+
             # 既存のフィールド構造に合わせる
             if 'created_at' in person:
                 del person['created_at']
             if 'source' in person:
                 del person['source']
-            
+
             existing_persons.append(person)
             existing_names.add(name_ja)
             existing_names.add(name_en)
             added_count += 1
-    
+
     print(f"  追加: {added_count}人")
     print(f"  最終: {len(existing_persons)}人")
-    
+
     # 保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     output_file = f'ULTRA_THINK_ENHANCED_{timestamp}.csv'
-    
+
     # CSV保存
     if existing_persons:
         headers = list(existing_persons[0].keys())
@@ -511,25 +511,25 @@ def main():
             writer = csv.DictWriter(f, fieldnames=headers, extrasaction='ignore')
             writer.writeheader()
             writer.writerows(existing_persons)
-    
+
     print(f"\n✅ データベース保存: {output_file}")
     print(f"  最終人数: {len(existing_persons)}人")
     print(f"  12,410人最低ライン達成: {'✅' if len(existing_persons) >= 12410 else '❌'}（{len(existing_persons)/12410*100:.1f}%）")
-    
+
     # サマリーレポート
     print("\n" + "="*60)
     print("📊 カテゴリ別統計")
     print("="*60)
-    
+
     category_counts = {}
     for p in existing_persons:
         cat = p.get('category', 'その他')
         category_counts[cat] = category_counts.get(cat, 0) + 1
-    
+
     for cat, count in sorted(category_counts.items(), key=lambda x: x[1], reverse=True):
         bar = '█' * int(count / max(category_counts.values()) * 30)
         print(f"{cat:15} {bar} {count:5}人 ({count/len(existing_persons)*100:.1f}%)")
-    
+
     print("="*60)
 
 

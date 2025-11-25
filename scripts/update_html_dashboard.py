@@ -3,15 +3,16 @@
 HTMLダッシュボードの統計データをAPIから取得するように更新
 """
 
+
 def update_html_dashboard():
-    html_path = './preserved/episode_database_dashboard_v2.html'
+    html_path = "./preserved/episode_database_dashboard_v2.html"
 
     # HTMLファイルを読み込み
-    with open(html_path, 'r', encoding='utf-8') as f:
+    with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
 
     # 統計データ取得関数を追加
-    stats_fetch_script = '''
+    stats_fetch_script = """
         // ========== API統計データ取得 ==========
         async function fetchAPIStats() {
             try {
@@ -47,34 +48,31 @@ def update_html_dashboard():
             }
         }
 
-        // ========== タブ切り替え機能 =========='''
+        // ========== タブ切り替え機能 =========="""
 
     # タブ切り替え機能の前に挿入
-    content = content.replace(
-        '        // ========== タブ切り替え機能 ==========',
-        stats_fetch_script
-    )
+    content = content.replace("        // ========== タブ切り替え機能 ==========", stats_fetch_script)
 
     # DOMContentLoadedイベントでAPI統計を取得
-    old_init = '''        // 初期化
+    old_init = """        // 初期化
         window.addEventListener('DOMContentLoaded', () => {
             initTabs();
             loadHeatmapData();
             initEpisodeList();
-        });'''
+        });"""
 
-    new_init = '''        // 初期化
+    new_init = """        // 初期化
         window.addEventListener('DOMContentLoaded', () => {
             initTabs();
             fetchAPIStats();  // API統計データを取得
             loadHeatmapData();
             initEpisodeList();
-        });'''
+        });"""
 
     content = content.replace(old_init, new_init)
 
     # 変更を保存
-    with open(html_path, 'w', encoding='utf-8') as f:
+    with open(html_path, "w", encoding="utf-8") as f:
         f.write(content)
 
     print("✅ HTMLダッシュボードを更新しました")
@@ -83,5 +81,6 @@ def update_html_dashboard():
     print("  - 統計データをAPIから取得するように変更")
     print("  - リアルタイムで最新のデータベース統計を表示")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     update_html_dashboard()

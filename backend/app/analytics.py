@@ -5,8 +5,8 @@
 
 import csv
 import statistics
-from typing import Dict, List, Optional, Tuple
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 
 class ScoreAnalytics:
@@ -21,13 +21,13 @@ class ScoreAnalytics:
         """
         self.csv_path = Path(csv_path)
         self.score_columns = [
-            '記憶性スコア',
-            '共感性スコア',
-            '意外性スコア',
-            '生成品質スコア',
-            '教育的価値',
-            'ストーリー品質',
-            '事実密度'
+            "記憶性スコア",
+            "共感性スコア",
+            "意外性スコア",
+            "生成品質スコア",
+            "教育的価値",
+            "ストーリー品質",
+            "事実密度",
         ]
 
     def load_scores(self) -> Dict[str, List[float]]:
@@ -39,12 +39,12 @@ class ScoreAnalytics:
         """
         scores = {col: [] for col in self.score_columns}
 
-        with open(self.csv_path, 'r', encoding='utf-8-sig') as f:
+        with open(self.csv_path, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
 
             for row in reader:
                 for col in self.score_columns:
-                    value = row.get(col, '').strip()
+                    value = row.get(col, "").strip()
                     if value:
                         try:
                             score = float(value)
@@ -67,25 +67,25 @@ class ScoreAnalytics:
         for col, data in scores.items():
             if data:
                 stats[col] = {
-                    'count': len(data),
-                    'mean': statistics.mean(data),
-                    'median': statistics.median(data),
-                    'stdev': statistics.stdev(data) if len(data) > 1 else 0.0,
-                    'min': min(data),
-                    'max': max(data),
-                    'q1': statistics.median(sorted(data)[:len(data)//2]),
-                    'q3': statistics.median(sorted(data)[len(data)//2:])
+                    "count": len(data),
+                    "mean": statistics.mean(data),
+                    "median": statistics.median(data),
+                    "stdev": statistics.stdev(data) if len(data) > 1 else 0.0,
+                    "min": min(data),
+                    "max": max(data),
+                    "q1": statistics.median(sorted(data)[: len(data) // 2]),
+                    "q3": statistics.median(sorted(data)[len(data) // 2 :]),
                 }
             else:
                 stats[col] = {
-                    'count': 0,
-                    'mean': 0.0,
-                    'median': 0.0,
-                    'stdev': 0.0,
-                    'min': 0.0,
-                    'max': 0.0,
-                    'q1': 0.0,
-                    'q3': 0.0
+                    "count": 0,
+                    "mean": 0.0,
+                    "median": 0.0,
+                    "stdev": 0.0,
+                    "min": 0.0,
+                    "max": 0.0,
+                    "q1": 0.0,
+                    "q3": 0.0,
                 }
 
         return stats
@@ -119,13 +119,15 @@ class ScoreAnalytics:
             # ヒストグラムデータに変換
             histogram = []
             for bin_start in sorted(bins.keys()):
-                histogram.append({
-                    'range': f"{bin_start:.1f}-{bin_start + bin_size:.1f}",
-                    'bin_start': bin_start,
-                    'bin_end': bin_start + bin_size,
-                    'count': bins[bin_start],
-                    'percentage': bins[bin_start] / len(data) * 100
-                })
+                histogram.append(
+                    {
+                        "range": f"{bin_start:.1f}-{bin_start + bin_size:.1f}",
+                        "bin_start": bin_start,
+                        "bin_end": bin_start + bin_size,
+                        "count": bins[bin_start],
+                        "percentage": bins[bin_start] / len(data) * 100,
+                    }
+                )
 
             distributions[col] = histogram
 
@@ -157,7 +159,7 @@ class ScoreAnalytics:
         # 相関係数を計算
         correlation_matrix = []
         for axis1 in self.score_columns:
-            row = {'axis': axis1}
+            row = {"axis": axis1}
             data1 = [r[axis1] for r in valid_records]
 
             for axis2 in self.score_columns:
@@ -196,14 +198,14 @@ class ScoreAnalytics:
         """
         episodes = []
 
-        with open(self.csv_path, 'r', encoding='utf-8-sig') as f:
+        with open(self.csv_path, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
 
             for row in reader:
                 # 7軸スコアの平均を計算
                 axis_scores = []
                 for col in self.score_columns:
-                    value = row.get(col, '').strip()
+                    value = row.get(col, "").strip()
                     if value:
                         try:
                             axis_scores.append(float(value))
@@ -212,22 +214,24 @@ class ScoreAnalytics:
 
                 if len(axis_scores) == 7:  # 全軸にスコアがある場合のみ
                     composite = statistics.mean(axis_scores)
-                    episodes.append({
-                        'person_name': row.get('person_name', ''),
-                        'age': row.get('age', ''),
-                        'episode': row.get('episode', '')[:100],  # 最初の100文字
-                        'composite_score': round(composite, 2),
-                        'memorability_score': float(row.get('記憶性スコア', 0)),
-                        'empathy_score': float(row.get('共感性スコア', 0)),
-                        'surprise_score': float(row.get('意外性スコア', 0)),
-                        'generation_quality_score': float(row.get('生成品質スコア', 0)),
-                        'educational_value': float(row.get('教育的価値', 0)),
-                        'storytelling_quality': float(row.get('ストーリー品質', 0)),
-                        'factual_density': float(row.get('事実密度', 0))
-                    })
+                    episodes.append(
+                        {
+                            "person_name": row.get("person_name", ""),
+                            "age": row.get("age", ""),
+                            "episode": row.get("episode", "")[:100],  # 最初の100文字
+                            "composite_score": round(composite, 2),
+                            "memorability_score": float(row.get("記憶性スコア", 0)),
+                            "empathy_score": float(row.get("共感性スコア", 0)),
+                            "surprise_score": float(row.get("意外性スコア", 0)),
+                            "generation_quality_score": float(row.get("生成品質スコア", 0)),
+                            "educational_value": float(row.get("教育的価値", 0)),
+                            "storytelling_quality": float(row.get("ストーリー品質", 0)),
+                            "factual_density": float(row.get("事実密度", 0)),
+                        }
+                    )
 
         # 総合スコアでソート
-        episodes.sort(key=lambda x: x['composite_score'], reverse=True)
+        episodes.sort(key=lambda x: x["composite_score"], reverse=True)
 
         return episodes[:top_n]
 
@@ -246,21 +250,20 @@ class ScoreAnalytics:
         for data in scores.values():
             all_scores.extend(data)
 
-        summary = {
-            'total_episodes': len(all_scores) // 7 if all_scores else 0,
-            'axes': []
-        }
+        summary = {"total_episodes": len(all_scores) // 7 if all_scores else 0, "axes": []}
 
         for col in self.score_columns:
             if col in stats:
-                summary['axes'].append({
-                    'name': col,
-                    'count': stats[col]['count'],
-                    'mean': round(stats[col]['mean'], 2),
-                    'median': round(stats[col]['median'], 2),
-                    'stdev': round(stats[col]['stdev'], 2),
-                    'min': round(stats[col]['min'], 1),
-                    'max': round(stats[col]['max'], 1)
-                })
+                summary["axes"].append(
+                    {
+                        "name": col,
+                        "count": stats[col]["count"],
+                        "mean": round(stats[col]["mean"], 2),
+                        "median": round(stats[col]["median"], 2),
+                        "stdev": round(stats[col]["stdev"], 2),
+                        "min": round(stats[col]["min"], 1),
+                        "max": round(stats[col]["max"], 1),
+                    }
+                )
 
         return summary

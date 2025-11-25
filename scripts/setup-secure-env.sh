@@ -33,7 +33,7 @@ set_env_var() {
     local var_name=$1
     local var_value=$2
     local description=$3
-    
+
     if [ -z "$var_value" ] || [ "$var_value" = "your_*" ]; then
         echo -e "${YELLOW}⚠️ $description ($var_name) が未設定です${NC}"
         return 1

@@ -1,194 +1,194 @@
 # 品質ゲート設定ファイル
 # Quality Gates Configuration
-# 
+#
 # このファイルは品質優先システムの品質ゲートを定義します。
 # すべてのゲートを通過しない限り、処理を続行しません。
 
-version: "1.0"
-last_updated: "2025-09-03"
+version: '1.0'
+last_updated: '2025-09-03'
 
 # =============================================================================
 # 品質ゲート定義
 # =============================================================================
 quality_gates:
-  - id: "SYSTEM_READY"
-    name: "システム準備確認"
-    description: "APIキー設定、依存関係、環境変数をチェック"
-    required: true
-    fail_fast: true
-    checks:
-      - name: "API設定確認"
-        condition: "at_least_one_api_configured"
-        error_message: "APIが1つも設定されていません"
-      - name: "環境変数確認"
-        condition: "required_env_vars_present"
-        error_message: "必須環境変数が設定されていません"
+- id: SYSTEM_READY
+  name: システム準備確認
+  description: APIキー設定、依存関係、環境変数をチェック
+  required: true
+  fail_fast: true
+  checks:
+  - name: API設定確認
+    condition: at_least_one_api_configured
+    error_message: APIが1つも設定されていません
+  - name: 環境変数確認
+    condition: required_env_vars_present
+    error_message: 必須環境変数が設定されていません
 
-  - id: "DATA_QUALITY"
-    name: "データ品質検証"
-    description: "ダミーデータ検出、完全性確認、データ信頼性チェック"
-    required: true
-    fail_fast: true
-    checks:
-      - name: "ダミーデータ検出"
-        condition: "no_dummy_data"
-        error_message: "ダミーデータまたはプレースホルダーを検出"
-      - name: "必須フィールド確認"
-        condition: "all_required_fields_present"
-        error_message: "必須フィールドが不足しています"
-      - name: "データソース確認"
-        condition: "data_source_not_fallback"
-        error_message: "フォールバックデータは使用できません"
+- id: DATA_QUALITY
+  name: データ品質検証
+  description: ダミーデータ検出、完全性確認、データ信頼性チェック
+  required: true
+  fail_fast: true
+  checks:
+  - name: ダミーデータ検出
+    condition: no_dummy_data
+    error_message: ダミーデータまたはプレースホルダーを検出
+  - name: 必須フィールド確認
+    condition: all_required_fields_present
+    error_message: 必須フィールドが不足しています
+  - name: データソース確認
+    condition: data_source_not_fallback
+    error_message: フォールバックデータは使用できません
 
-  - id: "SCORE_VALIDITY"
-    name: "スコア妥当性確認"
-    description: "スコアの範囲チェック、異常値検出、有名人検証"
-    required: true
-    fail_fast: true
-    checks:
-      - name: "スコア範囲確認"
-        condition: "score_in_valid_range"
-        range: [0, 10]
-        error_message: "スコアが有効範囲外です"
-      - name: "有名人スコア検証"
-        condition: "famous_persons_above_threshold"
-        error_message: "有名人のスコアが異常に低い"
-      - name: "スコア分布確認"
-        condition: "score_distribution_normal"
-        error_message: "スコア分布に異常があります"
+- id: SCORE_VALIDITY
+  name: スコア妥当性確認
+  description: スコアの範囲チェック、異常値検出、有名人検証
+  required: true
+  fail_fast: true
+  checks:
+  - name: スコア範囲確認
+    condition: score_in_valid_range
+    range: [0, 10]
+    error_message: スコアが有効範囲外です
+  - name: 有名人スコア検証
+    condition: famous_persons_above_threshold
+    error_message: 有名人のスコアが異常に低い
+  - name: スコア分布確認
+    condition: score_distribution_normal
+    error_message: スコア分布に異常があります
 
-  - id: "STATISTICAL_CHECK"
-    name: "統計的整合性チェック"
-    description: "削除率の妥当性、分布の正常性、外れ値検出"
-    required: true
-    fail_fast: true
-    checks:
-      - name: "削除率確認"
-        condition: "deletion_rate_in_range"
-        range: [0.10, 0.20]  # 10-20%
-        error_message: "削除率が異常です"
-      - name: "分布正常性"
-        condition: "distribution_is_normal"
-        error_message: "データ分布に異常があります"
-      - name: "外れ値検出"
-        condition: "no_statistical_outliers"
-        error_message: "統計的な外れ値を検出"
+- id: STATISTICAL_CHECK
+  name: 統計的整合性チェック
+  description: 削除率の妥当性、分布の正常性、外れ値検出
+  required: true
+  fail_fast: true
+  checks:
+  - name: 削除率確認
+    condition: deletion_rate_in_range
+    range: [0.10, 0.20]      # 10-20%
+    error_message: 削除率が異常です
+  - name: 分布正常性
+    condition: distribution_is_normal
+    error_message: データ分布に異常があります
+  - name: 外れ値検出
+    condition: no_statistical_outliers
+    error_message: 統計的な外れ値を検出
 
-  - id: "SAMPLE_VALIDATION"
-    name: "サンプル検証"
-    description: "既知の有名人での正確性確認"
-    required: true
-    fail_fast: false  # サンプル検証は警告のみ
-    checks:
-      - name: "ゴールドスタンダード検証"
-        condition: "gold_standard_validation"
-        error_message: "既知データでの検証に失敗"
-      - name: "クロスバリデーション"
-        condition: "cross_validation_passed"
-        error_message: "クロスバリデーションに失敗"
+- id: SAMPLE_VALIDATION
+  name: サンプル検証
+  description: 既知の有名人での正確性確認
+  required: true
+  fail_fast: false    # サンプル検証は警告のみ
+  checks:
+  - name: ゴールドスタンダード検証
+    condition: gold_standard_validation
+    error_message: 既知データでの検証に失敗
+  - name: クロスバリデーション
+    condition: cross_validation_passed
+    error_message: クロスバリデーションに失敗
 
 # =============================================================================
 # 品質メトリクス基準値
 # =============================================================================
 quality_metrics:
   api_response_rate:
-    description: "API応答実データ率"
+    description: API応答実データ率
     threshold: 0.95  # 95%以上
-    action_on_failure: "STOP"
-    
+    action_on_failure: STOP
+
   deletion_rate:
-    description: "データ削除率"
+    description: データ削除率
     min_threshold: 0.10  # 10%以上
     max_threshold: 0.20  # 20%以下
     warning_threshold: 0.40  # 40%超で警告
     critical_threshold: 0.45  # 45%超で停止
-    action_on_failure: "STOP"
-    
+    action_on_failure: STOP
+
   famous_person_min_score:
-    description: "有名人の最低スコア"
+    description: 有名人の最低スコア
     threshold: 7.0
-    action_on_failure: "STOP"
-    
+    action_on_failure: STOP
+
   dummy_data_count:
-    description: "ダミーデータ検出数"
+    description: ダミーデータ検出数
     threshold: 0  # 0件（許容なし）
-    action_on_failure: "STOP"
-    
+    action_on_failure: STOP
+
   api_timeout_rate:
-    description: "APIタイムアウト率"
+    description: APIタイムアウト率
     threshold: 0.05  # 5%以下
-    action_on_failure: "WARNING"
+    action_on_failure: WARNING
 
 # =============================================================================
 # サンプル検証用データ（ゴールドスタンダード）
 # =============================================================================
 gold_standard_persons:
-  - id: "P000013"
-    name: "HIKAKIN"
-    name_en: "Hikakin"
-    category: "YouTuber"
-    min_score: 7.0
-    expected_action: "KEEP"
-    
-  - id: "P000001"
-    name: "宮崎駿"
-    name_en: "Hayao Miyazaki"
-    category: "映画監督"
-    min_score: 8.0
-    expected_action: "KEEP"
-    
-  - id: "P000002"
-    name: "ビートたけし"
-    name_en: "Beat Takeshi"
-    category: "お笑い芸人"
-    min_score: 7.5
-    expected_action: "KEEP"
-    
-  - id: "P000100"
-    name: "イチロー"
-    name_en: "Ichiro Suzuki"
-    category: "野球選手"
-    min_score: 8.5
-    expected_action: "KEEP"
-    
-  - id: "P000200"
-    name: "安室奈美恵"
-    name_en: "Namie Amuro"
-    category: "歌手"
-    min_score: 7.5
-    expected_action: "KEEP"
+- id: P000013
+  name: HIKAKIN
+  name_en: Hikakin
+  category: YouTuber
+  min_score: 7.0
+  expected_action: KEEP
+
+- id: P000001
+  name: 宮崎駿
+  name_en: Hayao Miyazaki
+  category: 映画監督
+  min_score: 8.0
+  expected_action: KEEP
+
+- id: P000002
+  name: ビートたけし
+  name_en: Beat Takeshi
+  category: お笑い芸人
+  min_score: 7.5
+  expected_action: KEEP
+
+- id: P000100
+  name: イチロー
+  name_en: Ichiro Suzuki
+  category: 野球選手
+  min_score: 8.5
+  expected_action: KEEP
+
+- id: P000200
+  name: 安室奈美恵
+  name_en: Namie Amuro
+  category: 歌手
+  min_score: 7.5
+  expected_action: KEEP
 
 # =============================================================================
 # ダミーデータ検出パターン
 # =============================================================================
 dummy_data_patterns:
   keywords:
-    - "TODO"
-    - "FIXME"
-    - "HACK"
-    - "XXX"
-    - "シミュレート"
-    - "simulated"
-    - "placeholder"
-    - "dummy"
-    - "mock"
-    - "fake"
-    - "test"
-    
+  - TODO
+  - FIXME
+  - HACK
+  - XXX
+  - シミュレート
+  - simulated
+  - placeholder
+  - dummy
+  - mock
+  - fake
+  - test
+
   values:
-    - total_results: 0
-    - results: []
-    - data: null
-    - score: 0.0
-    - source: "fallback"
-    - source: "default"
-    
+  - total_results: 0
+  - results: []
+  - data:
+  - score: 0.0
+  - source: fallback
+  - source: default
+
   patterns:
-    - regex: "return\\s+0"
-    - regex: "return\\s+\\[\\]"
-    - regex: "return\\s+\\{\\}"
-    - regex: "return\\s+None"
-    - regex: "raise\\s+NotImplementedError"
+  - regex: return\s+0
+  - regex: return\s+\[\]
+  - regex: return\s+\{\}
+  - regex: return\s+None
+  - regex: raise\s+NotImplementedError
 
 # =============================================================================
 # エラー処理設定
@@ -198,25 +198,25 @@ error_handling:
   rollback_on_error: true
   preserve_audit_trail: true
   notify_on_failure: true
-  
+
   actions:
     STOP:
-      description: "即座に処理を停止"
+      description: 即座に処理を停止
       rollback: true
       notify: true
-      
+
     WARNING:
-      description: "警告を出力して続行"
+      description: 警告を出力して続行
       rollback: false
       notify: true
-      
+
     RETRY:
-      description: "再試行"
+      description: 再試行
       max_retries: 3
       retry_delay: 5  # seconds
-      
+
     SKIP:
-      description: "該当データをスキップ"
+      description: 該当データをスキップ
       log_skipped: true
 
 # =============================================================================
@@ -227,13 +227,13 @@ audit:
   log_all_decisions: true
   log_all_api_calls: true
   log_quality_checks: true
-  
+
   export:
-    format: "json"
+    format: json
     include_timestamps: true
     include_stack_traces: true
     max_size_mb: 100
-    
+
   retention:
     days: 90
     compress_after_days: 7

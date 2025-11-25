@@ -5,18 +5,18 @@ import random
 
 def create_episode_database_schema():
     """エピソードデータベースのスキーマを定義"""
-    
+
     schema = {
         # コアフィールド
         'episode_id': 'str',              # EP000001形式
-        'person_id': 'str',               # P000001形式  
+        'person_id': 'str',               # P000001形式
         'person_name_ja': 'str',          # 日本語名
         'person_name_display': 'str',     # 表示名
         'episode_title': 'str',           # エピソードタイトル
         'episode_content': 'str',         # エピソード本文（200-500文字）
         'episode_year': 'int',            # エピソードの年代
         'episode_category': 'str',        # カテゴリ
-        
+
         # メタデータ
         'source': 'str',                  # 出典
         'credibility_score': 'int',       # 信憑性スコア（1-100）
@@ -25,14 +25,14 @@ def create_episode_database_schema():
         'tags': 'str',                    # JSON配列文字列
         'related_persons': 'str',         # JSON配列文字列
         'location': 'str',                # 場所
-        
+
         # ゲーム用フィールド
         'quiz_potential': 'int',          # クイズ適性（1-100）
         'memorability': 'int',            # 記憶しやすさ（1-100）
         'surprise_factor': 'int',         # 意外性（1-100）
         'educational_value': 'int',       # 教育的価値（1-100）
         'entertainment_value': 'int',     # エンタメ価値（1-100）
-        
+
         # コンテンツ管理
         'created_at': 'datetime',         # 作成日時
         'updated_at': 'datetime',         # 更新日時
@@ -42,7 +42,7 @@ def create_episode_database_schema():
         'language': 'str',                # 言語
         'word_count': 'int',              # 文字数
         'reading_time': 'int',            # 読了時間（秒）
-        
+
         # 関連性フィールド
         'keywords': 'str',                # JSON配列文字列
         'themes': 'str',                  # JSON配列文字列
@@ -50,14 +50,14 @@ def create_episode_database_schema():
         'field': 'str',                   # 分野
         'impact_score': 'int',            # 影響度（1-100）
     }
-    
+
     return schema
 
 def create_sample_episodes():
     """サンプルエピソードを生成"""
-    
+
     episodes = []
-    
+
     # 織田信長のエピソード
     episodes.append({
         'episode_id': 'EP000001',
@@ -94,7 +94,7 @@ def create_sample_episodes():
         'field': '歴史',
         'impact_score': 95
     })
-    
+
     # イチローのエピソード
     episodes.append({
         'episode_id': 'EP000002',
@@ -131,7 +131,7 @@ def create_sample_episodes():
         'field': 'スポーツ',
         'impact_score': 90
     })
-    
+
     # 手塚治虫のエピソード
     episodes.append({
         'episode_id': 'EP000003',
@@ -168,7 +168,7 @@ def create_sample_episodes():
         'field': '文化',
         'impact_score': 85
     })
-    
+
     # 坂本龍馬のエピソード
     episodes.append({
         'episode_id': 'EP000004',
@@ -205,45 +205,45 @@ def create_sample_episodes():
         'field': '歴史',
         'impact_score': 100
     })
-    
+
     return episodes
 
 def create_episode_database():
     """エピソードデータベースを作成"""
-    
+
     # スキーマ取得
     schema = create_episode_database_schema()
-    
+
     # サンプルエピソード生成
     episodes = create_sample_episodes()
-    
+
     # DataFrameに変換
     df = pd.DataFrame(episodes)
-    
+
     # CSVとして保存
     output_path = f'episode_database_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
     df.to_csv(output_path, index=False, encoding='utf-8-sig')
-    
+
     # JSON形式でも保存（構造化データとして）
     json_path = f'episode_database_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
     df.to_json(json_path, orient='records', force_ascii=False, indent=2)
-    
+
     print(f"✅ エピソードデータベース作成完了")
     print(f"- CSV: {output_path}")
     print(f"- JSON: {json_path}")
     print(f"- エピソード数: {len(episodes)}件")
-    
+
     # スキーマ情報を保存
     schema_path = 'episode_database_schema.json'
     with open(schema_path, 'w', encoding='utf-8') as f:
         json.dump(schema, f, ensure_ascii=False, indent=2)
     print(f"- スキーマ: {schema_path}")
-    
+
     return df
 
 def display_episode_categories():
     """エピソードカテゴリの定義を表示"""
-    
+
     categories = {
         '偉業': '歴史的な功績や記録的な達成',
         '失敗': '失敗から学んだ教訓',
@@ -256,16 +256,16 @@ def display_episode_categories():
         '発見': '新しい発見や発明',
         '感動': '人々を感動させたエピソード'
     }
-    
+
     print("\n📚 エピソードカテゴリ:")
     for category, description in categories.items():
         print(f"- {category}: {description}")
-    
+
     return categories
 
 def display_emotional_tones():
     """感情トーンの定義を表示"""
-    
+
     tones = {
         '感動的': '心を動かす感動的な内容',
         '劇的': 'ドラマチックな展開',
@@ -276,29 +276,29 @@ def display_emotional_tones():
         '勇壮': '勇気や力強さを感じる内容',
         '温かい': '人情味や優しさを感じる内容'
     }
-    
+
     print("\n🎭 感情トーン:")
     for tone, description in tones.items():
         print(f"- {tone}: {description}")
-    
+
     return tones
 
 if __name__ == "__main__":
     print("=" * 60)
     print("📖 エピソードデータベース設計")
     print("=" * 60)
-    
+
     # カテゴリと感情トーンを表示
     display_episode_categories()
     display_emotional_tones()
-    
+
     # データベース作成
     print("\n" + "=" * 60)
     print("🔨 サンプルデータベース作成中...")
     print("=" * 60)
-    
+
     df = create_episode_database()
-    
+
     # サンプル表示
     print("\n📊 サンプルエピソード:")
     print("-" * 60)

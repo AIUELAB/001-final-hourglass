@@ -269,9 +269,7 @@ class GitHubWorkflowExamples:
         """
         console.print(Panel.fit("💡 Contribution Opportunities", border_style="cyan"))
 
-        skills = Prompt.ask(
-            "Enter your skills (comma-separated)", default="python,javascript,react"
-        )
+        skills = Prompt.ask("Enter your skills (comma-separated)", default="python,javascript,react")
         difficulty = Prompt.ask(
             "Difficulty level", choices=["beginner", "intermediate", "advanced"], default="beginner"
         )
@@ -315,9 +313,7 @@ async def interactive_menu():
             table.add_column("Workflow", style="white")
             table.add_column("Description", style="dim")
 
-            table.add_row(
-                "1", "Repository Analysis", "Comprehensive repository statistics and insights"
-            )
+            table.add_row("1", "Repository Analysis", "Comprehensive repository statistics and insights")
             table.add_row("2", "Issue Triage", "Categorize and prioritize repository issues")
             table.add_row("3", "PR Review Helper", "Find PRs that need review")
             table.add_row("4", "Good First Issues", "Find beginner-friendly issues")
@@ -346,9 +342,7 @@ async def interactive_menu():
 
             console.print(build_workflows_table())
 
-            choice = Prompt.ask(
-                "\nSelect a workflow", choices=["0", "1", "2", "3", "4", "5", "6", "7", "8"]
-            )
+            choice = Prompt.ask("\nSelect a workflow", choices=["0", "1", "2", "3", "4", "5", "6", "7", "8"])
 
             if choice == "0":
                 console.print("[yellow]Goodbye! 👋[/yellow]")

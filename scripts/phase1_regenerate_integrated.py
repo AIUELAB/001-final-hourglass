@@ -8,15 +8,15 @@ Phase 1再生成スクリプト（統合システム対応版）
 - EpisodeGuardian統合（EntityTypeValidator）
 """
 
-import sys
-import sqlite3
-import json
 import csv
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, Optional, List
+import json
 import os
+import sqlite3
+import sys
 import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # プロジェクトルートをパスに追加
 project_root = Path(__file__).parent.parent
@@ -24,8 +24,8 @@ sys.path.insert(0, str(project_root))
 
 # 統合システムのインポート
 try:
-    from pdca_guardian import PDCAGuardian
     from episode_guardian import EntityTypeValidator, Severity
+    from pdca_guardian import PDCAGuardian
 except ImportError as e:
     print(f"❌ インポートエラー: {e}")
     sys.exit(1)
@@ -49,9 +49,7 @@ class IntegratedEpisodeGenerator:
 
         # PDCAGuardian初期化
         self.pdca_guardian = PDCAGuardian(
-            memory_file="phase1_regenerate_memory.json",
-            use_unified_rules=True,
-            relaxed_mode=False
+            memory_file="phase1_regenerate_memory.json", use_unified_rules=True, relaxed_mode=False
         )
 
         # EntityTypeValidator初期化
@@ -64,9 +62,9 @@ class IntegratedEpisodeGenerator:
             raise ValueError("❌ OPENAI_API_KEYが設定されていません")
         openai.api_key = api_key
 
-        print(f"✅ 統合エピソード生成エンジン初期化完了")
+        print("✅ 統合エピソード生成エンジン初期化完了")
         print(f"   PDCAルール数: {len(self.pdca_guardian.unified_rule_loader.rules)}件")
-        print(f"   EntityTypeValidator: 有効")
+        print("   EntityTypeValidator: 有効")
 
     def load_phase1_persons(self, limit: int = 20) -> List[Dict[str, Any]]:
         """Phase 1対象人物を読み込み（統合検証付き）"""
@@ -94,26 +92,28 @@ class IntegratedEpisodeGenerator:
         persons = []
         for row in rows:
             person_data = {
-                'person_id': row['person_id'],
-                'person_name_ja': row['person_name_ja'],
-                'birth_year': row['birth_year'],
-                'category': row['category'],
-                'entity_type': row['entity_type'],
-                'recognition_score': row['recognition_score']
+                "person_id": row["person_id"],
+                "person_name_ja": row["person_name_ja"],
+                "birth_year": row["birth_year"],
+                "category": row["category"],
+                "entity_type": row["entity_type"],
+                "recognition_score": row["recognition_score"],
             }
 
             # 第2層: entity_type二重チェック
-            if person_data['entity_type'] != 'real_person':
+            if person_data["entity_type"] != "real_person":
                 print(f"⚠️ Skipping {person_data['person_name_ja']}: entity_type={person_data['entity_type']}")
                 continue
 
             # 第3層: EntityTypeValidator事前検証
-            validation_result = self.entity_validator.validate({
-                'person_name': person_data['person_name_ja'],
-                'category': person_data['category'],
-                'episode_text': '',
-                'age': 30  # ダミー年齢
-            })
+            validation_result = self.entity_validator.validate(
+                {
+                    "person_name": person_data["person_name_ja"],
+                    "category": person_data["category"],
+                    "episode_text": "",
+                    "age": 30,  # ダミー年齢
+                }
+            )
 
             if not validation_result.is_valid and validation_result.severity == Severity.CRITICAL:
                 print(f"❌ Pre-validation failed for {person_data['person_name_ja']}: {validation_result.message}")
@@ -125,9 +125,9 @@ class IntegratedEpisodeGenerator:
 
     def generate_episode_prompt(self, person_info: Dict[str, Any], age: int) -> str:
         """エピソード生成プロンプト"""
-        name = person_info['person_name_ja']
-        birth_year = person_info['birth_year']
-        category = person_info['category']
+        name = person_info["person_name_ja"]
+        birth_year = person_info["birth_year"]
+        category = person_info["category"]
 
         prompt = f"""
 あなたは{name}の人生エピソードを生成する専門家です。
@@ -178,15 +178,15 @@ class IntegratedEpisodeGenerator:
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "あなたは歴史的事実に基づいた感動的なエピソードを書く専門家です。"},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": prompt},
                 ],
                 temperature=0.8,
-                max_tokens=600
+                max_tokens=600,
             )
 
             text = response.choices[0].message.content.strip()
             # 改行や余計な記号を除去
-            text = text.replace('\n', '').replace('\r', '')
+            text = text.replace("\n", "").replace("\r", "")
             return text
 
         except Exception as e:
@@ -198,7 +198,7 @@ class IntegratedEpisodeGenerator:
         import re
 
         # 年齢抽出
-        age_match = re.search(r'(\d{1,3})歳', raw_text)
+        age_match = re.search(r"(\d{1,3})歳", raw_text)
         if not age_match:
             print(f"⚠️ 年齢が見つかりません: {raw_text[:50]}...")
             return None
@@ -208,18 +208,15 @@ class IntegratedEpisodeGenerator:
         # エピソード本文抽出
         episode_text = raw_text.strip()
 
-        return {
-            'age': age,
-            'episode_text': episode_text
-        }
+        return {"age": age, "episode_text": episode_text}
 
     def validate_with_pdca(self, episode: Dict[str, Any]) -> bool:
         """PDCAGuardianで検証"""
         violations = self.pdca_guardian.check_episode_quality(
-            episode_text=episode['episode_text'],
-            age=episode['age'],
-            person_name_display=episode['person_name'],
-            person_data=episode  # 全データを渡す
+            episode_text=episode["episode_text"],
+            age=episode["age"],
+            person_name_display=episode["person_name"],
+            person_data=episode,  # 全データを渡す
         )
         # 違反がなければ合格
         return len(violations) == 0
@@ -229,20 +226,23 @@ class IntegratedEpisodeGenerator:
         episode_id = f"EP_{person_id}_{age:03d}"
         cursor = self.conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT OR REPLACE INTO episodes (
                 episode_id, person_id, age, episode_text,
                 grade, created_at, updated_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            episode_id,
-            person_id,
-            age,
-            episode_text,
-            'phase1_regenerated',
-            datetime.now().isoformat(),
-            datetime.now().isoformat()
-        ))
+        """,
+            (
+                episode_id,
+                person_id,
+                age,
+                episode_text,
+                "phase1_regenerated",
+                datetime.now().isoformat(),
+                datetime.now().isoformat(),
+            ),
+        )
 
         self.conn.commit()
         return episode_id
@@ -250,7 +250,7 @@ class IntegratedEpisodeGenerator:
     def generate_batch(self, count: int = 19) -> List[Dict[str, Any]]:
         """バッチ生成"""
         print(f"\n{'=' * 70}")
-        print(f"  Phase 1再生成（統合システム版）")
+        print("  Phase 1再生成（統合システム版）")
         print(f"{'=' * 70}")
 
         persons = self.load_phase1_persons(limit=count)
@@ -264,8 +264,8 @@ class IntegratedEpisodeGenerator:
         failed_count = 0
 
         for idx, person in enumerate(persons, 1):
-            person_name = person['person_name_ja']
-            person_id = person['person_id']
+            person_name = person["person_name_ja"]
+            person_id = person["person_id"]
 
             print(f"\n{'─' * 70}")
             print(f"[{idx}/{total}] {person_name} ({person_id})")
@@ -278,75 +278,68 @@ class IntegratedEpisodeGenerator:
             prompt = self.generate_episode_prompt(person, age)
 
             # API呼び出し
-            print(f"🔄 エピソード生成中...")
+            print("🔄 エピソード生成中...")
             raw_text = self.call_openai_api(prompt)
 
             if not raw_text:
-                print(f"❌ 生成失敗")
+                print("❌ 生成失敗")
                 failed_count += 1
-                results.append({
-                    'person_id': person_id,
-                    'person_name': person_name,
-                    'success': False,
-                    'error': 'API呼び出し失敗'
-                })
+                results.append(
+                    {"person_id": person_id, "person_name": person_name, "success": False, "error": "API呼び出し失敗"}
+                )
                 continue
 
             # パース
             parsed = self.parse_episode(raw_text)
             if not parsed:
-                print(f"❌ パース失敗")
+                print("❌ パース失敗")
                 failed_count += 1
-                results.append({
-                    'person_id': person_id,
-                    'person_name': person_name,
-                    'success': False,
-                    'error': 'パース失敗'
-                })
+                results.append(
+                    {"person_id": person_id, "person_name": person_name, "success": False, "error": "パース失敗"}
+                )
                 continue
 
-            episode_text = parsed['episode_text']
-            age = parsed['age']
+            episode_text = parsed["episode_text"]
+            age = parsed["age"]
 
             print(f"\n📝 生成されたエピソード（{len(episode_text)}文字）:")
             print(f"   {episode_text[:100]}...")
 
             # PDCA検証
-            print(f"\n🔍 PDCAGuardian検証中...")
+            print("\n🔍 PDCAGuardian検証中...")
             episode_for_validation = {
-                'person_id': person_id,
-                'person_name': person_name,
-                'age': age,
-                'episode_text': episode_text,
-                'category': person['category']
+                "person_id": person_id,
+                "person_name": person_name,
+                "age": age,
+                "episode_text": episode_text,
+                "category": person["category"],
             }
 
             is_valid = self.validate_with_pdca(episode_for_validation)
 
             if is_valid:
-                print(f"✅ 検証合格")
+                print("✅ 検証合格")
                 # 保存
                 episode_id = self.save_episode(person_id, age, episode_text)
                 success_count += 1
-                results.append({
-                    'person_id': person_id,
-                    'person_name': person_name,
-                    'age': age,
-                    'episode_text': episode_text,
-                    'episode_id': episode_id,
-                    'success': True,
-                    'character_count': len(episode_text)
-                })
+                results.append(
+                    {
+                        "person_id": person_id,
+                        "person_name": person_name,
+                        "age": age,
+                        "episode_text": episode_text,
+                        "episode_id": episode_id,
+                        "success": True,
+                        "character_count": len(episode_text),
+                    }
+                )
                 print(f"💾 保存完了: {episode_id}")
             else:
-                print(f"❌ 検証不合格")
+                print("❌ 検証不合格")
                 failed_count += 1
-                results.append({
-                    'person_id': person_id,
-                    'person_name': person_name,
-                    'success': False,
-                    'error': 'PDCA検証不合格'
-                })
+                results.append(
+                    {"person_id": person_id, "person_name": person_name, "success": False, "error": "PDCA検証不合格"}
+                )
 
             # API レート制限対策
             if idx < total:
@@ -354,7 +347,7 @@ class IntegratedEpisodeGenerator:
 
         # サマリー
         print(f"\n{'=' * 70}")
-        print(f"  生成完了サマリー")
+        print("  生成完了サマリー")
         print(f"{'=' * 70}")
         print(f"\n対象: {total}人")
         print(f"✅ 成功: {success_count}人 ({success_count/total*100:.1f}%)")
@@ -365,16 +358,13 @@ class IntegratedEpisodeGenerator:
 
     def export_to_csv(self, results: List[Dict[str, Any]], output_path: str):
         """CSVエクスポート"""
-        with open(output_path, 'w', encoding='utf-8-sig', newline='') as f:
-            fieldnames = [
-                'person_id', 'person_name', 'age', 'episode_text',
-                'episode_id', 'character_count', 'success'
-            ]
-            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
+        with open(output_path, "w", encoding="utf-8-sig", newline="") as f:
+            fieldnames = ["person_id", "person_name", "age", "episode_text", "episode_id", "character_count", "success"]
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
             writer.writeheader()
 
             for result in results:
-                if result.get('success'):
+                if result.get("success"):
                     writer.writerow(result)
 
         print(f"\n💾 CSV出力: {output_path}")
@@ -406,5 +396,5 @@ def main():
         generator.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

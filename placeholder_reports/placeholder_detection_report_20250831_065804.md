@@ -437,4 +437,3 @@ Medium confidence detections requiring human review:
 - Multiple empty/default indicators: 7
 - Empty fields: missing_birth_year, unknown_nationality, unknown_occupation, unknown_era
 - Default values: default_recognition_score, default_accuracy_score, default_episode_title
-

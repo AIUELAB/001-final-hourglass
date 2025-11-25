@@ -53,10 +53,10 @@
 func testAppLaunchScenarios() {
     // コールドスタート（初回起動）
     testColdStart()
-    
+
     // ウォームスタート（バックグラウンドから復帰）
     testWarmStart()
-    
+
     // メモリ不足時の起動
     testLowMemoryLaunch()
 }
@@ -64,13 +64,13 @@ func testAppLaunchScenarios() {
 private func testColdStart() {
     let app = XCUIApplication()
     let startTime = CFAbsoluteTimeGetCurrent()
-    
+
     app.launch()
-    
+
     let mainScreen = app.otherElements["MainScreen"]
     let exists = mainScreen.waitForExistence(timeout: 3.0)
     let launchTime = CFAbsoluteTimeGetCurrent() - startTime
-    
+
     XCTAssertTrue(exists, "メイン画面が表示されませんでした")
     XCTAssertLessThan(launchTime, 3.0, "起動時間が3秒を超えました: \(launchTime)")
 }
@@ -82,23 +82,23 @@ private func testColdStart() {
 func testMemoryManagement() {
     let app = XCUIApplication()
     app.launch()
-    
+
     // 初期メモリ使用量の記録
     let initialMemory = getMemoryUsage().resident
-    
+
     // 大量のデータを処理
     performMemoryIntensiveTask()
-    
+
     // メモリ使用量の確認
     let currentMemory = getMemoryUsage().resident
     let memoryIncrease = currentMemory - initialMemory
-    
+
     XCTAssertLessThan(memoryIncrease, 100_000_000, "メモリ使用量の増加が100MBを超えました")
-    
+
     // メモリ解放の確認
     performMemoryCleanup()
     Thread.sleep(forTimeInterval: 2.0)
-    
+
     let finalMemory = getMemoryUsage().resident
     XCTAssertLessThan(finalMemory - initialMemory, 50_000_000, "メモリが適切に解放されていません")
 }
@@ -110,13 +110,13 @@ func testMemoryManagement() {
 func testNetworkScenarios() {
     // オンライン状態でのテスト
     testOnlineMode()
-    
+
     // オフライン状態でのテスト
     testOfflineMode()
-    
+
     // 低速ネットワークでのテスト
     testSlowNetwork()
-    
+
     // 断続的接続でのテスト
     testIntermittentConnection()
 }
@@ -124,18 +124,18 @@ func testNetworkScenarios() {
 private func testOfflineMode() {
     let app = XCUIApplication()
     app.launch()
-    
+
     // ネットワーク接続を無効にした状態をシミュレート
     simulateNetworkUnavailable()
-    
+
     let refreshButton = app.buttons["更新"]
     refreshButton.tap()
-    
+
     // 適切なエラーメッセージの表示確認
     let errorAlert = app.alerts.element
     XCTAssertTrue(errorAlert.waitForExistence(timeout: 5.0))
     XCTAssertTrue(errorAlert.staticTexts["接続エラー"].exists)
-    
+
     // 再試行ボタンの存在確認
     XCTAssertTrue(errorAlert.buttons["再試行"].exists)
 }
@@ -147,20 +147,20 @@ private func testOfflineMode() {
 func testDataIntegrity() {
     let app = XCUIApplication()
     app.launch()
-    
+
     // テストデータの作成
     createTestData()
-    
+
     // アプリをバックグラウンドに移行
     XCUIDevice.shared.press(.home)
     Thread.sleep(forTimeInterval: 5.0)
-    
+
     // メモリ警告をシミュレート
     simulateMemoryWarning()
-    
+
     // アプリを再度フォアグラウンドに
     app.activate()
-    
+
     // データの整合性確認
     XCTAssertTrue(verifyTestData(), "バックグラウンド移行後にデータが破損しました")
 }
@@ -213,17 +213,17 @@ class PerformanceMonitor {
         let endTime = CFAbsoluteTimeGetCurrent()
         return (result, endTime - startTime)
     }
-    
+
     static func getCurrentMemoryUsage() -> Int64 {
         var info = mach_task_basic_info()
         var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
-        
+
         let result = withUnsafeMutablePointer(to: &info) {
             $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
                 task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
             }
         }
-        
+
         return result == KERN_SUCCESS ? Int64(info.resident_size) : 0
     }
 }
@@ -262,7 +262,7 @@ func evaluateErrorHandling() -> Bool {
         logsErrorsProperly(),
         showsProgressIndicators()
     ]
-    
+
     return criteria.allSatisfy { $0 }
 }
 
@@ -295,21 +295,21 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-      
+
       - name: Run Unit Tests
         run: |
           xcodebuild test \
             -scheme YourApp \
             -destination 'platform=iOS Simulator,name=iPhone 14' \
             -testPlan UnitTests
-      
+
       - name: Run UI Tests
         run: |
           xcodebuild test \
             -scheme YourApp \
             -destination 'platform=iOS Simulator,name=iPhone 14' \
             -testPlan UITests
-      
+
       - name: Run Performance Tests
         run: |
           xcodebuild test \
@@ -361,7 +361,7 @@ func generateCoverageReport() {
     // テストカバレッジ80%以上を目標
     let coverageThreshold = 0.8
     let currentCoverage = getCurrentCoverage()
-    
+
     XCTAssertGreaterThanOrEqual(currentCoverage, coverageThreshold,
                                 "テストカバレッジが\(coverageThreshold * 100)%を下回っています")
 }

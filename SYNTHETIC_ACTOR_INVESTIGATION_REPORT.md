@@ -102,7 +102,7 @@ Real actors in the database show:
 
 Based on pattern analysis, expect similar synthetic entries with surnames:
 - 佐藤 (Sato)
-- 鈴木 (Suzuki) 
+- 鈴木 (Suzuki)
 - 高橋 (Takahashi)
 - 田中 (Tanaka)
 - 渡辺 (Watanabe)

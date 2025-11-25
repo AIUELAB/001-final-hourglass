@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def add_group_member_display_rule():
     """グループメンバー表示名ルール追加"""
-    
+
     new_rule = {
         "rule_id": "RULE_097",
         "name": "グループメンバー表示名必須ルール",
@@ -35,19 +35,19 @@ def add_group_member_display_rule():
                 # グループメンバーデータベースと照合
                 if person_name in GROUP_MEMBERS_DB:
                     groups = GROUP_MEMBERS_DB[person_name]
-                    
+
                     # グループ名が含まれているか確認
                     has_group = False
                     for group in groups:
                         if f'（{group}）' in display_name:
                             has_group = True
                             break
-                    
+
                     if not has_group:
                         # グループ名を追加
                         main_group = groups[0]  # 最も有名なグループ
                         return f"{person_name}（{main_group}）"
-                
+
                 return display_name
             """,
             "examples": [
@@ -94,16 +94,16 @@ def add_group_member_display_rule():
         "created_at": datetime.now().isoformat(),
         "reason": "グループメンバーの識別性向上とデータ一貫性確保のため"
     }
-    
+
     # 既存のルールファイルを読み込み
     rules_file = Path("pdca_guardian_rules.json")
-    
+
     if rules_file.exists():
         with open(rules_file, 'r', encoding='utf-8') as f:
             existing_rules = json.load(f)
     else:
         existing_rules = {"rules": [], "last_updated": None}
-    
+
     # 新しいルールを追加または更新
     rule_exists = False
     for i, rule in enumerate(existing_rules.get('rules', [])):
@@ -112,22 +112,22 @@ def add_group_member_display_rule():
             logger.info(f"🔄 ルール更新: RULE_097 - {new_rule['name']}")
             rule_exists = True
             break
-    
+
     if not rule_exists:
         existing_rules.setdefault('rules', []).append(new_rule)
         logger.info(f"✅ ルール追加: RULE_097 - {new_rule['name']}")
-    
+
     # 更新日時を記録
     existing_rules['last_updated'] = datetime.now().isoformat()
     existing_rules['total_rules'] = len(existing_rules.get('rules', []))
-    
+
     # ファイルに保存
     with open(rules_file, 'w', encoding='utf-8') as f:
         json.dump(existing_rules, f, ensure_ascii=False, indent=2)
-    
+
     logger.info(f"💾 PDCAルール保存: {rules_file}")
     logger.info(f"📊 総ルール数: {existing_rules['total_rules']}")
-    
+
     return new_rule
 
 
@@ -167,12 +167,12 @@ def generate_implementation_report():
     report.append("- 新規グループの追加を継続的に監視")
     report.append("- 解散・脱退情報の反映")
     report.append("")
-    
+
     # レポート保存
     report_file = f"PDCA_RULE_097_REPORT_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(report))
-    
+
     logger.info(f"📄 レポート生成: {report_file}")
 
 
@@ -181,13 +181,13 @@ def main():
     logger.info("=" * 60)
     logger.info("🚀 PDCAガーディアンルール097追加")
     logger.info("=" * 60)
-    
+
     # ルール追加
     rule = add_group_member_display_rule()
-    
+
     # レポート生成
     generate_implementation_report()
-    
+
     logger.info("\n" + "=" * 60)
     logger.info("✅ PDCAガーディアンルール097追加完了")
     logger.info("=" * 60)

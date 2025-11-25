@@ -897,4 +897,3 @@ UPDATE records SET person_name_display = 'ミナ' WHERE person_id = 'P001308';
 UPDATE records SET person_name_display = 'モモ' WHERE person_id = 'P001350';
 -- ... and 48 more records
 ```
-

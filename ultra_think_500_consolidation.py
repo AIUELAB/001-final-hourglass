@@ -20,14 +20,14 @@ logger = logging.getLogger(__name__)
 
 class UltraThink500Consolidator:
     """500人規模へのデータ統合"""
-    
+
     def __init__(self):
         self.all_people: List[Dict[str, Any]] = []
         self.source_files = []
-        
+
     def load_all_phases(self):
         """全フェーズのデータを読み込み"""
-        
+
         # Phase 1-5のデータ（既存の236人）
         phase_1_5_file = "ultra_think_consolidated_20250825_131325.csv"
         if Path(phase_1_5_file).exists():
@@ -38,7 +38,7 @@ class UltraThink500Consolidator:
                 self.all_people.extend(phase_1_5_data)
                 self.source_files.append(phase_1_5_file)
                 logger.info(f"Phase 1-5: {len(phase_1_5_data)}人読み込み完了")
-        
+
         # Phase 6-10のデータ（新規288人）
         phase_6_10_pattern = "ultra_think_phase_6_10_complete_*.csv"
         phase_6_10_files = glob.glob(phase_6_10_pattern)
@@ -51,7 +51,7 @@ class UltraThink500Consolidator:
                 self.all_people.extend(phase_6_10_data)
                 self.source_files.append(latest_file)
                 logger.info(f"Phase 6-10: {len(phase_6_10_data)}人読み込み完了")
-    
+
     def remove_duplicates(self):
         """重複除去"""
         unique_people = {}
@@ -59,12 +59,12 @@ class UltraThink500Consolidator:
             key = person.get('person_name', '')
             if key and key not in unique_people:
                 unique_people[key] = person
-        
+
         original_count = len(self.all_people)
         self.all_people = list(unique_people.values())
         removed = original_count - len(self.all_people)
         logger.info(f"重複除去: {removed}件削除、{len(self.all_people)}人残存")
-    
+
     def analyze_data(self) -> Dict[str, Any]:
         """データ分析"""
         stats = {
@@ -82,21 +82,21 @@ class UltraThink500Consolidator:
                 'occupation': 0,
             }
         }
-        
+
         # カテゴリ別集計
         for person in self.all_people:
             # メインカテゴリ
             category = person.get('main_category', '不明')
             stats['by_category'][category] = stats['by_category'].get(category, 0) + 1
-            
+
             # 国籍別
             nationality = person.get('nationality', '不明')
             stats['by_nationality'][nationality] = stats['by_nationality'].get(nationality, 0) + 1
-            
+
             # フェーズ別
             phase = str(person.get('phase', '不明'))
             stats['by_phase'][phase] = stats['by_phase'].get(phase, 0) + 1
-            
+
             # 時代別（birth_yearから推定）
             try:
                 birth_year = int(person.get('birth_year', 0))
@@ -121,30 +121,30 @@ class UltraThink500Consolidator:
                 stats['by_era'][era] = stats['by_era'].get(era, 0) + 1
             except:
                 pass
-            
+
             # データ完全性チェック
             for field in stats['data_completeness'].keys():
                 if person.get(field):
                     stats['data_completeness'][field] += 1
-        
+
         return stats
-    
+
     def save_consolidated_data(self):
         """統合データの保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # 全フィールドを収集
         all_fields = set()
         for person in self.all_people:
             all_fields.update(person.keys())
         fieldnames = sorted(list(all_fields))
-        
+
         # 優先フィールドを先頭に配置
-        priority_fields = ['person_name', 'person_name_ja', 'person_name_display', 
+        priority_fields = ['person_name', 'person_name_ja', 'person_name_display',
                           'birth_year', 'nationality', 'occupation', 'main_category']
         other_fields = [f for f in fieldnames if f not in priority_fields]
         fieldnames = priority_fields + other_fields
-        
+
         # CSV保存
         csv_file = f"ultra_think_500_consolidated_{timestamp}.csv"
         with open(csv_file, 'w', encoding='utf-8-sig', newline='') as f:
@@ -152,20 +152,20 @@ class UltraThink500Consolidator:
             writer.writeheader()
             for person in self.all_people:
                 writer.writerow(person)
-        
+
         # JSON保存
         json_file = f"ultra_think_500_consolidated_{timestamp}.json"
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(self.all_people, f, ensure_ascii=False, indent=2)
-        
+
         logger.info(f"統合データ保存完了: {csv_file}, {json_file}")
         return csv_file, json_file
-    
+
     def generate_report(self, stats: Dict[str, Any]):
         """統合レポート生成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = f"ULTRA_THINK_500_REPORT_{timestamp}.md"
-        
+
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(f"""# 🎯 Ultra Think 500人規模統合完了レポート
 
@@ -181,33 +181,33 @@ class UltraThink500Consolidator:
 """)
             for file in self.source_files:
                 f.write(f"- {file}\n")
-            
+
             f.write(f"""
 ## 🏆 カテゴリ別統計
 """)
             for category, count in sorted(stats['by_category'].items(), key=lambda x: x[1], reverse=True):
                 percentage = (count / stats['total_count']) * 100
                 f.write(f"- {category}: {count}人 ({percentage:.1f}%)\n")
-            
+
             f.write(f"""
 ## 🌍 国籍別TOP20
 """)
             nationality_sorted = sorted(stats['by_nationality'].items(), key=lambda x: x[1], reverse=True)[:20]
             for nationality, count in nationality_sorted:
                 f.write(f"- {nationality}: {count}人\n")
-            
+
             f.write(f"""
 ## ⏰ 時代別分布
 """)
             for era, count in sorted(stats['by_era'].items()):
                 f.write(f"- {era}: {count}人\n")
-            
+
             f.write(f"""
 ## 📈 フェーズ別人数
 """)
             for phase, count in sorted(stats['by_phase'].items()):
                 f.write(f"- フェーズ{phase}: {count}人\n")
-            
+
             f.write(f"""
 ## ✅ データ品質指標
 
@@ -216,7 +216,7 @@ class UltraThink500Consolidator:
             for field, count in stats['data_completeness'].items():
                 percentage = (count / stats['total_count']) * 100
                 f.write(f"- {field}: {count}件 ({percentage:.1f}%)\n")
-            
+
             f.write(f"""
 ## 🎯 Ultra Think成果サマリー
 
@@ -263,10 +263,10 @@ class UltraThink500Consolidator:
 *Ultra Think 500 Consolidation Report v1.0*
 *Generated: {datetime.now().isoformat()}*
 """)
-        
+
         logger.info(f"レポート生成完了: {report_file}")
         return report_file
-    
+
     def run_consolidation(self):
         """統合処理の実行"""
         logger.info("""
@@ -274,22 +274,22 @@ class UltraThink500Consolidator:
         Ultra Think 500人規模データ統合開始
         ========================================
         """)
-        
+
         # データ読み込み
         self.load_all_phases()
-        
+
         # 重複除去
         self.remove_duplicates()
-        
+
         # データ分析
         stats = self.analyze_data()
-        
+
         # データ保存
         csv_file, json_file = self.save_consolidated_data()
-        
+
         # レポート生成
         report_file = self.generate_report(stats)
-        
+
         logger.info(f"""
         ========================================
         Ultra Think 500人規模統合完了！
@@ -301,14 +301,14 @@ class UltraThink500Consolidator:
         - {report_file}
         ========================================
         """)
-        
+
         return stats
 
 def main():
     """メイン実行"""
     consolidator = UltraThink500Consolidator()
     stats = consolidator.run_consolidation()
-    
+
     print(f"\n✅ 500人規模データベース構築成功！")
     print(f"📊 総人数: {stats['total_count']}人")
 

@@ -16,17 +16,17 @@ def delete_group_violations(csv_file: str) -> str:
     # Load database
     df = pd.read_csv(csv_file, encoding='utf-8-sig')
     initial_count = len(df)
-    
+
     print(f"📊 Initial database: {initial_count:,} records")
-    
+
     # Confirmed group violations to delete
     GROUP_VIOLATIONS = [
         'P002026',  # スカイピース (SkyPeace) - YouTube Duo
-        'P001100',  # フィッシャーズ (Fischer's) - YouTube Group  
+        'P001100',  # フィッシャーズ (Fischer's) - YouTube Group
         'P003642',  # 東海オンエア (Tokai On Air) - YouTube Group
         'P004066',  # 水溜りボンド (Mizutamari Bond) - YouTube Duo
     ]
-    
+
     # Additional known groups to check and delete
     ADDITIONAL_GROUPS = [
         'コムドット', 'Com Dot',
@@ -38,7 +38,7 @@ def delete_group_violations(csv_file: str) -> str:
         'サンドウィッチマン',  # Comedy duo
         'オードリー',  # Comedy duo (without individual member attribution)
     ]
-    
+
     # Delete confirmed violations
     deleted_records = []
     for person_id in GROUP_VIOLATIONS:
@@ -53,7 +53,7 @@ def delete_group_violations(csv_file: str) -> str:
             })
             df = df[df['person_id'] != person_id]
             print(f"❌ Deleted: {person_id} - {record.get('person_name_display', '')}")
-    
+
     # Check for additional groups by name
     for group_name in ADDITIONAL_GROUPS:
         # Check if group name appears as main display name (not in parentheses)
@@ -62,7 +62,7 @@ def delete_group_violations(csv_file: str) -> str:
             (df['person_name'] == group_name) |
             (df['person_name_ja'] == group_name)
         ]
-        
+
         for idx, row in group_entries.iterrows():
             # Verify this is a group entry, not an individual with group name
             if '(' not in str(row.get('person_name_display', '')):
@@ -74,10 +74,10 @@ def delete_group_violations(csv_file: str) -> str:
                 })
                 df = df[df['person_id'] != row['person_id']]
                 print(f"❌ Deleted: {row['person_id']} - {row.get('person_name_display', '')}")
-    
+
     # Verify individual members have group attribution
     print("\n✅ Verifying individual members have group attribution:")
-    
+
     # Known individual members who should have group names
     INDIVIDUAL_MEMBERS = {
         'P000045': ('Ini', 'スカイピース'),
@@ -89,14 +89,14 @@ def delete_group_violations(csv_file: str) -> str:
         'P000728': ('ジュン', 'BTS'),
         'P000759': ('ジン', 'BTS'),
     }
-    
+
     members_fixed = 0
     for person_id, (member_name, group_name) in INDIVIDUAL_MEMBERS.items():
         member = df[df['person_id'] == person_id]
         if not member.empty:
             idx = member.index[0]
             current_display = str(df.at[idx, 'person_name_display'])
-            
+
             # Check if group name is in parentheses
             if f"({group_name})" not in current_display and f"（{group_name}）" not in current_display:
                 # Add group name in parentheses
@@ -108,17 +108,17 @@ def delete_group_violations(csv_file: str) -> str:
                 else:
                     # Add group name
                     df.at[idx, 'person_name_display'] = f"{current_display} ({group_name})"
-                
+
                 members_fixed += 1
                 print(f"  ✅ Fixed: {person_id} - {df.at[idx, 'person_name_display']}")
-    
+
     # Generate timestamp
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    
+
     # Save cleaned database
     output_file = f"/Users/admin/Documents/AIUELAB/001-final-hourglass/ultra_think_NO_GROUPS_{timestamp}.csv"
     df.to_csv(output_file, index=False, encoding='utf-8-sig')
-    
+
     # Save deletion report
     report = {
         'timestamp': timestamp,
@@ -128,11 +128,11 @@ def delete_group_violations(csv_file: str) -> str:
         'members_fixed': members_fixed,
         'deleted_records': deleted_records
     }
-    
+
     report_file = f"/Users/admin/Documents/AIUELAB/001-final-hourglass/GROUP_DELETION_REPORT_{timestamp}.json"
     with open(report_file, 'w', encoding='utf-8') as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
-    
+
     print(f"\n📊 Summary:")
     print(f"  Initial records: {initial_count:,}")
     print(f"  Groups deleted: {len(deleted_records)}")
@@ -140,23 +140,23 @@ def delete_group_violations(csv_file: str) -> str:
     print(f"  Final records: {len(df):,}")
     print(f"  Output: {output_file}")
     print(f"  Report: {report_file}")
-    
+
     return output_file
 
 def main():
     """Main execution function"""
     # Use the latest cleaned database
     csv_file = "/Users/admin/Documents/AIUELAB/001-final-hourglass/ultra_think_TRULY_CLEAN_20250912_063129.csv"
-    
+
     print("🚨 GROUP VIOLATION DELETION SYSTEM")
     print("=" * 50)
     print("Based on analysis: Groups should NEVER be registered as persons")
     print("Only individual members with group attribution are allowed")
     print()
-    
+
     # Execute deletion
     output_file = delete_group_violations(csv_file)
-    
+
     print("\n✅ GROUP VIOLATIONS SUCCESSFULLY REMOVED")
     print("System is now compliant with 'no groups as persons' rule")
 

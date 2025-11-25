@@ -53,18 +53,18 @@ class GateStatus(Enum):
 
 class QualityGate:
     """品質ゲート基底クラス"""
-    
+
     def __init__(self, name: str, priority: str = "HIGH"):
         self.name = name
         self.priority = priority
         self.status = GateStatus.SKIPPED
         self.message = ""
         self.details = {}
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """ゲートチェック実行"""
         raise NotImplementedError
-    
+
     def to_dict(self) -> Dict:
         """辞書形式に変換"""
         return {
@@ -79,15 +79,15 @@ class QualityGate:
 
 class SystemReadinessGate(QualityGate):
     """システム準備確認ゲート"""
-    
+
     def __init__(self):
         super().__init__("システム準備確認", "CRITICAL")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """API設定と依存関係をチェック"""
         try:
             issues = []
-            
+
             # 環境変数チェック
             env_file = Path(".env")
             if not env_file.exists():
@@ -95,37 +95,37 @@ class SystemReadinessGate(QualityGate):
             else:
                 with open(env_file) as f:
                     env_content = f.read()
-                    
+
                 required_apis = [
                     "SERPAPI_KEY",  # 修正: 正しいキー名
-                    "BRAVE_API_KEY", 
+                    "BRAVE_API_KEY",
                     "YOUTUBE_API_KEY",
                     "NEWS_API_KEY"
                 ]
-                
+
                 for api in required_apis:
                     if api not in env_content:
                         issues.append(f"{api}が設定されていません")
-            
+
             # プロジェクトメモリ確認
             memory_file = Path("project_memory.json")
             if not memory_file.exists():
                 issues.append("project_memory.jsonが存在しません")
-            
+
             # 保護リスト確認
             if not Path("textbook_person_protector.py").exists():
                 issues.append("教科書人物保護リストが存在しません")
-            
+
             if issues:
                 self.message = f"システム準備不足: {', '.join(issues)}"
                 self.details = {"issues": issues}
                 self.status = GateStatus.FAILED
                 return self.status
-            
+
             self.message = "システム準備完了"
             self.status = GateStatus.PASSED
             return self.status
-            
+
         except Exception as e:
             self.message = f"システムチェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -134,10 +134,10 @@ class SystemReadinessGate(QualityGate):
 
 class NoCalibrationScoreGate(QualityGate):
     """calibrated_score使用禁止ゲート"""
-    
+
     def __init__(self):
         super().__init__("calibrated_score使用禁止", "CRITICAL")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """calibrated_scoreの使用を検出"""
         try:
@@ -145,31 +145,31 @@ class NoCalibrationScoreGate(QualityGate):
             if not script_path:
                 self.status = GateStatus.SKIPPED
                 return self.status
-            
+
             with open(script_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             if 'calibrated_score' in content:
                 # ASTで詳細解析
                 tree = ast.parse(content)
                 violations = []
-                
+
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Str) and 'calibrated_score' in node.s:
                         violations.append(f"行{node.lineno}: 文字列内にcalibrated_score")
                     elif isinstance(node, ast.Name) and node.id == 'calibrated_score':
                         violations.append(f"行{node.lineno}: 変数名calibrated_score")
-                
+
                 if violations:
                     self.message = f"calibrated_scoreの使用を検出: {len(violations)}箇所"
                     self.details = {"violations": violations}
                     self.status = GateStatus.FAILED
                     return self.status
-            
+
             self.message = "calibrated_scoreの使用なし"
             self.status = GateStatus.PASSED
             return self.status
-            
+
         except Exception as e:
             self.message = f"チェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -178,10 +178,10 @@ class NoCalibrationScoreGate(QualityGate):
 
 class APIUsageGate(QualityGate):
     """API使用確認ゲート"""
-    
+
     def __init__(self):
         super().__init__("API使用確認", "HIGH")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """API使用の確認"""
         try:
@@ -189,10 +189,10 @@ class APIUsageGate(QualityGate):
             if not script_path:
                 self.status = GateStatus.SKIPPED
                 return self.status
-            
+
             with open(script_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             # API使用パターンを検出
             api_patterns = [
                 'serpapi',
@@ -202,19 +202,19 @@ class APIUsageGate(QualityGate):
                 'requests.get',
                 'aiohttp'
             ]
-            
+
             api_found = []
             for pattern in api_patterns:
                 if pattern.lower() in content.lower():
                     api_found.append(pattern)
-            
+
             # 認識システムの場合はAPI必須
             if 'recognition' in script_path.lower() or 'score' in script_path.lower():
                 if not api_found:
                     self.message = "認識システムなのにAPI使用が検出されません"
                     self.status = GateStatus.FAILED
                     return self.status
-            
+
             if api_found:
                 self.message = f"API使用確認: {', '.join(api_found)}"
                 self.details = {"apis": api_found}
@@ -222,9 +222,9 @@ class APIUsageGate(QualityGate):
             else:
                 self.message = "API使用なし（簡易版の可能性）"
                 self.status = GateStatus.WARNING
-            
+
             return self.status
-            
+
         except Exception as e:
             self.message = f"チェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -233,10 +233,10 @@ class APIUsageGate(QualityGate):
 
 class ProtectionListGate(QualityGate):
     """保護リスト確認ゲート"""
-    
+
     def __init__(self):
         super().__init__("保護リスト確認", "HIGH")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """十分な保護リストの確認"""
         try:
@@ -244,10 +244,10 @@ class ProtectionListGate(QualityGate):
             if not script_path:
                 self.status = GateStatus.SKIPPED
                 return self.status
-            
+
             with open(script_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             # 削除や認識に関するスクリプトの場合
             if any(word in script_path.lower() for word in ['delete', 'remove', 'recognition', 'score']):
                 # 保護リストのサイズチェック
@@ -256,7 +256,7 @@ class ProtectionListGate(QualityGate):
                     import re
                     matches = re.findall(r"'[^']+'\s*,", content)
                     protected_count = len(matches)
-                    
+
                     if protected_count < 50:
                         self.message = f"保護リストが不十分: {protected_count}名のみ"
                         self.details = {"count": protected_count, "minimum": 50}
@@ -266,20 +266,20 @@ class ProtectionListGate(QualityGate):
                         self.message = f"十分な保護リスト: {protected_count}名"
                         self.status = GateStatus.PASSED
                         return self.status
-                
+
                 # textbook_person_protectorのインポート確認
                 if 'textbook_person_protector' in content:
                     self.message = "教科書人物保護リストを使用"
                     self.status = GateStatus.PASSED
                     return self.status
-                
+
                 self.message = "保護リストが見つかりません"
                 self.status = GateStatus.WARNING
                 return self.status
-            
+
             self.status = GateStatus.SKIPPED
             return self.status
-            
+
         except Exception as e:
             self.message = f"チェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -288,10 +288,10 @@ class ProtectionListGate(QualityGate):
 
 class ErrorHandlingGate(QualityGate):
     """エラーハンドリング確認ゲート"""
-    
+
     def __init__(self):
         super().__init__("エラーハンドリング", "MEDIUM")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """適切なエラーハンドリングの確認"""
         try:
@@ -299,23 +299,23 @@ class ErrorHandlingGate(QualityGate):
             if not script_path:
                 self.status = GateStatus.SKIPPED
                 return self.status
-            
+
             with open(script_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             tree = ast.parse(content)
-            
+
             # try-exceptブロックの解析
             bare_excepts = []
             proper_handlers = []
-            
+
             for node in ast.walk(tree):
                 if isinstance(node, ast.ExceptHandler):
                     if node.type is None:  # bare except
                         bare_excepts.append(node.lineno)
                     else:
                         proper_handlers.append(node.lineno)
-            
+
             if bare_excepts:
                 self.message = f"裸のexcept節を検出: {len(bare_excepts)}箇所"
                 self.details = {"bare_excepts": bare_excepts}
@@ -326,9 +326,9 @@ class ErrorHandlingGate(QualityGate):
             else:
                 self.message = "エラーハンドリングなし"
                 self.status = GateStatus.WARNING
-            
+
             return self.status
-            
+
         except Exception as e:
             self.message = f"チェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -337,10 +337,10 @@ class ErrorHandlingGate(QualityGate):
 
 class NoSimpleFallbackGate(QualityGate):
     """シンプル版・高速版・簡易版への移行禁止ゲート"""
-    
+
     def __init__(self):
         super().__init__("品質妥協版禁止", "CRITICAL")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """シンプル版・高速版・簡易版の検出"""
         try:
@@ -348,7 +348,7 @@ class NoSimpleFallbackGate(QualityGate):
             if not script_path:
                 self.status = GateStatus.SKIPPED
                 return self.status
-            
+
             # ファイル名チェック
             filename = Path(script_path).name.lower()
             forbidden_patterns = [
@@ -356,18 +356,18 @@ class NoSimpleFallbackGate(QualityGate):
                 'fast_', 'quick_', '高速', 'rapid_',
                 '簡易', 'lite_', 'minimal_', 'basic_'
             ]
-            
+
             for pattern in forbidden_patterns:
                 if pattern in filename:
                     self.message = f"品質妥協版のファイル名を検出: {pattern} in {filename}"
                     self.details = {"detected_pattern": pattern, "filename": filename}
                     self.status = GateStatus.FAILED
                     return self.status
-            
+
             # ファイル内容チェック
             with open(script_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             # 危険なコメントパターン
             dangerous_comments = [
                 '簡易版', 'シンプル版', '高速版',
@@ -375,7 +375,7 @@ class NoSimpleFallbackGate(QualityGate):
                 'quick implementation', 'temporary solution',
                 'fallback', 'mock implementation'
             ]
-            
+
             for pattern in dangerous_comments:
                 if pattern.lower() in content.lower():
                     lines = content.split('\n')
@@ -385,7 +385,7 @@ class NoSimpleFallbackGate(QualityGate):
                             self.details = {"pattern": pattern, "line": i}
                             self.status = GateStatus.FAILED
                             return self.status
-            
+
             # API fallback検出
             if 'if not' in content and ('api' in content.lower() or 'key' in content.lower()):
                 # APIキー不在時の処理を詳細チェック
@@ -396,22 +396,22 @@ class NoSimpleFallbackGate(QualityGate):
                         for j in range(i, min(i+5, len(lines))):
                             if 'return' in lines[j]:
                                 # 誤検出防止: ==, !=, len() の比較は除外
-                                if ('== 0' in lines[j] or '!= 0' in lines[j] or 
+                                if ('== 0' in lines[j] or '!= 0' in lines[j] or
                                     'len(' in lines[j] or '> 0' in lines[j] or '< 0' in lines[j]):
                                     continue
                                 # ダミーデータ返却の検出（より厳密に）
-                                if ('return 0' in lines[j] or 'return []' in lines[j] or 
-                                    'return {}' in lines[j] or "return ''" in lines[j] or 
+                                if ('return 0' in lines[j] or 'return []' in lines[j] or
+                                    'return {}' in lines[j] or "return ''" in lines[j] or
                                     'return ""' in lines[j]):
                                     self.message = f"API障害時のダミーデータ返却を検出: line {j+1}"
                                     self.details = {"line": j+1, "code": lines[j].strip()}
                                     self.status = GateStatus.FAILED
                                     return self.status
-            
+
             self.message = "品質妥協版なし - 品質担保優先"
             self.status = GateStatus.PASSED
             return self.status
-            
+
         except Exception as e:
             self.message = f"チェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -574,7 +574,7 @@ class TimeEstimationGate(QualityGate):
 
     def __init__(self):
         super().__init__("時間見積もり妥当性", "CRITICAL")
-    
+
     def check(self, context: Dict[str, Any]) -> GateStatus:
         """時間見積もりの妥当性チェック"""
         try:
@@ -582,10 +582,10 @@ class TimeEstimationGate(QualityGate):
             if not script_path:
                 self.status = GateStatus.SKIPPED
                 return self.status
-            
+
             with open(script_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             # 危険な時間短縮パターン
             dangerous_patterns = [
                 # 処理時間の大幅短縮を示唆するパターン
@@ -593,17 +593,17 @@ class TimeEstimationGate(QualityGate):
                 (r'(\d+)倍.*?高速', 'unrealistic_speedup'),
                 (r'処理時間.*?90%.*?削減', 'extreme_reduction'),
                 (r'(\d+)分で完了', 'unrealistic_completion'),
-                
+
                 # 品質妥協を示すパターン
                 (r'効率.*?優先', 'efficiency_over_quality'),
                 (r'時間.*?短縮', 'time_reduction_focus'),
                 (r'クイック.*?処理', 'quick_processing'),
                 (r'部分的.*?実行', 'partial_execution')
             ]
-            
+
             violations = []
             lines = content.split('\n')
-            
+
             for i, line in enumerate(lines, 1):
                 for pattern, violation_type in dangerous_patterns:
                     import re
@@ -613,7 +613,7 @@ class TimeEstimationGate(QualityGate):
                             "type": violation_type,
                             "text": line.strip()[:100]
                         })
-            
+
             # 処理時間に関するコメントの検証
             time_comments = []
             for i, line in enumerate(lines, 1):
@@ -624,7 +624,7 @@ class TimeEstimationGate(QualityGate):
                             "line": i,
                             "comment": comment[:100]
                         })
-            
+
             # 判定
             if violations:
                 self.message = f"非現実的な時間見積もりを検出: {len(violations)}箇所"
@@ -632,7 +632,7 @@ class TimeEstimationGate(QualityGate):
                 self.status = GateStatus.FAILED
             elif time_comments:
                 # 時間に関するコメントがある場合は詳細チェック
-                quality_mentioned = any('品質' in c['comment'] or 'quality' in c['comment'].lower() 
+                quality_mentioned = any('品質' in c['comment'] or 'quality' in c['comment'].lower()
                                        for c in time_comments)
                 if not quality_mentioned:
                     self.message = "時間見積もりに品質保証への言及なし"
@@ -644,9 +644,9 @@ class TimeEstimationGate(QualityGate):
             else:
                 self.message = "時間見積もりチェック完了"
                 self.status = GateStatus.PASSED
-            
+
             return self.status
-            
+
         except Exception as e:
             self.message = f"チェック中にエラー: {str(e)}"
             self.status = GateStatus.FAILED
@@ -655,7 +655,7 @@ class TimeEstimationGate(QualityGate):
 
 class QualityGateSystem:
     """品質ゲートシステム統合"""
-    
+
     def __init__(self):
         self.gates = [
             SystemReadinessGate(),
@@ -671,25 +671,25 @@ class QualityGateSystem:
         ]
         self.results = []
         self.passed = False
-    
+
     def check_script(self, script_path: str) -> Tuple[bool, List[Dict]]:
         """スクリプトの品質チェック"""
         logger.info(f"🔍 品質ゲートチェック開始: {script_path}")
-        
+
         context = {
             "script_path": script_path,
             "timestamp": datetime.now().isoformat()
         }
-        
+
         critical_failed = False
         high_failed = False
         warnings = []
-        
+
         for gate in self.gates:
             status = gate.check(context)
             result = gate.to_dict()
             self.results.append(result)
-            
+
             if status == GateStatus.FAILED:
                 if gate.priority == "CRITICAL":
                     critical_failed = True
@@ -704,7 +704,7 @@ class QualityGateSystem:
                 logger.warning(f"⚠️ {gate.name} - {gate.message}")
             elif status == GateStatus.PASSED:
                 logger.info(f"✅ {gate.name} - {gate.message}")
-        
+
         # 総合判定
         if critical_failed:
             self.passed = False
@@ -718,9 +718,9 @@ class QualityGateSystem:
                 logger.warning(f"✅ 品質ゲート通過（警告{len(warnings)}件）")
             else:
                 logger.info("✨ 品質ゲート完全通過")
-        
+
         return self.passed, self.results
-    
+
     def save_report(self, output_path: str = "quality_gate_report.json"):
         """レポート保存"""
         report = {
@@ -735,10 +735,10 @@ class QualityGateSystem:
                 "skipped": sum(1 for r in self.results if r["status"] == "skipped")
             }
         }
-        
+
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(report, f, ensure_ascii=False, indent=2)
-        
+
         logger.info(f"📄 レポート保存: {output_path}")
         return report
 
@@ -747,25 +747,25 @@ def enforce_quality_gates(script_path: str) -> bool:
     """品質ゲート強制実行"""
     gate_system = QualityGateSystem()
     passed, results = gate_system.check_script(script_path)
-    
+
     if not passed:
         logger.error("=" * 60)
         logger.error("品質ゲート違反により実行を停止します")
         logger.error("以下の問題を修正してください:")
-        
+
         for result in results:
             if result["status"] == "failed":
                 logger.error(f"  - {result['name']}: {result['message']}")
-        
+
         logger.error("=" * 60)
-        
+
         # レポート保存
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_path = f"quality_gate_failure_{timestamp}.json"
         gate_system.save_report(report_path)
-        
+
         return False
-    
+
     return True
 
 
@@ -774,18 +774,18 @@ def wrap_script_execution(script_path: str):
     # 品質ゲートチェック
     if not enforce_quality_gates(script_path):
         sys.exit(1)
-    
+
     # スクリプト実行
     logger.info(f"🚀 スクリプト実行開始: {script_path}")
-    
+
     try:
         # スクリプトをモジュールとして読み込み
         spec = importlib.util.spec_from_file_location("__main__", script_path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        
+
         logger.info("✅ スクリプト実行完了")
-        
+
     except Exception as e:
         logger.error(f"❌ スクリプト実行中にエラー: {str(e)}")
         logger.error(traceback.format_exc())
@@ -795,15 +795,15 @@ def wrap_script_execution(script_path: str):
 if __name__ == "__main__":
     # テスト実行
     test_script = "apply_recognition_simple.py"
-    
+
     if Path(test_script).exists():
         logger.info(f"🧪 品質ゲートテスト: {test_script}")
         gate_system = QualityGateSystem()
         passed, results = gate_system.check_script(test_script)
-        
+
         # レポート出力
         report = gate_system.save_report()
-        
+
         print("\n" + "=" * 60)
         print("品質ゲートサマリー:")
         print(f"  総合判定: {'✅ PASSED' if passed else '❌ FAILED'}")

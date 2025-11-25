@@ -13,11 +13,11 @@ import pandas as pd
 
 def create_curated_inspirational_database():
     """厳選された感銘を与える人物データベースを作成"""
-    
+
     people = []
-    
+
     # ===== エンターテインメント（バランス良く）=====
-    
+
     # 日本のお笑い芸人
     comedians_jp = [
         {
@@ -51,7 +51,7 @@ def create_curated_inspirational_database():
             'key_achievement': '東日本大震災復興支援活動'
         }
     ]
-    
+
     # YouTuber・インフルエンサー
     youtubers = [
         {
@@ -85,7 +85,7 @@ def create_curated_inspirational_database():
             'key_achievement': '世界最大規模のYouTubeチャンネル'
         }
     ]
-    
+
     # アイドル・音楽アーティスト
     musicians = [
         {
@@ -129,7 +129,7 @@ def create_curated_inspirational_database():
             'key_achievement': 'マリーゴールド等のヒット曲'
         }
     ]
-    
+
     # 俳優・女優
     actors = [
         {
@@ -163,9 +163,9 @@ def create_curated_inspirational_database():
             'key_achievement': 'スパイダーマン、DUNE等'
         }
     ]
-    
+
     # ===== 文化・芸術（日本の強みを活かす）=====
-    
+
     # 漫画家
     manga_artists = [
         {
@@ -199,7 +199,7 @@ def create_curated_inspirational_database():
             'key_achievement': '鬼滅の刃で歴代興行収入1位'
         }
     ]
-    
+
     # アニメ・映画監督
     directors = [
         {
@@ -233,7 +233,7 @@ def create_curated_inspirational_database():
             'key_achievement': 'インセプション、インターステラー'
         }
     ]
-    
+
     # ゲームクリエイター
     game_creators = [
         {
@@ -267,9 +267,9 @@ def create_curated_inspirational_database():
             'key_achievement': 'NieR:Automataで世界的評価'
         }
     ]
-    
+
     # ===== スポーツ（努力と成功の象徴）=====
-    
+
     athletes = [
         {
             'name': '大谷翔平',
@@ -312,9 +312,9 @@ def create_curated_inspirational_database():
             'key_achievement': '技術革新への挑戦'
         }
     ]
-    
+
     # ===== ビジネス・テクノロジー（起業家精神）=====
-    
+
     entrepreneurs = [
         {
             'name': 'イーロン・マスク',
@@ -357,9 +357,9 @@ def create_curated_inspirational_database():
             'key_achievement': 'Airbnb創業'
         }
     ]
-    
+
     # ===== 政治・社会（若い世代の活動家）=====
-    
+
     activists = [
         {
             'name': 'グレタ・トゥーンベリ',
@@ -402,28 +402,28 @@ def create_curated_inspirational_database():
             'key_achievement': 'グリーン・ニューディール提唱'
         }
     ]
-    
+
     # すべての人物をリストに追加
     all_categories = [
         comedians_jp, youtubers, musicians, actors,
         manga_artists, directors, game_creators,
         athletes, entrepreneurs, activists
     ]
-    
+
     for category_list in all_categories:
         people.extend(category_list)
-    
+
     return people
 
 def generate_balanced_report(people: List[Dict]) -> str:
     """バランスレポートを生成"""
-    
+
     # カテゴリ別集計
     categories = {}
     for person in people:
         cat = person['category']
         categories[cat] = categories.get(cat, 0) + 1
-    
+
     # 世代別集計
     age_groups = {'10代': 0, '20代': 0, '30代': 0, '40代': 0, '50代': 0}
     for person in people:
@@ -431,23 +431,23 @@ def generate_balanced_report(people: List[Dict]) -> str:
         for age in age_groups.keys():
             if age[:-1] in target or '全世代' in target:
                 age_groups[age] += 1
-    
+
     report = []
     report.append("=" * 60)
     report.append("🌟 厳選された感銘を与える有名人物")
     report.append("=" * 60)
     report.append(f"\n✅ 総人数: {len(people)}人")
-    
+
     report.append("\n📊 カテゴリバランス:")
     for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
         pct = count / len(people) * 100
         bar = '█' * int(pct)
         report.append(f"  {cat:20} {count:3}人 ({pct:5.1f}%) {bar}")
-    
+
     report.append("\n🎯 世代カバレッジ:")
     for age, count in age_groups.items():
         report.append(f"  {age}向け: {count}人")
-    
+
     report.append("\n💡 主な感銘ポイント:")
     report.append("  • 下積み時代からの成功")
     report.append("  • 挫折からの復活")
@@ -455,9 +455,9 @@ def generate_balanced_report(people: List[Dict]) -> str:
     report.append("  • 社会への貢献")
     report.append("  • 若くしての成功")
     report.append("  • 継続的な努力")
-    
+
     report.append("\n" + "=" * 60)
-    
+
     return "\n".join(report)
 
 def export_to_csv(people: List[Dict], filename: str):
@@ -470,25 +470,25 @@ def main():
     """メイン処理"""
     print("🌟 厳選版・感銘を与える有名人物データベース作成")
     print("=" * 60)
-    
+
     # データベース作成
     people = create_curated_inspirational_database()
-    
+
     # レポート生成
     report = generate_balanced_report(people)
     print(report)
-    
+
     # CSVエクスポート
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     csv_filename = f"curated_inspirational_{timestamp}.csv"
     export_to_csv(people, csv_filename)
-    
+
     # 人物例を表示
     print("\n📋 収録人物例:")
     for i, person in enumerate(people[:10], 1):
         print(f"  {i:2}. {person['name']} ({person['birth_year']}年生)")
         print(f"      {person['inspirational_points']}")
-    
+
     print("\n✅ 厳選データベース作成完了！")
     print("  • 日本人多数収録")
     print("  • 10代〜50代全世代カバー")

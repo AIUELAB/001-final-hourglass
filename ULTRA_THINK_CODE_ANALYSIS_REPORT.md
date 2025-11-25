@@ -82,7 +82,7 @@ class AppConfig:
     debug: bool
     environment: str
     mcp_enabled: bool
-    
+
     @classmethod
     def from_env(cls) -> 'AppConfig':
         """Factory method to create config from environment."""
@@ -239,7 +239,7 @@ class SecureConfig:
     GOOGLE_CREDENTIALS = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
     GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
     FIREBASE_CONFIG = os.getenv('FIREBASE_CONFIG')
-    
+
     @classmethod
     def validate(cls):
         """設定の検証"""

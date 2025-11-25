@@ -14,32 +14,32 @@ from typing import Dict, List, Any
 
 class UltraThinkFinalPushCollector:
     """最終目標達成のための包括的コレクター"""
-    
+
     def __init__(self):
         self.existing_count = 5726
         self.target_total = 12410
         self.needed = self.target_total - self.existing_count  # 6684人必要
         self.timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        
+
         print(f"🚀 Ultra Think Final Push Collector 起動")
         print(f"📊 現在: {self.existing_count}人")
         print(f"🎯 目標: {self.target_total}人")
         print(f"📈 必要: {self.needed}人")
-    
+
     def generate_episode_id(self, index: int) -> str:
         """エピソードID生成"""
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         random_str = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
         return f"EP_{timestamp}_{random_str}"
-    
+
     def generate_person_id(self, index: int) -> str:
         """人物ID生成"""
         return f"P{str(index + 10000).zfill(6)}"
-    
+
     def collect_nobel_laureates(self) -> List[Dict[str, Any]]:
         """ノーベル賞受賞者（全分野・全年代）"""
         laureates = []
-        
+
         # 物理学賞
         physics_winners = [
             ("Roger Penrose", "ロジャー・ペンローズ", "イギリス", 1931, "ブラックホール研究"),
@@ -52,7 +52,7 @@ class UltraThinkFinalPushCollector:
             ("John Clauser", "ジョン・クラウザー", "アメリカ", 1942, "ベルの不等式検証"),
             ("Anton Zeilinger", "アントン・ツァイリンガー", "オーストリア", 1945, "量子テレポーテーション"),
         ]
-        
+
         # 化学賞
         chemistry_winners = [
             ("Emmanuelle Charpentier", "エマニュエル・シャルパンティエ", "フランス", 1968, "CRISPR-Cas9開発"),
@@ -63,7 +63,7 @@ class UltraThinkFinalPushCollector:
             ("Morten Meldal", "モルテン・メルダル", "デンマーク", 1954, "クリック化学"),
             ("K. Barry Sharpless", "バリー・シャープレス", "アメリカ", 1941, "クリック化学の父"),
         ]
-        
+
         # 医学・生理学賞
         medicine_winners = [
             ("Harvey Alter", "ハーヴェイ・オルター", "アメリカ", 1935, "C型肝炎ウイルス発見"),
@@ -75,7 +75,7 @@ class UltraThinkFinalPushCollector:
             ("Katalin Karikó", "カタリン・カリコ", "ハンガリー", 1955, "mRNAワクチン開発"),
             ("Drew Weissman", "ドリュー・ワイスマン", "アメリカ", 1959, "mRNA医療応用"),
         ]
-        
+
         # 文学賞
         literature_winners = [
             ("Louise Glück", "ルイーズ・グリュック", "アメリカ", 1943, "詩人"),
@@ -86,7 +86,7 @@ class UltraThinkFinalPushCollector:
             ("Olga Tokarczuk", "オルガ・トカルチュク", "ポーランド", 1962, "作家"),
             ("Svetlana Alexievich", "スヴェトラーナ・アレクシエーヴィッチ", "ベラルーシ", 1948, "ジャーナリスト作家"),
         ]
-        
+
         # 平和賞
         peace_winners = [
             ("World Food Programme", "世界食糧計画", "国際組織", 2020, "飢餓撲滅活動"),
@@ -98,7 +98,7 @@ class UltraThinkFinalPushCollector:
             ("Center for Civil Liberties", "市民自由センター", "ウクライナ", 2007, "人権団体"),
             ("Narges Mohammadi", "ナルゲス・モハンマディ", "イラン", 1972, "女性権利活動家"),
         ]
-        
+
         # 経済学賞
         economics_winners = [
             ("Paul Milgrom", "ポール・ミルグロム", "アメリカ", 1948, "オークション理論"),
@@ -111,10 +111,10 @@ class UltraThinkFinalPushCollector:
             ("Philip Dybvig", "フィリップ・ディブビッグ", "アメリカ", 1955, "銀行取り付け理論"),
             ("Claudia Goldin", "クラウディア・ゴールディン", "アメリカ", 1946, "労働経済学者"),
         ]
-        
-        all_winners = (physics_winners + chemistry_winners + medicine_winners + 
+
+        all_winners = (physics_winners + chemistry_winners + medicine_winners +
                       literature_winners + peace_winners + economics_winners)
-        
+
         for name, name_ja, nationality, birth_year, occupation in all_winners:
             laureates.append({
                 'person_name': name,
@@ -125,13 +125,13 @@ class UltraThinkFinalPushCollector:
                 'category': '学術・科学',
                 'name_recognition': random.randint(65, 95)
             })
-        
+
         return laureates
-    
+
     def collect_world_leaders(self) -> List[Dict[str, Any]]:
         """世界の指導者（G20、EU、アフリカ、アジア、中東）"""
         leaders = []
-        
+
         # G20首脳
         g20_leaders = [
             ("Joe Biden", "ジョー・バイデン", "アメリカ", 1942, "第46代アメリカ大統領"),
@@ -153,7 +153,7 @@ class UltraThinkFinalPushCollector:
             ("Joko Widodo", "ジョコ・ウィドド", "インドネシア", 1961, "インドネシア大統領"),
             ("Alberto Fernández", "アルベルト・フェルナンデス", "アルゼンチン", 1959, "アルゼンチン大統領"),
         ]
-        
+
         # EU指導者
         eu_leaders = [
             ("Ursula von der Leyen", "ウルズラ・フォン・デア・ライエン", "ドイツ", 1958, "欧州委員会委員長"),
@@ -172,7 +172,7 @@ class UltraThinkFinalPushCollector:
             ("Nicolae Ciucă", "ニコラエ・チウカ", "ルーマニア", 1967, "ルーマニア首相"),
             ("Kiril Petkov", "キリル・ペトコフ", "ブルガリア", 1980, "前ブルガリア首相"),
         ]
-        
+
         # アフリカの指導者
         africa_leaders = [
             ("William Ruto", "ウィリアム・ルト", "ケニア", 1966, "ケニア大統領"),
@@ -186,7 +186,7 @@ class UltraThinkFinalPushCollector:
             ("Alassane Ouattara", "アラサン・ワタラ", "コートジボワール", 1942, "コートジボワール大統領"),
             ("Uhuru Kenyatta", "ウフル・ケニヤッタ", "ケニア", 1961, "前ケニア大統領"),
         ]
-        
+
         # アジアの指導者
         asia_leaders = [
             ("Lee Hsien Loong", "リー・シェンロン", "シンガポール", 1952, "シンガポール首相"),
@@ -200,9 +200,9 @@ class UltraThinkFinalPushCollector:
             ("Ranil Wickremesinghe", "ラニル・ウィクラマシンハ", "スリランカ", 1949, "スリランカ大統領"),
             ("Tsai Ing-wen", "蔡英文", "台湾", 1956, "台湾総統"),
         ]
-        
+
         all_leaders = g20_leaders + eu_leaders + africa_leaders + asia_leaders
-        
+
         for name, name_ja, nationality, birth_year, occupation in all_leaders:
             leaders.append({
                 'person_name': name,
@@ -213,13 +213,13 @@ class UltraThinkFinalPushCollector:
                 'category': '政治',
                 'name_recognition': random.randint(50, 85)
             })
-        
+
         return leaders
-    
+
     def collect_tech_innovators(self) -> List[Dict[str, Any]]:
         """テクノロジー革新者（AI、ブロックチェーン、宇宙、バイオ）"""
         innovators = []
-        
+
         # AI研究者
         ai_researchers = [
             ("Geoffrey Hinton", "ジェフリー・ヒントン", "カナダ", 1947, "AI研究者・深層学習の父"),
@@ -238,7 +238,7 @@ class UltraThinkFinalPushCollector:
             ("Max Tegmark", "マックス・テグマーク", "スウェーデン", 1967, "AI未来研究者"),
             ("Nick Bostrom", "ニック・ボストロム", "スウェーデン", 1973, "哲学者・AI倫理"),
         ]
-        
+
         # ブロックチェーン先駆者
         blockchain_pioneers = [
             ("Satoshi Nakamoto", "サトシ・ナカモト", "不明", 0, "ビットコイン創設者"),
@@ -257,7 +257,7 @@ class UltraThinkFinalPushCollector:
             ("Barry Silbert", "バリー・シルバート", "アメリカ", 1976, "Digital Currency Group創設者"),
             ("Chris Larsen", "クリス・ラーセン", "アメリカ", 1960, "Ripple共同創設者"),
         ]
-        
+
         # 宇宙開発リーダー
         space_leaders = [
             ("Elon Musk", "イーロン・マスク", "南アフリカ/アメリカ", 1971, "SpaceX CEO"),
@@ -276,7 +276,7 @@ class UltraThinkFinalPushCollector:
             ("Scott Kelly", "スコット・ケリー", "アメリカ", 1964, "宇宙飛行士"),
             ("Tim Peake", "ティム・ピーク", "イギリス", 1972, "宇宙飛行士"),
         ]
-        
+
         # バイオテック革新者
         biotech_innovators = [
             ("Jennifer Doudna", "ジェニファー・ダウドナ", "アメリカ", 1964, "CRISPR-Cas9共同開発者"),
@@ -295,9 +295,9 @@ class UltraThinkFinalPushCollector:
             ("Vas Narasimhan", "ヴァス・ナラシンハン", "アメリカ", 1976, "Novartis CEO"),
             ("Emma Walmsley", "エマ・ウォルムズリー", "イギリス", 1969, "GSK CEO"),
         ]
-        
+
         all_innovators = ai_researchers + blockchain_pioneers + space_leaders + biotech_innovators
-        
+
         for person in all_innovators:
             if len(person) == 5:
                 name, name_ja, nationality, birth_year, occupation = person
@@ -310,13 +310,13 @@ class UltraThinkFinalPushCollector:
                     'category': 'テクノロジー',
                     'name_recognition': random.randint(45, 85)
                 })
-        
+
         return innovators
-    
+
     def collect_global_artists(self) -> List[Dict[str, Any]]:
         """グローバルアーティスト（K-POP、ラテン、アフロビート、アラブ・インド）"""
         artists = []
-        
+
         # K-POPスター
         kpop_stars = [
             ("BTS", "防弾少年団", "韓国", 2013, "K-POPグループ"),
@@ -335,7 +335,7 @@ class UltraThinkFinalPushCollector:
             ("PSY", "サイ", "韓国", 1977, "K-POP歌手"),
             ("BIGBANG", "ビッグバン", "韓国", 2006, "K-POPグループ"),
         ]
-        
+
         # ラテン音楽スター
         latin_stars = [
             ("Bad Bunny", "バッド・バニー", "プエルトリコ", 1994, "レゲトン歌手"),
@@ -354,7 +354,7 @@ class UltraThinkFinalPushCollector:
             ("Marc Anthony", "マーク・アンソニー", "アメリカ", 1968, "サルサ歌手"),
             ("Carlos Vives", "カルロス・ビベス", "コロンビア", 1961, "バジェナート歌手"),
         ]
-        
+
         # アフロビートアーティスト
         afrobeat_artists = [
             ("Burna Boy", "バーナ・ボーイ", "ナイジェリア", 1991, "アフロビート歌手"),
@@ -373,7 +373,7 @@ class UltraThinkFinalPushCollector:
             ("Angélique Kidjo", "アンジェリーク・キジョー", "ベナン", 1960, "アフロポップ歌手"),
             ("Youssou N'Dour", "ユッスー・ンドゥール", "セネガル", 1959, "ムバラックス歌手"),
         ]
-        
+
         # アラブ・インド音楽
         arab_indian_music = [
             ("Mohammed Abdu", "ムハンマド・アブドゥ", "サウジアラビア", 1949, "アラブ歌手"),
@@ -392,9 +392,9 @@ class UltraThinkFinalPushCollector:
             ("Atif Aslam", "アーティフ・アスラム", "パキスタン", 1983, "パキスタン歌手"),
             ("Rahat Fateh Ali Khan", "ラハット・ファテ・アリ・ハーン", "パキスタン", 1974, "カッワーリー歌手"),
         ]
-        
+
         all_artists = kpop_stars + latin_stars + afrobeat_artists + arab_indian_music
-        
+
         for person in all_artists:
             name, name_ja, nationality, birth_year, occupation = person
             artists.append({
@@ -406,13 +406,13 @@ class UltraThinkFinalPushCollector:
                 'category': 'エンタメ',
                 'name_recognition': random.randint(55, 90)
             })
-        
+
         return artists
-    
+
     def collect_historical_figures(self) -> List[Dict[str, Any]]:
         """歴史上の重要人物（古代から近代まで）"""
         figures = []
-        
+
         # 古代文明の指導者
         ancient_leaders = [
             ("Hammurabi", "ハンムラビ", "バビロニア", -1750, "バビロニア王"),
@@ -426,7 +426,7 @@ class UltraThinkFinalPushCollector:
             ("Attila", "アッティラ", "フン族", 406, "フン族の王"),
             ("Justinian I", "ユスティニアヌス1世", "ビザンツ", 482, "ビザンツ皇帝"),
         ]
-        
+
         # 中世の人物
         medieval_figures = [
             ("Charlemagne", "カール大帝", "フランク", 742, "神聖ローマ皇帝"),
@@ -440,7 +440,7 @@ class UltraThinkFinalPushCollector:
             ("Joan of Arc", "ジャンヌ・ダルク", "フランス", 1412, "聖女"),
             ("Mehmed II", "メフメト2世", "オスマン", 1432, "征服者"),
         ]
-        
+
         # ルネサンス期の人物
         renaissance_figures = [
             ("Lorenzo de' Medici", "ロレンツォ・デ・メディチ", "イタリア", 1449, "フィレンツェ統治者"),
@@ -454,7 +454,7 @@ class UltraThinkFinalPushCollector:
             ("Francis Bacon", "フランシス・ベーコン", "イングランド", 1561, "哲学者"),
             ("Galileo Galilei", "ガリレオ・ガリレイ", "イタリア", 1564, "天文学者"),
         ]
-        
+
         # 啓蒙時代の人物
         enlightenment_figures = [
             ("René Descartes", "ルネ・デカルト", "フランス", 1596, "哲学者"),
@@ -468,9 +468,9 @@ class UltraThinkFinalPushCollector:
             ("George Washington", "ジョージ・ワシントン", "アメリカ", 1732, "アメリカ初代大統領"),
             ("Thomas Jefferson", "トーマス・ジェファーソン", "アメリカ", 1743, "アメリカ第3代大統領"),
         ]
-        
+
         all_figures = ancient_leaders + medieval_figures + renaissance_figures + enlightenment_figures
-        
+
         for name, name_ja, nationality, birth_year, occupation in all_figures:
             figures.append({
                 'person_name': name,
@@ -481,61 +481,61 @@ class UltraThinkFinalPushCollector:
                 'category': '歴史上の人物',
                 'name_recognition': random.randint(60, 95)
             })
-        
+
         return figures
-    
+
     def collect_all(self) -> List[Dict[str, Any]]:
         """すべての人物を収集"""
         all_persons = []
-        
+
         print("\n🔬 ノーベル賞受賞者収集中...")
         nobel = self.collect_nobel_laureates()
         all_persons.extend(nobel)
         print(f"  ✅ {len(nobel)}人収集")
-        
+
         print("\n🌍 世界の指導者収集中...")
         leaders = self.collect_world_leaders()
         all_persons.extend(leaders)
         print(f"  ✅ {len(leaders)}人収集")
-        
+
         print("\n💡 テクノロジー革新者収集中...")
         tech = self.collect_tech_innovators()
         all_persons.extend(tech)
         print(f"  ✅ {len(tech)}人収集")
-        
+
         print("\n🎵 グローバルアーティスト収集中...")
         artists = self.collect_global_artists()
         all_persons.extend(artists)
         print(f"  ✅ {len(artists)}人収集")
-        
+
         print("\n📚 歴史上の人物収集中...")
         historical = self.collect_historical_figures()
         all_persons.extend(historical)
         print(f"  ✅ {len(historical)}人収集")
-        
+
         # 残りの人数を他のカテゴリで補充
         current_total = len(all_persons)
         remaining = self.needed - current_total
-        
+
         if remaining > 0:
             print(f"\n📊 追加収集中... (残り{remaining}人)")
             # ここで追加の収集メソッドを呼び出すか、
             # ランダムに生成するロジックを追加
-        
+
         return all_persons[:self.needed]  # 必要数だけ返す
-    
+
     def create_episode_format(self, persons: List[Dict[str, Any]], start_index: int = 0) -> List[Dict[str, Any]]:
         """エピソード形式に変換"""
         episodes = []
-        
+
         for i, person in enumerate(persons):
             episode_id = self.generate_episode_id(i)
             person_id = self.generate_person_id(start_index + i)
-            
+
             # ハッシュ生成
             hash_input = f"{person['person_name']}{person.get('birth_year', '')}"
             episode_hash = hashlib.md5(hash_input.encode()).hexdigest()
-            
+
             episode = {
                 'episode_id': episode_id,
                 'person_id': person_id,
@@ -562,36 +562,36 @@ class UltraThinkFinalPushCollector:
                 'is_published': '1',
                 'extended_data': json.dumps({'birth_year': person.get('birth_year', '')})
             }
-            
+
             episodes.append(episode)
-        
+
         return episodes
-    
+
     def save_results(self, persons: List[Dict[str, Any]]):
         """結果を保存"""
         # エピソード形式に変換
         episodes = self.create_episode_format(persons, start_index=self.existing_count)
-        
+
         # CSV保存
         csv_filename = f"ultra_think_final_push_{self.timestamp}.csv"
-        
+
         if episodes:
             headers = list(episodes[0].keys())
-            
+
             with open(csv_filename, 'w', encoding='utf-8', newline='') as f:
                 writer = csv.DictWriter(f, fieldnames=headers)
                 writer.writeheader()
                 writer.writerows(episodes)
-            
+
             print(f"\n✅ CSV保存: {csv_filename}")
-        
+
         # JSON保存
         json_filename = f"ultra_think_final_push_{self.timestamp}.json"
         with open(json_filename, 'w', encoding='utf-8') as f:
             json.dump(episodes, f, ensure_ascii=False, indent=2)
-        
+
         print(f"✅ JSON保存: {json_filename}")
-        
+
         # 統計保存
         stats = {
             'collected': len(episodes),
@@ -600,13 +600,13 @@ class UltraThinkFinalPushCollector:
             'target': self.target_total,
             'achievement_rate': f"{((self.existing_count + len(episodes)) / self.target_total) * 100:.1f}%"
         }
-        
+
         stats_filename = f"final_push_stats_{self.timestamp}.json"
         with open(stats_filename, 'w', encoding='utf-8') as f:
             json.dump(stats, f, ensure_ascii=False, indent=2)
-        
+
         print(f"✅ 統計保存: {stats_filename}")
-        
+
         return csv_filename, json_filename, stats_filename
 
 
@@ -615,19 +615,19 @@ def main():
     print("=" * 60)
     print("🚀 Ultra Think Final Push - 12,410人達成への最終収集")
     print("=" * 60)
-    
+
     collector = UltraThinkFinalPushCollector()
-    
+
     # 収集実行
     print("\n📡 大規模収集開始...")
     all_persons = collector.collect_all()
-    
+
     print(f"\n📊 収集完了: {len(all_persons)}人")
-    
+
     # 結果保存
     print("\n💾 結果保存中...")
     csv_file, json_file, stats_file = collector.save_results(all_persons)
-    
+
     # 最終レポート
     print("\n" + "=" * 60)
     print("✨ 収集完了!")
@@ -635,7 +635,7 @@ def main():
     print(f"  既存データ: {collector.existing_count}人")
     print(f"  合計: {collector.existing_count + len(all_persons)}人")
     print(f"  目標達成率: {((collector.existing_count + len(all_persons)) / collector.target_total) * 100:.1f}%")
-    
+
     if collector.existing_count + len(all_persons) >= collector.target_total:
         print("\n🎉 目標達成! 12,410人を超えました!")
     else:

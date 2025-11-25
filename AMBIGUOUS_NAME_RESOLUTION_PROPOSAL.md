@@ -81,14 +81,14 @@ P003625,村上,村上（マヂカルラブリー）,G_MAGICAL,P_NODA,吉本興�
 def check_ambiguous_names(self, csv_file: str) -> List[RuleViolation]:
     """
     Rule 101: 曖昧な名前検出ルール
-    
+
     同名の芸人が複数存在する場合の検証
     """
     violations = []
-    
+
     # 既知の曖昧な名前リスト
     ambiguous_names = ['村上', '田中', '山田', '佐藤', '鈴木']
-    
+
     df = pd.read_csv(csv_file)
     for idx, row in df.iterrows():
         if row['person_name'] in ambiguous_names:
@@ -101,7 +101,7 @@ def check_ambiguous_names(self, csv_file: str) -> List[RuleViolation]:
                         suggested_fix="グループ名を追加してください"
                     )
                 )
-    
+
     return violations
 ```
 
@@ -141,7 +141,7 @@ def measure_ambiguity_resolution():
     total_ambiguous = count_ambiguous_names()
     resolved = count_resolved_names()
     resolution_rate = resolved / total_ambiguous * 100
-    
+
     return {
         'resolution_rate': resolution_rate,
         'unresolved_count': total_ambiguous - resolved,

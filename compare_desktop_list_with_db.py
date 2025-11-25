@@ -46,10 +46,10 @@ found_persons = []
 for idx, row in desktop_df.iterrows():
     display_name = str(row['表示名']) if pd.notna(row['表示名']) else ""
     raw_name = str(row['素の名前']) if pd.notna(row['素の名前']) else ""
-    
+
     # 両方の名前でチェック
     found = False
-    
+
     # 表示名でチェック
     if display_name in db_names:
         found = True
@@ -61,7 +61,7 @@ for idx, row in desktop_df.iterrows():
         found = True
     elif normalize_name(raw_name) in db_normalized:
         found = True
-    
+
     if found:
         found_persons.append({
             '表示名': display_name,
@@ -89,7 +89,7 @@ print("=" * 60)
 if missing_persons:
     print(f"\n📋 データベースに存在しない人物 (上位50人):")
     print("-" * 60)
-    
+
     # 分野別に分類
     categories = {}
     for person in missing_persons:
@@ -97,7 +97,7 @@ if missing_persons:
         if field not in categories:
             categories[field] = []
         categories[field].append(person)
-    
+
     # 分野別に出力
     for field, persons in categories.items():
         if persons:
@@ -122,7 +122,7 @@ with open(report_path, 'w', encoding='utf-8') as f:
     f.write(f"- デスクトップCSV: {len(desktop_df)}人\n")
     f.write(f"- データベースに存在: {len(found_persons)}人\n")
     f.write(f"- データベースに欠落: {len(missing_persons)}人\n\n")
-    
+
     if missing_persons:
         f.write(f"## 📋 欠落人物リスト\n\n")
         for field, persons in categories.items():

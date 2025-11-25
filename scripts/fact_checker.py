@@ -9,12 +9,12 @@
 4. 自動修正（オプション）
 """
 
-import sqlite3
+import json
 import re
+import sqlite3
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
-from datetime import datetime
-import json
 
 
 class FactChecker:
@@ -30,29 +30,26 @@ class FactChecker:
         cursor = conn.cursor()
 
         facts = {
-            'total_persons': self._get_single_value(cursor,
-                "SELECT COUNT(*) FROM persons"),
-
-            'bracket_display_count': self._get_single_value(cursor,
-                "SELECT COUNT(*) FROM persons WHERE show_group_in_bracket = 1"),
-
-            'fictional_characters': self._get_single_value(cursor,
-                "SELECT COUNT(*) FROM persons WHERE entity_type = 'fictional_character'"),
-
-            'real_persons': self._get_single_value(cursor,
-                "SELECT COUNT(*) FROM persons WHERE entity_type = 'real_person'"),
-
-            'uninvestigated_count': self._get_single_value(cursor,
-                "SELECT COUNT(*) FROM persons WHERE show_group_in_bracket = 0"),
-
-            'recognition_score_set': self._get_single_value(cursor,
-                "SELECT COUNT(*) FROM persons WHERE recognition_score > 0"),
+            "total_persons": self._get_single_value(cursor, "SELECT COUNT(*) FROM persons"),
+            "bracket_display_count": self._get_single_value(
+                cursor, "SELECT COUNT(*) FROM persons WHERE show_group_in_bracket = 1"
+            ),
+            "fictional_characters": self._get_single_value(
+                cursor, "SELECT COUNT(*) FROM persons WHERE entity_type = 'fictional_character'"
+            ),
+            "real_persons": self._get_single_value(
+                cursor, "SELECT COUNT(*) FROM persons WHERE entity_type = 'real_person'"
+            ),
+            "uninvestigated_count": self._get_single_value(
+                cursor, "SELECT COUNT(*) FROM persons WHERE show_group_in_bracket = 0"
+            ),
+            "recognition_score_set": self._get_single_value(
+                cursor, "SELECT COUNT(*) FROM persons WHERE recognition_score > 0"
+            ),
         }
 
         # 計算値
-        facts['bracket_display_rate'] = round(
-            (facts['bracket_display_count'] / facts['total_persons']) * 100, 1
-        )
+        facts["bracket_display_rate"] = round((facts["bracket_display_count"] / facts["total_persons"]) * 100, 1)
 
         conn.close()
 
@@ -82,7 +79,7 @@ class FactChecker:
                 'description': str
             }, ...]
         """
-        with open(doc_path, 'r', encoding='utf-8') as f:
+        with open(doc_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
         errors = []
@@ -91,45 +88,45 @@ class FactChecker:
         patterns = [
             # 総人物数
             {
-                'pattern': r'3,?111人',
-                'correct': f"{self.facts['total_persons']:,}人",
-                'description': '総人物数',
-                'exclude': ['計算', '例']  # この文字が含まれる行は除外
+                "pattern": r"3,?111人",
+                "correct": f"{self.facts['total_persons']:,}人",
+                "description": "総人物数",
+                "exclude": ["計算", "例"],  # この文字が含まれる行は除外
             },
             # 架空キャラクター
             {
-                'pattern': r'156人.*架空',
-                'correct': f"{self.facts['fictional_characters']}人",
-                'description': '架空キャラクター数',
-                'exclude': []
+                "pattern": r"156人.*架空",
+                "correct": f"{self.facts['fictional_characters']}人",
+                "description": "架空キャラクター数",
+                "exclude": [],
             },
             # 実在人物
             {
-                'pattern': r'2,?955人.*実在',
-                'correct': f"{self.facts['real_persons']:,}人",
-                'description': '実在人物数',
-                'exclude': []
+                "pattern": r"2,?955人.*実在",
+                "correct": f"{self.facts['real_persons']:,}人",
+                "description": "実在人物数",
+                "exclude": [],
             },
             # メタデータ調査済み
             {
-                'pattern': r'69件.*メタデータ',
-                'correct': f"{self.facts['bracket_display_count']}件",
-                'description': 'メタデータ調査済み件数',
-                'exclude': []
+                "pattern": r"69件.*メタデータ",
+                "correct": f"{self.facts['bracket_display_count']}件",
+                "description": "メタデータ調査済み件数",
+                "exclude": [],
             },
             # 未調査
             {
-                'pattern': r'3,?041件.*未',
-                'correct': f"{self.facts['uninvestigated_count']:,}件",
-                'description': '未調査件数',
-                'exclude': []
+                "pattern": r"3,?041件.*未",
+                "correct": f"{self.facts['uninvestigated_count']:,}件",
+                "description": "未調査件数",
+                "exclude": [],
             },
         ]
 
         for line_num, line in enumerate(lines, 1):
             for pattern_info in patterns:
-                pattern = pattern_info['pattern']
-                exclude_words = pattern_info['exclude']
+                pattern = pattern_info["pattern"]
+                exclude_words = pattern_info["exclude"]
 
                 # 除外ワードチェック
                 if any(word in line for word in exclude_words):
@@ -137,13 +134,15 @@ class FactChecker:
 
                 match = re.search(pattern, line)
                 if match:
-                    errors.append({
-                        'line_num': line_num,
-                        'line_content': line.strip(),
-                        'wrong_text': match.group(0),
-                        'correct_text': pattern_info['correct'],
-                        'description': pattern_info['description']
-                    })
+                    errors.append(
+                        {
+                            "line_num": line_num,
+                            "line_content": line.strip(),
+                            "wrong_text": match.group(0),
+                            "correct_text": pattern_info["correct"],
+                            "description": pattern_info["description"],
+                        }
+                    )
 
         return errors
 
@@ -199,9 +198,7 @@ class FactChecker:
                 report_lines.append(f"### {doc_name}")
                 report_lines.append("")
                 for error in errors:
-                    report_lines.append(
-                        f"- **行{error['line_num']}**: {error['description']}"
-                    )
+                    report_lines.append(f"- **行{error['line_num']}**: {error['description']}")
                     report_lines.append(f"  - 誤: `{error['wrong_text']}`")
                     report_lines.append(f"  - 正: `{error['correct_text']}`")
                     report_lines.append(f"  - 内容: {error['line_content'][:80]}...")
@@ -211,7 +208,7 @@ class FactChecker:
             report_lines.append("")
             report_lines.append("検証したドキュメント内で数値の誤記は検出されませんでした。")
 
-        return '\n'.join(report_lines)
+        return "\n".join(report_lines)
 
     def auto_fix_documents(self, docs_dir: str = "claudedocs", dry_run: bool = True):
         """
@@ -230,16 +227,13 @@ class FactChecker:
         for doc_name, errors in check_results.items():
             doc_path = Path(docs_dir) / doc_name
 
-            with open(doc_path, 'r', encoding='utf-8') as f:
+            with open(doc_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # 修正を適用
             fixed_content = content
             for error in errors:
-                fixed_content = fixed_content.replace(
-                    error['wrong_text'],
-                    error['correct_text']
-                )
+                fixed_content = fixed_content.replace(error["wrong_text"], error["correct_text"])
 
             if dry_run:
                 print(f"\n📄 {doc_name}:")
@@ -248,20 +242,17 @@ class FactChecker:
                     print(f"  - 行{error['line_num']}: {error['wrong_text']} → {error['correct_text']}")
             else:
                 # 実際に保存
-                with open(doc_path, 'w', encoding='utf-8') as f:
+                with open(doc_path, "w", encoding="utf-8") as f:
                     f.write(fixed_content)
                 print(f"✅ 修正完了: {doc_name} ({len(errors)}箇所)")
 
     def save_stats_history(self, output_path: str = "database_stats_history.jsonl"):
         """データベース統計を履歴として保存"""
-        stats = {
-            'timestamp': datetime.now().isoformat(),
-            **self.facts
-        }
+        stats = {"timestamp": datetime.now().isoformat(), **self.facts}
 
         # JSONL形式で追記
-        with open(output_path, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(stats, ensure_ascii=False) + '\n')
+        with open(output_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(stats, ensure_ascii=False) + "\n")
 
         print(f"📊 統計を保存: {output_path}")
 
@@ -270,10 +261,10 @@ def main():
     """メイン処理"""
     import argparse
 
-    parser = argparse.ArgumentParser(description='ファクトチェックスクリプト')
-    parser.add_argument('--db', default='episode_database.db', help='データベースパス')
-    parser.add_argument('--fix', action='store_true', help='自動修正を実行（デフォルトはdry-run）')
-    parser.add_argument('--save-history', action='store_true', help='統計履歴を保存')
+    parser = argparse.ArgumentParser(description="ファクトチェックスクリプト")
+    parser.add_argument("--db", default="episode_database.db", help="データベースパス")
+    parser.add_argument("--fix", action="store_true", help="自動修正を実行（デフォルトはdry-run）")
+    parser.add_argument("--save-history", action="store_true", help="統計履歴を保存")
 
     args = parser.parse_args()
 
@@ -286,7 +277,7 @@ def main():
 
     # ファイル保存
     output_path = f"claudedocs/fact_check_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-    with open(output_path, 'w', encoding='utf-8') as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(report)
 
     print(f"\n📝 レポートを保存: {output_path}")
@@ -309,5 +300,5 @@ def main():
         checker.save_stats_history()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

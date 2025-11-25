@@ -67,30 +67,30 @@ def is_true_placeholder(row):
     """
     person_name = str(row.get('person_name', ''))
     person_name_display = str(row.get('person_name_display', ''))
-    
+
     # 有名な歴史的人物は保護
     for figure in FAMOUS_HISTORICAL_FIGURES:
         if figure in person_name or figure in person_name_display:
             return False, 'Famous historical figure'
-    
+
     # プレースホルダーパターンチェック
     for pattern in PLACEHOLDER_PATTERNS:
         if re.match(pattern, person_name, re.IGNORECASE) or \
            re.match(pattern, person_name_display, re.IGNORECASE):
             return True, 'Placeholder pattern detected'
-    
+
     # 完全に空の名前
     if (pd.isna(person_name) or person_name.strip() == '') and \
        (pd.isna(person_name_display) or person_name_display.strip() == ''):
         return True, 'Empty name fields'
-    
+
     # 単純すぎる名前（1文字だけ、数字だけなど）
     if len(person_name.strip()) == 1 and not re.match(r'[あ-んア-ン一-龥]', person_name):
         return True, 'Single character name'
-    
+
     if re.match(r'^\d+$', person_name):
         return True, 'Numeric name'
-    
+
     return False, 'Not a placeholder'
 
 def fix_historical_figures(df):
@@ -99,23 +99,23 @@ def fix_historical_figures(df):
     """
     fixed_count = 0
     fix_log = []
-    
+
     for idx, row in df.iterrows():
         person_name = str(row.get('person_name', ''))
         person_name_display = str(row.get('person_name_display', ''))
-        
+
         for figure, info in FAMOUS_HISTORICAL_FIGURES.items():
             if figure in person_name or figure in person_name_display:
                 # occupationが不明の場合は修正
                 if row['occupation'] == '不明' or pd.isna(row['occupation']):
                     old_occupation = row['occupation']
                     df.loc[idx, 'occupation'] = info['occupation']
-                    
+
                     # nationalityも修正
                     if row['nationality'] == '不明' or pd.isna(row['nationality']):
                         old_nationality = row['nationality']
                         df.loc[idx, 'nationality'] = info['nationality']
-                    
+
                     fixed_count += 1
                     fix_log.append({
                         'person_id': row['person_id'],
@@ -125,7 +125,7 @@ def fix_historical_figures(df):
                         'new_nationality': info['nationality']
                     })
                 break
-    
+
     return df, fixed_count, fix_log
 
 def main():
@@ -133,18 +133,18 @@ def main():
     print("真のプレースホルダー特定")
     print("Identify True Placeholders")
     print("="*60)
-    
+
     # データベース読み込み
     csv_file = 'ultra_think_FICTIONAL_COMPLETE_20250901_005521.csv'
     print(f"\n📂 Loading database: {csv_file}")
     df = pd.read_csv(csv_file, encoding='utf-8')
     print(f"✅ Total records: {len(df)}")
-    
+
     # まず有名な歴史的人物のデータを修正
     print("\n🔧 Fixing historical figures data...")
     df, fixed_count, fix_log = fix_historical_figures(df)
     print(f"✅ Fixed {fixed_count} historical figures")
-    
+
     if fix_log:
         print("\n📝 Fixed entries:")
         for fix in fix_log[:5]:
@@ -152,16 +152,16 @@ def main():
             print(f"    Occupation: {fix['old_occupation']} → {fix['new_occupation']}")
         if len(fix_log) > 5:
             print(f"  ... and {len(fix_log) - 5} more")
-    
+
     # 真のプレースホルダーを特定
     print("\n🔍 Identifying true placeholders...")
-    
+
     true_placeholders = []
     protected_entries = []
-    
+
     for idx, row in df.iterrows():
         is_placeholder, reason = is_true_placeholder(row)
-        
+
         if is_placeholder:
             true_placeholders.append({
                 'person_id': row['person_id'],
@@ -183,11 +183,11 @@ def main():
                     'recognition': row.get('name_recognition', 0),
                     'reason': 'Unknown person with no clear identity'
                 })
-    
+
     print(f"\n📊 Results:")
     print(f"  True placeholders found: {len(true_placeholders)}")
     print(f"  Historical figures fixed: {fixed_count}")
-    
+
     # プレースホルダーの詳細表示
     if true_placeholders:
         print("\n🚨 True placeholders to delete:")
@@ -195,16 +195,16 @@ def main():
             print(f"  {item['person_id']}: {item['person_name']} - {item['reason']}")
         if len(true_placeholders) > 10:
             print(f"  ... and {len(true_placeholders) - 10} more")
-    
+
     # 修正済みデータベースを保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    
+
     # データ修正を保存
     if fixed_count > 0:
         fixed_csv = f"ultra_think_HISTORICAL_FIXED_{timestamp}.csv"
         df.to_csv(fixed_csv, index=False, encoding='utf-8')
         print(f"\n💾 Fixed database saved: {fixed_csv}")
-    
+
     # プレースホルダーリストを保存
     placeholder_report = {
         'timestamp': datetime.now().isoformat(),
@@ -214,16 +214,16 @@ def main():
         'placeholders': true_placeholders,
         'fix_log': fix_log
     }
-    
+
     report_file = f"true_placeholders_{timestamp}.json"
     with open(report_file, 'w', encoding='utf-8') as f:
         json.dump(placeholder_report, f, ensure_ascii=False, indent=2)
     print(f"📝 Placeholder report saved: {report_file}")
-    
+
     print("\n✅ True placeholder identification completed!")
     print(f"   Recommended deletions: {len(true_placeholders)} records")
     print(f"   Historical figures preserved and fixed: {fixed_count} records")
-    
+
     return df, true_placeholders
 
 if __name__ == "__main__":

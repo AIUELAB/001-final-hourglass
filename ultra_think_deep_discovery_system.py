@@ -18,7 +18,7 @@ class UltraThinkDeepDiscoverySystem:
         self.output_file = f"ultra_think_DEEP_DISCOVERY_{self.timestamp}.csv"
         self.analysis_report = f"ULTRA_THINK_PATTERN_ANALYSIS_{self.timestamp}.md"
         self.missing_categories_file = f"missing_categories_{self.timestamp}.json"
-        
+
     def load_database(self) -> List[Dict[str, Any]]:
         """データベースの読み込み"""
         data = []
@@ -27,13 +27,13 @@ class UltraThinkDeepDiscoverySystem:
                 content = f.read()
                 if content.startswith('\ufeff'):
                     content = content[1:]
-                
+
                 import io
                 reader = csv.DictReader(io.StringIO(content))
                 for row in reader:
                     data.append(row)
         return data
-    
+
     def analyze_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
         """データベースのパターン分析"""
         analysis = {
@@ -47,26 +47,26 @@ class UltraThinkDeepDiscoverySystem:
             'award_winners': [],
             'missing_patterns': []
         }
-        
+
         total_recognition = 0
         recognition_count = 0
-        
+
         for person in data:
             # カテゴリ分析
             category = person.get('category', '')
             if category:
                 analysis['categories'][category] += 1
-            
+
             # 国籍分析
             nationality = person.get('nationality', '')
             if nationality:
                 analysis['nationalities'][nationality] += 1
-            
+
             # 職業分析
             occupation = person.get('occupation', '')
             if occupation:
                 analysis['occupations'][occupation] += 1
-            
+
             # 名前認識度
             try:
                 recognition = float(person.get('name_recognition', 0))
@@ -75,7 +75,7 @@ class UltraThinkDeepDiscoverySystem:
                     recognition_count += 1
             except:
                 pass
-            
+
             # 性別推定（名前から簡易推定）
             name_ja = person.get('person_name_ja', '')
             if self._estimate_gender(name_ja) == 'female':
@@ -84,7 +84,7 @@ class UltraThinkDeepDiscoverySystem:
                 analysis['gender_estimate']['male'] += 1
             else:
                 analysis['gender_estimate']['unknown'] += 1
-            
+
             # 生年分析
             extended = person.get('extended_data', '{}')
             try:
@@ -95,17 +95,17 @@ class UltraThinkDeepDiscoverySystem:
                     analysis['birth_year_distribution'][decade] += 1
             except:
                 pass
-        
+
         if recognition_count > 0:
             analysis['name_recognition_avg'] = total_recognition / recognition_count
-        
+
         return analysis
-    
+
     def _estimate_gender(self, name: str) -> str:
         """名前から性別を簡易推定"""
         female_indicators = ['子', '美', '花', '香', '恵', '愛', '優', '菜']
         male_indicators = ['郎', '男', '夫', '雄', '太', '一', '彦', '樹']
-        
+
         for indicator in female_indicators:
             if indicator in name:
                 return 'female'
@@ -113,11 +113,11 @@ class UltraThinkDeepDiscoverySystem:
             if indicator in name:
                 return 'male'
         return 'unknown'
-    
+
     def identify_missing_patterns(self, analysis: Dict[str, Any]) -> List[Dict[str, Any]]:
         """欠落パターンの特定"""
         missing_patterns = []
-        
+
         # 1. 賞受賞者の欠落
         missing_patterns.append({
             'category': '賞受賞者',
@@ -132,7 +132,7 @@ class UltraThinkDeepDiscoverySystem:
             'root_cause': 'コレクターメソッドに賞情報の収集機能なし',
             'impact': '文化的・学術的重要人物の大量欠落'
         })
-        
+
         # 2. 現代アーティストの欠落
         missing_patterns.append({
             'category': '現代アート',
@@ -147,7 +147,7 @@ class UltraThinkDeepDiscoverySystem:
             'root_cause': '_collect_artists()メソッドが空実装',
             'impact': '現代文化の代表者が不在'
         })
-        
+
         # 3. ジェンダーバランスの問題
         total = analysis['gender_estimate']['male'] + analysis['gender_estimate']['female']
         if total > 0:
@@ -166,7 +166,7 @@ class UltraThinkDeepDiscoverySystem:
                     'root_cause': 'ジェンダーバランスを考慮しない収集アルゴリズム',
                     'impact': f'女性比率{female_ratio:.1%}と極端に低い'
                 })
-        
+
         # 4. 年代の偏り
         modern_count = sum(v for k, v in analysis['birth_year_distribution'].items() if k >= 1950)
         historical_count = sum(v for k, v in analysis['birth_year_distribution'].items() if k < 1950)
@@ -184,7 +184,7 @@ class UltraThinkDeepDiscoverySystem:
                 'root_cause': '歴史的人物に偏重した収集',
                 'impact': '現代社会の重要人物が過小評価'
             })
-        
+
         # 5. グローバルバランスの問題
         japan_count = analysis['nationalities'].get('日本', 0)
         total_nationality = sum(analysis['nationalities'].values())
@@ -202,9 +202,9 @@ class UltraThinkDeepDiscoverySystem:
                 'root_cause': '日本中心の選択哲学',
                 'impact': f'日本人比率{japan_count/total_nationality:.1%}で国際性欠如'
             })
-        
+
         return missing_patterns
-    
+
     def generate_missing_categories(self) -> List[Dict[str, Any]]:
         """欠落カテゴリの生成"""
         missing_categories = [
@@ -235,7 +235,7 @@ class UltraThinkDeepDiscoverySystem:
             }
         ]
         return missing_categories
-    
+
     def _get_award_winners(self) -> List[Dict[str, str]]:
         """賞受賞者リスト"""
         return [
@@ -247,7 +247,7 @@ class UltraThinkDeepDiscoverySystem:
             {'name': 'Bong Joon-ho', 'name_ja': 'ポン・ジュノ', 'award': 'アカデミー賞監督賞', 'note': '「パラサイト」監督'},
             {'name': 'Ryusuke Hamaguchi', 'name_ja': '濱口竜介', 'award': 'カンヌ国際映画祭脚本賞', 'note': '「ドライブ・マイ・カー」'}
         ]
-    
+
     def _get_female_pioneers(self) -> List[Dict[str, str]]:
         """女性のパイオニア"""
         return [
@@ -258,7 +258,7 @@ class UltraThinkDeepDiscoverySystem:
             {'name': 'Simone de Beauvoir', 'name_ja': 'シモーヌ・ド・ボーヴォワール', 'field': '哲学', 'note': 'フェミニズム思想家'},
             {'name': 'Wangari Maathai', 'name_ja': 'ワンガリ・マータイ', 'field': '環境', 'note': 'ケニア環境活動家'}
         ]
-    
+
     def _get_tech_leaders(self) -> List[Dict[str, str]]:
         """テクノロジーリーダー"""
         return [
@@ -268,7 +268,7 @@ class UltraThinkDeepDiscoverySystem:
             {'name': 'Whitney Wolfe Herd', 'name_ja': 'ホイットニー・ウルフ・ハード', 'role': 'CEO', 'note': 'Bumble創業者'},
             {'name': 'Melanie Perkins', 'name_ja': 'メラニー・パーキンス', 'role': 'CEO', 'note': 'Canva創業者'}
         ]
-    
+
     def _get_modern_artists(self) -> List[Dict[str, str]]:
         """現代アーティスト"""
         return [
@@ -278,7 +278,7 @@ class UltraThinkDeepDiscoverySystem:
             {'name': 'Marina Abramović', 'name_ja': 'マリーナ・アブラモヴィッチ', 'genre': 'パフォーマンスアート', 'note': 'パフォーマンスアートの女王'},
             {'name': 'Ai Weiwei', 'name_ja': '艾未未', 'genre': '現代美術', 'note': '中国の現代美術家・活動家'}
         ]
-    
+
     def _get_global_south_leaders(self) -> List[Dict[str, str]]:
         """グローバルサウスの重要人物"""
         return [
@@ -288,7 +288,7 @@ class UltraThinkDeepDiscoverySystem:
             {'name': 'Carlos Slim', 'name_ja': 'カルロス・スリム', 'country': 'メキシコ', 'field': '実業家'},
             {'name': 'Mo Ibrahim', 'name_ja': 'モ・イブラヒム', 'country': 'スーダン', 'field': '実業家・慈善家'}
         ]
-    
+
     def generate_comprehensive_report(self, analysis: Dict, missing_patterns: List[Dict]) -> str:
         """包括的レポートの生成"""
         report = f"""# 🔍 Ultra Think 深層パターン分析レポート
@@ -308,12 +308,12 @@ class UltraThinkDeepDiscoverySystem:
         for category, count in analysis['categories'].most_common(10):
             percentage = (count / analysis['total_count']) * 100
             report += f"- {category}: {count:,}人 ({percentage:.1f}%)\n"
-        
+
         report += "\n### 国籍分布（上位10）\n"
         for nationality, count in analysis['nationalities'].most_common(10):
             percentage = (count / analysis['total_count']) * 100
             report += f"- {nationality}: {count:,}人 ({percentage:.1f}%)\n"
-        
+
         report += "\n### ジェンダーバランス（推定）\n"
         total_gendered = analysis['gender_estimate']['male'] + analysis['gender_estimate']['female']
         if total_gendered > 0:
@@ -322,9 +322,9 @@ class UltraThinkDeepDiscoverySystem:
             report += f"- 男性: {analysis['gender_estimate']['male']:,}人 ({male_pct:.1f}%)\n"
             report += f"- 女性: {analysis['gender_estimate']['female']:,}人 ({female_pct:.1f}%)\n"
             report += f"- 不明: {analysis['gender_estimate']['unknown']:,}人\n"
-        
+
         report += "\n## 🚨 発見された欠落パターン\n\n"
-        
+
         for pattern in missing_patterns:
             report += f"### {pattern['category']} [{pattern['severity']}]\n"
             report += f"**根本原因**: {pattern['root_cause']}\n"
@@ -333,7 +333,7 @@ class UltraThinkDeepDiscoverySystem:
             for example in pattern['examples']:
                 report += f"- {example}\n"
             report += "\n"
-        
+
         report += """## 💡 根本原因の分析
 
 ### 1. システム設計の問題
@@ -457,70 +457,70 @@ def _collect_artists(self, limit: int) -> List[UltraThinkPerson]:
 これらを実施することで、「誰でも知っている有名人」が適切に収録され、
 かつ多様性と包括性を持つデータベースが実現できます。
 """
-        
+
         return report
-    
+
     def process(self):
         """メイン処理"""
         print("🔍 Ultra Think 深層発見システム起動...")
-        
+
         # データベース読み込み
         print("\n📂 データベース読み込み中...")
         data = self.load_database()
         print(f"  ✅ {len(data)}件のデータ読み込み完了")
-        
+
         # パターン分析
         print("\n🔬 パターン分析中...")
         analysis = self.analyze_patterns(data)
         print(f"  📊 {len(analysis['categories'])}カテゴリ分析完了")
-        
+
         # 欠落パターンの特定
         print("\n🎯 欠落パターン特定中...")
         missing_patterns = self.identify_missing_patterns(analysis)
         print(f"  🚨 {len(missing_patterns)}個の問題パターン発見")
-        
+
         # 欠落カテゴリの生成
         print("\n💡 欠落カテゴリ生成中...")
         missing_categories = self.generate_missing_categories()
         print(f"  📝 {len(missing_categories)}カテゴリの追加候補生成")
-        
+
         # レポート生成
         print("\n📋 分析レポート作成中...")
         report = self.generate_comprehensive_report(analysis, missing_patterns)
-        
+
         with open(self.analysis_report, 'w', encoding='utf-8') as f:
             f.write(report)
         print(f"  ✅ レポート作成完了: {self.analysis_report}")
-        
+
         # 欠落カテゴリ保存
         with open(self.missing_categories_file, 'w', encoding='utf-8') as f:
             json.dump(missing_categories, f, ensure_ascii=False, indent=2)
         print(f"  ✅ 欠落カテゴリ保存: {self.missing_categories_file}")
-        
+
         # サマリー出力
         print("\n" + "=" * 50)
         print("🔍 深層分析完了サマリー")
         print("=" * 50)
         print(f"総人数: {analysis['total_count']:,}人")
         print(f"平均認知度: {analysis['name_recognition_avg']:.1f}")
-        
+
         # ジェンダーバランス
         total_gendered = analysis['gender_estimate']['male'] + analysis['gender_estimate']['female']
         if total_gendered > 0:
             female_pct = (analysis['gender_estimate']['female'] / total_gendered) * 100
             print(f"女性比率: {female_pct:.1f}%")
-        
+
         # 国籍バランス
         japan_count = analysis['nationalities'].get('日本', 0)
         total_nationality = sum(analysis['nationalities'].values())
         if total_nationality > 0:
             japan_pct = (japan_count / total_nationality) * 100
             print(f"日本人比率: {japan_pct:.1f}%")
-        
+
         print("\n🚨 主要な問題:")
         for pattern in missing_patterns[:3]:
             print(f"- {pattern['category']}: {pattern['impact']}")
-        
+
         print("\n✨ 詳細は分析レポートをご確認ください")
         print("=" * 50)
 

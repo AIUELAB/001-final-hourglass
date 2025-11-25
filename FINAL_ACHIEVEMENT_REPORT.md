@@ -16,14 +16,14 @@
 ### 2. 根本原因分析 ✅
 問題のあったSPARQLクエリ:
 ```sparql
-SERVICE wikibase:label { 
+SERVICE wikibase:label {
   bd:serviceParam wikibase:language "en" .  # 日本語が含まれていない
 }
 ```
 
 修正後:
 ```sparql
-SERVICE wikibase:label { 
+SERVICE wikibase:label {
   bd:serviceParam wikibase:language "ja,en" .  # 日本語優先
 }
 ```

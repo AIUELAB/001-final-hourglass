@@ -3,16 +3,18 @@
 エピソードIDを指定してスロット値を表示するスクリプト
 """
 
-import pandas as pd
 import sys
+
+import pandas as pd
+
 
 def show_episode_slot(episode_id):
     """エピソードのスロット値を表示"""
     csv_path = "MASTER_EPISODES_CURRENT.csv"
-    df = pd.read_csv(csv_path, encoding='utf-8-sig')
+    df = pd.read_csv(csv_path, encoding="utf-8-sig")
 
     # エピソードIDで検索
-    episode = df[df['episode_id'] == episode_id]
+    episode = df[df["episode_id"] == episode_id]
 
     if episode.empty:
         print(f"❌ エピソードID '{episode_id}' が見つかりませんでした")
@@ -43,9 +45,9 @@ def show_episode_slot(episode_id):
 
     # スロット値（重要）
     print("【スロット値】")
-    slot_value = row['slot']
-    if pd.isna(slot_value) or slot_value == '':
-        print(f"  slot              : （空）")
+    slot_value = row["slot"]
+    if pd.isna(slot_value) or slot_value == "":
+        print("  slot              : （空）")
     else:
         print(f"  slot              : {slot_value}")
     print()
@@ -58,13 +60,13 @@ def show_episode_slot(episode_id):
 
     # その他のスコア
     print("【詳細スコア】")
-    if '記憶性スコア' in df.columns:
+    if "記憶性スコア" in df.columns:
         print(f"  記憶性スコア      : {row['記憶性スコア']}")
-    if '共感性スコア' in df.columns:
+    if "共感性スコア" in df.columns:
         print(f"  共感性スコア      : {row['共感性スコア']}")
-    if '意外性スコア' in df.columns:
+    if "意外性スコア" in df.columns:
         print(f"  意外性スコア      : {row['意外性スコア']}")
-    if '生成品質スコア' in df.columns:
+    if "生成品質スコア" in df.columns:
         print(f"  生成品質スコア    : {row['生成品質スコア']}")
     print()
 
@@ -74,12 +76,13 @@ def show_episode_slot(episode_id):
         value = row[col]
         if pd.isna(value):
             value = "（空）"
-        elif col == 'episode_text':
+        elif col == "episode_text":
             value = f"{str(value)[:100]}..."
         print(f"  {col:30s}: {value}")
 
     print()
     print("=" * 80)
+
 
 if __name__ == "__main__":
     episode_id = sys.argv[1] if len(sys.argv) > 1 else "EP-001,716"

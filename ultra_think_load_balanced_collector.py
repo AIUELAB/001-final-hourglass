@@ -27,31 +27,31 @@ class LoadBalancedPerson:
     person_name_ja: str
     person_name_display: str
     birth_year: int
-    
+
     # 基本情報
     nationality: str = ""
     occupation: str = ""
     main_category: str = ""
     subcategory: str = ""
     description: str = ""
-    
+
     # スコア
     historical_impact: int = 0
     educational_value: int = 0
     cultural_significance: int = 0
-    
+
     # メタ情報
     grade: str = ""
     era: str = ""
     batch_id: int = 0  # バッチ処理ID
-    
+
     def to_dict(self) -> Dict:
         return asdict(self)
 
 
 class UltraThinkLoadBalancedCollector:
     """負荷分散型収集システム"""
-    
+
     def __init__(self, batch_size: int = 10):
         """
         Args:
@@ -61,10 +61,10 @@ class UltraThinkLoadBalancedCollector:
         self.collected_people: List[LoadBalancedPerson] = []
         self.processed_batches: Set[int] = set()
         self.checkpoint_file = "load_balanced_checkpoint.json"
-        
+
         # チェックポイントを読み込み
         self.load_checkpoint()
-        
+
     def load_checkpoint(self):
         """処理済みバッチの情報を読み込む"""
         if os.path.exists(self.checkpoint_file):
@@ -75,7 +75,7 @@ class UltraThinkLoadBalancedCollector:
                     logger.info(f"チェックポイント読み込み: {len(self.processed_batches)}バッチ処理済み")
             except Exception as e:
                 logger.warning(f"チェックポイント読み込みエラー: {e}")
-    
+
     def save_checkpoint(self):
         """処理状況を保存"""
         try:
@@ -88,10 +88,10 @@ class UltraThinkLoadBalancedCollector:
             logger.info(f"チェックポイント保存: {len(self.processed_batches)}バッチ")
         except Exception as e:
             logger.error(f"チェックポイント保存エラー: {e}")
-    
+
     def get_historical_greats_batch(self, batch_id: int) -> List[LoadBalancedPerson]:
         """歴史的偉人のバッチを取得（静的データ）"""
-        
+
         # バッチごとの歴史的偉人データ
         batches = {
             1: [  # 科学者バッチ
@@ -130,10 +130,10 @@ class UltraThinkLoadBalancedCollector:
                 ("Pyotr Tchaikovsky", "ピョートル・チャイコフスキー", "チャイコフスキー", 1840, "ロシア", "作曲家"),
             ]
         }
-        
+
         if batch_id not in batches:
             return []
-        
+
         people = []
         for data in batches[batch_id]:
             person = LoadBalancedPerson(
@@ -151,60 +151,60 @@ class UltraThinkLoadBalancedCollector:
                 batch_id=batch_id
             )
             people.append(person)
-        
+
         return people
-    
+
     def process_batch(self, batch_id: int) -> bool:
         """単一バッチを処理"""
-        
+
         if batch_id in self.processed_batches:
             logger.info(f"バッチ {batch_id} は処理済みです")
             return True
-        
+
         try:
             logger.info(f"バッチ {batch_id} の処理を開始...")
-            
+
             # バッチデータを取得
             batch_people = self.get_historical_greats_batch(batch_id)
-            
+
             if not batch_people:
                 logger.warning(f"バッチ {batch_id} にデータがありません")
                 return False
-            
+
             # 処理（メモリ負荷を抑える）
             for person in batch_people:
                 self.collected_people.append(person)
                 time.sleep(0.1)  # API負荷対策
-            
+
             # 処理済みとしてマーク
             self.processed_batches.add(batch_id)
-            
+
             # チェックポイント保存
             self.save_checkpoint()
-            
+
             # 中間結果を保存
             self.save_intermediate_results(batch_id)
-            
+
             logger.info(f"バッチ {batch_id} 完了: {len(batch_people)}人追加")
-            
+
             # メモリ解放のため少し待機
             time.sleep(1)
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"バッチ {batch_id} 処理エラー: {e}")
             return False
-    
+
     def save_intermediate_results(self, batch_id: int):
         """中間結果を保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"ultra_think_batch_{batch_id}_{timestamp}.json"
-        
+
         try:
             # バッチのデータのみ保存
             batch_data = [p for p in self.collected_people if p.batch_id == batch_id]
-            
+
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(
                     [p.to_dict() for p in batch_data],
@@ -215,49 +215,49 @@ class UltraThinkLoadBalancedCollector:
             logger.info(f"中間結果保存: {filename}")
         except Exception as e:
             logger.error(f"中間結果保存エラー: {e}")
-    
+
     def run_load_balanced_collection(self, max_batches: int = 5):
         """負荷分散型収集を実行"""
-        
+
         logger.info("=" * 60)
         logger.info("Ultra Think 負荷分散型収集開始")
         logger.info(f"最大バッチ数: {max_batches}")
         logger.info(f"バッチサイズ: {self.batch_size}")
         logger.info("=" * 60)
-        
+
         successful_batches = 0
         failed_batches = 0
-        
+
         for batch_id in range(1, max_batches + 1):
             logger.info(f"\n--- バッチ {batch_id}/{max_batches} ---")
-            
+
             if self.process_batch(batch_id):
                 successful_batches += 1
             else:
                 failed_batches += 1
                 logger.warning(f"バッチ {batch_id} の処理に失敗")
-            
+
             # バッチ間の休憩（クラッシュ防止）
             if batch_id < max_batches:
                 logger.info("次のバッチまで3秒待機...")
                 time.sleep(3)
-        
+
         # 最終結果を保存
         self.save_final_results()
-        
+
         logger.info("\n" + "=" * 60)
         logger.info("収集完了サマリー")
         logger.info(f"成功バッチ: {successful_batches}")
         logger.info(f"失敗バッチ: {failed_batches}")
         logger.info(f"総収集人数: {len(self.collected_people)}")
         logger.info("=" * 60)
-        
+
         return successful_batches > 0
-    
+
     def save_final_results(self):
         """最終結果を保存"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
+
         # JSON形式
         json_file = f"ultra_think_load_balanced_{timestamp}.json"
         with open(json_file, 'w', encoding='utf-8') as f:
@@ -267,7 +267,7 @@ class UltraThinkLoadBalancedCollector:
                 ensure_ascii=False,
                 indent=2
             )
-        
+
         # CSV形式
         csv_file = f"ultra_think_load_balanced_{timestamp}.csv"
         with open(csv_file, 'w', encoding='utf-8-sig', newline='') as f:
@@ -277,21 +277,21 @@ class UltraThinkLoadBalancedCollector:
                 writer.writeheader()
                 for person in self.collected_people:
                     writer.writerow(person.to_dict())
-        
+
         logger.info(f"最終結果保存: {json_file}, {csv_file}")
-        
+
         # サマリーレポート作成
         self.create_summary_report(timestamp)
-    
+
     def create_summary_report(self, timestamp: str):
         """サマリーレポートを作成"""
         report_file = f"LOAD_BALANCED_SUMMARY_{timestamp}.md"
-        
+
         categories = {}
         for person in self.collected_people:
             cat = person.main_category or "未分類"
             categories[cat] = categories.get(cat, 0) + 1
-        
+
         report = f"""# Ultra Think 負荷分散型収集レポート
 
 ## 実行日時
@@ -304,10 +304,10 @@ class UltraThinkLoadBalancedCollector:
 
 ## カテゴリ別統計
 """
-        
+
         for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
             report += f"- {cat}: {count}人\n"
-        
+
         report += f"""
 ## 負荷分散効果
 - クラッシュ防止: ✅ 成功
@@ -319,25 +319,25 @@ class UltraThinkLoadBalancedCollector:
 2. 既存データベースとの統合
 3. Firebase Episodesとの整合性確認
 """
-        
+
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         logger.info(f"サマリーレポート作成: {report_file}")
 
 
 def main():
     """メイン実行関数"""
     collector = UltraThinkLoadBalancedCollector(batch_size=5)
-    
+
     # 負荷分散型収集を実行（5バッチ = 25人）
     success = collector.run_load_balanced_collection(max_batches=5)
-    
+
     if success:
         logger.info("✅ 負荷分散型収集が正常に完了しました")
     else:
         logger.error("❌ 収集中にエラーが発生しました")
-    
+
     return success
 
 

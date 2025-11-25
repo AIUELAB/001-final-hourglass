@@ -22,13 +22,13 @@ const CONFIG = {
             height: 800
         }
     },
-    
+
     // タイムアウト設定（ミリ秒）
     timeout: {
         navigation: 30000,      // ページ読み込み
         element: 10000         // 要素の待機
     },
-    
+
     // 保存先
     output: {
         screenshots: './screenshots',
@@ -69,7 +69,7 @@ async function takeScreenshot(page, name) {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `${name}_${timestamp}.png`;
     const filepath = path.join(CONFIG.output.screenshots, filename);
-    
+
     await ensureDir(CONFIG.output.screenshots);
     await page.screenshot({ path: filepath, fullPage: true });
     console.log(`📸 スクリーンショット保存: ${filepath}`);
@@ -82,7 +82,7 @@ async function takeScreenshot(page, name) {
  */
 async function saveData(data, filename) {
     const filepath = path.join(CONFIG.output.data, `${filename}.json`);
-    
+
     await ensureDir(CONFIG.output.data);
     await fs.writeFile(filepath, JSON.stringify(data, null, 2));
     console.log(`💾 データ保存: ${filepath}`);
@@ -95,42 +95,42 @@ async function runAutomation() {
     // ブラウザを起動
     console.log('🚀 ブラウザを起動中...');
     const browser = await puppeteer.launch(CONFIG.browser);
-    
+
     try {
         // 新しいページを開く
         const page = await browser.newPage();
-        
+
         // ========================================
         // 📝 例1: Googleで検索
         // ========================================
         console.log('\n📝 例1: Google検索');
-        
+
         // Googleにアクセス
         await page.goto('https://www.google.com', {
             waitUntil: 'networkidle2',
             timeout: CONFIG.timeout.navigation
         });
         console.log('✅ Googleにアクセスしました');
-        
+
         // 検索ボックスに入力
         const searchBox = 'input[name="q"]';
         await page.waitForSelector(searchBox, { timeout: CONFIG.timeout.element });
         await page.type(searchBox, 'Claude AI');
         console.log('✅ 検索キーワードを入力しました');
-        
+
         // Enterキーを押して検索
         await page.keyboard.press('Enter');
         await page.waitForNavigation();
         console.log('✅ 検索を実行しました');
-        
+
         // スクリーンショットを撮る
         await takeScreenshot(page, 'google_search_result');
-        
+
         // 検索結果を取得
         const searchResults = await page.evaluate(() => {
             const results = [];
             const items = document.querySelectorAll('h3');
-            
+
             items.forEach((item, index) => {
                 if (index < 5) { // 上位5件のみ
                     results.push({
@@ -139,60 +139,60 @@ async function runAutomation() {
                     });
                 }
             });
-            
+
             return results;
         });
-        
+
         console.log('📊 検索結果:');
         searchResults.forEach(result => {
             console.log(`  ${result.rank}. ${result.title}`);
         });
-        
+
         // 結果を保存
         await saveData(searchResults, 'search_results');
-        
+
         // ========================================
         // 📝 例2: フォームの自動入力
         // ========================================
         console.log('\n📝 例2: フォーム自動入力のデモ');
-        
+
         // デモページに移動（実際のURLに変更してください）
         // await page.goto('https://example.com/form');
-        
+
         // フォーム入力の例（コメントアウト）
         /*
         // テキスト入力
         await page.type('#name', '山田太郎');
         await page.type('#email', 'taro@example.com');
-        
+
         // ドロップダウン選択
         await page.select('#country', 'JP');
-        
+
         // チェックボックス
         await page.click('#agree');
-        
+
         // ラジオボタン
         await page.click('input[name="plan"][value="premium"]');
-        
+
         // ボタンクリック
         await page.click('#submit');
         */
-        
+
         // ========================================
         // 📝 例3: ページの情報を取得
         // ========================================
         console.log('\n📝 例3: ページ情報の取得');
-        
+
         await page.goto('https://example.com');
-        
+
         // ページタイトルを取得
         const title = await page.title();
         console.log(`📄 ページタイトル: ${title}`);
-        
+
         // ページのURLを取得
         const url = page.url();
         console.log(`🔗 現在のURL: ${url}`);
-        
+
         // ページの内容を取得
         const pageContent = await page.evaluate(() => {
             return {
@@ -201,23 +201,23 @@ async function runAutomation() {
                 paragraphs: Array.from(document.querySelectorAll('p')).slice(0, 3).map(p => p.textContent)
             };
         });
-        
+
         await saveData(pageContent, 'page_content');
-        
+
         // ========================================
         // 🎬 終了処理
         // ========================================
         console.log('\n✨ 自動化処理が完了しました！');
-        
+
     } catch (error) {
         console.error('❌ エラーが発生しました:', error.message);
-        
+
         // エラー時のスクリーンショット
         const page = (await browser.pages())[0];
         if (page) {
             await takeScreenshot(page, 'error');
         }
-        
+
     } finally {
         // ブラウザを閉じる
         await browser.close();
@@ -233,7 +233,7 @@ if (require.main === module) {
     console.log('================================');
     console.log('🤖 自動化スクリプト開始');
     console.log('================================\n');
-    
+
     runAutomation()
         .then(() => {
             console.log('\n✅ 正常終了');
@@ -255,20 +255,20 @@ module.exports = {
 
 /**
  * 💡 カスタマイズのヒント:
- * 
+ *
  * 1. 別のサイトを自動化:
  *    - URLを変更
  *    - セレクタを調整（DevToolsで確認）
- * 
+ *
  * 2. 認証が必要な場合:
  *    - ログイン処理を追加
  *    - Cookieを保存/読み込み
- * 
+ *
  * 3. 複雑な操作:
  *    - マウスホバー: page.hover(selector)
  *    - ドラッグ&ドロップ: page.drag(source, target)
  *    - ファイルアップロード: input.uploadFile(filePath)
- * 
+ *
  * 4. エラー処理:
  *    - try-catchを追加
  *    - リトライ処理

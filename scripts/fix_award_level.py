@@ -9,6 +9,7 @@ from datetime import datetime
 
 MASTER_CSV = "MASTER_EPISODES_CURRENT.csv"
 
+
 def main():
     print("=" * 80)
     print("award_level修正スクリプト")

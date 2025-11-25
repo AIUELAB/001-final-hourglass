@@ -6,10 +6,10 @@
 
 class ExtendedPersonsWave3FromChatGPT:
     """ChatGPT提案に基づく第3波人物リスト"""
-    
+
     def __init__(self):
         """カテゴリ別に人物を定義"""
-        
+
         # 1. 挫折と再起のビジネスリーダー（ChatGPT優先度A）
         self.business_resilience = [
             ('柳井正', 'ユニクロ創業者', 'ファーストリテイリング会長、失敗と再挑戦の経営', 8.5, 'ビジネス'),
@@ -19,7 +19,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('永守重信', '日本電産創業者', 'モーター世界一、M&Aの名手', 7.5, 'ビジネス'),
             ('似鳥昭雄', 'ニトリ創業者', '33年連続増収増益、北海道から全国へ', 7.0, 'ビジネス'),
         ]
-        
+
         # 2. 災害・防災・復興のキーパーソン（ChatGPT優先度A）
         self.disaster_recovery = [
             ('片田敏孝', '防災研究者', '釜石の奇跡、津波防災教育の第一人者', 7.0, '防災'),
@@ -28,7 +28,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('今村文彦', '津波工学者', '東北大学、津波予測システム開発', 6.5, '防災'),
             ('廣井脩', '災害情報学者', '災害時の情報伝達研究の先駆者', 6.0, '防災'),
         ]
-        
+
         # 3. 生活・介護・健康のパイオニア（ChatGPT優先度A）
         self.life_health_care = [
             ('村木厚子', '元厚生労働事務次官', '冤罪からの復帰、女性活躍推進', 7.0, '社会'),
@@ -38,7 +38,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('柳田邦男', 'ノンフィクション作家', '医療事故・災害取材、グリーフケア', 6.5, '社会'),
             ('大村智', '化学者', 'ノーベル生理学・医学賞、イベルメクチン発見', 8.0, '科学'),
         ]
-        
+
         # 4. 現場職のプロフェッショナル（ChatGPT優先度B）
         self.field_professionals = [
             ('岡野雅行', '町工場経営者', '岡野工業、痛くない注射針開発', 6.5, '技術'),
@@ -48,7 +48,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('天野浩', '工学者', 'ノーベル物理学賞、青色LED開発', 7.5, '科学'),
             ('中村修二', '工学者', 'ノーベル物理学賞、青色LED実用化', 7.5, '科学'),
         ]
-        
+
         # 5. 女性パイオニア・社会改革者（ChatGPT提案）
         self.women_pioneers = [
             ('津田梅子', '教育者', '津田塾大学創設者、女子教育の先駆者', 8.0, '教育'),
@@ -58,7 +58,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('与謝野晶子', '歌人・作家', 'みだれ髪、反戦詩人', 7.5, '文学'),
             ('樋口一葉', '小説家', '五千円札の肖像、たけくらべ', 8.0, '文学'),
         ]
-        
+
         # 6. 歴史的改革者・藩政改革（ChatGPT提案）
         self.historical_reformers = [
             ('上杉鷹山', '米沢藩主', '財政再建の名君、「為せば成る」', 7.5, '歴史'),
@@ -67,7 +67,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('保科正之', '会津藩主', '名君、社倉制度創設', 6.5, '歴史'),
             ('細川重賢', '熊本藩主', '宝暦の改革、藩政改革の模範', 6.5, '歴史'),
         ]
-        
+
         # 7. 文化・芸術の革新者（ChatGPT提案の補完）
         self.cultural_innovators = [
             ('井上雄彦', '漫画家', 'スラムダンク、バガボンド、リアル', 8.0, '芸術'),
@@ -77,7 +77,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('坂本龍一', '音楽家', 'YMO、世界的作曲家、戦場のメリークリスマス', 8.5, '芸術'),
             ('村上春樹', '小説家', 'ノーベル文学賞候補、世界的作家', 8.5, '文学'),
         ]
-        
+
         # 8. 国際協力・社会貢献（ChatGPT優先度A）
         self.international_cooperation = [
             ('中村哲', '医師', 'ペシャワール会、アフガニスタン用水路建設', 7.5, '国際協力'),
@@ -86,7 +86,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('大島賢三', '外交官', '元国連大使、人道支援', 6.5, '国際協力'),
             ('黒柳徹子', 'タレント', 'ユニセフ親善大使、トットちゃん', 8.5, '国際協力'),
         ]
-        
+
         # 9. 歴代首相・政治改革者（ChatGPT優先度B）
         self.prime_ministers = [
             ('吉田茂', '第45・48-51代首相', 'サンフランシスコ講和条約、戦後復興', 8.5, '政治'),
@@ -96,7 +96,7 @@ class ExtendedPersonsWave3FromChatGPT:
             ('小泉純一郎', '第87-89代首相', '郵政民営化、構造改革', 8.0, '政治'),
             ('安倍晋三', '第90・96-98代首相', 'アベノミクス、憲法改正議論', 8.5, '政治'),
         ]
-        
+
         # 10. ノーベル賞受賞者（科学系）
         self.nobel_scientists = [
             ('湯川秀樹', '物理学者', '日本人初のノーベル賞、中間子理論', 8.5, '科学'),
@@ -111,11 +111,11 @@ class ExtendedPersonsWave3FromChatGPT:
             ('本庶佑', '医学者', 'ノーベル生理学・医学賞、免疫チェックポイント', 8.0, '科学'),
             ('真鍋淑郎', '気象学者', 'ノーベル物理学賞、気候モデル開発', 7.5, '科学'),
         ]
-    
+
     def get_all_persons(self):
         """全人物リストを返す"""
         all_persons = []
-        
+
         # 各カテゴリから人物を追加
         all_persons.extend(self.business_resilience)
         all_persons.extend(self.disaster_recovery)
@@ -127,9 +127,9 @@ class ExtendedPersonsWave3FromChatGPT:
         all_persons.extend(self.international_cooperation)
         all_persons.extend(self.prime_ministers)
         all_persons.extend(self.nobel_scientists)
-        
+
         return all_persons
-    
+
     def get_category_summary(self):
         """カテゴリ別の人数サマリーを返す"""
         summary = {
@@ -150,11 +150,11 @@ class ExtendedPersonsWave3FromChatGPT:
 if __name__ == "__main__":
     # テスト実行
     wave3 = ExtendedPersonsWave3FromChatGPT()
-    
+
     print("=" * 60)
     print("📊 第3波: ChatGPT提案に基づく追加人物リスト")
     print("=" * 60)
-    
+
     # カテゴリサマリー
     summary = wave3.get_category_summary()
     print("\n📋 カテゴリ別人数:")
@@ -163,7 +163,7 @@ if __name__ == "__main__":
         print(f"  {category}: {count}名")
         total += count
     print(f"\n合計: {total}名")
-    
+
     # サンプル表示
     print("\n🎯 サンプル（各カテゴリから1名）:")
     samples = [
@@ -173,10 +173,10 @@ if __name__ == "__main__":
         wave3.field_professionals[0],
         wave3.women_pioneers[0],
     ]
-    
+
     for name, occupation, description, score, category in samples:
         print(f"  [{category}] {name} ({occupation}): {description[:30]}... スコア{score}")
-    
+
     print("\n✅ ChatGPTの提案を基に、日本人ユーザーに価値の高い人物を選定")
     print("  - 「挫折と再起」のストーリー性を重視")
     print("  - 生活密着型（防災、医療、介護）を強化")

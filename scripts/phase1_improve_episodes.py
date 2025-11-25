@@ -13,13 +13,13 @@ Phase 1エピソード品質改善スクリプト
 5. 150-250文字への最適化
 """
 
-import sys
-import sqlite3
 import json
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, List
 import os
+import sqlite3
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List
 
 # プロジェクトルートをパスに追加
 project_root = Path(__file__).parent.parent
@@ -65,26 +65,28 @@ class EpisodeImprover:
 
         episodes = []
         for row in cursor.fetchall():
-            episodes.append({
-                'episode_id': row['episode_id'],
-                'person_id': row['person_id'],
-                'person_name_ja': row['person_name_ja'],
-                'person_name_en': row['person_name_en'],
-                'age': row['age'],
-                'episode_text': row['episode_text'],
-                'birth_year': row['birth_year'],
-                'category': row['category'],
-                'entity_type': row['entity_type'],
-            })
+            episodes.append(
+                {
+                    "episode_id": row["episode_id"],
+                    "person_id": row["person_id"],
+                    "person_name_ja": row["person_name_ja"],
+                    "person_name_en": row["person_name_en"],
+                    "age": row["age"],
+                    "episode_text": row["episode_text"],
+                    "birth_year": row["birth_year"],
+                    "category": row["category"],
+                    "entity_type": row["entity_type"],
+                }
+            )
 
         return episodes
 
     def create_improvement_prompt(self, episode: Dict[str, Any]) -> str:
         """改善プロンプト生成"""
-        name = episode['person_name_ja']
-        age = episode['age']
-        current_text = episode['episode_text']
-        category = episode['category']
+        name = episode["person_name_ja"]
+        age = episode["age"]
+        current_text = episode["episode_text"]
+        category = episode["category"]
 
         prompt = f"""
 あなたは優秀なエピソードライターです。以下のエピソードを、より感動的で具体的な内容に改善してください。
@@ -130,32 +132,35 @@ class EpisodeImprover:
                 model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "あなたは歴史的事実に基づいた感動的なエピソードを書く専門家です。"},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": prompt},
                 ],
                 temperature=0.8,
-                max_tokens=600
+                max_tokens=600,
             )
 
             improved_text = response.choices[0].message.content.strip()
 
             # 改行や余計な記号を除去
-            improved_text = improved_text.replace('\n', '').replace('\r', '')
+            improved_text = improved_text.replace("\n", "").replace("\r", "")
 
             return improved_text
 
         except Exception as e:
             print(f"❌ 改善API呼び出し失敗: {e}")
-            return episode['episode_text']
+            return episode["episode_text"]
 
     def update_episode(self, episode_id: str, new_text: str):
         """エピソードをデータベースに更新"""
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             UPDATE episodes
             SET episode_text = ?,
                 updated_at = ?
             WHERE episode_id = ?
-        """, (new_text, datetime.now().isoformat(), episode_id))
+        """,
+            (new_text, datetime.now().isoformat(), episode_id),
+        )
         self.conn.commit()
 
     def improve_all_episodes(self):
@@ -168,7 +173,7 @@ class EpisodeImprover:
 
         total = len(episodes)
         print(f"\n{'=' * 70}")
-        print(f"  Phase 1エピソード品質改善")
+        print("  Phase 1エピソード品質改善")
         print(f"{'=' * 70}")
         print(f"\n対象エピソード数: {total}件\n")
 
@@ -184,7 +189,7 @@ class EpisodeImprover:
             print(f"   {episode['episode_text'][:100]}...")
 
             # 改善
-            print(f"\n🔄 改善中...")
+            print("\n🔄 改善中...")
             improved_text = self.improve_episode(episode)
 
             # 改善後表示
@@ -192,21 +197,22 @@ class EpisodeImprover:
             print(f"   {improved_text}")
 
             # 確認
-            if improved_text != episode['episode_text']:
+            if improved_text != episode["episode_text"]:
                 # 更新
-                self.update_episode(episode['episode_id'], improved_text)
+                self.update_episode(episode["episode_id"], improved_text)
                 improved_count += 1
-                print(f"\n✅ エピソードを更新しました")
+                print("\n✅ エピソードを更新しました")
             else:
-                print(f"\n⚠️ 変更なし")
+                print("\n⚠️ 変更なし")
 
             # API レート制限対策
             if idx < total:
                 import time
+
                 time.sleep(2)
 
         print(f"\n{'=' * 70}")
-        print(f"  改善完了")
+        print("  改善完了")
         print(f"{'=' * 70}")
         print(f"\n改善件数: {improved_count}/{total}件")
         print(f"成功率: {improved_count/total*100:.1f}%")
@@ -232,5 +238,5 @@ def main():
         improver.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

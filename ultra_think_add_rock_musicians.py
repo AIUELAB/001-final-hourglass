@@ -141,7 +141,7 @@ class UltraThinkRockMusiciansAdder:
                 "note": "レッド・ホット・チリ・ペッパーズ"
             }
         ]
-        
+
         # ヘヴィメタル/ネオクラシカル
         self.heavy_metal = [
             {
@@ -217,7 +217,7 @@ class UltraThinkRockMusiciansAdder:
                 "note": "レインボー、ブラック・サバス"
             }
         ]
-        
+
         # アメリカンロック
         self.american_rock = [
             {
@@ -291,7 +291,7 @@ class UltraThinkRockMusiciansAdder:
                 "note": "エアロスミス、リズムギター"
             }
         ]
-        
+
         # 現代音楽/エレクトロニック
         self.modern_electronic = [
             {
@@ -394,7 +394,7 @@ class UltraThinkRockMusiciansAdder:
                 "note": "トランスDJ、A State of Trance"
             }
         ]
-        
+
         # ビートルズメンバー（ジョン・レノン以外）
         self.beatles_members = [
             {
@@ -441,7 +441,7 @@ class UltraThinkRockMusiciansAdder:
                 "note": "ビートルズ、本名リチャード・スターキー"
             }
         ]
-        
+
         # ローリング・ストーンズ
         self.rolling_stones = [
             {
@@ -502,7 +502,7 @@ class UltraThinkRockMusiciansAdder:
                 "note": "ローリング・ストーンズ、元フェイセズ"
             }
         ]
-        
+
         # レッド・ツェッペリン
         self.led_zeppelin = [
             {
@@ -563,26 +563,26 @@ class UltraThinkRockMusiciansAdder:
                 "note": "レッド・ツェッペリン、伝説のドラマー"
             }
         ]
-        
+
         self.stats = {
             'total_input': 0,
             'musicians_added': 0,
             'total_output': 0
         }
-    
+
     def generate_episode_id(self, person_idx: int) -> str:
         """エピソードID生成"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         return f"EP_{timestamp}_RM{person_idx:04d}"
-    
+
     def generate_person_id(self, current_max: int, idx: int) -> str:
         """person_ID生成"""
         return f"P{current_max + idx:06d}"
-    
+
     def create_person_row(self, person: Dict, episode_id: str, person_id: str) -> Dict:
         """人物データを24フィールド形式に変換"""
         timestamp = datetime.now().isoformat()
-        
+
         # 拡張データ
         extended_data = {
             "original_batch_id": "rock_musicians_addition",
@@ -598,7 +598,7 @@ class UltraThinkRockMusiciansAdder:
             "death_year": person.get('death_year', ''),
             "conversion_date": timestamp
         }
-        
+
         return {
             "episode_id": episode_id,
             "person_id": person_id,
@@ -625,27 +625,27 @@ class UltraThinkRockMusiciansAdder:
             "is_published": "true",
             "extended_data": json.dumps(extended_data, ensure_ascii=False)
         }
-    
+
     def process_and_add(self, input_file: str) -> str:
         """既存ファイルにロックミュージシャンを追加"""
         print("🎸 Ultra Think ロックミュージシャン追加開始...")
-        
+
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = f"ultra_think_WITH_ROCK_MUSICIANS_{timestamp}.csv"
-        
+
         # 1. 既存データ読み込み
         print("\n📂 既存データ読み込み中...")
         existing_rows = []
         fieldnames = None
-        
+
         with open(input_file, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
             fieldnames = reader.fieldnames
             existing_rows = list(reader)
             self.stats['total_input'] = len(existing_rows)
-        
+
         print(f"  ✅ {self.stats['total_input']:,}件の既存データ読み込み完了")
-        
+
         # 現在の最大person_id取得
         max_person_id = 0
         for row in existing_rows:
@@ -655,12 +655,12 @@ class UltraThinkRockMusiciansAdder:
                 max_person_id = max(max_person_id, num)
             except (ValueError, IndexError):
                 pass
-        
+
         # 2. 新規データ作成
         print("\n🎯 ロックミュージシャン追加中...")
         new_rows = []
         person_idx = 1
-        
+
         # 各カテゴリーの追加
         all_musicians = (
             self.classic_rock +
@@ -671,7 +671,7 @@ class UltraThinkRockMusiciansAdder:
             self.rolling_stones +
             self.led_zeppelin
         )
-        
+
         print(f"  📌 {len(all_musicians)}名のミュージシャンを追加...")
         for musician in all_musicians:
             episode_id = self.generate_episode_id(person_idx)
@@ -680,28 +680,28 @@ class UltraThinkRockMusiciansAdder:
             new_rows.append(new_row)
             self.stats['musicians_added'] += 1
             person_idx += 1
-        
+
         print(f"  ✅ {len(new_rows)}名の新規ミュージシャンを追加")
-        
+
         # 3. データ統合と書き出し
         print("\n📝 統合データ書き出し中...")
         all_rows = existing_rows + new_rows
-        
+
         with open(output_file, 'w', encoding='utf-8-sig', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
-            
+
             for row in all_rows:
                 writer.writerow(row)
                 self.stats['total_output'] += 1
-        
+
         print(f"  ✅ 書き出し完了: {self.stats['total_output']:,}件")
-        
+
         # 4. レポート作成
         self.create_report(timestamp, output_file, input_file)
-        
+
         return output_file
-    
+
     def create_report(self, timestamp: str, output_file: str, input_file: str):
         """追加レポート作成"""
         report = f"""# 🎸 Ultra Think ロックミュージシャン追加レポート
@@ -772,26 +772,26 @@ class UltraThinkRockMusiciansAdder:
 ロック音楽史の重要人物が網羅され、
 クラシックロックから現代EDMまでバランスよく表現されるようになりました。
 """
-        
+
         report_file = f"ULTRA_THINK_ROCK_MUSICIANS_REPORT_{timestamp}.md"
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
-        
+
         print(f"\n📋 レポート: {report_file}")
-        
+
         # 統計をJSON保存
         stats_file = f"ultra_think_rock_musicians_stats_{timestamp}.json"
         with open(stats_file, 'w', encoding='utf-8') as f:
             json.dump(self.stats, f, ensure_ascii=False, indent=2)
-        
+
         print(f"📊 統計: {stats_file}")
 
 def main():
     adder = UltraThinkRockMusiciansAdder()
-    
+
     # 入力ファイル（女子プロレスラー追加済みデータ）
     input_file = "ultra_think_WITH_FEMALE_WRESTLERS_20250827_061752.csv"
-    
+
     # ファイル存在確認
     if not os.path.exists(input_file):
         print(f"❌ ファイルが見つかりません: {input_file}")
@@ -801,15 +801,15 @@ def main():
             print(f"❌ 代替ファイルも見つかりません: {input_file}")
             return None
         print(f"  📌 代替ファイルを使用: {input_file}")
-    
+
     # 処理実行
     output_file = adder.process_and_add(input_file)
-    
+
     print("\n" + "=" * 50)
     print("✨ Ultra Think ロックミュージシャン追加完了!")
     print(f"📁 出力ファイル: {output_file}")
     print("=" * 50)
-    
+
     return output_file
 
 if __name__ == "__main__":

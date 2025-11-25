@@ -6,26 +6,25 @@
 削除が検出された場合に自動的にIDEキャッシュクリアを実行します。
 """
 
-import os
-import time
 import json
 import logging
+import os
+import time
 from pathlib import Path
-from typing import Set, Dict, List, Any
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+from typing import Any, Dict, List, Set
+
 from clear_ide_cache import IDECacheCleaner
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 # ログ設定
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('file_deletion_monitor.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("file_deletion_monitor.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
+
 
 class FileDeletionHandler(FileSystemEventHandler):
     """ファイル削除イベントハンドラー"""
@@ -63,8 +62,8 @@ class FileDeletionHandler(FileSystemEventHandler):
 
             # 結果をログに記録
             for ide, results in cache_results.items():
-                success = results['success']
-                failed = results['failed']
+                success = results["success"]
+                failed = results["failed"]
                 logger.info(f"{ide.upper()} キャッシュクリア: {success}成功, {failed}失敗")
 
             # 自動再起動が有効な場合
@@ -83,6 +82,7 @@ class FileDeletionHandler(FileSystemEventHandler):
 
         except Exception as e:
             logger.error(f"キャッシュクリア実行中にエラーが発生: {e}")
+
 
 class FileDeletionMonitor:
     """ファイル削除監視クラス"""
@@ -123,23 +123,21 @@ class FileDeletionMonitor:
         self.observer.join()
         logger.info("ファイル削除監視を停止")
 
+
 def load_config() -> Dict[str, Any]:
     """設定ファイルを読み込み"""
     config_file = Path("scripts/monitor_config.json")
 
     if config_file.exists():
         try:
-            with open(config_file, 'r', encoding='utf-8') as f:
+            with open(config_file, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
             logger.error(f"設定ファイルの読み込みに失敗: {e}")
 
     # デフォルト設定
-    return {
-        "target_directories": ["."],
-        "auto_restart": False,
-        "cleanup_cooldown": 30
-    }
+    return {"target_directories": ["."], "auto_restart": False, "cleanup_cooldown": 30}
+
 
 def main():
     """メイン関数"""
@@ -161,6 +159,7 @@ def main():
         monitor.start_monitoring()
     except KeyboardInterrupt:
         print("\n👋 監視を終了します")
+
 
 if __name__ == "__main__":
     main()

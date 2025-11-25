@@ -20,12 +20,12 @@ logger = logging.getLogger(__name__)
 
 class GroupEntityProcessor:
     """グループエンティティを個人に分割するプロセッサー"""
-    
+
     def __init__(self):
         """初期化"""
         # 既知のグループと個人のマッピング
         self.known_groups = self._load_known_groups()
-        
+
         # グループ判定パターン
         self.group_patterns = [
             r'.*コンビ$',
@@ -54,7 +54,7 @@ class GroupEntityProcessor:
             r'.*feat\..*',  # feat. が含まれる
             r'.*vs.*',  # vs が含まれる
         ]
-        
+
         # 統計情報
         self.stats = {
             'total_processed': 0,
@@ -62,7 +62,7 @@ class GroupEntityProcessor:
             'individuals_extracted': 0,
             'groups_unknown': 0
         }
-    
+
     def _load_known_groups(self) -> Dict[str, List[str]]:
         """既知のグループとメンバーのマッピングをロード"""
         known_groups = {
@@ -87,7 +87,7 @@ class GroupEntityProcessor:
             'ウエストランド': ['井口浩之', '河本太'],
             '男性ブランコ': ['浦井のりひろ', '平井まさあき'],
             'ロングコートダディ': ['堂前透', '兎'],
-            
+
             # 音楽グループ・バンド
             'YOASOBI': ['Ayase', 'ikura'],
             'Official髭男dism': ['藤原聡', '小笹大輔', '楢崎誠', '松浦匡希'],
@@ -114,7 +114,7 @@ class GroupEntityProcessor:
             'Snow Man': ['深澤辰哉', '佐久間大介', '渡辺翔太', '宮舘涼太', '岩本照', '阿部亮平', '向井康二', 'ラウール', '目黒蓮'],
             'SixTONES': ['ジェシー', '京本大我', '松村北斗', '髙地優吾', '森本慎太郎', '田中樹'],
             'なにわ男子': ['西畑大吾', '大西流星', '道枝駿佑', '高橋恭平', '長尾謙杜', '藤原丈一郎', '大橋和也'],
-            
+
             # K-POPグループ
             'BTS': ['RM', 'Jin', 'SUGA', 'j-hope', 'Jimin', 'V', 'Jung Kook'],
             'BLACKPINK': ['ジス', 'ジェニー', 'ロゼ', 'リサ'],
@@ -123,7 +123,7 @@ class GroupEntityProcessor:
             'SEVENTEEN': ['エスクプス', 'ジョンハン', 'ジョシュア', 'ジュン', 'ホシ', 'ウォヌ', 'ウジ', 'ドギョム', 'ミンギュ', 'ディエイト', 'スングァン', 'バーノン', 'ディノ'],
             'ENHYPEN': ['ヒスン', 'ジェイ', 'ジェイク', 'ソンフン', 'ソヌ', 'ジョンウォン', 'ニキ'],
             'NCT': ['テヨン', 'ジャニー', 'テン', 'ジェヒョン', 'ウィンウィン', 'ジョンウ', 'ルーカス', 'マーク', 'シャオジュン', 'ヘンドリー', 'ロンジュン', 'ジェノ', 'ヘチャン', 'ジェミン', 'ヤンヤン', 'ショウタロウ', 'ソンチャン', 'チョンロ', 'チソン'],
-            
+
             # YouTuberグループ
             'フィッシャーズ': ['シルクロード', 'マサイ', 'ンダホ', 'ぺけたん', 'ダーマ', 'ザカオ', 'モトキ'],
             '東海オンエア': ['てつや', 'しばゆー', 'りょう', 'としみつ', 'ゆめまる', '虫眼鏡'],
@@ -131,11 +131,11 @@ class GroupEntityProcessor:
             'スカイピース': ['テオ', 'じん'],
             '水溜りボンド': ['カンタ', 'トミー'],
             'QuizKnock': ['伊沢拓司', '川上拓朗', '河村拓哉', '須貝駿貴', 'こうちゃん', '山本祥彰', 'ふくらP', '鶴崎修功'],
-            
+
             # スポーツチーム（代表的な選手のみ）
             '侍ジャパン': ['大谷翔平', 'ダルビッシュ有', '山田哲人', '村上宗隆'],  # 代表選手のみ
             'なでしこジャパン': ['澤穂希', '宮間あや', '川澄奈穂美'],  # 代表選手のみ
-            
+
             # バラエティ番組グループ
             'ロンドンブーツ1号2号': ['田村淳', '田村亮'],
             'くずコンビ': ['木梨憲武', '石橋貴明'],
@@ -182,7 +182,7 @@ class GroupEntityProcessor:
             '３時のヒロイン': ['福田麻貴', 'ゆめっち', 'かなで'],
             'ぺこぱ': ['松陰寺太勇', 'シュウペイ'],
             'ゆにばーす': ['はら', '川瀬名人'],
-            
+
             # 女性アイドルグループ
             'AKB48': ['渡辺麻友', '指原莉乃', '柏木由紀'],  # 代表的メンバーのみ
             '乃木坂46': ['白石麻衣', '西野七瀬', '生田絵梨花'],  # 代表的メンバーのみ
@@ -193,80 +193,80 @@ class GroupEntityProcessor:
             'BABYMETAL': ['SU-METAL', 'MOAMETAL'],
             'NiziU': ['マコ', 'リオ', 'マヤ', 'リク', 'アヤカ', 'マユカ', 'リマ', 'ミイヒ', 'ニナ'],
             'BiSH': ['アイナ・ジ・エンド', 'セントチヒロ・チッチ', 'モモコグミカンパニー', 'ハシヤスメ・アツコ', 'リンリン', 'アユニ・D'],
-            
+
             # 声優ユニット
             'μ\'s': ['新田恵海', '内田彩', '三森すずこ', '南條愛乃', 'Pile', '楠田亜衣奈', '飯田里穂', '徳井青空', '久保ユリカ'],
             'Aqours': ['伊波杏樹', '逢田梨香子', '諏訪ななか', '小宮有紗', '斉藤朱夏', '小林愛香', '高槻かなこ', '鈴木愛奈', '降幡愛'],
         }
-        
+
         return known_groups
-    
+
     def is_group_entity(self, name: str) -> bool:
         """
         名前がグループエンティティかどうかを判定
-        
+
         Args:
             name: 判定する名前
-            
+
         Returns:
             グループならTrue
         """
         # 既知のグループに含まれるか
         if name in self.known_groups:
             return True
-        
+
         # パターンマッチング
         for pattern in self.group_patterns:
             if re.match(pattern, name):
                 return True
-        
+
         # occupationフィールドでの判定も可能（別途実装）
-        
+
         return False
-    
+
     def extract_individuals(self, group_name: str) -> List[str]:
         """
         グループから個人を抽出
-        
+
         Args:
             group_name: グループ名
-            
+
         Returns:
             個人名のリスト
         """
         # 既知のグループから取得
         if group_name in self.known_groups:
             return self.known_groups[group_name]
-        
+
         # 不明なグループ
         logger.warning(f"未知のグループ: {group_name}")
         self.stats['groups_unknown'] += 1
-        
+
         # グループ名自体を返す（削除候補として）
         return []
-    
+
     def process_entity(self, person_data: Dict) -> List[Dict]:
         """
         エンティティを処理（グループなら個人に分割）
-        
+
         Args:
             person_data: 人物データ
-            
+
         Returns:
             処理後の人物データのリスト
         """
         self.stats['total_processed'] += 1
-        
+
         name = person_data.get('person_name_display', person_data.get('person_name', ''))
-        
+
         if not name:
             return [person_data]
-        
+
         # グループ判定
         if self.is_group_entity(name):
             self.stats['groups_found'] += 1
             individuals = self.extract_individuals(name)
-            
+
             if individuals:
                 # 個人データを生成
                 result = []
@@ -278,7 +278,7 @@ class GroupEntityProcessor:
                     individual_data['is_group_member'] = True
                     result.append(individual_data)
                     self.stats['individuals_extracted'] += 1
-                
+
                 logger.info(f"グループ '{name}' から {len(individuals)}人を抽出")
                 return result
             else:
@@ -287,26 +287,26 @@ class GroupEntityProcessor:
                 person_data['should_delete'] = True
                 person_data['deletion_reason'] = '未知のグループエンティティ'
                 return [person_data]
-        
+
         # 個人の場合はそのまま返す
         return [person_data]
-    
+
     def process_batch(self, persons: List[Dict]) -> Tuple[List[Dict], Dict]:
         """
         バッチ処理
-        
+
         Args:
             persons: 人物データのリスト
-            
+
         Returns:
             (処理後の人物データリスト, 統計情報)
         """
         result = []
-        
+
         for person in persons:
             processed = self.process_entity(person)
             result.extend(processed)
-        
+
         # 統計情報
         stats = {
             'input_count': len(persons),
@@ -316,35 +316,35 @@ class GroupEntityProcessor:
             'groups_unknown': self.stats['groups_unknown'],
             'expansion_rate': len(result) / max(len(persons), 1)
         }
-        
+
         return result, stats
-    
+
     def add_known_group(self, group_name: str, members: List[str]) -> None:
         """
         新しいグループを追加
-        
+
         Args:
             group_name: グループ名
             members: メンバーリスト
         """
         self.known_groups[group_name] = members
         logger.info(f"グループ '{group_name}' を追加（メンバー: {len(members)}人）")
-    
+
     def save_known_groups(self, filepath: str = "known_groups.json") -> None:
         """
         既知のグループをファイルに保存
-        
+
         Args:
             filepath: 保存先ファイルパス
         """
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(self.known_groups, f, ensure_ascii=False, indent=2)
         logger.info(f"既知のグループを保存: {filepath}")
-    
+
     def load_additional_groups(self, filepath: str) -> None:
         """
         追加のグループデータをロード
-        
+
         Args:
             filepath: グループデータファイルパス
         """
@@ -362,10 +362,10 @@ def main():
     print("グループエンティティの個人分割処理")
     print("=" * 60)
     print()
-    
+
     # プロセッサー初期化
     processor = GroupEntityProcessor()
-    
+
     # テストデータ
     test_data = [
         {'person_name': 'ダウンタウン', 'person_name_display': 'ダウンタウン', 'occupation': 'お笑いコンビ'},
@@ -376,10 +376,10 @@ def main():
         {'person_name': '千鳥', 'person_name_display': '千鳥', 'occupation': 'お笑いコンビ'},
         {'person_name': '謎のグループ', 'person_name_display': '謎のグループ', 'occupation': 'グループ'},
     ]
-    
+
     # 処理実行
     result, stats = processor.process_batch(test_data)
-    
+
     # 結果表示
     print("=== 処理結果 ===")
     print(f"入力: {stats['input_count']}件")
@@ -389,7 +389,7 @@ def main():
     print(f"未知のグループ: {stats['groups_unknown']}件")
     print(f"拡張率: {stats['expansion_rate']:.2f}倍")
     print()
-    
+
     print("=== 詳細 ===")
     for item in result:
         if item.get('is_group_member'):
@@ -398,7 +398,7 @@ def main():
             print(f"❌ {item['person_name']} -> 削除候補（未知のグループ）")
         else:
             print(f"👤 {item['person_name']} (個人)")
-    
+
     # 既知のグループを保存
     processor.save_known_groups()
     print()

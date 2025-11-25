@@ -13,7 +13,7 @@ from typing import Dict, List, Any, Tuple
 
 class NonPersonEntityDetector:
     """非人物エントリーの検出と分析"""
-    
+
     def __init__(self):
         # グループ・団体を示すパターン
         self.group_patterns = [
@@ -27,7 +27,7 @@ class NonPersonEntityDetector:
             r'.*ーズ$',  # 〜ーズ
             r'.*s$',  # 英語複数形
             r'.*S$',  # 英語複数形大文字
-            
+
             # カタカナグループ名パターン
             r'.*バンド$',
             r'.*ユニット$',
@@ -39,7 +39,7 @@ class NonPersonEntityDetector:
             r'.*カルテット$',
             r'.*トリオ$',
             r'.*デュオ$',
-            
+
             # 英語パターン
             r'The .*',  # The で始まる
             r'.* Band$',
@@ -51,7 +51,7 @@ class NonPersonEntityDetector:
             r'.* Brothers$',
             r'.* Sisters$',
         ]
-        
+
         # 明確にグループ・団体であることが分かっている名前
         self.known_groups = [
             # 音楽グループ
@@ -70,33 +70,33 @@ class NonPersonEntityDetector:
             'Pink Floyd', 'The Who', 'Deep Purple', 'AC/DC', 'Metallica',
             'Nirvana', 'Radiohead', 'Coldplay', 'Maroon 5', 'OneRepublic',
             'Imagine Dragons', 'Twenty One Pilots', 'Panic! at the Disco',
-            
+
             # お笑いコンビ・トリオ
             'ダウンタウン', 'ウッチャンナンチャン', 'とんねるず', '爆笑問題',
             'ナインティナイン', 'さまぁ〜ず', 'くりぃむしちゅー', '雨上がり決死隊',
             'フットボールアワー', 'ブラックマヨネーズ', 'チュートリアル',
             'サンドウィッチマン', '千鳥', 'かまいたち', '霜降り明星',
             'ミルクボーイ', 'EXIT', '見取り図', 'ニューヨーク',
-            'オードリー', '南海キャンディーズ', 'ハリセンボン', 
+            'オードリー', '南海キャンディーズ', 'ハリセンボン',
             'オリエンタルラジオ', 'ロバート', 'インパルス', 'アンタッチャブル',
             'バナナマン', 'おぎやはぎ', 'ハライチ', 'ラーメンズ',
             '東京03', 'ジャルジャル', 'メイプル超合金', '3時のヒロイン',
             'ぺこぱ', '四千頭身', 'ゆにばーす', 'Aマッソ',
             'ネプチューン', 'ドリフターズ', 'ザ・ドリフターズ',
-            
+
             # その他のグループ・団体
             'Fischer\'s', 'フィッシャーズ', '東海オンエア', 'コムドット',
             'スカイピース', '水溜りボンド', 'QuizKnock', 'クイズノック',
-            
+
             # 企業・組織（誤って入っている可能性）
             'Nintendo', '任天堂', 'Sony', 'ソニー', 'Apple', 'Google',
             'Microsoft', 'Amazon', 'Facebook', 'Meta', 'Twitter', 'X',
-            
+
             # アニメ・ゲームのグループ（架空）
             'μ\'s', 'Aqours', '虹ヶ咲学園スクールアイドル同好会', 'Liella!',
             '765プロ', '346プロ', '315プロ', 'ホロライブ', 'にじさんじ',
         ]
-        
+
         # 職業フィールドでグループを示す可能性のある文字列
         self.group_occupations = [
             'バンド', 'ユニット', 'グループ', 'デュオ', 'トリオ',
@@ -106,7 +106,7 @@ class NonPersonEntityDetector:
             'ガールズグループ', 'お笑いコンビ', 'お笑いトリオ',
             'YouTuberグループ', 'クリエイターチーム'
         ]
-        
+
         # 人物の可能性が高い例外パターン
         self.person_exceptions = [
             r'^DJ.*',  # DJ〜は個人の場合が多い
@@ -115,31 +115,31 @@ class NonPersonEntityDetector:
             r'.*三世$',  # 〜三世は個人
             r'.*二世$',  # 〜二世は個人
         ]
-        
+
     def detect_non_person_entities(self, database_file: str) -> Dict[str, Any]:
         """データベースから非人物エントリーを検出"""
-        
+
         print("🔍 非人物エントリー検出開始...")
-        
+
         non_persons = []
         suspicious = []
         total_count = 0
-        
+
         # CSVファイル読み込み
         with open(database_file, 'r', encoding='utf-8-sig') as f:
             reader = csv.DictReader(f)
-            
+
             for row in reader:
                 total_count += 1
-                
+
                 person_name = row.get('person_name', '')
                 person_name_ja = row.get('person_name_ja', '')
                 occupation = row.get('occupation', '')
                 category = row.get('category', '')
-                
+
                 # 検出理由を記録
                 detection_reasons = []
-                
+
                 # 1. 既知のグループ名チェック
                 if person_name in self.known_groups or person_name_ja in self.known_groups:
                     detection_reasons.append('既知のグループ・団体名')
@@ -149,7 +149,7 @@ class NonPersonEntityDetector:
                         'confidence': 'HIGH'
                     })
                     continue
-                
+
                 # 2. パターンマッチング
                 is_group = False
                 for pattern in self.group_patterns:
@@ -160,19 +160,19 @@ class NonPersonEntityDetector:
                             if re.match(exception, person_name) or re.match(exception, person_name_ja):
                                 is_exception = True
                                 break
-                        
+
                         if not is_exception:
                             detection_reasons.append(f'パターンマッチ: {pattern}')
                             is_group = True
                             break
-                
+
                 # 3. 職業フィールドチェック
                 for group_occ in self.group_occupations:
                     if group_occ in occupation:
                         detection_reasons.append(f'職業にグループ関連語: {group_occ}')
                         is_group = True
                         break
-                
+
                 # 4. 複数人を示す表現チェック
                 multi_person_indicators = [
                     '&', 'and', 'AND', 'feat.', 'Feat.', 'with', 'With',
@@ -183,7 +183,7 @@ class NonPersonEntityDetector:
                         detection_reasons.append(f'複数人を示す記号: {indicator}')
                         is_group = True
                         break
-                
+
                 # 5. 括弧内にメンバー名がある場合
                 if '（' in person_name_ja and '）' in person_name_ja:
                     # 例：「田中太郎（グループ名）」の形式かチェック
@@ -195,7 +195,7 @@ class NonPersonEntityDetector:
                         if re.search(r'（[^）]+[、,][^）]+）', person_name_ja):
                             detection_reasons.append('括弧内に複数メンバー')
                             is_group = True
-                
+
                 # 結果の分類
                 if is_group:
                     if len(detection_reasons) >= 2:
@@ -212,57 +212,57 @@ class NonPersonEntityDetector:
                             'reasons': detection_reasons,
                             'confidence': 'MEDIUM'
                         })
-                
+
                 # 進捗表示
                 if total_count % 1000 == 0:
                     print(f"  処理中: {total_count}件...")
-        
+
         print(f"\n✅ 検出完了")
         print(f"  総エントリー: {total_count}件")
         print(f"  非人物（確実）: {len(non_persons)}件")
         print(f"  非人物（疑い）: {len(suspicious)}件")
-        
+
         return {
             'total': total_count,
             'non_persons': non_persons,
             'suspicious': suspicious,
             'analysis': self.analyze_detection_results(non_persons, suspicious)
         }
-    
+
     def analyze_detection_results(self, non_persons: List, suspicious: List) -> Dict[str, Any]:
         """検出結果の分析"""
-        
+
         # カテゴリ別集計
         category_counts = {}
         for item in non_persons + suspicious:
             category = item['row'].get('category', 'その他')
             category_counts[category] = category_counts.get(category, 0) + 1
-        
+
         # 検出理由別集計
         reason_counts = {}
         for item in non_persons + suspicious:
             for reason in item['reasons']:
                 reason_type = reason.split(':')[0]
                 reason_counts[reason_type] = reason_counts.get(reason_type, 0) + 1
-        
+
         # 職業別集計
         occupation_counts = {}
         for item in non_persons + suspicious:
             occupation = item['row'].get('occupation', '不明')
             occupation_counts[occupation] = occupation_counts.get(occupation, 0) + 1
-        
+
         return {
             'category_distribution': category_counts,
             'detection_reasons': reason_counts,
-            'occupation_distribution': dict(sorted(occupation_counts.items(), 
+            'occupation_distribution': dict(sorted(occupation_counts.items(),
                                                   key=lambda x: x[1], reverse=True)[:20])
         }
-    
+
     def generate_report(self, results: Dict[str, Any]) -> str:
         """詳細レポートの生成"""
-        
+
         timestamp = datetime.now().strftime('%Y年%m月%d日 %H:%M:%S')
-        
+
         report = f"""# 🔍 Ultra Think 非人物エントリー検出レポート
 
 ## 📅 実行情報
@@ -281,32 +281,32 @@ class NonPersonEntityDetector:
 
 ### 1. カテゴリ別分布
 """
-        
-        for category, count in sorted(results['analysis']['category_distribution'].items(), 
+
+        for category, count in sorted(results['analysis']['category_distribution'].items(),
                                      key=lambda x: x[1], reverse=True):
             report += f"- {category}: {count}件\n"
-        
+
         report += """
 ### 2. 検出理由の内訳
 """
-        
-        for reason, count in sorted(results['analysis']['detection_reasons'].items(), 
+
+        for reason, count in sorted(results['analysis']['detection_reasons'].items(),
                                    key=lambda x: x[1], reverse=True):
             report += f"- {reason}: {count}件\n"
-        
+
         report += """
 ### 3. 職業フィールド分析（上位20）
 """
-        
+
         for occupation, count in list(results['analysis']['occupation_distribution'].items())[:20]:
             report += f"- {occupation}: {count}件\n"
-        
+
         report += """
 ## 📋 具体例（確実な非人物）
 
 ### 音楽グループ・ユニット
 """
-        
+
         music_groups = []
         for item in results['non_persons'][:50]:
             if item['row'].get('category') in ['エンタメ', '文化・芸術', 'その他']:
@@ -314,23 +314,23 @@ class NonPersonEntityDetector:
                 occupation = item['row'].get('occupation', '不明')
                 reasons = ', '.join(item['reasons'])
                 music_groups.append(f"- **{name}** ({occupation}) - 理由: {reasons}")
-        
+
         report += '\n'.join(music_groups[:10])
-        
+
         report += """
 
 ### お笑いコンビ・トリオ
 """
-        
+
         comedy_groups = []
         for item in results['non_persons']:
             if 'お笑い' in item['row'].get('occupation', ''):
                 name = item['row'].get('person_name_ja') or item['row'].get('person_name')
                 occupation = item['row'].get('occupation', '不明')
                 comedy_groups.append(f"- **{name}** ({occupation})")
-        
+
         report += '\n'.join(comedy_groups[:10])
-        
+
         report += """
 
 ## 🔍 原因分析
@@ -407,20 +407,20 @@ class NonPersonEntityDetector:
 *Ultra Think Non-Person Detection System v1.0*
 *Generated: {timestamp}*
 """
-        
+
         return report
-    
+
     def export_non_persons_list(self, results: Dict[str, Any], output_file: str):
         """非人物リストをCSVで出力"""
-        
+
         print(f"\n📝 非人物リスト出力中: {output_file}")
-        
+
         with open(output_file, 'w', encoding='utf-8-sig', newline='') as f:
-            fieldnames = ['person_id', 'person_name', 'person_name_ja', 
+            fieldnames = ['person_id', 'person_name', 'person_name_ja',
                          'category', 'occupation', 'confidence', 'reasons']
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
-            
+
             for item in results['non_persons']:
                 writer.writerow({
                     'person_id': item['row'].get('person_id'),
@@ -431,7 +431,7 @@ class NonPersonEntityDetector:
                     'confidence': item['confidence'],
                     'reasons': '; '.join(item['reasons'])
                 })
-            
+
             for item in results['suspicious']:
                 writer.writerow({
                     'person_id': item['row'].get('person_id'),
@@ -442,44 +442,44 @@ class NonPersonEntityDetector:
                     'confidence': item['confidence'],
                     'reasons': '; '.join(item['reasons'])
                 })
-        
+
         print(f"  ✅ 出力完了")
 
 
 def main():
     """メイン処理"""
-    
+
     print("="*60)
     print("🔍 Ultra Think 非人物エントリー検出システム")
     print("="*60)
-    
+
     # 検出器初期化
     detector = NonPersonEntityDetector()
-    
+
     # 最新のデータベースファイル
     database_file = 'ULTRA_THINK_COMPLETE_FIXED_20250827_084510.csv'
-    
+
     # 検出実行
     results = detector.detect_non_person_entities(database_file)
-    
+
     # レポート生成
     report = detector.generate_report(results)
-    
+
     # レポート保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     report_file = f'NON_PERSON_DETECTION_REPORT_{timestamp}.md'
-    
+
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
-    
+
     print(f"\n📊 レポート保存: {report_file}")
-    
+
     # 非人物リスト出力
     list_file = f'NON_PERSON_LIST_{timestamp}.csv'
     detector.export_non_persons_list(results, list_file)
-    
+
     print(f"📋 非人物リスト: {list_file}")
-    
+
     print("\n" + "="*60)
     print("✨ 分析完了")
     print("="*60)

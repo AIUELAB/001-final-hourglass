@@ -18,12 +18,12 @@ class TurboWikipediaCollector:
         self.session.headers.update({
             'User-Agent': 'HourglassApp/1.0 Turbo Mode'
         })
-        
+
         # 超高速設定
         self.delay = 0.2  # 0.2秒遅延
         self.batch_size = 3  # 3タイトルずつ
         self.collected = []
-        
+
     def search(self, query: str) -> List[str]:
         """高速検索"""
         time.sleep(self.delay)
@@ -45,14 +45,14 @@ class TurboWikipediaCollector:
         except:
             pass
         return []
-    
+
     def get_info(self, titles: List[str]) -> List[Dict]:
         """高速情報取得"""
         people = []
         for i in range(0, len(titles), self.batch_size):
             batch = titles[i:i+self.batch_size]
             time.sleep(self.delay)
-            
+
             try:
                 r = self.session.get(
                     'https://ja.wikipedia.org/w/api.php',
@@ -91,9 +91,9 @@ class TurboWikipediaCollector:
                                 })
             except:
                 pass
-                
+
         return people
-    
+
     def categorize(self, text: str) -> str:
         """簡易カテゴリ分類"""
         if any(w in text for w in ['俳優', '女優', '歌手', '芸']):
@@ -108,7 +108,7 @@ class TurboWikipediaCollector:
             return '歴史的教訓'
         else:
             return '文化・芸術'
-    
+
     def turbo_collect(self):
         """90秒ターボ収集"""
         start = time.time()
@@ -127,18 +127,18 @@ class TurboWikipediaCollector:
             # 歴史
             '戦国武将', '幕末'
         ]
-        
+
         for query in queries:
             # 時間チェック
             if time.time() - start > 85:  # 85秒で終了
                 break
-                
+
             titles = self.search(query)
             if titles:
                 people = self.get_info(titles[:15])
                 self.collected.extend(people)
                 print(f"{query}: {len(people)}人収集 (計{len(self.collected)}人)")
-        
+
         # 重複削除
         seen = set()
         unique = []
@@ -147,22 +147,22 @@ class TurboWikipediaCollector:
                 seen.add(p['name'])
                 unique.append(p)
         self.collected = unique
-        
+
         elapsed = time.time() - start
         print(f"\n完了: {len(self.collected)}人を{elapsed:.1f}秒で収集")
         print(f"速度: {len(self.collected)/elapsed:.1f}人/秒")
-    
+
     def save(self):
         """保存"""
         if self.collected:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"wikipedia_turbo_{timestamp}.csv"
-            
+
             with open(filename, 'w', newline='', encoding='utf-8-sig') as f:
                 writer = csv.DictWriter(f, fieldnames=self.collected[0].keys())
                 writer.writeheader()
                 writer.writerows(self.collected)
-            
+
             print(f"保存: {filename}")
             return filename
 

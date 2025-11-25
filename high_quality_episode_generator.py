@@ -415,7 +415,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_003",
             gate_type="pre_processing",
@@ -430,7 +430,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_004",
             gate_type="pre_processing",
@@ -462,7 +462,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理完了")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_005",
             gate_type="post_processing",
@@ -477,7 +477,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理完了")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_006",
             gate_type="post_processing",
@@ -514,7 +514,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_007",
             gate_type="pre_processing",
@@ -529,7 +529,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_008",
             gate_type="pre_processing",
@@ -650,7 +650,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理完了")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_009",
             gate_type="post_processing",
@@ -665,7 +665,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理完了")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_010",
             gate_type="post_processing",
@@ -953,7 +953,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_011",
             gate_type="pre_processing",
@@ -968,7 +968,7 @@ class HighQualityEpisodeGenerator:
         logger = get_quality_gate_logger()
         start_time = time.time()
         print("✅ 品質ゲート: 処理開始")
-        
+
         logger.log_gate_execution(
             gate_id="GATE_HIGH_QUALITY_EPISODE_GENERATOR_012",
             gate_type="pre_processing",

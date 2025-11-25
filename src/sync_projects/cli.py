@@ -15,8 +15,16 @@ from .service import sync_from_json
 
 
 @click.command(name="sync-projects")
-@click.option("--input", "input_path", required=True, type=click.Path(path_type=Path, exists=True, dir_okay=False), help="エクスポート JSON のパス")
-@click.option("--out-dir", "out_dir", required=True, type=click.Path(path_type=Path, file_okay=False), help="出力先ディレクトリ")
+@click.option(
+    "--input",
+    "input_path",
+    required=True,
+    type=click.Path(path_type=Path, exists=True, dir_okay=False),
+    help="エクスポート JSON のパス",
+)
+@click.option(
+    "--out-dir", "out_dir", required=True, type=click.Path(path_type=Path, file_okay=False), help="出力先ディレクトリ"
+)
 def cli_sync_projects(input_path: Path, out_dir: Path) -> None:
     """Projects エクスポート JSON を正規化して保存する。"""
     try:
@@ -26,5 +34,3 @@ def cli_sync_projects(input_path: Path, out_dir: Path) -> None:
     except Exception as e:
         logger.error(f"sync-projects error: {e}")
         raise click.ClickException(str(e))
-
-

@@ -1,9 +1,9 @@
 """データベース操作"""
 
-import sqlite3
 import csv
-from typing import Optional, List, Tuple
+import sqlite3
 from pathlib import Path
+from typing import List, Optional, Tuple
 
 
 class Database:
@@ -88,10 +88,7 @@ class Database:
 
         # ページネーション
         offset = (page - 1) * page_size
-        cursor.execute(
-            "SELECT * FROM characters ORDER BY id LIMIT ? OFFSET ?",
-            (page_size, offset)
-        )
+        cursor.execute("SELECT * FROM characters ORDER BY id LIMIT ? OFFSET ?", (page_size, offset))
 
         characters = [dict(row) for row in cursor.fetchall()]
         return characters, total
@@ -135,7 +132,7 @@ class Database:
             WHERE character_name LIKE ? OR work_title LIKE ?
             ORDER BY id
             """,
-            (f"%{query}%", f"%{query}%")
+            (f"%{query}%", f"%{query}%"),
         )
 
         return [dict(row) for row in cursor.fetchall()]
@@ -158,10 +155,7 @@ class Database:
 
         # ジャンルフィルタのみ実装（性別情報が DB にないため）
         if genre:
-            cursor.execute(
-                "SELECT * FROM characters WHERE genre = ? ORDER BY id",
-                (genre,)
-            )
+            cursor.execute("SELECT * FROM characters WHERE genre = ? ORDER BY id", (genre,))
         else:
             cursor.execute("SELECT * FROM characters ORDER BY id")
 
@@ -236,7 +230,8 @@ class Database:
             raise RuntimeError("データベース未接続")
 
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT
                 work_title,
                 COUNT(*) as count,
@@ -246,7 +241,9 @@ class Database:
             GROUP BY work_title
             ORDER BY count DESC
             LIMIT ?
-        """, (limit,))
+        """,
+            (limit,),
+        )
 
         return [dict(row) for row in cursor.fetchall()]
 
@@ -261,28 +258,31 @@ class Database:
             raise RuntimeError("データベース未接続")
 
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO characters (
                 character_name, work_title, genre, age_in_story,
                 key_episode, detailed_achievements, story_events,
                 growth_narrative, wikipedia_url, validation_status, curator_notes
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            data.get('character_name', ''),
-            data.get('work_title', ''),
-            data.get('genre', ''),
-            data.get('age_in_story', ''),
-            data.get('key_episode', ''),
-            data.get('detailed_achievements', ''),
-            data.get('story_events', ''),
-            data.get('growth_narrative', ''),
-            data.get('wikipedia_url', ''),
-            data.get('validation_status', 'PENDING'),
-            data.get('curator_notes', ''),
-        ))
+        """,
+            (
+                data.get("character_name", ""),
+                data.get("work_title", ""),
+                data.get("genre", ""),
+                data.get("age_in_story", ""),
+                data.get("key_episode", ""),
+                data.get("detailed_achievements", ""),
+                data.get("story_events", ""),
+                data.get("growth_narrative", ""),
+                data.get("wikipedia_url", ""),
+                data.get("validation_status", "PENDING"),
+                data.get("curator_notes", ""),
+            ),
+        )
         self.conn.commit()
 
-    def get_fame_ranking(self, limit: int = 100, order_by: str = 'fame_score') -> Tuple[List[dict], int]:
+    def get_fame_ranking(self, limit: int = 100, order_by: str = "fame_score") -> Tuple[List[dict], int]:
         """
         有名度ランキング取得（CSVから直接読み取り）
 
@@ -300,12 +300,12 @@ class Database:
         row_id = 0
 
         try:
-            with open(csv_path, 'r', encoding='utf-8-sig') as f:
+            with open(csv_path, "r", encoding="utf-8-sig") as f:
                 reader = csv.DictReader(f)
 
                 for row in reader:
                     # fame_scoreが存在し、空でない場合のみ追加
-                    fame_score = row.get('fame_score', '')
+                    fame_score = row.get("fame_score", "")
                     if fame_score and fame_score.isdigit():
                         row_id += 1
 
@@ -315,21 +315,21 @@ class Database:
                         surprise_score = None
 
                         try:
-                            mem_str = row.get('記憶性スコア', '').strip()
+                            mem_str = row.get("記憶性スコア", "").strip()
                             if mem_str:
                                 memorability_score = float(mem_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            emp_str = row.get('共感性スコア', '').strip()
+                            emp_str = row.get("共感性スコア", "").strip()
                             if emp_str:
                                 empathy_score = float(emp_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            sur_str = row.get('意外性スコア', '').strip()
+                            sur_str = row.get("意外性スコア", "").strip()
                             if sur_str:
                                 surprise_score = float(sur_str)
                         except (ValueError, AttributeError):
@@ -342,64 +342,68 @@ class Database:
                         factual_density = None
 
                         try:
-                            gen_str = row.get('生成品質スコア', '').strip()
+                            gen_str = row.get("生成品質スコア", "").strip()
                             if gen_str:
                                 generation_quality_score = float(gen_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            edu_str = row.get('教育的価値', '').strip()
+                            edu_str = row.get("教育的価値", "").strip()
                             if edu_str:
                                 educational_value = float(edu_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            story_str = row.get('ストーリー品質', '').strip()
+                            story_str = row.get("ストーリー品質", "").strip()
                             if story_str:
                                 storytelling_quality = float(story_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            fact_str = row.get('事実密度', '').strip()
+                            fact_str = row.get("事実密度", "").strip()
                             if fact_str:
                                 factual_density = float(fact_str)
                         except (ValueError, AttributeError):
                             pass
 
-                        rankings.append({
-                            'id': row_id,
-                            'person_name': row.get('person_name', ''),
-                            'fame_tier': int(row.get('fame_tier', 0)),
-                            'fame_score': int(fame_score),
-                            'composite_score': int(row.get('composite_score', 0)) if row.get('composite_score', '').isdigit() else 0,
-                            'wikipedia_ja': row.get('wikipedia_ja', '').upper() == 'TRUE',
-                            'textbook': row.get('textbook', '').upper() == 'TRUE',
-                            'award_level': int(row.get('award_level', 0)),
-                            'notoriety': row.get('notoriety', '').upper() == 'TRUE',
-                            'last_updated': row.get('fame_score_updated_at', ''),
-                            'category': row.get('category', ''),
-                            'person_type': row.get('person_type', ''),
-                            'quality_score': float(row.get('quality_score', 0) or 0),
-                            # Phase 1: 3軸評価カラム
-                            'milestone_tags': row.get('人生の節目タグ', ''),
-                            'memorability_score': memorability_score,
-                            'empathy_score': empathy_score,
-                            'surprise_score': surprise_score,
-                            # Phase 2: 4軸評価カラム
-                            'generation_quality_score': generation_quality_score,
-                            'educational_value': educational_value,
-                            'storytelling_quality': storytelling_quality,
-                            'factual_density': factual_density
-                        })
+                        rankings.append(
+                            {
+                                "id": row_id,
+                                "person_name": row.get("person_name", ""),
+                                "fame_tier": int(row.get("fame_tier", 0)),
+                                "fame_score": int(fame_score),
+                                "composite_score": int(row.get("composite_score", 0))
+                                if row.get("composite_score", "").isdigit()
+                                else 0,
+                                "wikipedia_ja": row.get("wikipedia_ja", "").upper() == "TRUE",
+                                "textbook": row.get("textbook", "").upper() == "TRUE",
+                                "award_level": int(row.get("award_level", 0)),
+                                "notoriety": row.get("notoriety", "").upper() == "TRUE",
+                                "last_updated": row.get("fame_score_updated_at", ""),
+                                "category": row.get("category", ""),
+                                "person_type": row.get("person_type", ""),
+                                "quality_score": float(row.get("quality_score", 0) or 0),
+                                # Phase 1: 3軸評価カラム
+                                "milestone_tags": row.get("人生の節目タグ", ""),
+                                "memorability_score": memorability_score,
+                                "empathy_score": empathy_score,
+                                "surprise_score": surprise_score,
+                                # Phase 2: 4軸評価カラム
+                                "generation_quality_score": generation_quality_score,
+                                "educational_value": educational_value,
+                                "storytelling_quality": storytelling_quality,
+                                "factual_density": factual_density,
+                            }
+                        )
 
             # ソート
-            if order_by == 'composite_score':
-                rankings.sort(key=lambda x: x['composite_score'], reverse=True)
+            if order_by == "composite_score":
+                rankings.sort(key=lambda x: x["composite_score"], reverse=True)
             else:
-                rankings.sort(key=lambda x: x['fame_score'], reverse=True)
+                rankings.sort(key=lambda x: x["fame_score"], reverse=True)
 
             total = len(rankings)
 

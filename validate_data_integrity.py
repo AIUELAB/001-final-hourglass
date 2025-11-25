@@ -16,7 +16,7 @@ def main():
     print("="*60)
     print("データ整合性検証プロセス")
     print("="*60)
-    
+
     # 1. 最新のデータベースを検索
     import glob
     csv_files = glob.glob('ultra_think_OCCUPATION_FIXED_*.csv')
@@ -28,24 +28,24 @@ def main():
             csv_file = max(csv_files, key=lambda f: f.split('_')[-1])
         else:
             csv_file = 'ultra_think_FINAL_CLEAN_20250831_205221.csv'
-    
+
     print(f"\n📂 Loading database from {csv_file}...")
     df = pd.read_csv(csv_file, encoding='utf-8')
     print(f"✅ Loaded {len(df)} records")
-    
+
     validation_results = {
         'total_records': len(df),
         'issues_found': [],
         'passed_checks': [],
         'critical_fixes_verified': []
     }
-    
+
     # 2. P000305 (Usain Bolt) の検証
     print("\n🔍 Verifying P000305 (Usain Bolt) fix...")
     p305 = df[df['person_id'] == 'P000305']
     if not p305.empty:
         bolt = p305.iloc[0]
-        
+
         # 期待される値
         expected = {
             'person_name': 'Usain Bolt',
@@ -55,7 +55,7 @@ def main():
             'nationality': 'ジャマイカ',
             'category': 'スポーツ'
         }
-        
+
         all_correct = True
         for field, expected_value in expected.items():
             actual_value = bolt[field]
@@ -70,14 +70,14 @@ def main():
                     'actual': actual_value,
                     'expected': expected_value
                 })
-        
+
         if all_correct:
             validation_results['critical_fixes_verified'].append('P000305_usain_bolt')
             validation_results['passed_checks'].append('P000305 completely fixed')
     else:
         print("  ❌ P000305 not found in database!")
         validation_results['issues_found'].append({'error': 'P000305 not found'})
-    
+
     # 3. PSY レコードの検証
     print("\n🔍 Verifying PSY record restoration...")
     psy = df[df['person_name'] == 'PSY']
@@ -87,7 +87,7 @@ def main():
         print(f"    person_name_display: {psy_rec['person_name_display']}")
         print(f"    occupation: {psy_rec['occupation']}")
         print(f"    nationality: {psy_rec['nationality']}")
-        
+
         if psy_rec['nationality'] == '韓国' and psy_rec['occupation'] == '歌手':
             validation_results['critical_fixes_verified'].append('PSY_restoration')
             validation_results['passed_checks'].append('PSY correctly restored')
@@ -99,18 +99,18 @@ def main():
     else:
         print("  ❌ PSY record not found!")
         validation_results['issues_found'].append({'error': 'PSY not found'})
-    
+
     # 4. person_name vs person_name_display の整合性チェック
     print("\n🔍 Checking person_name vs person_name_display consistency...")
-    
+
     severe_mismatches = []
     for _, row in df.iterrows():
         name = str(row['person_name']).lower()
         display = str(row['person_name_display']).lower()
-        
+
         # グループ名の括弧を除外
         display_clean = re.sub(r'\([^)]+\)', '', display).strip()
-        
+
         # PSYケースのような完全に異なる名前をチェック
         if name and display_clean:
             # アルファベット同士で完全に異なる
@@ -124,7 +124,7 @@ def main():
                             'person_name': row['person_name'],
                             'person_name_display': row['person_name_display']
                         })
-    
+
     if severe_mismatches:
         print(f"  ⚠️ Found {len(severe_mismatches)} potential severe mismatches")
         for m in severe_mismatches[:5]:
@@ -133,20 +133,20 @@ def main():
     else:
         print("  ✅ No severe name mismatches found")
         validation_results['passed_checks'].append('No severe name mismatches')
-    
+
     # 5. occupation vs category の整合性チェック
     print("\n🔍 Checking occupation vs category consistency...")
-    
+
     # スポーツカテゴリで非スポーツ職業
     sports_df = df[df['category'] == 'スポーツ']
     non_sports_occupation = sports_df[
         ~sports_df['occupation'].str.contains(
-            '選手|アスリート|スポーツ|力士|コーチ|監督|審判', 
-            na=False, 
+            '選手|アスリート|スポーツ|力士|コーチ|監督|審判',
+            na=False,
             regex=True
         )
     ]
-    
+
     if not non_sports_occupation.empty:
         print(f"  ⚠️ Found {len(non_sports_occupation)} sports category with non-sports occupation")
         for _, row in non_sports_occupation.head(3).iterrows():
@@ -158,10 +158,10 @@ def main():
     else:
         print("  ✅ All sports category records have appropriate occupations")
         validation_results['passed_checks'].append('Sports category consistency')
-    
+
     # 6. 重複チェック
     print("\n🔍 Checking for duplicates...")
-    
+
     # person_idの重複
     duplicate_ids = df[df['person_id'].duplicated()]['person_id'].tolist()
     if duplicate_ids:
@@ -173,22 +173,22 @@ def main():
     else:
         print("  ✅ No duplicate person_ids")
         validation_results['passed_checks'].append('No duplicate IDs')
-    
+
     # 7. 最終統計
     print("\n📊 Validation Summary:")
     print(f"  Total records: {validation_results['total_records']}")
     print(f"  Passed checks: {len(validation_results['passed_checks'])}")
     print(f"  Issues found: {len(validation_results['issues_found'])}")
     print(f"  Critical fixes verified: {len(validation_results['critical_fixes_verified'])}")
-    
+
     # 8. 検証レポートを保存
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     validation_file = f"data_validation_report_{timestamp}.json"
-    
+
     with open(validation_file, 'w', encoding='utf-8') as f:
         json.dump(validation_results, f, ensure_ascii=False, indent=2)
     print(f"\n📝 Validation report saved to {validation_file}")
-    
+
     # 9. 最終判定
     print("\n" + "="*60)
     if len(validation_results['issues_found']) == 0:

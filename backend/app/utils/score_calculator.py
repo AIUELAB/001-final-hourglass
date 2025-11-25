@@ -3,37 +3,34 @@
 composite_scoreや各種評価スコアの計算を一元管理
 """
 
-from typing import Dict, Optional, List, Union
 import re
 import unicodedata
+from typing import Dict, List, Optional, Union
 
 # 7軸スコアのフィールド名（日本語）
 SEVEN_AXIS_FIELDS = [
-    '記憶性スコア',      # memorability_score
-    '共感性スコア',      # empathy_score
-    '意外性スコア',      # surprise_score
-    '生成品質スコア',    # generation_quality_score
-    '教育的価値',        # educational_value
-    'ストーリー品質',    # storytelling_quality
-    '事実密度'           # factual_density
+    "記憶性スコア",  # memorability_score
+    "共感性スコア",  # empathy_score
+    "意外性スコア",  # surprise_score
+    "生成品質スコア",  # generation_quality_score
+    "教育的価値",  # educational_value
+    "ストーリー品質",  # storytelling_quality
+    "事実密度",  # factual_density
 ]
 
 # 英語→日本語のマッピング
 FIELD_MAPPING = {
-    'memorability_score': '記憶性スコア',
-    'empathy_score': '共感性スコア',
-    'surprise_score': '意外性スコア',
-    'generation_quality_score': '生成品質スコア',
-    'educational_value': '教育的価値',
-    'storytelling_quality': 'ストーリー品質',
-    'factual_density': '事実密度'
+    "memorability_score": "記憶性スコア",
+    "empathy_score": "共感性スコア",
+    "surprise_score": "意外性スコア",
+    "generation_quality_score": "生成品質スコア",
+    "educational_value": "教育的価値",
+    "storytelling_quality": "ストーリー品質",
+    "factual_density": "事実密度",
 }
 
 
-def calculate_composite_score(
-    episode_data: Dict,
-    min_axes_required: int = 1
-) -> Optional[float]:
+def calculate_composite_score(episode_data: Dict, min_axes_required: int = 1) -> Optional[float]:
     """
     7軸スコアの平均からcomposite_scoreを算出
 
@@ -55,7 +52,7 @@ def calculate_composite_score(
         value = episode_data.get(field)
 
         # 値の取得と検証
-        if value is None or value == '':
+        if value is None or value == "":
             continue
 
         try:
@@ -77,10 +74,7 @@ def calculate_composite_score(
     return None
 
 
-def calculate_composite_score_from_english_fields(
-    episode_data: Dict,
-    min_axes_required: int = 1
-) -> Optional[float]:
+def calculate_composite_score_from_english_fields(episode_data: Dict, min_axes_required: int = 1) -> Optional[float]:
     """
     英語フィールド名からcomposite_scoreを算出
 
@@ -120,7 +114,7 @@ def get_score_breakdown(episode_data: Dict) -> Dict[str, Optional[float]]:
     for field in SEVEN_AXIS_FIELDS:
         value = episode_data.get(field)
 
-        if value is None or value == '':
+        if value is None or value == "":
             breakdown[field] = None
             continue
 
@@ -164,13 +158,13 @@ def normalize_person_name(name: str) -> str:
         - 括弧内の情報除去（オプション）
     """
     if not name:
-        return ''
+        return ""
 
     # Unicode正規化（全角→半角など）
-    normalized = unicodedata.normalize('NFKC', name)
+    normalized = unicodedata.normalize("NFKC", name)
 
     # 空白除去（全角・半角）
-    normalized = normalized.replace(' ', '').replace('　', '')
+    normalized = normalized.replace(" ", "").replace("　", "")
 
     # 前後の空白除去
     normalized = normalized.strip()
@@ -205,11 +199,7 @@ def calculate_text_similarity(text1: str, text2: str) -> float:
     return SequenceMatcher(None, text1, text2).ratio()
 
 
-def is_similar_episode(
-    text1: str,
-    text2: str,
-    threshold: float = 0.8
-) -> bool:
+def is_similar_episode(text1: str, text2: str, threshold: float = 0.8) -> bool:
     """
     2つのエピソードテキストが類似しているか判定
 
@@ -234,20 +224,20 @@ def calculate_episode_quality_indicators(episode_data: Dict) -> Dict:
     Returns:
         品質指標の辞書
     """
-    episode_text = str(episode_data.get('episode_text', ''))
+    episode_text = str(episode_data.get("episode_text", ""))
 
     # テキスト長
     char_count = len(episode_text)
 
     # 数値データの存在
-    numbers = re.findall(r'\d+', episode_text)
+    numbers = re.findall(r"\d+", episode_text)
     number_count = len(numbers)
 
     # 引用（「」）の存在
-    has_quotes = '「' in episode_text and '」' in episode_text
+    has_quotes = "「" in episode_text and "」" in episode_text
 
     # 固有名詞（カタカナ3文字以上）
-    katakana_pattern = r'[ァ-ヴー]{3,}'
+    katakana_pattern = r"[ァ-ヴー]{3,}"
     katakana_words = re.findall(katakana_pattern, episode_text)
     katakana_count = len(katakana_words)
 
@@ -258,13 +248,13 @@ def calculate_episode_quality_indicators(episode_data: Dict) -> Dict:
     valid_axes = count_valid_axes(episode_data)
 
     return {
-        'char_count': char_count,
-        'number_count': number_count,
-        'has_quotes': has_quotes,
-        'katakana_count': katakana_count,
-        'composite_score': composite,
-        'valid_axes_count': valid_axes,
-        'is_complete': valid_axes == 7
+        "char_count": char_count,
+        "number_count": number_count,
+        "has_quotes": has_quotes,
+        "katakana_count": katakana_count,
+        "composite_score": composite,
+        "valid_axes_count": valid_axes,
+        "is_complete": valid_axes == 7,
     }
 
 
@@ -279,7 +269,7 @@ def format_composite_score(score: Optional[float]) -> str:
         文字列（空文字または小数点以下2桁）
     """
     if score is None:
-        return ''
+        return ""
     return f"{score:.2f}"
 
 
@@ -289,49 +279,105 @@ def format_composite_score(score: Optional[float]) -> str:
 
 # 記憶性に関連するキーワード
 MEMORABILITY_KEYWORDS = {
-    'ultra_high': ['世界初', '史上初', 'ギネス', '国民的', '社会現象', '歴史的', '革命', '金字塔'],
-    'high': ['記録', '受賞', '優勝', '達成', '発明', '発見', '創設', '開発', '成功'],
-    'medium': ['挑戦', '転機', '決断', '出会い', '経験']
+    "ultra_high": ["世界初", "史上初", "ギネス", "国民的", "社会現象", "歴史的", "革命", "金字塔"],
+    "high": ["記録", "受賞", "優勝", "達成", "発明", "発見", "創設", "開発", "成功"],
+    "medium": ["挑戦", "転機", "決断", "出会い", "経験"],
 }
 
 # 共感性に関連するキーワード
 EMPATHY_KEYWORDS = {
-    'emotion': ['涙', '感動', '喜び', '悲しみ', '苦悩', '葛藤', '不安', '希望', '絶望', '勇気'],
-    'struggle': ['克服', '乗り越え', '挫折', '失敗', '困難', '逆境', '苦労', '努力'],
-    'relation': ['家族', '母', '父', '子供', '友人', '恩師', '仲間', '愛']
+    "emotion": ["涙", "感動", "喜び", "悲しみ", "苦悩", "葛藤", "不安", "希望", "絶望", "勇気"],
+    "struggle": ["克服", "乗り越え", "挫折", "失敗", "困難", "逆境", "苦労", "努力"],
+    "relation": ["家族", "母", "父", "子供", "友人", "恩師", "仲間", "愛"],
 }
 
 # 意外性に関連するキーワード（拡張版）
 SURPRISE_KEYWORDS = {
-    'twist': [
-        '実は', '意外にも', '驚くべきことに', '誰も知らない', '秘密', '真実',
-        '知られざる', '隠された', '裏側', '本当は', '実際には', '明かされた',
+    "twist": [
+        "実は",
+        "意外にも",
+        "驚くべきことに",
+        "誰も知らない",
+        "秘密",
+        "真実",
+        "知られざる",
+        "隠された",
+        "裏側",
+        "本当は",
+        "実際には",
+        "明かされた",
     ],
-    'contrast': [
-        '一方で', 'しかし', '逆に', '反面', '裏では', 'ところが',
-        'にもかかわらず', 'それでも', '皮肉にも', '対照的に', '反して', '違って',
+    "contrast": [
+        "一方で",
+        "しかし",
+        "逆に",
+        "反面",
+        "裏では",
+        "ところが",
+        "にもかかわらず",
+        "それでも",
+        "皮肉にも",
+        "対照的に",
+        "反して",
+        "違って",
     ],
-    'unexpected': [
-        '偶然', '予想外', '思いがけず', '突然', '奇跡的', '異例',
-        '破天荒', '型破り', '常識を覆す', '前例のない', '画期的', '革新的',
-        '異色', '独自', 'ユニーク', '唯一', '珍しい', '稀有', '特異',
+    "unexpected": [
+        "偶然",
+        "予想外",
+        "思いがけず",
+        "突然",
+        "奇跡的",
+        "異例",
+        "破天荒",
+        "型破り",
+        "常識を覆す",
+        "前例のない",
+        "画期的",
+        "革新的",
+        "異色",
+        "独自",
+        "ユニーク",
+        "唯一",
+        "珍しい",
+        "稀有",
+        "特異",
     ],
-    'achievement_twist': [
-        '最年少', '最年長', '史上初', '女性初', '日本人初', '世界初',
-        '前人未到', '不可能を可能に', '常識を破る', '逆転', '大逆転',
-        '番狂わせ', '下剋上', '奇跡の', 'ドラマチック',
+    "achievement_twist": [
+        "最年少",
+        "最年長",
+        "史上初",
+        "女性初",
+        "日本人初",
+        "世界初",
+        "前人未到",
+        "不可能を可能に",
+        "常識を破る",
+        "逆転",
+        "大逆転",
+        "番狂わせ",
+        "下剋上",
+        "奇跡の",
+        "ドラマチック",
     ],
-    'origin_twist': [
-        '元々', '当初', '最初は', 'かつては', '以前は', '本来',
-        '全く違う', '想像もしなかった', '夢にも思わなかった', '偶然の発見',
+    "origin_twist": [
+        "元々",
+        "当初",
+        "最初は",
+        "かつては",
+        "以前は",
+        "本来",
+        "全く違う",
+        "想像もしなかった",
+        "夢にも思わなかった",
+        "偶然の発見",
     ],
 }
 
 # 教育的価値に関連するキーワード
 EDUCATIONAL_KEYWORDS = {
-    'lesson': ['教訓', '学び', '示唆', '重要', '原則', '哲学', '信念', '思想'],
-    'insight': ['発見', '気づき', '理解', '認識', '視点', '考え方'],
-    'universal': ['普遍的', '本質', '真理', '原理', '法則']
+    "lesson": ["教訓", "学び", "示唆", "重要", "原則", "哲学", "信念", "思想"],
+    "insight": ["発見", "気づき", "理解", "認識", "視点", "考え方"],
+    "universal": ["普遍的", "本質", "真理", "原理", "法則"],
 }
 
 
@@ -352,24 +398,18 @@ def calculate_memorability_score(episode_data: Dict) -> float:
         記憶性スコア（1.0-10.0）
     """
     score = 5.5  # ベーススコア（composite_score平均7.0+を目指して調整）
-    episode_text = str(episode_data.get('episode_text', ''))
+    episode_text = str(episode_data.get("episode_text", ""))
 
     # 1. 超高インパクトキーワード (+2.5)
-    ultra_high_count = sum(
-        1 for kw in MEMORABILITY_KEYWORDS['ultra_high']
-        if kw in episode_text
-    )
+    ultra_high_count = sum(1 for kw in MEMORABILITY_KEYWORDS["ultra_high"] if kw in episode_text)
     score += min(ultra_high_count * 1.0, 2.5)
 
     # 2. 高インパクトキーワード (+1.5)
-    high_count = sum(
-        1 for kw in MEMORABILITY_KEYWORDS['high']
-        if kw in episode_text
-    )
+    high_count = sum(1 for kw in MEMORABILITY_KEYWORDS["high"] if kw in episode_text)
     score += min(high_count * 0.5, 1.5)
 
     # 3. fame_scoreからの補正 (+1.0)
-    fame_score = episode_data.get('fame_score')
+    fame_score = episode_data.get("fame_score")
     if fame_score:
         try:
             fame = float(fame_score)
@@ -381,13 +421,13 @@ def calculate_memorability_score(episode_data: Dict) -> float:
             pass
 
     # 4. エピソードタイプ補正 (+1.0)
-    episode_type = episode_data.get('episode_type', '')
-    memorable_types = ['ACHIEVEMENT', 'INNOVATION', 'TURNING_POINT', 'FOUNDING']
+    episode_type = episode_data.get("episode_type", "")
+    memorable_types = ["ACHIEVEMENT", "INNOVATION", "TURNING_POINT", "FOUNDING"]
     if episode_type in memorable_types:
         score += 0.8
 
     # 5. 年号の存在 (+0.5)
-    if re.search(r'(19|20)\d{2}年', episode_text):
+    if re.search(r"(19|20)\d{2}年", episode_text):
         score += 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
@@ -411,36 +451,27 @@ def calculate_empathy_score(episode_data: Dict) -> float:
     """
     # LLM検証で+1.38のバイアスあり → ベーススコアを上方修正
     score = 6.4  # ベーススコア（調整済み）
-    episode_text = str(episode_data.get('episode_text', ''))
+    episode_text = str(episode_data.get("episode_text", ""))
 
     # 1. 感情キーワード (+2.0)
-    emotion_count = sum(
-        1 for kw in EMPATHY_KEYWORDS['emotion']
-        if kw in episode_text
-    )
+    emotion_count = sum(1 for kw in EMPATHY_KEYWORDS["emotion"] if kw in episode_text)
     score += min(emotion_count * 0.5, 2.0)
 
     # 2. 葛藤・克服キーワード (+1.5)
-    struggle_count = sum(
-        1 for kw in EMPATHY_KEYWORDS['struggle']
-        if kw in episode_text
-    )
+    struggle_count = sum(1 for kw in EMPATHY_KEYWORDS["struggle"] if kw in episode_text)
     score += min(struggle_count * 0.5, 1.5)
 
     # 3. 関係性キーワード (+1.5)
-    relation_count = sum(
-        1 for kw in EMPATHY_KEYWORDS['relation']
-        if kw in episode_text
-    )
+    relation_count = sum(1 for kw in EMPATHY_KEYWORDS["relation"] if kw in episode_text)
     score += min(relation_count * 0.5, 1.5)
 
     # 4. 引用（会話）の存在 (+0.5)
-    if '「' in episode_text and '」' in episode_text:
+    if "「" in episode_text and "」" in episode_text:
         score += 0.5
 
     # 5. エピソードタイプ補正
-    episode_type = episode_data.get('episode_type', '')
-    empathetic_types = ['FAMILY', 'GROWTH', 'FAILURE', 'COMEBACK']
+    episode_type = episode_data.get("episode_type", "")
+    empathetic_types = ["FAMILY", "GROWTH", "FAILURE", "COMEBACK"]
     if episode_type in empathetic_types:
         score += 0.7
 
@@ -466,72 +497,57 @@ def calculate_surprise_score(episode_data: Dict) -> float:
         意外性スコア（1.0-10.0）
     """
     score = 5.0  # ベーススコア（分散を維持しつつcomposite_score改善）
-    episode_text = str(episode_data.get('episode_text', ''))
-    episode_type = episode_data.get('episode_type', '')
-    category = episode_data.get('category', '')
+    episode_text = str(episode_data.get("episode_text", ""))
+    episode_type = episode_data.get("episode_type", "")
+    category = episode_data.get("category", "")
 
     # 1. ツイストキーワード (+2.0)
-    twist_count = sum(
-        1 for kw in SURPRISE_KEYWORDS['twist']
-        if kw in episode_text
-    )
+    twist_count = sum(1 for kw in SURPRISE_KEYWORDS["twist"] if kw in episode_text)
     score += min(twist_count * 0.6, 2.0)
 
     # 2. コントラストキーワード (+1.5)
-    contrast_count = sum(
-        1 for kw in SURPRISE_KEYWORDS['contrast']
-        if kw in episode_text
-    )
+    contrast_count = sum(1 for kw in SURPRISE_KEYWORDS["contrast"] if kw in episode_text)
     score += min(contrast_count * 0.4, 1.5)
 
     # 3. 予想外キーワード (+2.0)
-    unexpected_count = sum(
-        1 for kw in SURPRISE_KEYWORDS['unexpected']
-        if kw in episode_text
-    )
+    unexpected_count = sum(1 for kw in SURPRISE_KEYWORDS["unexpected"] if kw in episode_text)
     score += min(unexpected_count * 0.4, 2.0)
 
     # 4. 達成ツイストキーワード (+1.5)
-    achievement_twist_count = sum(
-        1 for kw in SURPRISE_KEYWORDS['achievement_twist']
-        if kw in episode_text
-    )
+    achievement_twist_count = sum(1 for kw in SURPRISE_KEYWORDS["achievement_twist"] if kw in episode_text)
     score += min(achievement_twist_count * 0.5, 1.5)
 
     # 5. 起源ツイストキーワード (+1.0)
-    origin_twist_count = sum(
-        1 for kw in SURPRISE_KEYWORDS['origin_twist']
-        if kw in episode_text
-    )
+    origin_twist_count = sum(1 for kw in SURPRISE_KEYWORDS["origin_twist"] if kw in episode_text)
     score += min(origin_twist_count * 0.4, 1.0)
 
     # 6. 年齢とエピソードタイプの組み合わせ (+1.2)
     try:
-        age = float(episode_data.get('age', 0))
+        age = float(episode_data.get("age", 0))
 
         # 若い年齢での大きな達成は意外性が高い
-        if age <= 20 and episode_type in ['ACHIEVEMENT', 'INNOVATION', 'FOUNDING']:
+        if age <= 20 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
             score += 1.2
-        elif age <= 25 and episode_type in ['ACHIEVEMENT', 'INNOVATION', 'FOUNDING']:
+        elif age <= 25 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
             score += 0.8
         # 高齢での挑戦も意外性が高い
-        elif age >= 70 and episode_type in ['CHALLENGE', 'GROWTH', 'COMEBACK']:
+        elif age >= 70 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
             score += 1.0
-        elif age >= 60 and episode_type in ['CHALLENGE', 'GROWTH', 'COMEBACK']:
+        elif age >= 60 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
             score += 0.6
         # 中年での転機
-        elif 40 <= age <= 55 and episode_type == 'TURNING_POINT':
+        elif 40 <= age <= 55 and episode_type == "TURNING_POINT":
             score += 0.5
     except (ValueError, TypeError):
         pass
 
     # 7. エピソードタイプによる補正 (+0.8)
-    surprising_types = ['COMEBACK', 'FAILURE', 'TURNING_POINT']
+    surprising_types = ["COMEBACK", "FAILURE", "TURNING_POINT"]
     if episode_type in surprising_types:
         score += 0.8
 
     # 8. カテゴリによる意外性加点 (+0.5)
-    if category in ['探検・冒険', '映画・演劇', 'アニメ・漫画・ゲーム']:
+    if category in ["探検・冒険", "映画・演劇", "アニメ・漫画・ゲーム"]:
         score += 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
@@ -555,7 +571,7 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
     """
     # LLM検証で-1.40のバイアスあり → ベーススコアを下方修正
     score = 4.6  # ベーススコア（調整済み）
-    episode_text = str(episode_data.get('episode_text', ''))
+    episode_text = str(episode_data.get("episode_text", ""))
 
     # テキストが空の場合
     if not episode_text.strip():
@@ -573,7 +589,7 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
         score -= 0.5
 
     # 2. 文の数と平均長さ (+1.0)
-    sentences = re.split(r'[。！？]', episode_text)
+    sentences = re.split(r"[。！？]", episode_text)
     sentences = [s for s in sentences if s.strip()]
     if sentences:
         avg_sentence_length = char_count / len(sentences)
@@ -583,21 +599,19 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
             score += 0.5
 
     # 3. 句読点の適切な使用 (+0.5)
-    comma_count = episode_text.count('、')
-    period_count = episode_text.count('。')
+    comma_count = episode_text.count("、")
+    period_count = episode_text.count("。")
     if comma_count >= 3 and period_count >= 2:
         score += 0.5
 
     # 4. 冗長表現のペナルティ (-0.5)
-    redundant_patterns = ['ということ', 'というものは', 'のようなもの']
-    redundant_count = sum(
-        episode_text.count(p) for p in redundant_patterns
-    )
+    redundant_patterns = ["ということ", "というものは", "のようなもの"]
+    redundant_count = sum(episode_text.count(p) for p in redundant_patterns)
     if redundant_count >= 2:
         score -= 0.5
 
     # 5. 完結性（最後が句点で終わる） (+0.3)
-    if episode_text.rstrip().endswith('。'):
+    if episode_text.rstrip().endswith("。"):
         score += 0.3
 
     return round(min(10.0, max(1.0, score)), 1)
@@ -621,45 +635,34 @@ def calculate_educational_value_score(episode_data: Dict) -> float:
     """
     # LLM検証で+1.98のバイアスあり → ベーススコアを上方修正
     score = 7.0  # ベーススコア（調整済み）
-    episode_text = str(episode_data.get('episode_text', ''))
+    episode_text = str(episode_data.get("episode_text", ""))
 
     # 1. 教訓キーワード (+2.0)
-    lesson_count = sum(
-        1 for kw in EDUCATIONAL_KEYWORDS['lesson']
-        if kw in episode_text
-    )
+    lesson_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["lesson"] if kw in episode_text)
     score += min(lesson_count * 0.5, 2.0)
 
     # 2. 洞察キーワード (+1.5)
-    insight_count = sum(
-        1 for kw in EDUCATIONAL_KEYWORDS['insight']
-        if kw in episode_text
-    )
+    insight_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["insight"] if kw in episode_text)
     score += min(insight_count * 0.5, 1.5)
 
     # 3. 普遍性キーワード (+1.0)
-    universal_count = sum(
-        1 for kw in EDUCATIONAL_KEYWORDS['universal']
-        if kw in episode_text
-    )
+    universal_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["universal"] if kw in episode_text)
     score += min(universal_count * 0.5, 1.0)
 
     # 4. カテゴリによる補正 (+1.0)
-    category = episode_data.get('category', '')
-    educational_categories = [
-        '科学・技術', '教育', '医療・福祉', '政治・国際', '思想・哲学'
-    ]
+    category = episode_data.get("category", "")
+    educational_categories = ["科学・技術", "教育", "医療・福祉", "政治・国際", "思想・哲学"]
     if any(cat in category for cat in educational_categories):
         score += 1.0
 
     # 5. 具体的な数値データ (+0.5)
-    numbers = re.findall(r'\d+', episode_text)
+    numbers = re.findall(r"\d+", episode_text)
     if len(numbers) >= 3:
         score += 0.5
 
     # 6. エピソードタイプ補正
-    episode_type = episode_data.get('episode_type', '')
-    educational_types = ['ACHIEVEMENT', 'INNOVATION', 'FAILURE']
+    episode_type = episode_data.get("episode_type", "")
+    educational_types = ["ACHIEVEMENT", "INNOVATION", "FAILURE"]
     if episode_type in educational_types:
         score += 0.5
 
@@ -677,9 +680,9 @@ def calculate_all_five_axes(episode_data: Dict) -> Dict[str, float]:
         5軸スコアの辞書
     """
     return {
-        '記憶性スコア': calculate_memorability_score(episode_data),
-        '共感性スコア': calculate_empathy_score(episode_data),
-        '意外性スコア': calculate_surprise_score(episode_data),
-        '生成品質スコア': calculate_generation_quality_score(episode_data),
-        '教育的価値': calculate_educational_value_score(episode_data)
+        "記憶性スコア": calculate_memorability_score(episode_data),
+        "共感性スコア": calculate_empathy_score(episode_data),
+        "意外性スコア": calculate_surprise_score(episode_data),
+        "生成品質スコア": calculate_generation_quality_score(episode_data),
+        "教育的価値": calculate_educational_value_score(episode_data),
     }

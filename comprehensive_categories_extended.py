@@ -5,7 +5,7 @@
 """
 
 EXTENDED_CATEGORIES = {
-    
+
     # ============ 歴史的教訓カテゴリ（負の歴史から学ぶ） ============
     'historical_lessons': {
         'description': '歴史の暗部から学ぶべき教訓を持つ人物',
@@ -61,7 +61,7 @@ EXTENDED_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 日本のサブカルチャー・エンターテインメント ============
     'japanese_subculture': {
         'description': '日本のサブカルチャー・エンターテインメント界の人物',
@@ -165,7 +165,7 @@ EXTENDED_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ 架空の人物（フィクション） ============
     'fictional_characters': {
         'description': '映画・漫画・アニメ・ゲームの架空人物',
@@ -241,7 +241,7 @@ EXTENDED_CATEGORIES = {
             },
         }
     },
-    
+
     # ============ エピソードタイプ定義 ============
     'episode_types': {
         'achievements': ['記録', '偉業', '達成', '受賞', '表彰', '叙勲', '選出'],
@@ -253,7 +253,7 @@ EXTENDED_CATEGORIES = {
         'milestones': ['退任', '引退', '復活', '復帰'],
         'family': ['子供の誕生', '孫の誕生', '家族の死', '相続'],
     },
-    
+
     # ============ 日本特有のライフイベント ============
     'japanese_life_events': {
         '学業': {
@@ -290,12 +290,12 @@ def create_comprehensive_database():
     """包括的なカテゴリデータベースを作成"""
     import json
     from datetime import datetime
-    
+
     # 統計情報
     stats = {
         'historical_lessons': len(EXTENDED_CATEGORIES['historical_lessons']['categories']),
         'japanese_subculture': sum(
-            len(cat.get('subcategories', {})) 
+            len(cat.get('subcategories', {}))
             for cat in EXTENDED_CATEGORIES['japanese_subculture']['categories'].values()
         ),
         'fictional_characters': sum(
@@ -307,7 +307,7 @@ def create_comprehensive_database():
             len(events) for events in EXTENDED_CATEGORIES['japanese_life_events'].values()
         ),
     }
-    
+
     output = {
         'metadata': {
             'created_at': datetime.now().isoformat(),
@@ -325,20 +325,20 @@ def create_comprehensive_database():
             'breakdown': stats
         }
     }
-    
+
     output_file = f'comprehensive_categories_final_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    
+
     return output_file, stats
 
 if __name__ == "__main__":
     file, stats = create_comprehensive_database()
-    
+
     print("="*60)
     print("🎌 完全版カテゴリデータベース（日本市場最適化）")
     print("="*60)
-    
+
     print("\n📊 カテゴリ統計:")
     print(f"  歴史的教訓（犯罪者等）: {stats['historical_lessons']}カテゴリ")
     print(f"  日本サブカルチャー: {stats['japanese_subculture']}サブカテゴリ")
@@ -347,10 +347,10 @@ if __name__ == "__main__":
     print(f"  日本のライフイベント: {stats['japanese_life_events']}イベント")
     print("  ────────────────────────")
     print(f"  合計: {sum(stats.values())}要素")
-    
+
     print("\n⚠️ 注意事項:")
     print("  • 犯罪者カテゴリは歴史的教訓として")
     print("  • 架空人物は年齢設定が明確なもののみ")
     print("  • 日本のYouTuber、芸人、アイドル等を網羅")
-    
+
     print(f"\n✅ データベースファイル作成: {file}")

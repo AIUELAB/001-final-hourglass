@@ -27,7 +27,7 @@ case "$1" in
         echo "✅ バックグラウンドで監視を開始しました (PID: $(cat sheet_sync.pid))"
         echo "📝 ログファイル: sheet_sync.log"
         ;;
-    
+
     stop)
         if [ -f sheet_sync.pid ]; then
             PID=$(cat sheet_sync.pid)
@@ -38,7 +38,7 @@ case "$1" in
             echo "⚠️  実行中の監視プロセスが見つかりません"
         fi
         ;;
-    
+
     status)
         if [ -f sheet_sync.pid ]; then
             PID=$(cat sheet_sync.pid)
@@ -55,17 +55,17 @@ case "$1" in
             echo "⚠️  監視は実行されていません"
         fi
         ;;
-    
+
     sync)
         echo "🔄 手動同期を実行します..."
         python3 auto_sheet_name_sync.py --manual
         ;;
-    
+
     monitor)
         echo "📊 フォアグラウンドで監視を開始します (Ctrl+C で停止)"
         python3 auto_sheet_name_sync.py --monitor
         ;;
-    
+
     *)
         echo "使用方法: $0 {start|stop|status|sync|monitor}"
         echo ""

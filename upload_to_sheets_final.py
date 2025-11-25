@@ -44,7 +44,7 @@ def create_new_spreadsheet(service, title):
             }
         }]
     }
-    
+
     try:
         spreadsheet = service.spreadsheets().create(body=spreadsheet).execute()
         return spreadsheet['spreadsheetId']
@@ -100,7 +100,7 @@ def format_spreadsheet(service, spreadsheet_id):
             }
         }
     ]
-    
+
     body = {'requests': requests}
     service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id, body=body).execute()
 
@@ -135,20 +135,20 @@ def add_conditional_formatting(service, spreadsheet_id):
             }
         }
     ]
-    
+
     body = {'requests': requests}
     service.spreadsheets().batchUpdate(spreadsheetId=spreadsheet_id, body=body).execute()
 
 def main():
     """メイン処理"""
-    
+
     print("=" * 60)
     print("Google Sheetsへのアップロード処理")
     print("=" * 60)
-    
+
     # 入力ファイル
     input_file = 'database_final_enriched_20250910_132247.csv'
-    
+
     # データ読み込み
     print(f"\n1. データ読み込み中: {input_file}")
     data = []
@@ -156,9 +156,9 @@ def main():
         reader = csv.reader(f)
         for row in reader:
             data.append(row)
-    
+
     print(f"   読み込み完了: {len(data)}行")
-    
+
     # Google Sheets API認証
     print("\n2. Google Sheets API認証中...")
     try:
@@ -168,34 +168,34 @@ def main():
     except Exception as e:
         print(f"   認証エラー: {e}")
         return
-    
+
     # 新しいスプレッドシートを作成
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     title = f"人物データベース最終版_{timestamp}"
-    
+
     print(f"\n3. 新しいスプレッドシートを作成中: {title}")
     spreadsheet_id = create_new_spreadsheet(service, title)
-    
+
     if not spreadsheet_id:
         print("   スプレッドシートの作成に失敗しました")
         return
-    
+
     print(f"   作成成功: {spreadsheet_id}")
-    
+
     # データをアップロード
     print("\n4. データをアップロード中...")
-    
+
     # バッチサイズを設定（一度に送信する行数）
     batch_size = 1000
-    
+
     for i in range(0, len(data), batch_size):
         batch = data[i:i+batch_size]
         range_name = f'Database!A{i+1}'
-        
+
         body = {
             'values': batch
         }
-        
+
         try:
             result = service.spreadsheets().values().update(
                 spreadsheetId=spreadsheet_id,
@@ -203,23 +203,23 @@ def main():
                 valueInputOption='USER_ENTERED',
                 body=body
             ).execute()
-            
+
             print(f"   アップロード: {i+1}-{min(i+batch_size, len(data))}行")
         except HttpError as e:
             print(f"   エラー: {e}")
             return
-    
+
     # フォーマット設定
     print("\n5. フォーマット設定中...")
     format_spreadsheet(service, spreadsheet_id)
     add_conditional_formatting(service, spreadsheet_id)
     print("   フォーマット設定完了")
-    
+
     # 共有設定（オプション）
     print("\n6. 共有設定")
     spreadsheet_url = f"https://docs.google.com/spreadsheets/d/{spreadsheet_id}"
     print(f"   スプレッドシートURL: {spreadsheet_url}")
-    
+
     # 設定ファイルに保存
     config = {
         'spreadsheet_id': spreadsheet_id,
@@ -228,15 +228,15 @@ def main():
         'uploaded_at': datetime.now().isoformat(),
         'total_records': len(data) - 1  # ヘッダーを除く
     }
-    
+
     with open('sheets_upload_config.json', 'w', encoding='utf-8') as f:
         json.dump(config, f, ensure_ascii=False, indent=2)
-    
+
     print("\n" + "=" * 60)
     print("アップロード完了！")
     print(f"URL: {spreadsheet_url}")
     print("=" * 60)
-    
+
     # ブラウザで開く（macOS）
     import subprocess
     try:

@@ -98,17 +98,17 @@ import PrivacyComplianceManager
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
         // プライバシー同意の確認
         if !PrivacyComplianceManager.shared.checkPrivacyConsent() {
             // プライバシー同意画面表示
         }
-        
+
         // App Tracking Transparency対応（iOS 14.5+）
         Task {
             await PrivacyComplianceManager.shared.requestTrackingPermission()
         }
-        
+
         return true
     }
 }
@@ -119,7 +119,7 @@ import ErrorHandlingSystem
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // ネットワークエラーの例
         performNetworkRequest { result in
             switch result {
@@ -140,7 +140,7 @@ import ContentModerationSystem
 class PostViewController: UIViewController {
     @IBAction func submitPost() {
         let content = textView.text
-        
+
         // コンテンツモデレーション
         ContentModerationSystem.shared.moderateText(content) { result in
             DispatchQueue.main.async {
@@ -160,10 +160,10 @@ import UserFeedbackManager
 class MainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         // ポジティブアクションの記録
         UserFeedbackManager.shared.recordPositiveAction(.completedTask)
-        
+
         // 適切なタイミングでのレビュー要求
         if UserFeedbackManager.shared.canRequestReview {
             UserFeedbackManager.shared.requestReviewIfAppropriate()
@@ -347,7 +347,7 @@ python3 scripts/code_quality_check.py /path/to/project -v -o detailed_report.jso
 ```json
 {
     "project_name": "YourApp",
-    "bundle_id": "com.yourcompany.yourapp", 
+    "bundle_id": "com.yourcompany.yourapp",
     "min_ios_version": "15.0",
     "required_permissions": {
         "camera": true,

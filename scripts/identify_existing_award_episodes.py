@@ -114,7 +114,7 @@ def main():
         sys.exit(1)
 
     print(f"\n総エピソード数: {len(master_rows)}件")
-    print(f"分析中...")
+    print("分析中...")
 
     # 統計情報収集
     award_episodes = []  # 受賞エピソードのリスト
@@ -160,7 +160,7 @@ def main():
     total_award_episodes = len(award_episodes)
     unique_persons = len(person_awards)
 
-    print(f"\n✅ 分析完了")
+    print("\n✅ 分析完了")
     print(f"   受賞エピソード: {total_award_episodes}件")
     print(f"   受賞者数: {unique_persons}名")
 
@@ -229,7 +229,7 @@ def main():
     for award_cat, count in sorted(award_category_counts.items(), key=lambda x: x[1], reverse=True)[:10]:
         print(f"  • {award_cat:20s}: {count:5d}件")
 
-    print(f"\n✅ レポート保存完了:")
+    print("\n✅ レポート保存完了:")
     print(f"   テキスト: {REPORT_TXT}")
     print(f"   CSV: {REPORT_CSV}")
 

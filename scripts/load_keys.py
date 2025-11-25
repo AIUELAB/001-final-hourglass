@@ -18,17 +18,18 @@ def load_config():
         print(f"❌ 設定ファイルが見つかりません: {config_path}")
         return None
 
-    with open(config_path, 'r', encoding='utf-8') as f:
+    with open(config_path, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 def read_key_file(file_path):
     """キーファイルから最初の行を読み込む"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             # 最初の非空白行を返す
             for line in f:
                 line = line.strip()
-                if line and not line.startswith('#'):
+                if line and not line.startswith("#"):
                     return line
         return None
     except Exception as e:
@@ -36,9 +37,10 @@ def read_key_file(file_path):
         print(f"   {str(e)}")
         return None
 
+
 def generate_env_file(config, output_path, overwrite=False):
     """環境変数ファイルを生成"""
-    keys_dir = Path(config['keys_directory'])
+    keys_dir = Path(config["keys_directory"])
 
     if not keys_dir.exists():
         print(f"❌ キーディレクトリが見つかりません: {keys_dir}")
@@ -49,7 +51,7 @@ def generate_env_file(config, output_path, overwrite=False):
     # 既存ファイルのチェック
     if output_file.exists() and not overwrite:
         response = input(f"⚠️  {output_file} は既に存在します。上書きしますか？ (y/n): ")
-        if response.lower() != 'y':
+        if response.lower() != "y":
             print("❌ 操作をキャンセルしました")
             return False
 
@@ -63,7 +65,7 @@ def generate_env_file(config, output_path, overwrite=False):
     failed_count = 0
 
     # キーマッピングに基づいて環境変数を生成
-    for env_var, key_file in config['key_mappings'].items():
+    for env_var, key_file in config["key_mappings"].items():
         key_path = keys_dir / key_file
 
         if key_path.exists():
@@ -91,8 +93,8 @@ def generate_env_file(config, output_path, overwrite=False):
     env_content.append("LOG_LEVEL=INFO")
 
     # ファイルに書き込み
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(env_content))
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(env_content))
 
     # ファイル権限の設定（読み書き権限を所有者のみに）
     os.chmod(output_file, 0o600)
@@ -103,6 +105,7 @@ def generate_env_file(config, output_path, overwrite=False):
     print(f"   失敗: {failed_count} 個のキー")
 
     return True
+
 
 def main():
     """メイン処理"""
@@ -120,10 +123,7 @@ def main():
 
     # 出力先の決定
     project_root = Path(__file__).parent.parent
-    output_options = [
-        project_root / ".env.mcp",
-        project_root / "mcp-config" / ".env.mcp"
-    ]
+    output_options = [project_root / ".env.mcp", project_root / "mcp-config" / ".env.mcp"]
 
     print("📝 出力先を選択してください:")
     for i, path in enumerate(output_options, 1):
@@ -132,11 +132,11 @@ def main():
 
     choice = input("\n選択 (1-3): ").strip()
 
-    if choice == '1':
+    if choice == "1":
         output_path = output_options[0]
-    elif choice == '2':
+    elif choice == "2":
         output_path = output_options[1]
-    elif choice == '3':
+    elif choice == "3":
         custom_path = input("出力パスを入力: ").strip()
         output_path = Path(custom_path)
     else:
@@ -153,6 +153,7 @@ def main():
         print(f"   source {output_path}")
     else:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

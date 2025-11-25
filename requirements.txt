@@ -50,11 +50,6 @@ pymysql==1.1.0
 sqlalchemy==2.0.23
 cryptography==41.0.7
 
-# MCP Integration
-mcp-use==1.4.0
-langchain-openai==0.3.0
-langchain-anthropic==0.3.0
-
 # Performance monitoring
 psutil==5.9.0
 

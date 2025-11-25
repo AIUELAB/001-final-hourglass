@@ -66,7 +66,7 @@ class ErrorRecovery:
 
         # ファイルに記録
         with open(self.error_log_file, "a", encoding="utf-8") as f:
-            f.write(f"\n{'='*60}\n")
+            f.write(f"\n{'=' * 60}\n")
             f.write(f"Timestamp: {timestamp}\n")
             f.write(f"Context: {context}\n")
             f.write(f"Error: {error_info['error_type']}: {error_info['error_message']}\n")

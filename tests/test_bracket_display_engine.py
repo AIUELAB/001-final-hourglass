@@ -87,7 +87,7 @@ class TestFictionalCharacter:
         """架空キャラクターは常に作品名を表示"""
         result = engine.should_show_bracket(fictional_character_data)
 
-        assert result.should_show == True
+        assert result.should_show
         assert result.bracket_text == "ONE PIECE"
         assert result.formatted_name == "モンキー・D・ルフィ(ONE PIECE)"
         assert "架空キャラクター" in result.reason
@@ -102,7 +102,7 @@ class TestFictionalCharacter:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == False
+        assert not result.should_show
         assert result.bracket_text is None
 
     def test_multiple_fictional_characters(self, engine):
@@ -114,7 +114,7 @@ class TestFictionalCharacter:
 
             result = engine.should_show_bracket(data)
 
-            assert result.should_show == True
+            assert result.should_show
             assert result.bracket_text == work
             assert result.formatted_name == f"{name}({work})"
 
@@ -131,7 +131,7 @@ class TestGroupAffiliation:
         """現役お笑いコンビは表示"""
         result = engine.should_show_bracket(active_comedian_data)
 
-        assert result.should_show == True
+        assert result.should_show
         assert result.bracket_text == "ピース"
         assert result.formatted_name == "又吉直樹(ピース)"
 
@@ -139,7 +139,7 @@ class TestGroupAffiliation:
         """解散バンドは表示しない"""
         result = engine.should_show_bracket(disbanded_band_data)
 
-        assert result.should_show == False
+        assert not result.should_show
         assert result.bracket_text is None
         assert result.formatted_name == "YOSHIKI"
         assert "解散済み" in result.reason
@@ -157,7 +157,7 @@ class TestGroupAffiliation:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == False
+        assert not result.should_show
         assert "活動休止中" in result.reason
 
     def test_personal_more_famous_not_show(self, engine):
@@ -173,7 +173,7 @@ class TestGroupAffiliation:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == False
+        assert not result.should_show
         assert "本人の知名度" in result.reason
 
     def test_no_group_affiliation(self, engine):
@@ -187,7 +187,7 @@ class TestGroupAffiliation:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == False
+        assert not result.should_show
         assert "グループ所属情報なし" in result.reason
 
 
@@ -215,7 +215,7 @@ class TestCategoryBased:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == True
+        assert result.should_show
 
     def test_non_eligible_category(self, engine):
         """括弧表示対象外カテゴリ"""
@@ -230,7 +230,7 @@ class TestCategoryBased:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == False
+        assert not result.should_show
         assert "対象外" in result.reason
 
 
@@ -253,7 +253,7 @@ class TestForceDisplay:
 
         result = engine.should_show_bracket(data)
 
-        assert result.should_show == True
+        assert result.should_show
         assert result.bracket_text == "強制表示グループ"
 
 
@@ -324,7 +324,7 @@ class TestValidation:
         text = "あなたと同じ31歳のとき、松本人志(ダウンタウン)は「ごっつええ感じ」で最高視聴率28.8％を記録した。"
         is_valid, duplications = engine.validate_no_word_duplication(text, "ダウンタウン", "松本人志")
 
-        assert is_valid == True
+        assert is_valid
         assert len(duplications) == 0
 
     def test_validate_duplication_detected(self, engine):
@@ -332,7 +332,7 @@ class TestValidation:
         text = "あなたと同じ31歳のとき、松本人志(ダウンタウン)はダウンタウンとして「ごっつええ感じ」で活躍した。"
         is_valid, duplications = engine.validate_no_word_duplication(text, "ダウンタウン", "松本人志")
 
-        assert is_valid == False
+        assert not is_valid
         assert len(duplications) > 0
 
     def test_validate_no_bracket_word(self, engine):
@@ -340,7 +340,7 @@ class TestValidation:
         text = "テストエピソード"
         is_valid, duplications = engine.validate_no_word_duplication(text, "", "テスト太郎")
 
-        assert is_valid == True
+        assert is_valid
 
 
 # ================================================================================
@@ -402,7 +402,7 @@ class TestIntegration:
 
         # 判定
         result = engine.should_show_bracket(data)
-        assert result.should_show == True
+        assert result.should_show
         assert result.formatted_name == "竈門炭治郎(鬼滅の刃)"
 
         # ワード除去
@@ -411,7 +411,7 @@ class TestIntegration:
 
         # 検証
         is_valid, _ = engine.validate_no_word_duplication(cleaned, "鬼滅の刃", "竈門炭治郎")
-        assert is_valid == True
+        assert is_valid
 
     def test_full_workflow_real_person(self, engine):
         """実在人物の全ワークフロー"""
@@ -426,7 +426,7 @@ class TestIntegration:
 
         # 判定
         result = engine.should_show_bracket(data)
-        assert result.should_show == True
+        assert result.should_show
 
         # エピソード生成（シミュレーション）
         episode_text = f"あなたと同じ30歳のとき、{result.formatted_name}は芥川賞を受賞した。"
@@ -436,7 +436,7 @@ class TestIntegration:
 
         # 検証
         is_valid, _ = engine.validate_no_word_duplication(cleaned, "ピース", "又吉直樹")
-        assert is_valid == True
+        assert is_valid
 
 
 if __name__ == "__main__":

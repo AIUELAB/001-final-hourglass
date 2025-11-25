@@ -104,7 +104,7 @@ echo "================================"
 check_var() {
     local var_name=$1
     local var_value="${!var_name}"
-    if [ -n "$var_value" ] && [ "$var_value" != "your_"* ]; then
+    if [[ -n "$var_value" && "$var_value" != "your_"* ]]; then
         echo -e "${GREEN}✅${NC} $var_name: 設定済み"
         return 0
     else

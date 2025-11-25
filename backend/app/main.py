@@ -577,6 +577,25 @@ async def dashboard_v3():
         raise HTTPException(status_code=404, detail="Dashboard v3 not found")
 
 
+@app.get("/v4")
+async def dashboard_v4():
+    """ダッシュボード v4 へのアクセス"""
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v4.html"
+
+    if html_path.exists():
+        return FileResponse(
+            html_path,
+            media_type="text/html",
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
+    else:
+        raise HTTPException(status_code=404, detail="Dashboard v4 not found")
+
+
 # ========================================
 # Phase 3: 分析エンドポイント
 # ========================================

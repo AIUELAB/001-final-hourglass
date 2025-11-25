@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Episode Count Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <h1>Episode Count Test</h1>
+    <div id="result"></div>
+
+    <script>
+        Papa.parse('/data/MASTER_EPISODES_CURRENT.csv', {
+            download: true,
+            header: true,
+            encoding: 'UTF-8',
+            skipEmptyLines: true,
+            complete: function(results) {
+                console.log('CSV Data:', results.data.slice(0, 5));
+
+                const resultDiv = document.getElementById('result');
+                let html = '<table border="1"><tr><th>Person Name</th><th>Episode Count</th></tr>';
+
+                results.data.slice(0, 10).forEach(row => {
+                    const episodeCount = parseFloat(row['episode_count']) || 1;
+                    html += `<tr><td>${row['person_name']}</td><td>${episodeCount}</td></tr>`;
+                });
+
+                html += '</table>';
+                resultDiv.innerHTML = html;
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = 'Error loading CSV: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,45 +1,41 @@
-"""
-データベース接続・操作モジュール
-
-SQLiteを使用したキャラクターデータベース管理
-"""
+"""データベース操作"""
 
 import sqlite3
-from typing import Optional
+import csv
+from typing import Optional, List, Tuple
 from pathlib import Path
-from app.models import Character
 
 
 class Database:
-    """データベース接続・操作クラス"""
+    """SQLiteデータベースクラス"""
 
-    def __init__(self, db_path: str = "database/characters.db"):
+    def __init__(self, db_path: str = None):
         """
-        データベース初期化
+        初期化
 
         Args:
             db_path: データベースファイルパス
         """
+        if db_path is None:
+            # backend/app から見た相対パス
+            db_path = str(Path(__file__).parent.parent / "characters.db")
         self.db_path = db_path
         self.conn: Optional[sqlite3.Connection] = None
 
     def connect(self):
         """データベース接続"""
-        # データベースディレクトリを作成
-        Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
-
         self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
-        print(f"✅ データベース接続成功: {self.db_path}")
+        print(f"✅ データベース接続: {self.db_path}")
 
     def disconnect(self):
         """データベース切断"""
         if self.conn:
             self.conn.close()
-            print("👋 データベース切断")
+            print("✅ データベース切断")
 
     def create_table(self):
-        """テーブル作成"""
+        """テーブル作成（既存の場合はスキップ）"""
         if not self.conn:
             raise RuntimeError("データベース未接続")
 
@@ -50,41 +46,27 @@ class Database:
                 character_name TEXT NOT NULL,
                 work_title TEXT NOT NULL,
                 genre TEXT NOT NULL,
-                episode_category TEXT NOT NULL,
-                episode_text TEXT NOT NULL
+                age_in_story TEXT NOT NULL,
+                key_episode TEXT NOT NULL,
+                detailed_achievements TEXT NOT NULL,
+                story_events TEXT NOT NULL,
+                growth_narrative TEXT NOT NULL,
+                wikipedia_url TEXT NOT NULL,
+                validation_status TEXT NOT NULL,
+                curator_notes TEXT NOT NULL
             )
         """)
-        self.conn.commit()
-        print("✅ テーブル作成/確認完了")
-
-    def insert_character(self, character: dict) -> int:
-        """
-        キャラクター挿入
-
-        Args:
-            character: キャラクターデータ（辞書）
-
-        Returns:
-            挿入されたキャラクターのID
-        """
-        if not self.conn:
-            raise RuntimeError("データベース未接続")
-
-        cursor = self.conn.cursor()
         cursor.execute("""
-            INSERT INTO characters (character_name, work_title, genre, episode_category, episode_text)
-            VALUES (?, ?, ?, ?, ?)
-        """, (
-            character['character_name'],
-            character['work_title'],
-            character['genre'],
-            character['episode_category'],
-            character['episode_text']
-        ))
+            CREATE INDEX IF NOT EXISTS idx_character_name
+            ON characters(character_name)
+        """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_genre
+            ON characters(genre)
+        """)
         self.conn.commit()
-        return cursor.lastrowid
 
-    def get_all_characters(self, page: int = 1, page_size: int = 20) -> tuple[list[Character], int]:
+    def get_all_characters(self, page: int = 1, page_size: int = 20) -> Tuple[List[dict], int]:
         """
         全キャラクター取得（ページネーション対応）
 
@@ -104,38 +86,25 @@ class Database:
         cursor.execute("SELECT COUNT(*) FROM characters")
         total = cursor.fetchone()[0]
 
-        # ページネーションクエリ
+        # ページネーション
         offset = (page - 1) * page_size
-        cursor.execute("""
-            SELECT * FROM characters
-            ORDER BY id
-            LIMIT ? OFFSET ?
-        """, (page_size, offset))
+        cursor.execute(
+            "SELECT * FROM characters ORDER BY id LIMIT ? OFFSET ?",
+            (page_size, offset)
+        )
 
-        rows = cursor.fetchall()
-        characters = [
-            Character(
-                id=row['id'],
-                character_name=row['character_name'],
-                work_title=row['work_title'],
-                genre=row['genre'],
-                episode_category=row['episode_category'],
-                episode_text=row['episode_text']
-            )
-            for row in rows
-        ]
-
+        characters = [dict(row) for row in cursor.fetchall()]
         return characters, total
 
-    def get_character_by_id(self, character_id: int) -> Optional[Character]:
+    def get_character_by_id(self, character_id: int) -> Optional[dict]:
         """
-        特定キャラクター取得
+        ID指定でキャラクター取得
 
         Args:
             character_id: キャラクターID
 
         Returns:
-            Characterオブジェクト、または None
+            キャラクター情報（存在しない場合はNone）
         """
         if not self.conn:
             raise RuntimeError("データベース未接続")
@@ -144,113 +113,61 @@ class Database:
         cursor.execute("SELECT * FROM characters WHERE id = ?", (character_id,))
         row = cursor.fetchone()
 
-        if not row:
-            return None
+        return dict(row) if row else None
 
-        return Character(
-            id=row['id'],
-            character_name=row['character_name'],
-            work_title=row['work_title'],
-            genre=row['genre'],
-            episode_category=row['episode_category'],
-            episode_text=row['episode_text']
-        )
-
-    def search_characters(self, query: str) -> list[Character]:
+    def search_characters(self, query: str) -> List[dict]:
         """
         キャラクター検索
 
         Args:
-            query: 検索クエリ（キャラクター名または作品名）
+            query: 検索クエリ
 
         Returns:
-            Characterオブジェクトのリスト
+            検索結果リスト
         """
         if not self.conn:
             raise RuntimeError("データベース未接続")
 
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT * FROM characters
             WHERE character_name LIKE ? OR work_title LIKE ?
             ORDER BY id
-        """, (f"%{query}%", f"%{query}%"))
+            """,
+            (f"%{query}%", f"%{query}%")
+        )
 
-        rows = cursor.fetchall()
-        return [
-            Character(
-                id=row['id'],
-                character_name=row['character_name'],
-                work_title=row['work_title'],
-                genre=row['genre'],
-                episode_category=row['episode_category'],
-                episode_text=row['episode_text']
-            )
-            for row in rows
-        ]
+        return [dict(row) for row in cursor.fetchall()]
 
-    def filter_characters(self, genre: Optional[str] = None, gender: Optional[str] = None) -> list[Character]:
+    def filter_characters(self, genre: Optional[str] = None, gender: Optional[str] = None) -> List[dict]:
         """
         キャラクターフィルタリング
 
         Args:
-            genre: ジャンル（完全一致）
-            gender: 性別（female/male）
+            genre: ジャンル
+            gender: 性別（未実装）
 
         Returns:
-            Characterオブジェクトのリスト
+            フィルタリング結果
         """
         if not self.conn:
             raise RuntimeError("データベース未接続")
 
         cursor = self.conn.cursor()
 
-        # 女性キャラクターリスト
-        female_characters = {
-            'フグ田サザエ', 'ナミ', 'ニコ・ロビン', '毛利蘭', '竈門禰豆子',
-            '胡蝶しのぶ', '浅倉南', '月野うさぎ', '綾波レイ',
-            '猪熊柔', '渚美都', '大林萬理子', '速水ヒロ', '恩田希', '猪野井香鈴',
-            '鹿目まどか', '暁美ほむら', '美墨なぎさ（キュアブラック）', '平沢唯', '涼宮ハルヒ',
-            '峰不二子', 'ナウシカ', '神楽', 'リナ・インバース',
-            '咲', '田所恵', '見崎鳴',
-            '春野サクラ', '灰原哀', 'アスナ（結城明日奈）'
-        }
-
-        query = "SELECT * FROM characters WHERE 1=1"
-        params = []
-
+        # ジャンルフィルタのみ実装（性別情報が DB にないため）
         if genre:
-            query += " AND genre = ?"
-            params.append(genre)
-
-        if gender:
-            if gender == "female":
-                placeholders = ','.join('?' for _ in female_characters)
-                query += f" AND character_name IN ({placeholders})"
-                params.extend(female_characters)
-            elif gender == "male":
-                placeholders = ','.join('?' for _ in female_characters)
-                query += f" AND character_name NOT IN ({placeholders})"
-                params.extend(female_characters)
-
-        query += " ORDER BY id"
-
-        cursor.execute(query, params)
-        rows = cursor.fetchall()
-
-        return [
-            Character(
-                id=row['id'],
-                character_name=row['character_name'],
-                work_title=row['work_title'],
-                genre=row['genre'],
-                episode_category=row['episode_category'],
-                episode_text=row['episode_text']
+            cursor.execute(
+                "SELECT * FROM characters WHERE genre = ? ORDER BY id",
+                (genre,)
             )
-            for row in rows
-        ]
+        else:
+            cursor.execute("SELECT * FROM characters ORDER BY id")
 
-    def get_genre_stats(self) -> list[dict]:
+        return [dict(row) for row in cursor.fetchall()]
+
+    def get_genre_stats(self) -> List[dict]:
         """
         ジャンル統計取得
 
@@ -271,15 +188,232 @@ class Database:
             ORDER BY count DESC
         """)
 
-        rows = cursor.fetchall()
-        return [
-            {
-                'genre': row['genre'],
-                'count': row['count'],
-                'percentage': row['percentage']
-            }
-            for row in rows
-        ]
+        return [dict(row) for row in cursor.fetchall()]
+
+    def get_episode_category_stats(self) -> List[dict]:
+        """
+        エピソードカテゴリ統計取得（ジャンルの詳細分析）
+
+        Returns:
+            カテゴリごとの統計リスト
+        """
+        if not self.conn:
+            raise RuntimeError("データベース未接続")
+
+        cursor = self.conn.cursor()
+        # 現在のデータベースにはepisode_categoryがないため、genreの上位カテゴリを抽出
+        cursor.execute("""
+            SELECT
+                CASE
+                    WHEN genre LIKE '%政治%' THEN '政治・行政'
+                    WHEN genre LIKE '%科学%' OR genre LIKE '%技術%' THEN '科学・技術'
+                    WHEN genre LIKE '%芸術%' OR genre LIKE '%音楽%' OR genre LIKE '%文学%' THEN '芸術・文化'
+                    WHEN genre LIKE '%スポーツ%' THEN 'スポーツ'
+                    WHEN genre LIKE '%漫画%' OR genre LIKE '%アニメ%' THEN '漫画・アニメ'
+                    WHEN genre LIKE '%ビジネス%' OR genre LIKE '%経営%' THEN 'ビジネス'
+                    ELSE 'その他'
+                END as category,
+                COUNT(*) as count,
+                ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM characters), 1) as percentage
+            FROM characters
+            GROUP BY category
+            ORDER BY count DESC
+        """)
+
+        return [dict(row) for row in cursor.fetchall()]
+
+    def get_work_stats(self, limit: int = 20) -> List[dict]:
+        """
+        作品統計取得（上位N件）
+
+        Args:
+            limit: 取得件数
+
+        Returns:
+            作品ごとの統計リスト
+        """
+        if not self.conn:
+            raise RuntimeError("データベース未接続")
+
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT
+                work_title,
+                COUNT(*) as count,
+                ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM characters WHERE work_title != ''), 1) as percentage
+            FROM characters
+            WHERE work_title != ''
+            GROUP BY work_title
+            ORDER BY count DESC
+            LIMIT ?
+        """, (limit,))
+
+        return [dict(row) for row in cursor.fetchall()]
+
+    def insert_character(self, data: dict):
+        """
+        キャラクター挿入
+
+        Args:
+            data: キャラクターデータ
+        """
+        if not self.conn:
+            raise RuntimeError("データベース未接続")
+
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            INSERT INTO characters (
+                character_name, work_title, genre, age_in_story,
+                key_episode, detailed_achievements, story_events,
+                growth_narrative, wikipedia_url, validation_status, curator_notes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            data.get('character_name', ''),
+            data.get('work_title', ''),
+            data.get('genre', ''),
+            data.get('age_in_story', ''),
+            data.get('key_episode', ''),
+            data.get('detailed_achievements', ''),
+            data.get('story_events', ''),
+            data.get('growth_narrative', ''),
+            data.get('wikipedia_url', ''),
+            data.get('validation_status', 'PENDING'),
+            data.get('curator_notes', ''),
+        ))
+        self.conn.commit()
+
+    def get_fame_ranking(self, limit: int = 100, order_by: str = 'fame_score') -> Tuple[List[dict], int]:
+        """
+        有名度ランキング取得（CSVから直接読み取り）
+
+        Args:
+            limit: 取得件数
+            order_by: ソートフィールド ('fame_score', 'composite_score')
+
+        Returns:
+            (ランキングリスト, 総件数)
+        """
+        # CSVファイルパス
+        csv_path = Path(__file__).parent.parent.parent / "MASTER_EPISODES_CURRENT.csv"
+
+        rankings = []
+        row_id = 0
+
+        try:
+            with open(csv_path, 'r', encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f)
+
+                for row in reader:
+                    # fame_scoreが存在し、空でない場合のみ追加
+                    fame_score = row.get('fame_score', '')
+                    if fame_score and fame_score.isdigit():
+                        row_id += 1
+
+                        # Phase 1: 3軸スコアの読み込み（float変換、空の場合はNone）
+                        memorability_score = None
+                        empathy_score = None
+                        surprise_score = None
+
+                        try:
+                            mem_str = row.get('記憶性スコア', '').strip()
+                            if mem_str:
+                                memorability_score = float(mem_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            emp_str = row.get('共感性スコア', '').strip()
+                            if emp_str:
+                                empathy_score = float(emp_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            sur_str = row.get('意外性スコア', '').strip()
+                            if sur_str:
+                                surprise_score = float(sur_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        # Phase 2: 4軸スコアの読み込み（float変換、空の場合はNone）
+                        generation_quality_score = None
+                        educational_value = None
+                        storytelling_quality = None
+                        factual_density = None
+
+                        try:
+                            gen_str = row.get('生成品質スコア', '').strip()
+                            if gen_str:
+                                generation_quality_score = float(gen_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            edu_str = row.get('教育的価値', '').strip()
+                            if edu_str:
+                                educational_value = float(edu_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            story_str = row.get('ストーリー品質', '').strip()
+                            if story_str:
+                                storytelling_quality = float(story_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        try:
+                            fact_str = row.get('事実密度', '').strip()
+                            if fact_str:
+                                factual_density = float(fact_str)
+                        except (ValueError, AttributeError):
+                            pass
+
+                        rankings.append({
+                            'id': row_id,
+                            'person_name': row.get('person_name', ''),
+                            'fame_tier': int(row.get('fame_tier', 0)),
+                            'fame_score': int(fame_score),
+                            'composite_score': int(row.get('composite_score', 0)) if row.get('composite_score', '').isdigit() else 0,
+                            'wikipedia_ja': row.get('wikipedia_ja', '').upper() == 'TRUE',
+                            'textbook': row.get('textbook', '').upper() == 'TRUE',
+                            'award_level': int(row.get('award_level', 0)),
+                            'notoriety': row.get('notoriety', '').upper() == 'TRUE',
+                            'last_updated': row.get('fame_score_updated_at', ''),
+                            'category': row.get('category', ''),
+                            'person_type': row.get('person_type', ''),
+                            'quality_score': float(row.get('quality_score', 0) or 0),
+                            # Phase 1: 3軸評価カラム
+                            'milestone_tags': row.get('人生の節目タグ', ''),
+                            'memorability_score': memorability_score,
+                            'empathy_score': empathy_score,
+                            'surprise_score': surprise_score,
+                            # Phase 2: 4軸評価カラム
+                            'generation_quality_score': generation_quality_score,
+                            'educational_value': educational_value,
+                            'storytelling_quality': storytelling_quality,
+                            'factual_density': factual_density
+                        })
+
+            # ソート
+            if order_by == 'composite_score':
+                rankings.sort(key=lambda x: x['composite_score'], reverse=True)
+            else:
+                rankings.sort(key=lambda x: x['fame_score'], reverse=True)
+
+            total = len(rankings)
+
+            # 上位N件取得
+            rankings = rankings[:limit]
+
+            return rankings, total
+
+        except FileNotFoundError:
+            print(f"❌ CSVファイルが見つかりません: {csv_path}")
+            return [], 0
+        except Exception as e:
+            print(f"❌ ランキング取得エラー: {e}")
+            return [], 0
 
 
 # グローバルインスタンス

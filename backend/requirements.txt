@@ -13,6 +13,10 @@ pydantic-settings>=2.5.2
 # CORS
 python-multipart>=0.0.9
 
+# Authentication & Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
 # Environment Variables
 python-dotenv>=1.0.0
 

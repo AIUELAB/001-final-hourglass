@@ -1,73 +1,102 @@
-"""
-CSV インポートユーティリティ
-
-MASTER_EPISODES_CURRENT.csv からデータベースへのインポート
-"""
+"""CSVデータローダー"""
 
 import csv
+import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
+from datetime import datetime
 
 
 def get_default_csv_path() -> Path:
-    """
-    デフォルトのCSVパスを取得
-
-    Returns:
-        CSVファイルのパス
-    """
-    # バックエンドディレクトリから実行される場合を考慮
-    csv_path = Path("MASTER_EPISODES_CURRENT.csv")
-    if not csv_path.exists():
-        csv_path = Path("../MASTER_EPISODES_CURRENT.csv")
-    if not csv_path.exists():
-        csv_path = Path("../../MASTER_EPISODES_CURRENT.csv")
+    """デフォルトCSVパスを取得"""
+    # プロジェクトルートからの相対パス
+    project_root = Path(__file__).parent.parent.parent.parent
+    csv_path = project_root / "MASTER_EPISODES_CURRENT.csv"
     return csv_path
 
 
-def import_csv_to_db(db, csv_path: str, limit: Optional[int] = None) -> int:
+def get_csv_modification_time(csv_path: str) -> float:
     """
-    CSVからデータベースへインポート
+    CSVファイルの最終更新時刻を取得
+
+    Args:
+        csv_path: CSVファイルパス
+
+    Returns:
+        UNIXタイムスタンプ（エポック秒）
+    """
+    try:
+        return os.path.getmtime(csv_path)
+    except OSError:
+        return 0
+
+
+def import_csv_to_db(db, csv_path: str, force: bool = False) -> int:
+    """
+    CSVファイルをデータベースにインポート
 
     Args:
         db: データベースインスタンス
         csv_path: CSVファイルパス
-        limit: インポート件数制限（Noneの場合は全件）
+        force: True の場合、既存データを削除して強制再インポート
 
     Returns:
-        インポートされた件数
+        インポート件数
     """
-    csv_path_obj = Path(csv_path)
+    # 既存データ確認
+    cursor = db.conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM characters")
+    existing_count = cursor.fetchone()[0]
 
-    if not csv_path_obj.exists():
-        print(f"⚠️  CSVファイルが見つかりません: {csv_path}")
+    if existing_count > 0 and not force:
+        print(f"⚠️  既存データあり ({existing_count}件) - インポートスキップ")
+        print("💡 強制再インポートする場合は force=True を指定してください")
         return 0
 
-    # 既存データの確認
-    characters, total = db.get_all_characters(page=1, page_size=1)
-    if total > 0:
-        print(f"ℹ️  既にデータが存在します（{total}件）。スキップします。")
-        return total
+    # 強制再インポートの場合は既存データを削除
+    if force and existing_count > 0:
+        print(f"🔄 既存データ削除中 ({existing_count}件)...")
+        cursor.execute("DELETE FROM characters")
+        db.conn.commit()
+        print("✅ 既存データ削除完了")
 
     count = 0
-    with open(csv_path, 'r', encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f)
 
-        for row in reader:
-            # CSVのカラム名に合わせてマッピング
-            character = {
-                'character_name': row.get('person_name', ''),
-                'work_title': row.get('work_title', ''),  # work_titleはそのまま
-                'genre': row.get('category', ''),  # categoryをgenreとして使用
-                'episode_category': row.get('episode_type', ''),  # episode_typeをepisode_categoryとして使用
-                'episode_text': row.get('episode_text', '')
-            }
+    try:
+        with open(csv_path, 'r', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f)
 
-            db.insert_character(character)
-            count += 1
+            for row in reader:
+                try:
+                    # person_nameがあるレコードのみ処理
+                    if not row.get('person_name'):
+                        continue
 
-            if limit and count >= limit:
-                break
+                    # データベースに挿入（既存スキーマに合わせる）
+                    db.insert_character({
+                        'character_name': row.get('person_name', ''),
+                        'work_title': row.get('work_title', '不明'),
+                        'genre': row.get('category', '未分類'),
+                        'age_in_story': str(int(float(row.get('age', 0)))) if row.get('age') else '不明',
+                        'key_episode': row.get('episode_text', '')[:500],  # 最初の500文字
+                        'detailed_achievements': row.get('episode_text', ''),
+                        'story_events': '',
+                        'growth_narrative': '',
+                        'wikipedia_url': '',
+                        'validation_status': row.get('fact_check_result', 'PENDING'),
+                        'curator_notes': f"Type: {row.get('person_type', 'REAL')}, Episode: {row.get('episode_type', '')}",
+                    })
+                    count += 1
+                except Exception as e:
+                    # 個別レコードのエラーはスキップ
+                    print(f"⚠️  レコードスキップ: {row.get('person_name', 'Unknown')} - {e}")
+                    continue
 
-    print(f"✅ {count}件のデータをインポートしました")
+    except FileNotFoundError:
+        print(f"❌ CSVファイルが見つかりません: {csv_path}")
+        return 0
+    except Exception as e:
+        print(f"❌ CSVインポートエラー: {e}")
+        return 0
+
     return count

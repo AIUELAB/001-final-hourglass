@@ -61,9 +61,7 @@ class GitHubMCPIntegration:
         """
         if config_file is None:
             # Auto-select configuration based on use_native flag
-            config_file = (
-                "github_mcp_config_native.json" if use_native else "github_mcp_config.json"
-            )
+            config_file = "github_mcp_config_native.json" if use_native else "github_mcp_config.json"
 
         self.config_file: str = config_file
         self.llm_provider: str = llm_provider
@@ -83,9 +81,7 @@ class GitHubMCPIntegration:
             # Ensure GitHub PAT is available
             github_pat = os.getenv("GITHUB_PAT")
             if not github_pat:
-                raise ValueError(
-                    "GITHUB_PAT environment variable not set. Please add it to your .env file."
-                )
+                raise ValueError("GITHUB_PAT environment variable not set. Please add it to your .env file.")
 
             # Set the PAT as an environment variable for the MCP server
             os.environ["GITHUB_PERSONAL_ACCESS_TOKEN"] = github_pat
@@ -112,9 +108,7 @@ class GitHubMCPIntegration:
             # Create agent with the client
             self.agent = MCPAgent(llm=self.llm, client=self.client, max_steps=max_steps)
 
-            logger.info(
-                f"GitHub MCP Integration initialized with {self.llm_provider} (Native: {self.use_native})"
-            )
+            logger.info(f"GitHub MCP Integration initialized with {self.llm_provider} (Native: {self.use_native})")
             console.print(
                 Panel.fit(
                     (
@@ -202,9 +196,7 @@ class GitHubMCPIntegration:
         result = await self.agent.run(prompt)
         return str(result)
 
-    async def create_issue(
-        self, owner: str, repo: str, title: str, body: str, labels: list[str] | None = None
-    ) -> str:
+    async def create_issue(self, owner: str, repo: str, title: str, body: str, labels: list[str] | None = None) -> str:
         """
         Create a new issue in a repository.
 
@@ -233,9 +225,7 @@ class GitHubMCPIntegration:
         result = await self.agent.run(prompt)
         return str(result)
 
-    async def search_code(
-        self, query: str, language: str | None = None, org: str | None = None
-    ) -> str:
+    async def search_code(self, query: str, language: str | None = None, org: str | None = None) -> str:
         """
         Search for code across GitHub.
 

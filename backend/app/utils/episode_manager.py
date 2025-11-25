@@ -7,12 +7,10 @@ import csv
 import hashlib
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
+
 from app.models import Episode, EpisodeCreate, EpisodeUpdate
-from app.utils.score_calculator import (
-    calculate_composite_score,
-    format_composite_score
-)
+from app.utils.score_calculator import calculate_composite_score, format_composite_score
 
 
 class EpisodeManager:
@@ -32,7 +30,7 @@ class EpisodeManager:
         if not self.csv_path.exists():
             raise FileNotFoundError(f"CSVファイルが見つかりません: {self.csv_path}")
 
-        with open(self.csv_path, 'r', encoding='utf-8-sig') as f:
+        with open(self.csv_path, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             self.episodes = [row for row in reader]
 
@@ -45,13 +43,14 @@ class EpisodeManager:
         fieldnames = list(self.episodes[0].keys())
 
         # バックアップ作成
-        backup_path = self.csv_path.with_suffix('.csv.backup')
+        backup_path = self.csv_path.with_suffix(".csv.backup")
         if self.csv_path.exists():
             import shutil
+
             shutil.copy(self.csv_path, backup_path)
 
         # CSVに書き込み
-        with open(self.csv_path, 'w', encoding='utf-8-sig', newline='') as f:
+        with open(self.csv_path, "w", encoding="utf-8-sig", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(self.episodes)
@@ -67,8 +66,8 @@ class EpisodeManager:
         """
         # 名前とタイムスタンプからハッシュ生成
         timestamp = datetime.now().isoformat()
-        hash_input = f"{person_name}{timestamp}".encode('utf-8')
-        hash_value = hashlib.md5(hash_input).hexdigest()[:7].upper()
+        hash_input = f"{person_name}{timestamp}".encode("utf-8")
+        hash_value = hashlib.md5(hash_input, usedforsecurity=False).hexdigest()[:7].upper()
         return f"P{hash_value}"
 
     # _calculate_composite_score は app.utils.score_calculator に移動済み
@@ -84,15 +83,12 @@ class EpisodeManager:
             エピソード、見つからない場合はNone
         """
         for ep in self.episodes:
-            if ep.get('person_id') == person_id:
+            if ep.get("person_id") == person_id:
                 return Episode(**ep)
         return None
 
     def list_episodes(
-        self,
-        page: int = 1,
-        page_size: int = 20,
-        filter_person_type: Optional[str] = None
+        self, page: int = 1, page_size: int = 20, filter_person_type: Optional[str] = None
     ) -> Tuple[List[Episode], int]:
         """エピソード一覧を取得
 
@@ -107,7 +103,7 @@ class EpisodeManager:
         # フィルタリング
         filtered = self.episodes
         if filter_person_type:
-            filtered = [ep for ep in filtered if ep.get('person_type') == filter_person_type]
+            filtered = [ep for ep in filtered if ep.get("person_type") == filter_person_type]
 
         total = len(filtered)
 
@@ -133,38 +129,42 @@ class EpisodeManager:
 
         # 既存のフィールド構造を維持しつつ新規エピソード作成
         new_episode = {
-            'person_id': person_id,
-            'person_name': episode_data.person_name,
-            'age': episode_data.age,
-            'episode_text': episode_data.episode_text,
-            'category': episode_data.category or '',
-            'episode_type': episode_data.episode_type or '',
-            'person_type': episode_data.person_type or 'REAL',
-            'work_title': episode_data.work_title or '',
-            'group_name': episode_data.group_name or '',
-            'is_group_member': str(episode_data.is_group_member) if episode_data.is_group_member is not None else '',
-            '人生の節目タグ': episode_data.milestone_tags or '',
-            '記憶性スコア': str(episode_data.memorability_score) if episode_data.memorability_score is not None else '',
-            '共感性スコア': str(episode_data.empathy_score) if episode_data.empathy_score is not None else '',
-            '意外性スコア': str(episode_data.surprise_score) if episode_data.surprise_score is not None else '',
-            '生成品質スコア': str(episode_data.generation_quality_score) if episode_data.generation_quality_score is not None else '',
-            '教育的価値': str(episode_data.educational_value) if episode_data.educational_value is not None else '',
-            'ストーリー品質': str(episode_data.storytelling_quality) if episode_data.storytelling_quality is not None else '',
-            '事実密度': str(episode_data.factual_density) if episode_data.factual_density is not None else '',
-            'generation_timestamp': datetime.now().isoformat(),
-            'char_count': str(len(episode_data.episode_text)),
+            "person_id": person_id,
+            "person_name": episode_data.person_name,
+            "age": episode_data.age,
+            "episode_text": episode_data.episode_text,
+            "category": episode_data.category or "",
+            "episode_type": episode_data.episode_type or "",
+            "person_type": episode_data.person_type or "REAL",
+            "work_title": episode_data.work_title or "",
+            "group_name": episode_data.group_name or "",
+            "is_group_member": str(episode_data.is_group_member) if episode_data.is_group_member is not None else "",
+            "人生の節目タグ": episode_data.milestone_tags or "",
+            "記憶性スコア": str(episode_data.memorability_score) if episode_data.memorability_score is not None else "",
+            "共感性スコア": str(episode_data.empathy_score) if episode_data.empathy_score is not None else "",
+            "意外性スコア": str(episode_data.surprise_score) if episode_data.surprise_score is not None else "",
+            "生成品質スコア": str(episode_data.generation_quality_score)
+            if episode_data.generation_quality_score is not None
+            else "",
+            "教育的価値": str(episode_data.educational_value) if episode_data.educational_value is not None else "",
+            "ストーリー品質": str(episode_data.storytelling_quality)
+            if episode_data.storytelling_quality is not None
+            else "",
+            "事実密度": str(episode_data.factual_density) if episode_data.factual_density is not None else "",
+            "generation_timestamp": datetime.now().isoformat(),
+            "char_count": str(len(episode_data.episode_text)),
         }
 
         # composite_scoreを計算（共通モジュール使用）
         composite = calculate_composite_score(new_episode)
-        new_episode['composite_score'] = format_composite_score(composite)
+        new_episode["composite_score"] = format_composite_score(composite)
 
         # 既存のエピソードから他のフィールドのデフォルト値を取得
         if self.episodes:
             template = self.episodes[0]
             for key in template.keys():
                 if key not in new_episode:
-                    new_episode[key] = ''
+                    new_episode[key] = ""
 
         # エピソードリストに追加
         self.episodes.append(new_episode)
@@ -185,26 +185,26 @@ class EpisodeManager:
             更新されたエピソード、見つからない場合はNone
         """
         for i, ep in enumerate(self.episodes):
-            if ep.get('person_id') == person_id:
+            if ep.get("person_id") == person_id:
                 # 提供されたフィールドのみ更新
                 update_dict = episode_data.model_dump(exclude_unset=True)
 
                 # スコアフィールドの日本語名マッピング
                 field_mapping = {
-                    'memorability_score': '記憶性スコア',
-                    'empathy_score': '共感性スコア',
-                    'surprise_score': '意外性スコア',
-                    'generation_quality_score': '生成品質スコア',
-                    'educational_value': '教育的価値',
-                    'storytelling_quality': 'ストーリー品質',
-                    'factual_density': '事実密度',
-                    'milestone_tags': '人生の節目タグ'
+                    "memorability_score": "記憶性スコア",
+                    "empathy_score": "共感性スコア",
+                    "surprise_score": "意外性スコア",
+                    "generation_quality_score": "生成品質スコア",
+                    "educational_value": "教育的価値",
+                    "storytelling_quality": "ストーリー品質",
+                    "factual_density": "事実密度",
+                    "milestone_tags": "人生の節目タグ",
                 }
 
                 for eng_name, jp_name in field_mapping.items():
                     if eng_name in update_dict:
                         value = update_dict[eng_name]
-                        ep[jp_name] = str(value) if value is not None else ''
+                        ep[jp_name] = str(value) if value is not None else ""
                         del update_dict[eng_name]
 
                 # 残りのフィールドを更新
@@ -213,12 +213,12 @@ class EpisodeManager:
                         ep[key] = value
 
                 # episode_textが更新された場合、char_countを再計算
-                if 'episode_text' in update_dict:
-                    ep['char_count'] = str(len(update_dict['episode_text']))
+                if "episode_text" in update_dict:
+                    ep["char_count"] = str(len(update_dict["episode_text"]))
 
                 # composite_scoreを再計算（共通モジュール使用）
                 composite = calculate_composite_score(ep)
-                ep['composite_score'] = format_composite_score(composite)
+                ep["composite_score"] = format_composite_score(composite)
 
                 # CSVに保存
                 self._save_episodes()
@@ -237,18 +237,13 @@ class EpisodeManager:
             削除成功の場合True
         """
         for i, ep in enumerate(self.episodes):
-            if ep.get('person_id') == person_id:
+            if ep.get("person_id") == person_id:
                 self.episodes.pop(i)
                 self._save_episodes()
                 return True
         return False
 
-    def search_episodes(
-        self,
-        query: str,
-        page: int = 1,
-        page_size: int = 20
-    ) -> Tuple[List[Episode], int]:
+    def search_episodes(self, query: str, page: int = 1, page_size: int = 20) -> Tuple[List[Episode], int]:
         """エピソードを検索
 
         Args:
@@ -261,9 +256,9 @@ class EpisodeManager:
         """
         query_lower = query.lower()
         filtered = [
-            ep for ep in self.episodes
-            if query_lower in ep.get('person_name', '').lower() or
-               query_lower in ep.get('episode_text', '').lower()
+            ep
+            for ep in self.episodes
+            if query_lower in ep.get("person_name", "").lower() or query_lower in ep.get("episode_text", "").lower()
         ]
 
         total = len(filtered)

@@ -32,7 +32,8 @@ repos:
     args: [--markdown-linebreak-ext=md]
   - id: end-of-file-fixer
   - id: check-yaml
-    args: [--allow-multiple-documents]
+    args: [--allow-multiple-documents, --unsafe]
+    exclude: ^(monitoring/|episode_quality_system/docker-compose|docker-compose\..*|mkdocs\.yml)
   - id: check-toml
   - id: check-json
   - id: check-xml

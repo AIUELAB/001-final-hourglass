@@ -301,11 +301,30 @@ EMPATHY_KEYWORDS = {
     'relation': ['家族', '母', '父', '子供', '友人', '恩師', '仲間', '愛']
 }
 
-# 意外性に関連するキーワード
+# 意外性に関連するキーワード（拡張版）
 SURPRISE_KEYWORDS = {
-    'twist': ['実は', '意外にも', '驚くべきことに', '誰も知らない', '秘密', '真実'],
-    'contrast': ['一方で', 'しかし', '逆に', '反面', '裏では'],
-    'unexpected': ['偶然', '予想外', '思いがけず', '突然', '奇跡的']
+    'twist': [
+        '実は', '意外にも', '驚くべきことに', '誰も知らない', '秘密', '真実',
+        '知られざる', '隠された', '裏側', '本当は', '実際には', '明かされた'
+    ],
+    'contrast': [
+        '一方で', 'しかし', '逆に', '反面', '裏では', 'ところが',
+        'にもかかわらず', 'それでも', '皮肉にも', '対照的に', '反して', '違って'
+    ],
+    'unexpected': [
+        '偶然', '予想外', '思いがけず', '突然', '奇跡的', '異例',
+        '破天荒', '型破り', '常識を覆す', '前例のない', '画期的', '革新的',
+        '異色', '独自', 'ユニーク', '唯一', '珍しい', '稀有', '特異'
+    ],
+    'achievement_twist': [
+        '最年少', '最年長', '史上初', '女性初', '日本人初', '世界初',
+        '前人未到', '不可能を可能に', '常識を破る', '逆転', '大逆転',
+        '番狂わせ', '下剋上', '奇跡の', 'ドラマチック'
+    ],
+    'origin_twist': [
+        '元々', '当初', '最初は', 'かつては', '以前は', '本来',
+        '全く違う', '想像もしなかった', '夢にも思わなかった', '偶然の発見'
+    ]
 }
 
 # 教育的価値に関連するキーワード
@@ -430,13 +449,15 @@ def calculate_empathy_score(episode_data: Dict) -> float:
 
 def calculate_surprise_score(episode_data: Dict) -> float:
     """
-    意外性スコアを計算
+    意外性スコアを計算（改善版）
 
     評価基準:
     - 意外な展開を示すキーワード
     - 対比・コントラストの存在
     - 予想外の要素
-    - カテゴリとの不一致（異分野での活動など）
+    - 達成・起源に関するツイスト
+    - 年齢とエピソードタイプの組み合わせ
+    - カテゴリの意外性
 
     Args:
         episode_data: エピソードデータ
@@ -444,43 +465,82 @@ def calculate_surprise_score(episode_data: Dict) -> float:
     Returns:
         意外性スコア（1.0-10.0）
     """
-    score = 5.0  # ベーススコア
+    score = 4.5  # ベーススコア（分散を広げるため下方修正）
     episode_text = str(episode_data.get('episode_text', ''))
+    episode_type = episode_data.get('episode_type', '')
+    category = episode_data.get('category', '')
 
     # 1. ツイストキーワード (+2.0)
     twist_count = sum(
         1 for kw in SURPRISE_KEYWORDS['twist']
         if kw in episode_text
     )
-    score += min(twist_count * 0.7, 2.0)
+    score += min(twist_count * 0.6, 2.0)
 
     # 2. コントラストキーワード (+1.5)
     contrast_count = sum(
         1 for kw in SURPRISE_KEYWORDS['contrast']
         if kw in episode_text
     )
-    score += min(contrast_count * 0.5, 1.5)
+    score += min(contrast_count * 0.4, 1.5)
 
-    # 3. 予想外キーワード (+1.5)
+    # 3. 予想外キーワード (+2.0)
     unexpected_count = sum(
         1 for kw in SURPRISE_KEYWORDS['unexpected']
         if kw in episode_text
     )
-    score += min(unexpected_count * 0.5, 1.5)
+    score += min(unexpected_count * 0.4, 2.0)
 
-    # 4. 年齢とエピソードタイプの組み合わせ
+    # 4. 達成ツイストキーワード (+1.5)
+    achievement_twist_count = sum(
+        1 for kw in SURPRISE_KEYWORDS['achievement_twist']
+        if kw in episode_text
+    )
+    score += min(achievement_twist_count * 0.5, 1.5)
+
+    # 5. 起源ツイストキーワード (+1.0)
+    origin_twist_count = sum(
+        1 for kw in SURPRISE_KEYWORDS['origin_twist']
+        if kw in episode_text
+    )
+    score += min(origin_twist_count * 0.4, 1.0)
+
+    # 6. 年齢とエピソードタイプの組み合わせ (+1.2)
     try:
         age = float(episode_data.get('age', 0))
-        episode_type = episode_data.get('episode_type', '')
 
         # 若い年齢での大きな達成は意外性が高い
-        if age <= 25 and episode_type in ['ACHIEVEMENT', 'INNOVATION', 'FOUNDING']:
+        if age <= 20 and episode_type in ['ACHIEVEMENT', 'INNOVATION', 'FOUNDING']:
+            score += 1.2
+        elif age <= 25 and episode_type in ['ACHIEVEMENT', 'INNOVATION', 'FOUNDING']:
             score += 0.8
         # 高齢での挑戦も意外性が高い
-        elif age >= 60 and episode_type in ['CHALLENGE', 'GROWTH']:
+        elif age >= 70 and episode_type in ['CHALLENGE', 'GROWTH', 'COMEBACK']:
+            score += 1.0
+        elif age >= 60 and episode_type in ['CHALLENGE', 'GROWTH', 'COMEBACK']:
             score += 0.6
+        # 中年での転機
+        elif 40 <= age <= 55 and episode_type == 'TURNING_POINT':
+            score += 0.5
     except (ValueError, TypeError):
         pass
+
+    # 7. エピソードタイプによる補正 (+0.8)
+    surprising_types = ['COMEBACK', 'FAILURE', 'TURNING_POINT']
+    if episode_type in surprising_types:
+        score += 0.8
+
+    # 8. カテゴリの組み合わせによる意外性 (+0.5)
+    # 意外な組み合わせ（例：スポーツ選手が文学、科学者がエンターテイメント）
+    surprising_category_combos = [
+        ('スポーツ', ['文学', '芸術・文化', '音楽']),
+        ('科学・技術', ['エンターテイメント', '芸術・文化']),
+        ('ビジネス', ['芸術・文化', '探検・冒険']),
+    ]
+    # 人物のメインカテゴリと異なる分野での活動があれば加点
+    # （現時点では単純なカテゴリチェック）
+    if category in ['探検・冒険', '映画・演劇', 'アニメ・漫画・ゲーム']:
+        score += 0.5  # エンタメ系カテゴリは意外性を持ちやすい
 
     return round(min(10.0, max(1.0, score)), 1)
 

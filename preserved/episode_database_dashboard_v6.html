@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>エピソードメインデータベース v5 - 7カラムレイアウト対応</title>
+    <title>エピソードメインデータベース v6 - 統合ダッシュボード</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -1278,6 +1278,21 @@
     </script>
 
     <script>
+        // 安全な数値処理ヘルパー関数
+        function safeToFixed(value, decimals = 1) {
+            if (value === null || value === undefined || Number.isNaN(value)) {
+                return '-';
+            }
+            return value.toFixed(decimals);
+        }
+
+        function safeNum(value, defaultVal = 0) {
+            if (value === null || value === undefined || Number.isNaN(value)) {
+                return defaultVal;
+            }
+            return value;
+        }
+
         // ヒートマップデータ（JSONファイルから埋め込み）
         let heatmapData = null;
 
@@ -2062,23 +2077,49 @@
                             console.warn('⚠️ CSV解析時の警告:', results.errors);
                         }
 
+                        // BOM対応: カラム名からBOMを除去してマッピング
+                        const cleanRow = (row) => {
+                            const cleaned = {};
+                            for (const key in row) {
+                                // BOM (U+FEFF) を除去
+                                const cleanKey = key.replace(/^\uFEFF/, '').trim();
+                                cleaned[cleanKey] = row[key];
+                            }
+                            return cleaned;
+                        };
+
                         // データを整形
                         allEpisodes = results.data.map((row, index) => {
-                            const slotValue = row['slot'] || '';
-                            const slotNum = slotValue && !isNaN(parseInt(slotValue)) ? parseInt(slotValue) : null;
+                            // BOMを除去したクリーンな行データ
+                            const r = cleanRow(row);
+                            // 年代（旧slot）の処理 - 日本語ラベルをそのまま使用
+                            const nendaiValue = r['年代'] || r['slot'] || '';
+                            // 数値の場合は日本語ラベルに変換、すでにラベルの場合はそのまま
+                            const nendaiLabel = (() => {
+                                if (!nendaiValue || nendaiValue === '') return null;
+                                // すでに日本語ラベルの場合
+                                if (typeof nendaiValue === 'string' && nendaiValue.includes('代') || nendaiValue.includes('期') || nendaiValue.includes('歳')) {
+                                    return nendaiValue;
+                                }
+                                // 数値の場合はラベルに変換
+                                const num = parseFloat(nendaiValue);
+                                if (isNaN(num)) return nendaiValue;
+                                const labels = {1: '幼少期', 10: '10代', 20: '20代', 30: '30代', 40: '40代', 50: '50代', 60: '60歳以上'};
+                                return labels[num] || nendaiValue;
+                            })();
 
                             // categoryはCSVから直接使用（既に日本語で入っている）
-                            const categoryValue = row['category'] || 'その他';
+                            const categoryValue = r['category'] || 'その他';
 
                             // work_titleのクリーンアップ（タイムスタンプが入っている場合は除外）
-                            let workTitleValue = row['work_title'] || row['作品名'] || '';
+                            let workTitleValue = r['work_title'] || r['作品名'] || '';
                             // タイムスタンプの形式（YYYY-MM-DD HH:MM:SS）を検出して除外
                             if (workTitleValue && /^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(workTitleValue.trim())) {
                                 workTitleValue = '';
                             }
 
                             // person_typeの正規化
-                            const personTypeRaw = row['person_type'] || row['実在/架空'] || row['entity_type'] || '';
+                            const personTypeRaw = r['person_type'] || r['実在/架空'] || r['entity_type'] || '';
                             const personTypeUpper = personTypeRaw.toUpperCase();
                             const personType = personTypeUpper.includes('FICTIONAL') ? 'FICTIONAL' :
                                               personTypeUpper.includes('架空') ? 'FICTIONAL' : 'REAL';
@@ -2089,60 +2130,68 @@
                             }
 
                             // fame_scoreの処理（空文字の場合はnullにする）- parseFloatで小数点を保持
-                            const fameScoreValue = row["fame_score"] && row["fame_score"].trim() !== ''
-                                ? parseFloat(row["fame_score"]) : null;
-                            const episodeFameScoreValue = row['episode_fame_score'] && row['episode_fame_score'].trim() !== ''
-                                ? parseFloat(row['episode_fame_score']) : null;
+                            const fameScoreValue = r["fame_score"] && r["fame_score"].trim() !== ''
+                                ? parseFloat(r["fame_score"]) : null;
+                            const episodeFameScoreValue = r['episode_fame_score'] && r['episode_fame_score'].trim() !== ''
+                                ? parseFloat(r['episode_fame_score']) : null;
 
                             return {
                                 id: index + 1,
-                                episode_id: row['episode_id'] || '',
-                                person_id: row['person_id'] || '',
-                                person_name: row['人物名'] || row['person_name'] || '',
+                                episode_id: r['episode_id'] || '',
+                                person_id: r['person_id'] || '',
+                                person_name: r['人物名'] || r['person_name'] || '',
                                 age: (() => {
-                                    const ageStr = row['年齢'] || row['age'];
+                                    const ageStr = r['年齢'] || r['age'];
                                     if (!ageStr || ageStr === '' || ageStr === 'NaN') return null;
                                     const ageNum = parseFloat(ageStr);
                                     return Number.isNaN(ageNum) ? null : ageNum;
                                 })(),
-                                slot: slotNum,
+                                nendai: nendaiLabel,
                                 category: categoryValue,
-                                episode_text: row['エピソード'] || row['episode'] || row['episode_text'] || '',
+                                episode_text: r['エピソード'] || r['episode'] || r['episode_text'] || '',
                                 person_type: personType,
                                 work_title: workTitleValue,
-                                episode_count: parseFloat(row['episode_count']) || 1,
+                                episode_count: parseFloat(r['episode_count']) || 1,
                                 fame_score: fameScoreValue,
-                                fame_tier: parseInt(row["fame_tier"]) || 0,
+                                fame_tier: parseInt(r["fame_tier"]) || 0,
                                 episode_fame_score: episodeFameScoreValue,
-                                episode_fame_tier: parseInt(row['episode_fame_tier']) || 0,
+                                episode_fame_tier: parseInt(r['episode_fame_tier']) || 0,
                                 // 7軸スコア
-                                composite_score: parseFloat(row['composite_score']) || null,
+                                composite_score: parseFloat(r['composite_score']) || null,
                                 // 超総合スコア（有名人度 + エピ有名度 + 総合）
                                 super_total_score: (() => {
                                     const fame = fameScoreValue || 0;
                                     const episodeFame = episodeFameScoreValue || 0;
-                                    const composite = parseFloat(row['composite_score']) || 0;
+                                    const composite = parseFloat(r['composite_score']) || 0;
                                     return fame + episodeFame + composite;
                                 })(),
-                                memorability_score: parseFloat(row['記憶性スコア']) || null,
-                                empathy_score: parseFloat(row['共感性スコア']) || null,
-                                surprise_score: parseFloat(row['意外性スコア']) || null,
-                                generation_quality_score: parseFloat(row['生成品質スコア']) || null,
-                                educational_value: parseFloat(row['教育的価値']) || null,
-                                storytelling_quality: parseFloat(row['ストーリー品質']) || null,
-                                factual_density: parseFloat(row['事実密度']) || null
+                                memorability_score: parseFloat(r['記憶性スコア']) || null,
+                                empathy_score: parseFloat(r['共感性スコア']) || null,
+                                surprise_score: parseFloat(r['意外性スコア']) || null,
+                                generation_quality_score: parseFloat(r['生成品質スコア']) || null,
+                                educational_value: parseFloat(r['教育的価値']) || null,
+                                storytelling_quality: parseFloat(r['ストーリー品質']) || null,
+                                factual_density: parseFloat(r['事実密度']) || null
                             };
                         }).filter(ep => ep.person_name && ep.episode_text);
 
                         console.log(`✅ ${allEpisodes.length}件のエピソードを読み込みました（CSV）`);
 
-                        // デバッグ: 最初の5件のデータを確認
+                        // デバッグ: 最初の3件のデータを詳細確認
                         console.log('🔍 データ確認（最初の3件）:');
                         allEpisodes.slice(0, 3).forEach((ep, i) => {
                             console.log(`  [${i+1}] person_name: "${ep.person_name}"`);
-                            console.log(`       age: ${ep.age}, episode_text: "${ep.episode_text.substring(0, 30)}..."`);
-                            console.log(`       fame_score: ${ep.fame_score}, fame_tier: ${ep.fame_tier}`);
+                            console.log(`       episode_id: "${ep.episode_id}", person_id: "${ep.person_id}"`);
+                            console.log(`       age: ${ep.age}, nendai: ${ep.nendai}, episode_count: ${ep.episode_count}`);
+                            console.log(`       fame_score: ${ep.fame_score}, episode_fame_score: ${ep.episode_fame_score}`);
+                            console.log(`       composite_score: ${ep.composite_score}`);
                         });
+                        // CSVヘッダー確認（BOMチェック）
+                        if (results.meta && results.meta.fields) {
+                            console.log('📋 CSVヘッダー:', results.meta.fields.slice(0, 10));
+                            const firstField = results.meta.fields[0];
+                            console.log(`📋 最初のフィールド: "${firstField}" (charCode: ${firstField.charCodeAt(0)})`);
+                        }
 
                         // 初期ソート表示
                         const initialSortTh = document.querySelector(`.sortable[data-sort="${currentSort.field}"]`);
@@ -2173,7 +2222,7 @@
                     id: i + 1,
                     person_name: `サンプル人物${i + 1}`,
                     age: 14 + Math.floor(Math.random() * 62),
-                    slot: Math.floor(Math.random() * 13),
+                    nendai: ['幼少期', '10代', '20代', '30代', '40代', '50代', '60歳以上'][Math.floor(Math.random() * 7)],
                     category: categories[Math.floor(Math.random() * categories.length)],
                     episode_text: `これはサンプルエピソードです。${i + 1}番目のエピソードとして表示されています。実際のデータが読み込まれると、ここに実在人物や架空キャラクターの具体的なエピソードが表示されます。`,
                     entity_type: Math.random() > 0.9 ? 'fictional' : 'real',
@@ -2306,9 +2355,11 @@
                         valA = a.age;
                         valB = b.age;
                         break;
-                    case 'slot':
-                        valA = a.slot !== null ? a.slot : 9999;
-                        valB = b.slot !== null ? b.slot : 9999;
+                    case 'nendai':
+                        // 年代のソート用に数値化
+                        const nendaiOrder = {'幼少期': 1, '10代': 10, '20代': 20, '30代': 30, '40代': 40, '50代': 50, '60歳以上': 60};
+                        valA = a.nendai ? (nendaiOrder[a.nendai] || 9999) : 9999;
+                        valB = b.nendai ? (nendaiOrder[b.nendai] || 9999) : 9999;
                         break;
                     case 'person':
                         valA = a.person_name;
@@ -2386,6 +2437,22 @@
             const endIndex = startIndex + itemsPerPage;
             const pageEpisodes = filteredEpisodes.slice(startIndex, endIndex);
 
+            // 🔍 デバッグ: レンダリング時のデータ確認
+            console.log('🎨 renderEpisodeTable呼び出し');
+            console.log(`   filteredEpisodes数: ${filteredEpisodes.length}`);
+            console.log(`   pageEpisodes数: ${pageEpisodes.length}`);
+            if (pageEpisodes.length > 0) {
+                const first = pageEpisodes[0];
+                console.log('   最初のエピソード:', JSON.stringify({
+                    episode_id: first.episode_id,
+                    person_id: first.person_id,
+                    person_name: first.person_name,
+                    nendai: first.nendai,
+                    age: first.age,
+                    fame_score: first.fame_score
+                }, null, 2));
+            }
+
             // 結果件数表示
             const resultCount = document.getElementById('result-count');
             resultCount.textContent = `全 ${filteredEpisodes.length.toLocaleString()} 件`;
@@ -2435,8 +2502,8 @@
                                         <span class="badge badge-age">${ep.age}歳</span>
                                     </div>
                                     <div class="id-row">
-                                        <span class="basic-label sortable-label" data-sort="slot">スロット <span class="sort-icon">⬍</span></span>
-                                        <span class="badge badge-slot">${ep.slot !== null ? '第' + ep.slot + '日' : '-'}</span>
+                                        <span class="basic-label sortable-label" data-sort="nendai">年代 <span class="sort-icon">⬍</span></span>
+                                        <span class="badge badge-slot">${ep.nendai || '-'}</span>
                                     </div>
                                     <div class="id-row">
                                         <span class="basic-label sortable-label" data-sort="episode_count">エピ数 <span class="sort-icon">⬍</span></span>

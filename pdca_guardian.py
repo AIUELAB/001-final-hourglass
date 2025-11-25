@@ -140,6 +140,9 @@ class ViolationType(Enum):
     UNCLEAR_SIGNIFICANCE = "意味付け不明確"
     AGE_OVER_VALUE = "年齢優先による価値低下"
     RIGID_AGE_SELECTION = "年齢選択の硬直性"
+    # EPUP: メタ的説明検出ルール
+    META_EXPLANATION_DETECTED = "メタ的説明検出"
+    FICTIONAL_EPISODE_QUALITY_FAILURE = "架空エピソード品質不良"
     NO_COMPARISON_EVALUATION = "複数候補の比較不足"
     # RULE_151-152: 文字数・文末ルール (v5.1)
     EPISODE_LENGTH_VIOLATION = "文字数制限違反"
@@ -1771,19 +1774,22 @@ if "credit balance" in error_str:
 
     # ========== エピソード品質チェック ==========
 
-    def check_episode_quality(self, episode_text: str, age: int, person_name_display: str, person_data: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+    def check_episode_quality(self, episode_text: str, age: int, person_name_display: str, person_data: Optional[Dict[str, Any]] = None, person_type: str = "REAL") -> List[Dict[str, Any]]:
         """
-        エピソードの品質をチェック - エピソード品質ルールv3.1対応
+        エピソードの品質をチェック - エピソード品質ルールv3.1対応 + EPUP対応
 
         超高品質エピソードのルール:
         1. 内容の重複を避ける - 「あなたと同じX歳のとき、○○は」の後に年齢・名前を含めない
         2. 抽象的内容にならないようにする - 具体的な記録、事件、偉業等を含める
         3. ユーザーが感銘を受けるような内容 - 面白くセンセーショナルな要素
+        4. EPUP: 架空キャラクターはメタ的説明を含まない
 
         Args:
             episode_text: エピソード本文
             age: 年齢
             person_name_display: 人物表示名
+            person_data: 人物データ
+            person_type: 人物タイプ（REAL/FICTIONAL）- EPUP対応
 
         Returns:
             違反リスト
@@ -1845,6 +1851,10 @@ if "credit balance" in error_str:
 
         # 3. 感動・感銘要素チェック
         violations.extend(self._check_emotional_impact(episode_text))
+
+        # EPUP: 架空キャラクターのメタ説明チェック
+        if person_type == "FICTIONAL":
+            violations.extend(self._check_fictional_meta_explanation(episode_text, person_name_display))
 
         # 4. 長さチェック
         violations.extend(self._check_episode_length(episode_text, age, person_name_display))
@@ -1986,6 +1996,50 @@ if "credit balance" in error_str:
                 'message': "感動や感銘を与える要素が含まれていません",
                 'severity': 'medium'
             })
+        return violations
+
+    def _check_fictional_meta_explanation(self, episode_text: str, person_name_display: str) -> List[Dict[str, Any]]:
+        """
+        EPUP: 架空キャラクターのメタ的説明チェック
+
+        架空キャラクターのエピソードに「架空のキャラクターであり」等の
+        メタ的説明が含まれていないかをチェックする
+
+        Args:
+            episode_text: エピソード本文
+            person_name_display: 人物表示名
+
+        Returns:
+            違反リスト
+        """
+        violations: List[Dict[str, Any]] = []
+
+        # メタ的説明パターン（template_blockerと同期）
+        meta_patterns = [
+            (r'は架空の(キャラクター|人物|存在)であり', "存在否定"),
+            (r'実在(しない|の人物ではない)', "存在否定"),
+            (r'エピソード(は|が)存在しません', "エピソード否定"),
+            (r'公式(な|の)?描写は.*存在しない', "公式描写否定"),
+            (r'実際の.*エピソード.*存在しません', "実際エピソード否定"),
+            (r'申し訳ございませんが', "生成拒否"),
+            (r'生成することは(できません|適切ではありません)', "生成拒否"),
+            (r'別の.*人物.*でしたら', "代替提案"),
+            (r'年齢を重ね(たり|ること).*ない', "年齢メタ"),
+            (r'設定上は', "設定メタ"),
+            (r'フィクション(である|として)', "フィクションメタ"),
+            (r'架空.*ため', "架空メタ"),
+        ]
+
+        for pattern, pattern_type in meta_patterns:
+            if re.search(pattern, episode_text):
+                violations.append({
+                    'rule_id': 'EPUP_META_001',
+                    'type': ViolationType.META_EXPLANATION_DETECTED.value,
+                    'message': f'{person_name_display}: メタ的説明が検出されました（{pattern_type}）。作品世界内の視点で記述してください。',
+                    'severity': 'critical',
+                    'suggestion': '架空キャラクターは作品内の存在として扱い、メタ的言及は禁止です'
+                })
+
         return violations
 
     def _check_episode_length(self, episode_text: str, age: int, person_name_display: str) -> List[Dict[str, Any]]:

@@ -48,12 +48,12 @@ jobs:
 
       - name: Run Ruff format check
         run: |
-          ruff format --check .
+          ruff format --check . --exclude "*/_archived/*"
         continue-on-error: false
 
       - name: Run Ruff lint
         run: |
-          ruff check .
+          ruff check . --exclude "*/_archived/*"
         continue-on-error: false
 
       - name: Run mypy type checking

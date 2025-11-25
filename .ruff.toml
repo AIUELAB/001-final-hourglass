@@ -31,7 +31,8 @@ ignore = [
   "E741",  # ambiguous variable name
   "F401",  # imported but unused
   "F821",  # undefined name (dynamic imports in scripts)
-  "F841"  # local variable assigned but never used
+  "F841",  # local variable assigned but never used
+  "I001"  # import sorting (causes conflicts between local and CI ruff versions)
 ]
 # エラーの選択
 select = [

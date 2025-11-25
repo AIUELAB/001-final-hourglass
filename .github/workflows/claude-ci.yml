@@ -1,16 +1,20 @@
 name: Claude Code CI/CD
+# NOTE: This workflow is disabled because @anthropic/claude-cli package does not exist on npm.
+# The official Claude Code CLI is not available as a public npm package.
+# Enable manually via workflow_dispatch when a valid CLI becomes available.
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
       claude_command:
         description: "Claude Code command to execute"
         required: false
         default: "review code and suggest improvements"
+      enable_claude:
+        description: "Enable Claude CLI steps (requires valid CLI)"
+        type: boolean
+        required: false
+        default: false
 
 env:
   PYTHON_VERSION: "3.11"
@@ -51,8 +55,9 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Claude Code
-        run: npm install -g @anthropic/claude-cli
+      # NOTE: @anthropic/claude-cli does not exist on npm - step disabled
+      # - name: Install Claude Code
+      #   run: npm install -g @anthropic/claude-cli
 
       - name: Run linting
         run: |
@@ -85,8 +90,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install Claude Code
-        run: npm install -g @anthropic/claude-cli
+      # NOTE: @anthropic/claude-cli does not exist on npm - step disabled
+      # - name: Install Claude Code
+      #   run: npm install -g @anthropic/claude-cli
 
       - name: Get changed files
         id: changed-files
@@ -141,7 +147,8 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          npm install -g @anthropic/claude-cli
+          # NOTE: @anthropic/claude-cli does not exist on npm - step disabled
+          # npm install -g @anthropic/claude-cli
 
       - name: Run Claude Command
         env:

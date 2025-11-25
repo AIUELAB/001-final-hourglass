@@ -65,11 +65,11 @@ repos:
       # Ruff linter (自動修正付き)
   - id: ruff
     args: [--fix, --exit-non-zero-on-fix]
-    files: ^(src/|tests/|scripts/).*\.py$
+    files: ^(src/|backend/|tests/|scripts/).*\.py$
 
       # Ruff formatter
   - id: ruff-format
-    files: ^(src/|tests/|scripts/).*\.py$
+    files: ^(src/|backend/|tests/|scripts/).*\.py$
 
   # ============================================
   # 型チェック (mypy)
@@ -93,7 +93,7 @@ repos:
   rev: 1.7.9
   hooks:
   - id: bandit
-    args: [-ll, -r, src/]
+    args: [-ll, -r, src/, backend/]
     exclude: tests/
 
   # ============================================
@@ -120,7 +120,6 @@ repos:
 - repo: https://github.com/python-jsonschema/check-jsonschema
   rev: 0.29.1
   hooks:
-  - id: check-github-actions
   - id: check-github-workflows
 
   # ============================================

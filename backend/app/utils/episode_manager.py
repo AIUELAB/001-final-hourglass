@@ -9,6 +9,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple
 from app.models import Episode, EpisodeCreate, EpisodeUpdate
+from app.utils.score_calculator import (
+    calculate_composite_score,
+    format_composite_score
+)
 
 
 class EpisodeManager:
@@ -67,34 +71,8 @@ class EpisodeManager:
         hash_value = hashlib.md5(hash_input).hexdigest()[:7].upper()
         return f"P{hash_value}"
 
-    def _calculate_composite_score(self, episode_data: Dict) -> Optional[float]:
-        """総合スコアを計算
-
-        7軸スコアの平均値を算出
-
-        Args:
-            episode_data: エピソードデータ
-
-        Returns:
-            総合スコア（7軸平均）
-        """
-        score_fields = [
-            '記憶性スコア', '共感性スコア', '意外性スコア',
-            '生成品質スコア', '教育的価値', 'ストーリー品質', '事実密度'
-        ]
-
-        scores = []
-        for field in score_fields:
-            value = episode_data.get(field)
-            if value and value != '':
-                try:
-                    scores.append(float(value))
-                except (ValueError, TypeError):
-                    pass
-
-        if scores:
-            return sum(scores) / len(scores)
-        return None
+    # _calculate_composite_score は app.utils.score_calculator に移動済み
+    # 共通モジュールの calculate_composite_score() を使用
 
     def get_episode_by_id(self, person_id: str) -> Optional[Episode]:
         """IDでエピソードを取得
@@ -177,9 +155,9 @@ class EpisodeManager:
             'char_count': str(len(episode_data.episode_text)),
         }
 
-        # composite_scoreを計算
-        composite = self._calculate_composite_score(new_episode)
-        new_episode['composite_score'] = str(composite) if composite else ''
+        # composite_scoreを計算（共通モジュール使用）
+        composite = calculate_composite_score(new_episode)
+        new_episode['composite_score'] = format_composite_score(composite)
 
         # 既存のエピソードから他のフィールドのデフォルト値を取得
         if self.episodes:
@@ -238,9 +216,9 @@ class EpisodeManager:
                 if 'episode_text' in update_dict:
                     ep['char_count'] = str(len(update_dict['episode_text']))
 
-                # composite_scoreを再計算
-                composite = self._calculate_composite_score(ep)
-                ep['composite_score'] = str(composite) if composite else ''
+                # composite_scoreを再計算（共通モジュール使用）
+                composite = calculate_composite_score(ep)
+                ep['composite_score'] = format_composite_score(composite)
 
                 # CSVに保存
                 self._save_episodes()

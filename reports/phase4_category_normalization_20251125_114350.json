@@ -1,0 +1,156 @@
+{
+  "timestamp": "20251125_114350",
+  "phase": "Phase 4: カテゴリ正規化",
+  "summary": {
+    "before_category_count": 63,
+    "after_category_count": 17,
+    "categories_merged": 46,
+    "total_episodes": 1962
+  },
+  "category_distribution": {
+    "音楽": {
+      "count": 90,
+      "percentage": 4.6,
+      "avg_composite_score": 7.26,
+      "unique_persons": 87
+    },
+    "芸術・文化": {
+      "count": 267,
+      "percentage": 13.6,
+      "avg_composite_score": 7.32,
+      "unique_persons": 245
+    },
+    "スポーツ": {
+      "count": 324,
+      "percentage": 16.5,
+      "avg_composite_score": 7.39,
+      "unique_persons": 292
+    },
+    "科学・技術": {
+      "count": 222,
+      "percentage": 11.3,
+      "avg_composite_score": 7.54,
+      "unique_persons": 197
+    },
+    "学術・研究": {
+      "count": 110,
+      "percentage": 5.6,
+      "avg_composite_score": 7.2,
+      "unique_persons": 110
+    },
+    "ビジネス": {
+      "count": 242,
+      "percentage": 12.3,
+      "avg_composite_score": 7.31,
+      "unique_persons": 235
+    },
+    "その他": {
+      "count": 50,
+      "percentage": 2.5,
+      "avg_composite_score": 7.01,
+      "unique_persons": 50
+    },
+    "政治・社会": {
+      "count": 132,
+      "percentage": 6.7,
+      "avg_composite_score": 7.26,
+      "unique_persons": 131
+    },
+    "探検・冒険": {
+      "count": 49,
+      "percentage": 2.5,
+      "avg_composite_score": 7.4,
+      "unique_persons": 38
+    },
+    "文学": {
+      "count": 72,
+      "percentage": 3.7,
+      "avg_composite_score": 7.41,
+      "unique_persons": 61
+    },
+    "エンターテイメント": {
+      "count": 96,
+      "percentage": 4.9,
+      "avg_composite_score": 7.14,
+      "unique_persons": 93
+    },
+    "医学・健康": {
+      "count": 54,
+      "percentage": 2.8,
+      "avg_composite_score": 7.54,
+      "unique_persons": 43
+    },
+    "建築・デザイン": {
+      "count": 59,
+      "percentage": 3.0,
+      "avg_composite_score": 7.43,
+      "unique_persons": 29
+    },
+    "映画・演劇": {
+      "count": 61,
+      "percentage": 3.1,
+      "avg_composite_score": 7.48,
+      "unique_persons": 43
+    },
+    "アニメ・漫画・ゲーム": {
+      "count": 57,
+      "percentage": 2.9,
+      "avg_composite_score": 7.19,
+      "unique_persons": 49
+    },
+    "教育": {
+      "count": 47,
+      "percentage": 2.4,
+      "avg_composite_score": 7.59,
+      "unique_persons": 35
+    },
+    "歴史": {
+      "count": 30,
+      "percentage": 1.5,
+      "avg_composite_score": 7.42,
+      "unique_persons": 30
+    }
+  },
+  "quality_metrics": {
+    "avg_composite_score": 7.35,
+    "high_quality_count": 709,
+    "high_quality_percentage": 36.1
+  },
+  "seven_axis_stats": {
+    "記憶性スコア": {
+      "mean": 6.68,
+      "min": 5.0,
+      "max": 10.0
+    },
+    "共感性スコア": {
+      "mean": 6.99,
+      "min": 6.4,
+      "max": 10.0
+    },
+    "意外性スコア": {
+      "mean": 5.23,
+      "min": 5.0,
+      "max": 7.8
+    },
+    "生成品質スコア": {
+      "mean": 7.5,
+      "min": 3.9,
+      "max": 7.9
+    },
+    "教育的価値": {
+      "mean": 7.92,
+      "min": 7.0,
+      "max": 10.0
+    },
+    "ストーリー品質": {
+      "mean": 6.8,
+      "min": 4.6,
+      "max": 10.0
+    },
+    "事実密度": {
+      "mean": 6.77,
+      "min": 2.9,
+      "max": 10.0
+    }
+  }
+}

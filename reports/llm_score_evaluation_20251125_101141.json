@@ -1,0 +1,3957 @@
+{
+  "timestamp": "20251125_101141",
+  "sample_size": 50,
+  "success_count": 50,
+  "success_rate": 1.0,
+  "axis_analysis": {
+    "記憶性スコア": {
+      "mean_diff": 0.36,
+      "std_diff": 1.09,
+      "significant_count": 9,
+      "total": 50
+    },
+    "共感性スコア": {
+      "mean_diff": -0.08,
+      "std_diff": 1.16,
+      "significant_count": 5,
+      "total": 50
+    },
+    "意外性スコア": {
+      "mean_diff": 0.13,
+      "std_diff": 1.53,
+      "significant_count": 23,
+      "total": 50
+    },
+    "生成品質スコア": {
+      "mean_diff": -0.02,
+      "std_diff": 1.22,
+      "significant_count": 8,
+      "total": 50
+    },
+    "教育的価値": {
+      "mean_diff": -0.1,
+      "std_diff": 1.07,
+      "significant_count": 7,
+      "total": 50
+    },
+    "ストーリー品質": {
+      "mean_diff": -2.18,
+      "std_diff": 1.64,
+      "significant_count": 31,
+      "total": 50
+    },
+    "事実密度": {
+      "mean_diff": -0.98,
+      "std_diff": 1.54,
+      "significant_count": 17,
+      "total": 50
+    }
+  },
+  "usage_stats": {
+    "request_count": 50,
+    "total_tokens": 81946,
+    "estimated_cost_usd": 0.245838
+  },
+  "detailed_results": [
+    {
+      "episode_id": "EP-001,692",
+      "person_name": "石原裕次郎",
+      "category": "芸能",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 7.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.5,
+        "意外性スコア": 6.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "石原裕次郎の闘病は有名",
+        "共感性スコア": "病気と責任の葛藤",
+        "意外性スコア": "プロデュース業は既知",
+        "生成品質スコア": "洗練された表現",
+        "教育的価値": "リーダーシップ論",
+        "ストーリー品質": "闘病と育成の対比",
+        "事実密度": "年代と作品名あり"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 7.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,562",
+      "person_name": "堤康次郎",
+      "category": "鉄道・不動産",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 6.0,
+        "意外性スコア": 7.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 6.5,
+        "事実密度": 6.0
+      },
+      "reasoning": {
+        "記憶性スコア": "西武グループ創業史",
+        "共感性スコア": "逆境投資は特殊",
+        "意外性スコア": "不況下での積極投資",
+        "生成品質スコア": "構成良く読みやすい",
+        "教育的価値": "先見性と決断力教訓",
+        "ストーリー品質": "説明的で平坦",
+        "事実密度": "時代背景中心で詳細少"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 7.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 6.0,
+          "difference": -1.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 7.0,
+          "difference": 2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 6.5,
+          "difference": -2.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 6.0,
+          "difference": -2.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-000,955",
+      "person_name": "IU",
+      "category": "音楽",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 5.5,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 4.9,
+        "教育的価値": 7.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 6.0,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 6.5,
+        "教育的価値": 5.5,
+        "ストーリー品質": 4.0,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "K-POP界の代表作",
+        "共感性スコア": "成長への憧れ",
+        "意外性スコア": "予想通りの成功談",
+        "生成品質スコア": "簡潔だが物足りない",
+        "教育的価値": "マルチタレント参考",
+        "ストーリー品質": "羅列的な記述",
+        "事実密度": "年齢・作品名・年代"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 5.5,
+          "llm": 7.5,
+          "difference": 2.0,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 6.0,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 4.9,
+          "llm": 6.5,
+          "difference": 1.6,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 7.0,
+          "llm": 5.5,
+          "difference": -1.5,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 4.0,
+          "difference": -4.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,529",
+      "person_name": "野口みずき",
+      "category": "マラソン",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 3.0,
+        "生成品質スコア": 6.0,
+        "教育的価値": 7.5,
+        "ストーリー品質": 7.0,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "五輪金メダル歴史的快挙",
+        "共感性スコア": "小柄でも頂点の感動",
+        "意外性スコア": "年齢誤りで代替内容",
+        "生成品質スコア": "誤り指摘後の修正文",
+        "教育的価値": "戦略的レース運びの学び",
+        "ストーリー品質": "レース展開が明確",
+        "事実密度": "年代・順位・差が具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.8,
+          "llm": 8.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 3.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 6.0,
+          "difference": -1.9,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 7.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 7.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.0,
+          "difference": -1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,370",
+      "person_name": "吉田沙保里",
+      "category": "ビジネス",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 7.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 3.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 2.0,
+        "生成品質スコア": 4.0,
+        "教育的価値": 3.0,
+        "ストーリー品質": 2.0,
+        "事実密度": 1.0
+      },
+      "reasoning": {
+        "記憶性スコア": "抽象的で印象薄い",
+        "共感性スコア": "転機体験は共感可能",
+        "意外性スコア": "予測可能な内容",
+        "生成品質スコア": "抽象的で曖昧",
+        "教育的価値": "具体性に欠ける",
+        "ストーリー品質": "物語性が不足",
+        "事実密度": "具体的事実皆無"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 3.0,
+          "difference": -3.8,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 5.0,
+          "difference": -1.9,
+          "significant": true
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 2.0,
+          "difference": -3.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 4.0,
+          "difference": -3.9,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 3.0,
+          "difference": -5.0,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 2.0,
+          "difference": -6.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 7.5,
+          "llm": 1.0,
+          "difference": -6.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,664",
+      "person_name": "酒井田柿右衛門（14代目）",
+      "category": "芸術",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 6.5,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 5.5,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "人間国宝認定は印象的",
+        "共感性スコア": "責任感への共感",
+        "意外性スコア": "予想通りの成功物語",
+        "生成品質スコア": "丁寧で読みやすい",
+        "教育的価値": "伝統継承の重要性",
+        "ストーリー品質": "平坦な叙述",
+        "事実密度": "年代と技法名明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 7.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 6.5,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 5.5,
+          "difference": -3.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,472",
+      "person_name": "益川敏英",
+      "category": "物理学",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.5,
+        "意外性スコア": 7.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.0,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "ノーベル賞受賞の歴史的瞬間",
+        "共感性スコア": "英語苦手でも挑戦する姿",
+        "意外性スコア": "英語で会見せず話題に",
+        "生成品質スコア": "構成良く読みやすい文章",
+        "教育的価値": "研究継続と多様性の価値",
+        "ストーリー品質": "過去から現在への流れ",
+        "事実密度": "年齢・年代・理論名具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 8.5,
+          "difference": 1.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 7.5,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 7.0,
+          "difference": 2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EE047CC",
+      "person_name": "隈研吾",
+      "category": "建築・デザイン",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.5,
+        "意外性スコア": 7.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.0,
+        "事実密度": 7.5
+      },
+      "reasoning": {
+        "記憶性スコア": "建築界では著名な転機",
+        "共感性スコア": "挫折からの再起に共感",
+        "意外性スコア": "負け犬時代の意外性",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "逆境からの学びと成長",
+        "ストーリー品質": "苦境から成功への物語",
+        "事実密度": "年代と具体的作品名"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 7.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 8.5,
+          "difference": 1.6,
+          "significant": true
+        },
+        "意外性スコア": {
+          "existing": 5.5,
+          "llm": 7.0,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,508",
+      "person_name": "衣笠祥雄",
+      "category": "野球",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 8.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 6.5,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "国民栄誉賞第1号は有名",
+        "共感性スコア": "継続の大切さに共感",
+        "意外性スコア": "予想通りの内容",
+        "生成品質スコア": "読みやすく構成良好",
+        "教育的価値": "不屈の精神の教訓",
+        "ストーリー品質": "時系列は明確だが平坦",
+        "事実密度": "年数・記録・数値豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 8.0,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.5,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 9.0,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,650",
+      "person_name": "滝沢馬琴",
+      "category": "歴史",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.3,
+        "共感性スコア": 7.9,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.5,
+        "意外性スコア": 8.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 7.5
+      },
+      "reasoning": {
+        "記憶性スコア": "八犬伝は有名作品",
+        "共感性スコア": "困難への不屈精神",
+        "意外性スコア": "口述筆記での創作",
+        "生成品質スコア": "流れる文章構成",
+        "教育的価値": "逆境克服の教訓",
+        "ストーリー品質": "感動的な物語性",
+        "事実密度": "年代と期間明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.3,
+          "llm": 7.5,
+          "difference": 1.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.5,
+          "llm": 8.0,
+          "difference": 2.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,560",
+      "person_name": "孫正義",
+      "category": "IT・通信",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.0,
+        "共感性スコア": 6.5,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "AI時代の象徴的事件",
+        "共感性スコア": "経営者層に限定的",
+        "意外性スコア": "孫正義らしい判断",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "先見性と決断力の学び",
+        "ストーリー品質": "葛藤と決断の構図",
+        "事実密度": "具体的数値と日付豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.0,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 6.5,
+          "difference": -0.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-000,262",
+      "person_name": "川上未映子",
+      "category": "文学",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.5,
+        "共感性スコア": 6.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 5.4,
+        "教育的価値": 7.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.0,
+        "共感性スコア": 7.5,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 7.5,
+        "ストーリー品質": 6.0,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "芥川賞は印象的",
+        "共感性スコア": "作家志望者に響く",
+        "意外性スコア": "大阪弁の文学が新鮮",
+        "生成品質スコア": "簡潔で読みやすい",
+        "教育的価値": "文学的価値を学べる",
+        "ストーリー品質": "事実列挙が中心",
+        "事実密度": "年齢・賞・翻訳国数"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.5,
+          "llm": 8.0,
+          "difference": 1.5,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.4,
+          "llm": 7.5,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 5.4,
+          "llm": 8.0,
+          "difference": 2.6,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 7.5,
+          "llm": 7.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 6.0,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,519",
+      "person_name": "岩崎恭子",
+      "category": "競泳",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 9.5,
+        "共感性スコア": 8.5,
+        "意外性スコア": 3.0,
+        "生成品質スコア": 6.0,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.0,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "歴史的金メダル獲得",
+        "共感性スコア": "14歳の純粋な喜び",
+        "意外性スコア": "有名すぎるエピソード",
+        "生成品質スコア": "年齢エラーで構成破綻",
+        "教育的価値": "努力と才能の証明",
+        "ストーリー品質": "感動的な名言付き",
+        "事実密度": "年代・年齢・記録明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 9.5,
+          "difference": 2.7,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 3.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 6.0,
+          "difference": -1.9,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 7.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EB47DBD",
+      "person_name": "松たか子",
+      "category": "映画・演劇",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.8,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 8.5,
+        "教育的価値": 7.5,
+        "ストーリー品質": 7.0,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "朝ドラ最年少主演",
+        "共感性スコア": "七光り葛藤に共感",
+        "意外性スコア": "やや予想通り",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "自立の重要性",
+        "ストーリー品質": "葛藤と成長描写",
+        "事実密度": "作品名と年代明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 7.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.8,
+          "llm": 5.5,
+          "difference": -0.3,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 7.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,563",
+      "person_name": "浅田真央",
+      "category": "フィギュアスケート",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 6.0,
+        "共感性スコア": 7.5,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 6.5,
+        "ストーリー品質": 5.0,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "引退後の平穏な活動",
+        "共感性スコア": "人生転換期への共感",
+        "意外性スコア": "予想通りの展開",
+        "生成品質スコア": "読みやすい構成",
+        "教育的価値": "後進育成の意義",
+        "ストーリー品質": "平坦な叙述",
+        "事実密度": "年数と具体的活動"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 6.0,
+          "difference": -0.8,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 6.5,
+          "difference": -1.5,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 5.0,
+          "difference": -3.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,554",
+      "person_name": "中内㓛",
+      "category": "流通",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "流通業界の歴史的転換",
+        "共感性スコア": "消費者目線への共感",
+        "意外性スコア": "戦争体験が経営原点",
+        "生成品質スコア": "構成が整理されている",
+        "教育的価値": "流通革命の重要事例",
+        "ストーリー品質": "戦後復興からの成功",
+        "事実密度": "年代・売上・企業名具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.8,
+          "llm": 8.5,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-000,323",
+      "person_name": "本多光太郎",
+      "category": "科学・技術",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 10.0,
+        "ストーリー品質": 8.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 6.5,
+        "共感性スコア": 4.0,
+        "意外性スコア": 3.5,
+        "生成品質スコア": 7.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 4.0,
+        "事実密度": 6.0
+      },
+      "reasoning": {
+        "記憶性スコア": "物理学史上重要な発見",
+        "共感性スコア": "専門的で距離感あり",
+        "意外性スコア": "科学者らしい業績",
+        "生成品質スコア": "明確で読みやすい",
+        "教育的価値": "科学史の重要知識",
+        "ストーリー品質": "淡々とした説明",
+        "事実密度": "法則名と応用分野"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.3,
+          "llm": 6.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 4.0,
+          "difference": -2.9,
+          "significant": true
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 3.5,
+          "difference": -1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 7.5,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 10.0,
+          "llm": 8.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 8.0,
+          "llm": 4.0,
+          "difference": -4.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 6.0,
+          "difference": -3.0,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,451",
+      "person_name": "佐藤栄作",
+      "category": "政治",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 6.5,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 9.0,
+        "ストーリー品質": 7.0,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "ノーベル平和賞受賞",
+        "共感性スコア": "官僚の地道な努力",
+        "意外性スコア": "予想通りの経歴",
+        "生成品質スコア": "構成が明確",
+        "教育的価値": "平和外交の重要性",
+        "ストーリー品質": "時系列で構成",
+        "事実密度": "年代と政策名明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 6.5,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,553",
+      "person_name": "伊藤雅俊",
+      "category": "小売",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 6.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "コンビニ文化の原点",
+        "共感性スコア": "起業家の挑戦心",
+        "意外性スコア": "歴史的順序通り",
+        "生成品質スコア": "流れるような文章",
+        "教育的価値": "小売業界の歴史",
+        "ストーリー品質": "成功への道筋明確",
+        "事実密度": "年代・地名・企業名豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EA2D264",
+      "person_name": "西川一三",
+      "category": "探検・冒険",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 6.5,
+        "意外性スコア": 7.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 6.0
+      },
+      "reasoning": {
+        "記憶性スコア": "探検史上の重要人物",
+        "共感性スコア": "特殊な冒険体験",
+        "意外性スコア": "学術的遺産への転化",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "歴史的意義大",
+        "ストーリー品質": "時間軸の構成良",
+        "事実密度": "年代以外は抽象的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 7.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.4,
+          "llm": 6.5,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 7.0,
+          "difference": 2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 6.0,
+          "difference": -2.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-000,373",
+      "person_name": "谷川浩司",
+      "category": "その他",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.0,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 5.4,
+        "教育的価値": 7.5,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 7.5,
+        "ストーリー品質": 6.0,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "将棋界の歴史的記録",
+        "共感性スコア": "若き天才の挑戦",
+        "意外性スコア": "21歳最年少は意外",
+        "生成品質スコア": "簡潔で読みやすい",
+        "教育的価値": "才能と努力の価値",
+        "ストーリー品質": "事実羅列的",
+        "事実密度": "年齢・年代・実績豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.0,
+          "llm": 8.5,
+          "difference": 2.5,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 5.4,
+          "llm": 8.0,
+          "difference": 2.6,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 7.5,
+          "llm": 7.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.0,
+          "difference": -3.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 9.0,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,516",
+      "person_name": "井山裕太",
+      "category": "囲碁",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 6.5,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.0,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "国民栄誉賞受賞は歴史的",
+        "共感性スコア": "努力と謙虚さに共感",
+        "意外性スコア": "実力者の順当な評価",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "一道を極める価値観",
+        "ストーリー品質": "時系列的な構成",
+        "事実密度": "年齢・年号・タイトル明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.8,
+          "llm": 8.5,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 6.5,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,160",
+      "person_name": "天野浩",
+      "category": "学術・研究",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 7.5,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 9.0,
+        "共感性スコア": 7.5,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.5,
+        "教育的価値": 9.0,
+        "ストーリー品質": 6.5,
+        "事実密度": 4.0
+      },
+      "reasoning": {
+        "記憶性スコア": "ノーベル賞級発明",
+        "共感性スコア": "困難への挑戦",
+        "意外性スコア": "成功は予想通り",
+        "生成品質スコア": "読みやすい構成",
+        "教育的価値": "科学技術史的意義",
+        "ストーリー品質": "困難と成功の流れ",
+        "事実密度": "具体的数値不足"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 9.0,
+          "difference": 1.7,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 7.5,
+          "difference": -0.4,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 7.5,
+          "llm": 9.0,
+          "difference": 1.5,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.5,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 4.0,
+          "difference": -5.0,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,550",
+      "person_name": "松下幸之助",
+      "category": "家電",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.5,
+        "教育的価値": 9.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 7.5
+      },
+      "reasoning": {
+        "記憶性スコア": "戦後復興の象徴的出来事",
+        "共感性スコア": "危機克服への共感",
+        "意外性スコア": "理念重視が意外",
+        "生成品質スコア": "構成良く読みやすい",
+        "教育的価値": "経営哲学の重要教訓",
+        "ストーリー品質": "危機から復活のドラマ",
+        "事実密度": "年代と具体的行動記載"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 8.5,
+          "difference": 1.7,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.5,
+          "llm": 6.5,
+          "difference": 1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 9.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,455",
+      "person_name": "野依良治",
+      "category": "化学",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.0,
+        "共感性スコア": 6.0,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 9.0,
+        "ストーリー品質": 6.5,
+        "事実密度": 9.5
+      },
+      "reasoning": {
+        "記憶性スコア": "ノーベル賞級の発見",
+        "共感性スコア": "専門的で共感困難",
+        "意外性スコア": "予想通りの研究成果",
+        "生成品質スコア": "明確で読みやすい",
+        "教育的価値": "科学史的に重要",
+        "ストーリー品質": "構成良いが平坦",
+        "事実密度": "年代・固有名詞豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.0,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 6.0,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 9.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.5,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 9.5,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,558",
+      "person_name": "渋沢栄一",
+      "category": "金融",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 9.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "近代日本金融の父の転換点",
+        "共感性スコア": "引退と後進育成への転換",
+        "意外性スコア": "実業から社会事業への転身",
+        "生成品質スコア": "構成が明確で読みやすい",
+        "教育的価値": "道徳経済合一説の価値",
+        "ストーリー品質": "転換期の描写が効果的",
+        "事実密度": "年代、役職、企業数明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 8.5,
+          "difference": 1.7,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.5,
+          "llm": 6.5,
+          "difference": 1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,523",
+      "person_name": "内村航平",
+      "category": "体操",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.6,
+        "教育的価値": 8.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 2.0,
+        "生成品質スコア": 6.0,
+        "教育的価値": 7.5,
+        "ストーリー品質": 6.5,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "五輪金メダルの歴史的瞬間",
+        "共感性スコア": "プレッシャー克服への共感",
+        "意外性スコア": "予想通りの内容",
+        "生成品質スコア": "年齢設定の明らかな誤り",
+        "教育的価値": "努力と完璧追求の教訓",
+        "ストーリー品質": "構成は良いが平坦",
+        "事実密度": "年代、大会名など具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 8.5,
+          "difference": 1.7,
+          "significant": true
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 2.0,
+          "difference": -3.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.6,
+          "llm": 6.0,
+          "difference": -1.6,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 7.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.5,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.0,
+          "difference": -1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,559",
+      "person_name": "鳥井信治郎",
+      "category": "洋酒",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "日本ウイスキー創始者の重要な時期",
+        "共感性スコア": "困難への挑戦と信念に共感",
+        "意外性スコア": "戦時下での原酒貯蔵は意外",
+        "生成品質スコア": "文章構成が洗練されている",
+        "教育的価値": "先見性と経営判断の教訓",
+        "ストーリー品質": "時代背景と決断が描かれる",
+        "事実密度": "年代、商品名、場所が具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 7.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,514",
+      "person_name": "吉田沙保里",
+      "category": "レスリング",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 9.0,
+        "共感性スコア": 8.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 9.5
+      },
+      "reasoning": {
+        "記憶性スコア": "国民栄誉賞は歴史的瞬間",
+        "共感性スコア": "重圧を力に変える姿勢",
+        "意外性スコア": "当時最年少受賞は意外",
+        "生成品質スコア": "構成が整った文章",
+        "教育的価値": "逆境を力に変える教訓",
+        "ストーリー品質": "受賞から結果まで一貫",
+        "事実密度": "年齢・年数・大会名詳細"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 9.0,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 8.0,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.5,
+          "difference": 1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,546",
+      "person_name": "森繁久彌",
+      "category": "演劇",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 6.5,
+        "共感性スコア": 5.0,
+        "意外性スコア": 3.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 7.5,
+        "ストーリー品質": 5.5,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "紫綬褒章は一般認知度中程度",
+        "共感性スコア": "特殊な成功体験で共感困難",
+        "意外性スコア": "功績者の受章は予想通り",
+        "生成品質スコア": "構成良く読みやすい文章",
+        "教育的価値": "文化貢献の意義を学習",
+        "ストーリー品質": "平坦な叙述で起伏少ない",
+        "事実密度": "年齢・年代・作品名具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 6.5,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 5.0,
+          "difference": -1.9,
+          "significant": true
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 3.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 7.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 5.5,
+          "difference": -3.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,577",
+      "person_name": "澤穂希",
+      "category": "サッカー",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.0,
+        "共感性スコア": 7.0,
+        "意外性スコア": 3.0,
+        "生成品質スコア": 7.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "W杯優勝は歴史的",
+        "共感性スコア": "引退後の貢献に共感",
+        "意外性スコア": "予想通りの活動内容",
+        "生成品質スコア": "読みやすく整理済",
+        "教育的価値": "後進育成の重要性",
+        "ストーリー品質": "叙述的で起伏少",
+        "事実密度": "年号と具体的実績"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 8.0,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 3.0,
+          "difference": -2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 7.5,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 5.0,
+          "difference": -3.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,602",
+      "person_name": "鈴木梅太郎",
+      "category": "科学技術",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 6.0,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 9.0,
+        "ストーリー品質": 6.5,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "文化勲章第一回受章者",
+        "共感性スコア": "専門的で距離感あり",
+        "意外性スコア": "順当な受章内容",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "科学史の重要事実",
+        "ストーリー品質": "平坦な叙述構成",
+        "事実密度": "年代・固有名詞豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 6.0,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 6.5,
+          "difference": -2.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "E3F0091",
+      "person_name": "林竹二",
+      "category": "教育",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 10.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 5.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 6.0,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "教育分野では知られる",
+        "共感性スコア": "信念を貫く姿勢",
+        "意外性スコア": "戦時下の哲学研究",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "教育哲学の重要性",
+        "ストーリー品質": "やや平坦な叙述",
+        "事実密度": "年齢・年代・職位明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 5.5,
+          "difference": -1.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 10.0,
+          "llm": 8.5,
+          "difference": -1.5,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 6.0,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,506",
+      "person_name": "植村直己",
+      "category": "冒険",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.6,
+        "教育的価値": 8.5,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.0,
+        "共感性スコア": 2.0,
+        "意外性スコア": 2.0,
+        "生成品質スコア": 7.0,
+        "教育的価値": 6.0,
+        "ストーリー品質": 1.0,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "植村直己の死は有名",
+        "共感性スコア": "事実確認で共感困難",
+        "意外性スコア": "エピソード提供なし",
+        "生成品質スコア": "丁寧だが物語性なし",
+        "教育的価値": "事実確認の重要性",
+        "ストーリー品質": "物語として未完成",
+        "事実密度": "年齢・日付等具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.8,
+          "llm": 8.0,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 2.0,
+          "difference": -4.9,
+          "significant": true
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 2.0,
+          "difference": -3.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.6,
+          "llm": 7.0,
+          "difference": -0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 6.0,
+          "difference": -2.5,
+          "significant": true
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 1.0,
+          "difference": -8.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.0,
+          "difference": -1.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,511",
+      "person_name": "藤子・F・不二雄",
+      "category": "漫画",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 7.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 9.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 7.0,
+        "生成品質スコア": 8.5,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.0,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "国民的作品の起源",
+        "共感性スコア": "創作者の努力に共感",
+        "意外性スコア": "驚異的な仕事量",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "創作活動の教訓",
+        "ストーリー品質": "成功への道筋明確",
+        "事実密度": "年代と具体的事実"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 9.5,
+          "difference": 1.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 8.0,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 7.0,
+          "difference": 2.0,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 7.5,
+          "llm": 8.5,
+          "difference": 1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,501",
+      "person_name": "石岡瑛子",
+      "category": "デザイン",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.3,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "日本人初の快挙",
+        "共感性スコア": "挑戦への共感",
+        "意外性スコア": "東西融合の意外性",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "国際挑戦の教訓",
+        "ストーリー品質": "明確な構成",
+        "事実密度": "年代と固有名詞豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.3,
+          "llm": 8.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 7.0,
+          "difference": -0.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 7.5,
+          "difference": -1.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,552",
+      "person_name": "井深大",
+      "category": "エレクトロニクス",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.8,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 9.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.0,
+        "共感性スコア": 8.0,
+        "意外性スコア": 8.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "分野内では有名な転換",
+        "共感性スコア": "新挑戦への共感強い",
+        "意外性スコア": "経営者の教育転身",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "人生観に重要示唆",
+        "ストーリー品質": "動機と行動明確",
+        "事実密度": "年代と組織名具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.8,
+          "llm": 7.0,
+          "difference": -0.8,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 8.0,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 8.5,
+          "difference": 3.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-000,926",
+      "person_name": "アレクサンダー・フレミング",
+      "category": "医学・健康",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 9.3,
+        "共感性スコア": 6.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 9.5,
+        "共感性スコア": 6.0,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 3.0,
+        "教育的価値": 9.0,
+        "ストーリー品質": 2.0,
+        "事実密度": 4.0
+      },
+      "reasoning": {
+        "記憶性スコア": "世界的歴史的発見",
+        "共感性スコア": "専門的で距離感",
+        "意外性スコア": "よく知られた話",
+        "生成品質スコア": "重複表現が多い",
+        "教育的価値": "医学史の重要事実",
+        "ストーリー品質": "物語性に欠ける",
+        "事実密度": "具体的詳細不足"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 9.3,
+          "llm": 9.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.4,
+          "llm": 6.0,
+          "difference": -0.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 3.0,
+          "difference": -4.9,
+          "significant": true
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 9.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 2.0,
+          "difference": -6.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 4.0,
+          "difference": -5.0,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,515",
+      "person_name": "羽生善治",
+      "category": "将棋",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 9.0,
+        "共感性スコア": 8.0,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.5,
+        "教育的価値": 9.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "国民栄誉賞受賞は歴史的",
+        "共感性スコア": "努力の結実に共感",
+        "意外性スコア": "実力者の順当な受賞",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "継続の重要性を示す",
+        "ストーリー品質": "功績から受賞の流れ",
+        "事実密度": "年代と具体的事実豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.8,
+          "llm": 9.0,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 9.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,561",
+      "person_name": "稲盛和夫",
+      "category": "セラミックス・通信",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.0,
+        "共感性スコア": 7.5,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 8.0
+      },
+      "reasoning": {
+        "記憶性スコア": "通信業界の歴史的転換",
+        "共感性スコア": "挑戦と周囲の反対",
+        "意外性スコア": "安定を捨てる決断",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "経営哲学と社会貢献",
+        "ストーリー品質": "対立構造が明確",
+        "事実密度": "年代と企業名具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 8.0,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 7.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.5,
+          "llm": 6.5,
+          "difference": 1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,548",
+      "person_name": "本田宗一郎",
+      "category": "自動車・オートバイ",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.8,
+        "生成品質スコア": 7.9,
+        "教育的価値": 7.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "有名起業家の原点",
+        "共感性スコア": "若者の独立意欲",
+        "意外性スコア": "想定内の展開",
+        "生成品質スコア": "流れが自然で読みやすい",
+        "教育的価値": "探究心の重要性",
+        "ストーリー品質": "成長物語の構成",
+        "事実密度": "年齢・年代・会社名"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 7.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.8,
+          "llm": 5.0,
+          "difference": -0.8,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 7.5,
+          "llm": 8.5,
+          "difference": 1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,544",
+      "person_name": "志村ふくみ",
+      "category": "染織",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.0,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "人間国宝認定は印象的",
+        "共感性スコア": "遅咲きへの共感",
+        "意外性スコア": "40代からの転身",
+        "生成品質スコア": "洗練された文章",
+        "教育的価値": "文化継承の意義",
+        "ストーリー品質": "成長物語の構成",
+        "事実密度": "年齢・年代・賞名明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 7.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 8.0,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.5,
+          "difference": 1.5,
+          "significant": true
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 8.0,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,510",
+      "person_name": "千代の富士",
+      "category": "相撲",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 9.3,
+        "共感性スコア": 8.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 7.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 6.0,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "国民栄誉賞は歴史的",
+        "共感性スコア": "努力で困難を克服",
+        "意外性スコア": "予想通りの内容",
+        "生成品質スコア": "読みやすい構成",
+        "教育的価値": "努力の大切さ示す",
+        "ストーリー品質": "叙述的で平坦",
+        "事実密度": "具体的数値と事実"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 9.3,
+          "llm": 8.5,
+          "difference": -0.8,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 8.4,
+          "llm": 8.0,
+          "difference": -0.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 7.5,
+          "difference": -0.4,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 6.0,
+          "difference": -2.5,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,551",
+      "person_name": "豊田喜一郎",
+      "category": "自動車",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 7.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 8.5,
+        "共感性スコア": 7.5,
+        "意外性スコア": 6.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 7.5,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "トヨタ誕生の起源",
+        "共感性スコア": "夢への挑戦と説得",
+        "意外性スコア": "予想される展開",
+        "生成品質スコア": "構成良く読みやすい",
+        "教育的価値": "経営史的価値高い",
+        "ストーリー品質": "転機が明確",
+        "事実密度": "年代・金額・社名具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 8.5,
+          "difference": 1.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 7.5,
+          "difference": 0.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 6.0,
+          "difference": 1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.5,
+          "llm": 8.5,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,420",
+      "person_name": "原田マハ",
+      "category": "芸術・文化",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.3,
+        "共感性スコア": 6.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 7.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 6.5,
+        "共感性スコア": 7.5,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 7.0,
+        "ストーリー品質": 6.0,
+        "事実密度": 4.5
+      },
+      "reasoning": {
+        "記憶性スコア": "文学界では有名な作品",
+        "共感性スコア": "新ジャンル挑戦への共感",
+        "意外性スコア": "作家の成長として予想内",
+        "生成品質スコア": "読みやすく整理された文章",
+        "教育的価値": "挑戦の重要性を示す",
+        "ストーリー品質": "転換点は明確だが平坦",
+        "事実密度": "作品名はあるが詳細不足"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.3,
+          "llm": 6.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.4,
+          "llm": 7.5,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 7.0,
+          "llm": 7.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.0,
+          "difference": -3.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 4.5,
+          "difference": -4.0,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,487",
+      "person_name": "磯崎新",
+      "category": "建築",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 9.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.0,
+        "共感性スコア": 6.0,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 6.5,
+        "事実密度": 9.0
+      },
+      "reasoning": {
+        "記憶性スコア": "建築界では有名な作品群",
+        "共感性スコア": "専門性が高く限定的",
+        "意外性スコア": "東西融合は予想内",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "建築思想の重要概念",
+        "ストーリー品質": "発展過程は描けている",
+        "事実密度": "年代・作品名・賞名明記"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 7.0,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.9,
+          "llm": 6.0,
+          "difference": -0.9,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.5,
+          "difference": 0.5,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 6.5,
+          "difference": -2.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 9.0,
+          "difference": 0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-000,046",
+      "person_name": "桃田賢斗",
+      "category": "スポーツ",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 8.8,
+        "共感性スコア": 6.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.4,
+        "教育的価値": 8.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 6.0,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 6.0,
+        "教育的価値": 7.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "日本人初の連覇達成",
+        "共感性スコア": "努力と栄光への共感",
+        "意外性スコア": "予想通りの勝利",
+        "生成品質スコア": "誤字あり読みにくい",
+        "教育的価値": "継続努力の価値",
+        "ストーリー品質": "平坦な結果報告",
+        "事実密度": "具体的データ豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 8.8,
+          "llm": 7.5,
+          "difference": -1.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.4,
+          "llm": 6.0,
+          "difference": -0.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.4,
+          "llm": 6.0,
+          "difference": -1.4,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 7.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 5.0,
+          "difference": -4.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,555",
+      "person_name": "御木本幸吉",
+      "category": "真珠養殖",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.8,
+        "共感性スコア": 7.4,
+        "意外性スコア": 6.3,
+        "生成品質スコア": 7.9,
+        "教育的価値": 8.0,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 8.0,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 8.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 7.5,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "真珠養殖の歴史的起点",
+        "共感性スコア": "現状変革への強い意志",
+        "意外性スコア": "うどん屋から海産物商",
+        "生成品質スコア": "洗練された構成と表現",
+        "教育的価値": "起業家精神の教訓",
+        "ストーリー品質": "問題認識から決意まで",
+        "事実密度": "年代と地名が具体的"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.8,
+          "llm": 7.5,
+          "difference": -0.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.4,
+          "llm": 8.0,
+          "difference": 0.6,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 6.3,
+          "llm": 6.5,
+          "difference": 0.2,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.5,
+          "difference": 0.6,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 8.0,
+          "llm": 8.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 7.5,
+          "difference": -1.0,
+          "significant": false
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,576",
+      "person_name": "室伏広治",
+      "category": "陸上",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 7.3,
+        "共感性スコア": 6.4,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 7.5,
+        "ストーリー品質": 8.5,
+        "事実密度": 8.5
+      },
+      "llm_scores": {
+        "記憶性スコア": 6.0,
+        "共感性スコア": 7.5,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.5,
+        "教育的価値": 8.0,
+        "ストーリー品質": 5.5,
+        "事実密度": 7.0
+      },
+      "reasoning": {
+        "記憶性スコア": "有名人の現在の活動",
+        "共感性スコア": "継続学習への共感",
+        "意外性スコア": "アスリートの転身例",
+        "生成品質スコア": "読みやすい構成",
+        "教育的価値": "生涯学習の重要性",
+        "ストーリー品質": "平坦な現状説明",
+        "事実密度": "具体的な役職名記載"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 7.3,
+          "llm": 6.0,
+          "difference": -1.3,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 6.4,
+          "llm": 7.5,
+          "difference": 1.1,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 5.0,
+          "difference": 0.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 7.5,
+          "difference": -0.4,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 7.5,
+          "llm": 8.0,
+          "difference": 0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 8.5,
+          "llm": 5.5,
+          "difference": -3.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 8.5,
+          "llm": 7.0,
+          "difference": -1.5,
+          "significant": true
+        }
+      },
+      "error": null
+    },
+    {
+      "episode_id": "EP-001,533",
+      "person_name": "横山大観",
+      "category": "日本画",
+      "llm_success": true,
+      "existing_scores": {
+        "記憶性スコア": 6.8,
+        "共感性スコア": 7.9,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 7.9,
+        "教育的価値": 9.0,
+        "ストーリー品質": 9.0,
+        "事実密度": 9.0
+      },
+      "llm_scores": {
+        "記憶性スコア": 7.5,
+        "共感性スコア": 6.5,
+        "意外性スコア": 4.0,
+        "生成品質スコア": 8.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 6.0,
+        "事実密度": 8.5
+      },
+      "reasoning": {
+        "記憶性スコア": "朦朧体は美術史的転換点",
+        "共感性スコア": "革新への挑戦に共感",
+        "意外性スコア": "予想通りの芸術家像",
+        "生成品質スコア": "洗練された文章構成",
+        "教育的価値": "日本画革新の重要性",
+        "ストーリー品質": "平坦な叙述が多い",
+        "事実密度": "年代・人名・技法名豊富"
+      },
+      "comparison": {
+        "記憶性スコア": {
+          "existing": 6.8,
+          "llm": 7.5,
+          "difference": 0.7,
+          "significant": false
+        },
+        "共感性スコア": {
+          "existing": 7.9,
+          "llm": 6.5,
+          "difference": -1.4,
+          "significant": false
+        },
+        "意外性スコア": {
+          "existing": 5.0,
+          "llm": 4.0,
+          "difference": -1.0,
+          "significant": false
+        },
+        "生成品質スコア": {
+          "existing": 7.9,
+          "llm": 8.0,
+          "difference": 0.1,
+          "significant": false
+        },
+        "教育的価値": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        },
+        "ストーリー品質": {
+          "existing": 9.0,
+          "llm": 6.0,
+          "difference": -3.0,
+          "significant": true
+        },
+        "事実密度": {
+          "existing": 9.0,
+          "llm": 8.5,
+          "difference": -0.5,
+          "significant": false
+        }
+      },
+      "error": null
+    }
+  ]
+}

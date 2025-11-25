@@ -14,6 +14,56 @@ import json
 from pathlib import Path
 from few_shot_database import FewShotDatabase, FewShotExample
 
+# EPUP: 架空キャラクター用の作品名マッピング
+FICTIONAL_WORK_TITLE_MAP = {
+    "ピカチュウ": "ポケットモンスター",
+    "サトシ": "ポケットモンスター",
+    "フグ田サザエ": "サザエさん",
+    "磯野カツオ": "サザエさん",
+    "磯野ワカメ": "サザエさん",
+    "磯野波平": "サザエさん",
+    "ティファ・ロックハート": "ファイナルファンタジーVII",
+    "クラウド・ストライフ": "ファイナルファンタジーVII",
+    "野比のび太": "ドラえもん",
+    "ドラえもん": "ドラえもん",
+    "竈門炭治郎": "鬼滅の刃",
+    "竈門禰豆子": "鬼滅の刃",
+    "孫悟空": "ドラゴンボール",
+    "モンキー・D・ルフィ": "ONE PIECE",
+    "江戸川コナン": "名探偵コナン",
+    "工藤新一": "名探偵コナン",
+}
+
+# EPUP: 架空キャラクター専用プロンプトテンプレート
+FICTIONAL_CHARACTER_PROMPT_TEMPLATE = """あなたは{work_title}の世界観を深く理解するストーリーテラーです。
+
+{person_name}（{work_title}のキャラクター）が{age}歳の時点での作品内エピソードを生成してください。
+
+【重要な制約】
+- このキャラクターは作品内の存在として扱い、メタ的言及は禁止
+- 作品の設定・世界観に沿った内容にすること
+- 「あなたと同じ{age}歳のとき」という形式で開始
+- 200-250文字
+
+【禁止フレーズ】※絶対に使用しないこと
+- 「架空のキャラクター」
+- 「エピソードは存在しません」
+- 「実在しない」
+- 「公式な描写は存在しません」
+- 「申し訳ございませんが」
+- 「フィクションの」
+- 「設定上は」
+
+【生成方針】
+- 原作で{age}歳時点の描写があればそれを活用
+- なければ、キャラクター設定から自然に導かれるエピソードを創作
+- キャラクターの性格・口癖・行動パターンを維持
+- 作品内の地名、イベント、関係キャラクターを活用
+
+【出力形式】
+「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で、作品世界内の視点で記述してください。
+"""
+
 
 @dataclass
 class PromptConfig:
@@ -64,7 +114,9 @@ class UltraHighQualityPromptGenerator:
         person_name: str,
         age: int,
         category: str,
-        additional_context: Optional[Dict] = None
+        additional_context: Optional[Dict] = None,
+        person_type: str = "REAL",
+        work_title: Optional[str] = None,
     ) -> str:
         """
         超高品質プロンプトを生成
@@ -74,10 +126,17 @@ class UltraHighQualityPromptGenerator:
             age: 年齢
             category: カテゴリ（エンターテインメント、ビジネス等）
             additional_context: 追加コンテキスト
+            person_type: 人物タイプ（REAL/FICTIONAL）- EPUP対応
+            work_title: 作品名（架空キャラクターの場合）- EPUP対応
 
         Returns:
             生成されたプロンプト文字列
         """
+        # EPUP: 架空キャラクターの場合は専用プロンプトを使用
+        if person_type == "FICTIONAL":
+            return self._generate_fictional_prompt(person_name, age, work_title)
+
+        # 実在人物の場合は従来のプロンプト生成
         # Few-Shot例を取得
         few_shot_examples = self.few_shot_db.get_best_examples(
             category=category,
@@ -100,6 +159,33 @@ class UltraHighQualityPromptGenerator:
         )
 
         return prompt
+
+    def _generate_fictional_prompt(
+        self,
+        person_name: str,
+        age: int,
+        work_title: Optional[str] = None,
+    ) -> str:
+        """
+        EPUP: 架空キャラクター専用プロンプトを生成
+
+        Args:
+            person_name: キャラクター名
+            age: 年齢
+            work_title: 作品名（Noneの場合はマッピングから取得）
+
+        Returns:
+            架空キャラクター専用プロンプト
+        """
+        # 作品名の解決
+        if not work_title or str(work_title).lower() in ("nan", "none", ""):
+            work_title = FICTIONAL_WORK_TITLE_MAP.get(person_name, "作品")
+
+        return FICTIONAL_CHARACTER_PROMPT_TEMPLATE.format(
+            person_name=person_name,
+            age=int(age),
+            work_title=work_title
+        )
 
     def _get_best_overall_examples(self) -> List[FewShotExample]:
         """全カテゴリから最良の例を取得"""

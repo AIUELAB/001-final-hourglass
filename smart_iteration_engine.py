@@ -22,6 +22,9 @@ from auto_fix_engine import AutoFixEngine
 # Phase 4.9 (2025-11-01): QualityGateSystem統合（日本語品質チェッカーv2含む）
 from quality_gate_system import QualityGateSystem, ApprovalStatus
 
+# EPUP: メタ的説明検出用
+from episode_quality_system.template_blocker import TemplateBlocker
+
 
 @dataclass
 class IterationResult:
@@ -102,6 +105,9 @@ class SmartIterationEngine:
         # 日本語品質チェッカーv2を含む統一品質ゲートシステム
         self.quality_gate_system = QualityGateSystem()
 
+        # EPUP: メタ的説明検出用TemplateBlocker
+        self.template_blocker = TemplateBlocker()
+
         # LLM評価器（HybridImpactEvaluator統合）
         self.llm_evaluator = None
         if enable_llm_evaluation:
@@ -130,7 +136,9 @@ class SmartIterationEngine:
         person_name: str,
         age: int,
         category: str,
-        additional_context: Optional[Dict] = None
+        additional_context: Optional[Dict] = None,
+        person_type: str = "REAL",
+        work_title: Optional[str] = None,
     ) -> GenerationResult:
         """
         エピソードを生成（反復改善付き）
@@ -140,6 +148,8 @@ class SmartIterationEngine:
             age: 年齢
             category: カテゴリ
             additional_context: 追加コンテキスト
+            person_type: 人物タイプ（REAL/FICTIONAL）- EPUP対応
+            work_title: 作品名（架空キャラクターの場合）- EPUP対応
 
         Returns:
             GenerationResult
@@ -206,11 +216,14 @@ class SmartIterationEngine:
 """
 
         # 初期プロンプト生成（括弧制約を追加）
+        # EPUP: person_type と work_title を渡して架空キャラ対応
         initial_prompt = self.prompt_generator.generate_prompt(
             person_name=person_name,
             age=age,
             category=category,
-            additional_context=additional_context
+            additional_context=additional_context,
+            person_type=person_type,
+            work_title=work_title,
         )
 
         # 括弧制約を末尾に追加
@@ -260,6 +273,19 @@ class SmartIterationEngine:
                         print(f"⚠️ {violation}")
             else:
                 print(f"✅ 日本語品質チェック: 合格")
+
+            # EPUP: 架空キャラクターのメタ説明検出
+            if person_type == "FICTIONAL":
+                has_meta, meta_violations = self.template_blocker.check_meta_disclaimer(
+                    episode_text
+                )
+                if has_meta:
+                    gate_result.passed = False
+                    print(f"⚠️ EPUP: メタ的説明検出 ({len(meta_violations)}件)")
+                    for v in meta_violations[:3]:  # 最大3件表示
+                        print(f"  - {v}")
+                else:
+                    print(f"✅ EPUP: メタ的説明なし")
 
             # 結果記録
             iter_result = IterationResult(

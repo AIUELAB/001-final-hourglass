@@ -1,0 +1,336 @@
+{
+  "timestamp": "2025-11-26T15:04:00.031732",
+  "batch_size": 50,
+  "changes_count": 47,
+  "changes": [
+    {
+      "person_name": "葉加瀬太郎",
+      "is_group_member": true,
+      "group_name": "クライズラー&カンパニー",
+      "confidence": 0.9,
+      "reason": "音楽ユニットのメンバー"
+    },
+    {
+      "person_name": "福井信夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "神田沙也加",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロコンサート開催によりソロ歌手"
+    },
+    {
+      "person_name": "田中信夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家として個人活動"
+    },
+    {
+      "person_name": "田中啓治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "彫刻家として個人活動"
+    },
+    {
+      "person_name": "田辺聖子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人で活動"
+    },
+    {
+      "person_name": "芥川龍之介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "文学者で個人活動"
+    },
+    {
+      "person_name": "綾瀬はるか",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "細田守",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動職業"
+    },
+    {
+      "person_name": "茂山逸平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "狂言師は個人芸能者"
+    },
+    {
+      "person_name": "菅田将暉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "荒木経惟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "写真家は個人活動が基本"
+    },
+    {
+      "person_name": "草間彌生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "現代美術家として個人活動"
+    },
+    {
+      "person_name": "草野心平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人として個人活動"
+    },
+    {
+      "person_name": "糸井重里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "コピーライターとして個人活動"
+    },
+    {
+      "person_name": "窪塚洋介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "篠山紀信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "写真家として個人で活動"
+    },
+    {
+      "person_name": "竹内栖鳳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本画家、個人芸術家"
+    },
+    {
+      "person_name": "竹内敏晴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人の演劇教育者として活動"
+    },
+    {
+      "person_name": "立川談志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "落語家は個人芸能者"
+    },
+    {
+      "person_name": "ボブ・ディラン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロのフォークシンガー"
+    },
+    {
+      "person_name": "ピーター・バラカン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ラジオDJとして個人活動"
+    },
+    {
+      "person_name": "中村雅俊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優・歌手として個人活動"
+    },
+    {
+      "person_name": "中村獅童",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "歌舞伎俳優は個人活動"
+    },
+    {
+      "person_name": "中村明彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "中村哲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師として個人で活動"
+    },
+    {
+      "person_name": "中村勘九郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "歌舞伎役者は個人活動"
+    },
+    {
+      "person_name": "井上洋介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "芸術家は通常個人活動"
+    },
+    {
+      "person_name": "井上朋子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は通常個人活動"
+    },
+    {
+      "person_name": "久保田利伸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "上村愛子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "三遊亭円楽",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "落語家は個人芸能者"
+    },
+    {
+      "person_name": "山田貴司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "さくらももこ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家として個人で活動"
+    },
+    {
+      "person_name": "いとうせいこう",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作家・クリエイターとして個人活動"
+    },
+    {
+      "person_name": "アガサ・クリスティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イギリスの推理小説家で個人作家"
+    },
+    {
+      "person_name": "アメデオ・モディリアーニ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "J.M.W.ターナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀英国の画家、個人活動"
+    },
+    {
+      "person_name": "HIKAKIN",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人YouTuberとして活動"
+    },
+    {
+      "person_name": "イモトアヤコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ピン芸人としてソロ活動"
+    },
+    {
+      "person_name": "安野光雅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "絵本作家として個人活動"
+    },
+    {
+      "person_name": "安藤忠雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人活動が基本"
+    },
+    {
+      "person_name": "大谷亮平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優は通常個人活動"
+    },
+    {
+      "person_name": "大竹しのぶ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動する女優"
+    },
+    {
+      "person_name": "奥田民生",
+      "is_group_member": true,
+      "group_name": "ユニコーン",
+      "confidence": 0.9,
+      "reason": "バンドメンバーとして有名"
+    },
+    {
+      "person_name": "奥山清行",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "画家として個人で活動"
+    },
+    {
+      "person_name": "奥山峰石",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家として個人活動"
+    }
+  ]
+}

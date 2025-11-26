@@ -1,0 +1,266 @@
+{
+  "timestamp": "2025-11-26T15:50:47.523781",
+  "batch_size": 50,
+  "changes_count": 37,
+  "changes": [
+    {
+      "person_name": "早川英治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会分野の個人活動"
+    },
+    {
+      "person_name": "田中良子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会分野の個人活動"
+    },
+    {
+      "person_name": "伊能忠敬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の測量家で個人活動"
+    },
+    {
+      "person_name": "平賀源内",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の個人学者"
+    },
+    {
+      "person_name": "本居宣長",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の国学者で個人活動"
+    },
+    {
+      "person_name": "松尾芭蕉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の俳人で個人活動"
+    },
+    {
+      "person_name": "与謝蕪村",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の俳人・画家で個人活動"
+    },
+    {
+      "person_name": "小林一茶",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の俳人、個人活動"
+    },
+    {
+      "person_name": "近松門左衛門",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浄瑠璃作家で個人活動"
+    },
+    {
+      "person_name": "上田秋成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の国学者・文学者"
+    },
+    {
+      "person_name": "十返舎一九",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の戯作者で個人活動"
+    },
+    {
+      "person_name": "滝沢馬琴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の小説家、個人作家"
+    },
+    {
+      "person_name": "菱川師宣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の絵師、個人活動"
+    },
+    {
+      "person_name": "市川團十郎（12代目）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歌舞伎俳優は個人芸術家"
+    },
+    {
+      "person_name": "中村吉右衛門（2代目）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歌舞伎役者は個人活動"
+    },
+    {
+      "person_name": "片岡仁左衛門（15代目）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歌舞伎役者は個人活動"
+    },
+    {
+      "person_name": "桂米朝（3代目）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "落語家は個人芸能者"
+    },
+    {
+      "person_name": "観世寿夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "能楽師は個人芸術家"
+    },
+    {
+      "person_name": "竹本住大夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "文楽太夫は個人芸能"
+    },
+    {
+      "person_name": "吉田玉男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "文楽人形遣いは個人芸能者"
+    },
+    {
+      "person_name": "花柳寿楽",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本舞踊家は個人芸術家"
+    },
+    {
+      "person_name": "杵屋巳太郎（6代目）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "伝統芸能の個人演奏家"
+    },
+    {
+      "person_name": "酒井田柿右衛門（14代目）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "井上萬二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "室瀬和美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漆芸家は個人活動が基本"
+    },
+    {
+      "person_name": "金田正一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "江夏豊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "稲尾和久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "釜本邦茂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "大鵬幸喜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "相撲は個人競技"
+    },
+    {
+      "person_name": "具志堅用高",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーは個人競技"
+    },
+    {
+      "person_name": "鳥山明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動する漫画家"
+    },
+    {
+      "person_name": "石ノ森章太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "赤塚不二夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "ちばてつや",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人活動の漫画家"
+    },
+    {
+      "person_name": "大友克洋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家・映画監督は個人活動"
+    },
+    {
+      "person_name": "庵野秀明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "映画監督として個人活動"
+    }
+  ]
+}

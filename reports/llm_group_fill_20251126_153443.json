@@ -1,0 +1,266 @@
+{
+  "timestamp": "2025-11-26T15:34:43.607154",
+  "batch_size": 50,
+  "changes_count": 37,
+  "changes": [
+    {
+      "person_name": "佐々木則夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "佐々木健介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "北島康介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の水泳選手"
+    },
+    {
+      "person_name": "北口榛花",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "北川正恭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "坂口志文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者・科学者は個人活動"
+    },
+    {
+      "person_name": "坂口博信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ゲーム開発者で個人活動"
+    },
+    {
+      "person_name": "向井千秋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人職業"
+    },
+    {
+      "person_name": "吉野彰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "吉田茂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "吉田秀彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の柔道選手"
+    },
+    {
+      "person_name": "吉田沙保里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "レスリング選手で個人競技"
+    },
+    {
+      "person_name": "坂本龍馬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の政治家・志士"
+    },
+    {
+      "person_name": "大久保利通",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の政治家、個人活動"
+    },
+    {
+      "person_name": "夏野剛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・実業家は通常グループ概念なし"
+    },
+    {
+      "person_name": "堤清二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "堀米雄斗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "堀江貴文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家として個人活動"
+    },
+    {
+      "person_name": "吉田正尚",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "堀江由衣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "堀江信宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロゲーマーは個人活動が主"
+    },
+    {
+      "person_name": "堀口恭司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のMMAファイター"
+    },
+    {
+      "person_name": "堀井雄二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ゲームクリエイターで個人活動"
+    },
+    {
+      "person_name": "坂東玉三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歌舞伎役者は個人芸術家"
+    },
+    {
+      "person_name": "吉田正",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "原田雅彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スキージャンプ選手は個人競技"
+    },
+    {
+      "person_name": "原晋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ指導者は個人活動"
+    },
+    {
+      "person_name": "原大智",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "南野陽子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアイドル出身の女優"
+    },
+    {
+      "person_name": "南部陽一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者は個人研究者"
+    },
+    {
+      "person_name": "南場智子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "原研哉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デザイナーは個人活動"
+    },
+    {
+      "person_name": "千代の富士貢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "力士は個人競技者"
+    },
+    {
+      "person_name": "北野大",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "北里柴三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "細菌学者として個人で研究活動"
+    },
+    {
+      "person_name": "北澤豪",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "北杜夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人活動"
+    }
+  ]
+}

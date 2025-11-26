@@ -1,0 +1,287 @@
+{
+  "timestamp": "2025-11-26T15:21:45.714859",
+  "batch_size": 50,
+  "changes_count": 40,
+  "changes": [
+    {
+      "person_name": "田中一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "学術・研究者は通常個人活動"
+    },
+    {
+      "person_name": "TWICE",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "TWICEはグループ自体"
+    },
+    {
+      "person_name": "井村裕夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・大学総長は個人活動"
+    },
+    {
+      "person_name": "室伏広治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "安藤美姫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手で個人競技"
+    },
+    {
+      "person_name": "安藤百福",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "室伏重信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "安宅和人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "安倍晋三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "宇野昌磨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手（個人競技）"
+    },
+    {
+      "person_name": "宮原洋一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "寺田心",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "子役タレント、個人活動"
+    },
+    {
+      "person_name": "審良静男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学研究者、個人活動"
+    },
+    {
+      "person_name": "富野由悠季",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アニメ監督は個人活動"
+    },
+    {
+      "person_name": "家入一真",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "宮﨑駿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アニメ映画監督、個人活動"
+    },
+    {
+      "person_name": "宮里藍",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "宮田裕章",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師・研究者で個人活動"
+    },
+    {
+      "person_name": "宮本茂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "任天堂の個人ゲームクリエイター"
+    },
+    {
+      "person_name": "宮本武蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の剣豪、個人活動"
+    },
+    {
+      "person_name": "宮本慎也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "宮本亜門",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "演出家は個人活動職業"
+    },
+    {
+      "person_name": "宮本えりな",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "環境保護活動家は個人活動"
+    },
+    {
+      "person_name": "孫正義",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "大西卓哉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人職業"
+    },
+    {
+      "person_name": "大西卓司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学者・研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "大竹省二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.8,
+      "reason": "芸術家は通常個人活動"
+    },
+    {
+      "person_name": "大谷翔平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "大森一樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "宇宙飛行士は個人活動"
+    },
+    {
+      "person_name": "大崎弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "大宅壮一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリストで個人活動"
+    },
+    {
+      "person_name": "大塚愛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "大村智",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "大迫傑",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "妹島和世",
+      "is_group_member": true,
+      "group_name": "SANAA",
+      "confidence": 0.9,
+      "reason": "西沢立衛と共同でSANAAとして活動"
+    },
+    {
+      "person_name": "奥村愛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.8,
+      "reason": "ヴァイオリニストは通常ソロ活動"
+    },
+    {
+      "person_name": "奈良美智",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "美術作家は個人活動が基本"
+    },
+    {
+      "person_name": "天野浩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "大隈重信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は個人活動が基本"
+    },
+    {
+      "person_name": "大隈良嶺",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学技術者は通常グループ概念なし"
+    }
+  ]
+}

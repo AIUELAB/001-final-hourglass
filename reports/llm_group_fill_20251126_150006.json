@@ -1,0 +1,350 @@
+{
+  "timestamp": "2025-11-26T15:00:06.436803",
+  "batch_size": 50,
+  "changes_count": 49,
+  "changes": [
+    {
+      "person_name": "貴乃花",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "相撲は個人競技のスポーツ"
+    },
+    {
+      "person_name": "野村秋介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "柔道家は個人競技者"
+    },
+    {
+      "person_name": "野村忠宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "野村克也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手・監督は個人活動"
+    },
+    {
+      "person_name": "野口みずき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のマラソン選手"
+    },
+    {
+      "person_name": "那須川天心",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の格闘家"
+    },
+    {
+      "person_name": "藤田紀子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "藤沢和雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競馬調教師は個人職業"
+    },
+    {
+      "person_name": "西野朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手・監督は個人活動"
+    },
+    {
+      "person_name": "西田善太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "西川遥輝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "衣笠祥雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "角田裕毅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "野茂英雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "高木美帆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スピードスケート選手は個人競技"
+    },
+    {
+      "person_name": "香川真司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手は個人競技者"
+    },
+    {
+      "person_name": "髙橋尚子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "高橋裕子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は個人競技"
+    },
+    {
+      "person_name": "青木功",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "鈴木浩二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "鈴木啓示",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常グループ概念なし"
+    },
+    {
+      "person_name": "鈴木亜久里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "鈴木一朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "金本知憲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "錦織圭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手で個人競技"
+    },
+    {
+      "person_name": "長友佑都",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "長谷部誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "長谷川穂積",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ボクシング選手は個人競技"
+    },
+    {
+      "person_name": "長谷川滋利",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "長嶋茂雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "長嶋一茂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元プロ野球選手、個人競技"
+    },
+    {
+      "person_name": "葛西紀明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "白鵬翔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "大相撲力士は個人競技"
+    },
+    {
+      "person_name": "白鵬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "大相撲の力士は個人競技"
+    },
+    {
+      "person_name": "石井雅之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ラグビー選手は個人活動"
+    },
+    {
+      "person_name": "石川佳純",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "卓球選手は個人競技"
+    },
+    {
+      "person_name": "白井健三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "王貞治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "田村亮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "田島直人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は個人競技"
+    },
+    {
+      "person_name": "田原俊彦",
+      "is_group_member": true,
+      "group_name": "たのきんトリオ",
+      "confidence": 0.9,
+      "reason": "たのきんトリオのメンバー"
+    },
+    {
+      "person_name": "田中雅美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "田中雅人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "羽田健太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "羽生結弦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "羽根田卓也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "織田幹雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技選手は個人競技"
+    },
+    {
+      "person_name": "織田信成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "荒木飛呂彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動職業"
+    }
+  ]
+}

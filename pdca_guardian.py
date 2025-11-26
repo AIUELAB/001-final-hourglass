@@ -176,6 +176,11 @@ class ViolationType(Enum):
     CONCRETE_DESCRIPTION_MISSING = "具体性不足"
     EDUCATIONAL_VALUE_MISSING = "教育的価値不足"
 
+    # グループ所属関連（RULE_180-182）
+    GROUP_DATA_INCONSISTENT = "グループデータ不整合"
+    GROUP_NAME_SOLO_INVALID = "group_name=ソロ無効値"
+    FICTIONAL_WITH_GROUP = "架空キャラにグループ情報"
+
 
 @dataclass
 class RuleViolation:
@@ -1080,6 +1085,94 @@ if "credit balance" in error_str:
                         severity=Priority.CRITICAL,
                         suggested_fix="括弧内に作品名を記入してください"
                     ))
+
+        return violations
+
+    def check_group_data_consistency(self, csv_file: str) -> List[RuleViolation]:
+        """
+        グループ所属データの整合性チェック (RULE_180-182)
+
+        チェック内容:
+        - RULE_180: is_group_member=True なのに group_name が空
+        - RULE_181: group_name='ソロ' は不適切
+        - RULE_182: 架空キャラクター (FICTIONAL) にグループ情報が設定されている
+
+        Args:
+            csv_file: チェック対象CSVファイル
+
+        Returns:
+            違反リスト
+        """
+        import pandas as pd
+
+        violations: List[RuleViolation] = []
+
+        if not os.path.exists(csv_file):
+            return violations
+
+        try:
+            df = pd.read_csv(csv_file, encoding='utf-8-sig')
+        except Exception as e:
+            logger.warning(f"CSVファイル読み込みエラー: {e}")
+            return violations
+
+        # 必要なカラムがあるか確認
+        required_cols = ['is_group_member', 'group_name', 'person_type', 'person_name']
+        missing_cols = [c for c in required_cols if c not in df.columns]
+        if missing_cols:
+            logger.debug(f"グループ整合性チェック: カラム不足 {missing_cols}")
+            return violations
+
+        for idx, row in df.iterrows():
+            person_name = row.get('person_name', f'row_{idx}')
+            is_member = row.get('is_group_member')
+            group_name = row.get('group_name')
+            person_type = str(row.get('person_type', '')).upper()
+
+            # RULE_180: is_group_member=True なのに group_name が空
+            if is_member is True or str(is_member) == 'True':
+                if pd.isna(group_name) or str(group_name) in ['', 'nan']:
+                    violations.append(RuleViolation(
+                        rule_id="RULE_180",
+                        violation_type=ViolationType.GROUP_DATA_INCONSISTENT,
+                        description=f"is_group_member=True ですが group_name が空です: {person_name}",
+                        file_path=csv_file,
+                        line_number=idx + 2,
+                        severity=Priority.MEDIUM,
+                        suggested_fix="group_name にグループ名を設定するか、is_group_member=False にしてください"
+                    ))
+
+            # RULE_181: group_name='ソロ' は不適切
+            if str(group_name) == 'ソロ':
+                violations.append(RuleViolation(
+                    rule_id="RULE_181",
+                    violation_type=ViolationType.GROUP_NAME_SOLO_INVALID,
+                    description=f"group_name='ソロ' は不適切です: {person_name}",
+                    file_path=csv_file,
+                    line_number=idx + 2,
+                    severity=Priority.HIGH,
+                    suggested_fix="is_group_member=False, group_name=null に修正してください"
+                ))
+
+            # RULE_182: 架空キャラクターにグループ情報
+            if 'FICTIONAL' in person_type:
+                has_group_info = (
+                    (is_member is True or str(is_member) == 'True') or
+                    (not pd.isna(group_name) and str(group_name) not in ['', 'nan'])
+                )
+                if has_group_info:
+                    violations.append(RuleViolation(
+                        rule_id="RULE_182",
+                        violation_type=ViolationType.FICTIONAL_WITH_GROUP,
+                        description=f"架空キャラクターにグループ情報が設定されています: {person_name}",
+                        file_path=csv_file,
+                        line_number=idx + 2,
+                        severity=Priority.LOW,
+                        suggested_fix="架空キャラクターは is_group_member=False, group_name=null にしてください"
+                    ))
+
+        if violations:
+            logger.info(f"グループ整合性チェック: {len(violations)}件の違反を検出")
 
         return violations
 

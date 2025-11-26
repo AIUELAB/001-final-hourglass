@@ -883,6 +883,17 @@
             color: white;
         }
 
+        /* グループ所属バッジ */
+        .badge-group-member {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .badge-group-solo {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
         /* 人物名セル */
         .person-name-cell {
             display: flex;
@@ -2207,6 +2218,14 @@
                                 episode_text: r['エピソード'] || r['episode'] || r['episode_text'] || '',
                                 person_type: personType,
                                 work_title: workTitleValue,
+                                // グループ情報
+                                is_group_member: (() => {
+                                    const val = r['is_group_member'];
+                                    if (val === true || val === 'True' || val === 'true') return true;
+                                    if (val === false || val === 'False' || val === 'false') return false;
+                                    return null;
+                                })(),
+                                group_name: r['group_name'] || '',
                                 episode_count: parseFloat(r['episode_count']) || 1,
                                 fame_score: fameScoreValue,
                                 fame_tier: parseInt(r["fame_tier"]) || 0,
@@ -2449,6 +2468,16 @@
                         valA = (a.work_title || '').toLowerCase();
                         valB = (b.work_title || '').toLowerCase();
                         break;
+                    case 'group':
+                        // 所属(グループ名)→無所属→未判定 の順でソート
+                        const getGroupSortValue = (ep) => {
+                            if (ep.is_group_member === true && ep.group_name) return ep.group_name.toLowerCase();
+                            if (ep.is_group_member === false) return 'zzz_無所属';
+                            return 'zzzz_未判定';
+                        };
+                        valA = getGroupSortValue(a);
+                        valB = getGroupSortValue(b);
+                        break;
                     case 'entity':
                         // REAL=0, FICTIONAL=1 として数値化（昇順: 実在→架空、降順: 架空→実在）
                         const typeA = (a.person_type || '').toUpperCase();
@@ -2643,6 +2672,12 @@
                                     <div class="id-row">
                                         <span class="category-label sortable-label" data-sort="work">作品 <span class="sort-icon">⬍</span></span>
                                         <span>${ep.work_title ? escapeHtml(ep.work_title) : '-'}</span>
+                                    </div>
+                                    <div class="id-row">
+                                        <span class="category-label sortable-label" data-sort="group">グループ <span class="sort-icon">⬍</span></span>
+                                        <span class="${ep.is_group_member === true ? 'badge-group-member' : (ep.is_group_member === false ? 'badge-group-solo' : '')}">
+                                            ${ep.is_group_member === true && ep.group_name ? escapeHtml(ep.group_name) : (ep.is_group_member === false ? '無所属' : '-')}
+                                        </span>
                                     </div>
                                 </div>
                             </td>

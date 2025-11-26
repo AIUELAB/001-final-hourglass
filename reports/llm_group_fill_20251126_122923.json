@@ -1,0 +1,217 @@
+{
+  "timestamp": "2025-11-26T12:29:24.001977",
+  "batch_size": 30,
+  "changes_count": 30,
+  "changes": [
+    {
+      "person_name": "梅若実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "能楽師は個人芸術家"
+    },
+    {
+      "person_name": "森山大道",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "写真家として個人活動"
+    },
+    {
+      "person_name": "横山大観",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家は個人活動が基本"
+    },
+    {
+      "person_name": "横尾忠則",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "グラフィックデザイナー・画家として個人活動"
+    },
+    {
+      "person_name": "樋口可南子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "樋口一葉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の小説家、個人活動"
+    },
+    {
+      "person_name": "楠田枝里子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "タレント・司会者として個人活動"
+    },
+    {
+      "person_name": "森鴎外",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "文学者で個人活動のみ"
+    },
+    {
+      "person_name": "森見登美彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動が基本"
+    },
+    {
+      "person_name": "松本隆",
+      "is_group_member": true,
+      "group_name": "はっぴいえんど",
+      "confidence": 0.9,
+      "reason": "はっぴいえんどのドラマー兼作詞家"
+    },
+    {
+      "person_name": "松本幸四郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歌舞伎俳優は個人活動"
+    },
+    {
+      "person_name": "林家木久扇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "落語家でピン芸人"
+    },
+    {
+      "person_name": "桂米朝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "落語家は個人芸能者"
+    },
+    {
+      "person_name": "柳家小三治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "落語家は個人芸能"
+    },
+    {
+      "person_name": "渡辺淳一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動が基本"
+    },
+    {
+      "person_name": "深田恭子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "瀬戸内寂聴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家・僧侶で個人活動"
+    },
+    {
+      "person_name": "溝口健二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "深作欣二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督として個人で活動"
+    },
+    {
+      "person_name": "歌川広重",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師で個人活動"
+    },
+    {
+      "person_name": "橋本環奈",
+      "is_group_member": true,
+      "group_name": "Rev. from DVL",
+      "confidence": 0.9,
+      "reason": "アイドルグループ出身"
+    },
+    {
+      "person_name": "江口寿史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "漫画家として個人で活動"
+    },
+    {
+      "person_name": "津川雅彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優は通常個人活動"
+    },
+    {
+      "person_name": "池田大作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宗教指導者で個人活動"
+    },
+    {
+      "person_name": "浅田真央",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の元フィギュアスケート選手"
+    },
+    {
+      "person_name": "押井守",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人職業"
+    },
+    {
+      "person_name": "手塚治虫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家として個人活動"
+    },
+    {
+      "person_name": "平山郁夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家は個人活動が基本"
+    },
+    {
+      "person_name": "新垣結衣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "是枝裕和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督として個人活動"
+    }
+  ]
+}

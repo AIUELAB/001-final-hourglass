@@ -1,0 +1,217 @@
+{
+  "timestamp": "2025-11-26T13:43:54.169415",
+  "batch_size": 30,
+  "changes_count": 30,
+  "changes": [
+    {
+      "person_name": "上白石萌音",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "まふまふ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌い手として活動"
+    },
+    {
+      "person_name": "はじめしゃちょー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人YouTuberとして活動"
+    },
+    {
+      "person_name": "かまいたち",
+      "is_group_member": true,
+      "group_name": "かまいたち",
+      "confidence": 1.0,
+      "reason": "山内健司と濱家隆一のお笑いコンビ"
+    },
+    {
+      "person_name": "そらる",
+      "is_group_member": true,
+      "group_name": "After the Rain",
+      "confidence": 0.9,
+      "reason": "まふまふとのユニット活動"
+    },
+    {
+      "person_name": "ゆたぼん",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人YouTuberとして活動"
+    },
+    {
+      "person_name": "KinKi Kids",
+      "is_group_member": true,
+      "group_name": "KinKi Kids",
+      "confidence": 1.0,
+      "reason": "堂本光一と堂本剛のデュオ"
+    },
+    {
+      "person_name": "EXIT",
+      "is_group_member": true,
+      "group_name": "EXIT",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "V6",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "V6はグループ名そのもの"
+    },
+    {
+      "person_name": "TOKIO",
+      "is_group_member": true,
+      "group_name": "TOKIO",
+      "confidence": 1.0,
+      "reason": "TOKIOはアイドルグループ名"
+    },
+    {
+      "person_name": "SMAP",
+      "is_group_member": true,
+      "group_name": "SMAP",
+      "confidence": 1.0,
+      "reason": "SMAPはアイドルグループ名"
+    },
+    {
+      "person_name": "QuizKnock・伊沢拓司",
+      "is_group_member": true,
+      "group_name": "QuizKnock",
+      "confidence": 1.0,
+      "reason": "YouTubeグループのメンバー"
+    },
+    {
+      "person_name": "サンドウィッチマン",
+      "is_group_member": true,
+      "group_name": "サンドウィッチマン",
+      "confidence": 1.0,
+      "reason": "富澤たけしと伊達みきおのお笑いコンビ"
+    },
+    {
+      "person_name": "ダウンタウン",
+      "is_group_member": true,
+      "group_name": "ダウンタウン",
+      "confidence": 1.0,
+      "reason": "松本人志と浜田雅功のお笑いコンビ"
+    },
+    {
+      "person_name": "コレコレ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人配信者として活動"
+    },
+    {
+      "person_name": "安室奈美恵",
+      "is_group_member": true,
+      "group_name": "SUPER MONKEY'S",
+      "confidence": 0.9,
+      "reason": "デビュー時のグループ所属で有名"
+    },
+    {
+      "person_name": "山口百恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "山口智子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "山田太一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "脚本家は個人活動職業"
+    },
+    {
+      "person_name": "小栗旬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "出川哲朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "兄者弟者・兄者",
+      "is_group_member": true,
+      "group_name": "兄者弟者",
+      "confidence": 0.95,
+      "reason": "YouTubeグループのメンバー"
+    },
+    {
+      "person_name": "加藤純一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人配信者として活動"
+    },
+    {
+      "person_name": "北川景子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "モデル出身の女優、ソロ活動"
+    },
+    {
+      "person_name": "千鳥",
+      "is_group_member": true,
+      "group_name": "千鳥",
+      "confidence": 1.0,
+      "reason": "大悟とノブの2人組お笑いコンビ"
+    },
+    {
+      "person_name": "高倉健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "渥美清",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "吉永小百合",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロの女優"
+    },
+    {
+      "person_name": "石原裕次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優・個人での活動"
+    },
+    {
+      "person_name": "萩本欽一",
+      "is_group_member": true,
+      "group_name": "コント55号",
+      "confidence": 0.9,
+      "reason": "坂上二郎とのお笑いコンビ"
+    }
+  ]
+}

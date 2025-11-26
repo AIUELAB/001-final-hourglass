@@ -25,6 +25,15 @@ from quality_gate_system import QualityGateSystem, ApprovalStatus
 # EPUP: メタ的説明検出用
 from episode_quality_system.template_blocker import TemplateBlocker
 
+# Phase 5: 年齢データ検証（フォーマット統一計画）
+try:
+    from src.age_data_validator import AgeDataValidator, ValidationStatus
+except ImportError:
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent))
+    from src.age_data_validator import AgeDataValidator, ValidationStatus
+
 
 @dataclass
 class IterationResult:
@@ -155,6 +164,34 @@ class SmartIterationEngine:
             GenerationResult
         """
         start_time = time.time()
+
+        # Phase 5: 年齢データ検証（フォーマット統一計画）
+        try:
+            age_validator = AgeDataValidator()
+            birth_year = additional_context.get('birth_year') if additional_context else None
+            death_year = additional_context.get('death_year') if additional_context else None
+
+            age_result = age_validator.validate_age(
+                age=age,
+                person_type=person_type,
+                birth_year=birth_year,
+                death_year=death_year,
+            )
+
+            if not age_result.is_valid:
+                print(f"❌ Age validation failed: {age_result.message}")
+                return GenerationResult(
+                    success=False,
+                    final_episode="",
+                    iterations=[],
+                    total_iterations=0,
+                    total_time=time.time() - start_time,
+                    total_tokens=0,
+                    final_gate_score=0.0,
+                    failure_reason=f"AGE_VALIDATION: {age_result.message}"
+                )
+        except Exception as e:
+            print(f"⚠️ Age validation error (continuing): {e}")
 
         # Stage 2: 事前検証（EpisodeGuardian統合 - EntityTypeのみ）
         try:

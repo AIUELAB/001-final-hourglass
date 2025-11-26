@@ -1,0 +1,210 @@
+{
+  "timestamp": "2025-11-26T13:03:56.644787",
+  "batch_size": 30,
+  "changes_count": 29,
+  "changes": [
+    {
+      "person_name": "梶田隆章",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者、個人研究者"
+    },
+    {
+      "person_name": "森本晃司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学技術者は通常グループ概念なし"
+    },
+    {
+      "person_name": "楠本利夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ゲーム開発者で個人活動"
+    },
+    {
+      "person_name": "松本零士",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人漫画家として活動"
+    },
+    {
+      "person_name": "桂歌丸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "落語家は個人での活動が基本"
+    },
+    {
+      "person_name": "根岸英一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "湯川秀樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者で個人研究者"
+    },
+    {
+      "person_name": "毛利衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人活動"
+    },
+    {
+      "person_name": "江崎玲於奈",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人研究者"
+    },
+    {
+      "person_name": "平野歩夢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスノーボード選手"
+    },
+    {
+      "person_name": "星出彰彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人職業"
+    },
+    {
+      "person_name": "明治天皇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "天皇は個人の地位"
+    },
+    {
+      "person_name": "岡本太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "芸術家で個人活動"
+    },
+    {
+      "person_name": "東京大学名誉教授の中村桂子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "東野圭吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人活動"
+    },
+    {
+      "person_name": "村井純",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者で個人活動"
+    },
+    {
+      "person_name": "松尾豊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "大学教授・研究者は個人活動"
+    },
+    {
+      "person_name": "本庶佑",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者は個人での活動"
+    },
+    {
+      "person_name": "本多光太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "朝永振一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "理論物理学者で個人研究者"
+    },
+    {
+      "person_name": "木村貴志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学・技術分野の研究者"
+    },
+    {
+      "person_name": "本田宗一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で一般的にグループ概念なし"
+    },
+    {
+      "person_name": "本田望結",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "赤﨑勇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人研究者"
+    },
+    {
+      "person_name": "野口英世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "野口聡一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人職業"
+    },
+    {
+      "person_name": "野口佳世子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人職業"
+    },
+    {
+      "person_name": "野依良治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人研究者"
+    },
+    {
+      "person_name": "遠藤謙",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学技術分野の個人活動者"
+    }
+  ]
+}

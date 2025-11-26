@@ -1,0 +1,210 @@
+{
+  "timestamp": "2025-11-26T13:09:27.323833",
+  "batch_size": 30,
+  "changes_count": 29,
+  "changes": [
+    {
+      "person_name": "森川亮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "松本清張",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "柳井正",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "柳田邦男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ノンフィクション作家として個人活動"
+    },
+    {
+      "person_name": "柳田理科雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "研究者・作家は通常個人活動"
+    },
+    {
+      "person_name": "渋沢栄一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "熊谷正寿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "永守重信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "池田理代子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "漫画家として個人活動"
+    },
+    {
+      "person_name": "星野佳路",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "星野リゾート代表の経営者"
+    },
+    {
+      "person_name": "日野原重明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師として個人活動"
+    },
+    {
+      "person_name": "日比野克彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アーティスト・個人活動"
+    },
+    {
+      "person_name": "日本人実業家の稲盛和夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家はグループ概念なし"
+    },
+    {
+      "person_name": "岩田聡",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "任天堂社長、経営者"
+    },
+    {
+      "person_name": "岩崎弥太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家は通常グループ概念なし"
+    },
+    {
+      "person_name": "岡田武史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー指導者・監督は個人職業"
+    },
+    {
+      "person_name": "岡島悦子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "川鍋一朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "川上量生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドワンゴ社長、経営者"
+    },
+    {
+      "person_name": "平井一夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者はグループ概念なし"
+    },
+    {
+      "person_name": "村田製作所",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "村上龍",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家として個人で活動"
+    },
+    {
+      "person_name": "村田沙耶香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人で活動"
+    },
+    {
+      "person_name": "松下幸之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は個人活動"
+    },
+    {
+      "person_name": "松井秀喜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "木村花",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人活動"
+    },
+    {
+      "person_name": "村上世彰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "投資家・経営者は個人活動"
+    },
+    {
+      "person_name": "村上春樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動が基本"
+    },
+    {
+      "person_name": "辻愛沙子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "起業家・経営者として個人活動"
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "timestamp": "2025-11-26T13:17:23.780207",
+  "batch_size": 30,
+  "changes_count": 30,
+  "changes": [
+    {
+      "person_name": "梅棹忠夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "梅原猛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・哲学者は個人活動"
+    },
+    {
+      "person_name": "梅原大吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "プロゲーマーは個人競技者"
+    },
+    {
+      "person_name": "横山秀夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作家は通常個人活動"
+    },
+    {
+      "person_name": "森田正光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "建築家として個人活動"
+    },
+    {
+      "person_name": "松本紘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者で個人活動"
+    },
+    {
+      "person_name": "柴田章太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "柳田國男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者は個人活動"
+    },
+    {
+      "person_name": "渡辺和子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は通常個人活動"
+    },
+    {
+      "person_name": "渡辺健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術研究者は個人活動が基本"
+    },
+    {
+      "person_name": "湯浅誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "社会活動家・研究者で個人活動"
+    },
+    {
+      "person_name": "松本亨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "成田悠輔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済学者として個人活動"
+    },
+    {
+      "person_name": "岩崎俊一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "岸本斉史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動職業"
+    },
+    {
+      "person_name": "川端康成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人活動"
+    },
+    {
+      "person_name": "東浩紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "哲学者・批評家は個人活動"
+    },
+    {
+      "person_name": "村山斉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "本村昌紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人活動"
+    },
+    {
+      "person_name": "杉本博司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "写真家・現代美術家として個人活動"
+    },
+    {
+      "person_name": "赤崎勇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "藤嶋昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者、個人活動"
+    },
+    {
+      "person_name": "藤原正彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "数学者は個人活動が基本"
+    },
+    {
+      "person_name": "藤原和博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "教育関係者は通常グループに所属しない"
+    },
+    {
+      "person_name": "西川正勝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "学術研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "野田佳彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "高橋健太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "学術研究者は通常グループ所属なし"
+    },
+    {
+      "person_name": "高橋健一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術研究者は通常グループなし"
+    },
+    {
+      "person_name": "養老孟司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者は個人活動"
+    },
+    {
+      "person_name": "高橋昌明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学者は通常グループ活動しない"
+    }
+  ]
+}

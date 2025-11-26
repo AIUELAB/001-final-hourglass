@@ -1,0 +1,273 @@
+{
+  "timestamp": "2025-11-26T15:31:26.563185",
+  "batch_size": 50,
+  "changes_count": 38,
+  "changes": [
+    {
+      "person_name": "小野田勇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "佐藤英樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "製造業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "出澤剛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "LINE経営者で個人活動"
+    },
+    {
+      "person_name": "利根川進",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は個人活動"
+    },
+    {
+      "person_name": "北原義昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "写真家は通常個人活動"
+    },
+    {
+      "person_name": "加藤順彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "IT企業経営者で個人活動"
+    },
+    {
+      "person_name": "加藤登紀子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ活動の歌手"
+    },
+    {
+      "person_name": "加藤沢男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "加藤一二三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "将棋棋士は個人競技"
+    },
+    {
+      "person_name": "前田建設工業の前田又兵衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建設業界の経営者"
+    },
+    {
+      "person_name": "前田健太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "前澤友作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "前園真聖",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元サッカー選手、個人競技者"
+    },
+    {
+      "person_name": "加山雄三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "佐藤美和子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会分野の個人活動家"
+    },
+    {
+      "person_name": "佐藤琢磨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "レーシングドライバーは個人競技"
+    },
+    {
+      "person_name": "伊藤若冲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の画家で個人活動"
+    },
+    {
+      "person_name": "伊藤美誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の卓球選手"
+    },
+    {
+      "person_name": "伊藤智仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "伊藤大海",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "IT企業経営者で個人活動"
+    },
+    {
+      "person_name": "伊藤博文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "伊藤雅範",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "伊藤公一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "伊藤みどり",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "伊東豊雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人活動が基本"
+    },
+    {
+      "person_name": "今村雅弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ所属なし"
+    },
+    {
+      "person_name": "似鳥昭雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "佐藤栄作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "佐藤忠志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "佐藤天彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "将棋棋士は個人競技"
+    },
+    {
+      "person_name": "佐藤可士和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デザイナーは個人活動"
+    },
+    {
+      "person_name": "佐藤勝彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "佐藤光男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会活動家、個人活動"
+    },
+    {
+      "person_name": "佐藤信夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "スポーツ選手は通常無所属"
+    },
+    {
+      "person_name": "佐々木雅人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "書道家は個人活動が基本"
+    },
+    {
+      "person_name": "佐々木朗希",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "佐々木常夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "佐々木宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会分野の個人活動者"
+    }
+  ]
+}

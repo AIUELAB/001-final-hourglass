@@ -1,0 +1,273 @@
+{
+  "timestamp": "2025-11-26T15:41:14.306918",
+  "batch_size": 50,
+  "changes_count": 38,
+  "changes": [
+    {
+      "person_name": "宮崎義彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学・技術分野の研究者"
+    },
+    {
+      "person_name": "陰山英男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "教育者は通常グループ概念なし"
+    },
+    {
+      "person_name": "開高健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "吉本ばなな",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家でソロ活動"
+    },
+    {
+      "person_name": "伊坂幸太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人で活動"
+    },
+    {
+      "person_name": "種田山頭火",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳人として個人で活動"
+    },
+    {
+      "person_name": "中原中也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人は個人活動が基本"
+    },
+    {
+      "person_name": "萩原朔太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人は個人活動が基本"
+    },
+    {
+      "person_name": "高村光太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人・彫刻家で個人活動"
+    },
+    {
+      "person_name": "北原白秋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人として個人活動"
+    },
+    {
+      "person_name": "緒方洪庵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の医師、個人活動"
+    },
+    {
+      "person_name": "志賀潔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者は個人活動が基本"
+    },
+    {
+      "person_name": "杉田玄白",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の蘭学医、個人活動"
+    },
+    {
+      "person_name": "前野良沢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の医学者で個人活動"
+    },
+    {
+      "person_name": "高木兼寛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師・軍医は個人職業"
+    },
+    {
+      "person_name": "吉岡弥生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師・教育者で個人活動"
+    },
+    {
+      "person_name": "荻野吟子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師は個人活動職業"
+    },
+    {
+      "person_name": "長与専斎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の医学者・官僚"
+    },
+    {
+      "person_name": "秦佐八郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "石坂公成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "遠山椿吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学・健康分野の個人活動"
+    },
+    {
+      "person_name": "柴三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者は個人活動"
+    },
+    {
+      "person_name": "高峰譲吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者・発明家は個人活動"
+    },
+    {
+      "person_name": "平山雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師・研究者で個人活動"
+    },
+    {
+      "person_name": "蟹江ぎん",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の個人医療従事者"
+    },
+    {
+      "person_name": "坪内逍遥",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治期の文学者で個人活動"
+    },
+    {
+      "person_name": "二葉亭四迷",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の小説家で個人活動"
+    },
+    {
+      "person_name": "幸田露伴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の個人文学者"
+    },
+    {
+      "person_name": "華岡青洲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の医師で個人活動"
+    },
+    {
+      "person_name": "吉益東洞",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の医師で個人活動"
+    },
+    {
+      "person_name": "貝原益軒",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の学者で個人活動"
+    },
+    {
+      "person_name": "小川鼎三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者・研究者は個人活動"
+    },
+    {
+      "person_name": "江馬元齋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者は個人活動が基本"
+    },
+    {
+      "person_name": "丹羽正伯",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の医師で個人活動"
+    },
+    {
+      "person_name": "親鸞",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "鎌倉時代の僧侶、個人活動"
+    },
+    {
+      "person_name": "日蓮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宗教家は個人活動が基本"
+    },
+    {
+      "person_name": "法然",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "鎌倉時代の僧侶、個人活動"
+    },
+    {
+      "person_name": "空海",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の宗教指導者で個人活動"
+    }
+  ]
+}

@@ -1,0 +1,273 @@
+{
+  "timestamp": "2025-11-26T15:15:14.257581",
+  "batch_size": 50,
+  "changes_count": 38,
+  "changes": [
+    {
+      "person_name": "三浦知良",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手は個人競技者"
+    },
+    {
+      "person_name": "三木谷良一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "三木谷浩史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "ヴィントン・サーフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学技術者は通常グループ概念なし"
+    },
+    {
+      "person_name": "上田慎一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は個人活動"
+    },
+    {
+      "person_name": "ディック・バトカス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのNFL選手で個人競技"
+    },
+    {
+      "person_name": "上田桃子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "上野千鶴子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者で個人活動が主"
+    },
+    {
+      "person_name": "中村修司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "中村修二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "中村俊輔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "中曽根康弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "中嶋悟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "中嶋常幸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "中島義道",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "哲学者で個人研究者"
+    },
+    {
+      "person_name": "中島洋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学技術者は通常グループ概念なし"
+    },
+    {
+      "person_name": "下村脩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人研究者"
+    },
+    {
+      "person_name": "ティエリ・アンリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "もこう",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人でゲーム実況活動"
+    },
+    {
+      "person_name": "ときど",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人でプロゲーマー活動"
+    },
+    {
+      "person_name": "ちきりん",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "社会派ブロガーで個人活動"
+    },
+    {
+      "person_name": "あだち充",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "アイザック・ニュートン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "アレキサンダー・マックイーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人デザイナーとして活動"
+    },
+    {
+      "person_name": "アルベルト・アインシュタイン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "アルフレッド・ノーベル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人活動"
+    },
+    {
+      "person_name": "アルフレッド・ディ・ステファノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "アルフレッド・クルップ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの実業家で日本人ではない"
+    },
+    {
+      "person_name": "アルバート・サビン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "アラン・チューリング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "数学者・科学者で個人活動"
+    },
+    {
+      "person_name": "Awich",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロラッパーとして活動"
+    },
+    {
+      "person_name": "DREAMS COME TRUE",
+      "is_group_member": true,
+      "group_name": "DREAMS COME TRUE",
+      "confidence": 1.0,
+      "reason": "音楽バンド/ユニットのメンバー"
+    },
+    {
+      "person_name": "LiSA",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "Mr.Children",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Mr.Childrenはグループ名そのもの"
+    },
+    {
+      "person_name": "YOASOBI・幾田りら",
+      "is_group_member": true,
+      "group_name": "YOASOBI",
+      "confidence": 1.0,
+      "reason": "YOASOBIのメンバー"
+    },
+    {
+      "person_name": "YOASOBI・Ayase",
+      "is_group_member": true,
+      "group_name": "YOASOBI",
+      "confidence": 1.0,
+      "reason": "YOASOBIの音楽ユニットメンバー"
+    },
+    {
+      "person_name": "SANAA",
+      "is_group_member": true,
+      "group_name": "SANAA",
+      "confidence": 0.9,
+      "reason": "妹島和世と西沢立衛による建築ユニット"
+    },
+    {
+      "person_name": "RADWIMPS・野田洋次郎",
+      "is_group_member": true,
+      "group_name": "RADWIMPS",
+      "confidence": 1.0,
+      "reason": "RADWIMPSのメンバー"
+    }
+  ]
+}

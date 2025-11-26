@@ -1,0 +1,280 @@
+{
+  "timestamp": "2025-11-26T15:47:41.779808",
+  "batch_size": 50,
+  "changes_count": 39,
+  "changes": [
+    {
+      "person_name": "遠藤幸雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "阿武教子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技者"
+    },
+    {
+      "person_name": "伊藤雅俊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "中内㓛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "御木本幸吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家でグループ活動なし"
+    },
+    {
+      "person_name": "豊田佐吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "堤康次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "塚原光男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "具志堅幸司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "石川達三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "宮本輝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "五木寛之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家として個人で活動"
+    },
+    {
+      "person_name": "藤沢周平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動が基本"
+    },
+    {
+      "person_name": "浅田次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動"
+    },
+    {
+      "person_name": "北方謙三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "山田詠美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人活動"
+    },
+    {
+      "person_name": "宮城谷昌光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人で活動"
+    },
+    {
+      "person_name": "長岡半太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者は個人研究者"
+    },
+    {
+      "person_name": "西澤潤一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者は個人活動"
+    },
+    {
+      "person_name": "仁科芳雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者は個人活動が基本"
+    },
+    {
+      "person_name": "茅誠司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者、大学教授で個人活動"
+    },
+    {
+      "person_name": "八木秀次",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者で個人活動"
+    },
+    {
+      "person_name": "池田菊苗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "黒田チカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "坂田昌一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "理論物理学者、個人研究者"
+    },
+    {
+      "person_name": "朝比奈泰彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者は個人活動が基本"
+    },
+    {
+      "person_name": "木戸孝允",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家は個人活動"
+    },
+    {
+      "person_name": "勝海舟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・武士で個人活動"
+    },
+    {
+      "person_name": "高杉晋作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で個人活動"
+    },
+    {
+      "person_name": "新島襄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人活動家"
+    },
+    {
+      "person_name": "岡倉天心",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "美術評論家・思想家で個人活動"
+    },
+    {
+      "person_name": "陸奥宗光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・外交官"
+    },
+    {
+      "person_name": "森村泰昌",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "現代美術家として個人活動"
+    },
+    {
+      "person_name": "宮島達男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "現代美術家として個人で活動"
+    },
+    {
+      "person_name": "塩田千春",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "現代美術作家として個人活動"
+    },
+    {
+      "person_name": "やなぎみわ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "美術家として個人活動"
+    },
+    {
+      "person_name": "川俣正",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "現代美術家として個人活動"
+    },
+    {
+      "person_name": "会田誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "現代美術家として個人活動"
+    },
+    {
+      "person_name": "名和晃平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "現代美術家として個人活動"
+    }
+  ]
+}

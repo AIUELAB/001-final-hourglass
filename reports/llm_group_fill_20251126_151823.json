@@ -1,0 +1,280 @@
+{
+  "timestamp": "2025-11-26T15:18:23.911550",
+  "batch_size": 50,
+  "changes_count": 39,
+  "changes": [
+    {
+      "person_name": "西村嘉央",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "文学活動の個人作家"
+    },
+    {
+      "person_name": "中川雅夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会分野の個人活動"
+    },
+    {
+      "person_name": "アントニオ猪木",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "ジャンルイジ・ブッフォン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人活動"
+    },
+    {
+      "person_name": "ジャイアント馬場",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "ジム・ブラウン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人スポーツ選手のため"
+    },
+    {
+      "person_name": "ジェーン・グドール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "ジェームズ・ゴスリング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プログラマー・研究者は個人活動"
+    },
+    {
+      "person_name": "ジョン・カビラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "フリーアナウンサー、個人活動"
+    },
+    {
+      "person_name": "ジェリー・ライス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメフト選手で個人競技者"
+    },
+    {
+      "person_name": "ジェフ・ベゾス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で日本の有名人ではない"
+    },
+    {
+      "person_name": "ジョン・ナッシュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "数学者・経済学者で個人研究者"
+    },
+    {
+      "person_name": "ジョン・バーディーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "チャールズ・ダーウィン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イギリスの自然科学者で個人研究者"
+    },
+    {
+      "person_name": "チャーリー・パーカー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ジャズの個人アーティスト"
+    },
+    {
+      "person_name": "ダルビッシュ有",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "ダイアン・フォッシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "スノーボード平野歩夢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "スティーブ・ジョブズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で日本の有名人でない"
+    },
+    {
+      "person_name": "ジーコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ジョン・マッカーシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "研究者は通常グループ概念なし"
+    },
+    {
+      "person_name": "カリーム・アブドゥル＝ジャバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "オカダ・カズチカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "ウメハラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "プロゲーマーは個人競技"
+    },
+    {
+      "person_name": "ウォルター・ペイトン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのスポーツ選手"
+    },
+    {
+      "person_name": "ウェイン・グレツキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手"
+    },
+    {
+      "person_name": "イーロン・マスク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家でグループ概念なし"
+    },
+    {
+      "person_name": "イチロー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "イケダハヤト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロブロガーとして個人活動"
+    },
+    {
+      "person_name": "カール・マルクス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者で個人活動"
+    },
+    {
+      "person_name": "サイ・ヤング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "ゴードン・ムーア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者・経営者で個人活動"
+    },
+    {
+      "person_name": "ゴーディ・ハウ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロスポーツ選手は個人扱い"
+    },
+    {
+      "person_name": "コービー・ブライアント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "ケン・トンプソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "コンピュータ科学者で個人研究者"
+    },
+    {
+      "person_name": "ケニー・ダルグリッシュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "グイド・ヴァンロッサム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プログラマー個人として活動"
+    },
+    {
+      "person_name": "クロード・シャノン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人活動"
+    },
+    {
+      "person_name": "井深大",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    }
+  ]
+}

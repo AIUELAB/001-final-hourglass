@@ -1,0 +1,189 @@
+{
+  "timestamp": "2025-11-26T10:58:27.971059",
+  "batch_size": 30,
+  "changes_count": 26,
+  "changes": [
+    {
+      "person_name": "AKB48",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "AKB48はグループ名そのもの"
+    },
+    {
+      "person_name": "松田聖子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "玉置浩二",
+      "is_group_member": true,
+      "group_name": "安全地帯",
+      "confidence": 1.0,
+      "reason": "安全地帯のメンバーとして有名"
+    },
+    {
+      "person_name": "諏訪内晶子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "クラシック音楽のソロヴァイオリニスト"
+    },
+    {
+      "person_name": "藤田真央",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシックピアニスト、ソロ活動"
+    },
+    {
+      "person_name": "矢沢永吉",
+      "is_group_member": true,
+      "group_name": "キャロル",
+      "confidence": 0.9,
+      "reason": "キャロルのボーカルとして有名"
+    },
+    {
+      "person_name": "秦基博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ活動のシンガーソングライター"
+    },
+    {
+      "person_name": "中田ヤスタカ",
+      "is_group_member": true,
+      "group_name": "CAPSULE",
+      "confidence": 0.9,
+      "reason": "CAPSULE主宰として活動"
+    },
+    {
+      "person_name": "中森明菜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "中村紘子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシックピアニストでソロ活動"
+    },
+    {
+      "person_name": "久石譲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "上原彩子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "クラシックピアニストでソロ活動"
+    },
+    {
+      "person_name": "上原ひろみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ジャズピアニストとしてソロ活動"
+    },
+    {
+      "person_name": "三代目JSB",
+      "is_group_member": true,
+      "group_name": "三代目J SOUL BROTHERS",
+      "confidence": 1.0,
+      "reason": "ダンス&ボーカルグループ"
+    },
+    {
+      "person_name": "でんぱ組.inc",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "グループ名そのものを指している"
+    },
+    {
+      "person_name": "ももいろクローバーZ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "グループ自体が対象のため"
+    },
+    {
+      "person_name": "tofubeats",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロのトラックメイカー"
+    },
+    {
+      "person_name": "back number・清水依与吏",
+      "is_group_member": true,
+      "group_name": "back number",
+      "confidence": 1.0,
+      "reason": "音楽バンドのメンバー"
+    },
+    {
+      "person_name": "KREVA",
+      "is_group_member": true,
+      "group_name": "KICK THE CAN CREW",
+      "confidence": 0.9,
+      "reason": "KICK THE CAN CREWのメンバー"
+    },
+    {
+      "person_name": "KOHH",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロラッパーとして活動"
+    },
+    {
+      "person_name": "IU",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "シンガーソングライターとしてソロ活動"
+    },
+    {
+      "person_name": "King Gnu・常田大希",
+      "is_group_member": true,
+      "group_name": "King Gnu",
+      "confidence": 1.0,
+      "reason": "King Gnuのメンバー"
+    },
+    {
+      "person_name": "DJ KRUSH",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ソロDJとして活動"
+    },
+    {
+      "person_name": "DA PUMP",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "DA PUMPはグループ名自体"
+    },
+    {
+      "person_name": "BAD HOP",
+      "is_group_member": true,
+      "group_name": "BAD HOP",
+      "confidence": 1.0,
+      "reason": "川崎出身のヒップホップグループ"
+    },
+    {
+      "person_name": "B'z",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "B'z自体がグループ名のため"
+    }
+  ]
+}

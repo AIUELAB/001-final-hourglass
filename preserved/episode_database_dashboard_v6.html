@@ -1058,6 +1058,12 @@
                 <div class="value" id="meta-explanation-count" style="color: #22c55e;">0</div>
                 <div class="label" style="color: rgba(255,255,255,0.9);">メタ的説明検出数（架空キャラ）</div>
             </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #065f46 0%, #047857 100%); color: white;">
+                <h3>📋 フォーマット準拠</h3>
+                <div class="value" id="format-compliance-rate" style="color: #22c55e;">-</div>
+                <div class="label" style="color: rgba(255,255,255,0.9);">標準フォーマット準拠率</div>
+                <div class="label" id="format-compliant-count" style="color: rgba(255,255,255,0.7); font-size: 0.8em; margin-top: 4px;">- / -</div>
+            </div>
         </div>
         </div>
         <!-- タブ1: 統計情報 終了 -->
@@ -1408,6 +1414,30 @@
                 if (metaElement) {
                     metaElement.textContent = metaExplanationCount.toLocaleString();
                     metaElement.style.color = metaExplanationCount > 0 ? '#ef4444' : '#22c55e';
+                }
+
+                // Phase 6: フォーマット準拠率（標準プレフィックス「あなたと同じ◯◯歳のとき、」）
+                // 実在人物: あなたと同じ{age}歳のとき、{name}は
+                // 架空キャラ: あなたと同じ{age}歳のとき、{name}『{work_title}』は
+                const realPersonPattern = /^あなたと同じ\d+歳のとき、[^『]+は/;
+                const fictionalPattern = /^あなたと同じ\d+歳のとき、.+『.+?』は/;
+                const formatCompliantCount = allEpisodes.filter(ep => {
+                    const text = ep.episode_text || '';
+                    const ptype = (ep.person_type || '').toUpperCase();
+                    if (ptype.includes('FICTIONAL')) {
+                        return fictionalPattern.test(text) || realPersonPattern.test(text);
+                    }
+                    return realPersonPattern.test(text);
+                }).length;
+                const formatComplianceRate = ((formatCompliantCount / allEpisodes.length) * 100).toFixed(1);
+                const formatElement = document.getElementById('format-compliance-rate');
+                if (formatElement) {
+                    formatElement.textContent = formatComplianceRate + '%';
+                    formatElement.style.color = parseFloat(formatComplianceRate) >= 100 ? '#22c55e' : '#f59e0b';
+                }
+                const formatCountElement = document.getElementById('format-compliant-count');
+                if (formatCountElement) {
+                    formatCountElement.textContent = `${formatCompliantCount.toLocaleString()} / ${allEpisodes.length.toLocaleString()}`;
                 }
 
                 // ボーナスコンテンツ（範囲外エピソード + 年齢不明）

@@ -1820,6 +1820,17 @@ if "credit balance" in error_str:
             f"実はあなたと同じ{age}歳のとき{person_name}は",
         ]
 
+        # 架空キャラクター用パターン（作品名付き）- EPUP Phase 6対応
+        if person_type == "FICTIONAL":
+            # person_dataから作品名を取得
+            work_title = None
+            if person_data:
+                work_title = person_data.get('work_title')
+            # 作品名パターンを追加（正規表現で任意の作品名にマッチ）
+            valid_prefixes.extend([
+                f"あなたと同じ{age}歳のとき、{person_name}『",  # 作品名付きの開始パターン
+            ])
+
         # カタカナ表記のバリエーションも追加
         katakana_matches = re.findall(r'[ァ-ヶー]+', person_name)
         for katakana in katakana_matches:
@@ -1829,19 +1840,43 @@ if "credit balance" in error_str:
             ])
 
         # エピソードが許容されるフォーマットで始まっているかチェック
-        if not any(episode_text.startswith(prefix) for prefix in valid_prefixes):
-            violations.append({
-                'type': 'FORMAT_ERROR',
-                'message': f"エピソードが標準フォーマットで始まっていません。「あなたと同じ{age}歳のとき、{person_name}（{age}歳）は」で始めてください。",
-                'severity': 'high'
-            })
+        format_valid = any(episode_text.startswith(prefix) for prefix in valid_prefixes)
+
+        # 架空キャラクター: 作品名付きパターンを正規表現でもチェック
+        if not format_valid and person_type == "FICTIONAL":
+            fictional_pattern = rf"^あなたと同じ{age}歳のとき、{re.escape(person_name)}『.+?』は"
+            if re.match(fictional_pattern, episode_text):
+                format_valid = True
+
+        if not format_valid:
+            if person_type == "FICTIONAL":
+                violations.append({
+                    'type': 'FORMAT_ERROR',
+                    'message': f"エピソードが標準フォーマットで始まっていません。架空キャラクターは「あなたと同じ{age}歳のとき、{person_name}『作品名』は」で始めてください。",
+                    'severity': 'high'
+                })
+            else:
+                violations.append({
+                    'type': 'FORMAT_ERROR',
+                    'message': f"エピソードが標準フォーマットで始まっていません。「あなたと同じ{age}歳のとき、{person_name}（{age}歳）は」で始めてください。",
+                    'severity': 'high'
+                })
 
         # プレフィックスを除いた本文を抽出
         main_text = episode_text
+        prefix_found = False
         for prefix in valid_prefixes:
             if episode_text.startswith(prefix):
                 main_text = episode_text[len(prefix):]
+                prefix_found = True
                 break
+
+        # 架空キャラクター: 作品名付きパターンからも本文を抽出
+        if not prefix_found and person_type == "FICTIONAL":
+            fictional_pattern = rf"^あなたと同じ{age}歳のとき、{re.escape(person_name)}『.+?』は"
+            match = re.match(fictional_pattern, episode_text)
+            if match:
+                main_text = episode_text[match.end():]
 
         # 1. 年齢・名前の重複チェック（v3.1ルール適用）
         violations.extend(self._check_age_name_duplication(main_text, age, person_name_display))

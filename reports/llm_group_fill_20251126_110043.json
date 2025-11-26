@@ -1,0 +1,217 @@
+{
+  "timestamp": "2025-11-26T11:00:43.359119",
+  "batch_size": 30,
+  "changes_count": 30,
+  "changes": [
+    {
+      "person_name": "渡辺謙",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優は通常ソロ活動"
+    },
+    {
+      "person_name": "爆笑問題",
+      "is_group_member": true,
+      "group_name": "爆笑問題",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "滝沢カレン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "モデル・タレントとして個人活動"
+    },
+    {
+      "person_name": "水野美紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "水溜りボンド・トミー",
+      "is_group_member": true,
+      "group_name": "水溜りボンド",
+      "confidence": 1.0,
+      "reason": "YouTubeコンビのメンバー"
+    },
+    {
+      "person_name": "広瀬すず",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "嵐",
+      "is_group_member": true,
+      "group_name": "嵐",
+      "confidence": 1.0,
+      "reason": "5人組アイドルグループ"
+    },
+    {
+      "person_name": "東海オンエア・てつや",
+      "is_group_member": true,
+      "group_name": "東海オンエア",
+      "confidence": 1.0,
+      "reason": "6人組YouTubeグループのリーダー"
+    },
+    {
+      "person_name": "松坂桃李",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "本田翼",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "藤原紀香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優・タレントとしてソロ活動"
+    },
+    {
+      "person_name": "見取り図",
+      "is_group_member": true,
+      "group_name": "見取り図",
+      "confidence": 1.0,
+      "reason": "盛山晋太郎とリリーのお笑いコンビ"
+    },
+    {
+      "person_name": "黒柳徹子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "タレント・司会者でソロ活動"
+    },
+    {
+      "person_name": "鶴見辰吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "霜降り明星",
+      "is_group_member": true,
+      "group_name": "霜降り明星",
+      "confidence": 1.0,
+      "reason": "せいやと粗品のお笑いコンビ"
+    },
+    {
+      "person_name": "阿部寛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "長澤まさみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "石坂浩二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "石原さとみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "笑福亭鶴瓶",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "落語家出身のピン芸人"
+    },
+    {
+      "person_name": "竹内結子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "ミルクボーイ",
+      "is_group_member": true,
+      "group_name": "ミルクボーイ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "ナインティナイン",
+      "is_group_member": true,
+      "group_name": "ナインティナイン",
+      "confidence": 1.0,
+      "reason": "岡村隆史と矢部浩之のお笑いコンビ"
+    },
+    {
+      "person_name": "パク・ソジュン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "韓国の俳優、ソロ活動"
+    },
+    {
+      "person_name": "フィッシャーズ・シルクロード",
+      "is_group_member": true,
+      "group_name": "Fischer's",
+      "confidence": 1.0,
+      "reason": "YouTubeグループのメンバー"
+    },
+    {
+      "person_name": "ヒカキン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人YouTuberとして活動"
+    },
+    {
+      "person_name": "ローラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "モデル・女優として個人活動"
+    },
+    {
+      "person_name": "中田敦彦",
+      "is_group_member": true,
+      "group_name": "オリエンタルラジオ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "中村七之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "歌舞伎俳優は個人活動"
+    },
+    {
+      "person_name": "上野樹里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    }
+  ]
+}

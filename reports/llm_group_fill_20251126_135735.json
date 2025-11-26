@@ -1,0 +1,210 @@
+{
+  "timestamp": "2025-11-26T13:57:35.879313",
+  "batch_size": 30,
+  "changes_count": 29,
+  "changes": [
+    {
+      "person_name": "春風亭昇太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "落語家は個人芸能活動"
+    },
+    {
+      "person_name": "新海誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "市川海老蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歌舞伎役者は個人での活動"
+    },
+    {
+      "person_name": "黒澤明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "市川崑",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人職業"
+    },
+    {
+      "person_name": "川村元気",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "映画プロデューサー・小説家として個人活動"
+    },
+    {
+      "person_name": "川上音二郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "歌舞伎役者として個人活動"
+    },
+    {
+      "person_name": "島田紳助",
+      "is_group_member": true,
+      "group_name": "紳助・竜介",
+      "confidence": 0.9,
+      "reason": "お笑いコンビで活動していた"
+    },
+    {
+      "person_name": "村野藤吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人職業"
+    },
+    {
+      "person_name": "村上隆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "現代美術家として個人活動"
+    },
+    {
+      "person_name": "村上信夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "木村重信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "舞踊家は通常個人活動"
+    },
+    {
+      "person_name": "木村英輝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "彫刻家は通常個人活動"
+    },
+    {
+      "person_name": "片岡愛之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "歌舞伎俳優は個人活動"
+    },
+    {
+      "person_name": "辻井伸行",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシックピアニストでソロ活動"
+    },
+    {
+      "person_name": "野村萬斎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "狂言師は個人芸能者"
+    },
+    {
+      "person_name": "野村万作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "狂言師は個人芸能者"
+    },
+    {
+      "person_name": "観世清和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "能楽家は個人芸術家"
+    },
+    {
+      "person_name": "藤田嗣治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家として個人で活動"
+    },
+    {
+      "person_name": "藤井聡太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "将棋棋士は個人競技"
+    },
+    {
+      "person_name": "蜷川幸雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "演出家として個人で活動"
+    },
+    {
+      "person_name": "高橋周平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "黒沢清",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督として個人活動"
+    },
+    {
+      "person_name": "高畑勲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アニメーション監督で個人活動"
+    },
+    {
+      "person_name": "野田秀樹",
+      "is_group_member": true,
+      "group_name": "夢の遊眠社",
+      "confidence": 0.9,
+      "reason": "劇団夢の遊眠社の主宰者"
+    },
+    {
+      "person_name": "鈴木信太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "書道家は個人活動が基本"
+    },
+    {
+      "person_name": "金子兜太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳人として個人で活動"
+    },
+    {
+      "person_name": "金剛永謹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "能楽家は個人活動が基本"
+    },
+    {
+      "person_name": "葛飾北斎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師、個人活動"
+    }
+  ]
+}

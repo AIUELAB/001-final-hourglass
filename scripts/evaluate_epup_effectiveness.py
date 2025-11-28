@@ -546,6 +546,82 @@ def evaluate_yumeilist_coverage(df: pd.DataFrame) -> dict:
     }
 
 
+def evaluate_episode_depth(df: pd.DataFrame) -> dict:
+    """エピソード深度を評価（Phase 13追加）
+
+    重要人物のエピソード数が十分かどうかを評価する。
+    yumeilistのTier1人物は複数エピソードを持つべき。
+    """
+    yumeilist_path = project_root / "yumeilist251128.csv"
+
+    # 人物あたりのエピソード数
+    person_episode_counts = df.groupby("person_name").size()
+    avg_episodes = person_episode_counts.mean()
+    single_episode_count = (person_episode_counts == 1).sum()
+    single_episode_rate = single_episode_count / len(person_episode_counts) * 100
+
+    result = {
+        "total_unique_persons": len(person_episode_counts),
+        "avg_episodes_per_person": round(avg_episodes, 2),
+        "single_episode_count": int(single_episode_count),
+        "single_episode_rate": round(single_episode_rate, 2),
+        "tier_depth": {},
+        "depth_deficient_tier1": [],
+        "depth_score": 100.0,
+    }
+
+    if not yumeilist_path.exists():
+        return result
+
+    try:
+        yumeilist = pd.read_csv(yumeilist_path, encoding="utf-8-sig", on_bad_lines="skip")
+    except Exception:
+        return result
+
+    # Tier別の深度分析
+    for tier in [1, 2]:
+        tier_persons = yumeilist[yumeilist["tier"] == tier]["person_name"].tolist()
+        tier_in_db = [p for p in tier_persons if p in person_episode_counts.index]
+
+        if tier_in_db:
+            tier_counts = person_episode_counts[tier_in_db]
+            tier_single = (tier_counts == 1).sum()
+            result["tier_depth"][f"tier_{tier}"] = {
+                "total_persons": len(tier_in_db),
+                "avg_episodes": round(tier_counts.mean(), 2),
+                "single_episode_count": int(tier_single),
+                "multi_episode_rate": round((len(tier_in_db) - tier_single) / len(tier_in_db) * 100, 2),
+            }
+
+    # Tier1で深度不足の人物
+    tier1_persons = yumeilist[yumeilist["tier"] == 1]["person_name"].tolist()
+    depth_deficient = []
+    for person in tier1_persons:
+        if person in person_episode_counts.index:
+            ep_count = int(person_episode_counts[person])
+            if ep_count <= 1:
+                # 年齢情報も取得
+                person_data = df[df["person_name"] == person]
+                ages = sorted(person_data["age"].dropna().unique().tolist())
+                depth_deficient.append(
+                    {
+                        "person_name": person,
+                        "episode_count": ep_count,
+                        "ages": ages,
+                    }
+                )
+
+    result["depth_deficient_tier1"] = depth_deficient[:20]
+    result["depth_deficient_tier1_count"] = len(depth_deficient)
+
+    # 深度スコア計算（Tier1の複数エピソード率）
+    tier1_data = result["tier_depth"].get("tier_1", {})
+    if tier1_data:
+        result["depth_score"] = tier1_data.get("multi_episode_rate", 100.0)
+
+    return result
+
+
 def generate_recommendations(evaluation: dict) -> list:
     """評価結果に基づく推奨事項を生成"""
     recommendations = []
@@ -684,6 +760,21 @@ def generate_recommendations(evaluation: dict) -> list:
                 }
             )
 
+    # Phase 13: エピソード深度
+    if "episode_depth" in evaluation:
+        ed_info = evaluation["episode_depth"]
+        tier1_deficient = ed_info.get("depth_deficient_tier1_count", 0)
+        if tier1_deficient > 10:
+            deficient_names = [d["person_name"] for d in ed_info.get("depth_deficient_tier1", [])[:5]]
+            recommendations.append(
+                {
+                    "priority": "HIGH" if tier1_deficient > 30 else "MEDIUM",
+                    "category": "エピソード深度",
+                    "issue": f"Tier1重要人物でエピソード1件以下: {tier1_deficient}人 (深度スコア {ed_info['depth_score']}%)",
+                    "action": f"scripts/expand_episode_depth.py --tier 1 --execute で追加生成。例: {deficient_names}",
+                }
+            )
+
     if not recommendations:
         recommendations.append(
             {
@@ -756,22 +847,30 @@ def calculate_epup_score(evaluation: dict) -> dict:
     else:
         scores["yumeilist_coverage"] = 100.0  # yumeilistがない場合は100とする
 
+    # Phase 13: エピソード深度
+    if "episode_depth" in evaluation:
+        scores["episode_depth"] = evaluation["episode_depth"]["depth_score"]
+    else:
+        scores["episode_depth"] = 100.0
+
     # 総合スコア（重み付け平均）
     weights = {
-        "group_entity_clean": 0.07,
-        "group_info_coverage": 0.07,
-        "group_master_sync": 0.07,
-        "format_compliance": 0.09,
-        "no_refusal": 0.09,
-        "age_coverage": 0.07,
-        "work_title_compliance": 0.11,
+        "group_entity_clean": 0.06,
+        "group_info_coverage": 0.06,
+        "group_master_sync": 0.06,
+        "format_compliance": 0.08,
+        "no_refusal": 0.08,
+        "age_coverage": 0.06,
+        "work_title_compliance": 0.10,
         # Phase 10: 事実性チェック指標
-        "placeholder_clean": 0.11,  # プレースホルダークリーン率
-        "fact_density_quality": 0.09,  # 事実密度品質
+        "placeholder_clean": 0.10,  # プレースホルダークリーン率
+        "fact_density_quality": 0.08,  # 事実密度品質
         # Phase 11: ラベル妥当性
-        "episode_type_validity": 0.13,  # episode_type妥当性
+        "episode_type_validity": 0.12,  # episode_type妥当性
         # Phase 12: 有名人カバレッジ
         "yumeilist_coverage": 0.10,  # yumeilistカバレッジ
+        # Phase 13: エピソード深度
+        "episode_depth": 0.10,  # 重要人物のエピソード深度
     }
 
     total_score = sum(scores[k] * weights[k] for k in weights)
@@ -836,6 +935,8 @@ def main():
         "episode_type_validity": evaluate_episode_type_validity(df),
         # Phase 12: yumeilistカバレッジ
         "yumeilist_coverage": evaluate_yumeilist_coverage(df),
+        # Phase 13: エピソード深度
+        "episode_depth": evaluate_episode_depth(df),
     }
 
     # EPUPスコア計算
@@ -923,6 +1024,22 @@ def main():
             print(f"  不足例: {missing_preview}")
     else:
         print("  yumeilist251128.csv が存在しません")
+
+    print("\n【Phase 13: エピソード深度】")
+    ed = evaluation.get("episode_depth", {})
+    if ed:
+        print(f"  平均エピソード数/人: {ed.get('avg_episodes_per_person', 'N/A')}")
+        print(f"  単一エピソード人物: {ed.get('single_episode_count', 0)}人 ({ed.get('single_episode_rate', 0)}%)")
+        tier1_data = ed.get("tier_depth", {}).get("tier_1", {})
+        if tier1_data:
+            print(
+                f"  Tier1深度: 平均{tier1_data.get('avg_episodes', 'N/A')}件, 複数EP率{tier1_data.get('multi_episode_rate', 0)}%"
+            )
+        deficient_count = ed.get("depth_deficient_tier1_count", 0)
+        if deficient_count > 0:
+            print(f"  Tier1深度不足: {deficient_count}人")
+            deficient_names = [d["person_name"] for d in ed.get("depth_deficient_tier1", [])[:5]]
+            print(f"  例: {deficient_names}")
 
     print("\n【推奨アクション】")
     for rec in evaluation["recommendations"]:

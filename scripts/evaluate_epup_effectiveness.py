@@ -129,10 +129,10 @@ def evaluate_format_compliance(df: pd.DataFrame) -> dict:
     """フォーマット準拠率を評価"""
     import re
 
-    # 正規フォーマット: 「あなたと同じN歳のとき、」で始まる
-    valid_pattern = re.compile(r"^あなたと同じ\d+歳のとき、")
+    # 正規フォーマット: 「あなたと同じN歳のとき、」または「あなたと同じ活動N年目のとき、」で始まる
+    valid_pattern = re.compile(r"^あなたと同じ(\d+歳|活動\d+年目)のとき、")
     # 代替フォーマット: 「同じN歳のとき、」で始まる
-    alternate_pattern = re.compile(r"^同じ\d+歳のとき、")
+    alternate_pattern = re.compile(r"^同じ(\d+歳|活動\d+年目)のとき、")
 
     # LLM拒否応答パターン（冒頭パターン + 途中のメタ説明パターン）
     refusal_patterns = [

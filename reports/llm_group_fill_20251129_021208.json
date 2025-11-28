@@ -1,0 +1,343 @@
+{
+  "timestamp": "2025-11-29T02:12:08.313009",
+  "batch_size": 50,
+  "changes_count": 48,
+  "changes": [
+    {
+      "person_name": "緒方貞子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治・社会分野の個人活動家"
+    },
+    {
+      "person_name": "横山秀夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "小説家は個人活動が基本"
+    },
+    {
+      "person_name": "東山魁夷",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家として個人で活動"
+    },
+    {
+      "person_name": "野茂英雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "滝沢カレン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "モデル・タレントでソロ活動"
+    },
+    {
+      "person_name": "ルカ・モドリッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クロアチアのサッカー選手"
+    },
+    {
+      "person_name": "笠原健治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "小泉文明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ビジネス系職業でグループ所属概念なし"
+    },
+    {
+      "person_name": "大塚愛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "菱川師宣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師で個人活動"
+    },
+    {
+      "person_name": "市川海老蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "歌舞伎役者は個人活動"
+    },
+    {
+      "person_name": "竹内洋岳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "登山家は個人活動が基本"
+    },
+    {
+      "person_name": "RADWIMPS・野田洋次郎",
+      "is_group_member": true,
+      "group_name": "RADWIMPS",
+      "confidence": 1.0,
+      "reason": "RADWIMPSのメンバー"
+    },
+    {
+      "person_name": "勝海舟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の政治家で個人活動"
+    },
+    {
+      "person_name": "吉田麻也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手、個人競技"
+    },
+    {
+      "person_name": "藤田嗣治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家として個人で活動"
+    },
+    {
+      "person_name": "広中平祐",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "数学者は個人活動が基本"
+    },
+    {
+      "person_name": "カリーム・アブドゥル＝ジャバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人競技者"
+    },
+    {
+      "person_name": "松本亨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術・研究者は通常個人活動"
+    },
+    {
+      "person_name": "ベーブ・ルース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの野球選手で日本人ではない"
+    },
+    {
+      "person_name": "谷崎潤一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "文学者で個人活動"
+    },
+    {
+      "person_name": "山田隆夫",
+      "is_group_member": true,
+      "group_name": "ずうとるび",
+      "confidence": 0.95,
+      "reason": "お笑いグループのメンバー"
+    },
+    {
+      "person_name": "広瀬淡窓",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の学者で個人活動"
+    },
+    {
+      "person_name": "奈良美智",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動する現代美術家"
+    },
+    {
+      "person_name": "中田敦彦",
+      "is_group_member": true,
+      "group_name": "オリエンタルラジオ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "青野慶久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "古舘伊知郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "フリーアナウンサーで個人活動"
+    },
+    {
+      "person_name": "高峰譲吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動"
+    },
+    {
+      "person_name": "小栗旬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "最上徳内",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の探検家、個人活動"
+    },
+    {
+      "person_name": "山田太一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "脚本家として個人活動"
+    },
+    {
+      "person_name": "スノーボード平野歩夢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "小林愛実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "クラシックピアニストでソロ活動"
+    },
+    {
+      "person_name": "前田建設工業の前田又兵衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "建設会社経営者で個人活動"
+    },
+    {
+      "person_name": "野口健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "登山家で個人活動"
+    },
+    {
+      "person_name": "アメリア・イアハート",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの女性飛行士で個人活動"
+    },
+    {
+      "person_name": "坂茂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人職業"
+    },
+    {
+      "person_name": "ブル中野",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女子プロレスラーで個人活動"
+    },
+    {
+      "person_name": "北斗晶",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "ダンプ松本",
+      "is_group_member": true,
+      "group_name": "極悪同盟",
+      "confidence": 0.8,
+      "reason": "プロレス悪役軍団のメンバー"
+    },
+    {
+      "person_name": "長与千種",
+      "is_group_member": true,
+      "group_name": "クラッシュ・ギャルズ",
+      "confidence": 1.0,
+      "reason": "女子プロレスタッグチーム所属"
+    },
+    {
+      "person_name": "ライオネス飛鳥",
+      "is_group_member": true,
+      "group_name": "クラッシュ・ギャルズ",
+      "confidence": 1.0,
+      "reason": "長与千種とのプロレスタッグチーム"
+    },
+    {
+      "person_name": "アジャコング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "アスカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "西山朋佳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女流棋士は個人競技"
+    },
+    {
+      "person_name": "里見香奈",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "将棋棋士は個人競技者"
+    },
+    {
+      "person_name": "鳥羽和久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "料理人は通常個人活動"
+    },
+    {
+      "person_name": "中村孝明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "料理人は通常個人活動"
+    }
+  ]
+}

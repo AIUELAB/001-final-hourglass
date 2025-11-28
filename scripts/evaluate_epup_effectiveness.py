@@ -450,6 +450,102 @@ def evaluate_episode_type_validity(df: pd.DataFrame) -> dict:
     }
 
 
+def evaluate_yumeilist_coverage(df: pd.DataFrame) -> dict:
+    """yumeilistカバレッジを評価（Phase 12追加）
+
+    yumeilist251128.csvに登録されている有名人のうち、
+    DBにどれだけカバーされているかを評価する。
+    """
+    yumeilist_path = project_root / "yumeilist251128.csv"
+
+    if not yumeilist_path.exists():
+        return {
+            "yumeilist_exists": False,
+            "total_yumeilist": 0,
+            "covered": 0,
+            "missing": 0,
+            "coverage_rate": 100.0,
+            "missing_samples": [],
+        }
+
+    try:
+        yumeilist = pd.read_csv(yumeilist_path, encoding="utf-8-sig", on_bad_lines="skip")
+    except Exception:
+        return {
+            "yumeilist_exists": False,
+            "total_yumeilist": 0,
+            "covered": 0,
+            "missing": 0,
+            "coverage_rate": 100.0,
+            "missing_samples": [],
+        }
+
+    db_persons = set(df["person_name"].unique())
+    covered = 0
+    missing_list = []
+
+    for _, row in yumeilist.iterrows():
+        name = str(row.get("person_name", "")).strip()
+        if not name or name == "nan":
+            continue
+
+        # 名前本体とエイリアス両方でチェック
+        found = False
+        if name in db_persons:
+            found = True
+        else:
+            # 前方一致チェック（作品名やメンバー名が付加されているケース）
+            for db_name in db_persons:
+                if db_name.startswith(name):
+                    found = True
+                    break
+
+        if not found:
+            # エイリアスをチェック
+            aliases = str(row.get("aliases", "")).strip()
+            if aliases and aliases != "nan":
+                for alias in aliases.split(";"):
+                    alias = alias.strip()
+                    if not alias:
+                        continue
+                    if alias in db_persons:
+                        found = True
+                        break
+                    # エイリアスの前方一致も
+                    for db_name in db_persons:
+                        if db_name.startswith(alias):
+                            found = True
+                            break
+                    if found:
+                        break
+
+        if found:
+            covered += 1
+        else:
+            missing_list.append(
+                {
+                    "person_name": name,
+                    "category": row.get("category", ""),
+                    "tier": row.get("tier", 3),
+                }
+            )
+
+    total = covered + len(missing_list)
+    coverage_rate = round(covered / total * 100, 2) if total > 0 else 100.0
+
+    # Tier1の不足を優先表示
+    missing_sorted = sorted(missing_list, key=lambda x: (x.get("tier", 3), x.get("person_name", "")))
+
+    return {
+        "yumeilist_exists": True,
+        "total_yumeilist": total,
+        "covered": covered,
+        "missing": len(missing_list),
+        "coverage_rate": coverage_rate,
+        "missing_samples": missing_sorted[:10],
+    }
+
+
 def generate_recommendations(evaluation: dict) -> list:
     """評価結果に基づく推奨事項を生成"""
     recommendations = []
@@ -574,6 +670,20 @@ def generate_recommendations(evaluation: dict) -> list:
                 }
             )
 
+    # Phase 12: yumeilistカバレッジ
+    if "yumeilist_coverage" in evaluation:
+        yl_info = evaluation["yumeilist_coverage"]
+        if yl_info.get("yumeilist_exists") and yl_info.get("coverage_rate", 100) < 90:
+            missing_names = [m["person_name"] for m in yl_info.get("missing_samples", [])[:5]]
+            recommendations.append(
+                {
+                    "priority": "HIGH" if yl_info["coverage_rate"] < 70 else "MEDIUM",
+                    "category": "有名人カバレッジ",
+                    "issue": f"yumeilistカバレッジ {yl_info['coverage_rate']}% ({yl_info['covered']}/{yl_info['total_yumeilist']})",
+                    "action": f"scripts/import_from_yumeilist.py --execute で不足補完。例: {missing_names}",
+                }
+            )
+
     if not recommendations:
         recommendations.append(
             {
@@ -640,20 +750,28 @@ def calculate_epup_score(evaluation: dict) -> dict:
     else:
         scores["episode_type_validity"] = 100.0
 
+    # Phase 12: yumeilistカバレッジ
+    if "yumeilist_coverage" in evaluation and evaluation["yumeilist_coverage"].get("yumeilist_exists"):
+        scores["yumeilist_coverage"] = evaluation["yumeilist_coverage"]["coverage_rate"]
+    else:
+        scores["yumeilist_coverage"] = 100.0  # yumeilistがない場合は100とする
+
     # 総合スコア（重み付け平均）
     weights = {
-        "group_entity_clean": 0.08,
-        "group_info_coverage": 0.08,
-        "group_master_sync": 0.08,
-        "format_compliance": 0.10,
-        "no_refusal": 0.10,
-        "age_coverage": 0.08,
-        "work_title_compliance": 0.12,
+        "group_entity_clean": 0.07,
+        "group_info_coverage": 0.07,
+        "group_master_sync": 0.07,
+        "format_compliance": 0.09,
+        "no_refusal": 0.09,
+        "age_coverage": 0.07,
+        "work_title_compliance": 0.11,
         # Phase 10: 事実性チェック指標
-        "placeholder_clean": 0.12,  # プレースホルダークリーン率
-        "fact_density_quality": 0.10,  # 事実密度品質
+        "placeholder_clean": 0.11,  # プレースホルダークリーン率
+        "fact_density_quality": 0.09,  # 事実密度品質
         # Phase 11: ラベル妥当性
-        "episode_type_validity": 0.14,  # episode_type妥当性
+        "episode_type_validity": 0.13,  # episode_type妥当性
+        # Phase 12: 有名人カバレッジ
+        "yumeilist_coverage": 0.10,  # yumeilistカバレッジ
     }
 
     total_score = sum(scores[k] * weights[k] for k in weights)
@@ -716,6 +834,8 @@ def main():
         "fact_density_quality": evaluate_fact_density_quality(df),
         # Phase 11: episode_type妥当性チェック
         "episode_type_validity": evaluate_episode_type_validity(df),
+        # Phase 12: yumeilistカバレッジ
+        "yumeilist_coverage": evaluate_yumeilist_coverage(df),
     }
 
     # EPUPスコア計算
@@ -792,6 +912,17 @@ def main():
     print(f"  妥当性率: {etv['achievement_validity_rate']}%")
     if etv.get("suspicious_samples"):
         print(f"  検出例: {[s['person_name'] for s in etv['suspicious_samples'][:3]]}")
+
+    print("\n【Phase 12: yumeilistカバレッジ】")
+    yl = evaluation["yumeilist_coverage"]
+    if yl.get("yumeilist_exists"):
+        print(f"  カバー率: {yl['coverage_rate']}% ({yl['covered']}/{yl['total_yumeilist']})")
+        print(f"  不足人数: {yl['missing']}人")
+        if yl.get("missing_samples"):
+            missing_preview = [f"{m['person_name']}(Tier{m.get('tier', '?')})" for m in yl["missing_samples"][:5]]
+            print(f"  不足例: {missing_preview}")
+    else:
+        print("  yumeilist251128.csv が存在しません")
 
     print("\n【推奨アクション】")
     for rec in evaluation["recommendations"]:

@@ -1,0 +1,266 @@
+{
+  "timestamp": "2025-11-29T02:14:35.737285",
+  "batch_size": 50,
+  "changes_count": 37,
+  "changes": [
+    {
+      "person_name": "三國清三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "料理人は個人活動が基本"
+    },
+    {
+      "person_name": "坂井宏行",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "料理人は個人活動が基本"
+    },
+    {
+      "person_name": "ローランド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ホストクラブ従業員で個人活動"
+    },
+    {
+      "person_name": "田中みな実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フリーアナウンサー・個人活動"
+    },
+    {
+      "person_name": "弘中綾香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "テレビ局所属のアナウンサー"
+    },
+    {
+      "person_name": "ときのそら",
+      "is_group_member": true,
+      "group_name": "ホロライブ",
+      "confidence": 0.9,
+      "reason": "VTuberグループ所属"
+    },
+    {
+      "person_name": "白上フブキ",
+      "is_group_member": true,
+      "group_name": "ホロライブ",
+      "confidence": 0.9,
+      "reason": "VTuberグループメンバー"
+    },
+    {
+      "person_name": "湊あくあ",
+      "is_group_member": true,
+      "group_name": "ホロライブ",
+      "confidence": 0.95,
+      "reason": "ホロライブ所属VTuber"
+    },
+    {
+      "person_name": "兎田ぺこら",
+      "is_group_member": true,
+      "group_name": "ホロライブ",
+      "confidence": 0.9,
+      "reason": "ホロライブ所属のVTuber"
+    },
+    {
+      "person_name": "星街すいせい",
+      "is_group_member": true,
+      "group_name": "ホロライブ",
+      "confidence": 0.95,
+      "reason": "VTuberグループのメンバー"
+    },
+    {
+      "person_name": "月ノ美兎",
+      "is_group_member": true,
+      "group_name": "にじさんじ",
+      "confidence": 0.9,
+      "reason": "VTuberグループ所属"
+    },
+    {
+      "person_name": "葛葉",
+      "is_group_member": true,
+      "group_name": "にじさんじ",
+      "confidence": 0.9,
+      "reason": "バーチャルライバーグループ所属"
+    },
+    {
+      "person_name": "藤井風",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "Vaundy",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "優里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "鍵山優真",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "坂本花織",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "早田ひな",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "卓球選手は個人競技"
+    },
+    {
+      "person_name": "今永昇太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "三笘薫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手は個人競技者"
+    },
+    {
+      "person_name": "冨安健洋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手（個人競技者）"
+    },
+    {
+      "person_name": "豊田真奈美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "神取忍",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人プロレスラー・格闘家"
+    },
+    {
+      "person_name": "井上京子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "工藤めぐみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技者"
+    },
+    {
+      "person_name": "里村明衣子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "中野たむ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "岩谷麻優",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "辰巳リカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "将棋棋士は個人競技"
+    },
+    {
+      "person_name": "神田川俊郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "料理人は個人職業"
+    },
+    {
+      "person_name": "ゆうこす",
+      "is_group_member": true,
+      "group_name": "HKT48",
+      "confidence": 0.9,
+      "reason": "アイドル時代の挫折言及でHKT48所属"
+    },
+    {
+      "person_name": "てんちむ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人YouTuber・インフルエンサー"
+    },
+    {
+      "person_name": "ボンちゃん",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロゲーマーは個人競技"
+    },
+    {
+      "person_name": "ふ〜ど",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロゲーマーは個人競技者"
+    },
+    {
+      "person_name": "戸上隼輔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "卓球選手は個人競技者"
+    },
+    {
+      "person_name": "imase",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "TikTok発のソロアーティスト"
+    },
+    {
+      "person_name": "叶",
+      "is_group_member": true,
+      "group_name": "にじさんじ",
+      "confidence": 0.9,
+      "reason": "にじさんじライバーとして活動"
+    }
+  ]
+}

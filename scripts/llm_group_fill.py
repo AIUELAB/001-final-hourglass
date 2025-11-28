@@ -33,7 +33,7 @@ import pandas as pd
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.group_master import GROUP_MEMBER_MAP, SOLO_ARTISTS, get_group_info
+from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP, SOLO_ARTISTS, get_group_info
 
 # Anthropic API
 try:
@@ -101,6 +101,10 @@ def get_candidates(df: pd.DataFrame, category_filter: Optional[str] = None) -> p
     # MAPに登録済みの人物を除外
     candidates = candidates[~candidates["person_name"].isin(GROUP_MEMBER_MAP.keys())]
     candidates = candidates[~candidates["person_name"].isin(SOLO_ARTISTS)]
+
+    # グループ名そのもの（GROUP_ENTITIES）を除外
+    # ※ person_name がグループ名の場合は LLM 補完の対象外
+    candidates = candidates[~candidates["person_name"].isin(GROUP_ENTITIES)]
 
     # FICTIONALを除外
     candidates = candidates[~candidates["person_type"].str.upper().str.contains("FICTIONAL", na=False)]

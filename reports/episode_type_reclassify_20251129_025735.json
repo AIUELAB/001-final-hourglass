@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-11-29T02:57:35.782337",
+  "total_suspicious": 20,
+  "total_changed": 4,
+  "changes": [
+    {
+      "episode_id": "EP-077085",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-09F24A",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-068865",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "TURNING_POINT"
+    },
+    {
+      "episode_id": "EP-031FC5",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    }
+  ]
+}

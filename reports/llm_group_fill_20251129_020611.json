@@ -1,0 +1,350 @@
+{
+  "timestamp": "2025-11-29T02:06:11.004714",
+  "batch_size": 50,
+  "changes_count": 49,
+  "changes": [
+    {
+      "person_name": "高橋大輔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "荒木飛呂彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "井上朋子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "陶芸家は個人活動が基本"
+    },
+    {
+      "person_name": "岡島悦子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・コンサルタント"
+    },
+    {
+      "person_name": "村上春樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "藤沢周平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動が基本"
+    },
+    {
+      "person_name": "石井雅之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "幸田露伴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治期の小説家、個人作家"
+    },
+    {
+      "person_name": "植田直通",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "サッカー選手は通常個人競技者"
+    },
+    {
+      "person_name": "宮脇咲良",
+      "is_group_member": true,
+      "group_name": "HKT48",
+      "confidence": 1.0,
+      "reason": "HKT48の元メンバー"
+    },
+    {
+      "person_name": "赤松良子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・官僚として個人活動"
+    },
+    {
+      "person_name": "出澤剛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者として個人活動"
+    },
+    {
+      "person_name": "倉本聰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "脚本家として個人で活動"
+    },
+    {
+      "person_name": "松岡修造",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元プロテニス選手で個人競技"
+    },
+    {
+      "person_name": "河瀨直美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "映画監督として個人活動"
+    },
+    {
+      "person_name": "藤子・F・不二雄",
+      "is_group_member": true,
+      "group_name": "藤子不二雄",
+      "confidence": 1.0,
+      "reason": "藤子不二雄コンビの片割れ"
+    },
+    {
+      "person_name": "オスカー・ワイルド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アイルランドの作家で個人活動"
+    },
+    {
+      "person_name": "黒澤明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動職業"
+    },
+    {
+      "person_name": "瀬戸大也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "高橋留美子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動する漫画家"
+    },
+    {
+      "person_name": "三谷幸喜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "脚本家・演出家で個人活動"
+    },
+    {
+      "person_name": "いとうあさこ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "種田山頭火",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳人として個人活動"
+    },
+    {
+      "person_name": "山海嘉之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者・学者は個人活動"
+    },
+    {
+      "person_name": "養老孟司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "解剖学者で個人活動"
+    },
+    {
+      "person_name": "野口聡一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宇宙飛行士は個人職業"
+    },
+    {
+      "person_name": "エルトン・ジョン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビューからソロ活動の音楽家"
+    },
+    {
+      "person_name": "石井光男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "安部公房",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家・劇作家で個人活動"
+    },
+    {
+      "person_name": "北原義昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.8,
+      "reason": "音楽資料収集家・研究者として個人活動"
+    },
+    {
+      "person_name": "渡辺健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "学術研究者は通常グループ活動なし"
+    },
+    {
+      "person_name": "佐藤可士和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動するデザイナー"
+    },
+    {
+      "person_name": "田島直人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "アガサ・クリスティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イギリスの推理小説家で個人活動"
+    },
+    {
+      "person_name": "石坂公成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "平井一夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソニーの経営者で個人活動"
+    },
+    {
+      "person_name": "フランツ・カフカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人作家、グループ活動なし"
+    },
+    {
+      "person_name": "志村ふくみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "染織家として個人活動"
+    },
+    {
+      "person_name": "間宮林蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の探検家で個人活動"
+    },
+    {
+      "person_name": "稲垣浩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動職業"
+    },
+    {
+      "person_name": "SANAA",
+      "is_group_member": true,
+      "group_name": "SANAA",
+      "confidence": 0.9,
+      "reason": "建築家ユニット名として認知"
+    },
+    {
+      "person_name": "矢沢永吉",
+      "is_group_member": true,
+      "group_name": "キャロル",
+      "confidence": 0.9,
+      "reason": "キャロルのボーカルとして有名"
+    },
+    {
+      "person_name": "村上世彰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・投資家は個人活動"
+    },
+    {
+      "person_name": "白川静",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は個人活動が基本"
+    },
+    {
+      "person_name": "野口佳世子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "科学者は通常個人活動"
+    },
+    {
+      "person_name": "竹内涼真",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "松山英樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "竹中平蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済学者・政治家でグループ活動なし"
+    },
+    {
+      "person_name": "向田邦子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "脚本家・作家として個人活動"
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "timestamp": "2025-11-29T01:44:12.127296",
+  "source_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/MASTER_EPISODES_CURRENT.csv",
+  "total_episodes": 2654,
+  "group_master_coverage": {
+    "total_episodes": 2654,
+    "group_info_set_rate": 94.69,
+    "in_group_member_map": 96,
+    "in_solo_artists": 60,
+    "llm_complement_candidates": 118
+  },
+  "group_entity_violations": {
+    "violation_count": 0,
+    "violation_rate": 0.0,
+    "violations": []
+  },
+  "group_master_sync": {
+    "total_map_entries_in_data": 96,
+    "sync_violation_count": 0,
+    "sync_rate": 100.0,
+    "violations": []
+  },
+  "format_compliance": {
+    "total_episodes": 2654,
+    "compliant_count": 2654,
+    "compliance_rate": 100.0,
+    "refusal_count": 0,
+    "refusal_rate": 0.0,
+    "non_compliant_sample": []
+  },
+  "person_type_distribution": {
+    "real_count": 2589,
+    "fictional_count": 65,
+    "other_count": 0,
+    "real_rate": 97.55,
+    "fictional_rate": 2.45
+  },
+  "age_coverage": {
+    "target_age_range": "14-75",
+    "covered_count": 62,
+    "missing_count": 0,
+    "coverage_rate": 100.0,
+    "missing_ages": [],
+    "low_coverage_ages": []
+  },
+  "category_distribution": {
+    "category_count": 12,
+    "top_categories": {
+      "スポーツ": 436,
+      "芸術・文化": 398,
+      "科学・技術": 312,
+      "ビジネス": 267,
+      "エンターテイメント": 235,
+      "学術・研究": 209,
+      "音楽": 186,
+      "政治・社会": 172,
+      "映画・演劇": 141,
+      "文学": 122
+    },
+    "category_rates": {
+      "スポーツ": 16.43,
+      "芸術・文化": 15.0,
+      "科学・技術": 11.76,
+      "ビジネス": 10.06,
+      "エンターテイメント": 8.85,
+      "学術・研究": 7.87,
+      "音楽": 7.01,
+      "政治・社会": 6.48,
+      "映画・演劇": 5.31,
+      "文学": 4.6
+    }
+  },
+  "fictional_work_title_compliance": {
+    "total_fictional": 65,
+    "with_work_title": 65,
+    "compliant": 65,
+    "non_compliant": 0,
+    "compliance_rate": 100.0,
+    "non_compliant_samples": []
+  },
+  "placeholder_detection": {
+    "total_real_episodes": 2589,
+    "placeholder_count": 0,
+    "clean_rate": 100.0,
+    "placeholder_samples": []
+  },
+  "fact_density_quality": {
+    "has_fact_density_column": true,
+    "total_with_score": 2654,
+    "real_with_score": 2589,
+    "low_density_count": 0,
+    "low_density_rate": 0.0,
+    "high_quality_rate": 100.0,
+    "average_density": 6.4
+  },
+  "episode_type_validity": {
+    "episode_type_distribution": {
+      "ACHIEVEMENT": 1573,
+      "CHALLENGE": 512,
+      "TURNING_POINT": 441,
+      "INNOVATION": 43,
+      "FOUNDING": 38,
+      "FAILURE": 26,
+      "COMEBACK": 15,
+      "FAMILY": 6
+    },
+    "total_achievement": 1573,
+    "achievement_rate": 59.27,
+    "suspicious_achievement_count": 16,
+    "achievement_validity_rate": 98.98,
+    "suspicious_samples": [
+      {
+        "episode_id": "EP-000004",
+        "person_name": "梅若実"
+      },
+      {
+        "episode_id": "EP-000026",
+        "person_name": "樋口恵子"
+      },
+      {
+        "episode_id": "EP-000094",
+        "person_name": "渡辺謙"
+      },
+      {
+        "episode_id": "EP-000201",
+        "person_name": "星野源"
+      },
+      {
+        "episode_id": "EP-000208",
+        "person_name": "早川英治"
+      }
+    ]
+  },
+  "yumeilist_coverage": {
+    "yumeilist_exists": true,
+    "total_yumeilist": 79,
+    "covered": 57,
+    "missing": 22,
+    "coverage_rate": 72.15,
+    "missing_samples": [
+      {
+        "person_name": "キズナアイ",
+        "category": "エンターテイメント",
+        "tier": 1
+      },
+      {
+        "person_name": "フィッシャーズ",
+        "category": "エンターテイメント",
+        "tier": 1
+      },
+      {
+        "person_name": "三笘薫",
+        "category": "スポーツ",
+        "tier": 1
+      },
+      {
+        "person_name": "冨安健洋",
+        "category": "スポーツ",
+        "tier": 1
+      },
+      {
+        "person_name": "叶",
+        "category": "エンターテイメント",
+        "tier": 1
+      },
+      {
+        "person_name": "imase",
+        "category": "音楽",
+        "tier": 2
+      },
+      {
+        "person_name": "てんちむ",
+        "category": "エンターテイメント",
+        "tier": 2
+      },
+      {
+        "person_name": "ふ〜ど",
+        "category": "スポーツ",
+        "tier": 2
+      },
+      {
+        "person_name": "ゆうこす",
+        "category": "エンターテイメント",
+        "tier": 2
+      },
+      {
+        "person_name": "ボンちゃん",
+        "category": "スポーツ",
+        "tier": 2
+      }
+    ]
+  },
+  "epup_score": {
+    "individual_scores": {
+      "group_entity_clean": 100,
+      "group_info_coverage": 94.69,
+      "group_master_sync": 100.0,
+      "format_compliance": 100.0,
+      "no_refusal": 100.0,
+      "age_coverage": 100.0,
+      "work_title_compliance": 100.0,
+      "placeholder_clean": 100.0,
+      "fact_density_quality": 100.0,
+      "episode_type_validity": 98.98,
+      "yumeilist_coverage": 72.15
+    },
+    "weights": {
+      "group_entity_clean": 0.07,
+      "group_info_coverage": 0.07,
+      "group_master_sync": 0.07,
+      "format_compliance": 0.09,
+      "no_refusal": 0.09,
+      "age_coverage": 0.07,
+      "work_title_compliance": 0.11,
+      "placeholder_clean": 0.11,
+      "fact_density_quality": 0.09,
+      "episode_type_validity": 0.13,
+      "yumeilist_coverage": 0.1
+    },
+    "total_score": 96.71,
+    "grade": "A"
+  },
+  "recommendations": [
+    {
+      "priority": "MEDIUM",
+      "category": "グループ情報",
+      "issue": "グループ情報設定率 94.69%",
+      "action": "scripts/llm_group_fill.py を実行して補完"
+    },
+    {
+      "priority": "HIGH",
+      "category": "ラベル妥当性",
+      "issue": "疑わしいACHIEVEMENT 16件 (妥当性 98.98%)",
+      "action": "scripts/reclassify_suspicious_achievement.py --execute を実行して再分類"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "有名人カバレッジ",
+      "issue": "yumeilistカバレッジ 72.15% (57/79)",
+      "action": "scripts/import_from_yumeilist.py --execute で不足補完。例: ['キズナアイ', 'フィッシャーズ', '三笘薫', '冨安健洋', '叶']"
+    }
+  ]
+}

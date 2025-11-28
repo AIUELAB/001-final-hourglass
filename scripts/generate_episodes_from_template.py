@@ -77,26 +77,51 @@ def generate_episode(
     person_type: str,
     award_name: Optional[str] = None,
     award_year: Optional[str] = None,
+    work_title: Optional[str] = None,
+    age: Optional[int] = None,
 ) -> Optional[Dict]:
     """エピソードを生成"""
 
     print(f"\n{'='*80}")
     print(f"生成中: {person_name} ({category})")
+    if person_type == "FICTIONAL" and work_title:
+        print(f"作品: {work_title}")
     if award_name:
         print(f"受賞: {award_name}" + (f" ({award_year}年)" if award_year else ""))
     print(f"{'='*80}")
 
     # 年齢の決定
-    if award_year and award_year.isdigit():
-        # 受賞年が指定されている場合、受賞時の年齢を推定（仮に50歳前後）
-        # 実際は生年から計算すべきだが、ここでは受賞年齢として扱う
-        age = random.randint(40, 65)
-    else:
-        # ランダムな年齢を生成（20-70歳）
-        age = random.randint(20, 70)
+    if age is None:
+        if award_year and award_year.isdigit():
+            age = random.randint(40, 65)
+        else:
+            age = random.randint(20, 70)
 
-    # プロンプト作成
-    prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
+    # 架空キャラクター用のプロンプト
+    if person_type == "FICTIONAL" and work_title:
+        prompt = f"""あなたは、架空キャラクターの作品世界内での印象的なエピソードを創作する専門家です。
+
+以下の架空キャラクターについて、{age}歳のときの印象的なエピソードを日本語で生成してください。
+
+【重要】このキャラクターは作品『{work_title}』の登場人物です。作品の世界観・設定を尊重しながら、キャラクターらしいエピソードを創作してください。「架空のキャラクターなので〜」「実在しないため〜」といったメタ的な説明は絶対に書かないでください。
+
+キャラクター名: {person_name}
+作品名: {work_title}
+カテゴリ: {category}
+年齢: {age}歳
+
+エピソードの要件:
+1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で必ず始める
+2. 作品の世界観に沿った具体的なエピソードを創作する
+3. キャラクターの性格や特徴を反映した内容にする
+4. 200-300文字程度
+5. 読者が感情移入できる印象的な内容にする
+6. 「架空のキャラクター」「実在しない」などのメタ説明は絶対に含めない
+
+エピソードテキスト:"""
+    else:
+        # 実在人物用のプロンプト
+        prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 
 以下の人物について、{age}歳のときの印象的なエピソードを日本語で生成してください。
 
@@ -104,14 +129,14 @@ def generate_episode(
 カテゴリ: {category}
 年齢: {age}歳"""
 
-    # 受賞情報をプロンプトに追加
-    if award_name:
-        prompt += f"""
+        # 受賞情報をプロンプトに追加
+        if award_name:
+            prompt += f"""
 受賞した賞: {award_name}"""
-        if award_year:
-            prompt += f" ({award_year}年)"
+            if award_year:
+                prompt += f" ({award_year}年)"
 
-    prompt += """
+        prompt += """
 
 エピソードの要件:
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で始める
@@ -121,14 +146,14 @@ def generate_episode(
 5. 教育的価値のある内容にする
 6. 事実に基づいた内容にする（架空の内容は避ける）"""
 
-    # 受賞エピソードの場合の追加要件
-    if award_name:
-        prompt += f"""
+        # 受賞エピソードの場合の追加要件
+        if award_name:
+            prompt += f"""
 7. {award_name}受賞のエピソードを中心に生成する
 8. 受賞に至った経緯や背景を含める
 9. 受賞の意義や影響について触れる"""
 
-    prompt += "\n\nエピソードテキスト:"
+        prompt += "\n\nエピソードテキスト:"
 
     try:
         # Anthropic API呼び出し
@@ -196,7 +221,7 @@ def generate_episode(
             "source": "",
             "tier": "",
             "week": "",
-            "work_title": "",
+            "work_title": work_title if work_title else "",
             "generation_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "fame_tier": "",
             "wikipedia_ja": "",
@@ -269,13 +294,24 @@ def main():
     for i, row in enumerate(template_rows, 1):
         person_name = row["person_name"]
         category = row["category"]
-        person_type = row["person_type"]
+        person_type = row.get("person_type", "REAL")
         award_name = row.get("award_name", "")  # オプションカラム
         award_year = row.get("award_year", "")  # オプションカラム
+        work_title = row.get("work_title", "")  # 架空キャラ用
+        age_str = row.get("age", "")
+        age = int(float(age_str)) if age_str and age_str.replace(".", "").isdigit() else None
 
         print(f"\n[{i}/{len(template_rows)}] {person_name}")
 
-        episode = generate_episode(person_name, category, person_type, award_name, award_year)
+        episode = generate_episode(
+            person_name,
+            category,
+            person_type,
+            award_name,
+            award_year,
+            work_title=work_title if work_title else None,
+            age=age,
+        )
 
         if episode:
             generated_episodes.append(episode)

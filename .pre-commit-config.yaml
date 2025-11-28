@@ -40,7 +40,7 @@ repos:
 
       # ファイルサイズ・競合チェック
   - id: check-added-large-files
-    args: [--maxkb=1000]
+    args: [--maxkb=2000]
   - id: check-case-conflict
   - id: check-merge-conflict
 

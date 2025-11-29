@@ -1,69 +1,58 @@
 {
-  "session_id": "fame_score_fix_20251126",
-  "timestamp": "2025-11-26T07:37:00+09:00",
-  "status": "paused",
-  "summary": "ダッシュボードv6の空白データ補完作業",
+  "session_id": "epup_drama_improvement_20251129",
+  "timestamp": "2025-11-29T09:20:00+09:00",
+  "status": "completed",
+  "summary": "ドラマ品質改善・7軸スコア100%達成",
 
   "completed_tasks": [
     {
-      "task": "fame_score空白補完",
-      "details": "28件の空白fame_score/episode_fame_scoreを補完",
-      "script": "scripts/fill_empty_fame_scores.py"
+      "task": "ドラマ品質改善完了",
+      "details": "低ドラマエピソード（composite_score < 5.0）を0件に改善",
+      "scripts": ["scripts/evaluate_episode_drama.py", "scripts/improve_low_drama_episodes.py"]
     },
     {
-      "task": "slot→年代への変更",
-      "details": "52件のslot空白を補完し、列名を年代に変更、値を日本語ラベル化",
-      "changes": ["slot 1→幼少期", "slot 10→10代", "slot 20→20代", "slot 30→30代", "slot 40→40代", "slot 50→50代", "slot 60→60歳以上"]
+      "task": "7軸スコア100%補完",
+      "details": "89件の欠損エピソード（DEPTH_EXPANSION, VTUBER_EXPANSION, EDGE_CASE_EXPANSION）に7軸スコアを補完",
+      "script": "scripts/fill_missing_seven_axis.py"
     },
     {
-      "task": "person_id/person_type空白補完",
-      "details": "52件の空白person_id/person_typeを補完（歴史上の人物）"
-    },
-    {
-      "task": "HTMLダッシュボード更新",
-      "details": "slot→nendaiへの変更、表示ラベル「スロット」→「年代」"
-    },
-    {
-      "task": "Playwrightデバッグツール作成",
-      "details": "scripts/dashboard_debug.py - ChromeDevToolsからログを自動取得"
+      "task": "変更コミット",
+      "details": "commit: c278e3f - feat: ドラマ品質改善完了・7軸スコア100%達成"
     }
   ],
 
   "verification_results": {
-    "total_episodes": 2014,
-    "empty_fields": {
-      "person_name": 0,
-      "person_id": 0,
-      "person_type": 0,
-      "episode_id": 0,
-      "age": 0,
-      "年代": 0,
-      "fame_score": 0,
-      "episode_fame_score": 0,
-      "category": 0
-    }
+    "total_episodes": 2762,
+    "unique_persons": 1719,
+    "seven_axis_coverage": {
+      "記憶性スコア": "100%",
+      "共感性スコア": "100%",
+      "意外性スコア": "100%",
+      "生成品質スコア": "100%",
+      "教育的価値": "100%",
+      "ストーリー品質": "100%",
+      "事実密度": "100%"
+    },
+    "low_drama_episodes": 0,
+    "epup_score": "99.82+"
   },
 
   "modified_files": [
     "preserved/data/MASTER_EPISODES_CURRENT.csv",
-    "preserved/episode_database_dashboard_v6.html",
-    "scripts/fill_empty_fame_scores.py",
-    "scripts/dashboard_debug.py",
-    "scripts/check_scores.py"
+    "scripts/evaluate_episode_drama.py",
+    "scripts/improve_low_drama_episodes.py",
+    "scripts/fill_missing_seven_axis.py",
+    "scripts/evaluate_epup_effectiveness.py"
   ],
 
-  "backup_files": [
-    "preserved/data/MASTER_EPISODES_CURRENT_backup_before_fame_fill_20251126_071336.csv",
-    "preserved/data/MASTER_EPISODES_CURRENT_backup_before_slot_fill_20251126_071730.csv",
-    "preserved/data/MASTER_EPISODES_CURRENT_backup_before_slot_label_20251126_073225.csv",
-    "preserved/data/MASTER_EPISODES_CURRENT_backup_before_person_fill_20251126_073609.csv"
+  "pending_tasks": [],
+
+  "next_phase_options": [
+    "新規エピソード追加でカバレッジ拡大",
+    "既存エピソードの品質向上（impressiveness_score, priority_score）",
+    "年齢カバレッジの拡充（未カバー年齢への対応）",
+    "人物追加（yumeilistからのインポート）"
   ],
 
-  "pending_tasks": [
-    "ダッシュボードの動作確認（ブラウザで目視確認）",
-    "不要なバックアップファイルのクリーンアップ（必要に応じて）",
-    "Git commit（変更をコミット）"
-  ],
-
-  "resume_instructions": "「前回のセッションを復元してください」または「ダッシュボード空白修正の続きをしてください」で再開可能"
+  "resume_instructions": "「前回のセッションを復元してください」で再開可能"
 }

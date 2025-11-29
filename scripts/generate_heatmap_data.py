@@ -49,11 +49,16 @@ def load_csv(csv_path: Path | None = None) -> pd.DataFrame:
     return df
 
 
-def generate_heatmap_data(df: pd.DataFrame) -> dict:
-    """年齢(14-75)×日(1-365)のヒートマップデータを生成"""
+def generate_heatmap_data(df: pd.DataFrame, min_age: int = 0, max_age: int = 90) -> dict:
+    """年齢×日(1-365)のヒートマップデータを生成
 
-    # 年齢範囲
-    min_age, max_age = 14, 75
+    Args:
+        df: エピソードDataFrame
+        min_age: 最小年齢（デフォルト: 0）
+        max_age: 最大年齢（デフォルト: 90）
+    """
+
+    # 年齢範囲（引数から取得）
     ages = list(range(min_age, max_age + 1))  # 62歳分
     days = list(range(1, 366))  # 365日
 

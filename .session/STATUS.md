@@ -44,6 +44,21 @@
 - [ ] 年齢カバレッジの拡充
 - [ ] 人物追加（yumeilistからのインポート）
 
+## ダッシュボード起動方法
+
+```bash
+# v7ダッシュボード起動（推奨）
+python scripts/start_dashboard.py
+
+# v6ダッシュボード起動
+python scripts/start_dashboard.py --v6
+
+# ポート指定
+python scripts/start_dashboard.py -p 8888
+```
+
+**URL**: http://localhost:8080/episode_database_dashboard_v7.html
+
 ## 再開方法
 
 ```

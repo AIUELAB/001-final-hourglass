@@ -622,6 +622,98 @@ def evaluate_episode_depth(df: pd.DataFrame) -> dict:
     return result
 
 
+def evaluate_episode_drama_quality(df: pd.DataFrame) -> dict:
+    """エピソードのドラマ品質を評価（Phase 14追加）
+
+    意外性スコアを基準に、エピソードの「読み物としての価値」を評価する。
+    年齢カバレッジではなく、実質的な品質を重視。
+
+    評価基準:
+    - 高品質: 意外性スコア >= 7.0
+    - 中品質: 5.0 <= 意外性スコア < 7.0
+    - 低品質: 意外性スコア < 5.0
+    """
+    # 意外性スコアがある行のみ
+    if "意外性スコア" not in df.columns:
+        return {
+            "has_drama_scores": False,
+            "high_quality_rate": 100.0,
+            "drama_quality_score": 100.0,
+        }
+
+    drama_df = df[df["意外性スコア"].notna()]
+    drama_df = drama_df[pd.to_numeric(drama_df["意外性スコア"], errors="coerce").notna()]
+    drama_scores = pd.to_numeric(drama_df["意外性スコア"], errors="coerce")
+
+    if len(drama_scores) == 0:
+        return {
+            "has_drama_scores": False,
+            "high_quality_rate": 100.0,
+            "drama_quality_score": 100.0,
+        }
+
+    # 品質別カウント
+    high_quality = (drama_scores >= 7.0).sum()
+    mid_quality = ((drama_scores >= 5.0) & (drama_scores < 7.0)).sum()
+    low_quality = (drama_scores < 5.0).sum()
+
+    total = len(drama_scores)
+    high_rate = round(high_quality / total * 100, 2)
+    mid_rate = round(mid_quality / total * 100, 2)
+    low_rate = round(low_quality / total * 100, 2)
+
+    # ドラマ品質スコア = 高品質率 + 中品質率 * 0.5
+    # 目標: 高品質が多いほど良い
+    drama_quality_score = min(100.0, high_rate + mid_rate * 0.5)
+
+    # 低品質エピソードのサンプル
+    low_quality_samples = []
+    low_quality_mask = drama_scores < 5.0
+    if low_quality_mask.any():
+        low_df = drama_df[low_quality_mask].head(10)
+        for _, row in low_df.iterrows():
+            low_quality_samples.append(
+                {
+                    "episode_id": row.get("episode_id", ""),
+                    "person_name": row.get("person_name", ""),
+                    "age": row.get("age", ""),
+                    "意外性スコア": row.get("意外性スコア", ""),
+                    "source": row.get("source", ""),
+                }
+            )
+
+    # source別の品質分布
+    source_quality = {}
+    if "source" in df.columns:
+        for source in drama_df["source"].unique():
+            if pd.isna(source) or source == "":
+                continue
+            source_df = drama_df[drama_df["source"] == source]
+            source_scores = pd.to_numeric(source_df["意外性スコア"], errors="coerce")
+            if len(source_scores) > 0:
+                source_high = (source_scores >= 7.0).sum()
+                source_quality[source] = {
+                    "total": len(source_scores),
+                    "high_quality_rate": round(source_high / len(source_scores) * 100, 2),
+                    "avg_score": round(source_scores.mean(), 2),
+                }
+
+    return {
+        "has_drama_scores": True,
+        "total_with_scores": total,
+        "high_quality_count": int(high_quality),
+        "mid_quality_count": int(mid_quality),
+        "low_quality_count": int(low_quality),
+        "high_quality_rate": high_rate,
+        "mid_quality_rate": mid_rate,
+        "low_quality_rate": low_rate,
+        "avg_drama_score": round(drama_scores.mean(), 2),
+        "drama_quality_score": round(drama_quality_score, 2),
+        "low_quality_samples": low_quality_samples,
+        "source_quality_breakdown": dict(list(source_quality.items())[:10]),
+    }
+
+
 def generate_recommendations(evaluation: dict) -> list:
     """評価結果に基づく推奨事項を生成"""
     recommendations = []
@@ -775,6 +867,22 @@ def generate_recommendations(evaluation: dict) -> list:
                 }
             )
 
+    # Phase 14: ドラマ品質
+    if "episode_drama_quality" in evaluation:
+        dq_info = evaluation["episode_drama_quality"]
+        if dq_info.get("has_drama_scores"):
+            low_quality_rate = dq_info.get("low_quality_rate", 0)
+            if low_quality_rate > 30:
+                low_samples = [s["person_name"] for s in dq_info.get("low_quality_samples", [])[:5]]
+                recommendations.append(
+                    {
+                        "priority": "HIGH" if low_quality_rate > 50 else "MEDIUM",
+                        "category": "ドラマ品質",
+                        "issue": f"低品質エピソード率 {low_quality_rate}% (意外性スコア<5.0)",
+                        "action": f"scripts/evaluate_episode_drama.py --execute で品質監査、再生成を検討。例: {low_samples}",
+                    }
+                )
+
     if not recommendations:
         recommendations.append(
             {
@@ -853,14 +961,21 @@ def calculate_epup_score(evaluation: dict) -> dict:
     else:
         scores["episode_depth"] = 100.0
 
+    # Phase 14: ドラマ品質（新規追加）
+    if "episode_drama_quality" in evaluation:
+        scores["episode_drama_quality"] = evaluation["episode_drama_quality"]["drama_quality_score"]
+    else:
+        scores["episode_drama_quality"] = 100.0
+
     # 総合スコア（重み付け平均）
+    # Phase 14で修正: 年齢カバレッジの重みを削減、ドラマ品質を追加
     weights = {
         "group_entity_clean": 0.06,
         "group_info_coverage": 0.06,
         "group_master_sync": 0.06,
         "format_compliance": 0.08,
         "no_refusal": 0.08,
-        "age_coverage": 0.06,
+        "age_coverage": 0.02,  # Phase 14: 0.06 → 0.02 に削減（年齢より品質重視）
         "work_title_compliance": 0.10,
         # Phase 10: 事実性チェック指標
         "placeholder_clean": 0.10,  # プレースホルダークリーン率
@@ -871,6 +986,8 @@ def calculate_epup_score(evaluation: dict) -> dict:
         "yumeilist_coverage": 0.10,  # yumeilistカバレッジ
         # Phase 13: エピソード深度
         "episode_depth": 0.10,  # 重要人物のエピソード深度
+        # Phase 14: ドラマ品質（新規追加）
+        "episode_drama_quality": 0.04,  # 読み物としての品質
     }
 
     total_score = sum(scores[k] * weights[k] for k in weights)
@@ -937,6 +1054,8 @@ def main():
         "yumeilist_coverage": evaluate_yumeilist_coverage(df),
         # Phase 13: エピソード深度
         "episode_depth": evaluate_episode_depth(df),
+        # Phase 14: ドラマ品質
+        "episode_drama_quality": evaluate_episode_drama_quality(df),
     }
 
     # EPUPスコア計算
@@ -1040,6 +1159,22 @@ def main():
             print(f"  Tier1深度不足: {deficient_count}人")
             deficient_names = [d["person_name"] for d in ed.get("depth_deficient_tier1", [])[:5]]
             print(f"  例: {deficient_names}")
+
+    print("\n【Phase 14: ドラマ品質】")
+    dq = evaluation.get("episode_drama_quality", {})
+    if dq.get("has_drama_scores"):
+        print(f"  評価対象: {dq.get('total_with_scores', 0)}件")
+        print(f"  平均意外性スコア: {dq.get('avg_drama_score', 'N/A')}")
+        print(f"  高品質率(>=7.0): {dq.get('high_quality_rate', 0)}% ({dq.get('high_quality_count', 0)}件)")
+        print(f"  中品質率(5-7): {dq.get('mid_quality_rate', 0)}% ({dq.get('mid_quality_count', 0)}件)")
+        print(f"  低品質率(<5): {dq.get('low_quality_rate', 0)}% ({dq.get('low_quality_count', 0)}件)")
+        print(f"  ドラマ品質スコア: {dq.get('drama_quality_score', 0)}")
+        if dq.get("source_quality_breakdown"):
+            print("  source別品質:")
+            for source, sq in list(dq["source_quality_breakdown"].items())[:5]:
+                print(f"    {source}: 高品質率{sq['high_quality_rate']}%, 平均{sq['avg_score']}")
+    else:
+        print("  意外性スコアデータなし")
 
     print("\n【推奨アクション】")
     for rec in evaluation["recommendations"]:

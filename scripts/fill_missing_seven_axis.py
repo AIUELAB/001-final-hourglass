@@ -1,0 +1,429 @@
+#!/usr/bin/env python3
+"""
+欠損している7軸スコアを補完するスクリプト
+
+LLMを使用して、記憶性・共感性・意外性・生成品質・教育的価値を評価し、
+ルールベースでストーリー品質・事実密度を算出する。
+
+使用方法:
+    # ドライラン（評価のみ）
+    python scripts/fill_missing_seven_axis.py --limit 10
+
+    # 実行（CSVを更新）
+    python scripts/fill_missing_seven_axis.py --execute
+
+    # バッチサイズ指定
+    python scripts/fill_missing_seven_axis.py --batch-size 30 --execute
+"""
+
+import argparse
+import json
+import os
+import re
+import sys
+from datetime import datetime
+from pathlib import Path
+
+import pandas as pd
+
+# プロジェクトルート
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+# パス
+CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
+REPORTS_DIR = PROJECT_ROOT / "reports"
+
+# APIキー
+API_KEY = os.getenv("ANTHROPIC_API_KEY")
+
+# 7軸評価プロンプト
+SEVEN_AXIS_PROMPT = """あなたはエピソードの品質を評価する専門家です。
+
+以下のエピソードを7つの軸で評価してください。
+
+【人物】{person_name}
+【年齢】{age}歳
+【カテゴリ】{category}
+【人物タイプ】{person_type}
+
+【エピソード】
+{episode_text}
+
+【評価軸】（すべて1-10の整数で評価）
+
+1. 記憶性スコア: 読後にどれだけ印象に残るか
+   - 1-3: すぐに忘れる一般的な内容
+   - 4-6: いくらか印象に残る
+   - 7-8: しっかり記憶に残る
+   - 9-10: 強烈に心に刻まれる
+
+2. 共感性スコア: 読者が感情移入できるか
+   - 1-3: 共感しにくい
+   - 4-6: ある程度共感できる
+   - 7-8: 強く共感できる
+   - 9-10: 深く心が動かされる
+
+3. 意外性スコア: 予想外の展開や発見があるか
+   - 1-3: 予想通りの内容
+   - 4-6: 少し意外な要素がある
+   - 7-8: 明確な意外性がある
+   - 9-10: 驚きの展開がある
+
+4. 生成品質スコア: 文章の質・構成・表現力
+   - 1-3: 文章が粗い
+   - 4-6: 標準的な品質
+   - 7-8: 高品質な文章
+   - 9-10: 優れた文学的表現
+
+5. 教育的価値: 読者に学びや気づきを与えるか
+   - 1-3: 学びが少ない
+   - 4-6: いくらか学びがある
+   - 7-8: 明確な学びがある
+   - 9-10: 深い洞察を与える
+
+【出力形式】JSONのみを出力してください:
+{{
+  "記憶性スコア": 数値,
+  "共感性スコア": 数値,
+  "意外性スコア": 数値,
+  "生成品質スコア": 数値,
+  "教育的価値": 数値,
+  "評価理由": "1-2文で簡潔に"
+}}"""
+
+
+def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
+    """ストーリー品質スコアを算出（1-10点）"""
+    score = 5.2
+
+    # テキストの長さ
+    text_length = len(episode_text)
+    if text_length > 250:
+        score += 1.5
+    elif text_length > 180:
+        score += 1.0
+    elif text_length > 120:
+        score += 0.5
+
+    # 感情表現
+    emotion_keywords = [
+        "感動",
+        "喜び",
+        "悲しみ",
+        "怒り",
+        "驚き",
+        "恐怖",
+        "不安",
+        "希望",
+        "愛",
+        "絆",
+        "友情",
+        "憧れ",
+        "葛藤",
+        "苦悩",
+        "決意",
+        "勇気",
+        "涙",
+        "笑顔",
+        "喪失",
+        "再会",
+        "別れ",
+        "出会い",
+    ]
+    emotion_count = sum(1 for kw in emotion_keywords if kw in episode_text)
+    score += min(emotion_count * 0.5, 2.0)
+
+    # ストーリー要素
+    story_elements = [
+        "夢",
+        "目標",
+        "挑戦",
+        "困難",
+        "克服",
+        "達成",
+        "転機",
+        "出発",
+        "帰還",
+        "変化",
+        "成長",
+        "学び",
+        "試練",
+        "突破",
+    ]
+    story_count = sum(1 for elem in story_elements if elem in episode_text)
+    score += min(story_count * 0.3, 1.5)
+
+    # 具体的な描写
+    has_quotes = "「" in episode_text or "」" in episode_text
+    has_numbers = bool(re.search(r"\d+", episode_text))
+    if has_quotes:
+        score += 0.5
+    if has_numbers:
+        score += 0.3
+
+    # エピソードタイプによる調整
+    type_weights = {
+        "ACHIEVEMENT": 0.8,
+        "TURNING_POINT": 1.2,
+        "CHALLENGE": 1.1,
+        "FAMILY": 1.3,
+        "GROWTH": 1.2,
+        "成長": 1.2,
+        "FAILURE": 1.1,
+        "COMEBACK": 1.2,
+    }
+    if episode_type in type_weights:
+        score *= type_weights[episode_type]
+
+    return min(max(score, 1.0), 10.0)
+
+
+def calculate_factual_density(episode_text: str, episode_type: str) -> float:
+    """事実密度スコアを算出（1-10点）"""
+    score = 2.8
+
+    # 数値データ
+    numbers = re.findall(r"\d+", episode_text)
+    number_count = len(numbers)
+    score += min(number_count * 0.4, 2.5)
+
+    # 固有名詞（カタカナ語）
+    katakana_words = re.findall(r"[ァ-ヴー]{3,}", episode_text)
+    score += min(len(katakana_words) * 0.3, 1.5)
+
+    # 具体的な事実キーワード
+    fact_keywords = [
+        "記録",
+        "達成",
+        "受賞",
+        "獲得",
+        "認定",
+        "登録",
+        "ギネス",
+        "初",
+        "最",
+        "第一号",
+        "世界",
+        "日本",
+        "史上",
+        "前人未到",
+    ]
+    fact_count = sum(1 for kw in fact_keywords if kw in episode_text)
+    score += min(fact_count * 0.4, 2.0)
+
+    # 引用や具体的な発言
+    if "「" in episode_text and "」" in episode_text:
+        score += 0.5
+
+    # 検証可能な情報
+    verification_keywords = ["Wikipedia", "公式", "発表", "報道", "記事"]
+    if any(kw in episode_text for kw in verification_keywords):
+        score += 0.5
+
+    # エピソードタイプによる調整
+    type_weights = {
+        "ACHIEVEMENT": 1.3,
+        "TURNING_POINT": 0.9,
+        "CHALLENGE": 1.1,
+        "FAMILY": 0.8,
+        "INNOVATION": 1.2,
+        "FOUNDING": 1.2,
+    }
+    if episode_type in type_weights:
+        score *= type_weights[episode_type]
+
+    # 情報密度
+    text_length = len(episode_text)
+    if text_length > 0:
+        info_density = (number_count + len(katakana_words) + fact_count) / (text_length / 50)
+        if info_density > 2.0:
+            score += 0.5
+        elif info_density > 1.5:
+            score += 0.3
+
+    return min(max(score, 1.0), 10.0)
+
+
+def evaluate_with_llm(client, episode: dict) -> dict | None:
+    """LLMで5軸を評価"""
+    prompt = SEVEN_AXIS_PROMPT.format(
+        person_name=episode.get("person_name", "不明"),
+        age=episode.get("age", "不明"),
+        category=episode.get("category", "不明"),
+        person_type=episode.get("person_type", "REAL"),
+        episode_text=episode.get("episode_text", ""),
+    )
+
+    try:
+        response = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=500,
+            messages=[{"role": "user", "content": prompt}],
+        )
+
+        result_text = response.content[0].text.strip()
+
+        # JSONを抽出
+        if "```json" in result_text:
+            result_text = result_text.split("```json")[1].split("```")[0].strip()
+        elif "```" in result_text:
+            result_text = result_text.split("```")[1].split("```")[0].strip()
+
+        return json.loads(result_text)
+    except Exception as e:
+        print(f"    ⚠️ LLM評価エラー: {e}")
+        return None
+
+
+def main():
+    parser = argparse.ArgumentParser(description="欠損7軸スコアを補完")
+    parser.add_argument("--execute", action="store_true", help="CSVを更新")
+    parser.add_argument("--limit", type=int, help="処理件数の上限")
+    parser.add_argument("--batch-size", type=int, default=50, help="バッチサイズ")
+    args = parser.parse_args()
+
+    print("=" * 80)
+    print("📊 欠損7軸スコア補完スクリプト")
+    print("=" * 80)
+    print()
+
+    # CSVファイル読み込み
+    print("Step 1: CSVファイル読み込み中...")
+    df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
+    print(f"  ✅ 読み込み完了: {len(df):,}件")
+    print()
+
+    # 欠損エピソードを特定
+    print("Step 2: 欠損エピソードを特定中...")
+    missing_indices = []
+    for idx, row in df.iterrows():
+        if pd.isna(row.get("記憶性スコア")):
+            missing_indices.append(idx)
+
+    print(f"  ✅ 欠損エピソード: {len(missing_indices)}件")
+    print()
+
+    if len(missing_indices) == 0:
+        print("✅ 欠損エピソードはありません")
+        return
+
+    # LLMクライアント初期化
+    if not API_KEY:
+        print("❌ ANTHROPIC_API_KEYが設定されていません")
+        return
+
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=API_KEY)
+
+    # 処理件数を制限
+    if args.limit:
+        missing_indices = missing_indices[: args.limit]
+    if args.batch_size:
+        missing_indices = missing_indices[: args.batch_size]
+
+    print(f"Step 3: {len(missing_indices)}件の7軸スコアを算出中...")
+    print()
+
+    updated_count = 0
+    failed_count = 0
+    results = []
+
+    for i, idx in enumerate(missing_indices, 1):
+        row = df.loc[idx]
+        episode_id = row["episode_id"]
+        person_name = row["person_name"]
+        age = row["age"]
+
+        print(f"  [{i}/{len(missing_indices)}] {episode_id}: {person_name} ({age}歳)")
+
+        # ルールベースでストーリー品質と事実密度を算出
+        episode_text = str(row["episode_text"])
+        episode_type = str(row["episode_type"]) if pd.notna(row["episode_type"]) else ""
+
+        storytelling_score = calculate_storytelling_quality(episode_text, episode_type)
+        factual_score = calculate_factual_density(episode_text, episode_type)
+
+        # LLMで5軸を評価
+        episode_dict = row.to_dict()
+        llm_result = evaluate_with_llm(client, episode_dict)
+
+        if llm_result:
+            result = {
+                "episode_id": episode_id,
+                "person_name": person_name,
+                "age": age,
+                "記憶性スコア": llm_result.get("記憶性スコア", 6),
+                "共感性スコア": llm_result.get("共感性スコア", 6),
+                "意外性スコア": llm_result.get("意外性スコア", 6),
+                "生成品質スコア": llm_result.get("生成品質スコア", 7),
+                "教育的価値": llm_result.get("教育的価値", 7),
+                "ストーリー品質": storytelling_score,
+                "事実密度": factual_score,
+            }
+            results.append(result)
+
+            if args.execute:
+                # CSVを更新
+                df.at[idx, "記憶性スコア"] = result["記憶性スコア"]
+                df.at[idx, "共感性スコア"] = result["共感性スコア"]
+                df.at[idx, "意外性スコア"] = result["意外性スコア"]
+                df.at[idx, "生成品質スコア"] = result["生成品質スコア"]
+                df.at[idx, "教育的価値"] = result["教育的価値"]
+                df.at[idx, "ストーリー品質"] = result["ストーリー品質"]
+                df.at[idx, "事実密度"] = result["事実密度"]
+
+            updated_count += 1
+            print(
+                f"    ✅ 記憶:{result['記憶性スコア']} 共感:{result['共感性スコア']} 意外:{result['意外性スコア']} 品質:{result['生成品質スコア']} 教育:{result['教育的価値']} ストーリー:{storytelling_score:.1f} 事実:{factual_score:.1f}"
+            )
+        else:
+            failed_count += 1
+            print("    ❌ 評価失敗")
+
+    print()
+
+    # CSVを保存
+    if args.execute and updated_count > 0:
+        print("Step 4: CSVファイル保存中...")
+        df.to_csv(CSV_PATH, index=False, encoding="utf-8-sig")
+        print(f"  ✅ 保存完了: {CSV_PATH}")
+        print()
+
+    # レポート保存
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    report_path = REPORTS_DIR / f"seven_axis_fill_{timestamp}.json"
+    REPORTS_DIR.mkdir(exist_ok=True)
+
+    report = {
+        "timestamp": timestamp,
+        "total_missing": len(missing_indices),
+        "updated_count": updated_count,
+        "failed_count": failed_count,
+        "execute_mode": args.execute,
+        "results": results,
+    }
+
+    with open(report_path, "w", encoding="utf-8") as f:
+        json.dump(report, f, ensure_ascii=False, indent=2)
+
+    print(f"📄 レポート保存: {report_path}")
+    print()
+
+    # サマリー
+    print("=" * 80)
+    print("✅ 7軸スコア補完完了")
+    print("=" * 80)
+    print()
+    print("📊 サマリー:")
+    print(f"  - 対象エピソード: {len(missing_indices)}件")
+    print(f"  - 成功: {updated_count}件")
+    print(f"  - 失敗: {failed_count}件")
+    if not args.execute:
+        print("  - モード: ドライラン（--execute で実行）")
+    print()
+
+
+if __name__ == "__main__":
+    main()

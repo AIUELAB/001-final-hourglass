@@ -1,0 +1,272 @@
+{
+  "timestamp": "2025-11-29T07:43:52.512544",
+  "source_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/MASTER_EPISODES_CURRENT.csv",
+  "total_episodes": 2762,
+  "group_master_coverage": {
+    "total_episodes": 2762,
+    "group_info_set_rate": 100.0,
+    "in_group_member_map": 96,
+    "in_solo_artists": 62,
+    "llm_complement_candidates": 0
+  },
+  "group_entity_violations": {
+    "violation_count": 0,
+    "violation_rate": 0.0,
+    "violations": []
+  },
+  "group_master_sync": {
+    "total_map_entries_in_data": 96,
+    "sync_violation_count": 0,
+    "sync_rate": 100.0,
+    "violations": []
+  },
+  "format_compliance": {
+    "total_episodes": 2762,
+    "compliant_count": 2762,
+    "compliance_rate": 100.0,
+    "refusal_count": 0,
+    "refusal_rate": 0.0,
+    "non_compliant_sample": []
+  },
+  "person_type_distribution": {
+    "real_count": 2697,
+    "fictional_count": 65,
+    "other_count": 0,
+    "real_rate": 97.65,
+    "fictional_rate": 2.35
+  },
+  "age_coverage": {
+    "target_age_range": "14-75",
+    "covered_count": 62,
+    "missing_count": 0,
+    "coverage_rate": 100.0,
+    "missing_ages": [],
+    "low_coverage_ages": []
+  },
+  "category_distribution": {
+    "category_count": 12,
+    "top_categories": {
+      "スポーツ": 476,
+      "芸術・文化": 412,
+      "科学・技術": 312,
+      "エンターテイメント": 273,
+      "ビジネス": 272,
+      "学術・研究": 211,
+      "音楽": 193,
+      "政治・社会": 172,
+      "映画・演劇": 141,
+      "文学": 122
+    },
+    "category_rates": {
+      "スポーツ": 17.23,
+      "芸術・文化": 14.92,
+      "科学・技術": 11.3,
+      "エンターテイメント": 9.88,
+      "ビジネス": 9.85,
+      "学術・研究": 7.64,
+      "音楽": 6.99,
+      "政治・社会": 6.23,
+      "映画・演劇": 5.1,
+      "文学": 4.42
+    }
+  },
+  "fictional_work_title_compliance": {
+    "total_fictional": 65,
+    "with_work_title": 65,
+    "compliant": 65,
+    "non_compliant": 0,
+    "compliance_rate": 100.0,
+    "non_compliant_samples": []
+  },
+  "placeholder_detection": {
+    "total_real_episodes": 2697,
+    "placeholder_count": 0,
+    "clean_rate": 100.0,
+    "placeholder_samples": []
+  },
+  "fact_density_quality": {
+    "has_fact_density_column": true,
+    "total_with_score": 2762,
+    "real_with_score": 2697,
+    "low_density_count": 0,
+    "low_density_rate": 0.0,
+    "high_quality_rate": 100.0,
+    "average_density": 6.43
+  },
+  "episode_type_validity": {
+    "episode_type_distribution": {
+      "ACHIEVEMENT": 1679,
+      "CHALLENGE": 513,
+      "TURNING_POINT": 442,
+      "INNOVATION": 43,
+      "FOUNDING": 38,
+      "FAILURE": 26,
+      "COMEBACK": 15,
+      "FAMILY": 6
+    },
+    "total_achievement": 1679,
+    "achievement_rate": 60.79,
+    "suspicious_achievement_count": 25,
+    "achievement_validity_rate": 98.51,
+    "suspicious_samples": [
+      {
+        "episode_id": "EP-000004",
+        "person_name": "梅若実"
+      },
+      {
+        "episode_id": "EP-000026",
+        "person_name": "樋口恵子"
+      },
+      {
+        "episode_id": "EP-000094",
+        "person_name": "渡辺謙"
+      },
+      {
+        "episode_id": "EP-000201",
+        "person_name": "星野源"
+      },
+      {
+        "episode_id": "EP-000208",
+        "person_name": "早川英治"
+      }
+    ]
+  },
+  "yumeilist_coverage": {
+    "yumeilist_exists": true,
+    "total_yumeilist": 79,
+    "covered": 79,
+    "missing": 0,
+    "coverage_rate": 100.0,
+    "missing_samples": []
+  },
+  "episode_depth": {
+    "total_unique_persons": 1719,
+    "avg_episodes_per_person": 1.61,
+    "single_episode_count": 1152,
+    "single_episode_rate": 67.02,
+    "tier_depth": {
+      "tier_1": {
+        "total_persons": 62,
+        "avg_episodes": 2.69,
+        "single_episode_count": 0,
+        "multi_episode_rate": 100.0
+      },
+      "tier_2": {
+        "total_persons": 16,
+        "avg_episodes": 1.0,
+        "single_episode_count": 16,
+        "multi_episode_rate": 0.0
+      }
+    },
+    "depth_deficient_tier1": [],
+    "depth_score": 100.0,
+    "depth_deficient_tier1_count": 0
+  },
+  "episode_drama_quality": {
+    "has_drama_scores": true,
+    "total_with_scores": 2673,
+    "high_quality_count": 634,
+    "mid_quality_count": 2039,
+    "low_quality_count": 0,
+    "high_quality_rate": 23.72,
+    "mid_quality_rate": 76.28,
+    "low_quality_rate": 0.0,
+    "avg_drama_score": 5.96,
+    "drama_quality_score": 61.86,
+    "low_quality_samples": [],
+    "source_quality_breakdown": {
+      "PHASE17_COMPLETION": {
+        "total": 651,
+        "high_quality_rate": 0.15,
+        "avg_score": 5.13
+      },
+      "V7_JSON": {
+        "total": 240,
+        "high_quality_rate": 5.42,
+        "avg_score": 5.75
+      },
+      "LLM_GENERATED": {
+        "total": 527,
+        "high_quality_rate": 17.46,
+        "avg_score": 5.72
+      },
+      "PERSON_DB_COMPLETION": {
+        "total": 71,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.19
+      },
+      "GROUP_EPISODE_PHASE3_1": {
+        "total": 2,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.0
+      },
+      "Phase 8.1強化版": {
+        "total": 190,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.04
+      },
+      "LLM_GENERATED_OPENAI": {
+        "total": 188,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.23
+      },
+      "llm_generated_phase5.6": {
+        "total": 15,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.23
+      },
+      "PHASE12_FICTIONAL_V2": {
+        "total": 17,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.72
+      },
+      "CATEGORY_EXPANSION_PHASE4_1": {
+        "total": 2,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.4
+      }
+    }
+  },
+  "epup_score": {
+    "individual_scores": {
+      "group_entity_clean": 100,
+      "group_info_coverage": 100.0,
+      "group_master_sync": 100.0,
+      "format_compliance": 100.0,
+      "no_refusal": 100.0,
+      "age_coverage": 100.0,
+      "work_title_compliance": 100.0,
+      "placeholder_clean": 100.0,
+      "fact_density_quality": 100.0,
+      "episode_type_validity": 98.51,
+      "yumeilist_coverage": 100.0,
+      "episode_depth": 100.0,
+      "episode_drama_quality": 61.86
+    },
+    "weights": {
+      "group_entity_clean": 0.06,
+      "group_info_coverage": 0.06,
+      "group_master_sync": 0.06,
+      "format_compliance": 0.08,
+      "no_refusal": 0.08,
+      "age_coverage": 0.02,
+      "work_title_compliance": 0.1,
+      "placeholder_clean": 0.1,
+      "fact_density_quality": 0.08,
+      "episode_type_validity": 0.12,
+      "yumeilist_coverage": 0.1,
+      "episode_depth": 0.1,
+      "episode_drama_quality": 0.04
+    },
+    "total_score": 98.3,
+    "grade": "A"
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "ラベル妥当性",
+      "issue": "疑わしいACHIEVEMENT 25件 (妥当性 98.51%)",
+      "action": "scripts/reclassify_suspicious_achievement.py --execute を実行して再分類"
+    }
+  ]
+}

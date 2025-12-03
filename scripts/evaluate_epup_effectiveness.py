@@ -27,7 +27,14 @@ import pandas as pd
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP, SOLO_ARTISTS, is_group_entity
+from src.group_master import (
+    GROUP_ENTITIES,
+    GROUP_MEMBER_MAP,
+    SOLO_ARTISTS,
+    is_group_entity,
+    get_dispersion_rule,
+)
+from evaluate_content_density import calculate_content_density_quality, REDUNDANCY_PATTERNS
 
 
 def evaluate_group_master_coverage(df: pd.DataFrame) -> dict:
@@ -714,6 +721,472 @@ def evaluate_episode_drama_quality(df: pd.DataFrame) -> dict:
     }
 
 
+def evaluate_world_celebrity_coverage(df: pd.DataFrame) -> dict:
+    """世界的有名人カバレッジを評価（Phase 16追加）
+
+    TIME 100 / Forbes 100 / Grammy Hall of Fame クラスの
+    世界的有名人がどの程度カバーされているかを評価する。
+    """
+    world_celebrity_path = project_root / "data" / "world_celebrity_master.csv"
+
+    if not world_celebrity_path.exists():
+        return {
+            "world_celebrity_exists": False,
+            "total_world_celebrities": 0,
+            "covered": 0,
+            "missing": 0,
+            "coverage_rate": 100.0,
+            "by_category": {},
+            "critical_missing": [],
+        }
+
+    try:
+        world_celebrities = pd.read_csv(world_celebrity_path, encoding="utf-8-sig")
+    except Exception:
+        return {
+            "world_celebrity_exists": False,
+            "total_world_celebrities": 0,
+            "covered": 0,
+            "missing": 0,
+            "coverage_rate": 100.0,
+            "by_category": {},
+            "critical_missing": [],
+        }
+
+    db_persons = set(df["person_name"].unique())
+
+    # カテゴリ別にカバレッジを計算
+    by_category = {}
+    covered_total = 0
+    missing_list = []
+
+    for category in world_celebrities["category"].unique():
+        cat_celebs = world_celebrities[world_celebrities["category"] == category]
+        covered_count = 0
+        cat_missing = []
+
+        for _, row in cat_celebs.iterrows():
+            name = str(row["person_name"]).strip()
+            aliases = str(row.get("aliases", "")).strip()
+
+            # 名前またはエイリアスでDB内を検索
+            found = False
+            if name in db_persons:
+                found = True
+            elif aliases and aliases != "nan":
+                for alias in aliases.split(";"):
+                    alias = alias.strip()
+                    if alias in db_persons:
+                        found = True
+                        break
+                    # 部分一致も試す
+                    for db_name in db_persons:
+                        if alias in db_name or db_name in alias:
+                            found = True
+                            break
+                    if found:
+                        break
+
+            if found:
+                covered_count += 1
+                covered_total += 1
+            else:
+                tier = row.get("tier", 3)
+                cat_missing.append(
+                    {
+                        "person_name": name,
+                        "tier": tier,
+                        "aliases": aliases,
+                    }
+                )
+                missing_list.append(
+                    {
+                        "person_name": name,
+                        "category": category,
+                        "tier": tier,
+                    }
+                )
+
+        by_category[category] = {
+            "total": len(cat_celebs),
+            "covered": covered_count,
+            "coverage_rate": round(covered_count / len(cat_celebs) * 100, 2) if len(cat_celebs) > 0 else 100.0,
+            "missing": cat_missing[:5],  # サンプル5件
+        }
+
+    total = len(world_celebrities)
+    coverage_rate = round(covered_total / total * 100, 2) if total > 0 else 100.0
+
+    # Tier1の欠落を優先的に表示
+    critical_missing = sorted([m for m in missing_list if m.get("tier") == 1], key=lambda x: x["person_name"])[:20]
+
+    return {
+        "world_celebrity_exists": True,
+        "total_world_celebrities": total,
+        "covered": covered_total,
+        "missing": len(missing_list),
+        "coverage_rate": coverage_rate,
+        "by_category": by_category,
+        "critical_missing": critical_missing,
+    }
+
+
+def evaluate_name_notation_quality(df: pd.DataFrame) -> dict:
+    """人物名表記品質を評価（Phase 18追加）
+
+    名寄せ・表記統一の結果を評価する。
+
+    評価指標:
+    - notation_consistency_rate: 表記一貫性率（同一人物が複数表記を持たない率）
+    - duplicate_resolution_rate: 名寄せ完了率（重複IDがない率）
+    - notation_variation_count: 表記ゆれ検出数
+    - english_name_rate: 英語名残存率（日本語化されていない割合）
+    - alias_coverage_rate: display_name_original登録率
+    """
+    import re
+    import unicodedata
+
+    total_episodes = len(df)
+    unique_persons = df["person_id"].nunique()
+    unique_names = df["person_name"].nunique()
+
+    # 英語名検出（アルファベットのみの名前）
+    english_name_pattern = re.compile(r"^[A-Za-z\s\.\-\']+$")
+    english_names = df[
+        df["person_name"].apply(lambda x: bool(english_name_pattern.match(str(x))) if pd.notna(x) else False)
+    ]
+    english_name_count = english_names["person_name"].nunique()
+    english_name_rate = round(english_name_count / unique_names * 100, 2) if unique_names > 0 else 0
+
+    # 名前正規化関数
+    def normalize_name(name: str) -> str:
+        if pd.isna(name):
+            return ""
+        name = str(name)
+        name = unicodedata.normalize("NFKC", name)
+        name = name.lower()
+        # 中点の統一
+        name = name.replace("·", "・").replace("・", "・")
+        name = re.sub(r"\s+", "", name)
+        return name
+
+    # 同一正規化名で複数person_idがあるか（表記ゆれ）
+    df_copy = df.copy()
+    df_copy["normalized_name"] = df_copy["person_name"].apply(normalize_name)
+
+    # person_id別のユニーク名前
+    name_variations = df_copy.groupby("normalized_name")["person_id"].nunique()
+    variation_groups = name_variations[name_variations > 1]
+    notation_variation_count = len(variation_groups)
+
+    # 表記ゆれサンプル
+    variation_samples = []
+    for norm_name in variation_groups.index[:10]:
+        matches = df_copy[df_copy["normalized_name"] == norm_name]
+        person_ids = matches["person_id"].unique().tolist()
+        names = matches["person_name"].unique().tolist()
+        variation_samples.append(
+            {
+                "normalized": norm_name,
+                "person_ids": person_ids[:5],
+                "names": names[:5],
+            }
+        )
+
+    # 表記一貫性率（表記ゆれがない割合）
+    total_norm_names = df_copy["normalized_name"].nunique()
+    consistent_names = total_norm_names - notation_variation_count
+    notation_consistency_rate = round(consistent_names / total_norm_names * 100, 2) if total_norm_names > 0 else 100.0
+
+    # 名寄せ完了率（person_id数とperson_name数の比較）
+    # 理想: person_id数 == person_name数（1人物1ID）
+    if unique_names > 0:
+        # person_idがperson_nameより多い=同一人物に複数IDがある
+        duplicate_ratio = (unique_persons - unique_names) / unique_persons if unique_persons > unique_names else 0
+        duplicate_resolution_rate = round((1 - duplicate_ratio) * 100, 2)
+    else:
+        duplicate_resolution_rate = 100.0
+
+    # display_name_original登録率（エイリアス登録率）
+    if "display_name_original" in df.columns:
+        has_original = df[
+            (df["display_name_original"].notna())
+            & (df["display_name_original"].astype(str) != "")
+            & (df["display_name_original"].astype(str) != "nan")
+        ]
+        alias_coverage_count = has_original["person_id"].nunique()
+        alias_coverage_rate = round(alias_coverage_count / unique_persons * 100, 2) if unique_persons > 0 else 0
+    else:
+        alias_coverage_count = 0
+        alias_coverage_rate = 0
+
+    # 総合表記品質スコア
+    # notation_consistency_rate * 0.4 + duplicate_resolution_rate * 0.3 + (100 - english_name_rate) * 0.2 + alias_coverage_rate * 0.1
+    notation_quality_score = (
+        notation_consistency_rate * 0.4
+        + duplicate_resolution_rate * 0.3
+        + (100 - min(english_name_rate, 100)) * 0.2
+        + alias_coverage_rate * 0.1
+    )
+
+    return {
+        "total_episodes": total_episodes,
+        "unique_persons": unique_persons,
+        "unique_names": unique_names,
+        "notation_consistency_rate": notation_consistency_rate,
+        "duplicate_resolution_rate": duplicate_resolution_rate,
+        "notation_variation_count": notation_variation_count,
+        "notation_variation_samples": variation_samples,
+        "english_name_count": english_name_count,
+        "english_name_rate": english_name_rate,
+        "alias_coverage_count": alias_coverage_count,
+        "alias_coverage_rate": alias_coverage_rate,
+        "notation_quality_score": round(notation_quality_score, 2),
+    }
+
+
+def evaluate_concatenated_name_patterns(df: pd.DataFrame) -> dict:
+    """連結名パターンを評価（Phase 19追加）
+
+    「グループ名・個人名」のような連結パターンを検出。
+    例: 「嵐・大野智」「AKB48・前田敦子」
+
+    fix_group_name_issues.pyと連携して検出を行う。
+    """
+    # 連結区切り文字
+    CONCAT_DELIMITERS = ["・", "/", "･"]
+
+    # 誤検出除外リスト（人物名全体がこれに一致する場合は連結名として扱わない）
+    EXCLUDE_FROM_CONCATENATION = {
+        "オードリー・ヘプバーン",
+        "Audrey Hepburn",
+        "マリリン・モンロー",
+        "ジャッキー・チェン",
+        "ブルース・リー",
+        "Jackie Chan",
+        "Bruce Lee",
+    }
+
+    concatenated_patterns = []
+
+    for idx, row in df.iterrows():
+        person_name = str(row.get("person_name", "")).strip()
+        if not person_name or person_name == "nan":
+            continue
+
+        # 除外リストチェック
+        if person_name in EXCLUDE_FROM_CONCATENATION:
+            continue
+
+        # 連結パターン検出
+        for delim in CONCAT_DELIMITERS:
+            if delim in person_name:
+                parts = person_name.split(delim, 1)
+                if len(parts) == 2:
+                    left, right = parts[0].strip(), parts[1].strip()
+                    # 左側がグループ名かどうか確認
+                    if left in GROUP_ENTITIES:
+                        concatenated_patterns.append(
+                            {
+                                "episode_id": row.get("episode_id", ""),
+                                "person_name": person_name,
+                                "detected_group": left,
+                                "detected_individual": right,
+                                "suggested_action": "split_to_individual",
+                            }
+                        )
+                        break
+                    # GROUP_MEMBER_MAPで右側が登録されているか確認
+                    if right in GROUP_MEMBER_MAP:
+                        expected_group = GROUP_MEMBER_MAP[right]
+                        if left == expected_group or left in str(expected_group):
+                            concatenated_patterns.append(
+                                {
+                                    "episode_id": row.get("episode_id", ""),
+                                    "person_name": person_name,
+                                    "detected_group": left,
+                                    "detected_individual": right,
+                                    "suggested_action": "split_to_individual",
+                                }
+                            )
+                            break
+
+    # クリーン率計算
+    total = len(df)
+    clean_rate = round((total - len(concatenated_patterns)) / total * 100, 2) if total > 0 else 100.0
+
+    return {
+        "total_episodes": total,
+        "concatenated_pattern_count": len(concatenated_patterns),
+        "clean_rate": clean_rate,
+        "concatenated_samples": concatenated_patterns[:10],
+    }
+
+
+def evaluate_age_chronology_validity(df: pd.DataFrame) -> dict:
+    """年齢時系列妥当性を評価（Phase 17追加）
+
+    実在人物のエピソードが「未来年齢」を参照していないかをチェック。
+    前回の分析で特定された「年齢先行問題」への対策。
+
+    検出方法:
+    1. LLM拒否パターン（「まだ○歳には達していません」など）
+    2. 生年からの年齢逆算（テキスト内に生年記載がある場合）
+    """
+    import re
+
+    # LLM拒否パターン（未来年齢を示唆）
+    future_age_patterns = [
+        re.compile(r"現在.*まだ\d+歳.*には達していません"),
+        re.compile(r"まだ\d+歳には達していません"),
+        re.compile(r"\d+年生まれのため.*?現在"),
+        re.compile(r"\d+歳時点のエピソードは未来"),
+        re.compile(r"崩御されたため.*?\d+歳時のエピソードは存在しません"),
+        re.compile(r"現在まだ\d+歳に達していない"),
+    ]
+
+    # 生年抽出パターン
+    birth_patterns = [
+        re.compile(r"(\d{4})年生まれ"),
+        re.compile(r"生年.*?(\d{4})"),
+    ]
+
+    current_year = 2025
+    real_df = df[df["person_type"].str.upper() == "REAL"]
+
+    violations = []
+    birth_year_mismatches = []
+
+    for idx, row in real_df.iterrows():
+        text = str(row.get("episode_text", ""))
+        age = row.get("age")
+
+        # LLM拒否パターンチェック
+        for pattern in future_age_patterns:
+            if pattern.search(text):
+                violations.append(
+                    {
+                        "episode_id": row.get("episode_id", ""),
+                        "person_name": row.get("person_name", ""),
+                        "age": age,
+                        "violation_type": "LLM_REFUSAL",
+                    }
+                )
+                break
+
+        # 生年からの年齢検証
+        for pattern in birth_patterns:
+            match = pattern.search(text)
+            if match:
+                birth_year = int(match.group(1))
+                if 1900 <= birth_year <= current_year and pd.notna(age):
+                    max_possible_age = current_year - birth_year
+                    if age > max_possible_age:
+                        birth_year_mismatches.append(
+                            {
+                                "episode_id": row.get("episode_id", ""),
+                                "person_name": row.get("person_name", ""),
+                                "age": age,
+                                "birth_year": birth_year,
+                                "max_possible_age": max_possible_age,
+                                "violation_type": "FUTURE_AGE",
+                            }
+                        )
+                break
+
+    total_real = len(real_df)
+    total_violations = len(violations) + len(birth_year_mismatches)
+    clean_rate = round((total_real - total_violations) / total_real * 100, 2) if total_real > 0 else 100.0
+
+    return {
+        "total_real_episodes": total_real,
+        "llm_refusal_violations": len(violations),
+        "birth_year_mismatch_violations": len(birth_year_mismatches),
+        "total_violations": total_violations,
+        "chronology_clean_rate": clean_rate,
+        "violation_samples": (violations + birth_year_mismatches)[:10],
+    }
+
+
+def evaluate_content_density_quality(df: pd.DataFrame) -> dict:
+    """内容密度品質を評価（Phase 15追加）
+
+    エピソードテキストの情報密度を評価。
+    冗長な表現、プレースホルダー的文言、情報量不足を検出。
+
+    評価基準:
+    - 高品質: content_density_score >= 8.0
+    - 中品質: 6.0 <= content_density_score < 8.0
+    - 低品質: content_density_score < 6.0
+    """
+    scores = []
+    high_quality = 0
+    mid_quality = 0
+    low_quality = 0
+    low_quality_samples = []
+    redundancy_total = 0
+
+    for idx, row in df.iterrows():
+        text = str(row.get("episode_text", ""))
+        if not text or text == "nan":
+            continue
+
+        result = calculate_content_density_quality(row)
+        score = result["content_density_score"]
+        scores.append(score)
+
+        redundancy_total += result["redundancy"]["total_count"]
+
+        if score >= 8.0:
+            high_quality += 1
+        elif score >= 6.0:
+            mid_quality += 1
+        else:
+            low_quality += 1
+            if len(low_quality_samples) < 10:
+                low_quality_samples.append(
+                    {
+                        "episode_id": row.get("episode_id", ""),
+                        "person_name": row.get("person_name", ""),
+                        "score": round(score, 2),
+                        "char_count": result["char_count"],
+                    }
+                )
+
+    if len(scores) == 0:
+        return {
+            "has_scores": False,
+            "high_quality_rate": 100.0,
+            "content_density_score": 100.0,
+        }
+
+    import statistics
+
+    total = len(scores)
+    avg_score = statistics.mean(scores)
+    high_rate = round(high_quality / total * 100, 2)
+    mid_rate = round(mid_quality / total * 100, 2)
+    low_rate = round(low_quality / total * 100, 2)
+
+    # 内容密度スコア = 高品質率 + 中品質率 * 0.5
+    content_density_score = min(100.0, high_rate + mid_rate * 0.5)
+
+    return {
+        "has_scores": True,
+        "total_evaluated": total,
+        "high_quality_count": high_quality,
+        "mid_quality_count": mid_quality,
+        "low_quality_count": low_quality,
+        "high_quality_rate": high_rate,
+        "mid_quality_rate": mid_rate,
+        "low_quality_rate": low_rate,
+        "avg_score": round(avg_score, 2),
+        "content_density_score": round(content_density_score, 2),
+        "total_redundancy_patterns": redundancy_total,
+        "low_quality_samples": low_quality_samples,
+    }
+
+
 def generate_recommendations(evaluation: dict) -> list:
     """評価結果に基づく推奨事項を生成"""
     recommendations = []
@@ -883,6 +1356,102 @@ def generate_recommendations(evaluation: dict) -> list:
                     }
                 )
 
+    # Phase 15: 内容密度品質
+    if "content_density_quality" in evaluation:
+        cd_info = evaluation["content_density_quality"]
+        if cd_info.get("has_scores"):
+            low_quality_rate = cd_info.get("low_quality_rate", 0)
+            if low_quality_rate > 10:
+                low_samples = [s["person_name"] for s in cd_info.get("low_quality_samples", [])[:5]]
+                recommendations.append(
+                    {
+                        "priority": "HIGH" if low_quality_rate > 20 else "MEDIUM",
+                        "category": "内容密度",
+                        "issue": f"低密度エピソード率 {low_quality_rate}% (スコア<6.0)",
+                        "action": f"scripts/improve_content_density.py --execute で改善。例: {low_samples}",
+                    }
+                )
+
+    # Phase 16: 世界的有名人カバレッジ
+    if "world_celebrity_coverage" in evaluation:
+        wc_info = evaluation["world_celebrity_coverage"]
+        if wc_info.get("world_celebrity_exists") and wc_info.get("coverage_rate", 100) < 80:
+            missing_names = [m["person_name"] for m in wc_info.get("critical_missing", [])[:5]]
+            recommendations.append(
+                {
+                    "priority": "CRITICAL" if wc_info["coverage_rate"] < 50 else "HIGH",
+                    "category": "世界的有名人",
+                    "issue": f"世界的有名人カバレッジ {wc_info['coverage_rate']}% ({wc_info['covered']}/{wc_info['total_world_celebrities']})",
+                    "action": f"templates/world_* からエピソード生成を実行。Tier1欠落: {missing_names}",
+                }
+            )
+
+    # Phase 17: 年齢時系列妥当性
+    if "age_chronology_validity" in evaluation:
+        ac_info = evaluation["age_chronology_validity"]
+        if ac_info.get("total_violations", 0) > 0:
+            violation_samples = [v["person_name"] for v in ac_info.get("violation_samples", [])[:5]]
+            recommendations.append(
+                {
+                    "priority": "HIGH",
+                    "category": "年齢時系列",
+                    "issue": f"未来年齢違反 {ac_info['total_violations']}件 (クリーン率 {ac_info['chronology_clean_rate']}%)",
+                    "action": f"該当エピソードを削除または再生成。例: {violation_samples}",
+                }
+            )
+
+    # Phase 18: 表記品質
+    if "name_notation_quality" in evaluation:
+        nn_info = evaluation["name_notation_quality"]
+
+        # 表記ゆれ
+        if nn_info.get("notation_variation_count", 0) > 10:
+            variation_samples = [v["names"][0] for v in nn_info.get("notation_variation_samples", [])[:5]]
+            recommendations.append(
+                {
+                    "priority": "HIGH" if nn_info["notation_variation_count"] > 50 else "MEDIUM",
+                    "category": "表記品質",
+                    "issue": f"表記ゆれ {nn_info['notation_variation_count']}件 (一貫性率 {nn_info['notation_consistency_rate']}%)",
+                    "action": f"scripts/merge_duplicate_persons.py --execute で統合。例: {variation_samples}",
+                }
+            )
+
+        # 英語名残存
+        if nn_info.get("english_name_rate", 0) > 5:
+            recommendations.append(
+                {
+                    "priority": "HIGH" if nn_info["english_name_rate"] > 10 else "MEDIUM",
+                    "category": "表記品質",
+                    "issue": f"英語名残存 {nn_info['english_name_count']}人 ({nn_info['english_name_rate']}%)",
+                    "action": "scripts/translate_names_to_japanese.py --execute で日本語化",
+                }
+            )
+
+        # 名寄せ未完了
+        if nn_info.get("duplicate_resolution_rate", 100) < 99:
+            recommendations.append(
+                {
+                    "priority": "HIGH",
+                    "category": "名寄せ",
+                    "issue": f"名寄せ完了率 {nn_info['duplicate_resolution_rate']}%",
+                    "action": "scripts/merge_duplicate_persons.py --execute で重複統合",
+                }
+            )
+
+    # Phase 19: 連結名パターン
+    if "concatenated_name_patterns" in evaluation:
+        cn_info = evaluation["concatenated_name_patterns"]
+        if cn_info.get("concatenated_pattern_count", 0) > 0:
+            sample_names = [s["person_name"] for s in cn_info.get("concatenated_samples", [])[:5]]
+            recommendations.append(
+                {
+                    "priority": "HIGH" if cn_info["concatenated_pattern_count"] > 20 else "MEDIUM",
+                    "category": "連結名パターン",
+                    "issue": f"連結名パターン {cn_info['concatenated_pattern_count']}件 (クリーン率 {cn_info['clean_rate']}%)",
+                    "action": f"scripts/fix_group_name_issues.py --execute で分解・修正。例: {sample_names}",
+                }
+            )
+
     if not recommendations:
         recommendations.append(
             {
@@ -967,27 +1536,76 @@ def calculate_epup_score(evaluation: dict) -> dict:
     else:
         scores["episode_drama_quality"] = 100.0
 
+    # Phase 15: 内容密度品質
+    if "content_density_quality" in evaluation and evaluation["content_density_quality"].get("has_scores"):
+        scores["content_density_quality"] = evaluation["content_density_quality"]["content_density_score"]
+    else:
+        scores["content_density_quality"] = 100.0
+
+    # Phase 16: 世界的有名人カバレッジ
+    if "world_celebrity_coverage" in evaluation and evaluation["world_celebrity_coverage"].get(
+        "world_celebrity_exists"
+    ):
+        scores["world_celebrity_coverage"] = evaluation["world_celebrity_coverage"]["coverage_rate"]
+    else:
+        scores["world_celebrity_coverage"] = 100.0
+
+    # Phase 17: 年齢時系列妥当性
+    if "age_chronology_validity" in evaluation:
+        scores["age_chronology_validity"] = evaluation["age_chronology_validity"]["chronology_clean_rate"]
+    else:
+        scores["age_chronology_validity"] = 100.0
+
+    # Phase 18: 表記品質
+    if "name_notation_quality" in evaluation:
+        scores["notation_consistency"] = evaluation["name_notation_quality"]["notation_consistency_rate"]
+        scores["duplicate_resolution"] = evaluation["name_notation_quality"]["duplicate_resolution_rate"]
+        # 英語名残存率を逆転（低いほど良い）
+        scores["japanese_name_rate"] = 100 - evaluation["name_notation_quality"]["english_name_rate"]
+    else:
+        scores["notation_consistency"] = 100.0
+        scores["duplicate_resolution"] = 100.0
+        scores["japanese_name_rate"] = 100.0
+
+    # Phase 19: 連結名パターンクリーン率
+    if "concatenated_name_patterns" in evaluation:
+        scores["concatenated_name_clean"] = evaluation["concatenated_name_patterns"]["clean_rate"]
+    else:
+        scores["concatenated_name_clean"] = 100.0
+
     # 総合スコア（重み付け平均）
-    # Phase 14で修正: 年齢カバレッジの重みを削減、ドラマ品質を追加
+    # Phase 18で修正: 表記品質を追加
     weights = {
-        "group_entity_clean": 0.06,
-        "group_info_coverage": 0.06,
-        "group_master_sync": 0.06,
-        "format_compliance": 0.08,
-        "no_refusal": 0.08,
-        "age_coverage": 0.02,  # Phase 14: 0.06 → 0.02 に削減（年齢より品質重視）
-        "work_title_compliance": 0.10,
+        "group_entity_clean": 0.03,
+        "group_info_coverage": 0.03,
+        "group_master_sync": 0.03,
+        "format_compliance": 0.05,
+        "no_refusal": 0.05,
+        "age_coverage": 0.02,  # 年齢より品質重視
+        "work_title_compliance": 0.05,
         # Phase 10: 事実性チェック指標
-        "placeholder_clean": 0.10,  # プレースホルダークリーン率
-        "fact_density_quality": 0.08,  # 事実密度品質
+        "placeholder_clean": 0.05,  # プレースホルダークリーン率
+        "fact_density_quality": 0.05,  # 事実密度品質
         # Phase 11: ラベル妥当性
-        "episode_type_validity": 0.12,  # episode_type妥当性
+        "episode_type_validity": 0.06,  # episode_type妥当性
         # Phase 12: 有名人カバレッジ
-        "yumeilist_coverage": 0.10,  # yumeilistカバレッジ
+        "yumeilist_coverage": 0.05,  # yumeilistカバレッジ
         # Phase 13: エピソード深度
-        "episode_depth": 0.10,  # 重要人物のエピソード深度
-        # Phase 14: ドラマ品質（新規追加）
+        "episode_depth": 0.05,  # 重要人物のエピソード深度
+        # Phase 14: ドラマ品質
         "episode_drama_quality": 0.04,  # 読み物としての品質
+        # Phase 15: 内容密度品質
+        "content_density_quality": 0.06,  # 情報密度・冗長性
+        # Phase 16: 世界的有名人カバレッジ（最重要）
+        "world_celebrity_coverage": 0.20,  # TIME100/Forbes100クラスの網羅度
+        # Phase 17: 年齢時系列妥当性
+        "age_chronology_validity": 0.03,  # 未来年齢違反の検出
+        # Phase 18: 表記品質
+        "notation_consistency": 0.05,  # 表記一貫性率
+        "duplicate_resolution": 0.04,  # 名寄せ完了率
+        "japanese_name_rate": 0.06,  # 日本語化率（英語名残存率の逆）
+        # Phase 19: 連結名パターン
+        "concatenated_name_clean": 0.05,  # 連結名パターンクリーン率
     }
 
     total_score = sum(scores[k] * weights[k] for k in weights)
@@ -1056,6 +1674,16 @@ def main():
         "episode_depth": evaluate_episode_depth(df),
         # Phase 14: ドラマ品質
         "episode_drama_quality": evaluate_episode_drama_quality(df),
+        # Phase 15: 内容密度品質
+        "content_density_quality": evaluate_content_density_quality(df),
+        # Phase 16: 世界的有名人カバレッジ
+        "world_celebrity_coverage": evaluate_world_celebrity_coverage(df),
+        # Phase 17: 年齢時系列妥当性
+        "age_chronology_validity": evaluate_age_chronology_validity(df),
+        # Phase 18: 表記品質
+        "name_notation_quality": evaluate_name_notation_quality(df),
+        # Phase 19: 連結名パターン
+        "concatenated_name_patterns": evaluate_concatenated_name_patterns(df),
     }
 
     # EPUPスコア計算
@@ -1175,6 +1803,66 @@ def main():
                 print(f"    {source}: 高品質率{sq['high_quality_rate']}%, 平均{sq['avg_score']}")
     else:
         print("  意外性スコアデータなし")
+
+    print("\n【Phase 15: 内容密度品質】")
+    cd = evaluation.get("content_density_quality", {})
+    if cd.get("has_scores"):
+        print(f"  評価対象: {cd.get('total_evaluated', 0)}件")
+        print(f"  平均スコア: {cd.get('avg_score', 'N/A')}")
+        print(f"  高品質率(>=8.0): {cd.get('high_quality_rate', 0)}% ({cd.get('high_quality_count', 0)}件)")
+        print(f"  中品質率(6-8): {cd.get('mid_quality_rate', 0)}% ({cd.get('mid_quality_count', 0)}件)")
+        print(f"  低品質率(<6): {cd.get('low_quality_rate', 0)}% ({cd.get('low_quality_count', 0)}件)")
+        print(f"  冗長パターン総数: {cd.get('total_redundancy_patterns', 0)}")
+        print(f"  内容密度スコア: {cd.get('content_density_score', 0)}")
+        if cd.get("low_quality_samples"):
+            low_samples = [f"{s['person_name']}({s['score']})" for s in cd["low_quality_samples"][:5]]
+            print(f"  低品質例: {low_samples}")
+    else:
+        print("  内容密度データなし")
+
+    print("\n【Phase 16: 世界的有名人カバレッジ】")
+    wc = evaluation.get("world_celebrity_coverage", {})
+    if wc.get("world_celebrity_exists"):
+        print(f"  カバー率: {wc['coverage_rate']}% ({wc['covered']}/{wc['total_world_celebrities']})")
+        print(f"  不足人数: {wc['missing']}人")
+        # カテゴリ別カバレッジ
+        if wc.get("by_category"):
+            print("  カテゴリ別:")
+            for cat, cat_data in wc["by_category"].items():
+                print(f"    {cat}: {cat_data['coverage_rate']}% ({cat_data['covered']}/{cat_data['total']})")
+        # Tier1欠落
+        if wc.get("critical_missing"):
+            missing_preview = [f"{m['person_name']}({m['category']})" for m in wc["critical_missing"][:5]]
+            print(f"  Tier1欠落例: {missing_preview}")
+    else:
+        print("  data/world_celebrity_master.csv が存在しません")
+
+    print("\n【Phase 18: 表記品質】")
+    nn = evaluation.get("name_notation_quality", {})
+    if nn:
+        print(f"  ユニーク人物数: {nn.get('unique_persons', 0):,}人")
+        print(f"  ユニーク名前数: {nn.get('unique_names', 0):,}種")
+        print(f"  表記一貫性率: {nn.get('notation_consistency_rate', 100)}%")
+        print(f"  名寄せ完了率: {nn.get('duplicate_resolution_rate', 100)}%")
+        print(f"  表記ゆれ数: {nn.get('notation_variation_count', 0)}件")
+        print(f"  英語名残存: {nn.get('english_name_count', 0)}人 ({nn.get('english_name_rate', 0)}%)")
+        print(f"  エイリアス登録率: {nn.get('alias_coverage_rate', 0)}%")
+        print(f"  総合表記品質スコア: {nn.get('notation_quality_score', 0)}")
+        if nn.get("notation_variation_samples"):
+            print("  表記ゆれ例:")
+            for v in nn["notation_variation_samples"][:3]:
+                print(f"    {v['names']}")
+
+    print("\n【Phase 19: 連結名パターン】")
+    cn = evaluation.get("concatenated_name_patterns", {})
+    if cn:
+        print(f"  連結名パターン数: {cn.get('concatenated_pattern_count', 0)}件")
+        print(f"  クリーン率: {cn.get('clean_rate', 100)}%")
+        if cn.get("concatenated_samples"):
+            samples = [f"{s['person_name']} → {s['detected_individual']}" for s in cn["concatenated_samples"][:5]]
+            print("  検出例: ")
+            for sample in samples:
+                print(f"    - {sample}")
 
     print("\n【推奨アクション】")
     for rec in evaluation["recommendations"]:

@@ -1,0 +1,75 @@
+{
+  "timestamp": "2025-12-02T20:18:18.057259",
+  "summary": {
+    "group_as_person": {
+      "detected": 2,
+      "fixed": 2
+    },
+    "concatenated_names": {
+      "detected": 1,
+      "fixed": 1
+    }
+  },
+  "issues": {
+    "group_as_person": [
+      {
+        "episode_id": "EP-59E1F6",
+        "person_id": "nan",
+        "person_name": "フィッシャーズ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "フィッシャーズ",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 2739
+      },
+      {
+        "episode_id": "EP-6CC46D",
+        "person_id": "nan",
+        "person_name": "フィッシャーズ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "フィッシャーズ",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 2740
+      }
+    ],
+    "concatenated_names": [
+      {
+        "episode_id": "EP-000771",
+        "person_id": "P528D388",
+        "person_name": "フィッシャーズ・シルクロード",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "フィッシャーズ",
+        "detected_individual": "シルクロード",
+        "suggested_action": "split_to_individual",
+        "row_index": 770
+      }
+    ]
+  },
+  "results": [
+    {
+      "episode_id": "EP-59E1F6",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "フィッシャーズ",
+      "fixed_name": "シルクロード",
+      "action": "dispersed",
+      "details": "代表メンバー(シルクロード)に変換。他メンバー: ['ンダホ']"
+    },
+    {
+      "episode_id": "EP-6CC46D",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "フィッシャーズ",
+      "fixed_name": "シルクロード",
+      "action": "dispersed",
+      "details": "代表メンバー(シルクロード)に変換。他メンバー: ['ンダホ']"
+    },
+    {
+      "episode_id": "EP-000771",
+      "issue_type": "CONCATENATED_NAME",
+      "original_name": "フィッシャーズ・シルクロード",
+      "fixed_name": "シルクロード",
+      "action": "split",
+      "details": "グループ名(フィッシャーズ)を除去し個人名のみに"
+    }
+  ]
+}

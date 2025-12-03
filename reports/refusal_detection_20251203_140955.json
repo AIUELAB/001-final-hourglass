@@ -1,0 +1,1106 @@
+{
+  "timestamp": "2025-12-03T14:09:55.989377",
+  "source_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv",
+  "stats": {
+    "total": 9418,
+    "proper": 9228,
+    "refusal": 71,
+    "no_format": 119,
+    "by_type": {
+      "DECEASED_MENTIONED": 3,
+      "OTHER_REFUSAL": 28,
+      "FUTURE_AGE": 40
+    }
+  },
+  "problematic_episodes": [
+    {
+      "person_id": "PDE368E8",
+      "person_name": "力道山",
+      "age": "47.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "亡くなって.*ため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "DECEASED_MENTIONED",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "力道山は39歳で亡くなっているため、47歳時のエピソードを生成することができません。\n\n参考情報として、力道山の晩年の印象的なエピソードをご紹介します。\n\n力道山は1963年12月8日、東京・赤坂のナイトクラブで暴力団員に刺され、12月15日に39歳の若さで亡くなりました。日本プロレス界の父として、戦後の日本人に夢と希望を与え続けた彼の突然の死は、日本中に大きな衝撃を与えました。テレビの普及ととも"
+    },
+    {
+      "person_id": "PAFD5963",
+      "person_name": "チャーリー・パーカー",
+      "age": "55.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "チャーリー・パーカーについて、55歳時のエピソードを生成することはできません。\n\nパーカーは1920年生まれで、1955年に34歳の若さで亡くなっています。そのため、55歳の時点は存在しません。\n\nパーカーは、ビバップ・ジャズの創始者の一人として音楽史に大きな足跡を残しましたが、薬物依存と健康問題により短い生涯を終えました。彼の死亡時、検死官は遺体の状態から50代後半と推定したという逸話が残ってお"
+    },
+    {
+      "person_id": "P2F5B850",
+      "person_name": "木村拓哉",
+      "age": "64.0",
+      "category": "俳優・女優",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、木村拓哉さんは1972年11月13日生まれで、現在52歳（2024年時点）です。そのため、64歳時点のエピソードはまだ存在しません。\n\n木村さんの実際のエピソードをご紹介する場合は、以下のような年齢が適切です：\n- 20代：SMAPでの活躍、『ロングバケーション』などのドラマ出演\n- 30代：『HERO』『プライド』などの代表作\n- 40代：『マスカレード・ホテル』などの映画"
+    },
+    {
+      "person_id": "P0B82B22",
+      "person_name": "石原さとみ",
+      "age": "38.0",
+      "category": "俳優・女優",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "そのため.*できません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、石原さとみさんは1986年12月24日生まれで、2025年現在38歳ですが、まだ38歳の時期を完全には経過していません。そのため、38歳時点での具体的な事実に基づくエピソードを生成することができません。\n\n代わりに、以下のような対応が可能です：\n\n1. **37歳時点のエピソード**（2024年）を作成する\n2. **35歳時点のエピソード**（2022年）など、過去の年齢で"
+    },
+    {
+      "person_id": "P04BB217",
+      "person_name": "橋本環奈",
+      "age": "60.0",
+      "category": "俳優・女優",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "お知らせください",
+        "ご希望でしたら",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "橋本環奈さんは現在まだ25歳（2024年時点）のため、60歳時点での実際のエピソードは存在しません。\n\nそのため、事実に基づいた内容という要件を満たすことができません。架空の未来のエピソードを創作することは、要件6の「事実に基づいた内容にする（架空の内容は避ける）」に反してしまいます。\n\n代わりに、橋本環奈さんの実際の年齢における印象的なエピソード（例：10代でのブレイク、映画出演作品、演技への取"
+    },
+    {
+      "person_id": "P3019E3E",
+      "person_name": "小栗旬",
+      "age": "49.0",
+      "category": "俳優・女優",
+      "is_refusal": true,
+      "detected_patterns": [
+        "未来の出来事",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、小栗旬さんは1982年12月26日生まれで、現在（2024年時点）まだ41歳です。49歳時点のエピソードは未来の出来事となるため、事実に基づいた内容を生成することができません。\n\n代わりに、小栗旬さんの実際の年齢に基づいたエピソード、例えば30代後半から40代前半の印象的な出来事（映画監督デビュー作『シュアリー・サムデイ』の制作や、大河ドラマ『鎌倉殿の13人』での北条義時役な"
+    },
+    {
+      "person_id": "PDE1F78E",
+      "person_name": "さんまに続く大御所",
+      "age": "60.0",
+      "category": "エンターテイメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "「さんまに続く大御所」という表現は特定の人物を指していないため、具体的な事実に基づいたエピソードを生成することができません。\n\nもし以下のような具体的な人物名をご指定いただければ、正確なエピソードを作成できます：\n\n- タモリ（森田一義）\n- ビートたけし（北野武）\n- 所ジョージ\n- とんねるず（石橋貴明、木梨憲武）\n- ダウンタウン（浜田雅功、松本人志）\n\n具体的な人物名をお教えいただけますで"
+    },
+    {
+      "person_id": "PDD3245A",
+      "person_name": "サンドウィッチマン",
+      "age": "66.0",
+      "category": "エンターテイメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは実在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "サンドウィッチマンは現在50代のお笑いコンビであり、66歳時点のエピソードは実在しません。2024年現在、伊達みきおさんは49歳、富澤たけしさんは50歳です。\n\n実在する印象的なエピソードとしては、2007年（結成10年目、30代後半）にM-1グランプリで優勝し、それまでの下積み時代を乗り越えてブレイクしたこと、また東日本大震災後に故郷である東北の復興支援に継続的に取り組んでいることなどが挙げられ"
+    },
+    {
+      "person_id": "P9E161EA",
+      "person_name": "山内健司",
+      "age": "63.0",
+      "category": "エンターテイメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、山内健司さんという方について、63歳時点での具体的なエピソードを確認することができませんでした。\n\nエンターテイメント分野には複数の「山内健司」という名前の方がいらっしゃる可能性があり、また現在63歳という年齢から、公開されている詳細な情報が限られている場合もございます。\n\n正確で事実に基づいたエピソードを提供するためには、以下の追加情報があると助かります：\n- 具体的な職業"
+    },
+    {
+      "person_id": "PE5C25AF",
+      "person_name": "織田信長",
+      "age": "54.0",
+      "category": "歴史",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "ご希望でしたら",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "織田信長は49歳で本能寺の変により死去しているため、54歳時のエピソードは存在しません。\n\n歴史上の事実として、信長は1582年6月21日（天正10年6月2日）、京都の本能寺で明智光秀の謀反により49歳で最期を迎えました。そのため、54歳時の出来事を事実に基づいて記述することはできません。\n\nもし別の年齢（例：47歳や48歳）でのエピソードをご希望でしたら、お申し付けください。信長が実際に生きてい"
+    },
+    {
+      "person_id": "PDED0B2C",
+      "person_name": "上杉謙信",
+      "age": "61.0",
+      "category": "歴史",
+      "is_refusal": true,
+      "detected_patterns": [
+        "そのため.*できません",
+        "亡くなって.*ため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "上杉謙信について重要な事実確認をさせてください。\n\n上杉謙信は1530年に生まれ、1578年に49歳で亡くなっています。そのため、61歳のときのエピソードを史実に基づいて作成することはできません。\n\n代わりに、以下のような対応が可能です：\n\n1. **49歳（最晩年）のエピソード**を作成する\n2. **別の年齢**のエピソードを作成する\n3. **別の歴史上の人物**で61歳のエピソードを作成す"
+    },
+    {
+      "person_id": "P23C26A4",
+      "person_name": "坂本龍馬",
+      "age": "56.0",
+      "category": "歴史",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "お伝えする必要があります",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "坂本龍馬についてのエピソード生成のご依頼ですが、重要な歴史的事実をお伝えする必要があります。\n\n坂本龍馬は1867年11月15日（近江屋事件）に京都で暗殺されており、享年33歳（満31歳）でした。そのため、56歳時のエピソードは存在しません。\n\nもし龍馬についてのエピソードをご希望でしたら、以下のような代替案をご提案できます：\n\n1. **実際の年齢でのエピソード**：例えば31歳時の「船中八策」"
+    },
+    {
+      "person_id": "P5D3C50B",
+      "person_name": "松尾芭蕉",
+      "age": "60.0",
+      "category": "歴史",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、松尾芭蕉は60歳まで生きていません。芭蕉は1644年生まれで、1694年に大坂で亡くなっており、享年は満50歳（数え年51歳）でした。\n\n60歳時のエピソードを生成することはできませんが、芭蕉が亡くなる直前の50歳時のエピソードであれば、以下のような内容が可能です：\n\n---\n\nあなたと同じ50歳のとき、松尾芭蕉は大坂で病に倒れ、弟子たちに看取られながら最期の時を迎えました。"
+    },
+    {
+      "person_id": "P8BB10CE",
+      "person_name": "サザンオールスターズ",
+      "age": "25.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "代わりに.*をご提案",
+        "代わりに.*ご提案いたします"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "サザンオールスターズは個人ではなくバンドのため、「25歳」という年齢を適用することができません。\n\n代わりに、バンド結成25年目（2003年頃）のエピソードをご提案いたします：\n\n**結成25周年（2003年）のエピソード案：**\n\nサザンオールスターズ結成25周年にあたる2003年、バンドは四半世紀の集大成として精力的な活動を展開しました。この年、彼らは通算47枚目のシングル「涙の海で抱かれたい"
+    },
+    {
+      "person_id": "PD20C057",
+      "person_name": "X JAPAN",
+      "age": "43.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを作成することができません",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、「X JAPAN」は人物ではなくバンド名（グループ）ですので、個人の年齢でエピソードを作成することができません。\n\nX JAPANは1982年に結成された日本のロックバンドで、メンバーには YOSHIKI、TOSHI、PATA、HEATH（故人）、SUGIZOなどがいます。\n\nもし特定のメンバー（例：YOSHIKIやTOSHI）についてのエピソードをご希望でしたら、そのメンバ"
+    },
+    {
+      "person_id": "PA09552F",
+      "person_name": "L'Arc〜en〜Ciel",
+      "age": "58.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "L'Arc〜en〜Cielはバンド名であり、個人ではないため、「58歳」という年齢を適用することができません。\n\nL'Arc〜en〜Cielは1991年に結成された日本のロックバンドで、人物ではなく音楽グループです。メンバーそれぞれに異なる年齢があり、バンドとして年齢を持つことはありません。\n\nもし以下のような形でエピソードを作成することをご希望でしたら、お手伝いできます：\n\n1. バンド結成から"
+    },
+    {
+      "person_id": "P808C38F",
+      "person_name": "乃木坂46",
+      "age": "51.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "そのため.*できません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、「乃木坂46」は人物ではなく、2011年に結成されたアイドルグループの名称です。そのため、個人の51歳時点でのエピソードを生成することはできません。\n\nもし以下のような内容をお求めでしたら、お手伝いできます：\n\n1. **乃木坂46の特定のメンバー**（例：生駒里奈、白石麻衣など）の51歳時点のエピソード（ただし、現在のメンバーはまだ51歳に達していないため、現時点では生成不"
+    },
+    {
+      "person_id": "P73849F1",
+      "person_name": "欅坂46",
+      "age": "20.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "ご希望でしたら",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、ご指定の内容には対応できません。\n\n「欅坂46」は個人ではなく、2015年に結成されたアイドルグループ名です。そのため、「20歳のとき」という個人の年齢に基づくエピソードを生成することができません。\n\nもし欅坂46に関するエピソードをご希望でしたら、以下のような代替案をご提案できます：\n\n1. **グループ結成時のエピソード**（結成当時の出来事）\n2. **特定のメンバー個"
+    },
+    {
+      "person_id": "P87C58DA",
+      "person_name": "嵐",
+      "age": "42.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、「嵐」は日本の5人組アイドルグループであり、個人ではないため、「42歳」という年齢を特定することができません。\n\n嵐は1999年にデビューし、2020年12月31日に活動休止を発表しました。メンバーそれぞれの年齢も異なります。\n\nもし特定のメンバー（大野智、櫻井翔、相葉雅紀、二宮和也、松本潤）についてのエピソードをご希望でしたら、具体的なメンバー名をお知らせください。または、"
+    },
+    {
+      "person_id": "P440FDD6",
+      "person_name": "SMAP",
+      "age": "66.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "SMAPは個人ではなく1991年にデビューした日本の男性アイドルグループ（5人組）であるため、「66歳」という年齢設定は適用できません。\n\nSMAPのメンバーは：\n- 中居正広（1972年生）\n- 木村拓哉（1972年生）\n- 稲垣吾郎（1973年生）\n- 草彅剛（1974年生）\n- 香取慎吾（1977年生）\n\n2024年現在、最年長のメンバーでも50代前半です。\n\nもし別の音楽家や個人アーティス"
+    },
+    {
+      "person_id": "P91BF20E",
+      "person_name": "Hey! Say! JUMP",
+      "age": "46.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを作成することはできません",
+        "ご希望でしたら",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "Hey! Say! JUMPは個人ではなく、2007年に結成されたジャニーズ事務所の男性アイドルグループです。そのため、人物として「46歳のとき」という設定でエピソードを作成することはできません。\n\nもし、グループのメンバー個人についてのエピソードをご希望でしたら、以下のような情報提供が可能です：\n\n- 山田涼介（1993年生まれ）\n- 知念侑李（1993年生まれ）\n- 中島裕翔（1993年生まれ"
+    },
+    {
+      "person_id": "P5BACDB9",
+      "person_name": "King & Prince",
+      "age": "48.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを作成することができません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "King & Princeは2018年にデビューしたジャニーズ事務所のグループであり、個人ではなく複数のメンバーで構成されています。2024年現在、メンバーは20代後半から30代前半であり、48歳という年齢設定は事実と合致しません。\n\nまた、グループとして48歳になるのは2066年であり、未来のことについては事実に基づいたエピソードを作成することができません。\n\n正確な情報に基づいたエピソードを作"
+    },
+    {
+      "person_id": "P7BA603B",
+      "person_name": "Perfume",
+      "age": "64.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "代わりに.*をご提案"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "Perfumeは2000年結成の音楽グループであり、個人ではないため、「64歳」という設定は適用できません。\n\nPerfumeのメンバー（あ〜ちゃん、かしゆか、のっち）は1980年代生まれで、2024年現在30代です。グループとして印象的なエピソードをお伝えすることは可能ですが、「64歳のとき」という条件では事実に基づいたエピソードを生成することができません。\n\n代わりに、以下のような選択肢をご提"
+    },
+    {
+      "person_id": "PFCA3311",
+      "person_name": "BABYMETAL",
+      "age": "63.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを作成することができません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "BABYMETALは2010年に結成された音楽グループであり、個人ではないため、63歳という年齢設定でのエピソードを作成することができません。\n\nBABYMETALは以下の特徴を持つグループです：\n- 2010年結成の日本の音楽ユニット\n- メタルダンスユニットとして活動\n- メンバーは結成時10代の若い女性たち\n- 現在も活動中のグループ\n\nもし以下のような形でお手伝いできます：\n1. BABY"
+    },
+    {
+      "person_id": "P40FFED5",
+      "person_name": "Official髭男dism",
+      "age": "48.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "Official髭男dismは2012年に結成されたバンドグループであり、個人ではないため、「48歳」という年齢設定が適用できません。\n\n2024年現在、メンバーは30代であり、48歳に達するのは2030年代後半以降となります。そのため、48歳時点でのエピソードは存在せず、事実に基づいた内容を生成することができません。\n\n代替案として、以下のような対応が可能です：\n- バンド結成から特定の年数後の"
+    },
+    {
+      "person_id": "PB251EDE",
+      "person_name": "Every Little Thing",
+      "age": "45.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "Every Little Thingは人物ではなく、1996年に結成された日本の音楽ユニットです。ボーカルの持田香織さんとギター・キーボードの伊藤一朗さんによるグループのため、「45歳のとき」という個人のエピソードを生成することは適切ではありません。\n\nもし持田香織さん個人、または伊藤一朗さん個人についてのエピソードをご希望でしたら、具体的な人物名をお知らせください。\n\nあるいは、Every Li"
+    },
+    {
+      "person_id": "PAFCC537",
+      "person_name": "ずっと真夜中でいいのに",
+      "age": "24.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "「ずっと真夜中でいいのに」は個人ではなく、ボーカルのACAねを中心とした音楽ユニットです。ACAねは顔を公表せず、謎に包まれた活動スタイルを貫いています。\n\nこのため、正確な年齢や24歳時点での具体的なエピソードを特定することができません。ユニットとしては2018年にYouTubeで「秒針を噛む」を発表し、瞬く間に注目を集めました。\n\n申し訳ございませんが、ACAねの生年月日や正確な年齢が非公開の"
+    },
+    {
+      "person_id": "P934055D",
+      "person_name": "ヨルシカ",
+      "age": "65.0",
+      "category": "音楽",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "そのため.*できません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、「ヨルシカ」は2017年に活動を開始した日本の音楽ユニットで、まだ結成から数年しか経っていません。そのため、65歳時点でのエピソードは存在せず、事実に基づいた内容を生成することができません。\n\nヨルシカは、n-bunaさん（作曲・編曲）とsuisさん（ボーカル）による音楽ユニットで、現在も活動中です。65歳時点での実際のエピソードをご紹介するには、まだ数十年の時間が必要となり"
+    },
+    {
+      "person_id": "P594A3A5",
+      "person_name": "岩田聡",
+      "age": "64.0",
+      "category": "ビジネス",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "DECEASED_MENTIONED",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "岩田聡氏は2015年7月11日に55歳で逝去されているため、64歳時点でのエピソードは存在しません。\n\n代わりに、岩田氏の晩年の印象的なエピソードをご紹介します：\n\nあなたと同じ64歳の年齢には達しませんでしたが、岩田聡は任天堂社長として最後まで情熱を注ぎ続けました。2014年、体調不良の中でもE3（世界最大のゲーム見本市）での「Nintendo Digital Event」を指揮し、自らゲームキ"
+    },
+    {
+      "person_id": "PB6D68AB",
+      "person_name": "久保建英",
+      "age": "48.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは実在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "久保建英選手は現在まだ23歳（2024年時点）であり、48歳時点のエピソードは実在しません。\n\n将来の出来事を事実として語ることはできないため、代わりに以下のような対応が可能です：\n\n**代替案：**\n現在確認できる久保建英選手の実際のエピソード（例：10歳でバルセロナ下部組織入団、18歳でレアル・マドリード移籍、日本代表での活躍など）をご提案することができます。\n\nまたは、48歳時点での架空のエ"
+    },
+    {
+      "person_id": "PBF14A0E",
+      "person_name": "冨安健洋",
+      "age": "47.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "まだ到来していない",
+        "未来の出来事",
+        "代わりに.*をご提案"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "冨安健洋選手は1998年11月生まれのため、現在26歳です（2024年時点）。47歳時点のエピソードは、まだ到来していない未来の出来事となるため、事実に基づいた内容を生成することができません。\n\n代わりに、冨安選手の実際のキャリアにおける印象的なエピソードをご提案できます：\n\n**23歳時点（2021年）の例：**\n「あなたと同じ23歳のとき、冨安健洋はイングランド・プレミアリーグの名門アーセナル"
+    },
+    {
+      "person_id": "PAF52EB3",
+      "person_name": "那須川天心",
+      "age": "48.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは実在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "那須川天心選手は現在20代前半のため、48歳時点のエピソードは実在しません。架空の内容作成はご要件に反するため、代替案をご提案します。\n\n**代替案:**\n実際の年齢に基づいたエピソードをご提案できます。例えば：\n\n- 20歳のとき：RIZINでの活躍や歴史的な試合\n- 24歳のとき：ボクシング転向後の快進撃\n\nもしくは、48歳という年齢設定が必須の場合は、別の著名なスポーツ選手（例：イチロー、三"
+    },
+    {
+      "person_id": "P74D8716",
+      "person_name": "内田真礼",
+      "age": "37.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは実在しません",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、内田真礼さんは1989年12月27日生まれで、2025年現在まだ35歳です（2024年12月時点では34歳）。そのため、37歳時点のエピソードは実在しません。\n\n内田真礼さんの実際のエピソードをご紹介する場合は、以下のような年齢が適切です：\n\n- 24歳（2014年）：声優アワード新人女優賞受賞\n- 25歳（2015年）：初のソロライブ開催\n- 26歳（2016年）：日本武道"
+    },
+    {
+      "person_id": "PC96C2ED",
+      "person_name": "りゅうちぇる",
+      "age": "33.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "りゅうちぇるさんは2022年7月に27歳で亡くなられているため、33歳時点のエピソードは存在しません。\n\n代わりに、りゅうちぇるさんの実際の人生から印象的なエピソードをご紹介します。\n\n25歳のとき、りゅうちぇるは自身のジェンダー観や生き方について率直に語り、多様性を尊重する大切さを発信し続けました。タレント活動と並行して、父親として子育てにも真剣に向き合い、従来の「男らしさ」にとらわれない新しい"
+    },
+    {
+      "person_id": "PA47DD8E",
+      "person_name": "あのちゃん",
+      "age": "36.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、「あのちゃん」は2024年現在まだ20代前半の方であり、36歳時点のエピソードは存在しません。将来の出来事について事実に基づいた内容を生成することはできません。\n\n代わりに、以下のような対応が可能です：\n\n1. あのちゃんの実際の年齢での印象的なエピソードを生成する\n2. 別の人物で36歳時点のエピソードを生成する\n3. エンターテインメント分野の別の人物を提案する\n\nご希望"
+    },
+    {
+      "person_id": "P23C26A4",
+      "person_name": "坂本龍馬",
+      "age": "51.0",
+      "category": "政治・社会",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "エピソードは存在しません",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "坂本龍馬について51歳時のエピソードを生成することはできません。\n\n坂本龍馬は1836年（天保6年）生まれで、1867年（慶応3年）11月15日に京都の近江屋で暗殺されました。享年31歳（満33歳没）でした。\n\nそのため、龍馬が51歳を迎えることはなく、51歳時のエピソードは存在しません。\n\nもし龍馬について印象的なエピソードをご希望でしたら、実際に生きた年齢（例：30歳前後）でのエピソード生成を"
+    },
+    {
+      "person_id": "P5330649",
+      "person_name": "武田信玄",
+      "age": "70.0",
+      "category": "政治・社会",
+      "is_refusal": true,
+      "detected_patterns": [
+        "亡くなって.*ため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "武田信玄は1573年に53歳で亡くなっているため、70歳時のエピソードを史実に基づいて作成することはできません。\n\n参考情報として、信玄の晩年（53歳時）の史実をお伝えします：\n\nあなたと同じ年齢のとき、武田信玄は既にこの世を去っていました。信玄は1573年、53歳で病により信濃で没しました。最期まで天下統一の夢を追い続けた彼は、死の直前「我が死を三年の間は秘匿せよ」と遺言を残したとされています。"
+    },
+    {
+      "person_id": "PEDAC7DE",
+      "person_name": "森本正治",
+      "age": "62.0",
+      "category": "芸術・文化",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、「森本正治」という名前の著名な芸術・文化分野の人物について、信頼できる情報源から62歳時点の具体的なエピソードを確認することができませんでした。\n\nこの名前は比較的一般的な日本人の名前であり、複数の方が該当する可能性があります。より正確なエピソードを生成するためには、以下の追加情報が必要です：\n\n- 具体的な専門分野（画家、音楽家、作家、建築家など）\n- 活動時期や生年\n- "
+    },
+    {
+      "person_id": "PDF9D8CD",
+      "person_name": "脇屋友詞",
+      "age": "47.0",
+      "category": "芸術・文化",
+      "is_refusal": true,
+      "detected_patterns": [
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "# 脇屋友詞について\n\n申し訳ございませんが、「脇屋友詞」という人物について、信頼できる歴史的・文化的な記録を見つけることができませんでした。\n\nこの名前は、以下のいずれかの可能性があります：\n- 表記が異なる（例：別の漢字表記）\n- 地域的に限定された活動をされている方\n- 私のデータベースに情報が含まれていない方\n\nもし以下の情報を教えていただければ、より適切なエピソードを生成できる可能性があ"
+    },
+    {
+      "person_id": "P529789B",
+      "person_name": "鉄人 中村孝明",
+      "age": "29.0",
+      "category": "芸術・文化",
+      "is_refusal": true,
+      "detected_patterns": [
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、「鉄人 中村孝明」という方について、信頼できる公開情報を確認することができませんでした。\n\nこの名前で芸術・文化分野で活動された著名な方の記録が見当たらないため、29歳時点での具体的なエピソードを事実に基づいて生成することができません。\n\nもし以下のような情報をご提供いただければ、より適切なエピソードを作成できます：\n- フルネームや別名\n- 専門分野（画家、音楽家、作家など"
+    },
+    {
+      "person_id": "PC4A4D22",
+      "person_name": "水溜りボンド カンタ",
+      "age": "43.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、水溜りボンドのカンタさんは現在43歳に達していないため、43歳時点での実際のエピソードを事実に基づいて生成することができません。\n\n水溜りボンドは2010年代から活動を開始した人気YouTuberデュオで、カンタさんは1990年代生まれと推定されるため、2024年現在ではまだ30代前半です。\n\n事実に基づいた内容という要件を満たすためには、以下のいずれかをお勧めします：\n1."
+    },
+    {
+      "person_id": "P2E0F2FF",
+      "person_name": "ラファエル",
+      "age": "35.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "ラファエルというエンターテインメント分野の人物で、35歳時点での確実な史実的エピソードを特定することが困難です。\n\nエンターテインメント業界には複数の「ラファエル」という名前の著名人が存在しますが、特定の人物を断定できない状況で事実に基づいたエピソードを生成することはできません。\n\n正確なエピソードを作成するために、以下の追加情報をいただけますでしょうか：\n\n- フルネーム\n- 活動分野（YouT"
+    },
+    {
+      "person_id": "PF547A8C",
+      "person_name": "コムドット やまと",
+      "age": "29.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を26歳に変更して再生成",
+      "text_preview": "コムドット やまとさんについて、29歳時点でのエピソードを生成いたしますが、重要な注意点がございます。\n\nコムドット やまとさんは1998年生まれのため、2024年現在26歳前後であり、まだ29歳に達していません。そのため、29歳時点での実際のエピソードは存在しません。\n\n現時点で確認できる事実に基づいたエピソードであれば生成可能です。例えば：\n\n**24-25歳頃（2022-2023年）のエピソ",
+      "suggested_age": 26
+    },
+    {
+      "person_id": "PB7A6623",
+      "person_name": "レペゼン地球 DJ社長",
+      "age": "64.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を32歳に変更して再生成",
+      "text_preview": "レペゼン地球 DJ社長は1992年生まれのため、現在まだ64歳には達していません。\n\nそのため、64歳時点での実際のエピソードを事実に基づいて記述することはできません。DJ社長の実在の経歴は、2010年代後半にYouTuberとして活動を開始し、音楽グループ「レペゼン地球（現：Repezen Foxx）」のリーダーとして活躍したことなどが知られていますが、これらはすべて20代から30代前半の出来事",
+      "suggested_age": 32
+    },
+    {
+      "person_id": "P1CB3D4D",
+      "person_name": "朝倉未来",
+      "age": "40.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を32歳に変更して再生成",
+      "text_preview": "朝倉未来選手は1992年生まれのため、2024年現在32歳です。まだ40歳に達していないため、40歳時点でのエピソードは存在しません。\n\n代わりに、彼の印象的な実際のエピソードをご紹介します：\n\n「朝倉未来が29歳のとき、総合格闘技団体RIZINで活躍する傍ら、YouTubeチャンネル『ふわっとmikuruチャンネル』を開設し、格闘技の枠を超えた活動を展開しました。路上の伝説と呼ばれた過去を持ちな",
+      "suggested_age": 32
+    },
+    {
+      "person_id": "P5FCDBE5",
+      "person_name": "朝倉海",
+      "age": "51.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "エピソードは存在しません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を32歳に変更して再生成",
+      "text_preview": "申し訳ございませんが、朝倉海選手の51歳時点でのエピソードを生成することはできません。\n\n朝倉海選手は1992年生まれの総合格闘家で、現在30代前半です。そのため、51歳時点での事実に基づいたエピソードは存在しません。\n\nもし以下のような代替案でよろしければ対応可能です：\n\n1. **朝倉海選手の実際の年齢での印象的なエピソード**を生成する\n2. **51歳前後の他の格闘家**のエピソードを提案",
+      "suggested_age": 32
+    },
+    {
+      "person_id": "P1CF6A04",
+      "person_name": "ジュキヤ",
+      "age": "45.0",
+      "category": "エンターテインメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、「ジュキヤ」という名前のエンターテインメント分野の著名人について、信頼できる情報を確認することができません。\n\n正確で事実に基づいたエピソードを生成するためには、以下の追加情報が必要です：\n- 正確なフルネーム（漢字表記やスペルなど）\n- 具体的な職業（俳優、歌手、芸人など）\n- 活動時期や代表作\n\nもし別の表記や、より詳しい情報をご提供いただければ、その方の45歳時の印象的"
+    },
+    {
+      "person_id": "P8B7621B",
+      "person_name": "楠木建",
+      "age": "68.0",
+      "category": "学術・研究",
+      "is_refusal": true,
+      "detected_patterns": [
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、楠木建氏の68歳時点での具体的なエピソードについて、信頼できる公開情報を確認することができません。\n\n楠木建氏は一橋大学の経営学者として知られ、競争戦略論やイノベーション研究の分野で著名な研究者です。『ストーリーとしての競争戦略』などの著作で知られていますが、特定の年齢での個人的なエピソードについては、公開されている情報が限られています。\n\n正確性を重視する観点から、確認でき"
+    },
+    {
+      "person_id": "P19CF9E1",
+      "person_name": "聖路加国際病院",
+      "age": "30.0",
+      "category": "学術・研究",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "ご希望でしたら",
+        "そのため.*できません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、「聖路加国際病院」は人物ではなく医療機関（病院）です。そのため、「30歳のとき」という個人の年齢に基づいたエピソードを生成することはできません。\n\nもし聖路加国際病院の創設者である**ルドルフ・トイスラー博士**や、病院の発展に貢献した**日野原重明先生**など、具体的な人物名をご指定いただければ、その方の30歳時のエピソードを生成することが可能です。\n\nあるいは、聖路加国際"
+    },
+    {
+      "person_id": "P9731340",
+      "person_name": "辻村深月",
+      "age": "54.0",
+      "category": "文学",
+      "is_refusal": true,
+      "detected_patterns": [
+        "代わりに.*をご提案",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を44歳に変更して再生成",
+      "text_preview": "辻村深月さんは1980年生まれのため、現在まだ54歳に達していません。そのため、54歳時点での実際のエピソードを記述することはできません。\n\n代わりに、彼女の実際の年齢に基づいた印象的なエピソードをご提案できます。例えば：\n\n**35歳のとき（2016年）のエピソード案：**\n\nあなたと同じ35歳のとき、辻村深月は『かがみの孤城』の執筆に取り組んでいました。この作品は翌年の2017年に刊行され、本",
+      "suggested_age": 44
+    },
+    {
+      "person_id": "P63F3F8E",
+      "person_name": "三浦しをん",
+      "age": "60.0",
+      "category": "文学",
+      "is_refusal": true,
+      "detected_patterns": [
+        "代わりに.*をご提案",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を48歳に変更して再生成",
+      "text_preview": "三浦しをんさんは1976年生まれのため、2024年現在まだ60歳に達していません。そのため、60歳時点での実際のエピソードを事実に基づいて記述することはできません。\n\n代わりに、別の年齢での印象的なエピソードをご提案できます。例えば：\n\n**35歳時点のエピソード（2011年）:**\nあなたと同じ35歳のとき、三浦しをんは『舟を編む』で本屋大賞を受賞しました。辞書編纂という地味なテーマを、言葉への",
+      "suggested_age": 48
+    },
+    {
+      "person_id": "P8DA8B72",
+      "person_name": "綿矢りさ",
+      "age": "54.0",
+      "category": "文学",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を40歳に変更して再生成",
+      "text_preview": "綿矢りさ氏は1984年生まれのため、現在まだ40代です。54歳を迎えるのは2038年となり、その時点でのエピソードは存在しません。\n\nそのため、実在する印象的なエピソードとして、19歳の時のものをご紹介します：\n\nあなたと同じ年齢のとき、綿矢りさは19歳で史上最年少の芥川賞受賞者となりました。2004年、早稲田大学在学中に発表した『蹴りたい背中』で、それまで120年近い芥川賞の歴史を塗り替える快挙",
+      "suggested_age": 40
+    },
+    {
+      "person_id": "PFCBEE7B",
+      "person_name": "中村文則",
+      "age": "59.0",
+      "category": "文学",
+      "is_refusal": true,
+      "detected_patterns": [
+        "代わりに.*をご提案",
+        "代わりに.*ご提案いたします",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を47歳に変更して再生成",
+      "text_preview": "中村文則氏は1977年生まれのため、現在まだ59歳に達していません。そのため、59歳時点での実際のエピソードを記述することはできません。\n\n代わりに、彼の実際の年齢でのエピソードをご提案いたします。例えば：\n\n**35歳時点のエピソード案：**\n\nあなたと同じ35歳のとき、中村文則は『掏摸』で大江健三郎賞を受賞し、作家としての地位を確立していました。この作品は後に英訳され、アメリカの「ウォール・ス",
+      "suggested_age": 47
+    },
+    {
+      "person_id": "P8FBA121",
+      "person_name": "西加奈子",
+      "age": "62.0",
+      "category": "文学",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を47歳に変更して再生成",
+      "text_preview": "申し訳ございませんが、西加奈子さんは1977年生まれの作家であり、2024年現在まだ40代です。そのため、62歳時点のエピソードは存在しません。\n\n西加奈子さんについて事実に基づいたエピソードを作成するには、彼女の実際の年齢における出来事を扱う必要があります。例えば、30代で『サラバ!』により直木賞を受賞したことや、イラン・カイロでの幼少期の体験が作品に影響を与えていることなど、実際に起きた出来事",
+      "suggested_age": 47
+    },
+    {
+      "person_id": "P1332416",
+      "person_name": "細田守",
+      "age": "61.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "まだ到来していない",
+        "未来の出来事",
+        "代わりに.*をご提案",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を57歳に変更して再生成",
+      "text_preview": "細田守監督は1967年生まれですので、現在（2024年）57歳です。61歳時点は2028年となり、まだ到来していない未来の出来事となります。\n\nそのため、事実に基づいたエピソードを生成することができません。\n\n代わりに、細田守監督の実際の年齢での印象的なエピソードをご提案できます。例えば：\n\n**50歳時点（2017年）のエピソード案：**\n\n「あなたと同じ50歳のとき、細田守は『未来のミライ』の",
+      "suggested_age": 57
+    },
+    {
+      "person_id": "PD10FFB1",
+      "person_name": "新海誠",
+      "age": "65.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "まだ到来していない",
+        "代わりに.*をご提案",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を51歳に変更して再生成",
+      "text_preview": "新海誠監督は1973年生まれのため、2024年現在51歳です。65歳となるのは2038年で、まだ到来していない未来です。\n\nそのため、65歳時点での実際のエピソードを事実に基づいて記述することはできません。\n\n代わりに、現時点で確認できる新海監督の実績に基づいたエピソードをご提案できます。例えば：\n\n- 40代での『君の名は。』の大ヒット（2016年、43歳）\n- 『天気の子』の公開（2019年、",
+      "suggested_age": 51
+    },
+    {
+      "person_id": "P200E741",
+      "person_name": "片渕須直",
+      "age": "69.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "まだ到来していない",
+        "お知らせください",
+        "ご希望でしたら",
+        "代わりに.*をご提案",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を64歳に変更して再生成",
+      "text_preview": "片渕須直監督は1960年生まれのため、69歳は2029年となり、まだ到来していない未来の年齢です。\n\nそのため、事実に基づいたエピソードを生成することができません。\n\n代わりに、実際の年齢に基づいたエピソードをご提案できます。例えば：\n\n- 56歳（2016年）：『この世界の片隅に』が公開され、大きな反響を呼んだ時期\n- 59歳（2019年）：『この世界の（さらにいくつもの）片隅に』を公開した時期",
+      "suggested_age": 64
+    },
+    {
+      "person_id": "P167289A",
+      "person_name": "水島努",
+      "age": "63.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を59歳に変更して再生成",
+      "text_preview": "水島努監督は1965年生まれのため、現在まだ63歳に達していません。そのため、63歳時点での実際のエピソードを記述することはできません。\n\n代わりに、彼の実際のキャリアから印象的なエピソードをご紹介します：\n\nあなたと同じ年齢の頃とは異なりますが、水島努監督が40代後半で手がけた『SHIROBAKO』（2014年）は、アニメ業界の現場をリアルに描いた作品として高く評価されました。自身の長年の経験を",
+      "suggested_age": 59
+    },
+    {
+      "person_id": "PDA5888F",
+      "person_name": "錦織圭",
+      "age": "52.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "未来の出来事",
+        "代わりに.*をご提案",
+        "代わりに.*ご提案いたします"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を35歳に変更して再生成",
+      "text_preview": "錦織圭選手は1989年生まれのため、現在まだ30代です。52歳時点のエピソードは未来の出来事となり、事実に基づいた内容を生成することができません。\n\n代わりに、錦織選手の実際の印象的なエピソードをご提案いたします：\n\n**28歳時点のエピソード案：**\n\nあなたと同じ28歳のとき、錦織圭は2018年のモンテカルロ・マスターズで準優勝を果たしました。この大会で彼は世界ランキング1位のラファエル・ナデ",
+      "suggested_age": 35
+    },
+    {
+      "person_id": "P58F675D",
+      "person_name": "桃田賢斗",
+      "age": "47.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "未来の出来事",
+        "お知らせください",
+        "ご希望でしたら",
+        "そのため.*できません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を30歳に変更して再生成",
+      "text_preview": "申し訳ございませんが、桃田賢斗選手の47歳時点でのエピソードを生成することはできません。\n\n桃田賢斗選手は1994年生まれで、2024年現在まだ30歳です。そのため、47歳時点のエピソードは未来の出来事となり、「事実に基づいた内容」という要件を満たすことができません。\n\nもし桃田選手の実際の人生における印象的なエピソードをご希望でしたら、以下のような時期のエピソードをご提案できます：\n\n- 25歳",
+      "suggested_age": 30
+    },
+    {
+      "person_id": "P45712EA",
+      "person_name": "桐生祥秀",
+      "age": "34.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "まだ到来していない",
+        "代わりに.*をご提案",
+        "代わりに.*ご提案いたします",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "桐生祥秀選手は1995年12月15日生まれのため、2024年現在まだ28-29歳です。34歳時点は2029年となり、まだ到来していない未来です。\n\nそのため、事実に基づいたエピソードを生成することができません。\n\n代わりに、彼の最も印象的な実績である **22歳（2017年）のエピソード** をご提案いたします：\n\n---\n\nあなたと同じ22歳のとき、桐生祥秀は日本人として初めて100m走で9秒台"
+    },
+    {
+      "person_id": "PAF52EB3",
+      "person_name": "那須川天心",
+      "age": "33.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "そのため.*できません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "那須川天心選手は2025年現在26歳であり、33歳時点のエピソードはまだ発生していません。そのため、事実に基づいた33歳時のエピソードを生成することはできません。\n\n代わりに、彼の実際のキャリアから印象的なエピソードをご紹介できます。例えば：\n\n**20歳のときのエピソード（2018年）:**\n「あなたと同じ20歳のとき、那須川天心は格闘技イベントRIZINで無敗記録を更新し続け、『神童』として国"
+    },
+    {
+      "person_id": "P1CB3D4D",
+      "person_name": "朝倉未来",
+      "age": "66.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "そのため.*できません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を32歳に変更して再生成",
+      "text_preview": "申し訳ございませんが、朝倉未来選手は1992年生まれで、現在まだ30代前半です。そのため、66歳時点のエピソードは存在せず、事実に基づいた内容を生成することができません。\n\n朝倉未来選手について事実に基づいたエピソードをご希望の場合は、以下のような選択肢があります：\n\n1. **現在の年齢に近い時期**のエピソード（20代後半〜30代前半）\n2. **別の人物**で66歳時点のエピソードが実在する",
+      "suggested_age": 32
+    },
+    {
+      "person_id": "P841B3E0",
+      "person_name": "堀口恭司",
+      "age": "56.0",
+      "category": "スポーツ",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "代わりに.*をご提案"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を34歳に変更して再生成",
+      "text_preview": "堀口恭司選手について、56歳時点のエピソードを生成することは困難です。\n\n堀口恭司選手は1990年生まれの総合格闘家で、2024年現在まだ30代です。そのため、56歳時点の事実に基づいたエピソードは存在しません。\n\n代わりに、彼の実際のキャリアにおける印象的なエピソードをご提案できます：\n\n**26歳のときの例：**\n「あなたと同じ26歳のとき、堀口恭司はUFC世界フライ級タイトルマッチに挑戦しま",
+      "suggested_age": 34
+    },
+    {
+      "person_id": "P594A3A5",
+      "person_name": "岩田聡",
+      "age": "68.0",
+      "category": "ビジネス",
+      "is_refusal": true,
+      "detected_patterns": [
+        "お知らせください",
+        "ご希望でしたら",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "DECEASED_MENTIONED",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、岩田聡氏は2015年7月11日に55歳で逝去されているため、68歳時点のエピソードを事実に基づいて生成することができません。\n\n岩田聡氏は任天堂の第4代社長として、Wii、ニンテンドーDSなどの革新的なゲーム機を世に送り出し、ゲーム業界に大きな功績を残された方です。\n\nもし岩田氏の実際の人生におけるエピソード（例えば社長就任時の40代後半や、Wii開発時の40代など）をご希望"
+    },
+    {
+      "person_id": "P48C1508",
+      "person_name": "三上真司",
+      "age": "69.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を59歳に変更して再生成",
+      "text_preview": "申し訳ございませんが、三上真司氏は1965年生まれで、2024年現在まだ59歳前後です。そのため、69歳時点のエピソードは存在しません。\n\n三上真司氏は『サイレントヒル』シリーズなどで知られるゲームクリエイターですが、将来のエピソードを創作することは「事実に基づいた内容」という要件に反してしまいます。\n\nもし別の年齢（例えば40代や50代）でのエピソードをご希望でしたら、そちらで対応させていただく",
+      "suggested_age": 59
+    },
+    {
+      "person_id": "P0CA93B3",
+      "person_name": "神谷英樹",
+      "age": "65.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することができません",
+        "エピソードは実在しません",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を54歳に変更して再生成",
+      "text_preview": "申し訳ございませんが、神谷英樹氏は1970年生まれのゲームクリエイター（『大神』『ベヨネッタ』などのディレクター）で、2024年現在まだ50代です。そのため、65歳時点のエピソードは実在しません。\n\n実在する人物の将来の出来事について架空のエピソードを作成することは、要件6の「事実に基づいた内容にする（架空の内容は避ける）」に反するため、適切なエピソードを生成することができません。\n\nもし神谷英樹",
+      "suggested_age": 54
+    },
+    {
+      "person_id": "PF31F2B9",
+      "person_name": "野村哲也",
+      "age": "70.0",
+      "category": "アニメ・漫画・ゲーム",
+      "is_refusal": true,
+      "detected_patterns": [
+        "未来の出来事"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "年齢を54歳に変更して再生成",
+      "text_preview": "野村哲也氏は1970年生まれのゲームクリエイターであり、2024年現在54歳です。そのため、70歳時点のエピソードはまだ実際には起きていない未来の出来事となります。\n\n実在の人物について事実に基づいたエピソードを作成するという要件に従うため、現時点で確認できる実際の業績に基づいたエピソードの作成をお勧めします。\n\n例えば、以下のような代替案はいかがでしょうか：\n\n**40代のエピソード案:**\n「",
+      "suggested_age": 54
+    },
+    {
+      "person_id": "PE54B583",
+      "person_name": "石田彰",
+      "age": "56.0",
+      "category": "エンターテイメント",
+      "is_refusal": true,
+      "detected_patterns": [
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "FUTURE_AGE",
+      "recommended_action": "現在年齢以下に変更して再生成、または削除",
+      "text_preview": "申し訳ございませんが、声優の石田彰さんは1967年11月2日生まれで、2024年現在56歳または57歳です。そのため、56歳時点での具体的なエピソードはまだ十分に記録・公開されていない可能性が高く、確実な事実に基づいたエピソードを生成することが困難です。\n\n石田彰さんについて事実に基づいたエピソードを作成するには、以下のような過去の時点が適切です：\n\n- 20代後半：『新世紀エヴァンゲリオン』の渚"
+    },
+    {
+      "person_id": "P0657DA6",
+      "person_name": "ベニート・ムッソリーニ",
+      "age": "55.0",
+      "category": "政治・社会",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを作成することはできません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、ベニート・ムッソリーニについて感動的なエピソードを作成することはできません。\n\nムッソリーニはファシズムを推進し、戦争を主導し、多くの人々に深刻な被害をもたらした独裁者です。このような歴史的人物について美化的な内容を作成することは適切ではありません。\n\n代わりに、同時代の平和や人権のために活動した人物や、困難を乗り越えて社会に貢献した人物についてのエピソード作成であれば、喜ん"
+    },
+    {
+      "person_id": "PE945DCC",
+      "person_name": "アドルフ・ヒトラー",
+      "age": "44.0",
+      "category": "政治・社会",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードを生成することはできません",
+        "申し訳ございません.*生成"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "申し訳ございませんが、アドルフ・ヒトラーについて感動的で記憶に残るエピソードを生成することはできません。\n\nヒトラーは人類史上最悪の戦争犯罪や大量虐殺を引き起こした人物であり、そのような人物について感動的な物語を作成することは適切ではありません。これは歴史の事実を軽視し、被害者の方々への配慮を欠く行為となる可能性があります。\n\n代わりに、歴史上の他の人物や、困難を乗り越えて社会に貢献した人物につい"
+    }
+  ]
+}

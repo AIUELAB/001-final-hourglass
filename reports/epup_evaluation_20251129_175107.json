@@ -1,0 +1,663 @@
+{
+  "timestamp": "2025-11-29T17:51:06.401014",
+  "source_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/MASTER_EPISODES_CURRENT.csv",
+  "total_episodes": 2910,
+  "group_master_coverage": {
+    "total_episodes": 2910,
+    "group_info_set_rate": 94.91,
+    "in_group_member_map": 99,
+    "in_solo_artists": 62,
+    "llm_complement_candidates": 148
+  },
+  "group_entity_violations": {
+    "violation_count": 0,
+    "violation_rate": 0.0,
+    "violations": []
+  },
+  "group_master_sync": {
+    "total_map_entries_in_data": 99,
+    "sync_violation_count": 4,
+    "sync_rate": 95.96,
+    "violations": [
+      {
+        "person_name": "せいや",
+        "expected_group": "霜降り明星",
+        "actual_is_group_member": "0.0",
+        "actual_group_name": "霜降り明星"
+      },
+      {
+        "person_name": "てつや",
+        "expected_group": "東海オンエア",
+        "actual_is_group_member": "0.0",
+        "actual_group_name": "東海オンエア"
+      },
+      {
+        "person_name": "てつや",
+        "expected_group": "東海オンエア",
+        "actual_is_group_member": "0.0",
+        "actual_group_name": "東海オンエア"
+      },
+      {
+        "person_name": "てつや",
+        "expected_group": "東海オンエア",
+        "actual_is_group_member": "0.0",
+        "actual_group_name": "東海オンエア"
+      }
+    ]
+  },
+  "format_compliance": {
+    "total_episodes": 2910,
+    "compliant_count": 2830,
+    "compliance_rate": 97.25,
+    "refusal_count": 15,
+    "refusal_rate": 0.52,
+    "non_compliant_sample": [
+      {
+        "person_name": "棚橋弘至",
+        "text_preview": "あなたと同じ29.0歳のとき、棚橋弘至は新日本プロレス復活の鍵を握る存在となっていた。2006年10..."
+      },
+      {
+        "person_name": "梶田隆章",
+        "text_preview": "あなたと同じ66.0歳のとき、梶田隆章は、2015年のノーベル物理学賞受賞という人生最大の栄誉に直面..."
+      },
+      {
+        "person_name": "梅若実",
+        "text_preview": "あなたと同じ56.0歳のとき、梅若実は能楽師として長年培った技芸の集大成を迎えていた。梅若流の家元と..."
+      },
+      {
+        "person_name": "梅原猛",
+        "text_preview": "あなたと同じ65.0歳のとき、梅原猛は1990年に国際日本文化研究センターの初代所長に就任した。それ..."
+      },
+      {
+        "person_name": "梅原大吾",
+        "text_preview": "あなたと同じ64.0歳のとき、梅原大吾は格闘ゲームの第一線で活動を続けていました。1991年にストリ..."
+      }
+    ]
+  },
+  "person_type_distribution": {
+    "real_count": 2845,
+    "fictional_count": 65,
+    "other_count": 0,
+    "real_rate": 97.77,
+    "fictional_rate": 2.23
+  },
+  "age_coverage": {
+    "target_age_range": "14-75",
+    "covered_count": 62,
+    "missing_count": 0,
+    "coverage_rate": 100.0,
+    "missing_ages": [],
+    "low_coverage_ages": []
+  },
+  "category_distribution": {
+    "category_count": 12,
+    "top_categories": {
+      "スポーツ": 516,
+      "芸術・文化": 413,
+      "科学・技術": 322,
+      "ビジネス": 280,
+      "エンターテイメント": 280,
+      "音楽": 237,
+      "学術・研究": 213,
+      "政治・社会": 183,
+      "映画・演劇": 165,
+      "文学": 123
+    },
+    "category_rates": {
+      "スポーツ": 17.73,
+      "芸術・文化": 14.19,
+      "科学・技術": 11.07,
+      "ビジネス": 9.62,
+      "エンターテイメント": 9.62,
+      "音楽": 8.14,
+      "学術・研究": 7.32,
+      "政治・社会": 6.29,
+      "映画・演劇": 5.67,
+      "文学": 4.23
+    }
+  },
+  "fictional_work_title_compliance": {
+    "total_fictional": 65,
+    "with_work_title": 65,
+    "compliant": 65,
+    "non_compliant": 0,
+    "compliance_rate": 100.0,
+    "non_compliant_samples": []
+  },
+  "placeholder_detection": {
+    "total_real_episodes": 2845,
+    "placeholder_count": 0,
+    "clean_rate": 100.0,
+    "placeholder_samples": []
+  },
+  "fact_density_quality": {
+    "has_fact_density_column": true,
+    "total_with_score": 2910,
+    "real_with_score": 2845,
+    "low_density_count": 0,
+    "low_density_rate": 0.0,
+    "high_quality_rate": 100.0,
+    "average_density": 6.58
+  },
+  "episode_type_validity": {
+    "episode_type_distribution": {
+      "ACHIEVEMENT": 1827,
+      "CHALLENGE": 513,
+      "TURNING_POINT": 442,
+      "INNOVATION": 43,
+      "FOUNDING": 38,
+      "FAILURE": 26,
+      "COMEBACK": 15,
+      "FAMILY": 6
+    },
+    "total_achievement": 1827,
+    "achievement_rate": 62.78,
+    "suspicious_achievement_count": 38,
+    "achievement_validity_rate": 97.92,
+    "suspicious_samples": [
+      {
+        "episode_id": "EP-000004",
+        "person_name": "梅若実"
+      },
+      {
+        "episode_id": "EP-000022",
+        "person_name": "横山秀夫"
+      },
+      {
+        "episode_id": "EP-000024",
+        "person_name": "横山光輝"
+      },
+      {
+        "episode_id": "EP-000068",
+        "person_name": "栗山英樹"
+      },
+      {
+        "episode_id": "EP-000112",
+        "person_name": "瀬戸大也"
+      }
+    ]
+  },
+  "yumeilist_coverage": {
+    "yumeilist_exists": true,
+    "total_yumeilist": 79,
+    "covered": 79,
+    "missing": 0,
+    "coverage_rate": 100.0,
+    "missing_samples": []
+  },
+  "episode_depth": {
+    "total_unique_persons": 1839,
+    "avg_episodes_per_person": 1.58,
+    "single_episode_count": 1257,
+    "single_episode_rate": 68.35,
+    "tier_depth": {
+      "tier_1": {
+        "total_persons": 61,
+        "avg_episodes": 2.72,
+        "single_episode_count": 0,
+        "multi_episode_rate": 100.0
+      },
+      "tier_2": {
+        "total_persons": 16,
+        "avg_episodes": 1.0,
+        "single_episode_count": 16,
+        "multi_episode_rate": 0.0
+      }
+    },
+    "depth_deficient_tier1": [],
+    "depth_score": 100.0,
+    "depth_deficient_tier1_count": 0
+  },
+  "episode_drama_quality": {
+    "has_drama_scores": true,
+    "total_with_scores": 2910,
+    "high_quality_count": 788,
+    "mid_quality_count": 2060,
+    "low_quality_count": 62,
+    "high_quality_rate": 27.08,
+    "mid_quality_rate": 70.79,
+    "low_quality_rate": 2.13,
+    "avg_drama_score": 6.02,
+    "drama_quality_score": 62.48,
+    "low_quality_samples": [
+      {
+        "episode_id": "EP-F64D6B",
+        "person_name": "HIKAKIN",
+        "age": 25.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-EABC44",
+        "person_name": "Vaundy",
+        "age": 20.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-F65075",
+        "person_name": "はじめしゃちょー",
+        "age": 25.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-50D239",
+        "person_name": "アジャコング",
+        "age": 25.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-8491B6",
+        "person_name": "アスカ",
+        "age": 25.0,
+        "意外性スコア": 3.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-D63606",
+        "person_name": "ダンプ松本",
+        "age": 20.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-E30403",
+        "person_name": "ダンプ松本",
+        "age": 30.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-E2F0B6",
+        "person_name": "ブル中野",
+        "age": 20.0,
+        "意外性スコア": 3.0,
+        "source": "DEPTH_EXPANSION→DENSITY_IMPROVED"
+      },
+      {
+        "episode_id": "EP-0E33CE",
+        "person_name": "ブル中野",
+        "age": 25.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      },
+      {
+        "episode_id": "EP-253053",
+        "person_name": "ライオネス飛鳥",
+        "age": 20.0,
+        "意外性スコア": 4.0,
+        "source": "DEPTH_EXPANSION"
+      }
+    ],
+    "source_quality_breakdown": {
+      "PHASE17_COMPLETION→DRAMA_IMPROVED": {
+        "total": 33,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.02
+      },
+      "V7_JSON": {
+        "total": 236,
+        "high_quality_rate": 5.51,
+        "avg_score": 5.76
+      },
+      "LLM_GENERATED→DRAMA_IMPROVED": {
+        "total": 49,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.24
+      },
+      "PHASE17_COMPLETION→DRAMA_IMPROVED→DRAMA_IMPROVED": {
+        "total": 2,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.0
+      },
+      "PERSON_DB_COMPLETION→DRAMA_IMPROVED": {
+        "total": 5,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.0
+      },
+      "LLM_GENERATED→DRAMA_IMPROVED→DRAMA_IMPROVED": {
+        "total": 8,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.0
+      },
+      "GROUP_EPISODE_PHASE3_1→DRAMA_IMPROVED": {
+        "total": 1,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.0
+      },
+      "LLM_GENERATED": {
+        "total": 445,
+        "high_quality_rate": 20.67,
+        "avg_score": 5.81
+      },
+      "Phase 8.1強化版": {
+        "total": 171,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.04
+      },
+      "Phase 8.1強化版→DRAMA_IMPROVED": {
+        "total": 13,
+        "high_quality_rate": 0.0,
+        "avg_score": 5.0
+      }
+    }
+  },
+  "content_density_quality": {
+    "has_scores": true,
+    "total_evaluated": 2910,
+    "high_quality_count": 2349,
+    "mid_quality_count": 470,
+    "low_quality_count": 91,
+    "high_quality_rate": 80.72,
+    "mid_quality_rate": 16.15,
+    "low_quality_rate": 3.13,
+    "avg_score": 8.63,
+    "content_density_score": 88.8,
+    "total_redundancy_patterns": 419,
+    "low_quality_samples": [
+      {
+        "episode_id": "EP-000053",
+        "person_name": "松本紘",
+        "score": 5.5,
+        "char_count": 210
+      },
+      {
+        "episode_id": "EP-000111",
+        "person_name": "瀬戸弘司",
+        "score": 5.5,
+        "char_count": 258
+      },
+      {
+        "episode_id": "EP-000154",
+        "person_name": "津田梅子",
+        "score": 5.5,
+        "char_count": 231
+      },
+      {
+        "episode_id": "EP-000179",
+        "person_name": "戸田恵梨香",
+        "score": 5.5,
+        "char_count": 369
+      },
+      {
+        "episode_id": "EP-000241",
+        "person_name": "岸田文雄",
+        "score": 5.5,
+        "char_count": 176
+      },
+      {
+        "episode_id": "EP-000307",
+        "person_name": "本田圭人",
+        "score": 5.5,
+        "char_count": 174
+      },
+      {
+        "episode_id": "EP-000394",
+        "person_name": "藤田田",
+        "score": 5.5,
+        "char_count": 259
+      },
+      {
+        "episode_id": "EP-000545",
+        "person_name": "福井谷祐子",
+        "score": 5.5,
+        "char_count": 161
+      },
+      {
+        "episode_id": "EP-000746",
+        "person_name": "ノーバート・ウィーナー",
+        "score": 5.5,
+        "char_count": 209
+      },
+      {
+        "episode_id": "EP-000758",
+        "person_name": "デュア・リパ",
+        "score": 5.0,
+        "char_count": 213
+      }
+    ]
+  },
+  "world_celebrity_coverage": {
+    "world_celebrity_exists": true,
+    "total_world_celebrities": 209,
+    "covered": 209,
+    "missing": 0,
+    "coverage_rate": 100.0,
+    "by_category": {
+      "音楽": {
+        "total": 46,
+        "covered": 46,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "映画・演劇": {
+        "total": 22,
+        "covered": 22,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "スポーツ": {
+        "total": 46,
+        "covered": 46,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "科学・技術": {
+        "total": 10,
+        "covered": 10,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "ビジネス": {
+        "total": 14,
+        "covered": 14,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "政治・社会": {
+        "total": 13,
+        "covered": 13,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "芸術・文化": {
+        "total": 3,
+        "covered": 3,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "文学": {
+        "total": 20,
+        "covered": 20,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "エンターテイメント": {
+        "total": 1,
+        "covered": 1,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "芸能": {
+        "total": 15,
+        "covered": 15,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "数学": {
+        "total": 3,
+        "covered": 3,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "建築": {
+        "total": 8,
+        "covered": 8,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "物理学": {
+        "total": 5,
+        "covered": 5,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "化学": {
+        "total": 3,
+        "covered": 3,
+        "coverage_rate": 100.0,
+        "missing": []
+      }
+    },
+    "critical_missing": []
+  },
+  "age_chronology_validity": {
+    "total_real_episodes": 2845,
+    "llm_refusal_violations": 10,
+    "birth_year_mismatch_violations": 17,
+    "total_violations": 27,
+    "chronology_clean_rate": 99.05,
+    "violation_samples": [
+      {
+        "episode_id": "EP-977219",
+        "person_name": "ミルコ・クロコップ",
+        "age": 69.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977225",
+        "person_name": "ザ・ロック(ドウェイン・ジョンソン)",
+        "age": 57.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977226",
+        "person_name": "ジョン・シナ",
+        "age": 65.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977227",
+        "person_name": "コナー・マクレガー",
+        "age": 55.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977234",
+        "person_name": "ウェス・アンダーソン",
+        "age": 67.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977300",
+        "person_name": "小平奈緒",
+        "age": 57.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977303",
+        "person_name": "高梨沙羅",
+        "age": 57.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977307",
+        "person_name": "渡部暁斗",
+        "age": 62.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977309",
+        "person_name": "ショーン・ホワイト",
+        "age": 70.0,
+        "violation_type": "LLM_REFUSAL"
+      },
+      {
+        "episode_id": "EP-977310",
+        "person_name": "リンゼイ・ボン",
+        "age": 50.0,
+        "violation_type": "LLM_REFUSAL"
+      }
+    ]
+  },
+  "epup_score": {
+    "individual_scores": {
+      "group_entity_clean": 100,
+      "group_info_coverage": 94.91,
+      "group_master_sync": 95.96,
+      "format_compliance": 97.25,
+      "no_refusal": 99.48,
+      "age_coverage": 100.0,
+      "work_title_compliance": 100.0,
+      "placeholder_clean": 100.0,
+      "fact_density_quality": 100.0,
+      "episode_type_validity": 97.92,
+      "yumeilist_coverage": 100.0,
+      "episode_depth": 100.0,
+      "episode_drama_quality": 62.48,
+      "content_density_quality": 88.8,
+      "world_celebrity_coverage": 100.0,
+      "age_chronology_validity": 99.05
+    },
+    "weights": {
+      "group_entity_clean": 0.04,
+      "group_info_coverage": 0.04,
+      "group_master_sync": 0.04,
+      "format_compliance": 0.06,
+      "no_refusal": 0.06,
+      "age_coverage": 0.02,
+      "work_title_compliance": 0.06,
+      "placeholder_clean": 0.06,
+      "fact_density_quality": 0.06,
+      "episode_type_validity": 0.08,
+      "yumeilist_coverage": 0.06,
+      "episode_depth": 0.06,
+      "episode_drama_quality": 0.04,
+      "content_density_quality": 0.08,
+      "world_celebrity_coverage": 0.24,
+      "age_chronology_validity": 0.04
+    },
+    "total_score": 100.84,
+    "grade": "A"
+  },
+  "recommendations": [
+    {
+      "priority": "MEDIUM",
+      "category": "グループ情報",
+      "issue": "グループ情報設定率 94.91%",
+      "action": "scripts/llm_group_fill.py を実行して補完"
+    },
+    {
+      "priority": "HIGH",
+      "category": "グループ情報同期",
+      "issue": "GROUP_MEMBER_MAP未反映 4件",
+      "action": "scripts/sync_group_from_master.py --execute を実行して同期"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "フォーマット",
+      "issue": "フォーマット準拠率 97.25%",
+      "action": "非準拠エピソードの再生成を検討"
+    },
+    {
+      "priority": "HIGH",
+      "category": "コンテンツ品質",
+      "issue": "LLM拒否応答 15件",
+      "action": "scripts/fix_fictional_meta_episodes.py を実行して修正"
+    },
+    {
+      "priority": "HIGH",
+      "category": "ラベル妥当性",
+      "issue": "疑わしいACHIEVEMENT 38件 (妥当性 97.92%)",
+      "action": "scripts/reclassify_suspicious_achievement.py --execute を実行して再分類"
+    },
+    {
+      "priority": "HIGH",
+      "category": "年齢時系列",
+      "issue": "未来年齢違反 27件 (クリーン率 99.05%)",
+      "action": "該当エピソードを削除または再生成。例: ['ミルコ・クロコップ', 'ザ・ロック(ドウェイン・ジョンソン)', 'ジョン・シナ', 'コナー・マクレガー', 'ウェス・アンダーソン']"
+    }
+  ]
+}

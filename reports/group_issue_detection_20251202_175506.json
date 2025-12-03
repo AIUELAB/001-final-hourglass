@@ -1,0 +1,690 @@
+{
+  "timestamp": "2025-12-02T17:55:06.782858",
+  "summary": {
+    "group_as_person": {
+      "detected": 32,
+      "fixed": 0
+    },
+    "concatenated_names": {
+      "detected": 35,
+      "fixed": 0
+    }
+  },
+  "issues": {
+    "group_as_person": [
+      {
+        "episode_id": "EP-000145",
+        "person_id": "P52AE294",
+        "person_name": "櫻坂46",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "櫻坂46",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 144
+      },
+      {
+        "episode_id": "EP-000718",
+        "person_id": "PC4106D4",
+        "person_name": "ミルクボーイ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "ミルクボーイ",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 717
+      },
+      {
+        "episode_id": "EP-000884",
+        "person_id": "PC1B1602",
+        "person_name": "かまいたち",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "かまいたち",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 883
+      },
+      {
+        "episode_id": "EP-000915",
+        "person_id": "P3760666",
+        "person_name": "KinKi Kids",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "KinKi Kids",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 914
+      },
+      {
+        "episode_id": "EP-000926",
+        "person_id": "PE66B8A0",
+        "person_name": "BTS",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "BTS",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_3_members",
+        "row_index": 925
+      },
+      {
+        "episode_id": "EP-000927",
+        "person_id": "P0D055BE",
+        "person_name": "BLACKPINK",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "BLACKPINK",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_4_members",
+        "row_index": 926
+      },
+      {
+        "episode_id": "EP-000931",
+        "person_id": "PF6F6AEC",
+        "person_name": "DREAMS COME TRUE",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "DREAMS COME TRUE",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 930
+      },
+      {
+        "episode_id": "EP-000937",
+        "person_id": "PB902EE9",
+        "person_name": "TWICE",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "TWICE",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_3_members",
+        "row_index": 936
+      },
+      {
+        "episode_id": "EP-000943",
+        "person_id": "P7BA603B",
+        "person_name": "Perfume",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "Perfume",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 942
+      },
+      {
+        "episode_id": "EP-000948",
+        "person_id": "PB30B3FE",
+        "person_name": "NMB48",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "NMB48",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 947
+      },
+      {
+        "episode_id": "EP-000968",
+        "person_id": "PDD3245A",
+        "person_name": "サンドウィッチマン",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "サンドウィッチマン",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 967
+      },
+      {
+        "episode_id": "EP-001338",
+        "person_id": "PFA1A82D",
+        "person_name": "千鳥",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "千鳥",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 1337
+      },
+      {
+        "episode_id": "EP-977388",
+        "person_id": "PDD3245A",
+        "person_name": "サンドウィッチマン",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "サンドウィッチマン",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 2929
+      },
+      {
+        "episode_id": "EP-977400",
+        "person_id": "P9F73F62",
+        "person_name": "霜降り明星",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "霜降り明星",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 2939
+      },
+      {
+        "episode_id": "EP-977439",
+        "person_id": "P69A39B3",
+        "person_name": "GLAY",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "GLAY",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2969
+      },
+      {
+        "episode_id": "EP-977447",
+        "person_id": "P3760666",
+        "person_name": "KinKi Kids",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "KinKi Kids",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2971
+      },
+      {
+        "episode_id": "EP-977449",
+        "person_id": "P91BF20E",
+        "person_name": "Hey! Say! JUMP",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "Hey! Say! JUMP",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2972
+      },
+      {
+        "episode_id": "EP-977450",
+        "person_id": "P5BACDB9",
+        "person_name": "King & Prince",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "King & Prince",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2973
+      },
+      {
+        "episode_id": "EP-977455",
+        "person_id": "P7BA603B",
+        "person_name": "Perfume",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "Perfume",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2977
+      },
+      {
+        "episode_id": "EP-977459",
+        "person_id": "P40FFED5",
+        "person_name": "Official髭男dism",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "Official髭男dism",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2981
+      },
+      {
+        "episode_id": "EP-977471",
+        "person_id": "PF6F6AEC",
+        "person_name": "DREAMS COME TRUE",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "DREAMS COME TRUE",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 2992
+      },
+      {
+        "episode_id": "EP-251130021",
+        "person_id": "P39C1EEE",
+        "person_name": "ビートルズ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "ビートルズ",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_4_members",
+        "row_index": 3429
+      },
+      {
+        "episode_id": "EP-251130036",
+        "person_id": "P39C1EEE",
+        "person_name": "ビートルズ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "ビートルズ",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_4_members",
+        "row_index": 3468
+      },
+      {
+        "episode_id": "EP-251130158",
+        "person_id": "PBDB02A8",
+        "person_name": "クイーン",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "クイーン",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_4_members",
+        "row_index": 5156
+      },
+      {
+        "episode_id": "EP-251130158",
+        "person_id": "P0A6AFFB",
+        "person_name": "レッド・ツェッペリン",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "レッド・ツェッペリン",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 5157
+      },
+      {
+        "episode_id": "EP-251130158",
+        "person_id": "PB93C470",
+        "person_name": "ピンク・フロイド",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "ピンク・フロイド",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 5158
+      },
+      {
+        "episode_id": "EP-251130041",
+        "person_id": "P289D281",
+        "person_name": "スピッツ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "スピッツ",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 6209
+      },
+      {
+        "episode_id": "EP-251130048",
+        "person_id": "P10B3E7A",
+        "person_name": "コールドプレイ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "コールドプレイ",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 6401
+      },
+      {
+        "episode_id": "EP-251130049",
+        "person_id": "PACCB768",
+        "person_name": "コブクロ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "コブクロ",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 6406
+      },
+      {
+        "episode_id": "EP-251130086",
+        "person_id": "PD825C5C",
+        "person_name": "宝塚歌劇団",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "宝塚歌劇団",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 7233
+      },
+      {
+        "episode_id": "EP-251130086",
+        "person_id": "P221E515",
+        "person_name": "劇団四季",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "劇団四季",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 7234
+      },
+      {
+        "episode_id": "EP-251201118",
+        "person_id": "PAA96885",
+        "person_name": "Coldplay",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "Coldplay",
+        "detected_individual": null,
+        "suggested_action": "disperse_or_delete",
+        "row_index": 7980
+      }
+    ],
+    "concatenated_names": [
+      {
+        "episode_id": "EP-000263",
+        "person_id": "PCEF7C08",
+        "person_name": "東海オンエア・てつや",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "東海オンエア",
+        "detected_individual": "てつや",
+        "suggested_action": "split_to_individual",
+        "row_index": 262
+      },
+      {
+        "episode_id": "EP-000942",
+        "person_id": "P93B5429",
+        "person_name": "QuizKnock・伊沢拓司",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "QuizKnock",
+        "detected_individual": "伊沢拓司",
+        "suggested_action": "split_to_individual",
+        "row_index": 941
+      },
+      {
+        "episode_id": "EP-000944",
+        "person_id": "PF25F618",
+        "person_name": "Official髭男dism・藤原聡",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "Official髭男dism",
+        "detected_individual": "藤原聡",
+        "suggested_action": "split_to_individual",
+        "row_index": 943
+      },
+      {
+        "episode_id": "EP-000982",
+        "person_id": "PE2FE2BC",
+        "person_name": "スピッツ・草野マサムネ",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "スピッツ",
+        "detected_individual": "草野マサムネ",
+        "suggested_action": "split_to_individual",
+        "row_index": 981
+      },
+      {
+        "episode_id": "EP-FD29B7",
+        "person_id": "PE1B780",
+        "person_name": "オードリー・ヘプバーン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "オードリー",
+        "detected_individual": "ヘプバーン",
+        "suggested_action": "split_to_individual",
+        "row_index": 2386
+      },
+      {
+        "episode_id": "EP-574D2B",
+        "person_id": "PE1B780",
+        "person_name": "オードリー・ヘプバーン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "オードリー",
+        "detected_individual": "ヘプバーン",
+        "suggested_action": "split_to_individual",
+        "row_index": 2387
+      },
+      {
+        "episode_id": "EP-19BADC",
+        "person_id": "PE1B780",
+        "person_name": "オードリー・ヘプバーン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "オードリー",
+        "detected_individual": "ヘプバーン",
+        "suggested_action": "split_to_individual",
+        "row_index": 2388
+      },
+      {
+        "episode_id": "EP-251130022",
+        "person_id": "PE1B780",
+        "person_name": "オードリー・ヘプバーン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "オードリー",
+        "detected_individual": "ヘプバーン",
+        "suggested_action": "split_to_individual",
+        "row_index": 3432
+      },
+      {
+        "episode_id": "EP-251130023",
+        "person_id": "P4AE92AC",
+        "person_name": "ビートルズ・ジョン・レノン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "ビートルズ",
+        "detected_individual": "ジョン・レノン",
+        "suggested_action": "split_to_individual",
+        "row_index": 3436
+      },
+      {
+        "episode_id": "EP-251130010",
+        "person_id": "P8C1671E",
+        "person_name": "南海キャンディーズ・山里亮太",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "南海キャンディーズ",
+        "detected_individual": "山里亮太",
+        "suggested_action": "split_to_individual",
+        "row_index": 3716
+      },
+      {
+        "episode_id": "EP-251130138",
+        "person_id": "PAC6384D",
+        "person_name": "マルーン5・アダム・レヴィーン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "マルーン5",
+        "detected_individual": "アダム・レヴィーン",
+        "suggested_action": "split_to_individual",
+        "row_index": 4685
+      },
+      {
+        "episode_id": "EP-251130138",
+        "person_id": "P5FA88AD",
+        "person_name": "コールドプレイ・クリス・マーティン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "コールドプレイ",
+        "detected_individual": "クリス・マーティン",
+        "suggested_action": "split_to_individual",
+        "row_index": 4686
+      },
+      {
+        "episode_id": "EP-251130149",
+        "person_id": "PDBBF8BA",
+        "person_name": "コブクロ・小渕健太郎",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "コブクロ",
+        "detected_individual": "小渕健太郎",
+        "suggested_action": "split_to_individual",
+        "row_index": 4921
+      },
+      {
+        "episode_id": "EP-251130002",
+        "person_id": "PAC51971",
+        "person_name": "千鳥・大悟",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "千鳥",
+        "detected_individual": "大悟",
+        "suggested_action": "split_to_individual",
+        "row_index": 5279
+      },
+      {
+        "episode_id": "EP-251130002",
+        "person_id": "P9DB483E",
+        "person_name": "千鳥・ノブ",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "千鳥",
+        "detected_individual": "ノブ",
+        "suggested_action": "split_to_individual",
+        "row_index": 5280
+      },
+      {
+        "episode_id": "EP-251130002",
+        "person_id": "PB4255F2",
+        "person_name": "かまいたち・濱家",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "かまいたち",
+        "detected_individual": "濱家",
+        "suggested_action": "split_to_individual",
+        "row_index": 5281
+      },
+      {
+        "episode_id": "EP-251130002",
+        "person_id": "P1C5FB79",
+        "person_name": "かまいたち・山内",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "かまいたち",
+        "detected_individual": "山内",
+        "suggested_action": "split_to_individual",
+        "row_index": 5282
+      },
+      {
+        "episode_id": "EP-251130012",
+        "person_id": "P8EBE626",
+        "person_name": "オードリー・ヘップバーン",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "オードリー",
+        "detected_individual": "ヘップバーン",
+        "suggested_action": "split_to_individual",
+        "row_index": 5551
+      },
+      {
+        "episode_id": "EP-251130018",
+        "person_id": "P9F63FA0",
+        "person_name": "EXILE・HIRO",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "EXILE",
+        "detected_individual": "HIRO",
+        "suggested_action": "split_to_individual",
+        "row_index": 5682
+      },
+      {
+        "episode_id": "EP-251130048",
+        "person_id": "P3E077D3",
+        "person_name": "EXILE・AKIRA",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "EXILE",
+        "detected_individual": "AKIRA",
+        "suggested_action": "split_to_individual",
+        "row_index": 6382
+      },
+      {
+        "episode_id": "EP-251130048",
+        "person_id": "P15C5912",
+        "person_name": "三代目J Soul Brothers・岩田剛典",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "三代目J Soul Brothers",
+        "detected_individual": "岩田剛典",
+        "suggested_action": "split_to_individual",
+        "row_index": 6383
+      },
+      {
+        "episode_id": "EP-251130048",
+        "person_id": "PBD75FE2",
+        "person_name": "笑点メンバー・林家木久扇",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "笑点メンバー",
+        "detected_individual": "林家木久扇",
+        "suggested_action": "split_to_individual",
+        "row_index": 6392
+      },
+      {
+        "episode_id": "EP-251130083",
+        "person_id": "P5120EF8",
+        "person_name": "GLAY・TERU",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "GLAY",
+        "detected_individual": "TERU",
+        "suggested_action": "split_to_individual",
+        "row_index": 7164
+      },
+      {
+        "episode_id": "EP-251130083",
+        "person_id": "PEEEA8C0",
+        "person_name": "King & Prince・平野紫耀",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "King & Prince",
+        "detected_individual": "平野紫耀",
+        "suggested_action": "split_to_individual",
+        "row_index": 7165
+      },
+      {
+        "episode_id": "EP-251130083",
+        "person_id": "P23AB34C",
+        "person_name": "宝塚歌劇団・天海祐希",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "宝塚歌劇団",
+        "detected_individual": "天海祐希",
+        "suggested_action": "split_to_individual",
+        "row_index": 7168
+      },
+      {
+        "episode_id": "EP-251130083",
+        "person_id": "P90E4AC0",
+        "person_name": "劇団四季・浅利慶太",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "劇団四季",
+        "detected_individual": "浅利慶太",
+        "suggested_action": "split_to_individual",
+        "row_index": 7169
+      },
+      {
+        "episode_id": "EP-251201100",
+        "person_id": "P5A88F8F",
+        "person_name": "ビートルズ・ポール・マッカートニー",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "ビートルズ",
+        "detected_individual": "ポール・マッカートニー",
+        "suggested_action": "split_to_individual",
+        "row_index": 7548
+      },
+      {
+        "episode_id": "EP-251201110",
+        "person_id": "PB76776D",
+        "person_name": "サザンオールスターズ・関口和之",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "サザンオールスターズ",
+        "detected_individual": "関口和之",
+        "suggested_action": "split_to_individual",
+        "row_index": 7813
+      },
+      {
+        "episode_id": "EP-251201116",
+        "person_id": "P4DEAB2D",
+        "person_name": "X JAPAN・PATA",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "X JAPAN",
+        "detected_individual": "PATA",
+        "suggested_action": "split_to_individual",
+        "row_index": 7947
+      },
+      {
+        "episode_id": "EP-251201118",
+        "person_id": "P2668551",
+        "person_name": "ウッチャンナンチャン・内村光良",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "ウッチャンナンチャン",
+        "detected_individual": "内村光良",
+        "suggested_action": "split_to_individual",
+        "row_index": 7982
+      },
+      {
+        "episode_id": "EP-251201118",
+        "person_id": "PC3A92FA",
+        "person_name": "バナナマン・設楽統",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "バナナマン",
+        "detected_individual": "設楽統",
+        "suggested_action": "split_to_individual",
+        "row_index": 7998
+      },
+      {
+        "episode_id": "EP-251201118",
+        "person_id": "PB2ED01F",
+        "person_name": "バナナマン・日村勇紀",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "バナナマン",
+        "detected_individual": "日村勇紀",
+        "suggested_action": "split_to_individual",
+        "row_index": 7999
+      },
+      {
+        "episode_id": "EP-251201127",
+        "person_id": "PBF99C6B",
+        "person_name": "LUNA SEA・河村隆一",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "LUNA SEA",
+        "detected_individual": "河村隆一",
+        "suggested_action": "split_to_individual",
+        "row_index": 8203
+      },
+      {
+        "episode_id": "EP-251201164",
+        "person_id": "PEC7453B",
+        "person_name": "SMAP・中居正広",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "SMAP",
+        "detected_individual": "中居正広",
+        "suggested_action": "split_to_individual",
+        "row_index": 9023
+      },
+      {
+        "episode_id": "EP-251201172",
+        "person_id": "P71A9D34",
+        "person_name": "爆笑問題・太田光",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "爆笑問題",
+        "detected_individual": "太田光",
+        "suggested_action": "split_to_individual",
+        "row_index": 9211
+      }
+    ]
+  },
+  "results": []
+}

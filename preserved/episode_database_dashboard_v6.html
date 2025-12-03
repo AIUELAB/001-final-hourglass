@@ -1815,7 +1815,7 @@
         // ========== API統計データ取得 ==========
         async function fetchAPIStats() {
             try {
-                const response = await fetch('http://localhost:8000/api/stats/summary');
+                const response = await fetch('http://localhost:8080/api/stats/summary');
                 const data = await response.json();
 
                 console.log('✅ API統計データ取得成功:', data);
@@ -2756,7 +2756,7 @@
         // データベース更新チェック機能
         async function checkForDataUpdates() {
             try {
-                const response = await fetch('http://localhost:8000/api/data/version');
+                const response = await fetch('http://localhost:8080/api/data/version');
                 const versionData = await response.json();
 
                 if (versionData.last_modified) {

@@ -5,6 +5,7 @@ FastAPI メインアプリケーション
 最期の砂時計キャラクターデータベースAPI
 """
 
+import asyncio
 import csv
 import io
 import json
@@ -15,11 +16,12 @@ from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
+from sse_starlette.sse import EventSourceResponse
 
 # 環境変数の読み込み
 load_dotenv()
@@ -72,6 +74,11 @@ from app.utils.auth_simple import (
 from app.utils.csv_loader import get_csv_modification_time, get_default_csv_path, import_csv_to_db
 from app.utils.data_quality import DataQualityManager
 from app.utils.episode_manager import EpisodeManager
+from app.utils.csv_cache import csv_cache
+from app.services import get_file_watcher, sse_manager
+from app.services.log_database import log_db
+from app.services.log_sse import log_sse_manager
+from app.routers import logs as logs_router
 
 # FastAPIアプリケーション初期化
 app = FastAPI(
@@ -95,7 +102,12 @@ app.add_middleware(
 
 # 静的ファイルマウント（CSVファイルへのアクセス用）
 project_root = Path(__file__).parent.parent.parent
+preserved_dir = project_root / "preserved"
+app.mount("/preserved", StaticFiles(directory=str(preserved_dir)), name="preserved")
 app.mount("/data", StaticFiles(directory=str(project_root)), name="data")
+
+# ログ収集APIルーター登録
+app.include_router(logs_router.router, prefix="/api/logs", tags=["logs"])
 
 
 @app.on_event("startup")
@@ -115,12 +127,64 @@ async def startup():
     else:
         print(f"⚠️  CSV未検出: {csv_path}")
 
+    # ファイル監視開始
+    file_watcher = get_file_watcher(csv_path)
+    file_watcher.register_callback(on_csv_updated)
+    file_watcher.start()
+    print("👁️ ファイル監視開始")
+
+    # SSEハートビート開始
+    await sse_manager.start_heartbeat()
+    print("💓 SSEハートビート開始")
+
+    # ログ収集システム初期化
+    log_db.connect()
+    log_db.create_tables()
+    await log_sse_manager.start_heartbeat()
+    print("📝 ログ収集システム起動完了")
+
     print("🎊 APIサーバー起動完了！")
+
+
+def on_csv_updated(mtime: float):
+    """CSV更新時のコールバック（同期的に呼ばれる）"""
+    csv_path = get_default_csv_path()
+    csv_cache.invalidate(str(csv_path))
+    metadata = csv_cache.get_metadata(str(csv_path))
+    print(f"🔔 CSV更新検出: mtime={mtime}")
+
+    # 非同期ブロードキャストをスケジュール
+    loop = asyncio.get_event_loop()
+    if loop.is_running():
+        asyncio.create_task(
+            sse_manager.broadcast(
+                "data_updated",
+                {
+                    "type": "csv_updated",
+                    "mtime": mtime,
+                    "checksum": metadata.get("checksum"),
+                    "row_count": metadata.get("row_count"),
+                },
+            )
+        )
 
 
 @app.on_event("shutdown")
 async def shutdown():
     """アプリケーション終了時の処理"""
+    # ファイル監視停止
+    csv_path = get_default_csv_path()
+    file_watcher = get_file_watcher(csv_path)
+    file_watcher.stop()
+
+    # SSEハートビート停止
+    await sse_manager.stop_heartbeat()
+
+    # ログ収集システム停止
+    await log_sse_manager.stop_heartbeat()
+    log_db.disconnect()
+    print("📝 ログ収集システム停止")
+
     db.disconnect()
     print("👋 APIサーバー停止")
 
@@ -134,6 +198,54 @@ async def shutdown():
 async def health_check():
     """ヘルスチェックエンドポイント"""
     return {"status": "healthy", "message": "API is running"}
+
+
+# ========================================
+# SSE (Server-Sent Events) エンドポイント
+# ========================================
+
+
+@app.get("/api/events/data")
+async def sse_data_events(request: Request):
+    """
+    SSEデータ更新イベントストリーム
+
+    CSVファイルが更新されると、data_updated イベントを送信します。
+    30秒ごとにheartbeatイベントを送信して接続を維持します。
+
+    Returns:
+        EventSourceResponse: SSEストリーム
+    """
+    client = await sse_manager.connect()
+
+    async def generate():
+        try:
+            async for event in sse_manager.event_generator(client):
+                if await request.is_disconnected():
+                    break
+                yield event
+        finally:
+            sse_manager.disconnect(client.client_id)
+
+    return EventSourceResponse(generate())
+
+
+@app.get("/api/data/meta")
+async def get_data_metadata():
+    """
+    CSVデータのメタデータ取得（ETag用）
+
+    Returns:
+        - exists: ファイル存在フラグ
+        - mtime: 更新時刻
+        - size: ファイルサイズ
+        - checksum: チェックサム
+        - row_count: 行数（キャッシュ済みの場合）
+        - etag: HTTP ETag値
+    """
+    csv_path = get_default_csv_path()
+    metadata = csv_cache.get_metadata(str(csv_path))
+    return metadata
 
 
 # ========================================
@@ -552,6 +664,25 @@ async def dashboard_v4():
         )
     else:
         raise HTTPException(status_code=404, detail="Dashboard v4 not found")
+
+
+@app.get("/logs-dashboard")
+async def logs_dashboard():
+    """ログ分析ダッシュボード"""
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "log_analysis_dashboard.html"
+
+    if html_path.exists():
+        return FileResponse(
+            html_path,
+            media_type="text/html",
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0",
+            },
+        )
+    else:
+        raise HTTPException(status_code=404, detail="Log analysis dashboard not found")
 
 
 # ========================================

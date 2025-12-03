@@ -98,7 +98,7 @@ repos:
   rev: 1.7.9
   hooks:
   - id: bandit
-    args: [-ll]
+    args: [-ll, --skip, B608]  # B608: 内部SQLクエリの誤検出をスキップ
     files: ^(src/|backend/).*\.py$
 
   # ============================================

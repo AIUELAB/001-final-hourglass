@@ -1,0 +1,7 @@
+﻿type,canonical_id,canonical_name,duplicate_id,duplicate_name,confidence,name_similarity
+exact,P10427DB,てつや,PCEF7C08,てつや,1.0,
+exact,P07CEE9A,草野マサムネ,PE2FE2BC,草野マサムネ,1.0,
+exact,PEF64776,シルクロード,P528D388,シルクロード,1.0,
+exact,PF25F618,藤原聡,P40FFED5,藤原聡,1.0,
+similar,PD106D0D,孫悟空『ドラゴンボール』,P7E0F1FE,孫悟飯『ドラゴンボール』,0.9416666666666667,0.9166666666666666
+similar,PBD70A01,吉田正尚,PE5F69C4,吉田正,0.8999999999999999,0.8571428571428571

@@ -320,3 +320,5 @@ episode_database_dashboard_v2.html
 # ========================================
 ebook-mcp/
 ios-apps/final-hourglass/
+.crash-guard/
+output/name_application/preview_applied.csv

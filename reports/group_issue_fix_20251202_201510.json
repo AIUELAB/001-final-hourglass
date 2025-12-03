@@ -1,0 +1,309 @@
+{
+  "timestamp": "2025-12-02T20:15:10.193283",
+  "summary": {
+    "group_as_person": {
+      "detected": 12,
+      "fixed": 12
+    },
+    "concatenated_names": {
+      "detected": 4,
+      "fixed": 4
+    }
+  },
+  "issues": {
+    "group_as_person": [
+      {
+        "episode_id": "EP-000145",
+        "person_id": "P52AE294",
+        "person_name": "櫻坂46",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "櫻坂46",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 144
+      },
+      {
+        "episode_id": "EP-000718",
+        "person_id": "PC4106D4",
+        "person_name": "ミルクボーイ",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "ミルクボーイ",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 717
+      },
+      {
+        "episode_id": "EP-000884",
+        "person_id": "PC1B1602",
+        "person_name": "かまいたち",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "かまいたち",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 883
+      },
+      {
+        "episode_id": "EP-000915",
+        "person_id": "P3760666",
+        "person_name": "KinKi Kids",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "KinKi Kids",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 914
+      },
+      {
+        "episode_id": "EP-000926",
+        "person_id": "PE66B8A0",
+        "person_name": "BTS",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "BTS",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_3_members",
+        "row_index": 925
+      },
+      {
+        "episode_id": "EP-000927",
+        "person_id": "P0D055BE",
+        "person_name": "BLACKPINK",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "BLACKPINK",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_4_members",
+        "row_index": 926
+      },
+      {
+        "episode_id": "EP-000931",
+        "person_id": "PF6F6AEC",
+        "person_name": "DREAMS COME TRUE",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "DREAMS COME TRUE",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 930
+      },
+      {
+        "episode_id": "EP-000937",
+        "person_id": "PB902EE9",
+        "person_name": "TWICE",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "TWICE",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_3_members",
+        "row_index": 936
+      },
+      {
+        "episode_id": "EP-000943",
+        "person_id": "P7BA603B",
+        "person_name": "Perfume",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "Perfume",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_3_members",
+        "row_index": 942
+      },
+      {
+        "episode_id": "EP-000948",
+        "person_id": "PB30B3FE",
+        "person_name": "NMB48",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "NMB48",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 947
+      },
+      {
+        "episode_id": "EP-000968",
+        "person_id": "PDD3245A",
+        "person_name": "サンドウィッチマン",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "サンドウィッチマン",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 967
+      },
+      {
+        "episode_id": "EP-001338",
+        "person_id": "PFA1A82D",
+        "person_name": "千鳥",
+        "issue_type": "GROUP_AS_PERSON",
+        "detected_group": "千鳥",
+        "detected_individual": null,
+        "suggested_action": "disperse_to_2_members",
+        "row_index": 1337
+      }
+    ],
+    "concatenated_names": [
+      {
+        "episode_id": "EP-000263",
+        "person_id": "PCEF7C08",
+        "person_name": "東海オンエア・てつや",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "東海オンエア",
+        "detected_individual": "てつや",
+        "suggested_action": "split_to_individual",
+        "row_index": 262
+      },
+      {
+        "episode_id": "EP-000942",
+        "person_id": "P93B5429",
+        "person_name": "QuizKnock・伊沢拓司",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "QuizKnock",
+        "detected_individual": "伊沢拓司",
+        "suggested_action": "split_to_individual",
+        "row_index": 941
+      },
+      {
+        "episode_id": "EP-000944",
+        "person_id": "PF25F618",
+        "person_name": "Official髭男dism・藤原聡",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "Official髭男dism",
+        "detected_individual": "藤原聡",
+        "suggested_action": "split_to_individual",
+        "row_index": 943
+      },
+      {
+        "episode_id": "EP-000982",
+        "person_id": "PE2FE2BC",
+        "person_name": "スピッツ・草野マサムネ",
+        "issue_type": "CONCATENATED_NAME",
+        "detected_group": "スピッツ",
+        "detected_individual": "草野マサムネ",
+        "suggested_action": "split_to_individual",
+        "row_index": 981
+      }
+    ]
+  },
+  "results": [
+    {
+      "episode_id": "EP-000145",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "櫻坂46",
+      "fixed_name": "菅井友香",
+      "action": "dispersed",
+      "details": "代表メンバー(菅井友香)に変換。他メンバー: ['小林由依']"
+    },
+    {
+      "episode_id": "EP-000718",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "ミルクボーイ",
+      "fixed_name": "駒場孝",
+      "action": "dispersed",
+      "details": "代表メンバー(駒場孝)に変換。他メンバー: ['内海崇']"
+    },
+    {
+      "episode_id": "EP-000884",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "かまいたち",
+      "fixed_name": "山内健司",
+      "action": "dispersed",
+      "details": "代表メンバー(山内健司)に変換。他メンバー: ['濱家隆一']"
+    },
+    {
+      "episode_id": "EP-000915",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "KinKi Kids",
+      "fixed_name": "堂本光一",
+      "action": "dispersed",
+      "details": "代表メンバー(堂本光一)に変換。他メンバー: ['堂本剛']"
+    },
+    {
+      "episode_id": "EP-000926",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "BTS",
+      "fixed_name": "RM",
+      "action": "dispersed",
+      "details": "代表メンバー(RM)に変換。他メンバー: ['SUGA', 'Jimin']"
+    },
+    {
+      "episode_id": "EP-000927",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "BLACKPINK",
+      "fixed_name": "Jisoo",
+      "action": "dispersed",
+      "details": "代表メンバー(Jisoo)に変換。他メンバー: ['Jennie', 'Rosé', 'Lisa']"
+    },
+    {
+      "episode_id": "EP-000931",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "DREAMS COME TRUE",
+      "fixed_name": "吉田美和",
+      "action": "dispersed",
+      "details": "代表メンバー(吉田美和)に変換。他メンバー: ['中村正人']"
+    },
+    {
+      "episode_id": "EP-000937",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "TWICE",
+      "fixed_name": "ナヨン",
+      "action": "dispersed",
+      "details": "代表メンバー(ナヨン)に変換。他メンバー: ['サナ', 'ツウィ']"
+    },
+    {
+      "episode_id": "EP-000943",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "Perfume",
+      "fixed_name": "あ〜ちゃん",
+      "action": "dispersed",
+      "details": "代表メンバー(あ〜ちゃん)に変換。他メンバー: ['かしゆか', 'のっち']"
+    },
+    {
+      "episode_id": "EP-000948",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "NMB48",
+      "fixed_name": "山本彩",
+      "action": "dispersed",
+      "details": "代表メンバー(山本彩)に変換。他メンバー: ['渡辺美優紀']"
+    },
+    {
+      "episode_id": "EP-000968",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "サンドウィッチマン",
+      "fixed_name": "伊達みきお",
+      "action": "dispersed",
+      "details": "代表メンバー(伊達みきお)に変換。他メンバー: ['富澤たけし']"
+    },
+    {
+      "episode_id": "EP-001338",
+      "issue_type": "GROUP_AS_PERSON",
+      "original_name": "千鳥",
+      "fixed_name": "大悟",
+      "action": "dispersed",
+      "details": "代表メンバー(大悟)に変換。他メンバー: ['ノブ']"
+    },
+    {
+      "episode_id": "EP-000263",
+      "issue_type": "CONCATENATED_NAME",
+      "original_name": "東海オンエア・てつや",
+      "fixed_name": "てつや",
+      "action": "split",
+      "details": "グループ名(東海オンエア)を除去し個人名のみに"
+    },
+    {
+      "episode_id": "EP-000942",
+      "issue_type": "CONCATENATED_NAME",
+      "original_name": "QuizKnock・伊沢拓司",
+      "fixed_name": "伊沢拓司",
+      "action": "split",
+      "details": "グループ名(QuizKnock)を除去し個人名のみに"
+    },
+    {
+      "episode_id": "EP-000944",
+      "issue_type": "CONCATENATED_NAME",
+      "original_name": "Official髭男dism・藤原聡",
+      "fixed_name": "藤原聡",
+      "action": "split",
+      "details": "グループ名(Official髭男dism)を除去し個人名のみに"
+    },
+    {
+      "episode_id": "EP-000982",
+      "issue_type": "CONCATENATED_NAME",
+      "original_name": "スピッツ・草野マサムネ",
+      "fixed_name": "草野マサムネ",
+      "action": "split",
+      "details": "グループ名(スピッツ)を除去し個人名のみに"
+    }
+  ]
+}

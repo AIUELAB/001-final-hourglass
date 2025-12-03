@@ -1,0 +1,46 @@
+{
+  "timestamp": "2025-12-03T14:29:39.288161",
+  "source_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv",
+  "stats": {
+    "total": 9391,
+    "proper": 9271,
+    "refusal": 2,
+    "no_format": 118,
+    "by_type": {
+      "OTHER_REFUSAL": 1,
+      "DECEASED_MENTIONED": 1
+    }
+  },
+  "problematic_episodes": [
+    {
+      "person_id": "P23C26A4",
+      "person_name": "坂本龍馬",
+      "age": "56.0",
+      "category": "歴史",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません",
+        "お伝えする必要があります",
+        "ご希望でしたら"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "OTHER_REFUSAL",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "坂本龍馬についてのエピソード生成のご依頼ですが、重要な歴史的事実をお伝えする必要があります。\n\n坂本龍馬は1867年11月15日（近江屋事件）に京都で暗殺されており、享年33歳（満31歳）でした。そのため、56歳時のエピソードは存在しません。\n\nもし龍馬についてのエピソードをご希望でしたら、以下のような代替案をご提案できます：\n\n1. **実際の年齢でのエピソード**：例えば31歳時の「船中八策」"
+    },
+    {
+      "person_id": "P594A3A5",
+      "person_name": "岩田聡",
+      "age": "64.0",
+      "category": "ビジネス",
+      "is_refusal": true,
+      "detected_patterns": [
+        "エピソードは存在しません"
+      ],
+      "has_proper_format": false,
+      "refusal_type": "DECEASED_MENTIONED",
+      "recommended_action": "内容確認後、再生成または削除",
+      "text_preview": "岩田聡氏は2015年7月11日に55歳で逝去されているため、64歳時点でのエピソードは存在しません。\n\n代わりに、岩田氏の晩年の印象的なエピソードをご紹介します：\n\nあなたと同じ64歳の年齢には達しませんでしたが、岩田聡は任天堂社長として最後まで情熱を注ぎ続けました。2014年、体調不良の中でもE3（世界最大のゲーム見本市）での「Nintendo Digital Event」を指揮し、自らゲームキ"
+    }
+  ]
+}

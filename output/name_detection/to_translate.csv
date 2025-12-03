@@ -1,0 +1,11 @@
+﻿person_id,person_name,category,person_type,is_pure_english,name_type,classification,reason
+P9A4F40A,Tomohiro Ichikawa,映画・演劇,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+P850B02C,LaKeith Stanfield,俳優・女優,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+P28BB228,John Kricfalusi,アニメ・漫画・ゲーム,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+PA83A90B,Donald Barthelme,文学,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+PA424092,Genndy Tartakovsky,アニメ・漫画・ゲーム,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+PB6263CE,Pendleton Ward,アニメ・漫画・ゲーム,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+P20F762C,Lauren Faust,アニメ・漫画・ゲーム,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+P3059300,Erik Demaine,学術・研究,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）
+PB612E71,Francis Fukuyama,学術・研究,REAL,True,romanized_japanese,to_translate,日本人名のローマ字表記（漢字変換対象）
+P0611CDA,Craig Mundie,科学・技術,REAL,True,western_name,to_translate,西洋人名（カタカナ変換対象）

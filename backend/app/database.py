@@ -68,7 +68,7 @@ class Database:
 
     def get_all_characters(self, page: int = 1, page_size: int = 20) -> Tuple[List[dict], int]:
         """
-        全キャラクター取得（ページネーション対応）
+        全キャラクター取得（ページネーション対応、ユニーク人物のみ）
 
         Args:
             page: ページ番号（1始まり）
@@ -82,13 +82,23 @@ class Database:
 
         cursor = self.conn.cursor()
 
-        # 総件数取得
-        cursor.execute("SELECT COUNT(*) FROM characters")
+        # ユニークな人物の総件数取得
+        cursor.execute("SELECT COUNT(DISTINCT character_name) FROM characters")
         total = cursor.fetchone()[0]
 
-        # ページネーション
+        # ページネーション（character_nameでグループ化し、最初のレコードを取得）
         offset = (page - 1) * page_size
-        cursor.execute("SELECT * FROM characters ORDER BY id LIMIT ? OFFSET ?", (page_size, offset))
+        cursor.execute(
+            """
+            SELECT * FROM characters
+            WHERE id IN (
+                SELECT MIN(id) FROM characters GROUP BY character_name
+            )
+            ORDER BY id
+            LIMIT ? OFFSET ?
+        """,
+            (page_size, offset),
+        )
 
         characters = [dict(row) for row in cursor.fetchall()]
         return characters, total
@@ -114,7 +124,7 @@ class Database:
 
     def search_characters(self, query: str) -> List[dict]:
         """
-        キャラクター検索
+        キャラクター検索（ユニーク人物のみ）
 
         Args:
             query: 検索クエリ
@@ -129,7 +139,11 @@ class Database:
         cursor.execute(
             """
             SELECT * FROM characters
-            WHERE character_name LIKE ? OR work_title LIKE ?
+            WHERE id IN (
+                SELECT MIN(id) FROM characters
+                WHERE character_name LIKE ? OR work_title LIKE ?
+                GROUP BY character_name
+            )
             ORDER BY id
             """,
             (f"%{query}%", f"%{query}%"),
@@ -139,7 +153,7 @@ class Database:
 
     def filter_characters(self, genre: Optional[str] = None, gender: Optional[str] = None) -> List[dict]:
         """
-        キャラクターフィルタリング
+        キャラクターフィルタリング（ユニーク人物のみ）
 
         Args:
             genre: ジャンル
@@ -155,9 +169,24 @@ class Database:
 
         # ジャンルフィルタのみ実装（性別情報が DB にないため）
         if genre:
-            cursor.execute("SELECT * FROM characters WHERE genre = ? ORDER BY id", (genre,))
+            cursor.execute(
+                """
+                SELECT * FROM characters
+                WHERE id IN (
+                    SELECT MIN(id) FROM characters WHERE genre = ? GROUP BY character_name
+                )
+                ORDER BY id
+            """,
+                (genre,),
+            )
         else:
-            cursor.execute("SELECT * FROM characters ORDER BY id")
+            cursor.execute("""
+                SELECT * FROM characters
+                WHERE id IN (
+                    SELECT MIN(id) FROM characters GROUP BY character_name
+                )
+                ORDER BY id
+            """)
 
         return [dict(row) for row in cursor.fetchall()]
 

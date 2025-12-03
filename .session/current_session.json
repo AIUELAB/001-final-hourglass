@@ -1,58 +1,37 @@
 {
-  "session_id": "epup_drama_improvement_20251129",
-  "timestamp": "2025-11-29T09:20:00+09:00",
+  "session_id": "phase64_8000_achieved_20251203",
+  "timestamp": "2025-12-03T15:00:00",
   "status": "completed",
-  "summary": "ドラマ品質改善・7軸スコア100%達成",
-
-  "completed_tasks": [
-    {
-      "task": "ドラマ品質改善完了",
-      "details": "低ドラマエピソード（composite_score < 5.0）を0件に改善",
-      "scripts": ["scripts/evaluate_episode_drama.py", "scripts/improve_low_drama_episodes.py"]
-    },
-    {
-      "task": "7軸スコア100%補完",
-      "details": "89件の欠損エピソード（DEPTH_EXPANSION, VTUBER_EXPANSION, EDGE_CASE_EXPANSION）に7軸スコアを補完",
-      "script": "scripts/fill_missing_seven_axis.py"
-    },
-    {
-      "task": "変更コミット",
-      "details": "commit: c278e3f - feat: ドラマ品質改善完了・7軸スコア100%達成"
-    }
-  ],
-
-  "verification_results": {
-    "total_episodes": 2762,
-    "unique_persons": 1719,
-    "seven_axis_coverage": {
-      "記憶性スコア": "100%",
-      "共感性スコア": "100%",
-      "意外性スコア": "100%",
-      "生成品質スコア": "100%",
-      "教育的価値": "100%",
-      "ストーリー品質": "100%",
-      "事実密度": "100%"
-    },
-    "low_drama_episodes": 0,
-    "epup_score": "99.82+"
+  "summary": "Phase 61-64完了: 品質改善+8,000人達成",
+  "phase": 64,
+  "current_progress": {
+    "persons_current": 8000,
+    "persons_target": 8000,
+    "achievement_rate": "100%",
+    "episodes_total": 9442,
+    "refusal_episodes": 0,
+    "format_issues": 0,
+    "proper_format_rate": "100%"
   },
-
-  "modified_files": [
-    "preserved/data/MASTER_EPISODES_CURRENT.csv",
-    "scripts/evaluate_episode_drama.py",
-    "scripts/improve_low_drama_episodes.py",
-    "scripts/fill_missing_seven_axis.py",
-    "scripts/evaluate_epup_effectiveness.py"
+  "completed_tasks": [
+    "Phase 61: Refusalエピソード修正（51件→0件）",
+    "Phase 62: 高齢年齢カバレッジ補完（40件追加）",
+    "Phase 63: 形式不正エピソード修正（120件→0件）",
+    "Phase 64: 人物数補完（46人→8,000人達成）",
+    "  - 幼少期天才（モーツァルト、ピカソ等）",
+    "  - 高齢科学者（ノーベル賞受賞者）",
+    "  - 世界の映画人（フランス・イタリア映画）",
+    "  - 芸術家・ダンサー（バリシニコフ等）"
   ],
-
-  "pending_tasks": [],
-
-  "next_phase_options": [
-    "新規エピソード追加でカバレッジ拡大",
-    "既存エピソードの品質向上（impressiveness_score, priority_score）",
-    "年齢カバレッジの拡充（未カバー年齢への対応）",
-    "人物追加（yumeilistからのインポート）"
-  ],
-
-  "resume_instructions": "「前回のセッションを復元してください」で再開可能"
+  "milestone": "🎉 8,000人目標達成！",
+  "database_status": {
+    "total_episodes": 9442,
+    "unique_persons": 8000,
+    "proper_format_rate": "100%",
+    "refusal_count": 0
+  },
+  "server_config": {
+    "port": 8080,
+    "dashboard_url": "http://localhost:8080/preserved/episode_database_dashboard_v7.html"
+  }
 }

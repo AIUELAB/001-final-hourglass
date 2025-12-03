@@ -106,6 +106,18 @@ def generate_heatmap_data(df: pd.DataFrame, min_age: int = 0, max_age: int = 90)
         real_count = len(df_valid[df_valid["person_type"].str.upper().str.contains("REAL", na=False)])
         fictional_count = len(df_valid[df_valid["person_type"].str.upper().str.contains("FICTIONAL", na=False)])
 
+    # 年齢別充足率（14歳〜75歳をダッシュボードで使用）
+    age_coverage = {}
+    age_counts = df_valid.groupby("age").size()
+    for age in ages:
+        current = int(age_counts.get(age, 0))
+        target = 365  # 各年齢で365日分
+        age_coverage[age] = {
+            "current": current,
+            "target": target,
+            "coverage_percent": round((current / target) * 100, 2) if target > 0 else 0,
+        }
+
     coverage_stats = {
         "total_current": in_range_count,
         "total_target": target_total,
@@ -117,6 +129,7 @@ def generate_heatmap_data(df: pd.DataFrame, min_age: int = 0, max_age: int = 90)
         "total_all": total_count,
         "age_range": {"min": min_age, "max": max_age},
         "days_range": {"min": 1, "max": 365},
+        "age_coverage": age_coverage,
     }
 
     # カテゴリ別充足率

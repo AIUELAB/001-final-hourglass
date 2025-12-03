@@ -229,8 +229,9 @@ GROUP_MEMBER_MAP: Dict[str, str] = {
     "板野友美": "AKB48",
     "指原莉乃": "AKB48",
     # ===== YouTubeグループ =====
-    # Fischer's
+    # Fischer's / フィッシャーズ
     "シルクロード": "Fischer's",
+    "シルク": "フィッシャーズ",  # シルクロードの別名
     # 東海オンエア
     "てつや": "東海オンエア",
     # ===== 企業・スポーツチーム =====
@@ -284,6 +285,103 @@ GROUP_MEMBER_MAP: Dict[str, str] = {
     "川端康成": "新感覚派",
     # その他
     "シェイクスピア": "宮内大臣一座",
+    # ===== Phase 40追加: 海外バンドメンバー =====
+    # ビートルズ（全メンバー）
+    "ジョージ・ハリスン": "ビートルズ",
+    "リンゴ・スター": "ビートルズ",
+    "John Lennon": "The Beatles",
+    "Paul McCartney": "The Beatles",
+    "George Harrison": "The Beatles",
+    "Ringo Starr": "The Beatles",
+    # ローリング・ストーンズ
+    "ミック・ジャガー": "ローリング・ストーンズ",
+    "キース・リチャーズ": "ローリング・ストーンズ",
+    "Mick Jagger": "The Rolling Stones",
+    "Keith Richards": "The Rolling Stones",
+    # クイーン
+    "フレディ・マーキュリー": "クイーン",
+    "ブライアン・メイ": "クイーン",
+    "ロジャー・テイラー": "クイーン",
+    "ジョン・ディーコン": "クイーン",
+    "Freddie Mercury": "Queen",
+    "Brian May": "Queen",
+    # レッド・ツェッペリン
+    "ジミー・ペイジ": "レッド・ツェッペリン",
+    "ロバート・プラント": "レッド・ツェッペリン",
+    # U2
+    "ボノ": "U2",
+    "ジ・エッジ": "U2",
+    "Bono": "U2",
+    "The Edge": "U2",
+    # ===== Phase 40追加: K-POPメンバー =====
+    # BTS（全メンバー）
+    "RM": "BTS",
+    "Jin": "BTS",
+    "SUGA": "BTS",
+    "j-hope": "BTS",
+    "Jimin": "BTS",
+    "V": "BTS",
+    "Jung Kook": "BTS",
+    "ジョングク": "BTS",
+    "ジミン": "BTS",
+    "テテ": "BTS",
+    # BLACKPINK（全メンバー）
+    "Jisoo": "BLACKPINK",
+    "ジス": "BLACKPINK",
+    "Jennie": "BLACKPINK",
+    "ジェニー": "BLACKPINK",
+    "Rosé": "BLACKPINK",
+    "ロゼ": "BLACKPINK",
+    "Lisa": "BLACKPINK",
+    "リサ": "BLACKPINK",
+    # TWICE（代表メンバー）
+    "ナヨン": "TWICE",
+    "サナ": "TWICE",
+    "モモ": "TWICE",
+    "ミナ": "TWICE",
+    "ツウィ": "TWICE",
+    # ===== Phase 40追加: VTuber =====
+    # ホロライブ（代表）
+    "星街すいせい": "ホロライブ",
+    "兎田ぺこら": "ホロライブ",
+    "白上フブキ": "ホロライブ",
+    "湊あくあ": "ホロライブ",
+    "宝鐘マリン": "ホロライブ",
+    "さくらみこ": "ホロライブ",
+    "大空スバル": "ホロライブ",
+    "天音かなた": "ホロライブ",
+    "角巻わため": "ホロライブ",
+    "獅白ぼたん": "ホロライブ",
+    # にじさんじ（代表）
+    "葛葉": "にじさんじ",
+    "叶": "にじさんじ",
+    "月ノ美兎": "にじさんじ",
+    "剣持刀也": "にじさんじ",
+    "笹木咲": "にじさんじ",
+    "椎名唯華": "にじさんじ",
+    "本間ひまわり": "にじさんじ",
+    "樋口楓": "にじさんじ",
+    "リゼ・ヘルエスタ": "にじさんじ",
+    "アンジュ・カトリーナ": "にじさんじ",
+    # ===== Phase 40追加: YouTubeグループ =====
+    # 東海オンエア
+    "しばゆー": "東海オンエア",
+    "りょう": "東海オンエア",
+    "としみつ": "東海オンエア",
+    "ゆめまる": "東海オンエア",
+    "虫眼鏡": "東海オンエア",
+    # コムドット
+    "やまと": "コムドット",
+    "ひゅうが": "コムドット",
+    "ゆうた": "コムドット",
+    "あむぎり": "コムドット",
+    # Fischer's
+    "ンダホ": "Fischer's",
+    "ダーマ": "Fischer's",
+    # QuizKnock
+    "伊沢拓司": "QuizKnock",
+    "ふくらP": "QuizKnock",
+    "河村拓哉": "QuizKnock",
 }
 
 # ========================================
@@ -291,23 +389,118 @@ GROUP_MEMBER_MAP: Dict[str, str] = {
 # ========================================
 
 GROUP_ENTITIES: Set[str] = {
+    # ===== 日本のアイドルグループ =====
     "嵐",
     "SMAP",
     "V6",
     "TOKIO",
+    "KinKi Kids",
+    "AKB48",
+    "SKE48",
+    "NMB48",
+    "HKT48",
+    "乃木坂46",
+    "欅坂46",
+    "櫻坂46",
+    "日向坂46",
+    "モーニング娘。",
+    "King & Prince",
+    "SixTONES",
+    "Snow Man",
+    "Hey! Say! JUMP",
+    # ===== 日本の音楽グループ =====
+    "B'z",
+    "Mr.Children",
+    "サザンオールスターズ",
+    "DREAMS COME TRUE",
+    "ドリカム",
+    "EXILE",
+    "三代目 J SOUL BROTHERS",
+    "三代目J Soul Brothers",  # 表記ゆれ対応
+    "L'Arc~en~Ciel",
+    "ラルクアンシエル",
+    "X JAPAN",
+    "GLAY",
+    "LUNA SEA",
+    "スピッツ",
+    "ゆず",
+    "コブクロ",
+    "Official髭男dism",
+    "Perfume",
+    "SEKAI NO OWARI",
+    "King Gnu",
+    "ONE OK ROCK",
+    "RADWIMPS",
+    "YOASOBI",
+    "back number",
+    # ===== お笑いグループ =====
     "ダウンタウン",
     "ナインティナイン",
     "ウッチャンナンチャン",
     "とんねるず",
     "爆笑問題",
-    "ドリカム",
-    "B'z",
-    "Mr.Children",
-    "サザンオールスターズ",
-    "モーニング娘。",
-    "AKB48",
-    "乃木坂46",
-    "EXILE",
+    "サンドウィッチマン",
+    "オードリー",
+    "千鳥",
+    "かまいたち",
+    "霜降り明星",
+    "ミルクボーイ",
+    "バナナマン",
+    "おぎやはぎ",
+    "ザ・ドリフターズ",
+    "笑点メンバー",
+    "EXIT",
+    "ぺこぱ",
+    "南海キャンディーズ",
+    # ===== 海外バンド =====
+    "ビートルズ",
+    "The Beatles",
+    "Beatles",
+    "ローリング・ストーンズ",
+    "The Rolling Stones",
+    "クイーン",
+    "Queen",
+    "レッド・ツェッペリン",
+    "Led Zeppelin",
+    "ピンク・フロイド",
+    "Pink Floyd",
+    "U2",
+    "コールドプレイ",
+    "Coldplay",
+    "マルーン5",
+    "Maroon 5",
+    "ワン・ダイレクション",
+    "One Direction",
+    # ===== K-POP =====
+    "BTS",
+    "防弾少年団",
+    "BLACKPINK",
+    "ブラックピンク",
+    "TWICE",
+    "トゥワイス",
+    "EXO",
+    "NCT",
+    "SEVENTEEN",
+    "Stray Kids",
+    "aespa",
+    "IVE",
+    "NewJeans",
+    "LE SSERAFIM",
+    # ===== VTuberグループ =====
+    "ホロライブ",
+    "hololive",
+    "にじさんじ",
+    "NIJISANJI",
+    "VShojo",
+    # ===== YouTubeグループ =====
+    "東海オンエア",
+    "Fischer's",
+    "フィッシャーズ",  # Fischer'sの日本語表記
+    "コムドット",
+    "QuizKnock",
+    # ===== その他団体 =====
+    "宝塚歌劇団",
+    "劇団四季",
 }
 
 # ========================================
@@ -346,8 +539,7 @@ SOLO_ARTISTS: Set[str] = {
     "あいみょん",
     "米津玄師",
     "星野源",
-    "back number",
-    "YOASOBI",
+    # back number, YOASOBI: グループとしてGROUP_ENTITIESに移動
     "Ado",
     # 演歌・歌謡
     "美空ひばり",
@@ -397,6 +589,306 @@ GROUP_DETAILS: Dict[str, GroupInfo] = {
     "AKB48": GroupInfo("AKB48", GroupCategory.IDOL_GROUP),
     "モーニング娘。": GroupInfo("モーニング娘。", GroupCategory.IDOL_GROUP),
 }
+
+
+# ========================================
+# 分散ルール（グループ→メンバー変換時の戦略）
+# ========================================
+
+
+class DispersionStrategy(Enum):
+    """分散戦略"""
+
+    ALL = "all"  # 全メンバーに分散
+    REPRESENTATIVE = "representative"  # 代表メンバーのみ
+    DELETE = "delete"  # 削除（エピソード不要）
+
+
+@dataclass
+class DispersionRule:
+    """分散ルール定義"""
+
+    strategy: DispersionStrategy
+    members: List[str]  # 分散先メンバー（空リストの場合は自動取得）
+    max_members: int = 5  # 最大分散メンバー数
+
+
+DISPERSION_RULES: Dict[str, DispersionRule] = {
+    # ===== 海外バンド（小規模→全員分散） =====
+    "ビートルズ": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["ジョン・レノン", "ポール・マッカートニー", "ジョージ・ハリスン", "リンゴ・スター"],
+        max_members=4,
+    ),
+    "The Beatles": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["John Lennon", "Paul McCartney", "George Harrison", "Ringo Starr"],
+        max_members=4,
+    ),
+    "クイーン": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["フレディ・マーキュリー", "ブライアン・メイ", "ロジャー・テイラー", "ジョン・ディーコン"],
+        max_members=4,
+    ),
+    "ローリング・ストーンズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["ミック・ジャガー", "キース・リチャーズ"], max_members=2
+    ),
+    "U2": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["ボノ", "ジ・エッジ"], max_members=2),
+    # ===== K-POP（大規模→代表のみ） =====
+    "BTS": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["RM", "SUGA", "Jimin"], max_members=3),
+    "BLACKPINK": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["Jisoo", "Jennie", "Rosé", "Lisa"], max_members=4
+    ),
+    "TWICE": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["ナヨン", "サナ", "ツウィ"], max_members=3
+    ),
+    # ===== 日本のアイドルグループ =====
+    "嵐": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["大野智", "櫻井翔", "相葉雅紀", "二宮和也", "松本潤"], max_members=5
+    ),
+    "SMAP": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["木村拓哉", "中居正広", "香取慎吾"], max_members=3
+    ),
+    "AKB48": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["前田敦子", "大島優子", "指原莉乃"], max_members=3
+    ),
+    "乃木坂46": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["白石麻衣", "西野七瀬", "齋藤飛鳥"], max_members=3
+    ),
+    # ===== VTuberグループ（代表に分散） =====
+    "ホロライブ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["星街すいせい", "兎田ぺこら", "湊あくあ"], max_members=3
+    ),
+    "hololive": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["星街すいせい", "兎田ぺこら", "湊あくあ"], max_members=3
+    ),
+    "にじさんじ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["葛葉", "叶", "月ノ美兎"], max_members=3
+    ),
+    # ===== お笑いコンビ（全員分散） =====
+    "ダウンタウン": DispersionRule(strategy=DispersionStrategy.ALL, members=["松本人志", "浜田雅功"], max_members=2),
+    "サンドウィッチマン": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["伊達みきお", "富澤たけし"], max_members=2
+    ),
+    "霜降り明星": DispersionRule(strategy=DispersionStrategy.ALL, members=["粗品", "せいや"], max_members=2),
+    # ===== 音楽グループ =====
+    "B'z": DispersionRule(strategy=DispersionStrategy.ALL, members=["稲葉浩志", "松本孝弘"], max_members=2),
+    "Mr.Children": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["桜井和寿"], max_members=1),
+    "サザンオールスターズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["桑田佳祐", "原由子"], max_members=2
+    ),
+    # ===== YouTubeグループ =====
+    "東海オンエア": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["てつや", "しばゆー"], max_members=2
+    ),
+    "コムドット": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["やまと"], max_members=1),
+    "QuizKnock": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["伊沢拓司"], max_members=1),
+    "Fischer's": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["シルクロード", "ンダホ"], max_members=2
+    ),
+    "フィッシャーズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["シルクロード", "ンダホ"], max_members=2
+    ),
+    # ===== 追加アイドル・音楽グループ =====
+    "櫻坂46": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["菅井友香", "小林由依"], max_members=2
+    ),
+    "NMB48": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["山本彩", "渡辺美優紀"], max_members=2
+    ),
+    "KinKi Kids": DispersionRule(strategy=DispersionStrategy.ALL, members=["堂本光一", "堂本剛"], max_members=2),
+    "DREAMS COME TRUE": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["吉田美和", "中村正人"], max_members=2
+    ),
+    "Perfume": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["あ〜ちゃん", "かしゆか", "のっち"], max_members=3
+    ),
+    "Official髭男dism": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["藤原聡"], max_members=1),
+    "スピッツ": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["草野マサムネ"], max_members=1),
+    "コブクロ": DispersionRule(strategy=DispersionStrategy.ALL, members=["小渕健太郎", "黒田俊介"], max_members=2),
+    # ===== 追加お笑いコンビ =====
+    "ミルクボーイ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["駒場孝", "内海崇"], max_members=2
+    ),
+    "かまいたち": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["山内健司", "濱家隆一"], max_members=2
+    ),
+    "千鳥": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["大悟", "ノブ"], max_members=2),
+    "南海キャンディーズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["山里亮太", "山崎静代"], max_members=2
+    ),
+    # ===== 海外バンド（追加） =====
+    "マルーン5": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["アダム・レヴィーン"], max_members=1
+    ),
+    "Maroon 5": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["Adam Levine"], max_members=1),
+    "コールドプレイ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["クリス・マーティン"], max_members=1
+    ),
+    "Coldplay": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["Chris Martin"], max_members=1),
+    # ===== Phase 2追加: 日本アイドル =====
+    "King & Prince": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["平野紫耀", "永瀬廉", "高橋海人"], max_members=3
+    ),
+    "SixTONES": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["ジェシー", "京本大我", "松村北斗"], max_members=3
+    ),
+    "Snow Man": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["岩本照", "目黒蓮", "ラウール"], max_members=3
+    ),
+    "Hey! Say! JUMP": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["山田涼介", "中島裕翔", "知念侑李"], max_members=3
+    ),
+    "TOKIO": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["城島茂", "国分太一", "松岡昌宏"], max_members=3
+    ),
+    "V6": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["岡田准一", "井ノ原快彦", "坂本昌行"], max_members=3
+    ),
+    "SKE48": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["松井珠理奈", "松井玲奈"], max_members=2
+    ),
+    "HKT48": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["指原莉乃", "宮脇咲良"], max_members=2
+    ),
+    "日向坂46": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["佐々木久美", "加藤史帆"], max_members=2
+    ),
+    "欅坂46": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["平手友梨奈"], max_members=1),
+    "モーニング娘。": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["安倍なつみ", "後藤真希"], max_members=2
+    ),
+    # ===== Phase 2追加: 日本ロック =====
+    "X JAPAN": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["YOSHIKI", "TOSHI", "hide"], max_members=3
+    ),
+    "GLAY": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["TERU", "TAKURO"], max_members=2),
+    "LUNA SEA": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["河村隆一", "SUGIZO"], max_members=2
+    ),
+    "L'Arc~en~Ciel": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["hyde", "ken"], max_members=2),
+    "ラルクアンシエル": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["hyde", "ken"], max_members=2
+    ),
+    "SEKAI NO OWARI": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["Fukase", "Saori"], max_members=2
+    ),
+    "ゆず": DispersionRule(strategy=DispersionStrategy.ALL, members=["北川悠仁", "岩沢厚治"], max_members=2),
+    "RADWIMPS": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["野田洋次郎"], max_members=1),
+    "back number": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["清水依与吏"], max_members=1),
+    "King Gnu": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["常田大希", "井口理"], max_members=2
+    ),
+    "ONE OK ROCK": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["Taka"], max_members=1),
+    "YOASOBI": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["幾田りら", "Ayase"], max_members=2),
+    # ===== Phase 2追加: お笑い =====
+    "ナインティナイン": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["岡村隆史", "矢部浩之"], max_members=2
+    ),
+    "オードリー": DispersionRule(strategy=DispersionStrategy.ALL, members=["若林正恭", "春日俊彰"], max_members=2),
+    "とんねるず": DispersionRule(strategy=DispersionStrategy.ALL, members=["石橋貴明", "木梨憲武"], max_members=2),
+    "爆笑問題": DispersionRule(strategy=DispersionStrategy.ALL, members=["太田光", "田中裕二"], max_members=2),
+    "バナナマン": DispersionRule(strategy=DispersionStrategy.ALL, members=["設楽統", "日村勇紀"], max_members=2),
+    "おぎやはぎ": DispersionRule(strategy=DispersionStrategy.ALL, members=["小木博明", "矢作兼"], max_members=2),
+    "ザ・ドリフターズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["志村けん", "加藤茶", "いかりや長介"], max_members=3
+    ),
+    "ウッチャンナンチャン": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["内村光良", "南原清隆"], max_members=2
+    ),
+    "EXIT": DispersionRule(strategy=DispersionStrategy.ALL, members=["兼近大樹", "りんたろー。"], max_members=2),
+    "ぺこぱ": DispersionRule(strategy=DispersionStrategy.ALL, members=["シュウペイ", "松陰寺太勇"], max_members=2),
+    # ===== Phase 2追加: K-POP（日本語表記） =====
+    "防弾少年団": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["RM", "SUGA", "Jimin"], max_members=3
+    ),
+    "ブラックピンク": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["Jisoo", "Jennie", "Rosé", "Lisa"], max_members=4
+    ),
+    "トゥワイス": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["ナヨン", "サナ", "ツウィ"], max_members=3
+    ),
+    "EXO": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["ベッキョン", "カイ"], max_members=2),
+    "NCT": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["テヨン", "マーク"], max_members=2),
+    "SEVENTEEN": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["エスクプス", "ジョンハン"], max_members=2
+    ),
+    "Stray Kids": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["バンチャン", "ヒョンジン"], max_members=2
+    ),
+    "aespa": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["カリナ", "ウィンター"], max_members=2
+    ),
+    "IVE": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["ウォニョン", "レイ"], max_members=2),
+    "NewJeans": DispersionRule(strategy=DispersionStrategy.REPRESENTATIVE, members=["ミンジ", "へイン"], max_members=2),
+    "LE SSERAFIM": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["サクラ", "カズハ"], max_members=2
+    ),
+    # ===== Phase 2追加: 海外バンド =====
+    "Beatles": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["John Lennon", "Paul McCartney", "George Harrison", "Ringo Starr"],
+        max_members=4,
+    ),
+    "Queen": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["Freddie Mercury", "Brian May", "Roger Taylor", "John Deacon"],
+        max_members=4,
+    ),
+    "The Rolling Stones": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["Mick Jagger", "Keith Richards"], max_members=2
+    ),
+    "Led Zeppelin": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["Jimmy Page", "Robert Plant"], max_members=2
+    ),
+    "レッド・ツェッペリン": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["ジミー・ペイジ", "ロバート・プラント"], max_members=2
+    ),
+    "Pink Floyd": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["Roger Waters", "David Gilmour"], max_members=2
+    ),
+    "ピンク・フロイド": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["ロジャー・ウォーターズ", "デヴィッド・ギルモア"],
+        max_members=2,
+    ),
+    "One Direction": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["Harry Styles", "Zayn Malik"], max_members=2
+    ),
+    "ワン・ダイレクション": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["ハリー・スタイルズ", "ゼイン・マリク"], max_members=2
+    ),
+    # ===== Phase 2追加: VTuber =====
+    "NIJISANJI": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["葛葉", "叶", "月ノ美兎"], max_members=3
+    ),
+    "VShojo": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["Ironmouse", "Nyanners"], max_members=2
+    ),
+    # ===== Phase 2追加: 流動的グループ（REPRESENTATIVE変換） =====
+    "劇団四季": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["市村正親", "浅利慶太"], max_members=2
+    ),
+    "宝塚歌劇団": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["天海祐希", "真矢ミキ"], max_members=2
+    ),
+    "笑点メンバー": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["桂歌丸", "林家木久扇"], max_members=2
+    ),
+}
+
+
+def get_dispersion_rule(group_name: str) -> Optional[DispersionRule]:
+    """
+    グループ名から分散ルールを取得
+
+    Args:
+        group_name: グループ名
+
+    Returns:
+        DispersionRule または None（未定義の場合）
+    """
+    return DISPERSION_RULES.get(group_name)
 
 
 def get_group_info(person_name: str, person_type: Optional[str] = None) -> Tuple[Optional[str], Optional[bool]]:

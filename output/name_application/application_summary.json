@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-12-02T14:59:52.655113",
+  "total_rows": 9390,
+  "translations_available": 911,
+  "applied": 924,
+  "unchanged": 0,
+  "skipped_low_confidence": 10,
+  "skipped_not_found": 8456,
+  "min_confidence": 0.8,
+  "dry_run": false
+}

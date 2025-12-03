@@ -1,0 +1,9 @@
+{
+  "timestamp": "2025-12-02T14:58:38.636677",
+  "total_translated": 911,
+  "by_source": {
+    "celebrity_master": 19,
+    "llm": 892
+  },
+  "average_confidence": 0.9668496158068011
+}

@@ -1,0 +1,153 @@
+{
+  "timestamp": "2025-12-11T16:16:21.896502",
+  "max_batches": 17,
+  "batch_size": 50,
+  "initial_count": 806,
+  "final_count": 0,
+  "total_improved": 806,
+  "total_failed": 0,
+  "batch_results": [
+    {
+      "batch": 1,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 603.6451399326324,
+      "remaining": 756
+    },
+    {
+      "batch": 2,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 599.8776879310608,
+      "remaining": 706
+    },
+    {
+      "batch": 3,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 578.4681129455566,
+      "remaining": 656
+    },
+    {
+      "batch": 4,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 578.310585975647,
+      "remaining": 606
+    },
+    {
+      "batch": 5,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 563.9578869342804,
+      "remaining": 556
+    },
+    {
+      "batch": 6,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 584.1513969898224,
+      "remaining": 506
+    },
+    {
+      "batch": 7,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 575.5160431861877,
+      "remaining": 456
+    },
+    {
+      "batch": 8,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 610.4788241386414,
+      "remaining": 406
+    },
+    {
+      "batch": 9,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 601.6169352531433,
+      "remaining": 356
+    },
+    {
+      "batch": 10,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 604.8792049884796,
+      "remaining": 306
+    },
+    {
+      "batch": 11,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 638.859738111496,
+      "remaining": 256
+    },
+    {
+      "batch": 12,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 608.7296040058136,
+      "remaining": 206
+    },
+    {
+      "batch": 13,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 623.9148740768433,
+      "remaining": 156
+    },
+    {
+      "batch": 14,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 628.1936638355255,
+      "remaining": 106
+    },
+    {
+      "batch": 15,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 620.4292979240417,
+      "remaining": 56
+    },
+    {
+      "batch": 16,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 635.5349187850952,
+      "remaining": 6
+    },
+    {
+      "batch": 17,
+      "improved": 6,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 79.46828293800354,
+      "remaining": 0
+    }
+  ],
+  "final_distribution": {
+    "under_3": 0,
+    "range_3_5": 3221,
+    "range_5_7": 3586,
+    "over_7": 3666
+  }
+}

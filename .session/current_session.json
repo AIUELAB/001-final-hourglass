@@ -1,42 +1,111 @@
 {
-  "session_id": "phase64_maintenance_20251203",
-  "timestamp": "2025-12-03T16:45:00",
-  "status": "completed",
-  "summary": "Phase 64完了: メンテナンスモード移行、Gitコミット完了",
-  "phase": 64,
-  "current_progress": {
-    "persons_current": 8000,
-    "persons_target": 8000,
-    "achievement_rate": "100%",
-    "episodes_total": 9442,
-    "refusal_episodes": 0,
-    "format_issues": 0,
-    "proper_format_rate": "100%"
-  },
-  "completed_tasks": [
-    "Phase 64: 8,000人目標達成",
-    "ヒートマップデータ更新",
-    "ダッシュボードv7確認",
-    "Gitコミット・プッシュ完了",
-    "  - 310ファイル変更",
-    "  - 93,092行追加",
-    "Pre-commitフック全パス"
+  "session_id": "epup_quality_mission_20251213",
+  "timestamp": "2025-12-13T03:30:00.000000",
+  "status": "Phase 2完了・クリーンアップ分析中断",
+  "completed_phases": [
+    {
+      "phase": "phase1_mission",
+      "name": "エピソード品質正規化ミッション Phase 1",
+      "result": "EPUP 99.24/100達成、META/FUTURE/SPECULATION 390+件修正"
+    },
+    {
+      "phase": "phase2_task1",
+      "name": "LLM拒否応答修正",
+      "result": "対象なし（既にクリーン）"
+    },
+    {
+      "phase": "phase2_task2",
+      "name": "未来年齢違反修正",
+      "result": "対象なし（既にクリーン）"
+    },
+    {
+      "phase": "phase2_task3",
+      "name": "グループ情報同期",
+      "result": "96件修正完了"
+    },
+    {
+      "phase": "phase2_task4",
+      "name": "ACHIEVEMENT再分類",
+      "result": "22件変更（CHALLENGE:19, TURNING_POINT:2, COMEBACK:1）"
+    },
+    {
+      "phase": "phase2_task5",
+      "name": "グループ情報補完",
+      "result": "86件補完（所属:2, 無所属:84）"
+    },
+    {
+      "phase": "phase2_task6",
+      "name": "ドラマ品質改善",
+      "result": "対象なし（意外性3.0未満=0件）"
+    },
+    {
+      "phase": "phase2_final",
+      "name": "最終EPUP評価",
+      "result": "99.30/100 (Grade A)"
+    }
   ],
-  "milestone": "🎉 8,000人目標達成！メンテナンスモード移行完了",
-  "database_status": {
-    "total_episodes": 9442,
-    "unique_persons": 8000,
-    "proper_format_rate": "100%",
-    "refusal_count": 0,
-    "avg_char_count": 227
+  "current_status": {
+    "total_episodes": 10168,
+    "epup_score": 99.30,
+    "epup_grade": "A",
+    "key_metrics": {
+      "group_entity_clean": "100.0%",
+      "group_info_coverage": "81.25%",
+      "group_master_sync": "99.3%",
+      "format_compliance": "99.92%",
+      "episode_type_validity": "99.4%",
+      "episode_drama_quality": "52.8%",
+      "episode_depth": "88.1%",
+      "yumeilist_coverage": "98.7%",
+      "world_celebrity_coverage": "98.5%"
+    },
+    "drama_score_distribution": {
+      "below_3": 0,
+      "3_to_5": 3019,
+      "5_to_7": 3544,
+      "above_7": 3577
+    },
+    "llm_fill_candidates": 1351
   },
-  "server_config": {
-    "port": 8080,
-    "dashboard_url": "http://localhost:8080/preserved/episode_database_dashboard_v7.html"
+  "files_modified_this_session": [
+    "preserved/data/MASTER_EPISODES_CURRENT.csv (Phase1+Phase2修正)",
+    "reports/epup_after_mission.json",
+    "reports/epup_phase2_final.json",
+    "reports/group_sync_20251213_031737.json",
+    "reports/episode_type_reclassify_20251213_032037.json",
+    "reports/llm_group_fill_20251213_032805.json"
+  ],
+  "interrupted_task": {
+    "name": "/sc:cleanup クリーンアップ分析",
+    "status": "分析完了・実行前に中断",
+    "findings": {
+      "old_reports": "200+ファイル (10MB)",
+      "nested_backups": "150+ファイル (100MB)",
+      "old_logs": "50+ファイル (50MB)",
+      "caches": "5MB",
+      "total_cleanup_potential": "165MB"
+    }
   },
-  "git_status": {
-    "last_commit": "322cc62",
-    "commit_message": "feat: Phase 64完了 - 8,000人目標達成",
-    "pushed": true
-  }
+  "next_recommended_tasks": [
+    {
+      "priority": 1,
+      "task": "クリーンアップ実行",
+      "detail": "古いレポート・バックアップ・ログの削除（165MB削減可能）",
+      "command": "/sc:cleanup --type all --safe"
+    },
+    {
+      "priority": 2,
+      "task": "ドラマ品質改善（3.0-5.0範囲）",
+      "detail": "意外性スコア3.0-5.0の3,019件を改善",
+      "command": "ANTHROPIC_API_KEY=\"...\" python scripts/improve_surprise_score.py --threshold 5.0 --batch-size 50 --execute"
+    },
+    {
+      "priority": 3,
+      "task": "グループ情報継続補完",
+      "detail": "残りLLM補完候補1,351人を処理",
+      "command": "ANTHROPIC_API_KEY=\"...\" python scripts/llm_group_fill.py --batch-size 100"
+    }
+  ],
+  "plan_file": "/Users/admin/.claude/plans/flickering-foraging-donut.md",
+  "resume_command": "前回のセッションを復元してください"
 }

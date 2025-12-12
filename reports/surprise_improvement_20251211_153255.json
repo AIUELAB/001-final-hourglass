@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T15:32:55.855160",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000148",
+      "person_name": "武藤嘉紀",
+      "age": 34,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251205708",
+      "person_name": "メル・ブルックス",
+      "age": 98,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251205742",
+      "person_name": "エマ・ワトソン",
+      "age": 11,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251205769",
+      "person_name": "千賀滉大",
+      "age": 29,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251205770",
+      "person_name": "鳥谷敬",
+      "age": 22,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251205771",
+      "person_name": "佐々木朗希",
+      "age": 18,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251205772",
+      "person_name": "藤浪晋太郎",
+      "age": 18,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251205786",
+      "person_name": "三浦璃来",
+      "age": 20,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251201399",
+      "person_name": "鎌田大地",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251201406",
+      "person_name": "ジョン・シナ",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201413",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201418",
+      "person_name": "西岡良仁",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201422",
+      "person_name": "小野伸二",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251201439",
+      "person_name": "鈴木裕",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-251201196",
+      "person_name": "黒澤明",
+      "age": 77,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251201462",
+      "person_name": "畑岡奈紗",
+      "age": 78,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202231",
+      "person_name": "鎌田大地",
+      "age": 79,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251204505",
+      "person_name": "ジョン・シナ",
+      "age": 70,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251204517",
+      "person_name": "西岡良仁",
+      "age": 70,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204543",
+      "person_name": "ジョン・シナ",
+      "age": 46,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251204550",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 46,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204560",
+      "person_name": "長井龍雪",
+      "age": 37,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251204574",
+      "person_name": "ジョン・シナ",
+      "age": 37,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251204617",
+      "person_name": "鎌田大地",
+      "age": 34,
+      "original_surprise": 2.8,
+      "new_surprise": 6.8
+    },
+    {
+      "episode_id": "EP-251204648",
+      "person_name": "長井龍雪",
+      "age": 36,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251204664",
+      "person_name": "長井龍雪",
+      "age": 39,
+      "original_surprise": 2.8,
+      "new_surprise": 7.2
+    },
+    {
+      "episode_id": "EP-251204835",
+      "person_name": "今敏",
+      "age": 53,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251204840",
+      "person_name": "今敏",
+      "age": 49,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204869",
+      "person_name": "今敏",
+      "age": 54,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251201872",
+      "person_name": "ジョン・シナ",
+      "age": 77,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204879",
+      "person_name": "今敏",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251205668",
+      "person_name": "野村哲也",
+      "age": 54,
+      "original_surprise": 2.8,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-251205665",
+      "person_name": "田尻智",
+      "age": 44,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-977336",
+      "person_name": "ザ・ロック(ドウェイン・ジョンソン)",
+      "age": 36,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977343",
+      "person_name": "リンゼイ・ボン",
+      "age": 39,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977536",
+      "person_name": "遠藤航",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977537",
+      "person_name": "鎌田大地",
+      "age": 28,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977538",
+      "person_name": "堂安律",
+      "age": 26,
+      "original_surprise": 2.8,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-977541",
+      "person_name": "長谷部誠",
+      "age": 33,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-977544",
+      "person_name": "内田篤人",
+      "age": 29,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-977545",
+      "person_name": "長友佑都",
+      "age": 35,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977547",
+      "person_name": "中田英寿",
+      "age": 47,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-977548",
+      "person_name": "小野伸二",
+      "age": 42,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977549",
+      "person_name": "稲本潤一",
+      "age": 29,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-977551",
+      "person_name": "中村憲剛",
+      "age": 44,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-977552",
+      "person_name": "遠藤保仁",
+      "age": 44,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251205666",
+      "person_name": "遠藤雅伸",
+      "age": 43,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977553",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-977564",
+      "person_name": "渋野日向子",
+      "age": 26,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977566",
+      "person_name": "国枝慎吾",
+      "age": 29,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    }
+  ]
+}

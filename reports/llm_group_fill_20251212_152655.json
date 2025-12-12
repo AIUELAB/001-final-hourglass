@@ -1,0 +1,672 @@
+{
+  "timestamp": "2025-12-12T15:26:55.297095",
+  "batch_size": 100,
+  "changes_count": 95,
+  "changes": [
+    {
+      "person_name": "カエサル・アウグストゥス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "キャサリン・ゼタ＝ジョーンズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ウェールズ出身の女優、個人活動"
+    },
+    {
+      "person_name": "ジョン・フランクリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "英国海軍探検家、個人活動"
+    },
+    {
+      "person_name": "リヴィングストン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家は個人活動が基本"
+    },
+    {
+      "person_name": "スコット・フィッシャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "登山ガイドで個人活動"
+    },
+    {
+      "person_name": "ロブ・ホール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "登山家で個人活動"
+    },
+    {
+      "person_name": "加藤文太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "単独行の登山家で個人活動"
+    },
+    {
+      "person_name": "ウォルター・ローリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の英国探検家、個人活動"
+    },
+    {
+      "person_name": "ハドソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の探検家で個人活動"
+    },
+    {
+      "person_name": "フランシス・ドレイク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の英国探検家で個人活動"
+    },
+    {
+      "person_name": "エルナン・コルテス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀スペイン征服者で日本人ではない"
+    },
+    {
+      "person_name": "フランシスコ・ピサロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の探検家で日本人ではない"
+    },
+    {
+      "person_name": "鳥居観音",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "探検家は個人活動が主"
+    },
+    {
+      "person_name": "荻原碌山",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "彫刻家として個人活動"
+    },
+    {
+      "person_name": "笹川良一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で探検・冒険活動"
+    },
+    {
+      "person_name": "アレクサンダー・フォン・フンボルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家・自然科学者の個人活動"
+    },
+    {
+      "person_name": "デイヴィッド・アッテンボロー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "自然番組制作者で個人活動"
+    },
+    {
+      "person_name": "ベア・グリルス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家は個人活動が基本"
+    },
+    {
+      "person_name": "スタンリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家は個人活動が基本"
+    },
+    {
+      "person_name": "ジム・ウィテカー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "登山家で個人活動"
+    },
+    {
+      "person_name": "ワレン・ハーディング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "探検家は通常個人活動"
+    },
+    {
+      "person_name": "クリス・ボニントン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "登山家で個人活動"
+    },
+    {
+      "person_name": "小野不由美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動職業"
+    },
+    {
+      "person_name": "竹本孝之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "高橋幸宏",
+      "is_group_member": true,
+      "group_name": "YMO",
+      "confidence": 1.0,
+      "reason": "YMOのドラマーとして著名"
+    },
+    {
+      "person_name": "林田健司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "音楽評論家として個人活動"
+    },
+    {
+      "person_name": "クエンティン・タランティーノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督で個人活動"
+    },
+    {
+      "person_name": "ティム・バートン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "デヴィッド・フィンチャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "江本孟紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "掛布雅之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "権田修一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "酒井宏樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "木村沙織",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手"
+    },
+    {
+      "person_name": "大林素子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バレーボール選手は個人競技者"
+    },
+    {
+      "person_name": "浅野拓磨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "東尾理子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "古閑美保",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "有村智恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "竹原慎二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーで個人競技"
+    },
+    {
+      "person_name": "畑山隆則",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーで個人競技"
+    },
+    {
+      "person_name": "セルヒオ・ラモス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ケビン・デ・ブライネ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ヴィラット・コーリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "ロジャー・クレメンス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "アレックス・ロドリゲス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "MLB選手は個人競技者"
+    },
+    {
+      "person_name": "ランディ・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "シモーナ・ハレプ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ガルビネ・ムグルサ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "カロリーナ・プリスコバ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手で個人競技"
+    },
+    {
+      "person_name": "アンジェリク・ケルバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ダニエル・リカルド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "マックス・フェルスタッペン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "スティーヴン・キング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの小説家で個人作家"
+    },
+    {
+      "person_name": "ジョージ・R・R・マーティン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動職業"
+    },
+    {
+      "person_name": "ジェームズ・ホーナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画音楽作曲家で個人活動"
+    },
+    {
+      "person_name": "ダニー・エルフマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "映画音楽作曲家として個人活動"
+    },
+    {
+      "person_name": "窪田正孝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "高橋一生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "森七菜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "真剣佑",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "桑名正博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "片岡鶴太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "沢田研二",
+      "is_group_member": true,
+      "group_name": "ザ・タイガース",
+      "confidence": 0.9,
+      "reason": "ザ・タイガースのメンバー"
+    },
+    {
+      "person_name": "郷ひろみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "松永真",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デザイナーで個人活動"
+    },
+    {
+      "person_name": "齋藤精一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "クリエイティブディレクターは個人職業"
+    },
+    {
+      "person_name": "リーナス・トーバルズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "技術者で個人活動"
+    },
+    {
+      "person_name": "スティーブ・ウォズニアック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Apple共同創業者だが経営者・技術者"
+    },
+    {
+      "person_name": "ジェンスン・フアン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NVIDIA創業者・CEO、経営者"
+    },
+    {
+      "person_name": "スーザン・ウォジスキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "サンダー・ピチャイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "ジャック・ドーシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・個人活動"
+    },
+    {
+      "person_name": "ダニエル・カーネマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ユヴァル・ノア・ハラリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史学者・個人研究者"
+    },
+    {
+      "person_name": "ニール・ドグラース・タイソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人活動"
+    },
+    {
+      "person_name": "メンデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "エジソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "発明家で個人活動者"
+    },
+    {
+      "person_name": "チューリング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者で個人活動"
+    },
+    {
+      "person_name": "フランシス・クリック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "コペルニクス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の天文学者で個人研究者"
+    },
+    {
+      "person_name": "居里夫人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "マックス・ヴェーバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は個人活動が基本"
+    },
+    {
+      "person_name": "甲斐よしひろ",
+      "is_group_member": true,
+      "group_name": "甲斐バンド",
+      "confidence": 1.0,
+      "reason": "甲斐バンドのリーダー"
+    },
+    {
+      "person_name": "財津和夫",
+      "is_group_member": true,
+      "group_name": "チューリップ",
+      "confidence": 0.9,
+      "reason": "チューリップのリーダー・ボーカル"
+    },
+    {
+      "person_name": "吉田美奈子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロシンガー"
+    },
+    {
+      "person_name": "ユーエー",
+      "is_group_member": true,
+      "group_name": "SPEED",
+      "confidence": 0.9,
+      "reason": "SPEEDメンバーとして認知"
+    },
+    {
+      "person_name": "ジャニス・ジョプリン",
+      "is_group_member": true,
+      "group_name": "ビッグ・ブラザー&ホールディング・カンパニー",
+      "confidence": 0.9,
+      "reason": "バンドのボーカルとして活動"
+    },
+    {
+      "person_name": "パティ・スミス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ニック・ドレイク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "ヴァン・モリソン",
+      "is_group_member": true,
+      "group_name": "Them",
+      "confidence": 0.9,
+      "reason": "バンド「Them」の元メンバー"
+    },
+    {
+      "person_name": "ライ・クーダー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのソロギタリスト"
+    },
+    {
+      "person_name": "トム・ウェイツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ音楽活動が主体"
+    },
+    {
+      "person_name": "ローリー・アンダーソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "スティーヴ・ライヒ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "現代音楽の作曲家、ソロ活動"
+    }
+  ]
+}

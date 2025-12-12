@@ -15,24 +15,26 @@ CSV_PATH = Path(__file__).parent.parent / "MASTER_EPISODES_CURRENT.csv"
 
 def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
     """
-    ストーリー品質スコアを算出（1-10点）
+    ストーリー品質スコアを算出（改善版v2）（1-10点）
 
     評価基準：
     - ストーリーの構成: 起承転結があるか
     - 感情の描写: 感情が伝わるか
     - 臨場感: 場面が想像できるか
     - 引き込む力: 続きが気になるか
+    - ペナルティ要素追加
     """
-    # LLM検証で-2.18のバイアスあり → ベーススコアを上方修正（2回目調整）
-    score = 5.2  # ベーススコア（2回目調整済み）
+    score = 3.0  # ベーススコア（下方修正）
 
-    # テキストの長さ（長いほどストーリー性が高い傾向）
+    # テキストの長さ
     text_length = len(episode_text)
-    if text_length > 250:
+    if text_length > 280:
+        score += 2.0
+    elif text_length > 220:
         score += 1.5
     elif text_length > 180:
         score += 1.0
-    elif text_length > 120:
+    elif text_length > 140:
         score += 0.5
 
     # 感情表現の存在
@@ -59,9 +61,11 @@ def calculate_storytelling_quality(episode_text: str, episode_type: str) -> floa
         "再会",
         "別れ",
         "出会い",
+        "感謝",
+        "誇り",
     ]
     emotion_count = sum(1 for kw in emotion_keywords if kw in episode_text)
-    score += min(emotion_count * 0.5, 2.0)
+    score += min(emotion_count * 0.6, 2.5)
 
     # ストーリー要素の存在
     story_elements = [
@@ -81,59 +85,80 @@ def calculate_storytelling_quality(episode_text: str, episode_type: str) -> floa
         "突破",
         "革命",
         "改革",
+        "決断",
+        "冒険",
+        "奇跡",
+        "運命",
     ]
     story_count = sum(1 for elem in story_elements if elem in episode_text)
-    score += min(story_count * 0.3, 1.5)
+    score += min(story_count * 0.4, 2.0)
 
     # 具体的な描写（固有名詞、数値、引用）
-    has_quotes = "「" in episode_text or "」" in episode_text
+    quote_count = episode_text.count("「")
     has_numbers = bool(re.search(r"\d+", episode_text))
-    if has_quotes:
+    if quote_count >= 2:
+        score += 1.0
+    elif quote_count >= 1:
         score += 0.5
     if has_numbers:
-        score += 0.3
+        score += 0.5
 
     # エピソードタイプによる調整
     type_weights = {
-        "ACHIEVEMENT": 0.8,  # 達成系は事実重視でストーリー性は中程度
-        "TURNING_POINT": 1.2,  # 転機はストーリー性が高い
+        "ACHIEVEMENT": 0.9,
+        "TURNING_POINT": 1.15,
         "CHALLENGE": 1.1,
-        "FAMILY": 1.3,  # 家族系は感情描写が豊か
-        "GROWTH": 1.2,
+        "FAMILY": 1.2,
+        "GROWTH": 1.15,
         "FAILURE": 1.1,
-        "COMEBACK": 1.2,
+        "COMEBACK": 1.15,
+        "INNOVATION": 1.0,
+        "FOUNDING": 1.0,
     }
     if episode_type in type_weights:
         score *= type_weights[episode_type]
 
-    return min(max(score, 1.0), 10.0)
+    # ペナルティ要素
+    # 感情・ストーリー要素がない
+    if emotion_count == 0 and story_count == 0:
+        score -= 1.5
+
+    # テキストが短すぎる
+    if text_length < 100:
+        score -= 1.0
+
+    return round(min(max(score, 1.0), 10.0), 2)
 
 
 def calculate_factual_density(episode_text: str, episode_type: str) -> float:
     """
-    事実密度スコアを算出（1-10点）
+    事実密度スコアを算出（改善版v3）（1-10点）
 
     評価基準：
-    - 具体的な数値データ: 年号、数量、年齢など
+    - 具体的な数値データ: 年号、数量、記録など（年齢は除外）
     - 固有名詞: 人名、地名、作品名など
     - 検証可能な事実: 記録、受賞、出来事など
     - 情報の密度: 単位文字数あたりの情報量
+    - ペナルティ要素強化
     """
-    # LLM検証で-0.58のバイアスあり → ベーススコアを微調整（最終調整）
-    score = 2.8  # ベーススコア（最終調整済み）
+    score = 3.0  # ベーススコア
 
-    # 数値データの存在（年号、数量、年齢、スコアなど）
-    numbers = re.findall(r"\d+", episode_text)
-    number_count = len(numbers)
-    score += min(number_count * 0.4, 2.5)
+    # 数値データの存在（年号、数量、スコアなど）※年齢の"歳"は除く
+    # 年号パターン (19XX年, 20XX年)
+    year_count = len(re.findall(r"(19|20)\d{2}年", episode_text))
+    # 具体的な数値（3桁以上の数字、または単位付き）
+    specific_numbers = len(re.findall(r"\d{3,}|[\d.]+[万億千百%km時分秒位回勝敗本冊枚円ドル]", episode_text))
 
-    # 固有名詞の推定（カタカナ、漢字名詞）
-    # カタカナ語（人名、地名、作品名）
-    katakana_words = re.findall(r"[ァ-ヴー]{3,}", episode_text)
-    score += min(len(katakana_words) * 0.3, 1.5)
+    score += min(year_count * 0.4, 1.5)
+    score += min(specific_numbers * 0.3, 1.5)
 
-    # 具体的な事実を示すキーワード
-    fact_keywords = [
+    # 固有名詞の推定（カタカナ4文字以上、より厳格に）
+    katakana_words = re.findall(r"[ァ-ヴー]{4,}", episode_text)
+    katakana_count = len(katakana_words)
+    score += min(katakana_count * 0.3, 1.5)
+
+    # 具体的な事実を示すキーワード（「年」「歳」を除外）
+    high_fact_keywords = [
         "記録",
         "達成",
         "受賞",
@@ -141,51 +166,86 @@ def calculate_factual_density(episode_text: str, episode_type: str) -> float:
         "認定",
         "登録",
         "ギネス",
-        "初",
-        "最",
-        "第一号",
-        "世界",
-        "日本",
-        "史上",
-        "前人未到",
-        "〜年",
-        "〜月",
-        "〜日",
-        "〜歳",
+        "優勝",
+        "金メダル",
+        "銀メダル",
+        "銅メダル",
+        "世界一",
+        "日本一",
     ]
-    fact_count = sum(1 for kw in fact_keywords if kw in episode_text)
-    score += min(fact_count * 0.4, 2.0)
+    medium_fact_keywords = [
+        "史上初",
+        "世界初",
+        "日本初",
+        "前人未到",
+        "第一号",
+        "発表",
+        "発売",
+        "公開",
+        "出版",
+        "創設",
+    ]
 
-    # 引用や具体的な発言
-    if "「" in episode_text and "」" in episode_text:
-        score += 0.5
+    high_fact_count = sum(1 for kw in high_fact_keywords if kw in episode_text)
+    medium_fact_count = sum(1 for kw in medium_fact_keywords if kw in episode_text)
 
-    # 検証可能な情報（Wikipedia, 受賞歴など）
-    verification_keywords = ["Wikipedia", "公式", "発表", "報道", "記事", "文献"]
-    if any(kw in episode_text for kw in verification_keywords):
-        score += 0.5
+    score += min(high_fact_count * 0.5, 1.5)
+    score += min(medium_fact_count * 0.3, 1.0)
 
-    # エピソードタイプによる調整
+    # 引用や具体的な発言（複数の引用がある場合のみ加点）
+    quote_count = episode_text.count("「")
+    if quote_count >= 3:
+        score += 0.8
+    elif quote_count >= 2:
+        score += 0.4
+
+    # エピソードタイプによる調整（倍率を緩やかに）
     type_weights = {
-        "ACHIEVEMENT": 1.3,  # 達成系は事実密度が高い
-        "TURNING_POINT": 0.9,
-        "CHALLENGE": 1.1,
-        "FAMILY": 0.8,  # 家族系は感情重視で事実は少なめ
-        "INNOVATION": 1.2,
-        "FOUNDING": 1.2,
+        "ACHIEVEMENT": 1.1,
+        "TURNING_POINT": 0.95,
+        "CHALLENGE": 1.0,
+        "FAMILY": 0.9,
+        "INNOVATION": 1.1,
+        "FOUNDING": 1.1,
+        "GROWTH": 0.95,
+        "FAILURE": 0.95,
+        "COMEBACK": 1.0,
     }
     if episode_type in type_weights:
         score *= type_weights[episode_type]
 
-    # テキストの長さに対する情報量（密度）
+    # テキストの長さに対する情報量（密度）- より厳格に
     text_length = len(episode_text)
-    info_density = (number_count + len(katakana_words) + fact_count) / (text_length / 50)
-    if info_density > 2.0:
-        score += 0.5
-    elif info_density > 1.5:
-        score += 0.3
+    total_facts = year_count + specific_numbers + katakana_count + high_fact_count + medium_fact_count
+    if text_length > 0:
+        info_density = total_facts / (text_length / 100)
+        if info_density > 4.0:
+            score += 0.8
+        elif info_density > 3.0:
+            score += 0.5
+        elif info_density > 2.0:
+            score += 0.3
 
-    return min(max(score, 1.0), 10.0)
+    # ペナルティ要素（強化）
+    # 具体的な数値・年号がない
+    if year_count == 0 and specific_numbers == 0:
+        score -= 1.5
+    elif year_count + specific_numbers <= 1:
+        score -= 0.5
+
+    # 固有名詞がほとんどない
+    if katakana_count == 0:
+        score -= 0.8
+
+    # 事実キーワードがない
+    if high_fact_count == 0 and medium_fact_count == 0:
+        score -= 1.0
+
+    # テキストが短すぎる
+    if text_length < 150:
+        score -= 0.5
+
+    return round(min(max(score, 1.0), 10.0), 2)
 
 
 def calculate_seven_axis_score(episode_id: str):

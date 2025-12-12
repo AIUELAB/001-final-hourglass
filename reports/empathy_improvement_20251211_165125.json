@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T16:51:25.190831",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000179",
+      "person_name": "戸田恵梨香",
+      "age": 25,
+      "original_empathy": 2.0,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-001302",
+      "person_name": "吉田秀彦",
+      "age": 23,
+      "original_empathy": 2.0,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204988",
+      "person_name": "ジャック・クストー",
+      "age": 44,
+      "original_empathy": 2.0,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-2512074542",
+      "person_name": "ベニト・ムッソリーニ",
+      "age": 40,
+      "original_empathy": 2.0,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251204246",
+      "person_name": "ジョン・コルトレーン",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204265",
+      "person_name": "ハルク・ホーガン",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204271",
+      "person_name": "ベティ・ホワイト",
+      "age": 57,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204309",
+      "person_name": "ウェイン・ショーター",
+      "age": 57,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204311",
+      "person_name": "ウェス・アンダーソン",
+      "age": 57,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204351",
+      "person_name": "ノーマン・リア",
+      "age": 54,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204387",
+      "person_name": "ウラジーミル・プーチン",
+      "age": 62,
+      "original_empathy": 2.5,
+      "new_empathy": 6.8
+    },
+    {
+      "episode_id": "EP-251204401",
+      "person_name": "ウェス・アンダーソン",
+      "age": 62,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251204554",
+      "person_name": "ウラジーミル・プーチン",
+      "age": 46,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251204571",
+      "person_name": "ヤン・ルカン",
+      "age": 37,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204582",
+      "person_name": "エディ・ヴェダー",
+      "age": 37,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    },
+    {
+      "episode_id": "EP-251204585",
+      "person_name": "ベティ・ホワイト",
+      "age": 21,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204587",
+      "person_name": "伊藤元重",
+      "age": 21,
+      "original_empathy": 2.5,
+      "new_empathy": 8.1
+    },
+    {
+      "episode_id": "EP-251204593",
+      "person_name": "鎌田大地",
+      "age": 21,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204404",
+      "person_name": "ハルク・ホーガン",
+      "age": 62,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204245",
+      "person_name": "佐倉綾音",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204236",
+      "person_name": "ジョン・ボーナム",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204205",
+      "person_name": "ウラジーミル・プーチン",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 7.8
+    },
+    {
+      "episode_id": "EP-251203563",
+      "person_name": "ジョニー・グリーンウッド",
+      "age": 69,
+      "original_empathy": 2.5,
+      "new_empathy": 6.8
+    },
+    {
+      "episode_id": "EP-251203604",
+      "person_name": "ベティ・ホワイト",
+      "age": 17,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203607",
+      "person_name": "根岸隆",
+      "age": 17,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203617",
+      "person_name": "裕仁（昭和天皇）",
+      "age": 17,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203635",
+      "person_name": "小野伸二",
+      "age": 17,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203647",
+      "person_name": "ハルク・ホーガン",
+      "age": 17,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203666",
+      "person_name": "ジミー・ペイジ",
+      "age": 17,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203682",
+      "person_name": "裕仁（昭和天皇）",
+      "age": 64,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203718",
+      "person_name": "ハービー・ハンコック",
+      "age": 64,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203780",
+      "person_name": "ハービー・ハンコック",
+      "age": 15,
+      "original_empathy": 2.5,
+      "new_empathy": 8.8
+    },
+    {
+      "episode_id": "EP-251203914",
+      "person_name": "根岸隆",
+      "age": 53,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203923",
+      "person_name": "ヤン・ルカン",
+      "age": 53,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251203950",
+      "person_name": "ウェス・アンダーソン",
+      "age": 53,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    },
+    {
+      "episode_id": "EP-251203990",
+      "person_name": "ジョニー・グリーンウッド",
+      "age": 49,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204054",
+      "person_name": "ノーマン・リア",
+      "age": 19,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204111",
+      "person_name": "ウェス・アンダーソン",
+      "age": 59,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204120",
+      "person_name": "ハービー・ハンコック",
+      "age": 59,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204638",
+      "person_name": "ジョン・ボーナム",
+      "age": 23,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251204787",
+      "person_name": "今敏",
+      "age": 80,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    },
+    {
+      "episode_id": "EP-251204818",
+      "person_name": "今敏",
+      "age": 64,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251204830",
+      "person_name": "今敏",
+      "age": 68,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    },
+    {
+      "episode_id": "EP-251205071",
+      "person_name": "カズオ・イシグロ",
+      "age": 34,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251205072",
+      "person_name": "カズオ・イシグロ",
+      "age": 36,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251205103",
+      "person_name": "ガブリエル・ガルシア・マルケス",
+      "age": 13,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251205127",
+      "person_name": "ガブリエル・ガルシア・マルケス",
+      "age": 38,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251205129",
+      "person_name": "ガブリエル・ガルシア・マルケス",
+      "age": 40,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251205309",
+      "person_name": "エイブラハム・リンカーン",
+      "age": 40,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251205316",
+      "person_name": "クリストファー・コロンブス",
+      "age": 25,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    }
+  ]
+}

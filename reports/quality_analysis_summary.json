@@ -1,0 +1,91 @@
+{
+  "timestamp": "2025-12-10T12:17:03.064475",
+  "total_episodes": 13120,
+  "high_risk_count": 1028,
+  "low_quality_count": 3151,
+  "fact_density_stats": {
+    "mean": 5.148193597560976,
+    "median": 5.05,
+    "below_3.5_pct": 24.0
+  },
+  "fact_check_status": {
+    "未チェック": 12554,
+    "確認済み": 325,
+    "PENDING": 145,
+    "生成済み": 35,
+    "作品設定に基づく": 32,
+    "未確認": 29
+  },
+  "high_risk_samples": [
+    {
+      "episode_id": "EP-000009",
+      "person_name": "梅原大吾",
+      "age": 64,
+      "fact_density": 1.9,
+      "composite_score": 492.3
+    },
+    {
+      "episode_id": "EP-000014",
+      "person_name": "桑田佳祐",
+      "age": 28,
+      "fact_density": 3.83,
+      "composite_score": 490.1
+    },
+    {
+      "episode_id": "EP-000030",
+      "person_name": "楠田枝里子",
+      "age": 61,
+      "fact_density": 1.2,
+      "composite_score": 493.7
+    },
+    {
+      "episode_id": "EP-000032",
+      "person_name": "椎名林檎",
+      "age": 17,
+      "fact_density": 1.9,
+      "composite_score": 481.2
+    },
+    {
+      "episode_id": "EP-000054",
+      "person_name": "松本清張",
+      "age": 72,
+      "fact_density": 2.2,
+      "composite_score": 492.5
+    },
+    {
+      "episode_id": "EP-000074",
+      "person_name": "柳田邦男",
+      "age": 72,
+      "fact_density": 3.2,
+      "composite_score": 498.4
+    },
+    {
+      "episode_id": "EP-000114",
+      "person_name": "瀬戸内寂聴",
+      "age": 70,
+      "fact_density": 1.0,
+      "composite_score": 488.2
+    },
+    {
+      "episode_id": "EP-000127",
+      "person_name": "樹木希林",
+      "age": 62,
+      "fact_density": 1.0,
+      "composite_score": 482.2
+    },
+    {
+      "episode_id": "EP-000144",
+      "person_name": "歌川広重",
+      "age": 40,
+      "fact_density": 2.01,
+      "composite_score": 498.8
+    },
+    {
+      "episode_id": "EP-000192",
+      "person_name": "平山郁夫",
+      "age": 48,
+      "fact_density": 1.68,
+      "composite_score": 480.1
+    }
+  ]
+}

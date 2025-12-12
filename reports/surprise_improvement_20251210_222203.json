@@ -1,0 +1,353 @@
+{
+  "timestamp": "2025-12-10T22:22:03.333777",
+  "target_count": 50,
+  "improved_count": 49,
+  "partial_count": 0,
+  "no_improvement_count": 1,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-2512073148",
+      "person_name": "中村歌右衛門",
+      "age": 50,
+      "original_surprise": 1.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201443",
+      "person_name": "ジョージ・ソロス",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201887",
+      "person_name": "水溜りボンド カンタ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201889",
+      "person_name": "氷川きよし",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201893",
+      "person_name": "タカ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201894",
+      "person_name": "スガシカオ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251201895",
+      "person_name": "ウェイン・ショーター",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201896",
+      "person_name": "小渕恵三",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201898",
+      "person_name": "ハリー・ベラフォンテ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201906",
+      "person_name": "ハービー・ハンコック",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201908",
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201913",
+      "person_name": "青木昌彦",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251201886",
+      "person_name": "アインシュタイン",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201915",
+      "person_name": "ミック・ジャガー",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201925",
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201933",
+      "person_name": "ジェンスン・ファン",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201938",
+      "person_name": "甲本ヒロト",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201948",
+      "person_name": "メル・ブルックス",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202223",
+      "person_name": "ベティ・ホワイト",
+      "age": 79,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251202226",
+      "person_name": "根岸隆",
+      "age": 79,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251204614",
+      "person_name": "ジョン・マッケンタイア",
+      "age": 34,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202235",
+      "person_name": "ヤン・ルカン",
+      "age": 79,
+      "original_surprise": 2.0,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251202243",
+      "person_name": "佐藤オオキ",
+      "age": 79,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202248",
+      "person_name": "池田秀一",
+      "age": 79,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204584",
+      "person_name": "池田秀一",
+      "age": 37,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202252",
+      "person_name": "アインシュタイン",
+      "age": 79,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201919",
+      "person_name": "ジミー・ペイジ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204615",
+      "person_name": "伊達みきお",
+      "age": 34,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201877",
+      "person_name": "佐藤オオキ",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251201876",
+      "person_name": "ひろゆき",
+      "age": 77,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201395",
+      "person_name": "ジョン・マッケンタイア",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251201402",
+      "person_name": "筑紫哲也",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201403",
+      "person_name": "ヤン・ルカン",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201407",
+      "person_name": "佐倉綾音",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201411",
+      "person_name": "佐藤オオキ",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204630",
+      "person_name": "佐藤優",
+      "age": 34,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201419",
+      "person_name": "伊沢拓司",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201420",
+      "person_name": "アインシュタイン",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204628",
+      "person_name": "ひろゆき",
+      "age": 34,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251201424",
+      "person_name": "志位和夫",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201425",
+      "person_name": "ノーマン・リア",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201428",
+      "person_name": "スガシカオ",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251204583",
+      "person_name": "ジョニー・グリーンウッド",
+      "age": 37,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251201429",
+      "person_name": "ウェイン・ショーター",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251201432",
+      "person_name": "ハリー・ベラフォンテ",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204627",
+      "person_name": "矢部浩之",
+      "age": 34,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251201440",
+      "person_name": "ハービー・ハンコック",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251201442",
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": 78,
+      "original_surprise": 2.0,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251204620",
+      "person_name": "筑紫哲也",
+      "age": 34,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    }
+  ]
+}

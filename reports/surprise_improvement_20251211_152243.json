@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T15:22:43.510648",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000113",
+      "person_name": "瀬戸大也",
+      "age": 30,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251203032",
+      "person_name": "ジョン・シナ",
+      "age": 71,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251203015",
+      "person_name": "阿部詩",
+      "age": 73,
+      "original_surprise": 2.8,
+      "new_surprise": 6.8
+    },
+    {
+      "episode_id": "EP-251203003",
+      "person_name": "ジム・ジャームッシュ",
+      "age": 73,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251202948",
+      "person_name": "ジョン・シナ",
+      "age": 73,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202941",
+      "person_name": "鎌田大地",
+      "age": 73,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202928",
+      "person_name": "阿部詩",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202917",
+      "person_name": "畑岡奈紗",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251202873",
+      "person_name": "西岡良仁",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251202868",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 9.5
+    },
+    {
+      "episode_id": "EP-251202861",
+      "person_name": "ジョン・シナ",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202854",
+      "person_name": "鎌田大地",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202841",
+      "person_name": "阿部詩",
+      "age": 76,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202830",
+      "person_name": "畑岡奈紗",
+      "age": 76,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202807",
+      "person_name": "鈴木裕",
+      "age": 76,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251202786",
+      "person_name": "西岡良仁",
+      "age": 76,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203044",
+      "person_name": "西岡良仁",
+      "age": 71,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251202781",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 76,
+      "original_surprise": 2.8,
+      "new_surprise": 9.5
+    },
+    {
+      "episode_id": "EP-251203060",
+      "person_name": "ハルク・ホーガン",
+      "age": 71,
+      "original_surprise": 2.8,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251203113",
+      "person_name": "ジョン・シナ",
+      "age": 80,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251204478",
+      "person_name": "西岡良仁",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204466",
+      "person_name": "ジョン・シナ",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204449",
+      "person_name": "ハルク・ホーガン",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251204446",
+      "person_name": "ウェス・アンダーソン",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251204437",
+      "person_name": "小野伸二",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251204429",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204422",
+      "person_name": "ジョン・シナ",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251204376",
+      "person_name": "ジョン・シナ",
+      "age": 62,
+      "original_surprise": 2.8,
+      "new_surprise": 9.5
+    },
+    {
+      "episode_id": "EP-251204359",
+      "person_name": "ハルク・ホーガン",
+      "age": 54,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204348",
+      "person_name": "小野伸二",
+      "age": 54,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251204339",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 54,
+      "original_surprise": 2.8,
+      "new_surprise": 6.0
+    },
+    {
+      "episode_id": "EP-251204332",
+      "person_name": "ジョン・シナ",
+      "age": 54,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251203169",
+      "person_name": "畑岡奈紗",
+      "age": 80,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203129",
+      "person_name": "小野伸二",
+      "age": 80,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251203125",
+      "person_name": "西岡良仁",
+      "age": 80,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251203099",
+      "person_name": "長井龍雪",
+      "age": 80,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204482",
+      "person_name": "小野伸二",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251202250",
+      "person_name": "西岡良仁",
+      "age": 79,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251201884",
+      "person_name": "西岡良仁",
+      "age": 77,
+      "original_surprise": 2.8,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251205663",
+      "person_name": "名越稔洋",
+      "age": 41,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251205657",
+      "person_name": "堀井雄二",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251205655",
+      "person_name": "宮本茂",
+      "age": 67,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251205654",
+      "person_name": "堀口恭司",
+      "age": 34,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251205653",
+      "person_name": "朝倉未来",
+      "age": 32,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251205651",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251205647",
+      "person_name": "瀬戸大也",
+      "age": 30,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251205642",
+      "person_name": "錦織圭",
+      "age": 35,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251205640",
+      "person_name": "高畑勲",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 7.2
+    },
+    {
+      "episode_id": "EP-251205639",
+      "person_name": "富野由悠季",
+      "age": 69,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251205637",
+      "person_name": "水島努",
+      "age": 59,
+      "original_surprise": 2.8,
+      "new_surprise": 6.0
+    }
+  ]
+}

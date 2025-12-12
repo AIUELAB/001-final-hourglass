@@ -27,11 +27,24 @@ def calculate_episode_fame_score(row: pd.Series) -> float:
     - キーワード（ギネス、世界初、代表作など）
     - 作品の知名度
     - 社会的影響
+
+    注意: キーワードボーナスは事実密度≥5.0の場合のみ最大効果を発揮
     """
     score = 50.0  # ベーススコア
+    keyword_bonus_total = 0.0  # キーワードボーナス累計
 
     episode_text = str(row.get("episode_text", "")).lower()
     episode_type = str(row.get("episode_type", ""))
+
+    # 事実密度を取得（キーワードボーナス条件に使用）
+    fact_density = 0.0
+    try:
+        fact_density = float(row.get("事実密度", 0) or 0)
+    except (ValueError, TypeError):
+        fact_density = 0.0
+
+    # キーワードボーナス係数（事実密度に応じて0.5-1.0）
+    keyword_multiplier = 1.0 if fact_density >= 5.0 else 0.5
 
     # エピソードタイプによる補正
     type_scores = {
@@ -47,7 +60,7 @@ def calculate_episode_fame_score(row: pd.Series) -> float:
     }
     score += type_scores.get(episode_type, 5)
 
-    # 超有名キーワード（+15-20点）
+    # 超有名キーワード（+10点×係数、上限10点）
     ultra_famous_keywords = [
         "ギネス",
         "guinness",
@@ -63,10 +76,10 @@ def calculate_episode_fame_score(row: pd.Series) -> float:
     ]
     for keyword in ultra_famous_keywords:
         if keyword in episode_text:
-            score += 18
+            keyword_bonus_total += 10 * keyword_multiplier
             break
 
-    # 有名作品・キーワード（+10-15点）
+    # 有名作品・キーワード（+8点×係数、上限8点）
     famous_keywords = [
         "サイボーグ009",
         "cyborg 009",
@@ -84,8 +97,11 @@ def calculate_episode_fame_score(row: pd.Series) -> float:
     ]
     for keyword in famous_keywords:
         if keyword in episode_text:
-            score += 12
+            keyword_bonus_total += 8 * keyword_multiplier
             break
+
+    # キーワードボーナス上限適用（最大+15点）
+    score += min(keyword_bonus_total, 15.0)
 
     # 影響力キーワード（+5-10点）
     impact_keywords = [

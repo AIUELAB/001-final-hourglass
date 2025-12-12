@@ -1,0 +1,24 @@
+{
+  "timestamp": "2025-12-11T17:24:14.090756",
+  "target_count": 2,
+  "improved_count": 2,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-251205467",
+      "person_name": "堀江由衣",
+      "age": 48,
+      "original_fact_density": 3.0,
+      "new_fact_density": 8.0
+    },
+    {
+      "episode_id": "EP-251201505",
+      "person_name": "佐藤オオキ",
+      "age": 8,
+      "original_fact_density": 3.0,
+      "new_fact_density": 8.2
+    }
+  ]
+}

@@ -228,12 +228,23 @@ GROUP_MEMBER_MAP: Dict[str, str] = {
     "篠田麻里子": "AKB48",
     "板野友美": "AKB48",
     "指原莉乃": "AKB48",
+    # ===== 音楽ユニット =====
+    # YOASOBI
+    "Ayase": "YOASOBI",
+    "ikura": "YOASOBI",
+    "幾田りら": "YOASOBI",  # ikuraの本名
     # ===== YouTubeグループ =====
     # Fischer's / フィッシャーズ
     "シルクロード": "Fischer's",
     "シルク": "フィッシャーズ",  # シルクロードの別名
     # 東海オンエア
     "てつや": "東海オンエア",
+    # 水溜りボンド
+    "トミー": "水溜りボンド",
+    "カンタ": "水溜りボンド",
+    # 兄者弟者
+    "兄者": "兄者弟者",
+    "弟者": "兄者弟者",
     # ===== 企業・スポーツチーム =====
     # （既存データから）
     "前田晃伸": "みずほフィナンシャルグループ",
@@ -408,6 +419,8 @@ GROUP_ENTITIES: Set[str] = {
     "SixTONES",
     "Snow Man",
     "Hey! Say! JUMP",
+    "ももいろクローバーZ",
+    "でんぱ組.inc",
     # ===== 日本の音楽グループ =====
     "B'z",
     "Mr.Children",
@@ -452,6 +465,18 @@ GROUP_ENTITIES: Set[str] = {
     "EXIT",
     "ぺこぱ",
     "南海キャンディーズ",
+    "くりぃむしちゅー",
+    # ===== 日本のバンド（追加） =====
+    "ゴールデンボンバー",
+    # ===== スポーツチーム =====
+    "清水エスパルス",
+    "湘南ベルマーレ",
+    # ===== 学校チーム =====
+    "星稜高校",
+    "東海大学相模",
+    # ===== 研究・開発チーム =====
+    "青色LED開発チーム",
+    "ASIMO開発チーム",
     # ===== 海外バンド =====
     "ビートルズ",
     "The Beatles",
@@ -498,9 +523,59 @@ GROUP_ENTITIES: Set[str] = {
     "フィッシャーズ",  # Fischer'sの日本語表記
     "コムドット",
     "QuizKnock",
+    "水溜りボンド",
+    "兄者弟者",
     # ===== その他団体 =====
     "宝塚歌劇団",
     "劇団四季",
+    # ===== Phase 5追加: 学校チーム =====
+    "智弁和歌山",
+    "流経大柏高校",
+    "駒大苫小牧",
+    "早稲田実業",
+    # ===== Phase 5追加: 家族グループ =====
+    "阿部兄妹",
+    # ===== Phase 5追加: 兄弟パターン =====
+    "ライト兄弟",
+    "コーエン兄弟",
+    # ===== Phase 5追加: 創業者チーム =====
+    "富士フイルム創業者",
+    "島津製作所創業者",
+    # ===== Phase 5追加: 音楽グループ（Web検索で確認） =====
+    "竹内電気",  # ポップバンド
+    "真心ブラザーズ",  # 音楽ユニット
+    # ===== Phase 6追加: 音楽バンド =====
+    "野猿",  # とんねるずプロデュースの音楽グループ
+    "デレク・アンド・ザ・ドミノス",  # エリック・クラプトンのバンド
+    "カーペンターズ",  # 兄妹音楽デュオ
+    "イーグルス",  # アメリカンロックバンド
+    "フリートウッド・マック",  # イギリス系ロックバンド
+    "ケミカル・ブラザーズ",  # イギリスのエレクトロニックデュオ
+    "バンク・バンド",  # 桜井和寿のプロジェクトバンド
+    # ===== Phase 6追加: 夫妻グループ =====
+    "キュリー夫妻",  # 科学者夫妻
+    # ===== Phase 7追加: v5グループ =====
+    # お笑いコンビ
+    "浅草キッド",  # お笑いコンビ
+    # 漫画家コンビ
+    "藤子不二雄",  # 漫画家コンビ
+    # 音楽グループ
+    "サイモン&ガーファンクル",  # フォークロックデュオ
+    "ゴスペラーズ",  # アカペラグループ
+    "ガンズ・アンド・ローゼズ",  # ハードロックバンド
+    "オレンジレンジ",  # 沖縄ロックバンド
+    "サッズ",  # ロックバンド（SADS）
+    "ザ・キュアー",  # イギリスロックバンド
+    "ニルヴァーナ",  # グランジバンド
+    "パール・ジャム",  # グランジバンド
+    "アリス・イン・チェインズ",  # グランジバンド
+    "サウンドガーデン",  # グランジバンド
+    "フー・ファイターズ",  # ロックバンド
+    "グリーン・デイ",  # パンクバンド
+    "メタリカ",  # メタルバンド
+    "AC/DC",  # ハードロックバンド
+    "ブルーハーツ",  # パンクバンド
+    "かりゆし58",  # 沖縄ロックバンド
 }
 
 # ========================================
@@ -874,6 +949,206 @@ DISPERSION_RULES: Dict[str, DispersionRule] = {
     ),
     "笑点メンバー": DispersionRule(
         strategy=DispersionStrategy.REPRESENTATIVE, members=["桂歌丸", "林家木久扇"], max_members=2
+    ),
+    # ===== Phase 3追加: アイドルグループ =====
+    "ももいろクローバーZ": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["百田夏菜子", "玉井詩織", "佐々木彩夏", "高城れに"],
+        max_members=4,
+    ),
+    "でんぱ組.inc": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["古川未鈴", "相沢梨紗"], max_members=2
+    ),
+    # ===== Phase 3追加: YouTubeグループ =====
+    "兄者弟者": DispersionRule(strategy=DispersionStrategy.ALL, members=["兄者", "弟者"], max_members=2),
+    # ===== Phase 4追加: お笑いコンビ =====
+    "くりぃむしちゅー": DispersionRule(
+        strategy=DispersionStrategy.ALL, members=["上田晋也", "有田哲平"], max_members=2
+    ),
+    # ===== Phase 4追加: バンド =====
+    "ゴールデンボンバー": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE, members=["鬼龍院翔"], max_members=1
+    ),
+    # ===== Phase 4追加: スポーツ・学校・研究チーム（DELETE戦略） =====
+    # これらは組織であり、エピソード内の個人に紐付けるか削除する
+    "清水エスパルス": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "湘南ベルマーレ": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "星稜高校": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "東海大学相模": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "青色LED開発チーム": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "ASIMO開発チーム": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    # ===== Phase 5追加: 学校チーム（DELETE戦略） =====
+    "智弁和歌山": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "流経大柏高校": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "駒大苫小牧": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "早稲田実業": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    # ===== Phase 5追加: 家族グループ（ALL戦略） =====
+    "阿部兄妹": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["阿部一二三", "阿部詩"],
+        max_members=2,
+    ),
+    # ===== Phase 5追加: 兄弟パターン（ALL戦略） =====
+    "ライト兄弟": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["ウィルバー・ライト", "オーヴィル・ライト"],
+        max_members=2,
+    ),
+    "コーエン兄弟": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["ジョエル・コーエン", "イーサン・コーエン"],
+        max_members=2,
+    ),
+    # ===== Phase 5追加: 創業者チーム（DELETE戦略） =====
+    "富士フイルム創業者": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    "島津製作所創業者": DispersionRule(strategy=DispersionStrategy.DELETE, members=[], max_members=0),
+    # ===== Phase 5追加: 音楽グループ =====
+    "竹内電気": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["竹内サティフォ"],  # 代表メンバーのみ（他メンバーの知名度低）
+        max_members=1,
+    ),
+    "真心ブラザーズ": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["YO-KING", "桜井秀俊"],  # 倉持陽一の芸名がYO-KING
+        max_members=2,
+    ),
+    # ===== Phase 6追加: 音楽バンド =====
+    "野猿": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["石橋貴明"],  # とんねるずプロデュース
+        max_members=1,
+    ),
+    "デレク・アンド・ザ・ドミノス": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["エリック・クラプトン"],  # バンドリーダー
+        max_members=1,
+    ),
+    "カーペンターズ": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["カレン・カーペンター", "リチャード・カーペンター"],  # 兄妹デュオ
+        max_members=2,
+    ),
+    "イーグルス": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["ドン・ヘンリー"],  # 代表メンバー
+        max_members=1,
+    ),
+    "フリートウッド・マック": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["スティーヴィー・ニックス"],  # 代表メンバー
+        max_members=1,
+    ),
+    "ケミカル・ブラザーズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["トム・ローランズ"],  # エド・シモンズとのデュオ
+        max_members=1,
+    ),
+    "バンク・バンド": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["桜井和寿"],  # Mr.Children桜井のプロジェクト
+        max_members=1,
+    ),
+    # ===== Phase 6追加: 夫妻グループ =====
+    "キュリー夫妻": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["マリ・キュリー", "ピエール・キュリー"],  # 科学者夫妻
+        max_members=2,
+    ),
+    # ===== Phase 7追加: v5グループ =====
+    # お笑いコンビ
+    "浅草キッド": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["水道橋博士", "ビートたけし"],
+        max_members=2,
+    ),
+    # 漫画家コンビ
+    "藤子不二雄": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["藤子・F・不二雄", "藤子不二雄A"],
+        max_members=2,
+    ),
+    # 音楽デュオ（ALL戦略）
+    "サイモン&ガーファンクル": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["ポール・サイモン", "アート・ガーファンクル"],
+        max_members=2,
+    ),
+    "ブルーハーツ": DispersionRule(
+        strategy=DispersionStrategy.ALL,
+        members=["甲本ヒロト", "真島昌利"],
+        max_members=2,
+    ),
+    # 音楽グループ（REPRESENTATIVE戦略）
+    "ゴスペラーズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["村上てつや"],
+        max_members=1,
+    ),
+    "ガンズ・アンド・ローゼズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["アクセル・ローズ"],
+        max_members=1,
+    ),
+    "オレンジレンジ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["NAOTO"],
+        max_members=1,
+    ),
+    "サッズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["清春"],
+        max_members=1,
+    ),
+    "ザ・キュアー": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["ロバート・スミス"],
+        max_members=1,
+    ),
+    "ニルヴァーナ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["カート・コバーン"],
+        max_members=1,
+    ),
+    "パール・ジャム": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["エディ・ヴェダー"],
+        max_members=1,
+    ),
+    "アリス・イン・チェインズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["レイン・ステイリー"],
+        max_members=1,
+    ),
+    "サウンドガーデン": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["クリス・コーネル"],
+        max_members=1,
+    ),
+    "フー・ファイターズ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["デイヴ・グロール"],
+        max_members=1,
+    ),
+    "グリーン・デイ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["ビリー・ジョー・アームストロング"],
+        max_members=1,
+    ),
+    "メタリカ": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["ジェイムズ・ヘットフィールド"],
+        max_members=1,
+    ),
+    "AC/DC": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["アンガス・ヤング"],
+        max_members=1,
+    ),
+    "かりゆし58": DispersionRule(
+        strategy=DispersionStrategy.REPRESENTATIVE,
+        members=["前川真悟"],
+        max_members=1,
     ),
 }
 

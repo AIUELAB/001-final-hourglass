@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T14:31:54.240630",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-251203081",
+      "person_name": "宮内義彦",
+      "age": 71,
+      "original_surprise": 2.0,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-001985",
+      "person_name": "西加奈子",
+      "age": 47,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-001479",
+      "person_name": "宮部みゆき",
+      "age": 37,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-001470",
+      "person_name": "大江健三郎",
+      "age": 53,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-001469",
+      "person_name": "村上春樹",
+      "age": 38,
+      "original_surprise": 2.0,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-001463",
+      "person_name": "与謝野晶子",
+      "age": 44,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-001458",
+      "person_name": "川端康成",
+      "age": 42,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203802",
+      "person_name": "筑紫哲也",
+      "age": 66,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203805",
+      "person_name": "江國香織",
+      "age": 66,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203810",
+      "person_name": "ひろゆき",
+      "age": 66,
+      "original_surprise": 2.0,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251203811",
+      "person_name": "佐藤オオキ",
+      "age": 66,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203703",
+      "person_name": "ノーマン・リア",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-001428",
+      "person_name": "陰山英男",
+      "age": 53,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203816",
+      "person_name": "池田秀一",
+      "age": 66,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-001406",
+      "person_name": "柳宗理",
+      "age": 44,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-001405",
+      "person_name": "深澤直人",
+      "age": 70,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-001398",
+      "person_name": "伊東豊雄",
+      "age": 43,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-002061",
+      "person_name": "小澤征爾",
+      "age": 55,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203078",
+      "person_name": "エリック・クラプトン",
+      "age": 71,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-001356",
+      "person_name": "吉田修一",
+      "age": 33,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203574",
+      "person_name": "ウィンストン・チャーチル",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-001352",
+      "person_name": "反田恭平",
+      "age": 27,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-001338",
+      "person_name": "大悟",
+      "age": 35,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-001424",
+      "person_name": "東井義雄",
+      "age": 38,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-001337",
+      "person_name": "南場智子",
+      "age": 42,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203701",
+      "person_name": "氷川きよし",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203504",
+      "person_name": "氷川きよし",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.5
+    },
+    {
+      "episode_id": "EP-251203580",
+      "person_name": "ハリー・ベラフォンテ",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203590",
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203542",
+      "person_name": "根岸隆",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-001753",
+      "person_name": "朝比奈泰彦",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-001763",
+      "person_name": "岡倉天心",
+      "age": 43,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251203591",
+      "person_name": "ジョージ・ソロス",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203598",
+      "person_name": "陣内智則",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203600",
+      "person_name": "エリック・クラプトン",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203669",
+      "person_name": "ベティ・ホワイト",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251203533",
+      "person_name": "エリック・クラプトン",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203698",
+      "person_name": "アインシュタイン",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203524",
+      "person_name": "ジョージ・ソロス",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251203521",
+      "person_name": "ハービー・ハンコック",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203683",
+      "person_name": "江國香織",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251203688",
+      "person_name": "ひろゆき",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203694",
+      "person_name": "池田秀一",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251203513",
+      "person_name": "ハリー・ベラフォンテ",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-251203697",
+      "person_name": "伊沢拓司",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203511",
+      "person_name": "小渕恵三",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203509",
+      "person_name": "スガシカオ",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251203506",
+      "person_name": "ノーマン・リア",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-001963",
+      "person_name": "林家木久扇",
+      "age": 48,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251203523",
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    }
+  ]
+}

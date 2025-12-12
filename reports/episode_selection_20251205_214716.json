@@ -1,0 +1,1148 @@
+{
+  "timestamp": "2025-12-05T21:47:16.762932",
+  "total_episodes": 12941,
+  "quality_distribution": {
+    "keep": 2091,
+    "improve": 10850,
+    "merge": 0,
+    "discard": 0
+  },
+  "duplicate_pairs": 230,
+  "average_quality": 6.27,
+  "low_quality_top20": [
+    {
+      "episode_id": "EP-A63B1F",
+      "person_name": "スティーブン・ホーキング",
+      "age": 21,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ21歳のとき、スティーブン・ホーキングは1963年にALS（筋萎縮性側索硬化症）と診断され、医師から「余命2年」の宣告を受けました。オックスフォード大学を卒業し、ケンブリッジ大学で宇宙論の..."
+    },
+    {
+      "episode_id": "EP-FF0B79",
+      "person_name": "スティーブン・ホーキング",
+      "age": 42,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ42歳のとき、スティーブン・ホーキングは1984年、肺炎で緊急手術を受けた際に気管切開術により声を失った。医師からは「もう話すことはできない」と告げられたが、彼はカリフォルニアの企業が開発..."
+    },
+    {
+      "episode_id": "EP-E029F2",
+      "person_name": "スティーブン・ホーキング",
+      "age": 70,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ70歳のとき、スティーブン・ホーキングは2012年、ロンドンパラリンピック開会式で「好奇心について」の講演を行った。ALS進行により頬の筋肉のわずかな動きだけでコンピューターを操作する彼は..."
+    },
+    {
+      "episode_id": "EP-9B8029",
+      "person_name": "ジェームズ・ワット",
+      "age": 30,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、ジェームズ・ワットは改良蒸気機関の開発に行き詰まっていました。1765年に分離凝縮器のアイデアを思いついてから数年、実用化は困難を極め、パートナーのローバックは破産寸前でした..."
+    },
+    {
+      "episode_id": "EP-B6067B",
+      "person_name": "ジェームズ・ワット",
+      "age": 45,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ45歳のとき、ジェームズ・ワットは1779年の英国議会で改良蒸気機関の特許延長をめぐって証言に立った。特許独占への批判が高まる中、ある議員から「なぜ一人の男が国家の進歩を独占するのか」と詰..."
+    },
+    {
+      "episode_id": "EP-E4A727",
+      "person_name": "ジェームズ・ワット",
+      "age": 60,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ60歳のとき、ジェームズ・ワットは、自身の蒸気機関の特許が1800年に満了することに深い不安を感じていました。1769年に取得した改良蒸気機関の特許は25年間守られてきましたが、切れと同時..."
+    },
+    {
+      "episode_id": "EP-188B74",
+      "person_name": "グラハム・ベル",
+      "age": 29,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ29歳のとき、グラハム・ベルは1876年3月10日、ボストンの研究室で電話の実験中に硫酸を膝にこぼしてしまいました。「ワトソン君、こちらに来てくれ。君が必要だ」と叫んだその声が、隣室の助手..."
+    },
+    {
+      "episode_id": "EP-B82289",
+      "person_name": "グラハム・ベル",
+      "age": 40,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ40歳のとき、グラハム・ベルは1887年、電話の商業的成功にもかかわらず、本来の使命である聾唖教育への想いを捨てきれずにいた。聴覚障害者である妻メイベルとの日々の中で、音に頼らない通信手段..."
+    },
+    {
+      "episode_id": "EP-CD265B",
+      "person_name": "グラハム・ベル",
+      "age": 55,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ55歳のとき、グラハム・ベルは1902年、電話の発明者としての名声の陰で深刻な挫折に直面していた。最愛の息子エドワードを幼くして亡くし、聴覚障害を持つ妻メイベルとのコミュニケーションに限界..."
+    },
+    {
+      "episode_id": "EP-EC6B67",
+      "person_name": "ライト兄弟",
+      "age": 30,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、ライト兄弟は飛行機の実現を前に、最大の難関に直面していました。1899年、兄ウィルバーは自転車店の仕事を終えた夜、オーニソプター（羽ばたき飛行機）の模型を手に溜息をついていま..."
+    },
+    {
+      "episode_id": "EP-BEBF43",
+      "person_name": "ライト兄弟",
+      "age": 35,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ35歳のとき、ライト兄弟は初飛行から5年が経ち、欧州での飛行デモンストレーションに挑んでいました。1908年、ウィルバーはフランスのル・マンで公開飛行を行う予定でしたが、機体の組み立てで手..."
+    },
+    {
+      "episode_id": "EP-4659DC",
+      "person_name": "ライト兄弟",
+      "age": 42,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ42歳のとき、ライト兄弟は世界初の動力飛行成功から6年が経ち、飛行機の実用化に向けて奮闘していました。1911年、ウィルバーは特許侵害訴訟に明け暮れ、オーヴィルは飛行実演中の墜落事故で重傷..."
+    },
+    {
+      "episode_id": "EP-2D9939",
+      "person_name": "カール・セーガン",
+      "age": 30,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、カール・セーガンは1964年のヴァイキング探査機火星着陸プロジェクトで中心的役割を担っていた。火星生命探査の実験設計を巡り、多くの科学者が期待に沸く中、セーガンは「我々は生命..."
+    },
+    {
+      "episode_id": "EP-93BCFD",
+      "person_name": "カール・セーガン",
+      "age": 45,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ45歳のとき、カール・セーガンは、1977年のボイジャー探査機に搭載する「ゴールデンレコード」の制作委員長として、人類の文明を宇宙の知的生命体に伝える115点の画像と音楽の選定に取り組んで..."
+    },
+    {
+      "episode_id": "EP-A7BC16",
+      "person_name": "カール・セーガン",
+      "age": 60,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ60歳のとき、カール・セーガンは骨髄異形成症候群という血液の病気と闘いながら、最後の著書『悪霊にさいなまれる世界』の執筆に取り組んでいた。体力の衰えを感じながらも、彼は科学的思考の重要性を..."
+    },
+    {
+      "episode_id": "EP-33EFD8",
+      "person_name": "リチャード・ファインマン",
+      "age": 27,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ27歳のとき、リチャード・ファインマンは1945年のマンハッタン計画で原爆開発に従事しながら、ロスアラモス研究所内で金庫破りに熱中していた。同僚たちの机の引き出しや金庫を次々と開けては「グ..."
+    },
+    {
+      "episode_id": "EP-180DFC",
+      "person_name": "リチャード・ファインマン",
+      "age": 40,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ40歳のとき、リチャード・ファインマンは1958年、妻アーリーンを結核で失った深い悲しみから物理学への情熱を失っていました。コーネル大学の食堂で学生が投げた皿の回転を見て「なぜ皿の縁の回転..."
+    },
+    {
+      "episode_id": "EP-63ADF3",
+      "person_name": "リチャード・ファインマン",
+      "age": 60,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ60歳のとき、リチャード・ファインマンは、1986年のチャレンジャー号爆発事故調査委員会で、NASAの官僚主義と対峙していました。管理層が「安全率99.44%」と主張する一方、現場エンジニ..."
+    },
+    {
+      "episode_id": "EP-DC3556",
+      "person_name": "ノーベル",
+      "age": 30,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、ノーベルは1864年、父の工場でニトログリセリン爆発事故により最愛の弟エミールを失った。スウェーデン政府は実験を禁止し、近隣住民からは「死の商人」と罵られた。彼は「エミールの..."
+    },
+    {
+      "episode_id": "EP-969334",
+      "person_name": "ノーベル",
+      "age": 50,
+      "quality_score": 5.0,
+      "selection_result": "SelectionResult.IMPROVE",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 5.0,
+        "教育的価値": 5.0,
+        "ストーリー品質": 5.0,
+        "事実密度": 5.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0
+      },
+      "episode_text_preview": "あなたと同じ50歳のとき、ノーベルは1888年に新聞で自分の死亡記事を目にした。弟リュドヴィックの死を誤って報じた記事には「死の商人、死す」という見出しが踊っていた。ダイナマイトの発明で3100万クロ..."
+    }
+  ],
+  "high_quality_top20": [
+    {
+      "episode_id": "EP-882B58",
+      "person_name": "Ai Kayano",
+      "age": 25,
+      "quality_score": 8.43,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 9.0,
+        "共感性スコア": 10.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、Ai Kayanoは声優を目指すべきか迷いながら、都内の書店で働いていました。演劇の専門学校は卒業したものの、声優になる道は遠く、周囲の友人たちが社会人として安定していく姿を..."
+    },
+    {
+      "episode_id": "EP-91CA9D",
+      "person_name": "ルフィ",
+      "age": 19,
+      "quality_score": 8.3,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 7.8,
+        "共感性スコア": 10.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ19歳のとき、ルフィ『ONE PIECE』は、シャボンディ諸島で仲間たちが次々と消されていく絶望を味わっていた。自分の力不足で大切な仲間を守れず、エースを失った悲しみにも打ちのめされた彼は..."
+    },
+    {
+      "episode_id": "EP-A2EBC7",
+      "person_name": "INORAN",
+      "age": 30,
+      "quality_score": 8.25,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、INORANは音楽活動の大きな岐路に立っていました。1998年、LUNASEAの活動が多忙を極める中、彼は自身のソロプロジェクトを本格始動させるという決断を迫られていました。..."
+    },
+    {
+      "episode_id": "EP-1BEF66",
+      "person_name": "HISASHI",
+      "age": 30,
+      "quality_score": 8.25,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、HISASHIは自身の音楽性に深い迷いを抱えていました。1996年、GLAYは『BELOVED』で初のミリオンセラーを達成し、商業的成功の階段を駆け上がっていました。しかし彼..."
+    },
+    {
+      "episode_id": "EP-A7FDE1",
+      "person_name": "タイガー・ウッズ",
+      "age": 24,
+      "quality_score": 8.24,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 8.8,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ24歳のとき、タイガー・ウッズは2000年の全米オープンで、史上最多となる15打差での圧勝を成し遂げました。しかし、この勝利の裏には、前年の不調から抜け出すために自ら選んだ苦しい決断があり..."
+    },
+    {
+      "episode_id": "EP-591326",
+      "person_name": "アデル",
+      "age": 27,
+      "quality_score": 8.2,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ27歳のとき、アデルは自身の名を冠したアルバム『25』のリリース後、久しぶりの大規模ツアーに臨んでいました。しかし、声帯結節の再発により、声が思うように出ない日々が続きました。医師からは手..."
+    },
+    {
+      "episode_id": "EP-EEF01E",
+      "person_name": "テンジン・ノルゲイ",
+      "age": 39,
+      "quality_score": 8.2,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ39歳のとき、テンジン・ノルゲイは1953年5月29日、エドマンド・ヒラリーとともにエベレスト初登頂を果たしました。しかし、頂上到達の瞬間、彼の心は複雑でした。6度目の挑戦でようやく叶えた..."
+    },
+    {
+      "episode_id": "EP-CA6B96",
+      "person_name": "ゴッホ",
+      "age": 33,
+      "quality_score": 8.2,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ33歳のとき、ゴッホはパリでの生活に疲弊していました。1886年から2年間、印象派の画家たちと交流し、明るい色彩を学びましたが、都会の喧騒と弟テオへの経済的依存に苦しんでいました。画家とし..."
+    },
+    {
+      "episode_id": "EP-D28F17",
+      "person_name": "JIRO",
+      "age": 20,
+      "quality_score": 8.2,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ20歳のとき、JIROはバンド活動と音楽への情熱の間で揺れていました。GLAYのベーシストとして活動を始めていた彼は、思うように演奏技術が向上せず、メンバーの足を引っ張っているのではないか..."
+    },
+    {
+      "episode_id": "EP-DE9A69",
+      "person_name": "Samuel L. Jackson",
+      "age": 25,
+      "quality_score": 8.2,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、Samuel L. Jacksonは大学で演劇を学びながら、公民権運動の渦中にいました。1973年、モアハウス大学の学生だった彼は、人種差別への怒りと俳優としての夢の間で揺れ..."
+    },
+    {
+      "episode_id": "EP-D2C5C9",
+      "person_name": "徳川家康",
+      "age": 40,
+      "quality_score": 8.15,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 9.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ40歳のとき、徳川家康は三方ヶ原の戦いから10年、織田信長の同盟者として遠江・駿河の統治に励んでいました。この年、信長から甲斐・信濃への出兵を命じられますが、家康は深い葛藤を抱えます。武田..."
+    },
+    {
+      "episode_id": "EP-A8AC0F",
+      "person_name": "Oguri Shun",
+      "age": 25,
+      "quality_score": 8.15,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 9.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、小栗旬は映画『クローズZERO』の主演オファーに直面していました。それまでトレンディドラマでの二枚目役が多かった彼にとって、不良高校生の頂点を目指す坊屋春道役は大きな挑戦でし..."
+    },
+    {
+      "episode_id": "EP-EF60FF",
+      "person_name": "Fukase",
+      "age": 20,
+      "quality_score": 8.15,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 9.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ20歳のとき、Fukaseはバンド「SEKAI NO OWARI」のボーカリストとして、まだ無名の日々を過ごしていました。メンバー4人で防音コンテナスタジオに籠もり、音楽活動に明け暮れる毎..."
+    },
+    {
+      "episode_id": "EP-A74D27",
+      "person_name": "Yuki Kaji",
+      "age": 25,
+      "quality_score": 8.1,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 9.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、Yuki Kajiは声優として着実にキャリアを重ねながらも、ある葛藤を抱えていました。『進撃の巨人』のエレン・イェーガー役で注目を集めた2011年、彼は自身の演技の幅に限界を..."
+    },
+    {
+      "episode_id": "EP-AA7A8C",
+      "person_name": "Hirose Suzu",
+      "age": 25,
+      "quality_score": 8.07,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 6.5,
+        "共感性スコア": 6.7,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、Hirose Suzuは映画『シン・仮面ライダー』の撮影現場で、アクションシーンへの不安と向き合っていました。既に多くの作品で主演を務めていた彼女でしたが、庵野秀明監督の求め..."
+    },
+    {
+      "episode_id": "EP-71A62A",
+      "person_name": "タイガー・ウッズ",
+      "age": 15,
+      "quality_score": 8.06,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 6.5,
+        "共感性スコア": 8.3,
+        "意外性スコア": 8.3
+      },
+      "episode_text_preview": "あなたと同じ15歳のとき、タイガー・ウッズは高校のゴルフチームで圧倒的な成績を残していましたが、ある重要な試合で予想外のスランプに陥りました。いつもの正確なショットが乱れ、スコアは伸び悩み、周囲の期待..."
+    },
+    {
+      "episode_id": "EP-FA068A",
+      "person_name": "ケンドリック・ラマー",
+      "age": 25,
+      "quality_score": 8.03,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 6.7,
+        "意外性スコア": 8.3
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、ケンドリック・ラマーはデビューアルバム『good kid, m.A.A.d city』のリリースを目前に控えていました。故郷コンプトンでの暴力や貧困の記憶を赤裸々に綴った作品..."
+    },
+    {
+      "episode_id": "EP-44A971",
+      "person_name": "リヴァイ",
+      "age": 30,
+      "quality_score": 8.03,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 7.8,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ30歳のとき、リヴァイ『進撃の巨人』は、調査兵団の兵士長として新兵の訓練を任されていた。かつて地下街で仲間を失った彼は、部下を死なせることへの恐れから、必要以上に厳しい指導を続けていた。あ..."
+    },
+    {
+      "episode_id": "EP-7CD1BA",
+      "person_name": "トーマス・エジソン",
+      "age": 32,
+      "quality_score": 8.03,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 8.5,
+        "ストーリー品質": 10.0,
+        "事実密度": 10.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ32歳のとき、トーマス・エジソンは電灯の実用化という目標に向き合っていました。1879年、メンロパークの研究所で、彼は白熱電球のフィラメント素材を探し続けていました。金属線は数分で燃え尽き..."
+    },
+    {
+      "episode_id": "EP-6E0B25",
+      "person_name": "Yamada Takayuki",
+      "age": 25,
+      "quality_score": 8.03,
+      "selection_result": "SelectionResult.KEEP",
+      "component_scores": {
+        "quality_score": 5.0,
+        "記憶性スコア": 10.0,
+        "教育的価値": 10.0,
+        "ストーリー品質": 10.0,
+        "事実密度": 7.8,
+        "共感性スコア": 5.0,
+        "意外性スコア": 10.0
+      },
+      "episode_text_preview": "あなたと同じ25歳のとき、Yamada Takayukiは映画『電車男』で主演を務め、俳優としての転換期を迎えていました。それまでクールな役柄が多かった彼にとって、オタク青年という正反対のキャラクター..."
+    }
+  ],
+  "duplicates": [
+    {
+      "episode_id_1": "EP-960F94",
+      "episode_id_2": "EP-EABC44",
+      "person_name": "Vaundy",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、Vaundyは2024年に自身初となる日本の大型野外フェス「京都大作戦20...",
+      "text_2_preview": "あなたと同じ24歳のとき、Vaundyは2024年に自身初となる日本の大型野外フェス「京都大作戦20..."
+    },
+    {
+      "episode_id_1": "EP-960F94",
+      "episode_id_2": "EP-977462",
+      "person_name": "Vaundy",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、Vaundyは2024年に自身初となる日本の大型野外フェス「京都大作戦20...",
+      "text_2_preview": "あなたと同じ24歳のとき、Vaundyは2024年に自身初となる日本の大型野外フェス「京都大作戦20..."
+    },
+    {
+      "episode_id_1": "EP-EABC44",
+      "episode_id_2": "EP-977462",
+      "person_name": "Vaundy",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、Vaundyは2024年に自身初となる日本の大型野外フェス「京都大作戦20...",
+      "text_2_preview": "あなたと同じ24歳のとき、Vaundyは2024年に自身初となる日本の大型野外フェス「京都大作戦20..."
+    },
+    {
+      "episode_id_1": "EP-000876",
+      "episode_id_2": "EP-F65075",
+      "person_name": "はじめしゃちょー",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日...",
+      "text_2_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日..."
+    },
+    {
+      "episode_id_1": "EP-000876",
+      "episode_id_2": "EP-5ACA35",
+      "person_name": "はじめしゃちょー",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日...",
+      "text_2_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日..."
+    },
+    {
+      "episode_id_1": "EP-000876",
+      "episode_id_2": "nan",
+      "person_name": "はじめしゃちょー",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日...",
+      "text_2_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日..."
+    },
+    {
+      "episode_id_1": "EP-F65075",
+      "episode_id_2": "EP-5ACA35",
+      "person_name": "はじめしゃちょー",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日...",
+      "text_2_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日..."
+    },
+    {
+      "episode_id_1": "EP-F65075",
+      "episode_id_2": "nan",
+      "person_name": "はじめしゃちょー",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日...",
+      "text_2_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日..."
+    },
+    {
+      "episode_id_1": "EP-5ACA35",
+      "episode_id_2": "nan",
+      "person_name": "はじめしゃちょー",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日...",
+      "text_2_preview": "あなたと同じ31歳のとき、はじめしゃちょーは、YouTubeチャンネル登録者数1000万人を超える日..."
+    },
+    {
+      "episode_id_1": "EP-000991",
+      "episode_id_2": "EP-977582",
+      "person_name": "サニブラウン",
+      "age": 25,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100m...",
+      "text_2_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100m..."
+    },
+    {
+      "episode_id_1": "EP-000991",
+      "episode_id_2": "nan",
+      "person_name": "サニブラウン",
+      "age": 25,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100m...",
+      "text_2_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100m..."
+    },
+    {
+      "episode_id_1": "EP-977582",
+      "episode_id_2": "nan",
+      "person_name": "サニブラウン",
+      "age": 25,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100m...",
+      "text_2_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100m..."
+    },
+    {
+      "episode_id_1": "EP-10F4CD",
+      "episode_id_2": "EP-BC9226",
+      "person_name": "三笘薫",
+      "age": 27,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ27歳のとき、三笘薫はイングランド・プレミアリーグのブライトンで、世界トップレベルの舞台...",
+      "text_2_preview": "あなたと同じ27歳のとき、三笘薫はイングランド・プレミアリーグのブライトンで、世界トップレベルの舞台..."
+    },
+    {
+      "episode_id_1": "EP-10F4CD",
+      "episode_id_2": "EP-977534",
+      "person_name": "三笘薫",
+      "age": 27,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ27歳のとき、三笘薫はイングランド・プレミアリーグのブライトンで、世界トップレベルの舞台...",
+      "text_2_preview": "あなたと同じ27歳のとき、三笘薫はイングランド・プレミアリーグのブライトンで、世界トップレベルの舞台..."
+    },
+    {
+      "episode_id_1": "EP-BC9226",
+      "episode_id_2": "EP-977534",
+      "person_name": "三笘薫",
+      "age": 27,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ27歳のとき、三笘薫はイングランド・プレミアリーグのブライトンで、世界トップレベルの舞台...",
+      "text_2_preview": "あなたと同じ27歳のとき、三笘薫はイングランド・プレミアリーグのブライトンで、世界トップレベルの舞台..."
+    },
+    {
+      "episode_id_1": "EP-000856",
+      "episode_id_2": "EP-000857",
+      "person_name": "中村俊輔",
+      "age": 46,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ46歳のとき、中村俊輔は2024年シーズンをアスルクラロ沼津でプレーし、J3リーグという...",
+      "text_2_preview": "あなたと同じ46歳のとき、中村俊輔は2024年シーズンをアスルクラロ沼津でプレーし、J3リーグという..."
+    },
+    {
+      "episode_id_1": "EP-000856",
+      "episode_id_2": "EP-977550",
+      "person_name": "中村俊輔",
+      "age": 46,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ46歳のとき、中村俊輔は2024年シーズンをアスルクラロ沼津でプレーし、J3リーグという...",
+      "text_2_preview": "あなたと同じ46歳のとき、中村俊輔は2024年シーズンをアスルクラロ沼津でプレーし、J3リーグという..."
+    },
+    {
+      "episode_id_1": "EP-000857",
+      "episode_id_2": "EP-977550",
+      "person_name": "中村俊輔",
+      "age": 46,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ46歳のとき、中村俊輔は2024年シーズンをアスルクラロ沼津でプレーし、J3リーグという...",
+      "text_2_preview": "あなたと同じ46歳のとき、中村俊輔は2024年シーズンをアスルクラロ沼津でプレーし、J3リーグという..."
+    },
+    {
+      "episode_id_1": "EP-000787",
+      "episode_id_2": "EP-001821",
+      "person_name": "中田英寿",
+      "age": 47,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ47歳のとき、中田英寿は日本の伝統工芸の継承に情熱を注いでいました。現役引退後、彼は全国...",
+      "text_2_preview": "あなたと同じ47歳のとき、中田英寿は日本の伝統工芸の継承に情熱を注いでいました。現役引退後、彼は全国..."
+    },
+    {
+      "episode_id_1": "EP-000787",
+      "episode_id_2": "EP-977547",
+      "person_name": "中田英寿",
+      "age": 47,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ47歳のとき、中田英寿は日本の伝統工芸の継承に情熱を注いでいました。現役引退後、彼は全国...",
+      "text_2_preview": "あなたと同じ47歳のとき、中田英寿は日本の伝統工芸の継承に情熱を注いでいました。現役引退後、彼は全国..."
+    },
+    {
+      "episode_id_1": "EP-001821",
+      "episode_id_2": "EP-977547",
+      "person_name": "中田英寿",
+      "age": 47,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ47歳のとき、中田英寿は日本の伝統工芸の継承に情熱を注いでいました。現役引退後、彼は全国...",
+      "text_2_preview": "あなたと同じ47歳のとき、中田英寿は日本の伝統工芸の継承に情熱を注いでいました。現役引退後、彼は全国..."
+    },
+    {
+      "episode_id_1": "EP-000815",
+      "episode_id_2": "EP-238A5F",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-000815",
+      "episode_id_2": "EP-380E93",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-000815",
+      "episode_id_2": "EP-977553",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-000815",
+      "episode_id_2": "nan",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-238A5F",
+      "episode_id_2": "EP-380E93",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-238A5F",
+      "episode_id_2": "EP-977553",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-238A5F",
+      "episode_id_2": "nan",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-380E93",
+      "episode_id_2": "EP-977553",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-380E93",
+      "episode_id_2": "nan",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-977553",
+      "episode_id_2": "nan",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ...",
+      "text_2_preview": "あなたと同じ31歳のとき、井上尚弥は2024年に4団体統一スーパーバンタム級王者として、絶対的な強さ..."
+    },
+    {
+      "episode_id_1": "EP-001251",
+      "episode_id_2": "EP-001863",
+      "person_name": "伊藤美誠",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東...",
+      "text_2_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東..."
+    },
+    {
+      "episode_id_1": "EP-001251",
+      "episode_id_2": "EP-977561",
+      "person_name": "伊藤美誠",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東...",
+      "text_2_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東..."
+    },
+    {
+      "episode_id_1": "EP-001251",
+      "episode_id_2": "nan",
+      "person_name": "伊藤美誠",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東...",
+      "text_2_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東..."
+    },
+    {
+      "episode_id_1": "EP-001863",
+      "episode_id_2": "EP-977561",
+      "person_name": "伊藤美誠",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東...",
+      "text_2_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東..."
+    },
+    {
+      "episode_id_1": "EP-001863",
+      "episode_id_2": "nan",
+      "person_name": "伊藤美誠",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東...",
+      "text_2_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東..."
+    },
+    {
+      "episode_id_1": "EP-977561",
+      "episode_id_2": "nan",
+      "person_name": "伊藤美誠",
+      "age": 24,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東...",
+      "text_2_preview": "あなたと同じ24歳のとき、伊藤美誠は2024年パリオリンピックで団体戦銅メダル獲得に貢献しました。東..."
+    },
+    {
+      "episode_id_1": "EP-002128",
+      "episode_id_2": "EP-977360",
+      "person_name": "佐藤健",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、佐藤健は俳優として円熟期を迎えていました。2024年、彼は長年培ってきた演...",
+      "text_2_preview": "あなたと同じ35歳のとき、佐藤健は俳優として円熟期を迎えていました。2024年、彼は長年培ってきた演..."
+    },
+    {
+      "episode_id_1": "EP-001216",
+      "episode_id_2": "EP-001865",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001216",
+      "episode_id_2": "EP-002088",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001216",
+      "episode_id_2": "EP-002089",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001216",
+      "episode_id_2": "EP-977556",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001865",
+      "episode_id_2": "EP-002088",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001865",
+      "episode_id_2": "EP-002089",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001865",
+      "episode_id_2": "EP-977556",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-002088",
+      "episode_id_2": "EP-002089",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-002088",
+      "episode_id_2": "EP-977556",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-002089",
+      "episode_id_2": "EP-977556",
+      "person_name": "内村航平",
+      "age": 35,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ...",
+      "text_2_preview": "あなたと同じ35歳のとき、内村航平は2024年に現役続行の決断を示していました。オリンピック7個のメ..."
+    },
+    {
+      "episode_id_1": "EP-001284",
+      "episode_id_2": "EP-001285",
+      "person_name": "北島康介",
+      "age": 42,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ42歳のとき、北島康介は現役引退から8年が経ち、後進の育成に情熱を注いでいました。202...",
+      "text_2_preview": "あなたと同じ42歳のとき、北島康介は現役引退から8年が経ち、後進の育成に情熱を注いでいました。202..."
+    },
+    {
+      "episode_id_1": "EP-001284",
+      "episode_id_2": "EP-001696",
+      "person_name": "北島康介",
+      "age": 42,
+      "similarity": 1.0,
+      "text_1_preview": "あなたと同じ42歳のとき、北島康介は現役引退から8年が経ち、後進の育成に情熱を注いでいました。202...",
+      "text_2_preview": "あなたと同じ42歳のとき、北島康介は現役引退から8年が経ち、後進の育成に情熱を注いでいました。202..."
+    }
+  ]
+}

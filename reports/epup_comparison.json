@@ -1,0 +1,151 @@
+{
+  "timestamp": "2025-12-12T10:38:16.284837",
+  "baseline_file": "N/A",
+  "after_file": "N/A",
+  "overall": {
+    "baseline_score": 96.32,
+    "after_score": 95.58,
+    "delta": -0.7399999999999949,
+    "baseline_grade": "A",
+    "after_grade": "A"
+  },
+  "data_changes": {
+    "episodes_before": 10516,
+    "episodes_after": 10210,
+    "episodes_delta": -306
+  },
+  "individual_changes": {
+    "age_chronology_validity": {
+      "before": 99.75,
+      "after": 99.74,
+      "delta": -0.010000000000005116
+    },
+    "age_coverage": {
+      "before": 100.0,
+      "after": 100.0,
+      "delta": 0.0
+    },
+    "concatenated_name_clean": {
+      "before": 100.0,
+      "after": 100.0,
+      "delta": 0.0
+    },
+    "content_density_quality": {
+      "before": 84.33,
+      "after": 84.28,
+      "delta": -0.04999999999999716
+    },
+    "duplicate_episode_clean": {
+      "before": 98.69,
+      "after": 100.0,
+      "delta": 1.3100000000000023
+    },
+    "duplicate_resolution": {
+      "before": 100,
+      "after": 100,
+      "delta": 0
+    },
+    "episode_depth": {
+      "before": 71.67,
+      "after": 56.67,
+      "delta": -15.0
+    },
+    "episode_drama_quality": {
+      "before": 52.74,
+      "after": 52.91,
+      "delta": 0.1699999999999946
+    },
+    "episode_quality": {
+      "before": 54.41,
+      "after": 54.34,
+      "delta": -0.06999999999999318
+    },
+    "episode_type_validity": {
+      "before": 98.53,
+      "after": 98.47,
+      "delta": -0.060000000000002274
+    },
+    "fact_density_quality": {
+      "before": 99.93,
+      "after": 99.93,
+      "delta": 0.0
+    },
+    "format_compliance": {
+      "before": 92.61,
+      "after": 92.54,
+      "delta": -0.06999999999999318
+    },
+    "group_entity_clean": {
+      "before": 90,
+      "after": 90,
+      "delta": 0
+    },
+    "group_info_coverage": {
+      "before": 31.27,
+      "after": 30.69,
+      "delta": -0.5799999999999983
+    },
+    "group_master_sync": {
+      "before": 98.9,
+      "after": 98.81,
+      "delta": -0.09000000000000341
+    },
+    "japanese_name_rate": {
+      "before": 99.87,
+      "after": 99.8,
+      "delta": -0.07000000000000739
+    },
+    "no_refusal": {
+      "before": 99.98,
+      "after": 99.98,
+      "delta": 0.0
+    },
+    "notation_consistency": {
+      "before": 99.66,
+      "after": 99.95,
+      "delta": 0.29000000000000625
+    },
+    "placeholder_clean": {
+      "before": 100.0,
+      "after": 100.0,
+      "delta": 0.0
+    },
+    "work_title_compliance": {
+      "before": 100.0,
+      "after": 100.0,
+      "delta": 0.0
+    },
+    "world_celebrity_coverage": {
+      "before": 99.03,
+      "after": 99.03,
+      "delta": 0.0
+    },
+    "yumeilist_coverage": {
+      "before": 100.0,
+      "after": 100.0,
+      "delta": 0.0
+    }
+  },
+  "improvements": [
+    {
+      "metric": "duplicate_episode_clean",
+      "before": 98.69,
+      "after": 100.0,
+      "delta": 1.3100000000000023
+    }
+  ],
+  "regressions": [
+    {
+      "metric": "episode_depth",
+      "before": 71.67,
+      "after": 56.67,
+      "delta": -15.0
+    },
+    {
+      "metric": "group_info_coverage",
+      "before": 31.27,
+      "after": 30.69,
+      "delta": -0.5799999999999983
+    }
+  ]
+}

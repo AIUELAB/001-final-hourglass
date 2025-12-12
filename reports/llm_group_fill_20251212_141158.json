@@ -1,0 +1,357 @@
+{
+  "timestamp": "2025-12-12T14:11:58.709450",
+  "batch_size": 50,
+  "changes_count": 50,
+  "changes": [
+    {
+      "person_name": "稲本潤一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "中村憲剛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "遠藤保仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "井上尚弥",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーは個人競技"
+    },
+    {
+      "person_name": "村田諒太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーは個人競技"
+    },
+    {
+      "person_name": "内村航平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "白井健三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手で個人競技者"
+    },
+    {
+      "person_name": "阿部詩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "大野将平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "伊藤美誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "卓球選手で個人競技"
+    },
+    {
+      "person_name": "張本智和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "卓球選手は個人競技"
+    },
+    {
+      "person_name": "畑岡奈紗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "国枝慎吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "車いすテニス選手は個人競技"
+    },
+    {
+      "person_name": "大坂なおみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "西岡良仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のテニス選手"
+    },
+    {
+      "person_name": "平野美宇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "卓球の個人競技選手"
+    },
+    {
+      "person_name": "堀米雄斗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スケートボード選手は個人競技"
+    },
+    {
+      "person_name": "西矢椛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スケートボード個人競技選手"
+    },
+    {
+      "person_name": "四十住さくら",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スケートボード選手は個人競技"
+    },
+    {
+      "person_name": "萩野公介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手で個人競技"
+    },
+    {
+      "person_name": "入江陵介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手は個人競技"
+    },
+    {
+      "person_name": "ケンブリッジ飛鳥",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "桐生祥秀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技選手で個人種目"
+    },
+    {
+      "person_name": "サニブラウン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "池上彰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリストで個人活動"
+    },
+    {
+      "person_name": "佐藤優",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元外交官の作家・評論家"
+    },
+    {
+      "person_name": "成田悠輔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者・学者は個人活動"
+    },
+    {
+      "person_name": "ひろゆき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "2ch創設者で個人活動"
+    },
+    {
+      "person_name": "中田敦彦",
+      "is_group_member": true,
+      "group_name": "オリエンタルラジオ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "新海誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アニメーション映画監督として個人活動"
+    },
+    {
+      "person_name": "押井守",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動職業"
+    },
+    {
+      "person_name": "富野由悠季",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アニメ監督は個人活動"
+    },
+    {
+      "person_name": "手塚治虫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家として個人活動"
+    },
+    {
+      "person_name": "藤子・F・不二雄",
+      "is_group_member": true,
+      "group_name": "藤子不二雄",
+      "confidence": 0.95,
+      "reason": "漫画家コンビとして著名"
+    },
+    {
+      "person_name": "鳥山明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "井上雄彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "尾田栄一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "諫山創",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人創作者"
+    },
+    {
+      "person_name": "村上春樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家で個人活動のため"
+    },
+    {
+      "person_name": "東野圭吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動職業"
+    },
+    {
+      "person_name": "宮部みゆき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人で活動"
+    },
+    {
+      "person_name": "湊かなえ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人で活動"
+    },
+    {
+      "person_name": "伊坂幸太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人活動"
+    },
+    {
+      "person_name": "神谷浩史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人での活動が基本"
+    },
+    {
+      "person_name": "梶裕貴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "林原めぐみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優として個人活動"
+    },
+    {
+      "person_name": "山寺宏一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "野沢雅子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "大谷育江",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は通常個人活動"
+    },
+    {
+      "person_name": "緒方恵美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人での活動が基本"
+    }
+  ]
+}

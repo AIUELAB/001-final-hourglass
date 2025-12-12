@@ -1,0 +1,49 @@
+{
+  "timestamp": "2025-12-11T17:15:36.845394",
+  "max_batches": 4,
+  "batch_size": 50,
+  "initial_count": 162,
+  "final_count": 0,
+  "total_improved": 162,
+  "total_failed": 0,
+  "batch_results": [
+    {
+      "batch": 1,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 646.1200659275055,
+      "remaining": 112
+    },
+    {
+      "batch": 2,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 617.3804161548615,
+      "remaining": 62
+    },
+    {
+      "batch": 3,
+      "improved": 50,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 666.4383091926575,
+      "remaining": 12
+    },
+    {
+      "batch": 4,
+      "improved": 12,
+      "partial": 0,
+      "failed": 0,
+      "elapsed": 156.6163249015808,
+      "remaining": 0
+    }
+  ],
+  "final_distribution": {
+    "under_3": 0,
+    "range_3_5": 3248,
+    "range_5_7": 2681,
+    "over_7": 4544
+  }
+}

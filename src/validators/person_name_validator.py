@@ -63,6 +63,13 @@ class PersonNameValidator:
     # グループ名＋個人名の区切りパターン
     SEPARATORS = ["・", "（", "(", "／", "/", "　", " "]
 
+    # 誤検出除外パターン（グループ名と同名だが個人名として正しいもの）
+    EXCLUDE_PERSON_NAMES = {
+        # お笑いコンビ「オードリー」と同名の女優
+        "オードリー・ヘプバーン",
+        "オードリー・タトゥ",
+    }
+
     def __init__(self):
         """初期化"""
         self.group_entities = GROUP_ENTITIES
@@ -82,6 +89,10 @@ class PersonNameValidator:
         issues: list[ValidationIssue] = []
 
         if not person_name:
+            return issues
+
+        # 除外パターンをチェック
+        if person_name in self.EXCLUDE_PERSON_NAMES:
             return issues
 
         # 1. グループ名が直接登録されていないか
@@ -215,3 +226,100 @@ class PersonNameValidator:
                 return issue.fixed_value, issue
 
         return person_name, None
+
+    def get_canonical_info(self, person_name: str) -> dict:
+        """
+        人物名から正規化された情報を取得
+
+        Args:
+            person_name: 人物名
+
+        Returns:
+            {
+                "canonical_name": 正規化された個人名,
+                "group_name": グループ名（所属があれば）,
+                "is_group_member": グループメンバーかどうか,
+                "needs_correction": 修正が必要かどうか,
+                "original_name": 元の名前,
+            }
+        """
+        result = {
+            "canonical_name": person_name,
+            "group_name": None,
+            "is_group_member": None,
+            "needs_correction": False,
+            "original_name": person_name,
+        }
+
+        # 自動修正を試行
+        fixed_name, issue = self.auto_fix(person_name)
+
+        if issue:
+            result["canonical_name"] = fixed_name
+            result["needs_correction"] = True
+
+            # 連結パターンの場合はグループ名を抽出
+            if issue.issue_type == IssueType.CONCATENATED_NAME:
+                # グループ名を取得（メッセージからパース）
+                for group in self.group_entities:
+                    for sep in self.SEPARATORS:
+                        if person_name.startswith(f"{group}{sep}"):
+                            result["group_name"] = group
+                            result["is_group_member"] = True
+                            break
+
+        # グループマスタから情報を補完
+        if result["canonical_name"] in self.group_member_map:
+            result["group_name"] = self.group_member_map[result["canonical_name"]]
+            result["is_group_member"] = True
+
+        return result
+
+
+# シングルトンインスタンス
+_validator = None
+
+
+def get_validator() -> PersonNameValidator:
+    """バリデータのシングルトンインスタンスを取得"""
+    global _validator
+    if _validator is None:
+        _validator = PersonNameValidator()
+    return _validator
+
+
+def validate_before_episode_generation(
+    person_name: str, person_type: str = "REAL", group_name: Optional[str] = None
+) -> tuple[bool, str, Optional[dict]]:
+    """
+    エピソード生成前に人物名を検証（簡易版API）
+
+    Args:
+        person_name: 人物名
+        person_type: 人物タイプ
+        group_name: グループ名
+
+    Returns:
+        (is_valid, message, suggested_fix)
+    """
+    validator = get_validator()
+    issues = validator.validate(person_name)
+
+    errors = [i for i in issues if i.severity == Severity.ERROR]
+
+    if errors:
+        first_error = errors[0]
+        suggested_fix = None
+        if first_error.auto_fixable and first_error.fixed_value:
+            suggested_fix = {
+                "person_name": first_error.fixed_value,
+            }
+            # グループ名を抽出
+            canonical_info = validator.get_canonical_info(person_name)
+            if canonical_info.get("group_name"):
+                suggested_fix["group_name"] = canonical_info["group_name"]
+                suggested_fix["is_group_member"] = True
+
+        return False, first_error.message, suggested_fix
+
+    return True, "OK", None

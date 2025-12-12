@@ -136,10 +136,11 @@ def evaluate_format_compliance(df: pd.DataFrame) -> dict:
     """フォーマット準拠率を評価"""
     import re
 
-    # 正規フォーマット: 「あなたと同じN歳のとき、」または「あなたと同じ活動N年目のとき、」で始まる
-    valid_pattern = re.compile(r"^あなたと同じ(\d+歳|活動\d+年目)のとき、")
+    # 正規フォーマット: 「あなたと同じN歳のとき、」または「あなたと同じN歳のとき（西暦年）、」
+    # または「あなたと同じ活動N年目のとき、」で始まる
+    valid_pattern = re.compile(r"^あなたと同じ(\d+歳|活動\d+年目)のとき[（\(]?\d*年?[）\)]?[、,]")
     # 代替フォーマット: 「同じN歳のとき、」で始まる
-    alternate_pattern = re.compile(r"^同じ(\d+歳|活動\d+年目)のとき、")
+    alternate_pattern = re.compile(r"^同じ(\d+歳|活動\d+年目)のとき[（\(]?\d*年?[）\)]?[、,]")
 
     # LLM拒否応答パターン（冒頭パターン + 途中のメタ説明パターン）
     refusal_patterns = [
@@ -1187,6 +1188,163 @@ def evaluate_content_density_quality(df: pd.DataFrame) -> dict:
     }
 
 
+def evaluate_episode_quality_distribution(df: pd.DataFrame) -> dict:
+    """エピソード品質分布を評価（Phase 20追加）
+
+    総合品質スコアを計算し、分布を評価。
+
+    品質スコア計算:
+    quality_score * 0.25 + 記憶性スコア * 0.15 + 教育的価値 * 0.15 +
+    ストーリー品質 * 0.15 + 事実密度 * 0.10 + 共感性スコア * 0.10 + 意外性スコア * 0.10
+
+    選別閾値:
+    - 保持 (>=6.5): 高品質
+    - 要改善 (5.0-6.5): 中品質
+    - 統合検討 (3.5-5.0): 低品質
+    - 破棄候補 (<3.5): 最低品質
+    """
+    weights = {
+        "quality_score": 0.25,
+        "記憶性スコア": 0.15,
+        "教育的価値": 0.15,
+        "ストーリー品質": 0.15,
+        "事実密度": 0.10,
+        "共感性スコア": 0.10,
+        "意外性スコア": 0.10,
+    }
+
+    scores = []
+    keep = 0
+    improve = 0
+    merge = 0
+    discard = 0
+    low_quality_samples = []
+
+    for idx, row in df.iterrows():
+        total = 0.0
+        for col, weight in weights.items():
+            value = row.get(col, 0)
+            if pd.isna(value):
+                value = 5.0
+            else:
+                value = float(value)
+                if value > 10:
+                    value = value / 10
+            total += value * weight
+
+        score = total / sum(weights.values())
+        scores.append(score)
+
+        if score >= 6.5:
+            keep += 1
+        elif score >= 5.0:
+            improve += 1
+        elif score >= 3.5:
+            merge += 1
+        else:
+            discard += 1
+            if len(low_quality_samples) < 10:
+                low_quality_samples.append(
+                    {
+                        "episode_id": row.get("episode_id", ""),
+                        "person_name": row.get("person_name", ""),
+                        "score": round(score, 2),
+                    }
+                )
+
+    if len(scores) == 0:
+        return {
+            "has_scores": False,
+            "high_quality_rate": 100.0,
+            "episode_quality_score": 100.0,
+        }
+
+    import statistics
+
+    total = len(scores)
+    avg_score = statistics.mean(scores)
+    keep_rate = round(keep / total * 100, 2)
+    improve_rate = round(improve / total * 100, 2)
+    merge_rate = round(merge / total * 100, 2)
+    discard_rate = round(discard / total * 100, 2)
+
+    # 品質スコア = 保持率 + 要改善率 * 0.5
+    episode_quality_score = min(100.0, keep_rate + improve_rate * 0.5)
+
+    return {
+        "has_scores": True,
+        "total_evaluated": total,
+        "keep_count": keep,
+        "improve_count": improve,
+        "merge_count": merge,
+        "discard_count": discard,
+        "keep_rate": keep_rate,
+        "improve_rate": improve_rate,
+        "merge_rate": merge_rate,
+        "discard_rate": discard_rate,
+        "avg_score": round(avg_score, 2),
+        "episode_quality_score": round(episode_quality_score, 2),
+        "low_quality_samples": low_quality_samples,
+    }
+
+
+def evaluate_duplicate_episodes(df: pd.DataFrame) -> dict:
+    """重複エピソード検出を評価（Phase 21追加）
+
+    同一人物・同一年齢のエピソードで類似度が高いものを検出。
+    """
+    from difflib import SequenceMatcher
+
+    similarity_threshold = 0.7
+    duplicate_pairs = []
+
+    # 人物・年齢でグループ化
+    groups = df.groupby(["person_name", "age"])
+
+    for (person_name, age), group_df in groups:
+        if len(group_df) < 2:
+            continue
+
+        episodes = group_df.to_dict("records")
+        n = len(episodes)
+
+        for i in range(n):
+            text_i = str(episodes[i].get("episode_text", ""))
+            if not text_i or text_i == "nan":
+                continue
+
+            for j in range(i + 1, n):
+                text_j = str(episodes[j].get("episode_text", ""))
+                if not text_j or text_j == "nan":
+                    continue
+
+                similarity = SequenceMatcher(None, text_i, text_j).ratio()
+
+                if similarity >= similarity_threshold:
+                    duplicate_pairs.append(
+                        {
+                            "person_name": str(person_name),
+                            "age": int(age) if pd.notna(age) else 0,
+                            "episode_id_1": str(episodes[i].get("episode_id", "")),
+                            "episode_id_2": str(episodes[j].get("episode_id", "")),
+                            "similarity": round(similarity, 3),
+                        }
+                    )
+
+    total = len(df)
+    duplicate_count = len(duplicate_pairs) * 2  # 各ペアで2件
+    clean_rate = round((total - duplicate_count) / total * 100, 2) if total > 0 else 100.0
+
+    return {
+        "total_episodes": total,
+        "duplicate_pairs": len(duplicate_pairs),
+        "duplicate_episode_count": duplicate_count,
+        "duplicate_clean_rate": clean_rate,
+        "similarity_threshold": similarity_threshold,
+        "duplicate_samples": duplicate_pairs[:10],
+    }
+
+
 def generate_recommendations(evaluation: dict) -> list:
     """評価結果に基づく推奨事項を生成"""
     recommendations = []
@@ -1573,6 +1731,18 @@ def calculate_epup_score(evaluation: dict) -> dict:
     else:
         scores["concatenated_name_clean"] = 100.0
 
+    # Phase 20: エピソード品質分布
+    if "episode_quality_distribution" in evaluation and evaluation["episode_quality_distribution"].get("has_scores"):
+        scores["episode_quality"] = evaluation["episode_quality_distribution"]["episode_quality_score"]
+    else:
+        scores["episode_quality"] = 100.0
+
+    # Phase 21: 重複エピソードクリーン率
+    if "duplicate_episodes" in evaluation:
+        scores["duplicate_episode_clean"] = evaluation["duplicate_episodes"]["duplicate_clean_rate"]
+    else:
+        scores["duplicate_episode_clean"] = 100.0
+
     # 総合スコア（重み付け平均）
     # Phase 18で修正: 表記品質を追加
     weights = {
@@ -1606,7 +1776,14 @@ def calculate_epup_score(evaluation: dict) -> dict:
         "japanese_name_rate": 0.06,  # 日本語化率（英語名残存率の逆）
         # Phase 19: 連結名パターン
         "concatenated_name_clean": 0.05,  # 連結名パターンクリーン率
+        # Phase 20: エピソード品質分布
+        "episode_quality": 0.03,  # 総合品質スコア
+        # Phase 21: 重複エピソードクリーン率
+        "duplicate_episode_clean": 0.02,  # 重複エピソードなし率
     }
+
+    # 重みの合計を調整（world_celebrity_coverageを0.15に減少）
+    weights["world_celebrity_coverage"] = 0.15
 
     total_score = sum(scores[k] * weights[k] for k in weights)
 
@@ -1618,11 +1795,92 @@ def calculate_epup_score(evaluation: dict) -> dict:
     }
 
 
+def auto_fix_group_violations(df: pd.DataFrame, csv_path: Path) -> dict:
+    """
+    GROUP_ENTITIES違反を自動修正
+
+    Args:
+        df: データフレーム
+        csv_path: CSVファイルパス
+
+    Returns:
+        修正結果サマリ
+    """
+    from src.group_master import DISPERSION_RULES, DispersionStrategy
+
+    violations = []
+    fixed = []
+    deleted = []
+
+    # 違反を検出
+    for idx, row in df.iterrows():
+        person_name = str(row.get("person_name", "")).strip()
+        if is_group_entity(person_name):
+            violations.append(
+                {
+                    "idx": idx,
+                    "person_name": person_name,
+                    "episode_id": row.get("episode_id", ""),
+                }
+            )
+
+    if not violations:
+        return {"violations": 0, "fixed": 0, "deleted": 0}
+
+    print(f"\n🔧 自動修正: {len(violations)}件の違反を検出")
+
+    # 修正実行
+    indices_to_delete = []
+    for v in violations:
+        person_name = v["person_name"]
+        rule = get_dispersion_rule(person_name)
+
+        if rule:
+            if rule.strategy == DispersionStrategy.DELETE:
+                # 削除
+                indices_to_delete.append(v["idx"])
+                deleted.append(v)
+                print(f"  🗑️ 削除: {person_name}")
+            elif rule.strategy == DispersionStrategy.REPRESENTATIVE:
+                # 代表者に変更
+                new_name = rule.members[0] if rule.members else person_name
+                df.at[v["idx"], "person_name"] = new_name
+                df.at[v["idx"], "group_name"] = person_name
+                df.at[v["idx"], "is_group_member"] = True
+                fixed.append({**v, "new_name": new_name})
+                print(f"  ✏️ 変更: {person_name} → {new_name}")
+            else:
+                # ALL戦略の場合はスキップ（複製が必要なため）
+                print(f"  ⚠️ スキップ（ALL戦略）: {person_name}")
+        else:
+            # ルールがない場合は削除
+            indices_to_delete.append(v["idx"])
+            deleted.append(v)
+            print(f"  🗑️ 削除（ルールなし）: {person_name}")
+
+    # 削除実行
+    if indices_to_delete:
+        df.drop(indices_to_delete, inplace=True)
+
+    # CSV保存
+    df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+    print(f"\n✅ CSVを保存しました: {csv_path}")
+
+    return {
+        "violations": len(violations),
+        "fixed": len(fixed),
+        "deleted": len(deleted),
+        "fixed_details": fixed,
+        "deleted_details": deleted,
+    }
+
+
 def main():
     """メイン処理"""
     parser = argparse.ArgumentParser(description="EPUP成果評価")
     parser.add_argument("--csv", type=str, help="対象CSVファイルパス")
     parser.add_argument("--output", type=str, help="出力JSONファイルパス")
+    parser.add_argument("--auto-fix", action="store_true", help="GROUP_ENTITIES違反を自動修正")
     args = parser.parse_args()
 
     print("=" * 70)
@@ -1684,6 +1942,10 @@ def main():
         "name_notation_quality": evaluate_name_notation_quality(df),
         # Phase 19: 連結名パターン
         "concatenated_name_patterns": evaluate_concatenated_name_patterns(df),
+        # Phase 20: エピソード品質分布
+        "episode_quality_distribution": evaluate_episode_quality_distribution(df),
+        # Phase 21: 重複エピソード検出
+        "duplicate_episodes": evaluate_duplicate_episodes(df),
     }
 
     # EPUPスコア計算
@@ -1691,6 +1953,22 @@ def main():
 
     # 推奨事項生成
     evaluation["recommendations"] = generate_recommendations(evaluation)
+
+    # --auto-fix オプション
+    if args.auto_fix:
+        print("\n" + "=" * 70)
+        print("🔧 自動修正モード")
+        print("=" * 70)
+
+        if evaluation["group_entity_violations"]["violation_count"] > 0:
+            fix_result = auto_fix_group_violations(df, csv_path)
+            evaluation["auto_fix_result"] = fix_result
+            print("\n✅ 自動修正完了:")
+            print(f"  - 検出: {fix_result['violations']}件")
+            print(f"  - 修正: {fix_result['fixed']}件")
+            print(f"  - 削除: {fix_result['deleted']}件")
+        else:
+            print("  ✅ GROUP_ENTITIES違反はありません")
 
     # 結果表示
     print("\n" + "=" * 70)

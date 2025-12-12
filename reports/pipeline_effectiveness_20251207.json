@@ -1,0 +1,39 @@
+{
+  "title": "3層パイプライン効果検証レポート",
+  "date": "2025-12-07T14:04:55.587007",
+  "summary": {
+    "status": "SUCCESS",
+    "description": "パイプラインシステムの初期テストが成功"
+  },
+  "baseline": {
+    "total_episodes": 7705,
+    "composite_avg": 533.5,
+    "high_quality_rate_600plus": 0.155,
+    "critical_axes": [
+      "意外性スコア (3.73)"
+    ]
+  },
+  "test_results": {
+    "target": 3,
+    "layer1_generated": 4,
+    "layer1_success_rate": 1.0,
+    "layer1_speed_per_min": 4.0,
+    "layer2_auto_accepted": 4,
+    "layer2_auto_accept_rate": 1.0,
+    "layer2_avg_score": 717.1,
+    "layer3_improved": 0,
+    "final_accepted": 4,
+    "target_achievement": 1.33
+  },
+  "pipeline_performance": {
+    "generation_speed": "4件/分（目標3,000件/時に対し240件/時）",
+    "quality_maintained": true,
+    "avg_score_new_episodes": 717.1,
+    "improvement_vs_baseline": "+183.6点 (533.5→717.1)"
+  },
+  "recommendations": [
+    "意外性スコア改善プロンプトの強化が必要",
+    "0歳エピソードの候補が多い→テンプレート見直し推奨",
+    "大規模実行（100件+）での本番テスト推奨"
+  ]
+}

@@ -20,9 +20,38 @@ import os
 import random
 import sys
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, List, Optional
 
 import anthropic
+
+# プロジェクトルートをパスに追加
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+# 年齢検証モジュールをインポート
+try:
+    from src.episode_age_validator import EpisodeAgeValidator, validate_episode_before_generation
+    from src.birth_year_database import get_birth_year, get_max_valid_age
+
+    AGE_VALIDATION_AVAILABLE = True
+except ImportError:
+    AGE_VALIDATION_AVAILABLE = False
+    print("⚠️ 年齢検証モジュールが見つかりません。検証なしで続行します。")
+
+# グループ名検証モジュールをインポート（品質ゲート）
+try:
+    from src.validators.person_name_validator import (
+        PersonNameValidator,
+        validate_before_episode_generation as validate_person_name,
+        get_validator,
+    )
+    from src.group_master import is_group_entity, GROUP_MEMBER_MAP
+
+    GROUP_VALIDATION_AVAILABLE = True
+except ImportError:
+    GROUP_VALIDATION_AVAILABLE = False
+    print("⚠️ グループ名検証モジュールが見つかりません。検証なしで続行します。")
 
 # 環境変数チェック
 API_KEY = os.getenv("ANTHROPIC_API_KEY")
@@ -42,31 +71,25 @@ def generate_person_id(person_name: str) -> str:
 
 
 def calculate_quality_scores(episode_text: str) -> Dict[str, float]:
-    """品質スコアを計算（簡易版）"""
-    # 文字数
-    char_count = len(episode_text)
+    """
+    品質スコアを計算
 
-    # 基本スコア
+    注意: 7軸スコアは生成時には空欄とし、Layer2で正式評価する。
+    ここでは暫定的なcomposite_scoreのみ設定（後で上書きされる）。
+    """
+    # 7軸スコアは空欄（Layer2評価待ち）
     scores = {
-        "記憶性スコア": 8.5,
-        "共感性スコア": 7.0,
-        "意外性スコア": 8.0,
-        "生成品質スコア": 8.5,
-        "教育的価値": 8.0,
-        "ストーリー品質": 8.5,
-        "事実密度": 8.5,
+        "記憶性スコア": "",
+        "共感性スコア": "",
+        "意外性スコア": "",
+        "生成品質スコア": "",
+        "教育的価値": "",
+        "ストーリー品質": "",
+        "事実密度": "",
     }
 
-    # 文字数による調整
-    if char_count < 150:
-        for key in scores:
-            scores[key] -= 1.0
-    elif char_count > 300:
-        for key in scores:
-            scores[key] += 0.5
-
-    # composite_score計算
-    scores["composite_score"] = sum(scores.values()) / len(scores) * 10
+    # composite_scoreは暫定値（Layer2で再計算される）
+    scores["composite_score"] = ""
 
     return scores
 
@@ -79,6 +102,8 @@ def generate_episode(
     award_year: Optional[str] = None,
     work_title: Optional[str] = None,
     age: Optional[int] = None,
+    group_name: Optional[str] = None,
+    is_group_member: Optional[bool] = None,
 ) -> Optional[Dict]:
     """エピソードを生成"""
 
@@ -90,12 +115,53 @@ def generate_episode(
         print(f"受賞: {award_name}" + (f" ({award_year}年)" if award_year else ""))
     print(f"{'='*80}")
 
-    # 年齢の決定
+    # ===== 品質ゲート: グループ名チェック =====
+    if GROUP_VALIDATION_AVAILABLE and person_type != "FICTIONAL":
+        is_valid, message, suggested_fix = validate_person_name(person_name, person_type)
+        if not is_valid:
+            if suggested_fix:
+                old_name = person_name
+                person_name = suggested_fix["person_name"]
+                if "group_name" in suggested_fix:
+                    group_name = suggested_fix["group_name"]
+                    is_group_member = suggested_fix.get("is_group_member", True)
+                print(f"⚠️ グループ名修正: {old_name} → {person_name}")
+                if group_name:
+                    print(f"   グループ: {group_name}")
+            else:
+                print(f"❌ グループ名エラー（修正不可）: {message}")
+                return None
+
+        # 追加チェック: グループ名そのものがperson_nameの場合
+        if is_group_entity(person_name):
+            print(f"❌ グループ名が直接登録されています: {person_name}")
+            print("   DISPERSION_RULESにルールを追加してください")
+            return None
+
+    # 年齢の決定と検証
     if age is None:
         if award_year and award_year.isdigit():
             age = random.randint(40, 65)
         else:
             age = random.randint(20, 70)
+
+    # 未来エピソード検証（実在人物のみ）
+    if AGE_VALIDATION_AVAILABLE and person_type == "REAL":
+        is_valid, message, suggested_age = validate_episode_before_generation(
+            person_name, age, person_type, strict_mode=False
+        )
+        if not is_valid:
+            if suggested_age is not None:
+                print(f"⚠️ 年齢調整: {age}歳 → {suggested_age}歳（{message}）")
+                age = suggested_age
+            else:
+                print(f"❌ 検証エラー: {message}")
+                return None
+        else:
+            birth_year = get_birth_year(person_name)
+            if birth_year:
+                max_age = get_max_valid_age(person_name)
+                print(f"✅ 年齢検証OK: {person_name} {age}歳（生年{birth_year}年、最大{max_age}歳）")
 
     # 架空キャラクター用のプロンプト
     if person_type == "FICTIONAL" and work_title:
@@ -202,6 +268,12 @@ def generate_episode(
         # 人生の節目タグ
         milestone_tags = "受賞" if award_name else ""
 
+        # グループメンバー情報を取得（まだ設定されていなければ）
+        if group_name is None and GROUP_VALIDATION_AVAILABLE:
+            if person_name in GROUP_MEMBER_MAP:
+                group_name = GROUP_MEMBER_MAP[person_name]
+                is_group_member = True
+
         # エピソードデータ作成
         episode = {
             "person_id": person_id,
@@ -213,8 +285,8 @@ def generate_episode(
             "episode_text": episode_text,
             "episode_type": "ACHIEVEMENT",
             "fact_check_result": "",
-            "group_name": "",
-            "is_group_member": "",
+            "group_name": group_name if group_name else "",
+            "is_group_member": is_group_member if is_group_member is not None else "",
             "person_type": person_type,
             "quality_score": "",
             "slot": "",
@@ -244,7 +316,7 @@ def generate_episode(
 
         print("✅ 生成成功")
         print(f"   文字数: {len(episode_text)}文字")
-        print(f"   composite_score: {scores['composite_score']:.2f}点")
+        print("   ステータス: Layer2評価待ち")
         print(f"   エピソード: {episode_text[:80]}...")
 
         return episode

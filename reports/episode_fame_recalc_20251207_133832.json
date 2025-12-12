@@ -1,0 +1,294 @@
+{
+  "timestamp": "20251207_133832",
+  "total_updated": 7705,
+  "tier_distribution": {
+    "3": 6494,
+    "4": 447,
+    "2": 764
+  },
+  "score_distribution": {
+    "6": 5139,
+    "7": 1707,
+    "5": 741,
+    "4": 23,
+    "8": 95
+  },
+  "samples": {
+    "high": [
+      {
+        "episode_id": "EP-000067",
+        "person_name": "根岸英一",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:最初の,ノーベル賞,発見+1.5",
+        "text_preview": "あなたと同じ75歳のとき、根岸英一は自宅のガレージで50年前に捨てられずにいた実験ノートを偶然発見した。ノーベル化学賞受賞から数ヶ月後のことだった。そこには大学"
+      },
+      {
+        "episode_id": "EP-000358",
+        "person_name": "豊田喜一郎",
+        "episode_type": "FOUNDING",
+        "score": 8.5,
+        "tier": 4,
+        "reason": "type:FOUNDING+1.5; hist:最初の,革命,発見+2.0",
+        "text_preview": "あなたと同じ43歳のとき、豊田喜一郎は1937年、自動車事業への参入を決断しましたが、実は最初の2年間で作った試作車は全て失敗作でした。エンジンは頻繁に故障し、"
+      },
+      {
+        "episode_id": "EP-000382",
+        "person_name": "野依良治",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:革命,発見,発明+1.5",
+        "text_preview": "あなたと同じ62歳のとき、野依良治は2001年にノーベル化学賞を受賞しましたが、その陰には意外な「敗北」がありました。実は彼の代表的発見であるBINAP触媒は、"
+      },
+      {
+        "episode_id": "EP-000425",
+        "person_name": "西川正勝",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.5,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:革命,発見,発明+2.0",
+        "text_preview": "あなたと同じ43歳のとき、西川正勝は研究室の火災事故で10年分のデータを失うという絶望的状況に直面しました。2019年3月、漏電による小火で貴重な実験機器と研究"
+      },
+      {
+        "episode_id": "EP-000445",
+        "person_name": "高木美帆",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:オリンピック,銀メダル,日本記録+1.5",
+        "text_preview": "あなたと同じ23歳のとき、高木美帆は平昌オリンピックの1年半前、スピードスケート界で「才能の限界」と囁かれていました。ソチ五輪では15位と惨敗し、周囲から「もう"
+      },
+      {
+        "episode_id": "EP-000484",
+        "person_name": "鈴木敏文",
+        "episode_type": "FOUNDING",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:FOUNDING+1.5; hist:日本初,最初の,発見+1.5",
+        "text_preview": "あなたと同じ43歳のとき、鈴木敏文は1973年、アメリカのセブン-イレブンを日本に導入しようとしていました。しかし、最初の加盟店候補として訪れた東京・豊洲の酒屋"
+      },
+      {
+        "episode_id": "EP-000550",
+        "person_name": "磯崎新",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:オリンピック,革命,歴史的+1.5",
+        "text_preview": "あなたと同じ60歳のとき、磯崎新はバルセロナオリンピックの「パラウ・サン・ジョルディ」設計で、建築界の常識を覆す大胆な決断を下した。当初、スペイン側は伝統的な重"
+      },
+      {
+        "episode_id": "EP-000605",
+        "person_name": "田中良和",
+        "episode_type": "FOUNDING",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:FOUNDING+1.5; hist:最初の,発見,創業+1.5",
+        "text_preview": "あなたと同じ28歳のとき、田中良和は楽天を退職してグリーを創業しましたが、実は最初の事業アイデアは完全に失敗していました。当初は企業向けSNSサービスを開発して"
+      },
+      {
+        "episode_id": "EP-000614",
+        "person_name": "羽生結弦",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:初めて,オリンピック,発見+1.5",
+        "text_preview": "あなたと同じ29歳のとき、羽生結弦は競技引退を表明した記者会見で、実は「4回転アクセルを跳べないまま引退することへの悔しさ」を涙ながらに告白しました。オリンピッ"
+      },
+      {
+        "episode_id": "EP-000665",
+        "person_name": "福沢諭吉",
+        "episode_type": "ACHIEVEMENT",
+        "score": 8.0,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:日本初,独立,設立+1.5",
+        "text_preview": "あなたと同じ35歳のとき、福沢諭吉は『西洋事情』の大成功で名声を得ていたにも関わらず、突然「商売人になる」と宣言して周囲を驚愕させました。慶應義塾の経営難に直面"
+      }
+    ],
+    "mid": [
+      {
+        "episode_id": "EP-000001",
+        "person_name": "棚橋弘至",
+        "episode_type": "TURNING_POINT",
+        "score": 6.0,
+        "tier": 3,
+        "reason": "type:TURNING_POINT+1.0",
+        "text_preview": "あなたと同じ29歳のとき、棚橋弘至は新日本プロレス存続の危機に直面していた。2006年、会社は経営難で選手の給与カットが続き、多くの同僚が他団体へ移籍を検討して"
+      },
+      {
+        "episode_id": "EP-000002",
+        "person_name": "梶田隆章",
+        "episode_type": "ACHIEVEMENT",
+        "score": 7.5,
+        "tier": 4,
+        "reason": "type:ACHIEVEMENT+1.5; hist:ノーベル賞,発見+1.0",
+        "text_preview": "あなたと同じ56歳のとき、梶田隆章はノーベル物理学賞を受賞しましたが、実はその3年前、スーパーカミオカンデで致命的な事故が起きていました。2001年、光電子増倍"
+      },
+      {
+        "episode_id": "EP-000003",
+        "person_name": "梶田隆章",
+        "episode_type": "ACHIEVEMENT",
+        "score": 7.0,
+        "tier": 3,
+        "reason": "type:ACHIEVEMENT+1.5; hist:発見+0.5",
+        "text_preview": "あなたと同じ66歳のとき、梶田隆章は、ノーベル物理学賞受賞という栄誉の陰で、ある痛烈な後悔と向き合っていました。1998年のニュートリノ振動発見時、彼は恩師・戸"
+      },
+      {
+        "episode_id": "EP-000004",
+        "person_name": "梅若実",
+        "episode_type": "CHALLENGE",
+        "score": 5.5,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5",
+        "text_preview": "あなたと同じ56歳のとき、梅若実は能楽界の常識を覆す決断を下した。昭和初期、伝統的な能舞台から飛び出し、なんと映画出演に踏み切ったのである。当時の能楽界では「神"
+      },
+      {
+        "episode_id": "EP-000005",
+        "person_name": "梅田望夫",
+        "episode_type": "ACHIEVEMENT",
+        "score": 6.5,
+        "tier": 3,
+        "reason": "type:ACHIEVEMENT+1.5",
+        "text_preview": "あなたと同じ47歳のとき、梅田望夫は『ウェブ進化論』の執筆中に、意外な挫折に直面していた。シリコンバレーでの華々しいコンサルタント活動とは裏腹に、日本の出版社か"
+      },
+      {
+        "episode_id": "EP-000006",
+        "person_name": "梅棹忠夫",
+        "episode_type": "TURNING_POINT",
+        "score": 6.5,
+        "tier": 3,
+        "reason": "type:TURNING_POINT+1.0; hist:代表作+0.5",
+        "text_preview": "あなたと同じ61歳のとき、梅棹忠夫は視力を失うという絶望的な状況で、周囲が心配する中、意外にも「これで本当の学者になれる」と笑顔を見せました。1981年の失明後"
+      },
+      {
+        "episode_id": "EP-000007",
+        "person_name": "梅原猛",
+        "episode_type": "TURNING_POINT",
+        "score": 6.0,
+        "tier": 3,
+        "reason": "type:TURNING_POINT+1.0",
+        "text_preview": "あなたと同じ65歳のとき、梅原猛は1990年に国際日本文化研究センター初代所長に就任したが、開所直前に思わぬ危機に直面した。建物は完成したものの、肝心の研究員集"
+      },
+      {
+        "episode_id": "EP-000008",
+        "person_name": "森喜朗",
+        "episode_type": "TURNING_POINT",
+        "score": 7.0,
+        "tier": 3,
+        "reason": "type:TURNING_POINT+1.0; hist:史上初,オリンピック+1.0",
+        "text_preview": "あなたと同じ71歳のとき、森喜朗は2014年に東京オリンピック組織委員会会長就任後、思わぬ「敵」に遭遇した。それは自身の「失言癖」だった。記者会見で「サッカーは"
+      },
+      {
+        "episode_id": "EP-000009",
+        "person_name": "梅原大吾",
+        "episode_type": "CHALLENGE",
+        "score": 5.5,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5",
+        "text_preview": "あなたと同じ64歳のとき、梅原大吾は突然プロゲーマー引退を宣言し、周囲を驚愕させました。30年以上の現役生活で培った「読み」の技術を、まさかの将棋界に転身させた"
+      },
+      {
+        "episode_id": "EP-000011",
+        "person_name": "桜井和寿",
+        "episode_type": "ACHIEVEMENT",
+        "score": 6.5,
+        "tier": 3,
+        "reason": "type:ACHIEVEMENT+1.5",
+        "text_preview": "あなたと同じ27歳のとき、桜井和寿は『innocent world』の大ヒットで絶頂期にあったにも関わらず、突然音楽活動を一時休止すると宣言し、周囲を驚愕させた"
+      }
+    ],
+    "low": [
+      {
+        "episode_id": "EP-000021",
+        "person_name": "森本晃司",
+        "episode_type": "CHALLENGE",
+        "score": 4.7,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5; personal:子供の頃-0.5; low:-0.3",
+        "text_preview": "あなたと同じ43歳のとき、森本晃司は宇宙航空研究開発機構（JAXA）で衛星開発に従事していましたが、突然の予算削減で主要プロジェクトが凍結されました。失意の中、"
+      },
+      {
+        "episode_id": "EP-000133",
+        "person_name": "水溜りボンド・トミー",
+        "episode_type": "CHALLENGE",
+        "score": 4.9,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5; low:-0.6",
+        "text_preview": "あなたと同じ25歳のとき、水溜りボンド・トミーは登録者数100万人目前で、まさかの「チャンネル休止宣言」を一人で決断していました。相方のカンタには内緒で、実家の"
+      },
+      {
+        "episode_id": "EP-000255",
+        "person_name": "川上弘美",
+        "episode_type": "CHALLENGE",
+        "score": 4.9,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5; low:-0.6",
+        "text_preview": "あなたと同じ65歳のとき、川上弘美は突然、長年続けてきた創作活動を一時中断する決断を下しました。きっかけは、ある読者からの手紙でした。「あなたの小説は美しいけれ"
+      },
+      {
+        "episode_id": "EP-000258",
+        "person_name": "島田紳助",
+        "episode_type": "FAILURE",
+        "score": 4.5,
+        "tier": 2,
+        "reason": "personal:交際-0.5",
+        "text_preview": "あなたと同じ55歳のとき、島田紳助は芸能界引退会見で「僕は嘘をついて生きてきた」と告白しました。暴力団との交際問題での突然の引退でしたが、実は数年前から「いつ辞"
+      },
+      {
+        "episode_id": "EP-000280",
+        "person_name": "村田沙耶香",
+        "episode_type": "CHALLENGE",
+        "score": 4.7,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5; personal:恋愛-0.5; low:-0.3",
+        "text_preview": "あなたと同じ43歳のとき、村田沙耶香は突然「普通の恋愛小説を書いてみたい」と宣言し、周囲を困惑させました。これまで社会の異物として描かれてきた彼女の主人公たちと"
+      },
+      {
+        "episode_id": "EP-000731",
+        "person_name": "リリー・フランキー",
+        "episode_type": "CHALLENGE",
+        "score": 4.5,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5; personal:家族,病気-1.0",
+        "text_preview": "あなたと同じ26歳のとき、リリー・フランキーは突然「東京タワー オカンとボクと、時々、オトン」の執筆を決意しました。きっかけは母親の病気でした。それまで広告業界"
+      },
+      {
+        "episode_id": "EP-001082",
+        "person_name": "大竹しのぶ",
+        "episode_type": "CHALLENGE",
+        "score": 4.7,
+        "tier": 2,
+        "reason": "type:CHALLENGE+0.5; personal:家族-0.5; low:-0.3",
+        "text_preview": "あなたと同じ72歳のとき、大竹しのぶは突然「演技をやめたい」と宣言し、周囲を驚愕させました。きっかけは若手俳優との共演で、自分の演技が型にはまっていることに気づ"
+      },
+      {
+        "episode_id": "EP-001485",
+        "person_name": "北原白秋",
+        "episode_type": "FAILURE",
+        "score": 4.5,
+        "tier": 2,
+        "reason": "personal:恋愛-0.5",
+        "text_preview": "あなたと同じ26歳のとき、北原白秋は人生最大の試練に直面していました。1911年、人妻である松下俊子との恋愛が発覚し、姦通罪で告訴されて収監されたのです。新潮社"
+      },
+      {
+        "episode_id": "EP-001813",
+        "person_name": "石ノ森章太郎",
+        "episode_type": "FAMILY",
+        "score": 4.5,
+        "tier": 2,
+        "reason": "personal:家族-0.5",
+        "text_preview": "あなたと同じ21歳のとき、石ノ森章太郎は最愛の姉・小野寺由恵を23歳の若さで亡くしました。生来病弱で外出もままならなかった姉に、学校での出来事を絵に描いて見せて"
+      },
+      {
+        "episode_id": "EP-8FD537",
+        "person_name": "オーギュスト・ロダン",
+        "episode_type": "FAMILY",
+        "score": 4.5,
+        "tier": 2,
+        "reason": "hist:設立+0.5; personal:病気,結婚-1.0",
+        "text_preview": "あなたと同じ70歳のとき、オーギュスト・ロダンは1910年に長年の内縁関係だったローズ・ブーレと正式に結婚した。しかしローズは既に病気がちで、ロダン自身も体力の"
+      }
+    ]
+  }
+}

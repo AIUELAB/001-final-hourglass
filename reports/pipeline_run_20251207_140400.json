@@ -1,0 +1,42 @@
+{
+  "target_count": 3,
+  "ages": null,
+  "execute": true,
+  "start_time": "2025-12-07T14:03:14.984031",
+  "layers": {
+    "layer1": {
+      "total_attempted": 4,
+      "generated": 4,
+      "format_rejected": 0,
+      "meta_rejected": 0,
+      "length_rejected": 0,
+      "api_errors": 0,
+      "success_rate": 100.0,
+      "elapsed_seconds": 35.7,
+      "episodes_per_minute": 4.0
+    },
+    "layer2": {
+      "total_evaluated": 4,
+      "auto_accepted": 4,
+      "improvement_queue": 0,
+      "rejected": 0,
+      "api_errors": 0,
+      "auto_accept_rate": 100.0,
+      "rejection_rate": 0.0,
+      "elapsed_seconds": 9.2
+    },
+    "layer3": {}
+  },
+  "final_stats": {
+    "total_generated": 4,
+    "auto_accepted": 4,
+    "improved_accepted": 0,
+    "final_accepted": 4,
+    "total_rejected": 0,
+    "success_rate": 100.0,
+    "target_achievement": 133.3,
+    "elapsed_seconds": 45.5,
+    "episodes_per_minute": 4.0
+  },
+  "end_time": "2025-12-07T14:04:00.521658"
+}

@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-12-12T05:38:16.974292",
+  "renamed": [
+    {
+      "episode_id": "EP-2512074668",
+      "old_name": "カーペンターズ・カレン・カーペンター",
+      "new_name": "カレン・カーペンター",
+      "dry_run": true
+    },
+    {
+      "episode_id": "EP-2512074013",
+      "old_name": "カーペンターズのカレン・カーペンター",
+      "new_name": "カレン・カーペンター",
+      "dry_run": true
+    }
+  ],
+  "not_found": [
+    "岩崎弥太郎の兄弟岩崎弥之助",
+    "ライト兄弟（ウィルバー）",
+    "ライト兄弟（オーヴィル）"
+  ],
+  "errors": [],
+  "summary": {
+    "renamed_count": 2,
+    "not_found_count": 3,
+    "error_count": 0
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "timestamp": "2025-12-12T14:20:16.653219",
+  "total_suspicious": 40,
+  "total_changed": 8,
+  "changes": [
+    {
+      "episode_id": "EP-001417",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-001527",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-001603",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-001604",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-001759",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-251202090",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-251204576",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    },
+    {
+      "episode_id": "EP-251205041",
+      "old_type": "ACHIEVEMENT",
+      "new_type": "CHALLENGE"
+    }
+  ]
+}

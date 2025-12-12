@@ -1,0 +1,357 @@
+{
+  "timestamp": "2025-12-12T12:00:45.306791",
+  "batch_size": 50,
+  "changes_count": 50,
+  "changes": [
+    {
+      "person_name": "ベティ・ホワイト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "海外女優で個人活動"
+    },
+    {
+      "person_name": "スティーヴン・スピルバーグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督で個人活動"
+    },
+    {
+      "person_name": "ウェイン・ショーター",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ジャズミュージシャンで基本ソロ活動"
+    },
+    {
+      "person_name": "ジョン・ボーナム",
+      "is_group_member": true,
+      "group_name": "レッド・ツェッペリン",
+      "confidence": 1.0,
+      "reason": "レッド・ツェッペリンのドラマー"
+    },
+    {
+      "person_name": "ジョニー・グリーンウッド",
+      "is_group_member": true,
+      "group_name": "レディオヘッド",
+      "confidence": 1.0,
+      "reason": "レディオヘッドのギタリスト"
+    },
+    {
+      "person_name": "清水宏保",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スピードスケート個人競技選手"
+    },
+    {
+      "person_name": "葛西紀明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スキージャンプ選手で個人競技"
+    },
+    {
+      "person_name": "上村愛子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "モーグルスキー選手で個人競技"
+    },
+    {
+      "person_name": "平野歩夢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "エルヴィス・プレスリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "アルフレッド・ヒッチコック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国人映画監督で日本人ではない"
+    },
+    {
+      "person_name": "チャールズ・チャップリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優・映画監督で個人活動"
+    },
+    {
+      "person_name": "アインシュタイン",
+      "is_group_member": true,
+      "group_name": "アインシュタイン",
+      "confidence": 0.95,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "バラク・オバマ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "アンゲラ・メルケル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの政治家で個人活動"
+    },
+    {
+      "person_name": "マハトマ・ガンジー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ウィンストン・チャーチル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ベートーベン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック作曲家で個人活動"
+    },
+    {
+      "person_name": "ガブリエル・ガルシア・マルケス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人作家、日本の有名人ではない"
+    },
+    {
+      "person_name": "スティーヴン・ホーキング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "理論物理学者で個人活動"
+    },
+    {
+      "person_name": "ウラジーミル・プーチン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ロシアの政治家で日本人ではない"
+    },
+    {
+      "person_name": "習近平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国の政治家、グループ活動なし"
+    },
+    {
+      "person_name": "ナレンドラ・モディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ボリス・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イギリスの政治家"
+    },
+    {
+      "person_name": "ティム・クック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "サティア・ナデラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "MicrosoftのCEOで経営者"
+    },
+    {
+      "person_name": "ジェンスン・ファン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NVIDIA CEO、経営者"
+    },
+    {
+      "person_name": "ボブ・サップ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動する格闘家"
+    },
+    {
+      "person_name": "藤澤五月",
+      "is_group_member": true,
+      "group_name": "LS北見",
+      "confidence": 1.0,
+      "reason": "カーリングチームのメンバー"
+    },
+    {
+      "person_name": "ミルコ・クロコップ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "格闘家は個人競技"
+    },
+    {
+      "person_name": "ザ・ロック(ドウェイン・ジョンソン)",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人俳優・元プロレスラー"
+    },
+    {
+      "person_name": "ジョン・シナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのプロレスラー"
+    },
+    {
+      "person_name": "吉田夕梨花",
+      "is_group_member": true,
+      "group_name": "ロコ・ソラーレ",
+      "confidence": 1.0,
+      "reason": "カーリングチームのメンバー"
+    },
+    {
+      "person_name": "ショーン・ホワイト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スノーボード選手で個人競技"
+    },
+    {
+      "person_name": "ウェス・アンダーソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動職業"
+    },
+    {
+      "person_name": "渡部暁斗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "リンゼイ・ボン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "エマニュエル・マクロン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランス大統領で政治家"
+    },
+    {
+      "person_name": "香川照之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "阿部寛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優はソロ活動が基本"
+    },
+    {
+      "person_name": "綾瀬はるか",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ女優活動"
+    },
+    {
+      "person_name": "新垣結衣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "石原さとみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人女優でグループ活動なし"
+    },
+    {
+      "person_name": "北川景子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人俳優として活動"
+    },
+    {
+      "person_name": "吉永小百合",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優・女優は個人活動"
+    },
+    {
+      "person_name": "高倉健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "渡辺謙",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "三船敏郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優は通常個人活動"
+    },
+    {
+      "person_name": "菅田将暉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "横浜流星",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "モデル出身の個人俳優"
+    }
+  ]
+}

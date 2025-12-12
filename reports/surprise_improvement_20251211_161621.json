@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-12-11T16:16:21.329032",
+  "target_count": 6,
+  "improved_count": 6,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-001586",
+      "person_name": "山田洋次",
+      "age": 35,
+      "original_surprise": 2.8,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-001590",
+      "person_name": "堤幸彦",
+      "age": 34,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-001593",
+      "person_name": "新海誠",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-001594",
+      "person_name": "原田眞人",
+      "age": 34,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251205414",
+      "person_name": "ジェームズ・キャメロン",
+      "age": 57,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251205415",
+      "person_name": "ジェームズ・キャメロン",
+      "age": 60,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    }
+  ]
+}

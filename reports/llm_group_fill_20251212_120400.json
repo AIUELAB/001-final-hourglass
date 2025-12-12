@@ -1,0 +1,357 @@
+{
+  "timestamp": "2025-12-12T12:04:00.132576",
+  "batch_size": 50,
+  "changes_count": 50,
+  "changes": [
+    {
+      "person_name": "山﨑賢人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "広瀬すず",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優・女優は通常個人活動"
+    },
+    {
+      "person_name": "浜辺美波",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "永野芽郁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で活動する女優"
+    },
+    {
+      "person_name": "橋本環奈",
+      "is_group_member": true,
+      "group_name": "Rev. from DVL",
+      "confidence": 0.9,
+      "reason": "アイドルグループ出身"
+    },
+    {
+      "person_name": "西島秀俊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "大泉洋",
+      "is_group_member": true,
+      "group_name": "TEAM NACS",
+      "confidence": 0.9,
+      "reason": "劇団TEAM NACSの創設メンバー"
+    },
+    {
+      "person_name": "吉田鋼太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優は通常グループ概念なし"
+    },
+    {
+      "person_name": "山田孝之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "小栗旬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "ノンスタイル",
+      "is_group_member": true,
+      "group_name": "ノンスタイル",
+      "confidence": 1.0,
+      "reason": "石田明と井上裕介のお笑いコンビ"
+    },
+    {
+      "person_name": "石田明",
+      "is_group_member": true,
+      "group_name": "NON STYLE",
+      "confidence": 0.9,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "織田信長",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将、個人での活動"
+    },
+    {
+      "person_name": "豊臣秀吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で個人活動"
+    },
+    {
+      "person_name": "源頼朝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "武田信玄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "上杉謙信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人領主"
+    },
+    {
+      "person_name": "伊達政宗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将で個人活動"
+    },
+    {
+      "person_name": "西郷隆盛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・軍人"
+    },
+    {
+      "person_name": "大久保利通",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の政治家、個人活動"
+    },
+    {
+      "person_name": "木戸孝允",
+      "is_group_member": true,
+      "group_name": "維新三傑",
+      "confidence": 0.9,
+      "reason": "明治維新の三大功労者の一人"
+    },
+    {
+      "person_name": "福沢諭吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の教育者・思想家で個人活動"
+    },
+    {
+      "person_name": "渋沢栄一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の実業家で個人活動"
+    },
+    {
+      "person_name": "野口英世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の医学者で個人研究者"
+    },
+    {
+      "person_name": "清少納言",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "平安時代の女性作家、個人活動"
+    },
+    {
+      "person_name": "松尾芭蕉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の俳人、個人活動"
+    },
+    {
+      "person_name": "歌川広重",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師、個人活動"
+    },
+    {
+      "person_name": "宮本武蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の剣豪、個人武芸者"
+    },
+    {
+      "person_name": "千利休",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の茶人、個人活動"
+    },
+    {
+      "person_name": "伊能忠敬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の測量家で個人活動"
+    },
+    {
+      "person_name": "安室奈美恵",
+      "is_group_member": true,
+      "group_name": "SUPER MONKEY'S",
+      "confidence": 0.9,
+      "reason": "アイドルグループ出身で広く認知"
+    },
+    {
+      "person_name": "西野カナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューからソロ活動"
+    },
+    {
+      "person_name": "RADWIMPSの野田洋次郎",
+      "is_group_member": true,
+      "group_name": "RADWIMPS",
+      "confidence": 1.0,
+      "reason": "RADWIMPSのメンバー"
+    },
+    {
+      "person_name": "バウンディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "セルフプロデュースのソロアーティスト"
+    },
+    {
+      "person_name": "藤井風",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "氷川きよし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ演歌歌手"
+    },
+    {
+      "person_name": "細川たかし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "森進一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "八代亜紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "グローブ",
+      "is_group_member": true,
+      "group_name": "globe",
+      "confidence": 1.0,
+      "reason": "音楽ユニットのメンバー"
+    },
+    {
+      "person_name": "久保田利伸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ活動"
+    },
+    {
+      "person_name": "平井堅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "ミーシャ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "絢香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "イブ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ボカロPとしてソロ活動"
+    },
+    {
+      "person_name": "菅義偉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "安倍晋三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "小泉純一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "麻生太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    }
+  ]
+}

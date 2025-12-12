@@ -1,0 +1,94 @@
+{
+  "timestamp": "2025-12-11T17:15:36.291223",
+  "target_count": 12,
+  "improved_count": 12,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-001663",
+      "person_name": "河瀨直美",
+      "age": 40,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-F42047",
+      "person_name": "ケンドリック・ラマー",
+      "age": 30,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-5B6609",
+      "person_name": "杉山紀彰",
+      "age": 25,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-DE9A69",
+      "person_name": "サミュエル・L・ジャクソン",
+      "age": 25,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-376273",
+      "person_name": "町田啓太",
+      "age": 25,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-77CF04",
+      "person_name": "久保建英",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-977199",
+      "person_name": "ボブ・ホープ",
+      "age": 98,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-977206",
+      "person_name": "ヤン・ルカン",
+      "age": 48,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-977240",
+      "person_name": "フランシス・フォード・コッポラ",
+      "age": 32,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-977241",
+      "person_name": "スティーヴン・スピルバーグ",
+      "age": 40,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251205389",
+      "person_name": "若田光一",
+      "age": 55,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204878",
+      "person_name": "ONE OK ROCK",
+      "age": 51,
+      "original_empathy": 2.8,
+      "new_empathy": 8.0
+    }
+  ]
+}

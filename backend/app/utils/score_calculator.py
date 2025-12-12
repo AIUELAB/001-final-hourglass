@@ -383,13 +383,14 @@ EDUCATIONAL_KEYWORDS = {
 
 def calculate_memorability_score(episode_data: Dict) -> float:
     """
-    記憶性スコアを計算
+    記憶性スコアを計算（改善版v2）
 
     評価基準:
     - 歴史的重要度（キーワード検出）
     - 人物の知名度（fame_score）
     - エピソードタイプの記憶に残りやすさ
     - 具体的数値・年号の存在
+    - ペナルティ要素追加
 
     Args:
         episode_data: エピソードデータ
@@ -397,51 +398,76 @@ def calculate_memorability_score(episode_data: Dict) -> float:
     Returns:
         記憶性スコア（1.0-10.0）
     """
-    score = 5.5  # ベーススコア（composite_score平均7.0+を目指して調整）
+    score = 3.5  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
-    # 1. 超高インパクトキーワード (+2.5)
+    # 1. 超高インパクトキーワード (+3.0)
     ultra_high_count = sum(1 for kw in MEMORABILITY_KEYWORDS["ultra_high"] if kw in episode_text)
-    score += min(ultra_high_count * 1.0, 2.5)
+    score += min(ultra_high_count * 1.5, 3.0)
 
-    # 2. 高インパクトキーワード (+1.5)
+    # 2. 高インパクトキーワード (+2.0)
     high_count = sum(1 for kw in MEMORABILITY_KEYWORDS["high"] if kw in episode_text)
-    score += min(high_count * 0.5, 1.5)
+    score += min(high_count * 0.6, 2.0)
 
-    # 3. fame_scoreからの補正 (+1.0)
+    # 3. 中インパクトキーワード (+1.0)
+    medium_count = sum(1 for kw in MEMORABILITY_KEYWORDS["medium"] if kw in episode_text)
+    score += min(medium_count * 0.3, 1.0)
+
+    # 4. fame_scoreからの補正 (+1.5)
     fame_score = episode_data.get("fame_score")
     if fame_score:
         try:
             fame = float(fame_score)
             if fame >= 80:
-                score += 1.0
+                score += 1.5
             elif fame >= 60:
+                score += 1.0
+            elif fame >= 40:
                 score += 0.5
         except (ValueError, TypeError):
             pass
 
-    # 4. エピソードタイプ補正 (+1.0)
+    # 5. エピソードタイプ補正 (+1.2)
     episode_type = episode_data.get("episode_type", "")
     memorable_types = ["ACHIEVEMENT", "INNOVATION", "TURNING_POINT", "FOUNDING"]
     if episode_type in memorable_types:
-        score += 0.8
+        score += 1.2
 
-    # 5. 年号の存在 (+0.5)
+    # 6. 年号の存在 (+0.5)
     if re.search(r"(19|20)\d{2}年", episode_text):
         score += 0.5
+
+    # 7. 具体的な数値データ (+0.5)
+    numbers = re.findall(r"\d+", episode_text)
+    if len(numbers) >= 3:
+        score += 0.5
+
+    # ペナルティ要素
+    # 8. テキストが短すぎる (-1.0)
+    if len(episode_text) < 100:
+        score -= 1.0
+    elif len(episode_text) < 150:
+        score -= 0.5
+
+    # 9. 曖昧な表現が多い (-0.5)
+    vague_patterns = ["など", "ような", "といった", "かもしれない"]
+    vague_count = sum(episode_text.count(p) for p in vague_patterns)
+    if vague_count >= 3:
+        score -= 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
 
 
 def calculate_empathy_score(episode_data: Dict) -> float:
     """
-    共感性スコアを計算
+    共感性スコアを計算（改善版v2）
 
     評価基準:
     - 感情表現の豊かさ
     - 人間的な葛藤・成長の描写
     - 関係性（家族、仲間）への言及
     - 普遍的な体験への関連
+    - ペナルティ要素追加
 
     Args:
         episode_data: エピソードデータ
@@ -449,38 +475,58 @@ def calculate_empathy_score(episode_data: Dict) -> float:
     Returns:
         共感性スコア（1.0-10.0）
     """
-    # LLM検証で+1.38のバイアスあり → ベーススコアを上方修正
-    score = 6.4  # ベーススコア（調整済み）
+    score = 3.0  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
-    # 1. 感情キーワード (+2.0)
+    # 1. 感情キーワード (+2.5)
     emotion_count = sum(1 for kw in EMPATHY_KEYWORDS["emotion"] if kw in episode_text)
-    score += min(emotion_count * 0.5, 2.0)
+    score += min(emotion_count * 0.7, 2.5)
 
-    # 2. 葛藤・克服キーワード (+1.5)
+    # 2. 葛藤・克服キーワード (+2.0)
     struggle_count = sum(1 for kw in EMPATHY_KEYWORDS["struggle"] if kw in episode_text)
-    score += min(struggle_count * 0.5, 1.5)
+    score += min(struggle_count * 0.6, 2.0)
 
-    # 3. 関係性キーワード (+1.5)
+    # 3. 関係性キーワード (+2.0)
     relation_count = sum(1 for kw in EMPATHY_KEYWORDS["relation"] if kw in episode_text)
-    score += min(relation_count * 0.5, 1.5)
+    score += min(relation_count * 0.6, 2.0)
 
-    # 4. 引用（会話）の存在 (+0.5)
-    if "「" in episode_text and "」" in episode_text:
+    # 4. 引用（会話）の存在 (+1.0)
+    quote_count = episode_text.count("「")
+    if quote_count >= 2:
+        score += 1.0
+    elif quote_count >= 1:
         score += 0.5
 
-    # 5. エピソードタイプ補正
+    # 5. エピソードタイプ補正 (+1.5)
     episode_type = episode_data.get("episode_type", "")
     empathetic_types = ["FAMILY", "GROWTH", "FAILURE", "COMEBACK"]
     if episode_type in empathetic_types:
-        score += 0.7
+        score += 1.5
+    elif episode_type in ["CHALLENGE", "TURNING_POINT"]:
+        score += 0.8
+
+    # 6. 一人称・二人称の使用 (+0.5)
+    personal_pronouns = ["私", "僕", "俺", "自分", "あなた"]
+    if any(p in episode_text for p in personal_pronouns):
+        score += 0.5
+
+    # ペナルティ要素
+    # 7. 感情表現がない (-1.0)
+    if emotion_count == 0 and struggle_count == 0:
+        score -= 1.0
+
+    # 8. 事実の羅列のみ (-0.5)
+    fact_only_patterns = ["記録", "達成", "受賞", "獲得"]
+    fact_count = sum(1 for p in fact_only_patterns if p in episode_text)
+    if fact_count >= 3 and emotion_count == 0:
+        score -= 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
 
 
 def calculate_surprise_score(episode_data: Dict) -> float:
     """
-    意外性スコアを計算（改善版）
+    意外性スコアを計算（改善版v2）
 
     評価基準:
     - 意外な展開を示すキーワード
@@ -489,6 +535,7 @@ def calculate_surprise_score(episode_data: Dict) -> float:
     - 達成・起源に関するツイスト
     - 年齢とエピソードタイプの組み合わせ
     - カテゴリの意外性
+    - ペナルティ要素追加
 
     Args:
         episode_data: エピソードデータ
@@ -496,72 +543,89 @@ def calculate_surprise_score(episode_data: Dict) -> float:
     Returns:
         意外性スコア（1.0-10.0）
     """
-    score = 5.0  # ベーススコア（分散を維持しつつcomposite_score改善）
+    score = 3.0  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
     episode_type = episode_data.get("episode_type", "")
     category = episode_data.get("category", "")
 
-    # 1. ツイストキーワード (+2.0)
+    # 1. ツイストキーワード (+2.5)
     twist_count = sum(1 for kw in SURPRISE_KEYWORDS["twist"] if kw in episode_text)
-    score += min(twist_count * 0.6, 2.0)
+    score += min(twist_count * 0.8, 2.5)
 
-    # 2. コントラストキーワード (+1.5)
+    # 2. コントラストキーワード (+2.0)
     contrast_count = sum(1 for kw in SURPRISE_KEYWORDS["contrast"] if kw in episode_text)
-    score += min(contrast_count * 0.4, 1.5)
+    score += min(contrast_count * 0.6, 2.0)
 
-    # 3. 予想外キーワード (+2.0)
+    # 3. 予想外キーワード (+2.5)
     unexpected_count = sum(1 for kw in SURPRISE_KEYWORDS["unexpected"] if kw in episode_text)
-    score += min(unexpected_count * 0.4, 2.0)
+    score += min(unexpected_count * 0.5, 2.5)
 
-    # 4. 達成ツイストキーワード (+1.5)
+    # 4. 達成ツイストキーワード (+2.0)
     achievement_twist_count = sum(1 for kw in SURPRISE_KEYWORDS["achievement_twist"] if kw in episode_text)
-    score += min(achievement_twist_count * 0.5, 1.5)
+    score += min(achievement_twist_count * 0.7, 2.0)
 
-    # 5. 起源ツイストキーワード (+1.0)
+    # 5. 起源ツイストキーワード (+1.5)
     origin_twist_count = sum(1 for kw in SURPRISE_KEYWORDS["origin_twist"] if kw in episode_text)
-    score += min(origin_twist_count * 0.4, 1.0)
+    score += min(origin_twist_count * 0.5, 1.5)
 
-    # 6. 年齢とエピソードタイプの組み合わせ (+1.2)
+    # 6. 年齢とエピソードタイプの組み合わせ (+1.5)
     try:
         age = float(episode_data.get("age", 0))
 
         # 若い年齢での大きな達成は意外性が高い
-        if age <= 20 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
-            score += 1.2
-        elif age <= 25 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
-            score += 0.8
-        # 高齢での挑戦も意外性が高い
-        elif age >= 70 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
+        if age <= 18 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
+            score += 1.5
+        elif age <= 22 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
             score += 1.0
-        elif age >= 60 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
+        elif age <= 25 and episode_type in ["ACHIEVEMENT", "INNOVATION", "FOUNDING"]:
             score += 0.6
+        # 高齢での挑戦も意外性が高い
+        elif age >= 75 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
+            score += 1.5
+        elif age >= 65 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
+            score += 1.0
+        elif age >= 55 and episode_type in ["CHALLENGE", "GROWTH", "COMEBACK"]:
+            score += 0.5
         # 中年での転機
         elif 40 <= age <= 55 and episode_type == "TURNING_POINT":
-            score += 0.5
+            score += 0.8
     except (ValueError, TypeError):
         pass
 
-    # 7. エピソードタイプによる補正 (+0.8)
+    # 7. エピソードタイプによる補正 (+1.2)
     surprising_types = ["COMEBACK", "FAILURE", "TURNING_POINT"]
     if episode_type in surprising_types:
+        score += 1.2
+
+    # 8. カテゴリによる意外性加点 (+0.8)
+    surprising_categories = ["探検・冒険", "映画・演劇", "アニメ・漫画・ゲーム", "スポーツ"]
+    if category in surprising_categories:
         score += 0.8
 
-    # 8. カテゴリによる意外性加点 (+0.5)
-    if category in ["探検・冒険", "映画・演劇", "アニメ・漫画・ゲーム"]:
-        score += 0.5
+    # ペナルティ要素
+    # 9. 意外性キーワードが全くない (-1.0)
+    total_surprise_keywords = twist_count + contrast_count + unexpected_count
+    if total_surprise_keywords == 0:
+        score -= 1.0
+
+    # 10. 平凡なエピソードタイプ (-0.5)
+    mundane_types = ["DAILY", "ROUTINE"]
+    if episode_type in mundane_types:
+        score -= 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
 
 
 def calculate_generation_quality_score(episode_data: Dict) -> float:
     """
-    生成品質スコアを計算
+    生成品質スコアを計算（改善版v3）
 
     評価基準:
     - 文章の長さ（適切な長さ）
     - 文法的な完成度（簡易チェック）
     - 読みやすさ（文の長さのバランス）
     - 表現の多様性
+    - ペナルティ要素強化
 
     Args:
         episode_data: エピソードデータ
@@ -569,63 +633,135 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
     Returns:
         生成品質スコア（1.0-10.0）
     """
-    # LLM検証で-1.40のバイアスあり → ベーススコアを下方修正
-    score = 4.6  # ベーススコア（調整済み）
+    score = 3.5  # ベーススコア（さらに下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
     # テキストが空の場合
     if not episode_text.strip():
-        return 3.0
+        return 1.0
 
-    # 1. 適切な文字数 (+1.5)
     char_count = len(episode_text)
-    if 200 <= char_count <= 400:
-        score += 1.5
-    elif 150 <= char_count <= 500:
-        score += 1.0
-    elif char_count < 100:
-        score -= 1.0
-    elif char_count > 600:
-        score -= 0.5
 
-    # 2. 文の数と平均長さ (+1.0)
+    # 1. 適切な文字数 (+1.5) - 加点を緩やかに
+    if 220 <= char_count <= 320:
+        score += 1.5
+    elif 200 <= char_count <= 350:
+        score += 1.0
+    elif 180 <= char_count <= 400:
+        score += 0.5
+
+    # 2. 文の数と平均長さ (+1.2)
     sentences = re.split(r"[。！？]", episode_text)
     sentences = [s for s in sentences if s.strip()]
     if sentences:
         avg_sentence_length = char_count / len(sentences)
-        if 30 <= avg_sentence_length <= 60:
-            score += 1.0
-        elif 20 <= avg_sentence_length <= 80:
-            score += 0.5
+        sentence_count = len(sentences)
 
-    # 3. 句読点の適切な使用 (+0.5)
+        # 適切な文の数（4-6文が理想）
+        if 4 <= sentence_count <= 6:
+            score += 0.6
+        elif 3 <= sentence_count <= 7:
+            score += 0.3
+
+        # 適切な平均長さ
+        if 35 <= avg_sentence_length <= 45:
+            score += 0.6
+        elif 30 <= avg_sentence_length <= 50:
+            score += 0.3
+
+    # 3. 句読点の適切な使用 (+0.8)
     comma_count = episode_text.count("、")
     period_count = episode_text.count("。")
-    if comma_count >= 3 and period_count >= 2:
-        score += 0.5
+    # 読点と句点のバランス
+    if 5 <= comma_count <= 10 and 3 <= period_count <= 6:
+        score += 0.8
+    elif comma_count >= 4 and period_count >= 3:
+        score += 0.4
 
-    # 4. 冗長表現のペナルティ (-0.5)
-    redundant_patterns = ["ということ", "というものは", "のようなもの"]
-    redundant_count = sum(episode_text.count(p) for p in redundant_patterns)
-    if redundant_count >= 2:
-        score -= 0.5
-
-    # 5. 完結性（最後が句点で終わる） (+0.3)
+    # 4. 完結性（最後が句点で終わる） (+0.3)
     if episode_text.rstrip().endswith("。"):
         score += 0.3
+
+    # 5. フォーマット準拠（「あなたと同じ」で始まる） (+0.8)
+    if episode_text.startswith("あなたと同じ"):
+        score += 0.8
+
+    # 6. 文章の多様性（異なる文末表現） (+0.8)
+    endings = []
+    for s in sentences:
+        s = s.strip()
+        if s:
+            # 最後の2-3文字を取得
+            ending = s[-3:] if len(s) >= 3 else s
+            endings.append(ending)
+    unique_endings = len(set(endings))
+    if unique_endings >= 4:
+        score += 0.8
+    elif unique_endings >= 3:
+        score += 0.4
+
+    # 7. 具体的な描写（引用、数値） (+0.6)
+    quote_count = episode_text.count("「")
+    has_numbers = bool(re.search(r"\d+", episode_text))
+    if quote_count >= 1 and has_numbers:
+        score += 0.6
+    elif quote_count >= 1 or has_numbers:
+        score += 0.3
+
+    # ペナルティ要素（強化）
+    # 8. テキストが短すぎる (-2.5)
+    if char_count < 80:
+        score -= 2.5
+    elif char_count < 120:
+        score -= 1.5
+    elif char_count < 150:
+        score -= 0.8
+
+    # 9. テキストが長すぎる (-1.5)
+    if char_count > 500:
+        score -= 1.5
+    elif char_count > 450:
+        score -= 0.8
+    elif char_count > 400:
+        score -= 0.3
+
+    # 10. 冗長表現のペナルティ (-1.5)
+    redundant_patterns = ["ということ", "というものは", "のようなもの", "といえる", "と言える", "であると言える"]
+    redundant_count = sum(episode_text.count(p) for p in redundant_patterns)
+    if redundant_count >= 3:
+        score -= 1.5
+    elif redundant_count >= 2:
+        score -= 0.8
+    elif redundant_count >= 1:
+        score -= 0.3
+
+    # 11. 同じ表現の繰り返し (-0.8)
+    for pattern in re.findall(r"(.{2,5})\1{2,}", episode_text):
+        score -= 0.8
+        break
+
+    # 12. メタ的説明のペナルティ (-3.0)
+    meta_patterns = ["架空の", "実在しない", "フィクション", "設定上", "想像上"]
+    if any(p in episode_text for p in meta_patterns):
+        score -= 3.0
+
+    # 13. 文末表現が単調 (-0.5)
+    if len(endings) >= 3 and unique_endings <= 2:
+        score -= 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
 
 
 def calculate_educational_value_score(episode_data: Dict) -> float:
     """
-    教育的価値スコアを計算
+    教育的価値スコアを計算（改善版v2）
 
     評価基準:
     - 教訓・学びを示すキーワード
     - 具体的な事実の存在
     - カテゴリの教育的重要性
     - 普遍的な洞察の有無
+    - ペナルティ要素追加
 
     Args:
         episode_data: エピソードデータ
@@ -633,38 +769,59 @@ def calculate_educational_value_score(episode_data: Dict) -> float:
     Returns:
         教育的価値スコア（1.0-10.0）
     """
-    # LLM検証で+1.98のバイアスあり → ベーススコアを上方修正
-    score = 7.0  # ベーススコア（調整済み）
+    score = 3.5  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
-    # 1. 教訓キーワード (+2.0)
+    # 1. 教訓キーワード (+2.5)
     lesson_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["lesson"] if kw in episode_text)
-    score += min(lesson_count * 0.5, 2.0)
+    score += min(lesson_count * 0.8, 2.5)
 
-    # 2. 洞察キーワード (+1.5)
+    # 2. 洞察キーワード (+2.0)
     insight_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["insight"] if kw in episode_text)
-    score += min(insight_count * 0.5, 1.5)
+    score += min(insight_count * 0.6, 2.0)
 
-    # 3. 普遍性キーワード (+1.0)
+    # 3. 普遍性キーワード (+1.5)
     universal_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["universal"] if kw in episode_text)
-    score += min(universal_count * 0.5, 1.0)
+    score += min(universal_count * 0.5, 1.5)
 
-    # 4. カテゴリによる補正 (+1.0)
+    # 4. カテゴリによる補正 (+1.5)
     category = episode_data.get("category", "")
     educational_categories = ["科学・技術", "教育", "医療・福祉", "政治・国際", "思想・哲学"]
     if any(cat in category for cat in educational_categories):
-        score += 1.0
+        score += 1.5
+    elif category in ["ビジネス・経済", "文学・出版"]:
+        score += 0.8
 
-    # 5. 具体的な数値データ (+0.5)
+    # 5. 具体的な数値データ (+1.0)
     numbers = re.findall(r"\d+", episode_text)
-    if len(numbers) >= 3:
+    if len(numbers) >= 5:
+        score += 1.0
+    elif len(numbers) >= 3:
         score += 0.5
 
-    # 6. エピソードタイプ補正
+    # 6. エピソードタイプ補正 (+1.0)
     episode_type = episode_data.get("episode_type", "")
-    educational_types = ["ACHIEVEMENT", "INNOVATION", "FAILURE"]
+    educational_types = ["ACHIEVEMENT", "INNOVATION", "FAILURE", "GROWTH"]
     if episode_type in educational_types:
+        score += 1.0
+    elif episode_type in ["CHALLENGE", "TURNING_POINT"]:
         score += 0.5
+
+    # 7. 引用（名言など） (+0.5)
+    if "「" in episode_text and "」" in episode_text:
+        score += 0.5
+
+    # ペナルティ要素
+    # 8. 教訓的要素がない (-1.5)
+    total_educational = lesson_count + insight_count + universal_count
+    if total_educational == 0:
+        score -= 1.5
+
+    # 9. 事実の羅列のみ (-0.5)
+    fact_patterns = ["記録", "達成", "受賞", "優勝", "獲得"]
+    fact_count = sum(1 for p in fact_patterns if p in episode_text)
+    if fact_count >= 3 and total_educational == 0:
+        score -= 0.5
 
     return round(min(10.0, max(1.0, score)), 1)
 
@@ -686,3 +843,236 @@ def calculate_all_five_axes(episode_data: Dict) -> Dict[str, float]:
         "生成品質スコア": calculate_generation_quality_score(episode_data),
         "教育的価値": calculate_educational_value_score(episode_data),
     }
+
+
+# ============================================================
+# 改善版総合スコア（0〜1000スケール）
+# ============================================================
+
+
+def calculate_enhanced_composite_score(
+    episode_data: Dict, k: float = 0.85, min_axes_required: int = 1
+) -> Optional[float]:
+    """
+    改善版総合スコア（0〜1000スケール）
+
+    7軸スコアを正規化・非線形変換し、均等重みで平均化。
+    旧composite_score（1-10スケール）を置き換える。
+
+    設計:
+    - 7軸均等重み
+    - 非線形変換 k=0.85（低スコアを上方に伸ばす）
+    - スケール: 0〜1000
+
+    変換式:
+        1. 正規化: normalized = (score - 1.0) / 9.0  # 1-10 → 0-1
+        2. 非線形変換: transformed = normalized ** k
+           k < 1.0 により、低〜中スコアの差を拡大
+        3. 平均化: avg = mean(transformed_scores)
+        4. スケール: final = avg * 1000
+
+    Args:
+        episode_data: エピソードデータ（Dict）
+        k: 非線形変換の指数（デフォルト: 0.85）
+        min_axes_required: 計算に必要な最低軸数（デフォルト: 1）
+
+    Returns:
+        enhanced_composite_score（0-1000スケール）、計算不可の場合はNone
+
+    Example:
+        7軸平均5.5の場合:
+        - 正規化: (5.5-1)/9 = 0.5
+        - 変換: 0.5^0.85 = 0.55
+        - スコア: 550（中央付近）
+    """
+    transformed_scores = []
+
+    for field in SEVEN_AXIS_FIELDS:
+        raw_score = episode_data.get(field)
+
+        # 値の取得と検証
+        if raw_score is None or raw_score == "":
+            continue
+
+        try:
+            score = float(raw_score)
+            # 範囲チェック（1-10）
+            if not (1.0 <= score <= 10.0):
+                continue
+
+            # Step 1: 正規化 (1-10 → 0-1)
+            normalized = (score - 1.0) / 9.0
+
+            # Step 2: 非線形変換（k=0.85）
+            # k < 1.0 により、低〜中スコアの差を拡大
+            # 例: 0.33 → 0.40, 0.50 → 0.55, 0.78 → 0.82
+            transformed = normalized**k
+
+            transformed_scores.append(transformed)
+        except (ValueError, TypeError):
+            continue
+
+    # 最低軸数チェック
+    if len(transformed_scores) < min_axes_required:
+        return None
+
+    # Step 3: 均等重み平均 → 0〜1000スケール
+    if transformed_scores:
+        avg_transformed = sum(transformed_scores) / len(transformed_scores)
+        final_score = avg_transformed * 1000
+        return round(final_score, 1)
+
+    return None
+
+
+def convert_old_to_new_score(old_score: float, k: float = 0.85) -> float:
+    """
+    旧スコア（1-10）を新スコア（0-1000）に変換
+
+    Args:
+        old_score: 旧スコア（1-10スケール）
+        k: 非線形変換の指数（デフォルト: 0.85）
+
+    Returns:
+        新スコア（0-1000スケール）
+    """
+    if old_score < 1.0:
+        return 0.0
+    if old_score > 10.0:
+        return 1000.0
+
+    normalized = (old_score - 1.0) / 9.0
+    transformed = normalized**k
+    return round(transformed * 1000, 1)
+
+
+def get_score_grade(score: float) -> str:
+    """
+    スコアからグレードを取得
+
+    Args:
+        score: 新スコア（0-1000スケール）
+
+    Returns:
+        グレード文字列（S/A/B/C/D/E）
+    """
+    if score >= 800:
+        return "S"  # 最高品質（上位5%）
+    elif score >= 650:
+        return "A"  # 高品質（上位20%）
+    elif score >= 500:
+        return "B"  # 標準品質（中央）
+    elif score >= 350:
+        return "C"  # 改善余地あり
+    elif score >= 200:
+        return "D"  # 要改善
+    else:
+        return "E"  # 大幅改善必要
+
+
+# ============================================================
+# 統一スケールスコア（全0〜1000）
+# ============================================================
+
+
+def calculate_unified_scores(episode_data: Dict) -> Dict[str, Optional[float]]:
+    """
+    統一スケールスコアを計算（全0〜1000）
+
+    全ての主要スコアを0-1000スケールに統一し、
+    超総合（super_total_score）を加重平均で算出する。
+
+    計算式:
+    - fame_score_1000 = fame_score × 10（0-100 → 0-1000）
+    - episode_fame_score_1000 = episode_fame_score × 10
+    - super_total_score = composite × 0.5 + fame_1000 × 0.25 + ep_fame_1000 × 0.25
+
+    重み設計の根拠:
+    - composite_score（7軸総合）: 50% - エピソード品質が最重要
+    - fame_score（有名人度）: 25% - 人物の知名度
+    - episode_fame_score（エピ有名度）: 25% - エピソード自体の有名度
+
+    Args:
+        episode_data: エピソードデータ（Dict）
+
+    Returns:
+        統一スコアの辞書:
+        {
+            'composite_score': 0-1000,
+            'fame_score_1000': 0-1000,
+            'episode_fame_score_1000': 0-1000,
+            'super_total_score': 0-1000,
+        }
+
+    Example:
+        入力: composite=550, fame=70, ep_fame=84
+        変換:
+        - fame_1000 = 70 × 10 = 700
+        - ep_fame_1000 = 84 × 10 = 840
+        - super_total = 550×0.5 + 700×0.25 + 840×0.25
+                      = 275 + 175 + 210 = 660
+        出力: super_total_score=660
+    """
+    result = {
+        "composite_score": None,
+        "fame_score_1000": None,
+        "episode_fame_score_1000": None,
+        "super_total_score": None,
+    }
+
+    # 1. composite_score取得（既に0-1000スケール）
+    composite = episode_data.get("composite_score")
+    if composite is not None and composite != "":
+        try:
+            result["composite_score"] = round(float(composite), 1)
+        except (ValueError, TypeError):
+            pass
+
+    # 2. fame_score変換（0-100 → 0-1000）
+    fame = episode_data.get("fame_score")
+    if fame is not None and fame != "":
+        try:
+            fame_val = float(fame)
+            # 範囲チェック（0-100）
+            if 0 <= fame_val <= 100:
+                result["fame_score_1000"] = round(fame_val * 10, 1)
+        except (ValueError, TypeError):
+            pass
+
+    # 3. episode_fame_score変換（0-100 → 0-1000）
+    ep_fame = episode_data.get("episode_fame_score")
+    if ep_fame is not None and ep_fame != "":
+        try:
+            ep_fame_val = float(ep_fame)
+            # 範囲チェック（0-100）
+            if 0 <= ep_fame_val <= 100:
+                result["episode_fame_score_1000"] = round(ep_fame_val * 10, 1)
+        except (ValueError, TypeError):
+            pass
+
+    # 4. super_total_score計算（加重平均）
+    # 重み: composite=0.5, fame=0.25, ep_fame=0.25
+    composite_val = result["composite_score"] or 0
+    fame_1000 = result["fame_score_1000"] or 0
+    ep_fame_1000 = result["episode_fame_score_1000"] or 0
+
+    # 少なくともcomposite_scoreがあれば計算
+    if result["composite_score"] is not None:
+        super_total = composite_val * 0.5 + fame_1000 * 0.25 + ep_fame_1000 * 0.25
+        result["super_total_score"] = round(super_total, 1)
+
+    return result
+
+
+def get_super_total_grade(score: float) -> str:
+    """
+    超総合スコアからグレードを取得
+
+    Args:
+        score: 超総合スコア（0-1000スケール）
+
+    Returns:
+        グレード文字列（S/A/B/C/D/E）
+    """
+    # composite_scoreと同じ基準を使用
+    return get_score_grade(score)

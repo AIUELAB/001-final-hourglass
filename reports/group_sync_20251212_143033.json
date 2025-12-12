@@ -1,0 +1,588 @@
+{
+  "timestamp": "20251212_143033",
+  "csv_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/MASTER_EPISODES_CURRENT.csv",
+  "issues_found": {
+    "map_not_reflected": 0,
+    "solo_not_reflected": 96,
+    "group_entity_found": 0
+  },
+  "changes_made": 96,
+  "changes": [
+    {
+      "type": "solo_artist_sync",
+      "index": 1397,
+      "person_name": "赤塚不二夫",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7035,
+      "person_name": "赤塚不二夫",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 3264,
+      "person_name": "aiko",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 698,
+      "person_name": "タモリ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1390,
+      "person_name": "タモリ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1603,
+      "person_name": "タモリ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1604,
+      "person_name": "タモリ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2412,
+      "person_name": "タモリ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 63,
+      "person_name": "渡辺直美",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 64,
+      "person_name": "渡辺直美",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 825,
+      "person_name": "山田玲司",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2255,
+      "person_name": "五木ひろし",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1606,
+      "person_name": "所ジョージ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2413,
+      "person_name": "所ジョージ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 432,
+      "person_name": "美空ひばり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1246,
+      "person_name": "美空ひばり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1538,
+      "person_name": "美空ひばり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2265,
+      "person_name": "MISIA",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 548,
+      "person_name": "ビートたけし",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1387,
+      "person_name": "ビートたけし",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1605,
+      "person_name": "ビートたけし",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 10120,
+      "person_name": "ビートたけし",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1428,
+      "person_name": "椎名林檎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 469,
+      "person_name": "米津玄師",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 470,
+      "person_name": "米津玄師",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 849,
+      "person_name": "小川桂子",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1414,
+      "person_name": "宇多田ヒカル",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 425,
+      "person_name": "福山雅治",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 426,
+      "person_name": "福山雅治",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1608,
+      "person_name": "福山雅治",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1609,
+      "person_name": "福山雅治",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1855,
+      "person_name": "福山雅治",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1399,
+      "person_name": "ちばてつや",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1403,
+      "person_name": "庵野秀明",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2352,
+      "person_name": "庵野秀明",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2510,
+      "person_name": "庵野秀明",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2260,
+      "person_name": "坂本冬美",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 661,
+      "person_name": "Ado",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2048,
+      "person_name": "Ado",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 498,
+      "person_name": "マツコ・デラックス",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 382,
+      "person_name": "福井谷祐子",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 885,
+      "person_name": "北島三郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1508,
+      "person_name": "北島三郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1516,
+      "person_name": "北島三郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1549,
+      "person_name": "北島三郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2411,
+      "person_name": "明石家さんま",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 359,
+      "person_name": "長渕剛",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1422,
+      "person_name": "長渕剛",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1362,
+      "person_name": "石ノ森章太郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1363,
+      "person_name": "石ノ森章太郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1364,
+      "person_name": "石ノ森章太郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1365,
+      "person_name": "石ノ森章太郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1396,
+      "person_name": "石ノ森章太郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 4111,
+      "person_name": "石ノ森章太郎",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1415,
+      "person_name": "あいみょん",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1878,
+      "person_name": "あいみょん",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 90,
+      "person_name": "浜崎あゆみ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 1425,
+      "person_name": "浜崎あゆみ",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2246,
+      "person_name": "倖田來未",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7209,
+      "person_name": "倖田來未",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 827,
+      "person_name": "山田恵子",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 138,
+      "person_name": "星野源",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 405,
+      "person_name": "田中信行",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 2259,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7359,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7414,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7472,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7537,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7652,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7707,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7764,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7868,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7925,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 7983,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8037,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8207,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8263,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8318,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8372,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8429,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8527,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8570,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8621,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8671,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8714,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8761,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8793,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8833,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8875,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8920,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 8968,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 9008,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 9043,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 9081,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 9120,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    },
+    {
+      "type": "solo_artist_sync",
+      "index": 9147,
+      "person_name": "石川さゆり",
+      "change": "is_group_member=False, group_name=None"
+    }
+  ]
+}

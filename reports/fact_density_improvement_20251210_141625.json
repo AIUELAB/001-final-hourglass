@@ -1,0 +1,703 @@
+{
+  "timestamp": "2025-12-10T14:16:25.913853",
+  "target_count": 100,
+  "improved_count": 99,
+  "partial_count": 0,
+  "no_improvement_count": 1,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000928",
+      "person_name": "バッドホップ",
+      "age": 25,
+      "original_fact_density": 3.19,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251204391",
+      "person_name": "水溜りボンド カンタ",
+      "age": 62,
+      "original_fact_density": 3.19,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-000581",
+      "person_name": "田中信行",
+      "age": 63,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-E4A727",
+      "person_name": "ジェームズ・ワット",
+      "age": 60,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204101",
+      "person_name": "伊沢拓司",
+      "age": 59,
+      "original_fact_density": 3.2,
+      "new_fact_density": 8.5
+    },
+    {
+      "episode_id": "EP-000326",
+      "person_name": "村上世彰",
+      "age": 52,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512075507",
+      "person_name": "ルイス・キャロル",
+      "age": 33,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512074547",
+      "person_name": "カント",
+      "age": 57,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000835",
+      "person_name": "三谷幸喜",
+      "age": 52,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-000232",
+      "person_name": "岡本太郎",
+      "age": 48,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-251130058",
+      "person_name": "井原西鶴",
+      "age": 40,
+      "original_fact_density": 3.2,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-251204859",
+      "person_name": "QuizKnock 伊沢拓司",
+      "age": 18,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204799",
+      "person_name": "QuizKnock 伊沢拓司",
+      "age": 67,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204809",
+      "person_name": "QuizKnock 伊沢拓司",
+      "age": 69,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000599",
+      "person_name": "田中雅美",
+      "age": 62,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-001242",
+      "person_name": "前田建設工業の前田又兵衛",
+      "age": 61,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-001135",
+      "person_name": "山中教授",
+      "age": 75,
+      "original_fact_density": 3.23,
+      "new_fact_density": 8.0
+    },
+    {
+      "episode_id": "EP-251205313",
+      "person_name": "ベンジャミン・フランクリン",
+      "age": 40,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-977319",
+      "person_name": "ベートーベン",
+      "age": 40,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-251203560",
+      "person_name": "佐藤優",
+      "age": 69,
+      "original_fact_density": 3.23,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204060",
+      "person_name": "ウェス・アンダーソン",
+      "age": 19,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512071526",
+      "person_name": "ジャック・ウェルチ",
+      "age": 55,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-251201543",
+      "person_name": "ミック・ジャガー",
+      "age": 8,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251203662",
+      "person_name": "ミック・ジャガー",
+      "age": 17,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204262",
+      "person_name": "ウェス・アンダーソン",
+      "age": 18,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251207847",
+      "person_name": "仁村修平",
+      "age": 55,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-977285",
+      "person_name": "ジョン・マッケンタイア",
+      "age": 36,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-001279",
+      "person_name": "佐々木常夫",
+      "age": 52,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-251203387",
+      "person_name": "ミック・ジャガー",
+      "age": 14,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251203235",
+      "person_name": "ミック・ジャガー",
+      "age": 16,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251201332",
+      "person_name": "ウィンストン・チャーチル",
+      "age": 2,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251207069",
+      "person_name": "荒井由実",
+      "age": 22,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251203215",
+      "person_name": "ウェイン・ショーター",
+      "age": 16,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512073056",
+      "person_name": "鈴木亮平",
+      "age": 36,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000327",
+      "person_name": "杉村太蔵",
+      "age": 71,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-2512075408",
+      "person_name": "石川智晶",
+      "age": 30,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-251201798",
+      "person_name": "ウィンストン・チャーチル",
+      "age": 1,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251201987",
+      "person_name": "ウェイン・ショーター",
+      "age": 10,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251207945",
+      "person_name": "森川ジョージ",
+      "age": 40,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000179",
+      "person_name": "戸田恵梨香",
+      "age": 25,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-2512074612",
+      "person_name": "オスカー・ワイルド",
+      "age": 35,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251202461",
+      "person_name": "ミック・ジャガー",
+      "age": 12,
+      "original_fact_density": 3.25,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512074739",
+      "person_name": "アントニオ・マルガリート",
+      "age": 29,
+      "original_fact_density": 3.26,
+      "new_fact_density": 9.3
+    },
+    {
+      "episode_id": "EP-2512071679",
+      "person_name": "イングマール・ベルイマン",
+      "age": 45,
+      "original_fact_density": 3.26,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251207688",
+      "person_name": "リドリー・スコット",
+      "age": 48,
+      "original_fact_density": 3.26,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-251207794",
+      "person_name": "ロバート・デ・ニーロ",
+      "age": 40,
+      "original_fact_density": 3.26,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512073265",
+      "person_name": "ビル・クリントン",
+      "age": 50,
+      "original_fact_density": 3.26,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251207730",
+      "person_name": "グスタフ・キルヒホフ",
+      "age": 36,
+      "original_fact_density": 3.27,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-2512072494",
+      "person_name": "オリヴァー・ヘヴィサイド",
+      "age": 40,
+      "original_fact_density": 3.27,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-2512071500",
+      "person_name": "ユヴァル・ノア・ハラリ",
+      "age": 40,
+      "original_fact_density": 3.27,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-2512074103",
+      "person_name": "フランシス・ザビエル",
+      "age": 46,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-2512074914",
+      "person_name": "ゼンメルワイス",
+      "age": 40,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.4
+    },
+    {
+      "episode_id": "EP-251207406",
+      "person_name": "スーザン・B・アンソニー",
+      "age": 52,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-2512074706",
+      "person_name": "ピョートル・チャイコフスキー",
+      "age": 40,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204499",
+      "person_name": "伊達政宗",
+      "age": 70,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512072618",
+      "person_name": "ヴィンセント・ヴァン・ゴッホ",
+      "age": 37,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251207800",
+      "person_name": "ウィル・スミス",
+      "age": 35,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251207761",
+      "person_name": "小雪",
+      "age": 45,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-001345",
+      "person_name": "北里柴三郎",
+      "age": 37,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-2512074746",
+      "person_name": "シューマン",
+      "age": 30,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-2512075178",
+      "person_name": "永田恭介",
+      "age": 58,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-2512075086",
+      "person_name": "リンネ",
+      "age": 40,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-2512072802",
+      "person_name": "田村善之",
+      "age": 54,
+      "original_fact_density": 3.29,
+      "new_fact_density": 9.5
+    },
+    {
+      "episode_id": "EP-000822",
+      "person_name": "久保田利伸",
+      "age": 15,
+      "original_fact_density": 3.3,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000100",
+      "person_name": "清原和博",
+      "age": 54,
+      "original_fact_density": 3.3,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-002068",
+      "person_name": "北野武",
+      "age": 45,
+      "original_fact_density": 3.3,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251201732",
+      "person_name": "エリック・クラプトン",
+      "age": 4,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251201723",
+      "person_name": "ジョージ・ソロス",
+      "age": 4,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251202931",
+      "person_name": "シルクロード",
+      "age": 74,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251202847",
+      "person_name": "長井龍雪",
+      "age": 74,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.5
+    },
+    {
+      "episode_id": "EP-251203120",
+      "person_name": "ジョルジュ・サンピエール",
+      "age": 80,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.8
+    },
+    {
+      "episode_id": "EP-251201427",
+      "person_name": "タカ",
+      "age": 78,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251201622",
+      "person_name": "今敏",
+      "age": 3,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.7
+    },
+    {
+      "episode_id": "EP-251202901",
+      "person_name": "RADWIMPSの野田洋次郎",
+      "age": 74,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.5
+    },
+    {
+      "episode_id": "EP-251203134",
+      "person_name": "タカ",
+      "age": 80,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-251202843",
+      "person_name": "真島昌利",
+      "age": 76,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251202645",
+      "person_name": "エリック・クラプトン",
+      "age": 11,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251201459",
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "age": 78,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.3
+    },
+    {
+      "episode_id": "EP-251204788",
+      "person_name": "りゅうちぇる",
+      "age": 80,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000550",
+      "person_name": "磯崎新",
+      "age": 60,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000738",
+      "person_name": "ヨシュア・ベンジオ",
+      "age": 20,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.3
+    },
+    {
+      "episode_id": "EP-251205107",
+      "person_name": "ガブリエル・ガルシア・マルケス",
+      "age": 17,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251204795",
+      "person_name": "りゅうちぇる",
+      "age": 72,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000896",
+      "person_name": "アルベルト・アインシュタイン",
+      "age": 42,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251205137",
+      "person_name": "レフ・トルストイ",
+      "age": 7,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251205139",
+      "person_name": "レフ・トルストイ",
+      "age": 9,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-001031",
+      "person_name": "ガンダム（RX-78-2）",
+      "age": 15,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251204753",
+      "person_name": "りゅうちぇる",
+      "age": 74,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-001162",
+      "person_name": "山下達郎",
+      "age": 28,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-001182",
+      "person_name": "小島秀夫",
+      "age": 21,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-000466",
+      "person_name": "髙橋尚子",
+      "age": 57,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-251203846",
+      "person_name": "RADWIMPSの野田洋次郎",
+      "age": 66,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.5
+    },
+    {
+      "episode_id": "EP-251203887",
+      "person_name": "スガシカオ",
+      "age": 68,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.5
+    },
+    {
+      "episode_id": "EP-251203380",
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": 14,
+      "original_fact_density": 3.33,
+      "new_fact_density": 8.0
+    },
+    {
+      "episode_id": "EP-251202061",
+      "person_name": "佐藤オオキ",
+      "age": 7,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-E620FD",
+      "person_name": "道場六三郎",
+      "age": 25,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.1
+    },
+    {
+      "episode_id": "EP-251203308",
+      "person_name": "RADWIMPSの野田洋次郎",
+      "age": 72,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.2
+    },
+    {
+      "episode_id": "EP-251203457",
+      "person_name": "RADWIMPSの野田洋次郎",
+      "age": 67,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    },
+    {
+      "episode_id": "EP-000177",
+      "person_name": "押井守",
+      "age": 38,
+      "original_fact_density": 3.33,
+      "new_fact_density": 9.0
+    }
+  ]
+}

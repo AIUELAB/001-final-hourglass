@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T12:52:46.503932",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-977190",
+      "person_name": "ベティ・ホワイト",
+      "age": 93,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977362",
+      "person_name": "横浜流星",
+      "age": 28,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-977363",
+      "person_name": "山﨑賢人",
+      "age": 30,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977365",
+      "person_name": "有村架純",
+      "age": 31,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977366",
+      "person_name": "広瀬すず",
+      "age": 26,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-977371",
+      "person_name": "大泉洋",
+      "age": 47,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-977377",
+      "person_name": "浜田雅功",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977361",
+      "person_name": "菅田将暉",
+      "age": 29,
+      "original_surprise": 2.0,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-251204338",
+      "person_name": "佐藤優",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251204331",
+      "person_name": "江國香織",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251204329",
+      "person_name": "ヤン・ルカン",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251204327",
+      "person_name": "バラク・オバマ",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 7.2
+    },
+    {
+      "episode_id": "EP-251204322",
+      "person_name": "小林慶一郎",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251204320",
+      "person_name": "根岸隆",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204317",
+      "person_name": "ベティ・ホワイト",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251204335",
+      "person_name": "矢部浩之",
+      "age": 54,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-977359",
+      "person_name": "三船敏郎",
+      "age": 64,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977357",
+      "person_name": "渡辺謙",
+      "age": 41,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977355",
+      "person_name": "吉永小百合",
+      "age": 38,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204891",
+      "person_name": "ジョン・ボーナム",
+      "age": 39,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977315",
+      "person_name": "バラク・オバマ",
+      "age": 44,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-977316",
+      "person_name": "アンゲラ・メルケル",
+      "age": 53,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977322",
+      "person_name": "ウラジーミル・プーチン",
+      "age": 44,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-977324",
+      "person_name": "ナレンドラ・モディ",
+      "age": 58,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-977328",
+      "person_name": "ティム・クック",
+      "age": 39,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977330",
+      "person_name": "サティア・ナデラ",
+      "age": 62,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977331",
+      "person_name": "ジェンスン・ファン",
+      "age": 69,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204887",
+      "person_name": "QuizKnock 伊沢拓司",
+      "age": 46,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251204884",
+      "person_name": "QuizKnock 伊沢拓司",
+      "age": 70,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251204882",
+      "person_name": "ONE OK ROCK",
+      "age": 56,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977344",
+      "person_name": "エマニュエル・マクロン",
+      "age": 42,
+      "original_surprise": 2.0,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-977350",
+      "person_name": "綾瀬はるか",
+      "age": 40,
+      "original_surprise": 2.0,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-977351",
+      "person_name": "新垣結衣",
+      "age": 29,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977352",
+      "person_name": "石原さとみ",
+      "age": 37,
+      "original_surprise": 2.0,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-251204312",
+      "person_name": "ハリー・ベラフォンテ",
+      "age": 57,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251204894",
+      "person_name": "アルベルト・アインシュタイン",
+      "age": 47,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251204310",
+      "person_name": "小渕恵三",
+      "age": 57,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204300",
+      "person_name": "アインシュタイン",
+      "age": 57,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251202846",
+      "person_name": "ベティ・ホワイト",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202849",
+      "person_name": "根岸隆",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251204193",
+      "person_name": "佐藤オオキ",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251204192",
+      "person_name": "ひろゆき",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204187",
+      "person_name": "江國香織",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251204185",
+      "person_name": "ヤン・ルカン",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204196",
+      "person_name": "エディ・ヴェダー",
+      "age": 61,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202875",
+      "person_name": "アインシュタイン",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202880",
+      "person_name": "ノーマン・リア",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202881",
+      "person_name": "ウィンストン・チャーチル",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202883",
+      "person_name": "スガシカオ",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202895",
+      "person_name": "ハービー・ハンコック",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    }
+  ]
+}

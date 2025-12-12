@@ -1,0 +1,146 @@
+{
+  "timestamp": "2025-12-12T11:20:38.599351",
+  "phase": "Phase 4: 名前正規化",
+  "changes": [
+    {
+      "original": "Marcin Iwiński",
+      "japanese": "マルチン・イヴィンスキ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Yves Guillemot",
+      "japanese": "イヴ・ギルモ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Andrew Wilson",
+      "japanese": "アンドリュー・ウィルソン",
+      "count": 1,
+      "source": "慣用表記"
+    },
+    {
+      "original": "Sam Houser",
+      "japanese": "サム・ハウザー",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Zlatan Ibrahimović",
+      "japanese": "ズラタン・イブラヒモビッチ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Tim Sweeney",
+      "japanese": "ティム・スウィーニー",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Kylian Mbappé",
+      "japanese": "キリアン・エムバペ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "José Saramago",
+      "japanese": "ジョゼ・サラマーゴ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "René Goscinny",
+      "japanese": "ルネ・ゴシニ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Chloé Zhao",
+      "japanese": "クロエ・ジャオ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Beyoncé",
+      "japanese": "ビヨンセ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Katalin Karikó",
+      "japanese": "カタリン・カリコ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Timothée Chalamet",
+      "japanese": "ティモシー・シャラメ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Gabriel García Márquez",
+      "japanese": "ガブリエル・ガルシア＝マルケス",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "François Truffaut",
+      "japanese": "フランソワ・トリュフォー",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Dwayne \"The Rock\" Johnson",
+      "japanese": "ドウェイン・ジョンソン",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Wilhelm Röntgen",
+      "japanese": "ヴィルヘルム・レントゲン",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Erwin Schrödinger",
+      "japanese": "エルヴィン・シュレーディンガー",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Christiane Nüsslein-Volhard",
+      "japanese": "クリスティアーネ・ニュスライン＝フォルハルト",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "John le Carré",
+      "japanese": "ジョン・ル・カレ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Bronisław Malinowski",
+      "japanese": "ブロニスワフ・マリノフスキ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "Gérard Depardieu",
+      "japanese": "ジェラール・ドパルデュー",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    },
+    {
+      "original": "昆汀・塔倫天奴",
+      "japanese": "クエンティン・タランティーノ",
+      "count": 1,
+      "source": "Wikipedia日本語版"
+    }
+  ],
+  "total_persons": 23,
+  "total_episodes": 23
+}

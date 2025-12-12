@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-12-12T11:21:33.989382",
+  "phase": "Phase 5: 重複統合",
+  "deleted_episodes": [
+    {
+      "person_name": "カタリン・カリコ",
+      "age": 55,
+      "deleted_episode_id": "EP-2512071079",
+      "deleted_score": 5.432499999999999,
+      "kept_episode_id": "EP-2512074827",
+      "kept_score": 8.05
+    },
+    {
+      "person_name": "ヴィルヘルム・レントゲン",
+      "age": 50,
+      "deleted_episode_id": "EP-251201150",
+      "deleted_score": 6.0635,
+      "kept_episode_id": "EP-2512073335",
+      "kept_score": 6.1335
+    },
+    {
+      "person_name": "エルヴィン・シュレーディンガー",
+      "age": 39,
+      "deleted_episode_id": "EP-2512073337",
+      "deleted_score": 5.654999999999999,
+      "kept_episode_id": "EP-2512074916",
+      "kept_score": 6.585000000000001
+    }
+  ],
+  "total_deleted": 3
+}

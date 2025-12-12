@@ -1,0 +1,284 @@
+{
+  "timestamp": "2025-12-12T04:45:01.293583",
+  "total_group_episodes": 21,
+  "decomposed": [
+    {
+      "original_episode_id": "EP-977385",
+      "new_episode_id": "EP-951739",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 48.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-977385",
+      "new_episode_id": "EP-989353",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 48.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201263",
+      "new_episode_id": "EP-901168",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 0.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201263",
+      "new_episode_id": "EP-918445",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 0.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201357",
+      "new_episode_id": "EP-979944",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 2.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201357",
+      "new_episode_id": "EP-929484",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 2.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201731",
+      "new_episode_id": "EP-905656",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 4.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201731",
+      "new_episode_id": "EP-959700",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 4.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201823",
+      "new_episode_id": "EP-968825",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 1.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201823",
+      "new_episode_id": "EP-908853",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 1.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202009",
+      "new_episode_id": "EP-983047",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 10.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202009",
+      "new_episode_id": "EP-942024",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 10.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202101",
+      "new_episode_id": "EP-998935",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 7.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202101",
+      "new_episode_id": "EP-903234",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 7.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202192",
+      "new_episode_id": "EP-911721",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 13.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202192",
+      "new_episode_id": "EP-939629",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 13.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202374",
+      "new_episode_id": "EP-914866",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 9.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202374",
+      "new_episode_id": "EP-974063",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 9.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202463",
+      "new_episode_id": "EP-900632",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 12.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202463",
+      "new_episode_id": "EP-986785",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 12.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202554",
+      "new_episode_id": "EP-987046",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 6.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202554",
+      "new_episode_id": "EP-993386",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 6.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202644",
+      "new_episode_id": "EP-935054",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 11.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202644",
+      "new_episode_id": "EP-989649",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 11.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202732",
+      "new_episode_id": "EP-953327",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 5.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251202732",
+      "new_episode_id": "EP-933621",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 5.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251203664",
+      "new_episode_id": "EP-944917",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "上田晋也",
+      "age": 17.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251203664",
+      "new_episode_id": "EP-956523",
+      "group_name": "くりぃむしちゅー",
+      "member_name": "有田哲平",
+      "age": 17.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-2512071917",
+      "new_episode_id": "EP-921749",
+      "group_name": "ゴールデンボンバー",
+      "member_name": "鬼龍院翔",
+      "age": 32.0,
+      "dry_run": false
+    }
+  ],
+  "renamed": [
+    {
+      "episode_id": "EP-2512074722",
+      "group_name": "星稜高校",
+      "new_person_name": "松井秀喜",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512074724",
+      "group_name": "東海大学相模",
+      "new_person_name": "田中広輔",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512074721",
+      "group_name": "清水エスパルス",
+      "new_person_name": "竹内彬",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512074924",
+      "group_name": "青色LED開発チーム",
+      "new_person_name": "中村修二",
+      "dry_run": false
+    }
+  ],
+  "deleted": [
+    {
+      "episode_id": "EP-2512074925",
+      "group_name": "ASIMO開発チーム",
+      "reason": "個人名抽出不可",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512074723",
+      "group_name": "湘南ベルマーレ",
+      "reason": "個人名抽出不可",
+      "dry_run": false
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "new_episodes": 29,
+    "renamed_episodes": 4,
+    "deleted_episodes": 17
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "timestamp": "2025-12-12T05:08:24.569008",
+  "total_group_episodes": 12,
+  "decomposed": [
+    {
+      "original_episode_id": "EP-2512072551",
+      "new_episode_id": "EP-984913",
+      "group_name": "コーエン兄弟",
+      "member_name": "ジョエル・コーエン",
+      "age": 35.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-2512072551",
+      "new_episode_id": "EP-957752",
+      "group_name": "コーエン兄弟",
+      "member_name": "イーサン・コーエン",
+      "age": 35.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-EC6B67",
+      "new_episode_id": "EP-911622",
+      "group_name": "ライト兄弟",
+      "member_name": "ウィルバー・ライト",
+      "age": 30.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-EC6B67",
+      "new_episode_id": "EP-914114",
+      "group_name": "ライト兄弟",
+      "member_name": "オーヴィル・ライト",
+      "age": 30.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-BEBF43",
+      "new_episode_id": "EP-974125",
+      "group_name": "ライト兄弟",
+      "member_name": "ウィルバー・ライト",
+      "age": 35.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-BEBF43",
+      "new_episode_id": "EP-982568",
+      "group_name": "ライト兄弟",
+      "member_name": "オーヴィル・ライト",
+      "age": 35.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-4659DC",
+      "new_episode_id": "EP-911340",
+      "group_name": "ライト兄弟",
+      "member_name": "ウィルバー・ライト",
+      "age": 42.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-4659DC",
+      "new_episode_id": "EP-987315",
+      "group_name": "ライト兄弟",
+      "member_name": "オーヴィル・ライト",
+      "age": 42.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-2512072505",
+      "new_episode_id": "EP-962079",
+      "group_name": "ライト兄弟",
+      "member_name": "ウィルバー・ライト",
+      "age": 32.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-2512072505",
+      "new_episode_id": "EP-982290",
+      "group_name": "ライト兄弟",
+      "member_name": "オーヴィル・ライト",
+      "age": 32.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201154",
+      "new_episode_id": "EP-949591",
+      "group_name": "阿部兄妹",
+      "member_name": "阿部一二三",
+      "age": 23.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-251201154",
+      "new_episode_id": "EP-954241",
+      "group_name": "阿部兄妹",
+      "member_name": "阿部詩",
+      "age": 23.0,
+      "dry_run": false
+    }
+  ],
+  "renamed": [
+    {
+      "episode_id": "EP-2512075714",
+      "group_name": "富士フイルム創業者",
+      "new_person_name": "古森重隆",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512075710",
+      "group_name": "島津製作所創業者",
+      "new_person_name": "島津源蔵",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512073696",
+      "group_name": "駒大苫小牧",
+      "new_person_name": "田中将大",
+      "dry_run": false
+    }
+  ],
+  "deleted": [
+    {
+      "episode_id": "EP-2512073697",
+      "group_name": "早稲田実業",
+      "reason": "個人名抽出不可",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512073698",
+      "group_name": "智弁和歌山",
+      "reason": "個人名抽出不可",
+      "dry_run": false
+    },
+    {
+      "episode_id": "EP-2512073695",
+      "group_name": "流経大柏高校",
+      "reason": "個人名抽出不可",
+      "dry_run": false
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "new_episodes": 12,
+    "renamed_episodes": 3,
+    "deleted_episodes": 9
+  }
+}

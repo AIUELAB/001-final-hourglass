@@ -1,0 +1,77 @@
+{
+  "timestamp": "2025-12-12T11:22:58.850362",
+  "phase": "表記ゆれ修正",
+  "changes": [
+    {
+      "original": "ティム・バーナーズ=リー",
+      "normalized": "ティム・バーナーズ＝リー",
+      "count": 2
+    },
+    {
+      "original": "ガブリエル・ガルシア=マルケス",
+      "normalized": "ガブリエル・ガルシア＝マルケス",
+      "count": 3
+    },
+    {
+      "original": "ジャン=ポール・サルトル",
+      "normalized": "ジャン＝ポール・サルトル",
+      "count": 2
+    },
+    {
+      "original": "キャサリン・ゼタ=ジョーンズ",
+      "normalized": "キャサリン・ゼタ＝ジョーンズ",
+      "count": 1
+    },
+    {
+      "original": "カリーム・アブドゥル=ジャバー",
+      "normalized": "カリーム・アブドゥル＝ジャバー",
+      "count": 1
+    },
+    {
+      "original": "ダニエル・デイ=ルイス",
+      "normalized": "ダニエル・デイ＝ルイス",
+      "count": 1
+    },
+    {
+      "original": "レヴィ=ストロース",
+      "normalized": "レヴィ＝ストロース",
+      "count": 1
+    },
+    {
+      "original": "チム・バーナーズ=リー",
+      "normalized": "チム・バーナーズ＝リー",
+      "count": 1
+    },
+    {
+      "original": "イヴ・サン=ローラン",
+      "normalized": "イヴ・サン＝ローラン",
+      "count": 1
+    },
+    {
+      "original": "ジャン=リュック・ゴダール",
+      "normalized": "ジャン＝リュック・ゴダール",
+      "count": 1
+    },
+    {
+      "original": "リタ・レーヴィ=モンタルチーニ",
+      "normalized": "リタ・レーヴィ＝モンタルチーニ",
+      "count": 1
+    },
+    {
+      "original": "サン=サーンス",
+      "normalized": "サン＝サーンス",
+      "count": 1
+    },
+    {
+      "original": "ジャン=ミシェル・バスキア",
+      "normalized": "ジャン＝ミシェル・バスキア",
+      "count": 1
+    },
+    {
+      "original": "チム・バーナーズ＝リー",
+      "normalized": "ティム・バーナーズ＝リー",
+      "count": 1
+    }
+  ],
+  "total_changes": 14
+}

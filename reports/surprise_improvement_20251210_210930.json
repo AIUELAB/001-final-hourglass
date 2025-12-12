@@ -1,0 +1,346 @@
+{
+  "timestamp": "2025-12-10T21:09:30.450904",
+  "target_count": 50,
+  "improved_count": 48,
+  "partial_count": 0,
+  "no_improvement_count": 1,
+  "failed_count": 1,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000029",
+      "person_name": "槇原敬之",
+      "age": 55,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203440",
+      "person_name": "ウェイン・ショーター",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251203434",
+      "person_name": "氷川きよし",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203431",
+      "person_name": "アインシュタイン",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203140",
+      "person_name": "笠原将弘",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251203135",
+      "person_name": "スガシカオ",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203132",
+      "person_name": "ノーマン・リア",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251203128",
+      "person_name": "水溜りボンド カンタ",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203127",
+      "person_name": "アインシュタイン",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203126",
+      "person_name": "伊沢拓司",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203123",
+      "person_name": "池田秀一",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203118",
+      "person_name": "佐藤オオキ",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203110",
+      "person_name": "ヤン・ルカン",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251203441",
+      "person_name": "小渕恵三",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203448",
+      "person_name": "石川さゆり",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251203460",
+      "person_name": "ミック・ジャガー",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-251203109",
+      "person_name": "筑紫哲也",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203463",
+      "person_name": "エリック・クラプトン",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203464",
+      "person_name": "ジミー・ペイジ",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203470",
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251203472",
+      "person_name": "ベティ・ホワイト",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251203475",
+      "person_name": "根岸隆",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251203483",
+      "person_name": "筑紫哲也",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203484",
+      "person_name": "ヤン・ルカン",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251203486",
+      "person_name": "江國香織",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203491",
+      "person_name": "ひろゆき",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203492",
+      "person_name": "佐藤オオキ",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251203497",
+      "person_name": "池田秀一",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251203498",
+      "person_name": "ウラジーミル・プーチン",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 6.8
+    },
+    {
+      "episode_id": "EP-251203500",
+      "person_name": "伊沢拓司",
+      "age": 75,
+      "original_surprise": 2.0,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-251203453",
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": 67,
+      "original_surprise": 2.0,
+      "new_surprise": 6.8
+    },
+    {
+      "episode_id": "EP-251203102",
+      "person_name": "ジョン・マッケンタイア",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251203101",
+      "person_name": "根岸隆",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251203098",
+      "person_name": "ベティ・ホワイト",
+      "age": 80,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202908",
+      "person_name": "ジミー・ペイジ",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251202910",
+      "person_name": "宮内義彦",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202911",
+      "person_name": "白洲次郎",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251202914",
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251202918",
+      "person_name": "ジェームズ・ラブロック",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-251202922",
+      "person_name": "ジェンスン・ファン",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251202927",
+      "person_name": "甲本ヒロト",
+      "age": 74,
+      "original_surprise": 2.0,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251202933",
+      "person_name": "ベティ・ホワイト",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251202936",
+      "person_name": "根岸隆",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202937",
+      "person_name": "ジョン・マッケンタイア",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202944",
+      "person_name": "筑紫哲也",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 6.2
+    },
+    {
+      "episode_id": "EP-251202945",
+      "person_name": "ヤン・ルカン",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202952",
+      "person_name": "ひろゆき",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251202961",
+      "person_name": "伊沢拓司",
+      "age": 73,
+      "original_surprise": 2.0,
+      "new_surprise": 9.2
+    }
+  ]
+}

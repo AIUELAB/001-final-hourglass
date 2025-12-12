@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T17:01:46.115335",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000962",
+      "person_name": "ジェリー・ライス",
+      "age": 20,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204852",
+      "person_name": "今敏",
+      "age": 63,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    },
+    {
+      "episode_id": "EP-251203451",
+      "person_name": "ハービー・ハンコック",
+      "age": 67,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203378",
+      "person_name": "ハービー・ハンコック",
+      "age": 14,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203266",
+      "person_name": "裕仁（昭和天皇）",
+      "age": 72,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203251",
+      "person_name": "浜辺美波",
+      "age": 16,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203246",
+      "person_name": "出崎統",
+      "age": 16,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203170",
+      "person_name": "ジェームズ・ラブロック",
+      "age": 80,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251203160",
+      "person_name": "ジミー・ペイジ",
+      "age": 80,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251203089",
+      "person_name": "ジェームズ・ラブロック",
+      "age": 71,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251203055",
+      "person_name": "ウェイン・ショーター",
+      "age": 71,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251202967",
+      "person_name": "ノーマン・リア",
+      "age": 73,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204857",
+      "person_name": "今敏",
+      "age": 61,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251202884",
+      "person_name": "ウェイン・ショーター",
+      "age": 74,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251202658",
+      "person_name": "浜辺美波",
+      "age": 11,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202609",
+      "person_name": "池田秀一",
+      "age": 11,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202519",
+      "person_name": "池田秀一",
+      "age": 6,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202376",
+      "person_name": "ジミー・ペイジ",
+      "age": 9,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202295",
+      "person_name": "ジェームズ・ラブロック",
+      "age": 79,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251202201",
+      "person_name": "出崎統",
+      "age": 13,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251202194",
+      "person_name": "ジミー・ペイジ",
+      "age": 13,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202186",
+      "person_name": "沢城みゆき",
+      "age": 13,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202185",
+      "person_name": "悠木碧",
+      "age": 13,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251202035",
+      "person_name": "パット・メセニー",
+      "age": 10,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251202003",
+      "person_name": "沢城みゆき",
+      "age": 10,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251202670",
+      "person_name": "パット・メセニー",
+      "age": 11,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251201929",
+      "person_name": "ジェームズ・ラブロック",
+      "age": 77,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204864",
+      "person_name": "今敏",
+      "age": 57,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251204915",
+      "person_name": "クリント・イーストウッド",
+      "age": 72,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251205344",
+      "person_name": "ロアルド・アムンセン",
+      "age": 45,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251205340",
+      "person_name": "鄭和",
+      "age": 60,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251205339",
+      "person_name": "鄭和",
+      "age": 55,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251205338",
+      "person_name": "鄭和",
+      "age": 50,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251205334",
+      "person_name": "ジェームズ・クック",
+      "age": 50,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251205333",
+      "person_name": "ジェームズ・クック",
+      "age": 48,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251205332",
+      "person_name": "ジェームズ・クック",
+      "age": 40,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251205330",
+      "person_name": "ヴァスコ・ダ・ガマ",
+      "age": 55,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251205326",
+      "person_name": "ヴァスコ・ダ・ガマ",
+      "age": 25,
+      "original_empathy": 2.5,
+      "new_empathy": 8.5
+    },
+    {
+      "episode_id": "EP-251205068",
+      "person_name": "カズオ・イシグロ",
+      "age": 19,
+      "original_empathy": 2.5,
+      "new_empathy": 9.1
+    },
+    {
+      "episode_id": "EP-251205067",
+      "person_name": "カズオ・イシグロ",
+      "age": 18,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251204889",
+      "person_name": "ジョン・ボーナム",
+      "age": 34,
+      "original_empathy": 2.5,
+      "new_empathy": 8.0
+    },
+    {
+      "episode_id": "EP-251205039",
+      "person_name": "村上春樹",
+      "age": 66,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204986",
+      "person_name": "ジャック・クストー",
+      "age": 41,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204982",
+      "person_name": "ジャック・クストー",
+      "age": 34,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204976",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 72,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251204971",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 67,
+      "original_empathy": 2.5,
+      "new_empathy": 8.7
+    },
+    {
+      "episode_id": "EP-251204970",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 66,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    },
+    {
+      "episode_id": "EP-251204968",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 63,
+      "original_empathy": 2.5,
+      "new_empathy": 9.2
+    },
+    {
+      "episode_id": "EP-251204965",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 59,
+      "original_empathy": 2.5,
+      "new_empathy": 9.0
+    },
+    {
+      "episode_id": "EP-251204955",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 39,
+      "original_empathy": 2.5,
+      "new_empathy": 8.2
+    }
+  ]
+}

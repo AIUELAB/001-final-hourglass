@@ -1,0 +1,360 @@
+{
+  "timestamp": "2025-12-11T15:43:23.372008",
+  "target_count": 50,
+  "improved_count": 50,
+  "partial_count": 0,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-000292",
+      "person_name": "松坂大輔",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977571",
+      "person_name": "堀米雄斗",
+      "age": 27,
+      "original_surprise": 2.8,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-977574",
+      "person_name": "瀬戸大也",
+      "age": 30,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977576",
+      "person_name": "北島康介",
+      "age": 42,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-977577",
+      "person_name": "入江陵介",
+      "age": 36,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251205512",
+      "person_name": "山田哲人",
+      "age": 32,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251205568",
+      "person_name": "朝倉未来",
+      "age": 32,
+      "original_surprise": 2.8,
+      "new_surprise": 7.0
+    },
+    {
+      "episode_id": "EP-251205628",
+      "person_name": "細田守",
+      "age": 57,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-251205629",
+      "person_name": "新海誠",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251205635",
+      "person_name": "山田尚子",
+      "age": 32,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-251205636",
+      "person_name": "長井龍雪",
+      "age": 46,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204953",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 36,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204956",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 41,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204957",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 44,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204959",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 47,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204960",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 51,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204963",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-251204966",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 61,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204967",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 62,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204973",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 69,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-251204974",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 70,
+      "original_surprise": 2.8,
+      "new_surprise": 9.5
+    },
+    {
+      "episode_id": "EP-251204975",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 71,
+      "original_surprise": 2.8,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-977567",
+      "person_name": "錦織圭",
+      "age": 35,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-977555",
+      "person_name": "村田諒太",
+      "age": 38,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977335",
+      "person_name": "ミルコ・クロコップ",
+      "age": 56,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977333",
+      "person_name": "ボブ・サップ",
+      "age": 49,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-E0BD2B",
+      "person_name": "今永昇太",
+      "age": 27,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-92E1D5",
+      "person_name": "ときど",
+      "age": 25,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-238A5F",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-380E93",
+      "person_name": "井上尚弥",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 8.5
+    },
+    {
+      "episode_id": "EP-DF400B",
+      "person_name": "紫雷イオ",
+      "age": 30,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-977187",
+      "person_name": "シドニー・ポワチエ",
+      "age": 92,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977214",
+      "person_name": "ボビー・オロゴン",
+      "age": 43,
+      "original_surprise": 2.8,
+      "new_surprise": 9.1
+    },
+    {
+      "episode_id": "EP-977215",
+      "person_name": "アーネスト・ホースト",
+      "age": 33,
+      "original_surprise": 2.8,
+      "new_surprise": 8.7
+    },
+    {
+      "episode_id": "EP-977216",
+      "person_name": "セーム・シュルト",
+      "age": 27,
+      "original_surprise": 2.8,
+      "new_surprise": 7.8
+    },
+    {
+      "episode_id": "EP-977218",
+      "person_name": "マーク・ハント",
+      "age": 53,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-251204977",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 73,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977222",
+      "person_name": "ジャイアント馬場",
+      "age": 40,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-977229",
+      "person_name": "アンデウソン・シウバ",
+      "age": 28,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977230",
+      "person_name": "カビブ・ヌルマゴメドフ",
+      "age": 33,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "EP-977233",
+      "person_name": "マイケル・ムーア",
+      "age": 29,
+      "original_surprise": 2.8,
+      "new_surprise": 7.5
+    },
+    {
+      "episode_id": "EP-977237",
+      "person_name": "デヴィッド・リンチ",
+      "age": 61,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977238",
+      "person_name": "クエンティン・タランティーノ",
+      "age": 32,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-977242",
+      "person_name": "クリストファー・ノーラン",
+      "age": 35,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-977243",
+      "person_name": "デニス・ヴィルヌーヴ",
+      "age": 22,
+      "original_surprise": 2.8,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-977245",
+      "person_name": "アルフォンソ・キュアロン",
+      "age": 31,
+      "original_surprise": 2.8,
+      "new_surprise": 6.5
+    },
+    {
+      "episode_id": "EP-977312",
+      "person_name": "アルフレッド・ヒッチコック",
+      "age": 66,
+      "original_surprise": 2.8,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-977313",
+      "person_name": "チャールズ・チャップリン",
+      "age": 28,
+      "original_surprise": 2.8,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-977223",
+      "person_name": "力道山",
+      "age": 38,
+      "original_surprise": 2.8,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-251204978",
+      "person_name": "エドモンド・ヒラリー",
+      "age": 74,
+      "original_surprise": 2.8,
+      "new_surprise": 8.8
+    }
+  ]
+}

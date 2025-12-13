@@ -1,189 +1,69 @@
 {
-  "timestamp": "2025-12-12T06:18:42.365618",
-  "total_group_episodes": 19,
+  "timestamp": "2025-12-14T08:12:17.321452",
+  "total_group_episodes": 7,
   "decomposed": [
     {
-      "original_episode_id": "EP-2512071525",
-      "new_episode_id": "EP-974843",
-      "group_name": "AC/DC",
-      "member_name": "アンガス・ヤング",
-      "age": 35.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512072358",
-      "new_episode_id": "EP-985599",
-      "group_name": "かりゆし58",
-      "member_name": "前川真悟",
-      "age": 32.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071519",
-      "new_episode_id": "EP-948775",
-      "group_name": "アリス・イン・チェインズ",
-      "member_name": "レイン・ステイリー",
-      "age": 27.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512074753",
-      "new_episode_id": "EP-966803",
-      "group_name": "オレンジレンジ",
-      "member_name": "NAOTO",
-      "age": 25.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512072273",
-      "new_episode_id": "EP-973521",
-      "group_name": "ガンズ・アンド・ローゼズ",
-      "member_name": "アクセル・ローズ",
-      "age": 25.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071522",
-      "new_episode_id": "EP-950325",
+      "original_episode_id": "EP-000006591",
+      "new_episode_id": "EP-970597",
       "group_name": "グリーン・デイ",
       "member_name": "ビリー・ジョー・アームストロング",
       "age": 25.0,
       "dry_run": false
     },
     {
-      "original_episode_id": "EP-2512074752",
-      "new_episode_id": "EP-920936",
-      "group_name": "ゴスペラーズ",
-      "member_name": "村上てつや",
-      "age": 28.0,
+      "original_episode_id": "EP-000004276",
+      "new_episode_id": "EP-901752",
+      "group_name": "コーエン兄弟",
+      "member_name": "ジョエル・コーエン",
+      "age": 35.0,
       "dry_run": false
     },
     {
-      "original_episode_id": "EP-2512074751",
-      "new_episode_id": "EP-979879",
-      "group_name": "サイモン&ガーファンクル",
-      "member_name": "ポール・サイモン",
-      "age": 26.0,
+      "original_episode_id": "EP-000004276",
+      "new_episode_id": "EP-924060",
+      "group_name": "コーエン兄弟",
+      "member_name": "イーサン・コーエン",
+      "age": 35.0,
       "dry_run": false
     },
     {
-      "original_episode_id": "EP-2512074751",
-      "new_episode_id": "EP-910503",
-      "group_name": "サイモン&ガーファンクル",
-      "member_name": "アート・ガーファンクル",
-      "age": 26.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071520",
-      "new_episode_id": "EP-987950",
-      "group_name": "サウンドガーデン",
-      "member_name": "クリス・コーネル",
-      "age": 30.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071511",
-      "new_episode_id": "EP-988695",
-      "group_name": "サッズ",
-      "member_name": "清春",
-      "age": 32.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071515",
-      "new_episode_id": "EP-949409",
+      "original_episode_id": "EP-000006584",
+      "new_episode_id": "EP-971311",
       "group_name": "ザ・キュアー",
       "member_name": "ロバート・スミス",
       "age": 30.0,
       "dry_run": false
     },
     {
-      "original_episode_id": "EP-2512071517",
-      "new_episode_id": "EP-995128",
-      "group_name": "ニルヴァーナ",
-      "member_name": "カート・コバーン",
-      "age": 26.0,
+      "original_episode_id": "EP-000003644",
+      "new_episode_id": "EP-985447",
+      "group_name": "バンク・バンド",
+      "member_name": "桜井和寿",
+      "age": 35.0,
       "dry_run": false
     },
     {
-      "original_episode_id": "EP-2512071518",
-      "new_episode_id": "EP-990454",
+      "original_episode_id": "EP-000006587",
+      "new_episode_id": "EP-964553",
       "group_name": "パール・ジャム",
       "member_name": "エディ・ヴェダー",
       "age": 28.0,
       "dry_run": false
     },
     {
-      "original_episode_id": "EP-2512071521",
-      "new_episode_id": "EP-973365",
+      "original_episode_id": "EP-000006583",
+      "new_episode_id": "EP-996767",
+      "group_name": "フリートウッド・マック",
+      "member_name": "スティーヴィー・ニックス",
+      "age": 35.0,
+      "dry_run": false
+    },
+    {
+      "original_episode_id": "EP-000006590",
+      "new_episode_id": "EP-999098",
       "group_name": "フー・ファイターズ",
       "member_name": "デイヴ・グロール",
       "age": 32.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071504",
-      "new_episode_id": "EP-906710",
-      "group_name": "ブルーハーツ",
-      "member_name": "甲本ヒロト",
-      "age": 35.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071504",
-      "new_episode_id": "EP-932698",
-      "group_name": "ブルーハーツ",
-      "member_name": "真島昌利",
-      "age": 35.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071524",
-      "new_episode_id": "EP-939589",
-      "group_name": "メタリカ",
-      "member_name": "ジェイムズ・ヘットフィールド",
-      "age": 28.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512074941",
-      "new_episode_id": "EP-928268",
-      "group_name": "メタリカ",
-      "member_name": "ジェイムズ・ヘットフィールド",
-      "age": 30.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071723",
-      "new_episode_id": "EP-992640",
-      "group_name": "浅草キッド",
-      "member_name": "水道橋博士",
-      "age": 40.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512071723",
-      "new_episode_id": "EP-986874",
-      "group_name": "浅草キッド",
-      "member_name": "ビートたけし",
-      "age": 40.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512074444",
-      "new_episode_id": "EP-920237",
-      "group_name": "藤子不二雄",
-      "member_name": "藤子・F・不二雄",
-      "age": 35.0,
-      "dry_run": false
-    },
-    {
-      "original_episode_id": "EP-2512074444",
-      "new_episode_id": "EP-967101",
-      "group_name": "藤子不二雄",
-      "member_name": "藤子不二雄A",
-      "age": 35.0,
       "dry_run": false
     }
   ],
@@ -191,8 +71,8 @@
   "deleted": [],
   "errors": [],
   "summary": {
-    "new_episodes": 23,
+    "new_episodes": 8,
     "renamed_episodes": 0,
-    "deleted_episodes": 19
+    "deleted_episodes": 7
   }
 }

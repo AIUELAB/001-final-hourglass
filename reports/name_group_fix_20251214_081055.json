@@ -1,0 +1,114 @@
+{
+  "timestamp": "2025-12-14T08:10:55.549711",
+  "total_issues": 5,
+  "applied_fixes": 5,
+  "fixes": [
+    {
+      "original_name": "水溜りボンド カンタ",
+      "new_name": "カンタ",
+      "group_name": "水溜りボンド",
+      "affected_rows": 1,
+      "confidence": 0.95
+    },
+    {
+      "original_name": "Fischer's シルクロード",
+      "new_name": "シルクロード",
+      "group_name": "Fischer's",
+      "affected_rows": 1,
+      "confidence": 0.95
+    },
+    {
+      "original_name": "コムドット やまと",
+      "new_name": "やまと",
+      "group_name": "コムドット",
+      "affected_rows": 1,
+      "confidence": 0.95
+    },
+    {
+      "original_name": "千原兄弟・千原浩史",
+      "new_name": "千原浩史",
+      "group_name": "千原兄弟",
+      "affected_rows": 1,
+      "confidence": 0.9
+    },
+    {
+      "original_name": "EXIT 兼近",
+      "new_name": "兼近",
+      "group_name": "EXIT",
+      "affected_rows": 1,
+      "confidence": 0.95
+    }
+  ],
+  "issues": [
+    {
+      "person_id": "PC4A4D22",
+      "original_name": "水溜りボンド カンタ",
+      "pattern": "SPACE_SEPARATOR",
+      "detected_group": "水溜りボンド",
+      "detected_individual": "カンタ",
+      "current_group_name": NaN,
+      "confidence": 0.95,
+      "suggested_fix": {
+        "person_name": "カンタ",
+        "group_name": "水溜りボンド",
+        "is_group_member": true
+      }
+    },
+    {
+      "person_id": "P215298E",
+      "original_name": "Fischer's シルクロード",
+      "pattern": "SPACE_SEPARATOR",
+      "detected_group": "Fischer's",
+      "detected_individual": "シルクロード",
+      "current_group_name": NaN,
+      "confidence": 0.95,
+      "suggested_fix": {
+        "person_name": "シルクロード",
+        "group_name": "Fischer's",
+        "is_group_member": true
+      }
+    },
+    {
+      "person_id": "PF547A8C",
+      "original_name": "コムドット やまと",
+      "pattern": "SPACE_SEPARATOR",
+      "detected_group": "コムドット",
+      "detected_individual": "やまと",
+      "current_group_name": NaN,
+      "confidence": 0.95,
+      "suggested_fix": {
+        "person_name": "やまと",
+        "group_name": "コムドット",
+        "is_group_member": true
+      }
+    },
+    {
+      "person_id": "P3286C8B",
+      "original_name": "千原兄弟・千原浩史",
+      "pattern": "DOT_SEPARATOR",
+      "detected_group": "千原兄弟",
+      "detected_individual": "千原浩史",
+      "current_group_name": NaN,
+      "confidence": 0.9,
+      "suggested_fix": {
+        "person_name": "千原浩史",
+        "group_name": "千原兄弟",
+        "is_group_member": true
+      }
+    },
+    {
+      "person_id": "P3E6EC5B",
+      "original_name": "EXIT 兼近",
+      "pattern": "SPACE_SEPARATOR",
+      "detected_group": "EXIT",
+      "detected_individual": "兼近",
+      "current_group_name": NaN,
+      "confidence": 0.95,
+      "suggested_fix": {
+        "person_name": "兼近",
+        "group_name": "EXIT",
+        "is_group_member": true
+      }
+    }
+  ]
+}

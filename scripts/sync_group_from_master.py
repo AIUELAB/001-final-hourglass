@@ -238,14 +238,11 @@ def main():
         print(f"💾 バックアップ: {backup_path}")
 
         # 保存
+        # 注: preserved/MASTER_EPISODES_CURRENT.csv はシンボリックリンクで
+        # preserved/data/MASTER_EPISODES_CURRENT.csv を指しているため、
+        # 1回の書込で両方のパスからアクセス可能
         df.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"💾 CSV更新完了: {csv_path}")
-
-        # data/フォルダにもコピー
-        data_csv_path = project_root / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
-        if data_csv_path.parent.exists():
-            df.to_csv(data_csv_path, index=False, encoding="utf-8-sig")
-            print(f"💾 data/フォルダにもコピー: {data_csv_path}")
 
         # レポート保存
         report_dir = project_root / "reports"

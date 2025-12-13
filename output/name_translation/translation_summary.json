@@ -1,8 +1,8 @@
 {
-  "timestamp": "2025-12-05T22:27:27.967136",
-  "total_translated": 20,
+  "timestamp": "2025-12-14T00:54:56.773891",
+  "total_translated": 684,
   "by_source": {
-    "dry_run": 20
+    "llm": 684
   },
-  "average_confidence": 0.0
+  "average_confidence": 0.9523391812865474
 }

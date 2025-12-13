@@ -1,20 +1,13 @@
 ﻿person_id,person_name,category,person_type,is_pure_english,name_type,classification,reason
+P5FCEEB6,Taka,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 P869B65C,NON STYLE,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 P7DC4E25,Madonna,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-PA5C59C0,Adele,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 P97C8F69,Prince,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-P5285577,Rihanna,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-P0637B8D,Zendaya,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-PEFFBBBD,Eminem,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-PFEFBF3F,Jay-Z,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-P9212125,Neil deGrasse Tyson,科学・技術,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
 P73D2360,SZA,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 P01959F7,Lars von Trier,映画・演劇,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
-PB150F25,Drake,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PDC7D3CA,Beyoncé,エンターテイメント,REAL,False,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PBC3C340,John von Neumann,科学・技術,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
 PA4BD015,Darwin,学術・研究,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-P4F9B6C6,Leonardo da Vinci,学術・研究,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
 P5CF6345,Mendeleev,学術・研究,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PFABA8D4,50 Cent,エンターテイメント,REAL,False,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
 P259A8D8,Shakira,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
@@ -28,10 +21,10 @@ P725418E,Soundgarden,音楽,REAL,True,artist_name,review_required,英語芸名�
 P8B0EE5A,Metallica,音楽,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PD0EFEFE,Archimedes,科学・技術,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 P0CE3093,Werner von Braun,科学・技術,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
+PC03A9FE,OKAMA,アニメ・漫画・ゲーム,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PB1CD9EB,Benicio del Toro,映画・演劇,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
 PD292DAF,Watson and Crick,科学・技術,REAL,True,unknown,review_required,名前タイプ判定不可 - 人間レビュー推奨
 P0B4B53C,Neymar,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
-PAA96885,Coldplay,エンターテイメント,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PA70EC02,Notch,アニメ・漫画・ゲーム,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 P38C78F6,Copernicus,科学・技術,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認
 PF530C76,Mendel,科学・技術,REAL,True,artist_name,review_required,英語芸名の可能性（1単語/全大文字）- 要確認

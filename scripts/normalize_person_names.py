@@ -190,6 +190,34 @@ TITLE_KEYWORDS = [
     "現会長",
     "共同開発者",
     "共同創業者",
+    "名誉教授",
+    "教授",
+    "研究者",
+]
+
+# 職業修飾子（新規）
+PROFESSION_MODIFIERS = [
+    "秋葉原系",
+    "平成の",
+    "令和の",
+    "伝説の",
+    "天才",
+    "カリスマ",
+    "ベテラン",
+    "新進気鋭の",
+    "人気",
+    "有名",
+    "お笑い",
+    "アニメ",
+    "高所順応",
+]
+
+# 役名キーワード（新規）
+ROLE_KEYWORDS = [
+    "役",
+    "CV",
+    "声の出演",
+    "主演",
 ]
 
 # 職業パターン
@@ -303,6 +331,137 @@ TEAM_KEYWORDS = [
     "バルセロナ",
 ]
 
+# アイドルグループ（新規）
+IDOL_GROUP_KEYWORDS = [
+    "AKB48",
+    "SKE48",
+    "NMB48",
+    "HKT48",
+    "乃木坂46",
+    "櫻坂46",
+    "日向坂46",
+    "欅坂46",
+    "嵐",
+    "SMAP",
+    "TOKIO",
+    "V6",
+    "KinKi Kids",
+    "関ジャニ∞",
+    "Hey! Say! JUMP",
+    "King & Prince",
+    "SixTONES",
+    "Snow Man",
+    "モーニング娘。",
+]
+
+# 音楽グループ（新規）
+MUSIC_GROUP_KEYWORDS = [
+    "RADWIMPS",
+    "チューリップ",
+    "サザンオールスターズ",
+    "Mr.Children",
+    "BUMP OF CHICKEN",
+    "スピッツ",
+    "L'Arc〜en〜Ciel",
+    "GLAY",
+    "X JAPAN",
+    "B'z",
+    "スキマスイッチ",
+    "ゆず",
+    "コブクロ",
+    "いきものがかり",
+    "Perfume",
+    "SEKAI NO OWARI",
+    "Official髭男dism",
+    "King Gnu",
+    "U2",
+    "Coldplay",
+    "Queen",
+    "The Beatles",
+    "ONE OK ROCK",
+    "UVERworld",
+]
+
+# お笑いグループ（新規）
+COMEDY_GROUP_KEYWORDS = [
+    "野性爆弾",
+    "トレンディエンジェル",
+    "ガンバレルーヤ",
+    "ダウンタウン",
+    "ウッチャンナンチャン",
+    "とんねるず",
+    "爆笑問題",
+    "くりぃむしちゅー",
+    "ナインティナイン",
+    "雨上がり決死隊",
+    "バナナマン",
+    "サンドウィッチマン",
+    "千鳥",
+    "霜降り明星",
+    "オードリー",
+    "アンジャッシュ",
+    "おぎやはぎ",
+    "品川庄司",
+    "さまぁ〜ず",
+    "ロンドンブーツ1号2号",
+    "オリエンタルラジオ",
+    "チョコレートプラネット",
+    "かまいたち",
+    "ミルクボーイ",
+    "ぺこぱ",
+    "EXIT",
+    "宮下草薙",
+    "錦鯉",
+]
+
+# 代数表記パターン（新規）
+GENERATION_PREFIXES = [
+    "初代",
+    "二代目",
+    "2代目",
+    "三代目",
+    "3代目",
+    "四代目",
+    "4代目",
+    "五代目",
+    "5代目",
+    "六代目",
+    "6代目",
+    "七代目",
+    "7代目",
+    "八代目",
+    "8代目",
+    "九代目",
+    "9代目",
+    "十代目",
+    "10代目",
+    "十一代目",
+    "11代目",
+    "十二代目",
+    "12代目",
+    "十三代目",
+    "13代目",
+    "十四代目",
+    "14代目",
+    "十五代目",
+    "15代目",
+    # 「代」なし形式（陶芸家など） - 「八代」は苗字として一般的なため除外
+    "十四代",
+    "十五代",
+    "十三代",
+    "十二代",
+    "十一代",
+    "十代",
+    "九代",
+    # "八代" - 苗字（八代亜紀など）と混同するため除外
+    "七代",
+    "六代",
+    "五代",
+    "四代",
+    # "三代" - 苗字として存在するため除外
+    "二代",
+]
+
 
 @dataclass
 class NormalizationResult:
@@ -381,7 +540,17 @@ class PersonNameNormalizer:
         if result:
             return result
 
+        # 修飾職業パターン（秋葉原系漫画家OKAMA など）
+        result = self._match_modified_profession(person_name)
+        if result:
+            return result
+
         result = self._match_profession_prefix(person_name)
+        if result:
+            return result
+
+        # 役割接尾辞パターン（アニメ声優・悟空役野沢雅子 など）
+        result = self._match_role_suffix(person_name)
         if result:
             return result
 
@@ -401,11 +570,48 @@ class PersonNameNormalizer:
         if result:
             return result
 
+        # アイドルグループパターン（AKB48指原莉乃 など）
+        result = self._match_idol_group(person_name)
+        if result:
+            return result
+
+        # 音楽グループパターン（RADWIMPSの野田洋次郎 など）
+        result = self._match_music_group(person_name)
+        if result:
+            return result
+
+        # お笑いグループパターン（野性爆弾くっきー など）
+        result = self._match_comedy_group(person_name)
+        if result:
+            return result
+
+        # 代数表記パターン（十四代酒井田柿右衛門 など）
+        result = self._match_generation_prefix(person_name)
+        if result:
+            return result
+
         return None
 
     def _match_affiliation_prefix(self, name: str) -> Optional[NormalizationResult]:
         """会社・人物 形式の検出"""
         for company in COMPANY_KEYWORDS:
+            # 会社+肩書+人物 形式（楽天創業者三木谷浩史 など）
+            for title_kw in TITLE_KEYWORDS:
+                prefix = company + title_kw
+                if name.startswith(prefix) and len(name) > len(prefix):
+                    person = name[len(prefix) :]
+                    if len(person) >= 2:
+                        return NormalizationResult(
+                            original_name=name,
+                            normalized_name=person,
+                            title=title_kw,
+                            affiliation=company,
+                            pattern_type="AFFILIATION_TITLE",
+                            confidence=0.95,
+                            requires_review=False,
+                            match_detail=f"会社「{company}」と肩書「{title_kw}」を分離",
+                        )
+
             # 会社・人物 形式
             pattern = f"^{re.escape(company)}・(.+)$"
             match = re.match(pattern, name)
@@ -480,7 +686,7 @@ class PersonNameNormalizer:
         """職業・人物 形式の検出"""
         for profession in PROFESSION_KEYWORDS:
             # 職業・人物 形式
-            pattern = f"^{re.escape(profession)}[・\s]?(.+)$"
+            pattern = f"^{re.escape(profession)}[・\\s]?(.+)$"
             match = re.match(pattern, name)
             if match:
                 person = match.group(1)
@@ -554,7 +760,7 @@ class PersonNameNormalizer:
     def _match_team_member(self, name: str) -> Optional[NormalizationResult]:
         """チーム・人物 形式の検出"""
         for team in TEAM_KEYWORDS:
-            pattern = f"^{re.escape(team)}[・\s]?(.+)$"
+            pattern = f"^{re.escape(team)}[・\\s]?(.+)$"
             match = re.match(pattern, name)
             if match:
                 person = match.group(1)
@@ -574,7 +780,7 @@ class PersonNameNormalizer:
     def _match_league_prefix(self, name: str) -> Optional[NormalizationResult]:
         """リーグ・人物 形式の検出"""
         for league in LEAGUE_KEYWORDS:
-            pattern = f"^{re.escape(league)}[・\s]?(.+)$"
+            pattern = f"^{re.escape(league)}[・\\s]?(.+)$"
             match = re.match(pattern, name)
             if match:
                 person = match.group(1)
@@ -588,6 +794,203 @@ class PersonNameNormalizer:
                     requires_review=False,
                     match_detail=f"リーグ「{league}」を分離",
                 )
+
+        return None
+
+    def _match_modified_profession(self, name: str) -> Optional[NormalizationResult]:
+        """修飾職業・人物 形式の検出（秋葉原系漫画家OKAMA など）"""
+        for modifier in PROFESSION_MODIFIERS:
+            for profession in PROFESSION_KEYWORDS:
+                # 修飾子+職業+人物 形式
+                prefix = modifier + profession
+                if name.startswith(prefix) and len(name) > len(prefix):
+                    remaining = name[len(prefix) :]
+
+                    # 修飾子+職業+・+役名+人物 形式（アニメ声優・悟空役野沢雅子 など）
+                    for role_kw in ROLE_KEYWORDS:
+                        role_pattern = f"^[・\\s]?(.+?){re.escape(role_kw)}(.+)$"
+                        role_match = re.match(role_pattern, remaining)
+                        if role_match:
+                            role_name = role_match.group(1)
+                            person = role_match.group(2)
+                            if len(person) >= 2:
+                                full_title = f"{prefix}・{role_name}{role_kw}"
+                                return NormalizationResult(
+                                    original_name=name,
+                                    normalized_name=person,
+                                    title=full_title,
+                                    affiliation=None,
+                                    pattern_type="MODIFIED_PROFESSION_ROLE",
+                                    confidence=0.90,
+                                    requires_review=False,
+                                    match_detail=f"修飾職業+役割「{full_title}」を分離",
+                                )
+
+                    # 人物名が空や短すぎる場合はスキップ
+                    if len(remaining) >= 2:
+                        return NormalizationResult(
+                            original_name=name,
+                            normalized_name=remaining,
+                            title=prefix,
+                            affiliation=None,
+                            pattern_type="MODIFIED_PROFESSION",
+                            confidence=0.88,
+                            requires_review=False,
+                            match_detail=f"修飾職業「{prefix}」を分離",
+                        )
+
+        return None
+
+    def _match_role_suffix(self, name: str) -> Optional[NormalizationResult]:
+        """役割接尾辞・人物 形式の検出（アニメ声優・悟空役野沢雅子 など）"""
+        for role_kw in ROLE_KEYWORDS:
+            # 〜役人物 形式（役名の後に人物名が続く）
+            pattern = f"^(.+){re.escape(role_kw)}(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                role_part = match.group(1)
+                person = match.group(2)
+
+                # 人物名が短すぎる場合はスキップ
+                if len(person) < 2:
+                    continue
+
+                return NormalizationResult(
+                    original_name=name,
+                    normalized_name=person,
+                    title=f"{role_part}{role_kw}",
+                    affiliation=None,
+                    pattern_type="ROLE_SUFFIX",
+                    confidence=0.90,
+                    requires_review=False,
+                    match_detail=f"役割「{role_part}{role_kw}」を分離",
+                )
+
+        return None
+
+    def _match_idol_group(self, name: str) -> Optional[NormalizationResult]:
+        """アイドルグループ・人物 形式の検出（AKB48指原莉乃 など）"""
+        for group in IDOL_GROUP_KEYWORDS:
+            # グループ・人物 形式
+            pattern = f"^{re.escape(group)}[・\\s]?(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 2:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=group,
+                        pattern_type="IDOL_GROUP",
+                        confidence=0.92,
+                        requires_review=False,
+                        match_detail=f"アイドルグループ「{group}」を分離",
+                    )
+
+        return None
+
+    def _match_music_group(self, name: str) -> Optional[NormalizationResult]:
+        """音楽グループ・人物 形式の検出（RADWIMPSの野田洋次郎 など）"""
+        for group in MUSIC_GROUP_KEYWORDS:
+            # グループの人物 形式
+            pattern = f"^{re.escape(group)}の(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 1:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=group,
+                        pattern_type="MUSIC_GROUP",
+                        confidence=0.93,
+                        requires_review=False,
+                        match_detail=f"音楽グループ「{group}」を分離",
+                    )
+
+            # グループ・人物 形式
+            pattern = f"^{re.escape(group)}・(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 1:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=group,
+                        pattern_type="MUSIC_GROUP",
+                        confidence=0.90,
+                        requires_review=False,
+                        match_detail=f"音楽グループ「{group}」を分離",
+                    )
+
+        return None
+
+    def _match_comedy_group(self, name: str) -> Optional[NormalizationResult]:
+        """お笑いグループ・人物 形式の検出（野性爆弾くっきー など）"""
+        for group in COMEDY_GROUP_KEYWORDS:
+            # グループ・人物 形式
+            pattern = f"^{re.escape(group)}・(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 1:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=group,
+                        pattern_type="COMEDY_GROUP",
+                        confidence=0.90,
+                        requires_review=False,
+                        match_detail=f"お笑いグループ「{group}」を分離",
+                    )
+
+            # グループ人物 形式（区切りなし）
+            if name.startswith(group) and len(name) > len(group):
+                person = name[len(group) :]
+                # 次の文字がひらがな、カタカナ、漢字ならマッチ
+                if person and (
+                    "\u3040" <= person[0] <= "\u309f"  # ひらがな
+                    or "\u30a0" <= person[0] <= "\u30ff"  # カタカナ
+                    or "\u4e00" <= person[0] <= "\u9fff"  # 漢字
+                ):
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=group,
+                        pattern_type="COMEDY_GROUP",
+                        confidence=0.88,
+                        requires_review=False,
+                        match_detail=f"お笑いグループ「{group}」を分離（区切りなし）",
+                    )
+
+        return None
+
+    def _match_generation_prefix(self, name: str) -> Optional[NormalizationResult]:
+        """代数表記・人物 形式の検出（十四代酒井田柿右衛門 など）"""
+        for gen in GENERATION_PREFIXES:
+            if name.startswith(gen) and len(name) > len(gen):
+                person = name[len(gen) :]
+                # 次の文字が漢字またはひらがなならマッチ
+                if person and (
+                    "\u4e00" <= person[0] <= "\u9fff"  # 漢字
+                    or "\u3040" <= person[0] <= "\u309f"  # ひらがな
+                ):
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=gen,
+                        affiliation=None,
+                        pattern_type="GENERATION_PREFIX",
+                        confidence=0.85,
+                        requires_review=True,  # 代数表記は要レビュー
+                        match_detail=f"代数表記「{gen}」を分離",
+                    )
 
         return None
 

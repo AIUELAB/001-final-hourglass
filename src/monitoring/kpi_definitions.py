@@ -9,8 +9,10 @@ KPI一覧:
 4. 表記ゆれ率 (target: 0%)
 5. 重複ID率 (target: 0%)
 6. nan ID率 (target: 0%)
+7. 削除済みID混入率 (target: 0%) - 再発防止用
 """
 
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -19,6 +21,9 @@ from typing import Optional
 from collections import defaultdict
 
 import pandas as pd
+
+# Tombstoneファイルパス
+TOMBSTONE_PATH = Path(__file__).parent.parent.parent / "preserved" / "data" / "DELETED_IDS_TOMBSTONE.json"
 
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -97,6 +102,7 @@ class EPUPKPICalculator:
             self._calc_variant_rate(),
             self._calc_duplicate_id_rate(),
             self._calc_nan_id_rate(),
+            self._calc_deleted_id_contamination_rate(),
         ]
 
         # 総合ステータス判定
@@ -248,6 +254,64 @@ class EPUPKPICalculator:
             target=0.0,
             status=self._get_status(rate, 0.0, 0.0, 0.001),
             details={"nan_count": nan_count, "total": total},
+        )
+
+    def _load_deleted_ids(self) -> set:
+        """
+        Tombstoneファイルから削除済みIDを読み込む
+
+        Returns:
+            削除済みperson_idのセット
+        """
+        if not TOMBSTONE_PATH.exists():
+            return set()
+
+        try:
+            with open(TOMBSTONE_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return {item["person_id"] for item in data.get("deleted_ids", [])}
+        except (json.JSONDecodeError, KeyError):
+            return set()
+
+    def _calc_deleted_id_contamination_rate(self) -> KPIResult:
+        """
+        削除済みID混入率を計算
+
+        Tombstoneに登録された削除済みIDがCSVに存在するかチェック
+        """
+        deleted_ids = self._load_deleted_ids()
+
+        if not deleted_ids:
+            return KPIResult(
+                name="削除済みID混入率",
+                value=0.0,
+                target=0.0,
+                status="OK",
+                details={"contaminated": 0, "deleted_ids_count": 0, "note": "Tombstone未設定"},
+            )
+
+        contaminated = 0
+        contaminated_ids: list[str] = []
+
+        for _, row in self.df.iterrows():
+            if pd.notna(row["person_id"]) and str(row["person_id"]) in deleted_ids:
+                contaminated += 1
+                if len(contaminated_ids) < 5:  # 最大5件まで記録
+                    contaminated_ids.append(str(row["person_id"]))
+
+        total = len(self.df)
+        rate = contaminated / total if total > 0 else 0.0
+
+        return KPIResult(
+            name="削除済みID混入率",
+            value=rate,
+            target=0.0,
+            status=self._get_status(rate, 0.0, 0.0, 0.001),  # 1件でもあればCRITICAL
+            details={
+                "contaminated": contaminated,
+                "deleted_ids_count": len(deleted_ids),
+                "contaminated_ids": contaminated_ids,
+            },
         )
 
     def _get_status(self, value: float, ok_max: float, warn_max: float, crit_max: float) -> str:

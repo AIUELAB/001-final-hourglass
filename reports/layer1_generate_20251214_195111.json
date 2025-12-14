@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-12-14T19:51:11.438186",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 40,
+    "generated": 1,
+    "format_rejected": 39,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 5,
+    "api_errors": 0,
+    "success_rate": 2.5,
+    "elapsed_seconds": 261.7,
+    "episodes_per_minute": 0.2
+  },
+  "sample_episodes": [
+    {
+      "person_name": "ベティ・ホワイト",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき、ベティ・ホワイトは1929年にイリノイ州オークパークで過ごしていました。この年は世界大恐慌が始まった年として歴史に刻まれています。10月24日のブラックサーズデーで株式市場が大"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-12-14T19:55:43.083892",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 40,
+    "generated": 2,
+    "format_rejected": 38,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 2,
+    "api_errors": 0,
+    "success_rate": 5.0,
+    "elapsed_seconds": 268.1,
+    "episodes_per_minute": 0.4
+  },
+  "sample_episodes": [
+    {
+      "person_name": "畑岡奈紗",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき、畑岡奈紗は2006年にゴルフを始めました。茨城県笠間市で生まれた畑岡奈紗は、父親の勧めでゴルフクラブを初めて握ったのがこの年でした。地元のゴルフ練習場で基本的なスイングを覚え始"
+    },
+    {
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき、きゃりーぱみゅぱみゅは2000年を迎えていました。1993年1月29日生まれの彼女は、この年に小学校2年生となり、東京都内で過ごしていました。\n\n当時の日本は2000年問題で世"
+    }
+  ]
+}

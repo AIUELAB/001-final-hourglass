@@ -1,0 +1,581 @@
+{
+  "timestamp": "2025-12-14T12:12:28.595538",
+  "batch_size": 100,
+  "changes_count": 82,
+  "changes": [
+    {
+      "person_name": "河口仙之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "探検家は通常個人活動"
+    },
+    {
+      "person_name": "トバイアス・ウルフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "クリス・ブラウン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "島倉千代子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "Shakira",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "西城秀樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "ジャネット・ジャクソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "山本リンダ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "内田百閒",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家として個人で活動"
+    },
+    {
+      "person_name": "色川武大",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家として個人活動"
+    },
+    {
+      "person_name": "宮本常一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "民俗学者として個人で活動"
+    },
+    {
+      "person_name": "立原道造",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人として個人活動"
+    },
+    {
+      "person_name": "中原淳一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イラストレーター個人活動"
+    },
+    {
+      "person_name": "丸谷才一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人作家として活動"
+    },
+    {
+      "person_name": "種村季弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "翻訳家・文芸評論家で個人活動"
+    },
+    {
+      "person_name": "澁澤龍彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "翻訳家・作家として個人活動"
+    },
+    {
+      "person_name": "眉村卓",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "SF作家として個人活動"
+    },
+    {
+      "person_name": "ジャン・ジオノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの作家で個人活動"
+    },
+    {
+      "person_name": "レイモン・ラディゲ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの小説家で個人作家"
+    },
+    {
+      "person_name": "フランソワーズ・サガン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人作家として活動"
+    },
+    {
+      "person_name": "アナイス・ニン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "マルグリット・デュラス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの小説家で個人作家"
+    },
+    {
+      "person_name": "レイナルド・アレナス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "キューバの作家、個人活動"
+    },
+    {
+      "person_name": "セサル・アイラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "イザベラ・アジェンデ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "チリ出身の作家で個人活動"
+    },
+    {
+      "person_name": "ロベルト・ボラーニョ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "パオロ・ジョルダーノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イタリアの小説家、個人活動"
+    },
+    {
+      "person_name": "服部良一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "古賀政男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "中山晋平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "山田耕筰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "滝廉太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の作曲家、個人活動"
+    },
+    {
+      "person_name": "平原まこと",
+      "is_group_member": true,
+      "group_name": "サザンオールスターズ",
+      "confidence": 1.0,
+      "reason": "サザンオールスターズのサックス奏者"
+    },
+    {
+      "person_name": "リッチー・ブラックモア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "イングヴェイ・マルムスティーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "海外ソロギタリスト"
+    },
+    {
+      "person_name": "スラッシュ",
+      "is_group_member": true,
+      "group_name": "ガンズ・アンド・ローゼズ",
+      "confidence": 0.9,
+      "reason": "著名バンドの元メンバー"
+    },
+    {
+      "person_name": "レニー・クラヴィッツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "アンソニー・キーディス",
+      "is_group_member": true,
+      "group_name": "Red Hot Chili Peppers",
+      "confidence": 0.9,
+      "reason": "バンドメンバーとして活動"
+    },
+    {
+      "person_name": "フリー",
+      "is_group_member": true,
+      "group_name": "レッド・ホット・チリ・ペッパーズ",
+      "confidence": 1.0,
+      "reason": "バンドメンバーとして明記"
+    },
+    {
+      "person_name": "ザック・デ・ラ・ロチャ",
+      "is_group_member": true,
+      "group_name": "レイジ・アゲインスト・ザ・マシーン",
+      "confidence": 1.0,
+      "reason": "バンドメンバーとして明記"
+    },
+    {
+      "person_name": "トム・モレロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "モービー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "アンダーワールド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.8,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "プロディジー",
+      "is_group_member": true,
+      "group_name": "The Prodigy",
+      "confidence": 0.9,
+      "reason": "電子音楽グループのメンバー"
+    },
+    {
+      "person_name": "ファットボーイ・スリム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロDJアーティスト"
+    },
+    {
+      "person_name": "ポール・オークンフォルド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロDJとして活動"
+    },
+    {
+      "person_name": "ブルース・ボイトラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常個人活動"
+    },
+    {
+      "person_name": "ジョルジュ・ルメートル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者・神父で個人活動"
+    },
+    {
+      "person_name": "沢村一樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "吉田羊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "仲里依紗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "三浦友和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "デヴィ夫人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人でのタレント活動"
+    },
+    {
+      "person_name": "八嶋智人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "大竹まこと",
+      "is_group_member": true,
+      "group_name": "シティボーイズ",
+      "confidence": 0.9,
+      "reason": "お笑いトリオのメンバー"
+    },
+    {
+      "person_name": "ほっしゃん。",
+      "is_group_member": true,
+      "group_name": "ほっしゃん。&ケンコバ",
+      "confidence": 0.9,
+      "reason": "漫才コンビのメンバー"
+    },
+    {
+      "person_name": "ラサール石井",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "つまみ枝豆",
+      "is_group_member": true,
+      "group_name": "ダンディ坂野・つまみ枝豆",
+      "confidence": 0.9,
+      "reason": "20年続いたお笑いコンビ"
+    },
+    {
+      "person_name": "クリスティアーノ・ロナウド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で個人競技者"
+    },
+    {
+      "person_name": "リオネル・メッシ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で個人競技者"
+    },
+    {
+      "person_name": "コービー・ブライアント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手"
+    },
+    {
+      "person_name": "ウサイン・ボルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上選手は個人競技"
+    },
+    {
+      "person_name": "マイケル・フェルプス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の水泳選手"
+    },
+    {
+      "person_name": "ウェイン・グレツキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アイスホッケー個人選手"
+    },
+    {
+      "person_name": "デイビッド・ベッカム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人活動"
+    },
+    {
+      "person_name": "ネイマール・ジュニオール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で個人競技者"
+    },
+    {
+      "person_name": "キリアン・ムバッペ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で個人競技者"
+    },
+    {
+      "person_name": "ヤニス・アデトクンボ",
+      "is_group_member": true,
+      "group_name": "ミルウォーキー・バックス",
+      "confidence": 0.9,
+      "reason": "NBAチームのメンバー"
+    },
+    {
+      "person_name": "緑川ゆき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "新房昭之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "アニメ監督は個人職業"
+    },
+    {
+      "person_name": "坂元裕二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "脚本家は個人活動職業"
+    },
+    {
+      "person_name": "奥浩哉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動職業"
+    },
+    {
+      "person_name": "田島昭宇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "浅野いにお",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "田中圭一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "福本伸行",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "トーマス・ハリス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動"
+    },
+    {
+      "person_name": "ティム・ボートン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "伊集院静",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家・作詞家として個人活動"
+    },
+    {
+      "person_name": "高田郁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "時代小説家として個人活動"
+    },
+    {
+      "person_name": "葉室麟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "白石一文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は通常個人活動"
+    }
+  ]
+}

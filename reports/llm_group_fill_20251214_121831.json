@@ -1,0 +1,602 @@
+{
+  "timestamp": "2025-12-14T12:18:31.992677",
+  "batch_size": 100,
+  "changes_count": 85,
+  "changes": [
+    {
+      "person_name": "アレクサンドロス大王の軍医",
+      "is_group_member": true,
+      "group_name": "アレクサンドロス大王の軍医団",
+      "confidence": 0.8,
+      "reason": "軍医団所属の記載あり"
+    },
+    {
+      "person_name": "エディ・ヴァン・ヘイレン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国人アーティストのため"
+    },
+    {
+      "person_name": "アクセル・ローズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ジョン・フルシアンテ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "真藤順丈",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "小説家は個人活動"
+    },
+    {
+      "person_name": "津本陽",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動が基本"
+    },
+    {
+      "person_name": "J.D.サリンジャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの小説家で日本人ではない"
+    },
+    {
+      "person_name": "ミヒャエル・エンデ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの作家で個人活動"
+    },
+    {
+      "person_name": "ウィリアム・ギブソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "SF小説家で個人活動"
+    },
+    {
+      "person_name": "三池崇史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "西田昌司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "茂木敏充",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "松野博一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "萩生田光一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "高市早苗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "稲田朋美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "世耕弘成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "塩崎恭久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "岸田文雄夫人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家夫人は通常グループ概念なし"
+    },
+    {
+      "person_name": "野田毅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "田村憲久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "アレクサンドル・ルカシェンコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ベラルーシの政治家で個人活動"
+    },
+    {
+      "person_name": "教皇フランシスコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宗教指導者は個人活動"
+    },
+    {
+      "person_name": "キング・チャールズ3世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "英国王室の君主、個人の地位"
+    },
+    {
+      "person_name": "ヤシル・アラファト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "コリン・パウエル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国の政治家・軍人"
+    },
+    {
+      "person_name": "ハンス・ディートリヒ・ゲンシャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの政治家で個人活動"
+    },
+    {
+      "person_name": "レフ・ワレサ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ヴァーツラフ・ハヴェル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "チェコの政治家・大統領"
+    },
+    {
+      "person_name": "西川善文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "銀行経営者は個人職業"
+    },
+    {
+      "person_name": "永田町子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "中嶋常雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "樋口武男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "福嶋康博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ活動なし"
+    },
+    {
+      "person_name": "増田宗昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "宮内庁長官",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・官僚はグループ概念なし"
+    },
+    {
+      "person_name": "江頭豊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "三井化学の経営者、企業グループ概念外"
+    },
+    {
+      "person_name": "稲川素子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "芸能事務所経営者として個人活動"
+    },
+    {
+      "person_name": "竹内弘高",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジェフリー・プレストン・ベゾス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Amazon創設者で経営者"
+    },
+    {
+      "person_name": "イーロン・リーヴ・マスク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "マイケル・ルービン・ブルームバーグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で日本の有名人ではない"
+    },
+    {
+      "person_name": "スティーブン・ポール・ジョブズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "フェルディナント・マゼラン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の探検家で日本人ではない"
+    },
+    {
+      "person_name": "グレゴリー・メンデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究活動"
+    },
+    {
+      "person_name": "田中耕一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "八木宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者・技術者は個人活動"
+    },
+    {
+      "person_name": "ハーリー・アール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "自動車デザイナー、個人活動"
+    },
+    {
+      "person_name": "尾池和夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "地震学者・大学総長は個人活動"
+    },
+    {
+      "person_name": "マーガレット・ハミルトン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人活動"
+    },
+    {
+      "person_name": "青山禎一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "技術者個人の活動"
+    },
+    {
+      "person_name": "カール・リンネ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "18世紀の植物学者で個人研究者"
+    },
+    {
+      "person_name": "中島董一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ヴァージニア・アプガー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医師・研究者で個人活動"
+    },
+    {
+      "person_name": "森田道博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "ジョージ・イーストマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "小松昭夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "キャサリン・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人活動"
+    },
+    {
+      "person_name": "尾崎裕哉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "岡田奈々",
+      "is_group_member": true,
+      "group_name": "AKB48・STU48",
+      "confidence": 1.0,
+      "reason": "AKB48とSTU48兼任メンバー"
+    },
+    {
+      "person_name": "ケイティ・ペリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "鬼龍院翔",
+      "is_group_member": true,
+      "group_name": "ゴールデンボンバー",
+      "confidence": 1.0,
+      "reason": "ゴールデンボンバーのメンバー"
+    },
+    {
+      "person_name": "つじあやの",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ウクレレソロシンガー"
+    },
+    {
+      "person_name": "チャーリー・プース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのソロアーティスト"
+    },
+    {
+      "person_name": "竹原ピストル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "ルイス・フォンシ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "DAOKO",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "森川美穂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "甘茶の音楽工房",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人運営の音楽素材サイト"
+    },
+    {
+      "person_name": "尾崎亜美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "佐野元春",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロアーティスト"
+    },
+    {
+      "person_name": "世良譲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作詞家として個人活動"
+    },
+    {
+      "person_name": "加藤和彦",
+      "is_group_member": true,
+      "group_name": "フォーククルセダーズ",
+      "confidence": 1.0,
+      "reason": "フォーククルセダーズのメンバー"
+    },
+    {
+      "person_name": "エルヴィス・コステロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "新垣隆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "すぎやまこういち",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "服部克久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "梶浦由記",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "川井憲次",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人で活動する作曲家"
+    },
+    {
+      "person_name": "菅野よう子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "作曲家として個人活動"
+    },
+    {
+      "person_name": "間宮海峡発見者・間宮林蔵の弟子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の探検家、個人活動"
+    },
+    {
+      "person_name": "ジョン・ハント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家は個人活動が基本"
+    },
+    {
+      "person_name": "ジョージ・マロリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家で個人活動"
+    },
+    {
+      "person_name": "レイナード・ハバード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人の探検家活動"
+    },
+    {
+      "person_name": "スヴェン・ヘディン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "探検家は個人活動が基本"
+    }
+  ]
+}

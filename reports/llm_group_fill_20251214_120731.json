@@ -1,0 +1,609 @@
+{
+  "timestamp": "2025-12-14T12:07:31.740640",
+  "batch_size": 100,
+  "changes_count": 86,
+  "changes": [
+    {
+      "person_name": "Beyoncé",
+      "is_group_member": true,
+      "group_name": "Destiny's Child",
+      "confidence": 0.9,
+      "reason": "元デスチャメンバー"
+    },
+    {
+      "person_name": "ノーラン・ブッシュネル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "エレン・デジェネレス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカ人でソロ活動"
+    },
+    {
+      "person_name": "コナン・オブライエン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国のテレビ司会者でソロ活動"
+    },
+    {
+      "person_name": "マン・レイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人芸術家として活動"
+    },
+    {
+      "person_name": "エドワード・ウェストン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "アルフレッド・ステーグリッツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "写真家で個人活動"
+    },
+    {
+      "person_name": "ル・コルビュジエ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家で個人活動"
+    },
+    {
+      "person_name": "アントニ・ガウディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家で個人活動"
+    },
+    {
+      "person_name": "ルートヴィヒ・ミース・ファン・デル・ローエ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家で個人活動"
+    },
+    {
+      "person_name": "カルロス・サンタナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "レッド・ホット・チリ・ペッパーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "グループ自体であり個人ではない"
+    },
+    {
+      "person_name": "草刈正雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "川栄李奈",
+      "is_group_member": true,
+      "group_name": "AKB48",
+      "confidence": 1.0,
+      "reason": "AKB48の元メンバー"
+    },
+    {
+      "person_name": "小島瑠璃子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "タレントとしてソロ活動"
+    },
+    {
+      "person_name": "峯田和伸",
+      "is_group_member": true,
+      "group_name": "銀杏BOYZ",
+      "confidence": 1.0,
+      "reason": "銀杏BOYZのメンバーとして活動"
+    },
+    {
+      "person_name": "木村カエラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ歌手活動"
+    },
+    {
+      "person_name": "水原希子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "モデル・女優でソロ活動"
+    },
+    {
+      "person_name": "池田エライザ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "白濱亜嵐",
+      "is_group_member": true,
+      "group_name": "GENERATIONS from EXILE TRIBE",
+      "confidence": 0.9,
+      "reason": "EXILEグループのメンバー"
+    },
+    {
+      "person_name": "門脇麦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "森川葵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人活動の女優・タレント"
+    },
+    {
+      "person_name": "中条あやみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "間宮祥太朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "山本美月",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "安田顕",
+      "is_group_member": true,
+      "group_name": "TEAM NACS",
+      "confidence": 1.0,
+      "reason": "TEAM NACSのメンバー"
+    },
+    {
+      "person_name": "アリシア・ヴィキャンデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スウェーデンの女優、ソロ活動"
+    },
+    {
+      "person_name": "デヴ・パテル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優個人としての活動"
+    },
+    {
+      "person_name": "リズ・アーメッド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "ジェレミー・ストロング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優は通常ソロ活動"
+    },
+    {
+      "person_name": "サラ・スヌーク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人俳優として活動"
+    },
+    {
+      "person_name": "キーラン・カルキン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人俳優として活動"
+    },
+    {
+      "person_name": "紀貫之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "平安時代の歌人、個人活動"
+    },
+    {
+      "person_name": "在原業平",
+      "is_group_member": true,
+      "group_name": "六歌仙",
+      "confidence": 0.8,
+      "reason": "平安時代の代表的歌人グループ"
+    },
+    {
+      "person_name": "世阿弥",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "能楽師は個人芸術家"
+    },
+    {
+      "person_name": "本阿弥光悦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の個人芸術家"
+    },
+    {
+      "person_name": "俵屋宗達",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の画家、個人活動"
+    },
+    {
+      "person_name": "歌川国芳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師で個人活動"
+    },
+    {
+      "person_name": "エミール・ガレ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀のガラス工芸家で個人活動"
+    },
+    {
+      "person_name": "オーギュスト・コント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの哲学者で日本人ではない"
+    },
+    {
+      "person_name": "ヘンデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バロック期の作曲家、個人活動"
+    },
+    {
+      "person_name": "エルネスト・ヘミングウェイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの作家で個人活動"
+    },
+    {
+      "person_name": "ジャン・ポール・サルトル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "哲学者で個人活動"
+    },
+    {
+      "person_name": "綾小路きみまろ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "ジム・キャリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド俳優でソロ活動"
+    },
+    {
+      "person_name": "ディカプリオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド俳優で個人活動"
+    },
+    {
+      "person_name": "長塚京三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "石橋蓮司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "スティーヴィー・ワンダー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "ルチアーノ・パヴァロッティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "オペラ歌手でソロ活動"
+    },
+    {
+      "person_name": "マリア・カラス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "オペラ歌手でソロ活動"
+    },
+    {
+      "person_name": "ヨーヨー・マ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック音楽のソロ演奏家"
+    },
+    {
+      "person_name": "イツァーク・パールマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック界のソロヴァイオリニスト"
+    },
+    {
+      "person_name": "ウィリアム・フォークナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの小説家で個人作家"
+    },
+    {
+      "person_name": "シドニー・ルメット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人職業"
+    },
+    {
+      "person_name": "ロザ・パークス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "公民権活動家で個人活動"
+    },
+    {
+      "person_name": "つんく♂",
+      "is_group_member": true,
+      "group_name": "シャ乱Q",
+      "confidence": 0.9,
+      "reason": "シャ乱Qのボーカルとして有名"
+    },
+    {
+      "person_name": "近藤真彦",
+      "is_group_member": true,
+      "group_name": "ジャニーズ事務所（元たのきんトリオ）",
+      "confidence": 0.9,
+      "reason": "アイドルグループ出身歌手"
+    },
+    {
+      "person_name": "松浦亜弥",
+      "is_group_member": true,
+      "group_name": "ハロー！プロジェクト",
+      "confidence": 0.9,
+      "reason": "ハロプロの看板として活動"
+    },
+    {
+      "person_name": "ブリトニー・スピアーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "50 Cent",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロラッパーとして活動"
+    },
+    {
+      "person_name": "スヌープ・ドッグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "海外ソロアーティスト"
+    },
+    {
+      "person_name": "ドクター・ドレー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国人でありソロ活動中心"
+    },
+    {
+      "person_name": "江口のりこ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "舞台・ドラマの個人俳優"
+    },
+    {
+      "person_name": "木村佳乃",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "紳助",
+      "is_group_member": true,
+      "group_name": "島田紳助・松本竜介",
+      "confidence": 0.9,
+      "reason": "紳助竜介として漫才コンビ活動"
+    },
+    {
+      "person_name": "佐藤隆太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人俳優として活動"
+    },
+    {
+      "person_name": "及川光博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手から俳優転向"
+    },
+    {
+      "person_name": "松本伊代",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手・タレントとして活動"
+    },
+    {
+      "person_name": "篠原ともえ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロタレント"
+    },
+    {
+      "person_name": "ムロツヨシ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "小出恵介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "三浦翔平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "溝端淳平",
+      "is_group_member": true,
+      "group_name": "D-BOYS",
+      "confidence": 0.9,
+      "reason": "俳優ユニットD-BOYSのメンバー"
+    },
+    {
+      "person_name": "城田優",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優・ソロ歌手として活動"
+    },
+    {
+      "person_name": "水嶋ヒロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優・作家として個人活動"
+    },
+    {
+      "person_name": "小西真奈美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人で活動する女優"
+    },
+    {
+      "person_name": "アダム・サンドラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ活動の俳優・コメディアン"
+    },
+    {
+      "person_name": "エディ・マーフィー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優でソロ活動"
+    },
+    {
+      "person_name": "マイク・マイヤーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優・コメディアンでソロ活動"
+    },
+    {
+      "person_name": "ベン・スティラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国人俳優・監督でソロ活動"
+    },
+    {
+      "person_name": "オーウェン・ウィルソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの俳優でソロ活動"
+    },
+    {
+      "person_name": "ヴィンス・ヴォーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド俳優でソロ活動"
+    },
+    {
+      "person_name": "森田つぐみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ楽曲での活動が明示"
+    },
+    {
+      "person_name": "都はるみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "小柳ルミ子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手"
+    }
+  ]
+}

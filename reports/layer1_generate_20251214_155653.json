@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-12-14T15:56:53.054398",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 40,
+    "generated": 1,
+    "format_rejected": 39,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 4,
+    "api_errors": 0,
+    "success_rate": 2.5,
+    "elapsed_seconds": 262.1,
+    "episodes_per_minute": 0.2
+  },
+  "sample_episodes": [
+    {
+      "person_name": "エリック・クラプトン",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき、エリック・クラプトンは1952年にイギリスのサリー州リプリーで、祖父母のもとで暮らしていました。この時期、エリック・クラプトンは自分の母親だと思っていた女性が実は祖母で、姉だと"
+    }
+  ]
+}

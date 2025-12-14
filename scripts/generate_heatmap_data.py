@@ -23,10 +23,10 @@ def load_csv(csv_path: Path | None = None) -> pd.DataFrame:
         df = pd.read_csv(csv_path, encoding="utf-8-sig")
         print(f"📂 読み込み: {csv_path}")
     else:
-        # 複数の候補パスを探索
+        # 複数の候補パスを探索（preserved/data/を最優先）
         candidates = [
-            Path("data/MASTER_EPISODES_CURRENT.csv"),
             Path("preserved/data/MASTER_EPISODES_CURRENT.csv"),
+            Path("data/MASTER_EPISODES_CURRENT.csv"),  # シンボリックリンク経由
             Path("preserved/MASTER_EPISODES_CURRENT.csv"),
             Path("MASTER_EPISODES_CURRENT.csv"),
         ]

@@ -34327,8 +34327,8 @@
     "overall_coverage_percent": 27.21,
     "real_count": 8974,
     "fictional_count": 63,
-    "bonus_count": 432,
-    "total_all": 9469,
+    "bonus_count": 664,
+    "total_all": 9701,
     "age_range": {
       "min": 0,
       "max": 90
@@ -34900,7 +34900,12 @@
       "name": "その他",
       "count": 0,
       "percent": 0.0
+    },
+    {
+      "name": "音楜",
+      "count": 0,
+      "percent": 0.0
     }
   ],
-  "generated_at": "2025-12-14T18:50:10.414286"
+  "generated_at": "2025-12-14T20:32:34.788676"
 }

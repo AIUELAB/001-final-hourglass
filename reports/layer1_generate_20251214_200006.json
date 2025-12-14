@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-12-14T20:00:06.257207",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 40,
+    "generated": 0,
+    "format_rejected": 40,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 3,
+    "api_errors": 0,
+    "success_rate": 0.0,
+    "elapsed_seconds": 257.6,
+    "episodes_per_minute": 0.0
+  },
+  "sample_episodes": []
+}

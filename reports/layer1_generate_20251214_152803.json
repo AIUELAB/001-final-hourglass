@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-12-14T15:28:03.862147",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 40,
+    "generated": 3,
+    "format_rejected": 37,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 3,
+    "api_errors": 0,
+    "success_rate": 7.5,
+    "elapsed_seconds": 271.6,
+    "episodes_per_minute": 0.7
+  },
+  "sample_episodes": [
+    {
+      "person_name": "アインシュタイン",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき、アインシュタインは1886年にミュンヘンのペータースシューレ（St. Peter's School）という小学校に入学していました。この頃のアインシュタインは言葉の発達が遅く、"
+    },
+    {
+      "person_name": "ミック・ジャガー",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき、ミック・ジャガーは1950年にイングランドのケント州ダートフォードで小学校生活を送っていました。この年、ミック・ジャガーは地元のウェントワース・プライマリー・スクールに通学して"
+    },
+    {
+      "person_name": "ジョン・シナ",
+      "age": "10",
+      "text_preview": "あなたと同じ10歳のとき、ジョン・シナは1987年にマサチューセッツ州ウェストニューベリーで過ごしていました。この年、ジョン・シナは地元の少年野球チームでプレーしており、既に同年代の子どもたちの中でも"
+    }
+  ]
+}

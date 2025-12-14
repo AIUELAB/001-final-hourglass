@@ -1,0 +1,2086 @@
+{
+  "timestamp": "2025-12-14T09:30:30.603856",
+  "batch_size": 300,
+  "changes_count": 297,
+  "changes": [
+    {
+      "person_name": "久保建英",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "冨安健洋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "鎌田大地",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "南野拓実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "吉田麻也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "長谷部誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "本田圭佑",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "内田篤人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手は個人競技者"
+    },
+    {
+      "person_name": "長友佑都",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手（個人競技者）"
+    },
+    {
+      "person_name": "岡崎慎司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手は個人競技者"
+    },
+    {
+      "person_name": "小野伸二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "稲本潤一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "中村憲剛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "遠藤保仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "阿部詩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "大野将平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の柔道選手"
+    },
+    {
+      "person_name": "畑岡奈紗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルフ選手、個人競技"
+    },
+    {
+      "person_name": "国枝慎吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "西岡良仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "堀米雄斗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スケートボード個人競技選手"
+    },
+    {
+      "person_name": "西矢椛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "四十住さくら",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スケートボード選手で個人競技"
+    },
+    {
+      "person_name": "萩野公介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手は個人競技"
+    },
+    {
+      "person_name": "入江陵介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "ケンブリッジ飛鳥",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "桐生祥秀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "山田哲人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "坂本勇人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "菅野智之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "村上宗隆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "那須川天心",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "格闘技選手は個人競技"
+    },
+    {
+      "person_name": "井端弘和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "和田毅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手（個人競技）"
+    },
+    {
+      "person_name": "青木宣親",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "川﨑宗則",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "田澤純一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "石井一久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "伊東勤",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手・監督は個人活動"
+    },
+    {
+      "person_name": "古田敦也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "緒方孝市",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "野村謙二郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手（個人競技者）"
+    },
+    {
+      "person_name": "梨田昌孝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手・指導者で個人活動"
+    },
+    {
+      "person_name": "星野仙一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手・監督は個人職業"
+    },
+    {
+      "person_name": "ノバク・ジョコビッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のテニス選手"
+    },
+    {
+      "person_name": "ラファエル・ナダル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "アンディ・ロディック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "マルチナ・ナブラチロワ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "レブロン・ジェームズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "ステフィン・カリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手で個人競技者"
+    },
+    {
+      "person_name": "ケビン・デュラント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NBA選手は個人競技者"
+    },
+    {
+      "person_name": "シャキール・オニール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NBA選手は個人競技者"
+    },
+    {
+      "person_name": "マジック・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "NBAスポーツ選手で個人活動"
+    },
+    {
+      "person_name": "トム・ブレイディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手で個人競技"
+    },
+    {
+      "person_name": "ペイトン・マニング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NFLの個人スポーツ選手"
+    },
+    {
+      "person_name": "アロン・ロジャース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "ルイス・ファン・ハール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー監督は個人職業"
+    },
+    {
+      "person_name": "ペップ・グアルディオラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー監督は個人職業"
+    },
+    {
+      "person_name": "大谷昭宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ解説者は個人活動"
+    },
+    {
+      "person_name": "金田正泰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "スポーツ選手は通常グループ概念なし"
+    },
+    {
+      "person_name": "江本孟紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "掛布雅之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "岡田彰布",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手・監督は個人職業"
+    },
+    {
+      "person_name": "権田修一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "酒井宏樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "田中陽子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "木村沙織",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "大林素子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バレーボール選手は個人扱い"
+    },
+    {
+      "person_name": "浅野拓磨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で個人競技者"
+    },
+    {
+      "person_name": "東尾理子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "古閑美保",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "有村智恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "竹原慎二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーで個人競技"
+    },
+    {
+      "person_name": "畑山隆則",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーは個人競技"
+    },
+    {
+      "person_name": "セルヒオ・ラモス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ケビン・デ・ブライネ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ヴィラット・コーリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クリケット選手は個人競技者"
+    },
+    {
+      "person_name": "ロジャー・クレメンス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "アレックス・ロドリゲス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手"
+    },
+    {
+      "person_name": "ランディ・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "シモーナ・ハレプ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ガルビネ・ムグルサ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "カロリーナ・プリスコバ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "アンジェリク・ケルバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ダニエル・リカルド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "マックス・フェルスタッペン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "田中恒成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーで個人競技"
+    },
+    {
+      "person_name": "鈴木武蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "町田樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "髙梨沙羅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スキージャンプの個人競技選手"
+    },
+    {
+      "person_name": "小平智",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "伊澤利光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "丸山茂樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "片山晋呉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "横峯さくら",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "新井貴浩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "阿部慎之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手・監督は個人職業"
+    },
+    {
+      "person_name": "田口壮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "ミゲル・カブレラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "メジャーリーグ選手（個人競技）"
+    },
+    {
+      "person_name": "アルバート・プホルス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "MLB選手は個人競技"
+    },
+    {
+      "person_name": "アンドレ・アガシ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のテニス選手"
+    },
+    {
+      "person_name": "マルチナ・ヒンギス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ボリス・ベッカー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ジミー・コナーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ジョン・マッケンロー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "シャキーラ・ピケ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "ジェラード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "フランク・ランパード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "サッカー選手・監督は個人活動"
+    },
+    {
+      "person_name": "ロベルト・カルロス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ロナウジーニョ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "カカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ズラタン・イブラヒモビッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で個人活動"
+    },
+    {
+      "person_name": "モドリッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手で日本人ではない"
+    },
+    {
+      "person_name": "エンバペ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "大谷大志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "スポーツ選手は通常グループ概念なし"
+    },
+    {
+      "person_name": "森保一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー監督は個人職業"
+    },
+    {
+      "person_name": "平井康翔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "水泳選手は個人競技"
+    },
+    {
+      "person_name": "田嶋幸三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー協会会長で個人職"
+    },
+    {
+      "person_name": "大橋悠依",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手で個人競技"
+    },
+    {
+      "person_name": "橋本英郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "森岡薫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "サッカー選手は通常個人活動"
+    },
+    {
+      "person_name": "小島よしお",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "セバスチャン・ベッテル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "マルセロ・ビエルサ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー監督は個人職業"
+    },
+    {
+      "person_name": "ノヴァク・ジョコビッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "山本草太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "石川祐希",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バレーボール選手は個人競技者"
+    },
+    {
+      "person_name": "西村拳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人競技のボクサー"
+    },
+    {
+      "person_name": "カイル・ラーソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NASCARドライバーで個人競技"
+    },
+    {
+      "person_name": "田中希実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人競技選手"
+    },
+    {
+      "person_name": "ジョシュア・キミッヒ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人活動"
+    },
+    {
+      "person_name": "古川高晴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アーチェリー選手は個人競技"
+    },
+    {
+      "person_name": "グリーズマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "橋岡優輝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技選手で個人競技"
+    },
+    {
+      "person_name": "エルリング・ハーランド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手で個人競技者"
+    },
+    {
+      "person_name": "高藤直寿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "カスパー・ルード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "須崎優衣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "レスリング選手、個人競技"
+    },
+    {
+      "person_name": "ファビオ・クアルタラロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "MotoGPライダーは個人競技"
+    },
+    {
+      "person_name": "新谷仁美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "キリアン・エムバペ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "大迫勇也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロサッカー選手は個人競技者"
+    },
+    {
+      "person_name": "堂林翔太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "横山典弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "騎手は個人競技者"
+    },
+    {
+      "person_name": "川井梨紗子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "田中理恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "江畑幸子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技者"
+    },
+    {
+      "person_name": "アンドレス・イニエスタ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ジェンソン・バトン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "セリーナ・ゴメス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は通常個人活動"
+    },
+    {
+      "person_name": "ジョン・ダリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "ベン・ホーガン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ゴルフは個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "田畑精一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "水泳指導者で個人活動"
+    },
+    {
+      "person_name": "奥原希望",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バドミントン選手は個人競技"
+    },
+    {
+      "person_name": "高橋礼華",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "バドミントン選手は個人競技者"
+    },
+    {
+      "person_name": "松友美佐紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バドミントン選手は個人競技者"
+    },
+    {
+      "person_name": "中野浩一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競輪選手は個人競技"
+    },
+    {
+      "person_name": "今井正人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技選手で個人競技"
+    },
+    {
+      "person_name": "斉藤和巳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "ノヴィツキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "ティム・ダンカン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NBA選手は個人競技者"
+    },
+    {
+      "person_name": "フィル・ミケルソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のプロゴルファー"
+    },
+    {
+      "person_name": "ニコ・ロズベルグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "柳沢敦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "篠原信一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の柔道選手"
+    },
+    {
+      "person_name": "松田丈志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手は個人競技者"
+    },
+    {
+      "person_name": "内村航平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の体操選手"
+    },
+    {
+      "person_name": "朝原宣治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "上原浩治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "沢松奈生子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "岡崎朋美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスピードスケート選手"
+    },
+    {
+      "person_name": "千葉すず",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手は個人競技"
+    },
+    {
+      "person_name": "工藤公康",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "瀬古利彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "塚原直也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操選手は個人競技者"
+    },
+    {
+      "person_name": "福原愛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の卓球選手"
+    },
+    {
+      "person_name": "中山雅史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "千代の富士",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "相撲は個人競技"
+    },
+    {
+      "person_name": "田臥勇太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のバスケットボール選手"
+    },
+    {
+      "person_name": "樋口久子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーは個人競技"
+    },
+    {
+      "person_name": "セルヒオ・アグエロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手のため"
+    },
+    {
+      "person_name": "トニー・クロース",
+      "is_group_member": true,
+      "group_name": "レアル・マドリード",
+      "confidence": 1.0,
+      "reason": "サッカーチームのメンバー"
+    },
+    {
+      "person_name": "ケイティ・レデツキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の水泳選手"
+    },
+    {
+      "person_name": "ジョナサン・エドワーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上選手は個人競技"
+    },
+    {
+      "person_name": "セルゲイ・ブブカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "棒高跳び選手で個人競技"
+    },
+    {
+      "person_name": "フロイド・メイウェザー・ジュニア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのプロボクサー"
+    },
+    {
+      "person_name": "ヴィーナス・ウィリアムズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "シモーン・バイルズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "ウェイン・ルーニー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ロベルト・ベッティーガ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "マイケル・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "シェーン・ウォーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "石毛宏典",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "岩崎恭子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手は個人競技"
+    },
+    {
+      "person_name": "江川卓",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "木村一八",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ボクサーは個人競技"
+    },
+    {
+      "person_name": "黒木純司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロ野球投手、個人競技"
+    },
+    {
+      "person_name": "古賀淳也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競泳選手は個人競技"
+    },
+    {
+      "person_name": "佐藤次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手のため"
+    },
+    {
+      "person_name": "清水聡",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のボクシング選手"
+    },
+    {
+      "person_name": "高橋陽一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "谷口浩美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "マラソン選手は個人競技"
+    },
+    {
+      "person_name": "中西哲生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "橋本聖子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "トニー・ホーク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人スポーツ選手のため"
+    },
+    {
+      "person_name": "ディエゴ・マラドーナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ヨハン・クライフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "エドソン・ペレ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ルー・ゲーリッグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手"
+    },
+    {
+      "person_name": "ジョー・モンタナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのNFL選手で個人競技"
+    },
+    {
+      "person_name": "アイルトン・セナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "ビョルン・ボルグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "イバン・レンドル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ステファン・エドベリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "マッツ・ヴィランデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "パット・ラフター",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ジム・クーリエ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "前田智徳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "江藤智",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "宮本和知",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "山本昌",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "川上憲伸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "三浦大輔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "中村紀洋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "松中信彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "小笠原道大",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "田中賢介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "稲葉篤紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技"
+    },
+    {
+      "person_name": "二岡智宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "仁志敏久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "高橋由伸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "斉藤雅樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "桑原謙太朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "谷佳知",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "中島裕之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "片岡易之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "和田一浩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "森野将彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "石井慧",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手で個人競技"
+    },
+    {
+      "person_name": "山田恵里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "スポーツ選手は個人競技"
+    },
+    {
+      "person_name": "荒井広宙",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競歩選手で個人競技"
+    },
+    {
+      "person_name": "吉田優利",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロゴルファーで個人競技"
+    },
+    {
+      "person_name": "村田修一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "田中雅昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "水泳選手は個人競技"
+    },
+    {
+      "person_name": "石川雄洋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人活動"
+    },
+    {
+      "person_name": "橋本大地",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上選手は個人競技"
+    },
+    {
+      "person_name": "渡邉陵我",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "水泳選手、個人競技"
+    },
+    {
+      "person_name": "富田洋之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "体操競技の個人選手"
+    },
+    {
+      "person_name": "土性沙羅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "加賀美希昇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "競輪選手は個人競技"
+    },
+    {
+      "person_name": "田知本遥",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の柔道選手"
+    },
+    {
+      "person_name": "廣瀬花子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "スポーツ選手は通常個人競技"
+    },
+    {
+      "person_name": "秋山翔吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手で個人競技"
+    },
+    {
+      "person_name": "ロベルト・クレメンテ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "ジョー・ディマジオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手で個人競技者"
+    },
+    {
+      "person_name": "テッド・ウィリアムズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "野球選手は個人競技者"
+    },
+    {
+      "person_name": "ロッド・レーバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "ビリー・ジーン・キング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人テニス選手"
+    },
+    {
+      "person_name": "カリーム・アブドゥル＝ジャバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "土佐ノ海敏生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "相撲は個人競技"
+    },
+    {
+      "person_name": "船木誠勝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "格闘家は個人競技"
+    },
+    {
+      "person_name": "エディ・ゲレロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロレスラーは個人競技"
+    },
+    {
+      "person_name": "アンナ・クルニコワ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "中野友加里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "高橋成美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手で個人競技"
+    },
+    {
+      "person_name": "フローレンス・ジョイナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "陸上競技の個人選手"
+    },
+    {
+      "person_name": "クリスティアノ・ロナウド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "デビッド・ベッカム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツ選手は通常無所属"
+    },
+    {
+      "person_name": "ロベルト・バッジョ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "中田浩二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ガレス・ベイル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "スティーブン・ジェラード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手のため"
+    },
+    {
+      "person_name": "アンドレア・ピルロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "フランチェスコ・トッティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "エムバペ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のサッカー選手"
+    },
+    {
+      "person_name": "ジョコビッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "テニス選手は個人競技"
+    },
+    {
+      "person_name": "スティーブン・カリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バスケットボール選手は個人競技者"
+    },
+    {
+      "person_name": "パトリック・チャン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フィギュアスケート選手は個人競技"
+    },
+    {
+      "person_name": "ダニエル・クビアト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "山田久志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "鈴木亜由子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技のスポーツ選手"
+    },
+    {
+      "person_name": "平野綾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "スポーツ選手は個人活動"
+    },
+    {
+      "person_name": "橋爪功",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の選手"
+    },
+    {
+      "person_name": "ファン・ペルシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "アリソン・フェリックス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人競技の陸上選手"
+    },
+    {
+      "person_name": "チェコ・ペレス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1ドライバーは個人競技"
+    },
+    {
+      "person_name": "カリム・ベンゼマ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "谷口雄也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "ダニー・リカルド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "F1レーサーは個人競技"
+    },
+    {
+      "person_name": "アリシア・サクラモーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人競技の体操選手"
+    },
+    {
+      "person_name": "谷本歩実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道選手は個人競技"
+    },
+    {
+      "person_name": "ラモス瑠偉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "菊池涼介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロ野球選手は個人競技者"
+    },
+    {
+      "person_name": "カイリー・アービング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バスケットボール選手で個人競技者"
+    },
+    {
+      "person_name": "マルコ・ヴェラッティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "ズビグニェフ・ボニエク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人スポーツ選手"
+    },
+    {
+      "person_name": "セルヒオ・ブスケツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    },
+    {
+      "person_name": "アンヘル・ディ・マリア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サッカー選手は個人競技者"
+    }
+  ]
+}

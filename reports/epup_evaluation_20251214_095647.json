@@ -1,0 +1,546 @@
+{
+  "timestamp": "2025-12-14T09:56:41.397803",
+  "source_file": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/MASTER_EPISODES_CURRENT.csv",
+  "total_episodes": 9157,
+  "group_master_coverage": {
+    "total_episodes": 9157,
+    "group_info_set_rate": 51.39,
+    "in_group_member_map": 231,
+    "in_solo_artists": 71,
+    "llm_complement_candidates": 4205
+  },
+  "group_entity_violations": {
+    "violation_count": 0,
+    "violation_rate": 0.0,
+    "violations": []
+  },
+  "group_master_sync": {
+    "total_map_entries_in_data": 231,
+    "sync_violation_count": 0,
+    "sync_rate": 100.0,
+    "violations": []
+  },
+  "format_compliance": {
+    "total_episodes": 9157,
+    "compliant_count": 9157,
+    "compliance_rate": 100.0,
+    "refusal_count": 0,
+    "refusal_rate": 0.0,
+    "non_compliant_sample": []
+  },
+  "person_type_distribution": {
+    "real_count": 9094,
+    "fictional_count": 63,
+    "other_count": 0,
+    "real_rate": 99.31,
+    "fictional_rate": 0.69
+  },
+  "age_coverage": {
+    "target_age_range": "14-75",
+    "covered_count": 62,
+    "missing_count": 0,
+    "coverage_rate": 100.0,
+    "missing_ages": [],
+    "low_coverage_ages": []
+  },
+  "category_distribution": {
+    "category_count": 19,
+    "top_categories": {
+      "スポーツ": 1265,
+      "芸術・文化": 1081,
+      "エンターテイメント": 1024,
+      "科学・技術": 819,
+      "ビジネス": 784,
+      "音楽": 750,
+      "学術・研究": 631,
+      "政治・社会": 617,
+      "映画・演劇": 535,
+      "文学": 425
+    },
+    "category_rates": {
+      "スポーツ": 13.81,
+      "芸術・文化": 11.81,
+      "エンターテイメント": 11.18,
+      "科学・技術": 8.94,
+      "ビジネス": 8.56,
+      "音楽": 8.19,
+      "学術・研究": 6.89,
+      "政治・社会": 6.74,
+      "映画・演劇": 5.84,
+      "文学": 4.64
+    }
+  },
+  "fictional_work_title_compliance": {
+    "total_fictional": 63,
+    "with_work_title": 63,
+    "compliant": 63,
+    "non_compliant": 0,
+    "compliance_rate": 100.0,
+    "non_compliant_samples": []
+  },
+  "placeholder_detection": {
+    "total_real_episodes": 9094,
+    "placeholder_count": 0,
+    "clean_rate": 100.0,
+    "placeholder_samples": []
+  },
+  "fact_density_quality": {
+    "has_fact_density_column": true,
+    "total_with_score": 9157,
+    "real_with_score": 9094,
+    "low_density_count": 0,
+    "low_density_rate": 0.0,
+    "high_quality_rate": 100.0,
+    "average_density": 7.23
+  },
+  "episode_type_validity": {
+    "episode_type_distribution": {
+      "転機": 6757,
+      "達成": 1343,
+      "挑戦": 544,
+      "キャリア": 385,
+      "革新": 43,
+      "創業": 36,
+      "失敗": 27,
+      "復帰": 16,
+      "家族": 6
+    },
+    "total_achievement": 0,
+    "achievement_rate": 0.0,
+    "suspicious_achievement_count": 0,
+    "achievement_validity_rate": 100.0,
+    "suspicious_samples": []
+  },
+  "yumeilist_coverage": {
+    "yumeilist_exists": true,
+    "total_yumeilist": 79,
+    "covered": 79,
+    "missing": 0,
+    "coverage_rate": 100.0,
+    "missing_samples": []
+  },
+  "episode_depth": {
+    "total_unique_persons": 7213,
+    "avg_episodes_per_person": 1.27,
+    "single_episode_count": 6024,
+    "single_episode_rate": 83.52,
+    "tier_depth": {
+      "tier_1": {
+        "total_persons": 59,
+        "avg_episodes": 2.83,
+        "single_episode_count": 4,
+        "multi_episode_rate": 93.22
+      },
+      "tier_2": {
+        "total_persons": 17,
+        "avg_episodes": 1.0,
+        "single_episode_count": 17,
+        "multi_episode_rate": 0.0
+      }
+    },
+    "depth_deficient_tier1": [
+      {
+        "person_name": "キズナアイ",
+        "episode_count": 1,
+        "ages": [
+          2.0
+        ]
+      },
+      {
+        "person_name": "白上フブキ",
+        "episode_count": 1,
+        "ages": [
+          18.0
+        ]
+      },
+      {
+        "person_name": "月ノ美兎",
+        "episode_count": 1,
+        "ages": [
+          18.0
+        ]
+      },
+      {
+        "person_name": "張本智和",
+        "episode_count": 1,
+        "ages": [
+          21.0
+        ]
+      }
+    ],
+    "depth_score": 93.22,
+    "depth_deficient_tier1_count": 4
+  },
+  "episode_drama_quality": {
+    "has_drama_scores": true,
+    "total_with_scores": 9157,
+    "high_quality_count": 8382,
+    "mid_quality_count": 775,
+    "low_quality_count": 0,
+    "high_quality_rate": 91.54,
+    "mid_quality_rate": 8.46,
+    "low_quality_rate": 0.0,
+    "avg_drama_score": 8.15,
+    "drama_quality_score": 95.77,
+    "low_quality_samples": [],
+    "source_quality_breakdown": {
+      "PHASE17_COMPLETION→DRAMA_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 22,
+        "high_quality_rate": 100.0,
+        "avg_score": 7.64
+      },
+      "V7_JSON→SURPRISE_IMPROVED": {
+        "total": 195,
+        "high_quality_rate": 99.49,
+        "avg_score": 7.84
+      },
+      "LLM_GENERATED→DRAMA_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 41,
+        "high_quality_rate": 100.0,
+        "avg_score": 7.73
+      },
+      "PHASE17_COMPLETION→DRAMA_IMPROVED→DRAMA_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 2,
+        "high_quality_rate": 100.0,
+        "avg_score": 8.0
+      },
+      "PERSON_DB_COMPLETION→DRAMA_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 4,
+        "high_quality_rate": 100.0,
+        "avg_score": 7.75
+      },
+      "LLM_GENERATED→DRAMA_IMPROVED→DRAMA_IMPROVED→SURPRISE_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 4,
+        "high_quality_rate": 100.0,
+        "avg_score": 7.5
+      },
+      "GROUP_EPISODE_PHASE3_1→DRAMA_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 1,
+        "high_quality_rate": 100.0,
+        "avg_score": 8.0
+      },
+      "LLM_GENERATED→SURPRISE_IMPROVED": {
+        "total": 276,
+        "high_quality_rate": 99.28,
+        "avg_score": 7.86
+      },
+      "Phase 8.1強化版→SURPRISE_IMPROVED": {
+        "total": 139,
+        "high_quality_rate": 98.56,
+        "avg_score": 7.82
+      },
+      "Phase 8.1強化版→DRAMA_IMPROVED→SURPRISE_IMPROVED": {
+        "total": 11,
+        "high_quality_rate": 100.0,
+        "avg_score": 7.73
+      }
+    }
+  },
+  "content_density_quality": {
+    "has_scores": true,
+    "total_evaluated": 9157,
+    "high_quality_count": 7978,
+    "mid_quality_count": 989,
+    "low_quality_count": 190,
+    "high_quality_rate": 87.12,
+    "mid_quality_rate": 10.8,
+    "low_quality_rate": 2.07,
+    "avg_score": 8.73,
+    "content_density_score": 92.52,
+    "total_redundancy_patterns": 1153,
+    "low_quality_samples": [
+      {
+        "episode_id": "EP-000000001",
+        "person_name": "棚橋弘至",
+        "score": 5.9,
+        "char_count": 271
+      },
+      {
+        "episode_id": "EP-000000034",
+        "person_name": "森見登美彦",
+        "score": 5.7,
+        "char_count": 315
+      },
+      {
+        "episode_id": "EP-000000067",
+        "person_name": "栗山英樹",
+        "score": 5.0,
+        "char_count": 281
+      },
+      {
+        "episode_id": "EP-000000137",
+        "person_name": "永守重信",
+        "score": 5.4,
+        "char_count": 324
+      },
+      {
+        "episode_id": "EP-000000157",
+        "person_name": "河村隆一",
+        "score": 5.9,
+        "char_count": 300
+      },
+      {
+        "episode_id": "EP-000000190",
+        "person_name": "役所広司",
+        "score": 5.0,
+        "char_count": 305
+      },
+      {
+        "episode_id": "EP-000000207",
+        "person_name": "日野原重明",
+        "score": 5.9,
+        "char_count": 269
+      },
+      {
+        "episode_id": "EP-000000261",
+        "person_name": "てつや",
+        "score": 5.5,
+        "char_count": 302
+      },
+      {
+        "episode_id": "EP-000000418",
+        "person_name": "西川遥輝",
+        "score": 5.5,
+        "char_count": 295
+      },
+      {
+        "episode_id": "EP-000000448",
+        "person_name": "高橋みなみ",
+        "score": 5.9,
+        "char_count": 299
+      }
+    ]
+  },
+  "world_celebrity_coverage": {
+    "world_celebrity_exists": true,
+    "total_world_celebrities": 206,
+    "covered": 205,
+    "missing": 1,
+    "coverage_rate": 99.51,
+    "by_category": {
+      "音楽": {
+        "total": 46,
+        "covered": 46,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "映画・演劇": {
+        "total": 22,
+        "covered": 22,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "スポーツ": {
+        "total": 44,
+        "covered": 43,
+        "coverage_rate": 97.73,
+        "missing": [
+          {
+            "person_name": "ザ・ロック(ドウェイン・ジョンソン)",
+            "tier": 2,
+            "aliases": "nan"
+          }
+        ]
+      },
+      "科学・技術": {
+        "total": 10,
+        "covered": 10,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "ビジネス": {
+        "total": 13,
+        "covered": 13,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "政治・社会": {
+        "total": 13,
+        "covered": 13,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "芸術・文化": {
+        "total": 3,
+        "covered": 3,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "文学": {
+        "total": 20,
+        "covered": 20,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "エンターテイメント": {
+        "total": 1,
+        "covered": 1,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "芸能": {
+        "total": 15,
+        "covered": 15,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "数学": {
+        "total": 3,
+        "covered": 3,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "建築": {
+        "total": 8,
+        "covered": 8,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "物理学": {
+        "total": 5,
+        "covered": 5,
+        "coverage_rate": 100.0,
+        "missing": []
+      },
+      "化学": {
+        "total": 3,
+        "covered": 3,
+        "coverage_rate": 100.0,
+        "missing": []
+      }
+    },
+    "critical_missing": []
+  },
+  "age_chronology_validity": {
+    "total_real_episodes": 9094,
+    "llm_refusal_violations": 0,
+    "birth_year_mismatch_violations": 0,
+    "total_violations": 0,
+    "chronology_clean_rate": 100.0,
+    "violation_samples": []
+  },
+  "name_notation_quality": {
+    "total_episodes": 9157,
+    "unique_persons": 7163,
+    "unique_names": 7213,
+    "notation_consistency_rate": 99.97,
+    "duplicate_resolution_rate": 100,
+    "notation_variation_count": 2,
+    "notation_variation_samples": [
+      {
+        "normalized": "やまと",
+        "person_ids": [
+          "P8577CD5",
+          "PF547A8C"
+        ],
+        "names": [
+          "やまと"
+        ]
+      },
+      {
+        "normalized": "シルクロード",
+        "person_ids": [
+          "P528D388",
+          "P215298E"
+        ],
+        "names": [
+          "シルクロード"
+        ]
+      }
+    ],
+    "english_name_count": 108,
+    "english_name_rate": 1.5,
+    "alias_coverage_count": 666,
+    "alias_coverage_rate": 9.3,
+    "notation_quality_score": 90.62
+  },
+  "concatenated_name_patterns": {
+    "total_episodes": 9157,
+    "concatenated_pattern_count": 0,
+    "clean_rate": 100.0,
+    "concatenated_samples": []
+  },
+  "episode_quality_distribution": {
+    "has_scores": true,
+    "total_evaluated": 9157,
+    "keep_count": 7895,
+    "improve_count": 1262,
+    "merge_count": 0,
+    "discard_count": 0,
+    "keep_rate": 86.22,
+    "improve_rate": 13.78,
+    "merge_rate": 0.0,
+    "discard_rate": 0.0,
+    "avg_score": 7.17,
+    "episode_quality_score": 93.11,
+    "low_quality_samples": []
+  },
+  "duplicate_episodes": {
+    "total_episodes": 9157,
+    "duplicate_pairs": 0,
+    "duplicate_episode_count": 0,
+    "duplicate_clean_rate": 100.0,
+    "similarity_threshold": 0.7,
+    "duplicate_samples": []
+  },
+  "epup_score": {
+    "individual_scores": {
+      "group_entity_clean": 100,
+      "group_info_coverage": 51.39,
+      "group_master_sync": 100.0,
+      "format_compliance": 100.0,
+      "no_refusal": 100.0,
+      "age_coverage": 100.0,
+      "work_title_compliance": 100.0,
+      "placeholder_clean": 100.0,
+      "fact_density_quality": 100.0,
+      "episode_type_validity": 100.0,
+      "yumeilist_coverage": 100.0,
+      "episode_depth": 93.22,
+      "episode_drama_quality": 95.77,
+      "content_density_quality": 92.52,
+      "world_celebrity_coverage": 99.51,
+      "age_chronology_validity": 100.0,
+      "notation_consistency": 99.97,
+      "duplicate_resolution": 100,
+      "japanese_name_rate": 98.5,
+      "concatenated_name_clean": 100.0,
+      "episode_quality": 93.11,
+      "duplicate_episode_clean": 100.0
+    },
+    "weights": {
+      "group_entity_clean": 0.03,
+      "group_info_coverage": 0.03,
+      "group_master_sync": 0.03,
+      "format_compliance": 0.05,
+      "no_refusal": 0.05,
+      "age_coverage": 0.02,
+      "work_title_compliance": 0.05,
+      "placeholder_clean": 0.05,
+      "fact_density_quality": 0.05,
+      "episode_type_validity": 0.06,
+      "yumeilist_coverage": 0.05,
+      "episode_depth": 0.05,
+      "episode_drama_quality": 0.04,
+      "content_density_quality": 0.06,
+      "world_celebrity_coverage": 0.15,
+      "age_chronology_validity": 0.03,
+      "notation_consistency": 0.05,
+      "duplicate_resolution": 0.04,
+      "japanese_name_rate": 0.06,
+      "concatenated_name_clean": 0.05,
+      "episode_quality": 0.03,
+      "duplicate_episode_clean": 0.02
+    },
+    "total_score": 102.21,
+    "grade": "A"
+  },
+  "recommendations": [
+    {
+      "priority": "MEDIUM",
+      "category": "グループ情報",
+      "issue": "グループ情報設定率 51.39%",
+      "action": "scripts/llm_group_fill.py を実行して補完"
+    }
+  ]
+}

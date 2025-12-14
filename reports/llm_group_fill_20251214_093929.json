@@ -1,0 +1,1393 @@
+{
+  "timestamp": "2025-12-14T09:39:29.352594",
+  "batch_size": 200,
+  "changes_count": 198,
+  "changes": [
+    {
+      "person_name": "柳井正",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念対象外"
+    },
+    {
+      "person_name": "孫正義",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "三木谷浩史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "前澤友作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "藤田晋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "堀江貴文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人経営者、グループ概念なし"
+    },
+    {
+      "person_name": "永守重信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "稲盛和夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "本田宗一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "松下幸之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "盛田昭夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソニー経営者、個人活動"
+    },
+    {
+      "person_name": "井深大",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソニー創業者の経営者"
+    },
+    {
+      "person_name": "豊田章男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "トヨタ自動車の経営者"
+    },
+    {
+      "person_name": "似鳥昭雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループに属さない"
+    },
+    {
+      "person_name": "鈴木敏文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "宮内義彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "御手洗冨士夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "出井伸之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソニー経営者、個人活動"
+    },
+    {
+      "person_name": "平井一夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソニーの経営者、個人活動"
+    },
+    {
+      "person_name": "新浪剛史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "南場智子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ活動なし"
+    },
+    {
+      "person_name": "冨山和彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "岩田聡",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "任天堂社長、経営者"
+    },
+    {
+      "person_name": "ジャック・ウェルチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "エイサ・キャンドラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "サム・ウォルトン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "アンドリュー・カーネギー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家で個人活動"
+    },
+    {
+      "person_name": "ジョン・ロックフェラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念外"
+    },
+    {
+      "person_name": "ラリー・エリソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Oracle創業者の経営者"
+    },
+    {
+      "person_name": "マイケル・デル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "安田善次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家・銀行家で個人活動"
+    },
+    {
+      "person_name": "住友政友",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の住友家当主、経営者"
+    },
+    {
+      "person_name": "森泰吉郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者、個人活動"
+    },
+    {
+      "person_name": "カルロス・ゴーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "セルゲイ・ブリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Google創業者で経営者"
+    },
+    {
+      "person_name": "リード・ヘイスティングス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Netflix創業者・経営者"
+    },
+    {
+      "person_name": "ジェフ・イメルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの企業経営者"
+    },
+    {
+      "person_name": "マーク・ベニオフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者、個人での活動"
+    },
+    {
+      "person_name": "ダニエル・エク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Spotify創業者の経営者"
+    },
+    {
+      "person_name": "トラビス・カラニック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "ブライアン・チェスキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Airbnb創業者で経営者"
+    },
+    {
+      "person_name": "パトリック・コリソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "野中郁次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営学者で個人活動"
+    },
+    {
+      "person_name": "伊藤雅俊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジャック・ドーシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "マーク・キューバン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "ピーター・ティール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・投資家で個人活動"
+    },
+    {
+      "person_name": "スチュアート・バターフィールド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で日本人ではない"
+    },
+    {
+      "person_name": "ドリュー・ヒューストン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループに非所属"
+    },
+    {
+      "person_name": "ロビン・チェイス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "レイ・ダリオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "レイ・ダリオは米国の投資家で日本の有名人ではない"
+    },
+    {
+      "person_name": "マイケル・ブルームバーグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・政治家で個人活動"
+    },
+    {
+      "person_name": "サラ・ブレイクリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人で起業した経営者"
+    },
+    {
+      "person_name": "南波智秀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ概念なし"
+    },
+    {
+      "person_name": "藤田恭嗣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "西川徹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日産自動車の経営者"
+    },
+    {
+      "person_name": "竹中統一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ビジネス分野の経営者個人"
+    },
+    {
+      "person_name": "小飼弾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "IT業界の個人ブロガー・評論家"
+    },
+    {
+      "person_name": "吉田浩一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "高野秀敏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "転職支援会社の経営者"
+    },
+    {
+      "person_name": "新野淳一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "技術メディア運営者で個人活動"
+    },
+    {
+      "person_name": "青柳直樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "グリー経営者、企業人"
+    },
+    {
+      "person_name": "西田宗千佳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ITジャーナリストで個人活動"
+    },
+    {
+      "person_name": "森川博之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "研究者・経営者は個人活動"
+    },
+    {
+      "person_name": "尾原和啓",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人コンサルタント・経営者"
+    },
+    {
+      "person_name": "ジョン・ロックフェラー・ジュニア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家・慈善家で個人活動"
+    },
+    {
+      "person_name": "カーネル・サンダース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人経営者でグループ概念なし"
+    },
+    {
+      "person_name": "カール・ラガーフェルド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ファッションデザイナーで個人活動"
+    },
+    {
+      "person_name": "イヴ・サンローラン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスのファッションデザイナー"
+    },
+    {
+      "person_name": "ラルフ・ローレン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの経営者で個人活動"
+    },
+    {
+      "person_name": "リチャード・ブランソン卿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "英国の実業家で個人経営者"
+    },
+    {
+      "person_name": "ハワード・シュルツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スターバックス経営者で企業人"
+    },
+    {
+      "person_name": "マイケル・ブルームバーグ元市長",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "田中義一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者、グループ概念なし"
+    },
+    {
+      "person_name": "鈴木茂雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "岡田卓也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イオン創業者の経営者"
+    },
+    {
+      "person_name": "毒島邦雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "重光昭夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "福武總一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ベネッセ会長、個人経営者"
+    },
+    {
+      "person_name": "竹田和平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人投資家・経営者"
+    },
+    {
+      "person_name": "谷口義晴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "滝田洋一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "新聞記者・経済解説者は個人職業"
+    },
+    {
+      "person_name": "笹川陽平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "社会活動家・経営者で個人活動"
+    },
+    {
+      "person_name": "秋山咲恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "シェリル・サンドバーグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "マリッサ・メイヤー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "ジニー・ロメッティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "IBM元CEOの経営者"
+    },
+    {
+      "person_name": "メアリー・バーラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国の経営者で日本の有名人ではない"
+    },
+    {
+      "person_name": "スーザン・ウォシッキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "アビゲイル・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ローリーン・パウエル・ジョブズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "竹中半兵衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "岡本薫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "豊田章一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "トヨタ経営者、個人活動"
+    },
+    {
+      "person_name": "永野重雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジム・ベゾス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "松永安左エ門",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家は個人活動が基本"
+    },
+    {
+      "person_name": "土光敏夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "西室泰三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "東芝社長の経営者"
+    },
+    {
+      "person_name": "鈴木修",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スズキの経営者で個人活動"
+    },
+    {
+      "person_name": "米倉弘昌",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "小林喜光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者のため無所属"
+    },
+    {
+      "person_name": "張富士夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者は個人活動"
+    },
+    {
+      "person_name": "奥田碩",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "トヨタ自動車の経営者"
+    },
+    {
+      "person_name": "中村邦夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者はグループ概念なし"
+    },
+    {
+      "person_name": "カーロス・スリム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "メキシコの実業家で日本人ではない"
+    },
+    {
+      "person_name": "中山素平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "銀行経営者で個人活動"
+    },
+    {
+      "person_name": "佐治敬三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "小林一雅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "フィル・ナイト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "Nike創業者で経営者"
+    },
+    {
+      "person_name": "ジョン・D・ロックフェラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの実業家で個人活動"
+    },
+    {
+      "person_name": "アンディ・グローブ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "インテルCEOの経営者"
+    },
+    {
+      "person_name": "マイケル・ポーター",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営学者で個人活動"
+    },
+    {
+      "person_name": "ピーター・ドラッカー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営学者で個人活動"
+    },
+    {
+      "person_name": "近藤太香巳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "猪子寿之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "チームラボ代表の経営者"
+    },
+    {
+      "person_name": "佐治信忠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "鶴見和雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "中島聡",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "岡本行夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外交官・コンサルタントで個人活動"
+    },
+    {
+      "person_name": "里見治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "樋口泰行",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "藤森義明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "ベン・ホロウィッツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・投資家で個人活動"
+    },
+    {
+      "person_name": "マーク・アンドリーセン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・投資家で個人活動"
+    },
+    {
+      "person_name": "サフラ・カッツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "エリック・シュミット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "ジャン＝ポール・アゴン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ロレアルCEOの経営者"
+    },
+    {
+      "person_name": "角川歴彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "新貝康司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "木村拓也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "ボビー・コティック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "外国人経営者でグループ活動なし"
+    },
+    {
+      "person_name": "ダニエル・チャン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "テスラのイーロン・マスク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "岩崎弥一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の実業家、個人活動"
+    },
+    {
+      "person_name": "ジョン・ピアポント・モルガン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの実業家で個人活動"
+    },
+    {
+      "person_name": "鳥井信一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "サントリーの経営者で企業人"
+    },
+    {
+      "person_name": "安田善雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "明治時代の経営者、個人活動"
+    },
+    {
+      "person_name": "マーガレット・サッチャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イギリス首相、個人政治家"
+    },
+    {
+      "person_name": "鈴木道雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スズキ創業者、経営者"
+    },
+    {
+      "person_name": "住友友以",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の商人・個人事業家"
+    },
+    {
+      "person_name": "中山悦治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "古河市兵衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "浅野総一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ヴェラ・ワン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ファッションデザイナー、個人事業"
+    },
+    {
+      "person_name": "大倉喜八郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の実業家で個人活動"
+    },
+    {
+      "person_name": "野村徳七",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "メリンダ・ゲイツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "藤原銀次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者はグループ概念なし"
+    },
+    {
+      "person_name": "中島知久平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "アリババ・ジャック・マー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国の経営者で日本人ではない"
+    },
+    {
+      "person_name": "木村惠司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "三菱重工業の経営者で個人活動"
+    },
+    {
+      "person_name": "フェイスブック・マーク・ザッカーバーグ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "石坂泰三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジャネット・イエレン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国の経済学者・政治家"
+    },
+    {
+      "person_name": "土橋正二郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "銀行経営者で個人活動"
+    },
+    {
+      "person_name": "ジェフ・ベソス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ活動なし"
+    },
+    {
+      "person_name": "李嘉誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "香港の実業家で個人経営者"
+    },
+    {
+      "person_name": "アマンシオ・オルテガ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "ベルナール・アルノー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国の経営者で日本の有名人ではない"
+    },
+    {
+      "person_name": "フランソワーズ・ベタンクール・マイヤーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者でグループ活動なし"
+    },
+    {
+      "person_name": "馬化騰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国の経営者で日本人ではない"
+    },
+    {
+      "person_name": "張一鳴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループに属さない"
+    },
+    {
+      "person_name": "豊田章三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者のため無所属"
+    },
+    {
+      "person_name": "永田雅一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画会社経営者で個人活動"
+    },
+    {
+      "person_name": "中内功",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ダイエー創業者の経営者"
+    },
+    {
+      "person_name": "岩崎小弥太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "三菱財閥の経営者、個人事業"
+    },
+    {
+      "person_name": "住友友純",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "住友財閥の経営者で個人活動"
+    },
+    {
+      "person_name": "古河虎之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "安田保善",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の実業家で個人活動"
+    },
+    {
+      "person_name": "大倉孫兵衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "川崎正蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "スティーブ・ウォズニアック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・技術者で個人活動"
+    },
+    {
+      "person_name": "ラリー・ページ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で通常グループ概念なし"
+    },
+    {
+      "person_name": "ギャレット・キャンプ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "企業経営者で個人活動"
+    },
+    {
+      "person_name": "カール・アイカーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの投資家で日本人ではない"
+    },
+    {
+      "person_name": "自動車創業者豊田佐吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "松島正昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ダスキン経営者、個人活動"
+    },
+    {
+      "person_name": "池田菊苗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "化学者・研究者で個人活動"
+    },
+    {
+      "person_name": "イングヴァル・カンプラード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "海外企業家でグループ無関係"
+    },
+    {
+      "person_name": "イーロン・マスク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で日本の有名人ではない"
+    },
+    {
+      "person_name": "リチャード・ブランソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者でグループ概念なし"
+    },
+    {
+      "person_name": "ウォーレン・バフェット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "滝崎武光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "キーエンス創業者で経営者"
+    },
+    {
+      "person_name": "鈴木貴男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "企業経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "中村恒也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "コマツの経営者で企業所属"
+    },
+    {
+      "person_name": "ジョン・D・ロックフェラー・ジュニア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家・慈善事業家で個人活動"
+    },
+    {
+      "person_name": "正力松太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "新聞社経営者で個人活動"
+    },
+    {
+      "person_name": "岡田茂吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "新井将敬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は個人活動が基本"
+    },
+    {
+      "person_name": "金丸信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "竹村健一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "評論家は個人活動"
+    },
+    {
+      "person_name": "宮澤喜一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "羽田孜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家のため無所属"
+    },
+    {
+      "person_name": "ジェフ・ベイゾス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "井上弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "TBS社長で経営者"
+    },
+    {
+      "person_name": "豊田英二",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者は通常グループ概念なし"
+    },
+    {
+      "person_name": "森下仁丹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    }
+  ]
+}

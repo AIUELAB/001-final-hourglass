@@ -1,0 +1,1323 @@
+{
+  "timestamp": "2025-12-14T08:24:54.671186",
+  "batch_size": 200,
+  "changes_count": 188,
+  "changes": [
+    {
+      "person_name": "カート・コバーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "安室奈美恵",
+      "is_group_member": true,
+      "group_name": "SUPER MONKEY'S",
+      "confidence": 0.9,
+      "reason": "アイドルグループ出身で認知度高い"
+    },
+    {
+      "person_name": "西野カナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "きゃりーぱみゅぱみゅ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビューからソロ歌手"
+    },
+    {
+      "person_name": "野田洋次郎",
+      "is_group_member": true,
+      "group_name": "RADWIMPS",
+      "confidence": 1.0,
+      "reason": "RADWIMPSのメンバー"
+    },
+    {
+      "person_name": "氷川きよし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビューからソロ演歌歌手"
+    },
+    {
+      "person_name": "細川たかし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "森進一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "八代亜紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "久保田利伸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロアーティスト"
+    },
+    {
+      "person_name": "平井堅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビューからソロシンガー"
+    },
+    {
+      "person_name": "絢香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "Eve",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ボカロPからソロアーティストとして活動"
+    },
+    {
+      "person_name": "玉置浩二",
+      "is_group_member": true,
+      "group_name": "安全地帯",
+      "confidence": 1.0,
+      "reason": "安全地帯のボーカルとして有名"
+    },
+    {
+      "person_name": "甲本ヒロト",
+      "is_group_member": true,
+      "group_name": "ザ・クロマニヨンズ",
+      "confidence": 1.0,
+      "reason": "現在活動中のバンドメンバー"
+    },
+    {
+      "person_name": "真島昌利",
+      "is_group_member": true,
+      "group_name": "THE BLUE HEARTS",
+      "confidence": 1.0,
+      "reason": "複数バンドのギタリスト"
+    },
+    {
+      "person_name": "奥田民生",
+      "is_group_member": true,
+      "group_name": "ユニコーン",
+      "confidence": 1.0,
+      "reason": "ユニコーンのメンバーとして著名"
+    },
+    {
+      "person_name": "山崎まさよし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "スガシカオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューからソロ活動"
+    },
+    {
+      "person_name": "ASKA",
+      "is_group_member": true,
+      "group_name": "CHAGE and ASKA",
+      "confidence": 1.0,
+      "reason": "CHAGE and ASKAのメンバー"
+    },
+    {
+      "person_name": "ホイットニー・ヒューストン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "Prince",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "テイラー・スウィフト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティスト"
+    },
+    {
+      "person_name": "エド・シーラン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "ブルーノ・マーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "布袋寅泰",
+      "is_group_member": true,
+      "group_name": "BOØWY",
+      "confidence": 1.0,
+      "reason": "BOØWY解散後もバンドでの認知度が高い"
+    },
+    {
+      "person_name": "工藤静香",
+      "is_group_member": true,
+      "group_name": "おニャン子クラブ",
+      "confidence": 0.95,
+      "reason": "アイドルグループ出身で高い認知度"
+    },
+    {
+      "person_name": "森高千里",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ活動"
+    },
+    {
+      "person_name": "福原美穂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "秋川雅史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "クラシック歌手としてソロ活動"
+    },
+    {
+      "person_name": "竜真知子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作詞家として個人活動"
+    },
+    {
+      "person_name": "岡村靖幸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "カニエ・ウエスト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのソロアーティスト"
+    },
+    {
+      "person_name": "エミネム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロラッパーとして活動"
+    },
+    {
+      "person_name": "ジェイ・Z",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのソロラッパー"
+    },
+    {
+      "person_name": "森山直太朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロシンガー"
+    },
+    {
+      "person_name": "鬼束ちひろ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "奥井雅美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロのアニソン歌手"
+    },
+    {
+      "person_name": "ドビュッシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック作曲家で個人活動"
+    },
+    {
+      "person_name": "ラヴェル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの作曲家、個人活動"
+    },
+    {
+      "person_name": "チャイコフスキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀ロシアの作曲家、個人活動"
+    },
+    {
+      "person_name": "リスト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀の作曲家、ソロ活動"
+    },
+    {
+      "person_name": "ブラームス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック作曲家で個人活動"
+    },
+    {
+      "person_name": "シューベルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀の作曲家、ソロ活動"
+    },
+    {
+      "person_name": "ヴィヴァルディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バロック時代の作曲家、個人活動"
+    },
+    {
+      "person_name": "福田こうへい",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "島津亜矢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "天童よしみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "水森かおり",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "山内惠介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手でソロ活動"
+    },
+    {
+      "person_name": "長山洋子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "市川由紀乃",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手でソロ活動"
+    },
+    {
+      "person_name": "竹島宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手でソロ活動"
+    },
+    {
+      "person_name": "カニエ・ウェスト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカ出身のソロラッパー"
+    },
+    {
+      "person_name": "ショーン・メンデス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ビリー・アイリッシュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "サム・スミス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "英国のソロシンガー"
+    },
+    {
+      "person_name": "シーア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "忌野清志郎",
+      "is_group_member": true,
+      "group_name": "RCサクセション",
+      "confidence": 1.0,
+      "reason": "RCサクセションのボーカル"
+    },
+    {
+      "person_name": "甲斐よしひろ",
+      "is_group_member": true,
+      "group_name": "甲斐バンド",
+      "confidence": 1.0,
+      "reason": "甲斐バンドのリーダー"
+    },
+    {
+      "person_name": "因幡晃",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "財津和夫",
+      "is_group_member": true,
+      "group_name": "チューリップ",
+      "confidence": 0.9,
+      "reason": "チューリップのボーカリスト"
+    },
+    {
+      "person_name": "吉田美奈子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "谷山浩子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ活動"
+    },
+    {
+      "person_name": "UA",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "坂本美雨",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "ジャニス・ジョプリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ニール・ヤング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして認知"
+    },
+    {
+      "person_name": "パティ・スミス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "レナード・コーエン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "カナダ出身ソロシンガー"
+    },
+    {
+      "person_name": "ニック・ドレイク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ヴァン・モリソン",
+      "is_group_member": true,
+      "group_name": "Them",
+      "confidence": 0.9,
+      "reason": "バンドThem出身のミュージシャン"
+    },
+    {
+      "person_name": "ライ・クーダー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのソロミュージシャン"
+    },
+    {
+      "person_name": "トム・ウェイツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロミュージシャンかつ俳優"
+    },
+    {
+      "person_name": "ローリー・アンダーソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "スティーヴ・ライヒ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "現代音楽の作曲家、個人活動"
+    },
+    {
+      "person_name": "フィリップ・グラス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロのクラシック作曲家"
+    },
+    {
+      "person_name": "ジョン・ケージ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "現代音楽の作曲家でソロ活動"
+    },
+    {
+      "person_name": "エンヤ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ビョーク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アイスランド出身でソロ活動"
+    },
+    {
+      "person_name": "シガー・ロス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "さだまさし",
+      "is_group_member": true,
+      "group_name": "グレープ",
+      "confidence": 0.9,
+      "reason": "グレープのメンバーとして有名"
+    },
+    {
+      "person_name": "一青窈",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "森山良子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "夏川りみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "石川智晶",
+      "is_group_member": true,
+      "group_name": "See-Saw",
+      "confidence": 0.9,
+      "reason": "See-Sawのボーカルとして活動"
+    },
+    {
+      "person_name": "アレサ・フランクリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ワンダイレクション",
+      "is_group_member": true,
+      "group_name": "ワンダイレクション",
+      "confidence": 1.0,
+      "reason": "音楽グループそのもの"
+    },
+    {
+      "person_name": "カーリー・レイ・ジェプセン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "カナダのソロアーティスト"
+    },
+    {
+      "person_name": "ドージャ・キャット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "リル・ナズ・X",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "カーディ・B",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロラッパーとして活動"
+    },
+    {
+      "person_name": "メーガン・ジー・スタリオン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "SZA",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "H.E.R.",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "オリヴィア・ロドリゴ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "ビリー・ジョエル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "カラヤン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック指揮者は個人活動"
+    },
+    {
+      "person_name": "森田童子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "吉田拓郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "ジョン・ウィリアムズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画音楽作曲家でソロ活動"
+    },
+    {
+      "person_name": "尾藤イサオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "中田喜直",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作曲家として個人で活動"
+    },
+    {
+      "person_name": "ピンク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ラフマニノフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック作曲家でソロ活動"
+    },
+    {
+      "person_name": "テレサ・テン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "ドヴォルザーク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀クラシック作曲家、個人活動"
+    },
+    {
+      "person_name": "アッシャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのソロR&Bシンガー"
+    },
+    {
+      "person_name": "森昌子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "1973年ソロデビューの演歌歌手"
+    },
+    {
+      "person_name": "ニッキー・ミナージュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロラッパーとして活動"
+    },
+    {
+      "person_name": "筒美京平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作詞・作曲家として個人活動"
+    },
+    {
+      "person_name": "森口博子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "石井竜也",
+      "is_group_member": true,
+      "group_name": "米米CLUB",
+      "confidence": 1.0,
+      "reason": "米米CLUBのメンバーとして有名"
+    },
+    {
+      "person_name": "岡田有希子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアイドルとして活動"
+    },
+    {
+      "person_name": "CHAGE",
+      "is_group_member": true,
+      "group_name": "CHAGE and ASKA",
+      "confidence": 1.0,
+      "reason": "音楽デュオのメンバー"
+    },
+    {
+      "person_name": "角松敏生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "荻野目洋子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "河合奈保子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "1980年代のソロ歌手"
+    },
+    {
+      "person_name": "平沢進",
+      "is_group_member": true,
+      "group_name": "P-MODEL",
+      "confidence": 0.9,
+      "reason": "20年間P-MODELで活動"
+    },
+    {
+      "person_name": "綾戸智恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロジャズシンガーとして活動"
+    },
+    {
+      "person_name": "大貫妙子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "岩崎宏美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "ウィークエンド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ジョン・メイヤー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "アリシア・キーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ファレル・ウィリアムス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.8,
+      "reason": "日本人ではない外国人"
+    },
+    {
+      "person_name": "ジョン・レジェンド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ケリー・クラークソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "エイミー・ワインハウス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "平原綾香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューからソロシンガー"
+    },
+    {
+      "person_name": "いきものがかり・水野良樹",
+      "is_group_member": true,
+      "group_name": "いきものがかり",
+      "confidence": 1.0,
+      "reason": "いきものがかりのメンバー"
+    },
+    {
+      "person_name": "大橋卓弥",
+      "is_group_member": true,
+      "group_name": "スキマスイッチ",
+      "confidence": 1.0,
+      "reason": "スキマスイッチのメンバー"
+    },
+    {
+      "person_name": "ジェイソン・マラーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカ出身のソロシンガー"
+    },
+    {
+      "person_name": "ノラ・ジョーンズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "ジャック・ジョンソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロのシンガーソングライター"
+    },
+    {
+      "person_name": "アラニス・モリセット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "セリーヌ・ディオン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "カナダ出身のソロ歌手"
+    },
+    {
+      "person_name": "マライア・キャリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "バーブラ・ストライサンド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "ブルース・スプリングスティーン",
+      "is_group_member": true,
+      "group_name": "Eストリート・バンド",
+      "confidence": 0.9,
+      "reason": "Eストリート・バンドメンバー"
+    },
+    {
+      "person_name": "フィル・コリンズ",
+      "is_group_member": true,
+      "group_name": "Genesis",
+      "confidence": 0.9,
+      "reason": "Genesisのドラマー兼ボーカル"
+    },
+    {
+      "person_name": "ジョージ・マイケル",
+      "is_group_member": true,
+      "group_name": "Wham!",
+      "confidence": 0.9,
+      "reason": "Wham!のメンバーとして有名"
+    },
+    {
+      "person_name": "アニー・レノックス",
+      "is_group_member": true,
+      "group_name": "ユーリズミックス",
+      "confidence": 1.0,
+      "reason": "ユーリズミックスのメンバー"
+    },
+    {
+      "person_name": "島谷ひとみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "JUJU",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "鈴木雅之",
+      "is_group_member": true,
+      "group_name": "シャネルズ（後のラッツ&スター）",
+      "confidence": 0.9,
+      "reason": "シャネルズのメンバーとして有名"
+    },
+    {
+      "person_name": "田島貴男",
+      "is_group_member": true,
+      "group_name": "ORIGINAL LOVE",
+      "confidence": 1.0,
+      "reason": "ORIGINAL LOVEのメンバー"
+    },
+    {
+      "person_name": "アンジェラ・アキ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ活動の歌手"
+    },
+    {
+      "person_name": "ジャスティン・ティンバーレイク",
+      "is_group_member": true,
+      "group_name": "NSYNC",
+      "confidence": 1.0,
+      "reason": "NSYNCのメンバーとして明記"
+    },
+    {
+      "person_name": "エルビス・コステロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "海外のソロ音楽家"
+    },
+    {
+      "person_name": "ニーナ・シモン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "レイ・チャールズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ジョニー・キャッシュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのソロシンガー"
+    },
+    {
+      "person_name": "スティーヴィー・ニックス",
+      "is_group_member": true,
+      "group_name": "フリートウッド・マック",
+      "confidence": 0.9,
+      "reason": "著名バンドの主要メンバー"
+    },
+    {
+      "person_name": "石野真子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "1970年代デビューのソロ歌手"
+    },
+    {
+      "person_name": "原田知世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "石川優子",
+      "is_group_member": true,
+      "group_name": "チューリップ",
+      "confidence": 0.9,
+      "reason": "チューリップのメンバーとして有名"
+    },
+    {
+      "person_name": "岡村孝子",
+      "is_group_member": true,
+      "group_name": "あみん",
+      "confidence": 0.95,
+      "reason": "あみんのメンバーとして有名"
+    },
+    {
+      "person_name": "荒井由実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ活動"
+    },
+    {
+      "person_name": "庄野真代",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとしてデビュー"
+    },
+    {
+      "person_name": "阿久悠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作詞家として個人活動"
+    },
+    {
+      "person_name": "スティーヴィー・レイ・ヴォーン",
+      "is_group_member": true,
+      "group_name": "Double Trouble",
+      "confidence": 0.9,
+      "reason": "ブルースロックバンドのギタリスト"
+    },
+    {
+      "person_name": "キャロル・キング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアルバムをリリースした音楽家"
+    },
+    {
+      "person_name": "バーバラ・ストライサンド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ歌手・女優として活動"
+    },
+    {
+      "person_name": "ダイアナ・ロス",
+      "is_group_member": true,
+      "group_name": "スプリームス",
+      "confidence": 0.9,
+      "reason": "スプリームス脱退と明記"
+    },
+    {
+      "person_name": "グラディス・ナイト",
+      "is_group_member": true,
+      "group_name": "グラディス・ナイト&ザ・ピップス",
+      "confidence": 1.0,
+      "reason": "音楽グループのメンバーとして明記"
+    },
+    {
+      "person_name": "ティナ・ターナー",
+      "is_group_member": true,
+      "group_name": "Ike & Tina Turner",
+      "confidence": 0.9,
+      "reason": "夫アイクとのデュオで活動"
+    },
+    {
+      "person_name": "パティ・ラベル",
+      "is_group_member": true,
+      "group_name": "ラベルとブルーベルズ",
+      "confidence": 0.9,
+      "reason": "グループ活動の記載あり"
+    },
+    {
+      "person_name": "チャカ・カーン",
+      "is_group_member": true,
+      "group_name": "ルーファス",
+      "confidence": 0.9,
+      "reason": "バンド「ルーファス」のメンバー"
+    },
+    {
+      "person_name": "リヒャルト・ワーグナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "19世紀ドイツの作曲家で個人活動"
+    },
+    {
+      "person_name": "長谷川きよし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "エリック・サティ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの作曲家で個人活動"
+    },
+    {
+      "person_name": "チェット・ベイカー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国ジャズ奏者でソロ活動"
+    },
+    {
+      "person_name": "岡林信康",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロのフォークシンガー"
+    },
+    {
+      "person_name": "ニーノ・ロータ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画音楽作曲家でソロ活動"
+    },
+    {
+      "person_name": "南こうせつ",
+      "is_group_member": true,
+      "group_name": "かぐや姫",
+      "confidence": 1.0,
+      "reason": "かぐや姫のメンバーとして有名"
+    },
+    {
+      "person_name": "井上陽水",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "泉谷しげる",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "ライオネル・リッチー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカ人でソロ歌手"
+    },
+    {
+      "person_name": "リンキン・パーク",
+      "is_group_member": true,
+      "group_name": "リンキン・パーク",
+      "confidence": 1.0,
+      "reason": "音楽バンドのメンバー"
+    },
+    {
+      "person_name": "アンドレア・ボチェッリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "クラシック歌手でソロ活動"
+    },
+    {
+      "person_name": "世良公則",
+      "is_group_member": true,
+      "group_name": "ツイスト",
+      "confidence": 0.9,
+      "reason": "ツイスト解散後の記述あり"
+    },
+    {
+      "person_name": "ジョニー・マー",
+      "is_group_member": true,
+      "group_name": "ザ・スミス",
+      "confidence": 0.9,
+      "reason": "ザ・スミスのギタリストとして著名"
+    },
+    {
+      "person_name": "浜田省吾",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーソングライター"
+    },
+    {
+      "person_name": "スティーヴ・ヴァイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "千昌夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "岡本真夜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "尾形大作",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手としてソロ活動"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "check_type": "daily",
+  "timestamp": "2025-12-15T02:20:30.387800",
+  "total_records": 9691,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "group_as_person": 0,
+        "total_unique": 7261
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0001377220768489189,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "variant_ids": 1,
+        "total_ids": 7261
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9691
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "name": "表記ゆれ率",
+      "status": "WARNING",
+      "value": 0.0001377220768489189
+    }
+  ]
+}

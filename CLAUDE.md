@@ -150,6 +150,49 @@ git push origin main
 
 ---
 
+## 📁 マスターCSV運用ルール（単一マスター原則）
+
+### 正規マスター（唯一の実ファイル）
+
+```
+preserved/data/MASTER_EPISODES_CURRENT.csv  ← 正規マスター（実ファイル）
+```
+
+### シンボリックリンク構造
+
+```
+data/MASTER_EPISODES_CURRENT.csv
+    ↓ シンボリックリンク
+preserved/data/MASTER_EPISODES_CURRENT.csv
+```
+
+### 運用ルール
+
+| 操作 | 使用パス |
+|------|----------|
+| **編集（Claude/スクリプト）** | `preserved/data/MASTER_EPISODES_CURRENT.csv` |
+| **読み込み（ダッシュボード）** | `data/MASTER_EPISODES_CURRENT.csv`（リンク経由） |
+| **整合性チェック** | `python scripts/check_single_master.py` |
+
+### 絶対禁止
+
+- ❌ `data/MASTER_EPISODES_CURRENT.csv` に実ファイルを作成
+- ❌ シンボリックリンクを削除して実ファイルに置換
+- ❌ `preserved/data/` 以外の場所にマスターCSVを複製
+
+### 整合性チェック（定期実行推奨）
+
+```bash
+python scripts/check_single_master.py
+```
+
+チェック項目:
+1. 正規マスターの存在確認
+2. シンボリックリンクの正常性
+3. 二重マスター（実ファイル重複）の検出
+
+---
+
 ## 🔢 バージョン同期ルール（EPUP）
 
 **ファイル名のバージョンとUI表示は必ず同期させる**

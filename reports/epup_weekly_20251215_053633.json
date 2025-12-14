@@ -1,0 +1,89 @@
+{
+  "check_type": "weekly",
+  "timestamp": "2025-12-15T05:36:29.168626",
+  "total_records": 9690,
+  "overall_status": "OK",
+  "overall_score": 1.0,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "group_as_person": 0,
+        "total_unique": 7260
+      }
+    },
+    {
+      "name": "フォーマット準拠率",
+      "value": 1.0,
+      "target": 1.0,
+      "status": "OK",
+      "details": {
+        "compliant": 9690,
+        "total": 9690
+      }
+    },
+    {
+      "name": "メタ表現混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "meta_count": 0,
+        "fictional_total": 69
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "variant_ids": 0,
+        "total_ids": 7260
+      }
+    },
+    {
+      "name": "重複ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "duplicate_names": 0,
+        "total_names": 7260
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9690
+      }
+    },
+    {
+      "name": "削除済みID混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated": 0,
+        "deleted_ids_count": 1,
+        "deleted_names_count": 1,
+        "contaminated_entries": []
+      }
+    }
+  ],
+  "validation": {
+    "success": false,
+    "valid_rows": 9680,
+    "invalid_rows": 10,
+    "error_count": 10,
+    "warning_count": 0
+  },
+  "alerts": []
+}

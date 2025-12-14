@@ -8,6 +8,7 @@ EPUPの一環として、マスターCSVが唯一であることを確認する�
 2. preserved/MASTER_EPISODES_CURRENT.csv がシンボリックリンクであること
 3. dashboard/ フォルダにMASTER_EPISODES*.csv が存在しないこと
 4. プロジェクトルート直下にMASTER_EPISODES*.csv が存在しないこと
+5. data/MASTER_EPISODES_CURRENT.csv がシンボリックリンクであること（実ファイル禁止）
 
 使用方法:
     python scripts/check_single_master.py
@@ -90,7 +91,28 @@ def check_single_master() -> dict:
     else:
         results["checks"].append("✅ ルート直下にマスター風CSVなし")
 
-    # 5. generated/ フォルダの確認（情報のみ）
+    # 5. data/MASTER_EPISODES_CURRENT.csv のシンボリックリンク確認（二重マスター防止）
+    data_csv = project_root / "data" / "MASTER_EPISODES_CURRENT.csv"
+    if data_csv.is_symlink():
+        target = data_csv.resolve()
+        if target == main_master.resolve():
+            results["checks"].append(f"✅ data/CSVはシンボリックリンク: {data_csv} → {target}")
+        else:
+            results["passed"] = False
+            results["errors"].append(
+                f"❌ data/CSVのシンボリックリンクが不正なターゲット: {data_csv} → {target}\n"
+                "   → preserved/data/MASTER_EPISODES_CURRENT.csv を指すように修正してください"
+            )
+    elif data_csv.exists():
+        results["passed"] = False
+        results["errors"].append(
+            f"❌ data/に実ファイルが存在（二重マスター問題）: {data_csv}\n"
+            "   → 削除してシンボリックリンクに置き換えてください"
+        )
+    else:
+        results["warnings"].append(f"⚠️ data/CSVが存在しません: {data_csv}")
+
+    # 6. generated/ フォルダの確認（情報のみ）
     generated_dir = project_root / "generated"
     if generated_dir.exists():
         generated_csvs = list(generated_dir.glob("*episodes*.csv"))

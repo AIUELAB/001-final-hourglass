@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "description": "削除済みperson_idの記録（再発防止用）",
+  "last_updated": "2025-12-15T05:30:00+09:00",
+  "deleted_ids": [
+    {
+      "person_id": "PE724CF8",
+      "person_name": "エロン・マスク",
+      "deleted_at": "2025-12-15T05:30:00+09:00",
+      "reason": "manual_deletion",
+      "deleted_by": "user",
+      "recoverable": false,
+      "notes": "以前手動削除したが復活していたため、tombstoneで再発防止"
+    }
+  ],
+  "stats": {
+    "total_deleted": 1,
+    "by_reason": {
+      "manual_deletion": 1
+    }
+  }
+}

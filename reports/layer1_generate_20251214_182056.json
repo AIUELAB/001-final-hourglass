@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-12-14T18:20:56.655247",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 40,
+    "generated": 1,
+    "format_rejected": 39,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 2,
+    "api_errors": 0,
+    "success_rate": 2.5,
+    "elapsed_seconds": 265.1,
+    "episodes_per_minute": 0.2
+  },
+  "sample_episodes": [
+    {
+      "person_name": "ハリー・ベラフォンテ",
+      "age": "8",
+      "text_preview": "あなたと同じ8歳のとき、ハリー・ベラフォンテは1935年、ニューヨークのハーレムで暮らしていました。この年、母親のミリー・ベラフォンテの経済的な判断により、ハリー・ベラフォンテは弟とともに母の故郷であ"
+    }
+  ]
+}

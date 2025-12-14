@@ -193,6 +193,36 @@ python scripts/check_single_master.py
 
 ---
 
+## 📊 ダッシュボード運用ルール（単一正規版原則）
+
+### 正規ダッシュボード（唯一の最新版）
+
+```
+preserved/episode_database_dashboard_v7.html  ← 正規版
+```
+
+### 運用ルール
+
+| 操作 | 使用パス |
+|------|----------|
+| **編集・閲覧** | `preserved/episode_database_dashboard_v*.html` |
+| **バージョンアップ** | preserved/ に新バージョンを作成 |
+| **旧バージョン** | `archive/dashboards/` に保存 |
+
+### 絶対禁止
+
+- ❌ ルート直下にダッシュボードHTMLを作成
+- ❌ preserved/ 以外の場所でダッシュボードを編集
+- ❌ 同一バージョンの複数コピーを保持
+
+### バージョンアップ手順
+
+1. preserved/ に新バージョンを作成（例: v8.html）
+2. 旧バージョンを archive/dashboards/ に移動
+3. ファイル名・title・h1のバージョン番号を同期
+
+---
+
 ## 🔢 バージョン同期ルール（EPUP）
 
 **ファイル名のバージョンとUI表示は必ず同期させる**

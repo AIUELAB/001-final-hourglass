@@ -322,3 +322,6 @@ ebook-mcp/
 ios-apps/final-hourglass/
 .crash-guard/
 output/name_application/preview_applied.csv
+
+# アーカイブ済みダッシュボード（ローカル保存のみ）
+archive/dashboards/

@@ -1,0 +1,203 @@
+{
+  "timestamp": "2025-12-14T14:32:05.324501",
+  "batch_size": 50,
+  "changes_count": 28,
+  "changes": [
+    {
+      "person_name": "イケガミアキラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人のイラストレーター活動"
+    },
+    {
+      "person_name": "パトリック・スチュワート",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優で個人活動中心"
+    },
+    {
+      "person_name": "ジェレミー・アイアンズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イギリスの俳優でソロ活動"
+    },
+    {
+      "person_name": "今井正",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "映画監督は個人活動が基本"
+    },
+    {
+      "person_name": "吉田秀和",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "音楽評論家として個人活動"
+    },
+    {
+      "person_name": "辰巳琢郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "清水崇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "イーストウッド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優・映画監督として個人活動"
+    },
+    {
+      "person_name": "マーク・ロスコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家は個人活動が基本"
+    },
+    {
+      "person_name": "ロイ・リキテンスタイン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "画家で個人活動のため"
+    },
+    {
+      "person_name": "キース・ヘリング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ストリートアーティストで個人活動"
+    },
+    {
+      "person_name": "リチャード・アヴェドン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "写真家で個人活動"
+    },
+    {
+      "person_name": "イヨ・ミン・ペイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人活動が基本"
+    },
+    {
+      "person_name": "リチャード・ロジャース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人活動が基本"
+    },
+    {
+      "person_name": "ミキ・アンドウ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "華道家として個人活動"
+    },
+    {
+      "person_name": "田原桂一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "写真家・彫刻家として個人活動"
+    },
+    {
+      "person_name": "白井晟一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人職業"
+    },
+    {
+      "person_name": "豊島圓山",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "画家は通常個人活動"
+    },
+    {
+      "person_name": "東松照明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "写真家として個人活動"
+    },
+    {
+      "person_name": "青木淳",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人活動が基本"
+    },
+    {
+      "person_name": "石山修武",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家は個人で活動する職業"
+    },
+    {
+      "person_name": "山口勝弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人アーティストとして活動"
+    },
+    {
+      "person_name": "河原温",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "現代美術家として個人活動"
+    },
+    {
+      "person_name": "桐竹勘十郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "文楽太夫は個人芸能者"
+    },
+    {
+      "person_name": "イタロ・カルビーノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イタリア人小説家で日本人ではない"
+    },
+    {
+      "person_name": "グスタフ・クリムト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀の画家、個人作家"
+    },
+    {
+      "person_name": "デイヴィッド・リンチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "ヨハネス・フェルメール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "17世紀オランダの画家で個人作家"
+    }
+  ]
+}

@@ -1,0 +1,518 @@
+{
+  "timestamp": "2025-12-14T14:14:21.661547",
+  "batch_size": 100,
+  "changes_count": 73,
+  "changes": [
+    {
+      "person_name": "鴨志田穣",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "映画監督は通常個人活動"
+    },
+    {
+      "person_name": "近藤等則",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロの前衛音楽家として活動"
+    },
+    {
+      "person_name": "セバスチャン・エルカーノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の探検家で日本人でない"
+    },
+    {
+      "person_name": "吉田類",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "酒場ライター・個人活動"
+    },
+    {
+      "person_name": "ジャック・イヴ・クストー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの海洋探検家で個人活動"
+    },
+    {
+      "person_name": "メリウェザー・ルイス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの探検家で日本の有名人ではない"
+    },
+    {
+      "person_name": "バルトロメウ・ディアス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国の歴史上人物で日本の有名人ではない"
+    },
+    {
+      "person_name": "イブン・バットゥータ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "森口繁一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "統計学者で個人研究者"
+    },
+    {
+      "person_name": "アンリ・ベクレル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "緒方正清",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者・研究者は通常グループ活動なし"
+    },
+    {
+      "person_name": "長与又郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "医学者は個人活動"
+    },
+    {
+      "person_name": "佐々木隆興",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "科学者は通常個人活動"
+    },
+    {
+      "person_name": "八代嘉美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者・科学者は個人活動"
+    },
+    {
+      "person_name": "藤井厳喜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "国際政治学者で個人活動"
+    },
+    {
+      "person_name": "ジョゼフ・ニーダム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者・研究者で個人活動"
+    },
+    {
+      "person_name": "バックミンスター・フラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "建築家・発明家で個人活動"
+    },
+    {
+      "person_name": "エルンスト・ハッケル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀ドイツの生物学者、個人研究者"
+    },
+    {
+      "person_name": "イヴァン・セチェーノフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "フリッツ・ハーバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "ムハンマド・ユヌス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済学者・銀行家で個人活動"
+    },
+    {
+      "person_name": "藤堂明保",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "辻村みよ子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "憲法学者は個人活動が基本"
+    },
+    {
+      "person_name": "金田一春彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は個人活動が基本"
+    },
+    {
+      "person_name": "倉田百三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人の思想家・劇作家"
+    },
+    {
+      "person_name": "桑原武夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は個人活動が基本"
+    },
+    {
+      "person_name": "沢口靖子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ソロ活動の女優"
+    },
+    {
+      "person_name": "青島幸男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "放送作家として個人活動"
+    },
+    {
+      "person_name": "ルシル・ボール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの女優でソロ活動"
+    },
+    {
+      "person_name": "ジョニー・カーソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのテレビ司会者でソロ活動"
+    },
+    {
+      "person_name": "ボブ・ニューハート",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人名義の単独番組で活動"
+    },
+    {
+      "person_name": "キャロル・バーネット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人名義の番組でソロ活動"
+    },
+    {
+      "person_name": "ジョージ・カーリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカ人スタンダップコメディアン"
+    },
+    {
+      "person_name": "リチャード・プライア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロのスタンドアップコメディアン"
+    },
+    {
+      "person_name": "サミー・デイビス・Jr",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ジュディ・ガーランド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ歌手・女優として活動"
+    },
+    {
+      "person_name": "フレッド・アステア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ジンジャー・ロジャース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ジェームズ・スチュワート",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優は個人活動が基本"
+    },
+    {
+      "person_name": "堀田真由",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人で活動する女優"
+    },
+    {
+      "person_name": "清野菜名",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "アルベルト・シュヴァイツァー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人の学者・医師として活動"
+    },
+    {
+      "person_name": "エウクレイデス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ギリシャの数学者で個人研究者"
+    },
+    {
+      "person_name": "秋山仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "数学者として個人活動"
+    },
+    {
+      "person_name": "エリザベス・キューブラー＝ロス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者で個人活動"
+    },
+    {
+      "person_name": "ハンス・セリエ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者は個人活動"
+    },
+    {
+      "person_name": "チョムスキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者個人での活動"
+    },
+    {
+      "person_name": "スタンレー・ミルグラム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "心理学者で個人研究者"
+    },
+    {
+      "person_name": "ハロルド・ユーリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は個人活動"
+    },
+    {
+      "person_name": "西脇順三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "詩人・学者として個人活動"
+    },
+    {
+      "person_name": "竹山道雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・作家は個人活動"
+    },
+    {
+      "person_name": "エドワード・オズボーン・ウィルソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は個人活動"
+    },
+    {
+      "person_name": "ジャン・ルソー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・思想家で個人活動"
+    },
+    {
+      "person_name": "井上円了",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・研究者で個人活動"
+    },
+    {
+      "person_name": "田邊元",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "哲学者は個人活動が基本"
+    },
+    {
+      "person_name": "木村栄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は個人活動が基本"
+    },
+    {
+      "person_name": "ユング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者は個人活動"
+    },
+    {
+      "person_name": "アドラー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者は個人活動が基本"
+    },
+    {
+      "person_name": "エーリッヒ・フロム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "心理学者・哲学者で個人活動"
+    },
+    {
+      "person_name": "クルト・レヴィン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者で日本の有名人ではない"
+    },
+    {
+      "person_name": "アブラハム・マズロー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者で個人活動"
+    },
+    {
+      "person_name": "カール・ロジャーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "心理学者で個人研究者"
+    },
+    {
+      "person_name": "ジェローム・ブルーナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学術研究者で個人活動"
+    },
+    {
+      "person_name": "アーロン・コープランド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの作曲家でソロ活動"
+    },
+    {
+      "person_name": "ニーナ・ハーゲン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ドイツのソロパンク歌手"
+    },
+    {
+      "person_name": "ジョルジュ・ビゼー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀フランスの作曲家でソロ活動"
+    },
+    {
+      "person_name": "ジュリアン・ロイド・ウェバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人チェリスト、ソロ活動"
+    },
+    {
+      "person_name": "ガブリエル・フォーレ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランス作曲家でソロ活動"
+    },
+    {
+      "person_name": "カール・オルフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック作曲家で個人活動"
+    },
+    {
+      "person_name": "ジョシュア・ベル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック音楽のソリスト"
+    },
+    {
+      "person_name": "レナード・バーンスタイン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "指揮者・作曲家でソロ活動"
+    },
+    {
+      "person_name": "ハインツ・ホリガー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "クラシック音楽家で個人活動"
+    },
+    {
+      "person_name": "エンリコ・カルーソー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "オペラ歌手はソロ活動"
+    }
+  ]
+}

@@ -1,0 +1,546 @@
+{
+  "timestamp": "2025-12-14T14:24:18.469657",
+  "batch_size": 100,
+  "changes_count": 77,
+  "changes": [
+    {
+      "person_name": "Watson and Crick",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ベルルスコーニ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "イタリアの政治家で日本人ではない"
+    },
+    {
+      "person_name": "福田沙紀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人女優として活動"
+    },
+    {
+      "person_name": "岸谷香",
+      "is_group_member": true,
+      "group_name": "プリンセス・プリンセス",
+      "confidence": 1.0,
+      "reason": "プリンセス・プリンセスのメンバー"
+    },
+    {
+      "person_name": "小池徹平",
+      "is_group_member": true,
+      "group_name": "WaT",
+      "confidence": 1.0,
+      "reason": "WaTのメンバーとして活動"
+    },
+    {
+      "person_name": "チャニング・テイタム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優でソロ活動が主"
+    },
+    {
+      "person_name": "井上順",
+      "is_group_member": true,
+      "group_name": "ザ・スパイダース",
+      "confidence": 0.9,
+      "reason": "ザ・スパイダースのメンバーとして有名"
+    },
+    {
+      "person_name": "近藤雅彦",
+      "is_group_member": true,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "グループデビューの記述あり"
+    },
+    {
+      "person_name": "堀ちえみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアイドル・女優として活動"
+    },
+    {
+      "person_name": "薬丸裕英",
+      "is_group_member": true,
+      "group_name": "シブがき隊",
+      "confidence": 1.0,
+      "reason": "シブがき隊のメンバーとして有名"
+    },
+    {
+      "person_name": "野村義男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "布川敏和",
+      "is_group_member": true,
+      "group_name": "シブがき隊",
+      "confidence": 1.0,
+      "reason": "シブがき隊のメンバーと明記"
+    },
+    {
+      "person_name": "哀川翔",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "的場浩司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優としてソロ活動"
+    },
+    {
+      "person_name": "中条きよし",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手として個人活動"
+    },
+    {
+      "person_name": "ジョン・クラシンスキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優・監督として個人活動"
+    },
+    {
+      "person_name": "デイブ・シャペル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロのスタンダップコメディアン"
+    },
+    {
+      "person_name": "キング牧師",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "公民権運動指導者で個人活動"
+    },
+    {
+      "person_name": "黒田如水",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "細川藤孝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "上杉景虎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "真田信繁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将は個人活動"
+    },
+    {
+      "person_name": "大塩平八郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で個人活動"
+    },
+    {
+      "person_name": "安重根",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人活動家"
+    },
+    {
+      "person_name": "安倍貞任",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "平安時代の武将、個人活動"
+    },
+    {
+      "person_name": "フランシス・ザビエル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の宣教師、個人活動"
+    },
+    {
+      "person_name": "イザベル1世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の君主で個人統治者"
+    },
+    {
+      "person_name": "ペリクレス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ギリシャの政治家で個人活動"
+    },
+    {
+      "person_name": "リチャード獅子心王",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "小松帯刀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・武士"
+    },
+    {
+      "person_name": "土方歳三",
+      "is_group_member": true,
+      "group_name": "新選組",
+      "confidence": 1.0,
+      "reason": "新選組副長として所属"
+    },
+    {
+      "person_name": "フリードリヒ大王",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "18世紀プロイセン国王で個人統治者"
+    },
+    {
+      "person_name": "カール大帝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の皇帝で個人活動"
+    },
+    {
+      "person_name": "太公望",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代中国の歴史上人物"
+    },
+    {
+      "person_name": "于禁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国三国時代の武将で個人"
+    },
+    {
+      "person_name": "関羽",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国古代の歴史上人物"
+    },
+    {
+      "person_name": "呂布",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国古代の武将で個人"
+    },
+    {
+      "person_name": "司馬懿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国古代の歴史上人物"
+    },
+    {
+      "person_name": "曹操",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国古代の歴史上人物"
+    },
+    {
+      "person_name": "黄長燁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者・政治家で個人活動"
+    },
+    {
+      "person_name": "福岡伸一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "生物学者で個人研究者"
+    },
+    {
+      "person_name": "理化学研究所の野依良治",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "佐藤勝昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジェームズ・ダイソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "発明家・経営者で個人活動"
+    },
+    {
+      "person_name": "カール・ジマー",
+      "is_group_member": null,
+      "group_name": null,
+      "confidence": 0.8,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ビル・ジョイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "技術者・経営者で個人活動"
+    },
+    {
+      "person_name": "ニール・ファーガソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史学者で個人活動"
+    },
+    {
+      "person_name": "クリントン・デイヴィソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジョン・ホプフィールド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "エルンスト・ルスカ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常グループ概念なし"
+    },
+    {
+      "person_name": "アレック・ジェフリーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人研究者"
+    },
+    {
+      "person_name": "ジョン・グルーバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "技術者で個人活動"
+    },
+    {
+      "person_name": "オーム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "物理学者で個人研究者"
+    },
+    {
+      "person_name": "アンペール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人活動"
+    },
+    {
+      "person_name": "ボルタ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者で個人研究者"
+    },
+    {
+      "person_name": "クーロン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "ヘルツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動"
+    },
+    {
+      "person_name": "ジュール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人活動が基本"
+    },
+    {
+      "person_name": "ケルビン卿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は個人研究者"
+    },
+    {
+      "person_name": "ラザフォード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "科学者は通常単独活動"
+    },
+    {
+      "person_name": "長谷川等",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "作詞家として個人活動"
+    },
+    {
+      "person_name": "アルフレッド・ブレンデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシックピアニストでソロ活動"
+    },
+    {
+      "person_name": "ヘルベルト・フォン・カラヤン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "指揮者として個人活動"
+    },
+    {
+      "person_name": "ジョアン・バエズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロのフォーク歌手"
+    },
+    {
+      "person_name": "アントニオ・カルロス・ジョビン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロのボサノヴァ作曲家"
+    },
+    {
+      "person_name": "ナット・キング・コール",
+      "is_group_member": true,
+      "group_name": "ナット・キング・コール・トリオ",
+      "confidence": 0.9,
+      "reason": "トリオでの活動が有名"
+    },
+    {
+      "person_name": "ペギー葉山",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "鳥羽一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "演歌歌手としてソロ活動"
+    },
+    {
+      "person_name": "水前寺清子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "山川豊",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "演歌ソロ歌手として活動"
+    },
+    {
+      "person_name": "チェーザレ・シエピ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "オペラ歌手でソロ活動"
+    },
+    {
+      "person_name": "クラウディオ・アバド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "指揮者は個人活動"
+    },
+    {
+      "person_name": "マルタ・アルゲリッチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシックピアニストでソロ活動"
+    },
+    {
+      "person_name": "冨田勲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "作曲家・シンセサイザー奏者として個人活動"
+    },
+    {
+      "person_name": "リー・リトナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロギタリストとして活動"
+    },
+    {
+      "person_name": "ブランフォード・マルサリス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "スタン・ゲッツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのジャズサックス奏者でソロ活動"
+    }
+  ]
+}

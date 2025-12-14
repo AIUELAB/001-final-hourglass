@@ -1,0 +1,1407 @@
+{
+  "timestamp": "2025-12-14T08:33:29.893755",
+  "batch_size": 200,
+  "changes_count": 200,
+  "changes": [
+    {
+      "person_name": "バカリズム",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "陣内智則",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "NON STYLE",
+      "is_group_member": true,
+      "group_name": "NON STYLE",
+      "confidence": 1.0,
+      "reason": "石田明と井上裕介のお笑いコンビ"
+    },
+    {
+      "person_name": "石田明",
+      "is_group_member": true,
+      "group_name": "ノンスタイル",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "ひろゆき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人でのネット論客活動"
+    },
+    {
+      "person_name": "中田敦彦",
+      "is_group_member": true,
+      "group_name": "オリエンタルラジオ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "押井守",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "富野由悠季",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アニメ監督として個人活動"
+    },
+    {
+      "person_name": "手塚治虫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人創作活動"
+    },
+    {
+      "person_name": "藤子・F・不二雄",
+      "is_group_member": true,
+      "group_name": "藤子不二雄",
+      "confidence": 1.0,
+      "reason": "藤子不二雄コンビの一員"
+    },
+    {
+      "person_name": "鳥山明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動が基本"
+    },
+    {
+      "person_name": "井上雄彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家として個人活動"
+    },
+    {
+      "person_name": "尾田栄一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人職業"
+    },
+    {
+      "person_name": "荒木飛呂彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動職業"
+    },
+    {
+      "person_name": "諫山創",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "漫画家は個人活動"
+    },
+    {
+      "person_name": "花澤香菜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優として個人活動が主体"
+    },
+    {
+      "person_name": "神谷浩史",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "梶裕貴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "水樹奈々",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "林原めぐみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロ声優・歌手活動"
+    },
+    {
+      "person_name": "山寺宏一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優として個人活動"
+    },
+    {
+      "person_name": "野沢雅子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優は個人活動職業"
+    },
+    {
+      "person_name": "大谷育江",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "緒方恵美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優として個人活動"
+    },
+    {
+      "person_name": "田中真弓",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "山口勝平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "高山みなみ",
+      "is_group_member": true,
+      "group_name": "TWO-MIX",
+      "confidence": 0.9,
+      "reason": "TWO-MIXの音楽ユニットメンバー"
+    },
+    {
+      "person_name": "古谷徹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "池田秀一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "若本規夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "田村ゆかり",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "釘宮理恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人職業でソロ活動"
+    },
+    {
+      "person_name": "沢城みゆき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "早見沙織",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優として個人活動"
+    },
+    {
+      "person_name": "上坂すみれ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "悠木碧",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優として個人で活動"
+    },
+    {
+      "person_name": "内田真礼",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "佐倉綾音",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "ゆうこりん（小倉優子）",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロのタレント"
+    },
+    {
+      "person_name": "辻希美",
+      "is_group_member": true,
+      "group_name": "モーニング娘。",
+      "confidence": 1.0,
+      "reason": "元モーニング娘。メンバー"
+    },
+    {
+      "person_name": "りゅうちぇる",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人タレントとして活動"
+    },
+    {
+      "person_name": "フワちゃん",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ピン芸人・タレントとして活動"
+    },
+    {
+      "person_name": "あのちゃん",
+      "is_group_member": true,
+      "group_name": "ゆるめるモ!",
+      "confidence": 0.9,
+      "reason": "ゆるめるモ!のメンバーと明記"
+    },
+    {
+      "person_name": "藤本敏史",
+      "is_group_member": true,
+      "group_name": "FUJIWARA",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "宮川大輔",
+      "is_group_member": true,
+      "group_name": "宮川大輔・ケンドーコバヤシ",
+      "confidence": 0.9,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "テリー伊藤",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "テレビプロデューサー・演出家として個人活動"
+    },
+    {
+      "person_name": "梅沢富美男",
+      "is_group_member": true,
+      "group_name": "梅沢劇団",
+      "confidence": 0.8,
+      "reason": "父が率いる劇団の一員として活動"
+    },
+    {
+      "person_name": "研ナオコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー当初からソロ歌手として活動"
+    },
+    {
+      "person_name": "和田アキ子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ歌手として活動"
+    },
+    {
+      "person_name": "古舘伊知郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フリーアナウンサー・司会者"
+    },
+    {
+      "person_name": "福澤朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元日本テレビアナウンサー、個人活動"
+    },
+    {
+      "person_name": "徳光和夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本テレビのアナウンサー個人活動"
+    },
+    {
+      "person_name": "みのもんた",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "司会者・アナウンサーで個人活動"
+    },
+    {
+      "person_name": "久米宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "テレビ・ラジオ司会者として個人活動"
+    },
+    {
+      "person_name": "宮根誠司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人のアナウンサー・司会者"
+    },
+    {
+      "person_name": "安住紳一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "TBSアナウンサーで個人活動"
+    },
+    {
+      "person_name": "羽鳥慎一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アナウンサー・司会者でソロ活動"
+    },
+    {
+      "person_name": "草野仁",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NHKアナウンサー出身の個人活動"
+    },
+    {
+      "person_name": "有働由美子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "NHKアナウンサーとして個人活動"
+    },
+    {
+      "person_name": "水卜麻美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アナウンサーは個人職業"
+    },
+    {
+      "person_name": "加藤綾子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フリーアナウンサーで個人活動"
+    },
+    {
+      "person_name": "川越達也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "料理人・シェフで個人活動"
+    },
+    {
+      "person_name": "平野レミ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "料理愛好家として個人活動"
+    },
+    {
+      "person_name": "HIKAKIN",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人YouTuberとして活動"
+    },
+    {
+      "person_name": "ヒカル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "個人YouTuberとして活動"
+    },
+    {
+      "person_name": "レペゼン地球 DJ社長",
+      "is_group_member": true,
+      "group_name": "レペゼン地球",
+      "confidence": 0.9,
+      "reason": "YouTubeグループのリーダー"
+    },
+    {
+      "person_name": "大塚明夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "石田彰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "子安武人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "関智一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "宮野真守",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優として個人活動が主"
+    },
+    {
+      "person_name": "中島みゆき",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "森田一義",
+      "is_group_member": true,
+      "group_name": "タモリ軍団",
+      "confidence": 0.8,
+      "reason": "タモリ軍団のリーダー的存在"
+    },
+    {
+      "person_name": "マイケル・ジャクソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ウォルト・ディズニー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人創業者・経営者"
+    },
+    {
+      "person_name": "エルビス・プレスリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティスト"
+    },
+    {
+      "person_name": "チャーリー・チャップリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画俳優・監督として個人活動"
+    },
+    {
+      "person_name": "マリリン・モンロー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド女優でソロ活動"
+    },
+    {
+      "person_name": "アルフレッド・ヒッチコック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督で個人活動"
+    },
+    {
+      "person_name": "Madonna",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ロビン・ウィリアムズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国人俳優でソロ活動"
+    },
+    {
+      "person_name": "山下智久",
+      "is_group_member": true,
+      "group_name": "NEWS",
+      "confidence": 1.0,
+      "reason": "NEWSのメンバーとして著名"
+    },
+    {
+      "person_name": "中島らも",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "小説家として個人活動"
+    },
+    {
+      "person_name": "竹内まりや",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビュー時からソロシンガー"
+    },
+    {
+      "person_name": "マドンナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "スタンリー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "海外の漫画家でソロ創作者"
+    },
+    {
+      "person_name": "ジョージ・ルーカス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人職業"
+    },
+    {
+      "person_name": "レオナルド・ディカプリオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド俳優でソロ活動"
+    },
+    {
+      "person_name": "安田美沙子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人タレントとして活動"
+    },
+    {
+      "person_name": "スタンリー・キューブリック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人職業"
+    },
+    {
+      "person_name": "フランク・シナトラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのソロ歌手・俳優"
+    },
+    {
+      "person_name": "さんま",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からピン芸人"
+    },
+    {
+      "person_name": "ジェームズ・キャメロン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動"
+    },
+    {
+      "person_name": "アデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "エルトン・ジョン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティスト"
+    },
+    {
+      "person_name": "秋元康",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作詞家・プロデューサー"
+    },
+    {
+      "person_name": "ボブ・ディラン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロミュージシャンとして活動"
+    },
+    {
+      "person_name": "スタン・リー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカのコミック作家で個人活動"
+    },
+    {
+      "person_name": "向井理",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ俳優として活動"
+    },
+    {
+      "person_name": "レディー・ガガ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストで日本人ではない"
+    },
+    {
+      "person_name": "ライアン・レイノルズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド俳優でソロ活動"
+    },
+    {
+      "person_name": "福山潤",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "声優は個人活動が基本"
+    },
+    {
+      "person_name": "尾上菊之助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "歌舞伎俳優は個人活動"
+    },
+    {
+      "person_name": "玉木宏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "蒼井優",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューからソロ女優活動"
+    },
+    {
+      "person_name": "満島ひかり",
+      "is_group_member": true,
+      "group_name": "Folder",
+      "confidence": 0.9,
+      "reason": "アイドルグループFolder元メンバー"
+    },
+    {
+      "person_name": "二階堂ふみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "リアーナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ジャスティン・ビーバー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ歌手として活動"
+    },
+    {
+      "person_name": "アリアナ・グランデ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ザ・ウィークエンド",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "デュア・リパ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロアーティストとして活動"
+    },
+    {
+      "person_name": "ゼンデイヤ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人俳優でソロ活動"
+    },
+    {
+      "person_name": "今田美桜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "中川大志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "坂口健太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優でソロ活動が主"
+    },
+    {
+      "person_name": "池松壮亮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "清原果耶",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "杉咲花",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "賀来賢人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "吉岡里帆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "女優としてソロ活動"
+    },
+    {
+      "person_name": "トム・クルーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド俳優で個人活動"
+    },
+    {
+      "person_name": "マーゴット・ロビー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ハリウッド女優、ソロ活動"
+    },
+    {
+      "person_name": "ティモシー・シャラメ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人俳優として活動"
+    },
+    {
+      "person_name": "クリス・エヴァンス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの俳優でソロ活動"
+    },
+    {
+      "person_name": "スティーブン・キング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家は個人活動職業"
+    },
+    {
+      "person_name": "ジョージ・R・R・マーティン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの小説家で個人活動"
+    },
+    {
+      "person_name": "リドリー・スコット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画監督は個人活動職種"
+    },
+    {
+      "person_name": "ジェームズ・ホーナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画音楽作曲家で個人活動"
+    },
+    {
+      "person_name": "ハンス・ジマー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "映画音楽作曲家、個人活動"
+    },
+    {
+      "person_name": "ダニー・エルフマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "映画音楽作曲家でソロ活動"
+    },
+    {
+      "person_name": "江角マキコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ソロ活動の女優"
+    },
+    {
+      "person_name": "窪田正孝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "高橋一生",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "松岡茉優",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人で活動"
+    },
+    {
+      "person_name": "森七菜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビューから一貫してソロ活動"
+    },
+    {
+      "person_name": "真剣佑",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "野村周平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "江頭2:50",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "デビュー時からピン芸人"
+    },
+    {
+      "person_name": "阿部寛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人で活動"
+    },
+    {
+      "person_name": "岸谷五朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優・演出家として個人活動"
+    },
+    {
+      "person_name": "田中要次",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "坂上忍",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "子役出身の俳優・タレント"
+    },
+    {
+      "person_name": "藤木直人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優・歌手としてソロ活動"
+    },
+    {
+      "person_name": "桑名正博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ソロシンガーとして活動"
+    },
+    {
+      "person_name": "片岡鶴太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からピン芸人として活動"
+    },
+    {
+      "person_name": "志垣太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "松平健",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "沢田研二",
+      "is_group_member": true,
+      "group_name": "ザ・タイガース",
+      "confidence": 0.9,
+      "reason": "ザ・タイガースのメンバーとして有名"
+    },
+    {
+      "person_name": "郷ひろみ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ歌手"
+    },
+    {
+      "person_name": "天海祐希",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "宝塚退団後ソロ女優活動"
+    },
+    {
+      "person_name": "小林聡美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "武田鉄矢",
+      "is_group_member": true,
+      "group_name": "海援隊",
+      "confidence": 0.9,
+      "reason": "フォークグループ海援隊のリーダー"
+    },
+    {
+      "person_name": "中川家",
+      "is_group_member": true,
+      "group_name": "中川家",
+      "confidence": 1.0,
+      "reason": "お笑いコンビとして活動"
+    },
+    {
+      "person_name": "麒麟・川島",
+      "is_group_member": true,
+      "group_name": "麒麟",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "世界のナベアツ",
+      "is_group_member": true,
+      "group_name": "世界のナベアツ",
+      "confidence": 0.9,
+      "reason": "お笑いトリオ所属"
+    },
+    {
+      "person_name": "品川祐",
+      "is_group_member": true,
+      "group_name": "品川庄司",
+      "confidence": 1.0,
+      "reason": "庄司智春とのお笑いコンビ"
+    },
+    {
+      "person_name": "青木さやか",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "友近",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ピン芸人として活動"
+    },
+    {
+      "person_name": "森三中・大島",
+      "is_group_member": true,
+      "group_name": "森三中",
+      "confidence": 1.0,
+      "reason": "お笑いトリオのメンバー"
+    },
+    {
+      "person_name": "おかずクラブ",
+      "is_group_member": true,
+      "group_name": "おかずクラブ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビそのものの名前"
+    },
+    {
+      "person_name": "ダニエル・ラドクリフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優でソロ活動"
+    },
+    {
+      "person_name": "板尾創路",
+      "is_group_member": true,
+      "group_name": "130R",
+      "confidence": 0.9,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "柏木由紀",
+      "is_group_member": true,
+      "group_name": "AKB48",
+      "confidence": 1.0,
+      "reason": "AKB48メンバーと明記"
+    },
+    {
+      "person_name": "横山由依",
+      "is_group_member": true,
+      "group_name": "AKB48",
+      "confidence": 1.0,
+      "reason": "AKB48の総監督として活動"
+    },
+    {
+      "person_name": "渡部建",
+      "is_group_member": true,
+      "group_name": "アンジャッシュ",
+      "confidence": 1.0,
+      "reason": "お笑いコンビのメンバー"
+    },
+    {
+      "person_name": "児嶋一哉",
+      "is_group_member": true,
+      "group_name": "アンジャッシュ",
+      "confidence": 1.0,
+      "reason": "渡部建とのお笑いコンビメンバー"
+    },
+    {
+      "person_name": "クリス・パイン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの俳優でソロ活動"
+    },
+    {
+      "person_name": "佐々木希",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "モデル・女優としてソロ活動"
+    },
+    {
+      "person_name": "博多華丸・大吉",
+      "is_group_member": true,
+      "group_name": "博多華丸・大吉",
+      "confidence": 1.0,
+      "reason": "お笑いコンビとして活動"
+    },
+    {
+      "person_name": "野田クリスタル",
+      "is_group_member": true,
+      "group_name": "マヂカルラブリー",
+      "confidence": 0.95,
+      "reason": "相方の村上がいるお笑いコンビ"
+    },
+    {
+      "person_name": "小雪",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "華原朋美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "デビューからソロ歌手として活動"
+    },
+    {
+      "person_name": "ザ・ロック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国人俳優で個人活動"
+    },
+    {
+      "person_name": "竹下景子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "女優として個人活動"
+    },
+    {
+      "person_name": "小池栄子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "デビュー時からソロ女優活動"
+    },
+    {
+      "person_name": "山田優",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人活動のモデル・女優"
+    },
+    {
+      "person_name": "桜庭和志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "総合格闘家として個人活動"
+    },
+    {
+      "person_name": "亀田興毅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "プロボクサーは個人競技"
+    },
+    {
+      "person_name": "小川直也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "柔道家・格闘家は個人競技"
+    },
+    {
+      "person_name": "長州力",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人活動"
+    },
+    {
+      "person_name": "橋本真也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "プロレスラーは個人競技者"
+    },
+    {
+      "person_name": "クラッシュ・ギャルズ",
+      "is_group_member": true,
+      "group_name": "クラッシュ・ギャルズ",
+      "confidence": 1.0,
+      "reason": "長与千種と神取忍のプロレスタッグチーム"
+    },
+    {
+      "person_name": "ジャッキー・チェン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優・映画スターでソロ活動"
+    },
+    {
+      "person_name": "ジェット・リー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国の俳優、個人活動"
+    },
+    {
+      "person_name": "ドニー・イェン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "俳優として個人活動"
+    },
+    {
+      "person_name": "トニー・ジャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "タイの俳優・アクションスター"
+    },
+    {
+      "person_name": "マイク・タイソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ボクサーで個人競技選手"
+    },
+    {
+      "person_name": "モハメド・アリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ボクシング選手は個人競技"
+    },
+    {
+      "person_name": "フロイド・メイウェザー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ボクサー、個人競技"
+    },
+    {
+      "person_name": "マニー・パッキャオ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ボクサーは個人競技"
+    },
+    {
+      "person_name": "コナー・マクレガー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "UFC格闘家で個人競技"
+    },
+    {
+      "person_name": "アンデウソン・シウバ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "格闘家は個人競技"
+    },
+    {
+      "person_name": "ヒョードル・エメリヤーエンコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "格闘家は個人競技"
+    },
+    {
+      "person_name": "ホイス・グレイシー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "個人格闘家として活動"
+    },
+    {
+      "person_name": "ケン・シャムロック",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "格闘家は個人競技"
+    },
+    {
+      "person_name": "ティト・オーティズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "UFCの個人格闘家"
+    },
+    {
+      "person_name": "チャック・リデル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "個人格闘家として活動"
+    },
+    {
+      "person_name": "ストーン・コールド・スティーブ・オースチン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "アメリカのプロレスラーで日本人ではない"
+    },
+    {
+      "person_name": "ジョン・シナ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "John Cenaは日本の有名人ではない"
+    }
+  ]
+}

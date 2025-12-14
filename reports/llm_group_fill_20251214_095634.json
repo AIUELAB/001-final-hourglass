@@ -1,0 +1,1393 @@
+{
+  "timestamp": "2025-12-14T09:56:34.974640",
+  "batch_size": 200,
+  "changes_count": 198,
+  "changes": [
+    {
+      "person_name": "岸田文雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "菅義偉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "安倍晋三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "小泉純一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "麻生太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・実業家でグループ活動なし"
+    },
+    {
+      "person_name": "石破茂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "河野太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "小池百合子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "橋下徹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・弁護士で個人活動"
+    },
+    {
+      "person_name": "吉村洋文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "蓮舫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "辻元清美",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "枝野幸男",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "志位和夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "山本太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "田中角栄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "中曽根康弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "竹下登",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "橋本龍太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "細川護熙",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "村山富市",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "森喜朗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "小渕恵三",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループに所属しない"
+    },
+    {
+      "person_name": "野田佳彦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "鳩山由紀夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は個人活動が基本"
+    },
+    {
+      "person_name": "菅直人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "坂本龍馬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "幕末の政治家、個人活動"
+    },
+    {
+      "person_name": "西郷隆盛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "豊臣秀吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人"
+    },
+    {
+      "person_name": "徳川家康",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家、個人統治者"
+    },
+    {
+      "person_name": "武田信玄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の大名、個人活動"
+    },
+    {
+      "person_name": "上杉謙信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "伊達政宗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "前田利家",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "黒田官兵衛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "筑紫哲也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリスト・個人活動"
+    },
+    {
+      "person_name": "ケネディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "後藤新平",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "原敬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "幣原喜重郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "フランクリン・D・ローズベルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国大統領、政治家は個人活動"
+    },
+    {
+      "person_name": "サッチャー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "山県有朋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の政治家で個人活動"
+    },
+    {
+      "person_name": "トルーマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "石橋湛山",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジョン・F・ケネディ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で日本人ではない"
+    },
+    {
+      "person_name": "犬養毅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ロナルド・レーガン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で個人活動"
+    },
+    {
+      "person_name": "片山哲",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ビル・クリントン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "加藤高明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "若槻礼次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "リチャード・ニクソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "浜口雄幸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "フォード",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカ大統領で政治家"
+    },
+    {
+      "person_name": "斎藤実",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジョージ・ブッシュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家、個人活動"
+    },
+    {
+      "person_name": "東条英機",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "近衛文麿",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "広田弘毅",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "岡田啓介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "米内光政",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家はグループ概念なし"
+    },
+    {
+      "person_name": "安倍昭恵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家の配偶者で個人活動"
+    },
+    {
+      "person_name": "舛添要一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・学者で個人活動"
+    },
+    {
+      "person_name": "蓮池薫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "拉致被害者で翻訳家、個人活動"
+    },
+    {
+      "person_name": "古館伊知郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フリーアナウンサー・個人活動"
+    },
+    {
+      "person_name": "鳥越俊太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリストは個人活動"
+    },
+    {
+      "person_name": "東国原英夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・タレントで個人活動"
+    },
+    {
+      "person_name": "猪瀬直樹",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "作家・政治家は個人活動"
+    },
+    {
+      "person_name": "細野豪志",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "前原誠司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "玉木雄一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は個人活動が基本"
+    },
+    {
+      "person_name": "維新松井一郎",
+      "is_group_member": true,
+      "group_name": "日本維新の会",
+      "confidence": 0.9,
+      "reason": "政党メンバーとして活動"
+    },
+    {
+      "person_name": "森ゆうこ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "山本一太",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ドナルド・トランプ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "ドナルド・トランプは米国人で日本の有名人ではない"
+    },
+    {
+      "person_name": "ジョー・バイデン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ヒラリー・クリントン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ベルナルド・サンダース",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "テレサ・メイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "英国の政治家で個人活動"
+    },
+    {
+      "person_name": "ジャスティン・トルドー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "カナダ首相で政治家"
+    },
+    {
+      "person_name": "コフィー・アナン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "国連事務総長、政治家"
+    },
+    {
+      "person_name": "バン・キムン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "国連事務総長は個人職"
+    },
+    {
+      "person_name": "アントニオ・グテーレス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "国連事務総長で政治家"
+    },
+    {
+      "person_name": "田中真紀子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "古賀誠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "加藤紘一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "野中広務",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "亀井静香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "石原伸晃",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "谷垣禎一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "福田赳夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "田中眞紀子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常個人活動"
+    },
+    {
+      "person_name": "野田聖子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "土井たか子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "福島みずほ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "桜井よしこ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリスト・評論家で個人活動"
+    },
+    {
+      "person_name": "二階俊博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ミハイル・ゴルバチョフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国の政治家で日本人ではない"
+    },
+    {
+      "person_name": "コンドリーザ・ライス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で日本人ではない"
+    },
+    {
+      "person_name": "マデリーン・オルブライト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "フランソワ・ミッテラン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランス元大統領、政治家"
+    },
+    {
+      "person_name": "シモン・ペレス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "イツハク・ラビン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "イスラエルの政治家で個人活動"
+    },
+    {
+      "person_name": "ヘルムート・コール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの政治家、個人活動"
+    },
+    {
+      "person_name": "ヴィリー・ブラント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの政治家で個人活動"
+    },
+    {
+      "person_name": "青山繁晴",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・ジャーナリスト個人活動"
+    },
+    {
+      "person_name": "櫻井よしこ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリスト・評論家として個人活動"
+    },
+    {
+      "person_name": "有本香",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "ジャーナリスト・評論家で個人活動"
+    },
+    {
+      "person_name": "安田浩一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリストは個人職業"
+    },
+    {
+      "person_name": "江川紹子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリストは個人職業"
+    },
+    {
+      "person_name": "金子勝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済学者で個人活動"
+    },
+    {
+      "person_name": "森永卓郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済評論家として個人活動"
+    },
+    {
+      "person_name": "萱野稔人",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "大学教授・政治哲学者"
+    },
+    {
+      "person_name": "宮台真司",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "社会学者は個人活動が基本"
+    },
+    {
+      "person_name": "姜尚中",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "大学教授、個人の学者活動"
+    },
+    {
+      "person_name": "ウラジーミル・ゼレンスキー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ウクライナの政治家・大統領"
+    },
+    {
+      "person_name": "シー・ジンピン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "アレクサンドリア・オカシオ・コルテス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家で個人活動"
+    },
+    {
+      "person_name": "ポール・クルーグマン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済学者で個人活動"
+    },
+    {
+      "person_name": "古田織部",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の茶人・武将で個人活動"
+    },
+    {
+      "person_name": "黒田清輝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治期の洋画家で個人活動"
+    },
+    {
+      "person_name": "鳩山一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "田中康夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "青木理",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリストは個人活動"
+    },
+    {
+      "person_name": "寺島実郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "研究者・学者は個人活動"
+    },
+    {
+      "person_name": "飯田哲也",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治・社会分野の個人活動家"
+    },
+    {
+      "person_name": "古賀茂明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元官僚の個人活動家"
+    },
+    {
+      "person_name": "トーマス・ジェファーソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で日本の有名人ではない"
+    },
+    {
+      "person_name": "ウッドロー・ウィルソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で個人活動"
+    },
+    {
+      "person_name": "シャルル・ド・ゴール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの政治家で個人活動"
+    },
+    {
+      "person_name": "李光耀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "シンガポール首相、政治家"
+    },
+    {
+      "person_name": "スカルノ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "インドネシア初代大統領、政治家"
+    },
+    {
+      "person_name": "日枝久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フジテレビ経営者、個人活動"
+    },
+    {
+      "person_name": "堀潤",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元NHKアナウンサーの独立ジャーナリスト"
+    },
+    {
+      "person_name": "田嶋陽子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "金美齢",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治評論家で個人活動"
+    },
+    {
+      "person_name": "岩上安身",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "独立系ジャーナリスト"
+    },
+    {
+      "person_name": "原口一博",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "長妻昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "小沢一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "石原良純",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "気象予報士・タレントで個人活動"
+    },
+    {
+      "person_name": "ナンシー・ペロシ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ジャレド・クシュナー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・実業家で個人活動"
+    },
+    {
+      "person_name": "サンダース上院議員",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "タッカー・カールソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治番組司会者"
+    },
+    {
+      "person_name": "鳩山威一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "二宮清純",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "スポーツジャーナリスト個人活動"
+    },
+    {
+      "person_name": "柳沢伯夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "石井一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "平沼赳夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "伊吹文明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "町村信孝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "逢沢一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "甘利明",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "石田真敏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "河村建夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "エロン・マスク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者で個人活動"
+    },
+    {
+      "person_name": "丹羽宇一郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "商社経営者・外交官で個人活動"
+    },
+    {
+      "person_name": "荻上チキ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.95,
+      "reason": "評論家として個人で活動"
+    },
+    {
+      "person_name": "岸博幸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元官僚・大学教授の個人活動"
+    },
+    {
+      "person_name": "竹田恒泰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治・社会分野の個人活動者"
+    },
+    {
+      "person_name": "三浦瑠麗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治学者として個人活動"
+    },
+    {
+      "person_name": "高橋洋一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "元財務官僚で経済学者、個人活動"
+    },
+    {
+      "person_name": "飯田泰之",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済学者で個人活動"
+    },
+    {
+      "person_name": "勝間和代",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経済評論家として個人活動"
+    },
+    {
+      "person_name": "コフィ・アナン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "国連事務総長は個人職"
+    },
+    {
+      "person_name": "三木武夫",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "美濃部亮吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "朝河貫一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史学者で個人活動"
+    },
+    {
+      "person_name": "ジョン・ロールズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治哲学者で個人活動"
+    },
+    {
+      "person_name": "コンドルセ侯爵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "18世紀フランスの政治家で個人活動"
+    },
+    {
+      "person_name": "ハンナ・アーレント",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治哲学者で個人活動"
+    },
+    {
+      "person_name": "ジェーン・アダムス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "社会活動家で個人活動"
+    },
+    {
+      "person_name": "エリナー・ルーズベルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家で個人活動"
+    },
+    {
+      "person_name": "スーザン・B・アンソニー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ベティ・フリーダン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フェミニズム運動家で個人活動"
+    },
+    {
+      "person_name": "ラルフ・バンチ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・外交官で個人活動"
+    },
+    {
+      "person_name": "ワンガリ・マータイ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "環境活動家・政治家で個人活動"
+    },
+    {
+      "person_name": "デズモンド・ツツ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "南アフリカの政治家・宗教家"
+    },
+    {
+      "person_name": "高木仁三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "原子力研究者・市民科学者として個人活動"
+    },
+    {
+      "person_name": "清沢洌",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ジャーナリスト・評論家で個人活動"
+    },
+    {
+      "person_name": "河合栄治郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・思想家で個人活動"
+    },
+    {
+      "person_name": "矢内原忠雄",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "学者・教育者で個人活動"
+    },
+    {
+      "person_name": "安岡正篤",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・思想家は個人活動"
+    },
+    {
+      "person_name": "吉野作造",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治思想家として個人活動"
+    },
+    {
+      "person_name": "美濃口坦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "政治・社会活動家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ホリエモン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "経営者・実業家で個人活動"
+    },
+    {
+      "person_name": "エリザベス・ウォーレン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国の政治家で個人活動"
+    },
+    {
+      "person_name": "アレクサンドリア・オカシオ＝コルテス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "カマラ・ハリス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ミット・ロムニー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で個人活動"
+    },
+    {
+      "person_name": "テッド・クルーズ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家"
+    },
+    {
+      "person_name": "マイク・ペンス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "ロン・デサンティス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家のため"
+    },
+    {
+      "person_name": "ミシェル・オバマ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・社会活動家で個人活動"
+    },
+    {
+      "person_name": "田中裕介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    },
+    {
+      "person_name": "加藤勝信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家は通常グループ概念なし"
+    }
+  ]
+}

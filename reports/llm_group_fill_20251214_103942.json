@@ -1,0 +1,1400 @@
+{
+  "timestamp": "2025-12-14T10:39:42.735587",
+  "batch_size": 200,
+  "changes_count": 199,
+  "changes": [
+    {
+      "person_name": "織田信長",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "源頼朝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・武将"
+    },
+    {
+      "person_name": "足利尊氏",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "大久保利通",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の政治家、個人活動"
+    },
+    {
+      "person_name": "木戸孝允",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家でグループ概念なし"
+    },
+    {
+      "person_name": "勝海舟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "福沢諭吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の教育者で個人活動"
+    },
+    {
+      "person_name": "渋沢栄一",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の実業家で個人活動"
+    },
+    {
+      "person_name": "野口英世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の医学者で個人活動"
+    },
+    {
+      "person_name": "北里柴三郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の医学者で個人活動"
+    },
+    {
+      "person_name": "聖徳太子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "紫式部",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "平安時代の女性作家、個人活動"
+    },
+    {
+      "person_name": "清少納言",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "平安時代の女房、個人作家"
+    },
+    {
+      "person_name": "松尾芭蕉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の俳人、個人活動"
+    },
+    {
+      "person_name": "葛飾北斎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師で個人活動"
+    },
+    {
+      "person_name": "歌川広重",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の浮世絵師で個人活動"
+    },
+    {
+      "person_name": "宮本武蔵",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人剣豪"
+    },
+    {
+      "person_name": "千利休",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の茶人で個人活動"
+    },
+    {
+      "person_name": "伊能忠敬",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の測量家で個人活動"
+    },
+    {
+      "person_name": "杉田玄白",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の医師、個人活動"
+    },
+    {
+      "person_name": "平賀源内",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の学者で個人活動"
+    },
+    {
+      "person_name": "伊藤博文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家・歴史上人物"
+    },
+    {
+      "person_name": "杉原千畝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外交官・歴史人物でグループ概念なし"
+    },
+    {
+      "person_name": "白洲次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "実業家・官僚で個人活動"
+    },
+    {
+      "person_name": "津田梅子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の教育者で個人活動"
+    },
+    {
+      "person_name": "新渡戸稲造",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "教育者・思想家で個人活動"
+    },
+    {
+      "person_name": "岩倉具視",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "板垣退助",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家、個人活動"
+    },
+    {
+      "person_name": "大隈重信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "中江兆民",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の思想家で個人活動"
+    },
+    {
+      "person_name": "東郷平八郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の軍人、個人活動"
+    },
+    {
+      "person_name": "乃木希典",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の軍人、個人活動"
+    },
+    {
+      "person_name": "吉田松陰",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の思想家で個人活動"
+    },
+    {
+      "person_name": "ナポレオン・ボナパルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の皇帝で個人活動"
+    },
+    {
+      "person_name": "ジュリアス・シーザー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ローマの歴史上人物"
+    },
+    {
+      "person_name": "アレクサンダー大王",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代の歴史上人物で日本人ではない"
+    },
+    {
+      "person_name": "クレオパトラ7世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代エジプトの女王、個人統治者"
+    },
+    {
+      "person_name": "エイブラハム・リンカーン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "米国大統領、政治家は個人活動"
+    },
+    {
+      "person_name": "ジョージ・ワシントン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で日本人でない"
+    },
+    {
+      "person_name": "マルティン・ルター・キング",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "公民権運動指導者で個人活動"
+    },
+    {
+      "person_name": "チンギス・ハン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の皇帝で個人統治者"
+    },
+    {
+      "person_name": "平清盛",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "足利義満",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、室町幕府将軍"
+    },
+    {
+      "person_name": "アレクサンドロス大王",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代の君主で日本の有名人ではない"
+    },
+    {
+      "person_name": "ガンディー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "毛沢東",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国の政治家で個人活動"
+    },
+    {
+      "person_name": "源義経",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "北条時宗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "昭和天皇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "皇室は個人の地位、グループ概念なし"
+    },
+    {
+      "person_name": "ユリウス・カエサル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ローマの政治家で個人活動"
+    },
+    {
+      "person_name": "マルコ・ポーロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の探検家で個人活動"
+    },
+    {
+      "person_name": "コロンブス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の探検家で個人活動"
+    },
+    {
+      "person_name": "マルティン・ルター",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀ドイツの宗教改革者"
+    },
+    {
+      "person_name": "新選組土方歳三",
+      "is_group_member": true,
+      "group_name": "新選組",
+      "confidence": 1.0,
+      "reason": "新選組の副長として所属"
+    },
+    {
+      "person_name": "フランクリン・ルーズベルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの政治家で日本人ではない"
+    },
+    {
+      "person_name": "マルティン・ルター・キング・Jr",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "公民権運動指導者で個人活動"
+    },
+    {
+      "person_name": "藤原道長",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家、個人活動"
+    },
+    {
+      "person_name": "菅原道真",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・学者でグループ概念なし"
+    },
+    {
+      "person_name": "ハンニバル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代の軍事指導者で個人活動"
+    },
+    {
+      "person_name": "始皇帝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国の皇帝で日本人ではない"
+    },
+    {
+      "person_name": "孔子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の思想家で個人活動"
+    },
+    {
+      "person_name": "マルティン・ルター・キング・ジュニア",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの公民権運動指導者"
+    },
+    {
+      "person_name": "ジャンヌ・ダルク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、グループ概念なし"
+    },
+    {
+      "person_name": "ワシントン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカ初代大統領、個人での活動"
+    },
+    {
+      "person_name": "明智光秀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "福澤諭吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の教育者・思想家"
+    },
+    {
+      "person_name": "シーザー",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ローマの政治家・軍人で個人"
+    },
+    {
+      "person_name": "クレオパトラ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代エジプトの単独統治者"
+    },
+    {
+      "person_name": "チャーチル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 0.9,
+      "reason": "英国首相で政治家、グループ概念なし"
+    },
+    {
+      "person_name": "項羽",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国古代の歴史上人物"
+    },
+    {
+      "person_name": "劉邦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中国古代の歴史上の皇帝"
+    },
+    {
+      "person_name": "中臣鎌足",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家のため"
+    },
+    {
+      "person_name": "諸葛亮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で個人として活動"
+    },
+    {
+      "person_name": "ガイウス・ユリウス・カエサル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ローマの政治家で個人活動"
+    },
+    {
+      "person_name": "エリザベス1世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "君主は個人での統治"
+    },
+    {
+      "person_name": "ルイ14世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "フランスの歴史上の君主"
+    },
+    {
+      "person_name": "徳川光圀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の大名、個人統治者"
+    },
+    {
+      "person_name": "上杉景勝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "真田昌幸",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "細川忠興",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "柴田勝家",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将は個人での認知"
+    },
+    {
+      "person_name": "加藤清正",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "小早川隆景",
+      "is_group_member": true,
+      "group_name": "毛利三兄弟",
+      "confidence": 0.9,
+      "reason": "毛利元就の三男で毛利三兄弟の一員"
+    },
+    {
+      "person_name": "徳川秀忠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の将軍、歴史上の政治家"
+    },
+    {
+      "person_name": "徳川家光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家、個人統治者"
+    },
+    {
+      "person_name": "徳川吉宗",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の将軍、個人統治者"
+    },
+    {
+      "person_name": "大石内蔵助",
+      "is_group_member": true,
+      "group_name": "赤穂四十七士",
+      "confidence": 1.0,
+      "reason": "47人の同志と共に討ち入り実行"
+    },
+    {
+      "person_name": "近藤勇",
+      "is_group_member": true,
+      "group_name": "新選組",
+      "confidence": 1.0,
+      "reason": "新選組の局長として有名"
+    },
+    {
+      "person_name": "沖田総司",
+      "is_group_member": true,
+      "group_name": "新選組",
+      "confidence": 1.0,
+      "reason": "新選組の隊士として活動"
+    },
+    {
+      "person_name": "カエサル・アウグストゥス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "ダンテ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "中世イタリアの詩人で個人活動"
+    },
+    {
+      "person_name": "エディソン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の発明家で個人活動"
+    },
+    {
+      "person_name": "マリー・アントワネット",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "18世紀フランス王妃、個人として活動"
+    },
+    {
+      "person_name": "足利義政",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、グループ概念なし"
+    },
+    {
+      "person_name": "フリードリヒ・ニーチェ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ドイツの哲学者で個人活動"
+    },
+    {
+      "person_name": "小野妹子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、グループ概念なし"
+    },
+    {
+      "person_name": "北条政子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物、個人として活動"
+    },
+    {
+      "person_name": "ベンジャミン・フランクリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、グループ概念なし"
+    },
+    {
+      "person_name": "平将門",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人的武将"
+    },
+    {
+      "person_name": "徳川慶喜",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治指導者"
+    },
+    {
+      "person_name": "ルイ16世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の王で個人として活動"
+    },
+    {
+      "person_name": "楠木正成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "セオドア・ルーズベルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "アメリカの大統領で政治家"
+    },
+    {
+      "person_name": "源頼政",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "オットー・フォン・ビスマルク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "19世紀ドイツの政治家"
+    },
+    {
+      "person_name": "藤原秀衡",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人での活動"
+    },
+    {
+      "person_name": "ヨーゼフ・スターリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家で個人活動"
+    },
+    {
+      "person_name": "エリザベス2世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "英国王室の女王、個人の地位"
+    },
+    {
+      "person_name": "後白河法皇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の天皇、個人活動"
+    },
+    {
+      "person_name": "ウラジーミル・レーニン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "外国の政治家で日本の有名人ではない"
+    },
+    {
+      "person_name": "ヨハネ・パウロ2世",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "宗教指導者で日本の有名人ではない"
+    },
+    {
+      "person_name": "シモン・ボリバル",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治指導者"
+    },
+    {
+      "person_name": "和気清麻呂",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で個人活動"
+    },
+    {
+      "person_name": "ホー・チ・ミン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ベトナムの政治指導者で個人活動"
+    },
+    {
+      "person_name": "グリゴリー・ラスプーチン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "日本の有名人ではない"
+    },
+    {
+      "person_name": "マルコス・アウレリウス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "古代ローマ皇帝で日本人ではない"
+    },
+    {
+      "person_name": "織田信忠",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人として活動"
+    },
+    {
+      "person_name": "グスタフ・アドルフ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の王でグループ概念なし"
+    },
+    {
+      "person_name": "楊貴妃",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、グループ概念なし"
+    },
+    {
+      "person_name": "石田三成",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将は個人活動"
+    },
+    {
+      "person_name": "シャルルマーニュ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の皇帝で日本の有名人ではない"
+    },
+    {
+      "person_name": "細川ガラシャ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物、個人として認知"
+    },
+    {
+      "person_name": "サラディン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で日本人でない"
+    },
+    {
+      "person_name": "小早川秀秋",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人武将"
+    },
+    {
+      "person_name": "ニコロ・マキャヴェッリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀イタリアの政治思想家"
+    },
+    {
+      "person_name": "直江兼続",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "ポカホンタス",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、グループ概念なし"
+    },
+    {
+      "person_name": "立花道雪",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "小早川隆元",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人"
+    },
+    {
+      "person_name": "フィデル・カストロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "政治家のため該当なし"
+    },
+    {
+      "person_name": "藤原氏長者",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人の官職名"
+    },
+    {
+      "person_name": "アンネ・フランク",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史的人物で個人活動"
+    },
+    {
+      "person_name": "蜂須賀正勝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "イヴァン雷帝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ロシアの歴史上の皇帝"
+    },
+    {
+      "person_name": "今川義元",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の大名で個人"
+    },
+    {
+      "person_name": "スターリン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "孫文",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "北条泰時",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、政治家"
+    },
+    {
+      "person_name": "豊臣秀頼",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人領主"
+    },
+    {
+      "person_name": "平重盛",
+      "is_group_member": true,
+      "group_name": "平家一門",
+      "confidence": 0.9,
+      "reason": "平家一門の重要メンバー"
+    },
+    {
+      "person_name": "足利義昭",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "武田勝頼",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "今川氏真",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "長宗我部元親",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の大名、個人活動"
+    },
+    {
+      "person_name": "毛利輝元",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将で個人活動"
+    },
+    {
+      "person_name": "島津義弘",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将は個人での認知"
+    },
+    {
+      "person_name": "大友宗麟",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の大名、個人活動"
+    },
+    {
+      "person_name": "細川勝元",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "山名宗全",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "徳川綱吉",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の将軍、個人統治者"
+    },
+    {
+      "person_name": "田沼意次",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の政治家で個人活動"
+    },
+    {
+      "person_name": "水野忠邦",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "江戸時代の政治家、個人活動"
+    },
+    {
+      "person_name": "桂小五郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "久坂玄瑞",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "幕末の志士、個人活動"
+    },
+    {
+      "person_name": "中岡慎太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物、個人活動"
+    },
+    {
+      "person_name": "後藤象二郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "幕末の政治家、個人活動"
+    },
+    {
+      "person_name": "黒田清隆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家（個人）"
+    },
+    {
+      "person_name": "小村寿太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "明治時代の外交官、個人活動"
+    },
+    {
+      "person_name": "徳川尊康",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の人物で個人活動"
+    },
+    {
+      "person_name": "平安時代の藤原頼通",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "源義家",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "北条時政",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家で個人活動"
+    },
+    {
+      "person_name": "足利義輝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の個人、将軍職"
+    },
+    {
+      "person_name": "織田信秀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "毛利元就",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "島津義久",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の大名で個人"
+    },
+    {
+      "person_name": "本多忠勝",
+      "is_group_member": true,
+      "group_name": "徳川四天王",
+      "confidence": 0.9,
+      "reason": "徳川四天王として有名"
+    },
+    {
+      "person_name": "桂小太郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "幕末の政治家で個人活動"
+    },
+    {
+      "person_name": "大村益次郎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の軍事指導者"
+    },
+    {
+      "person_name": "井伊直弼",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の政治家・藩主"
+    },
+    {
+      "person_name": "ルートヴィヒ・ヴァン・ベートーヴェン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "クラシック作曲家で個人活動"
+    },
+    {
+      "person_name": "ヴォルフガング・アマデウス・モーツァルト",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "18世紀の作曲家で個人活動"
+    },
+    {
+      "person_name": "ヨハン・セバスチャン・バッハ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "バロック時代の作曲家で個人活動"
+    },
+    {
+      "person_name": "朝倉義景",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の大名、個人活動"
+    },
+    {
+      "person_name": "本多正信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将・政治家"
+    },
+    {
+      "person_name": "細川幽斎",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "北条氏康",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "里見義堯",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "最上義光",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人"
+    },
+    {
+      "person_name": "龍造寺隆信",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "九鬼嘉隆",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "蒲生氏郷",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将で個人活動"
+    },
+    {
+      "person_name": "井伊直政",
+      "is_group_member": true,
+      "group_name": "徳川四天王",
+      "confidence": 0.9,
+      "reason": "徳川四天王の一人として著名"
+    },
+    {
+      "person_name": "榊原康政",
+      "is_group_member": true,
+      "group_name": "徳川四天王",
+      "confidence": 0.9,
+      "reason": "徳川四天王の一人として有名"
+    },
+    {
+      "person_name": "酒井忠次",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将、個人活動"
+    },
+    {
+      "person_name": "松永久秀",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "山中鹿介",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国時代の武将で個人活動"
+    },
+    {
+      "person_name": "大谷吉継",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "戦国武将は個人活動"
+    },
+    {
+      "person_name": "ニュートン",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "17世紀の物理学者で個人活動"
+    },
+    {
+      "person_name": "ラファエロ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "ルネサンス期の画家で個人活動"
+    },
+    {
+      "person_name": "フェルメール",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "17世紀オランダの画家で個人活動"
+    },
+    {
+      "person_name": "エル・グレコ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "16世紀の画家で個人活動"
+    },
+    {
+      "person_name": "ボッティチェリ",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "15世紀の画家で個人活動"
+    },
+    {
+      "person_name": "中大兄皇子",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の皇族、個人活動"
+    },
+    {
+      "person_name": "源実朝",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "鎌倉幕府三代将軍、個人での歴史的地位"
+    },
+    {
+      "person_name": "後醍醐天皇",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の天皇、グループ概念なし"
+    },
+    {
+      "person_name": "新田義貞",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    },
+    {
+      "person_name": "足利義詮",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人での活動"
+    },
+    {
+      "person_name": "太田道灌",
+      "is_group_member": false,
+      "group_name": null,
+      "confidence": 1.0,
+      "reason": "歴史上の武将、個人活動"
+    }
+  ]
+}

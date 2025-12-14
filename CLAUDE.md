@@ -221,6 +221,17 @@ preserved/episode_database_dashboard_v7.html  ← 正規版
 2. 旧バージョンを archive/dashboards/ に移動
 3. ファイル名・title・h1のバージョン番号を同期
 
+### 整合性チェック（定期実行推奨）
+
+```bash
+python scripts/check_single_dashboard.py
+```
+
+チェック項目:
+1. preserved/ に正規ダッシュボードが1つのみ存在
+2. ルート直下にダッシュボードなし
+3. archive/dashboards/ の存在確認
+
 ---
 
 ## 🔢 バージョン同期ルール（EPUP）

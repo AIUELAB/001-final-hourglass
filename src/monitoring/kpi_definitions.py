@@ -256,48 +256,64 @@ class EPUPKPICalculator:
             details={"nan_count": nan_count, "total": total},
         )
 
-    def _load_deleted_ids(self) -> set:
+    def _load_deleted_ids(self) -> tuple[set, set]:
         """
-        Tombstoneファイルから削除済みIDを読み込む
+        Tombstoneファイルから削除済みID・名前を読み込む
 
         Returns:
-            削除済みperson_idのセット
+            (削除済みperson_idのセット, 削除済みperson_nameのセット)
         """
         if not TOMBSTONE_PATH.exists():
-            return set()
+            return set(), set()
 
         try:
             with open(TOMBSTONE_PATH, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            return {item["person_id"] for item in data.get("deleted_ids", [])}
+            deleted_ids = {item["person_id"] for item in data.get("deleted_ids", [])}
+            deleted_names = {item["person_name"] for item in data.get("deleted_ids", []) if "person_name" in item}
+            return deleted_ids, deleted_names
         except (json.JSONDecodeError, KeyError):
-            return set()
+            return set(), set()
 
     def _calc_deleted_id_contamination_rate(self) -> KPIResult:
         """
-        削除済みID混入率を計算
+        削除済みID/名前混入率を計算
 
-        Tombstoneに登録された削除済みIDがCSVに存在するかチェック
+        Tombstoneに登録された削除済みID・名前がCSVに存在するかチェック
+        ※ person_idだけでなくperson_nameでもチェック（新IDでの再投入を防止）
         """
-        deleted_ids = self._load_deleted_ids()
+        deleted_ids, deleted_names = self._load_deleted_ids()
 
-        if not deleted_ids:
+        if not deleted_ids and not deleted_names:
             return KPIResult(
                 name="削除済みID混入率",
                 value=0.0,
                 target=0.0,
                 status="OK",
-                details={"contaminated": 0, "deleted_ids_count": 0, "note": "Tombstone未設定"},
+                details={
+                    "contaminated": 0,
+                    "deleted_ids_count": 0,
+                    "deleted_names_count": 0,
+                    "note": "Tombstone未設定",
+                },
             )
 
         contaminated = 0
-        contaminated_ids: list[str] = []
+        contaminated_entries: list[str] = []
 
         for _, row in self.df.iterrows():
-            if pd.notna(row["person_id"]) and str(row["person_id"]) in deleted_ids:
+            person_id = str(row["person_id"]) if pd.notna(row["person_id"]) else ""
+            person_name = str(row["person_name"]) if pd.notna(row["person_name"]) else ""
+
+            # IDまたは名前で検出
+            matched_by_id = person_id in deleted_ids
+            matched_by_name = person_name in deleted_names
+
+            if matched_by_id or matched_by_name:
                 contaminated += 1
-                if len(contaminated_ids) < 5:  # 最大5件まで記録
-                    contaminated_ids.append(str(row["person_id"]))
+                if len(contaminated_entries) < 5:  # 最大5件まで記録
+                    match_type = "ID" if matched_by_id else "名前"
+                    contaminated_entries.append(f"{person_id}:{person_name}({match_type})")
 
         total = len(self.df)
         rate = contaminated / total if total > 0 else 0.0
@@ -310,7 +326,8 @@ class EPUPKPICalculator:
             details={
                 "contaminated": contaminated,
                 "deleted_ids_count": len(deleted_ids),
-                "contaminated_ids": contaminated_ids,
+                "deleted_names_count": len(deleted_names),
+                "contaminated_entries": contaminated_entries,
             },
         )
 

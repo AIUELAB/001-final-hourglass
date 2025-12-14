@@ -160,6 +160,27 @@ repos:
     files: ^.*\.toml$
 
 # ============================================
+# ローカルフック（EPUP整合性チェック）
+# ============================================
+- repo: local
+  hooks:
+  - id: check-single-master
+    name: Check single master CSV
+    entry: python scripts/check_single_master.py
+    language: python
+    additional_dependencies: []
+    pass_filenames: false
+    always_run: true
+
+  - id: check-single-dashboard
+    name: Check single dashboard
+    entry: python scripts/check_single_dashboard.py
+    language: python
+    additional_dependencies: []
+    pass_filenames: false
+    always_run: true
+
+# ============================================
 # プロジェクト固有の除外設定
 # ============================================
 # 必要に応じて以下を .pre-commit-config.yaml に追加:

@@ -5,7 +5,6 @@ Phase 5生成エピソードをMASTER_EPISODES_CURRENT.csvに統合するスク�
 
 import csv
 import sys
-from typing import List
 
 # 生成されたCSVファイル
 GENERATED_FILES = [

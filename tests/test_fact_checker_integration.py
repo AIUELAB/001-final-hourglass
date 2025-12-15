@@ -10,7 +10,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pdca_guardian import PDCAGuardian
-from src.fact_checker import FactChecker, FactCheckResult
+from src.fact_checker import FactChecker
 
 
 def test_fact_checker_integration():

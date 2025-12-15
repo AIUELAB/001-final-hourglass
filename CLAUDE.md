@@ -217,9 +217,48 @@ preserved/episode_database_dashboard_v7.html  ← 正規版
 
 ### バージョンアップ手順
 
-1. preserved/ に新バージョンを作成（例: v8.html）
-2. 旧バージョンを archive/dashboards/ に移動
-3. ファイル名・title・h1のバージョン番号を同期
+**🔴 重要：バージョンアップはユーザーからの明示的な指示があった時のみ実行**
+
+1. **ユーザーからの明示的な指示を待つ**
+2. preserved/ に新バージョンを作成（例: v8.html）
+3. 旧バージョンを archive/dashboards/ に移動
+4. ファイル名・title・h1のバージョン番号を同期
+
+### ダッシュボードアクセス方法
+
+**✅ 正しい方法（HTTPサーバー経由）：**
+
+```bash
+# プロジェクトルートで実行
+# プロジェクト定義のポート範囲: 8000-8082
+python -m http.server 8082  # ダッシュボード用推奨ポート
+
+# 起動メッセージで実際のポート番号を確認
+# 例: Serving HTTP on 0.0.0.0 port 8082 (http://0.0.0.0:8082/) ...
+
+# ブラウザでアクセス
+http://localhost:8082/preserved/episode_database_dashboard_v8.html
+```
+
+**プロジェクト定義のポート範囲：**
+
+| ポート | 用途 | 優先度 |
+|--------|------|--------|
+| **8082** | HTTPサーバー（ダッシュボード配信） | ✅ 推奨 |
+| **8081** | HTTPサーバー代替 | ⭕ 推奨 |
+| **8080** | HTTPサーバー代替 | ⭕ 推奨 |
+| **8000** | FastAPI バックエンド | ⚠️ API用に予約 |
+
+**注意：** 8000番はFastAPI用に予約されているため避ける。ダッシュボードは8082番を使用。
+
+**詳細参照：** `docs/EPISODE_DB_STARTUP_GUIDE.md` - ポート番号の詳細仕様
+
+**❌ 禁止方法（file://プロトコル）：**
+
+```text
+file:///Users/.../episode_database_dashboard_v8.html
+→ CORS制限によりCSVファイル読み込み不可
+```
 
 ### 整合性チェック（定期実行推奨）
 

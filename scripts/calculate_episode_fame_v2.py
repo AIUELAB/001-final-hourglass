@@ -19,8 +19,7 @@ from typing import Dict, Tuple
 import pandas as pd
 
 # カテゴリ別キーワード辞書をインポート
-from app.utils.keyword_dictionaries import calculate_keyword_score, get_all_keywords_for_category, normalize_category
-from app.utils.score_calculator import calculate_composite_score
+from app.utils.keyword_dictionaries import calculate_keyword_score, normalize_category
 
 CSV_PATH = PROJECT_ROOT / "MASTER_EPISODES_CURRENT.csv"
 BACKUP_PATH = (

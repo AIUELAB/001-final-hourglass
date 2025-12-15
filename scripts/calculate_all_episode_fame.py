@@ -7,7 +7,6 @@
 
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 import pandas as pd
 

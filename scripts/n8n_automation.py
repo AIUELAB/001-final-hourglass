@@ -6,10 +6,8 @@ n8n Automation Helper
 
 import json
 import os
-import subprocess
 from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import requests
 

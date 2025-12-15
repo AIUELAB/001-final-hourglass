@@ -7,7 +7,6 @@ import os
 import sys
 import json
 import pandas as pd
-from datetime import datetime
 from anthropic import Anthropic
 
 # 有効なepisode_type値

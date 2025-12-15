@@ -14,7 +14,7 @@ import csv
 import os
 import sys
 from collections import defaultdict
-from typing import Dict, List, Tuple
+from typing import List
 
 MASTER_CSV = "MASTER_EPISODES_CURRENT.csv"
 REPORT_DIR = "reports"

@@ -6,7 +6,6 @@ LLMスコアと既存スコアの精度評価スクリプト
 サンプルエピソードをLLMで評価し、既存スコアとの差異を分析する
 """
 
-import random
 import sys
 from pathlib import Path
 
@@ -16,7 +15,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 
 import json
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict
 
 import pandas as pd
 

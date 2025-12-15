@@ -5,10 +5,9 @@ Validates that all security improvements are properly implemented.
 """
 
 import json
-import os
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict
 
 
 class SecurityValidator:

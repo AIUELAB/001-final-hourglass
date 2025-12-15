@@ -38,7 +38,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from difflib import SequenceMatcher
 from enum import Enum
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 import pandas as pd
 

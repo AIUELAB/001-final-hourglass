@@ -9,7 +9,6 @@
 import os
 import re
 import sys
-from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
 
@@ -316,7 +315,7 @@ def main():
             print(f"  - {f['person_name']} ({f['age']}歳)")
 
     if not args.fix and results["success"]:
-        print(f"\n💡 実際に修正を適用するには --fix オプションを付けて実行してください")
+        print("\n💡 実際に修正を適用するには --fix オプションを付けて実行してください")
 
 
 if __name__ == "__main__":

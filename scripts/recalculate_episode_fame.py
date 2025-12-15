@@ -9,7 +9,6 @@ episode_fame_score 再計算スクリプト
 """
 
 import csv
-import re
 import sys
 from pathlib import Path
 from datetime import datetime

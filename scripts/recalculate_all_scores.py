@@ -15,16 +15,14 @@ sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 
 import json
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict
 
 import pandas as pd
 
 from app.utils.score_calculator import (
     SEVEN_AXIS_FIELDS,
     calculate_composite_score,
-    count_valid_axes,
     format_composite_score,
-    get_score_breakdown,
 )
 
 CSV_PATH = PROJECT_ROOT / "MASTER_EPISODES_CURRENT.csv"

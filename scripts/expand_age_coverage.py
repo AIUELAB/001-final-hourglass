@@ -19,7 +19,6 @@ Phase 12: 年齢カバレッジ改善スクリプト
 """
 
 import argparse
-import csv
 import hashlib
 import json
 import os

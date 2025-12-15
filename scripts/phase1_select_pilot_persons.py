@@ -13,7 +13,6 @@ Phase 1: パイロット対象人物選定スクリプト
 import json
 import sqlite3
 from datetime import datetime
-from pathlib import Path
 from typing import Any, Dict, List
 
 

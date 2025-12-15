@@ -6,7 +6,6 @@
 """
 
 import json
-from collections import Counter
 from datetime import datetime
 
 import pandas as pd

@@ -14,7 +14,7 @@ import re
 import sqlite3
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 
 class FactChecker:

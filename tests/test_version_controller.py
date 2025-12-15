@@ -5,7 +5,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
@@ -95,7 +94,6 @@ class TestVersionController:
 
     def test_save_and_load_history(self):
         """履歴保存・読み込みテスト"""
-        import json
 
         with tempfile.TemporaryDirectory() as tmpdir:
             vc = VersionController(versions_dir=tmpdir)

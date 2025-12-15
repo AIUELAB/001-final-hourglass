@@ -2,7 +2,6 @@
 """7軸スコアの状態を詳細確認"""
 
 import asyncio
-import json
 from playwright.async_api import async_playwright
 
 
@@ -66,15 +65,19 @@ async def check_scores():
         print(f"\n📈 総エピソード数: {scores_data['total']}")
 
         print("\n📋 最初の10件のスコア:")
-        for sample in scores_data['samples']:
+        for sample in scores_data["samples"]:
             print(f"\n  [{sample['index']+1}] {sample['person_name']}")
             print(f"      総合: {sample['composite_score']}")
-            print(f"      記憶: {sample['memorability_score']} | 共感: {sample['empathy_score']} | 意外: {sample['surprise_score']}")
-            print(f"      品質: {sample['generation_quality_score']} | 教育: {sample['educational_value']} | 物語: {sample['storytelling_quality']} | 事実: {sample['factual_density']}")
+            print(
+                f"      記憶: {sample['memorability_score']} | 共感: {sample['empathy_score']} | 意外: {sample['surprise_score']}"
+            )
+            print(
+                f"      品質: {sample['generation_quality_score']} | 教育: {sample['educational_value']} | 物語: {sample['storytelling_quality']} | 事実: {sample['factual_density']}"
+            )
 
         print("\n📊 nullのスコア数:")
-        for key, count in scores_data['nullCounts'].items():
-            pct = (count / scores_data['total']) * 100
+        for key, count in scores_data["nullCounts"].items():
+            pct = (count / scores_data["total"]) * 100
             status = "✅" if count == 0 else "⚠️" if pct < 50 else "❌"
             print(f"  {status} {key}: {count}/{scores_data['total']} ({pct:.1f}%)")
 

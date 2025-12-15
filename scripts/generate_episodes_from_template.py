@@ -15,13 +15,12 @@
 import argparse
 import csv
 import hashlib
-import json
 import os
 import random
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 import anthropic
 

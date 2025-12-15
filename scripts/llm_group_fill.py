@@ -33,7 +33,7 @@ import pandas as pd
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP, SOLO_ARTISTS, get_group_info
+from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP, SOLO_ARTISTS
 
 # Anthropic API
 try:

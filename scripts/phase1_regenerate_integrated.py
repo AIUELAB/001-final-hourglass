@@ -9,7 +9,6 @@ Phase 1再生成スクリプト（統合システム対応版）
 """
 
 import csv
-import json
 import os
 import sqlite3
 import sys

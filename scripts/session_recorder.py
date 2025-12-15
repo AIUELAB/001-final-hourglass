@@ -12,9 +12,7 @@ Claude Code/Cursorのクラッシュ対策のための自動記録
 """
 
 import fcntl
-import hashlib
 import json
-import os
 import sys
 from datetime import datetime
 from pathlib import Path

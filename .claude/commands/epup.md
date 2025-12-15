@@ -50,10 +50,59 @@ description: EPUP - Episode Update Pipeline（エピソードDB品質の検出�
 - **年齢境界違反（死後/未到達年齢のエピソード）**: `python scripts/detect_problematic_phase8_episodes.py`（削除は `scripts/delete_problematic_phase8.py --execute` を承認後）
 - **架空キャラ作品名欠落**: `python scripts/fix_fictional_work_title_format.py`（必要なら `--fix` を承認後）
 - **グループ同期**: `python scripts/sync_group_from_master.py`（`--execute` は承認後）
+- **別名・通称検出/修正**: `python scripts/normalize_person_names.py --dry-run`（修正実行は `--execute` を承認後）
+  - 結果レポート: `reports/name_normalization_dryrun_*.json`
+  - パターン例: 「山中教授」→「山中伸弥」、「ホリエモン」→「堀江貴文」
+- **人物名バリデーション（生成前チェック）**:
+  ```python
+  from src.validators.person_name_validator import get_validator
+  validator = get_validator()
+  issues = validator.validate(person_name)
+  for issue in issues:
+      print(f"{issue.severity.value}: {issue.message}")
+      if issue.auto_fixable:
+          print(f"  → 修正案: {issue.fixed_value}")
+  ```
+
+## エピソード生成時の事前チェックリスト
+
+新規エピソード生成前に以下を確認してください：
+
+### 1. 人物名バリデーション
+
+```python
+from src.validators.person_name_validator import validate_before_episode_generation
+
+is_valid, message, suggested_fix = validate_before_episode_generation(person_name)
+if not is_valid:
+    print(f"❌ {message}")
+    if suggested_fix:
+        print(f"✅ 修正案: {suggested_fix}")
+        # 修正案を使用してエピソード生成
+        person_name = suggested_fix["person_name"]
+```
+
+### 2. 検出される問題タイプ
+
+- **別名使用**: 「山中教授」→「山中伸弥」を使用すべき
+- **グループ名混入**: 「乃木坂46齋藤飛鳥」→「齋藤飛鳥」
+- **組織名・肩書き混入**: 「日本人実業家の稲盛和夫」→「稲盛和夫」
+- **連結名パターン**: 「ビートルズ・ジョン・レノン」→「ジョン・レノン」
+
+### 3. 年齢境界チェック
+
+- `birth_year` ~ `death_year`（または現在年）の範囲内か確認
+- 範囲外の年齢は生成禁止（メタ表現誘発リスク）
+- 参照: CLAUDE.md「年齢境界違反エピソード検出ルール」セクション
 
 ## 出力フォーマット（必ずこの順）
+
 ### 現状（事実＋根拠）
+
 ### 実行したチェック（コマンドと結果要約）
+
 ### 検出された問題（上位5件）
+
 ### 推奨アクション（最小差分・承認が必要な操作は明記）
+
 ### 次にユーザーへ確認したいこと（最大5つ）

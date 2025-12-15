@@ -11,6 +11,7 @@ KPI一覧:
 6. nan ID率 (target: 0%)
 7. 削除済みID混入率 (target: 0%) - 再発防止用
 8. 組織名・肩書き混入率 (target: 0%) - 人物名汚染防止用
+9. 英字別名検出率 (target: 0%) - 英字別名誤登録防止用
 """
 
 import json
@@ -104,7 +105,8 @@ class EPUPKPICalculator:
             self._calc_duplicate_id_rate(),
             self._calc_nan_id_rate(),
             self._calc_deleted_id_contamination_rate(),
-            self._calc_org_title_contamination_rate(),  # 新規KPI
+            self._calc_org_title_contamination_rate(),
+            self._calc_english_alias_rate(),  # KPI 9: 英字別名検出率
         ]
 
         # 総合ステータス判定
@@ -372,6 +374,48 @@ class EPUPKPICalculator:
                 "contaminated_count": contaminated,
                 "total_unique_names": total,
                 "contaminated_examples": contaminated_names,
+            },
+        )
+
+    def _calc_english_alias_rate(self) -> KPIResult:
+        """
+        英字別名検出率を計算（KPI 9）
+
+        detect_english_names.pyのEnglishNameDetectorを使用して、
+        review_required（要確認）の人物名数をKPI化する。
+
+        芸名・表記名として正当な英字人物名（YOSHIKI, HIKAKIN等）は維持しつつ、
+        誤った英字別名（"Mackenyu"等）を検出する。
+
+        Returns:
+            KPIResult
+        """
+        # EnglishNameDetectorを遅延インポート（循環インポート回避）
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        from scripts.detect_english_names import EnglishNameDetector
+
+        # detectorを実行
+        detector = EnglishNameDetector(self.csv_path)
+        detector.detect_all()
+
+        review_required_count = len(detector.review_required)
+        total_unique_persons = self.df["person_name"].dropna().nunique()
+        rate = review_required_count / total_unique_persons if total_unique_persons > 0 else 0.0
+
+        # 要確認人物名の例を記録（最大10件）
+        review_examples = [
+            f"{item['person_name']} ({item.get('name_type', 'unknown')})" for item in detector.review_required[:10]
+        ]
+
+        return KPIResult(
+            name="英字別名検出率",
+            value=rate,
+            target=0.0,
+            status=self._get_status(rate, 0.0, 0.01, 0.03),  # 1%超でWARNING, 3%超でCRITICAL
+            details={
+                "review_required_count": review_required_count,
+                "total_unique_persons": total_unique_persons,
+                "review_examples": review_examples,
             },
         )
 

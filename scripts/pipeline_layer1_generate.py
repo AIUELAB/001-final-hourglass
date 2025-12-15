@@ -311,6 +311,8 @@ def load_candidates(ages: Optional[List[int]] = None, limit: int = 100) -> List[
         return []
 
     candidates = []
+    skipped_future_age = 0  # 🔒 F-003: 未来/死後年齢でスキップした件数
+
     with open(template_path, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -335,6 +337,21 @@ def load_candidates(ages: Optional[List[int]] = None, limit: int = 100) -> List[
                 # 年齢が空の場合はスキップ
                 continue
 
+            # 🔒 F-003修正: 生年/没年を考慮した境界チェック
+            birth_year_str = row.get("birth_year", "")
+            death_year_str = row.get("death_year", "")
+
+            if birth_year_str and str(birth_year_str).isdigit():
+                birth_year = int(birth_year_str)
+                death_year = int(death_year_str) if death_year_str and str(death_year_str).isdigit() else None
+
+                current_year = datetime.now().year
+                max_age = death_year - birth_year if death_year else current_year - birth_year
+
+                if age_int > max_age:
+                    skipped_future_age += 1
+                    continue
+
             # 既存チェック
             if (pn, age) in existing_pairs:
                 continue
@@ -351,6 +368,9 @@ def load_candidates(ages: Optional[List[int]] = None, limit: int = 100) -> List[
 
             if len(candidates) >= limit * 2:  # 余裕を持って取得
                 break
+
+    if skipped_future_age > 0:
+        print(f"⚠️  未来/死後年齢でスキップ: {skipped_future_age}件")
 
     random.shuffle(candidates)
     return candidates[:limit]

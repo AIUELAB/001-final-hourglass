@@ -30,6 +30,53 @@ if not API_KEY:
 client = anthropic.Anthropic(api_key=API_KEY)
 
 
+# =============================================================================
+# 年齢境界チェック関数（誤指令F-001修正）
+# =============================================================================
+
+
+def get_valid_senior_age(
+    person_name: str, birth_year: Optional[int], death_year: Optional[int], min_age: int = 70, max_age: int = 85
+) -> Optional[int]:
+    """
+    生年/没年を考慮して、有効な70代以上の年齢をランダムに選択
+
+    Args:
+        person_name: 人物名（ログ用）
+        birth_year: 生年（Noneの場合はチェックスキップ）
+        death_year: 没年（Noneの場合は存命と判断）
+        min_age: 最小年齢（デフォルト70歳）
+        max_age: 最大年齢（デフォルト85歳）
+
+    Returns:
+        有効な年齢、または到達不可能な場合はNone
+    """
+    if birth_year is None:
+        print(f"⚠️  {person_name}: birth_year不明のため年齢チェックをスキップ（範囲内からランダム選択）")
+        return random.randint(min_age, max_age)
+
+    current_year = datetime.now().year
+
+    # 最大到達年齢を計算
+    if death_year:
+        max_lived_age = death_year - birth_year
+        print(f"   {person_name}: 没年{death_year}年、享年{max_lived_age}歳")
+    else:
+        max_lived_age = current_year - birth_year
+        print(f"   {person_name}: 存命中、現在{max_lived_age}歳（推定）")
+
+    # 有効な年齢範囲を計算
+    valid_ages = [a for a in range(min_age, max_age + 1) if a <= max_lived_age]
+
+    if not valid_ages:
+        print(f"❌ {person_name}は{min_age}歳に到達していません（最大{max_lived_age}歳）")
+        return None
+
+    selected_age = random.choice(valid_ages)
+    print(f"✅ 選択年齢: {selected_age}歳（有効範囲: {min(valid_ages)}-{max(valid_ages)}歳）")
+    return selected_age
+
+
 def generate_person_id(person_name: str) -> str:
     """person_nameからperson_idを生成"""
     hash_obj = hashlib.md5(person_name.encode("utf-8"), usedforsecurity=False)
@@ -239,10 +286,22 @@ def main():
         award_name = row.get("award_name", "")
         award_year = row.get("award_year", "")
 
-        # 70代以上の年齢をランダムに生成（70-85歳）
-        age = random.randint(70, 85)
+        # 🔒 誤指令F-001修正: 生年/没年を考慮して年齢を選択
+        birth_year_str = row.get("birth_year", "")
+        death_year_str = row.get("death_year", "")
 
-        print(f"\n[{i}/{len(template_rows)}] {person_name} ({age}歳)")
+        birth_year = int(birth_year_str) if birth_year_str and str(birth_year_str).isdigit() else None
+        death_year = int(death_year_str) if death_year_str and str(death_year_str).isdigit() else None
+
+        print(f"\n[{i}/{len(template_rows)}] {person_name}")
+
+        # 有効な年齢を取得
+        age = get_valid_senior_age(person_name, birth_year, death_year, min_age=70, max_age=85)
+
+        if age is None:
+            print(f"⏭️  スキップ: {person_name}（70歳未到達）")
+            fail_count += 1
+            continue
 
         episode = generate_senior_episode(person_name, category, person_type, age, award_name, award_year)
 

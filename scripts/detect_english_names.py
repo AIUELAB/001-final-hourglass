@@ -625,7 +625,7 @@ def extract_keep_english_names() -> Set[str]:
         "Shelly",
         "Vaundy",
         "imase",
-        "Mackenyu",
+        # "Mackenyu",  # 削除: 俳優「新田真剣佑」の英字別名のため（2025-12-16）
         "AI",
         "Reol",
         "Eve",

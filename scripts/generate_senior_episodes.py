@@ -209,6 +209,24 @@ def generate_senior_episode(
 ) -> Optional[dict]:
     """70代エピソードを生成"""
 
+    # 【新規】人物名バリデーション（強制）
+    from src.validators.person_name_validator import PersonNameValidator
+
+    validator = PersonNameValidator()
+    validation_issues = validator.validate(person_name)
+
+    if validation_issues:
+        print(f"\n{'=' * 70}")
+        print(f"❌ バリデーションエラー: {person_name}")
+        print(f"{'=' * 70}")
+        for issue in validation_issues:
+            print(f"   {issue.severity.value.upper()}: {issue.message}")
+            if issue.suggestion:
+                print(f"   提案: {issue.suggestion}")
+        print("   → エピソード生成をスキップします")
+        print(f"{'=' * 70}\n")
+        return None
+
     print(f"\n{'=' * 70}")
     print(f"生成中: {person_name} ({age}歳) - {category}")
     if award_name:

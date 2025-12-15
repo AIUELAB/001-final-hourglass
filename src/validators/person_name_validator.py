@@ -9,6 +9,7 @@ PersonNameValidator - 人物名バリデーション
 4. 自動修正提案
 """
 
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -35,6 +36,7 @@ class IssueType(Enum):
     VARIANT_NAME = "variant_name"
     UNKNOWN_GROUP = "unknown_group"
     ORG_TITLE_CONTAMINATION = "org_title_contamination"  # 組織名・肩書き混入
+    INVALID_NAME = "invalid_name"  # 不正な人物名（道具名・アイテム名等）
 
 
 class Severity(Enum):
@@ -77,6 +79,9 @@ class PersonNameValidator:
         self.group_member_map = GROUP_MEMBER_MAP
         self.dispersion_rules = DISPERSION_RULES
 
+        # ブラックリスト読み込み
+        self.blacklist = self._load_blacklist()
+
         # 組織名・肩書き混入検出用のnormalizer（遅延初期化）
         self._normalizer = None
 
@@ -118,6 +123,16 @@ class PersonNameValidator:
         alias_issue = self._check_alias_usage(person_name)
         if alias_issue:
             issues.append(alias_issue)
+
+        # 5. ブラックリストチェック（2025-12-15追加）★NEW
+        blacklist_issue = self._check_blacklist(person_name)
+        if blacklist_issue:
+            issues.append(blacklist_issue)
+
+        # 6. 道具名・アイテム名チェック（2025-12-15追加）★NEW
+        item_issue = self._check_item_name_pattern(person_name)
+        if item_issue:
+            issues.append(item_issue)
 
         return issues
 
@@ -269,6 +284,123 @@ class PersonNameValidator:
                 auto_fixable=True,
                 fixed_value=canonical,
             )
+
+        return None
+
+    def _check_item_name_pattern(self, person_name: str) -> Optional[ValidationIssue]:
+        """
+        道具名・アイテム名パターンの検出（ERR-005）
+
+        検出パターン:
+        - 道具接尾辞: ギプス、マシン、装置、道具
+        - 物品接尾辞: アイテム、グッズ、ツール
+        - 機械接尾辞: ロボット、メカ、システム
+
+        Args:
+            person_name: 検証対象の人物名
+
+        Returns:
+            問題が検出された場合はValidationIssue、なければNone
+        """
+        ITEM_SUFFIXES = [
+            "ギプス",
+            "マシン",
+            "装置",
+            "道具",
+            "アイテム",
+            "グッズ",
+            "ツール",
+            "ロボット",
+            "メカ",
+            "システム",
+            "デバイス",
+            "マスク",
+            "スーツ",
+        ]
+
+        # 接尾辞チェック
+        for suffix in ITEM_SUFFIXES:
+            if person_name.endswith(suffix):
+                return ValidationIssue(
+                    issue_type=IssueType.INVALID_NAME,
+                    severity=Severity.ERROR,
+                    person_name=person_name,
+                    message=f"道具名・アイテム名の可能性: 「{person_name}」は「{suffix}」で終わっています（ERR-005）",
+                    suggestion="実在する人物名であることを確認してください",
+                    auto_fixable=False,
+                    fixed_value=None,
+                )
+
+        # 完全一致パターン（明らかな道具名・架空アイテム）
+        OBVIOUS_ITEMS = ["秘密道具", "必殺技", "魔法", "呪文", "スキル"]
+
+        for item in OBVIOUS_ITEMS:
+            if item in person_name:
+                return ValidationIssue(
+                    issue_type=IssueType.INVALID_NAME,
+                    severity=Severity.ERROR,
+                    person_name=person_name,
+                    message=f"架空アイテムの可能性: 「{person_name}」に「{item}」が含まれています（ERR-005）",
+                    suggestion="実在する人物名であることを確認してください",
+                    auto_fixable=False,
+                    fixed_value=None,
+                )
+
+        return None
+
+    def _load_blacklist(self) -> dict[str, list]:
+        """
+        ブラックリストの読み込み
+
+        Returns:
+            ブラックリスト辞書（blacklist, patterns）
+        """
+        blacklist_path = Path(__file__).parent.parent.parent / "config" / "blacklist_names.json"
+        if blacklist_path.exists():
+            try:
+                with open(blacklist_path, "r", encoding="utf-8") as f:
+                    data: dict[str, list] = json.load(f)
+                    return data
+            except (json.JSONDecodeError, OSError):
+                # ファイルが壊れている場合は空のブラックリストを返す
+                return {"blacklist": [], "patterns": []}
+        return {"blacklist": [], "patterns": []}
+
+    def _check_blacklist(self, person_name: str) -> Optional[ValidationIssue]:
+        """
+        ブラックリストチェック
+
+        Args:
+            person_name: 検証対象の人物名
+
+        Returns:
+            問題が検出された場合はValidationIssue、なければNone
+        """
+        # 完全一致チェック
+        for entry in self.blacklist.get("blacklist", []):
+            if person_name == entry["name"]:
+                return ValidationIssue(
+                    issue_type=IssueType.INVALID_NAME,
+                    severity=Severity.ERROR,
+                    person_name=person_name,
+                    message=f"ブラックリスト該当: {entry['reason']}",
+                    suggestion="この名前は使用できません",
+                    auto_fixable=False,
+                    fixed_value=None,
+                )
+
+        # パターンマッチ
+        for pattern in self.blacklist.get("patterns", []):
+            if re.match(pattern, person_name):
+                return ValidationIssue(
+                    issue_type=IssueType.INVALID_NAME,
+                    severity=Severity.WARNING,
+                    person_name=person_name,
+                    message=f"ブラックリストパターンに該当: {pattern}",
+                    suggestion="この名前パターンは注意が必要です",
+                    auto_fixable=False,
+                    fixed_value=None,
+                )
 
         return None
 

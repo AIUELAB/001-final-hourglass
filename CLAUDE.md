@@ -80,8 +80,30 @@
 - 「代わりに〜歳のエピソード」「別の年齢で生成」
 - 「年齢設定を変更」「申し訳ありませんが」「生成できません」
 
+### メタデータベースの年齢境界違反検出
+
+**CSVメタデータの矛盾がメタ表現を誘発する**
+
+CSVのメタデータ（birth_year, death_year, award_year, age）に以下の矛盾がある場合、LLMがメタ表現を生成するリスクが高い：
+
+| 検出条件 | 例 | リスク |
+|---------|-----|-------|
+| award_year > death_year | 伊能忠敬（死1818、業績1821） | 「すでにこの世を去って」生成 |
+| age > (death_year - birth_year) | 享年73歳の人の75歳エピソード | 「亡くなった後」生成 |
+| age > (current_year - birth_year) | 現在15歳の人の20歳エピソード | 「未来のこと」生成 |
+
+**2段階防御アーキテクチャ：**
+1. **予防（Prevention）:** `generate_senior_episodes.py` Lines 218-226 で生成時にブロック
+2. **検出（Detection）:** `detect_age_boundary_violations.py` で事後検出
+
+**処理方針：**
+1. 検出された矛盾エピソードは削除（再生成しない）
+2. テンプレートデータの修正（award_year を削除 or 正確な年に変更）
+3. 生成時の予防コードを維持
+
 **検出・修正ツール**:
-- 検出: `scripts/detect_problematic_phase8_episodes.py`
+- 本文パターン検出: `scripts/detect_problematic_phase8_episodes.py`
+- メタデータ矛盾検出: `scripts/detect_age_boundary_violations.py` ⭐ NEW
 - 削除: `scripts/delete_problematic_phase8.py`
 
 **チェックリスト（エピソード生成時）**:

@@ -818,7 +818,7 @@ class EnglishNameDetector:
     def _get_summary(self) -> Dict:
         """検出結果のサマリーを取得"""
         # 名前タイプの内訳を集計
-        name_type_counts = {}
+        name_type_counts: dict[str, int] = {}
         for item in self.all_english:
             name_type = item.get("name_type", "unknown")
             name_type_counts[name_type] = name_type_counts.get(name_type, 0) + 1

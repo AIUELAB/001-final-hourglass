@@ -471,10 +471,115 @@ python scripts/normalize_person_names.py --execute --min-confidence 0.90
 
 ---
 
+## 役職語・関係語の許容基準
+
+**追加日**: 2025-12-16
+
+エピソード生成時における役職語・敬称・関係語の使用について、以下の基準に従います。
+
+### 許容（維持してよい）
+
+| パターン | 例 | 理由 |
+|---------|-----|------|
+| **フルネーム + 役職語** | バーニー・サンダース上院議員 | 個人が特定でき、読みやすさが向上 |
+| **フルネーム + 敬称** | 野沢雅子さん | 敬称は一般的に許容される |
+| **フルネーム + 学術称号** | 日野原重明博士 | 学術称号は識別に有効 |
+
+### 修正必要
+
+| パターン | 例 | 問題 | 修正案 |
+|---------|-----|------|--------|
+| **関係語のみで個人不明** | 岸田文雄夫人 | 個人名が不明確 | 岸田裕子 |
+| **姓のみ + 役職語** | サンダース上院議員 | 同姓別人と混同のリスク | バーニー・サンダース上院議員 |
+
+### 判断基準
+
+1. **個人が特定できるか**
+   - フルネームが含まれている
+   - または、エピソード本文に個人名が明記されている
+
+2. **同姓別人と区別できるか**
+   - 姓のみ+役職は避ける
+   - フルネームで記載する
+
+3. **読みやすさが向上するか**
+   - 一般読者が理解しやすい
+   - 正確性を損なわない
+
+### 検出ツール
+
+**事前チェック（エピソード生成時）**:
+
+```python
+from src.validators.person_name_validator import get_validator
+
+validator = get_validator()
+issues = validator.validate("岸田文雄夫人")
+
+for issue in issues:
+    print(f"{issue.severity.value}: {issue.message}")
+    if issue.suggestion:
+        print(f"  推奨: {issue.suggestion}")
+```
+
+**事後検出（バッチ検出）**:
+
+```bash
+# 全データで役職語・関係語を検出
+python scripts/detect_person_name_issues.py --output reports/person_name_issues_YYYYMMDD.json
+```
+
+### 修正方法
+
+**1. ALIAS_KEYWORDSに登録**:
+
+新しい別名を発見した場合は `scripts/normalize_person_names.py` に追加：
+
+```python
+ALIAS_KEYWORDS = {
+    "山中教授": "山中伸弥",
+    "マンデラ": "ネルソン・マンデラ",
+    "ホリエモン": "堀江貴文",
+    "サンダース上院議員": "バーニー・サンダース上院議員",  # 追加例
+    "岸田文雄夫人": "岸田裕子",  # 追加例
+}
+```
+
+**2. 自動修正実行**:
+
+```bash
+# ドライラン（検出のみ）
+python scripts/normalize_person_names.py --dry-run --pattern ALIAS
+
+# 本番実行（自動修正）
+python scripts/normalize_person_names.py --execute --pattern ALIAS
+```
+
+### チェックリスト（エピソード生成時）
+
+- [ ] 人物名に役職語・関係語が含まれていないか確認
+- [ ] 含まれている場合、フルネームで個人が特定できるか確認
+- [ ] 関係語のみ（例: 〇〇夫人）の場合、エピソード本文から個人名を特定
+- [ ] ALIAS_KEYWORDSに登録が必要な場合は追加
+
+### PersonNameValidatorの検出ロジック
+
+`src/validators/person_name_validator.py` の `_check_suffix_patterns()` メソッドで以下を検出：
+
+| カテゴリ | 接尾辞 | 重大度 | アクション |
+|---------|--------|--------|----------|
+| **関係** | 夫人 | ERROR | 本文から個人名を特定して修正 |
+| **役職（姓のみ）** | 議員、社長、CEO等 | WARNING | フルネームに変更を推奨 |
+| **敬称** | 氏、さん、様等 | INFO | 維持可（確認推奨） |
+| **学術** | 博士、教授等 | INFO | 維持可（識別明確であれば） |
+
+---
+
 ## 関連ドキュメント
 
 - **CLAUDE.md**: 人物名表記ルール（L116-187）
 - **.claude/commands/epup.md**: EPUPワークフロー
 - **scripts/normalize_person_names.py**: 正規化エンジン（1440行）
-- **src/validators/person_name_validator.py**: バリデーター（425行）
+- **src/validators/person_name_validator.py**: バリデーター（500行超）
+- **scripts/detect_person_name_issues.py**: 包括的検出エンジン（380行）
 - **scripts/merge_person_aliases.py**: 人物名統合スクリプト（430行）

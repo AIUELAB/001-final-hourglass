@@ -55,6 +55,7 @@ def run_daily_check(csv_path: str) -> dict:
     - 削除済みID混入
     - 組織名・肩書き混入
     - 英字別名検出
+    - 後置詞型パターン検出（ERR-006）
     """
     calculator = EPUPKPICalculator(csv_path)
     report = calculator.calculate_all()
@@ -67,6 +68,7 @@ def run_daily_check(csv_path: str) -> dict:
         "削除済みID混入率",
         "組織名・肩書き混入率",
         "英字別名検出率",
+        "後置詞型パターン検出率",  # KPI 10: ERR-006
     ]
     filtered_kpis = [k for k in report.kpis if k.name in daily_kpis]
 

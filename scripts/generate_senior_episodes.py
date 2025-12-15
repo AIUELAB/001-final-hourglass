@@ -204,6 +204,8 @@ def generate_senior_episode(
     age: int,
     award_name: Optional[str] = None,
     award_year: Optional[str] = None,
+    birth_year: Optional[int] = None,
+    death_year: Optional[int] = None,
 ) -> Optional[dict]:
     """70代エピソードを生成"""
 
@@ -212,6 +214,18 @@ def generate_senior_episode(
     if award_name:
         print(f"業績: {award_name}" + (f" ({award_year}年)" if award_year else ""))
     print(f"{'=' * 70}")
+
+    # award_yearとdeath_yearの矛盾チェック
+    include_award_year = True
+    if death_year and award_year:
+        try:
+            award_year_int = int(award_year)
+            # 死後の業績年は含めない（メタ的表現を防ぐ）
+            if award_year_int > death_year:
+                include_award_year = False
+                print(f"  ⚠️  award_year ({award_year}) > death_year ({death_year}): 年号を省略")
+        except ValueError:
+            pass
 
     prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 
@@ -224,7 +238,7 @@ def generate_senior_episode(
     if award_name:
         prompt += f"""
 この時期の重要な業績/出来事: {award_name}"""
-        if award_year:
+        if award_year and include_award_year:
             prompt += f" ({award_year}年)"
 
     prompt += """
@@ -238,7 +252,13 @@ def generate_senior_episode(
 6. 事実に基づいた内容（架空の内容は避ける）
 7. 「年齢を重ねてもなお」という視点を含める
 
+❌ 絶対禁止される表現:
+- 「すでにこの世を去っていました」「亡くなった後」「死去した後」などのメタ的な死の言及
+- 「未来のこと」「まだ到達していない」などの時系列の矛盾
+- 「年齢設定を変更」「申し訳ありませんが」などの生成失敗の言及
+
 注意: この人物の晩年のエピソードが不明確な場合は、一般的に知られている事実に基づいて推測してください。
+人物が指定年齢で存命だった場合、その時期の活動や功績を中心に記述してください。
 
 エピソードテキスト:"""
 
@@ -389,7 +409,9 @@ def main():
             fail_count += 1
             continue
 
-        episode = generate_senior_episode(person_name, category, person_type, age, award_name, award_year)
+        episode = generate_senior_episode(
+            person_name, category, person_type, age, award_name, award_year, birth_year, death_year
+        )
 
         if episode:
             generated_episodes.append(episode)

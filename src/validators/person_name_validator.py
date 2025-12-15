@@ -114,6 +114,11 @@ class PersonNameValidator:
         if org_title_issue:
             issues.append(org_title_issue)
 
+        # 4. 別名・通称チェック（2025-12-15追加）★NEW
+        alias_issue = self._check_alias_usage(person_name)
+        if alias_issue:
+            issues.append(alias_issue)
+
         return issues
 
     def _check_group_as_person(self, person_name: str) -> Optional[ValidationIssue]:
@@ -195,9 +200,7 @@ class PersonNameValidator:
             self._normalizer = PersonNameNormalizer(min_confidence=0.85)
         return self._normalizer
 
-    def _check_org_title_contamination(
-        self, person_name: str
-    ) -> Optional[ValidationIssue]:
+    def _check_org_title_contamination(self, person_name: str) -> Optional[ValidationIssue]:
         """
         組織名・肩書き混入をチェック
 
@@ -232,6 +235,39 @@ class PersonNameValidator:
                 suggestion=f"正規化後の名前 '{result.normalized_name}' を使用してください",
                 auto_fixable=True,
                 fixed_value=result.normalized_name,
+            )
+
+        return None
+
+    def _check_alias_usage(self, person_name: str) -> Optional[ValidationIssue]:
+        """
+        別名・通称の使用を検出
+
+        例: 「山中教授」→「山中伸弥」を使用すべき
+
+        Args:
+            person_name: 人物名
+
+        Returns:
+            問題があればValidationIssue、なければNone
+        """
+        # normalize_person_names.pyのALIAS_KEYWORDSを参照
+        import sys
+        from pathlib import Path
+
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        from scripts.normalize_person_names import ALIAS_KEYWORDS
+
+        if person_name in ALIAS_KEYWORDS:
+            canonical = ALIAS_KEYWORDS[person_name]
+            return ValidationIssue(
+                issue_type=IssueType.VARIANT_NAME,
+                severity=Severity.WARNING,
+                person_name=person_name,
+                message=f"別名「{person_name}」が使用されています",
+                suggestion=f"正規表記「{canonical}」を使用してください",
+                auto_fixable=True,
+                fixed_value=canonical,
             )
 
         return None
@@ -303,7 +339,7 @@ class PersonNameValidator:
                 "original_name": 元の名前,
             }
         """
-        result = {
+        result: dict[str, str | bool | None] = {
             "canonical_name": person_name,
             "group_name": None,
             "is_group_member": None,
@@ -329,8 +365,9 @@ class PersonNameValidator:
                             break
 
         # グループマスタから情報を補完
-        if result["canonical_name"] in self.group_member_map:
-            result["group_name"] = self.group_member_map[result["canonical_name"]]
+        canonical_name = result["canonical_name"]
+        if isinstance(canonical_name, str) and canonical_name in self.group_member_map:
+            result["group_name"] = self.group_member_map[canonical_name]
             result["is_group_member"] = True
 
         return result
@@ -369,15 +406,16 @@ def validate_before_episode_generation(
 
     if errors:
         first_error = errors[0]
-        suggested_fix = None
+        suggested_fix: Optional[dict[str, str | bool]] = None
         if first_error.auto_fixable and first_error.fixed_value:
             suggested_fix = {
                 "person_name": first_error.fixed_value,
             }
             # グループ名を抽出
             canonical_info = validator.get_canonical_info(person_name)
-            if canonical_info.get("group_name"):
-                suggested_fix["group_name"] = canonical_info["group_name"]
+            group_name = canonical_info.get("group_name")
+            if group_name and isinstance(group_name, str):
+                suggested_fix["group_name"] = group_name
                 suggested_fix["is_group_member"] = True
 
         return False, first_error.message, suggested_fix

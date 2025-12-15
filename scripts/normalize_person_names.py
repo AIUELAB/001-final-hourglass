@@ -195,6 +195,14 @@ TITLE_KEYWORDS = [
     "研究者",
 ]
 
+# 別名・通称キーワード（追加: 2025-12-15）
+ALIAS_KEYWORDS = {
+    "山中教授": "山中伸弥",
+    "マンデラ": "ネルソン・マンデラ",
+    "ホリエモン": "堀江貴文",
+    # 今後発見された別名をここに追加
+}
+
 # 職業修飾子（新規）
 PROFESSION_MODIFIERS = [
     "秋葉原系",
@@ -596,6 +604,11 @@ class PersonNameNormalizer:
         # 西洋人名チェック
         if self.is_western_name(person_name):
             return None
+
+        # 別名チェック（最優先）★NEW
+        result = self._match_alias(person_name)
+        if result:
+            return result
 
         # パターンマッチング（優先度順）
         # 説明文プレフィックス（新規）
@@ -1237,6 +1250,31 @@ class PersonNameNormalizer:
 
         return None
 
+    def _match_alias(self, name: str) -> Optional[NormalizationResult]:
+        """
+        別名・通称を正規表記に変換
+
+        Args:
+            name: 人物名
+
+        Returns:
+            正規化結果（該当する場合）
+        """
+        if name in ALIAS_KEYWORDS:
+            canonical = ALIAS_KEYWORDS[name]
+            return NormalizationResult(
+                original_name=name,
+                normalized_name=canonical,
+                title=None,
+                affiliation=None,
+                pattern_type="ALIAS",
+                confidence=1.0,  # 確定的な別名なので信頼度MAX
+                requires_review=False,
+                match_detail=f"別名「{name}」を正規表記「{canonical}」に変換",
+            )
+
+        return None
+
     def verify_with_llm(self, result: NormalizationResult) -> NormalizationResult:
         """LLMで正規化結果を検証"""
         if not self.anthropic_client:
@@ -1284,7 +1322,7 @@ class PersonNameNormalizer:
 
     def batch_normalize(self, df: pd.DataFrame) -> dict:
         """バッチ処理"""
-        results = {
+        results: dict = {
             "auto_fixed": [],
             "requires_review": [],
             "skipped": [],

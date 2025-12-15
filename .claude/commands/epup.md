@@ -112,6 +112,53 @@ for issue in issues:
 
 **参照**: CLAUDE.md「道具名・アイテム名誤登録防止ルール」セクション
 
+### ERR-006: 後置詞型パターン誤登録（関係語・役職語混入）
+
+**問題**: 人物名に役職語・関係語が混入し、個人が特定できない状態
+
+**検出パターン**:
+
+- ❌ **関係語で個人不明**: 岸田文雄夫人、居里夫人、キューリー夫人
+- ❌ **姓のみ+役職**: サンダース上院議員（同姓別人リスク）
+- ✅ **フルネーム+役職**: バーニー・サンダース上院議員（許容）
+
+**検出方法**:
+
+1. **日次自動検出**: `scheduled_epup_check.py` の KPI #10「後置詞型パターン検出率」
+2. **手動検出**: `python scripts/detect_person_name_issues.py`
+
+**修正フロー**:
+
+1. **根本原因分析**: エピソード本文を確認し、正しい個人名を特定
+2. **システム修正**: 不要（既存ツール使用）
+3. **個別修正**:
+
+   ```bash
+   # 検出実行
+   python scripts/detect_person_name_issues.py --output reports/person_name_issues_YYYYMMDD.json
+
+   # レポート確認
+   cat reports/person_name_issues_summary.md
+
+   # 高優先度の修正実行
+   python scripts/fix_person_name_issues.py --execute
+   ```
+
+4. **類似検索**: 同じパターンがないか全データ再検出
+5. **一括修正**: `fix_person_name_issues.py` で一括修正
+6. **予防設計**: ALIAS_KEYWORDSに追加（`scripts/normalize_person_names.py`）
+7. **継続監視**: 日次KPI #10で自動監視
+
+**再発防止策**:
+
+- ✅ PersonNameValidator._check_suffix_patterns()による事前チェック
+- ✅ ALIAS_KEYWORDSへの登録
+- ✅ 日次KPI #10による継続監視
+
+**関連ドキュメント**:
+
+- `docs/PERSON_NAME_VALIDATION_WORKFLOW.md` - 役職語・関係語の許容基準
+
 ### 4. 年齢境界チェック
 
 - `birth_year` ~ `death_year`（または現在年）の範囲内か確認

@@ -12,6 +12,7 @@ KPI一覧:
 7. 削除済みID混入率 (target: 0%) - 再発防止用
 8. 組織名・肩書き混入率 (target: 0%) - 人物名汚染防止用
 9. 英字別名検出率 (target: 0%) - 英字別名誤登録防止用
+10. 後置詞型パターン検出率 (target: 0%) - 役職語・関係語混入防止用（ERR-006）
 """
 
 import json
@@ -107,6 +108,7 @@ class EPUPKPICalculator:
             self._calc_deleted_id_contamination_rate(),
             self._calc_org_title_contamination_rate(),
             self._calc_english_alias_rate(),  # KPI 9: 英字別名検出率
+            self._calc_suffix_pattern_rate(),  # KPI 10: 後置詞型パターン検出率（ERR-006）
         ]
 
         # 総合ステータス判定
@@ -416,6 +418,54 @@ class EPUPKPICalculator:
                 "review_required_count": review_required_count,
                 "total_unique_persons": total_unique_persons,
                 "review_examples": review_examples,
+            },
+        )
+
+    def _calc_suffix_pattern_rate(self) -> KPIResult:
+        """
+        後置詞型パターン検出率を計算（KPI 10: ERR-006）
+
+        PersonNameValidator._check_suffix_patterns()を使用して、
+        関係語（夫人等）で個人名が不明確なケースを検出
+
+        Returns:
+            KPIResult
+        """
+        from pathlib import Path
+        import sys
+
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        from src.validators.person_name_validator import get_validator, IssueType, Severity
+
+        validator = get_validator()
+        error_count = 0
+        error_examples: list[str] = []
+
+        # ユニークな人物名をチェック
+        unique_names = self.df["person_name"].dropna().unique()
+        for person_name in unique_names:
+            issues = validator.validate(str(person_name))
+            # 後置詞型パターンのERRORのみカウント（関係語で個人名不明確）
+            suffix_errors = [
+                i for i in issues if i.issue_type == IssueType.ORG_TITLE_CONTAMINATION and i.severity == Severity.ERROR
+            ]
+            if suffix_errors:
+                error_count += 1
+                if len(error_examples) < 10:
+                    error_examples.append(person_name)
+
+        total = len(unique_names)
+        rate = error_count / total if total > 0 else 0.0
+
+        return KPIResult(
+            name="後置詞型パターン検出率",
+            value=rate,
+            target=0.0,
+            status=self._get_status(rate, 0.0, 0.005, 0.01),  # 0.5%超でWARNING, 1%超でCRITICAL
+            details={
+                "error_count": error_count,
+                "total_unique_names": total,
+                "error_examples": error_examples,
             },
         )
 

@@ -1,4 +1,5 @@
 ﻿person_id,person_name,category,person_type,is_pure_english,name_type,classification,reason
+P710BB63,HIKAKIN,エンターテイメント,REAL,True,artist_name,keep_english,追加維持リストに登録
 P6B60577,tofubeats,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録
 PD23F10F,hyde,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（L'Arc~en~Ciel）
 PEF7C51E,YOSHIKI,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（X JAPAN）
@@ -6,7 +7,6 @@ P2D81F7D,KREVA,音楽,REAL,True,artist_name,keep_english,追加維持リスト�
 P0DC6425,KOHH,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録
 PBBA3C82,KENZO,エンターテイメント,REAL,True,artist_name,keep_english,追加維持リストに登録
 PD4151CC,IU,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録
-P710BB63,HIKAKIN,芸術・文化,REAL,True,artist_name,keep_english,追加維持リストに登録
 P6C47C66,DJ KRUSH,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録
 P98B38C9,DA PUMP,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録
 P27E4A44,BAD HOP,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録
@@ -24,7 +24,6 @@ PA88F05B,hide,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録�
 P3D3C0A3,GACKT,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（MALICE MIZER）
 PAAA5647,SUGIZO,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（LUNA SEA）
 PF93E7A2,INORAN,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（LUNA SEA）
-P011A56F,Mackenyu,映画・演劇,REAL,True,artist_name,keep_english,追加維持リストに登録
 PBACD62C,TAKURO,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（GLAY）
 PE46542E,HISASHI,音楽,REAL,True,artist_name,keep_english,GROUP_MEMBER_MAP登録済み（GLAY）
 P55CDD5C,Toshl,音楽,REAL,True,artist_name,keep_english,追加維持リストに登録

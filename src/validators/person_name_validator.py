@@ -134,6 +134,11 @@ class PersonNameValidator:
         if item_issue:
             issues.append(item_issue)
 
+        # 7. 後置詞型パターンチェック（2025-12-16追加）★NEW
+        suffix_issue = self._check_suffix_patterns(person_name)
+        if suffix_issue:
+            issues.append(suffix_issue)
+
         return issues
 
     def _check_group_as_person(self, person_name: str) -> Optional[ValidationIssue]:
@@ -345,6 +350,104 @@ class PersonNameValidator:
                     auto_fixable=False,
                     fixed_value=None,
                 )
+
+        return None
+
+    def _check_suffix_patterns(self, person_name: str) -> Optional[ValidationIssue]:
+        """
+        後置詞型パターンの検出（役職/敬称/学術/関係）
+
+        検出パターン:
+        - 役職: 監督、議員、社長、CEO等
+        - 敬称: 氏、さん、様、殿、君
+        - 学術: 博士、教授、准教授等
+        - 関係: 夫人（個人名不明確なケースのみエラー）
+
+        Args:
+            person_name: 検証対象の人物名
+
+        Returns:
+            問題が検出された場合はValidationIssue、なければNone
+        """
+        SUFFIX_KEYWORDS = {
+            "役職": [
+                "監督",
+                "コーチ",
+                "議員",
+                "上院議員",
+                "下院議員",
+                "代議士",
+                "大統領",
+                "首相",
+                "総理",
+                "知事",
+                "市長",
+                "区長",
+                "大臣",
+                "長官",
+                "部長",
+                "課長",
+                "主任",
+                "会長",
+                "社長",
+                "副社長",
+                "CEO",
+                "CTO",
+                "CFO",
+                "リーダー",
+                "キャプテン",
+                "選手",
+                "プレーヤー",
+            ],
+            "敬称": ["氏", "さん", "様", "殿", "君"],
+            "学術": ["博士", "教授", "准教授", "助教授", "名誉教授", "先生", "師範", "師匠", "名人", "博士号"],
+            "関係": [
+                "夫人",  # 注：「夫」「子」は日本人名に頻出するため除外
+            ],
+        }
+
+        for category, suffixes in SUFFIX_KEYWORDS.items():
+            for suffix in suffixes:
+                if person_name.endswith(suffix):
+                    base_name = person_name[: -len(suffix)]
+
+                    # base_nameが短すぎる場合はスキップ（誤検出防止）
+                    if len(base_name) < 2:
+                        continue
+
+                    # 優先度と重大度の判定
+                    severity = Severity.INFO
+                    message = ""
+                    suggestion = None
+
+                    if category == "関係":
+                        severity = Severity.ERROR
+                        message = f"{category}語「{suffix}」が含まれています: 個人名が不明確です。本文から個人名を特定してください。"
+                        suggestion = f"本文から個人名を特定して「{base_name}」を正しい個人名に変更してください"
+                    elif len(base_name) <= 3 and category == "役職":
+                        severity = Severity.WARNING
+                        message = f"{category}語「{suffix}」が含まれています: 姓のみ+役職、同姓別人のリスクがあります"
+                        suggestion = f"フルネーム+役職（例: 「{base_name}[名] {suffix}」）に変更することを推奨します"
+                    elif category == "敬称":
+                        severity = Severity.INFO
+                        message = (
+                            f"{category}「{suffix}」が含まれています: 許容されますが、フルネームの確認を推奨します"
+                        )
+                        suggestion = None
+                    else:
+                        severity = Severity.INFO
+                        message = f"{category}語「{suffix}」が含まれています: フルネーム+後置詞で識別が明確であれば維持できます"
+                        suggestion = None
+
+                    return ValidationIssue(
+                        issue_type=IssueType.ORG_TITLE_CONTAMINATION,
+                        severity=severity,
+                        person_name=person_name,
+                        message=message,
+                        suggestion=suggestion,
+                        auto_fixable=False,
+                        fixed_value=None,
+                    )
 
         return None
 

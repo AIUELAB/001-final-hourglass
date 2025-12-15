@@ -1,20 +1,20 @@
 {
-  "timestamp": "2025-12-14T00:50:05.252478",
-  "total_persons": 7588,
-  "english_name_count": 782,
-  "english_name_ratio": 10.305745914602003,
+  "timestamp": "2025-12-16T08:15:20.366545",
+  "total_persons": 7213,
+  "english_name_count": 112,
+  "english_name_ratio": 1.5527519755996118,
   "classification": {
-    "to_translate": 684,
-    "keep_english": 62,
+    "to_translate": 15,
+    "keep_english": 61,
     "review_required": 36
   },
   "name_type_breakdown": {
-    "artist_name": 87,
-    "western_name": 651,
-    "romanized_japanese": 33,
-    "unknown": 11
+    "artist_name": 86,
+    "unknown": 11,
+    "western_name": 14,
+    "romanized_japanese": 1
   },
-  "keep_english_list_size": 176,
+  "keep_english_list_size": 175,
   "keep_english_names": [
     "A.B.C-Z",
     "AC/DC",
@@ -103,7 +103,6 @@
     "MIKIKO",
     "MISIA",
     "MUCC",
-    "Mackenyu",
     "Maroon 5",
     "May J.",
     "Mick Jagger",

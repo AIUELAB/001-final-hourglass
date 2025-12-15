@@ -16,6 +16,7 @@ birth_yearがデビュー年の場合、活動1年目、3年目、5年目など�
 import argparse
 import json
 import os
+import random
 import sys
 import uuid
 from datetime import datetime
@@ -38,9 +39,6 @@ API_KEY = os.getenv("ANTHROPIC_API_KEY")
 # VTuber/YouTuberカテゴリ
 VTUBER_CATEGORIES = ["VTuber", "YouTuber", "インフルエンサー"]
 
-# 活動年数ターゲット（1年目、3年目、5年目など）
-ACTIVITY_YEAR_TARGETS = [1, 3, 5, 7]
-
 
 def generate_episode_id() -> str:
     """episode_idを生成"""
@@ -57,18 +55,37 @@ def is_vtuber_debut_year(birth_year: float, sub_category: str) -> bool:
     return False
 
 
-def get_activity_years_to_generate(debut_year: int, existing_episodes: pd.DataFrame) -> list[int]:
-    """生成すべき活動年数を取得"""
-    current_year = 2024
+def get_activity_years_to_generate(
+    debut_year: int, existing_episodes: pd.DataFrame, num_episodes: int = 2
+) -> list[int]:
+    """
+    活動年数をランダムに選択（高品質優先）
+
+    Args:
+        debut_year: デビュー年
+        existing_episodes: 既存エピソード
+        num_episodes: 生成数（デフォルト: 2）
+
+    Returns:
+        活動年数のリスト（例: [2, 5]）
+    """
+    current_year = datetime.now().year
     max_activity = current_year - debut_year
 
-    # 既存エピソードの活動年数を推定（難しいので新規生成優先）
-    suggested = []
-    for target in ACTIVITY_YEAR_TARGETS:
-        if target <= max_activity:
-            suggested.append(target)
+    if max_activity < 1:
+        return [1]
 
-    return suggested[:2]  # 最大2つ
+    # 現実的な範囲に制限（最大10年まで）
+    realistic_max = min(max_activity, 10)
+
+    if realistic_max <= num_episodes:
+        selected = list(range(1, realistic_max + 1))
+    else:
+        candidates = list(range(1, realistic_max + 1))
+        selected = random.sample(candidates, num_episodes)
+
+    selected.sort()
+    return selected
 
 
 def generate_vtuber_episode(client, person_info: dict, activity_year: int) -> dict | None:
@@ -251,12 +268,13 @@ def main():
         print(f"\n[{i}/{len(targets)}] {name}")
 
         if debut_year:
-            activity_years = get_activity_years_to_generate(debut_year, db)
+            activity_years = get_activity_years_to_generate(debut_year, db, num_episodes=2)
             print(f"  デビュー: {debut_year}年, 活動年数候補: {activity_years}")
         else:
-            # デビュー年不明の場合は1年目と3年目を生成
-            activity_years = [1, 3]
-            print(f"  デビュー年不明, 活動年数: {activity_years}")
+            # 推定デビュー年（2018年）を使用
+            estimated_debut = 2018
+            activity_years = get_activity_years_to_generate(estimated_debut, db, num_episodes=2)
+            print(f"  デビュー年不明（推定{estimated_debut}年）, 活動年数候補: {activity_years}")
 
         for act_year in activity_years:
             person["debut_year"] = debut_year if debut_year else 2018

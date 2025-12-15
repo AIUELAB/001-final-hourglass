@@ -18,7 +18,6 @@ Phase 1 エピソード生成スクリプト
 """
 
 import argparse
-import csv
 import hashlib
 import os
 import sys

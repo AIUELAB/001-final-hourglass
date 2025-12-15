@@ -9,7 +9,6 @@ EPUP: 架空キャラクターエピソードのメタ的説明修正スクリ�
 import os
 import sys
 import re
-import json
 import pandas as pd
 from datetime import datetime
 from typing import List, Dict, Tuple, Optional

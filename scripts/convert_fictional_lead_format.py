@@ -19,7 +19,6 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.episode_lead_builder import (
-    WORK_TITLE_MAP,
     convert_episode_lead,
     get_work_title,
 )

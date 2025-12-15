@@ -20,7 +20,6 @@ yumeilist CSV から有名人・エピソードをインポートするスクリ
 """
 
 import argparse
-import csv
 import hashlib
 import json
 import os

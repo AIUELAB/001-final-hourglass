@@ -13,7 +13,7 @@ import sys
 import json
 import argparse
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import pandas as pd
 import anthropic
@@ -24,8 +24,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.group_master import (
     GROUP_ENTITIES,
     GROUP_MEMBER_MAP,
-    DISPERSION_RULES,
-    DispersionStrategy,
     get_dispersion_rule,
     get_group_members,
 )

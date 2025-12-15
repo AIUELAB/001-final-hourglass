@@ -1196,7 +1196,7 @@
         0
       ],
       [
-        2,
+        1,
         0,
         0,
         0,
@@ -2788,7 +2788,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -3155,7 +3155,7 @@
         0,
         0,
         0,
-        0,
+        34,
         0,
         0,
         0,
@@ -3522,7 +3522,7 @@
         0,
         0,
         0,
-        0,
+        6,
         0,
         0,
         0,
@@ -3889,7 +3889,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -4256,7 +4256,7 @@
         0,
         0,
         0,
-        0,
+        43,
         0,
         0,
         0,
@@ -4623,7 +4623,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -4990,7 +4990,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -5357,7 +5357,7 @@
         0,
         0,
         0,
-        0,
+        6,
         0,
         0,
         0,
@@ -5724,7 +5724,7 @@
         0,
         0,
         0,
-        0,
+        21,
         0,
         0,
         0,
@@ -6091,7 +6091,7 @@
         0,
         0,
         0,
-        0,
+        16,
         0,
         0,
         0,
@@ -6334,7 +6334,7 @@
         0
       ],
       [
-        0,
+        5,
         0,
         0,
         0,
@@ -6458,7 +6458,7 @@
         0,
         0,
         0,
-        0,
+        23,
         0,
         0,
         0,
@@ -6825,7 +6825,7 @@
         0,
         0,
         0,
-        0,
+        19,
         0,
         0,
         0,
@@ -7192,7 +7192,7 @@
         0,
         0,
         0,
-        0,
+        29,
         0,
         0,
         0,
@@ -7559,7 +7559,7 @@
         0,
         0,
         0,
-        0,
+        23,
         0,
         1,
         0,
@@ -7926,7 +7926,7 @@
         1,
         0,
         0,
-        1,
+        17,
         0,
         0,
         1,
@@ -8293,7 +8293,7 @@
         0,
         0,
         1,
-        0,
+        3,
         0,
         0,
         0,
@@ -8660,7 +8660,7 @@
         0,
         1,
         0,
-        0,
+        11,
         0,
         0,
         0,
@@ -9027,7 +9027,7 @@
         0,
         0,
         0,
-        0,
+        6,
         0,
         0,
         0,
@@ -9394,7 +9394,7 @@
         0,
         0,
         0,
-        2,
+        14,
         0,
         1,
         0,
@@ -9761,7 +9761,7 @@
         0,
         0,
         1,
-        0,
+        15,
         0,
         0,
         2,
@@ -10128,7 +10128,7 @@
         0,
         0,
         0,
-        0,
+        10,
         1,
         1,
         1,
@@ -10495,7 +10495,7 @@
         0,
         1,
         0,
-        0,
+        15,
         0,
         0,
         1,
@@ -10862,7 +10862,7 @@
         1,
         1,
         2,
-        2,
+        11,
         0,
         1,
         1,
@@ -11229,7 +11229,7 @@
         0,
         1,
         0,
-        0,
+        6,
         0,
         0,
         0,
@@ -11596,7 +11596,7 @@
         2,
         1,
         0,
-        0,
+        11,
         0,
         0,
         2,
@@ -11963,7 +11963,7 @@
         0,
         0,
         0,
-        0,
+        5,
         1,
         0,
         0,
@@ -12330,7 +12330,7 @@
         0,
         0,
         1,
-        1,
+        5,
         0,
         0,
         2,
@@ -12697,7 +12697,7 @@
         0,
         0,
         0,
-        0,
+        7,
         1,
         0,
         1,
@@ -13064,7 +13064,7 @@
         0,
         0,
         0,
-        1,
+        7,
         0,
         0,
         1,
@@ -13431,7 +13431,7 @@
         3,
         0,
         2,
-        2,
+        16,
         0,
         1,
         2,
@@ -13798,7 +13798,7 @@
         0,
         0,
         0,
-        0,
+        3,
         0,
         1,
         0,
@@ -14165,7 +14165,7 @@
         0,
         0,
         0,
-        1,
+        4,
         1,
         0,
         0,
@@ -14532,7 +14532,7 @@
         2,
         2,
         0,
-        0,
+        3,
         1,
         3,
         1,
@@ -14899,7 +14899,7 @@
         0,
         1,
         0,
-        0,
+        3,
         1,
         0,
         0,
@@ -15266,7 +15266,7 @@
         2,
         1,
         1,
-        2,
+        11,
         0,
         4,
         2,
@@ -15633,7 +15633,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         1,
@@ -16367,7 +16367,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         1,
@@ -16734,7 +16734,7 @@
         0,
         0,
         1,
-        0,
+        4,
         1,
         0,
         1,
@@ -17101,7 +17101,7 @@
         1,
         2,
         2,
-        3,
+        10,
         1,
         3,
         0,
@@ -17180,7 +17180,7 @@
         1,
         3,
         2,
-        6,
+        5,
         0,
         1,
         1,
@@ -17468,7 +17468,7 @@
         0,
         0,
         1,
-        0,
+        3,
         0,
         0,
         0,
@@ -17835,7 +17835,7 @@
         0,
         0,
         1,
-        1,
+        6,
         0,
         0,
         0,
@@ -18202,7 +18202,7 @@
         0,
         0,
         1,
-        1,
+        3,
         0,
         1,
         0,
@@ -18569,7 +18569,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -18936,7 +18936,7 @@
         1,
         1,
         1,
-        3,
+        10,
         1,
         1,
         0,
@@ -19670,7 +19670,7 @@
         1,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -20404,7 +20404,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -20771,7 +20771,7 @@
         0,
         2,
         4,
-        0,
+        4,
         0,
         0,
         1,
@@ -21138,7 +21138,7 @@
         0,
         0,
         1,
-        0,
+        2,
         0,
         0,
         1,
@@ -22239,7 +22239,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         1,
@@ -22606,7 +22606,7 @@
         0,
         0,
         0,
-        0,
+        8,
         1,
         0,
         1,
@@ -23340,7 +23340,7 @@
         0,
         0,
         1,
-        0,
+        1,
         0,
         0,
         0,
@@ -23707,7 +23707,7 @@
         0,
         0,
         1,
-        0,
+        1,
         0,
         0,
         0,
@@ -24441,7 +24441,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -25175,7 +25175,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -25542,7 +25542,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -25909,7 +25909,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -26276,7 +26276,7 @@
         0,
         0,
         0,
-        1,
+        11,
         0,
         1,
         1,
@@ -26643,7 +26643,7 @@
         0,
         0,
         0,
-        0,
+        13,
         0,
         0,
         0,
@@ -27010,7 +27010,7 @@
         0,
         0,
         0,
-        0,
+        8,
         0,
         0,
         0,
@@ -27377,7 +27377,7 @@
         0,
         0,
         0,
-        0,
+        10,
         0,
         0,
         0,
@@ -27744,7 +27744,7 @@
         0,
         0,
         0,
-        0,
+        9,
         0,
         0,
         0,
@@ -28111,7 +28111,7 @@
         0,
         0,
         0,
-        0,
+        12,
         0,
         0,
         0,
@@ -28478,7 +28478,7 @@
         0,
         0,
         0,
-        0,
+        5,
         0,
         0,
         0,
@@ -28845,7 +28845,7 @@
         0,
         0,
         0,
-        0,
+        12,
         0,
         0,
         0,
@@ -29212,7 +29212,7 @@
         0,
         0,
         0,
-        0,
+        6,
         0,
         0,
         0,
@@ -29579,7 +29579,7 @@
         0,
         0,
         0,
-        0,
+        11,
         0,
         0,
         0,
@@ -29946,7 +29946,7 @@
         0,
         0,
         0,
-        0,
+        5,
         0,
         0,
         0,
@@ -30313,7 +30313,7 @@
         0,
         0,
         0,
-        0,
+        10,
         0,
         0,
         0,
@@ -30680,7 +30680,7 @@
         0,
         0,
         0,
-        0,
+        5,
         0,
         0,
         0,
@@ -31047,7 +31047,7 @@
         0,
         0,
         0,
-        0,
+        11,
         0,
         0,
         0,
@@ -31414,7 +31414,7 @@
         0,
         0,
         0,
-        0,
+        3,
         0,
         0,
         0,
@@ -31781,7 +31781,7 @@
         0,
         0,
         0,
-        0,
+        10,
         0,
         0,
         0,
@@ -32515,7 +32515,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -32882,7 +32882,7 @@
         0,
         0,
         0,
-        0,
+        2,
         0,
         0,
         0,
@@ -33249,7 +33249,7 @@
         0,
         0,
         0,
-        0,
+        3,
         1,
         0,
         0,
@@ -33616,7 +33616,7 @@
         0,
         0,
         0,
-        0,
+        3,
         0,
         0,
         0,
@@ -34321,14 +34321,14 @@
     ]
   },
   "coverage_stats": {
-    "total_current": 9037,
+    "total_current": 9645,
     "total_target": 33215,
-    "gap": 24178,
-    "overall_coverage_percent": 27.21,
-    "real_count": 8974,
-    "fictional_count": 63,
-    "bonus_count": 664,
-    "total_all": 9701,
+    "gap": 23570,
+    "overall_coverage_percent": 29.04,
+    "real_count": 9358,
+    "fictional_count": 67,
+    "bonus_count": 42,
+    "total_all": 9687,
     "age_range": {
       "min": 0,
       "max": 90
@@ -34349,9 +34349,9 @@
         "coverage_percent": 1.92
       },
       "2": {
-        "current": 6,
+        "current": 5,
         "target": 365,
-        "coverage_percent": 1.64
+        "coverage_percent": 1.37
       },
       "3": {
         "current": 6,
@@ -34369,184 +34369,184 @@
         "coverage_percent": 2.74
       },
       "6": {
-        "current": 8,
+        "current": 9,
         "target": 365,
-        "coverage_percent": 2.19
+        "coverage_percent": 2.47
       },
       "7": {
-        "current": 7,
+        "current": 41,
         "target": 365,
-        "coverage_percent": 1.92
+        "coverage_percent": 11.23
       },
       "8": {
-        "current": 6,
+        "current": 12,
         "target": 365,
-        "coverage_percent": 1.64
+        "coverage_percent": 3.29
       },
       "9": {
-        "current": 7,
-        "target": 365,
-        "coverage_percent": 1.92
-      },
-      "10": {
-        "current": 6,
-        "target": 365,
-        "coverage_percent": 1.64
-      },
-      "11": {
-        "current": 7,
-        "target": 365,
-        "coverage_percent": 1.92
-      },
-      "12": {
         "current": 8,
         "target": 365,
         "coverage_percent": 2.19
       },
-      "13": {
-        "current": 6,
+      "10": {
+        "current": 49,
         "target": 365,
-        "coverage_percent": 1.64
+        "coverage_percent": 13.42
+      },
+      "11": {
+        "current": 8,
+        "target": 365,
+        "coverage_percent": 2.19
+      },
+      "12": {
+        "current": 9,
+        "target": 365,
+        "coverage_percent": 2.47
+      },
+      "13": {
+        "current": 12,
+        "target": 365,
+        "coverage_percent": 3.29
       },
       "14": {
-        "current": 26,
-        "target": 365,
-        "coverage_percent": 7.12
-      },
-      "15": {
-        "current": 39,
-        "target": 365,
-        "coverage_percent": 10.68
-      },
-      "16": {
-        "current": 24,
-        "target": 365,
-        "coverage_percent": 6.58
-      },
-      "17": {
-        "current": 35,
-        "target": 365,
-        "coverage_percent": 9.59
-      },
-      "18": {
-        "current": 37,
-        "target": 365,
-        "coverage_percent": 10.14
-      },
-      "19": {
         "current": 47,
         "target": 365,
         "coverage_percent": 12.88
       },
-      "20": {
-        "current": 157,
+      "15": {
+        "current": 55,
         "target": 365,
-        "coverage_percent": 43.01
+        "coverage_percent": 15.07
       },
-      "21": {
+      "16": {
+        "current": 52,
+        "target": 365,
+        "coverage_percent": 14.25
+      },
+      "17": {
+        "current": 54,
+        "target": 365,
+        "coverage_percent": 14.79
+      },
+      "18": {
+        "current": 66,
+        "target": 365,
+        "coverage_percent": 18.08
+      },
+      "19": {
         "current": 70,
         "target": 365,
         "coverage_percent": 19.18
       },
+      "20": {
+        "current": 173,
+        "target": 365,
+        "coverage_percent": 47.4
+      },
+      "21": {
+        "current": 73,
+        "target": 365,
+        "coverage_percent": 20.0
+      },
       "22": {
+        "current": 131,
+        "target": 365,
+        "coverage_percent": 35.89
+      },
+      "23": {
+        "current": 86,
+        "target": 365,
+        "coverage_percent": 23.56
+      },
+      "24": {
+        "current": 198,
+        "target": 365,
+        "coverage_percent": 54.25
+      },
+      "25": {
+        "current": 513,
+        "target": 365,
+        "coverage_percent": 140.55
+      },
+      "26": {
+        "current": 217,
+        "target": 365,
+        "coverage_percent": 59.45
+      },
+      "27": {
+        "current": 151,
+        "target": 365,
+        "coverage_percent": 41.37
+      },
+      "28": {
+        "current": 350,
+        "target": 365,
+        "coverage_percent": 95.89
+      },
+      "29": {
+        "current": 130,
+        "target": 365,
+        "coverage_percent": 35.62
+      },
+      "30": {
+        "current": 432,
+        "target": 365,
+        "coverage_percent": 118.36
+      },
+      "31": {
+        "current": 106,
+        "target": 365,
+        "coverage_percent": 29.04
+      },
+      "32": {
+        "current": 281,
+        "target": 365,
+        "coverage_percent": 76.99
+      },
+      "33": {
         "current": 120,
         "target": 365,
         "coverage_percent": 32.88
       },
-      "23": {
-        "current": 80,
-        "target": 365,
-        "coverage_percent": 21.92
-      },
-      "24": {
-        "current": 186,
-        "target": 365,
-        "coverage_percent": 50.96
-      },
-      "25": {
-        "current": 498,
-        "target": 365,
-        "coverage_percent": 136.44
-      },
-      "26": {
-        "current": 207,
-        "target": 365,
-        "coverage_percent": 56.71
-      },
-      "27": {
-        "current": 136,
-        "target": 365,
-        "coverage_percent": 37.26
-      },
-      "28": {
-        "current": 341,
-        "target": 365,
-        "coverage_percent": 93.42
-      },
-      "29": {
-        "current": 124,
-        "target": 365,
-        "coverage_percent": 33.97
-      },
-      "30": {
-        "current": 421,
-        "target": 365,
-        "coverage_percent": 115.34
-      },
-      "31": {
-        "current": 101,
-        "target": 365,
-        "coverage_percent": 27.67
-      },
-      "32": {
-        "current": 277,
-        "target": 365,
-        "coverage_percent": 75.89
-      },
-      "33": {
-        "current": 113,
-        "target": 365,
-        "coverage_percent": 30.96
-      },
       "34": {
-        "current": 78,
+        "current": 84,
         "target": 365,
-        "coverage_percent": 21.37
+        "coverage_percent": 23.01
       },
       "35": {
-        "current": 804,
+        "current": 818,
         "target": 365,
-        "coverage_percent": 220.27
+        "coverage_percent": 224.11
       },
       "36": {
-        "current": 82,
+        "current": 85,
         "target": 365,
-        "coverage_percent": 22.47
+        "coverage_percent": 23.29
       },
       "37": {
-        "current": 70,
+        "current": 73,
         "target": 365,
-        "coverage_percent": 19.18
+        "coverage_percent": 20.0
       },
       "38": {
-        "current": 292,
+        "current": 295,
         "target": 365,
-        "coverage_percent": 80.0
+        "coverage_percent": 80.82
       },
       "39": {
-        "current": 86,
+        "current": 89,
         "target": 365,
-        "coverage_percent": 23.56
+        "coverage_percent": 24.38
       },
       "40": {
-        "current": 687,
+        "current": 696,
         "target": 365,
-        "coverage_percent": 188.22
+        "coverage_percent": 190.68
       },
       "41": {
-        "current": 86,
+        "current": 88,
         "target": 365,
-        "coverage_percent": 23.56
+        "coverage_percent": 24.11
       },
       "42": {
         "current": 274,
@@ -34554,44 +34554,44 @@
         "coverage_percent": 75.07
       },
       "43": {
-        "current": 97,
+        "current": 99,
         "target": 365,
-        "coverage_percent": 26.58
+        "coverage_percent": 27.12
       },
       "44": {
-        "current": 94,
+        "current": 98,
         "target": 365,
-        "coverage_percent": 25.75
+        "coverage_percent": 26.85
       },
       "45": {
-        "current": 694,
+        "current": 700,
         "target": 365,
-        "coverage_percent": 190.14
+        "coverage_percent": 191.78
       },
       "46": {
-        "current": 68,
+        "current": 71,
         "target": 365,
-        "coverage_percent": 18.63
+        "coverage_percent": 19.45
       },
       "47": {
-        "current": 82,
+        "current": 87,
         "target": 365,
-        "coverage_percent": 22.47
+        "coverage_percent": 23.84
       },
       "48": {
-        "current": 195,
+        "current": 197,
         "target": 365,
-        "coverage_percent": 53.42
+        "coverage_percent": 53.97
       },
       "49": {
-        "current": 46,
+        "current": 48,
         "target": 365,
-        "coverage_percent": 12.6
+        "coverage_percent": 13.15
       },
       "50": {
-        "current": 460,
+        "current": 467,
         "target": 365,
-        "coverage_percent": 126.03
+        "coverage_percent": 127.95
       },
       "51": {
         "current": 47,
@@ -34599,9 +34599,9 @@
         "coverage_percent": 12.88
       },
       "52": {
-        "current": 118,
+        "current": 119,
         "target": 365,
-        "coverage_percent": 32.33
+        "coverage_percent": 32.6
       },
       "53": {
         "current": 43,
@@ -34609,19 +34609,19 @@
         "coverage_percent": 11.78
       },
       "54": {
-        "current": 55,
+        "current": 57,
         "target": 365,
-        "coverage_percent": 15.07
+        "coverage_percent": 15.62
       },
       "55": {
-        "current": 309,
+        "current": 313,
         "target": 365,
-        "coverage_percent": 84.66
+        "coverage_percent": 85.75
       },
       "56": {
-        "current": 61,
+        "current": 63,
         "target": 365,
-        "coverage_percent": 16.71
+        "coverage_percent": 17.26
       },
       "57": {
         "current": 52,
@@ -34634,14 +34634,14 @@
         "coverage_percent": 28.22
       },
       "59": {
-        "current": 49,
+        "current": 50,
         "target": 365,
-        "coverage_percent": 13.42
+        "coverage_percent": 13.7
       },
       "60": {
-        "current": 163,
+        "current": 171,
         "target": 365,
-        "coverage_percent": 44.66
+        "coverage_percent": 46.85
       },
       "61": {
         "current": 51,
@@ -34649,14 +34649,14 @@
         "coverage_percent": 13.97
       },
       "62": {
-        "current": 55,
+        "current": 56,
         "target": 365,
-        "coverage_percent": 15.07
+        "coverage_percent": 15.34
       },
       "63": {
-        "current": 50,
+        "current": 51,
         "target": 365,
-        "coverage_percent": 13.7
+        "coverage_percent": 13.97
       },
       "64": {
         "current": 40,
@@ -34664,9 +34664,9 @@
         "coverage_percent": 10.96
       },
       "65": {
-        "current": 102,
+        "current": 103,
         "target": 365,
-        "coverage_percent": 27.95
+        "coverage_percent": 28.22
       },
       "66": {
         "current": 39,
@@ -34674,99 +34674,99 @@
         "coverage_percent": 10.68
       },
       "67": {
-        "current": 30,
+        "current": 32,
         "target": 365,
-        "coverage_percent": 8.22
+        "coverage_percent": 8.77
       },
       "68": {
-        "current": 39,
+        "current": 41,
         "target": 365,
-        "coverage_percent": 10.68
+        "coverage_percent": 11.23
       },
       "69": {
-        "current": 30,
+        "current": 31,
         "target": 365,
-        "coverage_percent": 8.22
+        "coverage_percent": 8.49
       },
       "70": {
-        "current": 61,
+        "current": 71,
         "target": 365,
-        "coverage_percent": 16.71
+        "coverage_percent": 19.45
       },
       "71": {
+        "current": 31,
+        "target": 365,
+        "coverage_percent": 8.49
+      },
+      "72": {
+        "current": 31,
+        "target": 365,
+        "coverage_percent": 8.49
+      },
+      "73": {
+        "current": 26,
+        "target": 365,
+        "coverage_percent": 7.12
+      },
+      "74": {
+        "current": 22,
+        "target": 365,
+        "coverage_percent": 6.03
+      },
+      "75": {
+        "current": 45,
+        "target": 365,
+        "coverage_percent": 12.33
+      },
+      "76": {
+        "current": 15,
+        "target": 365,
+        "coverage_percent": 4.11
+      },
+      "77": {
         "current": 18,
         "target": 365,
         "coverage_percent": 4.93
       },
-      "72": {
-        "current": 23,
+      "78": {
+        "current": 12,
         "target": 365,
-        "coverage_percent": 6.3
+        "coverage_percent": 3.29
       },
-      "73": {
+      "79": {
+        "current": 17,
+        "target": 365,
+        "coverage_percent": 4.66
+      },
+      "80": {
+        "current": 24,
+        "target": 365,
+        "coverage_percent": 6.58
+      },
+      "81": {
+        "current": 17,
+        "target": 365,
+        "coverage_percent": 4.66
+      },
+      "82": {
+        "current": 12,
+        "target": 365,
+        "coverage_percent": 3.29
+      },
+      "83": {
         "current": 16,
         "target": 365,
         "coverage_percent": 4.38
       },
-      "74": {
-        "current": 13,
-        "target": 365,
-        "coverage_percent": 3.56
-      },
-      "75": {
-        "current": 33,
-        "target": 365,
-        "coverage_percent": 9.04
-      },
-      "76": {
+      "84": {
         "current": 10,
         "target": 365,
         "coverage_percent": 2.74
       },
-      "77": {
-        "current": 6,
-        "target": 365,
-        "coverage_percent": 1.64
-      },
-      "78": {
-        "current": 6,
-        "target": 365,
-        "coverage_percent": 1.64
-      },
-      "79": {
-        "current": 6,
-        "target": 365,
-        "coverage_percent": 1.64
-      },
-      "80": {
-        "current": 19,
-        "target": 365,
-        "coverage_percent": 5.21
-      },
-      "81": {
-        "current": 7,
-        "target": 365,
-        "coverage_percent": 1.92
-      },
-      "82": {
-        "current": 7,
-        "target": 365,
-        "coverage_percent": 1.92
-      },
-      "83": {
-        "current": 5,
-        "target": 365,
-        "coverage_percent": 1.37
-      },
-      "84": {
-        "current": 7,
-        "target": 365,
-        "coverage_percent": 1.92
-      },
       "85": {
-        "current": 7,
+        "current": 17,
         "target": 365,
-        "coverage_percent": 1.92
+        "coverage_percent": 4.66
       },
       "86": {
         "current": 5,
@@ -34774,138 +34774,133 @@
         "coverage_percent": 1.37
       },
       "87": {
-        "current": 6,
+        "current": 8,
         "target": 365,
-        "coverage_percent": 1.64
+        "coverage_percent": 2.19
       },
       "88": {
-        "current": 4,
-        "target": 365,
-        "coverage_percent": 1.1
-      },
-      "89": {
-        "current": 7,
-        "target": 365,
-        "coverage_percent": 1.92
-      },
-      "90": {
         "current": 6,
         "target": 365,
         "coverage_percent": 1.64
+      },
+      "89": {
+        "current": 10,
+        "target": 365,
+        "coverage_percent": 2.74
+      },
+      "90": {
+        "current": 9,
+        "target": 365,
+        "coverage_percent": 2.47
       }
     }
   },
   "category_coverage": [
     {
       "name": "スポーツ",
-      "count": 1248,
-      "percent": 13.81
+      "count": 1309,
+      "percent": 13.57
     },
     {
       "name": "芸術・文化",
-      "count": 1070,
-      "percent": 11.84
-    },
-    {
-      "name": "エンターテイメント",
-      "count": 1004,
-      "percent": 11.11
-    },
-    {
-      "name": "科学・技術",
-      "count": 815,
-      "percent": 9.02
-    },
-    {
-      "name": "ビジネス",
-      "count": 774,
-      "percent": 8.56
+      "count": 1092,
+      "percent": 11.32
     },
     {
       "name": "音楽",
-      "count": 744,
-      "percent": 8.23
+      "count": 1053,
+      "percent": 10.92
+    },
+    {
+      "name": "エンターテイメント",
+      "count": 1050,
+      "percent": 10.89
+    },
+    {
+      "name": "科学・技術",
+      "count": 835,
+      "percent": 8.66
+    },
+    {
+      "name": "ビジネス",
+      "count": 805,
+      "percent": 8.35
     },
     {
       "name": "学術・研究",
-      "count": 627,
-      "percent": 6.94
+      "count": 637,
+      "percent": 6.6
     },
     {
       "name": "政治・社会",
-      "count": 609,
-      "percent": 6.74
+      "count": 636,
+      "percent": 6.59
     },
     {
       "name": "映画・演劇",
-      "count": 526,
-      "percent": 5.82
+      "count": 535,
+      "percent": 5.55
     },
     {
       "name": "文学",
-      "count": 425,
-      "percent": 4.7
+      "count": 454,
+      "percent": 4.71
     },
     {
       "name": "アニメ・漫画・ゲーム",
-      "count": 392,
-      "percent": 4.34
+      "count": 404,
+      "percent": 4.19
     },
     {
       "name": "俳優・女優",
-      "count": 287,
-      "percent": 3.18
+      "count": 301,
+      "percent": 3.12
     },
     {
       "name": "歴史",
-      "count": 286,
-      "percent": 3.16
+      "count": 288,
+      "percent": 2.99
     },
     {
       "name": "探検・冒険",
       "count": 230,
-      "percent": 2.55
+      "percent": 2.38
+    },
+    {
+      "name": "その他",
+      "count": 6,
+      "percent": 0.06
+    },
+    {
+      "name": "アナウンサー・キャスター",
+      "count": 3,
+      "percent": 0.03
+    },
+    {
+      "name": "医学・健康",
+      "count": 3,
+      "percent": 0.03
+    },
+    {
+      "name": "宗教",
+      "count": 2,
+      "percent": 0.02
+    },
+    {
+      "name": "VTuber",
+      "count": 1,
+      "percent": 0.01
+    },
+    {
+      "name": "司会者・MC",
+      "count": 1,
+      "percent": 0.01
     },
     {
       "name": "皇室",
       "count": 0,
       "percent": 0.0
-    },
-    {
-      "name": "宗教",
-      "count": 0,
-      "percent": 0.0
-    },
-    {
-      "name": "VTuber",
-      "count": 0,
-      "percent": 0.0
-    },
-    {
-      "name": "アナウンサー・キャスター",
-      "count": 0,
-      "percent": 0.0
-    },
-    {
-      "name": "司会者・MC",
-      "count": 0,
-      "percent": 0.0
-    },
-    {
-      "name": "医学・健康",
-      "count": 0,
-      "percent": 0.0
-    },
-    {
-      "name": "その他",
-      "count": 0,
-      "percent": 0.0
-    },
-    {
-      "name": "音楜",
-      "count": 0,
-      "percent": 0.0
     }
   ],
-  "generated_at": "2025-12-14T20:32:34.788676"
+  "generated_at": "2025-12-15T13:53:17.666350"
 }

@@ -6,13 +6,12 @@ Phase 1: 単一エピソード生成スクリプト（人間確認付き）
 PDCAGuardian統合により、90ルールで自動検証を行います。
 """
 
-import json
 import os
 import sqlite3
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 # プロジェクトルートをパスに追加
 project_root = Path(__file__).parent.parent

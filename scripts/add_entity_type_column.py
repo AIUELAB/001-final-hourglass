@@ -23,7 +23,6 @@ entity_type の値:
 
 import argparse
 import csv
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -33,7 +32,7 @@ from typing import Optional
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP, is_group_entity
+from src.group_master import GROUP_MEMBER_MAP, is_group_entity
 
 # CSVパス
 MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"

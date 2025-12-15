@@ -18,7 +18,7 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).parent.parent

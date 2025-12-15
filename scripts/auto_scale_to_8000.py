@@ -17,11 +17,8 @@
     ANTHROPIC_API_KEY: Anthropic APIキー（必須）
 """
 
-import csv
 import hashlib
-import json
 import os
-import re
 import sys
 import time
 import traceback

@@ -9,7 +9,6 @@
 4. 再生成キュー作成（架空キャラで修正可能なものをリストアップ）
 """
 
-import os
 import re
 import sys
 from datetime import datetime
@@ -187,7 +186,7 @@ class EpisodeDataCleaner:
                 print(f"   ... 他 {count - 5}件")
 
         print("\n" + "-" * 60)
-        print(f"📈 サマリー")
+        print("📈 サマリー")
         print(f"   総問題件数: {total_issues}件")
         print(f"   削除対象: {delete_count}件")
         print(f"   再生成対象: {regenerate_count}件")
@@ -221,7 +220,13 @@ class EpisodeDataCleaner:
 
         # 削除対象のインデックスを収集
         delete_indices = []
-        for category in ["deceased_age_exceeded", "living_future_age", "unknown_person", "group_not_individual", "format_invalid"]:
+        for category in [
+            "deceased_age_exceeded",
+            "living_future_age",
+            "unknown_person",
+            "group_not_individual",
+            "format_invalid",
+        ]:
             for item in self.issues[category]:
                 delete_indices.append(item["index"])
 

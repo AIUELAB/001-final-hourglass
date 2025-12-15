@@ -17,7 +17,6 @@ yumeilist251128.csvのTier1人物でエピソード数が少ない人物に対�
 """
 
 import argparse
-import hashlib
 import json
 import os
 import sys

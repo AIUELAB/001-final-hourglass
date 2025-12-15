@@ -29,7 +29,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # 生年データベースをインポート
-from src.birth_year_database import get_birth_year, get_max_valid_age
+from src.birth_year_database import get_birth_year
 
 # Anthropic API
 try:

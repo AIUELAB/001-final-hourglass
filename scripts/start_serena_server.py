@@ -4,7 +4,6 @@
 Claude Code起動時に自動的にSerenaサーバーを起動する永続設定
 """
 
-import atexit
 import json
 import os
 import signal

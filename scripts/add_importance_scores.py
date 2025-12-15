@@ -11,7 +11,6 @@
 import csv
 import sys
 from datetime import datetime
-from typing import Dict, List
 
 # ファイルパス
 MASTER_CSV = "MASTER_EPISODES_CURRENT.csv"

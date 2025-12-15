@@ -12,9 +12,7 @@ import anthropic
 import csv
 import json
 import os
-import re
 import sys
-from datetime import datetime
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent

@@ -10,7 +10,6 @@ Phase 1: 全年齢100本達成のための人物・年齢マッチング
 
 import pandas as pd
 import argparse
-from pathlib import Path
 from datetime import datetime
 
 

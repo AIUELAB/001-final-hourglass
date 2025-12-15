@@ -5,7 +5,6 @@ import sys
 from dataclasses import asdict
 from pathlib import Path
 
-import pytest
 
 # モジュール直接インポート用
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))

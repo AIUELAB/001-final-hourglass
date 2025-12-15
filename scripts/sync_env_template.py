@@ -7,7 +7,7 @@
 import re
 import sys
 from pathlib import Path
-from typing import Dict, Set
+from typing import Dict
 
 
 def parse_env_file(file_path: Path) -> Dict[str, str]:

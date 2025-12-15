@@ -20,9 +20,72 @@ description: 新規エピソードDB作業（ダッシュボード更新・デ�
 | **ダッシュボード** | `preserved/episode_database_dashboard_v*.html` |
 | **旧バージョン保存先** | `archive/dashboards/` |
 
+## 🚨 バージョンアップ重要ルール
+
+### ❌ 絶対禁止
+- **ユーザーからの明示的な指示がない限り、バージョンアップは実行しない**
+- 勝手にバージョン番号を上げる行為は厳禁
+
+### ✅ バージョンアップが許可される条件
+- ユーザーが「バージョンを上げて」「v9にして」などと明示的に指示した場合のみ
+
+## 📡 ダッシュボードアクセス方法
+
+### ✅ 正しい方法（HTTPサーバー経由）
+
+```bash
+# プロジェクトルートで実行
+# プロジェクト定義のポート範囲: 8000-8082（推奨）
+python -m http.server 8082  # ダッシュボード用推奨ポート
+# または
+python -m http.server 8081  # 代替ポート
+python -m http.server 8080  # 代替ポート
+
+# 起動メッセージで実際のポート番号を確認
+# 例: Serving HTTP on 0.0.0.0 port 8082 (http://0.0.0.0:8082/) ...
+
+# ブラウザでアクセス（実際のポート番号を使用）
+http://localhost:8082/preserved/episode_database_dashboard_v8.html
+```
+
+**プロジェクト定義のポート範囲：**
+
+| ポート | 用途 | 優先度 |
+|--------|------|--------|
+| **8082** | HTTPサーバー（ダッシュボード配信） | ✅ 推奨 |
+| **8081** | HTTPサーバー代替 | ⭕ 推奨 |
+| **8080** | HTTPサーバー代替 | ⭕ 推奨 |
+| **8000** | FastAPI バックエンド | ⚠️ API用に予約 |
+
+**注意事項：**
+
+- **8000番はFastAPI用に予約されているため避ける**
+- 8082番が推奨（ダッシュボード専用）
+- 使用中の場合は8081, 8080を使用
+- 起動時のメッセージで実際のポート番号を必ず確認
+
+**詳細参照：** `docs/EPISODE_DB_STARTUP_GUIDE.md` - ポート番号の詳細仕様
+
+### ❌ 禁止方法（file://プロトコル）
+
+```text
+file:///Users/.../episode_database_dashboard_v8.html
+→ CORS制限によりCSVファイル読み込み不可
+→ JavaScriptの機能が制限され、ダッシュボードが正常に動作しない
+```
+
+**理由：**
+
+- CORS（Cross-Origin Resource Sharing）制限
+- fetch API制限
+- ローカルファイルアクセス制限
+
 ## 作業タイプ別ガイド
 
 ### 1. ダッシュボードのバージョンアップ
+
+**🔴 前提条件：ユーザーからの明示的な指示があること**
+
 ```bash
 # 現在の正規版を確認
 python scripts/check_single_dashboard.py
@@ -34,6 +97,11 @@ python scripts/check_single_dashboard.py
 
 # ヒートマップデータ更新
 python scripts/generate_heatmap_data.py --embed --html preserved/episode_database_dashboard_v8.html
+
+# HTTPサーバー起動して動作確認
+python -m http.server 8082  # ダッシュボード用推奨ポート
+# 起動メッセージでポート番号を確認してブラウザでアクセス
+# → http://localhost:8082/preserved/episode_database_dashboard_v8.html
 ```
 
 ### 2. エピソードデータ追加

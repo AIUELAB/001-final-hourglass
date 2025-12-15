@@ -7,12 +7,10 @@ and automation scripts in the project.
 """
 
 import ast
-import os
 import re
 import shutil
-import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Tuple
 
 
 class NotificationIntegrator:

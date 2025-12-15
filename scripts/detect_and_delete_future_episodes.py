@@ -7,12 +7,10 @@
 """
 
 import argparse
-import csv
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
@@ -24,9 +22,6 @@ from src.birth_year_database import (
     BIRTH_YEARS,
     CURRENT_YEAR,
     get_birth_year,
-    get_max_valid_age,
-    is_future_episode,
-    validate_episode_age,
 )
 
 # パス設定

@@ -13,12 +13,11 @@ IDEキャッシュクリア自動化スクリプト
 """
 
 import logging
-import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 # ログ設定
 logging.basicConfig(

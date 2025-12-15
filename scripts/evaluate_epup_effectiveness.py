@@ -34,7 +34,7 @@ from src.group_master import (
     is_group_entity,
     get_dispersion_rule,
 )
-from evaluate_content_density import calculate_content_density_quality, REDUNDANCY_PATTERNS
+from evaluate_content_density import calculate_content_density_quality
 
 
 def evaluate_group_master_coverage(df: pd.DataFrame) -> dict:
@@ -1806,7 +1806,7 @@ def auto_fix_group_violations(df: pd.DataFrame, csv_path: Path) -> dict:
     Returns:
         修正結果サマリ
     """
-    from src.group_master import DISPERSION_RULES, DispersionStrategy
+    from src.group_master import DispersionStrategy
 
     violations = []
     fixed = []

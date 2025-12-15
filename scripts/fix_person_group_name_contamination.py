@@ -23,11 +23,10 @@
 import argparse
 import json
 import os
-import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 import pandas as pd
 
@@ -35,7 +34,7 @@ import pandas as pd
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP, get_group_info
+from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP
 
 # Anthropic API（オプション）
 try:

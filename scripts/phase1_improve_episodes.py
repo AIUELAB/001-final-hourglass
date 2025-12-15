@@ -13,7 +13,6 @@ Phase 1エピソード品質改善スクリプト
 5. 150-250文字への最適化
 """
 
-import json
 import os
 import sqlite3
 import sys

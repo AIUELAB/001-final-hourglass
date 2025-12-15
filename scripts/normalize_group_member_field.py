@@ -100,6 +100,90 @@ def analyze_current_state(df: pd.DataFrame) -> dict:
     }
 
 
+def check_group_consistency(df: pd.DataFrame) -> dict:
+    """
+    group_name と is_group_member の整合性をチェック
+
+    ルール:
+    - group_name が "未登録" または空 → is_group_member = False
+    - group_name に具体的な値 → is_group_member = True
+
+    Args:
+        df: DataFrame
+
+    Returns:
+        dict: 整合性チェック結果
+    """
+    inconsistencies = []
+
+    for idx, row in df.iterrows():
+        group_name = row.get("group_name", "")
+        is_member = row.get("is_group_member")
+
+        # 未登録・空の場合
+        if pd.isna(group_name) or group_name == "" or group_name == "未登録":
+            if is_member is not False:
+                inconsistencies.append(
+                    {
+                        "index": idx,
+                        "person_name": row.get("person_name", "不明"),
+                        "group_name": group_name,
+                        "is_group_member": is_member,
+                        "expected": False,
+                        "reason": "group_name is empty or 未登録",
+                    }
+                )
+        # 具体的なグループ名がある場合
+        else:
+            if is_member is not True:
+                inconsistencies.append(
+                    {
+                        "index": idx,
+                        "person_name": row.get("person_name", "不明"),
+                        "group_name": group_name,
+                        "is_group_member": is_member,
+                        "expected": True,
+                        "reason": f"group_name is {group_name}",
+                    }
+                )
+
+    return {"total_checked": len(df), "inconsistencies": inconsistencies, "inconsistency_count": len(inconsistencies)}
+
+
+def fix_group_consistency(df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+    """
+    group_name に基づいて is_group_member を修正
+
+    Args:
+        df: DataFrame
+
+    Returns:
+        tuple: (修正されたDataFrame, 修正統計)
+    """
+    df = df.copy()
+    stats = {"fixed": 0, "unchanged": 0}
+
+    for idx, row in df.iterrows():
+        group_name = row.get("group_name", "")
+
+        # 未登録・空 → False
+        if pd.isna(group_name) or group_name == "" or group_name == "未登録":
+            if row["is_group_member"]:
+                df.loc[idx, "is_group_member"] = False
+                stats["fixed"] += 1
+            else:
+                stats["unchanged"] += 1
+        # 具体的なグループ名 → True
+        else:
+            if not row["is_group_member"]:
+                df.loc[idx, "is_group_member"] = True
+                stats["fixed"] += 1
+            else:
+                stats["unchanged"] += 1
+
+    return df, stats
+
+
 def normalize_dataframe(df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     """
     DataFrameのis_group_memberカラムを正規化
@@ -147,6 +231,8 @@ def main():
     parser.add_argument("--csv", default=CSV_PATH, help="対象CSVファイル")
     parser.add_argument("--execute", action="store_true", help="実際に正規化を実行")
     parser.add_argument("--analyze-only", action="store_true", help="分析のみ（正規化しない）")
+    parser.add_argument("--with-group-check", action="store_true", help="group_nameとの整合性もチェック・修正")
+    parser.add_argument("--check-only", action="store_true", help="整合性チェックのみ（修正なし）")
     args = parser.parse_args()
 
     print("=" * 70)
@@ -180,9 +266,42 @@ def main():
         print("\n⚠️ --analyze-only モード: 正規化は実行しません")
         return
 
+    # 整合性チェックのみモード
+    if args.check_only:
+        print("\n🔍 group_nameとの整合性チェック...")
+        consistency = check_group_consistency(df)
+
+        print("\n📊 整合性チェック結果:")
+        print(f"   総レコード数: {consistency['total_checked']}")
+        print(f"   不整合: {consistency['inconsistency_count']}件")
+
+        if consistency["inconsistency_count"] > 0:
+            print("\n⚠️ 不整合の例（最初の5件）:")
+            for i, inc in enumerate(consistency["inconsistencies"][:5]):
+                print(f"   {i+1}. {inc['person_name']}")
+                print(f"      group_name: '{inc['group_name']}'")
+                print(f"      is_group_member: {inc['is_group_member']} (期待値: {inc['expected']})")
+        else:
+            print("   ✅ 整合性問題なし")
+
+        return
+
     # 正規化実行
     print("\n🔧 正規化処理...")
     df_normalized, stats = normalize_dataframe(df)
+
+    # group_nameとの整合性もチェック・修正
+    if args.with_group_check:
+        print("\n🔍 group_nameとの整合性チェック・修正...")
+        consistency_before = check_group_consistency(df_normalized)
+        print(f"   整合性チェック前の不整合: {consistency_before['inconsistency_count']}件")
+
+        if consistency_before["inconsistency_count"] > 0:
+            df_normalized, fix_stats = fix_group_consistency(df_normalized)
+            print(f"   整合性修正: {fix_stats['fixed']}件")
+
+            consistency_after = check_group_consistency(df_normalized)
+            print(f"   整合性チェック後の不整合: {consistency_after['inconsistency_count']}件")
 
     print("\n📊 変換結果:")
     print(f"   True維持: {stats['unchanged_true']}件")

@@ -31,9 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.group_master import (
     GROUP_ENTITIES,
     GROUP_MEMBER_MAP,
-    DISPERSION_RULES,
     DispersionStrategy,
-    get_group_info,
     get_dispersion_rule,
     get_group_members,
 )

@@ -32,7 +32,6 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.group_master import (
-    GROUP_MEMBER_MAP,
     SOLO_ARTISTS,
     get_group_info,
     get_statistics,

@@ -3,16 +3,13 @@
 Tests for Remote MCP Server Integration
 """
 
-import asyncio
 import json
 import os
 
 # Add src to path
 import sys
 from datetime import datetime, timedelta
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
-import aiohttp
 import pytest
 
 # aioresponsesはoptional依存関係

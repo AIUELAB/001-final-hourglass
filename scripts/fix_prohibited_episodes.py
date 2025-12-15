@@ -8,7 +8,6 @@
 import pandas as pd
 import json
 import os
-import sys
 import re
 import time
 from datetime import datetime

@@ -266,6 +266,42 @@ SPORT_KEYWORDS = [
     "アイスホッケー",
 ]
 
+# 力士四股名キーワード（著名力士のリスト）
+RIKISHI_SHIKONA = [
+    # 横綱（大横綱）
+    "千代の富士",
+    "大鵬",
+    "貴乃花",
+    "朝青龍",
+    "白鵬",
+    "北の湖",
+    "輪島",
+    "若乃花",
+    "貴ノ花",
+    "隆の里",
+    "双羽黒",
+    "旭富士",
+    "曙",
+    "武蔵丸",
+    "栃東",
+    "琴欧洲",
+    "日馬富士",
+    "鶴竜",
+    "稀勢の里",
+    "照ノ富士",
+    # 大関級
+    "千代大海",
+    "琴光喜",
+    "魁皇",
+    "琴奨菊",
+    "豪栄道",
+    "高安",
+    "貴景勝",
+    "正代",
+    "御嶽海",
+    "霧馬山",
+]
+
 # リーグ/組織
 LEAGUE_KEYWORDS = [
     "NBA",
@@ -321,6 +357,9 @@ COMPANY_KEYWORDS = [
     "レアル・マドリード",
     "マンチェスター・シティ",
     "バルセロナ",
+    "辻調",  # 新規: 「辻調 辻芳樹」対応
+    "維新",  # 新規: 「維新松井一郎」対応（党名）
+    "聖路加国際病院",  # 新規: 「聖路加国際病院 日野原重明」対応
 ]
 
 # チーム名（スポーツチーム）
@@ -380,6 +419,7 @@ MUSIC_GROUP_KEYWORDS = [
     "The Beatles",
     "ONE OK ROCK",
     "UVERworld",
+    "レペゼン地球",  # 新規: 「レペゼン地球 DJ社長」対応
 ]
 
 # お笑いグループ（新規）
@@ -462,6 +502,13 @@ GENERATION_PREFIXES = [
     "二代",
 ]
 
+# 説明文プレフィックス（新規）
+DESCRIPTION_PREFIXES = [
+    "日本人実業家の",
+    "日本の実業家",
+    "元日本実業家の",
+]
+
 
 @dataclass
 class NormalizationResult:
@@ -532,6 +579,11 @@ class PersonNameNormalizer:
             return None
 
         # パターンマッチング（優先度順）
+        # 説明文プレフィックス（新規）
+        result = self._match_description_prefix(person_name)
+        if result:
+            return result
+
         result = self._match_affiliation_prefix(person_name)
         if result:
             return result
@@ -540,8 +592,18 @@ class PersonNameNormalizer:
         if result:
             return result
 
+        # 力士名パターン（新規追加）
+        result = self._match_rikishi_name(person_name)
+        if result:
+            return result
+
         # 修飾職業パターン（秋葉原系漫画家OKAMA など）
         result = self._match_modified_profession(person_name)
+        if result:
+            return result
+
+        # 複雑なグループ名パターン（新規）
+        result = self._match_complex_group_prefix(person_name)
         if result:
             return result
 
@@ -592,6 +654,24 @@ class PersonNameNormalizer:
 
         return None
 
+    def _match_description_prefix(self, name: str) -> Optional[NormalizationResult]:
+        """説明文プレフィックス除去（「日本人実業家の稲盛和夫」対応）"""
+        for desc in DESCRIPTION_PREFIXES:
+            if name.startswith(desc) and len(name) > len(desc):
+                person = name[len(desc) :]
+                if len(person) >= 2:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=desc.rstrip("の"),  # 「日本人実業家」として保存
+                        affiliation=None,
+                        pattern_type="DESCRIPTION_PREFIX",
+                        confidence=0.90,
+                        requires_review=False,
+                        match_detail=f"説明文「{desc}」を除去",
+                    )
+        return None
+
     def _match_affiliation_prefix(self, name: str) -> Optional[NormalizationResult]:
         """会社・人物 形式の検出"""
         for company in COMPANY_KEYWORDS:
@@ -612,6 +692,23 @@ class PersonNameNormalizer:
                             match_detail=f"会社「{company}」と肩書「{title_kw}」を分離",
                         )
 
+            # 会社の人物 形式（「理化学研究所の野依良治」など）
+            pattern = f"^{re.escape(company)}の(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 2:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=company,
+                        pattern_type="AFFILIATION_PREFIX",
+                        confidence=0.93,
+                        requires_review=False,
+                        match_detail=f"会社「{company}」を分離（の）",
+                    )
+
             # 会社・人物 形式
             pattern = f"^{re.escape(company)}・(.+)$"
             match = re.match(pattern, name)
@@ -627,6 +724,23 @@ class PersonNameNormalizer:
                     requires_review=False,
                     match_detail=f"会社「{company}」を分離",
                 )
+
+            # 会社 人物 形式（スペース区切り、「辻調 辻芳樹」など）
+            pattern = f"^{re.escape(company)}\\s+(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 2:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=company,
+                        pattern_type="AFFILIATION_PREFIX",
+                        confidence=0.90,
+                        requires_review=False,
+                        match_detail=f"会社「{company}」を分離（スペース）",
+                    )
 
             # 会社人物 形式（区切りなし）
             if name.startswith(company) and len(name) > len(company):
@@ -679,6 +793,77 @@ class PersonNameNormalizer:
                         requires_review=False,
                         match_detail=f"スポーツ「{sport}」を分離（区切りなし）",
                     )
+
+        return None
+
+    def _match_rikishi_name(self, name: str) -> Optional[NormalizationResult]:
+        """
+        力士名パターンの検出（四股名+本名の名 → 四股名）
+
+        パターン:
+        1. 既知の四股名+1-2文字の漢字（千代の富士貢 → 千代の富士）
+        2. 「の」を含む力士名+1-2文字の漢字（千代の国憲輝 → 千代の国）
+
+        Args:
+            name: 人物名
+
+        Returns:
+            正規化結果（該当する場合）
+        """
+        # 既知の四股名リストとマッチ
+        for shikona in RIKISHI_SHIKONA:
+            # 四股名で始まり、1-2文字の漢字が続くパターン
+            if name.startswith(shikona) and len(name) > len(shikona):
+                suffix = name[len(shikona) :]
+
+                # サフィックスが1-2文字の漢字のみか確認
+                if 1 <= len(suffix) <= 2 and all("\u4e00" <= char <= "\u9fff" for char in suffix):
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=shikona,
+                        title="力士",
+                        affiliation="大相撲",
+                        pattern_type="RIKISHI_SHIKONA",
+                        confidence=0.95,
+                        requires_review=False,
+                        match_detail=f"四股名「{shikona}」から本名の名「{suffix}」を除去",
+                    )
+
+        # 「の」を含む未知の力士名パターン（汎用）
+        if "の" in name:
+            parts = name.split("の")
+            if len(parts) >= 2:
+                last_part = parts[-1]
+                # 最後の部分が3文字以上で、末尾1-2文字が漢字のみなら分離候補
+                if len(last_part) >= 3:
+                    # 末尾1文字が漢字の場合
+                    if "\u4e00" <= last_part[-1] <= "\u9fff":
+                        shikona_candidate = name[:-1]
+                        removed_char = name[-1]
+                        return NormalizationResult(
+                            original_name=name,
+                            normalized_name=shikona_candidate,
+                            title="力士",
+                            affiliation="大相撲",
+                            pattern_type="RIKISHI_SHIKONA_GENERIC",
+                            confidence=0.80,
+                            requires_review=True,  # 汎用パターンは要レビュー
+                            match_detail=f"「の」を含む力士名から末尾「{removed_char}」を除去",
+                        )
+                    # 末尾2文字が漢字の場合
+                    elif len(last_part) >= 4 and all("\u4e00" <= char <= "\u9fff" for char in last_part[-2:]):
+                        shikona_candidate = name[:-2]
+                        removed_chars = name[-2:]
+                        return NormalizationResult(
+                            original_name=name,
+                            normalized_name=shikona_candidate,
+                            title="力士",
+                            affiliation="大相撲",
+                            pattern_type="RIKISHI_SHIKONA_GENERIC",
+                            confidence=0.80,
+                            requires_review=True,
+                            match_detail=f"「の」を含む力士名から末尾「{removed_chars}」を除去",
+                        )
 
         return None
 
@@ -841,6 +1026,28 @@ class PersonNameNormalizer:
 
         return None
 
+    def _match_complex_group_prefix(self, name: str) -> Optional[NormalizationResult]:
+        """複雑なグループ名パターン（「お笑い・とんねるず石橋貴明」対応）"""
+        # お笑い + グループ名 + 人物名
+        for modifier in PROFESSION_MODIFIERS:
+            for group in COMEDY_GROUP_KEYWORDS:
+                prefix = f"{modifier}・{group}"
+                if name.startswith(prefix) and len(name) > len(prefix):
+                    person = name[len(prefix) :]
+                    # 人物名の最低長チェック
+                    if len(person) >= 2:
+                        return NormalizationResult(
+                            original_name=name,
+                            normalized_name=person,
+                            title=modifier,
+                            affiliation=group,
+                            pattern_type="COMPLEX_GROUP_PREFIX",
+                            confidence=0.95,
+                            requires_review=False,
+                            match_detail=f"職業+グループ「{prefix}」を分離",
+                        )
+        return None
+
     def _match_role_suffix(self, name: str) -> Optional[NormalizationResult]:
         """役割接尾辞・人物 形式の検出（アニメ声優・悟空役野沢雅子 など）"""
         for role_kw in ROLE_KEYWORDS:
@@ -925,6 +1132,23 @@ class PersonNameNormalizer:
                         confidence=0.90,
                         requires_review=False,
                         match_detail=f"音楽グループ「{group}」を分離",
+                    )
+
+            # グループ 人物 形式（スペース区切り、「レペゼン地球 DJ社長」など）
+            pattern = f"^{re.escape(group)}\\s+(.+)$"
+            match = re.match(pattern, name)
+            if match:
+                person = match.group(1)
+                if len(person) >= 2:
+                    return NormalizationResult(
+                        original_name=name,
+                        normalized_name=person,
+                        title=None,
+                        affiliation=group,
+                        pattern_type="MUSIC_GROUP",
+                        confidence=0.90,
+                        requires_review=False,
+                        match_detail=f"音楽グループ「{group}」を分離（スペース）",
                     )
 
         return None

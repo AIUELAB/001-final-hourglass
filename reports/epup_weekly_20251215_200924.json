@@ -1,0 +1,116 @@
+{
+  "check_type": "weekly",
+  "timestamp": "2025-12-15T20:09:13.006514",
+  "total_records": 9683,
+  "overall_status": "WARNING",
+  "overall_score": 0.9998442691029901,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "group_as_person": 0,
+        "total_unique": 7224
+      }
+    },
+    {
+      "name": "フォーマット準拠率",
+      "value": 1.0,
+      "target": 1.0,
+      "status": "OK",
+      "details": {
+        "compliant": 9683,
+        "total": 9683
+      }
+    },
+    {
+      "name": "メタ表現混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "meta_count": 0,
+        "fictional_total": 67
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "variant_ids": 0,
+        "total_ids": 7224
+      }
+    },
+    {
+      "name": "重複ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "duplicate_names": 0,
+        "total_names": 7224
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9683
+      }
+    },
+    {
+      "name": "削除済みID混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated": 0,
+        "deleted_ids_count": 1,
+        "deleted_names_count": 1,
+        "contaminated_entries": []
+      }
+    },
+    {
+      "name": "組織名・肩書き混入率",
+      "value": 0.0012458471760797341,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "contaminated_count": 9,
+        "total_unique_names": 7224,
+        "contaminated_examples": [
+          "舞の海秀平 → 舞の海秀",
+          "平安時代の藤原頼通 → 平安時代の藤原頼",
+          "甘茶の音楽工房 → 甘茶の音楽工",
+          "加藤の乱加藤紘一 → 加藤の乱加藤紘",
+          "鬼滅の刃・吾峠呼世晴 → 鬼滅の刃・吾峠呼世",
+          "ヤマト運輸中興の祖小倉昌男 → ヤマト運輸中興の祖小倉昌",
+          "荒井由実時代の松任谷由実 → 荒井由実時代の松任谷由",
+          "世界のナベアツ・渡辺鐘 → 世界のナベアツ・渡辺",
+          "中興の祖田中毅 → 中興の祖田中"
+        ]
+      }
+    }
+  ],
+  "validation": {
+    "success": false,
+    "valid_rows": 9670,
+    "invalid_rows": 13,
+    "error_count": 13,
+    "warning_count": 0
+  },
+  "alerts": [
+    {
+      "name": "組織名・肩書き混入率",
+      "status": "WARNING",
+      "value": 0.0012458471760797341
+    }
+  ]
+}

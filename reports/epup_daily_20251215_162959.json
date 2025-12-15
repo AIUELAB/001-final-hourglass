@@ -1,0 +1,71 @@
+{
+  "check_type": "daily",
+  "timestamp": "2025-12-15T16:29:59.528409",
+  "total_records": 9686,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "group_as_person": 0,
+        "total_unique": 7247
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "variant_ids": 0,
+        "total_ids": 7247
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9686
+      }
+    },
+    {
+      "name": "削除済みID混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated": 0,
+        "deleted_ids_count": 1,
+        "deleted_names_count": 1,
+        "contaminated_entries": []
+      }
+    },
+    {
+      "name": "組織名・肩書き混入率",
+      "value": 0.0004139643990616807,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "contaminated_count": 3,
+        "total_unique_names": 7247,
+        "contaminated_examples": [
+          "十一代目市川團十郎 → 市川團十郎",
+          "十四代酒井田柿右衛門 → 酒井田柿右衛門",
+          "二代目中村吉右衛門 → 中村吉右衛門"
+        ]
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "name": "組織名・肩書き混入率",
+      "status": "WARNING",
+      "value": 0.0004139643990616807
+    }
+  ]
+}

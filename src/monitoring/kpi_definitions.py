@@ -10,6 +10,7 @@ KPI一覧:
 5. 重複ID率 (target: 0%)
 6. nan ID率 (target: 0%)
 7. 削除済みID混入率 (target: 0%) - 再発防止用
+8. 組織名・肩書き混入率 (target: 0%) - 人物名汚染防止用
 """
 
 import json
@@ -103,6 +104,7 @@ class EPUPKPICalculator:
             self._calc_duplicate_id_rate(),
             self._calc_nan_id_rate(),
             self._calc_deleted_id_contamination_rate(),
+            self._calc_org_title_contamination_rate(),  # 新規KPI
         ]
 
         # 総合ステータス判定
@@ -328,6 +330,48 @@ class EPUPKPICalculator:
                 "deleted_ids_count": len(deleted_ids),
                 "deleted_names_count": len(deleted_names),
                 "contaminated_entries": contaminated_entries,
+            },
+        )
+
+    def _calc_org_title_contamination_rate(self) -> KPIResult:
+        """
+        組織名・肩書き混入率を計算（KPI 8）
+
+        PersonNameNormalizerを使用して、person_nameフィールドに
+        組織名・肩書き・説明文が混入している人物名を検出する。
+
+        Returns:
+            KPIResult
+        """
+        # PersonNameNormalizerを遅延インポート（循環インポート回避）
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        from scripts.normalize_person_names import PersonNameNormalizer
+
+        normalizer = PersonNameNormalizer(min_confidence=0.85)
+        contaminated = 0
+        contaminated_names: list[str] = []
+
+        # ユニークな人物名ごとにチェック
+        for person_name in self.df["person_name"].dropna().unique():
+            result = normalizer.normalize(str(person_name))
+            if result:
+                # 正規化が必要 = 組織名・肩書き混入あり
+                contaminated += 1
+                if len(contaminated_names) < 10:  # 最大10件まで例を記録
+                    contaminated_names.append(f"{person_name} → {result.normalized_name}")
+
+        total = self.df["person_name"].dropna().nunique()
+        rate = contaminated / total if total > 0 else 0.0
+
+        return KPIResult(
+            name="組織名・肩書き混入率",
+            value=rate,
+            target=0.0,
+            status=self._get_status(rate, 0.0, 0.005, 0.01),  # 0.5%超でWARNING, 1%超でCRITICAL
+            details={
+                "contaminated_count": contaminated,
+                "total_unique_names": total,
+                "contaminated_examples": contaminated_names,
             },
         )
 

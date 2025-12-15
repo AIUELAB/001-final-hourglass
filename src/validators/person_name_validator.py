@@ -34,6 +34,7 @@ class IssueType(Enum):
     CONCATENATED_NAME = "concatenated_name"
     VARIANT_NAME = "variant_name"
     UNKNOWN_GROUP = "unknown_group"
+    ORG_TITLE_CONTAMINATION = "org_title_contamination"  # 組織名・肩書き混入
 
 
 class Severity(Enum):
@@ -76,6 +77,9 @@ class PersonNameValidator:
         self.group_member_map = GROUP_MEMBER_MAP
         self.dispersion_rules = DISPERSION_RULES
 
+        # 組織名・肩書き混入検出用のnormalizer（遅延初期化）
+        self._normalizer = None
+
     def validate(self, person_name: str) -> list[ValidationIssue]:
         """
         人物名をバリデーション
@@ -104,6 +108,11 @@ class PersonNameValidator:
         concat_issue = self._check_concatenated_name(person_name)
         if concat_issue:
             issues.append(concat_issue)
+
+        # 3. 組織名・肩書き混入チェック（新規）
+        org_title_issue = self._check_org_title_contamination(person_name)
+        if org_title_issue:
+            issues.append(org_title_issue)
 
         return issues
 
@@ -173,6 +182,57 @@ class PersonNameValidator:
                             auto_fixable=True,
                             fixed_value=individual,
                         )
+
+        return None
+
+    def _get_normalizer(self):
+        """PersonNameNormalizerを遅延初期化して取得"""
+        if self._normalizer is None:
+            # 循環インポート回避のため、ここでインポート
+            sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+            from scripts.normalize_person_names import PersonNameNormalizer
+
+            self._normalizer = PersonNameNormalizer(min_confidence=0.85)
+        return self._normalizer
+
+    def _check_org_title_contamination(
+        self, person_name: str
+    ) -> Optional[ValidationIssue]:
+        """
+        組織名・肩書き混入をチェック
+
+        例:
+        - 「日本人実業家の稲盛和夫」 → 「稲盛和夫」
+        - 「辻調 辻芳樹」 → 「辻芳樹」
+        - 「維新松井一郎」 → 「松井一郎」
+        - 「お笑い・とんねるず石橋貴明」 → 「石橋貴明」
+
+        Args:
+            person_name: 人物名
+
+        Returns:
+            問題があればValidationIssue、なければNone
+        """
+        normalizer = self._get_normalizer()
+        result = normalizer.normalize(person_name)
+
+        if result:
+            # 正規化が必要 = 組織名・肩書き混入あり
+            detail = f"パターン: {result.pattern_type}"
+            if result.title:
+                detail += f", 肩書: {result.title}"
+            if result.affiliation:
+                detail += f", 所属: {result.affiliation}"
+
+            return ValidationIssue(
+                issue_type=IssueType.ORG_TITLE_CONTAMINATION,
+                severity=Severity.ERROR,
+                person_name=person_name,
+                message=f"人物名に組織名・肩書きが混入: '{person_name}' → '{result.normalized_name}' ({detail})",
+                suggestion=f"正規化後の名前 '{result.normalized_name}' を使用してください",
+                auto_fixable=True,
+                fixed_value=result.normalized_name,
+            )
 
         return None
 

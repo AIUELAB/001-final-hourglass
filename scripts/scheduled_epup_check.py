@@ -52,12 +52,14 @@ def run_daily_check(csv_path: str) -> dict:
     - グループ名混入
     - nan ID
     - 表記ゆれ
+    - 削除済みID混入
+    - 組織名・肩書き混入
     """
     calculator = EPUPKPICalculator(csv_path)
     report = calculator.calculate_all()
 
     # 日次は特定KPIのみ
-    daily_kpis = ["グループ名混入率", "表記ゆれ率", "nan ID率", "削除済みID混入率"]
+    daily_kpis = ["グループ名混入率", "表記ゆれ率", "nan ID率", "削除済みID混入率", "組織名・肩書き混入率"]
     filtered_kpis = [k for k in report.kpis if k.name in daily_kpis]
 
     return {

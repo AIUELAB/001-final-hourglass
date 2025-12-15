@@ -1,0 +1,117 @@
+{
+  "check_type": "weekly",
+  "timestamp": "2025-12-15T16:53:48.900114",
+  "total_records": 9686,
+  "overall_status": "WARNING",
+  "overall_score": 0.9996722781840761,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "group_as_person": 0,
+        "total_unique": 7247
+      }
+    },
+    {
+      "name": "フォーマット準拠率",
+      "value": 1.0,
+      "target": 1.0,
+      "status": "OK",
+      "details": {
+        "compliant": 9686,
+        "total": 9686
+      }
+    },
+    {
+      "name": "メタ表現混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "meta_count": 0,
+        "fictional_total": 67
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "variant_ids": 0,
+        "total_ids": 7247
+      }
+    },
+    {
+      "name": "重複ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "duplicate_names": 0,
+        "total_names": 7247
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9686
+      }
+    },
+    {
+      "name": "削除済みID混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated": 0,
+        "deleted_ids_count": 1,
+        "deleted_names_count": 1,
+        "contaminated_entries": []
+      }
+    },
+    {
+      "name": "組織名・肩書き混入率",
+      "value": 0.0026217745273906445,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "contaminated_count": 19,
+        "total_unique_names": 7247,
+        "contaminated_examples": [
+          "白鵬翔 → 白鵬",
+          "十一代目市川團十郎 → 市川團十郎",
+          "大鵬幸喜 → 大鵬",
+          "貴乃花光司 → 貴乃花",
+          "舞の海秀平 → 舞の海秀",
+          "輪島大士 → 輪島",
+          "千代大海龍二 → 千代大海",
+          "平安時代の藤原頼通 → 平安時代の藤原頼",
+          "曙太郎 → 曙",
+          "武蔵丸光洋 → 武蔵丸"
+        ]
+      }
+    }
+  ],
+  "validation": {
+    "success": false,
+    "valid_rows": 9659,
+    "invalid_rows": 27,
+    "error_count": 27,
+    "warning_count": 0
+  },
+  "alerts": [
+    {
+      "name": "組織名・肩書き混入率",
+      "status": "WARNING",
+      "value": 0.0026217745273906445
+    }
+  ]
+}

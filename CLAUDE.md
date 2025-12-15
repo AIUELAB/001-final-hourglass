@@ -146,6 +146,44 @@ for issue in issues:
 "
 ```
 
+### 実装パターン（normalize_person_names.py）
+
+| パターン | 入力例 | 正規化後 | 信頼度 |
+|---------|--------|---------|--------|
+| **ALIAS** | 山中教授 | 山中伸弥 | 1.0 |
+| **DESCRIPTION_PREFIX** | 日本人実業家の稲盛和夫 | 稲盛和夫 | 0.95 |
+| **AFFILIATION_TITLE** | 楽天創業者三木谷浩史 | 三木谷浩史 | 0.95 |
+| **ORG_PERSON** | 辻調 辻芳樹 | 辻芳樹 | 0.90 |
+| **OCCUPATION_PREFIX** | 声優野沢雅子 | 野沢雅子 | 0.90 |
+| **GROUP_MEMBER** | 乃木坂46齋藤飛鳥 | 齋藤飛鳥 | 0.95 |
+| **GROUP_PREFIX** | AKB48指原莉乃 | 指原莉乃 | 0.95 |
+| **RIKISHI_SHIKONA** | 千代の富士貢 | 千代の富士 | 0.90 |
+| **ORDINAL_ARTIST** | 十四代酒井田柿右衛門 | 酒井田柿右衛門 | 0.85 |
+
+### 使用方法
+
+**検出のみ（ドライラン）**:
+```bash
+python scripts/normalize_person_names.py --dry-run
+```
+
+**自動修正実行**:
+```bash
+python scripts/normalize_person_names.py --execute --min-confidence 0.85
+```
+
+**特定パターンのみ検出**:
+```bash
+python scripts/normalize_person_names.py --dry-run --pattern ALIAS
+```
+
+**結果の確認**:
+- レポート: `reports/name_normalization_dryrun_*.json`
+- 自動修正: 信頼度 ≥ 0.85 かつ要レビューフラグなし
+- 要確認: 信頼度 < 0.85 または複雑なパターン
+
+**詳細**: `docs/PERSON_NAME_VALIDATION_WORKFLOW.md`（全9パターンの詳細説明）
+
 ---
 
 ## 🎯 スラッシュコマンド（Skills）

@@ -77,6 +77,97 @@ def get_valid_senior_age(
     return selected_age
 
 
+def load_candidates(template_path: str, min_age: int = 70, max_age: int = 85) -> list[dict]:
+    """
+    Phase8候補者を読み込み、年齢境界チェックでフィルタリング
+
+    Args:
+        template_path: テンプレートCSVパス
+        min_age: 最小年齢（デフォルト: 70歳）
+        max_age: 最大年齢（デフォルト: 85歳）
+
+    Returns:
+        有効な候補者のリスト
+
+    Raises:
+        FileNotFoundError: テンプレートが見つからない
+        ValueError: 必須カラムが存在しない、または有効な候補者が0件
+    """
+    # 統計カウンタ
+    total_count = 0
+    skipped_no_birth = 0
+    skipped_age_boundary = 0
+
+    # テンプレートCSV読み込み
+    if not os.path.exists(template_path):
+        raise FileNotFoundError(f"テンプレートが見つかりません: {template_path}")
+
+    candidates = []
+
+    with open(template_path, encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+
+        # 必須カラムチェック
+        required_columns = ["person_name", "category", "person_type", "birth_year"]
+        if not all(col in reader.fieldnames for col in required_columns):
+            raise ValueError(f"テンプレートに必須カラムがありません: {required_columns}")
+
+        for row in reader:
+            total_count += 1
+            person_name = row.get("person_name", "")
+            category = row.get("category", "")
+            person_type = row.get("person_type", "")
+            birth_year_str = row.get("birth_year", "")
+            death_year_str = row.get("death_year", "")
+            award_name = row.get("award_name", "")
+            award_year = row.get("award_year", "")
+
+            # birth_year が空の場合はスキップ
+            if not birth_year_str or not str(birth_year_str).isdigit():
+                skipped_no_birth += 1
+                continue
+
+            birth_year = int(birth_year_str)
+            death_year = int(death_year_str) if death_year_str and str(death_year_str).isdigit() else None
+
+            # 年齢境界チェック
+            current_year = datetime.now().year
+            max_lived_age = death_year - birth_year if death_year else current_year - birth_year
+
+            # 70-85歳の範囲内で到達可能な年齢があるかチェック
+            valid_ages = [a for a in range(min_age, max_age + 1) if a <= max_lived_age]
+
+            if not valid_ages:
+                skipped_age_boundary += 1
+                continue
+
+            # 有効な候補をリストに追加
+            candidates.append(
+                {
+                    "person_name": person_name,
+                    "category": category,
+                    "person_type": person_type,
+                    "birth_year": birth_year,
+                    "death_year": death_year,
+                    "award_name": award_name,
+                    "award_year": award_year,
+                }
+            )
+
+    # 統計ログ出力
+    print("\n📊 候補者読み込み統計:")
+    print(f"  総候補者数: {total_count}件")
+    print(f"  birth_year不明でスキップ: {skipped_no_birth}件")
+    print(f"  年齢境界違反でスキップ: {skipped_age_boundary}件")
+    print(f"  有効な候補者: {len(candidates)}件\n")
+
+    # 候補者が0件の場合はエラー
+    if not candidates:
+        raise ValueError(f"有効な候補者が見つかりませんでした。テンプレート: {template_path}")
+
+    return candidates
+
+
 def generate_person_id(person_name: str) -> str:
     """person_nameからperson_idを生成"""
     hash_obj = hashlib.md5(person_name.encode("utf-8"), usedforsecurity=False)
@@ -116,11 +207,11 @@ def generate_senior_episode(
 ) -> Optional[dict]:
     """70代エピソードを生成"""
 
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"生成中: {person_name} ({age}歳) - {category}")
     if award_name:
         print(f"業績: {award_name}" + (f" ({award_year}年)" if award_year else ""))
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
 
     prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 
@@ -246,7 +337,9 @@ def generate_senior_episode(
 
 def main():
     parser = argparse.ArgumentParser(description="70代エピソードを生成")
-    parser.add_argument("--template", default="templates/phase8_senior_batch1.csv", help="テンプレートCSVファイルパス")
+    parser.add_argument(
+        "--template", default="templates/phase8_senior_batch1_with_birthyear.csv", help="テンプレートCSVファイルパス"
+    )
     parser.add_argument("--output", default="generated/phase8_senior_episodes.csv", help="出力CSVファイルパス")
     parser.add_argument("--limit", type=int, help="生成数の上限")
 
@@ -260,46 +353,39 @@ def main():
     print(f"生成上限: {args.limit if args.limit else '制限なし'}")
     print("=" * 70)
 
-    # テンプレート読み込み
+    # 候補者読み込み（年齢境界チェック付き）
     try:
-        with open(args.template, encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            template_rows = list(reader)
-    except FileNotFoundError:
-        print(f"❌ テンプレートファイルが見つかりません: {args.template}")
+        candidates = load_candidates(template_path=args.template, min_age=70, max_age=85)
+    except (FileNotFoundError, ValueError) as e:
+        print(f"❌ 候補者読み込みエラー: {e}")
         sys.exit(1)
 
-    print(f"\nテンプレート読み込み: {len(template_rows)}件")
+    print(f"有効な候補者: {len(candidates)}件")
 
     if args.limit:
-        template_rows = template_rows[: args.limit]
+        candidates = candidates[: args.limit]
         print(f"生成数を{args.limit}件に制限")
 
     generated_episodes = []
     success_count = 0
     fail_count = 0
 
-    for i, row in enumerate(template_rows, 1):
-        person_name = row["person_name"]
-        category = row["category"]
-        person_type = row["person_type"]
-        award_name = row.get("award_name", "")
-        award_year = row.get("award_year", "")
+    for i, candidate in enumerate(candidates, 1):
+        person_name = candidate["person_name"]
+        category = candidate["category"]
+        person_type = candidate["person_type"]
+        birth_year = candidate.get("birth_year")
+        death_year = candidate.get("death_year")
+        award_name = candidate.get("award_name", "")
+        award_year = candidate.get("award_year", "")
 
-        # 🔒 誤指令F-001修正: 生年/没年を考慮して年齢を選択
-        birth_year_str = row.get("birth_year", "")
-        death_year_str = row.get("death_year", "")
+        print(f"\n[{i}/{len(candidates)}] {person_name}")
 
-        birth_year = int(birth_year_str) if birth_year_str and str(birth_year_str).isdigit() else None
-        death_year = int(death_year_str) if death_year_str and str(death_year_str).isdigit() else None
-
-        print(f"\n[{i}/{len(template_rows)}] {person_name}")
-
-        # 有効な年齢を取得
+        # 有効な年齢を取得（load_candidates()でフィルタリング済みだが、防御的プログラミングとして保持）
         age = get_valid_senior_age(person_name, birth_year, death_year, min_age=70, max_age=85)
 
         if age is None:
-            print(f"⏭️  スキップ: {person_name}（70歳未到達）")
+            print(f"⚠️  内部エラー: {person_name}の年齢選択失敗（load_candidates()でフィルタリングされるべき）")
             fail_count += 1
             continue
 

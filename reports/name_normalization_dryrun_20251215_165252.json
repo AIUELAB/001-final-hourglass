@@ -1,0 +1,205 @@
+{
+  "timestamp": "2025-12-15T16:52:52.224039",
+  "summary": {
+    "auto_fixed_count": 7,
+    "requires_review_count": 12,
+    "skipped_count": 7228
+  },
+  "by_pattern": {
+    "RIKISHI_SHIKONA": 7
+  },
+  "auto_fixed": [
+    {
+      "original_name": "白鵬翔",
+      "normalized_name": "白鵬",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「白鵬」から本名の名「翔」を除去"
+    },
+    {
+      "original_name": "大鵬幸喜",
+      "normalized_name": "大鵬",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「大鵬」から本名の名「幸喜」を除去"
+    },
+    {
+      "original_name": "貴乃花光司",
+      "normalized_name": "貴乃花",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「貴乃花」から本名の名「光司」を除去"
+    },
+    {
+      "original_name": "輪島大士",
+      "normalized_name": "輪島",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「輪島」から本名の名「大士」を除去"
+    },
+    {
+      "original_name": "千代大海龍二",
+      "normalized_name": "千代大海",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「千代大海」から本名の名「龍二」を除去"
+    },
+    {
+      "original_name": "曙太郎",
+      "normalized_name": "曙",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「曙」から本名の名「太郎」を除去"
+    },
+    {
+      "original_name": "武蔵丸光洋",
+      "normalized_name": "武蔵丸",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA",
+      "confidence": 0.95,
+      "requires_review": false,
+      "match_detail": "四股名「武蔵丸」から本名の名「光洋」を除去"
+    }
+  ],
+  "requires_review": [
+    {
+      "original_name": "十一代目市川團十郎",
+      "normalized_name": "市川團十郎",
+      "title": "十一代目",
+      "affiliation": null,
+      "pattern_type": "GENERATION_PREFIX",
+      "confidence": 0.85,
+      "requires_review": true,
+      "match_detail": "代数表記「十一代目」を分離"
+    },
+    {
+      "original_name": "舞の海秀平",
+      "normalized_name": "舞の海秀",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「平」を除去"
+    },
+    {
+      "original_name": "平安時代の藤原頼通",
+      "normalized_name": "平安時代の藤原頼",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「通」を除去"
+    },
+    {
+      "original_name": "甘茶の音楽工房",
+      "normalized_name": "甘茶の音楽工",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「房」を除去"
+    },
+    {
+      "original_name": "十四代酒井田柿右衛門",
+      "normalized_name": "酒井田柿右衛門",
+      "title": "十四代",
+      "affiliation": null,
+      "pattern_type": "GENERATION_PREFIX",
+      "confidence": 0.85,
+      "requires_review": true,
+      "match_detail": "代数表記「十四代」を分離"
+    },
+    {
+      "original_name": "加藤の乱加藤紘一",
+      "normalized_name": "加藤の乱加藤紘",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「一」を除去"
+    },
+    {
+      "original_name": "鬼滅の刃・吾峠呼世晴",
+      "normalized_name": "鬼滅の刃・吾峠呼世",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「晴」を除去"
+    },
+    {
+      "original_name": "ヤマト運輸中興の祖小倉昌男",
+      "normalized_name": "ヤマト運輸中興の祖小倉昌",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「男」を除去"
+    },
+    {
+      "original_name": "荒井由実時代の松任谷由実",
+      "normalized_name": "荒井由実時代の松任谷由",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「実」を除去"
+    },
+    {
+      "original_name": "世界のナベアツ・渡辺鐘",
+      "normalized_name": "世界のナベアツ・渡辺",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「鐘」を除去"
+    },
+    {
+      "original_name": "二代目中村吉右衛門",
+      "normalized_name": "中村吉右衛門",
+      "title": "二代目",
+      "affiliation": null,
+      "pattern_type": "GENERATION_PREFIX",
+      "confidence": 0.85,
+      "requires_review": true,
+      "match_detail": "代数表記「二代目」を分離"
+    },
+    {
+      "original_name": "中興の祖田中毅",
+      "normalized_name": "中興の祖田中",
+      "title": "力士",
+      "affiliation": "大相撲",
+      "pattern_type": "RIKISHI_SHIKONA_GENERIC",
+      "confidence": 0.8,
+      "requires_review": true,
+      "match_detail": "「の」を含む力士名から末尾「毅」を除去"
+    }
+  ]
+}

@@ -88,8 +88,31 @@ if not is_valid:
 - **グループ名混入**: 「乃木坂46齋藤飛鳥」→「齋藤飛鳥」
 - **組織名・肩書き混入**: 「日本人実業家の稲盛和夫」→「稲盛和夫」
 - **連結名パターン**: 「ビートルズ・ジョン・レノン」→「ジョン・レノン」
+- **道具名・アイテム名誤登録（ERR-005）**: 「大リーグ養成ギプス」→人物ではなく道具名
 
-### 3. 年齢境界チェック
+### 3. 道具名・アイテム名検出（ERR-005）
+
+**検出条件**:
+- person_name に道具接尾辞（ギプス、マシン、装置、アイテム、ツール、ロボット、メカ）が含まれる
+- ブラックリストに該当する人物名
+
+**検出方法**:
+```python
+from src.validators.person_name_validator import PersonNameValidator
+validator = PersonNameValidator()
+issues = validator.validate(person_name='大リーグ養成ギプス')
+for issue in issues:
+    print(f"{issue.severity.value}: {issue.message}")
+```
+
+**修正方針**:
+1. 該当エピソードを削除
+2. ブラックリストに追加（再発防止）
+3. 生成元データの確認・修正
+
+**参照**: CLAUDE.md「道具名・アイテム名誤登録防止ルール」セクション
+
+### 4. 年齢境界チェック
 
 - `birth_year` ~ `death_year`（または現在年）の範囲内か確認
 - 範囲外の年齢は生成禁止（メタ表現誘発リスク）

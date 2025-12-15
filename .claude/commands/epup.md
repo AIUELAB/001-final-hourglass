@@ -47,6 +47,7 @@ description: EPUP - Episode Update Pipeline（エピソードDB品質の検出�
 - **全体スコア/21指標で現状把握**: `python scripts/evaluate_epup_effectiveness.py --csv <CSV_PATH> --output reports/...json`
 - **評価の前後比較**: `python scripts/compare_epup_scores.py --baseline <A.json> --after <B.json> --output reports/...json`
 - **架空キャラのメタ表現検出/修正**: `python scripts/fix_fictional_meta_episodes.py --detect-only`（修正は `--fix` を承認後）
+- **年齢境界違反（死後/未到達年齢のエピソード）**: `python scripts/detect_problematic_phase8_episodes.py`（削除は `scripts/delete_problematic_phase8.py --execute` を承認後）
 - **架空キャラ作品名欠落**: `python scripts/fix_fictional_work_title_format.py`（必要なら `--fix` を承認後）
 - **グループ同期**: `python scripts/sync_group_from_master.py`（`--execute` は承認後）
 

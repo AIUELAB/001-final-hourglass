@@ -1,0 +1,121 @@
+{
+  "timestamp": "2025-12-15T23:00:53.089507",
+  "dry_run": true,
+  "csv_path": "preserved/data/MASTER_EPISODES_CURRENT.csv",
+  "pairs": [
+    {
+      "alias": "山中教授",
+      "canonical": "山中伸弥",
+      "before": {
+        "alias": "山中教授",
+        "canonical": "山中伸弥",
+        "alias_count": 2,
+        "canonical_count": 10,
+        "alias_id": "P29D0C81",
+        "canonical_id": "P9602A59"
+      },
+      "person_name_replacements": 2,
+      "episode_text_replacements": [
+        {
+          "episode_id": "EP-000001120",
+          "person_name": "山中教授",
+          "original_snippet": "...あなたと同じ19歳のとき、山中教授は1987年に神戸大学医学部に入学しましたが、実は「手術が下手すぎる」という致命的な問題を抱えていま...",
+          "new_snippet": "...あなたと同じ19歳のとき、山中伸弥は1987年に神戸大学医学部に入学しましたが、実は「手術が下手すぎる」という致命的な問題を抱えていま..."
+        },
+        {
+          "episode_id": "EP-000001121",
+          "person_name": "山中教授",
+          "original_snippet": "...あなたと同じ75歳のとき、山中教授は柔道界を震撼させる決断を下しました。全日本選手権の決勝戦で、相手選手の怪我を瞬時に察知し、自ら棄権...",
+          "new_snippet": "...あなたと同じ75歳のとき、山中伸弥は柔道界を震撼させる決断を下しました。全日本選手権の決勝戦で、相手選手の怪我を瞬時に察知し、自ら棄権..."
+        }
+      ],
+      "episode_text_total_replacements": 2,
+      "person_id_merge": {
+        "skipped": false,
+        "representative_id": "P9602A59",
+        "deprecated_id": "P29D0C81",
+        "merged_count": 2
+      },
+      "status": "success"
+    },
+    {
+      "alias": "マンデラ",
+      "canonical": "ネルソン・マンデラ",
+      "before": {
+        "alias": "マンデラ",
+        "canonical": "ネルソン・マンデラ",
+        "alias_count": 2,
+        "canonical_count": 4,
+        "alias_id": "P6EE2A19",
+        "canonical_id": "PD260CC4"
+      },
+      "person_name_replacements": 2,
+      "episode_text_replacements": [
+        {
+          "episode_id": "EP-000002188",
+          "person_name": "マンデラ",
+          "original_snippet": "...あなたと同じ44歳のとき、マンデラは獄中で最も過酷な決断を迫られていました。1962年に逮捕され、ロベン島刑務所で強制労働に従事してい...",
+          "new_snippet": "...あなたと同じ44歳のとき、ネルソン・マンデラは獄中で最も過酷な決断を迫られていました。1962年に逮捕され、ロベン島刑務所で強制労働に従事してい..."
+        },
+        {
+          "episode_id": "EP-000002189",
+          "person_name": "マンデラ",
+          "original_snippet": "...あなたと同じ71歳のとき、マンデラは27年間の獄中生活から解放された直後、最も困難な選択に直面していました。1990年2月、自由の身と...",
+          "new_snippet": "...あなたと同じ71歳のとき、ネルソン・マンデラは27年間の獄中生活から解放された直後、最も困難な選択に直面していました。1990年2月、自由の身と..."
+        },
+        {
+          "episode_id": "EA4A95EAF",
+          "person_name": "ネルソン・マンデラ",
+          "original_snippet": "...あなたと同じ71歳のとき、ネルソン・マンデラは27年間の獄中生活を経て、南アフリカ初の黒人大統領に就任しました。1994年、人種隔離政策(アパル...",
+          "new_snippet": "...あなたと同じ71歳のとき、ネルソン・マンデラは27年間の獄中生活を経て、南アフリカ初の黒人大統領に就任しました。1994年、人種隔離政策(アパル..."
+        }
+      ],
+      "episode_text_total_replacements": 3,
+      "person_id_merge": {
+        "skipped": false,
+        "representative_id": "PD260CC4",
+        "deprecated_id": "P6EE2A19",
+        "merged_count": 2
+      },
+      "status": "success"
+    },
+    {
+      "alias": "ホリエモン",
+      "canonical": "堀江貴文",
+      "before": {
+        "alias": "ホリエモン",
+        "canonical": "堀江貴文",
+        "alias_count": 1,
+        "canonical_count": 8,
+        "alias_id": "P9F14BD8",
+        "canonical_id": "P02B77F9"
+      },
+      "person_name_replacements": 1,
+      "episode_text_replacements": [
+        {
+          "episode_id": "EP-000006031",
+          "person_name": "ホリエモン",
+          "original_snippet": "...あなたと同じ32歳のとき、ホリエモンは2005年のニッポン放送買収で世間から「金の亡者」と激しいバッシングを受けていた。しかし彼は批判の...",
+          "new_snippet": "...あなたと同じ32歳のとき、堀江貴文は2005年のニッポン放送買収で世間から「金の亡者」と激しいバッシングを受けていた。しかし彼は批判の..."
+        }
+      ],
+      "episode_text_total_replacements": 1,
+      "person_id_merge": {
+        "skipped": false,
+        "representative_id": "P02B77F9",
+        "deprecated_id": "P9F14BD8",
+        "merged_count": 1
+      },
+      "status": "success"
+    }
+  ],
+  "summary": {
+    "total_person_name_replaced": 5,
+    "total_episode_text_replaced": 6,
+    "total_person_ids_merged": 5,
+    "total_records": 9684,
+    "unique_person_ids": 7224,
+    "unique_person_names": 7225
+  },
+  "status": "success"
+}

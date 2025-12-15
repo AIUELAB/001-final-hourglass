@@ -113,6 +113,41 @@ CSVのメタデータ（birth_year, death_year, award_year, age）に以下の�
 
 ---
 
+## 🔤 人物名表記ルール（名寄せ統合）
+
+**正規表記（canonical name）を使用すること**
+
+| 別名・通称 | 正規表記 | 理由 |
+|-----------|---------|------|
+| 山中教授 | 山中伸弥 | 個人名を明示 |
+| マンデラ | ネルソン・マンデラ | フルネームで統一 |
+| ホリエモン | 堀江貴文 | 本名を使用 |
+
+**ルール**:
+- エピソード生成時は**必ず正規表記**を使用
+- 別名・通称は`ALIAS_KEYWORDS`に登録済み
+- バリデーション: `PersonNameValidator`が自動検出
+- 正規化: `normalize_person_names.py`が自動修正
+
+**追加方法**:
+新しい別名を発見した場合は以下に追加:
+1. `scripts/normalize_person_names.py` - `ALIAS_KEYWORDS`辞書
+2. `src/validators/person_name_validator.py` - `_check_alias_usage`メソッド（自動参照）
+
+**検証コマンド**:
+```bash
+# 人物名バリデーション
+python3 -c "
+from src.validators.person_name_validator import get_validator
+validator = get_validator()
+issues = validator.validate('山中教授')
+for issue in issues:
+    print(f'{issue.severity.value}: {issue.message}')
+"
+```
+
+---
+
 ## 🎯 スラッシュコマンド（Skills）
 
 ### 品質・分析系

@@ -1,0 +1,55 @@
+{
+  "timestamp": "2025-12-15T20:08:37.845211",
+  "summary": {
+    "duplicate_names": 5,
+    "deleted_person_ids": 5,
+    "merge_entries": 5
+  },
+  "merge_log": [
+    {
+      "person_name": "土門拳",
+      "canonical_id": "P36999B0",
+      "duplicate_id": "P8C92EF1",
+      "canonical_episodes": 1,
+      "duplicate_episodes": 1,
+      "conflicting_ages": [],
+      "name_raw": "未登録"
+    },
+    {
+      "person_name": "大鵬",
+      "canonical_id": "P23CF32C",
+      "duplicate_id": "PDB1DD35",
+      "canonical_episodes": 1,
+      "duplicate_episodes": 1,
+      "conflicting_ages": [],
+      "name_raw": "未登録"
+    },
+    {
+      "person_name": "市川團十郎",
+      "canonical_id": "P4DEE500",
+      "duplicate_id": "PE66FAD9",
+      "canonical_episodes": 1,
+      "duplicate_episodes": 1,
+      "conflicting_ages": [],
+      "name_raw": "未登録"
+    },
+    {
+      "person_name": "白鵬",
+      "canonical_id": "P037AC1A",
+      "duplicate_id": "P8195934",
+      "canonical_episodes": 3,
+      "duplicate_episodes": 1,
+      "conflicting_ages": [],
+      "name_raw": "未登録"
+    },
+    {
+      "person_name": "貴乃花",
+      "canonical_id": "P240CA97",
+      "duplicate_id": "P7614912",
+      "canonical_episodes": 1,
+      "duplicate_episodes": 1,
+      "conflicting_ages": [],
+      "name_raw": "未登録"
+    }
+  ]
+}

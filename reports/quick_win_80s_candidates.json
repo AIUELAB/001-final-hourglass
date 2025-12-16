@@ -1,0 +1,760 @@
+{
+  "selection_date": "2025-12-17T01:36:00",
+  "age_range": "80代",
+  "current_episodes": 468,
+  "target_70_percent": 1050,
+  "needed_episodes": 582,
+  "candidates_selected": 93,
+  "template_entries": 600,
+  "selection_criteria": {
+    "episode_count_threshold": 5,
+    "priority_scoring": "episode_count + tier + person_type",
+    "strategy": "all 93 persons × 7 times = 600+ entries"
+  },
+  "candidates": [
+    {
+      "person_name": "きんさんぎんさん",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "その他",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "まど・みちお",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アルチュール・ルービンシュタイン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "エルトン・ジョン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "オスカー・ワイルド",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "カーネル・サンダース",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ジミー・カーター",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ジョン・ケージ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ソニー・ロリンズ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ダライ・ラマ14世",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "宗教",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "バフェット",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "バーバラ・マクリントック",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "パブロ・カザルス",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ピカソ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ペンローズ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ホロヴィッツ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "マザー・テレサ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "宗教",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ヴラディーミル・ホロヴィッツ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "三浦雄一郎",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "探検・冒険",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "三谷幸喜",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "井上朋子",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "倉本聰",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "北原義昭",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "北島三郎",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "千玄室",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "大村智",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "1.0",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "宮崎駿",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "宮脇咲良",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "小澤征爾",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "山海嘉之",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "山田洋次",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "幸田露伴",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "教皇フランシスコ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "朝永振一郎",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "木村拓哉",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "村上春樹",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "松下幸之助",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "松岡修造",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "スポーツ",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "梅宮辰夫",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "俳優・女優",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "森繁久彌",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "植田直通",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "スポーツ",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "毒蝮三太夫",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "河瀨直美",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "泉重千代",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "淡谷のり子",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "渡辺健",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "湯川秀樹",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "王貞治",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "スポーツ",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "田中邦衛",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "俳優・女優",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "白川静",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "矢沢永吉",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "石坂公成",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "種田山頭火",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "稲垣浩",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "藤子・F・不二雄",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "藤山一郎",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "藤沢周平",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "角野栄子",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "遠藤周作",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "野口聡一",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "野村克也",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "スポーツ",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "鈴木章",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "1.0",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "長嶋茂雄",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "スポーツ",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "高倉健",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "俳優・女優",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "神山清子",
+      "episode_count": 0,
+      "priority": 19,
+      "tier": null,
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "竹鶴政孝",
+      "episode_count": 0,
+      "priority": 19,
+      "tier": null,
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ウォーレン・バフェット",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "クリント・イーストウッド",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "五木寛之",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "伊能忠敬",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "加山雄三",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "坂上二郎",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "岡島悦子",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "昭和天皇",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "桂歌丸",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "梅棹忠夫",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "棟方志功",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "森光子",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "渋沢栄一",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "真鍋淑郎",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "赤﨑勇",
+      "episode_count": 2,
+      "priority": 19,
+      "tier": "1.0",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "吉田茂",
+      "episode_count": 0,
+      "priority": 18,
+      "tier": null,
+      "category": "政治・社会",
+      "person_type": "実在"
+    },
+    {
+      "person_name": "黒柳徹子",
+      "episode_count": 0,
+      "priority": 18,
+      "tier": null,
+      "category": "エンターテイメント",
+      "person_type": "実在"
+    },
+    {
+      "person_name": "三波春夫",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "下村脩",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "1.0",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "南部陽一郎",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "1.0",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "横山大観",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "瀬戸内寂聴",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "草間彌生",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "1.0",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "葛飾北斎",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "養老孟司",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "黒澤明",
+      "episode_count": 3,
+      "priority": 16,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "日野原重明",
+      "episode_count": 4,
+      "priority": 11,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    }
+  ]
+}

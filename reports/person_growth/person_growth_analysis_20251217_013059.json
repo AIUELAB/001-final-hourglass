@@ -1,0 +1,506 @@
+{
+  "timestamp": "2025-12-17T01:30:59.012080",
+  "summary": {
+    "total_candidates": 80,
+    "validation_errors": 1,
+    "missing_persons": 1,
+    "found_persons": 79,
+    "missing_percentage": 1.25
+  },
+  "missing_persons": [
+    {
+      "person_name": "YOASOBI",
+      "category": "音楽",
+      "person_type": "REAL",
+      "source_file": "manual_list"
+    }
+  ],
+  "found_persons": [
+    {
+      "person_name": "広岡浅子",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "安藤百福",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "古関裕而",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "牧野富太郎",
+      "category": "科学・技術",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "笠置シヅ子",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "三淵嘉子",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "武良布枝",
+      "category": "その他",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "村岡花子",
+      "category": "文学",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "竹鶴政孝",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "竹鶴リタ",
+      "category": "その他",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "大橋鎭子",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "吉本せい",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "神山清子",
+      "category": "芸術・文化",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "田辺聖子",
+      "category": "文学",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "磯村春子",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "水木しげる",
+      "category": "アニメ・漫画・ゲーム",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "安藤仁子",
+      "category": "その他",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "古関金子",
+      "category": "その他",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "小篠綾子",
+      "category": "建築・デザイン",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ナリタブライアン",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "オグリキャップ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ディープインパクト",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "シンボリルドルフ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ミスターシービー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "トウカイテイオー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "メジロマックイーン",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ライスシャワー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "サイレンススズカ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "テンポイント",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "トウショウボーイ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "グリーングラス",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "サクラローレル",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "タイキシャトル",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "エルコンドルパサー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "グラスワンダー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "スペシャルウィーク",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "テイエムオペラオー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "キングカメハメハ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ゼンノロブロイ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ダイワスカーレット",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ウオッカ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ブエナビスタ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "オルフェーヴル",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジェンティルドンナ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ゴールドシップ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "キタサンブラック",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "アーモンドアイ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "コントレイル",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "アパパネ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "メイショウドトウ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "スティルインラブ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "クロノジェネシス",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "コントレイル",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "エフフォーリア",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "イクイノックス",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "タイトルホルダー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ソダシ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "デアリングタクト",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ラヴズオンリーユー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ハイセイコー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "マルゼンスキー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "シンザン",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "メジロラモーヌ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ニッポーテイオー",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ビワハヤヒデ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ナリタタイシン",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ホクトベガ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "エアグルーヴ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "メジロドーベル",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "カツラギエース",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ナリタブライアン",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "オグリキャップ",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ディープインパクト",
+      "category": "競走馬",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "桜井和寿",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "草野マサムネ",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "Ayase",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "幾田りら",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "米津玄師",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "あいみょん",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    }
+  ],
+  "validation_errors": [
+    {
+      "person_name": "YOASOBI",
+      "source_file": "manual_list",
+      "severity": "error",
+      "message": "グループ名 'YOASOBI' が人物名として登録されています",
+      "issue_type": "group_as_person"
+    }
+  ],
+  "category_breakdown": {
+    "音楽": 1
+  }
+}

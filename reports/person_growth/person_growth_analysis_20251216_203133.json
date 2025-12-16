@@ -1,0 +1,323 @@
+{
+  "timestamp": "2025-12-16T20:31:33.920999",
+  "summary": {
+    "total_candidates": 51,
+    "validation_errors": 0,
+    "missing_persons": 51,
+    "found_persons": 0,
+    "missing_percentage": 100.0
+  },
+  "missing_persons": [
+    {
+      "person_name": "ナリタブライアン",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "オグリキャップ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ディープインパクト",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "シンボリルドルフ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ミスターシービー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "トウカイテイオー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "メジロマックイーン",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ライスシャワー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "サイレンススズカ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "テンポイント",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "トウショウボーイ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "グリーングラス",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "サクラローレル",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "タイキシャトル",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "エルコンドルパサー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "グラスワンダー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "スペシャルウィーク",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "テイエムオペラオー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "キングカメハメハ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ゼンノロブロイ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ダイワスカーレット",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ウオッカ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ブエナビスタ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "オルフェーヴル",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ジェンティルドンナ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ゴールドシップ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "キタサンブラック",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "アーモンドアイ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "コントレイル",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "アパパネ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "メイショウドトウ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "スティルインラブ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "クロノジェネシス",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "コントレイル",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "エフフォーリア",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "イクイノックス",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "タイトルホルダー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ソダシ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "デアリングタクト",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ラヴズオンリーユー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ハイセイコー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "マルゼンスキー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "シンザン",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "メジロラモーヌ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ニッポーテイオー",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ビワハヤヒデ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ナリタタイシン",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "ホクトベガ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "エアグルーヴ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "メジロドーベル",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    },
+    {
+      "person_name": "カツラギエース",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "racehorses"
+    }
+  ],
+  "found_persons": [],
+  "validation_errors": [],
+  "category_breakdown": {
+    "競走馬": 51
+  }
+}

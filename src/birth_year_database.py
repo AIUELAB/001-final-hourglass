@@ -381,6 +381,55 @@ BIRTH_YEARS: dict[str, int] = {
     "りゅうちぇる": 1995,
     "Taka": 1988,
     "Vaundy": 2000,
+    # ========================================
+    # 医学・健康分野
+    # ========================================
+    # 日本人ノーベル賞受賞者
+    "山中伸弥": 1962,
+    "本庶佑": 1942,
+    "大村智": 1935,
+    "利根川進": 1939,
+    "大隅良典": 1945,
+    # 日本人著名研究者
+    "坂口志文": 1951,
+    "審良静男": 1953,
+    "岸本忠三": 1939,
+    "森和俊": 1958,
+    "遠藤章": 1933,
+    "中村祐輔": 1952,
+    # 歴史的医学者（日本）
+    "北里柴三郎": 1853,
+    "華岡青洲": 1760,
+    "杉田玄白": 1733,
+    "緒方洪庵": 1810,
+    "前野良沢": 1723,
+    "佐々木隆興": 1892,
+    "高峰譲吉": 1854,
+    "荻野久作": 1882,
+    # 日本人医師（現代）
+    "天野篤": 1955,
+    "須藤斎": 1958,
+    "上昌広": 1968,
+    "福島孝徳": 1942,
+    "日野原重明": 1911,
+    # 西洋医学史
+    "ルイ・パスツール": 1822,
+    "アレクサンダー・フレミング": 1881,
+    "フローレンス・ナイチンゲール": 1820,
+    "エドワード・ジェンナー": 1749,
+    "ロベルト・コッホ": 1843,
+    "ジェームズ・ワトソン": 1928,
+    "フランシス・クリック": 1916,
+    "ジョナス・ソーク": 1914,
+    "アルバート・セービン": 1906,
+    "ウィリアム・ハーヴェー": 1578,
+    "ヨーゼフ・リスター": 1827,
+    "イグナーツ・ゼンメルワイス": 1818,
+    # 古代医学
+    "ガレノス": 129,
+    "ヒポクラテス": -460,
+    # 蘭学
+    "フィリップ・フランツ・フォン・シーボルト": 1796,
 }
 
 
@@ -423,7 +472,7 @@ def calculate_episode_year(person_name: str, age: int) -> Optional[int]:
     return birth_year + age
 
 
-def is_future_episode(person_name: str, age: int, current_year: int = None) -> bool:
+def is_future_episode(person_name: str, age: int, current_year: Optional[int] = None) -> bool:
     """
     未来のエピソードかどうかを判定
 
@@ -449,7 +498,7 @@ def is_future_episode(person_name: str, age: int, current_year: int = None) -> b
     return episode_year > current_year
 
 
-def get_max_valid_age(person_name: str, current_year: int = None) -> Optional[int]:
+def get_max_valid_age(person_name: str, current_year: Optional[int] = None) -> Optional[int]:
     """
     現在までに達成可能な最大年齢を取得
 
@@ -471,7 +520,10 @@ def get_max_valid_age(person_name: str, current_year: int = None) -> Optional[in
 
 
 def validate_episode_age(
-    person_name: str, age: int, person_type: str = "REAL", current_year: int = None
+    person_name: str,
+    age: int,
+    person_type: str = "REAL",
+    current_year: Optional[int] = None,
 ) -> tuple[bool, str]:
     """
     エピソードの年齢が妥当かどうかを検証

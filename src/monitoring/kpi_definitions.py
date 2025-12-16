@@ -143,13 +143,21 @@ class EPUPKPICalculator:
         )
 
     def _calc_group_name_rate(self) -> KPIResult:
-        """グループ名混入率を計算"""
+        """
+        グループ名混入率を計算
+
+        person_typeがGROUP以外でperson_nameがGROUP_ENTITIESに含まれる人物名を検出
+        """
         group_as_person = 0
 
-        for name in self.df["person_name"].dropna().unique():
+        # person_type != 'GROUP' のレコードのみを対象
+        non_group_df = self.df[self.df["person_type"] != "GROUP"]
+
+        for name in non_group_df["person_name"].dropna().unique():
             if name in GROUP_ENTITIES:
                 group_as_person += 1
 
+        # 全体のユニーク人物名数（person_type不問）
         total = self.df["person_name"].dropna().nunique()
         rate = group_as_person / total if total > 0 else 0.0
 

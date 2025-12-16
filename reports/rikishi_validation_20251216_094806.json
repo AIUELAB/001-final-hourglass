@@ -1,0 +1,162 @@
+{
+  "timestamp": "2025-12-16T09:48:06.207598",
+  "total_rikishi": 17,
+  "needs_fix": 0,
+  "review_required": 0,
+  "ok": 17,
+  "results": [
+    {
+      "person_id": "P037AC1A",
+      "person_name": "白鵬",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 4
+    },
+    {
+      "person_id": "P0B079A5",
+      "person_name": "照ノ富士",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P1C0B7AC",
+      "person_name": "曙",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P1EEC6E2",
+      "person_name": "稀勢の里",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 3
+    },
+    {
+      "person_id": "P23CF32C",
+      "person_name": "大鵬",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P240CA97",
+      "person_name": "貴乃花",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 2
+    },
+    {
+      "person_id": "P524E2EE",
+      "person_name": "輪島",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P5420FBE",
+      "person_name": "舞の海",
+      "status": "OK",
+      "pattern": "OTHER",
+      "confidence": 0.5,
+      "notes": "力士ではない可能性が高い、または問題なし",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P77BA0A1",
+      "person_name": "千代大海",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P7EB3BBC",
+      "person_name": "土佐ノ海",
+      "status": "OK",
+      "pattern": "OTHER",
+      "confidence": 0.5,
+      "notes": "力士ではない可能性が高い、または問題なし",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P7F0DC46",
+      "person_name": "ドルゴスレン・スミヤ",
+      "status": "OK",
+      "pattern": "OTHER",
+      "confidence": 0.5,
+      "notes": "力士ではない可能性が高い、または問題なし",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P86DDA8E",
+      "person_name": "藤田紀子",
+      "status": "OK",
+      "pattern": "OTHER",
+      "confidence": 0.5,
+      "notes": "力士ではない可能性が高い、または問題なし",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P887D990",
+      "person_name": "土佐ノ海",
+      "status": "OK",
+      "pattern": "OTHER",
+      "confidence": 0.5,
+      "notes": "力士ではない可能性が高い、または問題なし",
+      "episode_count": 1
+    },
+    {
+      "person_id": "PB392B99",
+      "person_name": "朝青龍",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "PD99CD83",
+      "person_name": "千代の富士",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 4
+    },
+    {
+      "person_id": "PEC903B6",
+      "person_name": "霧馬山",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    },
+    {
+      "person_id": "PF5FE4F2",
+      "person_name": "武蔵丸",
+      "status": "OK",
+      "pattern": "EXACT_MATCH",
+      "confidence": 1.0,
+      "notes": "RIKISHI_SHIKONAリストに登録済み",
+      "episode_count": 1
+    }
+  ]
+}

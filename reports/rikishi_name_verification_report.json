@@ -1,0 +1,118 @@
+{
+  "timestamp": "2025-12-16T09:30:00Z",
+  "total_rikishi_checked": 2,
+  "verification_results": [
+    {
+      "person_id": "P5420FBE",
+      "current_name": "舞の海秀平",
+      "correct_shikona": "舞の海",
+      "real_name": "長尾 秀平",
+      "confidence": 1.0,
+      "source": "Wikipedia",
+      "source_url": "https://ja.wikipedia.org/wiki/舞の海秀平",
+      "notes": "四股名「舞の海」は出身地（舞戸町）と所属部屋（出羽海）に由来。本名「秀平」は名のみ。",
+      "status": "NEEDS_FIX"
+    },
+    {
+      "person_id": "P887D990",
+      "current_name": "土佐ノ海敏生",
+      "correct_shikona": "土佐ノ海",
+      "real_name": "山本 敏生",
+      "confidence": 1.0,
+      "source": "Wikipedia",
+      "source_url": "https://ja.wikipedia.org/wiki/土佐ノ海敏生",
+      "notes": "四股名「土佐ノ海」は師匠・伊勢ヶ濱親方による命名。本名「敏生」は名のみ。",
+      "status": "NEEDS_FIX"
+    }
+  ],
+  "other_rikishi_checked": [
+    {
+      "person_id": "P1EEC6E2",
+      "person_name": "稀勢の里",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "PD99CD83",
+      "person_name": "千代の富士",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P037AC1A",
+      "person_name": "白鵬",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P0B079A5",
+      "person_name": "照ノ富士",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P1C0B7AC",
+      "person_name": "曙",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P23CF32C",
+      "person_name": "大鵬",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P240CA97",
+      "person_name": "貴乃花",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P524E2EE",
+      "person_name": "輪島",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P77BA0A1",
+      "person_name": "千代大海",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "P7EB3BBC",
+      "person_name": "土佐ノ海",
+      "status": "OK",
+      "notes": "四股名のみで正しい（P887D990と同一人物だが表記は正しい）"
+    },
+    {
+      "person_id": "PB392B99",
+      "person_name": "朝青龍",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "PEC903B6",
+      "person_name": "霧馬山",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    },
+    {
+      "person_id": "PF5FE4F2",
+      "person_name": "武蔵丸",
+      "status": "OK",
+      "notes": "四股名のみで正しい"
+    }
+  ],
+  "summary": {
+    "total_rikishi_candidates": 17,
+    "needs_fix": 2,
+    "ok": 14,
+    "other": 1
+  },
+  "references": [
+    "舞の海秀平 - Wikipedia: https://ja.wikipedia.org/wiki/舞の海秀平",
+    "土佐ノ海敏生 - Wikipedia: https://ja.wikipedia.org/wiki/土佐ノ海敏生"
+  ]
+}

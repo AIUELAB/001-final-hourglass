@@ -1,0 +1,87 @@
+{
+  "timestamp": "2025-12-16T19:29:35.822483",
+  "summary": {
+    "total_candidates": 10,
+    "validation_errors": 1,
+    "missing_persons": 4,
+    "found_persons": 6,
+    "missing_percentage": 40.0
+  },
+  "missing_persons": [
+    {
+      "person_name": "ナリタブライアン",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "manual_list"
+    },
+    {
+      "person_name": "オグリキャップ",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "manual_list"
+    },
+    {
+      "person_name": "ディープインパクト",
+      "category": "競走馬",
+      "person_type": "REAL",
+      "source_file": "manual_list"
+    },
+    {
+      "person_name": "YOASOBI",
+      "category": "音楽",
+      "person_type": "REAL",
+      "source_file": "manual_list"
+    }
+  ],
+  "found_persons": [
+    {
+      "person_name": "桜井和寿",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "草野マサムネ",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "Ayase",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "幾田りら",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "米津玄師",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "あいみょん",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    }
+  ],
+  "validation_errors": [
+    {
+      "person_name": "YOASOBI",
+      "source_file": "manual_list",
+      "severity": "error",
+      "message": "グループ名 'YOASOBI' が人物名として登録されています",
+      "issue_type": "group_as_person"
+    }
+  ],
+  "category_breakdown": {
+    "競走馬": 3,
+    "音楽": 1
+  }
+}

@@ -138,7 +138,7 @@ def test_fact_checker_integration():
 
     print(f"実行されたテストケース: {total_cases}")
     print(f"違反が検出されたケース: {cases_with_violations}")
-    print(f"成功率: {(cases_with_violations/total_cases)*100:.1f}%")
+    print(f"成功率: {(cases_with_violations / total_cases) * 100:.1f}%")
 
     # FactCheckerが利用可能か確認
     if FactChecker is not None:

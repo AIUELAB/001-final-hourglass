@@ -389,13 +389,13 @@ class IntegrityChecker:
 ========================================
 データ整合性レポート
 ========================================
-生成日時: {report['timestamp']}
-総レコード数: {report['total_rows']:,}
+生成日時: {report["timestamp"]}
+総レコード数: {report["total_rows"]:,}
 
 【サマリー】
-- エラー: {report['errors']}件
-- 警告: {report['warnings']}件
-- 検証結果: {'✅ 合格' if report['is_valid'] else '❌ 不合格'}
+- エラー: {report["errors"]}件
+- 警告: {report["warnings"]}件
+- 検証結果: {"✅ 合格" if report["is_valid"] else "❌ 不合格"}
 
 【チェック項目】
 """

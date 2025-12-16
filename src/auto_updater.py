@@ -158,9 +158,7 @@ class AutoUpdater:
             result["rows_updated"] = len(all_values)
             result["time_taken"] = time.time() - start_time
 
-            self.logger.info(
-                f"✅ アトミック更新成功: {result['rows_updated']}行を" f"{result['time_taken']:.2f}秒で更新"
-            )
+            self.logger.info(f"✅ アトミック更新成功: {result['rows_updated']}行を{result['time_taken']:.2f}秒で更新")
 
             # 更新履歴記録
             self._record_update_history(spreadsheet_id, sheet_name, result)
@@ -388,7 +386,7 @@ class AutoUpdater:
         return {
             "total_updates": total_updates,
             "successful_updates": successful_updates,
-            "success_rate": f"{(successful_updates/total_updates)*100:.1f}%",
+            "success_rate": f"{(successful_updates / total_updates) * 100:.1f}%",
             "total_rows_updated": total_rows,
             "average_time_seconds": round(avg_time, 2),
             "last_update": self.update_history[-1]["timestamp"] if self.update_history else None,

@@ -658,7 +658,7 @@ def main():
 
             logger.info("\n📌 寄与因子:")
             for factor in prediction.contributing_factors:
-                logger.info(f"  {factor['feature']}: {factor['value']:.2f} " f"(重要度: {factor['importance']:.4f})")
+                logger.info(f"  {factor['feature']}: {factor['value']:.2f} (重要度: {factor['importance']:.4f})")
 
             logger.info("\n💡 推奨事項:")
             for rec in prediction.recommendations:

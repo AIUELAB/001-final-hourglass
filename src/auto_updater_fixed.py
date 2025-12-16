@@ -162,9 +162,7 @@ class AutoUpdaterFixed:
             result["rows_updated"] = total_rows
             result["time_taken"] = time.time() - start_time
 
-            self.logger.info(
-                f"✅ アトミック更新成功: {result['rows_updated']}行を" f"{result['time_taken']:.2f}秒で更新"
-            )
+            self.logger.info(f"✅ アトミック更新成功: {result['rows_updated']}行を{result['time_taken']:.2f}秒で更新")
 
         except Exception as e:
             result["error"] = str(e)

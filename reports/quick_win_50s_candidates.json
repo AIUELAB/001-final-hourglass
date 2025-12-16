@@ -1,0 +1,414 @@
+{
+  "selection_date": "2025-12-16T23:30:00",
+  "age_range": "50代",
+  "current_episodes": 1356,
+  "target_70_percent": 1400,
+  "needed_episodes": 44,
+  "candidates_selected": 50,
+  "selection_criteria": {
+    "episode_count_threshold": 5,
+    "priority_scoring": "episode_count + tier + person_type"
+  },
+  "candidates": [
+    {
+      "person_name": "ASKA",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Activision・Bobby Kotick",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "B.F.スキナー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Bethesda・Todd Howard",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "J・R・R・トールキン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Mr.マリック",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Rintaro",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Robert Davis",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Thomas White",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "Valve・Gabe Newell",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "ufotable・近藤光",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "さいとうたかを",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "みうらじゅん",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "もたいまさこ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "やなせたかし",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "アニメ・漫画・ゲーム",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アイザック・バシェビス・シンガー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アイ・ウェイウェイ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アウンサンスーチー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アガサ・クリスティ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "1.0",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アシュケナージ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アストル・ピアソラ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アダム・スミス",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アッバス・キアロスタミ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アニー・スミス・ペック",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "探検・冒険",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アニー・プルー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アバド",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アビゲイル・ジョンソン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アラン・ケイ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アリアナ・ハフィントン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アルバート・サビン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "1.0",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アルフレッド・ウェーゲナー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "探検・冒険",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アルフレッド・ステーグリッツ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アルフレッド・ノーベル",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "科学・技術",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アルフレッド・ヒッチコック",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アル・ゴア",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アンゲラ・メルケル",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "政治・社会",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アンディ・ウォーホル",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アンディ・ジャシー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アントニオ・ダマシオ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アントニ・ガウディ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アンドリュー・カーネギー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "ビジネス",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アンドレ・アガシ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "スポーツ",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アンリ・マティス",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "芸術・文化",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "アーノルド・シュワルツェネッガー",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "エンターテイメント",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "イサク・ディネーセン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "イサベル・アジェンデ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "イタロ・カルヴィーノ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "文学",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "イツァーク・パールマン",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "音楽",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "イドリス・エルバ",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "映画・演劇",
+      "person_type": "REAL"
+    },
+    {
+      "person_name": "イマニュエル・カント",
+      "episode_count": 1,
+      "priority": 21,
+      "tier": "WEEK_1",
+      "category": "学術・研究",
+      "person_type": "REAL"
+    }
+  ]
+}

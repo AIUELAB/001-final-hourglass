@@ -1,0 +1,249 @@
+{
+  "timestamp": "2025-12-17T01:34:38.356821",
+  "summary": {
+    "total_candidates": 39,
+    "validation_errors": 0,
+    "missing_persons": 0,
+    "found_persons": 39,
+    "missing_percentage": 0.0
+  },
+  "missing_persons": [],
+  "found_persons": [
+    {
+      "person_name": "ミハイル・ゴルバチョフ",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジョー・バイデン",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ビル・クリントン",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジョージ・W・ブッシュ",
+      "category": "政治・社会",
+      "match_type": "similar",
+      "match_confidence": 0.9
+    },
+    {
+      "person_name": "アンゲラ・メルケル",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ヒラリー・クリントン",
+      "category": "政治・社会",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ポール・マッカートニー",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "リンゴ・スター",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ボブ・ディラン",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "エリック・クラプトン",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "エルトン・ジョン",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "スティービー・ワンダー",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ロバート・デ・ニーロ",
+      "category": "映画・演劇",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "アル・パチーノ",
+      "category": "映画・演劇",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ダスティン・ホフマン",
+      "category": "映画・演劇",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジャック・ニコルソン",
+      "category": "映画・演劇",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "メリル・ストリープ",
+      "category": "映画・演劇",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ハリソン・フォード",
+      "category": "映画・演劇",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ウォーレン・バフェット",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ビル・ゲイツ",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジョージ・ソロス",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ルパート・マードック",
+      "category": "ビジネス",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジェームズ・ワトソン",
+      "category": "科学・技術",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "スティーブン・ホーキング",
+      "category": "科学・技術",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ジェーン・グドール",
+      "category": "科学・技術",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ペレ",
+      "category": "スポーツ",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ディエゴ・マラドーナ",
+      "category": "スポーツ",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "マイク・タイソン",
+      "category": "スポーツ",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "マジック・ジョンソン",
+      "category": "スポーツ",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "明石家さんま",
+      "category": "エンターテイメント",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "タモリ",
+      "category": "エンターテイメント",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "ビートたけし",
+      "category": "エンターテイメント",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "志村けん",
+      "category": "エンターテイメント",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "坂本龍一",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "松任谷由実",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "細野晴臣",
+      "category": "音楽",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "高畑勲",
+      "category": "アニメ・漫画・ゲーム",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "大友克洋",
+      "category": "アニメ・漫画・ゲーム",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    },
+    {
+      "person_name": "村上春樹",
+      "category": "文学",
+      "match_type": "exact",
+      "match_confidence": 1.0
+    }
+  ],
+  "validation_errors": [],
+  "category_breakdown": {}
+}

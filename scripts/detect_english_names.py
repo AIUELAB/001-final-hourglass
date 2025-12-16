@@ -616,7 +616,27 @@ def extract_keep_english_names() -> Set[str]:
         "L'Arc〜en〜Ciel",
         "NMB48",
         "AC/DC",
+        # 海外ロック/ポップバンド
+        "Radiohead",
+        "Nirvana",
+        "Alice in Chains",
+        "Soundgarden",
+        "Metallica",
+        # 海外アーティスト（ソロ）
+        "Madonna",
+        "Prince",
+        "SZA",
+        "Beyoncé",
+        "50 Cent",
+        "Shakira",
+        "Neymar",
+        # 海外クリエイター/その他
+        "Hergé",
+        'Dwayne "The Rock" Johnson',
+        "Notch",
         # 日本のソロアーティスト（英語芸名）
+        "Taka",
+        "OKAMA",
         "Aimyon",
         "Fukase",
         "Ayase",

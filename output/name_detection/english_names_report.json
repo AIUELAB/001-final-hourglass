@@ -1,20 +1,20 @@
 {
-  "timestamp": "2025-12-16T08:15:20.366545",
-  "total_persons": 7213,
-  "english_name_count": 112,
-  "english_name_ratio": 1.5527519755996118,
+  "timestamp": "2025-12-16T10:25:05.075399",
+  "total_persons": 7201,
+  "english_name_count": 94,
+  "english_name_ratio": 1.305374253575892,
   "classification": {
     "to_translate": 15,
-    "keep_english": 61,
-    "review_required": 36
+    "keep_english": 62,
+    "review_required": 17
   },
   "name_type_breakdown": {
-    "artist_name": 86,
-    "unknown": 11,
+    "artist_name": 76,
     "western_name": 14,
+    "unknown": 3,
     "romanized_japanese": 1
   },
-  "keep_english_list_size": 175,
+  "keep_english_list_size": 176,
   "keep_english_names": [
     "A.B.C-Z",
     "AC/DC",
@@ -113,6 +113,7 @@
     "NIGO",
     "NIJISANJI",
     "NMB48",
+    "NON STYLE",
     "NewJeans",
     "Nujabes",
     "ONE",

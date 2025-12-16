@@ -449,6 +449,12 @@ GROUP_ENTITIES: Set[str] = {
     "RADWIMPS",
     "YOASOBI",
     "back number",
+    # ===== 海外ロック/ポップバンド =====
+    "Radiohead",
+    "Nirvana",
+    "Alice in Chains",
+    "Soundgarden",
+    "Metallica",
     # ===== お笑いグループ =====
     "ダウンタウン",
     "ナインティナイン",

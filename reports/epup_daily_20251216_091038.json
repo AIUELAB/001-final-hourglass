@@ -1,0 +1,119 @@
+{
+  "check_type": "daily",
+  "timestamp": "2025-12-16T09:10:38.231795",
+  "total_records": 9680,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.00013896609227348526,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "group_as_person": 1,
+        "total_unique": 7196
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "variant_ids": 0,
+        "total_ids": 7201
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9680
+      }
+    },
+    {
+      "name": "削除済みID混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated": 0,
+        "deleted_ids_count": 1,
+        "deleted_names_count": 1,
+        "contaminated_entries": []
+      }
+    },
+    {
+      "name": "組織名・肩書き混入率",
+      "value": 0.00013896609227348526,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "contaminated_count": 1,
+        "total_unique_names": 7196,
+        "contaminated_examples": [
+          "舞の海秀平 → 舞の海秀"
+        ]
+      }
+    },
+    {
+      "name": "英字別名検出率",
+      "value": 0.0025013896609227346,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "review_required_count": 18,
+        "total_unique_persons": 7196,
+        "review_examples": [
+          "Taka (artist_name)",
+          "NON STYLE (artist_name)",
+          "Madonna (artist_name)",
+          "Prince (artist_name)",
+          "SZA (artist_name)",
+          "Beyoncé (artist_name)",
+          "50 Cent (unknown)",
+          "Shakira (artist_name)",
+          "Hergé (artist_name)",
+          "Dwayne \"The Rock\" Johnson (unknown)"
+        ]
+      }
+    },
+    {
+      "name": "後置詞型パターン検出率",
+      "value": 0.00013896609227348526,
+      "target": 0.0,
+      "status": "WARNING",
+      "details": {
+        "error_count": 1,
+        "total_unique_names": 7196,
+        "error_examples": [
+          "舞の海秀平"
+        ]
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "name": "グループ名混入率",
+      "status": "WARNING",
+      "value": 0.00013896609227348526
+    },
+    {
+      "name": "組織名・肩書き混入率",
+      "status": "WARNING",
+      "value": 0.00013896609227348526
+    },
+    {
+      "name": "英字別名検出率",
+      "status": "WARNING",
+      "value": 0.0025013896609227346
+    },
+    {
+      "name": "後置詞型パターン検出率",
+      "status": "WARNING",
+      "value": 0.00013896609227348526
+    }
+  ]
+}

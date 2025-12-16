@@ -336,7 +336,7 @@ def main():
     ]
 
     for case in test_cases:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         text = str(case["text"])
         age = int(case["age"])
         person_type = str(case["type"])

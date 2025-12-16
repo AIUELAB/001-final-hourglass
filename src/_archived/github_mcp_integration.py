@@ -215,10 +215,7 @@ class GitHubMCPIntegration:
 
         labels_str = f" with labels {', '.join(labels)}" if labels else ""
         prompt = (
-            f"Create a new issue in the GitHub repository {owner}/{repo}:\n"
-            f"Title: {title}\n"
-            f"Body: {body}\n"
-            f"{labels_str}\n"
+            f"Create a new issue in the GitHub repository {owner}/{repo}:\nTitle: {title}\nBody: {body}\n{labels_str}\n"
         )
 
         console.print(f"\n+ Creating issue in: {owner}/{repo}")

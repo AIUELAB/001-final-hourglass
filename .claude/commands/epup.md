@@ -5,13 +5,20 @@ description: EPUP - Episode Update Pipeline（エピソードDB品質の検出�
 # EPUP Skill（Episode Update Pipeline）
 
 ## 目的
+
 エピソードデータベースの品質を、**EPUP 7ステップ**（検出→分析→修正→類似検索→一括修正→予防→監視）で継続改善します。
 
 ## 参照（最小読み）
+
 - **EPUP System 調査報告書（詳細）**: `/Users/admin/.claude/plans/typed-wishing-scone.md`
   - ※必要になったタイミングで“該当セクションだけ”参照し、全文貼り付けはしない
+- **EPUP ファクトチェック設計（ハルシネーション対策の要点）**: `reports/EPUP_FACTCHECK_SYSTEM_REDESIGN.md`
+- **エピソード本文バリデーション（非LLM）**: `scripts/episode_validator.py`
+- **定型文・曖昧表現ブロック（非LLM）**: `episode_quality_system/template_blocker.py`
+- **ハルシネーション疑い検出（ヒューリスティック・非Web）**: `src/fact_checker.py`
 
 ## 重要制約（必須）
+
 - **推測で断言しない**：事実は「ファイルパス＋短い抜粋」で根拠を示す
 - **機密を出さない**：APIキー等の値は表示・要求しない
 - **低コンテキスト運用**：
@@ -20,17 +27,154 @@ description: EPUP - Episode Update Pipeline（エピソードDB品質の検出�
 - **自動修正は勝手にしない**：`--fix` / `--auto-fix` など“書き換える操作”は必ずユーザー承認後
 
 ## まず実行すること（最短ルート）
+
 1. **エピソードDBの実体パスを確定**（存在するものを優先）
    - 候補: `preserved/data/MASTER_EPISODES_CURRENT.csv`, `preserved/MASTER_EPISODES_CURRENT.csv`, `MASTER_EPISODES_CURRENT.csv`, `data/MASTER_EPISODES_CURRENT.csv`
 2. **軽量ヘルスチェック（ローカル・非LLM）**
    - `python scripts/check_single_master.py`
    - `python scripts/scheduled_epup_check.py --daily --csv <CSV_PATH>`
+2.5 **エピソード本文の品質バリデーション（ローカル・非LLM）**
+   - 生成直後（staging）: `python scripts/episode_validator.py --source pipeline_staging --output reports/episode_validator_staging_YYYYMMDD_HHMMSS.json`
+   - 既存マスター（master）: `python scripts/episode_validator.py --source <CSV_PATH> --output reports/episode_validator_master_YYYYMMDD_HHMMSS.json`
 3. **必要時のみ成果評価（ローカル・非LLM）**
    - `python scripts/evaluate_epup_effectiveness.py --csv <CSV_PATH> --output reports/epup_evaluation_manual_YYYYMMDD_HHMMSS.json`
 4. **結果に応じて「最小の次アクション」を提案**
    - 例：グループ名混入→該当修正スクリプト提案、架空キャラのメタ表現→`fix_fictional_meta_episodes.py`提案など
 
+## 超高品質・ハルシネーションチェック（生成後に必ず実施）
+
+目的：エピソードが「読み物として高品質」かつ「ハルシネーション（事実誤り/根拠不足/時代錯誤/数値矛盾）」を含まない状態にする。
+
+### 推奨：4層チェック（速い→重い）
+
+1. **KPI（日次）**: `scripts/scheduled_epup_check.py`（名前汚染/肩書き混入/英字別名など）
+2. **本文バリデーション**: `scripts/episode_validator.py`（形式・年齢・名前一致・メタ表現・プレースホルダー・重複）
+3. **品質スコア/21指標**: `scripts/evaluate_epup_effectiveness.py`（事実密度/内容密度/未来年齢疑い/拒否応答など）
+4. **ハルシネーション疑い（ヒューリスティック）**: `src/fact_checker.py`（世界初/唯一/史上最/ノーベル/ギネス/巨大数値/時代錯誤/100%超 等）
+
+### 最小実行セット（コピペ用）
+
+```bash
+# 0) CSVパスを確定（例）
+CSV_PATH="preserved/data/MASTER_EPISODES_CURRENT.csv"
+
+# 1) 日次KPI（速い）
+python scripts/scheduled_epup_check.py --daily --csv "$CSV_PATH"
+
+# 2) 本文バリデーション（速い・重要）
+python scripts/episode_validator.py --source "$CSV_PATH" --output "reports/episode_validator_master_$(date +%Y%m%d_%H%M%S).json"
+
+# 3) 21指標で全体把握（非LLM）
+python scripts/evaluate_epup_effectiveness.py --csv "$CSV_PATH" --output "reports/epup_evaluation_manual_$(date +%Y%m%d_%H%M%S).json"
+```
+
+### 追加（任意）：TemplateBlockerで定型文/曖昧表現を一括検出
+
+※「テンプレ臭＝低品質」や「メタ的説明＝破綻」の早期発見に有効。自動修正は行わず“検出と根拠提示”まで。
+
+```bash
+python - <<'PY'
+from pathlib import Path
+import pandas as pd
+from episode_quality_system.template_blocker import TemplateBlocker
+
+csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
+df = pd.read_csv(csv_path, encoding="utf-8-sig")
+blocker = TemplateBlocker()
+
+hits = []
+for _, row in df.iterrows():
+    text = str(row.get("episode_text", ""))
+    if not text or text == "nan":
+        continue
+    person_type = str(row.get("person_type", ""))
+    should_block, violations = blocker.check_episode(text, person_type=person_type)
+    if should_block:
+        hits.append(
+            {
+                "episode_id": row.get("episode_id", ""),
+                "person_name": row.get("person_name", ""),
+                "age": row.get("age", ""),
+                "violations": len(violations),
+                "example": violations[0].matched_text if violations else "",
+            }
+        )
+
+hits.sort(key=lambda x: -x["violations"])
+print(f"TemplateBlocker hits: {len(hits)}")
+for h in hits[:10]:
+    print(f"- {h['episode_id']} {h['person_name']}({h['age']}歳) v={h['violations']} e.g. {h['example']}")
+PY
+```
+
+### 追加（任意）：FactCheckerで“ハルシネーション疑い”を抽出
+
+※これは**外部参照なし**の“疑い検出”です。`INCORRECT/SUSPICIOUS` は「要修正 or 要手動確認」扱いにしてください（推測で正しいと断言しない）。
+
+```bash
+python - <<'PY'
+from pathlib import Path
+import pandas as pd
+from src.fact_checker import FactChecker, FactCheckResult
+
+csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
+df = pd.read_csv(csv_path, encoding="utf-8-sig")
+checker = FactChecker()
+
+suspicious = []
+for _, row in df.iterrows():
+    text = str(row.get("episode_text", ""))
+    if not text or text == "nan":
+        continue
+
+    person_id = str(row.get("person_id", ""))
+    person_name = str(row.get("person_name", ""))
+
+    # birth_year列は環境により名前が違うため両対応（無ければNone）
+    birth_year_raw = row.get("birth_year", None)
+    if birth_year_raw is None:
+        birth_year_raw = row.get("birth_year_int", None)
+
+    try:
+        birth_year = int(birth_year_raw) if birth_year_raw and str(birth_year_raw) != "nan" else None
+    except Exception:
+        birth_year = None
+
+    report = checker.check_episode(
+        person_id=person_id,
+        person_name=person_name,
+        episode_text=text,
+        birth_year=birth_year,
+        metadata={"episode_id": row.get("episode_id", ""), "age": row.get("age", "")},
+    )
+
+    if report.result in (FactCheckResult.INCORRECT, FactCheckResult.SUSPICIOUS):
+        suspicious.append(
+            {
+                "score": report.total_score,
+                "result": report.result.value,
+                "episode_id": row.get("episode_id", ""),
+                "person_name": person_name,
+                "age": row.get("age", ""),
+                "issues": [v.message for v in report.violations[:3]],
+            }
+        )
+
+suspicious.sort(key=lambda x: x["score"])
+print(f"suspicious: {len(suspicious)}")
+for s in suspicious[:20]:
+    print(f"- score={s['score']:.0f} {s['episode_id']} {s['person_name']}({s['age']}歳) {s['result']} / {s['issues']}")
+PY
+```
+
+### 修正の優先順位（迷ったらこの順）
+
+- **CRITICAL（即対応）**: `episode_validator` の CRITICAL、TemplateBlockerのcritical、FactCheckerの`INCORRECT`
+- **HIGH（要改善/要確認）**: 事実密度が低い、プレースホルダー臭、誇張（世界初/唯一/史上最/ノーベル等）＝根拠が出せないなら表現を削除/言い換え
+- **MEDIUM（品質仕上げ）**: 冗長/抽象語が多い→内容密度の改善
+
 ## 自動監視（エピソード更新でEPUPを発動）
+
 エピソードの追加/編集/導入（インポート）などでCSVが更新されたら、自動で**軽量チェック**を回す。
 
 - 推奨: `python scripts/epup_auto_watch.py --csv <CSV_PATH>`
@@ -40,12 +184,16 @@ description: EPUP - Episode Update Pipeline（エピソードDB品質の検出�
   - アラートが出た時だけ、必要なら `evaluate_epup_effectiveness.py` を追加実行（※自動修正はしない）
 
 ## 問題タイプ別：次の一手（最小候補）
+
 ※ここに無い場合は、`typed-wishing-scone.md` の「関連スクリプト」節を必要最小で参照する。
 
 - **単一マスター崩れ（CSVが散らばる）**: `python scripts/check_single_master.py`
 - **KPI異常（軽量チェックでアラート）**: `python scripts/scheduled_epup_check.py --daily/--weekly`
+- **本文の致命傷（形式/名前/メタ/重複など）**: `python scripts/episode_validator.py --source <CSV_PATH>`
 - **全体スコア/21指標で現状把握**: `python scripts/evaluate_epup_effectiveness.py --csv <CSV_PATH> --output reports/...json`
 - **評価の前後比較**: `python scripts/compare_epup_scores.py --baseline <A.json> --after <B.json> --output reports/...json`
+- **定型文/曖昧表現の混入（テンプレ臭）**: `episode_quality_system/template_blocker.py`（上のスニペットで一括検出）
+- **ハルシネーション疑い（誇張/時代錯誤/数値矛盾）**: `src/fact_checker.py`（上のスニペットで抽出 → 根拠確認 → 修正）
 - **架空キャラのメタ表現検出/修正**: `python scripts/fix_fictional_meta_episodes.py --detect-only`（修正は `--fix` を承認後）
 - **年齢境界違反（死後/未到達年齢のエピソード）**: `python scripts/detect_problematic_phase8_episodes.py`（削除は `scripts/delete_problematic_phase8.py --execute` を承認後）
 - **架空キャラ作品名欠落**: `python scripts/fix_fictional_work_title_format.py`（必要なら `--fix` を承認後）
@@ -53,7 +201,10 @@ description: EPUP - Episode Update Pipeline（エピソードDB品質の検出�
 - **別名・通称検出/修正**: `python scripts/normalize_person_names.py --dry-run`（修正実行は `--execute` を承認後）
   - 結果レポート: `reports/name_normalization_dryrun_*.json`
   - パターン例: 「山中教授」→「山中伸弥」、「ホリエモン」→「堀江貴文」
+- **事実密度が低い（3.0-3.5帯の底上げ）**: `python scripts/improve_fact_density.py --count 50 --dry-run`（反映は `--execute` を承認後）
+- **内容密度が低い/冗長（リライトで改善）**: `python scripts/improve_content_density.py --limit 30`（反映は `--execute` を承認後）
 - **人物名バリデーション（生成前チェック）**:
+
   ```python
   from src.validators.person_name_validator import get_validator
   validator = get_validator()
@@ -93,10 +244,12 @@ if not is_valid:
 ### 3. 道具名・アイテム名検出（ERR-005）
 
 **検出条件**:
+
 - person_name に道具接尾辞（ギプス、マシン、装置、アイテム、ツール、ロボット、メカ）が含まれる
 - ブラックリストに該当する人物名
 
 **検出方法**:
+
 ```python
 from src.validators.person_name_validator import PersonNameValidator
 validator = PersonNameValidator()
@@ -106,6 +259,7 @@ for issue in issues:
 ```
 
 **修正方針**:
+
 1. 該当エピソードを削除
 2. ブラックリストに追加（再発防止）
 3. 生成元データの確認・修正

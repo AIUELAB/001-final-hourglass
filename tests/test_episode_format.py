@@ -85,7 +85,7 @@ class TestEpisodeFormat:
                     }
                 )
 
-        assert len(violations) == 0, f"フォーマット違反: {len(violations)}件\n" f"違反レコード:\n" + "\n".join(
+        assert len(violations) == 0, f"フォーマット違反: {len(violations)}件\n違反レコード:\n" + "\n".join(
             [f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): {v['episode_start']}..." for v in violations]
         )
 
@@ -116,7 +116,7 @@ class TestEpisodeFormat:
                         }
                     )
 
-        assert len(inconsistencies) == 0, f"年齢不整合: {len(inconsistencies)}件\n" f"不整合レコード:\n" + "\n".join(
+        assert len(inconsistencies) == 0, f"年齢不整合: {len(inconsistencies)}件\n不整合レコード:\n" + "\n".join(
             [
                 f"  {i['person_id']} - {i['person_name']}: CSV={i['csv_age']}歳 vs エピソード={i['episode_age']}歳"
                 for i in inconsistencies
@@ -166,7 +166,7 @@ class TestEpisodeFormat:
                 # すべてのチェックに失敗した場合は不整合
                 inconsistencies.append({"person_id": row["人物ID"], "csv_name": csv_name, "episode_name": episode_name})
 
-        assert len(inconsistencies) == 0, f"人物名不整合: {len(inconsistencies)}件\n" f"不整合レコード:\n" + "\n".join(
+        assert len(inconsistencies) == 0, f"人物名不整合: {len(inconsistencies)}件\n不整合レコード:\n" + "\n".join(
             [f"  {i['person_id']}: CSV={i['csv_name']} vs エピソード={i['episode_name']}" for i in inconsistencies]
         )
 
@@ -193,7 +193,7 @@ class TestEpisodeFormat:
                     }
                 )
 
-        assert len(violations) == 0, f"文字数範囲外: {len(violations)}件\n" f"違反レコード:\n" + "\n".join(
+        assert len(violations) == 0, f"文字数範囲外: {len(violations)}件\n違反レコード:\n" + "\n".join(
             [
                 f"  {v['person_id']} - {v['person_name']}: {v['actual_count']}文字（CSV: {v['csv_count']}）"
                 for v in violations
@@ -238,7 +238,7 @@ class TestEpisodeFormat:
                     {"person_id": row["人物ID"], "person_name": row["人物名"], "detected_patterns": detected}
                 )
 
-        assert len(violations) == 0, f"主観表現検出: {len(violations)}件\n" f"違反レコード:\n" + "\n".join(
+        assert len(violations) == 0, f"主観表現検出: {len(violations)}件\n違反レコード:\n" + "\n".join(
             [f"  {v['person_id']} - {v['person_name']}: {v['detected_patterns']}" for v in violations]
         )
 
@@ -265,7 +265,7 @@ class TestEpisodeFormat:
         print(f"準拠率: {compliance_rate:.1f}%")
 
         assert compliance_rate == 100.0, (
-            f"準拠率が100%未満: {compliance_rate:.1f}%\n" f"不準拠レコード: {total_count - compliant_count}件"
+            f"準拠率が100%未満: {compliance_rate:.1f}%\n不準拠レコード: {total_count - compliant_count}件"
         )
 
     def test_timeline_balance(self, qualified_records):
@@ -318,7 +318,7 @@ class TestEpisodeFormat:
             + "\n".join(
                 [
                     f"  {v['person_id']} - {v['person_name']} ({v['age']}歳): "
-                    f"{v['balance_ratio']*100:.1f}% ({v['verdict']}) "
+                    f"{v['balance_ratio'] * 100:.1f}% ({v['verdict']}) "
                     f"[該当年齢時:{v['main_age_chars']}文字、後続:{v['subsequent_chars']}文字]"
                     for v in violations[:10]  # 最初の10件のみ表示
                 ]

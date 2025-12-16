@@ -189,7 +189,7 @@ def generate_episode_with_validation(generate_func, person_name: str, age: int, 
 
     if not is_valid:
         if suggested_age is not None:
-            raise ValueError(f"{message}\n" f"推奨: {suggested_age}歳以下のエピソードを生成してください")
+            raise ValueError(f"{message}\n推奨: {suggested_age}歳以下のエピソードを生成してください")
         else:
             raise ValueError(message)
 

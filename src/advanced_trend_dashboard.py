@@ -552,7 +552,7 @@ class AdvancedTrendDashboard:
                     {
                         "level": "critical",
                         "category": "risk_distribution",
-                        "message": f"高リスク予測の割合が高い: {high_risk_ratio*100:.1f}% ({metrics.high_risk_count}/{total})",
+                        "message": f"高リスク予測の割合が高い: {high_risk_ratio * 100:.1f}% ({metrics.high_risk_count}/{total})",
                         "timestamp": datetime.now().isoformat(),
                     }
                 )
@@ -563,7 +563,7 @@ class AdvancedTrendDashboard:
                 {
                     "level": "high",
                     "category": "model_agreement",
-                    "message": f"モデル合意度が低い: {metrics.avg_model_agreement*100:.1f}%",
+                    "message": f"モデル合意度が低い: {metrics.avg_model_agreement * 100:.1f}%",
                     "timestamp": datetime.now().isoformat(),
                 }
             )
@@ -574,7 +574,7 @@ class AdvancedTrendDashboard:
                 {
                     "level": "high",
                     "category": "latest_prediction",
-                    "message": f"最新予測が高リスク: 障害確率 {metrics.latest_prediction.failure_probability*100:.1f}%",
+                    "message": f"最新予測が高リスク: 障害確率 {metrics.latest_prediction.failure_probability * 100:.1f}%",
                     "timestamp": datetime.now().isoformat(),
                 }
             )
@@ -793,8 +793,8 @@ class AdvancedTrendDashboard:
     def _print_summary_metrics(self, metrics: DashboardMetrics):
         """サマリーメトリクス表示"""
         print(f"  総予測数: {metrics.total_predictions}件")
-        print(f"  平均障害確率: {metrics.avg_failure_probability*100:.2f}%")
-        print(f"  平均モデル合意度: {metrics.avg_model_agreement*100:.2f}%")
+        print(f"  平均障害確率: {metrics.avg_failure_probability * 100:.2f}%")
+        print(f"  平均モデル合意度: {metrics.avg_model_agreement * 100:.2f}%")
         print()
         print("  【リスクレベル分布】")
         print(f"    - HIGH: {metrics.high_risk_count}件")
@@ -805,9 +805,9 @@ class AdvancedTrendDashboard:
             print()
             print("  【最新予測】")
             print(f"    - 時刻: {metrics.latest_prediction.timestamp}")
-            print(f"    - 障害確率: {metrics.latest_prediction.failure_probability*100:.2f}%")
+            print(f"    - 障害確率: {metrics.latest_prediction.failure_probability * 100:.2f}%")
             print(f"    - リスクレベル: {metrics.latest_prediction.risk_level}")
-            print(f"    - モデル合意度: {metrics.latest_prediction.model_agreement*100:.2f}%")
+            print(f"    - モデル合意度: {metrics.latest_prediction.model_agreement * 100:.2f}%")
 
     def _print_prediction_trends(self, trends: Dict[str, Any]):
         """予測トレンド表示"""
@@ -817,18 +817,18 @@ class AdvancedTrendDashboard:
             stats = trends["statistics"]
             print()
             print("  【障害確率統計】")
-            print(f"    - 平均: {stats['failure_probability']['mean']*100:.2f}%")
-            print(f"    - 中央値: {stats['failure_probability']['median']*100:.2f}%")
+            print(f"    - 平均: {stats['failure_probability']['mean'] * 100:.2f}%")
+            print(f"    - 中央値: {stats['failure_probability']['median'] * 100:.2f}%")
             print(
-                f"    - 最小/最大: {stats['failure_probability']['min']*100:.2f}% / {stats['failure_probability']['max']*100:.2f}%"
+                f"    - 最小/最大: {stats['failure_probability']['min'] * 100:.2f}% / {stats['failure_probability']['max'] * 100:.2f}%"
             )
-            print(f"    - 標準偏差: {stats['failure_probability']['std_dev']*100:.2f}%")
+            print(f"    - 標準偏差: {stats['failure_probability']['std_dev'] * 100:.2f}%")
             print()
             print("  【モデル合意度統計】")
-            print(f"    - 平均: {stats['model_agreement']['mean']*100:.2f}%")
-            print(f"    - 中央値: {stats['model_agreement']['median']*100:.2f}%")
+            print(f"    - 平均: {stats['model_agreement']['mean'] * 100:.2f}%")
+            print(f"    - 中央値: {stats['model_agreement']['median'] * 100:.2f}%")
             print(
-                f"    - 最小/最大: {stats['model_agreement']['min']*100:.2f}% / {stats['model_agreement']['max']*100:.2f}%"
+                f"    - 最小/最大: {stats['model_agreement']['min'] * 100:.2f}% / {stats['model_agreement']['max'] * 100:.2f}%"
             )
 
     def _print_automl_history(self, experiments: List[Dict[str, Any]]):
@@ -856,9 +856,9 @@ class AdvancedTrendDashboard:
         print(f"  予測数: {analysis['count']}件")
         print()
         print("  【統計】")
-        print(f"    - 平均: {stats['mean']*100:.2f}%")
-        print(f"    - 中央値: {stats['median']*100:.2f}%")
-        print(f"    - 最小/最大: {stats['min']*100:.2f}% / {stats['max']*100:.2f}%")
+        print(f"    - 平均: {stats['mean'] * 100:.2f}%")
+        print(f"    - 中央値: {stats['median'] * 100:.2f}%")
+        print(f"    - 最小/最大: {stats['min'] * 100:.2f}% / {stats['max'] * 100:.2f}%")
         print()
         print("  【分布】")
         print(f"    - 優秀 (≥95%): {dist['excellent']}件")
@@ -875,8 +875,8 @@ class AdvancedTrendDashboard:
         for level, data in distribution.items():
             print(f"  【{level}】")
             print(f"    - 件数: {data['count']}")
-            print(f"    - 平均障害確率: {data['avg_failure_probability']*100:.2f}%")
-            print(f"    - 平均モデル合意度: {data['avg_model_agreement']*100:.2f}%")
+            print(f"    - 平均障害確率: {data['avg_failure_probability'] * 100:.2f}%")
+            print(f"    - 平均モデル合意度: {data['avg_model_agreement'] * 100:.2f}%")
             print()
 
     def _print_factor_analysis(self, analysis: Dict[str, Any]):
@@ -887,7 +887,7 @@ class AdvancedTrendDashboard:
             print()
             print("  【Top 10 寄与因子】")
             for i, factor in enumerate(analysis["top_factors"][:10], 1):
-                print(f"  {i}. {factor['feature']}: {factor['avg_importance']*100:.2f}%")
+                print(f"  {i}. {factor['feature']}: {factor['avg_importance'] * 100:.2f}%")
 
     def _print_alerts(self, alerts: List[Dict[str, Any]]):
         """アラート表示"""

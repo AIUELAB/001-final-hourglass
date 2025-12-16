@@ -37,6 +37,7 @@ class IssueType(Enum):
     UNKNOWN_GROUP = "unknown_group"
     ORG_TITLE_CONTAMINATION = "org_title_contamination"  # 組織名・肩書き混入
     INVALID_NAME = "invalid_name"  # 不正な人物名（道具名・アイテム名等）
+    PROFESSION_PREFIX = "profession_prefix"  # 職業接頭辞パターン（Phase 8追加）
 
 
 class Severity(Enum):
@@ -138,6 +139,11 @@ class PersonNameValidator:
         suffix_issue = self._check_suffix_patterns(person_name)
         if suffix_issue:
             issues.append(suffix_issue)
+
+        # 8. 職業接頭辞チェック（2025-12-16 Phase 8追加）★NEW
+        profession_prefix_issue = self._check_profession_prefix(person_name)
+        if profession_prefix_issue:
+            issues.append(profession_prefix_issue)
 
         return issues
 
@@ -289,6 +295,42 @@ class PersonNameValidator:
                 auto_fixable=True,
                 fixed_value=canonical,
             )
+
+        return None
+
+    def _check_profession_prefix(self, person_name: str) -> Optional[ValidationIssue]:
+        """
+        職業接頭辞パターン「職業・人名」を検出
+
+        例: 「浮世絵師・歌川国芳」→「歌川国芳」を使用すべき
+
+        Args:
+            person_name: 人物名
+
+        Returns:
+            問題があればValidationIssue、なければNone
+        """
+        # normalize_person_names.pyのPROFESSION_KEYWORDSを参照
+        import sys
+        from pathlib import Path
+
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        from scripts.normalize_person_names import PROFESSION_KEYWORDS
+
+        for prof in PROFESSION_KEYWORDS:
+            pattern = f"^{re.escape(prof)}[・/](.+)$"
+            match = re.match(pattern, person_name)
+            if match:
+                fixed_name = match.group(1)
+                return ValidationIssue(
+                    issue_type=IssueType.PROFESSION_PREFIX,
+                    severity=Severity.WARNING,
+                    person_name=person_name,
+                    message=f"職業接頭辞「{prof}」が含まれています",
+                    suggestion=f"人物名のみ「{fixed_name}」に修正してください",
+                    auto_fixable=True,
+                    fixed_value=fixed_name,
+                )
 
         return None
 

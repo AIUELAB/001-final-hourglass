@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-12-16T14:25:22.392823",
+  "summary": {
+    "auto_fixed_count": 3,
+    "requires_review_count": 0,
+    "skipped_count": 7192
+  },
+  "by_pattern": {
+    "PROFESSION_PREFIX": 3
+  },
+  "auto_fixed": [
+    {
+      "original_name": "浮世絵師・歌川国芳",
+      "normalized_name": "歌川国芳",
+      "title": "浮世絵師",
+      "affiliation": null,
+      "pattern_type": "PROFESSION_PREFIX",
+      "confidence": 0.9,
+      "requires_review": false,
+      "match_detail": "職業「浮世絵師」を分離"
+    },
+    {
+      "original_name": "人間国宝・金重陶陽",
+      "normalized_name": "金重陶陽",
+      "title": "人間国宝",
+      "affiliation": null,
+      "pattern_type": "PROFESSION_PREFIX",
+      "confidence": 0.9,
+      "requires_review": false,
+      "match_detail": "職業「人間国宝」を分離"
+    },
+    {
+      "original_name": "歌舞伎俳優・中村勘九郎",
+      "normalized_name": "中村勘九郎",
+      "title": "歌舞伎俳優",
+      "affiliation": null,
+      "pattern_type": "PROFESSION_PREFIX",
+      "confidence": 0.9,
+      "requires_review": false,
+      "match_detail": "職業「歌舞伎俳優」を分離"
+    }
+  ],
+  "requires_review": []
+}

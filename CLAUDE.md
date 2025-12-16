@@ -232,6 +232,65 @@ python scripts/normalize_person_names.py --dry-run --pattern ALIAS
 
 ---
 
+## 🔤 職業接頭辞除去ルール（EPUP）
+
+**人物表示名に職業を含めない**
+
+| 誤り | 正規表記 | 理由 |
+|------|---------|------|
+| 浮世絵師・歌川国芳 | 歌川国芳 | 職業は不要 |
+| 人間国宝・金重陶陽 | 金重陶陽 | 職業は不要 |
+| 歌舞伎俳優・中村勘九郎 | 中村勘九郎 | 職業は不要 |
+| 作家・三島由紀夫 | 三島由紀夫 | 職業は不要 |
+| 俳優・三船敏郎 | 三船敏郎 | 職業は不要 |
+
+### 検出・修正方法
+
+**自動検出**:
+```bash
+# ドライラン（検出のみ）
+python scripts/normalize_person_names.py --dry-run --min-confidence 0.85
+
+# 本番実行（自動修正）
+python scripts/normalize_person_names.py --execute --min-confidence 0.85
+```
+
+**バリデーション**（エピソード生成時）:
+```bash
+python3 -c "
+from src.validators.person_name_validator import PersonNameValidator
+validator = PersonNameValidator()
+issues = validator.validate('浮世絵師・歌川国芳')
+for issue in issues:
+    print(f'{issue.severity.value}: {issue.message}')
+"
+```
+
+### 対応職業
+
+37種類の職業パターンを検出（`scripts/normalize_person_names.py` の `PROFESSION_KEYWORDS`）:
+- 伝統芸能: 落語家、能楽師、歌舞伎俳優
+- 美術: 浮世絵師、画家、彫刻家、写真家
+- 文学: 作家、小説家、詩人、劇作家
+- 音楽: 音楽家、指揮者、ピアニスト、バイオリニスト
+- その他: 建築家、映画監督、声優、漫画家、etc.
+
+### チェックリスト（エピソード生成時）
+
+- [ ] 人物名に職業接頭辞（職業・人名）が含まれていないか
+- [ ] 新しい職業パターンを発見した場合、`PROFESSION_KEYWORDS` に追加したか
+- [ ] `normalize_person_names.py --dry-run` で検証したか
+- [ ] バリデーターでエラーが出ないか確認したか
+
+### 再発防止（Phase 8実装済み）
+
+- **予防**: `PersonNameValidator._check_profession_prefix()` で事前検出
+- **修正**: `normalize_person_names.py` で自動正規化（信頼度 0.90）
+- **監視**: 日次EPUP品質チェック（組織名・肩書き混入率 KPI）
+- **テスト**: `tests/test_person_name_normalization.py` で回帰テスト
+
+---
+
 ## 🔤 英字別名誤登録防止ルール（EPUP）
 
 **芸名・表記名として正当な英字人物名（YOSHIKI, HIKAKIN等）は維持しつつ、誤った英字別名（"Mackenyu"等）を自動検出・修正する**

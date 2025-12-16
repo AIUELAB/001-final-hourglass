@@ -227,6 +227,22 @@ def generate_senior_episode(
         print(f"{'=' * 70}\n")
         return None
 
+    # 【追加】正規化チェック（2025-12-16）
+    # RIKISHI_SHIKONAリスト等による自動正規化を試行
+    from scripts.normalize_person_names import PersonNameNormalizer
+
+    normalizer = PersonNameNormalizer(min_confidence=0.85)
+    normalization_result = normalizer.normalize(person_name)
+
+    if normalization_result:
+        print(f"\n{'=' * 70}")
+        print(f"⚠️  人物名を正規化: {person_name} → {normalization_result.normalized_name}")
+        print(f"   理由: {normalization_result.match_detail}")
+        print(f"   信頼度: {normalization_result.confidence}")
+        print(f"{'=' * 70}\n")
+        # 正規化後の名前を使用
+        person_name = normalization_result.normalized_name
+
     print(f"\n{'=' * 70}")
     print(f"生成中: {person_name} ({age}歳) - {category}")
     if award_name:

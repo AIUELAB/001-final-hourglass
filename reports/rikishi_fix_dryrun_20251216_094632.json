@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-12-16T09:46:32.754118",
+  "dry_run": true,
+  "fixes_applied": [
+    {
+      "person_id": "P5420FBE",
+      "before": "舞の海秀平",
+      "after": "舞の海",
+      "reason": "四股名「舞の海」+本名「秀平」",
+      "episode_count": 1
+    },
+    {
+      "person_id": "P887D990",
+      "before": "土佐ノ海敏生",
+      "after": "土佐ノ海",
+      "reason": "四股名「土佐ノ海」+本名「敏生」",
+      "episode_count": 1
+    }
+  ]
+}

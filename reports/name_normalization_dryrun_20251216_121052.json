@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-12-16T12:10:52.318545",
+  "summary": {
+    "auto_fixed_count": 0,
+    "requires_review_count": 0,
+    "skipped_count": 7195
+  },
+  "by_pattern": {},
+  "auto_fixed": [],
+  "requires_review": []
+}

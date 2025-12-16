@@ -1,0 +1,122 @@
+{
+  "check_type": "weekly",
+  "timestamp": "2025-12-16T12:18:05.486236",
+  "total_records": 9680,
+  "overall_status": "OK",
+  "overall_score": 1.0,
+  "kpis": [
+    {
+      "name": "グループ名混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "group_as_person": 0,
+        "total_unique": 7195
+      }
+    },
+    {
+      "name": "フォーマット準拠率",
+      "value": 1.0,
+      "target": 1.0,
+      "status": "OK",
+      "details": {
+        "compliant": 9680,
+        "total": 9680
+      }
+    },
+    {
+      "name": "メタ表現混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "meta_count": 0,
+        "fictional_total": 67
+      }
+    },
+    {
+      "name": "表記ゆれ率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "variant_ids": 0,
+        "total_ids": 7195
+      }
+    },
+    {
+      "name": "重複ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "duplicate_names": 0,
+        "total_names": 7195
+      }
+    },
+    {
+      "name": "nan ID率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "nan_count": 0,
+        "total": 9680
+      }
+    },
+    {
+      "name": "削除済みID混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated": 0,
+        "deleted_ids_count": 1,
+        "deleted_names_count": 1,
+        "contaminated_entries": []
+      }
+    },
+    {
+      "name": "組織名・肩書き混入率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "contaminated_count": 0,
+        "total_unique_names": 7195,
+        "contaminated_examples": []
+      }
+    },
+    {
+      "name": "英字別名検出率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "review_required_count": 0,
+        "total_unique_persons": 7195,
+        "review_examples": []
+      }
+    },
+    {
+      "name": "後置詞型パターン検出率",
+      "value": 0.0,
+      "target": 0.0,
+      "status": "OK",
+      "details": {
+        "error_count": 0,
+        "total_unique_names": 7195,
+        "error_examples": []
+      }
+    }
+  ],
+  "validation": {
+    "success": false,
+    "valid_rows": 9659,
+    "invalid_rows": 21,
+    "error_count": 21,
+    "warning_count": 1
+  },
+  "alerts": []
+}

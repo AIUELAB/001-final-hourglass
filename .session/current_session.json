@@ -121,11 +121,35 @@
         "idempotency": "✅ composite key重複防止確認",
         "backup": "✅ 自動バックアップ作成確認"
       }
+    },
+    {
+      "phase": "person_growth_continued_operation",
+      "name": "PERSON成長パイプライン継続運用 第3回",
+      "result": "棄却された4名を年齢10歳で再試行、3名が品質ゲート通過",
+      "date": "2025-12-17",
+      "execution": {
+        "execution": "第3回（棄却候補再試行）",
+        "candidates": 4,
+        "uncollected": 4,
+        "added": 3,
+        "rejected": 1,
+        "success_rate": "75%",
+        "episodes_before": 12257,
+        "episodes_after": 12260,
+        "added_names": ["馬場雄大", "高橋恭平", "川西賢志郎"],
+        "rejected_names": ["道枝駿佑"],
+        "rejection_reason": "TemplateBlocker（3回リトライでも通過できず）"
+      },
+      "insights": [
+        "前回棄却された4名のうち3名が年齢10歳で成功",
+        "TemplateBlockerは年齢依存コンテンツに反応していた可能性",
+        "道枝駿佑のみ再度失敗（人物固有の問題の可能性）"
+      ]
     }
   ],
   "current_status": {
-    "total_episodes": 12257,
-    "total_persons": 7260,
+    "total_episodes": 12260,
+    "total_persons": 7477,
     "epup_score": "103.03",
     "epup_grade": "A",
     "key_metrics": {
@@ -158,7 +182,7 @@
   ],
   "git_status": {
     "branch": "main",
-    "last_commit": "1cd867f - feat: PERSON成長パイプライン一括追加 - 15人の新規人物を追加",
+    "last_commit": "0f9c345 - feat: PERSON成長パイプライン追加 - 3人の新規人物を追加",
     "commits_ahead": 0,
     "pushed": true
   },
@@ -169,7 +193,8 @@
       "detail": "bulk_addition.csvに新規候補を追加して定期実行",
       "command": "python scripts/person_growth_pipeline.py --execute --sources bulk_addition --episodes-per-person 1",
       "notes": [
-        "棄却された4名（馬場雄大、道枝駿佑、高橋恭平、川西賢志郎）を別の年齢で再試行可能",
+        "残り候補: 大悟、ノブ、粗品、てつや、常田大希、井口理、藤原聡、清水依与吏（8名）",
+        "道枝駿佑: 再度棄却（別アプローチ検討）",
         "新しいカテゴリ（競走馬、NHK朝ドラモデル人物等）の候補リスト作成"
       ]
     },
@@ -207,7 +232,8 @@
     "3層品質ゲート（Validator→FactChecker→TemplateBlocker）正常動作確認",
     "4層重複検出（exact→normalized→alias→similar）正常動作確認",
     "冪等性保証（composite key）確認済み",
-    "全変更コミット・push済み（main: 1cd867f）",
+    "第3回実行で棄却候補4名中3名が成功（年齢変更戦略の有効性を確認）",
+    "全変更コミット・push済み（main: 0f9c345）",
     "次回起動時は「前回のセッションを復元してください」で継続可能"
   ]
 }

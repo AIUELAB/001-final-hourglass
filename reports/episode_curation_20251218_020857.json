@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-12-18T02:08:57.738343",
+  "input_csv": "generated/verified_sources.csv",
+  "output_csv": "/Users/admin/Documents/AIUELAB/001-final-hourglass/generated/curated_episodes.csv",
+  "statistics": {
+    "total_sources": 40,
+    "successful": 23,
+    "failed": 17,
+    "age_extraction_failed": 7,
+    "llm_conversion_failed": 10
+  }
+}

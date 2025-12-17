@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
 """
-PERSON成長パイプライン（MVP版）
+PERSON成長パイプライン（フル版）
 
 目的:
   エピソードDBに未収録のPERSONを継続的に追加する運用システム
 
-MVP版機能範囲:
+フル版機能範囲:
   1. 候補収集（config/person_sources/*.csvから）
   2. 正規化/検証（PersonNameValidator, normalize_name）
-  3. 未収録判定（既存DBとの重複検出）
-  4. レポート生成（JSON形式）
+  3. 未収録判定（4層重複検出: Exact/Normalized/Alias/Similar）
+  4. センシティブフィルタ（--allow-sensitive制御）
+  5. エピソード生成（1-3本/人、3層品質ゲート通過）
+  6. CSV統合（冪等性保証、自動バックアップ）
+  7. 品質チェック（scheduled_epup_check.py統合）
+  8. レポート生成（JSON形式）
 
 使用方法:
-    # 分析のみ（ドライラン）
+    # dry-run（分析のみ、デフォルト）
     python scripts/person_growth_pipeline.py --analyze
 
-    # 特定ソースのみ処理
-    python scripts/person_growth_pipeline.py --analyze --sources manual_list
+    # 小規模実行（2人、1本/人）
+    python scripts/person_growth_pipeline.py --execute --limit 2 --episodes-per-person 1
 
-    # 件数制限
-    python scripts/person_growth_pipeline.py --analyze --limit 10
+    # 本番実行（センシティブ含む、2本/人）
+    python scripts/person_growth_pipeline.py --execute --sources manual_list \\
+        --limit 50 --episodes-per-person 2 --allow-sensitive
 
 詳細:
     docs/PERSON_GROWTH_DESIGN.md
@@ -27,6 +32,7 @@ MVP版機能範囲:
 
 import argparse
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -34,7 +40,7 @@ from collections import defaultdict
 from datetime import datetime
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -42,6 +48,8 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.backup_manager import BackupManager
+from src.csv_integrator import CSVIntegrator
 from src.csv_path_resolver import (
     get_config_dir,
     get_master_csv_path,
@@ -49,6 +57,11 @@ from src.csv_path_resolver import (
     get_project_root,
     get_reports_dir,
 )
+from src.duplication_detector import DuplicationDetector
+from src.episode_generation_bridge import EpisodeGenerationBridge
+from src.quality_gate_checker import QualityGateChecker
+from src.sensitive_filter import SensitiveFilter
+from src.source_adapters.base import PersonCandidate
 from src.validators.person_name_validator import PersonNameValidator
 
 # ========================================
@@ -376,6 +389,176 @@ def find_missing_persons(candidates: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Dat
 
 
 # ========================================
+# 新規関数群（Phase 2/3モジュール統合）
+# ========================================
+
+
+def dataframe_to_person_candidates(df: pd.DataFrame) -> List[PersonCandidate]:
+    """
+    DataFrame → PersonCandidate変換ヘルパー
+
+    Args:
+        df: 候補人物のDataFrame
+
+    Returns:
+        PersonCandidateのリスト
+    """
+    candidates = []
+    for _, row in df.iterrows():
+        candidates.append(
+            PersonCandidate(
+                person_name=str(row.get("person_name", "")),
+                category=str(row.get("category", "")) if pd.notna(row.get("category")) else None,
+                sub_category=str(row.get("sub_category", "")) if pd.notna(row.get("sub_category")) else None,
+                person_type=str(row.get("person_type", "REAL")),
+                description=str(row.get("description", "")) if pd.notna(row.get("description")) else None,
+                birth_year=int(row["birth_year"]) if pd.notna(row.get("birth_year")) else None,
+                death_year=int(row["death_year"]) if pd.notna(row.get("death_year")) else None,
+                tier=str(row.get("tier", "")) if pd.notna(row.get("tier")) else None,
+                source_name=str(row.get("source_file", "manual")),
+                source_url=str(row.get("source_url", "")) if pd.notna(row.get("source_url")) else None,
+            )
+        )
+    return candidates
+
+
+def detect_duplicates_v2(candidates: List[PersonCandidate]) -> Tuple[List[PersonCandidate], List[PersonCandidate]]:
+    """
+    DuplicationDetectorによる4層重複判定
+
+    Args:
+        candidates: 候補人物のリスト
+
+    Returns:
+        (未収録候補, 既収録候補)
+    """
+    master_df = pd.read_csv(MASTER_CSV, encoding="utf-8-sig")
+    detector = DuplicationDetector(master_df)
+
+    new_persons = []
+    found_persons = []
+
+    for candidate in candidates:
+        is_dup, matched_name, confidence, layer = detector.detect_duplicate(candidate)
+
+        if is_dup:
+            # 重複情報を保存
+            candidate.skip_reason = f"duplicate_{layer}"
+            candidate.confidence_score = confidence
+            found_persons.append(candidate)
+        else:
+            new_persons.append(candidate)
+
+    print(f"✅ 4層重複判定完了: {len(new_persons)} 人未収録, {len(found_persons)} 人既収録")
+    return new_persons, found_persons
+
+
+def filter_sensitive(
+    candidates: List[PersonCandidate], allow_sensitive: bool
+) -> Tuple[List[PersonCandidate], List[PersonCandidate], List[PersonCandidate]]:
+    """
+    SensitiveFilterによるセンシティブ候補フィルタリング
+
+    Args:
+        candidates: 候補人物のリスト
+        allow_sensitive: Trueの場合、センシティブ候補も承認
+
+    Returns:
+        (承認候補, レビュー必要候補, ブロック候補)
+    """
+    sensitive_filter = SensitiveFilter()
+    approved, review_required, blocked = sensitive_filter.filter_candidates(candidates, allow_sensitive)
+
+    print(
+        f"✅ センシティブフィルタ完了: {len(approved)} 人承認, {len(review_required)} 人レビュー必要, {len(blocked)} 人ブロック"
+    )
+    return approved, review_required, blocked
+
+
+def generate_episodes_batch(persons: List[PersonCandidate], episodes_per_person: int) -> List[Dict[str, Any]]:
+    """
+    EpisodeGenerationBridgeによるエピソード生成バッチ処理
+
+    Args:
+        persons: 候補人物のリスト
+        episodes_per_person: 1人あたりのエピソード生成数（1-3）
+
+    Returns:
+        生成されたエピソードのリスト
+    """
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("❌ ANTHROPIC_API_KEY環境変数が設定されていません")
+        sys.exit(1)
+
+    bridge = EpisodeGenerationBridge(api_key=api_key)
+
+    all_episodes = []
+    for i, person in enumerate(persons, 1):
+        print(f"エピソード生成中: {person.person_name} ({i}/{len(persons)})")
+
+        person_data = {
+            "person_name": person.person_name,
+            "category": person.category or "その他",
+            "person_type": person.person_type,
+            "birth_year": person.birth_year,
+            "death_year": person.death_year,
+        }
+
+        episodes = bridge.generate_for_person(person_data, episodes_per_person)
+        all_episodes.extend(episodes)
+
+    print(f"✅ エピソード生成完了: {len(all_episodes)} 件（{len(persons)} 人）")
+    return all_episodes
+
+
+def integrate_to_master(episodes: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    CSVIntegratorによるMASTER CSV統合
+
+    Args:
+        episodes: エピソードのリスト
+
+    Returns:
+        統合結果（added, skipped, backup_path）
+    """
+    integrator = CSVIntegrator()
+    result = integrator.integrate_episodes(episodes, dry_run=False)
+
+    print(f"✅ CSV統合完了: {result['added']} 件追加, {result['skipped']} 件スキップ")
+    return result
+
+
+def run_quality_check() -> Dict[str, Any]:
+    """
+    QualityGateCheckerによる品質チェック
+
+    Returns:
+        品質チェック結果（status, kpis, violations）
+    """
+    checker = QualityGateChecker()
+    result = checker.run_post_integration_check(MASTER_CSV)
+
+    print(f"✅ 品質チェック完了: Status={result['status']}")
+    if result["status"] != "PASS":
+        print(f"⚠️  品質違反: {result['violations']}")
+
+    return result
+
+
+def restore_backup(backup_path: Path) -> None:
+    """
+    BackupManagerによるバックアップ復元
+
+    Args:
+        backup_path: バックアップファイルのパス
+    """
+    manager = BackupManager()
+    manager.restore_backup(backup_path, MASTER_CSV)
+    print(f"✅ バックアップから復元しました: {backup_path}")
+
+
+# ========================================
 # レポート生成
 # ========================================
 
@@ -472,14 +655,27 @@ def print_summary(report: Dict):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="PERSON成長パイプライン（MVP版）",
+        description="PERSON成長パイプライン（フル版）",
         formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+使用例:
+  # dry-run（分析のみ、デフォルト）
+  python scripts/person_growth_pipeline.py --analyze
+
+  # 小規模実行（2人、1本/人）
+  python scripts/person_growth_pipeline.py --execute --limit 2 --episodes-per-person 1
+
+  # 本番実行（センシティブ含む、2本/人）
+  python scripts/person_growth_pipeline.py --execute --sources manual_list \\
+      --limit 50 --episodes-per-person 2 --allow-sensitive
+        """,
     )
 
+    # 既存フラグ
     parser.add_argument(
         "--analyze",
         action="store_true",
-        help="分析モード（候補収集→検証→未収録判定→レポート）",
+        help="分析モード（dry-run、候補収集→検証→未収録判定→レポート）",
     )
 
     parser.add_argument(
@@ -497,57 +693,169 @@ def main():
     parser.add_argument(
         "--output",
         type=Path,
-        help="レポート出力先（デフォルト: reports/person_growth/person_growth_analysis_YYYYMMDD_HHMMSS.json）",
+        help="レポート出力先（デフォルト: reports/person_growth/person_growth_YYYYMMDD_HHMMSS.json）",
+    )
+
+    # 新規フラグ
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="実行モード（エピソード生成→CSV統合→品質チェック、デフォルトはdry-run）",
+    )
+
+    parser.add_argument(
+        "--allow-sensitive",
+        action="store_true",
+        help="センシティブ候補を許可（犯罪者等、デフォルトはブロック）",
+    )
+
+    parser.add_argument(
+        "--episodes-per-person",
+        type=int,
+        default=2,
+        choices=[1, 2, 3],
+        help="1人あたりのエピソード生成数（1-3、デフォルト: 2）",
     )
 
     args = parser.parse_args()
 
-    # --analyzeが未指定の場合はヘルプ表示
-    if not args.analyze:
+    # --analyze または --execute が未指定の場合はヘルプ表示
+    if not args.analyze and not args.execute:
         parser.print_help()
-        print("\n💡 まずは --analyze で分析を実行してください")
+        print("\n💡 --analyze (dry-run) または --execute (実行) を指定してください")
         sys.exit(0)
 
-    print("🚀 PERSON成長パイプライン（MVP版）開始")
+    # モード表示
+    mode = "EXECUTE" if args.execute else "DRY-RUN"
+    print(f"🚀 PERSON成長パイプライン（フル版）開始 - {mode}モード")
     print(f"📂 ソースディレクトリ: {SOURCES_DIR}")
     print(f"📄 マスターCSV: {MASTER_CSV}")
+    if args.execute:
+        print(f"📊 エピソード生成数: {args.episodes_per_person} 本/人")
+        print(f"🔐 センシティブ許可: {'ON' if args.allow_sensitive else 'OFF'}")
 
-    # ソースフィルタ
-    sources_filter = args.sources.split(",") if args.sources else None
+    # バックアップ作成（execute時のみ）
+    backup_path = None
+    if args.execute:
+        print("\n【事前準備】バックアップ作成")
+        backup_manager = BackupManager()
+        backup_path = backup_manager.create_backup(MASTER_CSV)
+        print(f"✅ バックアップ作成完了: {backup_path}")
 
-    # 1. 候補収集
-    print("\n【ステップ1】候補収集")
-    candidates = load_candidates(sources_filter=sources_filter, limit=args.limit)
-    if candidates.empty:
-        print("❌ 候補人物が見つかりませんでした")
-        sys.exit(1)
+    try:
+        # ソースフィルタ
+        sources_filter = args.sources.split(",") if args.sources else None
 
-    # 2. 正規化/検証
-    print("\n【ステップ2】正規化/検証")
-    candidates, validation_errors = normalize_and_validate(candidates)
-    print(f"✅ 正規化完了: {len(candidates)} 人")
-    print(f"⚠️  検証エラー: {len(validation_errors)} 件")
+        # Step 1: 候補収集
+        print("\n【ステップ1】候補収集")
+        candidates_df = load_candidates(sources_filter=sources_filter, limit=args.limit)
+        if candidates_df.empty:
+            print("❌ 候補人物が見つかりませんでした")
+            sys.exit(1)
 
-    # 3. 未収録判定
-    print("\n【ステップ3】未収録判定")
-    missing, found = find_missing_persons(candidates)
-    print(f"🆕 未収録: {len(missing)} 人")
-    print(f"✅ 既収録: {len(found)} 人")
+        # Step 2: 正規化/検証（既存関数を使用）
+        print("\n【ステップ2】正規化/検証")
+        candidates_df, validation_errors = normalize_and_validate(candidates_df)
+        print(f"✅ 正規化完了: {len(candidates_df)} 人")
+        print(f"⚠️  検証エラー: {len(validation_errors)} 件")
 
-    # 4. レポート生成
-    print("\n【ステップ4】レポート生成")
-    report = generate_report(
-        candidates=candidates,
-        validation_errors=validation_errors,
-        missing=missing,
-        found=found,
-        output_path=args.output,
-    )
+        # DataFrame → PersonCandidate 変換
+        candidates = dataframe_to_person_candidates(candidates_df)
 
-    # サマリー表示
-    print_summary(report)
+        # Step 3: 未収録判定（4層重複検出）
+        print("\n【ステップ3】未収録判定（4層重複検出）")
+        new_persons, found_persons = detect_duplicates_v2(candidates)
 
-    print("\n✅ 分析完了")
+        # Step 4: センシティブフィルタ
+        print("\n【ステップ4】センシティブフィルタ")
+        approved, review_required, blocked = filter_sensitive(new_persons, args.allow_sensitive)
+
+        # Step 5: レポート生成（dry-runでもここまで）
+        print("\n【ステップ5】レポート生成")
+        # 既存のgenerate_report関数にPersonCandidate対応が必要なため、DataFrameに戻す
+        # 簡易レポート生成（後で拡張可能）
+        report = {
+            "mode": mode,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "summary": {
+                "total_candidates": len(candidates),
+                "found_persons": len(found_persons),
+                "missing_persons": len(new_persons),
+                "approved_for_addition": len(approved),
+                "review_required": len(review_required),
+                "blocked": len(blocked),
+            },
+        }
+
+        # レポート保存
+        if args.output:
+            report_path = args.output
+        else:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            report_path = REPORTS_DIR / f"person_growth_{mode.lower()}_{timestamp}.json"
+
+        REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+        with open(report_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=2)
+
+        print(f"✅ レポート保存: {report_path}")
+        print("📊 サマリー:")
+        print(f"  - 候補人物数: {report['summary']['total_candidates']} 人")
+        print(f"  - 既収録: {report['summary']['found_persons']} 人")
+        print(f"  - 未収録: {report['summary']['missing_persons']} 人")
+        print(f"  - 追加承認: {report['summary']['approved_for_addition']} 人")
+        print(f"  - レビュー必要: {report['summary']['review_required']} 人")
+        print(f"  - ブロック: {report['summary']['blocked']} 人")
+
+        # Step 6-8: execute時のみ実行
+        if args.execute:
+            if not approved:
+                print("\n⚠️  追加承認された人物がいません。処理を終了します。")
+                return
+
+            # Step 6: エピソード生成
+            print("\n【ステップ6】エピソード生成（3層品質ゲート通過）")
+            episodes = generate_episodes_batch(approved, args.episodes_per_person)
+
+            if not episodes:
+                print("⚠️  品質ゲートを通過したエピソードが生成されませんでした。")
+                return
+
+            # Step 7: CSV統合
+            print("\n【ステップ7】CSV統合")
+            integration_result = integrate_to_master(episodes)
+            report["integration"] = integration_result
+
+            # Step 8: 品質チェック
+            print("\n【ステップ8】品質チェック")
+            quality_result = run_quality_check()
+            report["quality_check"] = quality_result
+
+            # CRITICAL判定でロールバック推奨
+            if quality_result["status"] == "CRITICAL":
+                print("\n🚨 品質チェックでCRITICALエラーが検出されました！")
+                print("⚠️  ロールバックを推奨します。")
+                print(f"バックアップパス: {backup_path}")
+                print("\nロールバックコマンド:")
+                print(f"  python scripts/restore_backup.py --backup {backup_path}")
+                sys.exit(1)
+
+            print("\n✅ パイプライン完了（実行モード）")
+            print(f"📊 統合結果: {integration_result['added']} 件追加, {integration_result['skipped']} 件スキップ")
+            print(f"✅ 品質チェック: {quality_result['status']}")
+
+        else:
+            print("\n✅ パイプライン完了（dry-runモード）")
+            print("💡 実行するには --execute フラグを追加してください")
+
+    except Exception as e:
+        print(f"\n❌ パイプラインエラー: {e}")
+        if args.execute and backup_path:
+            print("\n⚠️  エラーが発生しました。ロールバックを検討してください。")
+            print(f"バックアップパス: {backup_path}")
+            print("\nロールバックコマンド:")
+            print(f"  python scripts/restore_backup.py --backup {backup_path}")
+        raise
 
 
 if __name__ == "__main__":

@@ -160,12 +160,22 @@ class CSVIntegrator:
             hash_obj = hashlib.md5(key.encode("utf-8"), usedforsecurity=False)
             return "P" + hash_obj.hexdigest()[:7].upper()
 
-        # IDカラムが存在しない場合は生成
-        if "episode_id" not in df.columns or df["episode_id"].isna().any():
+        # IDカラムが存在しない場合、または空文字/NaNの場合は生成
+        if "episode_id" not in df.columns:
             df["episode_id"] = df.apply(generate_episode_id, axis=1)
+        else:
+            # 既存の空文字またはNaNを上書き
+            mask = df["episode_id"].isna() | (df["episode_id"] == "")
+            if mask.any():
+                df.loc[mask, "episode_id"] = df[mask].apply(generate_episode_id, axis=1)
 
-        if "person_id" not in df.columns or df["person_id"].isna().any():
+        if "person_id" not in df.columns:
             df["person_id"] = df.apply(generate_person_id, axis=1)
+        else:
+            # 既存の空文字またはNaNを上書き
+            mask = df["person_id"].isna() | (df["person_id"] == "")
+            if mask.any():
+                df.loc[mask, "person_id"] = df[mask].apply(generate_person_id, axis=1)
 
         return df
 

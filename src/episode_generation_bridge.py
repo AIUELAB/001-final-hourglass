@@ -1,0 +1,351 @@
+"""
+Episode Generation Bridge - 品質ゲート統合エピソード生成
+
+このモジュールはEpisodeGeneratorと品質ゲートシステムを統合し、
+高品質なエピソードを生成します。
+
+3層品質ゲート:
+    Layer 1: EpisodeValidator (8種類の検証)
+    Layer 2: FactChecker (事実関係・時系列チェック)
+    Layer 3: TemplateBlocker (70+パターンのテンプレート検出)
+
+使用方法:
+    >>> from src.episode_generation_bridge import EpisodeGenerationBridge
+    >>> bridge = EpisodeGenerationBridge(api_key="your-api-key")
+    >>> person_data = {"person_name": "山中伸弥", "category": "科学・技術", ...}
+    >>> episodes = bridge.generate_for_person(person_data, episodes_count=2)
+"""
+
+import logging
+import random
+from datetime import datetime
+from typing import Any, Callable, Dict, List, Optional
+
+from src.episode_generator import EpisodeGenerator
+
+# ロガー設定
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class EpisodeGenerationBridge:
+    """品質ゲート統合エピソード生成ブリッジ"""
+
+    def __init__(self, api_key: str, model: str = "claude-sonnet-4-5"):
+        """
+        Args:
+            api_key: Anthropic API key
+            model: Claude model name
+        """
+        self.generator = EpisodeGenerator(api_key=api_key, model=model)
+
+        # 品質ゲートモジュールを遅延ロード
+        self.episode_validator: Optional[Callable] = None
+        self.fact_checker: Optional[Any] = None
+        self.template_blocker: Optional[Any] = None
+
+    def _load_quality_gates(self):
+        """品質ゲートモジュールを遅延ロード"""
+        if self.episode_validator is None:
+            import sys
+            from pathlib import Path
+
+            # scripts/ を sys.path に追加
+            sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+
+            from episode_validator import validate_episode
+
+            self.episode_validator = validate_episode
+
+        if self.fact_checker is None:
+            from src.fact_checker import FactChecker
+
+            self.fact_checker = FactChecker()
+
+        if self.template_blocker is None:
+            from episode_quality_system.template_blocker import TemplateBlocker
+
+            self.template_blocker = TemplateBlocker()
+
+    def generate_for_person(
+        self,
+        person_data: Dict[str, Any],
+        episodes_count: int = 2,
+        max_retries: int = 3,
+    ) -> List[Dict[str, Any]]:
+        """
+        1人あたり複数エピソードを生成（品質ゲート通過後）
+
+        Args:
+            person_data: 人物データ辞書（person_name, category, person_type, birth_year, death_year）
+            episodes_count: 生成本数（1-3推奨）
+            max_retries: 品質ゲート失敗時のリトライ回数
+
+        Returns:
+            品質ゲート合格エピソードのリスト
+
+        Example:
+            >>> bridge = EpisodeGenerationBridge(api_key="...")
+            >>> person_data = {
+            ...     "person_name": "山中伸弥",
+            ...     "category": "科学・技術",
+            ...     "person_type": "REAL",
+            ...     "birth_year": 1962,
+            ...     "death_year": None
+            ... }
+            >>> episodes = bridge.generate_for_person(person_data, episodes_count=2)
+        """
+        # 品質ゲートをロード
+        self._load_quality_gates()
+
+        # Type checkerのためのアサーション
+        assert self.episode_validator is not None, "episode_validator not loaded"
+        assert self.fact_checker is not None, "fact_checker not loaded"
+        assert self.template_blocker is not None, "template_blocker not loaded"
+
+        # 有効な年齢範囲を計算
+        valid_ages = self._calculate_valid_age_range(person_data)
+        if not valid_ages:
+            logger.warning(f"{person_data['person_name']}: 有効な年齢範囲がありません")
+            return []
+
+        # episodes_count本生成（異なる年齢で）
+        selected_ages = self._select_ages(valid_ages, episodes_count)
+
+        logger.info(
+            f"{person_data['person_name']}: {len(selected_ages)}件のエピソード生成を開始 (年齢: {selected_ages})"
+        )
+
+        episodes = []
+        for age in selected_ages:
+            # リトライロジック付きでエピソード生成
+            episode = self._generate_single_episode_with_retry(person_data, age, max_retries)
+            if episode:
+                episodes.append(episode)
+
+        logger.info(f"{person_data['person_name']}: {len(episodes)}/{len(selected_ages)}件のエピソード生成成功")
+
+        return episodes
+
+    def _generate_single_episode_with_retry(
+        self,
+        person_data: Dict[str, Any],
+        age: int,
+        max_retries: int,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        リトライロジック付きで1本のエピソードを生成
+
+        Args:
+            person_data: 人物データ
+            age: 年齢
+            max_retries: 最大リトライ回数
+
+        Returns:
+            品質ゲート合格エピソード、または None
+        """
+        # Type assertions for quality gates
+        assert self.episode_validator is not None
+        assert self.fact_checker is not None
+        assert self.template_blocker is not None
+
+        for attempt in range(max_retries):
+            try:
+                # エピソード生成
+                episode = self._generate_single_episode(person_data, age)
+                if not episode:
+                    continue
+
+                # 品質ゲート Layer 1: EpisodeValidator
+                validation_issues = self.episode_validator(episode)
+                critical_issues = [issue for issue in validation_issues if issue.severity == "CRITICAL"]
+                if critical_issues:
+                    logger.warning(
+                        f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: "
+                        f"EpisodeValidator rejected - {[issue.message for issue in critical_issues]}"
+                    )
+                    continue
+
+                # 品質ゲート Layer 2: FactChecker
+                fact_check_report = self.fact_checker.check_episode(
+                    person_id=episode.get("person_id", ""),
+                    person_name=episode.get("person_name", ""),
+                    episode_text=episode.get("episode_text", ""),
+                    birth_year=person_data.get("birth_year"),
+                    metadata=episode,
+                )
+                critical_violations = [v for v in fact_check_report.violations if v.severity == "CRITICAL"]
+                if critical_violations:
+                    logger.warning(
+                        f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: "
+                        f"FactChecker rejected - {[v.message for v in critical_violations]}"
+                    )
+                    continue
+
+                # 品質ゲート Layer 3: TemplateBlocker
+                is_template, violations = self.template_blocker.check_episode(
+                    episode_text=episode["episode_text"],
+                    person_type=person_data.get("person_type", "REAL"),
+                )
+                if is_template:
+                    logger.warning(
+                        f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: "
+                        f"TemplateBlocker rejected - {[v.pattern for v in violations]}"
+                    )
+                    continue
+
+                # 全品質ゲート通過
+                logger.info(f"{person_data['person_name']} ({age}歳): 品質ゲート通過 ({attempt+1}回目)")
+                return episode
+
+            except Exception as e:
+                logger.error(
+                    f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: " f"生成エラー - {e}"
+                )
+                continue
+
+        # max_retries回失敗した場合
+        logger.error(f"{person_data['person_name']} ({age}歳): {max_retries}回リトライしたが品質ゲート通過できず")
+        return None
+
+    def _generate_single_episode(
+        self,
+        person_data: Dict[str, Any],
+        age: int,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        1本のエピソードを生成
+
+        Args:
+            person_data: 人物データ
+            age: 年齢
+
+        Returns:
+            エピソードデータ、または None
+        """
+        try:
+            # award情報を取得（オプション）
+            award_name = person_data.get("award_name")
+            award_year = person_data.get("award_year")
+
+            # エピソード生成
+            episode = self.generator.generate(
+                person_data=person_data,
+                age=age,
+                award_name=award_name,
+                award_year=award_year,
+            )
+
+            return episode
+
+        except Exception as e:
+            logger.error(f"エピソード生成失敗: {person_data['person_name']} ({age}歳) - {e}")
+            return None
+
+    def _calculate_valid_age_range(self, person_data: Dict[str, Any]) -> List[int]:
+        """
+        有効な年齢範囲を計算（birth_year/death_yearから）
+
+        Args:
+            person_data: 人物データ
+
+        Returns:
+            有効な年齢のリスト
+
+        Example:
+            >>> bridge._calculate_valid_age_range({"birth_year": 1962, "death_year": None})
+            [10, 11, 12, ..., 62, 63]  # 2025年現在63歳
+        """
+        birth_year = person_data.get("birth_year")
+        death_year = person_data.get("death_year")
+
+        if not birth_year:
+            # birth_year不明の場合はデフォルト範囲（20-60歳）
+            logger.warning(f"{person_data['person_name']}: birth_year不明、デフォルト範囲（20-60歳）を使用")
+            return list(range(20, 61))
+
+        current_year = datetime.now().year
+        max_year = death_year if death_year else current_year
+
+        # 有効年齢範囲: 10歳〜（death_year or 現在年）- birth_year
+        min_age = 10
+        max_age = min(max_year - birth_year, 90)
+
+        if max_age < min_age:
+            logger.warning(f"{person_data['person_name']}: max_age ({max_age}) < min_age ({min_age})")
+            return []
+
+        return list(range(min_age, max_age + 1))
+
+    def _select_ages(self, valid_ages: List[int], count: int) -> List[int]:
+        """
+        年齢を選択（分散させる）
+
+        Args:
+            valid_ages: 有効な年齢のリスト
+            count: 選択する数
+
+        Returns:
+            選択された年齢のリスト
+
+        Example:
+            >>> bridge._select_ages([20, 21, 22, ..., 60], 3)
+            [25, 42, 58]  # 均等に分散
+        """
+        if not valid_ages:
+            return []
+
+        if len(valid_ages) <= count:
+            return valid_ages
+
+        # 均等に分散させる
+        step = len(valid_ages) / count
+        selected = [valid_ages[int(i * step)] for i in range(count)]
+
+        # 重複を避けるため、念のためユニーク化
+        selected = list(dict.fromkeys(selected))
+
+        return selected
+
+
+if __name__ == "__main__":
+    # 動作確認用
+    import os
+
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("❌ ANTHROPIC_API_KEY環境変数が設定されていません")
+        exit(1)
+
+    bridge = EpisodeGenerationBridge(api_key=api_key)
+
+    # テストデータ
+    person_data = {
+        "person_name": "山中伸弥",
+        "category": "科学・技術",
+        "person_type": "REAL",
+        "birth_year": 1962,
+        "death_year": None,
+    }
+
+    print(f"エピソード生成ブリッジテスト: {person_data['person_name']}")
+
+    # 年齢範囲計算テスト
+    valid_ages = bridge._calculate_valid_age_range(person_data)
+    print(f"\n有効な年齢範囲: {min(valid_ages)}-{max(valid_ages)}歳 ({len(valid_ages)}個)")
+
+    # 年齢選択テスト
+    selected_ages = bridge._select_ages(valid_ages, 3)
+    print(f"選択された年齢: {selected_ages}")
+
+    # エピソード生成テスト（実際にLLM呼び出し）
+    print(f"\n{len(selected_ages)}件のエピソード生成中...")
+    episodes = bridge.generate_for_person(person_data, episodes_count=2)
+
+    print(f"\n生成成功: {len(episodes)}件")
+    for i, episode in enumerate(episodes, 1):
+        print(f"\nエピソード{i}:")
+        print(f"  年齢: {episode['age']}歳")
+        print(f"  テキスト: {episode['episode_text'][:80]}...")
+        print(f"  文字数: {episode['char_count']}")
+        print(f"  composite_score: {episode['composite_score']:.2f}")

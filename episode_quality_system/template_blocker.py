@@ -202,7 +202,7 @@ class TemplateBlocker:
             (r'架空.*ため', "作品世界内の視点で記述"),
         ]
 
-    def check_episode(self, episode_text: str, person_type: str = None) -> Tuple[bool, List[Violation]]:
+    def check_episode(self, episode_text: str, person_type: Optional[str] = None) -> Tuple[bool, List[Violation]]:
         """
         エピソードをチェック
 

@@ -110,18 +110,40 @@ class EpisodeGenerationBridge:
             return []
 
         # episodes_count本生成（異なる年齢で）
-        selected_ages = self._select_ages(valid_ages, episodes_count)
+        # 優先度ベースの年齢選択を使用
+        selected_ages = self._select_ages_with_priority(valid_ages, episodes_count)
 
         logger.info(
             f"{person_data['person_name']}: {len(selected_ages)}件のエピソード生成を開始 (年齢: {selected_ages})"
         )
 
         episodes = []
+        failed_ages = []  # 失敗した年齢を記録
+
+        # 選択された年齢で生成
         for age in selected_ages:
             # リトライロジック付きでエピソード生成
             episode = self._generate_single_episode_with_retry(person_data, age, max_retries)
             if episode:
                 episodes.append(episode)
+            else:
+                failed_ages.append(age)
+
+        # Fallbackメカニズム: 失敗した場合、代替年齢で再試行
+        if failed_ages and len(episodes) < episodes_count:
+            remaining_ages = [a for a in valid_ages if a not in selected_ages and a not in failed_ages]
+
+            if remaining_ages:
+                fallback_count = episodes_count - len(episodes)
+                # 優先度順に代替年齢を選択
+                fallback_ages = self._select_ages_with_priority(remaining_ages, fallback_count)
+
+                logger.info(f"{person_data['person_name']}: Fallbackモード - 代替年齢で再試行 (年齢: {fallback_ages})")
+
+                for age in fallback_ages:
+                    episode = self._generate_single_episode_with_retry(person_data, age, max_retries)
+                    if episode:
+                        episodes.append(episode)
 
         logger.info(f"{person_data['person_name']}: {len(episodes)}/{len(selected_ages)}件のエピソード生成成功")
 
@@ -306,6 +328,58 @@ class EpisodeGenerationBridge:
         selected = list(dict.fromkeys(selected))
 
         return selected
+
+    def _select_ages_with_priority(self, valid_ages: List[int], count: int) -> List[int]:
+        """
+        年齢選択（優先度戦略）
+
+        優先順位:
+        1. 20代-30代（キャリア形成期）- 優先度: 高
+        2. 10代（成長期）- 優先度: 中
+        3. 40代以上（成熟期）- 優先度: 低
+
+        Args:
+            valid_ages: 有効な年齢のリスト
+            count: 選択する数
+
+        Returns:
+            選択された年齢のリスト（優先度順）
+
+        Example:
+            >>> bridge._select_ages_with_priority([10, 11, ..., 22], 1)
+            [21]  # 20代の中央値
+            >>> bridge._select_ages_with_priority([10, 11, ..., 22], 2)
+            [21, 15]  # 20代と10代の中央値
+        """
+        if not valid_ages:
+            return []
+
+        if len(valid_ages) <= count:
+            return valid_ages
+
+        # 年齢を優先度グループに分類
+        prime = [a for a in valid_ages if 20 <= a <= 39]  # 優先度: 高
+        teen = [a for a in valid_ages if 10 <= a <= 19]  # 優先度: 中
+        mature = [a for a in valid_ages if a >= 40]  # 優先度: 低
+
+        # 優先度順にサンプリング
+        selected: List[int] = []
+        for ages in [prime, teen, mature]:
+            if ages and len(selected) < count:
+                if count == 1 or len(selected) == count - 1:
+                    # 1つだけ選ぶ場合、または最後の1つを選ぶ場合は中央値
+                    median_idx = len(ages) // 2
+                    selected.append(ages[median_idx])
+                else:
+                    # 複数選ぶ場合は均等分散
+                    sample_count = min(count - len(selected), len(ages))
+                    step = len(ages) / sample_count
+                    for i in range(sample_count):
+                        idx = int(i * step)
+                        if idx < len(ages):
+                            selected.append(ages[idx])
+
+        return selected[:count]
 
 
 if __name__ == "__main__":

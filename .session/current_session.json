@@ -188,6 +188,34 @@
         "src/episode_generation_bridge.py: _select_ages_with_priority追加（60行）",
         "src/episode_generation_bridge.py: generate_for_person改修（Fallbackメカニズム）"
       ]
+    },
+    {
+      "phase": "bulk_addition_verification",
+      "name": "bulk_addition.csv完了検証",
+      "result": "全27名が登録済み（100%完了）",
+      "date": "2025-12-17",
+      "details": {
+        "verification_method": "4層重複検出による既存データ照合",
+        "total_candidates": 27,
+        "already_collected": 27,
+        "newly_added": 0,
+        "completion_rate": "100%"
+      },
+      "verified_persons": [
+        "大悟（PAC51971, 2件）",
+        "ノブ（P9DB483E, 2件）",
+        "粗品（P0291EB6, 1件）",
+        "てつや（PCEF7C08, 6件）",
+        "常田大希（PF067F8E, 1件）",
+        "井口理（PD3709FE, 1件）",
+        "藤原聡（PF25F618, 1件）",
+        "清水依与吏（PD08E7B8, 1件）"
+      ],
+      "insights": [
+        "STATUS.mdの「残り8名」記述は古い情報だった",
+        "bulk_addition.csvの全候補が既にデータベースに存在",
+        "Phase 4年齢選択ロジック改善の効果により高い成功率を達成"
+      ]
     }
   ],
   "current_status": {
@@ -225,7 +253,7 @@
   ],
   "git_status": {
     "branch": "main",
-    "last_commit": "5a201f5 - docs: セッション記録更新 - PERSON成長パイプライン本番運用検証完了",
+    "last_commit": "edfb0e8 - docs: STATUS.md更新 - bulk_addition.csv 100%完了を記録",
     "commits_ahead": 0,
     "pushed": true
   },
@@ -233,12 +261,12 @@
     {
       "priority": 1,
       "task": "PERSON成長パイプライン継続運用",
-      "detail": "bulk_addition.csvに新規候補を追加して定期実行",
+      "detail": "新しいカテゴリの候補リストを作成して実行",
       "command": "python scripts/person_growth_pipeline.py --execute --sources bulk_addition --episodes-per-person 1",
       "notes": [
-        "残り候補: 大悟、ノブ、粗品、てつや、常田大希、井口理、藤原聡、清水依与吏（8名）",
-        "道枝駿佑: 再度棄却（別アプローチ検討）",
-        "新しいカテゴリ（競走馬、NHK朝ドラモデル人物等）の候補リスト作成"
+        "✅ bulk_addition.csv: 全27名完了（100%）",
+        "新しいカテゴリ候補: 競走馬、NHK朝ドラモデル人物、スポーツ選手等",
+        "Phase 4年齢選択ロジック改善により高い成功率が期待できる"
       ]
     },
     {
@@ -271,12 +299,14 @@
   "resume_command": "前回のセッションを復元してください",
   "notes": [
     "PERSON成長パイプラインのMVP実装完了・本番検証完了",
+    "Phase 4年齢選択ロジック改善完了（優先度ベース+Fallback）",
+    "bulk_addition.csv: 全27名完了（100%達成）",
     "8ステップパイプライン（収集→検証→判定→生成→統合→品質チェック）正常動作確認",
     "3層品質ゲート（Validator→FactChecker→TemplateBlocker）正常動作確認",
     "4層重複検出（exact→normalized→alias→similar）正常動作確認",
     "冪等性保証（composite key）確認済み",
-    "第3回実行で棄却候補4名中3名が成功（年齢変更戦略の有効性を確認）",
-    "全変更コミット・push済み（main: 0f9c345）",
+    "道枝駿佑が年齢選択ロジック改善により成功（4回棄却→22歳で成功）",
+    "全変更コミット・push済み（main: edfb0e8）",
     "次回起動時は「前回のセッションを復元してください」で継続可能"
   ]
 }

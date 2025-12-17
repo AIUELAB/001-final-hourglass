@@ -20,6 +20,8 @@ import numpy as np
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from src.csv_path_resolver import get_master_csv_path, get_reports_dir
+
 
 def convert_to_serializable(obj):
     """numpy型などをJSON serializable型に変換"""
@@ -40,8 +42,8 @@ from src.monitoring.kpi_definitions import EPUPKPICalculator
 from src.validators.import_pipeline import ImportValidationPipeline, ValidationLevel
 
 
-CSV_PATH = "preserved/data/MASTER_EPISODES_CURRENT.csv"
-REPORT_DIR = "reports"
+CSV_PATH = str(get_master_csv_path())  # 文字列形式で互換性維持
+REPORT_DIR = str(get_reports_dir())
 
 
 def run_daily_check(csv_path: str) -> dict:

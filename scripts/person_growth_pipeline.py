@@ -42,16 +42,23 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.csv_path_resolver import (
+    get_config_dir,
+    get_master_csv_path,
+    get_person_sources_dir,
+    get_project_root,
+    get_reports_dir,
+)
 from src.validators.person_name_validator import PersonNameValidator
 
 # ========================================
-# 定数
+# 定数（統一パス解決を使用）
 # ========================================
 
-MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
-SOURCES_DIR = PROJECT_ROOT / "config" / "person_sources"
-REPORTS_DIR = PROJECT_ROOT / "reports" / "person_growth"
-CATEGORY_TAXONOMY = PROJECT_ROOT / "config" / "category_taxonomy.json"
+MASTER_CSV = get_master_csv_path()
+SOURCES_DIR = get_person_sources_dir()
+REPORTS_DIR = get_reports_dir() / "person_growth"
+CATEGORY_TAXONOMY = get_config_dir() / "category_taxonomy.json"
 
 # 重複判定閾値
 SIMILARITY_THRESHOLD = 0.85

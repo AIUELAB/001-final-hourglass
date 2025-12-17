@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-12-17T18:51:01.046005",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 100,
+    "generated": 3,
+    "format_rejected": 97,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 11,
+    "api_errors": 0,
+    "success_rate": 3.0,
+    "elapsed_seconds": 855.1,
+    "episodes_per_minute": 0.2
+  },
+  "sample_episodes": [
+    {
+      "person_name": "ミック・ジャガー",
+      "age": "9",
+      "text_preview": "あなたと同じ9歳のとき、ミック・ジャガーは1952年、イングランドのケント州ダートフォードで小学校に通っていました。この年、ミック・ジャガーは地元のダートフォード・グラマー・スクールに入学し、学業に励"
+    },
+    {
+      "person_name": "エリック・クラプトン",
+      "age": "9",
+      "text_preview": "あなたと同じ9歳のとき、エリック・クラプトンは1954年、イギリスのサリー州リプリーで祖父母に育てられながら学校生活を送っていました。この頃のエリック・クラプトンは、まだ音楽への本格的な関心を示す前の"
+    },
+    {
+      "person_name": "ジミー・ペイジ",
+      "age": "9",
+      "text_preview": "あなたと同じ9歳のとき、ジミー・ペイジは1953年にロンドン郊外のヘストンで過ごしていました。この年、ジミー・ペイジは初めてギターに興味を持ち始めました。彼の家族は音楽的な環境ではありませんでしたが、"
+    }
+  ]
+}

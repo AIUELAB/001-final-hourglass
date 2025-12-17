@@ -53,7 +53,7 @@ REPORT_DIR = PROJECT_ROOT / "reports"
 # =============================================================================
 
 # フォーマットパターン
-FORMAT_PATTERN = re.compile(r"^あなたと同じ(\d+)歳のとき[、,](.+?)(?:は|が)")
+FORMAT_PATTERN = re.compile(r"^あなたと同じ(\d+)歳のとき[、, ]?(.+?)(?:は|が)")
 
 # メタ表現パターン（架空キャラ用）
 META_PATTERNS = [
@@ -247,7 +247,7 @@ def check_name_mismatch(episode: Dict) -> Optional[ValidationIssue]:
         return None
 
     # 本文から人物名を抽出
-    match = re.search(r"あなたと同じ\d+歳のとき[、,]\s*([^はがをにで、,]+?)(?:は|が)", text)
+    match = re.search(r"あなたと同じ\d+歳のとき[、, ]?\s*([^はがをにで、,]+?)(?:は|が)", text)
     if not match:
         return None  # フォーマット違反は別チェックで検出
 

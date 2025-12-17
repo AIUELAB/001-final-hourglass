@@ -1,0 +1,54 @@
+{
+  "target_count": 500,
+  "initial_master_count": 12401,
+  "rounds": [
+    {
+      "round": 1,
+      "target": 50,
+      "generated": 50,
+      "accepted": 50,
+      "fixed": 0,
+      "validation_issues": 0
+    },
+    {
+      "round": 2,
+      "target": 50,
+      "generated": 50,
+      "accepted": 46,
+      "fixed": 0,
+      "validation_issues": 0
+    },
+    {
+      "round": 3,
+      "target": 50,
+      "generated": 50,
+      "accepted": 49,
+      "fixed": 0,
+      "validation_issues": 0
+    },
+    {
+      "round": 4,
+      "target": 50,
+      "generated": 50,
+      "accepted": 46,
+      "fixed": 0,
+      "validation_issues": 0
+    },
+    {
+      "round": 5,
+      "target": 50,
+      "generated": 50,
+      "accepted": 48,
+      "fixed": 0,
+      "validation_issues": 0
+    }
+  ],
+  "total_generated": 250,
+  "total_accepted": 239,
+  "total_fixed": 0,
+  "total_failed": 0,
+  "final_master_count": 12640,
+  "net_added": 239,
+  "elapsed_seconds": 3306.8,
+  "episodes_per_minute": 4.3
+}

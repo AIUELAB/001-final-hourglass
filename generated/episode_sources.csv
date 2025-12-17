@@ -1,0 +1,8 @@
+source_id,person_name,person_id,person_type,source_url,source_type,raw_text,context,evidence_quality,verification_status,collected_at,verified_at,category,description
+,イチロー,P001,REAL,https://ja.wikipedia.org/wiki/イチロー,wikipedia,2004年シーズン262安打記録を達成。メジャーリーグ記録更新。出典: メジャーリーグ公式記録,年齢31歳時の業績,,,2025-12-17T10:00:00,,スポーツ,プロ野球選手・メジャーリーガー
+,山中伸弥,P002,REAL,https://www.kyoto-u.ac.jp/ja/research/yamanka,wikidata,iPS細胞を世界で初めて作製。2012年ノーベル生理学・医学賞受賞。,年齢40歳時の業績,,,2025-12-17T10:05:00,,科学・技術,京都大学教授・iPS細胞研究者
+,ドラえもん,P003,FICTIONAL,https://ja.wikipedia.org/wiki/ドラえもん,wikipedia,22世紀からやってきた猫型ロボット。のび太の世話をする。参照: 藤子・F・不二雄公式伝記,作品設定,,,2025-12-17T10:10:00,,架空キャラクター,藤子・F・不二雄作品
+,テスト太郎,P004,REAL,https://example.com/test,manual,テストデータです。架空の人物。,テスト用,,,2025-12-17T10:15:00,,テスト,テスト用データ
+,大リーグ養成ギプス,P005,REAL,https://example.com/item,manual,ドラえもんの秘密道具の一つ。装着すると野球が上達する。,道具説明,,,2025-12-17T10:20:00,,道具,架空のアイテム
+,羽生結弦,P006,REAL,https://ndl.go.jp/athletes/hanyu,wikidata,2014年ソチ冬季五輪金メダル、2018年平昌冬季五輪連覇。,年齢23歳時の業績,,,2025-12-17T10:25:00,,スポーツ,フィギュアスケート選手
+,稲盛和夫,P007,REAL,https://inamori-foundation.or.jp/autobiography,manual,京セラ・KDDI創業者。自伝「生き方」にて経営哲学を語る。,自伝より,,,2025-12-17T10:30:00,,実業家,京セラ創業者

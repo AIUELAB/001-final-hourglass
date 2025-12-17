@@ -1820,9 +1820,27 @@
             // エピソードタイプ分布（実データから計算）
             const episodeTypeCounts = {};
 
-            // 実データのエピソードタイプをそのまま使用
+            // 英語・技術値→日本語変換マッピング
+            const episodeTypeMapping = {
+                'ACHIEVEMENT': '達成',
+                'TURNING_POINT': '転機',
+                'pipeline_layer2': '未分類',
+                'jazz_musician_generation': '音楽活動',
+                'classical_musician_generation': '音楽活動',
+                'classical_performer_generation': '音楽活動',
+                'LLM_GENERATED': '未分類',
+                'nan→DENSITY_IMPROVED': '未分類',
+                'pipeline_layer2→SURPRISE_IMPROVED': '未分類',
+                'GROUP_DECOMPOSE_nan': '未分類',
+                '不明': '未分類',
+                '': '未設定'
+            };
+
+            // 実データのエピソードタイプを日本語に正規化
             allEpisodes.forEach(ep => {
-                const type = ep.episode_type || '未設定';
+                let type = ep.episode_type || '';
+                // 変換マッピングを適用
+                type = episodeTypeMapping[type] || type || '未設定';
                 episodeTypeCounts[type] = (episodeTypeCounts[type] || 0) + 1;
             });
 
@@ -1842,7 +1860,9 @@
                 '復帰': '#ec4899',      // マゼンタ（復活・再生）
                 '家族': '#f472b6',      // ピンク（温かみ）
                 'レガシー': '#d97706',  // アンバー（遺産・伝統）
-                '未設定': '#94a3b8'     // スレートグレー（未分類）
+                '音楽活動': '#a78bfa',  // ライトパープル（芸術活動）
+                '未分類': '#94a3b8',    // スレートグレー（未分類）
+                '未設定': '#6b7280'     // グレー（未設定）
             };
 
             episodeTypeChartInstance = new Chart(document.getElementById('episodeTypeChart'), {
@@ -2050,8 +2070,7 @@
                     'Tier 4 (全国的)': 0,
                     'Tier 3 (地域的)': 0,
                     'Tier 2 (専門的)': 0,
-                    'Tier 1 (限定的)': 0,
-                    '未評価': 0
+                    'Tier 1 (限定的)': 0
                 };
 
                 allEpisodes.forEach(ep => {
@@ -2061,7 +2080,7 @@
                     else if (tier === 3) tierCounts['Tier 3 (地域的)']++;
                     else if (tier === 2) tierCounts['Tier 2 (専門的)']++;
                     else if (tier === 1) tierCounts['Tier 1 (限定的)']++;
-                    else tierCounts['未評価']++;
+                    // tier === 0 は存在しないためカウント不要
                 });
 
                 fameTierChartInstance = new Chart(document.getElementById('fameTierChart'), {
@@ -2075,8 +2094,7 @@
                                 '#3b82f6', // Tier 4 (青)
                                 '#10b981', // Tier 3 (緑)
                                 '#f59e0b', // Tier 2 (黄)
-                                '#ef4444', // Tier 1 (赤)
-                                '#6b7280'  // 未評価 (灰)
+                                '#ef4444'  // Tier 1 (赤)
                             ]
                         }]
                     },

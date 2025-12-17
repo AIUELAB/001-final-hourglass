@@ -1,0 +1,22 @@
+{
+  "target_count": 10,
+  "initial_master_count": 12391,
+  "rounds": [
+    {
+      "round": 1,
+      "target": 10,
+      "generated": 10,
+      "accepted": 10,
+      "fixed": 0,
+      "validation_issues": 0
+    }
+  ],
+  "total_generated": 10,
+  "total_accepted": 10,
+  "total_fixed": 0,
+  "total_failed": 0,
+  "final_master_count": 12401,
+  "net_added": 10,
+  "elapsed_seconds": 130.3,
+  "episodes_per_minute": 4.6
+}

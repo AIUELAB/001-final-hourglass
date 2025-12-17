@@ -73,7 +73,7 @@ def extract_text_name(episode_text: str) -> Optional[str]:
     if not episode_text:
         return None
 
-    match = re.search(r"あなたと同じ\d+歳のとき[、,]\s*([^はがをにで、,]+?)(?:は|が)", episode_text)
+    match = re.search(r"あなたと同じ\d+歳のとき[、, ]?\s*([^はがをにで、,]+?)(?:は|が)", episode_text)
     if match:
         return match.group(1).strip()
     return None

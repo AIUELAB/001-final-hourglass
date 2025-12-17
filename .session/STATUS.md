@@ -121,9 +121,10 @@
 ANTHROPIC_API_KEY="$(cat /Users/admin/Documents/key/anthropic_api_key.txt)" \
 python scripts/person_growth_pipeline.py --execute --sources bulk_addition --episodes-per-person 1
 ```
-**推奨候補**:
-- 残り候補（8名）: 大悟、ノブ、粗品、てつや、常田大希、井口理、藤原聡、清水依与吏
-- 新しいカテゴリ（競走馬、NHK朝ドラモデル人物等）
+**bulk_addition.csv完了状況**:
+- ✅ **全27名が登録済み（100%完了）**
+- 大悟、ノブ、粗品、てつや、常田大希、井口理、藤原聡、清水依与吏も登録済み
+- 新しいカテゴリ（競走馬、NHK朝ドラモデル人物等）への拡大が推奨
 
 **Phase 4成果**: 道枝駿佑が年齢選択ロジック改善により成功 ✅
 

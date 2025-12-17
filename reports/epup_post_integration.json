@@ -1,16 +1,16 @@
 {
   "check_type": "daily",
-  "timestamp": "2025-12-17T16:11:52.330971",
-  "total_records": 12261,
+  "timestamp": "2025-12-17T16:49:14.705334",
+  "total_records": 12264,
   "kpis": [
     {
       "name": "グループ名混入率",
-      "value": 0.00013738150844896276,
+      "value": 0.00013732491073880802,
       "target": 0.0,
       "status": "WARNING",
       "details": {
         "group_as_person": 1,
-        "total_unique": 7279
+        "total_unique": 7282
       }
     },
     {
@@ -20,7 +20,7 @@
       "status": "OK",
       "details": {
         "variant_ids": 0,
-        "total_ids": 7478
+        "total_ids": 7481
       }
     },
     {
@@ -30,7 +30,7 @@
       "status": "OK",
       "details": {
         "nan_count": 0,
-        "total": 12261
+        "total": 12264
       }
     },
     {
@@ -52,7 +52,7 @@
       "status": "OK",
       "details": {
         "contaminated_count": 0,
-        "total_unique_names": 7279,
+        "total_unique_names": 7282,
         "contaminated_examples": []
       }
     },
@@ -63,7 +63,7 @@
       "status": "OK",
       "details": {
         "review_required_count": 0,
-        "total_unique_persons": 7279,
+        "total_unique_persons": 7282,
         "review_examples": []
       }
     },
@@ -74,7 +74,7 @@
       "status": "OK",
       "details": {
         "error_count": 0,
-        "total_unique_names": 7279,
+        "total_unique_names": 7282,
         "error_examples": []
       }
     }
@@ -83,7 +83,7 @@
     {
       "name": "グループ名混入率",
       "status": "WARNING",
-      "value": 0.00013738150844896276
+      "value": 0.00013732491073880802
     }
   ]
 }

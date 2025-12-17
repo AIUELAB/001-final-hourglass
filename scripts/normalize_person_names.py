@@ -40,6 +40,8 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
+from src.csv_path_resolver import get_master_csv_path, get_reports_dir
+
 # Anthropic API（オプション）
 try:
     import anthropic
@@ -49,11 +51,11 @@ except ImportError:
     HAS_ANTHROPIC = False
 
 # ========================================
-# 定数定義
+# 定数定義（統一パス解決を使用）
 # ========================================
 
-CSV_PATH = PROJECT_ROOT / "preserved" / "MASTER_EPISODES_CURRENT.csv"
-REPORTS_DIR = PROJECT_ROOT / "reports"
+CSV_PATH = get_master_csv_path()
+REPORTS_DIR = get_reports_dir()
 
 # 西洋人名のファーストネーム（誤分割防止）
 WESTERN_FIRST_NAMES = {

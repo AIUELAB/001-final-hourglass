@@ -30,14 +30,19 @@ import pandas as pd
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from src.csv_path_resolver import (
+    get_backup_dir,
+    get_master_csv_path,
+    get_project_root,
+)
 
 # ========================================
-# 定数
+# 定数（統一パス解決を使用）
 # ========================================
 
-PROJECT_ROOT = Path(__file__).parent.parent
-MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
-BACKUP_DIR = PROJECT_ROOT / "data" / "backups"
+PROJECT_ROOT = get_project_root()
+MASTER_CSV = get_master_csv_path()
+BACKUP_DIR = get_backup_dir()
 OUTPUT_DIR = PROJECT_ROOT / "output" / "duplicate_detection"
 
 

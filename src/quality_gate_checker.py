@@ -115,15 +115,12 @@ class QualityGateChecker:
                 timeout=300,  # 5分タイムアウト
             )
 
+            # scheduled_epup_check.py は WARNING レベルでも exit code 1 を返す
+            # レポートを読み込んで実際のステータスを判定する
             if result.returncode != 0:
-                logger.error(f"EPUP check failed: {result.stderr}")
-                return {
-                    "status": "CRITICAL",
-                    "error": f"EPUP check script failed: {result.stderr}",
-                    "kpis": {},
-                    "violations": [],
-                    "report_path": None,
-                }
+                logger.warning(f"EPUP check returned non-zero exit code: {result.returncode}")
+                # レポートが生成されていれば、その内容で判定
+                # レポートが生成されていなければ、CRITICAL として扱う
 
         except subprocess.TimeoutExpired:
             logger.error("EPUP check timed out")
@@ -146,10 +143,10 @@ class QualityGateChecker:
 
         # レポートJSONを読み込み
         if not report_path.exists():
-            logger.error("EPUP report not generated")
+            logger.error("EPUP report not generated - this indicates a script execution failure")
             return {
                 "status": "CRITICAL",
-                "error": "EPUP report not generated",
+                "error": f"EPUP report not generated. Exit code: {result.returncode}, stderr: {result.stderr}",
                 "kpis": {},
                 "violations": [],
                 "report_path": None,

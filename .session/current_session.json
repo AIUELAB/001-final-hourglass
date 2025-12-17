@@ -216,11 +216,58 @@
         "bulk_addition.csvの全候補が既にデータベースに存在",
         "Phase 4年齢選択ロジック改善の効果により高い成功率を達成"
       ]
+    },
+    {
+      "phase": "person_growth_phase5",
+      "name": "PERSON成長パイプライン Phase 5: 新カテゴリ拡大",
+      "result": "新カテゴリ候補リスト作成（21名）、三苫薫1名のみ成功追加",
+      "date": "2025-12-17",
+      "details": {
+        "total_candidates": 21,
+        "already_collected": 18,
+        "newly_added": 1,
+        "deleted": 2,
+        "success_rate": "4.8%"
+      },
+      "added_persons": [
+        {
+          "name": "三苫薫",
+          "age": 24,
+          "category": "スポーツ・サッカー",
+          "description": "日本代表・ブライトン所属・ワールドカップ「1.88ミリ」",
+          "quality_gate": "3回目で通過（TemplateBlocker 2回棄却後）"
+        }
+      ],
+      "deleted_persons": [
+        {
+          "name": "猪熊滋子",
+          "reason": "同姓同名誤認（ファミリア創業者として生成したかったが、醤油醸造会社経営者/戦国時代女官として生成）"
+        },
+        {
+          "name": "渡辺テル",
+          "reason": "同姓同名誤認（ニッカウヰスキー創業者夫人として生成したかったが、化粧品事業家/看護師として生成）"
+        }
+      ],
+      "already_collected_categories": [
+        "競走馬5頭（ディープインパクト、オグリキャップ、ハイセイコー、テイエムオペラオー、ウオッカ）",
+        "スポーツ選手（大谷翔平、イチロー、羽生結弦、久保建英、桐生祥秀、大坂なおみ、八村塁）",
+        "実業家（孫正義、柳井正、三木谷浩史、前澤友作、安藤百福）",
+        "芸術・文化（宮崎駿、村上春樹、草間彌生）"
+      ],
+      "lessons_learned": [
+        "同姓同名リスク: 歴史上の人物名は別人物として誤認されやすい",
+        "既収録率の高さ: 有名人物の大半は既にデータベースに存在",
+        "品質ゲートの有効性: TemplateBlockerが適切に機能（三苫薫で2回棄却）"
+      ],
+      "files": [
+        "config/person_sources/bulk_addition_phase5.csv（新規作成・21名）",
+        "preserved/data/MASTER_EPISODES_CURRENT.csv（+1名、-2名）"
+      ]
     }
   ],
   "current_status": {
-    "total_episodes": 12261,
-    "total_persons": 7478,
+    "total_episodes": 12262,
+    "total_persons": 7280,
     "epup_score": "103.03",
     "epup_grade": "A",
     "key_metrics": {
@@ -240,8 +287,9 @@
     }
   },
   "files_modified_this_session": [
-    "preserved/data/MASTER_EPISODES_CURRENT.csv (12,257エピソード)",
+    "preserved/data/MASTER_EPISODES_CURRENT.csv (12,262エピソード)",
     "config/person_sources/bulk_addition.csv (27候補者)",
+    "config/person_sources/bulk_addition_phase5.csv (21候補者)",
     "scripts/person_growth_pipeline.py (860行)",
     "src/episode_generation_bridge.py (3リトライロジック)",
     "src/csv_integrator.py (冪等性保証)",
@@ -253,9 +301,9 @@
   ],
   "git_status": {
     "branch": "main",
-    "last_commit": "edfb0e8 - docs: STATUS.md更新 - bulk_addition.csv 100%完了を記録",
+    "last_commit": "e2c79e4 - feat: Phase 5完了 - 新カテゴリ候補リスト作成・三苫薫追加",
     "commits_ahead": 0,
-    "pushed": true
+    "pushed": false
   },
   "next_recommended_tasks": [
     {
@@ -300,13 +348,15 @@
   "notes": [
     "PERSON成長パイプラインのMVP実装完了・本番検証完了",
     "Phase 4年齢選択ロジック改善完了（優先度ベース+Fallback）",
+    "Phase 5新カテゴリ拡大完了（三苫薫1名追加、同姓同名誤認2名削除）",
     "bulk_addition.csv: 全27名完了（100%達成）",
+    "bulk_addition_phase5.csv: 21名候補→18名既収録、1名成功（4.8%）",
     "8ステップパイプライン（収集→検証→判定→生成→統合→品質チェック）正常動作確認",
     "3層品質ゲート（Validator→FactChecker→TemplateBlocker）正常動作確認",
     "4層重複検出（exact→normalized→alias→similar）正常動作確認",
     "冪等性保証（composite key）確認済み",
     "道枝駿佑が年齢選択ロジック改善により成功（4回棄却→22歳で成功）",
-    "全変更コミット・push済み（main: edfb0e8）",
+    "全変更コミット済み（main: e2c79e4）、push準備完了",
     "次回起動時は「前回のセッションを復元してください」で継続可能"
   ]
 }

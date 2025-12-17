@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-12-18T02:06:07.412304",
+  "input_file": "generated/raw_sources.csv",
+  "output_verified": "/Users/admin/Documents/AIUELAB/001-final-hourglass/generated/verified_sources.csv",
+  "output_rejected": "/Users/admin/Documents/AIUELAB/001-final-hourglass/generated/rejected_sources.csv",
+  "statistics": {
+    "total_sources": 10,
+    "duplicates": 0,
+    "blacklisted": 0,
+    "sensitive": 0,
+    "quality_A": 0,
+    "quality_B": 10,
+    "quality_C": 0,
+    "verified": 10,
+    "rejected": 0
+  }
+}

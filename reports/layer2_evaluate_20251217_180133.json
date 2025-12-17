@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-12-17T18:01:33.152359",
+  "config": {
+    "api_delay": 0.4,
+    "auto_accept_threshold": 600,
+    "improvement_queue_min": 400,
+    "rejection_threshold": 400,
+    "fact_density_minimum": 3.5,
+    "fact_density_preferred": 5.0,
+    "surprise_fiction_threshold": 8.5
+  },
+  "stats": {
+    "total_evaluated": 12,
+    "auto_accepted": 11,
+    "improvement_queue": 1,
+    "rejected": 0,
+    "api_errors": 0,
+    "pre_validation_failed": 0,
+    "auto_accept_rate": 91.7,
+    "rejection_rate": 0.0,
+    "elapsed_seconds": 64.3
+  },
+  "classification_breakdown": {
+    "auto_accepted": 11,
+    "improvement_queue": 1,
+    "rejected": 0
+  }
+}

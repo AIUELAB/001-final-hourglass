@@ -77,8 +77,8 @@ LAYER1_CONFIG = {
     "max_chars": 500,  # 最大文字数
 }
 
-# フォーマットパターン
-FORMAT_PATTERN = re.compile(r"^あなたと同じ\d+歳のとき[、,]")
+# フォーマットパターン（読点は任意）
+FORMAT_PATTERN = re.compile(r"^あなたと同じ\d+歳のとき[、, ]?")
 
 # メタ表現パターン（禁止）
 META_PATTERNS = [
@@ -174,7 +174,7 @@ def validate_name_in_text(episode_text: str, person_name: str) -> tuple[bool, st
     Returns: (is_valid, extracted_name or error_message)
     """
     # 本文から人物名を抽出
-    match = re.search(r"あなたと同じ\d+歳のとき[、,]\s*([^はがをにで、,]+?)(?:は|が)", episode_text)
+    match = re.search(r"あなたと同じ\d+歳のとき[、, ]?\s*([^はがをにで、,]+?)(?:は|が)", episode_text)
     if not match:
         return False, "extraction_failed"
 
@@ -225,7 +225,7 @@ def llm_generate_fast(
 
 【最重要】必ず「{person_name}」という人物名を使用してください。
 
-【形式】「あなたと同じ{age}歳のとき、{person_name}は〜」で必ず始めてください。
+【形式】「あなたと同じ{age}歳のとき {person_name}は〜」で必ず始めてください（読点なし）。
 
 【作品世界内で描写】
   - キャラクターの性格に基づいた行動
@@ -239,23 +239,28 @@ def llm_generate_fast(
 
 エピソード:"""
     else:
-        # REAL人物: 事実優先プロンプト
-        prompt = f"""「{person_name}」（{category}）の{age}歳のときの事実に基づくエピソードを生成してください。
+        # REAL人物: 事実ベースプロンプト（緩和版）
+        prompt = f"""「{person_name}」（{category}）の{age}歳のときのエピソードを生成してください。
 
 【最重要】必ず「{person_name}」という人物名を使用してください。
 ※グループ名、略称、別名への置き換えは禁止です。
 
-【形式】「あなたと同じ{age}歳のとき、{person_name}は〜」で必ず始めてください。
+【形式】「あなたと同じ{age}歳のとき {person_name}は〜」で必ず始めてください（読点なし）。
 
-【事実優先】以下を必ず含めてください：
-  - 具体的な年号（例: 1985年、2003年）
-  - 数値データ（記録、順位、金額など）
-  - 検証可能な出来事や業績
+【内容指針】以下を含めることが望ましい：
+  - 具体的な年号や時期（分かる場合）
+  - 数値データや具体的な出来事（分かる場合）
+  - 人物の特徴や後の活動につながるエピソード
+
+【絶対禁止】
+  - 「申し訳ございませんが」「検証できません」等の拒否応答
+  - 「情報がありません」「確認できません」等のメタ表現
+  - エピソード生成を断ること
+  ※検証可能な情報が少ない場合は、人物の職業・業績に基づいた合理的なエピソードで構いません
 
 【禁止事項】
-  - 架空の出来事の創作
   - 「実は」「意外にも」などの誇張表現
-  - 検証不可能な内面描写の過度な創作
+  - 過度に創作的な内容
 
 【文字数】200-350文字程度
 
@@ -473,11 +478,16 @@ def run_layer1(count: int, ages: Optional[List[int]], execute: bool) -> Dict:
         if not is_valid:
             if reason == "format_mismatch":
                 stats.format_rejected += 1
+                # DEBUG: 拒否されたテキストの冒頭を出力
+                print(f"❌ Rejected: {reason} - Text: {episode_text[:80]}...")
             elif reason == "meta_expression":
                 stats.meta_rejected += 1
+                print(f"❌ Rejected: {reason}")
             elif reason in ("too_short", "too_long"):
                 stats.length_rejected += 1
-            print(f"❌ Rejected: {reason}")
+                print(f"❌ Rejected: {reason} (length: {len(episode_text)})")
+            else:
+                print(f"❌ Rejected: {reason}")
             continue
 
         # 名前-内容一致検証（ミスマッチ防止の重要なチェック）

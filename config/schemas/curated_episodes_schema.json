@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Curated Episodes Schema",
+  "description": "curated_episodes.csv のスキーマ定義（生成済みエピソード）",
+  "type": "object",
+  "required": [
+    "person_id",
+    "person_name",
+    "age",
+    "episode_text",
+    "source_id",
+    "source_url",
+    "evidence_quality",
+    "validation_status",
+    "generated_at"
+  ],
+  "properties": {
+    "episode_id": {
+      "type": "string",
+      "description": "エピソードID（未採番は空、マージ時に正式採番）",
+      "pattern": "^(EP-[0-9]{9}|EP-TEMP-[0-9]+)?$",
+      "example": "EP-TEMP-001"
+    },
+    "person_id": {
+      "type": "string",
+      "description": "人物ID（P{8桁英数}形式）",
+      "pattern": "^P[A-Z0-9]{8}$",
+      "example": "P001ABC12"
+    },
+    "person_name": {
+      "type": "string",
+      "description": "正規化済み人物名",
+      "minLength": 1,
+      "example": "イチロー"
+    },
+    "age": {
+      "type": "integer",
+      "description": "年齢",
+      "minimum": 0,
+      "maximum": 150,
+      "example": 31
+    },
+    "episode_text": {
+      "type": "string",
+      "description": "エピソード本文（EPUP形式、100-300文字推奨）",
+      "minLength": 50,
+      "pattern": "^あなたと同じ.+",
+      "example": "あなたと同じ31歳のとき、イチローは..."
+    },
+    "source_id": {
+      "type": "string",
+      "description": "根拠ソースID（EpisodeSourceのsource_id）",
+      "pattern": "^SRC-[a-f0-9]{16}$",
+      "example": "SRC-a3f5b9c2d4e6f8a0"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "根拠URL",
+      "format": "uri",
+      "pattern": "^https?://.+",
+      "example": "https://ja.wikipedia.org/wiki/イチロー"
+    },
+    "evidence_quality": {
+      "type": "string",
+      "description": "根拠品質（A/B/C）",
+      "enum": ["A", "B", "C"],
+      "example": "B"
+    },
+    "validation_status": {
+      "type": "string",
+      "description": "バリデーション結果",
+      "enum": ["pending", "passed", "failed", "review"],
+      "default": "pending",
+      "example": "passed"
+    },
+    "validation_issues": {
+      "type": "string",
+      "description": "検出された問題（JSON形式、オプション）",
+      "example": "[{\"type\": \"format_violation\", \"message\": \"...\"}]"
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "生成日時（ISO 8601形式）",
+      "format": "date-time",
+      "example": "2025-12-17T15:00:00"
+    },
+    "person_type": {
+      "type": "string",
+      "description": "人物タイプ",
+      "enum": ["REAL", "FICTIONAL"],
+      "default": "REAL",
+      "example": "REAL"
+    },
+    "category": {
+      "type": "string",
+      "description": "カテゴリ（オプション）",
+      "example": "スポーツ"
+    },
+    "episode_type": {
+      "type": "string",
+      "description": "エピソードタイプ（オプション）",
+      "example": "転機"
+    }
+  }
+}

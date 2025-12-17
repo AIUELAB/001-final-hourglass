@@ -27,7 +27,7 @@ def extract_person_name_from_text(episode_text: str) -> str | None:
         return None
 
     # パターン1: 「あなたと同じXX歳のとき、【人物名】は」
-    match = re.search(r"あなたと同じ\d+歳のとき[、,]\s*([^はがをにで、,]+?)(?:は|が)", episode_text)
+    match = re.search(r"あなたと同じ\d+歳のとき[、, ]?\s*([^はがをにで、,]+?)(?:は|が)", episode_text)
     if match:
         return match.group(1).strip()
 

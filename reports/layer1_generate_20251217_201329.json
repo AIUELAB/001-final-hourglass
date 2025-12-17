@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-12-17T20:13:29.528673",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 100,
+    "generated": 1,
+    "format_rejected": 99,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 14,
+    "api_errors": 0,
+    "success_rate": 1.0,
+    "elapsed_seconds": 768.0,
+    "episodes_per_minute": 0.1
+  },
+  "sample_episodes": [
+    {
+      "person_name": "沢城みゆき",
+      "age": "13",
+      "text_preview": "あなたと同じ13歳のとき、沢城みゆきは1998年に声優としてのキャリアをスタートさせていました。この年、彼女は「デ・ジ・キャラット」のプチ・キャラット役で声優デビューを果たしました。当時中学1年生だっ"
+    }
+  ]
+}

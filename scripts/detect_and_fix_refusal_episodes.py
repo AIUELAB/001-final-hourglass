@@ -76,7 +76,7 @@ REFUSAL_PATTERNS = [
 ]
 
 # 正しいエピソード形式（冒頭パターン）
-PROPER_FORMAT_PATTERN = r"^あなたと同じ\d+歳のとき[、,]"
+PROPER_FORMAT_PATTERN = r"^あなたと同じ\d+歳のとき[、, ]?"
 
 # 死亡年情報（主要な人物）
 # TODO: 外部データソースと連携

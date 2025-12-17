@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-12-17T20:41:01.599740",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 10,
+    "generated": 10,
+    "format_rejected": 0,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 0,
+    "api_errors": 0,
+    "success_rate": 100.0,
+    "elapsed_seconds": 94.6,
+    "episodes_per_minute": 6.3
+  },
+  "sample_episodes": [
+    {
+      "person_name": "ジム・ジャームッシュ",
+      "age": "8",
+      "text_preview": "あなたと同じ8歳のとき ジム・ジャームッシュは1961年、オハイオ州アクロンの郊外で、父親が持っていた古いラジオから流れてくる音楽に夢中になっていました。特にカントリー・ミュージックやロックンロールの"
+    },
+    {
+      "person_name": "今田耕司",
+      "age": "10",
+      "text_preview": "あなたと同じ10歳のとき 今田耕司は1972年に大阪府大阪市で小学4年生として過ごしていました。当時から人を笑わせることが大好きで、クラスでは自然とムードメーカー的な存在でした。休み時間になると友達の"
+    },
+    {
+      "person_name": "富澤たけし",
+      "age": "10",
+      "text_preview": "あなたと同じ10歳のとき 富澤たけしは1984年、埼玉県春日部市の小学校で同級生たちを笑わせることに夢中になっていました。当時から無表情で淡々とボケを言う独特のスタイルの片鱗を見せており、授業中に先生"
+    },
+    {
+      "person_name": "粗品",
+      "age": "10",
+      "text_preview": "あなたと同じ10歳のとき 粗品は2000年頃、大阪の小学校に通いながら既に独特のユーモアセンスを発揮していました。クラスメイトたちを笑わせることが得意で、授業中でも先生の話を聞きながら、友達にこっそり"
+    },
+    {
+      "person_name": "鎌田大地",
+      "age": "7",
+      "text_preview": "あなたと同じ7歳のとき 鎌田大地は地元愛媛県西条市でサッカーを始めていた。1999年頃、小学2年生の鎌田大地は西条サッカースポーツ少年団に入団し、初めて本格的にサッカーボールを蹴るようになった。当時か"
+    }
+  ]
+}

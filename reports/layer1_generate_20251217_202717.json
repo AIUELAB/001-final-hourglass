@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-12-17T20:27:17.137779",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 20,
+    "generated": 2,
+    "format_rejected": 18,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 1,
+    "api_errors": 0,
+    "success_rate": 10.0,
+    "elapsed_seconds": 153.3,
+    "episodes_per_minute": 0.8
+  },
+  "sample_episodes": [
+    {
+      "person_name": "小渕恵三",
+      "age": "10",
+      "text_preview": "あなたと同じ10歳のとき 小渕恵三は1947年、群馬県中之条町で戦後復興期の困窮した生活を送っていました。この年、日本国憲法が施行され、新制中学校制度が始まった激動の時代でした。小渕恵三の父親で後に群"
+    },
+    {
+      "person_name": "ウェス・アンダーソン",
+      "age": "10",
+      "text_preview": "あなたと同じ10歳のとき ウェス・アンダーソンは1979年、テキサス州ヒューストンで両親の離婚を経験していました。この年、父親が家を出て行ったことで、ウェス・アンダーソンと2人の兄弟は母親と暮らすこと"
+    }
+  ]
+}

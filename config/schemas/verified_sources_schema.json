@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Verified Sources Schema",
+  "description": "verified_sources.csv のスキーマ定義（episode_sources.csv + 検証フィールド）",
+  "type": "object",
+  "required": [
+    "source_id",
+    "person_name",
+    "person_id",
+    "person_type",
+    "source_url",
+    "source_type",
+    "raw_text",
+    "evidence_quality",
+    "verification_status",
+    "collected_at"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string",
+      "description": "ソースID（MD5ハッシュ、SRC-{16桁}形式）",
+      "pattern": "^SRC-[a-f0-9]{16}$",
+      "example": "SRC-a3f5b9c2d4e6f8a0"
+    },
+    "person_name": {
+      "type": "string",
+      "description": "人物名（正規化済み）",
+      "minLength": 1,
+      "example": "イチロー"
+    },
+    "person_id": {
+      "type": "string",
+      "description": "人物ID（既存 or 新規、P{8桁英数}形式）",
+      "pattern": "^P[A-Z0-9]{8}$",
+      "example": "P001ABC12"
+    },
+    "person_type": {
+      "type": "string",
+      "description": "人物タイプ",
+      "enum": ["REAL", "FICTIONAL"],
+      "example": "REAL"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "情報源URL",
+      "format": "uri",
+      "pattern": "^https?://.+",
+      "example": "https://ja.wikipedia.org/wiki/イチロー"
+    },
+    "source_type": {
+      "type": "string",
+      "description": "ソースタイプ",
+      "enum": ["wikidata", "wikipedia", "manual"],
+      "example": "wikipedia"
+    },
+    "raw_text": {
+      "type": "string",
+      "description": "抽出テキスト（キーフレーズのみ、250文字以内推奨）",
+      "minLength": 1,
+      "maxLength": 250,
+      "example": "2004年シーズン262安打記録"
+    },
+    "context": {
+      "type": "string",
+      "description": "文脈情報（オプション）",
+      "example": "年齢31歳時の業績"
+    },
+    "evidence_quality": {
+      "type": "string",
+      "description": "根拠品質（A=一次情報、B=二次情報2+、C=未検証）",
+      "enum": ["A", "B"],
+      "example": "B",
+      "note": "verified_sources.csvはA/Bのみ（Cは除外）"
+    },
+    "verification_status": {
+      "type": "string",
+      "description": "検証ステータス",
+      "enum": ["verified"],
+      "default": "verified",
+      "example": "verified",
+      "note": "verified_sources.csvはverifiedのみ"
+    },
+    "collected_at": {
+      "type": "string",
+      "description": "収集日時（ISO 8601形式）",
+      "format": "date-time",
+      "example": "2025-12-17T14:00:00"
+    },
+    "verified_at": {
+      "type": "string",
+      "description": "検証日時（ISO 8601形式）",
+      "format": "date-time",
+      "example": "2025-12-17T14:30:00"
+    },
+    "verifier_notes": {
+      "type": "string",
+      "description": "検証者ノート（オプション）",
+      "example": "品質A確認済み"
+    }
+  }
+}

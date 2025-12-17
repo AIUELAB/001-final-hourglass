@@ -1,0 +1,12 @@
+{
+  "mode": "EXECUTE",
+  "timestamp": "2025-12-17 13:49:23",
+  "summary": {
+    "total_candidates": 1,
+    "found_persons": 1,
+    "missing_persons": 0,
+    "approved_for_addition": 0,
+    "review_required": 0,
+    "blocked": 0
+  }
+}

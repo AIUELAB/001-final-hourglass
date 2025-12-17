@@ -145,11 +145,54 @@
         "TemplateBlockerは年齢依存コンテンツに反応していた可能性",
         "道枝駿佑のみ再度失敗（人物固有の問題の可能性）"
       ]
+    },
+    {
+      "phase": "person_growth_phase4",
+      "name": "PERSON成長パイプライン Phase 4: 年齢選択ロジック改善",
+      "result": "優先度ベース年齢選択+Fallbackメカニズム実装 → 道枝駿佑成功",
+      "date": "2025-12-17",
+      "problem": {
+        "description": "episodes_count=1で常に最小年齢（10歳）が選択される",
+        "details": [
+          "均等分散アルゴリズムがepisodes_count=1で最小年齢を返す副作用",
+          "リトライで年齢変更なし（同一年齢で3回失敗→諦める）",
+          "道枝駿佑: 10歳で4回連続棄却（TemplateBlocker）"
+        ]
+      },
+      "solution": {
+        "strategy_a": "優先度ベースの年齢選択",
+        "strategy_b": "Fallbackメカニズム（失敗時に代替年齢を試す）",
+        "implementation": [
+          "_select_ages_with_priority追加（prime[20-39]→teen[10-19]→mature[40+]）",
+          "generate_for_person改修（failed_ages追跡、Fallback再試行）"
+        ]
+      },
+      "result_details": {
+        "before": {
+          "age_selection": "10歳（固定）",
+          "retries": "4回連続失敗（TemplateBlocker）",
+          "success_rate": "0%"
+        },
+        "after": {
+          "age_selection": "22歳（優先度ベース）",
+          "retries": "1回目で成功",
+          "success_rate": "100%"
+        },
+        "episode": {
+          "person_name": "道枝駿佑",
+          "age": 22,
+          "content": "なにわ男子メンバーとしての活動、ドラマ「金田一少年の事件簿」主演"
+        }
+      },
+      "files": [
+        "src/episode_generation_bridge.py: _select_ages_with_priority追加（60行）",
+        "src/episode_generation_bridge.py: generate_for_person改修（Fallbackメカニズム）"
+      ]
     }
   ],
   "current_status": {
-    "total_episodes": 12260,
-    "total_persons": 7477,
+    "total_episodes": 12261,
+    "total_persons": 7478,
     "epup_score": "103.03",
     "epup_grade": "A",
     "key_metrics": {
@@ -182,7 +225,7 @@
   ],
   "git_status": {
     "branch": "main",
-    "last_commit": "0f9c345 - feat: PERSON成長パイプライン追加 - 3人の新規人物を追加",
+    "last_commit": "5a201f5 - docs: セッション記録更新 - PERSON成長パイプライン本番運用検証完了",
     "commits_ahead": 0,
     "pushed": true
   },

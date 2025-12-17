@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-12-18T01:28:54.865933",
+  "input_csv": "generated/curated_episodes.csv",
+  "master_csv": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv",
+  "original_count": 12662,
+  "new_count": 20,
+  "total_count": 12682,
+  "statistics": {
+    "total_episodes": 23,
+    "passed": 20,
+    "review": 0,
+    "failed": 3,
+    "duplicates": 0,
+    "excellent": 20,
+    "good": 3,
+    "acceptable": 0,
+    "poor": 0,
+    "unacceptable": 0
+  }
+}

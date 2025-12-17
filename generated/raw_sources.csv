@@ -1,6 +1,11 @@
-person_name,source_url,raw_text,person_type,source_type,evidence_quality
-村上春樹,https://ja.wikipedia.org/wiki/%E6%9D%91%E4%B8%8A%E6%98%A5%E6%A8%B9,"村上春樹は1979年、29歳のときに『風の歌を聴け』で第22回群像新人文学賞を受賞。この作品でプロ作家としてのキャリアをスタートさせました。当時、東京でジャズ喫茶「ピーター・キャット」を経営しながら執筆活動を行っていました。（出典: Wikipedia、公式サイト）",REAL,WIKIPEDIA,A
-宮崎駿,https://ja.wikipedia.org/wiki/%E5%AE%AE%E5%B4%8E%E9%A7%BF,"宮崎駿は1984年、43歳のときに『風の谷のナウシカ』を監督。原作漫画も自ら手がけ、環境問題と人間の共生をテーマにした壮大な物語を描きました。この作品は興行収入14.8億円を記録し、アニメーション映画の新境地を開きました。（参照: 公式インタビュー、Wikipedia）",REAL,WIKIPEDIA,A
-久石譲,https://ja.wikipedia.org/wiki/%E4%B9%85%E7%9F%B3%E8%AD%B2,"久石譲は1984年、33歳のときに『風の谷のナウシカ』の音楽を担当。宮崎駿監督との初タッグとなったこの作品で、電子音楽とオーケストラを融合させた独特のサウンドを生み出しました。この成功により、その後のスタジオジブリ作品のほぼ全ての音楽を手がけることになります。（出典: Wikipedia）",REAL,WIKIPEDIA,B
-黒澤明,https://ja.wikipedia.org/wiki/%E9%BB%92%E6%BE%A4%E6%98%8E,"黒澤明は1950年、40歳のときに『羅生門』を監督。芥川龍之介の小説を映画化したこの作品は、1951年のヴェネツィア国際映画祭で金獅子賞を受賞し、日本映画が国際的に評価される契機となりました。撮影監督の宮川一夫とともに、光と影を巧みに使った映像美を追求しました。（出典: Wikipedia、参照資料）",REAL,WIKIPEDIA,A
-坂本龍一,https://ja.wikipedia.org/wiki/%E5%9D%82%E6%9C%AC%E9%BE%8D%E4%B8%80,"坂本龍一は1978年、27歳のときにYellow Magic Orchestra（YMO）を結成し、アルバム『Yellow Magic Orchestra』をリリース。細野晴臣、高橋幸宏とともに、テクノポップというジャンルを確立し、日本の音楽シーンに革命をもたらしました。このアルバムは国内外で高い評価を受け、80年代のテクノブームの先駆けとなりました。（出典: Wikipedia、参照文献）",REAL,WIKIPEDIA,B
+person_name,person_id,person_type,source_url,source_type,raw_text,context,category,description,evidence_quality
+白澤卓二,,,https://ja.wikipedia.org/wiki/白澤卓二,WIKIPEDIA,1998年、順天堂大学大学院加齢制御医学講座教授に就任し、加齢制御医学の研究を開始した。出典: Wikipedia「白澤卓二」参照,年齢40歳時の業績,医学・健康,順天堂大学大学院教授・アンチエイジング専門家,B
+鎌田實,,,https://ja.wikipedia.org/wiki/鎌田實,WIKIPEDIA,1988年、諏訪中央病院院長に就任し、地域医療改革を推進した。出典: Wikipedia「鎌田實」参照,年齢40歳時の業績,医学・健康,諏訪中央病院名誉院長・地域医療の先駆者,B
+南淵明宏,,,https://ja.wikipedia.org/wiki/南淵明宏,WIKIPEDIA,2000年、低侵襲心臓手術（MIDCAB）を日本に導入し、心臓外科医療の革新に貢献した。出典: Wikipedia「南淵明宏」参照,年齢42歳時の業績,医学・健康,大和成和病院心臓血管外科部長・低侵襲心臓手術のパイオニア,B
+帯津良一,,,https://ja.wikipedia.org/wiki/帯津良一,WIKIPEDIA,1982年、帯津三敬病院を開設し、ホリスティック医学の実践を開始した。出典: Wikipedia「帯津良一」参照,年齢46歳時の業績,医学・健康,帯津三敬病院名誉院長・ホリスティック医学の第一人者,B
+近藤誠,,,https://ja.wikipedia.org/wiki/近藤誠_(医師),WIKIPEDIA,1996年、著書『患者よ、がんと闘うな』を出版し、がん治療への批判的視点を提示した。出典: Wikipedia「近藤誠」参照,年齢48歳時の業績,医学・健康,元慶應義塾大学医学部講師・がん治療批判の急先鋒,B
+和田秀樹,,,https://ja.wikipedia.org/wiki/和田秀樹,WIKIPEDIA,2005年、著書『受験は要領』シリーズが累計100万部を突破し、受験教育に大きな影響を与えた。出典: Wikipedia「和田秀樹」参照,年齢45歳時の業績,医学・健康,国際医療福祉大学教授・受験アドバイザー,B
+中川恵一,,,https://ja.wikipedia.org/wiki/中川恵一,WIKIPEDIA,2005年、東京大学医学部附属病院放射線科准教授に就任し、がん医療の研究と啓発活動を開始した。出典: Wikipedia「中川恵一」参照,年齢45歳時の業績,医学・健康,東京大学医学部附属病院放射線科准教授・がん啓発活動,B
+岡本裕,,,https://ja.wikipedia.org/wiki/岡本裕_(医師),WIKIPEDIA,2002年、e-クリニック大阪を開業し、薬剤に頼らない医療を提唱した。参照: Wikipedia「岡本裕」,年齢45歳時の業績,医学・健康,e-クリニック医師・薬剤に頼らない医療提唱者,C
+久坂部羊,,,https://ja.wikipedia.org/wiki/久坂部羊,WIKIPEDIA,2003年、小説『廃用身』で小説家デビューし、日本医療小説大賞を受賞した。出典: Wikipedia「久坂部羊」参照,年齢48歳時の業績,医学・健康,医師・小説家・大阪大学医学部卒業,B
+海堂尊,,,https://ja.wikipedia.org/wiki/海堂尊,WIKIPEDIA,2006年、小説『チーム・バチスタの栄光』で『このミステリーがすごい!』大賞を受賞し、医療ミステリー作家として注目された。出典: Wikipedia「海堂尊」参照,年齢45歳時の業績,医学・健康,医師・小説家・千葉大学医学部卒業,B

@@ -59,6 +59,10 @@ def extract_age_from_context(context: str) -> Optional[int]:
         >>> extract_age_from_context("作品設定")
         None
     """
+    # NaN対策: floatの場合は空文字列に変換
+    if not isinstance(context, str):
+        context = ""
+
     # パターン1: 年齢XX歳時
     match = re.search(r"年齢(\d+)歳", context)
     if match:

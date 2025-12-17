@@ -1,3 +1,1 @@
-﻿source_id,person_name,person_id,person_type,source_url,source_type,raw_text,context,evidence_quality,verification_status,collected_at,verified_at,category,description,rejection_reason
-SRC-23c942ccf861dfb3,テスト太郎,P004,REAL,https://example.com/test,manual,テストデータです。架空の人物。,テスト用,C,rejected,2025-12-17T10:15:00,2025-12-17T21:51:30.940049,テスト,テスト用データ,blacklist_pattern: テスト.*
-SRC-35ec511b40777508,大リーグ養成ギプス,P005,REAL,https://example.com/item,manual,ドラえもんの秘密道具の一つ。装着すると野球が上達する。,道具説明,C,rejected,2025-12-17T10:20:00,2025-12-17T21:51:30.940240,道具,架空のアイテム,blacklist_match: 大リーグ養成ギプス
+﻿

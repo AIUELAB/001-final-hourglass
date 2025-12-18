@@ -22,6 +22,7 @@ class PersonCandidate:
         description: 人物の説明
         birth_year: 生年
         death_year: 没年（存命の場合はNone）
+        preferred_age: 優先年齢（指定された場合、この年齢のみでエピソード生成）
         tier: 重要度ティア（S+, S, A, B）
         source_name: ソース名（例: manual, nhk_asadora, wikipedia_ja）
         source_url: ソースURL
@@ -38,6 +39,7 @@ class PersonCandidate:
         ...     category="科学・技術",
         ...     person_type="REAL",
         ...     birth_year=1962,
+        ...     preferred_age=47,  # 47歳のエピソードのみ生成
         ...     tier="S+",
         ...     source_name="manual"
         ... )
@@ -50,6 +52,7 @@ class PersonCandidate:
     description: Optional[str] = None
     birth_year: Optional[int] = None
     death_year: Optional[int] = None
+    preferred_age: Optional[int] = None
     tier: Optional[str] = None  # S+, S, A, B
     source_name: str = ""
     source_url: Optional[str] = None
@@ -71,6 +74,12 @@ class PersonCandidate:
         if self.death_year and not isinstance(self.death_year, int):
             raise ValueError(f"death_year must be int, got {type(self.death_year)}")
 
+        if self.preferred_age is not None:
+            if not isinstance(self.preferred_age, int):
+                raise ValueError(f"preferred_age must be int, got {type(self.preferred_age)}")
+            if self.preferred_age < 0:
+                raise ValueError(f"preferred_age must be non-negative, got {self.preferred_age}")
+
     def to_dict(self) -> dict:
         """辞書形式に変換（JSON出力用）"""
         return {
@@ -81,6 +90,7 @@ class PersonCandidate:
             "description": self.description,
             "birth_year": self.birth_year,
             "death_year": self.death_year,
+            "preferred_age": self.preferred_age,
             "tier": self.tier,
             "source_name": self.source_name,
             "source_url": self.source_url,

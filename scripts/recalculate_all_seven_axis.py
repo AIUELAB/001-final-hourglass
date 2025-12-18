@@ -27,17 +27,14 @@ import pandas as pd
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# 統一モジュールからインポート（重複実装の排除完了）
 from backend.app.utils.score_calculator import (
     SEVEN_AXIS_FIELDS,
     calculate_all_five_axes,
     calculate_enhanced_composite_score,
-    get_score_grade,
-)
-
-# ストーリー品質と事実密度はcalculate_seven_axis_score.pyから
-from scripts.calculate_seven_axis_score import (
     calculate_factual_density,
     calculate_storytelling_quality,
+    get_score_grade,
 )
 
 # CSVファイルパス

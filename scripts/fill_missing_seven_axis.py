@@ -14,12 +14,14 @@ LLMを使用して、記憶性・共感性・意外性・生成品質・教育�
 
     # バッチサイズ指定
     python scripts/fill_missing_seven_axis.py --batch-size 30 --execute
+
+NOTE: ストーリー品質と事実密度の算出ロジックは統一モジュールからインポート
+      backend/app/utils/score_calculator.py に正規実装あり
 """
 
 import argparse
 import json
 import os
-import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -29,6 +31,12 @@ import pandas as pd
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# 統一モジュールからインポート（重複実装の排除）
+from backend.app.utils.score_calculator import (
+    calculate_factual_density,
+    calculate_storytelling_quality,
+)
 
 # パス
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
@@ -91,158 +99,6 @@ SEVEN_AXIS_PROMPT = """あなたはエピソードの品質を評価する専門
   "教育的価値": 数値,
   "評価理由": "1-2文で簡潔に"
 }}"""
-
-
-def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
-    """ストーリー品質スコアを算出（1-10点）"""
-    score = 5.2
-
-    # テキストの長さ
-    text_length = len(episode_text)
-    if text_length > 250:
-        score += 1.5
-    elif text_length > 180:
-        score += 1.0
-    elif text_length > 120:
-        score += 0.5
-
-    # 感情表現
-    emotion_keywords = [
-        "感動",
-        "喜び",
-        "悲しみ",
-        "怒り",
-        "驚き",
-        "恐怖",
-        "不安",
-        "希望",
-        "愛",
-        "絆",
-        "友情",
-        "憧れ",
-        "葛藤",
-        "苦悩",
-        "決意",
-        "勇気",
-        "涙",
-        "笑顔",
-        "喪失",
-        "再会",
-        "別れ",
-        "出会い",
-    ]
-    emotion_count = sum(1 for kw in emotion_keywords if kw in episode_text)
-    score += min(emotion_count * 0.5, 2.0)
-
-    # ストーリー要素
-    story_elements = [
-        "夢",
-        "目標",
-        "挑戦",
-        "困難",
-        "克服",
-        "達成",
-        "転機",
-        "出発",
-        "帰還",
-        "変化",
-        "成長",
-        "学び",
-        "試練",
-        "突破",
-    ]
-    story_count = sum(1 for elem in story_elements if elem in episode_text)
-    score += min(story_count * 0.3, 1.5)
-
-    # 具体的な描写
-    has_quotes = "「" in episode_text or "」" in episode_text
-    has_numbers = bool(re.search(r"\d+", episode_text))
-    if has_quotes:
-        score += 0.5
-    if has_numbers:
-        score += 0.3
-
-    # エピソードタイプによる調整
-    type_weights = {
-        "ACHIEVEMENT": 0.8,
-        "TURNING_POINT": 1.2,
-        "CHALLENGE": 1.1,
-        "FAMILY": 1.3,
-        "GROWTH": 1.2,
-        "成長": 1.2,
-        "FAILURE": 1.1,
-        "COMEBACK": 1.2,
-    }
-    if episode_type in type_weights:
-        score *= type_weights[episode_type]
-
-    return min(max(score, 1.0), 10.0)
-
-
-def calculate_factual_density(episode_text: str, episode_type: str) -> float:
-    """事実密度スコアを算出（1-10点）"""
-    score = 2.8
-
-    # 数値データ
-    numbers = re.findall(r"\d+", episode_text)
-    number_count = len(numbers)
-    score += min(number_count * 0.4, 2.5)
-
-    # 固有名詞（カタカナ語）
-    katakana_words = re.findall(r"[ァ-ヴー]{3,}", episode_text)
-    score += min(len(katakana_words) * 0.3, 1.5)
-
-    # 具体的な事実キーワード
-    fact_keywords = [
-        "記録",
-        "達成",
-        "受賞",
-        "獲得",
-        "認定",
-        "登録",
-        "ギネス",
-        "初",
-        "最",
-        "第一号",
-        "世界",
-        "日本",
-        "史上",
-        "前人未到",
-    ]
-    fact_count = sum(1 for kw in fact_keywords if kw in episode_text)
-    score += min(fact_count * 0.4, 2.0)
-
-    # 引用や具体的な発言
-    if "「" in episode_text and "」" in episode_text:
-        score += 0.5
-
-    # 検証可能な情報
-    verification_keywords = ["Wikipedia", "公式", "発表", "報道", "記事"]
-    if any(kw in episode_text for kw in verification_keywords):
-        score += 0.5
-
-    # エピソードタイプによる調整
-    type_weights = {
-        "ACHIEVEMENT": 1.3,
-        "TURNING_POINT": 0.9,
-        "CHALLENGE": 1.1,
-        "FAMILY": 0.8,
-        "INNOVATION": 1.2,
-        "FOUNDING": 1.2,
-    }
-    if episode_type in type_weights:
-        score *= type_weights[episode_type]
-
-    # 情報密度
-    text_length = len(episode_text)
-    if text_length > 0:
-        info_density = (number_count + len(katakana_words) + fact_count) / (text_length / 50)
-        if info_density > 2.0:
-            score += 0.5
-        elif info_density > 1.5:
-            score += 0.3
-
-    return min(max(score, 1.0), 10.0)
 
 
 def evaluate_with_llm(client, episode: dict) -> dict | None:

@@ -1,26 +1,26 @@
 {
   "check_type": "daily",
-  "timestamp": "2025-12-18T14:55:28.984986",
-  "total_records": 12961,
+  "timestamp": "2025-12-18T15:15:23.212120",
+  "total_records": 12990,
   "kpis": [
     {
       "name": "グループ名混入率",
-      "value": 0.00013480722566729578,
+      "value": 0.0001342822613132805,
       "target": 0.0,
       "status": "WARNING",
       "details": {
         "group_as_person": 1,
-        "total_unique": 7418
+        "total_unique": 7447
       }
     },
     {
       "name": "表記ゆれ率",
-      "value": 0.00026229508196721314,
+      "value": 0.0002613012803762738,
       "target": 0.0,
       "status": "WARNING",
       "details": {
         "variant_ids": 2,
-        "total_ids": 7625
+        "total_ids": 7654
       }
     },
     {
@@ -30,7 +30,7 @@
       "status": "OK",
       "details": {
         "nan_count": 0,
-        "total": 12961
+        "total": 12990
       }
     },
     {
@@ -47,12 +47,12 @@
     },
     {
       "name": "組織名・肩書き混入率",
-      "value": 0.00013480722566729578,
+      "value": 0.0001342822613132805,
       "target": 0.0,
       "status": "WARNING",
       "details": {
         "contaminated_count": 1,
-        "total_unique_names": 7418,
+        "total_unique_names": 7447,
         "contaminated_examples": [
           "RADWIMPSの野田洋次 → RADWIMPSの野田洋"
         ]
@@ -65,18 +65,18 @@
       "status": "OK",
       "details": {
         "review_required_count": 0,
-        "total_unique_persons": 7418,
+        "total_unique_persons": 7447,
         "review_examples": []
       }
     },
     {
       "name": "後置詞型パターン検出率",
-      "value": 0.00013480722566729578,
+      "value": 0.0001342822613132805,
       "target": 0.0,
       "status": "WARNING",
       "details": {
         "error_count": 1,
-        "total_unique_names": 7418,
+        "total_unique_names": 7447,
         "error_examples": [
           "RADWIMPSの野田洋次"
         ]
@@ -87,22 +87,22 @@
     {
       "name": "グループ名混入率",
       "status": "WARNING",
-      "value": 0.00013480722566729578
+      "value": 0.0001342822613132805
     },
     {
       "name": "表記ゆれ率",
       "status": "WARNING",
-      "value": 0.00026229508196721314
+      "value": 0.0002613012803762738
     },
     {
       "name": "組織名・肩書き混入率",
       "status": "WARNING",
-      "value": 0.00013480722566729578
+      "value": 0.0001342822613132805
     },
     {
       "name": "後置詞型パターン検出率",
       "status": "WARNING",
-      "value": 0.00013480722566729578
+      "value": 0.0001342822613132805
     }
   ]
 }

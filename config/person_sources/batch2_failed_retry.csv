@@ -1,0 +1,4 @@
+person_name,category,sub_category,person_type,description,birth_year,death_year,tier,source_name,source_url,status,preferred_age
+成歩堂龍一,逆転裁判,ゲーム,FICTIONAL,新人弁護士。逆転裁判シリーズ主人公。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/逆転裁判,active,27
+綾里真宵,逆転裁判,ゲーム,FICTIONAL,霊媒師。成歩堂の助手。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/逆転裁判,active,19
+ネビル・ロングボトム,ハリー・ポッター,小説・映画,FICTIONAL,グリフィンドール生徒。ダンブルドア軍団メンバー。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,17

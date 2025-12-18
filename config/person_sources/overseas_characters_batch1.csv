@@ -1,0 +1,21 @@
+person_name,category,sub_category,person_type,description,birth_year,death_year,tier,source_name,source_url,status,preferred_age
+ジェームズ・ボンド,007,映画,FICTIONAL,英国秘密情報部MI6のスパイ。コードネーム007。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ジェームズ・ボンド,active,35
+ルーク・スカイウォーカー,スター・ウォーズ,映画,FICTIONAL,ジェダイの騎士。銀河を救った英雄。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ルーク・スカイウォーカー,active,23
+ダース・ベイダー,スター・ウォーズ,映画,FICTIONAL,銀河帝国の最高司令官。元ジェダイの騎士アナキン・スカイウォーカー。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ダース・ベイダー,active,45
+ハン・ソロ,スター・ウォーズ,映画,FICTIONAL,密輸業者から反乱軍の英雄へ。ミレニアム・ファルコンの船長。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ハン・ソロ,active,32
+インディ・ジョーンズ,インディ・ジョーンズ,映画,FICTIONAL,考古学者にして冒険家。貴重な遺物を求めて世界中を旅する。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/インディ・ジョーンズ,active,36
+ハーマイオニー・グレンジャー,ハリー・ポッター,小説・映画,FICTIONAL,ホグワーツ魔法魔術学校グリフィンドール生。優秀な魔女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ハーマイオニー・グレンジャー,active,18
+ロン・ウィーズリー,ハリー・ポッター,小説・映画,FICTIONAL,ハリーの親友。グリフィンドール生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ロン・ウィーズリー,active,18
+フロド・バギンズ,ロード・オブ・ザ・リング,小説・映画,FICTIONAL,ホビット族。一つの指輪を滅びの山へ運ぶ旅に出る。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/フロド・バギンズ,active,33
+トニー・スターク,マーベル,映画,FICTIONAL,天才発明家にして億万長者。アイアンマンとしてアベンジャーズを率いる。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/トニー・スターク,active,42
+スティーブ・ロジャース,マーベル,映画,FICTIONAL,超人血清で強化された兵士。キャプテン・アメリカ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/スティーブ・ロジャース,active,27
+ブルース・ウェイン,DC,映画・コミック,FICTIONAL,ゴッサムシティの大富豪。バットマンとして犯罪と戦う。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/バットマン,active,35
+クラーク・ケント,DC,映画・コミック,FICTIONAL,クリプトン星から来た最後の生き残り。スーパーマン。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/スーパーマン,active,30
+レイチェル・グリーン,Friends,ドラマ,FICTIONAL,ファッション業界で働くキャリアウーマン。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/フレンズ_(1994年のテレビドラマ),active,28
+ジョン・スノウ,Game of Thrones,ドラマ,FICTIONAL,冥夜の守人。北部の私生児から王へ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ゲーム・オブ・スローンズ,active,23
+ウォルター・ホワイト,Breaking Bad,ドラマ,FICTIONAL,高校化学教師から麻薬王へ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ブレイキング・バッド,active,50
+エルサ,アナと雪の女王,アニメ,FICTIONAL,アレンデール王国の女王。氷と雪の魔法を操る。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/アナと雪の女王,active,21
+アナ,アナと雪の女王,アニメ,FICTIONAL,アレンデール王国の王女。姉エルサを救う旅に出る。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/アナと雪の女王,active,18
+シンデレラ,ディズニープリンセス,アニメ,FICTIONAL,継母に虐げられるも、魔法使いの助けで舞踏会へ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/シンデレラ,active,19
+ベル,美女と野獣,アニメ,FICTIONAL,読書好きな村娘。野獣の呪いを解く。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/美女と野獣,active,17
+アリエル,リトル・マーメイド,アニメ,FICTIONAL,人魚姫。人間界への憧れから王子に恋をする。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/リトル・マーメイド,active,16

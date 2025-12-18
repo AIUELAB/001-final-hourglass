@@ -103,13 +103,7 @@ class EpisodeGenerationBridge:
         assert self.fact_checker is not None, "fact_checker not loaded"
         assert self.template_blocker is not None, "template_blocker not loaded"
 
-        # 有効な年齢範囲を計算
-        valid_ages = self._calculate_valid_age_range(person_data)
-        if not valid_ages:
-            logger.warning(f"{person_data['person_name']}: 有効な年齢範囲がありません")
-            return []
-
-        # preferred_age が指定されている場合、その年齢のみで生成
+        # preferred_age が指定されている場合、その年齢のみで生成（valid_agesの計算をスキップ）
         preferred_age = person_data.get("preferred_age")
         if preferred_age is not None:
             logger.info(
@@ -117,14 +111,21 @@ class EpisodeGenerationBridge:
                 f"この年齢のみで{episodes_count}件のエピソード生成を開始"
             )
 
-            # preferred_age指定時は、person_typeに関わらず年齢範囲チェックをバイパス（ユーザー要望「無制限でも良い」）
+            # preferred_age指定時は、person_typeやbirth_yearに関わらず、指定年齢を優先
+            # （FICTIONAL型でbirth_year未設定でも、preferred_ageが優先される）
             logger.info(
                 f"{person_data['person_name']}: preferred_age={preferred_age} が指定されているため、"
-                f"年齢範囲チェックをバイパスして生成"
+                f"birth_year/death_yearの年齢範囲チェックをバイパスして生成"
             )
             # preferred_age のみで episodes_count 回生成
             selected_ages = [preferred_age] * episodes_count
         else:
+            # preferred_age未指定の場合のみ、有効な年齢範囲を計算
+            valid_ages = self._calculate_valid_age_range(person_data)
+            if not valid_ages:
+                logger.warning(f"{person_data['person_name']}: 有効な年齢範囲がありません")
+                return []
+
             # 既存の年齢選択ロジック（異なる年齢で生成）
             # 優先度ベースの年齢選択を使用
             selected_ages = self._select_ages_with_priority(valid_ages, episodes_count)
@@ -147,6 +148,7 @@ class EpisodeGenerationBridge:
 
         # Fallbackメカニズム: 失敗した場合、代替年齢で再試行
         # preferred_age指定時は、Fallbackしない（指定年齢のみで生成）
+        # Note: preferred_age is None の場合のみこのブロックに入るため、valid_agesは必ず定義済み
         if failed_ages and len(episodes) < episodes_count and preferred_age is None:
             remaining_ages = [a for a in valid_ages if a not in selected_ages and a not in failed_ages]
 

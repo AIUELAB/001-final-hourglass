@@ -1,58 +1,54 @@
 {
-  "session_id": "20251218_batch2_retry_complete",
-  "timestamp": "2025-12-18T14:10:00+09:00",
+  "session_id": "20251218_preferred_age_fix_complete",
+  "timestamp": "2025-12-18T14:30:00+09:00",
   "status": "ready_for_restart",
   "summary": {
     "main_tasks_completed": [
-      "100名架空キャラクター目標達成（106名登録済み）",
-      "ダッシュボードv9に未評価tier表示機能追加",
-      "preferred_age年齢制限完全撤廃（0歳以上なら任意年齢で生成可能）",
-      "batch2実行完了（42/49名成功）",
-      "batch2失敗3名の再試行完了（2/3名成功）",
-      "コミット・プッシュ完了（commit: 6380601）",
+      "100名架空キャラクター目標達成（106名→107名登録済み）",
+      "preferred_age機能修正完了（FICTIONAL型でbirth_year未設定でも指定年齢を優先）",
+      "テスト実行完了（綾里真宵19歳、シャア・アズナブル20歳で生成確認）",
+      "コミット・プッシュ完了（commit: 5be1dc2）",
       "ダッシュボードv9起動・動作確認完了"
     ],
     "pending_tasks": [
-      "綾里真宵の再試行検討（6回すべてTemplateBlocker棄却）",
-      "preferred_age機能の改善（FICTIONAL型でbirth_year未設定時の対応）",
-      "架空キャラクターカテゴリ拡充検討"
+      "綾里真宵の再試行検討（19歳でもTemplateBlocker棄却、品質優先原則に基づき断念推奨）",
+      "架空キャラクターカテゴリ拡充検討（目標150名、現在107名）"
     ]
   },
-  "batch2_retry_summary": {
-    "target": 3,
-    "success": 2,
-    "failed": 1,
-    "success_rate": "66.7%",
-    "details": {
-      "成歩堂龍一": {
-        "age": 30,
-        "attempts": 3,
-        "result": "success"
-      },
-      "ネビル・ロングボトム": {
-        "age": 29,
-        "attempts": 4,
-        "result": "success_with_fallback"
-      },
+  "preferred_age_fix_summary": {
+    "problem": "FICTIONAL型でbirth_year未設定時、preferred_ageが無視されていた",
+    "cause": [
+      "episode_generation_bridge.py: preferred_ageチェックの前にvalid_ages計算",
+      "person_growth_pipeline.py: person_dataにpreferred_ageが含まれていなかった",
+      "person_growth_pipeline.py: DataFrameからPersonCandidateへの変換でpreferred_ageが欠落"
+    ],
+    "solution": [
+      "preferred_ageチェックをvalid_ages計算の前に移動",
+      "preferred_age指定時はvalid_agesの計算をスキップ",
+      "person_dataとPersonCandidate変換にpreferred_ageを追加"
+    ],
+    "test_results": {
       "綾里真宵": {
-        "ages": [30, 29],
-        "attempts": 6,
-        "result": "failed_all_attempts"
+        "preferred_age": 19,
+        "actual_age": 19,
+        "result": "TemplateBlocker棄却（品質ゲート正常動作）"
+      },
+      "シャア・アズナブル": {
+        "preferred_age": 20,
+        "actual_age": 20,
+        "result": "成功（エピソード生成完了）"
       }
     }
   },
-  "discovered_issues": {
-    "preferred_age_limitation": "FICTIONAL型でbirth_year未設定時、preferred_ageが無視される"
-  },
   "git_status": {
     "branch": "main",
-    "last_commit": "6380601 - feat: batch2失敗3名の再試行完了（2/3名成功）",
+    "last_commit": "5be1dc2 - fix: preferred_age機能修正 - FICTIONAL型でbirth_year未設定でも指定年齢を優先",
     "pushed": true
   },
   "database_status": {
-    "total_episodes": 12916,
-    "total_persons": 7580,
-    "fictional_characters": 106,
+    "total_episodes": 12917,
+    "total_persons": 7581,
+    "fictional_characters": 107,
     "epup_score": "103.03",
     "epup_grade": "A"
   }

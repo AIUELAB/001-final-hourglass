@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-12-18T19:39:55.099419",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 20,
+    "generated": 20,
+    "format_rejected": 0,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 8,
+    "api_errors": 0,
+    "success_rate": 100.0,
+    "elapsed_seconds": 185.0,
+    "episodes_per_minute": 6.5
+  },
+  "sample_episodes": [
+    {
+      "person_name": "カンタ",
+      "age": "12",
+      "text_preview": "あなたと同じ12歳のとき カンタは地元の小学校で友達と一緒に学校の文化祭で漫才コンビを組んでいました。当時から人を笑わせることが大好きで、休み時間には教室で即興のコントを披露し、クラスメイトたちを爆笑"
+    },
+    {
+      "person_name": "石川さゆり",
+      "age": "6",
+      "text_preview": "あなたと同じ6歳のとき 石川さゆりは1964年、熊本県飽田郡飽田村（現在の熊本市南区）で、すでに美しい歌声を披露していました。この頃の石川さゆりは、家族や近所の人たちの前で童謡や民謡を歌うことが大好き"
+    },
+    {
+      "person_name": "伊沢拓司",
+      "age": "6",
+      "text_preview": "あなたと同じ6歳のとき 伊沢拓司は1999年頃、既に本に対する強い興味を示していました。当時の伊沢拓司は図書館で子供向けの百科事典を夢中になって読み、特に動物や宇宙に関するページを何度も繰り返し見てい"
+    },
+    {
+      "person_name": "伊達みきお",
+      "age": "12",
+      "text_preview": "あなたと同じ12歳のとき 伊達みきおは1986年、仙台市内の中学校に通いながら、既に人を笑わせることに強い興味を示していました。当時のクラスでは自然とムードメーカー的な存在で、休み時間になると友達を集"
+    },
+    {
+      "person_name": "真島昌利",
+      "age": "6",
+      "text_preview": "あなたと同じ6歳のとき真島昌利は1958年頃、東京の下町で過ごしていました。当時はまだテレビが普及し始めたばかりの時代で、真島昌利の家にもようやく白黒テレビがやってきました。ある日、テレビから流れてき"
+    }
+  ]
+}

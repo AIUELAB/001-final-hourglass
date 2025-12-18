@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>エピソードメインデータベース v8 - 統合ダッシュボード</title>
+    <title>エピソードメインデータベース v9 - 統合ダッシュボード</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -276,6 +276,37 @@
 
         .chart-container canvas {
             width: 100%;
+        }
+
+        /* 7軸スコア分布専用のコンパクトレイアウト */
+        .seven-axis-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px 40px;
+        }
+
+        .seven-axis-charts-grid .chart-container {
+            padding: 15px;
+        }
+
+        .seven-axis-charts-grid .chart-container h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .seven-axis-charts-grid .chart-container canvas {
+            height: 220px !important;
+        }
+
+        /* タブレット・小画面用 */
+        @media (max-width: 1200px) {
+            .seven-axis-charts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .seven-axis-charts-grid .chart-container canvas {
+                height: 250px !important;
+            }
         }
 
         /* エピソードタイプ分布用（円グラフ） */
@@ -1053,7 +1084,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 エピソードメインデータベース v8</h1>
+            <h1>📊 エピソードメインデータベース v9</h1>
             <p>実在人物 + 架空キャラクター - 有名度ランキング対応（年齢×曜日ヒートマップ対応）
                 <span id="connection-status" style="margin-left: 15px; padding: 4px 10px; background: rgba(255,255,255,0.2); border-radius: 12px; font-size: 12px;">🔄 接続中...</span>
             </p>
@@ -1068,6 +1099,7 @@
             <button class="tab-button" data-tab="charts">📈 グラフ</button>
             <button class="tab-button" data-tab="fame-ranking">🏆 有名人度ランキング</button>
             <button class="tab-button" data-tab="episode-fame-ranking">⭐ 有名エピソードランキング</button>
+            <button class="tab-button" data-tab="seven-axis">📊 7軸スコア分布</button>
             <!-- React統計タブ（Vite開発サーバー必要）は非表示 -->
             <button class="tab-button" data-tab="react-stats" style="display:none;">📊 React統計</button>
             <button class="tab-button" data-tab="react-characters" style="display:none;">👥 キャラクター一覧</button>
@@ -1186,7 +1218,56 @@
         </div>
         <!-- タブ4: グラフ 終了 -->
 
-        <!-- タブ5: 有名度ランキング -->
+        <!-- タブ5: 7軸スコア分布 -->
+        <div class="tab-panel" id="seven-axis-panel">
+            <div style="padding: 40px; background: white;">
+                <h2 style="margin-bottom: 30px;">📊 7軸スコア分布（カテゴリ別）</h2>
+
+                <!-- カテゴリフィルタ -->
+                <div style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <label for="seven-axis-category-filter" style="font-weight: 600; margin-right: 10px;">カテゴリ:</label>
+                    <select id="seven-axis-category-filter" style="padding: 8px 15px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; min-width: 200px;">
+                        <option value="全カテゴリ">全カテゴリ</option>
+                    </select>
+                    <span id="seven-axis-filtered-count" style="margin-left: 15px; font-size: 14px; color: #666;"></span>
+                </div>
+
+                <!-- 7軸グラフ -->
+                <div class="seven-axis-charts-grid">
+                    <div class="chart-container">
+                        <h3>記憶スコア分布</h3>
+                        <canvas id="memoryScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>共感スコア分布</h3>
+                        <canvas id="empathyScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>意外スコア分布</h3>
+                        <canvas id="surpriseScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>品質スコア分布</h3>
+                        <canvas id="qualityScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>教育スコア分布</h3>
+                        <canvas id="educationalScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>物語スコア分布</h3>
+                        <canvas id="narrativeScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>事実スコア分布</h3>
+                        <canvas id="factualScoreChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- タブ5: 7軸スコア分布 終了 -->
+
+        <!-- タブ6: 有名度ランキング -->
         <div class="tab-panel" id="fame-ranking-panel">
             <div style="padding: 40px; background: white;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
@@ -2070,7 +2151,8 @@
                     'Tier 4 (全国的)': 0,
                     'Tier 3 (地域的)': 0,
                     'Tier 2 (専門的)': 0,
-                    'Tier 1 (限定的)': 0
+                    'Tier 1 (限定的)': 0,
+                    '未評価': 0
                 };
 
                 allEpisodes.forEach(ep => {
@@ -2080,7 +2162,7 @@
                     else if (tier === 3) tierCounts['Tier 3 (地域的)']++;
                     else if (tier === 2) tierCounts['Tier 2 (専門的)']++;
                     else if (tier === 1) tierCounts['Tier 1 (限定的)']++;
-                    // tier === 0 は存在しないためカウント不要
+                    else tierCounts['未評価']++;  // tier === 0 または未設定の場合
                 });
 
                 fameTierChartInstance = new Chart(document.getElementById('fameTierChart'), {
@@ -2094,7 +2176,8 @@
                                 '#3b82f6', // Tier 4 (青)
                                 '#10b981', // Tier 3 (緑)
                                 '#f59e0b', // Tier 2 (黄)
-                                '#ef4444'  // Tier 1 (赤)
+                                '#ef4444', // Tier 1 (赤)
+                                '#9ca3af'  // 未評価 (灰)
                             ]
                         }]
                     },
@@ -2117,6 +2200,140 @@
                         }
                     }
                 });
+            }
+
+            // ========== 7軸スコア分布グラフ ==========
+            const sevenAxisChartInstances = {};
+            const sevenAxesConfig = [
+                { field: 'memorability_score', canvasId: 'memoryScoreChart', label: '記憶スコア (0-10)' },
+                { field: 'empathy_score', canvasId: 'empathyScoreChart', label: '共感スコア (0-10)' },
+                { field: 'surprise_score', canvasId: 'surpriseScoreChart', label: '意外スコア (0-10)' },
+                { field: 'quality_score', canvasId: 'qualityScoreChart', label: '品質スコア (0-10)' },
+                { field: 'educational_score', canvasId: 'educationalScoreChart', label: '教育スコア (0-10)' },
+                { field: 'narrative_score', canvasId: 'narrativeScoreChart', label: '物語スコア (0-10)' },
+                { field: 'factual_score', canvasId: 'factualScoreChart', label: '事実スコア (0-10)' }
+            ];
+
+            function calculateScoreDistribution(episodes, scoreField) {
+                const ranges = {
+                    '10': 0,
+                    '8-9': 0,
+                    '6-7': 0,
+                    '4-5': 0,
+                    '2-3': 0,
+                    '0-1': 0,
+                    '未評価': 0
+                };
+
+                episodes.forEach(ep => {
+                    const score = parseFloat(ep[scoreField]) || 0;
+                    if (score === 10) ranges['10']++;
+                    else if (score >= 8) ranges['8-9']++;
+                    else if (score >= 6) ranges['6-7']++;
+                    else if (score >= 4) ranges['4-5']++;
+                    else if (score >= 2) ranges['2-3']++;
+                    else if (score > 0) ranges['0-1']++;
+                    else ranges['未評価']++;
+                });
+
+                return ranges;
+            }
+
+            function renderSevenAxisCharts(episodes) {
+                // 既存のチャートを破棄
+                Object.values(sevenAxisChartInstances).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+
+                const colorPalette = [
+                    '#9333ea',  // 10 (紫 - 最高)
+                    '#3b82f6',  // 8-9 (青 - 非常に高い)
+                    '#10b981',  // 6-7 (緑 - 高い)
+                    '#eab308',  // 4-5 (黄 - 中程度)
+                    '#f97316',  // 2-3 (オレンジ - 低い)
+                    '#ef4444',  // 0-1 (赤 - 非常に低い)
+                    '#6b7280'   // 未評価 (灰)
+                ];
+
+                sevenAxesConfig.forEach(axis => {
+                    const distribution = calculateScoreDistribution(episodes, axis.field);
+                    const canvas = document.getElementById(axis.canvasId);
+                    if (!canvas) return;
+
+                    sevenAxisChartInstances[axis.canvasId] = new Chart(canvas, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(distribution),
+                            datasets: [{
+                                label: 'エピソード数',
+                                data: Object.values(distribution),
+                                backgroundColor: colorPalette
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: { display: true, text: 'エピソード数' }
+                                },
+                                x: {
+                                    title: { display: true, text: axis.label }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const value = context.parsed.y;
+                                            const total = episodes.length;
+                                            const percentage = ((value / total) * 100).toFixed(1);
+                                            return `${value}件 (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+
+            function setupSevenAxisFilter() {
+                const categoryFilter = document.getElementById('seven-axis-category-filter');
+                const filteredCountSpan = document.getElementById('seven-axis-filtered-count');
+
+                if (!categoryFilter || !allEpisodes) return;
+
+                // カテゴリ一覧を取得
+                const categories = [...new Set(allEpisodes.map(ep => ep.category).filter(c => c))].sort();
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categoryFilter.appendChild(option);
+                });
+
+                // 初期表示（全カテゴリ）
+                renderSevenAxisCharts(allEpisodes);
+                filteredCountSpan.textContent = `表示中: ${allEpisodes.length}件`;
+
+                // カテゴリ変更イベント
+                categoryFilter.addEventListener('change', () => {
+                    const selectedCategory = categoryFilter.value;
+                    const filteredEpisodes = selectedCategory === '全カテゴリ'
+                        ? allEpisodes
+                        : allEpisodes.filter(ep => ep.category === selectedCategory);
+
+                    renderSevenAxisCharts(filteredEpisodes);
+                    filteredCountSpan.textContent = `表示中: ${filteredEpisodes.length}件`;
+                });
+            }
+
+            // 7軸スコア分布の初期化
+            if (allEpisodes && allEpisodes.length > 0) {
+                setupSevenAxisFilter();
             }
         }
 

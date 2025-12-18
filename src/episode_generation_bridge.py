@@ -109,9 +109,25 @@ class EpisodeGenerationBridge:
             logger.warning(f"{person_data['person_name']}: 有効な年齢範囲がありません")
             return []
 
-        # episodes_count本生成（異なる年齢で）
-        # 優先度ベースの年齢選択を使用
-        selected_ages = self._select_ages_with_priority(valid_ages, episodes_count)
+        # preferred_age が指定されている場合、その年齢のみで生成
+        preferred_age = person_data.get("preferred_age")
+        if preferred_age is not None:
+            logger.info(
+                f"{person_data['person_name']}: preferred_age={preferred_age} が指定されているため、"
+                f"この年齢のみで{episodes_count}件のエピソード生成を開始"
+            )
+
+            # preferred_age指定時は、person_typeに関わらず年齢範囲チェックをバイパス（ユーザー要望「無制限でも良い」）
+            logger.info(
+                f"{person_data['person_name']}: preferred_age={preferred_age} が指定されているため、"
+                f"年齢範囲チェックをバイパスして生成"
+            )
+            # preferred_age のみで episodes_count 回生成
+            selected_ages = [preferred_age] * episodes_count
+        else:
+            # 既存の年齢選択ロジック（異なる年齢で生成）
+            # 優先度ベースの年齢選択を使用
+            selected_ages = self._select_ages_with_priority(valid_ages, episodes_count)
 
         logger.info(
             f"{person_data['person_name']}: {len(selected_ages)}件のエピソード生成を開始 (年齢: {selected_ages})"
@@ -130,7 +146,8 @@ class EpisodeGenerationBridge:
                 failed_ages.append(age)
 
         # Fallbackメカニズム: 失敗した場合、代替年齢で再試行
-        if failed_ages and len(episodes) < episodes_count:
+        # preferred_age指定時は、Fallbackしない（指定年齢のみで生成）
+        if failed_ages and len(episodes) < episodes_count and preferred_age is None:
             remaining_ages = [a for a in valid_ages if a not in selected_ages and a not in failed_ages]
 
             if remaining_ages:

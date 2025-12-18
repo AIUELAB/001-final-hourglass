@@ -1,0 +1,64 @@
+person_name,category,sub_category,person_type,description,birth_year,death_year,tier,source_name,source_url,status,preferred_age
+モンキー・D・ルフィ,ONE PIECE,少年漫画,FICTIONAL,海賊王を目指す少年。麦わらの一味船長。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,17
+ロロノア・ゾロ,ONE PIECE,少年漫画,FICTIONAL,三刀流の剣士。麦わらの一味戦闘員。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,19
+ナミ,ONE PIECE,少年漫画,FICTIONAL,航海士。麦わらの一味。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,18
+ウソップ,ONE PIECE,少年漫画,FICTIONAL,狙撃手。麦わらの一味。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,17
+サンジ,ONE PIECE,少年漫画,FICTIONAL,コック。麦わらの一味。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,19
+トニートニー・チョッパー,ONE PIECE,少年漫画,FICTIONAL,船医。人間の能力を得たトナカイ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,15
+ニコ・ロビン,ONE PIECE,少年漫画,FICTIONAL,考古学者。麦わらの一味。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,28
+フランキー,ONE PIECE,少年漫画,FICTIONAL,船大工。麦わらの一味。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,34
+ブルック,ONE PIECE,少年漫画,FICTIONAL,音楽家。骸骨の姿。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,88
+トラファルガー・ロー,ONE PIECE,少年漫画,FICTIONAL,ハートの海賊団船長。外科医。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ONE_PIECE,active,26
+うずまきナルト,NARUTO,少年漫画,FICTIONAL,木ノ葉隠れの里の忍者。火影を目指す。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/NARUTO,active,12
+うちはサスケ,NARUTO,少年漫画,FICTIONAL,うちは一族の末裔。ナルトのライバル。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/NARUTO,active,12
+春野サクラ,NARUTO,少年漫画,FICTIONAL,医療忍術を習得した女性忍者。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/NARUTO,active,12
+はたけカカシ,NARUTO,少年漫画,FICTIONAL,第七班の指導教官。写輪眼の使い手。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/NARUTO,active,26
+日向ヒナタ,NARUTO,少年漫画,FICTIONAL,白眼を持つ日向一族の忍者。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/NARUTO,active,12
+緑谷出久,僕のヒーローアカデミア,少年漫画,FICTIONAL,無個性から最強のヒーローを目指す少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/僕のヒーローアカデミア,active,15
+轟焦凍,僕のヒーローアカデミア,少年漫画,FICTIONAL,炎と氷の個性を持つヒーロー候補生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/僕のヒーローアカデミア,active,15
+オールマイト,僕のヒーローアカデミア,少年漫画,FICTIONAL,平和の象徴と呼ばれる最強のヒーロー。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/僕のヒーローアカデミア,active,49
+虎杖悠仁,呪術廻戦,少年漫画,FICTIONAL,呪術高専の生徒。宿儺の器。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/呪術廻戦,active,15
+伏黒恵,呪術廻戦,少年漫画,FICTIONAL,呪術高専の生徒。影を操る術師。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/呪術廻戦,active,15
+釘崎野薔薇,呪術廻戦,少年漫画,FICTIONAL,呪術高専の生徒。強気な性格。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/呪術廻戦,active,16
+五条悟,呪術廻戦,少年漫画,FICTIONAL,最強の呪術師。呪術高専教師。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/呪術廻戦,active,28
+エレン・イェーガー,進撃の巨人,少年漫画,FICTIONAL,巨人を駆逐することを誓う少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/進撃の巨人,active,15
+ミカサ・アッカーマン,進撃の巨人,少年漫画,FICTIONAL,エレンを守る強い戦士。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/進撃の巨人,active,15
+アルミン・アルレルト,進撃の巨人,少年漫画,FICTIONAL,知略に優れた青年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/進撃の巨人,active,15
+ヒストリア・レイス,進撃の巨人,少年漫画,FICTIONAL,真の王家の血を引く少女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/進撃の巨人,active,15
+エドワード・エルリック,鋼の錬金術師,少年漫画,FICTIONAL,鋼の錬金術師。弟の体を取り戻すため旅をする。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/鋼の錬金術師,active,15
+アルフォンス・エルリック,鋼の錬金術師,少年漫画,FICTIONAL,鎧に魂を定着させた兄の弟。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/鋼の錬金術師,active,14
+碇シンジ,新世紀エヴァンゲリオン,アニメ,FICTIONAL,エヴァンゲリオン初号機パイロット。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,14
+綾波レイ,新世紀エヴァンゲリオン,アニメ,FICTIONAL,エヴァンゲリオン零号機パイロット。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,14
+惣流・アスカ・ラングレー,新世紀エヴァンゲリオン,アニメ,FICTIONAL,エヴァンゲリオン弐号機パイロット。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,14
+葛城ミサト,新世紀エヴァンゲリオン,アニメ,FICTIONAL,NERV作戦部長。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,29
+平沢唯,けいおん！,アニメ,FICTIONAL,軽音部ギタリスト。天然な性格。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/けいおん!,active,15
+秋山澪,けいおん！,アニメ,FICTIONAL,軽音部ベーシスト。真面目な性格。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/けいおん!,active,15
+田井中律,けいおん！,アニメ,FICTIONAL,軽音部ドラマー。明るい性格。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/けいおん!,active,15
+琴吹紬,けいおん！,アニメ,FICTIONAL,軽音部キーボーディスト。お嬢様。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/けいおん!,active,15
+中野梓,けいおん！,アニメ,FICTIONAL,軽音部後輩ギタリスト。真面目。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/けいおん!,active,14
+有馬公生,四月は君の嘘,少年漫画,FICTIONAL,天才ピアニスト。音が聴こえなくなった。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/四月は君の嘘,active,14
+宮園かをり,四月は君の嘘,少年漫画,FICTIONAL,バイオリニスト。公生の心を開く。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/四月は君の嘘,active,14
+岡崎朋也,CLANNAD,アニメ,FICTIONAL,不良少年。古河渚と出会う。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/CLANNAD,active,17
+古河渚,CLANNAD,アニメ,FICTIONAL,病弱な少女。演劇部を再建する。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/CLANNAD,active,18
+岡部倫太郎,STEINS;GATE,アニメ,FICTIONAL,自称マッドサイエンティスト。タイムマシンを発明。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/STEINS;GATE,active,18
+牧瀬紅莉栖,STEINS;GATE,アニメ,FICTIONAL,天才科学者。岡部の協力者。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/STEINS;GATE,active,18
+桜木花道,SLAM DUNK,少年漫画,FICTIONAL,バスケ初心者から才能を開花させる。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/SLAM_DUNK,active,15
+流川楓,SLAM DUNK,少年漫画,FICTIONAL,天才バスケプレイヤー。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/SLAM_DUNK,active,15
+赤木晴子,SLAM DUNK,少年漫画,FICTIONAL,赤木剛憲の妹。桜木の憧れ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/SLAM_DUNK,active,16
+綾瀬千早,ちはやふる,少年漫画,FICTIONAL,競技かるたクイーンを目指す。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ちはやふる,active,15
+真島太一,ちはやふる,少年漫画,FICTIONAL,千早の幼馴染。かるた部員。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ちはやふる,active,15
+綿谷新,ちはやふる,少年漫画,FICTIONAL,かるたの天才。千早のライバル。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ちはやふる,active,15
+キリト,ソードアート・オンライン,ライトノベル,FICTIONAL,黒の剣士。SAOの攻略者。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ソードアート・オンライン,active,14
+アスナ,ソードアート・オンライン,ライトノベル,FICTIONAL,閃光のアスナ。キリトのパートナー。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ソードアート・オンライン,active,15
+シリカ,ソードアート・オンライン,ライトノベル,FICTIONAL,竜使い。キリトに助けられる。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ソードアート・オンライン,active,12
+ナツキ・スバル,Re:ゼロから始める異世界生活,ライトノベル,FICTIONAL,異世界に召喚された少年。死に戻りの能力を持つ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/Re:ゼロから始める異世界生活,active,17
+レム,Re:ゼロから始める異世界生活,ライトノベル,FICTIONAL,鬼族のメイド。スバルに献身的。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/Re:ゼロから始める異世界生活,active,17
+ラム,Re:ゼロから始める異世界生活,ライトノベル,FICTIONAL,レムの双子の姉。毒舌。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/Re:ゼロから始める異世界生活,active,17
+エミリア,Re:ゼロから始める異世界生活,ライトノベル,FICTIONAL,銀髪のハーフエルフ。スバルのヒロイン。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/Re:ゼロから始める異世界生活,active,18
+花垣武道,東京卍リベンジャーズ,少年漫画,FICTIONAL,タイムリープで過去を変える元不良。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/東京卍リベンジャーズ,active,26
+佐野万次郎,東京卍リベンジャーズ,少年漫画,FICTIONAL,東京卍會総長。通称マイキー。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/東京卍リベンジャーズ,active,15
+ゴン=フリークス,HUNTER×HUNTER,少年漫画,FICTIONAL,ハンター試験に挑む少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/HUNTER×HUNTER,active,12
+キルア=ゾルディック,HUNTER×HUNTER,少年漫画,FICTIONAL,暗殺一家の少年。ゴンの親友。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/HUNTER×HUNTER,active,12
+エマ,約束のネバーランド,少年漫画,FICTIONAL,孤児院のリーダー。脱出を計画する。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/約束のネバーランド,active,11
+ノーマン,約束のネバーランド,少年漫画,FICTIONAL,天才的な頭脳を持つ少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/約束のネバーランド,active,11
+レイ,約束のネバーランド,少年漫画,FICTIONAL,冷静沈着な少年。エマの仲間。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/約束のネバーランド,active,11

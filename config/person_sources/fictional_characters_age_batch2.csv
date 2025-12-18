@@ -1,0 +1,50 @@
+person_name,category,sub_category,person_type,description,birth_year,death_year,tier,source_name,source_url,status,preferred_age
+荻野千尋,千と千尋の神隠し,映画,FICTIONAL,神隠しに遭った10歳の少女。湯屋で働く。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/千と千尋の神隠し,active,10
+キキ,魔女の宅急便,映画,FICTIONAL,13歳で独り立ちする魔女見習い。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/魔女の宅急便,active,13
+草壁サツキ,となりのトトロ,映画,FICTIONAL,妹メイと一緒にトトロに出会う少女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/となりのトトロ,active,11
+草壁メイ,となりのトトロ,映画,FICTIONAL,4歳の好奇心旺盛な女の子。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/となりのトトロ,active,4
+ポニョ,崖の上のポニョ,映画,FICTIONAL,人間になりたい魚の女の子。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/崖の上のポニョ,active,5
+宗介,崖の上のポニョ,映画,FICTIONAL,ポニョと出会う5歳の男の子。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/崖の上のポニョ,active,5
+立花瀧,君の名は。,映画,FICTIONAL,三葉と入れ替わる東京の高校生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/君の名は。,active,17
+宮水三葉,君の名は。,映画,FICTIONAL,瀧と入れ替わる田舎の女子高生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/君の名は。,active,17
+森嶋帆高,天気の子,映画,FICTIONAL,家出して東京に来た少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/天気の子,active,16
+天野陽菜,天気の子,映画,FICTIONAL,天気を変える力を持つ少女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/天気の子,active,15
+ケビン・マカリスター,ホーム・アローン,映画,FICTIONAL,家に1人取り残された8歳の少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ホーム・アローン,active,8
+ジョン・コナー,ターミネーター2,映画,FICTIONAL,未来の人類抵抗軍のリーダーとなる少年。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ターミネーター2,active,10
+マチルダ,レオン,映画,FICTIONAL,殺し屋レオンと暮らす12歳の少女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/レオン_(映画),active,12
+明智吾郎,ペルソナ5,ゲーム,FICTIONAL,探偵として活躍する高校生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ5,active,17
+ペルソナ4主人公,ペルソナ4,ゲーム,FICTIONAL,田舎町に転校してきた高校生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,16
+花村陽介,ペルソナ4,ゲーム,FICTIONAL,ジュネスの息子。主人公の親友。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,16
+里中千枝,ペルソナ4,ゲーム,FICTIONAL,カンフー好きな女子高生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,16
+天城雪子,ペルソナ4,ゲーム,FICTIONAL,老舗旅館の娘。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,16
+巽完二,ペルソナ4,ゲーム,FICTIONAL,不良だが手芸が得意。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,15
+久慈川りせ,ペルソナ4,ゲーム,FICTIONAL,元アイドルの女子高生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,16
+白鐘直斗,ペルソナ4,ゲーム,FICTIONAL,探偵として活動する少年（少女）。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ4,active,15
+ペルソナ3主人公,ペルソナ3,ゲーム,FICTIONAL,港区に転校してきた高校生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,16
+岳羽ゆかり,ペルソナ3,ゲーム,FICTIONAL,弓道部所属の女子高生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,16
+伊織順平,ペルソナ3,ゲーム,FICTIONAL,野球部所属の男子高生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,16
+真田明彦,ペルソナ3,ゲーム,FICTIONAL,ボクシング部のキャプテン。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,17
+桐条美鶴,ペルソナ3,ゲーム,FICTIONAL,生徒会長。フェンシング部。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,18
+山岸風花,ペルソナ3,ゲーム,FICTIONAL,サポート役の女子高生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,15
+天田乾,ペルソナ3,ゲーム,FICTIONAL,小学生だがペルソナ使い。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ペルソナ3,active,10
+成歩堂龍一,逆転裁判,ゲーム,FICTIONAL,新人弁護士。逆転裁判の主人公。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/逆転裁判,active,24
+綾里真宵,逆転裁判,ゲーム,FICTIONAL,霊媒師見習い。成歩堂の助手。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/逆転裁判,active,17
+御剣怜侍,逆転裁判,ゲーム,FICTIONAL,天才検事。成歩堂のライバル。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/逆転裁判,active,24
+糸鋸圭介,逆転裁判,ゲーム,FICTIONAL,刑事。成歩堂に協力する。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/逆転裁判,active,30
+ユウナ,FINAL FANTASY X,ゲーム,FICTIONAL,召喚士として旅をする少女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ファイナルファンタジーX,active,17
+リュック,FINAL FANTASY X,ゲーム,FICTIONAL,アルベド族の少女。ユウナの従妹。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ファイナルファンタジーX,active,15
+アーロン,FINAL FANTASY X,ゲーム,FICTIONAL,伝説のガード。ユウナを守る。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ファイナルファンタジーX,active,35
+ハリー・ポッター,ハリー・ポッター,小説,FICTIONAL,魔法学校ホグワーツの生徒。,,,S,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,11
+ロン・ウィーズリー,ハリー・ポッター,小説,FICTIONAL,ハリーの親友。ウィーズリー家の末っ子。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,11
+ハーマイオニー・グレンジャー,ハリー・ポッター,小説,FICTIONAL,ハリーの親友。優等生。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,11
+ドラコ・マルフォイ,ハリー・ポッター,小説,FICTIONAL,スリザリン生。ハリーのライバル。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,11
+ネビル・ロングボトム,ハリー・ポッター,小説,FICTIONAL,グリフィンドール生。臆病だが成長。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,11
+ジニー・ウィーズリー,ハリー・ポッター,小説,FICTIONAL,ロンの妹。ハリーの恋人。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,10
+フレッド・ウィーズリー,ハリー・ポッター,小説,FICTIONAL,双子の兄。いたずら好き。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,13
+ジョージ・ウィーズリー,ハリー・ポッター,小説,FICTIONAL,双子の弟。いたずら好き。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/ハリー・ポッター,active,13
+佐藤和真,この素晴らしい世界に祝福を！,ライトノベル,FICTIONAL,異世界に転生した引きこもり。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/この素晴らしい世界に祝福を!,active,16
+めぐみん,この素晴らしい世界に祝福を！,ライトノベル,FICTIONAL,爆裂魔法しか使えない魔法使い。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/この素晴らしい世界に祝福を!,active,14
+渚カヲル,新世紀エヴァンゲリオン,アニメ,FICTIONAL,謎の少年。使徒。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,15
+赤木リツコ,新世紀エヴァンゲリオン,アニメ,FICTIONAL,NERV技術開発部技術局長。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,30
+碇ゲンドウ,新世紀エヴァンゲリオン,アニメ,FICTIONAL,NERV司令官。シンジの父。,,,B,fictional_characters,https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン,active,48
+ルルーシュ,コードギアス 反逆のルルーシュ,アニメ,FICTIONAL,ギアスの力で世界を変革する皇子。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/コードギアス_反逆のルルーシュ,active,17

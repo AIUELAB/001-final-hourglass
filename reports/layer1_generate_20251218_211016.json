@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-12-18T21:10:16.188644",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 20,
+    "generated": 20,
+    "format_rejected": 0,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 11,
+    "api_errors": 0,
+    "success_rate": 100.0,
+    "elapsed_seconds": 183.4,
+    "episodes_per_minute": 6.5
+  },
+  "sample_episodes": [
+    {
+      "person_name": "小渕恵三",
+      "age": "11",
+      "text_preview": "あなたと同じ11歳のとき 小渕恵三は1948年、群馬県中之条町の商家に生まれ育ち、地元の小学校に通っていました。父親が町議会議員を務める家庭環境の中で、小渕恵三は早くから大人たちの政治談議を耳にして育"
+    },
+    {
+      "person_name": "ゆうこりん（小倉優子）",
+      "age": "11",
+      "text_preview": "あなたと同じ11歳のとき ゆうこりん（小倉優子）は1994年、千葉県の小学校に通いながら、すでに芸能界への憧れを抱いていました。この頃から可愛らしいキャラクターグッズを集めることが大好きで、特にサンリ"
+    },
+    {
+      "person_name": "ジム・ジャームッシュ",
+      "age": "11",
+      "text_preview": "あなたと同じ11歳のとき ジム・ジャームッシュは1964年、オハイオ州アクロンで映画への関心を深めていました。当時のジム・ジャームッシュは地元の映画館で上映される西部劇やB級映画を熱心に観賞し、特にサ"
+    },
+    {
+      "person_name": "冨山和彦",
+      "age": "6",
+      "text_preview": "あなたと同じ6歳のとき 冨山和彦は1966年頃、父親の仕事の関係で家族と共に海外で過ごしていました。現地の子供たちと遊ぶ中で、言葉の壁を越えてコミュニケーションを取る方法を自然と身につけていきました。"
+    },
+    {
+      "person_name": "Taka",
+      "age": "9",
+      "text_preview": "あなたと同じ9歳のとき Takaは1996年頃、東京で音楽への関心を深めていました。この時期、Takaは洋楽ロックバンドの楽曲を聴くようになり、特に海外アーティストの力強いボーカルスタイルに強く惹かれ"
+    }
+  ]
+}

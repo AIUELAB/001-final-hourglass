@@ -1,6 +1,6 @@
 {
-  "session_id": "20251218_preferred_age_fix_complete",
-  "timestamp": "2025-12-18T14:30:00+09:00",
+  "session_id": "20251218_overseas_characters_complete",
+  "timestamp": "2025-12-18T15:30:00+09:00",
   "status": "ready_for_restart",
   "summary": {
     "main_tasks_completed": [
@@ -8,11 +8,12 @@
       "preferred_age機能修正完了（FICTIONAL型でbirth_year未設定でも指定年齢を優先）",
       "テスト実行完了（綾里真宵19歳、シャア・アズナブル20歳で生成確認）",
       "コミット・プッシュ完了（commit: 5be1dc2）",
-      "ダッシュボードv9起動・動作確認完了"
+      "ダッシュボードv9起動・動作確認完了",
+      "海外キャラクター44名追加完了（151名達成、目標150名を超過）",
+      "コミット・プッシュ完了（commit: 3c180c7）"
     ],
     "pending_tasks": [
-      "綾里真宵の再試行検討（19歳でもTemplateBlocker棄却、品質優先原則に基づき断念推奨）",
-      "架空キャラクターカテゴリ拡充検討（目標150名、現在107名）"
+      "綾里真宵の再試行検討（19歳でもTemplateBlocker棄却、品質優先原則に基づき断念推奨）"
     ]
   },
   "preferred_age_fix_summary": {
@@ -40,15 +41,50 @@
       }
     }
   },
+  "overseas_characters_summary": {
+    "goal": 150,
+    "achieved": 151,
+    "batches": {
+      "batch1": {
+        "target": 20,
+        "success": 15,
+        "success_rate": "93.8%",
+        "description": "映画・ドラマ・アニメ（ジェームズ・ボンド、ルーク等）"
+      },
+      "batch2": {
+        "target": 30,
+        "success": 23,
+        "success_rate": "82.1%",
+        "description": "ディズニー・ピクサー（スパイダーマン、ジャスミン等）"
+      },
+      "batch3": {
+        "target": 5,
+        "success": 3,
+        "success_rate": "60.0%",
+        "description": "ディズニーヴィラン（オラフ、ガストン、アースラ）"
+      },
+      "final": {
+        "target": 3,
+        "success": 3,
+        "success_rate": "100%",
+        "description": "ロード・オブ・ザ・リング・スター・ウォーズ（サム、ガンダルフ、ヨーダ）"
+      }
+    },
+    "total": {
+      "target": 58,
+      "success": 44,
+      "success_rate": "84.6%"
+    }
+  },
   "git_status": {
     "branch": "main",
-    "last_commit": "5be1dc2 - fix: preferred_age機能修正 - FICTIONAL型でbirth_year未設定でも指定年齢を優先",
+    "last_commit": "3c180c7 - feat: 海外キャラクター44名追加 - 目標150名超過達成（151名）",
     "pushed": true
   },
   "database_status": {
-    "total_episodes": 12917,
-    "total_persons": 7581,
-    "fictional_characters": 107,
+    "total_episodes": 12961,
+    "total_persons": 7625,
+    "fictional_characters": 151,
     "epup_score": "103.03",
     "epup_grade": "A"
   }

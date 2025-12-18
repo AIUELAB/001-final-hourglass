@@ -861,7 +861,7 @@
         }
 
         .badge-転機 {
-            background: #8b5cf6;  /* 紫 - 変化 */
+            background: #3b82f6;  /* 青 - 変化 */
             color: white;
         }
 
@@ -1931,8 +1931,8 @@
 
             // 識別しやすいカラフルな配色（グレー重複を排除）
             const typeColors = {
-                '転機': '#8b5cf6',      // 紫（最多・重要）
-                '達成': '#3b82f6',      // 青（成功・ポジティブ）
+                '転機': '#3b82f6',      // 青（最多・重要）
+                '達成': '#2563eb',      // 濃い青（成功・ポジティブ）
                 '挑戦': '#f97316',      // オレンジ（エネルギッシュ）
                 'キャリア': '#10b981',  // エメラルドグリーン（成長）
                 '革新': '#06b6d4',      // シアン（革新的）
@@ -3890,28 +3890,20 @@
                                     </span>
                                     ${ep.episode_type ? `<span class="badge" style="background: ${(() => {
                                         const t = ep.episode_type;
-                                        if (t === 'ACHIEVEMENT') return '#10b981';
-                                        if (t === 'TURNING_POINT') return '#3b82f6';
-                                        if (t === 'CHALLENGE') return '#f59e0b';
-                                        if (t === 'INNOVATION') return '#9333ea';
-                                        if (t === 'FOUNDING') return '#dc2626';
-                                        if (t === 'FAILURE') return '#6b7280';
-                                        if (t === 'COMEBACK') return '#14b8a6';
-                                        if (t === 'FAMILY') return '#ec4899';
+                                        if (t === '転機' || t === 'TURNING_POINT') return '#3b82f6';
+                                        if (t === '達成' || t === 'ACHIEVEMENT') return '#2563eb';
+                                        if (t === '挑戦' || t === 'CHALLENGE') return '#f97316';
+                                        if (t === 'キャリア') return '#10b981';
+                                        if (t === '革新' || t === 'INNOVATION') return '#06b6d4';
+                                        if (t === '創業' || t === 'FOUNDING') return '#eab308';
+                                        if (t === '失敗' || t === 'FAILURE') return '#ef4444';
+                                        if (t === '復帰' || t === 'COMEBACK') return '#ec4899';
+                                        if (t === '家族' || t === 'FAMILY') return '#f472b6';
+                                        if (t === 'レガシー') return '#d97706';
+                                        if (t === '生成') return '#6b7280';
                                         return '#78716c';
                                     })()}; color: white; font-weight: 600; font-size: 0.75em;">
-                                        ${(() => {
-                                            const t = ep.episode_type;
-                                            if (t === 'ACHIEVEMENT') return '達成';
-                                            if (t === 'TURNING_POINT') return '転機';
-                                            if (t === 'CHALLENGE') return '挑戦';
-                                            if (t === 'INNOVATION') return '革新';
-                                            if (t === 'FOUNDING') return '創業';
-                                            if (t === 'FAILURE') return '失敗';
-                                            if (t === 'COMEBACK') return '復活';
-                                            if (t === 'FAMILY') return '家族';
-                                            return t;
-                                        })()}
+                                        ${ep.episode_type}
                                     </span>` : ''}
                                 </div>
                             </td>

@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-12-18T21:29:43.116071",
+  "config": {
+    "api_delay": 0.3,
+    "max_tokens": 400,
+    "format_check_only": true,
+    "min_chars": 100,
+    "max_chars": 500
+  },
+  "stats": {
+    "total_attempted": 20,
+    "generated": 20,
+    "format_rejected": 0,
+    "meta_rejected": 0,
+    "length_rejected": 0,
+    "name_mismatch_rejected": 0,
+    "group_name_rejected": 0,
+    "group_name_auto_fixed": 8,
+    "api_errors": 0,
+    "success_rate": 100.0,
+    "elapsed_seconds": 191.1,
+    "episodes_per_minute": 6.3
+  },
+  "sample_episodes": [
+    {
+      "person_name": "Taka",
+      "age": "13",
+      "text_preview": "あなたと同じ13歳のとき Takaは1999年頃、日本の中学校で英語の授業を受けながらも、家庭では父親の仕事の関係で英語環境に慣れ親しんでいました。この時期のTakaは既に音楽への強い関心を示しており"
+    },
+    {
+      "person_name": "ジョン・ボーナム",
+      "age": "11",
+      "text_preview": "あなたと同じ11歳のとき ジョン・ボーナムは1959年、イングランドのウェスト・ミッドランズで母親にドラムセットを買ってもらい、本格的にドラム演奏を始めていました。学校から帰ると毎日のように自宅でドラ"
+    },
+    {
+      "person_name": "伊沢拓司",
+      "age": "11",
+      "text_preview": "あなたと同じ11歳のとき 伊沢拓司は小学6年生として、すでに知識欲の高さを周囲に示していました。2005年当時、彼は図書館で百科事典を読み漁る習慣があり、特に歴史や地理の分野に強い関心を持っていました"
+    },
+    {
+      "person_name": "ジョン・マッケンタイア",
+      "age": "5",
+      "text_preview": "あなたと同じ5歳のとき ジョン・マッケンタイアは1970年にシカゴの自宅で古いラジオを分解して中身を眺めていました。父親の工具箱から小さなドライバーを借りて、ラジオの背面パネルを慎重に外すと、色とりど"
+    },
+    {
+      "person_name": "ハリー・ベラフォンテ",
+      "age": "11",
+      "text_preview": "あなたと同じ11歳のとき ハリー・ベラフォンテは1938年、ニューヨークのハーレムで母親と暮らしていました。この年、彼は地元の教会で開催されたクリスマス・コンサートに参加し、初めて大勢の観客の前で歌を"
+    }
+  ]
+}

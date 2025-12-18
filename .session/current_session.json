@@ -1,7 +1,7 @@
 {
-  "session_id": "20251218_legend_myth_complete",
-  "timestamp": "2025-12-18T15:30:00+09:00",
-  "status": "ready_for_restart",
+  "session_id": "20251218_episode_expansion_started",
+  "timestamp": "2025-12-18T15:45:00+09:00",
+  "status": "episode_generation_in_progress",
   "summary": {
     "main_tasks_completed": [
       "100名架空キャラクター目標達成（106名→107名登録済み）",
@@ -12,7 +12,13 @@
       "海外キャラクター44名追加完了（151名達成、目標150名を超過）",
       "コミット・プッシュ完了（commit: 3c180c7）",
       "伝説・神話キャラクター29名追加完了（180名達成）",
-      "コミット・プッシュ完了（commit: ece9cd5）"
+      "コミット・プッシュ完了（commit: ece9cd5）",
+      "歴史上の動物5名追加完了（181名達成）",
+      "コミット・プッシュ完了（commit: ae657f4）",
+      "人物追加累計78名完了"
+    ],
+    "in_progress_tasks": [
+      "エピソード追加生成（目標50件）- バックグラウンドタスクID: b74e538"
     ],
     "pending_tasks": []
   },
@@ -101,15 +107,29 @@
       "success_rate": "85.3%"
     }
   },
+  "historical_animals_summary": {
+    "target": 14,
+    "success": 5,
+    "success_rate": "35.7%",
+    "description": "歴史上の動物（ブケファロス、ライカ、ラッシー等）",
+    "failed": ["ハチ公", "ジロ", "バロン西", "風雲", "シロ", "アレクサンドル", "バルト", "リンリン", "チンパンジーのハム"]
+  },
+  "character_addition_summary": {
+    "overseas_characters": 44,
+    "legend_myth": 29,
+    "historical_animals": 5,
+    "total": 78
+  },
   "git_status": {
     "branch": "main",
-    "last_commit": "ece9cd5 - feat: 伝説・神話キャラクター29名追加（日本14名・海外15名）",
+    "last_commit": "ae657f4 - feat: 歴史上の動物5名追加（成功率35.7%）",
     "pushed": true
   },
   "database_status": {
-    "total_episodes": 12990,
-    "total_persons": 7654,
-    "fictional_characters": 180,
+    "total_episodes": 12995,
+    "total_persons": 7659,
+    "fictional_characters": 181,
+    "average_episodes_per_person": 1.70,
     "epup_score": "103.03",
     "epup_grade": "A"
   }

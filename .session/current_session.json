@@ -1,5 +1,5 @@
 {
-  "session_id": "20251218_overseas_characters_complete",
+  "session_id": "20251218_legend_myth_complete",
   "timestamp": "2025-12-18T15:30:00+09:00",
   "status": "ready_for_restart",
   "summary": {
@@ -10,11 +10,11 @@
       "コミット・プッシュ完了（commit: 5be1dc2）",
       "ダッシュボードv9起動・動作確認完了",
       "海外キャラクター44名追加完了（151名達成、目標150名を超過）",
-      "コミット・プッシュ完了（commit: 3c180c7）"
+      "コミット・プッシュ完了（commit: 3c180c7）",
+      "伝説・神話キャラクター29名追加完了（180名達成）",
+      "コミット・プッシュ完了（commit: ece9cd5）"
     ],
-    "pending_tasks": [
-      "綾里真宵の再試行検討（19歳でもTemplateBlocker棄却、品質優先原則に基づき断念推奨）"
-    ]
+    "pending_tasks": []
   },
   "preferred_age_fix_summary": {
     "problem": "FICTIONAL型でbirth_year未設定時、preferred_ageが無視されていた",
@@ -76,15 +76,40 @@
       "success_rate": "84.6%"
     }
   },
+  "legend_myth_summary": {
+    "goal": 40,
+    "achieved": 29,
+    "batches": {
+      "jp": {
+        "target": 20,
+        "success": 14,
+        "success_rate": "73.7%",
+        "description": "日本の伝説・神話（桃太郎、かぐや姫、天照大神等）",
+        "failed": ["浦島太郎", "金太郎", "一寸法師", "瓜子姫", "八岐大蛇"]
+      },
+      "world": {
+        "target": 20,
+        "success": 15,
+        "success_rate": "100%",
+        "description": "海外の伝説・神話（ゼウス、ヘラクレス、孫悟空等）",
+        "failed": []
+      }
+    },
+    "total": {
+      "target": 40,
+      "success": 29,
+      "success_rate": "85.3%"
+    }
+  },
   "git_status": {
     "branch": "main",
-    "last_commit": "3c180c7 - feat: 海外キャラクター44名追加 - 目標150名超過達成（151名）",
+    "last_commit": "ece9cd5 - feat: 伝説・神話キャラクター29名追加（日本14名・海外15名）",
     "pushed": true
   },
   "database_status": {
-    "total_episodes": 12961,
-    "total_persons": 7625,
-    "fictional_characters": 151,
+    "total_episodes": 12990,
+    "total_persons": 7654,
+    "fictional_characters": 180,
     "epup_score": "103.03",
     "epup_grade": "A"
   }

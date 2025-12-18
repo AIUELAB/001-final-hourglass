@@ -1,0 +1,6 @@
+person_name,category,sub_category,person_type,description,birth_year,death_year,tier,source_name,source_url,status,preferred_age
+オラフ,アナと雪の女王,アニメ,FICTIONAL,エルサの魔法で生まれた陽気な雪だるま。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/アナと雪の女王,active,5
+ガストン,美女と野獣,アニメ,FICTIONAL,村一番の自信家。ベルに求愛する。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/美女と野獣,active,30
+アースラ,リトル・マーメイド,アニメ,FICTIONAL,海の魔女。アリエルと契約を交わす。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/リトル・マーメイド,active,45
+モアナ,モアナと伝説の海,アニメ,FICTIONAL,太平洋の島の族長の娘。海に選ばれた少女。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/モアナと伝説の海,active,16
+マウイ,モアナと伝説の海,アニメ,FICTIONAL,半神半人の英雄。魔法の釣り針を持つ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/モアナと伝説の海,active,1000

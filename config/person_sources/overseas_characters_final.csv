@@ -1,0 +1,4 @@
+person_name,category,sub_category,person_type,description,birth_year,death_year,tier,source_name,source_url,status,preferred_age
+サム,ロード・オブ・ザ・リング,小説・映画,FICTIONAL,フロドの忠実な友。冥王の指輪破壊の旅に同行。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ロード・オブ・ザ・リング,active,35
+ガンダルフ,ロード・オブ・ザ・リング,小説・映画,FICTIONAL,灰色の魔法使い。中つ国を守る賢者。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ロード・オブ・ザ・リング,active,2000
+ヨーダ,スター・ウォーズ,映画,FICTIONAL,ジェダイ・マスター。900年の智慧を持つ。,,,A,fictional_characters,https://ja.wikipedia.org/wiki/ヨーダ,active,800

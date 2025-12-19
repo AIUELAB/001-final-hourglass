@@ -270,3 +270,49 @@ class EpisodeManager:
 
         episodes = [Episode(**ep) for ep in paginated]
         return episodes, total
+
+    def save_llm_scores(
+        self,
+        person_id: str,
+        llm_scores: Dict[str, float],
+        hybrid_scores: Dict[str, float],
+    ) -> Optional[Episode]:
+        """LLM評価スコアをCSVに保存
+
+        Args:
+            person_id: エピソードID
+            llm_scores: LLM評価結果（7軸）
+            hybrid_scores: ハイブリッドスコア（動的重み）
+
+        Returns:
+            更新されたエピソード、見つからない場合はNone
+        """
+        from datetime import datetime
+
+        # LLMスコアのフィールドマッピング（日本語軸名→英語カラム名）
+        llm_field_mapping = {
+            "記憶性": "llm_memorability_score",
+            "共感性": "llm_empathy_score",
+            "意外性": "llm_surprise_score",
+            "生成品質": "llm_generation_quality_score",
+            "教育的価値": "llm_educational_value",
+            "ストーリー品質": "llm_storytelling_quality",
+            "事実密度": "llm_factual_density",
+        }
+
+        for i, ep in enumerate(self.episodes):
+            if ep.get("person_id") == person_id:
+                # LLMスコアを保存
+                for jp_name, eng_col in llm_field_mapping.items():
+                    if jp_name in llm_scores:
+                        ep[eng_col] = str(round(llm_scores[jp_name], 2))
+
+                # 評価日時を保存
+                ep["llm_evaluated_at"] = datetime.now().isoformat()
+
+                # CSVに保存
+                self._save_episodes()
+
+                return Episode(**ep)
+
+        return None

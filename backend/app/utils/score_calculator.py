@@ -1990,3 +1990,307 @@ def calculate_hybrid_five_axes(episode_data: Dict) -> Dict[str, float]:
 
     # 5軸に変換
     return calculate_five_axis_scores(seven_axis)
+
+
+# ============================================================
+# Phase 7: LLM連携評価システム（分散向上版）
+# ============================================================
+
+# LLM評価プロンプト（7軸独立評価用）
+LLM_EVALUATION_PROMPT = """
+以下のエピソードを7つの軸で評価してください。
+各軸は1-10点で、できるだけ差をつけて評価してください。
+
+【評価軸と基準】
+
+1. 記憶性 (1-10): 読者の記憶に残るか
+   - 10: 一生忘れない衝撃的な内容
+   - 7: 印象に残る
+   - 4: 普通
+   - 1: 忘れやすい
+
+2. 共感性 (1-10): 感情移入できるか
+   - 10: 涙が出るほど共感
+   - 7: 気持ちがわかる
+   - 4: 普通
+   - 1: 共感できない
+
+3. 意外性 (1-10): 予想外の展開があるか
+   - 10: 完全に予想を裏切る
+   - 7: 少し意外
+   - 4: 普通
+   - 1: 予想通り
+
+4. 生成品質 (1-10): 文章の品質
+   - 10: プロの文章
+   - 7: 読みやすい
+   - 4: 普通
+   - 1: 読みにくい
+
+5. 教育的価値 (1-10): 学びがあるか
+   - 10: 人生を変える学び
+   - 7: 参考になる
+   - 4: 普通
+   - 1: 学びなし
+
+6. ストーリー品質 (1-10): 物語としての完成度
+   - 10: 映画化できるレベル
+   - 7: 引き込まれる
+   - 4: 普通
+   - 1: 面白くない
+
+7. 事実密度 (1-10): 具体的な事実の豊富さ
+   - 10: 年号・数値・固有名詞が豊富
+   - 7: 具体的
+   - 4: 普通
+   - 1: 抽象的
+
+【重要】
+- 7点をデフォルトにしないでください
+- 各軸で異なる点数をつけてください
+- 極端な点数（1-3, 9-10）も積極的に使用してください
+
+【エピソード】
+{episode_text}
+
+【出力形式】
+必ず以下のJSON形式のみで出力してください（説明不要）:
+{{"記憶性": X, "共感性": X, "意外性": X, "生成品質": X, "教育的価値": X, "ストーリー品質": X, "事実密度": X}}
+"""
+
+# Phase 7B: ターゲット統計（ルールベース実績）
+LLM_TARGET_STATS = {
+    "記憶性": {"mean": 6.24, "std": 0.35},
+    "共感性": {"mean": 5.52, "std": 0.61},
+    "意外性": {"mean": 5.45, "std": 0.52},
+    "生成品質": {"mean": 8.46, "std": 0.56},
+    "教育的価値": {"mean": 5.55, "std": 0.52},
+    "ストーリー品質": {"mean": 6.70, "std": 0.45},
+    "事実密度": {"mean": 9.57, "std": 1.05},
+}
+
+# LLMの想定分布（観測値ベース）
+LLM_OBSERVED_STATS = {
+    "mean": 7.0,
+    "std": 1.0,  # 改善プロンプトで分散拡大を期待
+}
+
+
+def calibrate_llm_score(llm_score: float, axis: str) -> float:
+    """
+    Phase 7B: LLMスコアをルールベース分布に合わせてキャリブレーション
+
+    LLMは7.0付近に集中する傾向があるため、
+    Z-score正規化でターゲット分布に変換して識別力を維持。
+
+    Args:
+        llm_score: LLMが出力した生のスコア（1-10）
+        axis: 評価軸名
+
+    Returns:
+        キャリブレーション済みスコア（1-10）
+    """
+    target = LLM_TARGET_STATS.get(axis, {"mean": 7.0, "std": 0.5})
+    llm_stats = LLM_OBSERVED_STATS
+
+    # Z-score正規化 → ターゲット分布に変換
+    z_score = (llm_score - llm_stats["mean"]) / max(llm_stats["std"], 0.1)
+    calibrated = target["mean"] + z_score * target["std"]
+
+    return max(1.0, min(10.0, round(calibrated, 1)))
+
+
+def parse_llm_response(response_text: str) -> Optional[Dict[str, float]]:
+    """
+    LLMレスポンスからJSONスコアを抽出
+
+    Args:
+        response_text: LLMの出力テキスト
+
+    Returns:
+        7軸スコアの辞書、パース失敗時はNone
+    """
+    import json
+
+    # JSON部分を抽出（前後の説明文を除去）
+    text = response_text.strip()
+
+    # JSONブロックを探す
+    start_idx = text.find("{")
+    end_idx = text.rfind("}") + 1
+
+    if start_idx == -1 or end_idx == 0:
+        return None
+
+    json_str = text[start_idx:end_idx]
+
+    try:
+        scores = json.loads(json_str)
+
+        # 必須キーの検証
+        required_keys = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+        for key in required_keys:
+            if key not in scores:
+                return None
+            # 数値範囲の検証
+            val = float(scores[key])
+            if val < 1 or val > 10:
+                scores[key] = max(1, min(10, val))
+            else:
+                scores[key] = val
+
+        return scores
+
+    except (json.JSONDecodeError, ValueError, TypeError):
+        return None
+
+
+def evaluate_with_llm(
+    episode_text: str,
+    client=None,
+    model: str = "claude-sonnet-4-20250514",
+    calibrate: bool = True,
+) -> Optional[Dict[str, float]]:
+    """
+    Phase 7A: LLMを使用してエピソードを7軸評価
+
+    Args:
+        episode_text: 評価対象のエピソードテキスト
+        client: Anthropic APIクライアント（Noneの場合は新規作成）
+        model: 使用するモデル名
+        calibrate: スケール補正を適用するか
+
+    Returns:
+        7軸スコアの辞書、評価失敗時はNone
+    """
+    try:
+        import anthropic
+    except ImportError:
+        print("Warning: anthropic package not installed")
+        return None
+
+    # クライアント作成
+    if client is None:
+        try:
+            client = anthropic.Anthropic()
+        except Exception as e:
+            print(f"Warning: Failed to create Anthropic client: {e}")
+            return None
+
+    # プロンプト生成
+    prompt = LLM_EVALUATION_PROMPT.format(episode_text=episode_text[:2000])  # 最大2000文字
+
+    try:
+        response = client.messages.create(
+            model=model,
+            max_tokens=200,
+            messages=[{"role": "user", "content": prompt}],
+        )
+
+        response_text = response.content[0].text
+        scores = parse_llm_response(response_text)
+
+        if scores is None:
+            return None
+
+        # Phase 7B: スケール補正
+        if calibrate:
+            calibrated_scores = {}
+            for axis, score in scores.items():
+                calibrated_scores[axis] = calibrate_llm_score(score, axis)
+            return calibrated_scores
+
+        return scores
+
+    except Exception as e:
+        print(f"Warning: LLM evaluation failed: {e}")
+        return None
+
+
+def calculate_hybrid_scores_with_llm(
+    episode_data: Dict,
+    llm_client=None,
+    use_llm: bool = True,
+    calibrate: bool = True,
+) -> Dict[str, float]:
+    """
+    Phase 7: LLM連携ハイブリッド評価
+
+    LLM評価とルールベース評価を最適化された重みで統合。
+    LLM評価が失敗した場合はルールベースにフォールバック。
+
+    Args:
+        episode_data: エピソードデータ
+        llm_client: Anthropic APIクライアント
+        use_llm: LLM評価を使用するか
+        calibrate: LLMスコアのキャリブレーションを適用するか
+
+    Returns:
+        7軸のハイブリッドスコア辞書
+    """
+    # ルールベーススコア計算（常に実行）
+    rule_scores = calculate_hybrid_rule_scores(episode_data)
+
+    # LLM評価
+    llm_scores = None
+    if use_llm:
+        episode_text = str(episode_data.get("episode_text", ""))
+        if episode_text:
+            llm_scores = evaluate_with_llm(
+                episode_text,
+                client=llm_client,
+                calibrate=calibrate,
+            )
+
+    # LLMスコアがない場合はルールベースのみ
+    if llm_scores is None:
+        return {axis: round(rule_scores.get(axis, 5), 1) for axis in HYBRID_WEIGHTS.keys()}
+
+    # 重み付き統合
+    hybrid_scores = {}
+    for axis, (rule_w, llm_w) in HYBRID_WEIGHTS.items():
+        rule_val = rule_scores.get(axis, 5)
+        llm_val = llm_scores.get(axis, 7.0)
+        hybrid_scores[axis] = round(rule_val * rule_w + llm_val * llm_w, 1)
+
+    return hybrid_scores
+
+
+def batch_evaluate_with_llm(
+    episodes: list,
+    llm_client=None,
+    calibrate: bool = True,
+    progress_callback=None,
+) -> list:
+    """
+    Phase 7: 複数エピソードのバッチLLM評価
+
+    Args:
+        episodes: エピソードデータのリスト
+        llm_client: Anthropic APIクライアント
+        calibrate: スケール補正を適用するか
+        progress_callback: 進捗コールバック関数（index, total）
+
+    Returns:
+        7軸スコア辞書のリスト（評価失敗時はNone）
+    """
+    results = []
+
+    for i, episode in enumerate(episodes):
+        episode_text = str(episode.get("episode_text", ""))
+
+        if episode_text:
+            scores = evaluate_with_llm(
+                episode_text,
+                client=llm_client,
+                calibrate=calibrate,
+            )
+        else:
+            scores = None
+
+        results.append(scores)
+
+        if progress_callback:
+            progress_callback(i + 1, len(episodes))
+
+    return results

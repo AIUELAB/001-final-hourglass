@@ -1054,12 +1054,19 @@ async def delete_episode(person_id: str, current_user: dict = Depends(require_ro
 
 
 @app.post("/api/episodes/{person_id}/evaluate-llm", response_model=LLMEvaluationResponse)
-async def evaluate_episode_llm(person_id: str, current_user: dict = Depends(require_role(["admin", "editor"]))):
+async def evaluate_episode_llm(
+    person_id: str,
+    save: bool = Query(False, description="評価結果をCSVに保存するかどうか"),
+    current_user: dict = Depends(require_role(["admin", "editor"])),
+):
     """エピソードLLM評価
 
     LLMを使用してエピソードを7軸で評価し、ハイブリッドスコアを返却
 
     **権限**: admin, editor
+
+    **パラメータ**:
+    - save: trueの場合、評価結果をCSVに保存
     """
     import time
 
@@ -1097,6 +1104,12 @@ async def evaluate_episode_llm(person_id: str, current_user: dict = Depends(requ
     # ハイブリッドスコア（動的重み）
     hybrid_scores = calculate_hybrid_scores_dynamic(episode_data, llm_scores, use_dynamic_weights=True)
 
+    # 保存オプションが有効な場合、CSVに保存
+    saved = False
+    if save:
+        result = episode_manager.save_llm_scores(person_id, llm_scores, hybrid_scores)
+        saved = result is not None
+
     evaluation_time = time.time() - start_time
 
     return LLMEvaluationResponse(
@@ -1107,4 +1120,5 @@ async def evaluate_episode_llm(person_id: str, current_user: dict = Depends(requ
         hybrid_scores=hybrid_scores,
         characteristics=characteristics,
         evaluation_time=round(evaluation_time, 2),
+        saved=saved,
     )

@@ -403,6 +403,16 @@ class Episode(BaseModel):
     事実密度: Optional[str] = None
     age_numeric: Optional[str] = None
 
+    # LLM評価スコア
+    llm_memorability_score: Optional[str] = None
+    llm_empathy_score: Optional[str] = None
+    llm_surprise_score: Optional[str] = None
+    llm_generation_quality_score: Optional[str] = None
+    llm_educational_value: Optional[str] = None
+    llm_storytelling_quality: Optional[str] = None
+    llm_factual_density: Optional[str] = None
+    llm_evaluated_at: Optional[str] = None
+
 
 class EpisodeList(BaseModel):
     """エピソードリスト"""
@@ -431,6 +441,7 @@ class LLMEvaluationResponse(BaseModel):
     hybrid_scores: Dict[str, float]  # ハイブリッドスコア（動的重み）
     characteristics: Dict[str, bool]  # 検出された特性
     evaluation_time: float  # 評価所要時間（秒）
+    saved: bool = False  # CSVに保存されたかどうか  # 評価所要時間（秒）
 
 
 # ========================================

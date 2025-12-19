@@ -162,6 +162,30 @@
       "transport": "STDIO",
       "always_active": false,
       "estimated_context": "13.8k"
+    },
+    "desktop-commander": {
+      "display_name": "Desktop Commander",
+      "description": "ファイル操作・ターミナル実行・差分編集",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "3.0k",
+      "delegation_skill": "/desktop"
+    },
+    "memory": {
+      "display_name": "Memory",
+      "description": "Knowledge Graph・長期記憶・セッション間情報保持",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "2.5k",
+      "delegation_skill": "/memory"
+    },
+    "obsidian": {
+      "display_name": "Obsidian",
+      "description": "Obsidianボールト連携・ノート管理",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "2.0k",
+      "delegation_skill": "/obsidian"
     }
   },
   "fallback_strategy": {

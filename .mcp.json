@@ -18,6 +18,33 @@
         "@modelcontextprotocol/server-github"
       ],
       "env": {}
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wonderwhy-er/desktop-commander"
+      ],
+      "env": {}
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "env": {
+        "MEMORY_FILE_PATH": "/Users/admin/Documents/AIUELAB/001-final-hourglass/.memory/knowledge.jsonl"
+      }
+    },
+    "obsidian": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-obsidian",
+        "/Users/admin/Documents/Obsidian"
+      ],
+      "env": {}
     }
   }
 }

@@ -1093,13 +1093,14 @@
         <!-- タブナビゲーション -->
         <div class="tab-navigation">
             <button class="tab-button active" data-tab="episodes">📋 エピソード</button>
-            <button class="tab-button" data-tab="stats">📊 統計</button>
-            <button class="tab-button" data-tab="heatmap">🔥 ヒートマップ</button>
             <button class="tab-button" data-tab="category">📂 カテゴリ</button>
             <button class="tab-button" data-tab="charts">📈 グラフ</button>
             <button class="tab-button" data-tab="fame-ranking">🏆 有名人度ランキング</button>
             <button class="tab-button" data-tab="episode-fame-ranking">⭐ 有名エピソードランキング</button>
             <button class="tab-button" data-tab="seven-axis">📊 7軸スコア分布</button>
+            <button class="tab-button" data-tab="five-axis">⭐ 5軸スコア分布</button>
+            <button class="tab-button" data-tab="stats">📊 統計</button>
+            <button class="tab-button" data-tab="heatmap">🔥 ヒートマップ</button>
             <!-- React統計タブ（Vite開発サーバー必要）は非表示 -->
             <button class="tab-button" data-tab="react-stats" style="display:none;">📊 React統計</button>
             <button class="tab-button" data-tab="react-characters" style="display:none;">👥 キャラクター一覧</button>
@@ -1266,6 +1267,65 @@
             </div>
         </div>
         <!-- タブ5: 7軸スコア分布 終了 -->
+
+        <!-- タブ: 5軸スコア分布 -->
+        <div class="tab-panel" id="five-axis-panel">
+            <div style="padding: 40px; background: white;">
+                <h2 style="margin-bottom: 30px;">⭐ 5軸スコア分布（統合版）</h2>
+
+                <div style="margin-bottom: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #4caf50;">
+                    <strong>📌 5軸統合について</strong><br>
+                    <span style="font-size: 14px; color: #555;">
+                        7軸スコアから統合された5軸評価システムです。<br>
+                        • <strong>総合品質</strong> = (記憶性 + 生成品質) / 2<br>
+                        • <strong>感情インパクト</strong> = (共感性 + 意外性) / 2<br>
+                        • 教育的価値, ストーリー品質, 事実密度 は維持
+                    </span>
+                </div>
+
+                <!-- カテゴリフィルタ -->
+                <div style="margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                    <label for="five-axis-category-filter" style="font-weight: 600; margin-right: 10px;">カテゴリ:</label>
+                    <select id="five-axis-category-filter" style="padding: 8px 15px; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; min-width: 200px;">
+                        <option value="全カテゴリ">全カテゴリ</option>
+                    </select>
+                    <span id="five-axis-filtered-count" style="margin-left: 15px; font-size: 14px; color: #666;"></span>
+                </div>
+
+                <!-- 5軸グラフ -->
+                <div class="seven-axis-charts-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="chart-container">
+                        <h3>総合品質</h3>
+                        <canvas id="overallQualityChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>感情インパクト</h3>
+                        <canvas id="emotionalImpactChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>教育的価値</h3>
+                        <canvas id="educationalValueChart5"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>ストーリー品質</h3>
+                        <canvas id="storyQualityChart5"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>事実密度</h3>
+                        <canvas id="factualDensityChart5"></canvas>
+                    </div>
+                </div>
+
+                <!-- 5軸統計サマリー -->
+                <div style="margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+                    <h3 style="margin-bottom: 15px;">📊 5軸統計サマリー</h3>
+                    <div id="five-axis-summary" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px;">
+                        <!-- JSで動的に生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- タブ: 5軸スコア分布 終了 -->
 
         <!-- タブ6: 有名度ランキング -->
         <div class="tab-panel" id="fame-ranking-panel">
@@ -1494,6 +1554,9 @@
                             </th>
                             <th width="150px" class="sortable" data-sort="composite_score">
                                 7軸スコア <span class="sort-icon">⬍</span>
+                            </th>
+                            <th width="130px" class="sortable" data-sort="composite_score_5axis">
+                                5軸スコア <span class="sort-icon">⬍</span>
                             </th>
                             <th width="160px" class="sortable" data-sort="category">
                                 分類情報 <span class="sort-icon">⬍</span>
@@ -2334,6 +2397,143 @@
             // 7軸スコア分布の初期化
             if (allEpisodes && allEpisodes.length > 0) {
                 setupSevenAxisFilter();
+            }
+
+            // ========== 5軸スコア分布グラフ ==========
+            const fiveAxisChartInstances = {};
+            const fiveAxesConfig = [
+                { field: 'overall_quality', canvasId: 'overallQualityChart', label: '総合品質 (0-10)' },
+                { field: 'emotional_impact', canvasId: 'emotionalImpactChart', label: '感情インパクト (0-10)' },
+                { field: 'educational_value_5', canvasId: 'educationalValueChart5', label: '教育的価値 (0-10)' },
+                { field: 'story_quality_5', canvasId: 'storyQualityChart5', label: 'ストーリー品質 (0-10)' },
+                { field: 'factual_density_5', canvasId: 'factualDensityChart5', label: '事実密度 (0-10)' }
+            ];
+
+            function renderFiveAxisCharts(episodes) {
+                // 既存のチャートを破棄
+                Object.values(fiveAxisChartInstances).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+
+                const colorPalette = [
+                    '#9333ea',  // 10 (紫 - 最高)
+                    '#3b82f6',  // 8-9 (青 - 非常に高い)
+                    '#10b981',  // 6-7 (緑 - 高い)
+                    '#eab308',  // 4-5 (黄 - 中程度)
+                    '#f97316',  // 2-3 (オレンジ - 低い)
+                    '#ef4444',  // 0-1 (赤 - 非常に低い)
+                    '#6b7280'   // 未評価 (灰)
+                ];
+
+                fiveAxesConfig.forEach(axis => {
+                    const distribution = calculateScoreDistribution(episodes, axis.field);
+                    const canvas = document.getElementById(axis.canvasId);
+                    if (!canvas) return;
+
+                    fiveAxisChartInstances[axis.canvasId] = new Chart(canvas, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(distribution),
+                            datasets: [{
+                                label: 'エピソード数',
+                                data: Object.values(distribution),
+                                backgroundColor: colorPalette
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: { display: true, text: 'エピソード数' }
+                                },
+                                x: {
+                                    title: { display: true, text: axis.label }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const value = context.parsed.y;
+                                            const total = episodes.length;
+                                            const percentage = ((value / total) * 100).toFixed(1);
+                                            return `${value}件 (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+
+                // 統計サマリーを更新
+                renderFiveAxisSummary(episodes);
+            }
+
+            function renderFiveAxisSummary(episodes) {
+                const summaryContainer = document.getElementById('five-axis-summary');
+                if (!summaryContainer) return;
+
+                const axes = [
+                    { field: 'overall_quality', name: '総合品質', color: '#9333ea' },
+                    { field: 'emotional_impact', name: '感情インパクト', color: '#3b82f6' },
+                    { field: 'educational_value_5', name: '教育的価値', color: '#10b981' },
+                    { field: 'story_quality_5', name: 'ストーリー品質', color: '#eab308' },
+                    { field: 'factual_density_5', name: '事実密度', color: '#f97316' }
+                ];
+
+                summaryContainer.innerHTML = axes.map(axis => {
+                    const values = episodes.map(ep => ep[axis.field]).filter(v => v !== null && v !== undefined);
+                    const avg = values.length > 0 ? (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2) : '-';
+                    const std = values.length > 1 ? Math.sqrt(values.map(v => Math.pow(v - avg, 2)).reduce((a, b) => a + b, 0) / values.length).toFixed(2) : '-';
+
+                    return `
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid ${axis.color};">
+                            <div style="font-weight: 600; margin-bottom: 8px;">${axis.name}</div>
+                            <div style="font-size: 24px; font-weight: bold; color: ${axis.color};">${avg}</div>
+                            <div style="font-size: 12px; color: #888;">σ = ${std}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function setupFiveAxisFilter() {
+                const categoryFilter = document.getElementById('five-axis-category-filter');
+                const filteredCountSpan = document.getElementById('five-axis-filtered-count');
+
+                if (!categoryFilter || !allEpisodes) return;
+
+                // カテゴリ一覧を取得
+                const categories = [...new Set(allEpisodes.map(ep => ep.category).filter(Boolean))].sort();
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categoryFilter.appendChild(option);
+                });
+
+                // 初期表示
+                renderFiveAxisCharts(allEpisodes);
+                filteredCountSpan.textContent = `表示中: ${allEpisodes.length}件`;
+
+                // カテゴリ変更イベント
+                categoryFilter.addEventListener('change', () => {
+                    const selectedCategory = categoryFilter.value;
+                    const filteredEpisodes = selectedCategory === '全カテゴリ'
+                        ? allEpisodes
+                        : allEpisodes.filter(ep => ep.category === selectedCategory);
+
+                    renderFiveAxisCharts(filteredEpisodes);
+                    filteredCountSpan.textContent = `表示中: ${filteredEpisodes.length}件`;
+                });
+            }
+
+            // 5軸スコア分布の初期化
+            if (allEpisodes && allEpisodes.length > 0) {
+                setupFiveAxisFilter();
             }
         }
 
@@ -3428,7 +3628,14 @@
                                 generation_quality_score: parseFloat(r['生成品質スコア']) || null,
                                 educational_value: parseFloat(r['教育的価値']) || null,
                                 storytelling_quality: parseFloat(r['ストーリー品質']) || null,
-                                factual_density: parseFloat(r['事実密度']) || null
+                                factual_density: parseFloat(r['事実密度']) || null,
+                                // 5軸スコア（統合版）
+                                overall_quality: parseFloat(r['総合品質']) || null,
+                                emotional_impact: parseFloat(r['感情インパクト']) || null,
+                                educational_value_5: parseFloat(r['教育的価値']) || null,
+                                story_quality_5: parseFloat(r['ストーリー品質']) || null,
+                                factual_density_5: parseFloat(r['事実密度']) || null,
+                                composite_score_5axis: parseFloat(r['composite_score_5axis']) || null
                             };
                         }).filter(ep => ep.person_name && ep.episode_text);
 
@@ -3849,6 +4056,27 @@
                                 ` : `
                                     <div class="composite-score">総合: <span class="missing">-</span></div>
                                     <div class="axis-scores text-muted">スコア未算出</div>
+                                `}
+                            </td>
+
+                            <!-- 5軸スコアセル -->
+                            <td class="score-cell${ep.composite_score_5axis || ep.overall_quality ? '' : ' no-scores'}">
+                                ${ep.composite_score_5axis || ep.overall_quality ? `
+                                    <div class="composite-score">総合: <strong>${ep.composite_score_5axis ? ep.composite_score_5axis.toFixed(1) : '-'}</strong></div>
+                                    <div class="axis-scores" style="font-size: 11px;">
+                                        <div class="score-row">
+                                            <span><span class="score-label">品質:</span>${ep.overall_quality ? ep.overall_quality.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                        <div class="score-row">
+                                            <span><span class="score-label">感情:</span>${ep.emotional_impact ? ep.emotional_impact.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                        <div class="score-row">
+                                            <span><span class="score-label">事実:</span>${ep.factual_density_5 ? ep.factual_density_5.toFixed(1) : '<span class="missing">-</span>'}</span>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="composite-score">総合: <span class="missing">-</span></div>
+                                    <div class="axis-scores text-muted" style="font-size: 10px;">5軸未算出</div>
                                 `}
                             </td>
 

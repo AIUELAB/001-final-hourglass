@@ -18,6 +18,45 @@ SEVEN_AXIS_FIELDS = [
     "事実密度",  # factual_density
 ]
 
+# 5軸スコアのフィールド名（統合版）
+# Phase 3: 7軸から5軸への構造改革
+FIVE_AXIS_FIELDS = [
+    "総合品質",  # overall_quality: 記憶性 + 生成品質
+    "感情インパクト",  # emotional_impact: 共感性 + 意外性
+    "教育的価値",  # educational_value (維持)
+    "ストーリー品質",  # storytelling_quality (維持)
+    "事実密度",  # factual_density (維持)
+]
+
+# 5軸の計算定義
+FIVE_AXIS_COMPOSITION = {
+    "総合品質": {
+        "sources": ["記憶性スコア", "生成品質スコア"],
+        "weights": [0.5, 0.5],
+        "description": "記憶に残る品質の高いエピソード",
+    },
+    "感情インパクト": {
+        "sources": ["共感性スコア", "意外性スコア"],
+        "weights": [0.5, 0.5],
+        "description": "共感と驚きによる感情的響き",
+    },
+    "教育的価値": {
+        "sources": ["教育的価値"],
+        "weights": [1.0],
+        "description": "学びと教訓の価値",
+    },
+    "ストーリー品質": {
+        "sources": ["ストーリー品質"],
+        "weights": [1.0],
+        "description": "物語としての構成力",
+    },
+    "事実密度": {
+        "sources": ["事実密度"],
+        "weights": [1.0],
+        "description": "具体的事実の密度",
+    },
+}
+
 # 英語→日本語のマッピング
 FIELD_MAPPING = {
     "memorability_score": "記憶性スコア",
@@ -381,9 +420,100 @@ EDUCATIONAL_KEYWORDS = {
 }
 
 
+# ============================================================
+# 改善版キーワードカウント関数 v3
+# - 否定形パターン除外
+# - テキスト長正規化
+# - 重複キーワード制限
+# ============================================================
+
+# 否定形パターン（キーワードの直後に来ると否定とみなす）
+NEGATION_PATTERNS = [
+    r"しな[いかけくっ]",  # しない、しなかった
+    r"でき[なず]",  # できない、できず
+    r"な[いかけくっ]",  # ない、なかった
+    r"ず$",  # せず
+    r"ずに",  # せずに
+    r"なかっ",  # なかった
+    r"ません",  # しません
+]
+
+# 結合した否定パターン
+NEGATION_REGEX = re.compile(r"(" + "|".join(NEGATION_PATTERNS) + r")")
+
+
+def count_keywords_v3(
+    text: str,
+    keywords: List[str],
+    normalize_by_length: bool = True,
+    base_length: int = 307,
+    exclude_negation: bool = True,
+) -> float:
+    """改善版キーワードカウント関数
+
+    Args:
+        text: 検索対象テキスト
+        keywords: キーワードリスト
+        normalize_by_length: テキスト長で正規化するか
+        base_length: 正規化の基準長（デフォルト307文字、実データ中央値）
+        exclude_negation: 否定形を除外するか
+
+    Returns:
+        キーワードカウント（正規化後の浮動小数点数）
+
+    改善点:
+        1. 重複キーワードは1回のみカウント（set使用）
+        2. 否定形パターンの除外（「成功しなかった」→カウントしない）
+        3. テキスト長による正規化（長いテキストへのバイアス軽減）
+    """
+    if not text or not keywords:
+        return 0.0
+
+    # 重複を除いてマッチしたキーワードを収集
+    matched_keywords = set()
+
+    for kw in keywords:
+        if kw in text:
+            if exclude_negation:
+                # キーワードの後の文字列を検査
+                idx = text.find(kw)
+                while idx != -1:
+                    # キーワードの直後10文字を取得
+                    after_kw = text[idx + len(kw) : idx + len(kw) + 10]
+                    # 否定パターンで始まっていなければ有効
+                    if not NEGATION_REGEX.match(after_kw):
+                        matched_keywords.add(kw)
+                        break
+                    # 次のマッチを探す
+                    idx = text.find(kw, idx + 1)
+            else:
+                matched_keywords.add(kw)
+
+    count = len(matched_keywords)
+
+    # テキスト長による正規化
+    if normalize_by_length and len(text) > 0:
+        normalization_factor = len(text) / base_length
+        # 正規化係数が極端に小さい/大きい場合を制限
+        normalization_factor = max(0.5, min(2.0, normalization_factor))
+        count = count / normalization_factor
+
+    return count
+
+
+def count_keywords_simple(text: str, keywords: List[str]) -> int:
+    """シンプルなキーワードカウント（重複制限のみ）
+
+    後方互換性のため、正規化なし・否定形考慮なしのバージョン
+    """
+    if not text or not keywords:
+        return 0
+    return len(set(kw for kw in keywords if kw in text))
+
+
 def calculate_memorability_score(episode_data: Dict) -> float:
     """
-    記憶性スコアを計算（改善版v2）
+    記憶性スコアを計算（改善版v3）
 
     評価基準:
     - 歴史的重要度（キーワード検出）
@@ -391,6 +521,11 @@ def calculate_memorability_score(episode_data: Dict) -> float:
     - エピソードタイプの記憶に残りやすさ
     - 具体的数値・年号の存在
     - ペナルティ要素追加
+
+    改善点（v3）:
+    - 否定形パターン除外
+    - テキスト長正規化
+    - 重複キーワード制限
 
     Args:
         episode_data: エピソードデータ
@@ -401,16 +536,16 @@ def calculate_memorability_score(episode_data: Dict) -> float:
     score = 3.5  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
-    # 1. 超高インパクトキーワード (+3.0)
-    ultra_high_count = sum(1 for kw in MEMORABILITY_KEYWORDS["ultra_high"] if kw in episode_text)
+    # 1. 超高インパクトキーワード (+3.0) - 改善版v3使用
+    ultra_high_count = count_keywords_v3(episode_text, MEMORABILITY_KEYWORDS["ultra_high"], normalize_by_length=True)
     score += min(ultra_high_count * 1.5, 3.0)
 
-    # 2. 高インパクトキーワード (+2.0)
-    high_count = sum(1 for kw in MEMORABILITY_KEYWORDS["high"] if kw in episode_text)
+    # 2. 高インパクトキーワード (+2.0) - 改善版v3使用
+    high_count = count_keywords_v3(episode_text, MEMORABILITY_KEYWORDS["high"], normalize_by_length=True)
     score += min(high_count * 0.6, 2.0)
 
-    # 3. 中インパクトキーワード (+1.0)
-    medium_count = sum(1 for kw in MEMORABILITY_KEYWORDS["medium"] if kw in episode_text)
+    # 3. 中インパクトキーワード (+1.0) - 改善版v3使用
+    medium_count = count_keywords_v3(episode_text, MEMORABILITY_KEYWORDS["medium"], normalize_by_length=True)
     score += min(medium_count * 0.3, 1.0)
 
     # 4. fame_scoreからの補正 (+1.5)
@@ -460,7 +595,7 @@ def calculate_memorability_score(episode_data: Dict) -> float:
 
 def calculate_empathy_score(episode_data: Dict) -> float:
     """
-    共感性スコアを計算（改善版v2）
+    共感性スコアを計算（改善版v3）
 
     評価基準:
     - 感情表現の豊かさ
@@ -468,6 +603,11 @@ def calculate_empathy_score(episode_data: Dict) -> float:
     - 関係性（家族、仲間）への言及
     - 普遍的な体験への関連
     - ペナルティ要素追加
+
+    改善点（v3）:
+    - 否定形パターン除外
+    - テキスト長正規化
+    - 重複キーワード制限
 
     Args:
         episode_data: エピソードデータ
@@ -478,16 +618,16 @@ def calculate_empathy_score(episode_data: Dict) -> float:
     score = 3.0  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
-    # 1. 感情キーワード (+2.5)
-    emotion_count = sum(1 for kw in EMPATHY_KEYWORDS["emotion"] if kw in episode_text)
+    # 1. 感情キーワード (+2.5) - 改善版v3使用
+    emotion_count = count_keywords_v3(episode_text, EMPATHY_KEYWORDS["emotion"], normalize_by_length=True)
     score += min(emotion_count * 0.7, 2.5)
 
-    # 2. 葛藤・克服キーワード (+2.0)
-    struggle_count = sum(1 for kw in EMPATHY_KEYWORDS["struggle"] if kw in episode_text)
+    # 2. 葛藤・克服キーワード (+2.0) - 改善版v3使用
+    struggle_count = count_keywords_v3(episode_text, EMPATHY_KEYWORDS["struggle"], normalize_by_length=True)
     score += min(struggle_count * 0.6, 2.0)
 
-    # 3. 関係性キーワード (+2.0)
-    relation_count = sum(1 for kw in EMPATHY_KEYWORDS["relation"] if kw in episode_text)
+    # 3. 関係性キーワード (+2.0) - 改善版v3使用
+    relation_count = count_keywords_v3(episode_text, EMPATHY_KEYWORDS["relation"], normalize_by_length=True)
     score += min(relation_count * 0.6, 2.0)
 
     # 4. 引用（会話）の存在 (+1.0)
@@ -526,7 +666,7 @@ def calculate_empathy_score(episode_data: Dict) -> float:
 
 def calculate_surprise_score(episode_data: Dict) -> float:
     """
-    意外性スコアを計算（改善版v2）
+    意外性スコアを計算（改善版v3）
 
     評価基準:
     - 意外な展開を示すキーワード
@@ -536,6 +676,11 @@ def calculate_surprise_score(episode_data: Dict) -> float:
     - 年齢とエピソードタイプの組み合わせ
     - カテゴリの意外性
     - ペナルティ要素追加
+
+    改善点（v3）:
+    - 否定形パターン除外
+    - テキスト長正規化
+    - 重複キーワード制限
 
     Args:
         episode_data: エピソードデータ
@@ -548,24 +693,26 @@ def calculate_surprise_score(episode_data: Dict) -> float:
     episode_type = episode_data.get("episode_type", "")
     category = episode_data.get("category", "")
 
-    # 1. ツイストキーワード (+2.5)
-    twist_count = sum(1 for kw in SURPRISE_KEYWORDS["twist"] if kw in episode_text)
+    # 1. ツイストキーワード (+2.5) - 改善版v3使用
+    twist_count = count_keywords_v3(episode_text, SURPRISE_KEYWORDS["twist"], normalize_by_length=True)
     score += min(twist_count * 0.8, 2.5)
 
-    # 2. コントラストキーワード (+2.0)
-    contrast_count = sum(1 for kw in SURPRISE_KEYWORDS["contrast"] if kw in episode_text)
+    # 2. コントラストキーワード (+2.0) - 改善版v3使用
+    contrast_count = count_keywords_v3(episode_text, SURPRISE_KEYWORDS["contrast"], normalize_by_length=True)
     score += min(contrast_count * 0.6, 2.0)
 
-    # 3. 予想外キーワード (+2.5)
-    unexpected_count = sum(1 for kw in SURPRISE_KEYWORDS["unexpected"] if kw in episode_text)
+    # 3. 予想外キーワード (+2.5) - 改善版v3使用
+    unexpected_count = count_keywords_v3(episode_text, SURPRISE_KEYWORDS["unexpected"], normalize_by_length=True)
     score += min(unexpected_count * 0.5, 2.5)
 
-    # 4. 達成ツイストキーワード (+2.0)
-    achievement_twist_count = sum(1 for kw in SURPRISE_KEYWORDS["achievement_twist"] if kw in episode_text)
+    # 4. 達成ツイストキーワード (+2.0) - 改善版v3使用
+    achievement_twist_count = count_keywords_v3(
+        episode_text, SURPRISE_KEYWORDS["achievement_twist"], normalize_by_length=True
+    )
     score += min(achievement_twist_count * 0.7, 2.0)
 
-    # 5. 起源ツイストキーワード (+1.5)
-    origin_twist_count = sum(1 for kw in SURPRISE_KEYWORDS["origin_twist"] if kw in episode_text)
+    # 5. 起源ツイストキーワード (+1.5) - 改善版v3使用
+    origin_twist_count = count_keywords_v3(episode_text, SURPRISE_KEYWORDS["origin_twist"], normalize_by_length=True)
     score += min(origin_twist_count * 0.5, 1.5)
 
     # 6. 年齢とエピソードタイプの組み合わせ (+1.5)
@@ -754,7 +901,7 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
 
 def calculate_educational_value_score(episode_data: Dict) -> float:
     """
-    教育的価値スコアを計算（改善版v2）
+    教育的価値スコアを計算（改善版v3）
 
     評価基準:
     - 教訓・学びを示すキーワード
@@ -762,6 +909,11 @@ def calculate_educational_value_score(episode_data: Dict) -> float:
     - カテゴリの教育的重要性
     - 普遍的な洞察の有無
     - ペナルティ要素追加
+
+    改善点（v3）:
+    - 否定形パターン除外
+    - テキスト長正規化
+    - 重複キーワード制限
 
     Args:
         episode_data: エピソードデータ
@@ -772,16 +924,16 @@ def calculate_educational_value_score(episode_data: Dict) -> float:
     score = 3.5  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
 
-    # 1. 教訓キーワード (+2.5)
-    lesson_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["lesson"] if kw in episode_text)
+    # 1. 教訓キーワード (+2.5) - 改善版v3使用
+    lesson_count = count_keywords_v3(episode_text, EDUCATIONAL_KEYWORDS["lesson"], normalize_by_length=True)
     score += min(lesson_count * 0.8, 2.5)
 
-    # 2. 洞察キーワード (+2.0)
-    insight_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["insight"] if kw in episode_text)
+    # 2. 洞察キーワード (+2.0) - 改善版v3使用
+    insight_count = count_keywords_v3(episode_text, EDUCATIONAL_KEYWORDS["insight"], normalize_by_length=True)
     score += min(insight_count * 0.6, 2.0)
 
-    # 3. 普遍性キーワード (+1.5)
-    universal_count = sum(1 for kw in EDUCATIONAL_KEYWORDS["universal"] if kw in episode_text)
+    # 3. 普遍性キーワード (+1.5) - 改善版v3使用
+    universal_count = count_keywords_v3(episode_text, EDUCATIONAL_KEYWORDS["universal"], normalize_by_length=True)
     score += min(universal_count * 0.5, 1.5)
 
     # 4. カテゴリによる補正 (+1.5)
@@ -1353,3 +1505,488 @@ def get_super_total_grade(score: float) -> str:
     """
     # composite_scoreと同じ基準を使用
     return get_score_grade(score)
+
+
+# ============================================================
+# ハイブリッド評価システム（ルールベース + LLM最適化重み）
+# ============================================================
+
+# 最適化された重み設定（軸間相関低減版 v2）
+# Phase 1改善: 共感性と意外性の重み差別化
+HYBRID_WEIGHTS = {
+    "記憶性": (0.6, 0.4),  # ルール60%, LLM40% (独自要素追加により調整)
+    "共感性": (0.2, 0.8),  # ルール20%, LLM80% (感情はLLM向き)
+    "意外性": (0.5, 0.5),  # ルール50%, LLM50% (事実確認はルール向き)
+    "生成品質": (0.9, 0.1),  # ルール90%, LLM10% (維持)
+    "教育的価値": (0.4, 0.6),  # ルール40%, LLM60% (維持)
+    "ストーリー品質": (0.4, 0.6),  # ルール40%, LLM60% (維持)
+    "事実密度": (1.0, 0.0),  # ルールのみ (維持)
+}
+
+
+def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
+    """
+    ハイブリッド評価用のルールベーススコアを計算（Phase 1改善版）
+
+    改善点:
+    - 共感性キーワード: 感情・人間関係に特化（意外性と重複しない）
+    - 意外性キーワード: 展開・事実に特化（共感性と重複しない）
+    - 記憶性キーワード: 独自の印象深さ要素を追加
+
+    Args:
+        episode_data: エピソードデータ
+
+    Returns:
+        各軸のルールベーススコア辞書
+    """
+    episode_text = str(episode_data.get("episode_text", ""))
+    episode_type = str(episode_data.get("episode_type", ""))
+
+    # 事実密度用のルールベース計算
+    year_count = len(re.findall(r"(19|20)\d{2}年?", episode_text))
+    number_count = len(re.findall(r"\d+[歳回位人件万億円ドル%]", episode_text))
+    katakana_count = len(re.findall(r"[ァ-ヴー]{3,}", episode_text))
+
+    base_len = max(len(episode_text), 100) / 300
+    fact_raw = (year_count * 2 + number_count * 1.5 + katakana_count * 0.5) / base_len
+    fact_score = min(10, max(1, 3 + fact_raw * 1.5))
+
+    # ===== Phase 2改善: ベーススコア調整（スケール補正） =====
+    # 目標: 平均7-8点、軸間独立性を維持
+
+    # 記憶性キーワード（独自: 印象深さ・象徴性）- Phase 5: 事実密度から独立
+    memorability_kw = [
+        "印象的",
+        "忘れられない",
+        "鮮明",
+        "象徴的",
+        "転換点",
+        "分岐点",
+        "決定的",
+        "運命",
+        "ドラマチック",
+        "エポック",
+        "画期的",
+        "歴史的",
+        "記念",
+        "記録",
+        "金字塔",
+        "偉業",
+    ]
+    memorability_count = sum(1 for kw in memorability_kw if kw in episode_text)
+
+    # Phase 6: 記憶性独自の評価要素（事実密度・ストーリー品質との相関を排除）
+    # 歴史的重要性マーカー（記憶性専用 - ストーリー品質と異なる）
+    historic_markers = ["歴史を変えた", "時代を画した", "革命的", "画期的", "先駆け", "礎を築いた"]
+    historic_count = sum(1 for hm in historic_markers if hm in episode_text)
+
+    # 感情的インパクトマーカー（記憶性専用）
+    emotional_impact_markers = ["衝撃", "驚愕", "感銘", "鮮烈", "圧倒", "忘れがたい", "心に刻まれ"]
+    emotional_impact_count = sum(1 for em in emotional_impact_markers if em in episode_text)
+
+    # インパクト要素（記憶に残る表現）
+    impact_markers = ["初めて", "世界初", "史上初", "唯一", "最高", "最大", "前人未踏", "破った"]
+    impact_count = sum(1 for im in impact_markers if im in episode_text)
+
+    # 人物・出来事の固有性マーカー（記憶性専用 - ストーリー品質と異なる）
+    uniqueness_markers = ["類を見ない", "比類なき", "空前の", "唯一無二", "特異な", "異例の", "稀有な"]
+    uniqueness_count = sum(1 for um in uniqueness_markers if um in episode_text)
+
+    # 伝説・逸話マーカー（記憶性専用）
+    legend_markers = ["伝説", "逸話", "語り継がれ", "名を残し", "後世に"]
+    legend_count = sum(1 for lm in legend_markers if lm in episode_text)
+
+    # Phase 6: ベース6.0 + 独自要素（事実密度・ストーリー品質との相関を排除）
+    memorability_score = min(
+        10,
+        max(
+            1,
+            6.0
+            + memorability_count * 0.5
+            + historic_count * 0.5
+            + emotional_impact_count * 0.4
+            + impact_count * 0.4
+            + uniqueness_count * 0.5
+            + legend_count * 0.4,
+        ),
+    )
+
+    # 共感性キーワード（Phase 4: 識別力強化）
+    # 基本感情キーワード
+    empathy_kw = [
+        "涙",
+        "感動",
+        "喜び",
+        "悲しみ",
+        "苦悩",
+        "希望",
+        "絶望",
+        "家族",
+        "母",
+        "父",
+        "子供",
+        "友人",
+        "恩師",
+        "愛",
+        "心",
+        "思い",
+        "気持ち",
+        "願い",
+        "祈り",
+        "支え",
+        "絆",
+    ]
+    empathy_count = sum(1 for kw in empathy_kw if kw in episode_text)
+
+    # 感情強度マーカー（強い感情表現）
+    intensity_markers = ["深く", "強く", "激しく", "心から", "胸が", "涙が", "震える", "溢れる"]
+    intensity_count = sum(1 for im in intensity_markers if im in episode_text)
+
+    # 人間関係の深さ（具体的な関係性描写）
+    relationship_depth = ["支えてくれた", "励まし", "見守", "信じて", "寄り添", "共に歩"]
+    rel_count = sum(1 for rd in relationship_depth if rd in episode_text)
+
+    # Phase 4: 多層的な共感性評価
+    empathy_score = 5.0  # ベースを下げて変動幅確保
+    empathy_score += empathy_count * 0.5  # キーワード
+    empathy_score += intensity_count * 0.6  # 強度
+    empathy_score += rel_count * 0.5  # 関係性深度
+    empathy_score = min(10, max(1, empathy_score))
+
+    # 意外性キーワード（Phase 4: 識別力強化）
+    # 基本意外性キーワード
+    surprise_kw = [
+        "実は",
+        "意外にも",
+        "驚くべき",
+        "予想外",
+        "突然",
+        "逆転",
+        "番狂わせ",
+        "史上初",
+        "世界初",
+        "前例のない",
+        "秘密",
+        "真実",
+        "知られざる",
+        "皮肉にも",
+        "偶然",
+    ]
+    surprise_count = sum(1 for kw in surprise_kw if kw in episode_text)
+
+    # 物語展開マーカー（転換・対比）
+    twist_markers = ["ところが", "だが", "しかし", "一方で", "対照的に", "逆に", "むしろ"]
+    twist_count = sum(1 for tm in twist_markers if tm in episode_text)
+
+    # 発見・啓示パターン
+    revelation_patterns = ["気づ", "悟", "発見", "明らか", "判明", "分かっ", "知っ"]
+    rev_count = sum(1 for rp in revelation_patterns if rp in episode_text)
+
+    # Phase 4: 多層的な意外性評価
+    surprise_score = 5.0  # ベースを下げて変動幅確保
+    surprise_score += surprise_count * 0.6  # 意外性キーワード
+    surprise_score += twist_count * 0.5  # 転換マーカー
+    surprise_score += rev_count * 0.4  # 発見パターン
+    surprise_score = min(10, max(1, surprise_score))
+
+    # 教訓スコア（Phase 4: 識別力強化）
+    # 基本教訓キーワード
+    lesson_kw = ["学", "教訓", "大切", "重要", "示", "証明", "物語", "意味", "価値"]
+    lesson_count = sum(1 for kw in lesson_kw if kw in episode_text)
+
+    # 洞察・気づきパターン
+    insight_patterns = ["ことを教えて", "を学んだ", "を知った", "に気づいた", "を悟った", "を理解した"]
+    insight_count = sum(1 for ip in insight_patterns if ip in episode_text)
+
+    # 実践・応用パターン
+    practical_patterns = ["活かし", "生かし", "役立て", "応用", "実践", "影響を与え", "変え"]
+    practical_count = sum(1 for pp in practical_patterns if pp in episode_text)
+
+    # 普遍性・一般化パターン
+    universal_patterns = ["人生", "成功", "努力", "挑戦", "困難", "逆境", "成長", "可能性"]
+    universal_count = sum(1 for up in universal_patterns if up in episode_text)
+
+    # Phase 4: 多層的な教育的価値評価
+    lesson_score = 5.0  # ベースを下げて変動幅確保
+    lesson_score += lesson_count * 0.4  # 基本キーワード
+    lesson_score += insight_count * 0.8  # 洞察（重視）
+    lesson_score += practical_count * 0.5  # 実践
+    lesson_score += universal_count * 0.3  # 普遍性
+    lesson_score = min(10, max(1, lesson_score))
+
+    # テキスト品質スコア（既に適切な分布のため維持）
+    sentences = len(re.findall(r"[。！？]", episode_text))
+    avg_len = len(episode_text) / max(sentences, 1)
+    text_quality = 5
+    if 40 <= avg_len <= 80:
+        text_quality += 2
+    elif 30 <= avg_len <= 100:
+        text_quality += 1
+    if 5 <= sentences <= 10:
+        text_quality += 2
+    elif 3 <= sentences <= 15:
+        text_quality += 1
+    text_quality = min(10, max(1, text_quality))
+
+    # 構造スコア（Phase 4: 識別力強化）
+    # 基本構造
+    structure_score = 5.0  # ベースを下げて変動幅を確保
+
+    # 1. 開始構造ボーナス
+    if episode_text.startswith("あなたと同じ"):
+        structure_score += 0.8
+
+    # 2. 段落構造
+    paragraphs = episode_text.count("\n\n") + 1
+    if 2 <= paragraphs <= 4:
+        structure_score += 0.5
+
+    # 3. 文の多様性（文長の変動）
+    sentences_list = re.split(r"[。！？]", episode_text)
+    sentences_list = [s.strip() for s in sentences_list if len(s.strip()) > 5]
+    if len(sentences_list) >= 3:
+        sent_lengths = [len(s) for s in sentences_list]
+        avg_sent_len = sum(sent_lengths) / len(sent_lengths)
+        sent_std = (sum((l - avg_sent_len) ** 2 for l in sent_lengths) / len(sent_lengths)) ** 0.5
+        # 文長の変動が大きいほどボーナス（多様なリズム）
+        if sent_std > 30:
+            structure_score += 1.0
+        elif sent_std > 20:
+            structure_score += 0.6
+        elif sent_std > 10:
+            structure_score += 0.3
+
+    # 4. 会話・引用の存在（「」の使用）
+    dialogue_count = episode_text.count("「")
+    if dialogue_count >= 2:
+        structure_score += 0.8
+    elif dialogue_count == 1:
+        structure_score += 0.4
+
+    # 5. 時間的展開（時制マーカー）
+    temporal_markers = ["その後", "やがて", "ついに", "最終的に", "結果として", "こうして", "以来", "それから"]
+    temporal_count = sum(1 for tm in temporal_markers if tm in episode_text)
+    structure_score += min(1.0, temporal_count * 0.4)
+
+    # 6. 対比・展開構造
+    contrast_markers = ["しかし", "一方", "ところが", "だが", "それでも", "にもかかわらず"]
+    contrast_count = sum(1 for cm in contrast_markers if cm in episode_text)
+    structure_score += min(0.8, contrast_count * 0.3)
+
+    # 7. 具体性（固有名詞・数値）
+    specificity = year_count + number_count / 2
+    if specificity >= 5:
+        structure_score += 0.6
+    elif specificity >= 3:
+        structure_score += 0.3
+
+    structure_score = min(10, max(1, structure_score))
+
+    return {
+        "記憶性": memorability_score,  # 独自要素を使用
+        "共感性": empathy_score,  # 差別化されたキーワード
+        "意外性": surprise_score,  # 差別化されたキーワード
+        "生成品質": text_quality,
+        "教育的価値": lesson_score,
+        "ストーリー品質": structure_score,
+        "事実密度": fact_score,
+    }
+
+
+def calculate_hybrid_scores(episode_data: Dict, llm_scores: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+    """
+    ハイブリッド評価スコアを計算
+
+    ルールベーススコアとLLMスコアを最適化された重みで統合。
+    LLMスコアがない場合はルールベースのみを使用。
+
+    Args:
+        episode_data: エピソードデータ
+        llm_scores: LLM評価スコア（オプション）
+            期待形式: {"empathy": 7, "surprise": 6, "story_quality": 8}
+
+    Returns:
+        7軸のハイブリッドスコア辞書
+    """
+    # ルールベーススコア計算
+    rule_scores = calculate_hybrid_rule_scores(episode_data)
+
+    # Phase 5: LLMスコアがない場合はルールベースのみで計算（分散維持）
+    if llm_scores is None:
+        # LLMなし時はルールベース100%を使用して分散を維持
+        hybrid_scores = {}
+        for axis in HYBRID_WEIGHTS.keys():
+            hybrid_scores[axis] = round(rule_scores.get(axis, 5), 1)
+        return hybrid_scores
+
+    # LLMスコアのマッピング
+    llm_mapped = {
+        "記憶性": (llm_scores.get("empathy", 7.5) + llm_scores.get("surprise", 7.5)) / 2,
+        "共感性": llm_scores.get("empathy", 7.5),
+        "意外性": llm_scores.get("surprise", 7.5),
+        "生成品質": llm_scores.get("story_quality", 7.5),
+        "教育的価値": llm_scores.get("empathy", 7.5),
+        "ストーリー品質": llm_scores.get("story_quality", 7.5),
+        "事実密度": 7.5,  # 使用しない（重み0）
+    }
+
+    # 重み付き統合（LLMスコアあり時のみ）
+    hybrid_scores = {}
+    for axis, (rule_w, llm_w) in HYBRID_WEIGHTS.items():
+        rule_val = rule_scores.get(axis, 5)
+        llm_val = llm_mapped.get(axis, 7.5)
+        hybrid_scores[axis] = round(rule_val * rule_w + llm_val * llm_w, 1)
+
+    return hybrid_scores
+
+
+def calculate_hybrid_seven_axes(episode_data: Dict) -> Dict[str, float]:
+    """
+    ハイブリッド方式で7軸スコアを計算（LLMなし版）
+
+    LLM APIを呼び出さず、ルールベースのみで計算。
+    本番環境でAPI呼び出しを避けたい場合に使用。
+
+    Args:
+        episode_data: エピソードデータ
+
+    Returns:
+        7軸スコアの辞書（日本語フィールド名）
+    """
+    hybrid = calculate_hybrid_scores(episode_data, llm_scores=None)
+
+    return {
+        "記憶性スコア": hybrid["記憶性"],
+        "共感性スコア": hybrid["共感性"],
+        "意外性スコア": hybrid["意外性"],
+        "生成品質スコア": hybrid["生成品質"],
+        "教育的価値": hybrid["教育的価値"],
+        "ストーリー品質": hybrid["ストーリー品質"],
+        "事実密度": hybrid["事実密度"],
+    }
+
+
+# ============================================================
+# Phase 3: 5軸統合スコア計算
+# ============================================================
+
+
+def calculate_five_axis_scores(seven_axis_data: Dict) -> Dict[str, float]:
+    """
+    7軸スコアから5軸統合スコアを計算
+
+    統合ルール:
+    - 総合品質 = (記憶性スコア + 生成品質スコア) / 2
+    - 感情インパクト = (共感性スコア + 意外性スコア) / 2
+    - 教育的価値, ストーリー品質, 事実密度 = そのまま維持
+
+    Args:
+        seven_axis_data: 7軸スコアを含むデータ辞書
+
+    Returns:
+        5軸スコアの辞書
+    """
+    five_axis = {}
+
+    for axis, config in FIVE_AXIS_COMPOSITION.items():
+        sources = config["sources"]
+        weights = config["weights"]
+
+        # ソーススコアを取得
+        values = []
+        for source in sources:
+            val = seven_axis_data.get(source)
+            if val is not None and val != "":
+                try:
+                    values.append(float(val))
+                except (ValueError, TypeError):
+                    pass
+
+        # 加重平均を計算
+        if values and len(values) == len(weights):
+            weighted_sum = sum(v * w for v, w in zip(values, weights))
+            five_axis[axis] = round(weighted_sum, 2)
+        elif values:
+            # 一部の値のみ利用可能な場合は単純平均
+            five_axis[axis] = round(sum(values) / len(values), 2)
+        else:
+            five_axis[axis] = None
+
+    return five_axis
+
+
+def calculate_five_axis_composite(five_axis_data: Dict, min_axes: int = 3) -> Optional[float]:
+    """
+    5軸スコアからcomposite_scoreを計算
+
+    Args:
+        five_axis_data: 5軸スコアを含むデータ辞書
+        min_axes: 計算に必要な最低軸数
+
+    Returns:
+        composite_score（0-10スケール）、計算不可の場合はNone
+    """
+    scores = []
+
+    for field in FIVE_AXIS_FIELDS:
+        value = five_axis_data.get(field)
+        if value is not None:
+            try:
+                score = float(value)
+                if 0 <= score <= 10:
+                    scores.append(score)
+            except (ValueError, TypeError):
+                pass
+
+    if len(scores) >= min_axes:
+        return round(sum(scores) / len(scores), 2)
+
+    return None
+
+
+def convert_seven_to_five_axes(episode_data: Dict) -> Dict:
+    """
+    エピソードデータを7軸から5軸形式に変換
+
+    元の7軸スコアを保持しつつ、5軸スコアを追加。
+
+    Args:
+        episode_data: 7軸スコアを含むエピソードデータ
+
+    Returns:
+        5軸スコアが追加されたエピソードデータ
+    """
+    result = dict(episode_data)
+
+    # 5軸スコアを計算
+    five_axis = calculate_five_axis_scores(episode_data)
+
+    # 5軸スコアを追加
+    for axis, score in five_axis.items():
+        result[axis] = score
+
+    # 5軸ベースのcomposite_scoreを計算
+    five_composite = calculate_five_axis_composite(five_axis)
+    if five_composite is not None:
+        result["composite_score_5axis"] = five_composite
+
+    return result
+
+
+def calculate_hybrid_five_axes(episode_data: Dict) -> Dict[str, float]:
+    """
+    エピソードデータから5軸スコアを直接計算
+
+    内部で7軸計算を行い、5軸に統合して返す。
+
+    Args:
+        episode_data: エピソードデータ（episode_text等を含む）
+
+    Returns:
+        5軸スコアの辞書
+    """
+    # 7軸スコアを計算
+    seven_axis = calculate_hybrid_seven_axes(episode_data)
+
+    # 5軸に変換
+    return calculate_five_axis_scores(seven_axis)

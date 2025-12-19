@@ -441,7 +441,42 @@ class LLMEvaluationResponse(BaseModel):
     hybrid_scores: Dict[str, float]  # ハイブリッドスコア（動的重み）
     characteristics: Dict[str, bool]  # 検出された特性
     evaluation_time: float  # 評価所要時間（秒）
-    saved: bool = False  # CSVに保存されたかどうか  # 評価所要時間（秒）
+    saved: bool = False  # CSVに保存されたかどうか
+
+
+# ========================================
+# Phase 10: バッチLLM評価モデル
+# ========================================
+
+
+class BatchEvaluationRequest(BaseModel):
+    """バッチLLM評価リクエスト"""
+
+    person_ids: list[str]  # 評価対象のperson_idリスト
+    skip_evaluated: bool = True  # 評価済みをスキップするか
+    save: bool = True  # 結果をCSVに保存するか
+
+
+class BatchEvaluationResultItem(BaseModel):
+    """バッチ評価結果の1件"""
+
+    person_id: str
+    person_name: str
+    status: str  # "success" | "error" | "skipped"
+    llm_scores: Optional[Dict[str, float]] = None
+    hybrid_scores: Optional[Dict[str, float]] = None
+    error: Optional[str] = None
+
+
+class BatchEvaluationResponse(BaseModel):
+    """バッチLLM評価レスポンス"""
+
+    total: int  # 対象件数
+    success: int  # 成功件数
+    skipped: int  # スキップ件数
+    error: int  # エラー件数
+    evaluation_time: float  # 総評価時間（秒）
+    results: list[BatchEvaluationResultItem]
 
 
 # ========================================

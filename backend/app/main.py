@@ -62,6 +62,10 @@ from app.models import (
     TopPerformer,
     User,
     WorkStats,
+    # Phase 10: バッチLLM評価モデル
+    BatchEvaluationRequest,
+    BatchEvaluationResponse,
+    BatchEvaluationResultItem,
 )
 from app.utils.advanced_search import AdvancedSearchEngine
 from app.utils.auth_simple import (
@@ -1121,4 +1125,139 @@ async def evaluate_episode_llm(
         characteristics=characteristics,
         evaluation_time=round(evaluation_time, 2),
         saved=saved,
+    )
+
+
+@app.post("/api/episodes/batch-evaluate-llm", response_model=BatchEvaluationResponse)
+async def batch_evaluate_episodes_llm(
+    request: BatchEvaluationRequest,
+    current_user: dict = Depends(require_role(["admin", "editor"])),
+):
+    """バッチLLM評価
+
+    複数エピソードを一括でLLM評価し、結果を返却
+
+    **権限**: admin, editor
+
+    **リクエスト**:
+    - person_ids: 評価対象のperson_idリスト
+    - skip_evaluated: 評価済みをスキップするか（デフォルト: true）
+    - save: 結果をCSVに保存するか（デフォルト: true）
+    """
+    import time
+
+    start_time = time.time()
+
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    results: list[BatchEvaluationResultItem] = []
+    stats = {"total": 0, "success": 0, "skipped": 0, "error": 0}
+
+    for person_id in request.person_ids:
+        stats["total"] += 1
+
+        try:
+            episode = episode_manager.get_episode_by_id(person_id)
+            if not episode:
+                results.append(
+                    BatchEvaluationResultItem(
+                        person_id=person_id,
+                        person_name="不明",
+                        status="error",
+                        error=f"エピソードが見つかりません: {person_id}",
+                    )
+                )
+                stats["error"] += 1
+                continue
+
+            # 評価済みスキップチェック
+            if request.skip_evaluated:
+                llm_evaluated_at = getattr(episode, "llm_evaluated_at", None)
+                if llm_evaluated_at and str(llm_evaluated_at).strip():
+                    results.append(
+                        BatchEvaluationResultItem(
+                            person_id=person_id,
+                            person_name=episode.person_name,
+                            status="skipped",
+                        )
+                    )
+                    stats["skipped"] += 1
+                    continue
+
+            episode_text = episode.episode_text
+            if not episode_text or len(episode_text) < 50:
+                results.append(
+                    BatchEvaluationResultItem(
+                        person_id=person_id,
+                        person_name=episode.person_name,
+                        status="error",
+                        error="エピソードテキストが短すぎます",
+                    )
+                )
+                stats["error"] += 1
+                continue
+
+            # エピソードデータを辞書形式で準備
+            episode_data = {
+                "episode_text": episode_text,
+                "person_name": episode.person_name,
+                "episode_type": episode.episode_type,
+            }
+
+            # LLM評価
+            llm_scores = evaluate_with_llm(episode_text, calibrate=True)
+            if llm_scores is None:
+                results.append(
+                    BatchEvaluationResultItem(
+                        person_id=person_id,
+                        person_name=episode.person_name,
+                        status="error",
+                        error="LLM評価に失敗しました",
+                    )
+                )
+                stats["error"] += 1
+                continue
+
+            # ハイブリッドスコア（動的重み）
+            hybrid_scores = calculate_hybrid_scores_dynamic(episode_data, llm_scores, use_dynamic_weights=True)
+
+            # 保存オプションが有効な場合、CSVに保存
+            if request.save:
+                episode_manager.save_llm_scores(person_id, llm_scores, hybrid_scores)
+
+            results.append(
+                BatchEvaluationResultItem(
+                    person_id=person_id,
+                    person_name=episode.person_name,
+                    status="success",
+                    llm_scores=llm_scores,
+                    hybrid_scores=hybrid_scores,
+                )
+            )
+            stats["success"] += 1
+
+            # レート制限対策（1秒間隔）
+            await asyncio.sleep(1.0)
+
+        except Exception as e:
+            results.append(
+                BatchEvaluationResultItem(
+                    person_id=person_id,
+                    person_name=getattr(episode, "person_name", "不明") if episode else "不明",
+                    status="error",
+                    error=str(e),
+                )
+            )
+            stats["error"] += 1
+
+    evaluation_time = time.time() - start_time
+
+    return BatchEvaluationResponse(
+        total=stats["total"],
+        success=stats["success"],
+        skipped=stats["skipped"],
+        error=stats["error"],
+        evaluation_time=round(evaluation_time, 2),
+        results=results,
     )

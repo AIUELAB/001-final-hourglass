@@ -1079,6 +1079,174 @@
         .sortable-header:not(.sort-active) .sort-indicator::after {
             content: '⇅';
         }
+
+        /* LLM評価モーダル */
+        .llm-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .llm-modal-overlay.active {
+            display: flex;
+        }
+        .llm-modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .llm-modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .llm-modal-header h2 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+        .llm-modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .llm-modal-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .llm-modal-body {
+            padding: 24px;
+        }
+        .llm-loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .llm-loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .llm-scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .llm-score-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        .llm-score-card h4 {
+            margin: 0 0 12px 0;
+            color: #4a5568;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .llm-score-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .llm-score-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .llm-score-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a202c;
+        }
+        .llm-characteristics {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .llm-characteristics h4 {
+            margin: 0 0 12px 0;
+            color: #475569;
+        }
+        .llm-char-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .llm-char-tag {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85em;
+        }
+        .llm-char-tag.active {
+            background: #10b981;
+            color: white;
+        }
+        .llm-char-tag.inactive {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+        .llm-eval-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .llm-eval-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .llm-eval-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .llm-eval-time {
+            font-size: 0.85em;
+            color: #64748b;
+            margin-top: 16px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -1565,11 +1733,12 @@
                                 文字数 <span class="sort-icon">⬍</span>
                             </th>
                             <th>エピソード全文</th>
+                            <th style="width: 100px; text-align: center;">アクション</th>
                         </tr>
                     </thead>
                     <tbody id="episode-tbody">
                         <tr>
-                            <td colspan="7" class="loading-cell">
+                            <td colspan="8" class="loading-cell">
                                 <div class="loading">データを読み込んでいます</div>
                             </td>
                         </tr>
@@ -3949,7 +4118,7 @@
             if (pageEpisodes.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="13" class="loading-cell" style="color: #6c757d;">
+                        <td colspan="14" class="loading-cell" style="color: #6c757d;">
                             検索結果がありません
                         </td>
                     </tr>
@@ -4138,6 +4307,13 @@
 
                             <!-- エピソード全文セル -->
                             <td class="episode-text-cell">${escapeHtml(ep.episode_text)}</td>
+
+                            <!-- アクションセル -->
+                            <td style="text-align: center; vertical-align: middle;">
+                                <button class="llm-eval-btn" onclick="openLLMModal('${ep.person_id}', '${escapeHtml(ep.person_name).replace(/'/g, "\\'")}')">
+                                    🤖 LLM評価
+                                </button>
+                            </td>
                         </tr>
                     `;
                 }).join('');
@@ -4772,5 +4948,193 @@
             }
         }
     </style>
+
+    <!-- LLM評価モーダル -->
+    <div id="llm-modal-overlay" class="llm-modal-overlay">
+        <div class="llm-modal">
+            <div class="llm-modal-header">
+                <h2>🤖 LLM評価結果</h2>
+                <button class="llm-modal-close" onclick="closeLLMModal()">✕</button>
+            </div>
+            <div class="llm-modal-body" id="llm-modal-content">
+                <div class="llm-loading">
+                    <div class="llm-loading-spinner"></div>
+                    <p>LLMで評価中...</p>
+                    <p style="font-size: 0.9em; color: #888;">（10〜30秒かかります）</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // LLM評価モーダル関連
+        function openLLMModal(personId, personName) {
+            const overlay = document.getElementById('llm-modal-overlay');
+            const content = document.getElementById('llm-modal-content');
+
+            // ローディング表示
+            content.innerHTML = `
+                <div class="llm-loading">
+                    <div class="llm-loading-spinner"></div>
+                    <p>「${escapeHtml(personName)}」をLLMで評価中...</p>
+                    <p style="font-size: 0.9em; color: #888;">（10〜30秒かかります）</p>
+                </div>
+            `;
+            overlay.classList.add('active');
+
+            // API呼び出し
+            evaluateEpisodeWithLLM(personId, personName);
+        }
+
+        function closeLLMModal() {
+            document.getElementById('llm-modal-overlay').classList.remove('active');
+        }
+
+        // モーダル外クリックで閉じる
+        document.getElementById('llm-modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'llm-modal-overlay') {
+                closeLLMModal();
+            }
+        });
+
+        // ESCキーで閉じる
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLLMModal();
+            }
+        });
+
+        async function evaluateEpisodeWithLLM(personId, personName) {
+            const content = document.getElementById('llm-modal-content');
+            const API_BASE = window.location.hostname === 'localhost'
+                ? 'http://localhost:8000'
+                : `${window.location.protocol}//${window.location.hostname}:8000`;
+
+            // 認証トークン取得
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #dc2626;">
+                        <p style="font-size: 2em; margin-bottom: 16px;">🔒</p>
+                        <p><strong>認証が必要です</strong></p>
+                        <p style="font-size: 0.9em; color: #888; margin-top: 8px;">ログインしてから再度お試しください。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/episodes/${personId}/evaluate-llm`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'LLM評価に失敗しました');
+                }
+
+                const data = await response.json();
+                displayLLMResults(data, personName);
+
+            } catch (error) {
+                console.error('LLM評価エラー:', error);
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #dc2626;">
+                        <p style="font-size: 2em; margin-bottom: 16px;">❌</p>
+                        <p><strong>評価に失敗しました</strong></p>
+                        <p style="font-size: 0.9em; color: #888; margin-top: 8px;">${escapeHtml(error.message)}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayLLMResults(data, personName) {
+            const content = document.getElementById('llm-modal-content');
+
+            // スコアカラー決定
+            function getScoreColor(score) {
+                if (score >= 8) return '#10b981';
+                if (score >= 6) return '#3b82f6';
+                if (score >= 4) return '#f59e0b';
+                return '#ef4444';
+            }
+
+            // 軸名と日本語マッピング
+            const axisLabels = {
+                '記憶性': '🧠 記憶性',
+                '共感性': '💖 共感性',
+                '意外性': '🎭 意外性',
+                '生成品質': '✨ 生成品質',
+                '教育的価値': '📚 教育的価値',
+                'ストーリー品質': '📖 ストーリー品質',
+                '事実密度': '📊 事実密度'
+            };
+
+            // 特性ラベル
+            const charLabels = {
+                'has_numbers': '📊 数値豊富',
+                'has_emotions': '💕 感情表現',
+                'has_dialogue': '💬 対話あり',
+                'has_educational': '📚 教育的',
+                'has_story_elements': '📖 物語要素',
+                'is_short': '📝 短文',
+                'is_long': '📄 長文'
+            };
+
+            // ハイブリッドスコアHTML
+            let hybridScoresHtml = '<div class="llm-scores-grid">';
+            for (const [axis, label] of Object.entries(axisLabels)) {
+                const score = data.hybrid_scores[axis] || 0;
+                const llmScore = data.llm_scores[axis] || 0;
+                const ruleScore = data.rule_scores[axis] || 0;
+                const color = getScoreColor(score);
+
+                hybridScoresHtml += `
+                    <div class="llm-score-card">
+                        <h4>${label}</h4>
+                        <div class="llm-score-bar">
+                            <div class="llm-score-fill" style="width: ${score * 10}%; background: ${color};"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <span class="llm-score-value" style="color: ${color};">${score.toFixed(1)}</span>
+                            <span style="font-size: 0.8em; color: #94a3b8;">
+                                LLM: ${llmScore.toFixed(1)} / ルール: ${ruleScore.toFixed(1)}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }
+            hybridScoresHtml += '</div>';
+
+            // 特性タグHTML
+            let charsHtml = '<div class="llm-char-tags">';
+            for (const [key, label] of Object.entries(charLabels)) {
+                const isActive = data.characteristics[key];
+                charsHtml += `<span class="llm-char-tag ${isActive ? 'active' : 'inactive'}">${label}</span>`;
+            }
+            charsHtml += '</div>';
+
+            content.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 4px 0; color: #1e293b;">📍 ${escapeHtml(personName)}</h3>
+                    <p style="margin: 0; color: #64748b; font-size: 0.9em;">Episode ID: ${data.episode_id}</p>
+                </div>
+
+                <h4 style="margin: 0 0 16px 0; color: #475569;">🎯 ハイブリッドスコア（動的重み）</h4>
+                ${hybridScoresHtml}
+
+                <div class="llm-characteristics">
+                    <h4>🔍 検出された特性</h4>
+                    ${charsHtml}
+                </div>
+
+                <p class="llm-eval-time">⏱️ 評価時間: ${data.evaluation_time}秒</p>
+            `;
+        }
+    </script>
 </body>
 </html>

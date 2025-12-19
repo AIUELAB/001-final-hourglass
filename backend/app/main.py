@@ -44,6 +44,7 @@ from app.models import (
     EpisodeCreate,
     EpisodeDeleteResponse,
     EpisodeList,
+    LLMEvaluationResponse,
     EpisodeSearchResponse,
     # Phase 4: 検索・品質モデル
     EpisodeSearchResult,
@@ -74,6 +75,12 @@ from app.utils.auth_simple import (
 from app.utils.csv_loader import get_csv_modification_time, get_default_csv_path, import_csv_to_db
 from app.utils.data_quality import DataQualityManager
 from app.utils.episode_manager import EpisodeManager
+from app.utils.score_calculator import (
+    calculate_hybrid_rule_scores,
+    calculate_hybrid_scores_dynamic,
+    detect_episode_characteristics,
+    evaluate_with_llm,
+)
 from app.utils.csv_cache import csv_cache
 from app.services import get_file_watcher, sse_manager
 from app.services.log_database import log_db
@@ -1044,3 +1051,60 @@ async def delete_episode(person_id: str, current_user: dict = Depends(require_ro
         raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
 
     return EpisodeDeleteResponse(success=True, message="エピソードが正常に削除されました", deleted_person_id=person_id)
+
+
+@app.post("/api/episodes/{person_id}/evaluate-llm", response_model=LLMEvaluationResponse)
+async def evaluate_episode_llm(person_id: str, current_user: dict = Depends(require_role(["admin", "editor"]))):
+    """エピソードLLM評価
+
+    LLMを使用してエピソードを7軸で評価し、ハイブリッドスコアを返却
+
+    **権限**: admin, editor
+    """
+    import time
+
+    start_time = time.time()
+
+    csv_path = get_default_csv_path()
+    episode_manager = EpisodeManager(str(csv_path))
+
+    episode = episode_manager.get_episode_by_id(person_id)
+    if not episode:
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
+
+    episode_text = episode.episode_text
+    if not episode_text or len(episode_text) < 50:
+        raise HTTPException(status_code=400, detail="エピソードテキストが短すぎます（最低50文字必要）")
+
+    # エピソードデータを辞書形式で準備
+    episode_data = {
+        "episode_text": episode_text,
+        "person_name": episode.person_name,
+        "episode_type": episode.episode_type,
+    }
+
+    # 特性検出
+    characteristics = detect_episode_characteristics(episode_text)
+
+    # ルールベーススコア
+    rule_scores = calculate_hybrid_rule_scores(episode_data)
+
+    # LLM評価
+    llm_scores = evaluate_with_llm(episode_text, calibrate=True)
+    if llm_scores is None:
+        raise HTTPException(status_code=503, detail="LLM評価に失敗しました（API接続エラーの可能性）")
+
+    # ハイブリッドスコア（動的重み）
+    hybrid_scores = calculate_hybrid_scores_dynamic(episode_data, llm_scores, use_dynamic_weights=True)
+
+    evaluation_time = time.time() - start_time
+
+    return LLMEvaluationResponse(
+        episode_id=person_id,
+        person_name=episode.person_name,
+        llm_scores=llm_scores,
+        rule_scores=rule_scores,
+        hybrid_scores=hybrid_scores,
+        characteristics=characteristics,
+        evaluation_time=round(evaluation_time, 2),
+    )

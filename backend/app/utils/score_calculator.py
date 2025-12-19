@@ -2076,6 +2076,172 @@ LLM_OBSERVED_STATS = {
 }
 
 
+# Phase 7C: エピソード特性検出用キーワード
+EMOTION_KEYWORDS = ["涙", "感動", "喜び", "悲しみ", "怒り", "恐怖", "驚き", "愛", "憎しみ", "希望", "絶望"]
+EDUCATIONAL_KEYWORDS_EXTENDED = ["学んだ", "教訓", "気づき", "発見", "理解", "知識", "経験から", "成長"]
+STORY_KEYWORDS = ["物語", "ドラマ", "展開", "クライマックス", "転機", "運命"]
+
+
+def detect_episode_characteristics(episode_text: str) -> Dict[str, bool]:
+    """
+    Phase 7C: エピソードの特性を検出
+
+    エピソードテキストを分析し、各特性の有無を判定。
+    この結果に基づいて動的に重みを調整する。
+
+    Args:
+        episode_text: エピソードテキスト
+
+    Returns:
+        特性フラグの辞書
+    """
+    characteristics = {
+        "has_numbers": False,  # 数値・年号が多い
+        "has_emotions": False,  # 感情表現が多い
+        "has_dialogue": False,  # 対話・引用がある
+        "has_educational": False,  # 教育的内容が含まれる
+        "has_story_elements": False,  # 物語的要素がある
+        "is_short": False,  # 短いエピソード
+        "is_long": False,  # 長いエピソード
+    }
+
+    # 数値・年号の検出
+    year_count = len(re.findall(r"(19|20)\d{2}年?", episode_text))
+    number_count = len(re.findall(r"\d+[歳回位人件万億円ドル%]", episode_text))
+    characteristics["has_numbers"] = (year_count + number_count) >= 3
+
+    # 感情表現の検出
+    emotion_count = sum(1 for kw in EMOTION_KEYWORDS if kw in episode_text)
+    characteristics["has_emotions"] = emotion_count >= 2
+
+    # 対話・引用の検出
+    dialogue_count = episode_text.count("「") + episode_text.count("『")
+    characteristics["has_dialogue"] = dialogue_count >= 2
+
+    # 教育的内容の検出
+    edu_count = sum(1 for kw in EDUCATIONAL_KEYWORDS_EXTENDED if kw in episode_text)
+    characteristics["has_educational"] = edu_count >= 2
+
+    # 物語的要素の検出
+    story_count = sum(1 for kw in STORY_KEYWORDS if kw in episode_text)
+    characteristics["has_story_elements"] = story_count >= 1
+
+    # テキスト長
+    text_len = len(episode_text)
+    characteristics["is_short"] = text_len < 200
+    characteristics["is_long"] = text_len > 500
+
+    return characteristics
+
+
+def get_dynamic_weights(episode_data: Dict) -> Dict[str, tuple]:
+    """
+    Phase 7C: エピソード特性に応じた動的重み決定
+
+    エピソードの内容を分析し、各軸の評価にルールベースとLLMの
+    どちらを重視すべきかを動的に決定する。
+
+    Args:
+        episode_data: エピソードデータ（episode_textを含む）
+
+    Returns:
+        各軸の重み辞書 {軸名: (ルール重み, LLM重み)}
+    """
+    episode_text = str(episode_data.get("episode_text", ""))
+
+    # 特性検出
+    chars = detect_episode_characteristics(episode_text)
+
+    # ベース重み（HYBRID_WEIGHTSのコピー）
+    weights = {
+        "記憶性": (0.6, 0.4),
+        "共感性": (0.2, 0.8),
+        "意外性": (0.5, 0.5),
+        "生成品質": (0.9, 0.1),
+        "教育的価値": (0.4, 0.6),
+        "ストーリー品質": (0.4, 0.6),
+        "事実密度": (1.0, 0.0),
+    }
+
+    # 特性に応じて重みを調整
+
+    # 数値・年号が多い → 事実密度・記憶性はルール重視
+    if chars["has_numbers"]:
+        weights["事実密度"] = (1.0, 0.0)  # ルール100%
+        weights["記憶性"] = (0.7, 0.3)  # ルール重視強化
+
+    # 感情表現が多い → 共感性・記憶性はLLM重視
+    if chars["has_emotions"]:
+        weights["共感性"] = (0.1, 0.9)  # LLM90%
+        weights["記憶性"] = (0.4, 0.6)  # LLM重視
+
+    # 対話・引用がある → ストーリー品質はLLM重視
+    if chars["has_dialogue"]:
+        weights["ストーリー品質"] = (0.3, 0.7)  # LLM70%
+
+    # 教育的内容が含まれる → 教育的価値はLLM重視
+    if chars["has_educational"]:
+        weights["教育的価値"] = (0.3, 0.7)  # LLM70%
+
+    # 物語的要素がある → ストーリー品質・意外性はLLM重視
+    if chars["has_story_elements"]:
+        weights["ストーリー品質"] = (0.2, 0.8)  # LLM80%
+        weights["意外性"] = (0.4, 0.6)  # LLM60%
+
+    # 短いエピソード → ルール重視（LLMの判断材料が少ない）
+    if chars["is_short"]:
+        for axis in weights:
+            rule_w, llm_w = weights[axis]
+            # ルール重みを20%増加
+            new_rule_w = min(1.0, rule_w + 0.2)
+            new_llm_w = 1.0 - new_rule_w
+            weights[axis] = (new_rule_w, new_llm_w)
+
+    return weights
+
+
+def calculate_hybrid_scores_dynamic(
+    episode_data: Dict,
+    llm_scores: Optional[Dict[str, float]] = None,
+    use_dynamic_weights: bool = True,
+) -> Dict[str, float]:
+    """
+    Phase 7C: 動的重み付きハイブリッドスコア計算
+
+    エピソード特性に応じて重みを動的調整し、
+    ルールベースとLLMスコアを統合。
+
+    Args:
+        episode_data: エピソードデータ
+        llm_scores: LLM評価スコア（オプション）
+        use_dynamic_weights: 動的重み調整を使用するか
+
+    Returns:
+        7軸のハイブリッドスコア辞書
+    """
+    # ルールベーススコア計算
+    rule_scores = calculate_hybrid_rule_scores(episode_data)
+
+    # 重み決定
+    if use_dynamic_weights:
+        weights = get_dynamic_weights(episode_data)
+    else:
+        weights = HYBRID_WEIGHTS
+
+    # LLMスコアがない場合はルールベースのみ
+    if llm_scores is None:
+        return {axis: round(rule_scores.get(axis, 5), 1) for axis in weights.keys()}
+
+    # 重み付き統合
+    hybrid_scores = {}
+    for axis, (rule_w, llm_w) in weights.items():
+        rule_val = rule_scores.get(axis, 5)
+        llm_val = llm_scores.get(axis, 7.0)
+        hybrid_scores[axis] = round(rule_val * rule_w + llm_val * llm_w, 1)
+
+    return hybrid_scores
+
+
 def calibrate_llm_score(llm_score: float, axis: str) -> float:
     """
     Phase 7B: LLMスコアをルールベース分布に合わせてキャリブレーション

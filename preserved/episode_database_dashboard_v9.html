@@ -1180,8 +1180,95 @@
             background: #e2e8f0;
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 8px;
         }
+
+        /* バッチLLM評価ボタン */
+        .batch-llm-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .batch-llm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        .batch-llm-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* バッチ評価進捗 */
+        .batch-progress {
+            margin-top: 20px;
+        }
+        .batch-progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .batch-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            transition: width 0.3s ease;
+        }
+        .batch-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .batch-stat {
+            text-align: center;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .batch-stat .value {
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+        .batch-stat .label {
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+        .batch-stat.success .value { color: #10b981; }
+        .batch-stat.skipped .value { color: #f59e0b; }
+        .batch-stat.error .value { color: #ef4444; }
+        .batch-result-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .batch-result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .batch-result-item:last-child {
+            border-bottom: none;
+        }
+        .batch-result-item.success { background: #f0fdf4; }
+        .batch-result-item.skipped { background: #fffbeb; }
+        .batch-result-item.error { background: #fef2f2; }
+
         .llm-score-fill {
             height: 100%;
             border-radius: 4px;
@@ -1704,6 +1791,9 @@
                     <option value="fictional">🎭 架空キャラクターのみ</option>
                 </select>
                 <button id="clear-filters" class="btn-clear">🔄 フィルタークリア</button>
+                <button id="batch-llm-btn" class="batch-llm-btn" onclick="openBatchLLMModal()">
+                    🚀 バッチLLM評価
+                </button>
             </div>
 
             <!-- テーブル（全文表示） -->
@@ -4975,6 +5065,145 @@
         </div>
     </div>
 
+    <!-- バッチLLM評価モーダル -->
+    <div id="batch-llm-modal-overlay" class="llm-modal-overlay">
+        <div class="llm-modal" style="max-width: 900px;">
+            <div class="llm-modal-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                <h2>🚀 バッチLLM評価</h2>
+                <button class="llm-modal-close" onclick="closeBatchLLMModal()">✕</button>
+            </div>
+            <div class="llm-modal-body" id="batch-llm-modal-content">
+                <!-- 設定画面 -->
+                <div id="batch-settings">
+                    <p style="margin-bottom: 16px; color: #666;">
+                        現在フィルター中のエピソードを一括でLLM評価します。
+                    </p>
+                    <div style="background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span><strong>対象エピソード数:</strong></span>
+                            <span id="batch-target-count" style="font-size: 1.3em; font-weight: 700; color: #10b981;">0件</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span><strong>評価済み（スキップ対象）:</strong></span>
+                            <span id="batch-evaluated-count" style="font-size: 1.1em; color: #f59e0b;">0件</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong>実際に評価する件数:</strong></span>
+                            <span id="batch-actual-count" style="font-size: 1.3em; font-weight: 700; color: #667eea;">0件</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="batch-skip-evaluated" checked style="width: 18px; height: 18px;">
+                            <span>評価済みエピソードをスキップ</span>
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="batch-save-results" checked style="width: 18px; height: 18px;">
+                            <span>結果をCSVに保存</span>
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px;">
+                            <strong>評価件数上限:</strong>
+                        </label>
+                        <select id="batch-limit" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                            <option value="10">10件</option>
+                            <option value="20">20件</option>
+                            <option value="50" selected>50件</option>
+                            <option value="100">100件</option>
+                            <option value="0">全件（制限なし）</option>
+                        </select>
+                    </div>
+                    <div style="background: #fef3c7; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3em;">⚠️</span>
+                        <div>
+                            <p style="margin: 0; font-size: 0.9em; color: #92400e;">
+                                LLM評価にはAPI費用がかかります。<br>
+                                1件あたり約$0.01〜$0.05（約10〜30秒）
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button onclick="closeBatchLLMModal()" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer;">
+                            キャンセル
+                        </button>
+                        <button onclick="startBatchEvaluation()" class="batch-llm-btn" style="flex: 2; justify-content: center;">
+                            🚀 バッチ評価を開始
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 進捗画面 -->
+                <div id="batch-progress-view" style="display: none;">
+                    <div class="batch-progress">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span id="batch-progress-text">評価中...</span>
+                            <span id="batch-progress-percent">0%</span>
+                        </div>
+                        <div class="batch-progress-bar">
+                            <div class="batch-progress-fill" id="batch-progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="batch-stats">
+                        <div class="batch-stat success">
+                            <div class="value" id="batch-success-count">0</div>
+                            <div class="label">成功</div>
+                        </div>
+                        <div class="batch-stat skipped">
+                            <div class="value" id="batch-skipped-count">0</div>
+                            <div class="label">スキップ</div>
+                        </div>
+                        <div class="batch-stat error">
+                            <div class="value" id="batch-error-count">0</div>
+                            <div class="label">エラー</div>
+                        </div>
+                        <div class="batch-stat">
+                            <div class="value" id="batch-time-elapsed">0秒</div>
+                            <div class="label">経過時間</div>
+                        </div>
+                    </div>
+                    <div class="batch-result-list" id="batch-result-list"></div>
+                </div>
+
+                <!-- 完了画面 -->
+                <div id="batch-complete-view" style="display: none;">
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 3em; margin-bottom: 16px;">✅</div>
+                        <h3 style="margin-bottom: 16px; color: #10b981;">バッチ評価が完了しました</h3>
+                    </div>
+                    <div class="batch-stats">
+                        <div class="batch-stat success">
+                            <div class="value" id="batch-final-success">0</div>
+                            <div class="label">成功</div>
+                        </div>
+                        <div class="batch-stat skipped">
+                            <div class="value" id="batch-final-skipped">0</div>
+                            <div class="label">スキップ</div>
+                        </div>
+                        <div class="batch-stat error">
+                            <div class="value" id="batch-final-error">0</div>
+                            <div class="label">エラー</div>
+                        </div>
+                        <div class="batch-stat">
+                            <div class="value" id="batch-final-time">0秒</div>
+                            <div class="label">合計時間</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 12px;">
+                        <button onclick="closeBatchLLMModal()" style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer;">
+                            閉じる
+                        </button>
+                        <button onclick="refreshAndCloseBatchModal()" class="batch-llm-btn" style="flex: 2; justify-content: center;">
+                            🔄 データを更新して閉じる
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // LLM評価モーダル関連
         function openLLMModal(personId, personName) {
@@ -5184,6 +5413,204 @@
                 <p class="llm-eval-time">⏱️ 評価時間: ${data.evaluation_time}秒</p>
             `;
         }
+
+        // ========================================
+        // バッチLLM評価モーダル関連
+        // ========================================
+
+        let batchEvaluationRunning = false;
+        let batchAbortController = null;
+
+        function openBatchLLMModal() {
+            const overlay = document.getElementById('batch-llm-modal-overlay');
+
+            // 設定画面を表示、進捗・完了画面を非表示
+            document.getElementById('batch-settings').style.display = 'block';
+            document.getElementById('batch-progress-view').style.display = 'none';
+            document.getElementById('batch-complete-view').style.display = 'none';
+
+            // カウントを更新
+            updateBatchCounts();
+
+            overlay.classList.add('active');
+        }
+
+        function closeBatchLLMModal() {
+            if (batchEvaluationRunning) {
+                if (!confirm('バッチ評価を中止しますか？')) {
+                    return;
+                }
+                if (batchAbortController) {
+                    batchAbortController.abort();
+                }
+                batchEvaluationRunning = false;
+            }
+            document.getElementById('batch-llm-modal-overlay').classList.remove('active');
+        }
+
+        function updateBatchCounts() {
+            const skipEvaluated = document.getElementById('batch-skip-evaluated').checked;
+
+            // フィルター中のエピソードから計算
+            const totalCount = filteredEpisodes.length;
+            const evaluatedCount = filteredEpisodes.filter(ep => ep.llm_evaluated_at && ep.llm_evaluated_at.trim()).length;
+            const actualCount = skipEvaluated ? totalCount - evaluatedCount : totalCount;
+
+            document.getElementById('batch-target-count').textContent = `${totalCount}件`;
+            document.getElementById('batch-evaluated-count').textContent = `${evaluatedCount}件`;
+            document.getElementById('batch-actual-count').textContent = `${actualCount}件`;
+        }
+
+        // チェックボックス変更時にカウント更新
+        document.getElementById('batch-skip-evaluated').addEventListener('change', updateBatchCounts);
+
+        async function startBatchEvaluation() {
+            if (batchEvaluationRunning) return;
+
+            const skipEvaluated = document.getElementById('batch-skip-evaluated').checked;
+            const saveResults = document.getElementById('batch-save-results').checked;
+            const limitValue = parseInt(document.getElementById('batch-limit').value);
+
+            // 対象エピソードを取得
+            let targetEpisodes = filteredEpisodes;
+            if (skipEvaluated) {
+                targetEpisodes = targetEpisodes.filter(ep => !ep.llm_evaluated_at || !ep.llm_evaluated_at.trim());
+            }
+
+            // 上限適用
+            if (limitValue > 0 && targetEpisodes.length > limitValue) {
+                targetEpisodes = targetEpisodes.slice(0, limitValue);
+            }
+
+            if (targetEpisodes.length === 0) {
+                alert('評価対象のエピソードがありません。');
+                return;
+            }
+
+            // person_idリストを抽出
+            const personIds = targetEpisodes.map(ep => ep.person_id).filter(id => id);
+
+            // 画面切り替え
+            document.getElementById('batch-settings').style.display = 'none';
+            document.getElementById('batch-progress-view').style.display = 'block';
+            document.getElementById('batch-complete-view').style.display = 'none';
+
+            // 統計リセット
+            document.getElementById('batch-success-count').textContent = '0';
+            document.getElementById('batch-skipped-count').textContent = '0';
+            document.getElementById('batch-error-count').textContent = '0';
+            document.getElementById('batch-time-elapsed').textContent = '0秒';
+            document.getElementById('batch-progress-fill').style.width = '0%';
+            document.getElementById('batch-progress-percent').textContent = '0%';
+            document.getElementById('batch-result-list').innerHTML = '';
+
+            batchEvaluationRunning = true;
+            batchAbortController = new AbortController();
+
+            const startTime = Date.now();
+            const updateTimer = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                document.getElementById('batch-time-elapsed').textContent = `${elapsed}秒`;
+            }, 1000);
+
+            try {
+                // APIトークン取得
+                const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+                if (!token) {
+                    throw new Error('ログインが必要です。先にログインしてください。');
+                }
+
+                // API呼び出し
+                const response = await fetch(`${API_BASE_URL}/api/episodes/batch-evaluate-llm`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        person_ids: personIds,
+                        skip_evaluated: skipEvaluated,
+                        save: saveResults
+                    }),
+                    signal: batchAbortController.signal
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || `APIエラー: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // 結果を表示
+                clearInterval(updateTimer);
+                displayBatchResults(data);
+
+            } catch (error) {
+                clearInterval(updateTimer);
+                if (error.name === 'AbortError') {
+                    console.log('バッチ評価が中止されました');
+                } else {
+                    console.error('バッチ評価エラー:', error);
+                    alert(`バッチ評価エラー: ${error.message}`);
+                }
+            } finally {
+                batchEvaluationRunning = false;
+                batchAbortController = null;
+            }
+        }
+
+        function displayBatchResults(data) {
+            // 進捗を100%に
+            document.getElementById('batch-progress-fill').style.width = '100%';
+            document.getElementById('batch-progress-percent').textContent = '100%';
+            document.getElementById('batch-progress-text').textContent = '完了';
+
+            // 統計更新
+            document.getElementById('batch-success-count').textContent = data.success;
+            document.getElementById('batch-skipped-count').textContent = data.skipped;
+            document.getElementById('batch-error-count').textContent = data.error;
+
+            // 結果リスト表示
+            const resultList = document.getElementById('batch-result-list');
+            resultList.innerHTML = data.results.map(r => `
+                <div class="batch-result-item ${r.status}">
+                    <span>${escapeHtml(r.person_name)}</span>
+                    <span style="font-size: 0.85em;">
+                        ${r.status === 'success' ? '✅ 成功' : ''}
+                        ${r.status === 'skipped' ? '⏭️ スキップ' : ''}
+                        ${r.status === 'error' ? `❌ ${escapeHtml(r.error || 'エラー')}` : ''}
+                    </span>
+                </div>
+            `).join('');
+
+            // 完了画面に切り替え（少し遅延）
+            setTimeout(() => {
+                document.getElementById('batch-progress-view').style.display = 'none';
+                document.getElementById('batch-complete-view').style.display = 'block';
+
+                // 完了統計を設定
+                document.getElementById('batch-final-success').textContent = data.success;
+                document.getElementById('batch-final-skipped').textContent = data.skipped;
+                document.getElementById('batch-final-error').textContent = data.error;
+                document.getElementById('batch-final-time').textContent = `${data.evaluation_time}秒`;
+            }, 500);
+        }
+
+        function refreshAndCloseBatchModal() {
+            // CSVを再読み込み
+            loadEpisodesCSV();
+
+            // モーダルを閉じる
+            document.getElementById('batch-llm-modal-overlay').classList.remove('active');
+        }
+
+        // オーバーレイクリックで閉じる
+        document.getElementById('batch-llm-modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'batch-llm-modal-overlay') {
+                closeBatchLLMModal();
+            }
+        });
     </script>
 </body>
 </html>

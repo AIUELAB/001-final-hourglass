@@ -1,6 +1,6 @@
 """データモデル定義"""
 
-from typing import Literal, Optional
+from typing import Dict, Literal, Optional
 
 from pydantic import BaseModel
 
@@ -419,6 +419,18 @@ class EpisodeDeleteResponse(BaseModel):
     success: bool
     message: str
     deleted_person_id: str
+
+
+class LLMEvaluationResponse(BaseModel):
+    """LLM評価レスポンス"""
+
+    episode_id: str
+    person_name: str
+    llm_scores: Dict[str, float]  # LLM評価結果（7軸）
+    rule_scores: Dict[str, float]  # ルールベーススコア
+    hybrid_scores: Dict[str, float]  # ハイブリッドスコア（動的重み）
+    characteristics: Dict[str, bool]  # 検出された特性
+    evaluation_time: float  # 評価所要時間（秒）
 
 
 # ========================================

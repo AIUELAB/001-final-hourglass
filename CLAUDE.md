@@ -552,8 +552,11 @@ python scripts/sync_group_from_master.py --execute
 - `/enable-web` - Web MCP一時有効化
 
 ### コンテキスト節約系（MCP委譲）
-- `/gh` - GitHub操作をサブエージェントに委譲（~15kトークン節約）
-- `/serena` - Serena操作をサブエージェントに委譲（~20kトークン節約）
+- `/gh` - GitHub操作を委譲（~15kトークン節約）
+- `/serena` - Serena操作を委譲（~20kトークン節約）
+- `/desktop` - Desktop Commander操作を委譲（~3kトークン節約）
+- `/memory` - Memory操作を委譲（~2.5kトークン節約）
+- `/obsidian` - Obsidian操作を委譲（~2kトークン節約）
 - `/delegate` - 任意MCP操作を委譲（汎用）
 
 **使い方**: `/gh コミット履歴を5件表示` → サブエージェントが実行 → 結果のみ返却

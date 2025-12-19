@@ -325,3 +325,4 @@ output/name_application/preview_applied.csv
 
 # アーカイブ済みダッシュボード（ローカル保存のみ）
 archive/dashboards/
+.memory/

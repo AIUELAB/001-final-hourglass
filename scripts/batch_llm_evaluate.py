@@ -169,6 +169,7 @@ class BatchLLMEvaluator:
         )
 
         episode_text = str(episode.get("episode_text", ""))
+        episode_id = episode.get("episode_id", "")
         person_id = episode.get("person_id", "")
         person_name = episode.get("person_name", "")
 
@@ -189,6 +190,7 @@ class BatchLLMEvaluator:
             hybrid_scores = calculate_hybrid_scores_dynamic(episode, llm_scores, use_dynamic_weights=True)
 
             return {
+                "episode_id": episode_id,
                 "person_id": person_id,
                 "person_name": person_name,
                 "characteristics": chars,
@@ -201,18 +203,18 @@ class BatchLLMEvaluator:
             print(f"\n  ⚠️ 評価エラー ({person_name}): {e}")
             return None
 
-    def update_episode_with_scores(self, person_id: str, llm_scores: Dict) -> bool:
+    def update_episode_with_scores(self, episode_id: str, llm_scores: Dict) -> bool:
         """エピソードデータをLLMスコアで更新
 
         Args:
-            person_id: エピソードID
+            episode_id: エピソードの一意ID
             llm_scores: LLM評価結果
 
         Returns:
             更新成功かどうか
         """
         for ep in self.episodes:
-            if ep.get("person_id") == person_id:
+            if ep.get("episode_id") == episode_id:
                 # LLMスコアを保存
                 for jp_name, eng_col in self.llm_field_mapping.items():
                     if jp_name in llm_scores:
@@ -308,7 +310,7 @@ class BatchLLMEvaluator:
                 # CSVに保存する場合、エピソードデータを更新
                 if self.save_to_csv:
                     self.update_episode_with_scores(
-                        result["person_id"],
+                        result["episode_id"],
                         result["llm_scores"],
                     )
             else:

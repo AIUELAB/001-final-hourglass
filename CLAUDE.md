@@ -551,6 +551,13 @@ python scripts/sync_group_from_master.py --execute
 - `/mcp-profile` - プロファイル切替（minimal/web/scraping/full）
 - `/enable-web` - Web MCP一時有効化
 
+### コンテキスト節約系（MCP委譲）
+- `/gh` - GitHub操作をサブエージェントに委譲（~15kトークン節約）
+- `/serena` - Serena操作をサブエージェントに委譲（~20kトークン節約）
+- `/delegate` - 任意MCP操作を委譲（汎用）
+
+**使い方**: `/gh コミット履歴を5件表示` → サブエージェントが実行 → 結果のみ返却
+
 ### 開発系
 `/fix-errors`, `/refactor`, `/test`, `/review`, `/optimize`
 

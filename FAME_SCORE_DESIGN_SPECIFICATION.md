@@ -1,8 +1,40 @@
 # Final Hourglass エピソード有名度スコア設計仕様書
 
-**バージョン**: 1.0.0
+**バージョン**: 2.0.0
 **作成日**: 2025-01-22
-**ステータス**: 設計完了 / 実装準備中
+**更新日**: 2025-12-20
+**ステータス**: Phase 1 (Wikipedia Pageviews API統合) 実装完了
+
+## v2.0.0 更新内容（2025-12-20）
+
+### 同点問題の解消
+- 従来の `fame_score` は91%がtier 4.0に集中し、同点が多発していた
+- 新しい `fame_score_v2` はWikipedia Pageviews APIを使用した対数スケールスコア
+- テスト100件で97%のユニーク率を達成
+
+### 新カラム
+| カラム | 説明 |
+|--------|------|
+| `fame_score_v2` | Wikipedia Pageviewsベースの新スコア（0-100点、小数点2桁） |
+| `wikipedia_pv` | 月間ページビュー数（生データ） |
+
+### 算出式（v2）
+```python
+pv_score = min(50.0, log10(monthly_pv) * 10)  # 0-50点
+wiki_exists = 15.0 if monthly_pv > 0 else 0.0  # 15点
+award_bonus = min(9.0, award_level * 3)  # 0-9点
+textbook_bonus = 10.0 if textbook else 0.0  # 10点
+notoriety_penalty = -20.0 if notoriety else 0.0  # -20点
+
+fame_score_v2 = max(0, min(100, sum))
+```
+
+### 実装ファイル
+- `scripts/fame_score_v2.py` - 新スコア算出スクリプト
+- `cache/wikipedia_pageviews.db` - SQLiteキャッシュ（TTL 30日）
+- `src/reports/fame_score_review_and_redesign.md` - 詳細レポート
+
+---
 
 ---
 

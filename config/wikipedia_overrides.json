@@ -1,0 +1,15 @@
+{
+  "__comment__": "人物名 → Wikipediaページタイトルの手動マッピング。検索で正しくヒットしない人物を登録。",
+  "__updated__": "2025-12-21",
+
+  "IU": "IU (歌手)",
+  "Eve": "Eve (日本の歌手)",
+  "HIRO": "HIRO (ダンサー)",
+  "hyde": "hyde",
+  "YOSHIKI": "YOSHIKI",
+  "GACKT": "GACKT",
+  "Ado": "Ado",
+  "Vaundy": "Vaundy",
+  "RADWIMPS": "RADWIMPS",
+  "YOASOBI": "YOASOBI"
+}

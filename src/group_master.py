@@ -422,6 +422,9 @@ GROUP_ENTITIES: Set[str] = {
     "SixTONES",
     "Snow Man",
     "Hey! Say! JUMP",
+    "NEWS",
+    "関ジャニ∞",
+    "Kis-My-Ft2",
     "ももいろクローバーZ",
     "でんぱ組.inc",
     # ===== 日本の音楽グループ =====

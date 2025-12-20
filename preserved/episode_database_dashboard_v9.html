@@ -1619,6 +1619,7 @@
                         <thead style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
                             <tr>
                                 <th class="sortable-header" data-sort="rank" data-type="number" style="padding: 15px; text-align: center; width: 60px;">順位<span class="sort-indicator"></span></th>
+                                <th class="sortable-header" data-sort="person_id" data-type="string" style="padding: 15px; text-align: center; width: 100px;">PERSON ID<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="person_name" data-type="string" style="padding: 15px; text-align: left;">人物名<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="person_type" data-type="string" style="padding: 15px; text-align: center; width: 100px;">種別<span class="sort-indicator"></span></th>
                                 <th class="sortable-header sort-active sort-desc" data-sort="fame_score" data-type="number" style="padding: 15px; text-align: center; width: 120px;">有名人度スコア<span class="sort-indicator"></span></th>
@@ -1628,7 +1629,7 @@
                         </thead>
                         <tbody id="ranking-table-body">
                             <tr>
-                                <td colspan="6" style="padding: 40px; text-align: center; color: #6c757d;">
+                                <td colspan="7" style="padding: 40px; text-align: center; color: #6c757d;">
                                     データを読み込んでいます...
                                 </td>
                             </tr>
@@ -1686,6 +1687,7 @@
                         <thead style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
                             <tr>
                                 <th class="sortable-header" data-sort="rank" data-type="number" style="padding: 15px; text-align: center; width: 60px;">順位<span class="sort-indicator"></span></th>
+                                <th class="sortable-header" data-sort="episode_id" data-type="string" style="padding: 15px; text-align: center; width: 120px;">EPISODE ID<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="person_name" data-type="string" style="padding: 15px; text-align: left;">人物名<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="age" data-type="number" style="padding: 15px; text-align: center; width: 60px;">年齢<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="episode_text" data-type="string" style="padding: 15px; text-align: left;">エピソード全文<span class="sort-indicator"></span></th>
@@ -1695,7 +1697,7 @@
                         </thead>
                         <tbody id="episode-ranking-table-body">
                             <tr>
-                                <td colspan="6" style="padding: 40px; text-align: center; color: #6c757d;">
+                                <td colspan="7" style="padding: 40px; text-align: center; color: #6c757d;">
                                     データを読み込んでいます...
                                 </td>
                             </tr>
@@ -3092,6 +3094,7 @@
                 if (!personMap.has(name)) {
                     personMap.set(name, {
                         person_name: name,
+                        person_id: ep.person_id || '',
                         fame_score: ep.fame_score || 0,
                         fame_tier: ep.fame_tier || 0,
                         person_type: ep.person_type || 'REAL',
@@ -3127,6 +3130,10 @@
                     case 'rank':
                         valA = a.rank;
                         valB = b.rank;
+                        break;
+                    case 'person_id':
+                        valA = (a.person_id || '').toLowerCase();
+                        valB = (b.person_id || '').toLowerCase();
                         break;
                     case 'person_name':
                         valA = (a.person_name || '').toLowerCase();
@@ -3200,7 +3207,7 @@
             if (sortedFameData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="padding: 40px; text-align: center; color: #6c757d;">
+                        <td colspan="7" style="padding: 40px; text-align: center; color: #6c757d;">
                             該当する人物が見つかりません
                         </td>
                     </tr>
@@ -3248,6 +3255,7 @@
                 return `
                     <tr style="border-bottom: 1px solid #e0e0e0; ${rank <= 3 ? 'background: #f8f9fa;' : ''}">
                         <td style="padding: 15px; text-align: center;">${rankBadge}</td>
+                        <td style="padding: 15px; text-align: center; font-family: monospace; font-size: 12px; color: #6c757d;">${person.person_id || ''}</td>
                         <td style="padding: 15px;">
                             <div style="font-weight: 600; font-size: 15px;">${person.person_name}</div>
                         </td>
@@ -3541,7 +3549,7 @@
             if (sortedEpisodeData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="padding: 40px; text-align: center; color: #6c757d;">
+                        <td colspan="7" style="padding: 40px; text-align: center; color: #6c757d;">
                             該当するエピソードが見つかりません
                         </td>
                     </tr>
@@ -3586,6 +3594,7 @@
                 return `
                     <tr style="border-bottom: 1px solid #e0e0e0; ${rank <= 3 ? 'background: #f8f9fa;' : ''}">
                         <td style="padding: 15px; text-align: center;">${rankBadge}</td>
+                        <td style="padding: 15px; text-align: center; font-family: monospace; font-size: 11px; color: #6c757d;">${ep.episode_id || ''}</td>
                         <td style="padding: 15px;">
                             <div style="font-weight: 600; font-size: 15px;">${ep.person_name}</div>
                         </td>

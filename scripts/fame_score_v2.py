@@ -232,10 +232,11 @@ def calculate_fame_score_v2(monthly_pv: int, row: Dict) -> float:
     Returns:
         float: 有名度スコア (0.00-100.00)
     """
-    # PVスコア（対数、0-50点）
-    # log10(1) = 0, log10(100) = 2→20, log10(10000) = 4→40, log10(100000) = 5→50
+    # PVスコア（対数スケール、キャップなし）
+    # log10(1) = 0, log10(1000) = 30, log10(100000) = 50, log10(1000000) = 60
+    # 高PVの差を保持するためキャップを撤廃（2024-12-20修正）
     if monthly_pv > 0:
-        pv_score = min(50.0, math.log10(max(1, monthly_pv)) * 10)
+        pv_score = math.log10(max(1, monthly_pv)) * 10
     else:
         pv_score = 0.0
 

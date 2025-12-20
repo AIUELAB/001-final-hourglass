@@ -3806,8 +3806,19 @@
                             }
 
                             // fame_scoreの処理（空文字の場合はnullにする）- parseFloatで小数点を保持
-                            const fameScoreValue = r["fame_score"] && r["fame_score"].trim() !== ''
-                                ? parseFloat(r["fame_score"]) : null;
+                            // fame_score_v2 を優先使用（Wikipedia Pageviews ベースの新スコア）
+                            const fameScoreValue = (() => {
+                                if (r["fame_score_v2"] && r["fame_score_v2"].trim() !== '') {
+                                    return parseFloat(r["fame_score_v2"]);
+                                }
+                                if (r["fame_score"] && r["fame_score"].trim() !== '') {
+                                    return parseFloat(r["fame_score"]);
+                                }
+                                return null;
+                            })();
+                            // Wikipedia月間PV数
+                            const wikipediaPvValue = r["wikipedia_pv"] && r["wikipedia_pv"].trim() !== ''
+                                ? parseInt(r["wikipedia_pv"]) : null;
                             const episodeFameScoreValue = r['episode_fame_score'] && r['episode_fame_score'].trim() !== ''
                                 ? parseFloat(r['episode_fame_score']) : null;
 
@@ -3868,6 +3879,7 @@
                                 group_name: r['group_name'] || '',
                                 episode_count: parseFloat(r['episode_count']) || 1,
                                 fame_score: fameScoreValue,
+                                wikipedia_pv: wikipediaPvValue,
                                 fame_tier: parseInt(r["fame_tier"]) || 0,
                                 episode_fame_score: episodeFameScoreValue,
                                 episode_fame_tier: parseInt(r['episode_fame_tier']) || 0,

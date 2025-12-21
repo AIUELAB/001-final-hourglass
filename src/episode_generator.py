@@ -110,11 +110,11 @@ class EpisodeGenerator:
 
         prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 
-以下の人物について、**{age}歳のとき（{age_config['description']}）** の印象的なエピソードを日本語で生成してください。
+以下の人物について、**{age}歳のとき（{age_config["description"]}）** の印象的なエピソードを日本語で生成してください。
 
 人物名: {person_name}
 カテゴリ: {category}
-年齢: {age}歳（{age_config['life_stage_tag']}）"""
+年齢: {age}歳（{age_config["life_stage_tag"]}）"""
 
         if award_name:
             prompt += f"""
@@ -127,7 +127,7 @@ class EpisodeGenerator:
 エピソードの要件:
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で始める
 2. この年代特有の視点を含める:
-{age_config['themes']}
+{age_config["themes"]}
 3. 具体的な事実や出来事を含める
 4. 200-300文字程度
 5. 教育的価値のある内容
@@ -168,8 +168,9 @@ class EpisodeGenerator:
             messages=[{"role": "user", "content": prompt}],
         )
 
-        # Type assertion for mypy
-        result: str = str(message.content[0].text).strip()
+        # Type assertion for mypy - content[0] is TextBlock with .text attribute
+        content_block = message.content[0]
+        result: str = str(getattr(content_block, "text", "")).strip()
         return result
 
     def calculate_scores(self, episode_text: str) -> Dict[str, float]:

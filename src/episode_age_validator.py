@@ -44,7 +44,7 @@ class EpisodeAgeValidator:
     ERROR_AGE_TOO_HIGH = "AGE_TOO_HIGH"
     ERROR_BIRTH_YEAR_UNKNOWN = "BIRTH_YEAR_UNKNOWN"
 
-    def __init__(self, current_year: int = None, strict_mode: bool = True):
+    def __init__(self, current_year: Optional[int] = None, strict_mode: bool = True):
         """
         初期化
 
@@ -147,7 +147,7 @@ class EpisodeAgeValidator:
 
 
 def validate_episode_before_generation(
-    person_name: str, age: int, person_type: str = "REAL", current_year: int = None, strict_mode: bool = False
+    person_name: str, age: int, person_type: str = "REAL", current_year: Optional[int] = None, strict_mode: bool = False
 ) -> tuple[bool, str, Optional[int]]:
     """
     エピソード生成前の検証（シンプルなインターフェース）

@@ -483,6 +483,10 @@ GROUP_ENTITIES: Set[str] = {
     "くりぃむしちゅー",
     # ===== 日本のバンド（追加） =====
     "ゴールデンボンバー",
+    "ORANGE RANGE",
+    "SADS",
+    "Superfly",
+    "THE BLUE HEARTS",
     # ===== スポーツチーム =====
     "清水エスパルス",
     "湘南ベルマーレ",

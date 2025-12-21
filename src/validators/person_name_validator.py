@@ -360,7 +360,7 @@ class PersonNameValidator:
         import re
 
         # 箇条書き記号の先頭パターン
-        bullet_match = re.match(r'^([・•\-－※▪▸►◆◇■□●○]+)\s*(.+)$', person_name)
+        bullet_match = re.match(r"^([・•\-－※▪▸►◆◇■□●○]+)\s*(.+)$", person_name)
         if bullet_match:
             prefix = bullet_match.group(1)
             fixed_name = bullet_match.group(2).strip()
@@ -375,7 +375,7 @@ class PersonNameValidator:
             )
 
         # 不自然な接頭語パターン
-        abnormal_prefix_match = re.match(r'^(始まり|はじまり|続く|続き|その他|他の)\s*(.+)$', person_name)
+        abnormal_prefix_match = re.match(r"^(始まり|はじまり|続く|続き|その他|他の)\s*(.+)$", person_name)
         if abnormal_prefix_match:
             prefix = abnormal_prefix_match.group(1)
             fixed_name = abnormal_prefix_match.group(2).strip()
@@ -403,9 +403,9 @@ class PersonNameValidator:
             )
 
         # ゼロ幅文字
-        zero_width_match = re.search(r'[\u200b\u200c\u200d\ufeff]', person_name)
+        zero_width_match = re.search(r"[\u200b\u200c\u200d\ufeff]", person_name)
         if zero_width_match:
-            fixed_name = re.sub(r'[\u200b\u200c\u200d\ufeff]', '', person_name)
+            fixed_name = re.sub(r"[\u200b\u200c\u200d\ufeff]", "", person_name)
             return ValidationIssue(
                 issue_type=IssueType.ABNORMAL_PREFIX,
                 severity=Severity.ERROR,
@@ -417,8 +417,8 @@ class PersonNameValidator:
             )
 
         # 改行混入
-        if '\n' in person_name or '\r' in person_name:
-            fixed_name = person_name.replace('\n', '').replace('\r', '').strip()
+        if "\n" in person_name or "\r" in person_name:
+            fixed_name = person_name.replace("\n", "").replace("\r", "").strip()
             return ValidationIssue(
                 issue_type=IssueType.ABNORMAL_PREFIX,
                 severity=Severity.ERROR,
@@ -430,8 +430,8 @@ class PersonNameValidator:
             )
 
         # 連続空白
-        if re.search(r'\s{2,}', person_name):
-            fixed_name = re.sub(r'\s{2,}', ' ', person_name).strip()
+        if re.search(r"\s{2,}", person_name):
+            fixed_name = re.sub(r"\s{2,}", " ", person_name).strip()
             return ValidationIssue(
                 issue_type=IssueType.ABNORMAL_PREFIX,
                 severity=Severity.WARNING,
@@ -789,10 +789,12 @@ def validate_before_episode_generation(
     validator = get_validator()
     issues = validator.validate(person_name)
 
-    errors = [i for i in issues if i.severity == Severity.ERROR]
+    # ERROR または VARIANT_NAME（ALIAS_KEYWORDS違反）をFail-Fastとして扱う
+    # 2025-12-21: PERSON ID統合再発防止のため、別名使用もエラーとして扱う
+    critical_issues = [i for i in issues if i.severity == Severity.ERROR or i.issue_type == IssueType.VARIANT_NAME]
 
-    if errors:
-        first_error = errors[0]
+    if critical_issues:
+        first_error = critical_issues[0]
         suggested_fix: Optional[dict[str, str | bool]] = None
         if first_error.auto_fixable and first_error.fixed_value:
             suggested_fix = {

@@ -1,8 +1,0 @@
-{
-  "timestamp": "2025-12-16T12:20:48.374032",
-  "total_persons": 7201,
-  "exact_duplicate_groups": 6,
-  "similar_duplicate_pairs": 20,
-  "total_duplicates": 26,
-  "threshold": 0.85
-}

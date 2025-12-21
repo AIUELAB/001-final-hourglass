@@ -38,6 +38,7 @@ class IssueType(Enum):
     ORG_TITLE_CONTAMINATION = "org_title_contamination"  # 組織名・肩書き混入
     INVALID_NAME = "invalid_name"  # 不正な人物名（道具名・アイテム名等）
     PROFESSION_PREFIX = "profession_prefix"  # 職業接頭辞パターン（Phase 8追加）
+    ABNORMAL_PREFIX = "abnormal_prefix"  # 先頭不自然記号（2025-12-21追加）
 
 
 class Severity(Enum):
@@ -144,6 +145,11 @@ class PersonNameValidator:
         profession_prefix_issue = self._check_profession_prefix(person_name)
         if profession_prefix_issue:
             issues.append(profession_prefix_issue)
+
+        # 9. 先頭不自然記号チェック（2025-12-21追加）★NEW
+        abnormal_prefix_issue = self._check_abnormal_prefix(person_name)
+        if abnormal_prefix_issue:
+            issues.append(abnormal_prefix_issue)
 
         return issues
 
@@ -331,6 +337,110 @@ class PersonNameValidator:
                     auto_fixable=True,
                     fixed_value=fixed_name,
                 )
+
+        return None
+
+    def _check_abnormal_prefix(self, person_name: str) -> Optional[ValidationIssue]:
+        """
+        先頭不自然記号・接頭語パターンの検出（2025-12-21追加）
+
+        検出パターン:
+        - 箇条書き記号: 「・」「•」「-」「－」「※」など
+        - 不自然な接頭語: 「始まり」「はじまり」など
+        - 先頭/末尾の空白
+        - ゼロ幅文字、改行混入
+        - 重複記号、連続空白
+
+        Args:
+            person_name: 検証対象の人物名
+
+        Returns:
+            問題が検出された場合はValidationIssue、なければNone
+        """
+        import re
+
+        # 箇条書き記号の先頭パターン
+        bullet_match = re.match(r'^([・•\-－※▪▸►◆◇■□●○]+)\s*(.+)$', person_name)
+        if bullet_match:
+            prefix = bullet_match.group(1)
+            fixed_name = bullet_match.group(2).strip()
+            return ValidationIssue(
+                issue_type=IssueType.ABNORMAL_PREFIX,
+                severity=Severity.ERROR,
+                person_name=person_name,
+                message=f"先頭に不自然な記号「{prefix}」が含まれています",
+                suggestion=f"記号を除去: 「{fixed_name}」",
+                auto_fixable=True,
+                fixed_value=fixed_name,
+            )
+
+        # 不自然な接頭語パターン
+        abnormal_prefix_match = re.match(r'^(始まり|はじまり|続く|続き|その他|他の)\s*(.+)$', person_name)
+        if abnormal_prefix_match:
+            prefix = abnormal_prefix_match.group(1)
+            fixed_name = abnormal_prefix_match.group(2).strip()
+            return ValidationIssue(
+                issue_type=IssueType.ABNORMAL_PREFIX,
+                severity=Severity.ERROR,
+                person_name=person_name,
+                message=f"先頭に不自然な接頭語「{prefix}」が含まれています",
+                suggestion=f"接頭語を除去: 「{fixed_name}」",
+                auto_fixable=True,
+                fixed_value=fixed_name,
+            )
+
+        # 先頭/末尾の空白
+        stripped = person_name.strip()
+        if stripped != person_name:
+            return ValidationIssue(
+                issue_type=IssueType.ABNORMAL_PREFIX,
+                severity=Severity.WARNING,
+                person_name=person_name,
+                message="先頭または末尾に不要な空白が含まれています",
+                suggestion=f"空白を除去: 「{stripped}」",
+                auto_fixable=True,
+                fixed_value=stripped,
+            )
+
+        # ゼロ幅文字
+        zero_width_match = re.search(r'[\u200b\u200c\u200d\ufeff]', person_name)
+        if zero_width_match:
+            fixed_name = re.sub(r'[\u200b\u200c\u200d\ufeff]', '', person_name)
+            return ValidationIssue(
+                issue_type=IssueType.ABNORMAL_PREFIX,
+                severity=Severity.ERROR,
+                person_name=person_name,
+                message="ゼロ幅文字が含まれています",
+                suggestion=f"ゼロ幅文字を除去: 「{fixed_name}」",
+                auto_fixable=True,
+                fixed_value=fixed_name,
+            )
+
+        # 改行混入
+        if '\n' in person_name or '\r' in person_name:
+            fixed_name = person_name.replace('\n', '').replace('\r', '').strip()
+            return ValidationIssue(
+                issue_type=IssueType.ABNORMAL_PREFIX,
+                severity=Severity.ERROR,
+                person_name=person_name,
+                message="改行文字が含まれています",
+                suggestion=f"改行を除去: 「{fixed_name}」",
+                auto_fixable=True,
+                fixed_value=fixed_name,
+            )
+
+        # 連続空白
+        if re.search(r'\s{2,}', person_name):
+            fixed_name = re.sub(r'\s{2,}', ' ', person_name).strip()
+            return ValidationIssue(
+                issue_type=IssueType.ABNORMAL_PREFIX,
+                severity=Severity.WARNING,
+                person_name=person_name,
+                message="連続した空白が含まれています",
+                suggestion=f"空白を正規化: 「{fixed_name}」",
+                auto_fixable=True,
+                fixed_value=fixed_name,
+            )
 
         return None
 

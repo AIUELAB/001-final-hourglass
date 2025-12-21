@@ -658,6 +658,12 @@ class PersonNameNormalizer:
         if result:
             return result
 
+        # 音楽グループパターン（RADWIMPSの野田洋次郎 など）
+        # ※力士パターンより先に処理（「の」を含む音楽グループ名を優先）
+        result = self._match_music_group(person_name)
+        if result:
+            return result
+
         # 力士名パターン（新規追加）
         result = self._match_rikishi_name(person_name)
         if result:
@@ -700,11 +706,6 @@ class PersonNameNormalizer:
 
         # アイドルグループパターン（AKB48指原莉乃 など）
         result = self._match_idol_group(person_name)
-        if result:
-            return result
-
-        # 音楽グループパターン（RADWIMPSの野田洋次郎 など）
-        result = self._match_music_group(person_name)
         if result:
             return result
 

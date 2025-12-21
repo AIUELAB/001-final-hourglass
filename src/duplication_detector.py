@@ -55,8 +55,8 @@ class DuplicationDetector:
             import sys
             from pathlib import Path
 
-            # scripts/normalize_person_names.py から PersonNameNormalizer をインポート
-            sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+            # scripts/data/normalize_person_names.py から PersonNameNormalizer をインポート
+            sys.path.insert(0, str(Path(__file__).parent.parent / "scripts" / "data"))
 
             from normalize_person_names import (
                 ALIAS_KEYWORDS,

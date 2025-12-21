@@ -100,10 +100,10 @@ class TestRikishiValidationScript:
 
     def test_validate_rikishi_names_script_exists(self):
         """validate_rikishi_names.py が存在することを確認"""
-        script_path = PROJECT_ROOT / "scripts" / "validate_rikishi_names.py"
+        script_path = PROJECT_ROOT / "scripts" / "validation" / "validate_rikishi_names.py"
         assert script_path.exists(), "validate_rikishi_names.py が見つかりません"
 
     def test_fix_rikishi_display_names_script_exists(self):
         """fix_rikishi_display_names.py が存在することを確認"""
-        script_path = PROJECT_ROOT / "scripts" / "fix_rikishi_display_names.py"
+        script_path = PROJECT_ROOT / "scripts" / "fix" / "fix_rikishi_display_names.py"
         assert script_path.exists(), "fix_rikishi_display_names.py が見つかりません"

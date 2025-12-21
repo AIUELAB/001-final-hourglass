@@ -57,11 +57,10 @@ class VerifiedSource(EpisodeSource):
         """
         # A判定: 一次情報ドメイン
         A_DOMAIN_PATTERNS = [
-            r"\.go\.jp$",  # 政府公式
-            r"\.ac\.jp$",  # 学術機関
-            r"\.edu$",  # 教育機関
+            r"\.go\.jp(/|$)",  # 政府公式
+            r"\.ac\.jp(/|$)",  # 学術機関
+            r"\.edu(/|$)",  # 教育機関
             r"ndl\.go\.jp",  # 国会図書館
-            r"\.org/wiki/",  # Wikipedia（一部）
         ]
 
         for pattern in A_DOMAIN_PATTERNS:

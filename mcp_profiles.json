@@ -133,7 +133,11 @@
       "description": "セマンティックコード検索・LSP統合",
       "transport": "SSE",
       "always_active": true,
-      "estimated_context": "1.0k"
+      "estimated_context": "20.0k",
+      "tools_count": 29,
+      "delegation_skill": "/serena",
+      "delegation_mode": "hybrid",
+      "delegation_note": "高頻度コア機能は直接実行、低頻度バッチ操作のみ委譲"
     },
     "codex": {
       "display_name": "Codex MCP",

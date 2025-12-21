@@ -202,7 +202,7 @@ class EpisodeGenerationBridge:
                 critical_issues = [issue for issue in validation_issues if issue.severity == "CRITICAL"]
                 if critical_issues:
                     logger.warning(
-                        f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: "
+                        f"{person_data['person_name']} ({age}歳) Attempt {attempt + 1}/{max_retries}: "
                         f"EpisodeValidator rejected - {[issue.message for issue in critical_issues]}"
                     )
                     continue
@@ -218,7 +218,7 @@ class EpisodeGenerationBridge:
                 critical_violations = [v for v in fact_check_report.violations if v.severity == "CRITICAL"]
                 if critical_violations:
                     logger.warning(
-                        f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: "
+                        f"{person_data['person_name']} ({age}歳) Attempt {attempt + 1}/{max_retries}: "
                         f"FactChecker rejected - {[v.message for v in critical_violations]}"
                     )
                     continue
@@ -230,18 +230,18 @@ class EpisodeGenerationBridge:
                 )
                 if is_template:
                     logger.warning(
-                        f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: "
+                        f"{person_data['person_name']} ({age}歳) Attempt {attempt + 1}/{max_retries}: "
                         f"TemplateBlocker rejected - {[v.pattern for v in violations]}"
                     )
                     continue
 
                 # 全品質ゲート通過
-                logger.info(f"{person_data['person_name']} ({age}歳): 品質ゲート通過 ({attempt+1}回目)")
+                logger.info(f"{person_data['person_name']} ({age}歳): 品質ゲート通過 ({attempt + 1}回目)")
                 return episode
 
             except Exception as e:
                 logger.error(
-                    f"{person_data['person_name']} ({age}歳) Attempt {attempt+1}/{max_retries}: " f"生成エラー - {e}"
+                    f"{person_data['person_name']} ({age}歳) Attempt {attempt + 1}/{max_retries}: 生成エラー - {e}"
                 )
                 continue
 

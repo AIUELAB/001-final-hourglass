@@ -47,9 +47,7 @@ class TestCalculateHybridRuleScores:
 
     def test_basic_episode(self):
         """基本的なエピソードでスコアが計算されるか"""
-        episode = {
-            "episode_text": "あなたと同じ25歳のとき、彼は1990年に重大な転機を迎えた。感動的な瞬間だった。"
-        }
+        episode = {"episode_text": "あなたと同じ25歳のとき、彼は1990年に重大な転機を迎えた。感動的な瞬間だった。"}
         scores = calculate_hybrid_rule_scores(episode)
 
         assert "記憶性" in scores
@@ -62,9 +60,7 @@ class TestCalculateHybridRuleScores:
 
     def test_score_range(self):
         """スコアが1-10の範囲内か"""
-        episode = {
-            "episode_text": "あなたと同じ30歳のとき、彼女は大きな成功を収めた。"
-        }
+        episode = {"episode_text": "あなたと同じ30歳のとき、彼女は大きな成功を収めた。"}
         scores = calculate_hybrid_rule_scores(episode)
 
         for axis, score in scores.items():
@@ -222,6 +218,7 @@ class TestIntegrationWithExistingFunctions:
             calculate_composite_score,
             calculate_hybrid_seven_axes,
         )
+
         assert callable(calculate_composite_score)
         assert callable(calculate_hybrid_seven_axes)
 

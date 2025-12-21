@@ -264,9 +264,9 @@ class TestEpisodeFormat:
         print(f"フォーマット準拠: {compliant_count}")
         print(f"準拠率: {compliance_rate:.1f}%")
 
-        assert compliance_rate == 100.0, (
-            f"準拠率が100%未満: {compliance_rate:.1f}%\n不準拠レコード: {total_count - compliant_count}件"
-        )
+        assert (
+            compliance_rate == 100.0
+        ), f"準拠率が100%未満: {compliance_rate:.1f}%\n不準拠レコード: {total_count - compliant_count}件"
 
     def test_timeline_balance(self, qualified_records):
         """

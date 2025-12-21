@@ -235,6 +235,7 @@ markers = [
   "asyncio: marks tests as async (used by pytest-asyncio)"
 ]
 minversion = "8.0"
+norecursedirs = ["_archived", ".git", "__pycache__", "*.egg-info"]
 pythonpath = ["src"]
 testpaths = ["tests"]
 

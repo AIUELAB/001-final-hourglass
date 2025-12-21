@@ -1337,8 +1337,9 @@ class PersonNameNormalizer:
                 messages=[{"role": "user", "content": prompt}],
             )
 
-            # レスポンスからJSON抽出
-            text = response.content[0].text
+            # レスポンスからJSON抽出 - content[0] is TextBlock with .text attribute
+            content_block = response.content[0]
+            text = str(getattr(content_block, "text", ""))
             # JSON部分を抽出
             json_match = re.search(r"\{.*\}", text, re.DOTALL)
             if json_match:

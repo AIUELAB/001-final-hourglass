@@ -178,9 +178,7 @@ class SensitiveFilter:
             approved.append(candidate)
 
         logger.info(
-            f"Filter results: {len(approved)} approved, "
-            f"{len(review_required)} review required, "
-            f"{len(blocked)} blocked"
+            f"Filter results: {len(approved)} approved, {len(review_required)} review required, {len(blocked)} blocked"
         )
 
         return approved, review_required, blocked

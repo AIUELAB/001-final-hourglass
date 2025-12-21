@@ -51,7 +51,7 @@ class AgeDataValidator:
     エピソード生成前に年齢データの妥当性を検証する。
     """
 
-    def __init__(self, current_year: int = None):
+    def __init__(self, current_year: Optional[int] = None):
         """
         Args:
             current_year: 現在年（デフォルト: システム年）

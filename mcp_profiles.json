@@ -59,13 +59,34 @@
         "codex": true,
         "context7": true,
         "ide": true,
+        "github": true,
         "fetch": true,
         "brave-search": true,
         "firecrawl": true,
         "playwright": true
       },
-      "estimated_context_usage": "30.8k",
-      "estimated_free_space": "26.0k (13.0%)"
+      "estimated_context_usage": "45.8k",
+      "estimated_free_space": "11.0k (5.5%)"
+    },
+    "minimal-no-gh": {
+      "description": "最小構成（GitHub MCP無効、/gh委譲推奨）",
+      "use_case": "GitHub操作をサブエージェント委譲で行い、コンテキストを最大限節約",
+      "mcps": {
+        "serena": true,
+        "codex": true,
+        "context7": true,
+        "ide": true,
+        "github": false,
+        "memory": true,
+        "sequential-thinking": true,
+        "fetch": false,
+        "brave-search": false,
+        "firecrawl": false,
+        "playwright": false
+      },
+      "estimated_context_usage": "35k",
+      "estimated_free_space": "55k (27.5%)",
+      "delegation_note": "GitHub操作は /gh スキルで委譲（~15kトークン節約）"
     }
   },
   "auto_switch_rules": [
@@ -186,6 +207,15 @@
       "always_active": false,
       "estimated_context": "2.0k",
       "delegation_skill": "/obsidian"
+    },
+    "github": {
+      "display_name": "GitHub",
+      "description": "GitHub API操作（Issue, PR, コミット, ファイル）",
+      "transport": "STDIO",
+      "always_active": false,
+      "estimated_context": "15.0k",
+      "delegation_skill": "/gh",
+      "tools_count": 25
     }
   },
   "fallback_strategy": {

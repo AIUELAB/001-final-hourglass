@@ -202,6 +202,24 @@ class MCPProfileManager:
             },
             "playwright": {"type": "stdio", "command": "npx", "args": ["@playwright/mcp@latest"], "env": {}},
             "context7": {"type": "http", "url": "https://mcp.context7.com/mcp"},
+            "github": {
+                "type": "stdio",
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-github"],
+                "env": {"GITHUB_PERSONAL_ACCESS_TOKEN": os.getenv("GITHUB_PAT", os.getenv("GITHUB_TOKEN", ""))},
+            },
+            "memory": {
+                "type": "stdio",
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-memory"],
+                "env": {},
+            },
+            "sequential-thinking": {
+                "type": "stdio",
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+                "env": {},
+            },
         }
 
         # ~/.claude.jsonから既存設定を取得（存在する場合）

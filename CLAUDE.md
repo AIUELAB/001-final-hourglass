@@ -539,6 +539,50 @@ python scripts/sync_group_from_master.py --execute
 
 ---
 
+## 🔄 GitHub操作自動委譲ルール（コンテキスト節約）
+
+**GitHub操作は `/gh` サブエージェントに自動委譲してコンテキストを節約**
+
+### 委譲対象操作
+
+| 操作カテゴリ | 委譲コマンド例 | 節約効果 |
+|-------------|---------------|---------|
+| **コミット履歴** | `/gh list_commits 5件` | ~2k tokens |
+| **Issue管理** | `/gh list_issues open` | ~3k tokens |
+| **PR管理** | `/gh list_pull_requests` | ~3k tokens |
+| **ファイル取得** | `/gh get_file_contents README.md` | ~2k tokens |
+| **バッチ操作** | `/gh batch-status` | ~5k tokens |
+
+### 自動委譲トリガー
+
+以下の状況で自動的に `/gh` に委譲：
+- ユーザーがGitHub操作を要求した場合
+- タスク完了時のコミット提案時
+- PR作成・レビュー時
+- Issue確認・更新時
+
+### バッチ操作（推奨）
+
+| コマンド | 実行内容 |
+|---------|---------|
+| `/gh batch-status` | git status + 最新5コミット + 未プッシュ確認 |
+| `/gh batch-review` | open Issues + open PRs + 最新レビュー |
+
+### 効果
+
+- **コンテキスト節約**: ~15kトークン（7.5%削減）
+- **結果のみ返却**: 詳細なAPI定義が不要に
+- **責務分離**: Git/GitHub操作を専門エージェントに分離
+
+### MCPプロファイル連携
+
+GitHub MCPを完全無効化して `/gh` 委譲のみで運用する場合：
+```bash
+python scripts/switch_mcp_profile.py minimal-no-gh
+```
+
+---
+
 ## 🎯 スラッシュコマンド（Skills）
 
 ### 品質・分析系

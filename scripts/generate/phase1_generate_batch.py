@@ -18,7 +18,7 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 # 単一エピソード生成クラスをインポート
-from scripts.phase1_generate_episode_single import EpisodeGeneratorSingle
+from scripts.generate.phase1_generate_episode_single import EpisodeGeneratorSingle
 
 
 class BatchEpisodeGenerator:

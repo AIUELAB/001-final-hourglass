@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Phase 8: 70代エピソード生成スクリプト
+Phase 5-2: 年齢範囲汎用エピソード生成スクリプト
 
-70代以上（70-90歳）のエピソードを集中生成する。
-ロードマップ Phase 8 Priority 2 に対応。
+任意の年齢範囲（30代/40代/50代/60代/80代/90代）のエピソードを生成する。
+Phase 5-1（generate_senior_episodes.py）の成功を受けて汎用化。
 
 使用方法:
-    ANTHROPIC_API_KEY=xxx python3 scripts/generate_senior_episodes.py --limit 50
+    ANTHROPIC_API_KEY=xxx python3 scripts/generate_episodes_by_age_range.py \
+      --template templates/phase5_2_30s_batch1.csv \
+      --output generated/phase5_2_30s_episodes.csv \
+      --min-age 30 --max-age 39 --limit 60
 """
 
 import argparse
@@ -31,22 +34,22 @@ client = anthropic.Anthropic(api_key=API_KEY)
 
 
 # =============================================================================
-# 年齢境界チェック関数（誤指令F-001修正）
+# 年齢境界チェック関数（汎用化版）
 # =============================================================================
 
 
-def get_valid_senior_age(
-    person_name: str, birth_year: Optional[int], death_year: Optional[int], min_age: int = 70, max_age: int = 85
+def get_valid_age_in_range(
+    person_name: str, birth_year: Optional[int], death_year: Optional[int], min_age: int, max_age: int
 ) -> Optional[int]:
     """
-    生年/没年を考慮して、有効な70代以上の年齢をランダムに選択
+    生年/没年を考慮して、有効な年齢をランダムに選択
 
     Args:
         person_name: 人物名（ログ用）
         birth_year: 生年（Noneの場合はチェックスキップ）
         death_year: 没年（Noneの場合は存命と判断）
-        min_age: 最小年齢（デフォルト70歳）
-        max_age: 最大年齢（デフォルト85歳）
+        min_age: 最小年齢
+        max_age: 最大年齢
 
     Returns:
         有効な年齢、または到達不可能な場合はNone
@@ -77,14 +80,14 @@ def get_valid_senior_age(
     return selected_age
 
 
-def load_candidates(template_path: str, min_age: int = 70, max_age: int = 85) -> list[dict]:
+def load_candidates(template_path: str, min_age: int, max_age: int) -> list[dict]:
     """
-    Phase8候補者を読み込み、年齢境界チェックでフィルタリング
+    候補者を読み込み、年齢境界チェックでフィルタリング
 
     Args:
         template_path: テンプレートCSVパス
-        min_age: 最小年齢（デフォルト: 70歳）
-        max_age: 最大年齢（デフォルト: 85歳）
+        min_age: 最小年齢
+        max_age: 最大年齢
 
     Returns:
         有効な候補者のリスト
@@ -123,18 +126,29 @@ def load_candidates(template_path: str, min_age: int = 70, max_age: int = 85) ->
             award_year = row.get("award_year", "")
 
             # birth_year が空の場合はスキップ
-            if not birth_year_str or not str(birth_year_str).isdigit():
+            if not birth_year_str:
                 skipped_no_birth += 1
                 continue
 
-            birth_year = int(birth_year_str)
-            death_year = int(death_year_str) if death_year_str and str(death_year_str).isdigit() else None
+            try:
+                birth_year = int(float(birth_year_str))
+            except (ValueError, TypeError):
+                skipped_no_birth += 1
+                continue
+
+            # death_year の処理（浮動小数点にも対応）
+            death_year = None
+            if death_year_str:
+                try:
+                    death_year = int(float(death_year_str))
+                except (ValueError, TypeError):
+                    pass
 
             # 年齢境界チェック
             current_year = datetime.now().year
             max_lived_age = death_year - birth_year if death_year else current_year - birth_year
 
-            # 70-85歳の範囲内で到達可能な年齢があるかチェック
+            # 指定範囲内で到達可能な年齢があるかチェック
             valid_ages = [a for a in range(min_age, max_age + 1) if a <= max_lived_age]
 
             if not valid_ages:
@@ -197,7 +211,67 @@ def calculate_quality_scores(episode_text: str) -> dict:
     return scores
 
 
-def generate_senior_episode(
+# 年代別プロンプトカスタマイズ辞書
+AGE_PROMPTS = {
+    "30s": {
+        "life_stage_tag": "壮年期の挑戦",
+        "description": "キャリア確立期",
+        "themes": "・キャリアの転換点や独立の決断\n・家庭と仕事の両立における挑戦\n・専門性の確立と社会的認知の獲得",
+    },
+    "40s": {
+        "life_stage_tag": "円熟期の飛躍",
+        "description": "リーダーシップ発揮期",
+        "themes": "・経験を活かした大きな挑戦や変革\n・組織やプロジェクトでのリーダーシップ\n・専門分野での影響力の拡大",
+    },
+    "50s": {
+        "life_stage_tag": "熟練期の深化",
+        "description": "専門性の極致",
+        "themes": "・長年の経験が結実した成果\n・後進の育成や知恵の継承\n・専門性の深化と新たな境地の開拓",
+    },
+    "60s": {
+        "life_stage_tag": "円熟期の新境地",
+        "description": "経験知の体系化",
+        "themes": "・キャリアの集大成となる業績\n・経験知の体系化と社会還元\n・定年後の新たな挑戦や社会貢献",
+    },
+    "70s": {
+        "life_stage_tag": "晩年の挑戦",
+        "description": "人生の知恵の結晶",
+        "themes": "・晩年特有の知恵や円熟した判断\n・年齢を超えた活力と挑戦\n・次世代へのメッセージ",
+    },
+    "80s": {
+        "life_stage_tag": "晩年の挑戦",
+        "description": "人生の知恵の結晶",
+        "themes": "・超高齢期の活躍と挑戦\n・長寿の知恵と経験の価値\n・生涯現役の姿勢",
+    },
+    "90s": {
+        "life_stage_tag": "超高齢期の奇跡",
+        "description": "長寿の知恵",
+        "themes": "・90代以上の驚異的な活躍\n・歴史の生き証人としての価値\n・人生100年時代のロールモデル",
+    },
+}
+
+
+def get_age_range_key(age: int) -> str:
+    """年齢から年代キー（30s, 40s, etc.）を取得"""
+    if 30 <= age <= 39:
+        return "30s"
+    elif 40 <= age <= 49:
+        return "40s"
+    elif 50 <= age <= 59:
+        return "50s"
+    elif 60 <= age <= 69:
+        return "60s"
+    elif 70 <= age <= 79:
+        return "70s"
+    elif 80 <= age <= 89:
+        return "80s"
+    elif age >= 90:
+        return "90s"
+    else:
+        return "70s"  # デフォルト（30歳未満は想定外だが安全策）
+
+
+def generate_episode_by_age_range(
     person_name: str,
     category: str,
     person_type: str,
@@ -207,7 +281,7 @@ def generate_senior_episode(
     birth_year: Optional[int] = None,
     death_year: Optional[int] = None,
 ) -> Optional[dict]:
-    """70代エピソードを生成"""
+    """任意の年齢のエピソードを生成"""
 
     # 【新規】人物名バリデーション（強制）
     from src.validators.person_name_validator import PersonNameValidator
@@ -227,9 +301,8 @@ def generate_senior_episode(
         print(f"{'=' * 70}\n")
         return None
 
-    # 【追加】正規化チェック（2025-12-16）
-    # RIKISHI_SHIKONAリスト等による自動正規化を試行
-    from scripts.normalize_person_names import PersonNameNormalizer
+    # 【追加】正規化チェック
+    from scripts.data.normalize_person_names import PersonNameNormalizer
 
     normalizer = PersonNameNormalizer(min_confidence=0.85)
     normalization_result = normalizer.normalize(person_name)
@@ -261,13 +334,17 @@ def generate_senior_episode(
         except ValueError:
             pass
 
+    # 年代別プロンプトカスタマイズ
+    age_key = get_age_range_key(age)
+    age_config = AGE_PROMPTS.get(age_key, AGE_PROMPTS["70s"])  # デフォルトは70s
+
     prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 
-以下の人物について、**{age}歳のとき（70代以上・晩年）** の印象的なエピソードを日本語で生成してください。
+以下の人物について、**{age}歳のとき（{age_config['description']}）** の印象的なエピソードを日本語で生成してください。
 
 人物名: {person_name}
 カテゴリ: {category}
-年齢: {age}歳（晩年期）"""
+年齢: {age}歳（{age_config['life_stage_tag']}）"""
 
     if award_name:
         prompt += f"""
@@ -275,23 +352,24 @@ def generate_senior_episode(
         if award_year and include_award_year:
             prompt += f" ({award_year}年)"
 
-    prompt += """
+    prompt += f"""
 
 エピソードの要件:
-1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で始める（ageは実際の数字に置換）
-2. 晩年特有の知恵、円熟、挑戦を感じさせる内容
+1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で始める
+2. この年代特有の視点を含める:
+{age_config['themes']}
 3. 具体的な事実や出来事を含める
 4. 200-300文字程度
-5. 教育的価値のある内容（特に高齢者の活躍・可能性）
+5. 教育的価値のある内容
 6. 事実に基づいた内容（架空の内容は避ける）
-7. 「年齢を重ねてもなお」という視点を含める
 
 ❌ 絶対禁止される表現:
 - 「すでにこの世を去っていました」「亡くなった後」「死去した後」などのメタ的な死の言及
 - 「未来のこと」「まだ到達していない」などの時系列の矛盾
 - 「年齢設定を変更」「申し訳ありませんが」などの生成失敗の言及
+- 「このキャラクターは架空です」「実在しないため」などのメタ的説明
 
-注意: この人物の晩年のエピソードが不明確な場合は、一般的に知られている事実に基づいて推測してください。
+注意: この人物のこの年齢のエピソードが不明確な場合は、一般的に知られている事実に基づいて推測してください。
 人物が指定年齢で存命だった場合、その時期の活動や功績を中心に記述してください。
 
 エピソードテキスト:"""
@@ -308,8 +386,19 @@ def generate_senior_episode(
         person_id = generate_person_id(person_name)
         scores = calculate_quality_scores(episode_text)
 
-        # 年代を60歳以上に設定（CSVの年代カラムの値）
-        nendai = "60歳以上"
+        # 年代を設定（CSVの年代カラムの値）
+        if age < 20:
+            nendai = "10代"
+        elif age < 30:
+            nendai = "20代"
+        elif age < 40:
+            nendai = "30代"
+        elif age < 50:
+            nendai = "40代"
+        elif age < 60:
+            nendai = "50代"
+        else:
+            nendai = "60歳以上"
 
         # award_levelの決定
         award_level_value = ""
@@ -357,7 +446,7 @@ def generate_senior_episode(
             "episode_fame_tier": "",
             "episode_fame_score": 7.0,
             "episode_fame_score_updated_at": "",
-            "人生の節目タグ": "晩年の挑戦",
+            "人生の節目タグ": age_config["life_stage_tag"],
             "記憶性スコア": scores["記憶性スコア"],
             "共感性スコア": scores["共感性スコア"],
             "意外性スコア": scores["意外性スコア"],
@@ -390,26 +479,27 @@ def generate_senior_episode(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="70代エピソードを生成")
-    parser.add_argument(
-        "--template", default="templates/phase8_senior_batch1_with_birthyear.csv", help="テンプレートCSVファイルパス"
-    )
-    parser.add_argument("--output", default="generated/phase8_senior_episodes.csv", help="出力CSVファイルパス")
+    parser = argparse.ArgumentParser(description="年齢範囲指定でエピソードを生成")
+    parser.add_argument("--template", required=True, help="テンプレートCSVファイルパス")
+    parser.add_argument("--output", required=True, help="出力CSVファイルパス")
+    parser.add_argument("--min-age", type=int, required=True, help="最小年齢")
+    parser.add_argument("--max-age", type=int, required=True, help="最大年齢")
     parser.add_argument("--limit", type=int, help="生成数の上限")
 
     args = parser.parse_args()
 
     print("=" * 70)
-    print("📝 Phase 8: 70代エピソード生成")
+    print(f"📝 Phase 5-2: {args.min_age}-{args.max_age}歳エピソード生成")
     print("=" * 70)
     print(f"テンプレート: {args.template}")
     print(f"出力先: {args.output}")
+    print(f"年齢範囲: {args.min_age}-{args.max_age}歳")
     print(f"生成上限: {args.limit if args.limit else '制限なし'}")
     print("=" * 70)
 
     # 候補者読み込み（年齢境界チェック付き）
     try:
-        candidates = load_candidates(template_path=args.template, min_age=70, max_age=85)
+        candidates = load_candidates(template_path=args.template, min_age=args.min_age, max_age=args.max_age)
     except (FileNotFoundError, ValueError) as e:
         print(f"❌ 候補者読み込みエラー: {e}")
         sys.exit(1)
@@ -435,15 +525,15 @@ def main():
 
         print(f"\n[{i}/{len(candidates)}] {person_name}")
 
-        # 有効な年齢を取得（load_candidates()でフィルタリング済みだが、防御的プログラミングとして保持）
-        age = get_valid_senior_age(person_name, birth_year, death_year, min_age=70, max_age=85)
+        # 有効な年齢を取得
+        age = get_valid_age_in_range(person_name, birth_year, death_year, min_age=args.min_age, max_age=args.max_age)
 
         if age is None:
             print(f"⚠️  内部エラー: {person_name}の年齢選択失敗（load_candidates()でフィルタリングされるべき）")
             fail_count += 1
             continue
 
-        episode = generate_senior_episode(
+        episode = generate_episode_by_age_range(
             person_name, category, person_type, age, award_name, award_year, birth_year, death_year
         )
 

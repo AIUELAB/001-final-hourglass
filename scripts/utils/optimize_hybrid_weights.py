@@ -18,15 +18,9 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 def load_data():
     """データ読み込み"""
-    gold_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "gold_standard_samples_50.csv",
-        encoding="utf-8-sig"
-    )
+    gold_df = pd.read_csv(PROJECT_ROOT / "reports" / "gold_standard_samples_50.csv", encoding="utf-8-sig")
 
-    hybrid_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "hybrid_evaluation_results.csv",
-        encoding="utf-8-sig"
-    )
+    hybrid_df = pd.read_csv(PROJECT_ROOT / "reports" / "hybrid_evaluation_results.csv", encoding="utf-8-sig")
 
     return gold_df, hybrid_df
 
@@ -34,8 +28,13 @@ def load_data():
 def get_csv_scores(gold_df):
     """CSV既存スコアを取得"""
     csv_cols = [
-        "記憶性スコア", "共感性スコア", "意外性スコア", "生成品質スコア",
-        "教育的価値", "ストーリー品質", "事実密度"
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
     ]
     return gold_df[csv_cols].values
 
@@ -79,10 +78,12 @@ def grid_search_weights():
                 best_w = w
 
         best_weights[axis] = best_corr
-        axis_results.append({
-            "axis": axis,
-            "correlation": best_corr,
-        })
+        axis_results.append(
+            {
+                "axis": axis,
+                "correlation": best_corr,
+            }
+        )
 
         print(f"{axis}: 相関={best_corr:.3f}")
 
@@ -107,8 +108,13 @@ def analyze_score_patterns():
 
     axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
     csv_cols = [
-        "記憶性スコア", "共感性スコア", "意外性スコア", "生成品質スコア",
-        "教育的価値", "ストーリー品質", "事実密度"
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
     ]
 
     # 軸ごとの分析
@@ -129,11 +135,11 @@ def analyze_score_patterns():
 
         # 推奨調整
         if diff > 1.0:
-            print(f"  → Hybridが高すぎる。ルールベース重みを上げる")
+            print("  → Hybridが高すぎる。ルールベース重みを上げる")
         elif diff < -1.0:
-            print(f"  → Hybridが低すぎる。LLM重みを上げる")
+            print("  → Hybridが低すぎる。LLM重みを上げる")
         else:
-            print(f"  → 差は適切範囲内")
+            print("  → 差は適切範囲内")
 
 
 def propose_optimized_weights():
@@ -142,8 +148,13 @@ def propose_optimized_weights():
 
     axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
     csv_cols = [
-        "記憶性スコア", "共感性スコア", "意外性スコア", "生成品質スコア",
-        "教育的価値", "ストーリー品質", "事実密度"
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
     ]
 
     print("\n" + "=" * 70)

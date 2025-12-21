@@ -45,33 +45,48 @@ class DashboardDebugger:
             page = await context.new_page()
 
             # イベントリスナー設定
-            page.on("console", lambda msg: self.console_logs.append({
-                "type": msg.type,
-                "text": msg.text,
-                "location": str(msg.location) if msg.location else None,
-                "timestamp": datetime.now().isoformat()
-            }))
+            page.on(
+                "console",
+                lambda msg: self.console_logs.append(
+                    {
+                        "type": msg.type,
+                        "text": msg.text,
+                        "location": str(msg.location) if msg.location else None,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                ),
+            )
 
-            page.on("pageerror", lambda err: self.errors.append({
-                "message": str(err),
-                "timestamp": datetime.now().isoformat()
-            }))
+            page.on(
+                "pageerror",
+                lambda err: self.errors.append({"message": str(err), "timestamp": datetime.now().isoformat()}),
+            )
 
-            page.on("request", lambda req: self.network_requests.append({
-                "url": req.url,
-                "method": req.method,
-                "resource_type": req.resource_type,
-                "headers": dict(req.headers) if req.headers else {},
-                "timestamp": datetime.now().isoformat()
-            }))
+            page.on(
+                "request",
+                lambda req: self.network_requests.append(
+                    {
+                        "url": req.url,
+                        "method": req.method,
+                        "resource_type": req.resource_type,
+                        "headers": dict(req.headers) if req.headers else {},
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                ),
+            )
 
-            page.on("response", lambda res: self.network_responses.append({
-                "url": res.url,
-                "status": res.status,
-                "status_text": res.status_text,
-                "headers": dict(res.headers) if res.headers else {},
-                "timestamp": datetime.now().isoformat()
-            }))
+            page.on(
+                "response",
+                lambda res: self.network_responses.append(
+                    {
+                        "url": res.url,
+                        "status": res.status,
+                        "status_text": res.status_text,
+                        "headers": dict(res.headers) if res.headers else {},
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                ),
+            )
 
             print(f"🌐 アクセス中: {self.url}")
             await page.goto(self.url, wait_until="networkidle")
@@ -92,11 +107,7 @@ class DashboardDebugger:
 
             await browser.close()
 
-        return {
-            "js_state": js_state,
-            "dom_state": dom_state,
-            "screenshot": str(screenshot_path)
-        }
+        return {"js_state": js_state, "dom_state": dom_state, "screenshot": str(screenshot_path)}
 
     async def capture_performance(self):
         """パフォーマンスメトリクスを取得"""
@@ -153,11 +164,7 @@ class DashboardDebugger:
 
             await browser.close()
 
-        return {
-            "metrics": metrics,
-            "web_vitals": web_vitals,
-            "slow_resources": resource_timing
-        }
+        return {"metrics": metrics, "web_vitals": web_vitals, "slow_resources": resource_timing}
 
     async def capture_memory(self):
         """メモリ使用状況を取得"""
@@ -198,10 +205,7 @@ class DashboardDebugger:
 
             await browser.close()
 
-        return {
-            "js_heap": js_heap,
-            "dom_stats": dom_stats
-        }
+        return {"js_heap": js_heap, "dom_stats": dom_stats}
 
     async def run_lighthouse(self):
         """Lighthouse監査を実行（簡易版）"""
@@ -276,11 +280,7 @@ class DashboardDebugger:
 
             await browser.close()
 
-        return {
-            "accessibility": accessibility,
-            "seo": seo,
-            "best_practices": best_practices
-        }
+        return {"accessibility": accessibility, "seo": seo, "best_practices": best_practices}
 
     async def watch_mode(self, interval: int = 30):
         """継続監視モード"""
@@ -362,7 +362,7 @@ class DashboardDebugger:
             "errors": self.errors,
             "network_requests": self.network_requests,
             "network_responses": self.network_responses,
-            **data
+            **data,
         }
 
         with open(report_path, "w", encoding="utf-8") as f:
@@ -383,9 +383,9 @@ class DashboardDebugger:
 
         # コンソールログ（重要なもの）
         important_logs = [
-            log for log in self.console_logs
-            if log["type"] in ["error", "warning"]
-            or any(x in log["text"] for x in ["✅", "❌", "⚠️", "🎨", "📋"])
+            log
+            for log in self.console_logs
+            if log["type"] in ["error", "warning"] or any(x in log["text"] for x in ["✅", "❌", "⚠️", "🎨", "📋"])
         ]
         print(f"\n📝 重要なログ数: {len(important_logs)}")
         for log in important_logs[:10]:
@@ -400,8 +400,9 @@ class DashboardDebugger:
 
 async def main():
     parser = argparse.ArgumentParser(description="ダッシュボードデバッグツール")
-    parser.add_argument("--url", default="http://localhost:8082/episode_database_dashboard_v6.html",
-                        help="デバッグ対象のURL")
+    parser.add_argument(
+        "--url", default="http://localhost:8082/episode_database_dashboard_v6.html", help="デバッグ対象のURL"
+    )
     parser.add_argument("--full", action="store_true", help="全機能（パフォーマンス・メモリ含む）")
     parser.add_argument("--lighthouse", action="store_true", help="Lighthouse監査")
     parser.add_argument("--performance", action="store_true", help="パフォーマンス分析")
@@ -432,7 +433,9 @@ async def main():
             data["memory"] = await debugger.capture_memory()
             if data["memory"]["js_heap"]:
                 heap = data["memory"]["js_heap"]
-                print(f"   JS Heap: {heap['usedJSHeapSize']/1024/1024:.1f}MB / {heap['totalJSHeapSize']/1024/1024:.1f}MB")
+                print(
+                    f"   JS Heap: {heap['usedJSHeapSize']/1024/1024:.1f}MB / {heap['totalJSHeapSize']/1024/1024:.1f}MB"
+                )
             print(f"   DOM Stats: {data['memory']['dom_stats']}")
 
         if args.full or args.lighthouse:
@@ -453,8 +456,8 @@ async def main():
             print("\n📋 JavaScript状態:")
             print(f"   allEpisodes: {data['js_state'].get('allEpisodesCount', 'N/A')}件")
             print(f"   filteredEpisodes: {data['js_state'].get('filteredEpisodesCount', 'N/A')}件")
-            if data['js_state'].get('firstEpisode'):
-                ep = data['js_state']['firstEpisode']
+            if data["js_state"].get("firstEpisode"):
+                ep = data["js_state"]["firstEpisode"]
                 print(f"   最初のエピソード: {ep.get('person_name')} (ID: {ep.get('episode_id')})")
 
     except KeyboardInterrupt:

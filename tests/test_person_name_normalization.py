@@ -11,7 +11,7 @@ from pathlib import Path
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.normalize_person_names import PersonNameNormalizer
+from scripts.data.normalize_person_names import PersonNameNormalizer
 
 
 def test_profession_prefix_normalization():
@@ -60,7 +60,7 @@ def test_no_false_positives():
 
 def test_all_new_professions_registered():
     """新しく追加した3職業がPROFESSION_KEYWORDSに登録されているか"""
-    from scripts.normalize_person_names import PROFESSION_KEYWORDS
+    from scripts.data.normalize_person_names import PROFESSION_KEYWORDS
 
     required_professions = ["浮世絵師", "人間国宝", "歌舞伎俳優"]
 

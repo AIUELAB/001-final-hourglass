@@ -17,22 +17,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 def load_all_data():
     """全データ読み込み"""
     # ゴールドスタンダード（CSV既存スコア）
-    gold_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "gold_standard_samples_50.csv",
-        encoding="utf-8-sig"
-    )
+    gold_df = pd.read_csv(PROJECT_ROOT / "reports" / "gold_standard_samples_50.csv", encoding="utf-8-sig")
 
     # 構造化LLM評価
-    llm_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "structured_llm_evaluation_50.csv",
-        encoding="utf-8-sig"
-    )
+    llm_df = pd.read_csv(PROJECT_ROOT / "reports" / "structured_llm_evaluation_50.csv", encoding="utf-8-sig")
 
     # ハイブリッド評価
-    hybrid_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "hybrid_evaluation_results.csv",
-        encoding="utf-8-sig"
-    )
+    hybrid_df = pd.read_csv(PROJECT_ROOT / "reports" / "hybrid_evaluation_results.csv", encoding="utf-8-sig")
 
     return gold_df, llm_df, hybrid_df
 
@@ -41,21 +32,28 @@ def calculate_total_scores(gold_df, llm_df, hybrid_df):
     """総合スコア計算"""
     # CSV既存スコアの軸
     csv_cols = [
-        "記憶性スコア", "共感性スコア", "意外性スコア", "生成品質スコア",
-        "教育的価値", "ストーリー品質", "事実密度"
+        "記憶性スコア",
+        "共感性スコア",
+        "意外性スコア",
+        "生成品質スコア",
+        "教育的価値",
+        "ストーリー品質",
+        "事実密度",
     ]
 
     # 構造化LLM評価の軸
     llm_cols = [
-        "記憶性_スコア", "共感性_スコア", "意外性_スコア", "生成品質_スコア",
-        "教育的価値_スコア", "ストーリー品質_スコア", "事実密度_スコア"
+        "記憶性_スコア",
+        "共感性_スコア",
+        "意外性_スコア",
+        "生成品質_スコア",
+        "教育的価値_スコア",
+        "ストーリー品質_スコア",
+        "事実密度_スコア",
     ]
 
     # ハイブリッドの軸
-    hybrid_cols = [
-        "記憶性", "共感性", "意外性", "生成品質",
-        "教育的価値", "ストーリー品質", "事実密度"
-    ]
+    hybrid_cols = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
 
     gold_df["csv_total"] = gold_df[csv_cols].mean(axis=1)
     llm_df["llm_total"] = llm_df[llm_cols].mean(axis=1)
@@ -77,14 +75,22 @@ def compare_systems():
     axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
 
     csv_map = {
-        "記憶性": "記憶性スコア", "共感性": "共感性スコア", "意外性": "意外性スコア",
-        "生成品質": "生成品質スコア", "教育的価値": "教育的価値",
-        "ストーリー品質": "ストーリー品質", "事実密度": "事実密度"
+        "記憶性": "記憶性スコア",
+        "共感性": "共感性スコア",
+        "意外性": "意外性スコア",
+        "生成品質": "生成品質スコア",
+        "教育的価値": "教育的価値",
+        "ストーリー品質": "ストーリー品質",
+        "事実密度": "事実密度",
     }
     llm_map = {
-        "記憶性": "記憶性_スコア", "共感性": "共感性_スコア", "意外性": "意外性_スコア",
-        "生成品質": "生成品質_スコア", "教育的価値": "教育的価値_スコア",
-        "ストーリー品質": "ストーリー品質_スコア", "事実密度": "事実密度_スコア"
+        "記憶性": "記憶性_スコア",
+        "共感性": "共感性_スコア",
+        "意外性": "意外性_スコア",
+        "生成品質": "生成品質_スコア",
+        "教育的価値": "教育的価値_スコア",
+        "ストーリー品質": "ストーリー品質_スコア",
+        "事実密度": "事実密度_スコア",
     }
 
     # 1. 基本統計量
@@ -200,25 +206,31 @@ def compare_systems():
     print("\n【7. 個別サンプルでのスコア差異（上位5件）】")
     print("-" * 80)
 
-    merged = pd.DataFrame({
-        "sample_no": gold_df["sample_no"],
-        "person_name": gold_df["person_name"],
-        "csv": gold_df["csv_total"],
-        "llm": llm_df["llm_total"],
-        "hybrid": hybrid_df["hybrid_total"],
-    })
+    merged = pd.DataFrame(
+        {
+            "sample_no": gold_df["sample_no"],
+            "person_name": gold_df["person_name"],
+            "csv": gold_df["csv_total"],
+            "llm": llm_df["llm_total"],
+            "hybrid": hybrid_df["hybrid_total"],
+        }
+    )
     merged["hybrid_csv_diff"] = abs(merged["hybrid"] - merged["csv"])
     merged["llm_csv_diff"] = abs(merged["llm"] - merged["csv"])
 
     print("\nハイブリッドがCSVに近いサンプル（差が小さい）:")
     closest = merged.nsmallest(5, "hybrid_csv_diff")
     for _, row in closest.iterrows():
-        print(f"  {row['person_name']:<20} CSV={row['csv']:.1f} Hybrid={row['hybrid']:.1f} 差={row['hybrid_csv_diff']:.2f}")
+        print(
+            f"  {row['person_name']:<20} CSV={row['csv']:.1f} Hybrid={row['hybrid']:.1f} 差={row['hybrid_csv_diff']:.2f}"
+        )
 
     print("\nハイブリッドとCSVの差が大きいサンプル:")
     farthest = merged.nlargest(5, "hybrid_csv_diff")
     for _, row in farthest.iterrows():
-        print(f"  {row['person_name']:<20} CSV={row['csv']:.1f} Hybrid={row['hybrid']:.1f} 差={row['hybrid_csv_diff']:.2f}")
+        print(
+            f"  {row['person_name']:<20} CSV={row['csv']:.1f} Hybrid={row['hybrid']:.1f} 差={row['hybrid_csv_diff']:.2f}"
+        )
 
 
 def main():

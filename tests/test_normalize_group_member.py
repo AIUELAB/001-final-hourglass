@@ -17,7 +17,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from scripts.normalize_group_member_field import (
+from scripts.data.normalize_group_member_field import (
     normalize_value,
     check_group_consistency,
     fix_group_consistency,

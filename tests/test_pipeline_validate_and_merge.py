@@ -17,7 +17,7 @@ from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime
 
 # テスト対象のインポート
-from scripts.pipeline_validate_and_merge import (
+from scripts.pipeline.pipeline_validate_and_merge import (
     generate_episode_id,
     check_duplicate_source_id,
     validate_episode,

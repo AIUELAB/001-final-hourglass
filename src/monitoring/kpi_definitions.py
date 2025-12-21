@@ -357,7 +357,7 @@ class EPUPKPICalculator:
         """
         # PersonNameNormalizerを遅延インポート（循環インポート回避）
         sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-        from scripts.normalize_person_names import PersonNameNormalizer
+        from scripts.data.normalize_person_names import PersonNameNormalizer
 
         normalizer = PersonNameNormalizer(min_confidence=0.85)
         contaminated = 0
@@ -402,7 +402,7 @@ class EPUPKPICalculator:
         """
         # EnglishNameDetectorを遅延インポート（循環インポート回避）
         sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-        from scripts.detect_english_names import EnglishNameDetector
+        from scripts.validation.detect_english_names import EnglishNameDetector
 
         # detectorを実行
         detector = EnglishNameDetector(self.csv_path)

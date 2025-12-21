@@ -227,7 +227,7 @@ class PersonNameValidator:
         if self._normalizer is None:
             # 循環インポート回避のため、ここでインポート
             sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-            from scripts.normalize_person_names import PersonNameNormalizer
+            from scripts.data.normalize_person_names import PersonNameNormalizer
 
             self._normalizer = PersonNameNormalizer(min_confidence=0.85)
         return self._normalizer
@@ -288,7 +288,7 @@ class PersonNameValidator:
         from pathlib import Path
 
         sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-        from scripts.normalize_person_names import ALIAS_KEYWORDS
+        from scripts.data.normalize_person_names import ALIAS_KEYWORDS
 
         if person_name in ALIAS_KEYWORDS:
             canonical = ALIAS_KEYWORDS[person_name]
@@ -321,7 +321,7 @@ class PersonNameValidator:
         from pathlib import Path
 
         sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-        from scripts.normalize_person_names import PROFESSION_KEYWORDS
+        from scripts.data.normalize_person_names import PROFESSION_KEYWORDS
 
         for prof in PROFESSION_KEYWORDS:
             pattern = f"^{re.escape(prof)}[・/](.+)$"

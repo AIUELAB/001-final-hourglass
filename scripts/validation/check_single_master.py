@@ -29,7 +29,7 @@ def check_single_master() -> dict:
     Returns:
         チェック結果の辞書
     """
-    project_root = Path(__file__).parent.parent
+    project_root = Path(__file__).parent.parent.parent
     results = {
         "passed": True,
         "checks": [],

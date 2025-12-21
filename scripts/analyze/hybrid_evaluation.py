@@ -44,34 +44,55 @@ except ImportError:
 # ルールベース評価コンポーネント
 # =============================================================================
 
+
 class RuleBasedEvaluator:
     """ルールベース評価器"""
 
     # 年号パターン
-    YEAR_PATTERN = re.compile(r'(19|20)\d{2}年?')
+    YEAR_PATTERN = re.compile(r"(19|20)\d{2}年?")
     # 数値パターン
-    NUMBER_PATTERN = re.compile(r'\d+[歳回位人件万億円ドル%]')
+    NUMBER_PATTERN = re.compile(r"\d+[歳回位人件万億円ドル%]")
     # 固有名詞（カタカナ3文字以上）
-    KATAKANA_PATTERN = re.compile(r'[ァ-ヴー]{3,}')
+    KATAKANA_PATTERN = re.compile(r"[ァ-ヴー]{3,}")
 
     # 感情キーワード
     EMOTION_KEYWORDS = [
-        "感動", "涙", "喜び", "悲しみ", "怒り", "恐怖", "驚き",
-        "苦悩", "葛藤", "決意", "希望", "絶望", "挫折", "成功",
-        "努力", "挑戦", "克服", "成長"
+        "感動",
+        "涙",
+        "喜び",
+        "悲しみ",
+        "怒り",
+        "恐怖",
+        "驚き",
+        "苦悩",
+        "葛藤",
+        "決意",
+        "希望",
+        "絶望",
+        "挫折",
+        "成功",
+        "努力",
+        "挑戦",
+        "克服",
+        "成長",
     ]
 
     # 転機キーワード
     TURNING_POINT_KEYWORDS = [
-        "転機", "きっかけ", "ところが", "しかし", "ついに",
-        "ある日", "その時", "実は", "突然", "意外にも"
+        "転機",
+        "きっかけ",
+        "ところが",
+        "しかし",
+        "ついに",
+        "ある日",
+        "その時",
+        "実は",
+        "突然",
+        "意外にも",
     ]
 
     # 教訓キーワード
-    LESSON_KEYWORDS = [
-        "学", "教訓", "大切", "重要", "示", "証明", "物語",
-        "意味", "価値", "姿勢", "信念", "精神"
-    ]
+    LESSON_KEYWORDS = ["学", "教訓", "大切", "重要", "示", "証明", "物語", "意味", "価値", "姿勢", "信念", "精神"]
 
     def evaluate(self, text: str) -> Dict[str, float]:
         """ルールベース評価を実行"""
@@ -117,7 +138,7 @@ class RuleBasedEvaluator:
     def _calc_text_quality(self, text: str) -> float:
         """テキスト品質スコア（1-10）"""
         # 文の数
-        sentences = len(re.findall(r'[。！？]', text))
+        sentences = len(re.findall(r"[。！？]", text))
         # 平均文長
         avg_sentence_len = len(text) / max(sentences, 1)
 
@@ -142,7 +163,7 @@ class RuleBasedEvaluator:
         # 「あなたと同じ」で始まるか
         starts_properly = text.startswith("あなたと同じ")
         # 段落数
-        paragraphs = text.count('\n\n') + 1
+        paragraphs = text.count("\n\n") + 1
 
         score = 5
         if starts_properly:
@@ -156,6 +177,7 @@ class RuleBasedEvaluator:
 # =============================================================================
 # LLM評価コンポーネント（軽量版）
 # =============================================================================
+
 
 class LightLLMEvaluator:
     """軽量LLM評価器（主観的指標のみ）"""
@@ -198,26 +220,17 @@ JSON形式で出力:
         self.model = model
 
     def evaluate(
-        self,
-        person_name: str,
-        age: float,
-        episode_text: str,
-        retry_count: int = 2
+        self, person_name: str, age: float, episode_text: str, retry_count: int = 2
     ) -> Optional[Dict[str, float]]:
         """LLM評価（主観的3軸のみ）"""
         prompt = self.PROMPT_TEMPLATE.format(
-            person_name=person_name,
-            age=int(age) if pd.notna(age) else "不明",
-            episode_text=episode_text
+            person_name=person_name, age=int(age) if pd.notna(age) else "不明", episode_text=episode_text
         )
 
         for attempt in range(retry_count):
             try:
                 response = self.client.messages.create(
-                    model=self.model,
-                    max_tokens=200,
-                    temperature=0.2,
-                    messages=[{"role": "user", "content": prompt}]
+                    model=self.model, max_tokens=200, temperature=0.2, messages=[{"role": "user", "content": prompt}]
                 )
 
                 content = response.content[0].text
@@ -229,7 +242,7 @@ JSON形式で出力:
                     return {
                         "empathy": result.get("empathy", 5),
                         "surprise": result.get("surprise", 5),
-                        "story_quality": result.get("story_quality", 5)
+                        "story_quality": result.get("story_quality", 5),
                     }
 
             except Exception as e:
@@ -243,18 +256,20 @@ JSON形式で出力:
 # ハイブリッド評価器
 # =============================================================================
 
+
 @dataclass
 class HybridWeights:
     """ハイブリッド評価の重み設定（最適化済み）"""
+
     # 各軸における [ルールベース, LLM] の重み
     # 最適化: CSV既存スコアとの相関を最大化
-    memorability: Tuple[float, float] = (0.7, 0.3)        # 事実+印象（高め調整）
-    empathy: Tuple[float, float] = (0.3, 0.7)            # 主観重視（維持）
-    surprise: Tuple[float, float] = (0.3, 0.7)           # 主観重視（LLM上げ）
+    memorability: Tuple[float, float] = (0.7, 0.3)  # 事実+印象（高め調整）
+    empathy: Tuple[float, float] = (0.3, 0.7)  # 主観重視（維持）
+    surprise: Tuple[float, float] = (0.3, 0.7)  # 主観重視（LLM上げ）
     generation_quality: Tuple[float, float] = (0.9, 0.1)  # テキスト品質（ルール上げ）
-    educational_value: Tuple[float, float] = (0.4, 0.6)   # 教訓+主観（LLM上げ）
-    story_quality: Tuple[float, float] = (0.4, 0.6)       # 主観重視（ルール上げ）
-    fact_density: Tuple[float, float] = (1.0, 0.0)        # ルールのみ
+    educational_value: Tuple[float, float] = (0.4, 0.6)  # 教訓+主観（LLM上げ）
+    story_quality: Tuple[float, float] = (0.4, 0.6)  # 主観重視（ルール上げ）
+    fact_density: Tuple[float, float] = (1.0, 0.0)  # ルールのみ
 
 
 class HybridEvaluator:
@@ -265,13 +280,7 @@ class HybridEvaluator:
         self.llm_evaluator = LightLLMEvaluator()
         self.weights = weights or HybridWeights()
 
-    def evaluate(
-        self,
-        person_name: str,
-        age: float,
-        episode_text: str,
-        use_llm: bool = True
-    ) -> Dict[str, float]:
+    def evaluate(self, person_name: str, age: float, episode_text: str, use_llm: bool = True) -> Dict[str, float]:
         """ハイブリッド評価を実行"""
 
         # ルールベース評価
@@ -280,90 +289,57 @@ class HybridEvaluator:
         # LLM評価（オプション）
         llm_scores = None
         if use_llm:
-            llm_scores = self.llm_evaluator.evaluate(
-                person_name, age, episode_text
-            )
+            llm_scores = self.llm_evaluator.evaluate(person_name, age, episode_text)
 
         # スコア統合
         return self._merge_scores(rule_scores, llm_scores)
 
-    def _merge_scores(
-        self,
-        rule_scores: Dict[str, float],
-        llm_scores: Optional[Dict[str, float]]
-    ) -> Dict[str, float]:
+    def _merge_scores(self, rule_scores: Dict[str, float], llm_scores: Optional[Dict[str, float]]) -> Dict[str, float]:
         """ルールベースとLLMスコアを統合"""
 
         # LLMスコアがない場合はルールベースのみ
         if llm_scores is None:
-            llm_scores = {
-                "empathy": 5,
-                "surprise": 5,
-                "story_quality": 5
-            }
+            llm_scores = {"empathy": 5, "surprise": 5, "story_quality": 5}
 
         w = self.weights
 
         return {
             "記憶性": self._weighted_avg(
-                rule_scores["fact_density"],
-                (llm_scores["empathy"] + llm_scores["surprise"]) / 2,
-                w.memorability
+                rule_scores["fact_density"], (llm_scores["empathy"] + llm_scores["surprise"]) / 2, w.memorability
             ),
-            "共感性": self._weighted_avg(
-                rule_scores["emotion_score"],
-                llm_scores["empathy"],
-                w.empathy
-            ),
-            "意外性": self._weighted_avg(
-                rule_scores["turning_point_score"],
-                llm_scores["surprise"],
-                w.surprise
-            ),
+            "共感性": self._weighted_avg(rule_scores["emotion_score"], llm_scores["empathy"], w.empathy),
+            "意外性": self._weighted_avg(rule_scores["turning_point_score"], llm_scores["surprise"], w.surprise),
             "生成品質": self._weighted_avg(
                 rule_scores["text_quality"],
                 llm_scores["story_quality"],  # 代用
-                w.generation_quality
+                w.generation_quality,
             ),
             "教育的価値": self._weighted_avg(
                 rule_scores["lesson_score"],
                 llm_scores["empathy"],  # 代用
-                w.educational_value
+                w.educational_value,
             ),
             "ストーリー品質": self._weighted_avg(
-                rule_scores["structure_score"],
-                llm_scores["story_quality"],
-                w.story_quality
+                rule_scores["structure_score"], llm_scores["story_quality"], w.story_quality
             ),
             "事実密度": self._weighted_avg(
                 rule_scores["fact_density"],
                 5,  # LLMは参照しない
-                w.fact_density
+                w.fact_density,
             ),
         }
 
-    def _weighted_avg(
-        self,
-        rule_score: float,
-        llm_score: float,
-        weights: Tuple[float, float]
-    ) -> float:
+    def _weighted_avg(self, rule_score: float, llm_score: float, weights: Tuple[float, float]) -> float:
         """加重平均"""
-        return round(
-            rule_score * weights[0] + llm_score * weights[1],
-            1
-        )
+        return round(rule_score * weights[0] + llm_score * weights[1], 1)
 
 
 # =============================================================================
 # メイン処理
 # =============================================================================
 
-def evaluate_batch(
-    samples_df: pd.DataFrame,
-    use_llm: bool = True,
-    delay: float = 0.5
-) -> List[Dict]:
+
+def evaluate_batch(samples_df: pd.DataFrame, use_llm: bool = True, delay: float = 0.5) -> List[Dict]:
     """バッチ評価"""
     evaluator = HybridEvaluator()
     results = []
@@ -380,14 +356,10 @@ def evaluate_batch(
                 person_name=person_name,
                 age=row.get("age", 0),
                 episode_text=str(row.get("episode_text", "")),
-                use_llm=use_llm
+                use_llm=use_llm,
             )
 
-            result = {
-                "sample_no": sample_no,
-                "person_name": person_name,
-                **scores
-            }
+            result = {"sample_no": sample_no, "person_name": person_name, **scores}
             results.append(result)
             print("OK")
 
@@ -405,11 +377,7 @@ def main():
     parser.add_argument("--sample", type=int, default=5, help="評価件数")
     parser.add_argument("--all", action="store_true", help="全件評価")
     parser.add_argument("--no-llm", action="store_true", help="LLMを使用しない")
-    parser.add_argument(
-        "--output",
-        type=Path,
-        default=PROJECT_ROOT / "reports" / "hybrid_evaluation_results.csv"
-    )
+    parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "reports" / "hybrid_evaluation_results.csv")
     parser.add_argument("--delay", type=float, default=0.5)
 
     args = parser.parse_args()
@@ -429,11 +397,7 @@ def main():
     print("=" * 70)
 
     # 評価実行
-    results = evaluate_batch(
-        samples_df,
-        use_llm=not args.no_llm,
-        delay=args.delay
-    )
+    results = evaluate_batch(samples_df, use_llm=not args.no_llm, delay=args.delay)
 
     if not results:
         print("Error: No results")

@@ -14,7 +14,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.normalize_person_names import PersonNameNormalizer
+from scripts.data.normalize_person_names import PersonNameNormalizer
 
 
 class TestNormalizePersonNames:

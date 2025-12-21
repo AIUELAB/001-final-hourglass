@@ -150,7 +150,7 @@ n8n_git_hook() {
     files=$(git diff --cached --name-only)
     message=$(git log -1 --pretty=%B 2>/dev/null || echo "No commit message")
     python3 -c "
-from scripts.n8n_automation import auto_trigger_n8n
+from scripts.utils.n8n_automation import auto_trigger_n8n
 import sys
 result = auto_trigger_n8n('git_commit', message='$message', files='$files'.split())
 sys.exit(0 if result.get('success', False) else 1)
@@ -163,7 +163,7 @@ n8n_error_hook() {
     error_msg=$2
     file_path=$3
     python3 -c "
-from scripts.n8n_automation import auto_trigger_n8n
+from scripts.utils.n8n_automation import auto_trigger_n8n
 auto_trigger_n8n('error', error_type='$error_type', error_message='$error_msg', file_path='$file_path')
 "
 }
@@ -174,7 +174,7 @@ n8n_build_hook() {
     duration=$2
     output=$3
     python3 -c "
-from scripts.n8n_automation import auto_trigger_n8n
+from scripts.utils.n8n_automation import auto_trigger_n8n
 auto_trigger_n8n('build', success=$success, duration=$duration, output='$output')
 "
 }

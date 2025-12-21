@@ -14,7 +14,7 @@ sys.path.insert(0, str(project_root))
 
 import pytest
 import pandas as pd
-from scripts.pipeline_verify_sources import (
+from scripts.pipeline.pipeline_verify_sources import (
     generate_source_id,
     is_duplicate_source,
     judge_evidence_quality,

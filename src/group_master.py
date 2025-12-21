@@ -434,6 +434,7 @@ GROUP_ENTITIES: Set[str] = {
     "DREAMS COME TRUE",
     "ドリカム",
     "EXILE",
+    "DA PUMP",
     "三代目 J SOUL BROTHERS",
     "三代目J Soul Brothers",  # 表記ゆれ対応
     "L'Arc~en~Ciel",

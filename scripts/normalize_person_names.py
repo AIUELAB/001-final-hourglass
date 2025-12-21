@@ -219,6 +219,8 @@ ALIAS_KEYWORDS = {
     # 企業＋人物混在パターン（追加: 2025-12-21）
     "Activision・Bobby Kotick": "ボビー・コティック",
     "Bethesda・Todd Howard": "トッド・ハワード",
+    # FIN.K.L メンバー正規化（追加: 2025-12-21）
+    "Shelly": "イ・ジン",  # 韓国 FIN.K.L メンバー（※日本のタレントSHELLYとは別人）
     # 今後発見された別名をここに追加
 }
 

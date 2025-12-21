@@ -16,7 +16,7 @@ from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime
 
 # テスト対象のインポート
-from scripts.pipeline_curate_episodes import (
+from scripts.pipeline.pipeline_curate_episodes import (
     extract_age_from_context,
     convert_to_epup_format,
 )

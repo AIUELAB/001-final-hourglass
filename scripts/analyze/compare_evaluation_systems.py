@@ -13,19 +13,14 @@ from scipy import stats
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+
 def load_data():
     """データ読み込み"""
     # ゴールドスタンダードサンプル（CSV既存スコア含む）
-    gold_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "gold_standard_samples_50.csv",
-        encoding="utf-8-sig"
-    )
+    gold_df = pd.read_csv(PROJECT_ROOT / "reports" / "gold_standard_samples_50.csv", encoding="utf-8-sig")
 
     # 構造化LLM評価結果
-    llm_df = pd.read_csv(
-        PROJECT_ROOT / "reports" / "structured_llm_evaluation_50.csv",
-        encoding="utf-8-sig"
-    )
+    llm_df = pd.read_csv(PROJECT_ROOT / "reports" / "structured_llm_evaluation_50.csv", encoding="utf-8-sig")
 
     return gold_df, llm_df
 
@@ -63,10 +58,7 @@ def compare_scores(gold_df, llm_df):
         # 相関係数計算
         valid_mask = ~(gold_df[csv_col].isna() | llm_df[llm_col].isna())
         if valid_mask.sum() > 2:
-            corr, p_value = stats.spearmanr(
-                gold_df.loc[valid_mask, csv_col],
-                llm_df.loc[valid_mask, llm_col]
-            )
+            corr, p_value = stats.spearmanr(gold_df.loc[valid_mask, csv_col], llm_df.loc[valid_mask, llm_col])
             correlations[csv_col] = (corr, p_value)
 
         axis_name = csv_col.replace("スコア", "").replace("_", "")
@@ -76,7 +68,9 @@ def compare_scores(gold_df, llm_df):
     csv_all_mean = gold_df[[c for c in axis_mapping.keys()]].mean().mean()
     llm_all_mean = llm_df[[c for c in axis_mapping.values()]].mean().mean()
     print("-" * 80)
-    print(f"{'全体平均':<15} {csv_all_mean:>6.2f}        {llm_all_mean:>6.2f}        {llm_all_mean - csv_all_mean:>+6.2f}")
+    print(
+        f"{'全体平均':<15} {csv_all_mean:>6.2f}        {llm_all_mean:>6.2f}        {llm_all_mean - csv_all_mean:>+6.2f}"
+    )
 
     print("\n【2. 相関分析（Spearman）】")
     print("-" * 80)
@@ -126,13 +120,15 @@ def compare_scores(gold_df, llm_df):
     llm_df["llm_total"] = llm_df[llm_cols].mean(axis=1)
 
     # 差分計算
-    diff_df = pd.DataFrame({
-        "sample_no": gold_df["sample_no"],
-        "person_name": gold_df["person_name"],
-        "csv_avg": gold_df["csv_total"],
-        "llm_avg": llm_df["llm_total"],
-        "diff": llm_df["llm_total"] - gold_df["csv_total"]
-    })
+    diff_df = pd.DataFrame(
+        {
+            "sample_no": gold_df["sample_no"],
+            "person_name": gold_df["person_name"],
+            "csv_avg": gold_df["csv_total"],
+            "llm_avg": llm_df["llm_total"],
+            "diff": llm_df["llm_total"] - gold_df["csv_total"],
+        }
+    )
 
     # 大きな差異（±1.5以上）
     large_diff = diff_df[abs(diff_df["diff"]) >= 1.5].sort_values("diff")
@@ -140,7 +136,9 @@ def compare_scores(gold_df, llm_df):
     if len(large_diff) > 0:
         print("CSV既存スコアと構造化LLMスコアの差が1.5以上のサンプル:")
         for _, row in large_diff.iterrows():
-            print(f"  {row['sample_no']:>3}. {row['person_name']:<20} CSV={row['csv_avg']:.1f} LLM={row['llm_avg']:.1f} 差={row['diff']:+.1f}")
+            print(
+                f"  {row['sample_no']:>3}. {row['person_name']:<20} CSV={row['csv_avg']:.1f} LLM={row['llm_avg']:.1f} 差={row['diff']:+.1f}"
+            )
     else:
         print("大きな差異（±1.5以上）のあるサンプルはありません。")
 
@@ -148,15 +146,9 @@ def compare_scores(gold_df, llm_df):
     print("-" * 80)
 
     # カテゴリ別平均
-    merged = gold_df[["sample_no", "category", "csv_total"]].merge(
-        llm_df[["sample_no", "llm_total"]],
-        on="sample_no"
-    )
+    merged = gold_df[["sample_no", "category", "csv_total"]].merge(llm_df[["sample_no", "llm_total"]], on="sample_no")
 
-    category_stats = merged.groupby("category").agg({
-        "csv_total": "mean",
-        "llm_total": "mean"
-    }).round(2)
+    category_stats = merged.groupby("category").agg({"csv_total": "mean", "llm_total": "mean"}).round(2)
 
     print(f"{'カテゴリ':<20} {'CSV既存':<10} {'構造化LLM':<10} {'差分':<10}")
     print("-" * 50)
@@ -182,7 +174,7 @@ def compare_scores(gold_df, llm_df):
     csv_avg = gold_df["csv_total"].mean()
     llm_avg = llm_df["llm_total"].mean()
 
-    print(f"\n2. 平均スコア比較:")
+    print("\n2. 平均スコア比較:")
     print(f"   CSV既存: {csv_avg:.2f}")
     print(f"   構造化LLM: {llm_avg:.2f}")
 
@@ -197,7 +189,7 @@ def compare_scores(gold_df, llm_df):
     csv_stds = [gold_df[c].std() for c in csv_cols]
     llm_stds = [llm_df[c].std() for c in llm_cols]
 
-    print(f"\n3. スコア分散（標準偏差の平均）:")
+    print("\n3. スコア分散（標準偏差の平均）:")
     print(f"   CSV既存: {np.mean(csv_stds):.2f}")
     print(f"   構造化LLM: {np.mean(llm_stds):.2f}")
 
@@ -212,7 +204,7 @@ def compare_scores(gold_df, llm_df):
 def main():
     gold_df, llm_df = load_data()
 
-    print(f"データ読み込み完了:")
+    print("データ読み込み完了:")
     print(f"  ゴールドスタンダード: {len(gold_df)}件")
     print(f"  構造化LLM評価: {len(llm_df)}件")
     print()

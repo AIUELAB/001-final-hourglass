@@ -225,7 +225,9 @@ def evaluate_batch_with_checkpoints(
             # チェックポイント保存（一定時間ごとにCSVへ反映）
             if save_to_csv and checkpoint_seconds > 0:
                 now = time.monotonic()
-                if (now - last_checkpoint_time) >= checkpoint_seconds and evaluator.stats["success"] > last_saved_success:
+                if (now - last_checkpoint_time) >= checkpoint_seconds and evaluator.stats[
+                    "success"
+                ] > last_saved_success:
                     print("\n\n📝 チェックポイント保存を実行します…")
                     evaluator.save_episodes()
                     last_checkpoint_time = now
@@ -314,9 +316,7 @@ def main() -> int:
         print("  # ドライラン（対象確認）")
         print("  python scripts/batch_llm_evaluate_runner.py --dry-run --count 10")
         print("\n  # 実行（5分ごとにチェックポイント保存）")
-        print(
-            "  python scripts/batch_llm_evaluate_runner.py --execute --count 6000 --save --checkpoint-seconds 300"
-        )
+        print("  python scripts/batch_llm_evaluate_runner.py --execute --count 6000 --save --checkpoint-seconds 300")
         return 2
 
     # 評価済みスキップの判定
@@ -353,4 +353,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

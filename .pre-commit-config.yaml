@@ -166,7 +166,7 @@ repos:
   hooks:
   - id: check-single-master
     name: Check single master CSV
-    entry: python scripts/check_single_master.py
+    entry: python scripts/validation/check_single_master.py
     language: python
     additional_dependencies: []
     pass_filenames: false
@@ -174,7 +174,7 @@ repos:
 
   - id: check-single-dashboard
     name: Check single dashboard
-    entry: python scripts/check_single_dashboard.py
+    entry: python scripts/validation/check_single_dashboard.py
     language: python
     additional_dependencies: []
     pass_filenames: false

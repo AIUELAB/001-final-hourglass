@@ -37,7 +37,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # バリデータインポート
-from scripts.episode_validator import validate_episode
+from scripts.validation.episode_validator import validate_episode
 
 # CSVパス
 STAGING_CSV = PROJECT_ROOT / "generated" / "pipeline_staging.csv"

@@ -40,6 +40,7 @@ except ImportError:
 @dataclass
 class AxisEvaluation:
     """軸ごとの評価結果"""
+
     score: int  # 1-10
     reason: str  # 評価理由（1-2文）
 
@@ -47,16 +48,17 @@ class AxisEvaluation:
 @dataclass
 class EpisodeEvaluation:
     """エピソード評価結果"""
+
     sample_no: int
     person_name: str
-    memorability: AxisEvaluation      # 記憶性
-    empathy: AxisEvaluation           # 共感性
-    surprise: AxisEvaluation          # 意外性
+    memorability: AxisEvaluation  # 記憶性
+    empathy: AxisEvaluation  # 共感性
+    surprise: AxisEvaluation  # 意外性
     generation_quality: AxisEvaluation  # 生成品質
     educational_value: AxisEvaluation  # 教育的価値
-    story_quality: AxisEvaluation     # ストーリー品質
-    fact_density: AxisEvaluation      # 事実密度
-    overall_comment: str              # 総合コメント
+    story_quality: AxisEvaluation  # ストーリー品質
+    fact_density: AxisEvaluation  # 事実密度
+    overall_comment: str  # 総合コメント
 
 
 # 評価プロンプトテンプレート
@@ -175,13 +177,7 @@ class StructuredLLMEvaluator:
         self.model = model
 
     def evaluate_episode(
-        self,
-        sample_no: int,
-        person_name: str,
-        age: float,
-        category: str,
-        episode_text: str,
-        retry_count: int = 3
+        self, sample_no: int, person_name: str, age: float, category: str, episode_text: str, retry_count: int = 3
     ) -> Optional[Dict]:
         """
         単一エピソードを評価
@@ -201,7 +197,7 @@ class StructuredLLMEvaluator:
             person_name=person_name,
             age=int(age) if pd.notna(age) else "不明",
             category=category,
-            episode_text=episode_text
+            episode_text=episode_text,
         )
 
         for attempt in range(retry_count):
@@ -210,9 +206,7 @@ class StructuredLLMEvaluator:
                     model=self.model,
                     max_tokens=1000,
                     temperature=0.3,  # 低めで安定性重視
-                    messages=[
-                        {"role": "user", "content": prompt}
-                    ]
+                    messages=[{"role": "user", "content": prompt}],
                 )
 
                 # レスポンスからJSONを抽出
@@ -235,17 +229,13 @@ class StructuredLLMEvaluator:
             except anthropic.APIError as e:
                 print(f"  [Error] API error for sample {sample_no}: {e}")
                 if attempt < retry_count - 1:
-                    time.sleep(2 ** attempt)  # Exponential backoff
+                    time.sleep(2**attempt)  # Exponential backoff
             except Exception as e:
                 print(f"  [Error] Unexpected error for sample {sample_no}: {e}")
 
         return None
 
-    def evaluate_batch(
-        self,
-        samples_df: pd.DataFrame,
-        delay: float = 1.0
-    ) -> List[Dict]:
+    def evaluate_batch(self, samples_df: pd.DataFrame, delay: float = 1.0) -> List[Dict]:
         """
         バッチ評価
 
@@ -270,7 +260,7 @@ class StructuredLLMEvaluator:
                 person_name=person_name,
                 age=row.get("age", 0),
                 category=str(row.get("category", "")),
-                episode_text=str(row.get("episode_text", ""))
+                episode_text=str(row.get("episode_text", "")),
             )
 
             if result:
@@ -318,35 +308,18 @@ def results_to_dataframe(results: List[Dict]) -> pd.DataFrame:
 
 def main():
     parser = argparse.ArgumentParser(description="構造化LLM評価")
+    parser.add_argument("--sample", type=int, default=10, help="評価するサンプル数（デフォルト: 10）")
+    parser.add_argument("--all", action="store_true", help="全50件を評価")
     parser.add_argument(
-        "--sample",
-        type=int,
-        default=10,
-        help="評価するサンプル数（デフォルト: 10）"
-    )
-    parser.add_argument(
-        "--all",
-        action="store_true",
-        help="全50件を評価"
-    )
-    parser.add_argument(
-        "--model",
-        type=str,
-        default="claude-3-haiku-20240307",
-        help="使用するモデル（デフォルト: claude-3-haiku）"
+        "--model", type=str, default="claude-3-haiku-20240307", help="使用するモデル（デフォルト: claude-3-haiku）"
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=PROJECT_ROOT / "reports" / "structured_llm_evaluation_results.csv",
-        help="出力ファイルパス"
+        help="出力ファイルパス",
     )
-    parser.add_argument(
-        "--delay",
-        type=float,
-        default=1.0,
-        help="リクエスト間の待機時間（秒）"
-    )
+    parser.add_argument("--delay", type=float, default=1.0, help="リクエスト間の待機時間（秒）")
 
     args = parser.parse_args()
 

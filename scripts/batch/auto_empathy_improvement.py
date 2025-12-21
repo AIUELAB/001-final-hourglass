@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 """
-意外性スコア自動改善スクリプト
+共感性スコア自動改善スクリプト
 
-指定バッチ数まで自動で意外性スコア改善を実行する
+指定バッチ数まで自動で共感性スコア改善を実行する
 
 使用方法:
-    # 17バッチ実行（デフォルト）
-    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_surprise_improvement.py
+    # 4バッチ実行（デフォルト）
+    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_empathy_improvement.py
 
     # バッチ数指定
-    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_surprise_improvement.py --batches 10
+    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_empathy_improvement.py --batches 5
 
     # バッチサイズ指定
-    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_surprise_improvement.py --batch-size 30
+    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_empathy_improvement.py --batch-size 30
 
     # ドライラン
-    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_surprise_improvement.py --dry-run
+    ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/auto_empathy_improvement.py --dry-run
 
 環境変数:
     ANTHROPIC_API_KEY: Anthropic APIキー
@@ -36,7 +36,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # インポート
-from scripts.improve_surprise_score import run_improvement
+from scripts.improve.improve_empathy_score import run_improvement
 
 # パス
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
@@ -44,16 +44,16 @@ REPORT_DIR = PROJECT_ROOT / "reports"
 SESSION_STATUS = PROJECT_ROOT / ".session" / "STATUS.md"
 
 
-def get_low_surprise_count() -> int:
-    """意外性スコア3.0未満の件数を取得"""
+def get_low_empathy_count() -> int:
+    """共感性スコア3.0未満の件数を取得"""
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
-    return len(df[df["意外性スコア"] < 3.0])
+    return len(df[df["共感性スコア"] < 3.0])
 
 
 def get_score_distribution() -> dict:
     """スコア分布を取得"""
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
-    col = "意外性スコア"
+    col = "共感性スコア"
     return {
         "under_3": len(df[df[col] < 3.0]),
         "range_3_5": len(df[(df[col] >= 3.0) & (df[col] < 5.0)]),
@@ -65,11 +65,11 @@ def get_score_distribution() -> dict:
 def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay: int):
     """自動バッチ実行"""
     print("=" * 60)
-    print("🚀 意外性スコア自動改善")
+    print("🚀 共感性スコア自動改善")
     print("=" * 60)
 
-    initial_count = get_low_surprise_count()
-    print(f"  初期状態: 意外性スコア < 3.0 = {initial_count}件")
+    initial_count = get_low_empathy_count()
+    print(f"  初期状態: 共感性スコア < 3.0 = {initial_count}件")
     print(f"  最大バッチ数: {max_batches}")
     print(f"  バッチサイズ: {batch_size}")
     print(f"  バッチ間隔: {delay}秒")
@@ -84,7 +84,7 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
 
     for batch_num in range(1, max_batches + 1):
         # 残件確認
-        remaining = get_low_surprise_count()
+        remaining = get_low_empathy_count()
         if remaining == 0:
             print("\n✅ 全エピソード改善完了！")
             break
@@ -115,7 +115,7 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
                     "partial": partial,
                     "failed": failed,
                     "elapsed": elapsed,
-                    "remaining": get_low_surprise_count(),
+                    "remaining": get_low_empathy_count(),
                 }
             )
 
@@ -131,12 +131,12 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
             continue
 
         # 次のバッチ前に待機
-        if batch_num < max_batches and get_low_surprise_count() > 0:
+        if batch_num < max_batches and get_low_empathy_count() > 0:
             print(f"\n⏳ {delay}秒待機中...")
             time.sleep(delay)
 
     # 最終サマリー
-    final_count = get_low_surprise_count()
+    final_count = get_low_empathy_count()
     distribution = get_score_distribution()
 
     print("\n" + "=" * 60)
@@ -154,7 +154,7 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
 
     # レポート保存
     REPORT_DIR.mkdir(exist_ok=True)
-    report_path = REPORT_DIR / f"auto_surprise_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    report_path = REPORT_DIR / f"auto_empathy_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(
@@ -180,8 +180,8 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
 
 
 def main():
-    parser = argparse.ArgumentParser(description="意外性スコア自動改善スクリプト")
-    parser.add_argument("--batches", type=int, default=17, help="最大バッチ数 (default: 17)")
+    parser = argparse.ArgumentParser(description="共感性スコア自動改善スクリプト")
+    parser.add_argument("--batches", type=int, default=4, help="最大バッチ数 (default: 4)")
     parser.add_argument("--batch-size", type=int, default=50, help="バッチサイズ (default: 50)")
     parser.add_argument("--delay", type=int, default=5, help="バッチ間隔（秒） (default: 5)")
     parser.add_argument("--dry-run", action="store_true", help="ドライラン")

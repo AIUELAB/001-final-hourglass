@@ -25,7 +25,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.normalize_person_names import RIKISHI_SHIKONA
+from scripts.data.normalize_person_names import RIKISHI_SHIKONA
 
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 REPORTS_DIR = PROJECT_ROOT / "reports"

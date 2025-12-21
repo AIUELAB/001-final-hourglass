@@ -7,6 +7,7 @@ Person Growth Pipeline - 冪等性テスト
 """
 
 import json
+import os
 import subprocess
 from pathlib import Path
 from typing import Dict, Any
@@ -16,6 +17,10 @@ import pytest
 
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).parent.parent
+
+# サブプロセス用環境変数（PYTHONPATHを設定）
+SUBPROCESS_ENV = os.environ.copy()
+SUBPROCESS_ENV["PYTHONPATH"] = str(PROJECT_ROOT)
 
 
 @pytest.fixture
@@ -66,7 +71,7 @@ def run_pipeline(mode: str, sources_csv: Path, limit: int = None, allow_sensitiv
         # コマンド構築
         cmd = [
             "python3",
-            "scripts/person_growth_pipeline.py",
+            "scripts/utils/person_growth_pipeline.py",
             f"--{mode}",
             "--sources",
             "test_e2e_candidates",
@@ -79,7 +84,7 @@ def run_pipeline(mode: str, sources_csv: Path, limit: int = None, allow_sensitiv
             cmd.append("--allow-sensitive")
 
         # 実行
-        result = subprocess.run(cmd, cwd=PROJECT_ROOT, capture_output=True, text=True, timeout=300)
+        result = subprocess.run(cmd, cwd=PROJECT_ROOT, capture_output=True, text=True, timeout=300, env=SUBPROCESS_ENV)
 
         if result.returncode != 0:
             raise RuntimeError(f"Pipeline failed: {result.stderr}")

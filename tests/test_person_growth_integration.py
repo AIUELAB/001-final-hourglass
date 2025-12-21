@@ -7,6 +7,7 @@ Person Growth Pipeline - E2E統合テスト
 3. 4層重複判定の動作
 """
 
+import os
 import subprocess
 from pathlib import Path
 from typing import Dict, Any
@@ -16,6 +17,10 @@ import pytest
 
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).parent.parent
+
+# サブプロセス用環境変数（PYTHONPATHを設定）
+SUBPROCESS_ENV = os.environ.copy()
+SUBPROCESS_ENV["PYTHONPATH"] = str(PROJECT_ROOT)
 
 
 @pytest.fixture
@@ -44,7 +49,7 @@ def run_pipeline_analyze(sources: str = None, limit: int = None) -> Dict[str, An
     Returns:
         stdout出力
     """
-    cmd = ["python3", "scripts/person_growth_pipeline.py", "--analyze"]
+    cmd = ["python3", "scripts/utils/person_growth_pipeline.py", "--analyze"]
 
     if sources:
         cmd.extend(["--sources", sources])
@@ -52,7 +57,7 @@ def run_pipeline_analyze(sources: str = None, limit: int = None) -> Dict[str, An
     if limit:
         cmd.extend(["--limit", str(limit)])
 
-    result = subprocess.run(cmd, cwd=PROJECT_ROOT, capture_output=True, text=True, timeout=300)
+    result = subprocess.run(cmd, cwd=PROJECT_ROOT, capture_output=True, text=True, timeout=300, env=SUBPROCESS_ENV)
 
     return {"returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
 

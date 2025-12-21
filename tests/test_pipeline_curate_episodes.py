@@ -66,7 +66,7 @@ class TestAgeExtraction:
 class TestEPUPConversion:
     """EPUP形式変換のテスト（モック使用）"""
 
-    @patch("scripts.pipeline_curate_episodes.Anthropic")
+    @patch("scripts.pipeline.pipeline_curate_episodes.Anthropic")
     def test_convert_to_epup_real_person(self, mock_anthropic):
         """実在人物のEPUP変換テスト"""
         # モックレスポンス設定
@@ -92,7 +92,7 @@ class TestEPUPConversion:
         assert "イチロー" in result
         mock_client.messages.create.assert_called_once()
 
-    @patch("scripts.pipeline_curate_episodes.Anthropic")
+    @patch("scripts.pipeline.pipeline_curate_episodes.Anthropic")
     def test_convert_to_epup_fictional_character(self, mock_anthropic):
         """架空キャラクターのEPUP変換テスト"""
         # モックレスポンス設定
@@ -118,7 +118,7 @@ class TestEPUPConversion:
         assert "ドラえもん" in result
         mock_client.messages.create.assert_called_once()
 
-    @patch("scripts.pipeline_curate_episodes.Anthropic")
+    @patch("scripts.pipeline.pipeline_curate_episodes.Anthropic")
     def test_convert_to_epup_api_error(self, mock_anthropic):
         """API呼び出しエラーのテスト"""
         # モックエラー設定
@@ -275,7 +275,7 @@ class TestIntegration:
         episode.mark_passed()
         assert episode.validation_status == "passed"
 
-    @patch("scripts.pipeline_curate_episodes.Anthropic")
+    @patch("scripts.pipeline.pipeline_curate_episodes.Anthropic")
     def test_end_to_end_with_mocked_llm(self, mock_anthropic):
         """モック化したLLMでのエンドツーエンドテスト"""
         # モック設定

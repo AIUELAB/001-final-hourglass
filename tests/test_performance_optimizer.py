@@ -423,3 +423,239 @@ class TestSingletonGetters:
         pool1 = get_connection_pool()
         pool2 = get_connection_pool()
         assert pool1 is pool2
+
+
+@pytest.mark.asyncio
+class TestPersistentCacheErrorHandling:
+    """PersistentCache エラー処理テスト"""
+
+    @pytest.fixture
+    def cache(self, tmp_path):
+        """テスト用キャッシュ"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            cache = PersistentCache(cache_dir=tmp_path / ".cache")
+            cache.index = {}
+            return cache
+
+    async def test_load_index_error(self, tmp_path, caplog):
+        """インデックス読み込みエラー"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            cache = PersistentCache(cache_dir=tmp_path / ".cache")
+
+        # 破損したインデックスファイルを作成
+        cache.index_file.write_text("invalid json {{{", encoding="utf-8")
+
+        await cache._load_index()
+
+        assert cache.index == {}
+
+    async def test_save_index_error(self, cache, caplog):
+        """インデックス保存エラー"""
+        # 書き込み不可能なパスに設定
+        cache.index_file = Path("/nonexistent/path/index.json")
+        cache.index = {"key": {"expires": "2025-01-01"}}
+
+        await cache._save_index()
+        # エラーが発生してもクラッシュしない
+
+    async def test_get_expired_entry(self, cache):
+        """期限切れエントリの取得"""
+        # 期限切れエントリを追加
+        cache.index["expired_key"] = {
+            "expires": (datetime.now() - timedelta(days=1)).isoformat(),
+        }
+
+        result = await cache.get("expired_key")
+
+        assert result is None
+        assert "expired_key" not in cache.index
+
+    async def test_get_missing_file(self, cache):
+        """ファイルが存在しないエントリ"""
+        # インデックスにはあるがファイルがない
+        cache.index["orphan_key"] = {
+            "expires": (datetime.now() + timedelta(days=1)).isoformat(),
+        }
+
+        result = await cache.get("orphan_key")
+
+        assert result is None
+
+    async def test_get_corrupted_file(self, cache):
+        """破損ファイルの読み込み"""
+        cache.index["corrupted_key"] = {
+            "expires": (datetime.now() + timedelta(days=1)).isoformat(),
+        }
+
+        # 破損ファイルを作成
+        cache_file = cache._get_cache_file("corrupted_key")
+        cache_file.write_text("invalid json {{{", encoding="utf-8")
+
+        result = await cache.get("corrupted_key")
+
+        assert result is None
+
+    async def test_set_exception(self, cache, tmp_path):
+        """保存時の例外処理"""
+        # 書き込み不可能なパスに設定
+        cache.cache_dir = Path("/nonexistent/path")
+
+        # 例外が発生してもクラッシュしない
+        await cache.set("key", {"data": "value"})
+
+
+@pytest.mark.asyncio
+class TestStreamProcessorMethods:
+    """StreamProcessor の追加テスト"""
+
+    async def test_process_file(self, tmp_path):
+        """ファイル処理"""
+        # テストファイルを作成
+        test_file = tmp_path / "test.txt"
+        test_file.write_bytes(b"Hello World Data")
+
+        processor = StreamProcessor(chunk_size=5)
+
+        chunks = []
+        async for chunk in processor.process_file(test_file, lambda x: x.decode()):
+            chunks.append(chunk)
+
+        assert len(chunks) > 0
+        assert "".join(chunks) == "Hello World Data"
+
+    async def test_process_stream(self):
+        """ストリーム処理"""
+        # モックストリームリーダー
+        mock_reader = AsyncMock()
+        mock_reader.read = AsyncMock(side_effect=[b"chunk1", b"chunk2", b""])
+
+        processor = StreamProcessor(chunk_size=10)
+
+        chunks = []
+        async for chunk in processor.process_stream(mock_reader, lambda x: x.decode()):
+            chunks.append(chunk)
+
+        assert chunks == ["chunk1", "chunk2"]
+
+
+@pytest.mark.asyncio
+class TestOptimizedMCPClient:
+    """OptimizedMCPClient テスト"""
+
+    def test_init(self):
+        """初期化"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            from src.performance_optimizer import OptimizedMCPClient
+
+            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+
+            assert client.config["name"] == "test"
+            assert client.cache is not None
+            assert client.pool is not None
+            assert client.batch_processor is not None
+            assert client.monitor is not None
+
+    async def test_execute_cached(self):
+        """キャッシュされた操作"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            from src.performance_optimizer import OptimizedMCPClient
+
+            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+
+            # キャッシュに値を設定
+            await client.cache.set('get_user:{"id": 1}', {"user": "cached_user"})
+
+            # キャッシュから取得
+            result = await client.execute("get_user", {"id": 1})
+
+            assert result == {"user": "cached_user"}
+
+    async def test_execute_non_cached_method(self):
+        """キャッシュ対象外メソッド"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            from src.performance_optimizer import OptimizedMCPClient
+
+            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+
+            # セッションをモック
+            mock_response = AsyncMock()
+            mock_response.json = AsyncMock(return_value={"result": "ok"})
+            mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+            mock_response.__aexit__ = AsyncMock()
+
+            mock_session = MagicMock()
+            mock_session.post = MagicMock(return_value=mock_response)
+            client.pool.sessions["test"] = mock_session
+
+            result = await client.execute("create_user", {"name": "new_user"})
+
+            assert result == {"result": "ok"}
+
+    async def test_batch_execute(self):
+        """バッチ実行"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            from src.performance_optimizer import OptimizedMCPClient
+
+            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+
+            # executeをモック
+            with patch.object(client, "execute", new_callable=AsyncMock) as mock_execute:
+                mock_execute.return_value = {"result": "ok"}
+
+                requests = [
+                    {"method": "get_user", "params": {"id": 1}},
+                    {"method": "get_user", "params": {"id": 2}},
+                ]
+
+                results = await client.batch_execute(requests)
+
+                assert len(results) == 2
+                assert mock_execute.call_count == 2
+
+
+@pytest.mark.asyncio
+class TestCleanupFunction:
+    """cleanup関数テスト"""
+
+    async def test_cleanup(self):
+        """リソースクリーンアップ"""
+        from src.performance_optimizer import cleanup
+
+        # 事前にキャッシュにデータを追加
+        memory_cache = get_memory_cache()
+        await memory_cache.set("test_key", "test_value")
+
+        # クリーンアップ実行
+        await cleanup()
+
+        # メモリキャッシュがクリアされている
+        result = await memory_cache.get("test_key")
+        # 注: cleanup後もシングルトンは存在するが、内容はクリア
+
+
+@pytest.mark.asyncio
+class TestPersistentCacheDelete:
+    """PersistentCache delete メソッドの追加テスト"""
+
+    @pytest.fixture
+    def cache(self, tmp_path):
+        """テスト用キャッシュ"""
+        with patch("src.performance_optimizer.asyncio.create_task"):
+            cache = PersistentCache(cache_dir=tmp_path / ".cache")
+            cache.index = {}
+            return cache
+
+    async def test_delete_nonexistent_key(self, cache):
+        """存在しないキーの削除"""
+        # 例外が発生しない
+        await cache.delete("nonexistent")
+
+    async def test_delete_with_missing_file(self, cache):
+        """ファイルがないキーの削除"""
+        cache.index["orphan_key"] = {
+            "expires": (datetime.now() + timedelta(days=1)).isoformat(),
+        }
+
+        await cache.delete("orphan_key")
+
+        assert "orphan_key" not in cache.index

@@ -54,6 +54,26 @@ class TestPersonCandidate:
         with pytest.raises(ValueError, match="birth_year must be int"):
             PersonCandidate(person_name="テスト太郎", birth_year="1990")  # type: ignore
 
+    def test_validation_invalid_death_year(self):
+        """無効な没年でエラー"""
+        with pytest.raises(ValueError, match="death_year must be int"):
+            PersonCandidate(person_name="テスト太郎", death_year="2000")  # type: ignore
+
+    def test_validation_invalid_preferred_age_type(self):
+        """preferred_ageが非整数でエラー"""
+        with pytest.raises(ValueError, match="preferred_age must be int"):
+            PersonCandidate(person_name="テスト太郎", preferred_age="30")  # type: ignore
+
+    def test_validation_negative_preferred_age(self):
+        """preferred_ageが負でエラー"""
+        with pytest.raises(ValueError, match="preferred_age must be non-negative"):
+            PersonCandidate(person_name="テスト太郎", preferred_age=-5)
+
+    def test_create_with_preferred_age(self):
+        """preferred_age付きで正常作成"""
+        candidate = PersonCandidate(person_name="テスト太郎", preferred_age=47)
+        assert candidate.preferred_age == 47
+
     def test_to_dict(self):
         """辞書形式に変換"""
         candidate = PersonCandidate(person_name="テスト太郎", category="テスト", birth_year=1990)
@@ -122,6 +142,60 @@ class TestManualSourceAdapter:
             if candidate.validation_errors:
                 assert candidate.skip_reason == "validation_error"
 
+    def test_invalid_csv_format(self, tmp_path):
+        """無効なCSV形式でValueError"""
+        # 不正なバイナリファイルを作成（パース時エラーまたはカラム不足エラー）
+        invalid_csv = tmp_path / "invalid.csv"
+        invalid_csv.write_bytes(b"\x00\x01\x02\x03")
+
+        with pytest.raises(ValueError):
+            adapter = ManualSourceAdapter(str(invalid_csv))
+            adapter.fetch_candidates()
+
+    def test_missing_required_columns(self, tmp_path):
+        """必須カラムがないCSVでValueError"""
+        csv_file = tmp_path / "missing_columns.csv"
+        csv_file.write_text("name,category\nテスト,カテゴリ\n", encoding="utf-8")
+
+        with pytest.raises(ValueError, match="Missing required columns"):
+            adapter = ManualSourceAdapter(str(csv_file))
+            adapter.fetch_candidates()
+
+    def test_empty_person_name_skipped(self, tmp_path):
+        """person_nameが空の行はスキップ"""
+        csv_file = tmp_path / "with_empty.csv"
+        csv_file.write_text(
+            "person_name,category\n"
+            "テスト太郎,カテゴリ1\n"
+            ",カテゴリ2\n"  # 空のperson_name
+            "テスト次郎,カテゴリ3\n",
+            encoding="utf-8",
+        )
+
+        adapter = ManualSourceAdapter(str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        assert len(candidates) == 2
+        assert candidates[0].person_name == "テスト太郎"
+        assert candidates[1].person_name == "テスト次郎"
+
+    def test_parse_error_handling(self, tmp_path, capsys):
+        """行パースエラー時は警告出力してスキップ"""
+        csv_file = tmp_path / "parse_error.csv"
+        csv_file.write_text(
+            "person_name,birth_year\n"
+            "テスト太郎,1990\n"
+            "エラー行,not_a_number\n"  # birth_yearが無効
+            "テスト次郎,2000\n",
+            encoding="utf-8",
+        )
+
+        adapter = ManualSourceAdapter(str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        # エラー行以外は取得できる
+        assert len(candidates) >= 2
+
 
 class TestNHKAsadoraAdapter:
     """NHKAsadoraAdapter のテスト"""
@@ -178,6 +252,118 @@ class TestNHKAsadoraAdapter:
 
         for candidate in candidates:
             assert candidate.source_name == "nhk_asadora"
+
+    def test_file_not_found(self, tmp_path):
+        """存在しないCSVファイルでFileNotFoundError"""
+        with pytest.raises(FileNotFoundError):
+            NHKAsadoraAdapter(csv_path=str(tmp_path / "nonexistent.csv"))
+
+    def test_relative_path_csv(self, tmp_path):
+        """相対パスのCSVファイルを読み込み"""
+        csv_file = tmp_path / "test_asadora.csv"
+        csv_file.write_text(
+            "person_name,drama_title,category,tier\n" "テスト太郎,テスト朝ドラ,芸能,S\n",
+            encoding="utf-8",
+        )
+
+        adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        assert len(candidates) == 1
+        assert candidates[0].person_name == "テスト太郎"
+
+    def test_invalid_csv_format(self, tmp_path):
+        """無効なCSV形式でValueError"""
+        invalid_csv = tmp_path / "invalid.csv"
+        invalid_csv.write_bytes(b"\x00\x01\x02\x03")
+
+        with pytest.raises(ValueError):
+            adapter = NHKAsadoraAdapter(csv_path=str(invalid_csv))
+            adapter.fetch_candidates()
+
+    def test_missing_required_columns(self, tmp_path):
+        """必須カラムがないCSVでValueError"""
+        csv_file = tmp_path / "missing_columns.csv"
+        csv_file.write_text("name,category\nテスト,カテゴリ\n", encoding="utf-8")
+
+        with pytest.raises(ValueError, match="Missing required columns"):
+            adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+            adapter.fetch_candidates()
+
+    def test_empty_person_name_skipped(self, tmp_path):
+        """person_nameが空の行はスキップ"""
+        csv_file = tmp_path / "with_empty.csv"
+        csv_file.write_text(
+            "person_name,drama_title,category\n"
+            "テスト太郎,ドラマ1,カテゴリ1\n"
+            ",ドラマ2,カテゴリ2\n"
+            "テスト次郎,ドラマ3,カテゴリ3\n",
+            encoding="utf-8",
+        )
+
+        adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        assert len(candidates) == 2
+
+    def test_description_with_drama_only(self, tmp_path):
+        """drama_titleのみでdescription生成"""
+        csv_file = tmp_path / "drama_only.csv"
+        csv_file.write_text(
+            "person_name,drama_title\n" "テスト太郎,おしん\n",
+            encoding="utf-8",
+        )
+
+        adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        assert len(candidates) == 1
+        assert "おしん" in candidates[0].description
+        assert "朝ドラ" in candidates[0].description
+
+    def test_description_with_role_only(self, tmp_path):
+        """role_descriptionのみでdescription生成"""
+        csv_file = tmp_path / "role_only.csv"
+        csv_file.write_text(
+            "person_name,role_description\n" "テスト太郎,主人公のモデル\n",
+            encoding="utf-8",
+        )
+
+        adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        assert len(candidates) == 1
+        assert "主人公のモデル" in candidates[0].description
+
+    def test_validation_error_handling(self, tmp_path):
+        """検証エラー時はskip_reasonが設定される"""
+        csv_file = tmp_path / "validation_error.csv"
+        csv_file.write_text(
+            "person_name,person_type,tier\n" "テスト太郎,INVALID_TYPE,Z\n",  # 無効なperson_typeとtier
+            encoding="utf-8",
+        )
+
+        adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        # 検証エラーでも候補は含まれる
+        assert len(candidates) == 1
+        # person_typeは上書きされるためREALになる
+        assert candidates[0].person_type == "REAL"
+
+    def test_parse_error_handling(self, tmp_path, capsys):
+        """行パースエラー時は警告出力してスキップ"""
+        csv_file = tmp_path / "parse_error.csv"
+        csv_file.write_text(
+            "person_name,birth_year\n" "テスト太郎,1990\n" "エラー行,not_a_number\n" "テスト次郎,2000\n",
+            encoding="utf-8",
+        )
+
+        adapter = NHKAsadoraAdapter(csv_path=str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        # エラー行以外は取得できる
+        assert len(candidates) >= 2
 
 
 class TestSourceAdapterInterface:

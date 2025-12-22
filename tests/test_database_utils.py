@@ -2,12 +2,26 @@
 tests/test_database_utils.py - database_utils.py ユニットテスト
 """
 
+import importlib
 import sqlite3
+import sys
 import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
+
+# 他のテストファイルがsys.modulesにモックを設定している場合があるため、
+# 実際のモジュールを強制的にリロードする
+if "src.database_utils" in sys.modules:
+    # モックかどうかを確認
+    module = sys.modules["src.database_utils"]
+    if isinstance(module, MagicMock) or not hasattr(module, "__file__"):
+        del sys.modules["src.database_utils"]
+
+import src.database_utils
+
+importlib.reload(src.database_utils)
 
 from src.database_utils import (
     PROJECT_ROOT,

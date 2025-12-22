@@ -298,3 +298,198 @@ class TestApplyUpdates:
             assert "note" in result
         finally:
             os.unlink(temp_path)
+
+
+class TestProposeDispersionRulesNoMembers:
+    """propose_dispersion_rulesでメンバーがいない場合のテスト"""
+
+    @patch("src.data.master_updater.GROUP_ENTITIES", {"メンバーなしグループ"})
+    @patch("src.data.master_updater.GROUP_MEMBER_MAP", {})  # メンバーなし
+    @patch("src.data.master_updater.DISPERSION_RULES", {})  # ルールなし
+    def test_no_members_proposal(self):
+        """メンバーがいないグループの提案"""
+        from src.data.master_updater import MasterUpdater
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type\n")
+            f.write("テスト,P001,REAL\n")
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            proposals = updater.propose_dispersion_rules()
+
+            # メンバーなしグループが提案される
+            assert len(proposals) == 1
+            assert proposals[0].group_name == "メンバーなしグループ"
+            assert proposals[0].strategy == "REPRESENTATIVE"
+            assert proposals[0].confidence == 0.3
+            assert "手動定義" in proposals[0].reason
+        finally:
+            os.unlink(temp_path)
+
+
+class TestDetectNewEntitiesEdgeCases:
+    """detect_new_entitiesのエッジケーステスト"""
+
+    @patch("src.data.master_updater.GROUP_ENTITIES", set())
+    @patch("src.data.master_updater.GROUP_MEMBER_MAP", {})
+    def test_empty_person_name(self):
+        """空の person_name"""
+        from src.data.master_updater import MasterUpdater
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type,episode_id\n")
+            f.write(",P001,REAL,EP001\n")  # 空の名前
+            f.write("テストバンド,P002,REAL,EP002\n")
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            entities = updater.detect_new_entities()
+
+            # 空の名前はスキップされる
+            assert all(e.name != "" for e in entities)
+        finally:
+            os.unlink(temp_path)
+
+    @patch("src.data.master_updater.GROUP_ENTITIES", set())
+    @patch("src.data.master_updater.GROUP_MEMBER_MAP", {})
+    def test_na_person_name(self):
+        """NaN の person_name"""
+        from src.data.master_updater import MasterUpdater
+        import numpy as np
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type,episode_id\n")
+            f.write("テストグループ,P001,REAL,EP001\n")
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            # NaN 値を手動で設定
+            updater.df.loc[0, "person_name"] = np.nan
+            entities = updater.detect_new_entities()
+
+            # NaN はスキップされる
+            assert len(entities) == 0
+        finally:
+            os.unlink(temp_path)
+
+
+class TestMain:
+    """main関数のテスト"""
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv", "--detect-only"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_detect_only(self, MockUpdater):
+        """--detect-only オプション"""
+        from src.data.master_updater import main, NewEntity
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = [
+            NewEntity("テストグループ", "group", "EP001", 0.8, "追加推奨")
+        ]
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        mock_instance.detect_new_entities.assert_called_once()
+        mock_instance.propose_dispersion_rules.assert_not_called()
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_default(self, MockUpdater):
+        """デフォルト実行（提案まで）"""
+        from src.data.master_updater import main, NewEntity, RuleProposal
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = []
+        mock_instance.propose_dispersion_rules.return_value = [
+            RuleProposal("グループA", "ALL", ["A", "B"], 0.95, "テスト理由")
+        ]
+        mock_instance.generate_diff.return_value = "# Diff"
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        mock_instance.detect_new_entities.assert_called_once()
+        mock_instance.propose_dispersion_rules.assert_called_once()
+        mock_instance.generate_diff.assert_called_once()
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv", "--apply"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_apply(self, MockUpdater):
+        """--apply オプション"""
+        from src.data.master_updater import main, RuleProposal
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = []
+        mock_instance.propose_dispersion_rules.return_value = [RuleProposal("グループA", "ALL", ["A"], 0.95, "テスト")]
+        mock_instance.apply_updates.return_value = {
+            "applied": [{"group": "グループA"}],
+            "skipped": [],
+            "backup_path": "/path/to/backup",
+        }
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        mock_instance.apply_updates.assert_called_once()
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_many_entities(self, MockUpdater):
+        """10件以上のエンティティ"""
+        from src.data.master_updater import main, NewEntity
+
+        mock_instance = MagicMock()
+        # 15件のエンティティ
+        mock_instance.detect_new_entities.return_value = [
+            NewEntity(f"グループ{i}", "group", f"EP{i:03d}", 0.8, "追加") for i in range(15)
+        ]
+        mock_instance.propose_dispersion_rules.return_value = []
+        mock_instance.generate_diff.return_value = ""
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        mock_instance.detect_new_entities.assert_called_once()
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv", "--min-confidence", "0.5"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_min_confidence(self, MockUpdater):
+        """--min-confidence オプション"""
+        from src.data.master_updater import main, RuleProposal
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = []
+        mock_instance.propose_dispersion_rules.return_value = [
+            RuleProposal("高信頼", "ALL", ["A"], 0.9, "高"),
+            RuleProposal("低信頼", "ALL", ["B"], 0.3, "低"),
+        ]
+        mock_instance.generate_diff.return_value = "# Diff"
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        # min_confidence=0.5 で初期化される
+        MockUpdater.assert_called_once()
+        call_args = MockUpdater.call_args
+        assert call_args[0][1] == 0.5
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_long_diff(self, MockUpdater):
+        """500文字以上の差分"""
+        from src.data.master_updater import main
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = []
+        mock_instance.propose_dispersion_rules.return_value = []
+        mock_instance.generate_diff.return_value = "x" * 600  # 600文字
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        mock_instance.generate_diff.assert_called_once()

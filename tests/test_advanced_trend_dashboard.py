@@ -923,3 +923,421 @@ class TestMainFunction:
 
         mock_dashboard.generate_comprehensive_dashboard.assert_called_once()
         mock_dashboard.save_dashboard.assert_called_once()
+
+
+# ============================================================================
+# plots.py テスト
+# ============================================================================
+
+
+class TestCreatePredictionTrendPlot:
+    """create_prediction_trend_plot() テスト"""
+
+    def test_returns_figure_when_plotly_available(self):
+        """Plotly有効時にFigureを返す"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_prediction_trend_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        trends = {
+            "time_series": [
+                {"timestamp": "2025-01-01 10:00", "failure_probability": 0.3, "model_agreement": 0.9},
+                {"timestamp": "2025-01-01 11:00", "failure_probability": 0.5, "model_agreement": 0.85},
+                {"timestamp": "2025-01-01 12:00", "failure_probability": 0.2, "model_agreement": 0.95},
+            ]
+        }
+
+        result = create_prediction_trend_plot(trends)
+        assert result is not None
+        assert len(result.data) == 2  # 2トレース
+
+    def test_returns_none_when_plotly_unavailable(self, monkeypatch):
+        """Plotly不可時にNoneを返す"""
+        import src.advanced_trend_dashboard.plots as plots_module
+
+        monkeypatch.setattr(plots_module, "PLOTLY_AVAILABLE", False)
+
+        trends = {
+            "time_series": [
+                {"timestamp": "2025-01-01 10:00", "failure_probability": 0.3, "model_agreement": 0.9},
+            ]
+        }
+
+        result = plots_module.create_prediction_trend_plot(trends)
+        assert result is None
+
+    def test_graph_has_correct_layout(self):
+        """グラフレイアウトが正しい"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_prediction_trend_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        trends = {
+            "time_series": [
+                {"timestamp": "2025-01-01", "failure_probability": 0.5, "model_agreement": 0.8},
+            ]
+        }
+
+        fig = create_prediction_trend_plot(trends)
+        assert fig.layout.title.text == "予測トレンド分析"
+        assert fig.layout.height == 600
+
+    def test_handles_empty_time_series(self):
+        """空のタイムシリーズを処理"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_prediction_trend_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        trends = {"time_series": []}
+        fig = create_prediction_trend_plot(trends)
+        assert fig is not None
+        assert len(fig.data[0].x) == 0
+
+
+class TestCreateRiskDistributionPlot:
+    """create_risk_distribution_plot() テスト"""
+
+    def test_returns_figure_with_valid_data(self):
+        """正常データでFigureを返す"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_risk_distribution_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        risk_dist = {
+            "HIGH": {"count": 10},
+            "MEDIUM": {"count": 30},
+            "LOW": {"count": 60},
+        }
+
+        result = create_risk_distribution_plot(risk_dist)
+        assert result is not None
+        assert len(result.data) == 1  # 1つのPieトレース
+
+    def test_returns_none_when_plotly_unavailable(self, monkeypatch):
+        """Plotly不可時にNoneを返す"""
+        import src.advanced_trend_dashboard.plots as plots_module
+
+        monkeypatch.setattr(plots_module, "PLOTLY_AVAILABLE", False)
+
+        risk_dist = {"HIGH": {"count": 5}}
+        result = plots_module.create_risk_distribution_plot(risk_dist)
+        assert result is None
+
+    def test_pie_chart_has_correct_colors(self):
+        """パイチャートが正しい色を持つ"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_risk_distribution_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        risk_dist = {
+            "HIGH": {"count": 10},
+            "MEDIUM": {"count": 20},
+            "LOW": {"count": 30},
+        }
+
+        fig = create_risk_distribution_plot(risk_dist)
+        colors = fig.data[0].marker.colors
+        assert "#e74c3c" in colors  # HIGH: red
+        assert "#f39c12" in colors  # MEDIUM: orange
+        assert "#27ae60" in colors  # LOW: green
+
+    def test_handles_single_risk_level(self):
+        """単一リスクレベルを処理"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_risk_distribution_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        risk_dist = {"LOW": {"count": 100}}
+        fig = create_risk_distribution_plot(risk_dist)
+        assert fig is not None
+        assert len(fig.data[0].labels) == 1
+
+
+class TestCreateAgreementDistributionPlot:
+    """create_agreement_distribution_plot() テスト"""
+
+    def test_returns_figure_with_valid_data(self):
+        """正常データでFigureを返す"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_agreement_distribution_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        agreement = {
+            "distribution": {
+                "excellent": 50,
+                "good": 30,
+                "fair": 15,
+                "poor": 5,
+            }
+        }
+
+        result = create_agreement_distribution_plot(agreement)
+        assert result is not None
+        assert len(result.data) == 1  # 1つのBarトレース
+
+    def test_returns_none_when_plotly_unavailable(self, monkeypatch):
+        """Plotly不可時にNoneを返す"""
+        import src.advanced_trend_dashboard.plots as plots_module
+
+        monkeypatch.setattr(plots_module, "PLOTLY_AVAILABLE", False)
+
+        agreement = {"distribution": {"excellent": 10, "good": 20, "fair": 30, "poor": 40}}
+        result = plots_module.create_agreement_distribution_plot(agreement)
+        assert result is None
+
+    def test_bar_chart_has_four_bars(self):
+        """バーチャートが4本のバーを持つ"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_agreement_distribution_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        agreement = {
+            "distribution": {
+                "excellent": 10,
+                "good": 20,
+                "fair": 30,
+                "poor": 40,
+            }
+        }
+
+        fig = create_agreement_distribution_plot(agreement)
+        assert len(fig.data[0].y) == 4
+
+    def test_handles_zero_values(self):
+        """ゼロ値を処理"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_agreement_distribution_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        agreement = {
+            "distribution": {
+                "excellent": 0,
+                "good": 0,
+                "fair": 0,
+                "poor": 0,
+            }
+        }
+
+        fig = create_agreement_distribution_plot(agreement)
+        assert fig is not None
+        assert all(v == 0 for v in fig.data[0].y)
+
+
+class TestCreateContributingFactorsPlot:
+    """create_contributing_factors_plot() テスト"""
+
+    def test_returns_figure_with_valid_data(self):
+        """正常データでFigureを返す"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_contributing_factors_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        factors = {
+            "top_factors": [
+                {"feature": "feature_1", "avg_importance": 0.3},
+                {"feature": "feature_2", "avg_importance": 0.25},
+                {"feature": "feature_3", "avg_importance": 0.2},
+            ]
+        }
+
+        result = create_contributing_factors_plot(factors)
+        assert result is not None
+
+    def test_returns_none_when_plotly_unavailable(self, monkeypatch):
+        """Plotly不可時にNoneを返す"""
+        import src.advanced_trend_dashboard.plots as plots_module
+
+        monkeypatch.setattr(plots_module, "PLOTLY_AVAILABLE", False)
+
+        factors = {"top_factors": [{"feature": "f1", "avg_importance": 0.5}]}
+        result = plots_module.create_contributing_factors_plot(factors)
+        assert result is None
+
+    def test_horizontal_bar_chart(self):
+        """水平バーチャート"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_contributing_factors_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        factors = {
+            "top_factors": [
+                {"feature": "feat_a", "avg_importance": 0.4},
+                {"feature": "feat_b", "avg_importance": 0.3},
+            ]
+        }
+
+        fig = create_contributing_factors_plot(factors)
+        assert fig.data[0].orientation == "h"
+
+    def test_handles_empty_factors(self):
+        """空の因子リストを処理"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_contributing_factors_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        factors = {"top_factors": []}
+        fig = create_contributing_factors_plot(factors)
+        assert fig is not None
+        assert len(fig.data[0].x) == 0
+
+
+class TestCreateAutoMLHistoryPlot:
+    """create_automl_history_plot() テスト"""
+
+    def test_returns_figure_with_valid_data(self):
+        """正常データでFigureを返す"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_automl_history_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        automl = [
+            {"experiment_id": "exp_12345678", "cv_mean": 0.85, "cv_std": 0.02},
+            {"experiment_id": "exp_87654321", "cv_mean": 0.90, "cv_std": 0.01},
+        ]
+
+        result = create_automl_history_plot(automl)
+        assert result is not None
+
+    def test_returns_none_when_plotly_unavailable(self, monkeypatch):
+        """Plotly不可時にNoneを返す"""
+        import src.advanced_trend_dashboard.plots as plots_module
+
+        monkeypatch.setattr(plots_module, "PLOTLY_AVAILABLE", False)
+
+        automl = [{"experiment_id": "exp_1", "cv_mean": 0.9, "cv_std": 0.01}]
+        result = plots_module.create_automl_history_plot(automl)
+        assert result is None
+
+    def test_bar_chart_with_error_bars(self):
+        """エラーバー付きバーチャート"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_automl_history_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        automl = [
+            {"experiment_id": "exp_abc", "cv_mean": 0.88, "cv_std": 0.03},
+        ]
+
+        fig = create_automl_history_plot(automl)
+        assert fig.data[0].error_y is not None
+        assert fig.data[0].error_y.array[0] == 0.03
+
+    def test_handles_empty_history(self):
+        """空の履歴を処理"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_automl_history_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        automl = []
+        fig = create_automl_history_plot(automl)
+        assert fig is not None
+        assert len(fig.data[0].x) == 0
+
+    def test_experiment_id_truncation(self):
+        """実験IDが末尾8文字に切り詰められる"""
+        from src.advanced_trend_dashboard.plots import (
+            PLOTLY_AVAILABLE,
+            create_automl_history_plot,
+        )
+
+        if not PLOTLY_AVAILABLE:
+            pytest.skip("Plotly not installed")
+
+        automl = [
+            {"experiment_id": "very_long_experiment_id_12345678", "cv_mean": 0.9, "cv_std": 0.01},
+        ]
+
+        fig = create_automl_history_plot(automl)
+        assert fig.data[0].x[0] == "12345678"
+
+
+class TestPlotsPlotlyAvailableFlag:
+    """PLOTLY_AVAILABLE フラグテスト"""
+
+    def test_plotly_available_is_boolean(self):
+        """PLOTLY_AVAILABLEがブール値"""
+        from src.advanced_trend_dashboard.plots import PLOTLY_AVAILABLE
+
+        assert isinstance(PLOTLY_AVAILABLE, bool)
+
+    def test_all_functions_return_none_when_unavailable(self, monkeypatch):
+        """Plotly不可時に全関数がNoneを返す"""
+        import src.advanced_trend_dashboard.plots as plots_module
+
+        monkeypatch.setattr(plots_module, "PLOTLY_AVAILABLE", False)
+
+        # 各関数をテスト
+        trends = {"time_series": []}
+        assert plots_module.create_prediction_trend_plot(trends) is None
+
+        risk_dist = {"HIGH": {"count": 1}}
+        assert plots_module.create_risk_distribution_plot(risk_dist) is None
+
+        agreement = {"distribution": {"excellent": 1, "good": 1, "fair": 1, "poor": 1}}
+        assert plots_module.create_agreement_distribution_plot(agreement) is None
+
+        factors = {"top_factors": []}
+        assert plots_module.create_contributing_factors_plot(factors) is None
+
+        automl = []
+        assert plots_module.create_automl_history_plot(automl) is None

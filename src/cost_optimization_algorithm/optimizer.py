@@ -1,79 +1,17 @@
 #!/usr/bin/env python3
-"""
-Cost Optimization Algorithm - Phase 11.4
-
-リソース使用量とコストの最適化アルゴリズム
-- リソースコスト分析
-- 最適化推奨事項
-- ROI計算
-- コスト削減シミュレーション
-"""
+"""コスト最適化アルゴリズム - オプティマイザ"""
 
 import argparse
 import json
 import statistics
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from src.database_utils import get_connection
 
-# ==========================================
-# データクラス
-# ==========================================
-
-
-@dataclass
-class ResourceCost:
-    """リソースコスト情報"""
-
-    resource_type: str
-    current_usage: float  # 現在の使用量（%）
-    allocated_capacity: float  # 割り当て容量
-    unit_cost: float  # 単価（$/unit/hour）
-    monthly_cost: float  # 月間コスト
-    utilization_rate: float  # 稼働率（%）
-    waste_percentage: float  # 無駄な割合（%）
-
-
-@dataclass
-class OptimizationRecommendation:
-    """コスト最適化推奨事項"""
-
-    resource_type: str
-    recommendation_type: str  # reduce_capacity/increase_efficiency/consolidate/terminate
-    current_cost: float
-    optimized_cost: float
-    monthly_savings: float
-    annual_savings: float
-    roi_months: float  # 投資回収期間（月）
-    implementation_cost: float  # 実装コスト
-    priority: str  # high/medium/low
-    risk_level: str  # low/medium/high
-    description: str
-    action_items: List[str]
-
-
-@dataclass
-class CostSimulation:
-    """コスト削減シミュレーション"""
-
-    scenario_name: str
-    current_monthly_cost: float
-    projected_monthly_cost: float
-    monthly_savings: float
-    annual_savings: float
-    implementation_cost: float
-    roi_months: float
-    confidence_level: float  # 0.0-1.0
-    assumptions: List[str]
-    risks: List[str]
-
-
-# ==========================================
-# メインクラス
-# ==========================================
+from .models import CostSimulation, OptimizationRecommendation, ResourceCost
 
 
 class CostOptimizationAlgorithm:
@@ -210,7 +148,8 @@ class CostOptimizationAlgorithm:
 
         # コスト設定を取得
         cost_config = self.cost_config.get(resource_type, {})
-        unit_cost = cost_config.get("unit_cost", 0.0)
+        raw_unit_cost = cost_config.get("unit_cost", 0.0)
+        unit_cost = float(raw_unit_cost) if raw_unit_cost is not None else 0.0  # type: ignore[arg-type]
 
         # 仮想的な割り当て容量（100%として計算）
         allocated_capacity = 100.0
@@ -701,11 +640,6 @@ class CostOptimizationAlgorithm:
             print(f"   推奨事項数: {summary.get('recommendation_count', 0)}件")
 
 
-# ==========================================
-# メイン処理
-# ==========================================
-
-
 def main():
     parser = argparse.ArgumentParser(description="Cost Optimization Algorithm - Phase 11.4")
     parser.add_argument("--generate", action="store_true", help="コスト最適化計画を生成")
@@ -741,7 +675,3 @@ def main():
 
     else:
         parser.print_help()
-
-
-if __name__ == "__main__":
-    main()

@@ -1,65 +1,20 @@
 #!/usr/bin/env python3
-"""
-PersonNameValidator - 人物名バリデーション
-
-機能:
-1. グループ名検出
-2. 連結名パターン検出
-3. 表記ゆれ検出
-4. 自動修正提案
-"""
+"""人物名バリデーション - バリデータ本体"""
 
 import json
 import re
 import sys
-from dataclasses import dataclass
-from enum import Enum
 from pathlib import Path
 from typing import Optional
 
-# プロジェクトルートをパスに追加
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 from src.group_master import (
+    DISPERSION_RULES,
     GROUP_ENTITIES,
     GROUP_MEMBER_MAP,
-    DISPERSION_RULES,
     DispersionStrategy,
 )
 
-
-class IssueType(Enum):
-    """検出された問題の種類"""
-
-    GROUP_AS_PERSON = "group_as_person"
-    CONCATENATED_NAME = "concatenated_name"
-    VARIANT_NAME = "variant_name"
-    UNKNOWN_GROUP = "unknown_group"
-    ORG_TITLE_CONTAMINATION = "org_title_contamination"  # 組織名・肩書き混入
-    INVALID_NAME = "invalid_name"  # 不正な人物名（道具名・アイテム名等）
-    PROFESSION_PREFIX = "profession_prefix"  # 職業接頭辞パターン（Phase 8追加）
-    ABNORMAL_PREFIX = "abnormal_prefix"  # 先頭不自然記号（2025-12-21追加）
-
-
-class Severity(Enum):
-    """問題の重大度"""
-
-    ERROR = "error"  # 即時修正必要
-    WARNING = "warning"  # 修正推奨
-    INFO = "info"  # 情報のみ
-
-
-@dataclass
-class ValidationIssue:
-    """バリデーション問題"""
-
-    issue_type: IssueType
-    severity: Severity
-    person_name: str
-    message: str
-    suggestion: Optional[str] = None
-    auto_fixable: bool = False
-    fixed_value: Optional[str] = None
+from .models import IssueType, Severity, ValidationIssue
 
 
 class PersonNameValidator:
@@ -121,32 +76,32 @@ class PersonNameValidator:
         if org_title_issue:
             issues.append(org_title_issue)
 
-        # 4. 別名・通称チェック（2025-12-15追加）★NEW
+        # 4. 別名・通称チェック（2025-12-15追加）
         alias_issue = self._check_alias_usage(person_name)
         if alias_issue:
             issues.append(alias_issue)
 
-        # 5. ブラックリストチェック（2025-12-15追加）★NEW
+        # 5. ブラックリストチェック（2025-12-15追加）
         blacklist_issue = self._check_blacklist(person_name)
         if blacklist_issue:
             issues.append(blacklist_issue)
 
-        # 6. 道具名・アイテム名チェック（2025-12-15追加）★NEW
+        # 6. 道具名・アイテム名チェック（2025-12-15追加）
         item_issue = self._check_item_name_pattern(person_name)
         if item_issue:
             issues.append(item_issue)
 
-        # 7. 後置詞型パターンチェック（2025-12-16追加）★NEW
+        # 7. 後置詞型パターンチェック（2025-12-16追加）
         suffix_issue = self._check_suffix_patterns(person_name)
         if suffix_issue:
             issues.append(suffix_issue)
 
-        # 8. 職業接頭辞チェック（2025-12-16 Phase 8追加）★NEW
+        # 8. 職業接頭辞チェック（2025-12-16 Phase 8追加）
         profession_prefix_issue = self._check_profession_prefix(person_name)
         if profession_prefix_issue:
             issues.append(profession_prefix_issue)
 
-        # 9. 先頭不自然記号チェック（2025-12-21追加）★NEW
+        # 9. 先頭不自然記号チェック（2025-12-21追加）
         abnormal_prefix_issue = self._check_abnormal_prefix(person_name)
         if abnormal_prefix_issue:
             issues.append(abnormal_prefix_issue)
@@ -226,7 +181,7 @@ class PersonNameValidator:
         """PersonNameNormalizerを遅延初期化して取得"""
         if self._normalizer is None:
             # 循環インポート回避のため、ここでインポート
-            sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+            sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
             from scripts.data.normalize_person_names import PersonNameNormalizer
 
             self._normalizer = PersonNameNormalizer(min_confidence=0.85)
@@ -284,10 +239,7 @@ class PersonNameValidator:
             問題があればValidationIssue、なければNone
         """
         # normalize_person_names.pyのALIAS_KEYWORDSを参照
-        import sys
-        from pathlib import Path
-
-        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
         from scripts.data.normalize_person_names import ALIAS_KEYWORDS
 
         if person_name in ALIAS_KEYWORDS:
@@ -317,10 +269,7 @@ class PersonNameValidator:
             問題があればValidationIssue、なければNone
         """
         # normalize_person_names.pyのPROFESSION_KEYWORDSを参照
-        import sys
-        from pathlib import Path
-
-        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+        sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
         from scripts.data.normalize_person_names import PROFESSION_KEYWORDS
 
         for prof in PROFESSION_KEYWORDS:
@@ -357,8 +306,6 @@ class PersonNameValidator:
         Returns:
             問題が検出された場合はValidationIssue、なければNone
         """
-        import re
-
         # 箇条書き記号の先頭パターン
         bullet_match = re.match(r"^([・•\-－※▪▸►◆◇■□●○]+)\s*(.+)$", person_name)
         if bullet_match:
@@ -610,7 +557,7 @@ class PersonNameValidator:
         Returns:
             ブラックリスト辞書（blacklist, patterns）
         """
-        blacklist_path = Path(__file__).parent.parent.parent / "config" / "blacklist_names.json"
+        blacklist_path = Path(__file__).parent.parent.parent.parent / "config" / "blacklist_names.json"
         if blacklist_path.exists():
             try:
                 with open(blacklist_path, "r", encoding="utf-8") as f:
@@ -758,55 +705,3 @@ class PersonNameValidator:
             result["is_group_member"] = True
 
         return result
-
-
-# シングルトンインスタンス
-_validator = None
-
-
-def get_validator() -> PersonNameValidator:
-    """バリデータのシングルトンインスタンスを取得"""
-    global _validator
-    if _validator is None:
-        _validator = PersonNameValidator()
-    return _validator
-
-
-def validate_before_episode_generation(
-    person_name: str, person_type: str = "REAL", group_name: Optional[str] = None
-) -> tuple[bool, str, Optional[dict]]:
-    """
-    エピソード生成前に人物名を検証（簡易版API）
-
-    Args:
-        person_name: 人物名
-        person_type: 人物タイプ
-        group_name: グループ名
-
-    Returns:
-        (is_valid, message, suggested_fix)
-    """
-    validator = get_validator()
-    issues = validator.validate(person_name)
-
-    # ERROR または VARIANT_NAME（ALIAS_KEYWORDS違反）をFail-Fastとして扱う
-    # 2025-12-21: PERSON ID統合再発防止のため、別名使用もエラーとして扱う
-    critical_issues = [i for i in issues if i.severity == Severity.ERROR or i.issue_type == IssueType.VARIANT_NAME]
-
-    if critical_issues:
-        first_error = critical_issues[0]
-        suggested_fix: Optional[dict[str, str | bool]] = None
-        if first_error.auto_fixable and first_error.fixed_value:
-            suggested_fix = {
-                "person_name": first_error.fixed_value,
-            }
-            # グループ名を抽出
-            canonical_info = validator.get_canonical_info(person_name)
-            group_name = canonical_info.get("group_name")
-            if group_name and isinstance(group_name, str):
-                suggested_fix["group_name"] = group_name
-                suggested_fix["is_group_member"] = True
-
-        return False, first_error.message, suggested_fix
-
-    return True, "OK", None

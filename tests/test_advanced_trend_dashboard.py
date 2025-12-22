@@ -96,8 +96,8 @@ class TestDashboardMetrics:
 class TestAdvancedTrendDashboardInit:
     """AdvancedTrendDashboard初期化テスト"""
 
-    @patch("src.advanced_trend_dashboard.get_connection")
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
     def test_init_default(self, mock_mkdir, mock_get_conn):
         """デフォルト初期化"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -223,8 +223,8 @@ class TestDashboardMetricsCalculations:
 class TestInitDatabaseTables:
     """_init_database_tablesテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_creates_tables(self, mock_get_conn, mock_mkdir):
         """テーブル作成を確認"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -245,8 +245,8 @@ class TestInitDatabaseTables:
 class TestGetSummaryMetrics:
     """_get_summary_metricsテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_metrics_with_data(self, mock_get_conn, mock_mkdir):
         """データありの場合メトリクスを返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -295,8 +295,8 @@ class TestGetSummaryMetrics:
         assert metrics.medium_risk_count == 35
         assert metrics.low_risk_count == 50
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_metrics_when_no_predictions(self, mock_get_conn, mock_mkdir):
         """予測0件の場合もメトリクスを返す（DashboardMetricsオブジェクト）"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -334,8 +334,8 @@ class TestGetSummaryMetrics:
 class TestAnalyzePredictionTrends:
     """_analyze_prediction_trendsテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_trends(self, mock_get_conn, mock_mkdir):
         """トレンドデータを返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -361,8 +361,8 @@ class TestAnalyzePredictionTrends:
         assert trends["time_series"][0]["failure_probability"] == 0.3
         assert trends["time_series"][1]["risk_level"] == "MEDIUM"
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_empty_when_no_data(self, mock_get_conn, mock_mkdir):
         """データなしの場合空構造を返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -387,8 +387,8 @@ class TestAnalyzePredictionTrends:
 class TestGetAutoMLHistory:
     """_get_automl_historyテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_experiments(self, mock_get_conn, mock_mkdir):
         """実験履歴を返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -416,8 +416,8 @@ class TestGetAutoMLHistory:
 class TestAnalyzeModelAgreement:
     """_analyze_model_agreementテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_distribution(self, mock_get_conn, mock_mkdir):
         """合意度分布を返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -453,8 +453,8 @@ class TestAnalyzeModelAgreement:
 class TestAnalyzeRiskDistribution:
     """_analyze_risk_distributionテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_risk_distribution(self, mock_get_conn, mock_mkdir):
         """リスク分布を返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -488,8 +488,8 @@ class TestAnalyzeRiskDistribution:
 class TestAnalyzeContributingFactors:
     """_analyze_contributing_factorsテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_factors(self, mock_get_conn, mock_mkdir):
         """因子分析結果を返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -516,8 +516,8 @@ class TestAnalyzeContributingFactors:
         assert "cpu_usage" in result["all_factors"]
         assert result["all_factors"]["cpu_usage"] == 0.45  # 平均
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_empty_when_no_data(self, mock_get_conn, mock_mkdir):
         """データなしの場合空構造を返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -541,8 +541,8 @@ class TestAnalyzeContributingFactors:
 class TestGenerateAlerts:
     """_generate_alertsテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_high_risk_alert(self, mock_get_conn, mock_mkdir):
         """高リスク割合でアラート"""
         from src.advanced_trend_dashboard import (
@@ -572,8 +572,8 @@ class TestGenerateAlerts:
 
         assert any("高リスク" in a["message"] for a in alerts)
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_low_agreement_alert(self, mock_get_conn, mock_mkdir):
         """低合意度でアラート"""
         from src.advanced_trend_dashboard import (
@@ -603,8 +603,8 @@ class TestGenerateAlerts:
 
         assert any("合意度" in a["message"] for a in alerts)
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_latest_high_risk_alert(self, mock_get_conn, mock_mkdir):
         """最新予測が高リスクでアラート"""
         from src.advanced_trend_dashboard import (
@@ -642,8 +642,8 @@ class TestGenerateAlerts:
 
         assert any("最新予測が高リスク" in a["message"] for a in alerts)
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_insufficient_data_alert(self, mock_get_conn, mock_mkdir):
         """データ不足でアラート"""
         from src.advanced_trend_dashboard import (
@@ -677,9 +677,9 @@ class TestGenerateAlerts:
 class TestGeneratePlotlyGraphs:
     """_generate_plotly_graphsテスト"""
 
-    @patch("src.advanced_trend_dashboard.PLOTLY_AVAILABLE", False)
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.PLOTLY_AVAILABLE", False)
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_skips_when_plotly_unavailable(self, mock_get_conn, mock_mkdir):
         """Plotly不可時はスキップ"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -708,8 +708,8 @@ class TestGeneratePlotlyGraphs:
 class TestSaveDashboard:
     """save_dashboardテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_saves_to_file(self, mock_get_conn, mock_mkdir, tmp_path):
         """ファイルに保存"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -723,7 +723,7 @@ class TestSaveDashboard:
         filepath = tmp_path / "test_dashboard.json"
 
         with patch("builtins.open", MagicMock()) as mock_open:
-            with patch("src.advanced_trend_dashboard.json.dump") as mock_dump:
+            with patch("src.advanced_trend_dashboard.dashboard.json.dump") as mock_dump:
                 dashboard.save_dashboard(data, str(filepath))
 
                 mock_dump.assert_called_once()
@@ -732,8 +732,8 @@ class TestSaveDashboard:
 class TestGenerateComprehensiveDashboard:
     """generate_comprehensive_dashboardテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_dashboard_when_no_predictions(self, mock_get_conn, mock_mkdir, capsys):
         """予測0件でもダッシュボードを返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -766,8 +766,8 @@ class TestGenerateComprehensiveDashboard:
         captured = capsys.readouterr()
         assert "ダッシュボード生成完了" in captured.out
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
     def test_returns_dashboard_data(self, mock_get_conn, mock_mkdir, capsys):
         """ダッシュボードデータを返す"""
         from src.advanced_trend_dashboard import AdvancedTrendDashboard
@@ -820,20 +820,13 @@ class TestGenerateComprehensiveDashboard:
 class TestPrintMethods:
     """printメソッドテスト"""
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
-    def test_print_summary_metrics(self, mock_get_conn, mock_mkdir, capsys):
+    def test_print_summary_metrics(self, capsys):
         """サマリーメトリクス出力"""
         from src.advanced_trend_dashboard import (
-            AdvancedTrendDashboard,
             DashboardMetrics,
             PredictionTrend,
+            print_summary_metrics,
         )
-
-        mock_conn = MagicMock()
-        mock_get_conn.return_value = mock_conn
-
-        dashboard = AdvancedTrendDashboard()
 
         latest = PredictionTrend(
             timestamp="2025-01-01",
@@ -854,45 +847,31 @@ class TestPrintMethods:
             latest_experiment=None,
         )
 
-        dashboard._print_summary_metrics(metrics)
+        print_summary_metrics(metrics)
 
         captured = capsys.readouterr()
         assert "100" in captured.out
         assert "HIGH" in captured.out
         assert "LOW" in captured.out
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
-    def test_print_alerts(self, mock_get_conn, mock_mkdir, capsys):
+    def test_print_alerts(self, capsys):
         """アラート出力"""
-        from src.advanced_trend_dashboard import AdvancedTrendDashboard
-
-        mock_conn = MagicMock()
-        mock_get_conn.return_value = mock_conn
-
-        dashboard = AdvancedTrendDashboard()
+        from src.advanced_trend_dashboard import print_alerts
 
         alerts = [
             {"level": "critical", "message": "テストアラート", "category": "test", "timestamp": "2025-01-01"},
         ]
 
-        dashboard._print_alerts(alerts)
+        print_alerts(alerts)
 
         captured = capsys.readouterr()
         assert "テストアラート" in captured.out
 
-    @patch("src.advanced_trend_dashboard.Path.mkdir")
-    @patch("src.advanced_trend_dashboard.get_connection")
-    def test_print_alerts_empty(self, mock_get_conn, mock_mkdir, capsys):
+    def test_print_alerts_empty(self, capsys):
         """アラートなしの出力"""
-        from src.advanced_trend_dashboard import AdvancedTrendDashboard
+        from src.advanced_trend_dashboard import print_alerts
 
-        mock_conn = MagicMock()
-        mock_get_conn.return_value = mock_conn
-
-        dashboard = AdvancedTrendDashboard()
-
-        dashboard._print_alerts([])
+        print_alerts([])
 
         captured = capsys.readouterr()
         # 空リストの場合の出力を確認（実装により異なる）
@@ -902,7 +881,7 @@ class TestPrintMethods:
 class TestMainFunction:
     """main関数テスト"""
 
-    @patch("src.advanced_trend_dashboard.AdvancedTrendDashboard")
+    @patch("src.advanced_trend_dashboard.dashboard.AdvancedTrendDashboard")
     @patch("sys.argv", ["prog", "--generate"])
     def test_generate_flag(self, mock_dashboard_class):
         """--generateフラグ"""
@@ -916,7 +895,7 @@ class TestMainFunction:
 
         mock_dashboard.generate_comprehensive_dashboard.assert_called_once()
 
-    @patch("src.advanced_trend_dashboard.AdvancedTrendDashboard")
+    @patch("src.advanced_trend_dashboard.dashboard.AdvancedTrendDashboard")
     @patch("sys.argv", ["prog"])
     def test_no_args_shows_message(self, mock_dashboard_class, capsys):
         """引数なしでメッセージ表示"""
@@ -930,7 +909,7 @@ class TestMainFunction:
         captured = capsys.readouterr()
         assert "オプションを指定してください" in captured.out
 
-    @patch("src.advanced_trend_dashboard.AdvancedTrendDashboard")
+    @patch("src.advanced_trend_dashboard.dashboard.AdvancedTrendDashboard")
     @patch("sys.argv", ["prog", "--generate", "--save"])
     def test_generate_and_save(self, mock_dashboard_class):
         """--generate --saveフラグ"""

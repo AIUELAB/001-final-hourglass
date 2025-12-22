@@ -1,24 +1,18 @@
 #!/usr/bin/env python3
-"""
-AI-based Recommendation System - Phase 11.5
-
-機械学習による高度な推奨システム
-- 過去の実装結果からの学習
-- 動的な最適化パラメータ調整
-- リアルタイム推奨生成
-- 推奨精度の自動評価
-"""
+"""AI推奨システム - 推奨エンジン"""
 
 import argparse
 import json
 import sqlite3
 import statistics
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from src.database_utils import get_connection
+
+from .models import AIRecommendation
 
 try:
     import joblib
@@ -30,67 +24,12 @@ try:
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
-    np = None
+    np = None  # type: ignore[assignment]
     RandomForestClassifier = None
     GradientBoostingClassifier = None
     StandardScaler = None
     train_test_split = None
     joblib = None
-
-
-# ==========================================
-# データクラス
-# ==========================================
-
-
-@dataclass
-class AIRecommendation:
-    """AI推奨事項"""
-
-    recommendation_id: str
-    timestamp: str
-    recommendation_type: str  # capacity/cost/performance/security
-    action: str  # scale_up/scale_down/optimize/maintain
-    target_resource: str
-    priority: str  # critical/high/medium/low
-    confidence_score: float  # 0.0-1.0
-    estimated_impact: float  # 予測される影響度
-    estimated_savings: float  # 予測コスト削減額
-    implementation_effort: str  # high/medium/low
-    reasoning: str
-    supporting_data: Dict[str, Any]
-    alternative_actions: List[str]
-
-
-@dataclass
-class RecommendationFeedback:
-    """推奨事項のフィードバック"""
-
-    recommendation_id: str
-    feedback_timestamp: str
-    implemented: bool
-    actual_impact: Optional[float]
-    actual_savings: Optional[float]
-    success_rating: float  # 0.0-1.0
-    notes: str
-
-
-@dataclass
-class ModelPerformanceMetrics:
-    """モデル性能メトリクス"""
-
-    model_name: str
-    accuracy: float
-    precision: float
-    recall: float
-    f1_score: float
-    training_date: str
-    sample_count: int
-
-
-# ==========================================
-# メインクラス
-# ==========================================
 
 
 class AIRecommendationSystem:
@@ -341,7 +280,7 @@ class AIRecommendationSystem:
         print("📌 ステップ3: ML推奨の生成")
         print("-" * 80)
 
-        ml_recs = []
+        ml_recs: List[AIRecommendation] = []
         if SKLEARN_AVAILABLE and self.recommendation_model:
             ml_recs = self._generate_ml_recommendations(features, timestamp)
             print(f"  ✅ ML推奨: {len(ml_recs)}件")
@@ -671,11 +610,6 @@ class AIRecommendationSystem:
             print(f"   信頼度: {row[6] * 100:.1f}%")
 
 
-# ==========================================
-# メイン処理
-# ==========================================
-
-
 def main():
     parser = argparse.ArgumentParser(description="AI-based Recommendation System - Phase 11.5")
     parser.add_argument("--generate", action="store_true", help="AI推奨事項を生成")
@@ -712,7 +646,3 @@ def main():
 
     else:
         parser.print_help()
-
-
-if __name__ == "__main__":
-    main()

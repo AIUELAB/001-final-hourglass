@@ -130,7 +130,7 @@ class TestCapacityPlan:
 class TestCapacityPlanningAutomationInit:
     """CapacityPlanningAutomation初期化テスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
     def test_init_default(self, mock_mkdir):
         """デフォルト初期化"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -141,7 +141,7 @@ class TestCapacityPlanningAutomationInit:
         assert automation.capacity_thresholds["memory"] == 85.0
         assert automation.capacity_thresholds["disk"] == 90.0
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
     def test_init_models_empty(self, mock_mkdir):
         """モデルは初期状態で空"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -164,7 +164,7 @@ class TestSklearnAvailability:
 class TestCapacityThresholds:
     """容量閾値テスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
     def test_threshold_values(self, mock_mkdir):
         """閾値の値"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -228,8 +228,8 @@ class TestUrgencyLevels:
 class TestCalculateGrowthRate:
     """_calculate_growth_rate メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_growth_rate_positive(self, mock_conn, mock_mkdir):
         """正の成長率"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -240,8 +240,8 @@ class TestCalculateGrowthRate:
 
         assert rate == 8.0  # (50-10) / 5 = 8
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_growth_rate_negative(self, mock_conn, mock_mkdir):
         """負の成長率"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -252,8 +252,8 @@ class TestCalculateGrowthRate:
 
         assert rate < 0  # 負の成長率
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_growth_rate_single_value(self, mock_conn, mock_mkdir):
         """単一値の場合は0"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -264,8 +264,8 @@ class TestCalculateGrowthRate:
 
         assert rate == 0.0
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_growth_rate_empty(self, mock_conn, mock_mkdir):
         """空リストの場合は0"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -280,8 +280,8 @@ class TestCalculateGrowthRate:
 class TestCalculateDaysUntilThreshold:
     """_calculate_days_until_threshold メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_days_until_threshold_positive(self, mock_conn, mock_mkdir):
         """正の成長率で閾値到達"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -291,8 +291,8 @@ class TestCalculateDaysUntilThreshold:
 
         assert days == 30  # (80-50) / 1 = 30
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_days_until_threshold_zero_growth(self, mock_conn, mock_mkdir):
         """成長率0の場合はNone"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -302,8 +302,8 @@ class TestCalculateDaysUntilThreshold:
 
         assert days is None
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_days_until_threshold_negative_growth(self, mock_conn, mock_mkdir):
         """負の成長率の場合はNone"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -313,8 +313,8 @@ class TestCalculateDaysUntilThreshold:
 
         assert days is None
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_days_until_threshold_already_exceeded(self, mock_conn, mock_mkdir):
         """既に閾値超過の場合は0"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -328,8 +328,8 @@ class TestCalculateDaysUntilThreshold:
 class TestGenerateForecast:
     """_generate_forecast メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_forecast_with_data(self, mock_conn, mock_mkdir):
         """十分なデータでの予測"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -347,8 +347,8 @@ class TestGenerateForecast:
         assert forecast.current_usage == 52.0
         assert forecast.capacity_threshold == 80.0
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_forecast_insufficient_data(self, mock_conn, mock_mkdir):
         """データ不足の場合"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -362,8 +362,8 @@ class TestGenerateForecast:
         assert forecast.predicted_usage_7d == 60.0
         assert forecast.growth_rate_daily == 0.0
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_forecast_empty_data(self, mock_conn, mock_mkdir):
         """空データの場合"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -379,8 +379,8 @@ class TestGenerateForecast:
 class TestAnalyzeForecastAndRecommend:
     """_analyze_forecast_and_recommend メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_recommend_scale_up_critical(self, mock_conn, mock_mkdir):
         """緊急スケールアップ推奨"""
         from src.capacity_planning_automation import (
@@ -406,8 +406,8 @@ class TestAnalyzeForecastAndRecommend:
         assert rec.action == "scale_up"
         assert rec.urgency == "critical"
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_recommend_scale_up_high(self, mock_conn, mock_mkdir):
         """高優先度スケールアップ推奨"""
         from src.capacity_planning_automation import (
@@ -433,8 +433,8 @@ class TestAnalyzeForecastAndRecommend:
         assert rec.action == "scale_up"
         assert rec.urgency == "high"
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_recommend_scale_down(self, mock_conn, mock_mkdir):
         """スケールダウン推奨"""
         from src.capacity_planning_automation import (
@@ -460,8 +460,8 @@ class TestAnalyzeForecastAndRecommend:
         assert rec.action == "scale_down"
         assert rec.urgency == "low"
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_recommend_no_action(self, mock_conn, mock_mkdir):
         """アクション不要"""
         from src.capacity_planning_automation import (
@@ -489,8 +489,8 @@ class TestAnalyzeForecastAndRecommend:
 class TestGenerateAlerts:
     """_generate_alerts メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_generate_capacity_shortage_alert(self, mock_conn, mock_mkdir):
         """容量不足アラート生成"""
         from src.capacity_planning_automation import (
@@ -519,8 +519,8 @@ class TestGenerateAlerts:
         assert any(a["category"] == "capacity_shortage" for a in alerts)
         assert any(a["level"] == "critical" for a in alerts)
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_generate_high_growth_rate_alert(self, mock_conn, mock_mkdir):
         """高成長率アラート生成"""
         from src.capacity_planning_automation import (
@@ -551,8 +551,8 @@ class TestGenerateAlerts:
 class TestGenerateSummary:
     """_generate_summary メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_summary_critical_status(self, mock_conn, mock_mkdir):
         """クリティカルステータスのサマリー"""
         from src.capacity_planning_automation import (
@@ -593,8 +593,8 @@ class TestGenerateSummary:
         assert summary["most_critical_resource"] == "cpu"
         assert summary["critical_recommendations"] == 1
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_summary_healthy_status(self, mock_conn, mock_mkdir):
         """健全ステータスのサマリー"""
         from src.capacity_planning_automation import (
@@ -626,8 +626,8 @@ class TestGenerateSummary:
 class TestPrintMethods:
     """print メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_print_forecast(self, mock_conn, mock_mkdir, capsys):
         """_print_forecast が出力を生成"""
         from src.capacity_planning_automation import (
@@ -653,8 +653,8 @@ class TestPrintMethods:
         assert "CPU" in captured.out
         assert "65.0" in captured.out
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_print_recommendation(self, mock_conn, mock_mkdir, capsys):
         """_print_recommendation が出力を生成"""
         from src.capacity_planning_automation import (
@@ -679,8 +679,8 @@ class TestPrintMethods:
         assert "MEMORY" in captured.out
         assert "HIGH" in captured.out
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_print_alert(self, mock_conn, mock_mkdir, capsys):
         """_print_alert が出力を生成"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -701,8 +701,8 @@ class TestPrintMethods:
 class TestSaveCapacityPlanReport:
     """save_capacity_plan_report メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_save_report(self, mock_conn, mock_mkdir, tmp_path):
         """レポート保存"""
         from src.capacity_planning_automation import (
@@ -747,8 +747,8 @@ class TestSaveCapacityPlanReport:
 class TestCollectResourceData:
     """_collect_resource_data メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_collect_data_with_results(self, mock_conn, mock_mkdir):
         """データ収集（結果あり）"""
         from src.capacity_planning_automation import CapacityPlanningAutomation
@@ -772,8 +772,8 @@ class TestCollectResourceData:
 class TestGenerateRecommendations:
     """_generate_recommendations メソッドテスト"""
 
-    @patch("src.capacity_planning_automation.Path.mkdir")
-    @patch("src.capacity_planning_automation.get_connection")
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
     def test_generate_recommendations_with_issues(self, mock_conn, mock_mkdir):
         """問題がある場合の推奨事項生成"""
         from src.capacity_planning_automation import (
@@ -814,7 +814,7 @@ class TestGenerateRecommendations:
 class TestMainFunction:
     """main 関数テスト"""
 
-    @patch("src.capacity_planning_automation.CapacityPlanningAutomation")
+    @patch("src.capacity_planning_automation.planner.CapacityPlanningAutomation")
     @patch("sys.argv", ["capacity_planning_automation.py"])
     def test_main_no_args(self, mock_class, capsys):
         """引数なしで実行"""
@@ -825,7 +825,7 @@ class TestMainFunction:
 
         assert "オプションを指定してください" in captured.out
 
-    @patch("src.capacity_planning_automation.CapacityPlanningAutomation")
+    @patch("src.capacity_planning_automation.planner.CapacityPlanningAutomation")
     @patch("sys.argv", ["capacity_planning_automation.py", "--generate"])
     def test_main_with_generate(self, mock_class):
         """--generate オプションで実行"""
@@ -862,7 +862,7 @@ class TestMainFunction:
 
         mock_instance.generate_capacity_plan.assert_called_once()
 
-    @patch("src.capacity_planning_automation.CapacityPlanningAutomation")
+    @patch("src.capacity_planning_automation.planner.CapacityPlanningAutomation")
     @patch("sys.argv", ["capacity_planning_automation.py", "--generate", "--save"])
     def test_main_with_generate_and_save(self, mock_class):
         """--generate --save オプションで実行"""

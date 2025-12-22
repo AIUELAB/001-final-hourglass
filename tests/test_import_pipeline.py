@@ -148,40 +148,46 @@ class TestValidate:
     def test_validate_valid_dataframe(self):
         """正常なDataFrameのバリデーション"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト太郎"],
-            "age": [30],
-            "episode_text": ["あなたと同じ30歳のとき、テスト太郎は活躍した。"],
-            "person_type": ["REAL"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト太郎"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テスト太郎は活躍した。"],
+                "person_type": ["REAL"],
+            }
+        )
         result = pipeline.validate(df)
         assert result.total_rows == 1
 
     def test_validate_missing_required_field(self):
         """必須フィールド欠損"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": [""],  # 空
-            "age": [30],
-            "episode_text": ["テスト"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": [""],  # 空
+                "age": [30],
+                "episode_text": ["テスト"],
+            }
+        )
         result = pipeline.validate(df)
         assert result.error_count > 0
 
     def test_validate_strict_mode(self):
         """STRICTモードでのバリデーション"""
         pipeline = ImportValidationPipeline(level=ValidationLevel.STRICT)
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],
-            "episode_text": ["フォーマット違反のテキスト"],  # 警告発生
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["フォーマット違反のテキスト"],  # 警告発生
+            }
+        )
         result = pipeline.validate(df)
         # STRICTモードでは警告もエラー扱い
         if result.warning_count > 0:
@@ -190,13 +196,15 @@ class TestValidate:
     def test_validate_lenient_mode(self):
         """LENIENTモードでのバリデーション"""
         pipeline = ImportValidationPipeline(level=ValidationLevel.LENIENT)
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],
-            "episode_text": ["テスト"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["テスト"],
+            }
+        )
         result = pipeline.validate(df)
         # LENIENTモードではすべて成功
         assert result.success is True
@@ -208,13 +216,15 @@ class TestCheckLeadFormat:
     def test_valid_lead_format(self):
         """正しいリード文フォーマット"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [25],
-            "episode_text": ["あなたと同じ25歳のとき、テストは成功した。"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [25],
+                "episode_text": ["あなたと同じ25歳のとき、テストは成功した。"],
+            }
+        )
         result = pipeline.validate(df)
         lead_issues = [i for i in result.issues if i.issue_type == "invalid_lead_format"]
         assert len(lead_issues) == 0
@@ -222,13 +232,15 @@ class TestCheckLeadFormat:
     def test_invalid_lead_format(self):
         """無効なリード文フォーマット"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [25],
-            "episode_text": ["これはリード文形式ではありません。"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [25],
+                "episode_text": ["これはリード文形式ではありません。"],
+            }
+        )
         result = pipeline.validate(df)
         lead_issues = [i for i in result.issues if i.issue_type == "invalid_lead_format"]
         assert len(lead_issues) > 0
@@ -236,13 +248,15 @@ class TestCheckLeadFormat:
     def test_age_mismatch(self):
         """年齢不一致"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],  # 30歳
-            "episode_text": ["あなたと同じ25歳のとき、テスト。"],  # リード文は25歳
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],  # 30歳
+                "episode_text": ["あなたと同じ25歳のとき、テスト。"],  # リード文は25歳
+            }
+        )
         result = pipeline.validate(df)
         age_issues = [i for i in result.issues if i.issue_type == "age_mismatch"]
         assert len(age_issues) > 0
@@ -254,14 +268,16 @@ class TestCheckMetaExpressions:
     def test_no_meta_expression_real(self):
         """REALタイプでメタ表現なし"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],
-            "episode_text": ["あなたと同じ30歳のとき、テストは活躍した。"],
-            "person_type": ["REAL"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テストは活躍した。"],
+                "person_type": ["REAL"],
+            }
+        )
         result = pipeline.validate(df)
         meta_issues = [i for i in result.issues if i.issue_type == "meta_expression"]
         assert len(meta_issues) == 0
@@ -269,14 +285,16 @@ class TestCheckMetaExpressions:
     def test_meta_expression_in_fictional(self):
         """FICTIONALタイプでメタ表現検出"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["キャラ"],
-            "age": [20],
-            "episode_text": ["あなたと同じ20歳のとき、これは架空のキャラクターです。"],
-            "person_type": ["FICTIONAL"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["キャラ"],
+                "age": [20],
+                "episode_text": ["あなたと同じ20歳のとき、これは架空のキャラクターです。"],
+                "person_type": ["FICTIONAL"],
+            }
+        )
         result = pipeline.validate(df)
         meta_issues = [i for i in result.issues if i.issue_type == "meta_expression"]
         assert len(meta_issues) > 0
@@ -288,14 +306,16 @@ class TestValidateRow:
     def test_validate_row_all_fields_present(self):
         """全フィールド存在時のバリデーション"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["正常な名前"],
-            "age": [35],
-            "episode_text": ["あなたと同じ35歳のとき、正常な名前は活躍した。"],
-            "person_type": ["REAL"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["正常な名前"],
+                "age": [35],
+                "episode_text": ["あなたと同じ35歳のとき、正常な名前は活躍した。"],
+                "person_type": ["REAL"],
+            }
+        )
         result = pipeline.validate(df)
         missing_issues = [i for i in result.issues if i.issue_type == "missing_field"]
         assert len(missing_issues) == 0
@@ -303,13 +323,15 @@ class TestValidateRow:
     def test_validate_row_missing_episode_id(self):
         """episode_id欠損"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": [None],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],
-            "episode_text": ["テスト"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": [None],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["テスト"],
+            }
+        )
         result = pipeline.validate(df)
         missing_issues = [i for i in result.issues if i.issue_type == "missing_field"]
         assert len(missing_issues) > 0
@@ -321,26 +343,30 @@ class TestAutoFix:
     def test_auto_fix_disabled(self):
         """自動修正無効"""
         pipeline = ImportValidationPipeline(auto_fix=False)
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],
-            "episode_text": ["テスト"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["テスト"],
+            }
+        )
         result = pipeline.validate(df)
         assert result.df is None
 
     def test_auto_fix_enabled(self):
         """自動修正有効"""
         pipeline = ImportValidationPipeline(auto_fix=True)
-        df = pd.DataFrame({
-            "episode_id": ["EP001"],
-            "person_id": ["P001"],
-            "person_name": ["テスト"],
-            "age": [30],
-            "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
         result = pipeline.validate(df)
         # 自動修正有効時はdfが返される
         assert result.df is not None
@@ -352,13 +378,240 @@ class TestResultCounts:
     def test_count_valid_and_invalid(self):
         """有効・無効行数カウント"""
         pipeline = ImportValidationPipeline()
-        df = pd.DataFrame({
-            "episode_id": ["EP001", "EP002"],
-            "person_id": ["P001", "P002"],
-            "person_name": ["テスト1", ""],  # 2行目は無効
-            "age": [30, 25],
-            "episode_text": ["あなたと同じ30歳のとき、テスト1は成功。", "テスト"],
-        })
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001", "EP002"],
+                "person_id": ["P001", "P002"],
+                "person_name": ["テスト1", ""],  # 2行目は無効
+                "age": [30, 25],
+                "episode_text": ["あなたと同じ30歳のとき、テスト1は成功。", "テスト"],
+            }
+        )
         result = pipeline.validate(df)
         assert result.total_rows == 2
         assert result.invalid_rows >= 1
+
+
+class TestValidateFile:
+    """validate_file() メソッドテスト"""
+
+    def test_validate_file_valid(self, tmp_path):
+        """有効なCSVファイルをバリデーション"""
+        csv_path = tmp_path / "test.csv"
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト太郎"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テスト太郎は活躍した。"],
+                "person_type": ["REAL"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        pipeline = ImportValidationPipeline()
+        result = pipeline.validate_file(str(csv_path))
+
+        assert result.total_rows == 1
+        assert result.success is True
+
+    def test_validate_file_with_issues(self, tmp_path):
+        """問題のあるCSVファイルをバリデーション"""
+        csv_path = tmp_path / "test.csv"
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": [""],  # 空の名前
+                "age": [30],
+                "episode_text": ["テスト"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        pipeline = ImportValidationPipeline()
+        result = pipeline.validate_file(str(csv_path))
+
+        assert result.error_count > 0
+
+
+class TestMainFunction:
+    """main() 関数テスト"""
+
+    def test_main_with_valid_file(self, tmp_path, monkeypatch, capsys):
+        """有効なファイルでmain実行"""
+        from src.validators import import_pipeline
+
+        csv_path = tmp_path / "test.csv"
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        monkeypatch.setattr("sys.argv", ["import_pipeline.py", str(csv_path)])
+        import_pipeline.main()
+
+        captured = capsys.readouterr()
+        assert "ImportValidationPipeline 結果" in captured.out
+        assert "総行数: 1" in captured.out
+
+    def test_main_with_strict_mode(self, tmp_path, monkeypatch, capsys):
+        """--strict モードでmain実行"""
+        from src.validators import import_pipeline
+
+        csv_path = tmp_path / "test.csv"
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        monkeypatch.setattr("sys.argv", ["import_pipeline.py", str(csv_path), "--strict"])
+        import_pipeline.main()
+
+        captured = capsys.readouterr()
+        assert "ImportValidationPipeline 結果" in captured.out
+
+    def test_main_with_auto_fix(self, tmp_path, monkeypatch, capsys):
+        """--auto-fix モードでmain実行"""
+        from src.validators import import_pipeline
+
+        csv_path = tmp_path / "test.csv"
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        monkeypatch.setattr("sys.argv", ["import_pipeline.py", str(csv_path), "--auto-fix"])
+        import_pipeline.main()
+
+        captured = capsys.readouterr()
+        assert "自動修正:" in captured.out
+
+    def test_main_with_output(self, tmp_path, monkeypatch, capsys):
+        """--output オプションでmain実行"""
+        from src.validators import import_pipeline
+
+        csv_path = tmp_path / "input.csv"
+        output_path = tmp_path / "output.csv"
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        monkeypatch.setattr(
+            "sys.argv", ["import_pipeline.py", str(csv_path), "--auto-fix", "--output", str(output_path)]
+        )
+        import_pipeline.main()
+
+        captured = capsys.readouterr()
+        assert "修正後ファイル" in captured.out
+        assert output_path.exists()
+
+    def test_main_with_issues_truncated(self, tmp_path, monkeypatch, capsys):
+        """問題が20件以上ある場合の表示"""
+        from src.validators import import_pipeline
+
+        csv_path = tmp_path / "test.csv"
+        # 25行のデータ（すべて問題あり）
+        df = pd.DataFrame(
+            {
+                "episode_id": [f"EP{i:03d}" for i in range(25)],
+                "person_id": [f"P{i:03d}" for i in range(25)],
+                "person_name": [""] * 25,  # 全て空
+                "age": [30] * 25,
+                "episode_text": ["テスト"] * 25,
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        monkeypatch.setattr("sys.argv", ["import_pipeline.py", str(csv_path)])
+        import_pipeline.main()
+
+        captured = capsys.readouterr()
+        assert "他" in captured.out  # "他X件"の表示
+
+
+class TestMetaExpressionEdgeCases:
+    """_check_meta_expressions のエッジケーステスト"""
+
+    def test_meta_expression_various_patterns(self):
+        """様々なメタ表現パターン"""
+        pipeline = ImportValidationPipeline()
+        meta_patterns = ["架空の", "フィクション", "物語の", "設定では"]
+
+        for pattern in meta_patterns:
+            if pattern in pipeline.META_PATTERNS:
+                df = pd.DataFrame(
+                    {
+                        "episode_id": ["EP001"],
+                        "person_id": ["P001"],
+                        "person_name": ["テスト"],
+                        "age": [20],
+                        "episode_text": [f"あなたと同じ20歳のとき、{pattern}キャラです。"],
+                        "person_type": ["FICTIONAL"],
+                    }
+                )
+                result = pipeline.validate(df)
+                meta_issues = [i for i in result.issues if i.issue_type == "meta_expression"]
+                assert len(meta_issues) > 0, f"Pattern '{pattern}' should be detected"
+
+
+class TestCheckLeadFormatEdgeCases:
+    """_check_lead_format のエッジケーステスト"""
+
+    def test_lead_format_without_age_field(self):
+        """ageフィールドがない場合"""
+        pipeline = ImportValidationPipeline()
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                # ageフィールドなし
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
+        result = pipeline.validate(df)
+        # エラーにならないことを確認
+        assert result is not None
+
+    def test_lead_format_with_none_age(self):
+        """ageがNoneの場合"""
+        pipeline = ImportValidationPipeline()
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト"],
+                "age": [None],
+                "episode_text": ["あなたと同じ30歳のとき、テストは成功した。"],
+            }
+        )
+        result = pipeline.validate(df)
+        # エラーにならないことを確認
+        assert result is not None

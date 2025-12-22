@@ -201,7 +201,7 @@ class FactChecker:
         """年代の整合性チェック"""
         # 年齢と年代の抽出
         age_matches = re.findall(r"(\d+)歳", text)
-        year_matches = re.findall(r"(19|20)\d{2}年", text)
+        year_matches = re.findall(r"((?:19|20)\d{2})年", text)
 
         for age_str in age_matches:
             age = int(age_str)

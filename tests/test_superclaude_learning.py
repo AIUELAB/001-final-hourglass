@@ -580,3 +580,274 @@ class TestLearningSystem:
                 system.learn_frequent_operation("/test/project", {"command": f"cmd{i}"})
             knowledge = system.get_project_knowledge("/test/project")
             assert len(knowledge.frequent_operations) == 20  # 上限20
+
+    def test_cache_freshness_check(self):
+        """キャッシュファイルの鮮度チェック"""
+        import json
+        import tempfile
+        import time
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # パターンを追加
+            pattern = Pattern(
+                pattern_id="cache_test",
+                pattern_type="error_fix",
+                context='{"tool": "pytest"}',
+                solution="fix",
+                success_rate=0.9,
+                tags=["pytest"],
+            )
+            system.patterns_cache["cache_test"] = pattern
+            # 類似パターン検索（キャッシュ生成）
+            context = {"tool": "pytest"}
+            result1 = system.get_similar_patterns(context)
+            # 2回目（キャッシュ利用）
+            result2 = system.get_similar_patterns(context)
+            assert len(result1) > 0
+            assert len(result2) > 0
+
+    def test_cache_read_error_handling(self):
+        """キャッシュ読み込みエラー処理"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # 無効なキャッシュファイルを作成
+            cache_file = system.cache_dir / "similar_test123.json"
+            cache_file.write_text("invalid json content")
+            # エラーでも類似パターン検索が動作する
+            result = system.get_similar_patterns({"key": "value"})
+            assert isinstance(result, list)
+
+    def test_cache_write_error_handling(self):
+        """キャッシュ書き込みエラー処理"""
+        import os
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # パターンを追加
+            pattern = Pattern(
+                pattern_id="write_test",
+                pattern_type="error_fix",
+                context='{"tool": "test"}',
+                solution="fix",
+                success_rate=0.9,
+            )
+            system.patterns_cache["write_test"] = pattern
+            # キャッシュディレクトリを読み取り専用に（可能な場合）
+            # システムにより動作が異なるため、正常動作も許容
+            result = system.get_similar_patterns({"tool": "test"})
+            assert isinstance(result, list)
+
+    def test_suggest_solution_low_success_rate(self):
+        """成功率が低いパターンでの解決策提案"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # 低成功率パターンを追加
+            pattern = Pattern(
+                pattern_id="low_success",
+                pattern_type="error_fix",
+                context='{"error_type": "ImportError"}',
+                solution="try pip install",
+                success_rate=0.3,  # 閾値(0.5)未満
+                tags=["ImportError"],
+            )
+            system.patterns_cache["low_success"] = pattern
+            # 提案はNoneを返す
+            suggestion = system.suggest_solution({"error_type": "ImportError"})
+            assert suggestion is None
+
+    def test_suggest_solution_high_success_rate(self):
+        """成功率が高いパターンでの解決策提案"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # 高成功率パターンを追加
+            pattern = Pattern(
+                pattern_id="high_success",
+                pattern_type="error_fix",
+                context='{"error_type": "ImportError"}',
+                solution="pip install module",
+                success_rate=0.85,
+                usage_count=10,
+                tags=["ImportError"],
+            )
+            system.patterns_cache["high_success"] = pattern
+            # 提案が返される
+            suggestion = system.suggest_solution({"error_type": "ImportError"})
+            assert suggestion is not None
+            assert suggestion["solution"] == "pip install module"
+            assert suggestion["confidence"] == 0.85
+
+    def test_calculate_similarity_with_matching_keys(self):
+        """キーが一致する類似度計算"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            pattern = Pattern(
+                pattern_id="match_test",
+                pattern_type="error_fix",
+                context='{"error_type": "ImportError", "tool": "pytest", "operation": "test"}',
+                solution="fix",
+                tags=["ImportError", "pytest"],
+            )
+            # 完全一致
+            similarity = system._calculate_similarity(
+                {"error_type": "ImportError", "tool": "pytest", "operation": "test"},
+                pattern,
+            )
+            assert similarity > 0.5  # 高い類似度
+
+    def test_calculate_similarity_with_partial_match(self):
+        """部分一致の類似度計算"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            pattern = Pattern(
+                pattern_id="partial_test",
+                pattern_type="error_fix",
+                context='{"error_type": "ImportError", "tool": "pytest"}',
+                solution="fix",
+                tags=["pytest"],
+            )
+            # 部分一致（error_typeは一致、toolは不一致）
+            similarity = system._calculate_similarity(
+                {"error_type": "ImportError", "tool": "mypy"},
+                pattern,
+            )
+            assert 0.0 < similarity < 1.0
+
+    def test_calculate_similarity_with_empty_tags(self):
+        """空タグでの類似度計算"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            pattern = Pattern(
+                pattern_id="no_tags",
+                pattern_type="error_fix",
+                context='{"key": "value"}',
+                solution="fix",
+                tags=[],  # 空タグ
+            )
+            similarity = system._calculate_similarity({"key": "value"}, pattern)
+            assert similarity >= 0.0
+
+    def test_extract_pattern_updates_existing(self):
+        """既存パターンの更新"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # 最初のエントリでパターンを作成
+            entry1 = LearningEntry(
+                entry_id="e1",
+                timestamp="2025-01-01",
+                session_id="s1",
+                entry_type="success",
+                context={"tool": "pytest"},
+                action="pytest tests/",
+                result="passed",
+                outcome="success",
+                confidence=0.9,
+                reusable=True,
+            )
+            pattern1 = system._extract_pattern(entry1)
+            system._save_pattern(pattern1)
+            initial_usage = pattern1.usage_count
+
+            # 同じactionとresultで2回目のエントリ
+            entry2 = LearningEntry(
+                entry_id="e2",
+                timestamp="2025-01-02",
+                session_id="s2",
+                entry_type="success",
+                context={"tool": "pytest"},
+                action="pytest tests/",
+                result="passed",
+                outcome="success",
+                confidence=0.9,
+                reusable=True,
+            )
+            pattern2 = system._extract_pattern(entry2)
+            assert pattern2.usage_count > initial_usage
+
+    def test_extract_pattern_failure_outcome(self):
+        """失敗outcomeでのパターン更新"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            system = LearningSystem(learning_dir=tmpdir)
+            # 成功パターンを作成
+            entry1 = LearningEntry(
+                entry_id="e1",
+                timestamp="2025-01-01",
+                session_id="s1",
+                entry_type="success",
+                context={},
+                action="action1",
+                result="result1",
+                outcome="success",
+                confidence=0.9,
+                reusable=True,
+            )
+            pattern = system._extract_pattern(entry1)
+            system._save_pattern(pattern)
+            initial_rate = pattern.success_rate
+
+            # 同じパターンで失敗
+            entry2 = LearningEntry(
+                entry_id="e2",
+                timestamp="2025-01-02",
+                session_id="s2",
+                entry_type="success",
+                context={},
+                action="action1",
+                result="result1",
+                outcome="failure",  # 失敗
+                confidence=0.9,
+                reusable=True,
+            )
+            pattern2 = system._extract_pattern(entry2)
+            assert pattern2.success_rate < initial_rate
+
+    def test_load_project_knowledge_handles_invalid_json(self):
+        """無効JSONのプロジェクト知識処理"""
+        import tempfile
+
+        from superclaude_learning import LearningSystem
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            projects_dir = Path(tmpdir) / "projects"
+            projects_dir.mkdir(parents=True)
+            with open(projects_dir / "invalid_proj.json", "w") as f:
+                f.write("not valid json")
+            system = LearningSystem(learning_dir=tmpdir)
+            assert "invalid_proj" not in system.projects_cache

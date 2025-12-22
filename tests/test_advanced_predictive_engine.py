@@ -661,3 +661,292 @@ class TestSaveAutoMLExperiment:
 
         mock_cursor.execute.assert_called()
         mock_conn.return_value.commit.assert_called()
+
+
+class TestBuildEnsemble:
+    """_build_ensemble メソッドテスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_build_ensemble_insufficient_models(self, mock_conn, mock_mkdir, caplog):
+        """モデル不足でアンサンブル構築スキップ"""
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+        engine.models = {}
+
+        engine._build_ensemble()
+
+        assert engine.ensemble_model is None
+        assert "不足" in caplog.text
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_build_ensemble_with_models_no_data(self, mock_conn, mock_mkdir):
+        """モデルあり・データなしでアンサンブル構築"""
+        import numpy as np
+        from sklearn.ensemble import RandomForestClassifier
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+
+        # 実際のモデルを使用（fitなし）
+        rf = RandomForestClassifier(n_estimators=2, random_state=42)
+        gb = RandomForestClassifier(n_estimators=2, random_state=42)
+        engine.models = {"rf": rf, "gb": gb}
+
+        engine._build_ensemble(X=None, y=None)
+
+        assert engine.ensemble_model is not None
+        assert engine.stacking_model is not None
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_build_ensemble_with_data(self, mock_conn, mock_mkdir):
+        """モデルあり・データありでアンサンブル構築・fit"""
+        import numpy as np
+        from sklearn.ensemble import RandomForestClassifier
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+
+        # 小さなトレーニングデータ
+        X = np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12]])
+        y = np.array([0, 1, 0, 1, 0, 1])
+
+        rf = RandomForestClassifier(n_estimators=2, random_state=42)
+        rf.fit(X, y)
+        gb = RandomForestClassifier(n_estimators=2, random_state=42)
+        gb.fit(X, y)
+        engine.models = {"rf": rf, "gb": gb}
+
+        engine._build_ensemble(X=X, y=y)
+
+        assert engine.ensemble_model is not None
+
+
+class TestBuildFeatureVectorWithScaler:
+    """_build_feature_vector のスケーラーありテスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_build_with_scaler(self, mock_conn, mock_mkdir):
+        """スケーラーありでベクトル構築"""
+        import numpy as np
+        from sklearn.preprocessing import StandardScaler
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+        engine.feature_names = ["cpu", "memory"]
+
+        # 事前にfitしたスケーラー
+        scaler = StandardScaler()
+        scaler.fit(np.array([[10, 20], [30, 40], [50, 60]]))
+        engine.scaler = scaler
+
+        metrics = {"cpu": 30.0, "memory": 40.0}
+        result = engine._build_feature_vector(metrics)
+
+        assert isinstance(result, np.ndarray)
+        # スケーリング後は元の値とは異なる
+        assert result[0] != 30.0
+
+
+class TestPredictWithEnsembleError:
+    """predict_advanced のアンサンブルエラー処理テスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_ensemble_prediction_error(self, mock_conn, mock_mkdir, caplog):
+        """アンサンブル予測エラー時の警告"""
+        import numpy as np
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+        engine.feature_names = ["a", "b", "c"]
+        engine.scaler = None
+
+        mock_model = MagicMock()
+        mock_model.predict_proba.return_value = np.array([[0.3, 0.7]])
+        mock_model.feature_importances_ = np.array([0.4, 0.3, 0.3])
+        engine.models = {"rf": mock_model}
+
+        # アンサンブルがエラーを投げる
+        mock_ensemble = MagicMock()
+        mock_ensemble.predict_proba.side_effect = Exception("Ensemble error")
+        engine.ensemble_model = mock_ensemble
+
+        metrics = {"a": 1, "b": 2, "c": 3}
+        prediction = engine.predict_advanced(current_metrics=metrics)
+
+        assert "アンサンブル予測失敗" in caplog.text
+        assert "voting_ensemble" not in prediction.ensemble_predictions
+
+
+class TestSaveModelsSuccess:
+    """_save_models 成功パステスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_save_models_success(self, mock_conn, mock_mkdir, tmp_path):
+        """モデル保存成功"""
+        import pickle
+
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.preprocessing import StandardScaler
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+        engine.model_dir = tmp_path
+
+        # pickleできるモデル
+        rf = RandomForestClassifier(n_estimators=2, random_state=42)
+        rf.fit([[1, 2], [3, 4]], [0, 1])
+        engine.models = {"rf": rf}
+        engine.ensemble_model = None
+        engine.stacking_model = None
+        engine.feature_names = ["cpu", "memory"]
+
+        scaler = StandardScaler()
+        scaler.fit([[1, 2], [3, 4]])
+        engine.scaler = scaler
+
+        engine._save_models()
+
+        # ファイル作成確認
+        assert (tmp_path / "advanced_models.pkl").exists()
+        assert (tmp_path / "advanced_scaler.pkl").exists()
+
+        # 保存内容を検証
+        with open(tmp_path / "advanced_models.pkl", "rb") as f:
+            data = pickle.load(f)
+            assert "models" in data
+            assert "rf" in data["models"]
+
+
+class TestLoadModelsSuccess:
+    """_load_models 成功パステスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_load_models_success(self, mock_conn, mock_mkdir, tmp_path, caplog):
+        """モデル読み込み成功"""
+        import pickle
+
+        import numpy as np
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.preprocessing import StandardScaler
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        # 事前にモデルファイルを作成
+        rf = RandomForestClassifier(n_estimators=2, random_state=42)
+        rf.fit([[1, 2], [3, 4]], [0, 1])
+
+        model_data = {
+            "models": {"rf": rf},
+            "ensemble": None,
+            "stacking": None,
+            "feature_names": ["cpu", "memory"],
+        }
+
+        scaler = StandardScaler()
+        scaler.fit([[1, 2], [3, 4]])
+
+        with open(tmp_path / "advanced_models.pkl", "wb") as f:
+            pickle.dump(model_data, f)
+        with open(tmp_path / "advanced_scaler.pkl", "wb") as f:
+            pickle.dump(scaler, f)
+
+        # エンジン初期化（model_dirを変更）
+        engine = AdvancedPredictiveEngine()
+        engine.model_dir = tmp_path
+        engine._load_models()
+
+        assert "rf" in engine.models
+        assert engine.feature_names == ["cpu", "memory"]
+        assert engine.scaler is not None
+
+
+class TestLoadModelsError:
+    """_load_models エラーパステスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_load_models_corrupted_file(self, mock_conn, mock_mkdir, tmp_path, caplog):
+        """破損ファイルで読み込み失敗"""
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        # 破損ファイルを作成
+        (tmp_path / "advanced_models.pkl").write_bytes(b"corrupted data")
+        (tmp_path / "advanced_scaler.pkl").write_bytes(b"corrupted data")
+
+        engine = AdvancedPredictiveEngine()
+        engine.model_dir = tmp_path
+        engine._load_models()
+
+        assert "読み込み失敗" in caplog.text
+
+
+class TestMainFunctionPredictOutput:
+    """main関数のpredict出力テスト"""
+
+    @patch("src.advanced_predictive_engine.AdvancedPredictiveEngine")
+    @patch("sys.argv", ["advanced_predictive_engine.py", "--mode", "predict"])
+    def test_main_predict_success_output(self, mock_class):
+        """predictモード成功時の出力"""
+        from src.advanced_predictive_engine import AdvancedPrediction, main
+
+        mock_instance = MagicMock()
+        mock_class.return_value = mock_instance
+
+        mock_prediction = AdvancedPrediction(
+            prediction_id="test_001",
+            timestamp=datetime.now(),
+            failure_probability=0.85,
+            ensemble_predictions={"rf": 0.8, "gb": 0.9},
+            confidence_score=0.9,
+            risk_level="critical",
+            predicted_failure_time=datetime.now(),
+            contributing_factors=[{"feature": "cpu", "value": 90.0, "importance": 0.5}],
+            shap_values=None,
+            recommendations=["リソース確認"],
+            model_agreement=0.95,
+        )
+        mock_instance.predict_advanced.return_value = mock_prediction
+
+        main()
+
+        mock_instance.predict_advanced.assert_called_once()
+
+
+class TestPredictWithNoneMetrics:
+    """predict_advanced でcurrent_metrics=None のテスト"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_predict_with_none_metrics_uses_default(self, mock_conn, mock_mkdir):
+        """メトリクス未指定で_collect_current_metricsを使用"""
+        import numpy as np
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+        engine.feature_names = ["incident_count", "critical_ratio", "avg_duration"]
+        engine.scaler = None
+
+        mock_model = MagicMock()
+        mock_model.predict_proba.return_value = np.array([[0.4, 0.6]])
+        mock_model.feature_importances_ = np.array([0.5, 0.3, 0.2])
+        engine.models = {"rf": mock_model}
+        engine.ensemble_model = None
+
+        prediction = engine.predict_advanced(current_metrics=None)
+
+        # デフォルトメトリクスが使用された
+        assert prediction.failure_probability == 0.6

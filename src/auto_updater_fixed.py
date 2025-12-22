@@ -198,8 +198,9 @@ class AutoUpdaterFixed:
                 try:
                     # 元のシートを削除
                     self._delete_sheet(spreadsheet_id, new_sheet_name)
-                except Exception:
-                    pass  # 元のシートが存在しない場合は無視
+                except Exception as e:
+                    # 元のシートが存在しない場合は無視（正常ケース）
+                    self.logger.debug(f"シート削除をスキップ（存在しない可能性）: {e}")
 
                 # 一時シートをリネーム
                 self._rename_sheet(spreadsheet_id, temp_sheet_name, new_sheet_name)

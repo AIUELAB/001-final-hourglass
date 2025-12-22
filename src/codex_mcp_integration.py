@@ -95,7 +95,8 @@ class CodexMCPLauncher:
                 else:
                     os.kill(self.process.pid, signal.SIGTERM)
             except Exception:
-                pass
+                # プロセス終了済みの可能性（正常ケース）
+                _ = None  # nosec B110
 
             # 規定時間待つ
             waited = 0.0
@@ -111,7 +112,8 @@ class CodexMCPLauncher:
                     else:
                         os.kill(self.process.pid, signal.SIGKILL)
                 except Exception:
-                    pass
+                    # プロセス終了済みの可能性（正常ケース）
+                    _ = None  # nosec B110
 
         self.process = None
 

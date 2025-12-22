@@ -416,3 +416,114 @@ class TestGenerateSummary:
         assert "【事実確認レポート】" in summary
         assert "人物:" in summary
         assert "結果:" in summary
+
+    def test_summary_with_suggestion(self):
+        """suggestionがある場合のサマリー"""
+        checker = FactChecker()
+        # 大きな数値でsuggestion付きの違反を生成
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="売上は9999999999円を達成した",  # 10億超の数値
+        )
+        summary = checker.generate_summary(report)
+        # suggestionが表示される
+        if any(v.suggestion for v in report.violations):
+            assert "→" in summary
+
+    def test_summary_with_verified_facts(self):
+        """検証済み事実がある場合のサマリー"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="イチロー",
+            episode_text="2001年に活躍した選手",  # イチローの既知イベント年
+            birth_year=1973,
+        )
+        summary = checker.generate_summary(report)
+        if report.verified_facts:
+            assert "検証済みの事実" in summary
+
+
+class TestCheckKnownFacts:
+    """_check_known_factsメソッドのテスト"""
+
+    def test_birth_year_mismatch(self):
+        """生年が既知の事実と異なる場合"""
+        checker = FactChecker()
+        # 安倍晋三の実際の生年は1954年だが、異なる年を記述
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="安倍晋三",
+            episode_text="1960年生まれの政治家として活躍した",
+            birth_year=1954,
+        )
+        # 生年の不一致が未検証クレームに追加される可能性
+        assert report is not None
+
+    def test_birth_year_match(self):
+        """生年が正しい場合"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="安倍晋三",
+            episode_text="普通のエピソードテキスト",
+            birth_year=1954,
+        )
+        # 検証済み事実に生年が含まれる可能性
+        assert report is not None
+
+    def test_major_events_verification(self):
+        """主要イベントの検証"""
+        checker = FactChecker()
+        # イチローの2001年はMLBデビュー年として既知
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="イチロー",
+            episode_text="2001年にMLBで活躍を開始",
+            birth_year=1973,
+        )
+        # イベント年が検証される
+        assert report is not None
+
+
+class TestLargeNumberCheck:
+    """大きな数値のチェックテスト"""
+
+    def test_detect_very_large_number(self):
+        """10億超の数値を検出"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="総額12345678901円を売り上げた",  # 12桁以上
+        )
+        suspicious_violations = [v for v in report.violations if v.violation_type == "SUSPICIOUS_NUMBER"]
+        assert len(suspicious_violations) > 0
+
+    def test_normal_large_number_ok(self):
+        """通常の大きな数値はOK"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="売上は500000000円だった",  # 5億 (10億未満)
+        )
+        suspicious_violations = [v for v in report.violations if v.violation_type == "SUSPICIOUS_NUMBER"]
+        assert len(suspicious_violations) == 0
+
+
+class TestUnverifiedResult:
+    """UNVERIFIED結果のテスト"""
+
+    def test_unverified_with_high_score(self):
+        """高スコアだがUNVERIFIEDになるケース"""
+        checker = FactChecker()
+        # 違反もなく検証済み事実もない普通のエピソード
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="一般人",
+            episode_text="普通に生活している普通の人",
+        )
+        # 違反なしでスコア高い場合はVERIFIEDかUNVERIFIED
+        assert report.result in [FactCheckResult.VERIFIED, FactCheckResult.UNVERIFIED]

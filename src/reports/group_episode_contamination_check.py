@@ -33,6 +33,105 @@ sys.path.insert(0, str(project_root))
 
 from src.group_master import GROUP_ENTITIES, GROUP_MEMBER_MAP
 
+# 団体を示す末尾パターン（日本語）
+ORG_SUFFIXES_JA = (
+    "グループ",
+    "劇団",
+    "合唱団",
+    "楽団",
+    "オーケストラ",
+    "吹奏楽団",
+    "会社",
+    "株式会社",
+    "有限会社",
+    "合同会社",
+    "スタジオ",
+    "プロダクション",
+    "チーム",
+    "委員会",
+    "実行委員会",
+    "学園",
+    "大学",
+    "高校",
+    "中学",
+    "小学校",
+    "協会",
+    "財団",
+    "法人",
+    "機構",
+    "研究所",
+    "研究室",
+    "ラボ",
+    "クラブ",
+    "サークル",
+    "同好会",
+    "連盟",
+    "連合",
+    "組合",
+    "事務所",
+    "工房",
+    "アトリエ",
+    "ファクトリー",
+    "バンド",
+    "ユニット",
+    "デュオ",
+    "トリオ",
+    "カルテット",
+    "座",
+    "一座",
+    "劇場",
+    "シアター",
+)
+
+# 団体を示す末尾パターン（英語）
+ORG_SUFFIXES_EN = (
+    "Inc.",
+    "Inc",
+    "Corp.",
+    "Corp",
+    "Co.",
+    "Co",
+    "Ltd.",
+    "Ltd",
+    "LLC",
+    "LLP",
+    "Group",
+    "Team",
+    "Studio",
+    "Studios",
+    "Production",
+    "Productions",
+    "Records",
+    "Entertainment",
+    "Foundation",
+    "Association",
+    "Institute",
+    "Laboratory",
+    "Lab",
+    "Club",
+    "Orchestra",
+    "Band",
+    "Ensemble",
+    "University",
+    "College",
+    "School",
+    "Academy",
+)
+
+# 除外パターン（個人名に見える末尾）
+EXCLUDE_PERSON_SUFFIXES = ("太郎", "次郎", "三郎", "一郎", "子", "美", "香", "恵")
+
+
+def _match_org_suffix(name: str) -> str | None:
+    """団体サフィックスにマッチするか判定"""
+    for suffix in ORG_SUFFIXES_JA:
+        if name.endswith(suffix):
+            return suffix
+    for suffix in ORG_SUFFIXES_EN:
+        if name.endswith(suffix) or name.endswith(f" {suffix}"):
+            return suffix
+    return None
+
 
 def load_csv() -> pd.DataFrame:
     """マスターCSV読み込み"""
@@ -115,93 +214,7 @@ def check_pattern_b(df: pd.DataFrame) -> list:
 def check_pattern_c(df: pd.DataFrame) -> list:
     """C: person_name が団体パターン（末尾: グループ/劇団/楽団/会社等）"""
     issues = []
-
-    # 団体を示す末尾パターン（日本語）
-    org_suffixes_ja = [
-        "グループ",
-        "劇団",
-        "合唱団",
-        "楽団",
-        "オーケストラ",
-        "吹奏楽団",
-        "会社",
-        "株式会社",
-        "有限会社",
-        "合同会社",
-        "スタジオ",
-        "プロダクション",
-        "チーム",
-        "委員会",
-        "実行委員会",
-        "学園",
-        "大学",
-        "高校",
-        "中学",
-        "小学校",
-        "協会",
-        "財団",
-        "法人",
-        "機構",
-        "研究所",
-        "研究室",
-        "ラボ",
-        "クラブ",
-        "サークル",
-        "同好会",
-        "連盟",
-        "連合",
-        "組合",
-        "事務所",
-        "工房",
-        "アトリエ",
-        "ファクトリー",
-        "バンド",
-        "ユニット",
-        "デュオ",
-        "トリオ",
-        "カルテット",
-        "座",
-        "一座",
-        "劇場",
-        "シアター",
-    ]
-
-    # 団体を示す末尾パターン（英語）
-    org_suffixes_en = [
-        "Inc.",
-        "Inc",
-        "Corp.",
-        "Corp",
-        "Co.",
-        "Co",
-        "Ltd.",
-        "Ltd",
-        "LLC",
-        "LLP",
-        "Group",
-        "Team",
-        "Studio",
-        "Studios",
-        "Production",
-        "Productions",
-        "Records",
-        "Entertainment",
-        "Foundation",
-        "Association",
-        "Institute",
-        "Laboratory",
-        "Lab",
-        "Club",
-        "Orchestra",
-        "Band",
-        "Ensemble",
-        "University",
-        "College",
-        "School",
-        "Academy",
-    ]
-
-    checked_names = set()
+    checked_names: set[str] = set()
 
     for _, row in df.iterrows():
         person_name = str(row.get("person_name", ""))
@@ -209,39 +222,26 @@ def check_pattern_c(df: pd.DataFrame) -> list:
             continue
         checked_names.add(person_name)
 
-        matched_suffix = None
-
-        # 日本語パターンチェック
-        for suffix in org_suffixes_ja:
-            if person_name.endswith(suffix):
-                matched_suffix = suffix
-                break
-
-        # 英語パターンチェック
+        matched_suffix = _match_org_suffix(person_name)
         if not matched_suffix:
-            for suffix in org_suffixes_en:
-                if person_name.endswith(suffix) or person_name.endswith(f" {suffix}"):
-                    matched_suffix = suffix
-                    break
+            continue
 
-        if matched_suffix:
-            # 除外パターン（個人名に見える）
-            exclude_patterns = ["太郎", "次郎", "三郎", "一郎", "子", "美", "香", "恵"]
-            if any(person_name.endswith(ep) for ep in exclude_patterns):
-                continue
+        # 除外パターン（個人名に見える）
+        if any(person_name.endswith(ep) for ep in EXCLUDE_PERSON_SUFFIXES):
+            continue
 
-            sample = df[df["person_name"] == person_name].iloc[0]
-            issues.append(
-                {
-                    "pattern": "C",
-                    "description": f"Organization suffix detected: {matched_suffix}",
-                    "person_name": person_name,
-                    "person_id": sample.get("person_id", ""),
-                    "episode_id": sample.get("episode_id", ""),
-                    "matched_suffix": matched_suffix,
-                    "episode_count": len(df[df["person_name"] == person_name]),
-                }
-            )
+        sample = df[df["person_name"] == person_name].iloc[0]
+        issues.append(
+            {
+                "pattern": "C",
+                "description": f"Organization suffix detected: {matched_suffix}",
+                "person_name": person_name,
+                "person_id": sample.get("person_id", ""),
+                "episode_id": sample.get("episode_id", ""),
+                "matched_suffix": matched_suffix,
+                "episode_count": len(df[df["person_name"] == person_name]),
+            }
+        )
 
     return issues
 
@@ -431,6 +431,45 @@ def check_pattern_g(df: pd.DataFrame) -> list:
     return issues
 
 
+def _run_pattern_check(
+    df: pd.DataFrame,
+    pattern_id: str,
+    pattern_name: str,
+    check_func,
+    sample_formatter,
+) -> dict:
+    """パターンチェックを実行し結果を返す"""
+    issues = check_func(df)
+    print(f"\n[{pattern_id}] {pattern_name}: {len(issues)}件")
+    for issue in issues[:3]:
+        print(f"    - {sample_formatter(issue)}")
+    return {
+        "name": pattern_name,
+        "count": len(issues),
+        "samples": issues[:10],
+    }
+
+
+def _print_summary(results: dict) -> None:
+    """サマリーを出力"""
+    print("\n" + "=" * 70)
+    print("サマリー")
+    print("=" * 70)
+    for pattern, data in results["patterns"].items():
+        status = "✅" if data["count"] == 0 else "⚠️"
+        print(f"  {status} [{pattern}] {data['name']}: {data['count']}件")
+
+
+def _save_report(results: dict) -> Path:
+    """レポートをJSONファイルに保存"""
+    report_path = project_root / "reports" / f"group_contamination_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(report_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+    print(f"\n📄 レポート保存: {report_path}")
+    return report_path
+
+
 def main():
     print("=" * 70)
     print("グループエピソード混入検出")
@@ -442,7 +481,7 @@ def main():
     print(f"\n総レコード数: {len(df):,}")
     print(f"ユニーク人物数: {df['person_name'].nunique():,}")
 
-    # 各パターン検出
+    # 結果初期化
     results = {
         "timestamp": datetime.now().isoformat(),
         "total_records": len(df),
@@ -454,102 +493,32 @@ def main():
     print("検出実行中...")
     print("-" * 70)
 
-    # Pattern A
-    issues_a = check_pattern_a(df)
-    results["patterns"]["A"] = {
-        "name": "is_group_member/group_name 不整合",
-        "count": len(issues_a),
-        "samples": issues_a[:10],
-    }
-    print(f"\n[A] is_group_member/group_name 不整合: {len(issues_a)}件")
-    for issue in issues_a[:3]:
-        print(f"    - {issue['person_name']} ({issue['pattern']}): {issue['description']}")
+    # パターン定義 (id, name, check_func, formatter)
+    pattern_checks = [
+        (
+            "A",
+            "is_group_member/group_name 不整合",
+            check_pattern_a,
+            lambda i: f"{i['person_name']} ({i['pattern']}): {i['description']}",
+        ),
+        ("B", "同一person_idで不整合", check_pattern_b, lambda i: f"{i['person_name']} (groups={i['group_names']})"),
+        ("C", "団体名パターン検出", check_pattern_c, lambda i: f"{i['person_name']} (suffix={i['matched_suffix']})"),
+        ("D", "組織・個人混在", check_pattern_d, lambda i: f"{i['person_name']} (keyword={i['matched_keyword']})"),
+        ("E", "作品名/道具名パターン", check_pattern_e, lambda i: f"{i['person_name']}"),
+        ("F", "GROUP_ENTITIES混入", check_pattern_f, lambda i: f"{i['person_name']} (episodes={i['episode_count']})"),
+        (
+            "G",
+            "GROUP_MEMBER_MAP不整合",
+            check_pattern_g,
+            lambda i: f"{i['person_name']} (expected={i['expected_group']})",
+        ),
+    ]
 
-    # Pattern B
-    issues_b = check_pattern_b(df)
-    results["patterns"]["B"] = {
-        "name": "同一person_idで不整合",
-        "count": len(issues_b),
-        "samples": issues_b[:10],
-    }
-    print(f"\n[B] 同一person_idで不整合: {len(issues_b)}件")
-    for issue in issues_b[:3]:
-        print(f"    - {issue['person_name']} (groups={issue['group_names']})")
+    for pattern_id, pattern_name, check_func, formatter in pattern_checks:
+        results["patterns"][pattern_id] = _run_pattern_check(df, pattern_id, pattern_name, check_func, formatter)
 
-    # Pattern C
-    issues_c = check_pattern_c(df)
-    results["patterns"]["C"] = {
-        "name": "団体名パターン検出",
-        "count": len(issues_c),
-        "samples": issues_c[:10],
-    }
-    print(f"\n[C] 団体名パターン検出: {len(issues_c)}件")
-    for issue in issues_c[:3]:
-        print(f"    - {issue['person_name']} (suffix={issue['matched_suffix']})")
-
-    # Pattern D
-    issues_d = check_pattern_d(df)
-    results["patterns"]["D"] = {
-        "name": "組織・個人混在",
-        "count": len(issues_d),
-        "samples": issues_d[:10],
-    }
-    print(f"\n[D] 組織・個人混在: {len(issues_d)}件")
-    for issue in issues_d[:3]:
-        print(f"    - {issue['person_name']} (keyword={issue['matched_keyword']})")
-
-    # Pattern E
-    issues_e = check_pattern_e(df)
-    results["patterns"]["E"] = {
-        "name": "作品名/道具名パターン",
-        "count": len(issues_e),
-        "samples": issues_e[:10],
-    }
-    print(f"\n[E] 作品名/道具名パターン: {len(issues_e)}件")
-    for issue in issues_e[:3]:
-        print(f"    - {issue['person_name']}")
-
-    # Pattern F
-    issues_f = check_pattern_f(df)
-    results["patterns"]["F"] = {
-        "name": "GROUP_ENTITIES混入",
-        "count": len(issues_f),
-        "samples": issues_f[:10],
-    }
-    print(f"\n[F] GROUP_ENTITIES混入: {len(issues_f)}件")
-    for issue in issues_f[:3]:
-        print(f"    - {issue['person_name']} (episodes={issue['episode_count']})")
-
-    # Pattern G
-    issues_g = check_pattern_g(df)
-    results["patterns"]["G"] = {
-        "name": "GROUP_MEMBER_MAP不整合",
-        "count": len(issues_g),
-        "samples": issues_g[:10],
-    }
-    print(f"\n[G] GROUP_MEMBER_MAP不整合: {len(issues_g)}件")
-    for issue in issues_g[:3]:
-        print(f"    - {issue['person_name']} (expected={issue['expected_group']})")
-
-    # サマリー
-    total_issues = sum(len(results["patterns"][p]["samples"]) for p in results["patterns"])
-
-    print("\n" + "=" * 70)
-    print("サマリー")
-    print("=" * 70)
-
-    for pattern, data in results["patterns"].items():
-        status = "✅" if data["count"] == 0 else "⚠️"
-        print(f"  {status} [{pattern}] {data['name']}: {data['count']}件")
-
-    # レポート保存
-    report_path = project_root / "reports" / f"group_contamination_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(report_path, "w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
-
-    print(f"\n📄 レポート保存: {report_path}")
+    _print_summary(results)
+    _save_report(results)
 
     return results
 

@@ -304,10 +304,8 @@ class CostOptimizationAlgorithm:
 
         return None
 
-    def generate_cost_optimization_plan(self) -> Dict[str, Any]:
-        """コスト最適化計画の生成"""
-        timestamp = datetime.now().isoformat()
-
+    def _print_plan_header(self, timestamp: str) -> None:
+        """コスト最適化計画のヘッダーを出力"""
         print("=" * 80)
         print("📊 Phase 11.4 - コスト最適化アルゴリズム")
         print("=" * 80)
@@ -315,7 +313,8 @@ class CostOptimizationAlgorithm:
         print("=" * 80)
         print()
 
-        # ステップ1: リソースコストの分析
+    def _analyze_and_print_costs(self, timestamp: str) -> List[ResourceCost]:
+        """リソースコストを分析し出力"""
         print("📌 ステップ1: リソースコストの分析")
         print("-" * 80)
 
@@ -334,11 +333,14 @@ class CostOptimizationAlgorithm:
                 print(f"    稼働率: {cost.utilization_rate:.2f}%")
                 print(f"    無駄な割合: {cost.waste_percentage:.2f}%")
                 print()
-
-                # データベースに保存
                 self._save_resource_cost(timestamp, cost)
 
-        # ステップ2: 最適化推奨事項の生成
+        return costs
+
+    def _generate_and_print_recommendations(
+        self, timestamp: str, costs: List[ResourceCost]
+    ) -> List[OptimizationRecommendation]:
+        """最適化推奨事項を生成し出力"""
         print("📌 ステップ2: 最適化推奨事項の生成")
         print("-" * 80)
 
@@ -353,7 +355,7 @@ class CostOptimizationAlgorithm:
                 print(f"    優先度: {rec.priority}")
                 print(f"    現在コスト: ${rec.current_cost:.2f}/月")
                 print(f"    最適化後コスト: ${rec.optimized_cost:.2f}/月")
-                print(f"    月間削減額: ${rec.monthly_savings:.2f}")
+                print(f"    月間削減額: ${rec.monthly_savings:.2f}/月")
                 print(f"    年間削減額: ${rec.annual_savings:.2f}")
                 print(f"    ROI: {rec.roi_months:.1f}ヶ月")
                 print(f"    説明: {rec.description}")
@@ -361,15 +363,21 @@ class CostOptimizationAlgorithm:
                 for action in rec.action_items:
                     print(f"      - {action}")
                 print()
-
-                # データベースに保存
                 self._save_optimization_recommendation(timestamp, rec)
 
         if not recommendations:
             print("  ✅ 最適化の必要なし（すべてのリソースが適切に利用されています）")
             print()
 
-        # ステップ3: コスト削減シミュレーション
+        return recommendations
+
+    def _run_and_print_simulations(
+        self,
+        timestamp: str,
+        costs: List[ResourceCost],
+        recommendations: List[OptimizationRecommendation],
+    ) -> List[CostSimulation]:
+        """コスト削減シミュレーションを実行し出力"""
         print("📌 ステップ3: コスト削減シミュレーション")
         print("-" * 80)
 
@@ -391,11 +399,18 @@ class CostOptimizationAlgorithm:
             for risk in sim.risks:
                 print(f"      - {risk}")
             print()
-
-            # データベースに保存
             self._save_cost_simulation(timestamp, sim)
 
-        # サマリーの計算
+        return simulations
+
+    def _print_and_build_summary(
+        self,
+        timestamp: str,
+        costs: List[ResourceCost],
+        recommendations: List[OptimizationRecommendation],
+        simulations: List[CostSimulation],
+    ) -> Dict[str, Any]:
+        """サマリーを出力し計画データを構築"""
         print("=" * 80)
         print("📈 コスト最適化サマリー")
         print("=" * 80)
@@ -407,12 +422,12 @@ class CostOptimizationAlgorithm:
 
         print(f"現在の総コスト: ${total_current_cost:.2f}/月")
         print(f"削減可能額: ${total_savings:.2f}/月 (${total_annual_savings:.2f}/年)")
-        print(f"削減率: {(total_savings / total_current_cost * 100) if total_current_cost > 0 else 0:.1f}%")
+        savings_pct = (total_savings / total_current_cost * 100) if total_current_cost > 0 else 0
+        print(f"削減率: {savings_pct:.1f}%")
         print(f"平均ROI: {avg_roi:.1f}ヶ月")
         print(f"推奨事項数: {len(recommendations)}件")
         print("=" * 80)
 
-        # 計画データを作成
         plan_data = {
             "timestamp": timestamp,
             "costs": [asdict(c) for c in costs],
@@ -422,16 +437,32 @@ class CostOptimizationAlgorithm:
                 "total_current_cost": total_current_cost,
                 "total_monthly_savings": total_savings,
                 "total_annual_savings": total_annual_savings,
-                "savings_percentage": (total_savings / total_current_cost * 100) if total_current_cost > 0 else 0,
+                "savings_percentage": savings_pct,
                 "average_roi_months": avg_roi,
                 "recommendation_count": len(recommendations),
             },
         }
 
-        # データベースに計画を保存
         self._save_optimization_plan(timestamp, plan_data)
-
         return plan_data
+
+    def generate_cost_optimization_plan(self) -> Dict[str, Any]:
+        """コスト最適化計画の生成"""
+        timestamp = datetime.now().isoformat()
+
+        self._print_plan_header(timestamp)
+
+        # ステップ1: リソースコストの分析
+        costs = self._analyze_and_print_costs(timestamp)
+
+        # ステップ2: 最適化推奨事項の生成
+        recommendations = self._generate_and_print_recommendations(timestamp, costs)
+
+        # ステップ3: コスト削減シミュレーション
+        simulations = self._run_and_print_simulations(timestamp, costs, recommendations)
+
+        # サマリーの計算と計画データ構築
+        return self._print_and_build_summary(timestamp, costs, recommendations, simulations)
 
     def _generate_cost_simulations(
         self, costs: List[ResourceCost], recommendations: List[OptimizationRecommendation]

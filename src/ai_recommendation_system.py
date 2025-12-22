@@ -385,125 +385,132 @@ class AIRecommendationSystem:
 
         return ranked_recs
 
+    def _check_cpu_rule(self, features: Dict[str, float], timestamp: str) -> Optional[AIRecommendation]:
+        """ルール1: 高CPU使用率チェック"""
+        if features.get("cpu_usage", 0) <= 80:
+            return None
+        rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_cpu_high"
+        return AIRecommendation(
+            recommendation_id=rec_id,
+            timestamp=timestamp,
+            recommendation_type="performance",
+            action="scale_up",
+            target_resource="CPU",
+            priority="high",
+            confidence_score=0.95,
+            estimated_impact=0.8,
+            estimated_savings=0.0,
+            implementation_effort="medium",
+            reasoning="CPU使用率が80%を超えています。スケールアップを推奨します。",
+            supporting_data={"cpu_usage": features["cpu_usage"]},
+            alternative_actions=["optimize", "load_balance"],
+        )
+
+    def _check_memory_rule(self, features: Dict[str, float], timestamp: str) -> Optional[AIRecommendation]:
+        """ルール2: 高メモリ使用率チェック"""
+        if features.get("memory_usage", 0) <= 85:
+            return None
+        rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_mem_high"
+        return AIRecommendation(
+            recommendation_id=rec_id,
+            timestamp=timestamp,
+            recommendation_type="performance",
+            action="scale_up",
+            target_resource="MEMORY",
+            priority="high",
+            confidence_score=0.93,
+            estimated_impact=0.75,
+            estimated_savings=0.0,
+            implementation_effort="medium",
+            reasoning="メモリ使用率が85%を超えています。スケールアップを推奨します。",
+            supporting_data={"memory_usage": features["memory_usage"]},
+            alternative_actions=["optimize", "cache_clear"],
+        )
+
+    def _check_capacity_rule(self, features: Dict[str, float], timestamp: str) -> Optional[AIRecommendation]:
+        """ルール3: 容量閾値接近チェック"""
+        days = features.get("min_days_until_threshold", 999)
+        if days > 14:
+            return None
+        rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_capacity"
+        priority = "critical" if days <= 7 else "high"
+        return AIRecommendation(
+            recommendation_id=rec_id,
+            timestamp=timestamp,
+            recommendation_type="capacity",
+            action="scale_up",
+            target_resource="STORAGE",
+            priority=priority,
+            confidence_score=0.90,
+            estimated_impact=0.85,
+            estimated_savings=0.0,
+            implementation_effort="low",
+            reasoning=f"容量閾値まで{days:.0f}日です。容量拡張を推奨します。",
+            supporting_data={"days_until_threshold": days},
+            alternative_actions=["cleanup", "archive"],
+        )
+
+    def _check_waste_rule(self, features: Dict[str, float], timestamp: str) -> Optional[AIRecommendation]:
+        """ルール4: 高無駄率チェック"""
+        waste = features.get("avg_waste_percentage", 0)
+        if waste <= 50:
+            return None
+        rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_waste"
+        estimated_savings = waste * 0.01 * 500
+        return AIRecommendation(
+            recommendation_id=rec_id,
+            timestamp=timestamp,
+            recommendation_type="cost",
+            action="optimize",
+            target_resource="ALL",
+            priority="medium",
+            confidence_score=0.85,
+            estimated_impact=0.6,
+            estimated_savings=estimated_savings,
+            implementation_effort="high",
+            reasoning=f"リソースの無駄が{waste:.1f}%あります。最適化を推奨します。",
+            supporting_data={"waste_percentage": waste},
+            alternative_actions=["scale_down", "consolidate"],
+        )
+
+    def _check_failure_rule(self, features: Dict[str, float], timestamp: str) -> Optional[AIRecommendation]:
+        """ルール5: 高障害確率チェック"""
+        prob = features.get("failure_probability", 0)
+        if prob <= 0.5:
+            return None
+        rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_failure"
+        return AIRecommendation(
+            recommendation_id=rec_id,
+            timestamp=timestamp,
+            recommendation_type="security",
+            action="optimize",
+            target_resource="SYSTEM",
+            priority="high",
+            confidence_score=0.88,
+            estimated_impact=0.9,
+            estimated_savings=0.0,
+            implementation_effort="high",
+            reasoning=f"障害確率が{prob * 100:.1f}%と高いです。予防保守を推奨します。",
+            supporting_data={"failure_probability": prob},
+            alternative_actions=["backup", "monitoring"],
+        )
+
     def _generate_rule_based_recommendations(
         self, features: Dict[str, float], timestamp: str
     ) -> List[AIRecommendation]:
         """ルールベースの推奨事項を生成"""
+        rule_checks = [
+            self._check_cpu_rule,
+            self._check_memory_rule,
+            self._check_capacity_rule,
+            self._check_waste_rule,
+            self._check_failure_rule,
+        ]
         recommendations = []
-
-        # ルール1: 高CPU使用率
-        if features.get("cpu_usage", 0) > 80:
-            rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_cpu_high"
-            recommendations.append(
-                AIRecommendation(
-                    recommendation_id=rec_id,
-                    timestamp=timestamp,
-                    recommendation_type="performance",
-                    action="scale_up",
-                    target_resource="CPU",
-                    priority="high",
-                    confidence_score=0.95,
-                    estimated_impact=0.8,
-                    estimated_savings=0.0,
-                    implementation_effort="medium",
-                    reasoning="CPU使用率が80%を超えています。スケールアップを推奨します。",
-                    supporting_data={"cpu_usage": features["cpu_usage"]},
-                    alternative_actions=["optimize", "load_balance"],
-                )
-            )
-
-        # ルール2: 高メモリ使用率
-        if features.get("memory_usage", 0) > 85:
-            rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_mem_high"
-            recommendations.append(
-                AIRecommendation(
-                    recommendation_id=rec_id,
-                    timestamp=timestamp,
-                    recommendation_type="performance",
-                    action="scale_up",
-                    target_resource="MEMORY",
-                    priority="high",
-                    confidence_score=0.93,
-                    estimated_impact=0.75,
-                    estimated_savings=0.0,
-                    implementation_effort="medium",
-                    reasoning="メモリ使用率が85%を超えています。スケールアップを推奨します。",
-                    supporting_data={"memory_usage": features["memory_usage"]},
-                    alternative_actions=["optimize", "cache_clear"],
-                )
-            )
-
-        # ルール3: 容量閾値接近
-        if features.get("min_days_until_threshold", 999) <= 14:
-            rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_capacity"
-            days = features["min_days_until_threshold"]
-            priority = "critical" if days <= 7 else "high"
-
-            recommendations.append(
-                AIRecommendation(
-                    recommendation_id=rec_id,
-                    timestamp=timestamp,
-                    recommendation_type="capacity",
-                    action="scale_up",
-                    target_resource="STORAGE",
-                    priority=priority,
-                    confidence_score=0.90,
-                    estimated_impact=0.85,
-                    estimated_savings=0.0,
-                    implementation_effort="low",
-                    reasoning=f"容量閾値まで{days:.0f}日です。容量拡張を推奨します。",
-                    supporting_data={"days_until_threshold": days},
-                    alternative_actions=["cleanup", "archive"],
-                )
-            )
-
-        # ルール4: 高無駄率
-        if features.get("avg_waste_percentage", 0) > 50:
-            rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_waste"
-            waste = features["avg_waste_percentage"]
-            estimated_savings = waste * 0.01 * 500  # 仮の計算
-
-            recommendations.append(
-                AIRecommendation(
-                    recommendation_id=rec_id,
-                    timestamp=timestamp,
-                    recommendation_type="cost",
-                    action="optimize",
-                    target_resource="ALL",
-                    priority="medium",
-                    confidence_score=0.85,
-                    estimated_impact=0.6,
-                    estimated_savings=estimated_savings,
-                    implementation_effort="high",
-                    reasoning=f"リソースの無駄が{waste:.1f}%あります。最適化を推奨します。",
-                    supporting_data={"waste_percentage": waste},
-                    alternative_actions=["scale_down", "consolidate"],
-                )
-            )
-
-        # ルール5: 高障害確率
-        if features.get("failure_probability", 0) > 0.5:
-            rec_id = f"ai_rec_{datetime.now().strftime('%Y%m%d%H%M%S')}_failure"
-            prob = features["failure_probability"]
-
-            recommendations.append(
-                AIRecommendation(
-                    recommendation_id=rec_id,
-                    timestamp=timestamp,
-                    recommendation_type="security",
-                    action="optimize",
-                    target_resource="SYSTEM",
-                    priority="high",
-                    confidence_score=0.88,
-                    estimated_impact=0.9,
-                    estimated_savings=0.0,
-                    implementation_effort="high",
-                    reasoning=f"障害確率が{prob * 100:.1f}%と高いです。予防保守を推奨します。",
-                    supporting_data={"failure_probability": prob},
-                    alternative_actions=["backup", "monitoring"],
-                )
-            )
-
+        for check_func in rule_checks:
+            rec = check_func(features, timestamp)
+            if rec:
+                recommendations.append(rec)
         return recommendations
 
     def _generate_ml_recommendations(self, features: Dict[str, float], timestamp: str) -> List[AIRecommendation]:

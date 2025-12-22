@@ -71,6 +71,57 @@ class QualityGateChecker:
         self.report_dir = report_dir or (get_project_root() / "reports")
         self.report_dir.mkdir(parents=True, exist_ok=True)
 
+    def _make_error_result(self, error_message: str) -> Dict[str, Any]:
+        """エラー結果を生成"""
+        return {
+            "status": "CRITICAL",
+            "error": error_message,
+            "kpis": {},
+            "violations": [],
+            "report_path": None,
+        }
+
+    def _run_epup_script(
+        self, master_csv_path: Path, report_path: Path
+    ) -> tuple[Optional[subprocess.CompletedProcess], Optional[str]]:
+        """EPUPスクリプトを実行。戻り値: (result, error_message)"""
+        try:
+            result = subprocess.run(
+                [
+                    "python3",
+                    "scripts/scheduled_epup_check.py",
+                    "--daily",
+                    "--csv",
+                    str(master_csv_path),
+                    "--output",
+                    str(report_path),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=300,  # 5分タイムアウト
+            )
+            if result.returncode != 0:
+                logger.warning(f"EPUP check returned non-zero exit code: {result.returncode}")
+            return result, None
+        except subprocess.TimeoutExpired:
+            logger.error("EPUP check timed out")
+            return None, "EPUP check timed out after 5 minutes"
+        except Exception as e:
+            logger.error(f"EPUP check error: {e}")
+            return None, f"EPUP check error: {e}"
+
+    def _load_epup_report(self, report_path: Path) -> tuple[Optional[Dict[str, Any]], Optional[str]]:
+        """EPUPレポートを読み込み。戻り値: (report, error_message)"""
+        if not report_path.exists():
+            logger.error("EPUP report not generated - this indicates a script execution failure")
+            return None, "EPUP report not generated"
+        try:
+            with open(report_path, encoding="utf-8") as f:
+                return json.load(f), None
+        except Exception as e:
+            logger.error(f"Failed to read EPUP report: {e}")
+            return None, f"Failed to read EPUP report: {e}"
+
     def run_post_integration_check(self, master_csv_path: Path) -> Dict[str, Any]:
         """
         統合後の品質確認を実行
@@ -95,85 +146,28 @@ class QualityGateChecker:
             ...     print("Rollback recommended!")
         """
         logger.info("Running post-integration quality check...")
-
-        # scheduled_epup_check.py を実行
         report_path = self.report_dir / "epup_post_integration.json"
 
-        try:
-            result = subprocess.run(
-                [
-                    "python3",
-                    "scripts/scheduled_epup_check.py",
-                    "--daily",
-                    "--csv",
-                    str(master_csv_path),
-                    "--output",
-                    str(report_path),
-                ],
-                capture_output=True,
-                text=True,
-                timeout=300,  # 5分タイムアウト
-            )
+        # EPUPスクリプト実行
+        result, error_msg = self._run_epup_script(master_csv_path, report_path)
+        if result is None:
+            return self._make_error_result(error_msg or "EPUP check failed")
 
-            # scheduled_epup_check.py は WARNING レベルでも exit code 1 を返す
-            # レポートを読み込んで実際のステータスを判定する
-            if result.returncode != 0:
-                logger.warning(f"EPUP check returned non-zero exit code: {result.returncode}")
-                # レポートが生成されていれば、その内容で判定
-                # レポートが生成されていなければ、CRITICAL として扱う
+        # レポート読み込み
+        report, load_error = self._load_epup_report(report_path)
+        if report is None:
+            if load_error and "not generated" in load_error:
+                return self._make_error_result(
+                    f"EPUP report not generated. Exit code: {result.returncode}, stderr: {result.stderr}"
+                )
+            return self._make_error_result(load_error or "Failed to load EPUP report")
 
-        except subprocess.TimeoutExpired:
-            logger.error("EPUP check timed out")
-            return {
-                "status": "CRITICAL",
-                "error": "EPUP check timed out after 5 minutes",
-                "kpis": {},
-                "violations": [],
-                "report_path": None,
-            }
-        except Exception as e:
-            logger.error(f"EPUP check error: {e}")
-            return {
-                "status": "CRITICAL",
-                "error": f"EPUP check error: {e}",
-                "kpis": {},
-                "violations": [],
-                "report_path": None,
-            }
-
-        # レポートJSONを読み込み
-        if not report_path.exists():
-            logger.error("EPUP report not generated - this indicates a script execution failure")
-            return {
-                "status": "CRITICAL",
-                "error": f"EPUP report not generated. Exit code: {result.returncode}, stderr: {result.stderr}",
-                "kpis": {},
-                "violations": [],
-                "report_path": None,
-            }
-
-        try:
-            with open(report_path, encoding="utf-8") as f:
-                report = json.load(f)
-        except Exception as e:
-            logger.error(f"Failed to read EPUP report: {e}")
-            return {
-                "status": "CRITICAL",
-                "error": f"Failed to read EPUP report: {e}",
-                "kpis": {},
-                "violations": [],
-                "report_path": None,
-            }
-
-        # KPIを取得（リスト形式）
+        # KPIを取得・評価
         kpis_list = report.get("kpis", [])
         if not kpis_list:
             logger.warning("No KPIs found in report")
 
-        # リストを辞書に変換
         kpis_dict = {kpi["name"]: kpi for kpi in kpis_list}
-
-        # 閾値チェック
         status, violations = self._evaluate_kpis(kpis_list)
 
         logger.info(f"Quality check complete: {status}")
@@ -182,7 +176,7 @@ class QualityGateChecker:
 
         return {
             "status": status,
-            "kpis": kpis_dict,  # 辞書形式で返す
+            "kpis": kpis_dict,
             "violations": violations,
             "report_path": report_path,
         }

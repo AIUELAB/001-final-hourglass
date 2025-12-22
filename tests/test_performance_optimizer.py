@@ -86,7 +86,7 @@ class TestLRUCache:
         await cache.clear()
         assert await cache.get("key1") is None
 
-    def test_stats(self):
+    async def test_stats(self):
         """統計情報"""
         cache = LRUCache(max_size=100)
         stats = cache.stats()
@@ -104,10 +104,11 @@ class TestPersistentCache:
     @pytest.fixture
     def cache(self, tmp_path):
         """テスト用キャッシュ"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            cache = PersistentCache(cache_dir=tmp_path / ".cache")
-            cache.index = {}  # インデックスを初期化
-            return cache
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                cache = PersistentCache(cache_dir=tmp_path / ".cache")
+                cache.index = {}  # インデックスを初期化
+                return cache
 
     async def test_set_and_get(self, cache):
         """セットとゲット"""
@@ -432,15 +433,17 @@ class TestPersistentCacheErrorHandling:
     @pytest.fixture
     def cache(self, tmp_path):
         """テスト用キャッシュ"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            cache = PersistentCache(cache_dir=tmp_path / ".cache")
-            cache.index = {}
-            return cache
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                cache = PersistentCache(cache_dir=tmp_path / ".cache")
+                cache.index = {}
+                return cache
 
     async def test_load_index_error(self, tmp_path, caplog):
         """インデックス読み込みエラー"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            cache = PersistentCache(cache_dir=tmp_path / ".cache")
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                cache = PersistentCache(cache_dir=tmp_path / ".cache")
 
         # 破損したインデックスファイルを作成
         cache.index_file.write_text("invalid json {{{", encoding="utf-8")
@@ -542,75 +545,79 @@ class TestStreamProcessorMethods:
 class TestOptimizedMCPClient:
     """OptimizedMCPClient テスト"""
 
-    def test_init(self):
+    async def test_init(self):
         """初期化"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            from src.performance_optimizer import OptimizedMCPClient
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                from src.performance_optimizer import OptimizedMCPClient
 
-            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+                client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
 
-            assert client.config["name"] == "test"
-            assert client.cache is not None
-            assert client.pool is not None
-            assert client.batch_processor is not None
-            assert client.monitor is not None
+                assert client.config["name"] == "test"
+                assert client.cache is not None
+                assert client.pool is not None
+                assert client.batch_processor is not None
+                assert client.monitor is not None
 
     async def test_execute_cached(self):
         """キャッシュされた操作"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            from src.performance_optimizer import OptimizedMCPClient
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                from src.performance_optimizer import OptimizedMCPClient
 
-            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+                client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
 
-            # キャッシュに値を設定
-            await client.cache.set('get_user:{"id": 1}', {"user": "cached_user"})
+                # キャッシュに値を設定
+                await client.cache.set('get_user:{"id": 1}', {"user": "cached_user"})
 
-            # キャッシュから取得
-            result = await client.execute("get_user", {"id": 1})
+                # キャッシュから取得
+                result = await client.execute("get_user", {"id": 1})
 
-            assert result == {"user": "cached_user"}
+                assert result == {"user": "cached_user"}
 
     async def test_execute_non_cached_method(self):
         """キャッシュ対象外メソッド"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            from src.performance_optimizer import OptimizedMCPClient
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                from src.performance_optimizer import OptimizedMCPClient
 
-            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+                client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
 
-            # セッションをモック
-            mock_response = AsyncMock()
-            mock_response.json = AsyncMock(return_value={"result": "ok"})
-            mock_response.__aenter__ = AsyncMock(return_value=mock_response)
-            mock_response.__aexit__ = AsyncMock()
+                # セッションをモック
+                mock_response = AsyncMock()
+                mock_response.json = AsyncMock(return_value={"result": "ok"})
+                mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+                mock_response.__aexit__ = AsyncMock()
 
-            mock_session = MagicMock()
-            mock_session.post = MagicMock(return_value=mock_response)
-            client.pool.sessions["test"] = mock_session
+                mock_session = MagicMock()
+                mock_session.post = MagicMock(return_value=mock_response)
+                client.pool.sessions["test"] = mock_session
 
-            result = await client.execute("create_user", {"name": "new_user"})
+                result = await client.execute("create_user", {"name": "new_user"})
 
-            assert result == {"result": "ok"}
+                assert result == {"result": "ok"}
 
     async def test_batch_execute(self):
         """バッチ実行"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            from src.performance_optimizer import OptimizedMCPClient
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                from src.performance_optimizer import OptimizedMCPClient
 
-            client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+                client = OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
 
-            # executeをモック
-            with patch.object(client, "execute", new_callable=AsyncMock) as mock_execute:
-                mock_execute.return_value = {"result": "ok"}
+                # executeをモック
+                with patch.object(client, "execute", new_callable=AsyncMock) as mock_execute:
+                    mock_execute.return_value = {"result": "ok"}
 
-                requests = [
-                    {"method": "get_user", "params": {"id": 1}},
-                    {"method": "get_user", "params": {"id": 2}},
-                ]
+                    requests = [
+                        {"method": "get_user", "params": {"id": 1}},
+                        {"method": "get_user", "params": {"id": 2}},
+                    ]
 
-                results = await client.batch_execute(requests)
+                    results = await client.batch_execute(requests)
 
-                assert len(results) == 2
-                assert mock_execute.call_count == 2
+                    assert len(results) == 2
+                    assert mock_execute.call_count == 2
 
 
 @pytest.mark.asyncio
@@ -640,10 +647,11 @@ class TestPersistentCacheDelete:
     @pytest.fixture
     def cache(self, tmp_path):
         """テスト用キャッシュ"""
-        with patch("src.performance_optimizer.asyncio.create_task"):
-            cache = PersistentCache(cache_dir=tmp_path / ".cache")
-            cache.index = {}
-            return cache
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                cache = PersistentCache(cache_dir=tmp_path / ".cache")
+                cache.index = {}
+                return cache
 
     async def test_delete_nonexistent_key(self, cache):
         """存在しないキーの削除"""

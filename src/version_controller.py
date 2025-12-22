@@ -141,8 +141,8 @@ class VersionController:
             "size": self._get_data_size(data),
         }
 
-        # データを保存
-        data_file = self.versions_dir / "data" / f"{version_id}.pkl"
+        # データを保存（_save_dataが適切な拡張子で保存）
+        data_file = self.versions_dir / "data" / version_id
         self._save_data(data, data_file)
 
         # メタデータを保存
@@ -165,15 +165,20 @@ class VersionController:
 
     def get_version(self, version_id: str) -> Optional[Tuple[Any, Dict[str, Any]]]:
         """特定のバージョンを取得"""
-        data_file = self.versions_dir / "data" / f"{version_id}.pkl"
+        # データファイルパス（JSON/CSV形式）
+        base_path = self.versions_dir / "data" / version_id
+        csv_path = base_path.with_suffix(".csv")
+        json_path = base_path.with_suffix(".json")
         metadata_file = self.versions_dir / "metadata" / f"{version_id}.json"
 
-        if not data_file.exists() or not metadata_file.exists():
+        # データファイルとメタデータファイルの存在確認
+        data_exists = csv_path.exists() or json_path.exists()
+        if not data_exists or not metadata_file.exists():
             self.logger.warning(f"バージョンが見つかりません: {version_id}")
             return None
 
         # データを読み込み
-        data = self._load_data(data_file)
+        data = self._load_data(base_path)
 
         # メタデータを読み込み
         with open(metadata_file, "r", encoding="utf-8") as f:
@@ -231,29 +236,36 @@ class VersionController:
 
     def _save_data(self, data: Any, file_path: Path):
         """データを保存"""
-        import pickle
-
         if isinstance(data, pd.DataFrame):
-            # DataFrameの場合はCSVとPickleの両方で保存
+            # DataFrameの場合はCSVで保存
             csv_path = file_path.with_suffix(".csv")
             data.to_csv(csv_path, index=False)
-
-        # Pickle形式で保存
-        with open(file_path, "wb") as f:
-            pickle.dump(data, f)
+        elif isinstance(data, (list, dict)):
+            # list/dictの場合はJSONで保存
+            json_path = file_path.with_suffix(".json")
+            with open(json_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2, default=str)
+        else:
+            # その他の型はJSONで保存を試みる
+            json_path = file_path.with_suffix(".json")
+            with open(json_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2, default=str)
 
     def _load_data(self, file_path: Path) -> Any:
         """データを読み込み"""
-        import pickle
-
         # CSV版が存在する場合はDataFrameとして読み込み
         csv_path = file_path.with_suffix(".csv")
         if csv_path.exists():
             return pd.read_csv(csv_path)
 
-        # Pickle形式で読み込み（ローカルバージョンファイルのみ対象）
-        with open(file_path, "rb") as f:
-            return pickle.load(f)  # nosec B301
+        # JSON版が存在する場合はそのまま読み込み
+        json_path = file_path.with_suffix(".json")
+        if json_path.exists():
+            with open(json_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+
+        # ファイルが存在しない場合はNoneを返す
+        return None
 
     def _get_data_size(self, data: Any) -> int:
         """データサイズを取得"""
@@ -271,12 +283,13 @@ class VersionController:
             for version in versions_to_remove:
                 version_id = version["version_id"]
 
-                # データファイルを削除
-                data_file = self.versions_dir / "data" / f"{version_id}.pkl"
+                # データファイルを削除（JSON/CSV形式 + 旧形式.pklも対応）
+                json_file = self.versions_dir / "data" / f"{version_id}.json"
                 csv_file = self.versions_dir / "data" / f"{version_id}.csv"
+                pkl_file = self.versions_dir / "data" / f"{version_id}.pkl"  # 後方互換
                 metadata_file = self.versions_dir / "metadata" / f"{version_id}.json"
 
-                for file in [data_file, csv_file, metadata_file]:
+                for file in [json_file, csv_file, pkl_file, metadata_file]:
                     if file.exists():
                         file.unlink()
 

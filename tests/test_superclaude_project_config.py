@@ -249,8 +249,9 @@ class TestLoadConfigFile:
             assert result is not None
             assert result["project_name"] == "test_yaml"
 
-    def test_load_invalid_file(self, capsys):
+    def test_load_invalid_file(self, caplog):
         """無効なファイル読み込み"""
+        import logging
         import tempfile
 
         from superclaude_project_config import ProjectConfigManager
@@ -263,10 +264,10 @@ class TestLoadConfigFile:
             with open(config_file, "w") as f:
                 f.write("{invalid json")
 
-            result = manager._load_config_file(config_file)
+            with caplog.at_level(logging.WARNING):
+                result = manager._load_config_file(config_file)
             assert result is None
-            captured = capsys.readouterr()
-            assert "Error loading config file" in captured.out
+            assert "設定ファイル読み込みエラー" in caplog.text
 
     def test_load_unsupported_extension(self):
         """未対応の拡張子"""

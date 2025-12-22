@@ -5,6 +5,7 @@ SuperClaude Project Configuration Override System
 """
 
 import json
+import logging
 import os
 import re
 from dataclasses import asdict, dataclass, field
@@ -12,6 +13,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import yaml
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -294,7 +297,7 @@ class ProjectConfigManager:
                 with open(file_path, "r", encoding="utf-8") as f:
                     return yaml.safe_load(f)
         except Exception as e:
-            print(f"Error loading config file {file_path}: {e}")
+            logger.warning(f"設定ファイル読み込みエラー {file_path}: {e}")
 
         return None
 
@@ -341,8 +344,8 @@ class ProjectConfigManager:
                 with open(config_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     return ProjectConfig(**data)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"保存済み設定読み込みスキップ {config_file}: {e}")
 
         return None
 

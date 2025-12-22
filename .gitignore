@@ -80,6 +80,7 @@ out/
 # Testing
 # ========================================
 .coverage
+coverage.json
 .pytest_cache/
 htmlcov/
 .tox/

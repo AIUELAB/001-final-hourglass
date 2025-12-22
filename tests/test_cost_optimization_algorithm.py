@@ -218,7 +218,7 @@ class TestCostSimulation:
 class TestCostOptimizationAlgorithmInit:
     """CostOptimizationAlgorithm初期化テスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_init(self, mock_get_conn):
         """初期化"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -234,7 +234,7 @@ class TestCostOptimizationAlgorithmInit:
         assert "DISK" in algo.cost_config
         mock_get_conn.assert_called_once_with("test.db")
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_init_default_path(self, mock_get_conn):
         """デフォルトパスでの初期化"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -246,7 +246,7 @@ class TestCostOptimizationAlgorithmInit:
 
         assert algo.db_path == "unified_quality.db"
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_cost_config_structure(self, mock_get_conn):
         """コスト設定の構造"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -261,7 +261,7 @@ class TestCostOptimizationAlgorithmInit:
             assert "unit_name" in config
             assert config["unit_cost"] > 0
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_optimization_thresholds(self, mock_get_conn):
         """最適化しきい値"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -279,7 +279,7 @@ class TestCostOptimizationAlgorithmInit:
 class TestCostConfigValues:
     """コスト設定値テスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_cpu_cost(self, mock_get_conn):
         """CPU単価"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -292,7 +292,7 @@ class TestCostConfigValues:
         assert algo.cost_config["CPU"]["unit_cost"] == 0.05
         assert algo.cost_config["CPU"]["unit_name"] == "vCPU"
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_memory_cost(self, mock_get_conn):
         """メモリ単価"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -305,7 +305,7 @@ class TestCostConfigValues:
         assert algo.cost_config["MEMORY"]["unit_cost"] == 0.01
         assert algo.cost_config["MEMORY"]["unit_name"] == "GB"
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_disk_cost(self, mock_get_conn):
         """ディスク単価"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -322,7 +322,7 @@ class TestCostConfigValues:
 class TestAnalyzeResourceCosts:
     """analyze_resource_costsメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_analyze_cpu_costs(self, mock_get_conn):
         """CPUコスト分析"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -342,7 +342,7 @@ class TestAnalyzeResourceCosts:
         assert cost.utilization_rate == 65.0
         assert cost.waste_percentage == 35.0
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_analyze_memory_costs(self, mock_get_conn):
         """メモリコスト分析"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -360,7 +360,7 @@ class TestAnalyzeResourceCosts:
         assert cost.resource_type == "MEMORY"
         assert cost.current_usage == 80.0
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_analyze_disk_costs(self, mock_get_conn):
         """ディスクコスト分析"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -377,7 +377,7 @@ class TestAnalyzeResourceCosts:
         assert cost is not None
         assert cost.resource_type == "DISK"
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_analyze_invalid_resource(self, mock_get_conn):
         """無効なリソースタイプ"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -390,7 +390,7 @@ class TestAnalyzeResourceCosts:
 
         assert cost is None
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_analyze_no_data(self, mock_get_conn):
         """データなし"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -406,7 +406,7 @@ class TestAnalyzeResourceCosts:
 
         assert cost is None
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_analyze_monthly_cost_calculation(self, mock_get_conn):
         """月間コスト計算"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -427,7 +427,7 @@ class TestAnalyzeResourceCosts:
 class TestAnalyzeCostAndRecommend:
     """_analyze_cost_and_recommendメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_low_utilization_recommendation(self, mock_get_conn):
         """低稼働率の推奨"""
         from src.cost_optimization_algorithm import (
@@ -457,7 +457,7 @@ class TestAnalyzeCostAndRecommend:
         assert rec.priority == "high"  # waste > 50
         assert rec.monthly_savings > 0
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_high_waste_recommendation(self, mock_get_conn):
         """高無駄率の推奨"""
         from src.cost_optimization_algorithm import (
@@ -486,7 +486,7 @@ class TestAnalyzeCostAndRecommend:
         assert rec.recommendation_type == "increase_efficiency"
         assert rec.priority == "medium"
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_no_recommendation_needed(self, mock_get_conn):
         """推奨不要"""
         from src.cost_optimization_algorithm import (
@@ -513,7 +513,7 @@ class TestAnalyzeCostAndRecommend:
 
         assert rec is None
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_roi_calculation(self, mock_get_conn):
         """ROI計算"""
         from src.cost_optimization_algorithm import (
@@ -546,7 +546,7 @@ class TestAnalyzeCostAndRecommend:
 class TestGenerateCostSimulations:
     """_generate_cost_simulationsメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_generate_simulations_with_recommendations(self, mock_get_conn):
         """推奨事項ありのシミュレーション生成"""
         from src.cost_optimization_algorithm import (
@@ -595,7 +595,7 @@ class TestGenerateCostSimulations:
         assert any(s.scenario_name == "全推奨事項の実装" for s in simulations)
         assert any(s.scenario_name == "段階的実装（6ヶ月計画）" for s in simulations)
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_generate_simulations_high_priority_only(self, mock_get_conn):
         """高優先度のみシミュレーション"""
         from src.cost_optimization_algorithm import (
@@ -642,7 +642,7 @@ class TestGenerateCostSimulations:
 
         assert any(s.scenario_name == "高優先度のみ実装" for s in simulations)
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_generate_simulations_empty_recommendations(self, mock_get_conn):
         """推奨事項なしのシミュレーション"""
         from src.cost_optimization_algorithm import (
@@ -675,7 +675,7 @@ class TestGenerateCostSimulations:
 class TestSaveResourceCost:
     """_save_resource_costメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_save_resource_cost(self, mock_get_conn):
         """リソースコスト保存"""
         from src.cost_optimization_algorithm import (
@@ -710,7 +710,7 @@ class TestSaveResourceCost:
 class TestSaveOptimizationRecommendation:
     """_save_optimization_recommendationメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_save_recommendation(self, mock_get_conn):
         """推奨事項保存"""
         from src.cost_optimization_algorithm import (
@@ -749,7 +749,7 @@ class TestSaveOptimizationRecommendation:
 class TestSaveCostSimulation:
     """_save_cost_simulationメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_save_simulation(self, mock_get_conn):
         """シミュレーション保存"""
         from src.cost_optimization_algorithm import (
@@ -786,7 +786,7 @@ class TestSaveCostSimulation:
 class TestSaveOptimizationPlan:
     """_save_optimization_planメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_save_plan(self, mock_get_conn):
         """計画保存"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -815,7 +815,7 @@ class TestSaveOptimizationPlan:
 class TestShowHistory:
     """show_historyメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_show_history_with_data(self, mock_get_conn, capsys):
         """履歴表示（データあり）"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -844,7 +844,7 @@ class TestShowHistory:
         assert "$1000.00" in captured.out
         assert "$200.00" in captured.out
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_show_history_no_data(self, mock_get_conn, capsys):
         """履歴表示（データなし）"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -865,7 +865,7 @@ class TestShowHistory:
 class TestGenerateCostOptimizationPlan:
     """generate_cost_optimization_planメソッドテスト"""
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_generate_plan_with_data(self, mock_get_conn, capsys):
         """計画生成（データあり）"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -896,7 +896,7 @@ class TestGenerateCostOptimizationPlan:
         assert "コスト最適化アルゴリズム" in captured.out
         assert "リソースコストの分析" in captured.out
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     def test_generate_plan_no_data(self, mock_get_conn, capsys):
         """計画生成（データなし）"""
         from src.cost_optimization_algorithm import CostOptimizationAlgorithm
@@ -917,7 +917,7 @@ class TestGenerateCostOptimizationPlan:
 class TestMain:
     """main関数テスト"""
 
-    @patch("src.cost_optimization_algorithm.CostOptimizationAlgorithm")
+    @patch("src.cost_optimization_algorithm.optimizer.CostOptimizationAlgorithm")
     @patch("sys.argv", ["prog", "--help"])
     def test_main_help(self, mock_algo_class, capsys):
         """ヘルプ表示"""
@@ -928,7 +928,7 @@ class TestMain:
 
         assert exc_info.value.code == 0
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     @patch("sys.argv", ["prog"])
     def test_main_no_args(self, mock_get_conn, capsys):
         """引数なし"""
@@ -942,7 +942,7 @@ class TestMain:
         captured = capsys.readouterr()
         assert "usage:" in captured.out.lower() or "--generate" in captured.out
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     @patch("sys.argv", ["prog", "--history", "--limit", "5"])
     def test_main_history(self, mock_get_conn, capsys):
         """履歴表示"""
@@ -959,7 +959,7 @@ class TestMain:
         captured = capsys.readouterr()
         assert "履歴がありません" in captured.out
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     @patch("sys.argv", ["prog", "--generate"])
     def test_main_generate(self, mock_get_conn, capsys):
         """計画生成"""
@@ -976,7 +976,7 @@ class TestMain:
         captured = capsys.readouterr()
         assert "コスト最適化アルゴリズム" in captured.out
 
-    @patch("src.cost_optimization_algorithm.get_connection")
+    @patch("src.cost_optimization_algorithm.optimizer.get_connection")
     @patch("sys.argv", ["prog", "--generate", "--save"])
     def test_main_generate_with_save(self, mock_get_conn, capsys, tmp_path, monkeypatch):
         """計画生成＋保存"""

@@ -91,7 +91,7 @@ class TestModelPerformanceMetrics:
 class TestAIRecommendationSystemInit:
     """AIRecommendationSystem初期化テスト"""
 
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_init_default(self, mock_get_conn):
         """デフォルト初期化"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -103,7 +103,7 @@ class TestAIRecommendationSystemInit:
 
         assert system.db_path == "unified_quality.db"
 
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_init_custom_path(self, mock_get_conn):
         """カスタムパスで初期化"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -213,8 +213,8 @@ class TestPriorityLevels:
 class TestInitDatabaseTables:
     """_init_database_tablesテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_creates_tables(self, mock_get_conn, mock_mkdir):
         """テーブル作成を確認"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -235,9 +235,9 @@ class TestInitDatabaseTables:
 class TestLoadModels:
     """_load_modelsテスト"""
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", False)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", False)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_skip_when_sklearn_unavailable(self, mock_get_conn, mock_mkdir):
         """sklearn不可時はスキップ"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -251,9 +251,9 @@ class TestLoadModels:
         assert system.priority_model is None
         assert system.scaler is None
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", True)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_handles_missing_model_files(self, mock_get_conn, mock_mkdir):
         """モデルファイル未存在時のハンドリング"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -271,9 +271,9 @@ class TestLoadModels:
 class TestSaveModels:
     """_save_modelsテスト"""
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", False)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", False)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_skip_when_sklearn_unavailable(self, mock_get_conn, mock_mkdir):
         """sklearn不可時はスキップ"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -285,10 +285,10 @@ class TestSaveModels:
         # エラーなく完了
         system._save_models()
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", True)
-    @patch("src.ai_recommendation_system.joblib")
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_saves_existing_models(self, mock_get_conn, mock_mkdir, mock_joblib):
         """存在するモデルを保存"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -310,8 +310,8 @@ class TestSaveModels:
 class TestCollectSystemFeatures:
     """collect_system_featuresテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_returns_none_when_no_metrics(self, mock_get_conn, mock_mkdir):
         """メトリクスがない場合はNone"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -330,8 +330,8 @@ class TestCollectSystemFeatures:
 
         assert result is None
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_returns_features_when_data_exists(self, mock_get_conn, mock_mkdir):
         """データ存在時は特徴量を返す"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -371,8 +371,8 @@ class TestCollectSystemFeatures:
         assert result["cpu_usage"] == 75.0
         assert result["memory_usage"] == 60.0
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_handles_missing_prediction_data(self, mock_get_conn, mock_mkdir):
         """予測データがない場合のデフォルト値"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -415,8 +415,8 @@ class TestCollectSystemFeatures:
 class TestGenerateRuleBasedRecommendations:
     """_generate_rule_based_recommendationsテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_high_cpu_recommendation(self, mock_get_conn, mock_mkdir):
         """高CPU使用率で推奨生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -435,8 +435,8 @@ class TestGenerateRuleBasedRecommendations:
         assert recs[0].target_resource == "CPU"
         assert recs[0].action == "scale_up"
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_high_memory_recommendation(self, mock_get_conn, mock_mkdir):
         """高メモリ使用率で推奨生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -453,8 +453,8 @@ class TestGenerateRuleBasedRecommendations:
         assert len(recs) == 1
         assert recs[0].target_resource == "MEMORY"
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_capacity_threshold_critical(self, mock_get_conn, mock_mkdir):
         """容量閾値接近（クリティカル）"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -472,8 +472,8 @@ class TestGenerateRuleBasedRecommendations:
         assert recs[0].priority == "critical"
         assert recs[0].target_resource == "STORAGE"
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_capacity_threshold_high(self, mock_get_conn, mock_mkdir):
         """容量閾値接近（高）"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -490,8 +490,8 @@ class TestGenerateRuleBasedRecommendations:
         assert len(recs) == 1
         assert recs[0].priority == "high"
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_high_waste_recommendation(self, mock_get_conn, mock_mkdir):
         """高無駄率で推奨生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -510,8 +510,8 @@ class TestGenerateRuleBasedRecommendations:
         assert recs[0].action == "optimize"
         assert recs[0].estimated_savings > 0
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_high_failure_probability(self, mock_get_conn, mock_mkdir):
         """高障害確率で推奨生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -528,8 +528,8 @@ class TestGenerateRuleBasedRecommendations:
         assert len(recs) == 1
         assert recs[0].recommendation_type == "security"
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_no_recommendations_normal_state(self, mock_get_conn, mock_mkdir):
         """正常状態では推奨なし"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -551,8 +551,8 @@ class TestGenerateRuleBasedRecommendations:
 
         assert len(recs) == 0
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_multiple_recommendations(self, mock_get_conn, mock_mkdir):
         """複数の推奨生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -578,8 +578,8 @@ class TestGenerateRuleBasedRecommendations:
 class TestPrepareFeatureVector:
     """_prepare_feature_vectorテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_creates_ordered_vector(self, mock_get_conn, mock_mkdir):
         """順序付きベクトル生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -608,8 +608,8 @@ class TestPrepareFeatureVector:
         assert vector[0] == 75.0  # cpu_usage
         assert vector[1] == 60.0  # memory_usage
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_missing_features_default_zero(self, mock_get_conn, mock_mkdir):
         """欠損特徴量は0でデフォルト"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -630,8 +630,8 @@ class TestPrepareFeatureVector:
 class TestRankRecommendations:
     """_rank_recommendationsテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_ranks_by_priority_and_confidence(self, mock_get_conn, mock_mkdir):
         """優先度と信頼度でランク付け"""
         from src.ai_recommendation_system import AIRecommendation, AIRecommendationSystem
@@ -698,8 +698,8 @@ class TestRankRecommendations:
 class TestSaveRecommendation:
     """_save_recommendationテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_saves_to_database(self, mock_get_conn, mock_mkdir):
         """データベースに保存"""
         from src.ai_recommendation_system import AIRecommendation, AIRecommendationSystem
@@ -736,8 +736,8 @@ class TestSaveRecommendation:
         mock_conn.commit.assert_called()
         mock_conn.close.assert_called()
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_handles_duplicate_recommendation(self, mock_get_conn, mock_mkdir):
         """重複推奨をハンドリング"""
         import sqlite3
@@ -783,8 +783,8 @@ class TestSaveRecommendation:
 class TestShowRecommendationsHistory:
     """show_recommendations_historyテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_shows_history(self, mock_get_conn, mock_mkdir, capsys):
         """履歴を表示"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -807,8 +807,8 @@ class TestShowRecommendationsHistory:
         assert "AI推奨履歴" in captured.out
         assert "REC001" in captured.out
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_shows_empty_message_when_no_history(self, mock_get_conn, mock_mkdir, capsys):
         """履歴がない場合のメッセージ"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -832,8 +832,8 @@ class TestShowRecommendationsHistory:
 class TestGenerateAIRecommendations:
     """generate_ai_recommendationsテスト"""
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_returns_empty_when_no_features(self, mock_get_conn, mock_mkdir, capsys):
         """特徴量がない場合は空リスト"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -854,8 +854,8 @@ class TestGenerateAIRecommendations:
         captured = capsys.readouterr()
         assert "システムデータが不足" in captured.out
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_generates_recommendations(self, mock_get_conn, mock_mkdir, capsys):
         """推奨を生成"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -899,9 +899,9 @@ class TestGenerateAIRecommendations:
 class TestGenerateMLRecommendations:
     """_generate_ml_recommendationsテスト"""
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", False)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", False)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_returns_empty_when_sklearn_unavailable(self, mock_get_conn, mock_mkdir):
         """sklearn不可時は空リスト"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -916,9 +916,9 @@ class TestGenerateMLRecommendations:
 
         assert result == []
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", True)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_returns_empty_when_no_model(self, mock_get_conn, mock_mkdir):
         """モデルがない場合は空リスト"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -934,9 +934,9 @@ class TestGenerateMLRecommendations:
 
         assert result == []
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", True)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_generates_ml_recommendation(self, mock_get_conn, mock_mkdir):
         """MLモデルで推奨生成"""
         import numpy as np
@@ -976,9 +976,9 @@ class TestGenerateMLRecommendations:
         assert result[0].priority == "high"
         assert result[0].confidence_score == 0.8
 
-    @patch("src.ai_recommendation_system.SKLEARN_AVAILABLE", True)
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.get_connection")
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
     def test_handles_ml_error(self, mock_get_conn, mock_mkdir, capsys):
         """MLエラーをハンドリング"""
         from src.ai_recommendation_system import AIRecommendationSystem
@@ -1005,8 +1005,8 @@ class TestGenerateMLRecommendations:
 class TestMainFunction:
     """main関数テスト"""
 
-    @patch("src.ai_recommendation_system.AIRecommendationSystem")
-    @patch("src.ai_recommendation_system.argparse.ArgumentParser.parse_args")
+    @patch("src.ai_recommendation_system.recommender.AIRecommendationSystem")
+    @patch("src.ai_recommendation_system.recommender.argparse.ArgumentParser.parse_args")
     def test_generate_flag(self, mock_args, mock_system_class):
         """--generateフラグ"""
         from src.ai_recommendation_system import main
@@ -1020,8 +1020,8 @@ class TestMainFunction:
 
         mock_system.generate_ai_recommendations.assert_called_once()
 
-    @patch("src.ai_recommendation_system.AIRecommendationSystem")
-    @patch("src.ai_recommendation_system.argparse.ArgumentParser.parse_args")
+    @patch("src.ai_recommendation_system.recommender.AIRecommendationSystem")
+    @patch("src.ai_recommendation_system.recommender.argparse.ArgumentParser.parse_args")
     def test_history_flag(self, mock_args, mock_system_class):
         """--historyフラグ"""
         from src.ai_recommendation_system import main
@@ -1034,9 +1034,9 @@ class TestMainFunction:
 
         mock_system.show_recommendations_history.assert_called_once_with(limit=20)
 
-    @patch("src.ai_recommendation_system.Path.mkdir")
-    @patch("src.ai_recommendation_system.AIRecommendationSystem")
-    @patch("src.ai_recommendation_system.argparse.ArgumentParser.parse_args")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.AIRecommendationSystem")
+    @patch("src.ai_recommendation_system.recommender.argparse.ArgumentParser.parse_args")
     def test_generate_and_save(self, mock_args, mock_system_class, mock_mkdir, tmp_path):
         """--generate --saveフラグ"""
         from dataclasses import asdict
@@ -1067,14 +1067,14 @@ class TestMainFunction:
 
         # ファイル保存をモック
         with patch("builtins.open", MagicMock()):
-            with patch("src.ai_recommendation_system.json.dump"):
+            with patch("src.ai_recommendation_system.recommender.json.dump"):
                 main()
 
         mock_system.generate_ai_recommendations.assert_called_once()
 
-    @patch("src.ai_recommendation_system.AIRecommendationSystem")
-    @patch("src.ai_recommendation_system.argparse.ArgumentParser.parse_args")
-    @patch("src.ai_recommendation_system.argparse.ArgumentParser.print_help")
+    @patch("src.ai_recommendation_system.recommender.AIRecommendationSystem")
+    @patch("src.ai_recommendation_system.recommender.argparse.ArgumentParser.parse_args")
+    @patch("src.ai_recommendation_system.recommender.argparse.ArgumentParser.print_help")
     def test_no_args_shows_help(self, mock_help, mock_args, mock_system_class):
         """引数なしでヘルプ表示"""
         from src.ai_recommendation_system import main

@@ -1,29 +1,18 @@
 #!/usr/bin/env python3
-"""
-容量計画自動化システム（Phase 11.3）
-Capacity Planning Automation System
-
-機能:
-- リソース使用量予測（CPU、メモリ、ディスク）
-- 将来の容量需要予測
-- スケーリング推奨事項の生成
-- 容量不足アラートの自動生成
-- 最適な容量計画の提案
-- 成長トレンド分析
-"""
+"""容量計画自動化 - メインプランナー"""
 
 import json
 import sys
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from src.database_utils import get_connection
 
+from .models import CapacityForecast, CapacityPlan, ScalingRecommendation
+
 # プロジェクトルート設定
-PROJECT_ROOT = Path(__file__).parent.parent
-sys.path.insert(0, str(PROJECT_ROOT / "src"))
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 try:
     import numpy as np
@@ -32,57 +21,6 @@ try:
     SKLEARN_AVAILABLE = True
 except ImportError:
     SKLEARN_AVAILABLE = False
-    print("⚠️ scikit-learnがインストールされていません。基本的な統計予測のみ利用可能です。")
-    print("   インストール: pip install scikit-learn numpy")
-
-
-@dataclass
-class ResourceMetrics:
-    """リソースメトリクス"""
-
-    timestamp: str
-    cpu_percent: float
-    memory_percent: float
-    disk_percent: float
-
-
-@dataclass
-class CapacityForecast:
-    """容量予測"""
-
-    resource_type: str
-    current_usage: float
-    predicted_usage_7d: float
-    predicted_usage_30d: float
-    predicted_usage_90d: float
-    capacity_threshold: float
-    days_until_threshold: Optional[int]
-    growth_rate_daily: float
-
-
-@dataclass
-class ScalingRecommendation:
-    """スケーリング推奨事項"""
-
-    resource_type: str
-    action: str  # "scale_up", "scale_down", "no_action"
-    urgency: str  # "critical", "high", "medium", "low"
-    current_capacity: float
-    recommended_capacity: float
-    reason: str
-    estimated_days_until_needed: Optional[int]
-
-
-@dataclass
-class CapacityPlan:
-    """容量計画"""
-
-    generated_at: str
-    forecast_period_days: int
-    forecasts: List[CapacityForecast]
-    recommendations: List[ScalingRecommendation]
-    alerts: List[Dict[str, Any]]
-    summary: Dict[str, Any]
 
 
 class CapacityPlanningAutomation:
@@ -97,8 +35,8 @@ class CapacityPlanningAutomation:
         self.capacity_thresholds = {"cpu": 80.0, "memory": 85.0, "disk": 90.0}
 
         # 予測モデル
-        self.models = {}
-        self.scalers = {}
+        self.models: Dict[str, Any] = {}
+        self.scalers: Dict[str, Any] = {}
 
         # データベーステーブル初期化
         self._init_database_tables()
@@ -259,7 +197,7 @@ class CapacityPlanningAutomation:
         conn.close()
 
         # リソースタイプ別に整理
-        resource_data = {"cpu": [], "memory": [], "disk": []}
+        resource_data: Dict[str, List[Tuple[str, float]]] = {"cpu": [], "memory": [], "disk": []}
 
         for row in rows:
             timestamp = row[0]
@@ -760,7 +698,3 @@ def main():
         print()
         print("使用例:")
         print("  python src/capacity_planning_automation.py --generate --forecast-days 90 --history-days 30 --save")
-
-
-if __name__ == "__main__":
-    main()

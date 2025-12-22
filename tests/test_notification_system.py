@@ -4,6 +4,8 @@ AudioNotificationSystem テストモジュール
 notification_system.py の単体テストを提供します。
 """
 
+import subprocess
+
 import pytest
 import threading
 from pathlib import Path
@@ -509,5 +511,318 @@ class TestPlatformSpecificMethods:
 
         # 元に戻す
         ns.winsound = original_winsound
+
+        assert result is False
+
+
+class TestAudioSystemTest:
+    """_test_audio_system メソッドのテスト"""
+
+    def test_test_audio_when_disabled(self):
+        """無効時はTrueを返す"""
+        with patch("subprocess.run"):
+            system = AudioNotificationSystem(enabled=False)
+            # 無効時は_test_audio_systemが呼ばれてもTrueを返す
+            result = system._test_audio_system()
+            assert result is True
+
+    @patch("subprocess.run")
+    def test_test_audio_darwin_success(self, mock_run):
+        """macOSでオーディオテスト成功"""
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem.__new__(AudioNotificationSystem)
+        system.enabled = True
+        system.platform = "darwin"
+        system.logger = MagicMock()
+
+        result = system._test_audio_system()
+        assert result is True
+
+    @patch("subprocess.run")
+    def test_test_audio_linux_success(self, mock_run):
+        """Linuxでオーディオテスト成功"""
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem.__new__(AudioNotificationSystem)
+        system.enabled = True
+        system.platform = "linux"
+        system.logger = MagicMock()
+
+        result = system._test_audio_system()
+        assert result is True
+
+    @patch("subprocess.run")
+    def test_test_audio_failure(self, mock_run):
+        """オーディオテスト失敗"""
+        mock_run.side_effect = Exception("Audio failed")
+
+        system = AudioNotificationSystem.__new__(AudioNotificationSystem)
+        system.enabled = True
+        system.platform = "darwin"
+        system.logger = MagicMock()
+
+        result = system._test_audio_system()
+        assert result is False
+
+
+class TestPlaySoundFile:
+    """_play_sound_file メソッドのテスト"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_sound_file_darwin_success(self, mock_run, mock_test, tmp_path):
+        """macOSでサウンドファイル再生成功"""
+        mock_test.return_value = True
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem()
+        system.platform = "darwin"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is True
+        mock_run.assert_called_once()
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_sound_file_linux_success(self, mock_run, mock_test, tmp_path):
+        """Linuxでサウンドファイル再生成功"""
+        mock_test.return_value = True
+        # which コマンドも run コマンドも成功
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is True
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_sound_file_windows_success(self, mock_run, mock_test, tmp_path):
+        """Windowsでサウンドファイル再生成功"""
+        mock_test.return_value = True
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem()
+        system.platform = "windows"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is True
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_sound_file_failure(self, mock_run, mock_test, tmp_path):
+        """サウンドファイル再生失敗"""
+        mock_test.return_value = True
+        mock_run.side_effect = Exception("Failed to play")
+
+        system = AudioNotificationSystem()
+        system.platform = "darwin"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is False
+
+
+class TestPlaySystemSound:
+    """_play_system_sound メソッドのテスト"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    def test_play_system_sound_no_config(self, mock_test):
+        """設定なしの場合はFalse"""
+        mock_test.return_value = True
+        system = AudioNotificationSystem()
+        # 設定にsystem_soundがない場合
+        system.sound_config[NotificationType.SUCCESS] = {"system_sound": None}
+
+        result = system._play_system_sound(NotificationType.SUCCESS)
+        assert result is False
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_system_sound_darwin_success(self, mock_run, mock_test):
+        """macOSでシステムサウンド再生成功"""
+        mock_test.return_value = True
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem()
+        system.platform = "darwin"
+
+        result = system._play_system_sound(NotificationType.SUCCESS)
+        assert result is True
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_system_sound_darwin_failure(self, mock_run, mock_test):
+        """macOSでシステムサウンド再生失敗"""
+        mock_test.return_value = True
+        mock_run.side_effect = Exception("Sound not found")
+
+        system = AudioNotificationSystem()
+        system.platform = "darwin"
+
+        result = system._play_system_sound(NotificationType.SUCCESS)
+        assert result is False
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("src.notification_system.AudioNotificationSystem._play_sound_file")
+    @patch("pathlib.Path.exists")
+    def test_play_system_sound_linux_success(self, mock_exists, mock_play_file, mock_test):
+        """Linuxでシステムサウンド再生成功"""
+        mock_test.return_value = True
+        mock_exists.return_value = True
+        mock_play_file.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        result = system._play_system_sound(NotificationType.SUCCESS)
+        assert result is True
+
+
+class TestPlayGeneratedBeep:
+    """_play_generated_beep メソッドのテスト"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("src.notification_system.AudioNotificationSystem._play_macos_beep")
+    def test_play_generated_beep_darwin(self, mock_macos, mock_test):
+        """macOSでビープ生成"""
+        mock_test.return_value = True
+        mock_macos.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "darwin"
+
+        result = system._play_generated_beep(NotificationType.SUCCESS)
+        assert result is True
+        mock_macos.assert_called_once()
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("src.notification_system.AudioNotificationSystem._play_linux_beep")
+    def test_play_generated_beep_linux(self, mock_linux, mock_test):
+        """Linuxでビープ生成"""
+        mock_test.return_value = True
+        mock_linux.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        result = system._play_generated_beep(NotificationType.SUCCESS)
+        assert result is True
+        mock_linux.assert_called_once()
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("src.notification_system.AudioNotificationSystem._play_windows_beep")
+    def test_play_generated_beep_windows(self, mock_windows, mock_test):
+        """Windowsでビープ生成"""
+        mock_test.return_value = True
+        mock_windows.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "windows"
+
+        result = system._play_generated_beep(NotificationType.SUCCESS)
+        assert result is True
+        mock_windows.assert_called_once()
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("src.notification_system.AudioNotificationSystem._play_macos_beep")
+    def test_play_generated_beep_failure(self, mock_macos, mock_test):
+        """ビープ生成失敗"""
+        mock_test.return_value = True
+        mock_macos.side_effect = Exception("Beep failed")
+
+        system = AudioNotificationSystem()
+        system.platform = "darwin"
+
+        result = system._play_generated_beep(NotificationType.SUCCESS)
+        assert result is False
+
+
+class TestPlayLinuxBeep:
+    """_play_linux_beep メソッドのテスト"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_linux_beep_speaker_test_success(self, mock_run, mock_test):
+        """speaker-testで成功"""
+        mock_test.return_value = True
+        mock_run.return_value = MagicMock(returncode=0)
+
+        system = AudioNotificationSystem()
+        result = system._play_linux_beep([500], 0.1)
+
+        assert result is True
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_linux_beep_pactl_success(self, mock_run, mock_test):
+        """pactlで成功"""
+        mock_test.return_value = True
+
+        # speaker-test失敗、pactl成功
+        def side_effect(*args, **kwargs):
+            cmd = args[0]
+            if cmd[0] == "speaker-test":
+                raise subprocess.CalledProcessError(1, cmd)
+            elif cmd[0] == "pactl":
+                result = MagicMock()
+                result.stdout = "123"  # module_id
+                return result
+            return MagicMock(returncode=0)
+
+        mock_run.side_effect = side_effect
+
+        system = AudioNotificationSystem()
+        result = system._play_linux_beep([500], 0.1)
+
+        assert result is True
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_linux_beep_beep_command_success(self, mock_run, mock_test):
+        """beepコマンドで成功"""
+        mock_test.return_value = True
+
+        # speaker-test, pactl失敗、beep成功
+        call_count = [0]
+
+        def side_effect(*args, **kwargs):
+            cmd = args[0]
+            call_count[0] += 1
+            if cmd[0] in ("speaker-test", "pactl"):
+                raise subprocess.CalledProcessError(1, cmd)
+            elif cmd[0] == "beep":
+                return MagicMock(returncode=0)
+            raise subprocess.CalledProcessError(1, cmd)
+
+        mock_run.side_effect = side_effect
+
+        system = AudioNotificationSystem()
+        result = system._play_linux_beep([500], 0.1)
+
+        assert result is True
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_linux_beep_all_fail(self, mock_run, mock_test):
+        """全て失敗"""
+        mock_test.return_value = True
+        mock_run.side_effect = subprocess.CalledProcessError(1, "cmd")
+
+        system = AudioNotificationSystem()
+        result = system._play_linux_beep([500], 0.1)
 
         assert result is False

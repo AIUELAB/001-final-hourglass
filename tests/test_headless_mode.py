@@ -419,6 +419,14 @@ class TestHeadlessExecutorAsync:
         with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
             return HeadlessExecutor(use_cache=False, timeout=5)
 
+    @pytest.fixture
+    def executor_with_cache(self, tmp_path):
+        """キャッシュ付きExecutor"""
+        with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
+            exec = HeadlessExecutor(use_cache=True, timeout=5)
+            exec.cache = TaskCache(cache_dir=tmp_path / ".cache")
+            return exec
+
     async def test_execute_task_success(self, executor):
         """タスク実行成功"""
         with patch.object(executor, "_execute_task_by_type", new_callable=AsyncMock) as mock:
@@ -503,3 +511,250 @@ class TestHeadlessExecutorAsync:
         result = await executor._run_command(["false"])  # Always returns 1
 
         assert result["exit_code"] == 1
+
+    async def test_run_tests_basic(self, executor):
+        """_run_tests 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            # パーサーはカンマなしの形式を期待
+            mock_cmd.return_value = {
+                "stdout": "5 passed 2 failed 1 skipped in 10.00s",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            result = await executor._run_tests({}, [])
+
+            assert "passed" in result
+            assert result["passed"] == 5
+            assert result["failed"] == 2
+            assert result["skipped"] == 1
+
+    async def test_run_tests_with_coverage(self, executor):
+        """_run_tests カバレッジ付き"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "10 passed",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            result = await executor._run_tests({"coverage": True}, [])
+
+            # コマンドにカバレッジオプションが含まれているか確認
+            call_args = mock_cmd.call_args[0][0]
+            assert "--cov=src" in call_args
+
+    async def test_run_tests_with_files(self, executor):
+        """_run_tests ファイル指定"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "3 passed",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            result = await executor._run_tests({}, ["test_file.py"])
+
+            call_args = mock_cmd.call_args[0][0]
+            assert "test_file.py" in call_args
+
+    async def test_run_lint_basic(self, executor):
+        """_run_lint 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "All checks passed",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            result = await executor._run_lint({"type_check": True}, [])
+
+            # ruff, black, mypy が呼ばれる
+            assert mock_cmd.call_count == 3
+            assert "ruff" in result
+            assert "black" in result
+            assert "mypy" in result
+
+    async def test_run_lint_with_fix(self, executor):
+        """_run_lint --fix オプション"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            await executor._run_lint({"fix": True, "type_check": False}, [])
+
+            # ruff --fix が呼ばれているか確認
+            first_call = mock_cmd.call_args_list[0][0][0]
+            assert "--fix" in first_call
+
+    async def test_run_format_basic(self, executor):
+        """_run_format 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "reformatted",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            result = await executor._run_format({}, [])
+
+            # black, isort が呼ばれる
+            assert mock_cmd.call_count == 2
+            assert "black" in result
+            assert "isort" in result
+
+    async def test_run_format_with_files(self, executor):
+        """_run_format ファイル指定"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            await executor._run_format({}, ["src/test.py"])
+
+            # 両方のコマンドにファイルが渡されている
+            for call in mock_cmd.call_args_list:
+                assert "src/test.py" in call[0][0]
+
+    async def test_execute_task_by_type_unknown(self, executor):
+        """_execute_task_by_type 未知のタイプ"""
+        with pytest.raises(ValueError, match="Unknown task type"):
+            await executor._execute_task_by_type("unknown_type", {}, [])
+
+    async def test_execute_task_with_cache_hit(self, executor_with_cache):
+        """execute_task キャッシュヒット"""
+        # キャッシュにエントリを追加
+        cached_result = TaskResult(
+            task_id="cached",
+            task_type=TaskType.TEST,
+            status="success",
+            start_time=datetime.now(),
+            end_time=datetime.now(),
+            output={"cached": True},
+        )
+        executor_with_cache.cache.set(TaskType.TEST.value, {}, cached_result)
+
+        # キャッシュから取得
+        result = await executor_with_cache.execute_task(TaskType.TEST, params={})
+
+        assert result.task_id == "cached"
+        assert result.output.get("cached") is True
+
+    async def test_execute_task_caches_result(self, executor_with_cache):
+        """execute_task 成功時にキャッシュ"""
+        with patch.object(executor_with_cache, "_execute_task_by_type", new_callable=AsyncMock) as mock:
+            mock.return_value = {"test": "result"}
+
+            result = await executor_with_cache.execute_task(TaskType.TEST, params={})
+
+            # 成功したのでキャッシュされている
+            assert result.status == "success"
+            cached = executor_with_cache.cache.get(TaskType.TEST.value, {})
+            assert cached is not None
+
+    async def test_run_review_basic(self, executor):
+        """_run_review 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._run_review({}, [])
+
+            # complexity, duplicates, security, todos が含まれる
+            assert "complexity" in result
+            assert "security" in result
+            assert "todos" in result
+            # 3回呼ばれる (radon, check_todos, bandit)
+            assert mock_cmd.call_count == 3
+
+    async def test_generate_docs_basic(self, executor):
+        """_generate_docs 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._generate_docs({}, [])
+
+            assert "api_docs" in result
+            # カバレッジなしなので1回のみ
+            assert mock_cmd.call_count == 1
+
+    async def test_generate_docs_with_coverage(self, executor):
+        """_generate_docs カバレッジ付き"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._generate_docs({"coverage": True}, [])
+
+            assert "api_docs" in result
+            assert "coverage" in result
+            # pdoc + coverage html で2回
+            assert mock_cmd.call_count == 2
+
+    async def test_run_build_basic(self, executor):
+        """_run_build 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            with patch("src.headless_mode.Path.exists", return_value=False):
+                mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+                result = await executor._run_build({})
+
+                assert "build" in result
+                # Dockerfileがないので1回のみ
+                assert mock_cmd.call_count == 1
+
+    async def test_run_build_with_docker(self, executor):
+        """_run_build Docker付き"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            with patch("src.headless_mode.Path.exists", return_value=True):
+                mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+                result = await executor._run_build({"tag": "v1.0"})
+
+                assert "build" in result
+                assert "docker" in result
+                # build + docker で2回
+                assert mock_cmd.call_count == 2
+
+    async def test_run_analysis_basic(self, executor):
+        """_run_analysis 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._run_analysis({}, [])
+
+            assert "complexity" in result
+            assert "maintainability" in result
+            assert "lines_of_code" in result
+            # radon cc, radon mi, cloc で3回
+            assert mock_cmd.call_count == 3
+
+    async def test_run_optimize_basic(self, executor):
+        """_run_optimize 基本テスト（オプションなし）"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._run_optimize({}, [])
+
+            # オプションがないので空
+            assert result == {}
+            assert mock_cmd.call_count == 0
+
+    async def test_run_optimize_with_profile(self, executor):
+        """_run_optimize プロファイル付き"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._run_optimize({"profile": True}, [])
+
+            assert "profile" in result
+            assert mock_cmd.call_count == 1
+
+    async def test_run_optimize_with_memory(self, executor):
+        """_run_optimize メモリプロファイル付き"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._run_optimize({"memory": True}, [])
+
+            assert "memory" in result
+            assert mock_cmd.call_count == 1
+
+    async def test_run_security_scan_basic(self, executor):
+        """_run_security_scan 基本テスト"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {"stdout": "", "stderr": "", "exit_code": 0}
+            result = await executor._run_security_scan({}, [])
+
+            assert "bandit" in result
+            assert "safety" in result
+            assert "secrets" in result
+            # bandit, safety, check_no_secrets で3回
+            assert mock_cmd.call_count == 3

@@ -298,3 +298,248 @@ class TestGetNotificationStatus:
 
         assert "system_status" in status
         assert status["config_enabled"] is True
+
+
+class TestNotificationConfigEnvVars:
+    """NotificationConfig 環境変数テスト"""
+
+    @patch.dict(os.environ, {"NOTIFICATIONS_MAX_DURATION": "5"})
+    def test_int_env_valid(self):
+        """有効な整数環境変数"""
+        from src.notification_integration import NotificationConfig
+
+        config = NotificationConfig()
+        # max_durationはfloatだが、_get_int_envの他の使用箇所をテスト
+        assert config.max_duration == 5.0
+
+    @patch.dict(os.environ, {"NOTIFICATIONS_MAX_DURATION": "invalid"})
+    def test_int_env_invalid(self):
+        """無効な整数環境変数"""
+        from src.notification_integration import NotificationConfig
+
+        config = NotificationConfig()
+        # デフォルト値
+        assert config.max_duration == 2.0
+
+
+class TestShouldNotifyTypes:
+    """should_notify 通知タイプテスト"""
+
+    @patch("src.notification_integration.config")
+    def test_should_notify_warning(self, mock_config):
+        """警告通知"""
+        from src.notification_integration import NotificationType, should_notify
+
+        mock_config.enabled = True
+        mock_config.notify_warning = True
+
+        assert should_notify(NotificationType.WARNING) is True
+
+    @patch("src.notification_integration.config")
+    def test_should_notify_error(self, mock_config):
+        """エラー通知"""
+        from src.notification_integration import NotificationType, should_notify
+
+        mock_config.enabled = True
+        mock_config.notify_error = True
+
+        assert should_notify(NotificationType.ERROR) is True
+
+    @patch("src.notification_integration.config")
+    def test_should_notify_info(self, mock_config):
+        """情報通知"""
+        from src.notification_integration import NotificationType, should_notify
+
+        mock_config.enabled = True
+        mock_config.notify_info = True
+
+        assert should_notify(NotificationType.INFO) is True
+
+    @patch("src.notification_integration.config")
+    def test_should_notify_progress(self, mock_config):
+        """進捗通知"""
+        from src.notification_integration import NotificationType, should_notify
+
+        mock_config.enabled = True
+        mock_config.notify_progress = True
+
+        assert should_notify(NotificationType.PROGRESS) is True
+
+
+class TestPlayNotificationRepeat:
+    """play_notification リピートテスト"""
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_success_repeat(self, mock_config, mock_get_system, mock_should):
+        """成功通知のリピート"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_config.repeat_success = 3
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.SUCCESS)
+
+        assert result is True
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_warning_repeat(self, mock_config, mock_get_system, mock_should):
+        """警告通知のリピート"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_config.repeat_warning = 2
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.WARNING)
+
+        assert result is True
+
+
+class TestNotifyWithSoundVerbose:
+    """notify_with_sound verbose モードテスト"""
+
+    @patch("src.notification_integration.play_notification")
+    @patch("src.notification_integration.config")
+    def test_decorator_verbose(self, mock_config, mock_play, capsys):
+        """verboseモードのデコレータ"""
+        from src.notification_integration import NotificationType, notify_with_sound
+
+        mock_config.verbose = True
+        mock_play.return_value = True
+
+        @notify_with_sound(NotificationType.INFO, "Verbose test")
+        def test_func():
+            return "result"
+
+        result = test_func()
+        captured = capsys.readouterr()
+
+        assert result == "result"
+        assert "🔊" in captured.out
+
+
+class TestQuickNotifyAllFunctions:
+    """quick_notify_* 全関数テスト"""
+
+    @patch("src.notification_integration.play_notification")
+    def test_quick_notify_warning(self, mock_play):
+        """quick_notify_warning"""
+        from src.notification_integration import NotificationType, quick_notify_warning
+
+        quick_notify_warning("Test warning")
+
+        mock_play.assert_called_once()
+        assert mock_play.call_args[0][0] == NotificationType.WARNING
+
+    @patch("src.notification_integration.play_notification")
+    def test_quick_notify_info(self, mock_play):
+        """quick_notify_info"""
+        from src.notification_integration import NotificationType, quick_notify_info
+
+        quick_notify_info("Test info")
+
+        mock_play.assert_called_once()
+        assert mock_play.call_args[0][0] == NotificationType.INFO
+
+    @patch("src.notification_integration.play_notification")
+    def test_quick_notify_progress(self, mock_play):
+        """quick_notify_progress"""
+        from src.notification_integration import NotificationType, quick_notify_progress
+
+        quick_notify_progress("Test progress")
+
+        mock_play.assert_called_once()
+        assert mock_play.call_args[0][0] == NotificationType.PROGRESS
+
+
+class TestPrintNotificationStatus:
+    """print_notification_status関数テスト"""
+
+    @patch("src.notification_integration.get_notification_status")
+    def test_print_status(self, mock_get_status, capsys):
+        """ステータス出力"""
+        from src.notification_integration import print_notification_status
+
+        mock_get_status.return_value = {
+            "config_enabled": True,
+            "volume": 0.7,
+        }
+
+        print_notification_status()
+
+        captured = capsys.readouterr()
+        assert "Audio Notification System Status" in captured.out
+        assert "config_enabled" in captured.out
+
+
+class TestNotifyDataQualityCheck:
+    """notify_data_quality_check デコレータテスト"""
+
+    @patch("src.notification_integration.play_notification")
+    @patch("src.notification_integration.config")
+    def test_data_quality_check_decorator(self, mock_config, mock_play):
+        """データ品質チェックデコレータ"""
+        from src.notification_integration import notify_data_quality_check
+
+        mock_config.verbose = False
+        mock_play.return_value = True
+
+        @notify_data_quality_check
+        def check_duplicates():
+            return "no duplicates"
+
+        result = check_duplicates()
+
+        assert result == "no duplicates"
+        mock_play.assert_called()
+
+
+class TestNotifyDataProcessing:
+    """notify_data_processing デコレータテスト"""
+
+    @patch("src.notification_integration.play_notification")
+    @patch("src.notification_integration.config")
+    def test_data_processing_decorator(self, mock_config, mock_play):
+        """データ処理デコレータ"""
+        from src.notification_integration import notify_data_processing
+
+        mock_config.verbose = False
+        mock_play.return_value = True
+
+        @notify_data_processing
+        def process_csv():
+            return 100
+
+        result = process_csv()
+
+        assert result == 100
+        mock_play.assert_called()
+
+
+class TestNotifyAutomationTask:
+    """notify_automation_task デコレータテスト"""
+
+    @patch("src.notification_integration.play_notification")
+    @patch("src.notification_integration.config")
+    def test_automation_task_decorator(self, mock_config, mock_play):
+        """自動化タスクデコレータ"""
+        from src.notification_integration import notify_automation_task
+
+        mock_config.verbose = False
+        mock_play.return_value = True
+
+        @notify_automation_task
+        def backup_data():
+            return "backup complete"
+
+        result = backup_data()
+
+        assert result == "backup complete"
+        mock_play.assert_called()

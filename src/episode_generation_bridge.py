@@ -98,10 +98,13 @@ class EpisodeGenerationBridge:
         # 品質ゲートをロード
         self._load_quality_gates()
 
-        # Type checkerのためのアサーション
-        assert self.episode_validator is not None, "episode_validator not loaded"
-        assert self.fact_checker is not None, "fact_checker not loaded"
-        assert self.template_blocker is not None, "template_blocker not loaded"
+        # 品質ゲートの初期化確認
+        if self.episode_validator is None:
+            raise RuntimeError("episode_validator not loaded")
+        if self.fact_checker is None:
+            raise RuntimeError("fact_checker not loaded")
+        if self.template_blocker is None:
+            raise RuntimeError("template_blocker not loaded")
 
         # preferred_age が指定されている場合、その年齢のみで生成（valid_agesの計算をスキップ）
         preferred_age = person_data.get("preferred_age")
@@ -185,10 +188,13 @@ class EpisodeGenerationBridge:
         Returns:
             品質ゲート合格エピソード、または None
         """
-        # Type assertions for quality gates
-        assert self.episode_validator is not None
-        assert self.fact_checker is not None
-        assert self.template_blocker is not None
+        # 品質ゲートの初期化確認
+        if self.episode_validator is None:
+            raise RuntimeError("episode_validator not initialized")
+        if self.fact_checker is None:
+            raise RuntimeError("fact_checker not initialized")
+        if self.template_blocker is None:
+            raise RuntimeError("template_blocker not initialized")
 
         for attempt in range(max_retries):
             try:

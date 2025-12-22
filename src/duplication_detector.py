@@ -93,8 +93,10 @@ class DuplicationDetector:
 
         # PersonNameNormalizer をロード（遅延ロード）
         self._load_normalizer()
-        assert self.normalizer is not None  # Type checker用
-        assert self.alias_map is not None  # Type checker用
+        if self.normalizer is None:
+            raise RuntimeError("normalizer not initialized after _load_normalizer()")
+        if self.alias_map is None:
+            raise RuntimeError("alias_map not initialized after _load_normalizer()")
 
         # Layer 2: 正規化一致
         normalized_result = self.normalizer.normalize(candidate.person_name)

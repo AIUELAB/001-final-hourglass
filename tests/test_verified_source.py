@@ -642,6 +642,7 @@ class TestEdgeCases:
     def test_inheritance_from_episode_source(self):
         """EpisodeSourceからの継承確認"""
         from src.models.episode_source import EpisodeSource
+
         source = VerifiedSource(
             person_name="テスト",
             person_id="P001",
@@ -651,3 +652,110 @@ class TestEdgeCases:
             raw_text="テスト",
         )
         assert isinstance(source, EpisodeSource)
+
+
+class TestEpisodeSourceValidation:
+    """EpisodeSource バリデーションテスト"""
+
+    def test_missing_person_id(self):
+        """person_id未設定でエラー"""
+        from src.models.episode_source import EpisodeSource
+
+        with pytest.raises(ValueError, match="person_id is required"):
+            EpisodeSource(
+                person_name="テスト",
+                person_id="",
+                person_type="REAL",
+                source_url="https://example.com",
+                source_type="manual",
+                raw_text="テスト",
+            )
+
+    def test_missing_source_url(self):
+        """source_url未設定でエラー"""
+        from src.models.episode_source import EpisodeSource
+
+        with pytest.raises(ValueError, match="source_url is required"):
+            EpisodeSource(
+                person_name="テスト",
+                person_id="P001",
+                person_type="REAL",
+                source_url="",
+                source_type="manual",
+                raw_text="テスト",
+            )
+
+    def test_missing_raw_text(self):
+        """raw_text未設定でエラー"""
+        from src.models.episode_source import EpisodeSource
+
+        with pytest.raises(ValueError, match="raw_text is required"):
+            EpisodeSource(
+                person_name="テスト",
+                person_id="P001",
+                person_type="REAL",
+                source_url="https://example.com",
+                source_type="manual",
+                raw_text="",
+            )
+
+    def test_invalid_verification_status(self):
+        """無効なverification_statusでエラー"""
+        from src.models.episode_source import EpisodeSource
+
+        with pytest.raises(ValueError, match="Invalid verification_status"):
+            EpisodeSource(
+                person_name="テスト",
+                person_id="P001",
+                person_type="REAL",
+                source_url="https://example.com",
+                source_type="manual",
+                raw_text="テスト",
+                verification_status="invalid_status",
+            )
+
+    def test_invalid_source_type(self):
+        """無効なsource_typeでエラー"""
+        from src.models.episode_source import EpisodeSource
+
+        with pytest.raises(ValueError, match="Invalid source_type"):
+            EpisodeSource(
+                person_name="テスト",
+                person_id="P001",
+                person_type="REAL",
+                source_url="https://example.com",
+                source_type="invalid_type",
+                raw_text="テスト",
+            )
+
+    def test_auto_generate_source_id(self):
+        """source_id未指定時に自動生成"""
+        from src.models.episode_source import EpisodeSource
+
+        source = EpisodeSource(
+            person_name="テスト",
+            person_id="P001",
+            person_type="REAL",
+            source_url="https://example.com",
+            source_type="manual",
+            raw_text="テスト",
+        )
+        assert source.source_id.startswith("SRC-")
+        assert len(source.source_id) == 20  # "SRC-" + 16文字
+
+    def test_raw_text_long_warning(self, caplog):
+        """raw_textが250文字超で警告"""
+        from src.models.episode_source import EpisodeSource
+        import logging
+
+        long_text = "あ" * 300  # 250文字超
+        with caplog.at_level(logging.WARNING):
+            source = EpisodeSource(
+                person_name="テスト",
+                person_id="P001",
+                person_type="REAL",
+                source_url="https://example.com",
+                source_type="manual",
+                raw_text=long_text,
+            )
+        assert "exceeds 250 characters" in caplog.text

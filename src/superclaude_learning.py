@@ -6,8 +6,10 @@ SuperClaude Learning System
 
 import hashlib
 import json
-import pickle
+import logging
 from dataclasses import asdict, dataclass, field
+
+logger = logging.getLogger(__name__)
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -96,7 +98,8 @@ class LearningSystem:
                     data = json.load(f)
                     pattern = Pattern(**data)
                     self.patterns_cache[pattern.pattern_id] = pattern
-            except Exception:
+            except Exception as e:
+                logger.debug(f"パターン読み込みスキップ {file_path}: {e}")
                 continue
 
     def load_project_knowledge(self) -> None:
@@ -109,7 +112,8 @@ class LearningSystem:
                     data = json.load(f)
                     knowledge = ProjectKnowledge(**data)
                     self.projects_cache[knowledge.project_id] = knowledge
-            except Exception:
+            except Exception as e:
+                logger.debug(f"プロジェクト知識読み込みスキップ {file_path}: {e}")
                 continue
 
     def get_project_id(self, project_path: str) -> str:
@@ -221,13 +225,14 @@ class LearningSystem:
         context_hash = hashlib.md5(context_str.encode(), usedforsecurity=False).hexdigest()
 
         # キャッシュチェック（ローカルキャッシュファイルのみ）
-        cache_file = self.cache_dir / f"similar_{context_hash}.pkl"
+        cache_file = self.cache_dir / f"similar_{context_hash}.json"
         if cache_file.exists() and cache_file.stat().st_mtime > (datetime.now() - timedelta(hours=1)).timestamp():
             try:
-                with open(cache_file, "rb") as f:
-                    return pickle.load(f)[:limit]  # nosec B301
-            except Exception:
-                pass
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    cached_data = json.load(f)
+                    return [Pattern(**p) for p in cached_data][:limit]
+            except Exception as e:
+                logger.debug(f"キャッシュ読み込みスキップ: {e}")
 
         # 類似度計算（簡易版）
         scored_patterns = []
@@ -242,10 +247,10 @@ class LearningSystem:
 
         # キャッシュ保存
         try:
-            with open(cache_file, "wb") as f:
-                pickle.dump(similar_patterns, f)
-        except Exception:
-            pass
+            with open(cache_file, "w", encoding="utf-8") as f:
+                json.dump([asdict(p) for p in similar_patterns], f, ensure_ascii=False)
+        except Exception as e:
+            logger.debug(f"キャッシュ保存スキップ: {e}")
 
         return similar_patterns
 
@@ -347,7 +352,8 @@ class LearningSystem:
         """コンテキストとパターンの類似度を計算"""
         try:
             pattern_context = json.loads(pattern.context)
-        except Exception:
+        except Exception as e:
+            logger.debug(f"パターンコンテキスト解析スキップ: {e}")
             return 0.0
 
         score = 0.0

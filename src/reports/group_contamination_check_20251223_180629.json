@@ -1,0 +1,9 @@
+{
+  "timestamp": "2025-12-23T18:06:29.459609",
+  "csv_path": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv",
+  "total_records": 11262,
+  "unique_persons": 7398,
+  "contamination_count": 0,
+  "status": "PASS",
+  "issues": []
+}

@@ -40,7 +40,7 @@ class TestValidateEmptyInput:
 
     def test_none_input(self):
         """Noneでエラー"""
-        result = self.validator.validate(None)
+        result = self.validator.validate(None)  # type: ignore[arg-type]
         assert not result.is_valid
         assert result.quality_score == 0.0
 
@@ -325,3 +325,38 @@ class TestIntegration:
         result = self.validator.validate(text, age=10, person_type="FICTIONAL")
         assert not result.is_valid
         assert len(result.errors) > 0
+
+
+class TestMainFunction:
+    """main関数テスト（カバレッジ向上用）"""
+
+    def test_main_function_execution(self, capsys):
+        """main関数が正常に実行される"""
+        from src.validators.post_llm_validator import main
+
+        main()
+        captured = capsys.readouterr()
+        # main関数の出力を確認
+        assert "=" * 60 in captured.out
+        assert "テキスト:" in captured.out
+        assert "有効:" in captured.out
+        assert "スコア:" in captured.out
+        assert "レベル:" in captured.out
+
+    def test_main_function_test_cases(self, capsys):
+        """main関数のテストケースが全て処理される"""
+        from src.validators.post_llm_validator import main
+
+        main()
+        captured = capsys.readouterr()
+        # 3つのテストケースが処理されることを確認
+        assert captured.out.count("テキスト:") == 3
+
+    def test_main_function_outputs_quality_indicators(self, capsys):
+        """main関数が品質インジケータを出力する"""
+        from src.validators.post_llm_validator import main
+
+        main()
+        captured = capsys.readouterr()
+        # 有効/無効のインジケータが出力される
+        assert "✅" in captured.out or "❌" in captured.out

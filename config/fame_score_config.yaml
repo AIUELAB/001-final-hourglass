@@ -1,0 +1,51 @@
+# Fame Score v3 設定ファイル
+
+# 対象言語（Wikipedia多言語PV取得用）
+languages:
+- ja    # 日本語
+- en    # 英語
+- zh    # 中国語
+- ko    # 韓国語
+- es    # スペイン語
+- fr    # フランス語
+- de    # ドイツ語
+- ru    # ロシア語
+- pt    # ポルトガル語
+- it    # イタリア語
+
+# PV取得期間（日数）
+pv_days: 90
+
+# 重み付け
+weights:
+  multi_lang_pv: 0.50   # Phase 1では50%（Google検索なし）
+  sitelinks: 0.30       # 言語版数
+  inlinks: 0.20         # 被リンク数
+
+# 正規化パラメータ
+normalization:
+  max_pv: 10000000       # 最大1000万PV
+  max_sitelinks: 200     # 最大200言語
+  max_inlinks: 100000    # 最大10万被リンク
+
+# キャッシュ設定
+cache:
+  wikipedia_pv_ttl: 259200   # 3日（秒）
+  wikidata_ttl: 604800       # 7日（秒）
+  db_path: data/cache/fame_score.db
+
+# 品質ゲート
+quality_gates:
+  rank_1_unique: true
+  max_tie_size: 2
+  unique_score_ratio: 0.999
+
+# レート制限（秒あたりリクエスト数）
+rate_limits:
+  wikipedia: 50   # 100 req/secまで可能だが安全マージン
+  wikidata: 10    # SPARQLは控えめに
+
+# バッチ処理
+batch:
+  size: 100           # 一度に処理する人数
+  delay_between: 1.0  # バッチ間の待機秒数

@@ -1614,6 +1614,15 @@
                     </div>
                 </div>
 
+                <!-- 上部ページネーションUI -->
+                <div id="fame-ranking-pagination-top" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <button id="fame-page-first-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: opacity 0.2s;">⏮ 最初</button>
+                    <button id="fame-page-prev-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: opacity 0.2s;">◀ 前へ</button>
+                    <span id="fame-page-info-top" style="font-size: 16px; font-weight: 500; color: #333; min-width: 120px; text-align: center;">ページ 1 / 1</span>
+                    <button id="fame-page-next-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: opacity 0.2s;">次へ ▶</button>
+                    <button id="fame-page-last-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: opacity 0.2s;">最後 ⏭</button>
+                </div>
+
                 <div style="background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
                     <table id="fame-ranking-table" style="width: 100%; border-collapse: collapse;">
                         <thead style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
@@ -1680,6 +1689,15 @@
                         <div style="font-size: 24px; font-weight: 600; color: #3b82f6;" id="ep-tier5-count">-</div>
                         <div style="font-size: 14px; color: #6c757d;">Tier 5 (世界的)</div>
                     </div>
+                </div>
+
+                <!-- 上部ページネーションUI -->
+                <div id="episode-ranking-pagination-top" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <button id="ep-page-first-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">⏮ 最初</button>
+                    <button id="ep-page-prev-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">◀ 前へ</button>
+                    <span id="ep-page-info-top" style="font-size: 14px; font-weight: 600; color: #333; min-width: 150px; text-align: center;">ページ 1 / 1</span>
+                    <button id="ep-page-next-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">次へ ▶</button>
+                    <button id="ep-page-last-top" style="padding: 8px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">最後 ⏭</button>
                 </div>
 
                 <div style="background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
@@ -3031,6 +3049,39 @@
                     renderFameRankingPage();
                 }
             });
+
+            // === 上部ページネーションボタンのハンドラー ===
+            // 最初のページへ（上部）
+            document.getElementById('fame-page-first-top').addEventListener('click', () => {
+                if (currentFamePage > 1) {
+                    currentFamePage = 1;
+                    renderFameRankingPage();
+                }
+            });
+
+            // 前のページへ（上部）
+            document.getElementById('fame-page-prev-top').addEventListener('click', () => {
+                if (currentFamePage > 1) {
+                    currentFamePage--;
+                    renderFameRankingPage();
+                }
+            });
+
+            // 次のページへ（上部）
+            document.getElementById('fame-page-next-top').addEventListener('click', () => {
+                if (currentFamePage < totalFamePages) {
+                    currentFamePage++;
+                    renderFameRankingPage();
+                }
+            });
+
+            // 最後のページへ（上部）
+            document.getElementById('fame-page-last-top').addEventListener('click', () => {
+                if (currentFamePage < totalFamePages) {
+                    currentFamePage = totalFamePages;
+                    renderFameRankingPage();
+                }
+            });
         }
 
         // ソートハンドラーの設定
@@ -3053,6 +3104,8 @@
                         fameRankingSortDirection = sortType === 'number' ? 'desc' : 'asc';
                     }
 
+                    // ソート変更時はページを1にリセット
+                    currentFamePage = 1;
                     // ヘッダーのスタイルを更新
                     updateFameRankingSortHeaders();
                     // テーブルを再描画
@@ -3284,29 +3337,58 @@
 
         // ページネーションUIを更新
         function updateFamePaginationUI() {
+            // 下部ページネーション
             const pageInfo = document.getElementById('fame-page-info');
             pageInfo.textContent = `ページ ${currentFamePage} / ${totalFamePages}`;
+
+            // 上部ページネーション
+            const pageInfoTop = document.getElementById('fame-page-info-top');
+            pageInfoTop.textContent = `ページ ${currentFamePage} / ${totalFamePages}`;
 
             // ボタンの有効/無効を設定
             const isFirstPage = currentFamePage <= 1;
             const isLastPage = currentFamePage >= totalFamePages;
 
+            // 下部ボタン
             const firstBtn = document.getElementById('fame-page-first');
             const prevBtn = document.getElementById('fame-page-prev');
             const nextBtn = document.getElementById('fame-page-next');
             const lastBtn = document.getElementById('fame-page-last');
 
+            // 上部ボタン
+            const firstBtnTop = document.getElementById('fame-page-first-top');
+            const prevBtnTop = document.getElementById('fame-page-prev-top');
+            const nextBtnTop = document.getElementById('fame-page-next-top');
+            const lastBtnTop = document.getElementById('fame-page-last-top');
+
+            // 下部ボタン状態
             firstBtn.disabled = isFirstPage;
             prevBtn.disabled = isFirstPage;
             nextBtn.disabled = isLastPage;
             lastBtn.disabled = isLastPage;
 
-            // disabled時のスタイル
+            // 上部ボタン状態
+            firstBtnTop.disabled = isFirstPage;
+            prevBtnTop.disabled = isFirstPage;
+            nextBtnTop.disabled = isLastPage;
+            lastBtnTop.disabled = isLastPage;
+
+            // disabled時のスタイル（下部）
             [firstBtn, prevBtn].forEach(btn => {
                 btn.style.opacity = isFirstPage ? '0.5' : '1';
                 btn.style.cursor = isFirstPage ? 'not-allowed' : 'pointer';
             });
             [nextBtn, lastBtn].forEach(btn => {
+                btn.style.opacity = isLastPage ? '0.5' : '1';
+                btn.style.cursor = isLastPage ? 'not-allowed' : 'pointer';
+            });
+
+            // disabled時のスタイル（上部）
+            [firstBtnTop, prevBtnTop].forEach(btn => {
+                btn.style.opacity = isFirstPage ? '0.5' : '1';
+                btn.style.cursor = isFirstPage ? 'not-allowed' : 'pointer';
+            });
+            [nextBtnTop, lastBtnTop].forEach(btn => {
                 btn.style.opacity = isLastPage ? '0.5' : '1';
                 btn.style.cursor = isLastPage ? 'not-allowed' : 'pointer';
             });
@@ -3336,6 +3418,7 @@
 
             // 更新ボタンイベント
             document.getElementById('refresh-episode-ranking').addEventListener('click', () => {
+                currentEpisodePage = 1;  // 更新時はページ1にリセット
                 updateEpisodeFameRanking();
             });
 
@@ -3374,6 +3457,39 @@
 
             // 最後のページへ
             document.getElementById('ep-page-last').addEventListener('click', () => {
+                if (currentEpisodePage < totalEpisodePages) {
+                    currentEpisodePage = totalEpisodePages;
+                    renderEpisodeRankingPage();
+                }
+            });
+
+            // === 上部ページネーションボタンのハンドラー ===
+            // 最初のページへ（上部）
+            document.getElementById('ep-page-first-top').addEventListener('click', () => {
+                if (currentEpisodePage > 1) {
+                    currentEpisodePage = 1;
+                    renderEpisodeRankingPage();
+                }
+            });
+
+            // 前のページへ（上部）
+            document.getElementById('ep-page-prev-top').addEventListener('click', () => {
+                if (currentEpisodePage > 1) {
+                    currentEpisodePage--;
+                    renderEpisodeRankingPage();
+                }
+            });
+
+            // 次のページへ（上部）
+            document.getElementById('ep-page-next-top').addEventListener('click', () => {
+                if (currentEpisodePage < totalEpisodePages) {
+                    currentEpisodePage++;
+                    renderEpisodeRankingPage();
+                }
+            });
+
+            // 最後のページへ（上部）
+            document.getElementById('ep-page-last-top').addEventListener('click', () => {
                 if (currentEpisodePage < totalEpisodePages) {
                     currentEpisodePage = totalEpisodePages;
                     renderEpisodeRankingPage();
@@ -3620,25 +3736,41 @@
 
         // ページネーションUI更新
         function updateEpisodePaginationUI() {
+            // 下部ページネーション
             const pageInfo = document.getElementById('ep-page-info');
             const btnFirst = document.getElementById('ep-page-first');
             const btnPrev = document.getElementById('ep-page-prev');
             const btnNext = document.getElementById('ep-page-next');
             const btnLast = document.getElementById('ep-page-last');
 
-            // ページ情報表示
+            // 上部ページネーション
+            const pageInfoTop = document.getElementById('ep-page-info-top');
+            const btnFirstTop = document.getElementById('ep-page-first-top');
+            const btnPrevTop = document.getElementById('ep-page-prev-top');
+            const btnNextTop = document.getElementById('ep-page-next-top');
+            const btnLastTop = document.getElementById('ep-page-last-top');
+
+            // ページ情報表示（上下両方）
             pageInfo.textContent = `ページ ${currentEpisodePage} / ${totalEpisodePages}`;
+            pageInfoTop.textContent = `ページ ${currentEpisodePage} / ${totalEpisodePages}`;
 
             // ボタンの有効/無効状態を更新
             const isFirstPage = currentEpisodePage <= 1;
             const isLastPage = currentEpisodePage >= totalEpisodePages;
 
+            // 下部ボタン状態
             btnFirst.disabled = isFirstPage;
             btnPrev.disabled = isFirstPage;
             btnNext.disabled = isLastPage;
             btnLast.disabled = isLastPage;
 
-            // 無効なボタンのスタイルを変更
+            // 上部ボタン状態
+            btnFirstTop.disabled = isFirstPage;
+            btnPrevTop.disabled = isFirstPage;
+            btnNextTop.disabled = isLastPage;
+            btnLastTop.disabled = isLastPage;
+
+            // 無効なボタンのスタイルを変更（下部）
             btnFirst.style.opacity = isFirstPage ? '0.5' : '1';
             btnFirst.style.cursor = isFirstPage ? 'not-allowed' : 'pointer';
             btnPrev.style.opacity = isFirstPage ? '0.5' : '1';
@@ -3647,6 +3779,16 @@
             btnNext.style.cursor = isLastPage ? 'not-allowed' : 'pointer';
             btnLast.style.opacity = isLastPage ? '0.5' : '1';
             btnLast.style.cursor = isLastPage ? 'not-allowed' : 'pointer';
+
+            // 無効なボタンのスタイルを変更（上部）
+            btnFirstTop.style.opacity = isFirstPage ? '0.5' : '1';
+            btnFirstTop.style.cursor = isFirstPage ? 'not-allowed' : 'pointer';
+            btnPrevTop.style.opacity = isFirstPage ? '0.5' : '1';
+            btnPrevTop.style.cursor = isFirstPage ? 'not-allowed' : 'pointer';
+            btnNextTop.style.opacity = isLastPage ? '0.5' : '1';
+            btnNextTop.style.cursor = isLastPage ? 'not-allowed' : 'pointer';
+            btnLastTop.style.opacity = isLastPage ? '0.5' : '1';
+            btnLastTop.style.cursor = isLastPage ? 'not-allowed' : 'pointer';
         }
     </script>
 

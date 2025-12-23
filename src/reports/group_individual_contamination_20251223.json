@@ -1,0 +1,67 @@
+{
+  "timestamp": "2025-12-23T17:45:00",
+  "description": "団体名・個人名複合パターン混入検出レポート",
+  "total_issues": 5,
+  "issues": [
+    {
+      "person_id": "P701305F",
+      "current_name": "Valve・Gabe Newell",
+      "group": "Valve",
+      "individual": "Gabe Newell",
+      "episode_count": 3,
+      "action": "SPLIT",
+      "note": "Valveはゲーム会社"
+    },
+    {
+      "person_id": "P1B7ED27",
+      "current_name": "ufotable・近藤光",
+      "group": "ufotable",
+      "individual": "近藤光",
+      "episode_count": 3,
+      "action": "SPLIT",
+      "note": "ufotableはアニメスタジオ"
+    },
+    {
+      "person_id": "P6549FEE",
+      "current_name": "TKO・木下隆行",
+      "group": "TKO",
+      "individual": "木下隆行",
+      "episode_count": 2,
+      "action": "SPLIT",
+      "note": "TKOはお笑いコンビ"
+    },
+    {
+      "person_id": "PB1672E7",
+      "current_name": "TKO・木本武宏",
+      "group": "TKO",
+      "individual": "木本武宏",
+      "episode_count": 2,
+      "action": "SPLIT",
+      "note": "TKOはお笑いコンビ"
+    },
+    {
+      "person_id": "P4FE85EF",
+      "current_name": "TMN・木根尚登",
+      "group": "TMN",
+      "individual": "木根尚登",
+      "episode_count": 1,
+      "action": "SPLIT",
+      "note": "TMNは音楽グループ"
+    }
+  ],
+  "excluded": [
+    {
+      "person_id": "PE50571B",
+      "current_name": "OG・アヌノビー",
+      "reason": "OGはニックネーム（NBAプレイヤー OG Anunoby）であり団体名ではない"
+    }
+  ],
+  "already_fixed": [
+    {
+      "person_id": "PEEB2057",
+      "original_name": "WIT STUDIO・和田丈嗣",
+      "current_name": "和田丈嗣",
+      "note": "既に修正済み"
+    }
+  ]
+}

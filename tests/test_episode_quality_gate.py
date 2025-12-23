@@ -86,6 +86,11 @@ class TestEpisodeQualityGate:
         df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", low_memory=False)
         assert len(df[df["episode_id"] == "EP-000001326"]) == 0, "EP-000001326 は削除されているべき"
 
+    def test_ep251218185058630_deleted(self):
+        """EP-251218185058630 が削除されていること（具体性欠如・たかし）"""
+        df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", low_memory=False)
+        assert len(df[df["episode_id"] == "EP-251218185058630"]) == 0, "EP-251218185058630 は削除されているべき"
+
     def test_specificity_detection(self):
         """具体性欠如が検出されること"""
         abstract_patterns = [

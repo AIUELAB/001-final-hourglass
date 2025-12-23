@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 エピソード品質ゲート 回帰テスト
-EP-000006345 のようなケースが再発しないことを検証
+EP-000006345, EP-000001326 のようなケースが再発しないことを検証
 """
 
 import pytest
@@ -80,6 +80,41 @@ class TestEpisodeQualityGate:
         if len(ep) > 0:
             text = ep.iloc[0]["episode_text"]
             assert "あなたと同じ" not in text, "EP-000000505 のメタ表現は修正されているべき"
+
+    def test_ep000001326_deleted(self):
+        """EP-000001326 が削除されていること（具体性欠如）"""
+        df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", low_memory=False)
+        assert len(df[df["episode_id"] == "EP-000001326"]) == 0, "EP-000001326 は削除されているべき"
+
+    def test_specificity_detection(self):
+        """具体性欠如が検出されること"""
+        abstract_patterns = [
+            r"大きな困難",
+            r"様々な問題",
+            r"困難に直面",
+            r"諦めることなく",
+            r"解決策を見出し",
+        ]
+
+        # 低品質テキスト（具体情報なし + 抽象表現多数）
+        low_quality_text = (
+            "新作映画の撮影中に大きな困難に直面しました。"
+            "様々な問題が発生したのです。しかし諦めることなく、"
+            "解決策を見出しました。"
+        )
+
+        # 高品質テキスト（具体情報あり）
+        high_quality_text = (
+            "2023年、映画『首』の撮影中に大きな困難に直面しました。" "しかし諦めることなく解決策を見出しました。"
+        )
+
+        # 低品質は抽象表現3つ以上
+        low_abstract = sum(1 for p in abstract_patterns if re.search(p, low_quality_text))
+        assert low_abstract >= 3, "低品質テキストは抽象表現3つ以上"
+
+        # 高品質は具体的年がある
+        has_year = bool(re.search(r"(19|20)\d{2}年", high_quality_text))
+        assert has_year, "高品質テキストは具体的年がある"
 
 
 if __name__ == "__main__":

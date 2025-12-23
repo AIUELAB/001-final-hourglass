@@ -361,3 +361,52 @@ class TestBenchmarkBeartype:
         captured = capsys.readouterr()
         assert "sample_func took" in captured.out
         assert "seconds" in captured.out
+
+
+class TestExampleUsage:
+    """example_usage関数テスト"""
+
+    def test_example_usage_runs_successfully(self, capsys):
+        """example_usageが正常に実行される"""
+        from src.beartype_integration import example_usage
+
+        # 例外が発生しないことを確認
+        example_usage()
+
+        captured = capsys.readouterr()
+        # 出力に主要な成功メッセージが含まれることを確認
+        assert "Beartype Runtime Type Checking Examples" in captured.out
+        assert "✅" in captured.out  # 成功マークが含まれる
+
+
+class TestPerformanceTest:
+    """performance_test関数テスト"""
+
+    def test_performance_test_function(self, capsys):
+        """performance_test関数が正常に動作する"""
+        from src.beartype_integration import performance_test
+
+        # 関数実行
+        result = performance_test([1, 2, 3, 4, 5])
+
+        # 結果検証
+        assert result == 15
+
+        # ベンチマーク出力確認
+        captured = capsys.readouterr()
+        assert "performance_test took" in captured.out
+
+    def test_performance_test_empty_list(self, capsys):
+        """空リストでの動作"""
+        from src.beartype_integration import performance_test
+
+        result = performance_test([])
+        assert result == 0
+
+    def test_performance_test_large_list(self, capsys):
+        """大きなリストでの動作"""
+        from src.beartype_integration import performance_test
+
+        large_list = list(range(1000))
+        result = performance_test(large_list)
+        assert result == sum(range(1000))

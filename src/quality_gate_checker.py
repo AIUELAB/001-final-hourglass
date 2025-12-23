@@ -106,8 +106,8 @@ class QualityGateChecker:
         except subprocess.TimeoutExpired:
             logger.error("EPUP check timed out")
             return None, "EPUP check timed out after 5 minutes"
-        except Exception as e:
-            logger.error(f"EPUP check error: {e}")
+        except (OSError, ValueError, subprocess.SubprocessError) as e:
+            logger.exception(f"EPUP check error: {e}")
             return None, f"EPUP check error: {e}"
 
     def _load_epup_report(self, report_path: Path) -> tuple[Optional[Dict[str, Any]], Optional[str]]:

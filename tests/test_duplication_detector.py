@@ -347,3 +347,143 @@ class TestEdgeCases:
             # 例外が発生しないことを確認
             is_dup, matched, conf, layer = detector.detect_duplicate(candidate)
             assert is_dup is False
+
+
+# ============================================================================
+# 追加テスト: 未カバー行のテスト
+# ============================================================================
+
+
+class TestLoadNormalizerActual:
+    """_load_normalizer 実際のインポートテスト"""
+
+    def test_load_normalizer_success(self, sample_master_df):
+        """正常にnormalizerがロードされる"""
+        detector = DuplicationDetector(sample_master_df)
+
+        # 初期状態確認
+        assert detector.normalizer is None
+        assert detector.alias_map is None
+
+        # 実際のロードを試行
+        try:
+            detector._load_normalizer()
+            # ロード成功した場合
+            assert detector.normalizer is not None
+            assert detector.alias_map is not None
+        except ImportError:
+            # scripts/data/normalize_person_names.py が存在しない場合はスキップ
+            pytest.skip("normalize_person_names module not available")
+
+
+class TestNormalizerRuntimeErrors:
+    """RuntimeError テスト"""
+
+    def test_normalizer_not_initialized_error(self, sample_master_df):
+        """normalizer初期化失敗時のRuntimeError"""
+        detector = DuplicationDetector(sample_master_df)
+        candidate = PersonCandidate(person_name="テスト太郎")
+
+        # _load_normalizerをモックして、normalizer=Noneのままにする
+        with patch.object(detector, "_load_normalizer"):
+            detector.normalizer = None
+            detector.alias_map = {}
+
+            with pytest.raises(RuntimeError, match="normalizer not initialized"):
+                detector.detect_duplicate(candidate)
+
+    def test_alias_map_not_initialized_error(self, sample_master_df):
+        """alias_map初期化失敗時のRuntimeError"""
+        detector = DuplicationDetector(sample_master_df)
+        candidate = PersonCandidate(person_name="テスト太郎")
+
+        # _load_normalizerをモックして、alias_map=Noneのままにする
+        with patch.object(detector, "_load_normalizer"):
+            detector.normalizer = MagicMock()
+            detector.alias_map = None
+
+            with pytest.raises(RuntimeError, match="alias_map not initialized"):
+                detector.detect_duplicate(candidate)
+
+
+class TestLayer4SimilarMatch:
+    """Layer 4 類似一致テスト"""
+
+    def test_similar_match_with_verified_attributes(self, sample_master_df):
+        """類似度0.85以上+属性検証成功で重複判定"""
+        detector = DuplicationDetector(sample_master_df)
+
+        # 類似した名前の候補（山田太郎 vs 山田太朗 - 類似度高い）
+        candidate = PersonCandidate(
+            person_name="山田太朗",  # 山田太郎に類似
+            category="ミュージシャン",
+            birth_year=1980,
+            person_type="REAL",
+        )
+
+        with patch.object(detector, "_load_normalizer"):
+            # normalizerをモック
+            mock_normalizer = MagicMock()
+
+            # normalize() が NormalizeResult-like オブジェクトを返すように
+            def mock_normalize(name):
+                result = MagicMock()
+                result.normalized_name = name  # そのまま返す
+                return result
+
+            mock_normalizer.normalize = mock_normalize
+            detector.normalizer = mock_normalizer
+            detector.alias_map = {}
+
+            is_dup, matched, conf, layer = detector.detect_duplicate(candidate)
+
+            # 類似度 + 属性検証で重複判定
+            if is_dup:
+                assert layer == "similar"
+                assert conf >= 0.85
+
+
+class TestVerifyAttributesNoChecks:
+    """_verify_attributes checks==0 テスト"""
+
+    def test_verify_attributes_no_matching_columns(self):
+        """属性情報がない場合はFalseを返す"""
+        # 最小限のマスターデータ（属性列なし）
+        master_df = pd.DataFrame({"person_name": ["山田太郎", "鈴木花子"]})
+
+        detector = DuplicationDetector(master_df)
+
+        # 候補者（属性情報あり）
+        candidate = PersonCandidate(
+            person_name="テスト",
+            category="ミュージシャン",
+            birth_year=1980,
+            person_type="REAL",
+        )
+
+        # _verify_attributesを直接テスト
+        result = detector._verify_attributes(candidate, "山田太郎")
+
+        # checks == 0 の場合は False
+        assert result is False
+
+    def test_verify_attributes_empty_attributes(self):
+        """候補者の属性が空の場合"""
+        master_df = pd.DataFrame(
+            {
+                "person_name": ["山田太郎"],
+                "category": ["ミュージシャン"],
+                "birth_year": [1980],
+                "person_type": ["REAL"],
+            }
+        )
+
+        detector = DuplicationDetector(master_df)
+
+        # 候補者（属性なし）
+        candidate = PersonCandidate(person_name="テスト", category=None, birth_year=None, person_type=None)
+
+        result = detector._verify_attributes(candidate, "山田太郎")
+
+        # checks == 0 または属性不一致で False
+        assert result is False

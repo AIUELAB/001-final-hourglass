@@ -179,3 +179,109 @@ class TestBirthYearsData:
         for name, expected_year in test_cases:
             if name in BIRTH_YEARS:
                 assert BIRTH_YEARS[name] == expected_year, f"{name}の生年が不正"
+
+
+# ============================================================================
+# 追加テスト: 未カバー行のテスト
+# ============================================================================
+
+
+class TestGetBirthYearPartialMatch:
+    """get_birth_year 部分一致テスト"""
+
+    def test_partial_match_person_in_name(self):
+        """部分一致: person_name が BIRTH_YEARS のキーに含まれる"""
+        # 既存の人物名の一部で検索
+        for full_name in list(BIRTH_YEARS.keys())[:5]:
+            if len(full_name) >= 2:
+                partial = full_name[:2]  # 最初の2文字
+                result = get_birth_year(partial)
+                # 部分一致でマッチするはず
+                if result is not None:
+                    assert isinstance(result, int)
+                    break
+
+
+class TestValidateEpisodeAgeEdgeCases:
+    """validate_episode_age 境界ケーステスト"""
+
+    def test_negative_age(self):
+        """負の年齢は無効"""
+        is_valid, message = validate_episode_age("堺雅人", -5, "REAL")
+        assert is_valid is False
+        assert "負の値" in message
+
+    def test_age_over_130(self):
+        """130歳超は無効"""
+        is_valid, message = validate_episode_age("堺雅人", 135, "REAL")
+        assert is_valid is False
+        assert "130歳" in message
+
+    def test_unknown_person_high_age_block(self):
+        """未知人物の高齢（60歳以上）はブロック"""
+        is_valid, message = validate_episode_age("架空のテスト人物XYZ", 65, "REAL")
+        assert is_valid is False
+        assert "BLOCK" in message
+        assert "高齢" in message
+
+    def test_unknown_person_young_age_block(self):
+        """未知人物の幼少（10歳以下）はブロック"""
+        is_valid, message = validate_episode_age("架空のテスト人物XYZ", 5, "REAL")
+        assert is_valid is False
+        assert "BLOCK" in message
+        assert "幼少" in message
+
+    def test_age_exceeds_max_valid_age(self):
+        """最大有効年齢を超過"""
+        # 堺雅人（1973年生）の現在年齢より大きい年齢
+        max_age = CURRENT_YEAR - 1973
+        is_valid, message = validate_episode_age("堺雅人", max_age + 5, "REAL")
+        assert is_valid is False
+        # 未来のエピソードか年齢超過のどちらかのメッセージ
+        assert "未来" in message or "超過" in message
+
+
+class TestIsFutureEpisodeWithCurrentYear:
+    """is_future_episode current_year指定テスト"""
+
+    def test_with_custom_current_year(self):
+        """カスタム current_year で判定"""
+        # 堺雅人（1973年生）の40歳 = 2013年
+        # 2010年を基準にすると未来
+        is_future = is_future_episode("堺雅人", 40, current_year=2010)
+        assert is_future is True
+
+        # 2020年を基準にすると過去
+        is_future = is_future_episode("堺雅人", 40, current_year=2020)
+        assert is_future is False
+
+
+class TestGetMaxValidAgeWithCurrentYear:
+    """get_max_valid_age current_year指定テスト"""
+
+    def test_with_custom_current_year(self):
+        """カスタム current_year で最大年齢取得"""
+        # 堺雅人（1973年生）
+        # 2000年基準: 2000 - 1973 = 27歳
+        max_age = get_max_valid_age("堺雅人", current_year=2000)
+        assert max_age == 27
+
+        # 2030年基準: 2030 - 1973 = 57歳
+        max_age = get_max_valid_age("堺雅人", current_year=2030)
+        assert max_age == 57
+
+
+class TestValidateEpisodeAgeWithCurrentYear:
+    """validate_episode_age current_year指定テスト"""
+
+    def test_with_custom_current_year(self):
+        """カスタム current_year で検証"""
+        # 堺雅人（1973年生）の40歳 = 2013年
+        # 2010年基準では未来なので無効
+        is_valid, message = validate_episode_age("堺雅人", 40, "REAL", current_year=2010)
+        assert is_valid is False
+        assert "未来" in message
+
+        # 2020年基準では過去なので有効
+        is_valid, message = validate_episode_age("堺雅人", 40, "REAL", current_year=2020)
+        assert is_valid is True

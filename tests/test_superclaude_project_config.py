@@ -664,3 +664,251 @@ class TestGetProjectSummary:
 
             assert summary["project_name"] == "summary_test"
             assert "status" not in summary or summary["status"] != "No configuration found"
+
+
+# ============================================================================
+# 追加テスト: 未カバー行のテスト
+# ============================================================================
+
+
+class TestLoadGlobalConfigWithFlags:
+    """FLAGS.mdからのグローバル設定読み込みテスト"""
+
+    def test_load_flags_from_flags_md(self):
+        """FLAGS.mdからデフォルトフラグを読み込み"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # FLAGS.mdを作成
+            flags_file = Path(tmpdir) / "FLAGS.md"
+            flags_file.write_text(
+                """# SuperClaude Flags
+
+Default flags: [--think, --orchestrate]
+
+Other content...
+"""
+            )
+
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            assert "--think" in manager.global_config.get("default_flags", [])
+            assert "--orchestrate" in manager.global_config.get("default_flags", [])
+
+
+class TestLoadSavedConfigFailure:
+    """保存済み設定読み込み失敗テスト"""
+
+    def test_load_saved_config_corrupted_file(self, caplog):
+        """破損したファイル読み込み"""
+        import hashlib
+        import logging
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+
+            # 破損した保存済み設定ファイルを作成
+            project_path = "/some/project/path"
+            project_hash = hashlib.md5(project_path.encode()).hexdigest()
+            config_file = manager.projects_config_dir / f"{project_hash}.json"
+            config_file.write_text("{invalid json content")
+
+            with caplog.at_level(logging.DEBUG):
+                result = manager._load_saved_config(project_path)
+
+            assert result is None
+
+
+class TestGetActiveConfigMerging:
+    """get_active_config マージテスト"""
+
+    def test_merge_dict_values(self):
+        """dict値のマージ"""
+        import json
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            # グローバル設定にdict値を設定
+            manager.global_config["code_style"] = {"indent": 2, "quotes": "single"}
+
+            # プロジェクト設定作成（dict値を追加）
+            project_dir = Path(tmpdir) / "dict_merge_project"
+            project_dir.mkdir()
+
+            config_file = project_dir / ".superclaude.json"
+            with open(config_file, "w") as f:
+                json.dump({"project_name": "dict_merge", "code_style": {"tabs": True}}, f)
+
+            result = manager.get_active_config(str(project_dir))
+
+            # dict値がマージされる
+            code_style = result.get("code_style", {})
+            assert code_style.get("tabs") is True
+            assert code_style.get("indent") == 2  # グローバルから継承
+
+    def test_replace_list_values(self):
+        """list値の置き換え"""
+        import json
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            # グローバル設定にlist値を設定
+            manager.global_config["validation_rules"] = ["lint", "test", "build"]
+
+            # プロジェクト設定作成（list値を置き換え）
+            project_dir = Path(tmpdir) / "list_replace_project"
+            project_dir.mkdir()
+
+            config_file = project_dir / ".superclaude.json"
+            with open(config_file, "w") as f:
+                json.dump({"project_name": "list_replace", "validation_rules": ["custom_check"]}, f)
+
+            result = manager.get_active_config(str(project_dir))
+
+            # list値が置き換えられる
+            assert result.get("validation_rules") == ["custom_check"]
+
+    def test_disabled_mcp_servers_filtered(self):
+        """無効化MCPサーバーがフィルタリングされる"""
+        import json
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+            # グローバル設定にMCPサーバーを設定
+            manager.global_config["enabled_mcp_servers"] = ["context7", "serena", "playwright"]
+
+            # プロジェクト設定作成
+            project_dir = Path(tmpdir) / "mcp_filter_project"
+            project_dir.mkdir()
+
+            config_file = project_dir / ".superclaude.json"
+            with open(config_file, "w") as f:
+                json.dump({"project_name": "mcp_filter", "disabled_mcp_servers": ["playwright"]}, f)
+
+            result = manager.get_active_config(str(project_dir))
+
+            assert "playwright" not in result.get("enabled_mcp_servers", [])
+            assert "context7" in result.get("enabled_mcp_servers", [])
+
+
+class TestAddCustomRuleNewConfig:
+    """add_custom_rule 新規設定作成テスト"""
+
+    def test_add_rule_creates_config_if_not_exists(self):
+        """設定が存在しない場合は新規作成"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+
+            # 空のプロジェクトディレクトリ
+            project_dir = Path(tmpdir) / "new_rule_project"
+            project_dir.mkdir()
+
+            new_rule = {"pattern": "console.log", "action": "warn"}
+            manager.add_custom_rule(str(project_dir), new_rule)
+
+            # 設定が作成されルールが追加されている
+            config = manager.detect_project_config(str(project_dir))
+            assert config is not None
+            assert new_rule in config.custom_rules
+
+
+class TestSetToolShortcutNewConfig:
+    """set_tool_shortcut 新規設定作成テスト"""
+
+    def test_set_shortcut_creates_config_if_not_exists(self):
+        """設定が存在しない場合は新規作成"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+
+            # 空のプロジェクトディレクトリ
+            project_dir = Path(tmpdir) / "new_shortcut_project"
+            project_dir.mkdir()
+
+            manager.set_tool_shortcut(str(project_dir), "build", "npm run build")
+
+            # 設定が作成されショートカットが追加されている
+            config = manager.detect_project_config(str(project_dir))
+            assert config is not None
+            assert config.tool_shortcuts["build"] == "npm run build"
+
+
+class TestConvenienceFunctions:
+    """便利関数テスト"""
+
+    def test_get_project_config_default_path(self, monkeypatch):
+        """get_project_config でデフォルトパス使用"""
+        import os
+        import tempfile
+
+        from superclaude_project_config import get_project_config
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # cwdを変更
+            monkeypatch.chdir(tmpdir)
+
+            result = get_project_config()
+            assert isinstance(result, dict)
+
+    def test_update_project_setting_default_path(self, monkeypatch):
+        """update_project_setting でデフォルトパス使用"""
+        import os
+        import tempfile
+
+        from superclaude_project_config import update_project_setting
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # cwdを変更
+            monkeypatch.chdir(tmpdir)
+
+            # エラーなく実行できる
+            update_project_setting("auto_test", False)
+
+
+class TestLoadSavedConfigFromDetect:
+    """detect_project_config で保存済み設定を読み込むテスト"""
+
+    def test_detect_loads_saved_config(self):
+        """保存済み設定が読み込まれる"""
+        import tempfile
+
+        from superclaude_project_config import ProjectConfigManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            manager = ProjectConfigManager(global_config_dir=tmpdir)
+
+            # プロジェクトディレクトリ作成（設定ファイルなし）
+            project_dir = Path(tmpdir) / "saved_config_project"
+            project_dir.mkdir()
+            resolved_path = str(project_dir.resolve())
+
+            # 設定を作成して保存
+            config = manager.create_project_config(resolved_path, {"default_mode": "saved"})
+
+            # キャッシュをクリア
+            manager.project_configs.clear()
+
+            # detect_project_configで保存済み設定が読み込まれる
+            result = manager.detect_project_config(resolved_path)
+            assert result is not None
+            assert result.default_mode == "saved"

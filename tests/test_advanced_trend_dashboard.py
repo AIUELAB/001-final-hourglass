@@ -1341,3 +1341,218 @@ class TestPlotsPlotlyAvailableFlag:
 
         automl = []
         assert plots_module.create_automl_history_plot(automl) is None
+
+
+# ============================================================================
+# 追加テスト: 未カバー行のテスト (Lines 105-110, 500-547, 552-553, 585-588)
+# ============================================================================
+
+
+class TestGeneratePlotlyGraphsWithPlotly:
+    """_generate_plotly_graphs Plotly有効時テスト"""
+
+    @patch("src.advanced_trend_dashboard.dashboard.PLOTLY_AVAILABLE", True)
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.create_prediction_trend_plot")
+    @patch("src.advanced_trend_dashboard.dashboard.create_risk_distribution_plot")
+    @patch("src.advanced_trend_dashboard.dashboard.create_agreement_distribution_plot")
+    @patch("src.advanced_trend_dashboard.dashboard.create_contributing_factors_plot")
+    @patch("src.advanced_trend_dashboard.dashboard.create_automl_history_plot")
+    def test_generates_all_plots_when_data_exists(
+        self,
+        mock_automl_plot,
+        mock_factors_plot,
+        mock_agreement_plot,
+        mock_risk_plot,
+        mock_trend_plot,
+        mock_get_conn,
+        mock_mkdir,
+    ):
+        """データがある場合に全プロットを生成"""
+        from src.advanced_trend_dashboard import AdvancedTrendDashboard
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        dashboard_obj = AdvancedTrendDashboard()
+
+        # モックFigureを作成
+        mock_fig = MagicMock()
+        mock_trend_plot.return_value = mock_fig
+        mock_risk_plot.return_value = mock_fig
+        mock_agreement_plot.return_value = mock_fig
+        mock_factors_plot.return_value = mock_fig
+        mock_automl_plot.return_value = mock_fig
+
+        dashboard_data = {
+            "sections": {
+                "prediction_trends": {"data_points": 10},
+                "risk_distribution": {"HIGH": {"count": 5}},
+                "model_agreement": {"count": 20},
+                "contributing_factors": {"total_unique_factors": 3},
+                "automl_history": [{"experiment_id": "exp1"}],
+            }
+        }
+
+        result = dashboard_obj._generate_plotly_graphs(dashboard_data)
+
+        # 全てのプロットが生成されたことを確認
+        assert mock_trend_plot.called
+        assert mock_risk_plot.called
+        assert mock_agreement_plot.called
+        assert mock_factors_plot.called
+        assert mock_automl_plot.called
+        # write_htmlが呼ばれたことを確認
+        assert mock_fig.write_html.call_count == 5
+
+    @patch("src.advanced_trend_dashboard.dashboard.PLOTLY_AVAILABLE", True)
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
+    @patch("src.advanced_trend_dashboard.dashboard.create_prediction_trend_plot")
+    def test_skips_plot_when_no_data(
+        self,
+        mock_trend_plot,
+        mock_get_conn,
+        mock_mkdir,
+    ):
+        """データがない場合はプロットをスキップ"""
+        from src.advanced_trend_dashboard import AdvancedTrendDashboard
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        dashboard_obj = AdvancedTrendDashboard()
+
+        # data_points = 0 でプロットをスキップ
+        dashboard_data = {
+            "sections": {
+                "prediction_trends": {"data_points": 0},
+                "risk_distribution": {},
+                "model_agreement": {"count": 0},
+                "contributing_factors": {"total_unique_factors": 0},
+                "automl_history": [],
+            }
+        }
+
+        result = dashboard_obj._generate_plotly_graphs(dashboard_data)
+
+        # プロットが生成されないことを確認
+        mock_trend_plot.assert_not_called()
+        assert result == {}
+
+
+class TestSaveDashboardDefaultFilename:
+    """save_dashboard デフォルトファイル名テスト"""
+
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
+    def test_generates_default_filename(self, mock_get_conn, mock_mkdir, tmp_path):
+        """ファイル名なしでタイムスタンプ付きファイル名を生成"""
+        from src.advanced_trend_dashboard import AdvancedTrendDashboard
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        dashboard_obj = AdvancedTrendDashboard()
+        dashboard_obj.reports_dir = tmp_path
+
+        data = {"test": "data"}
+
+        # filename=None で呼び出し
+        result_path = dashboard_obj.save_dashboard(data, filename=None)
+
+        # ファイル名がタイムスタンプ形式で生成されることを確認
+        assert "advanced_trend_dashboard_" in str(result_path)
+        assert ".json" in str(result_path)
+
+
+class TestGenerateComprehensiveDashboardWithPlots:
+    """generate_comprehensive_dashboard include_plots=True テスト"""
+
+    @patch("src.advanced_trend_dashboard.dashboard.PLOTLY_AVAILABLE", True)
+    @patch("src.advanced_trend_dashboard.dashboard.Path.mkdir")
+    @patch("src.advanced_trend_dashboard.dashboard.get_connection")
+    def test_includes_plots_section(self, mock_get_conn, mock_mkdir, capsys):
+        """include_plots=Trueでplotsセクションが追加される"""
+        from src.advanced_trend_dashboard import AdvancedTrendDashboard
+
+        mock_conn = MagicMock()
+        mock_cursor = MagicMock()
+        mock_conn.cursor.return_value = mock_cursor
+        mock_get_conn.return_value = mock_conn
+
+        dashboard = AdvancedTrendDashboard()
+        mock_get_conn.reset_mock()
+        mock_get_conn.return_value = mock_conn
+
+        # モックデータ設定
+        mock_cursor.fetchone.side_effect = [
+            (100,),
+            (0.35,),
+            (0.85,),
+            ("pred001", "2025-01-01", 0.25, "LOW", 0.9, "{}"),
+            ("EXP001", "2025-01-01", "RF", 0.92, 0.02, "{}"),
+        ]
+        mock_cursor.fetchall.side_effect = [
+            [("HIGH", 10), ("MEDIUM", 30), ("LOW", 60)],
+            [("2025-01-01T00:00:00", 0.3, 0.9, "LOW")],
+            [("EXP001", "2025-01-01", "RF", 0.92, 0.02, "{}")],
+            [(0.9,)],
+            [("HIGH", 10, 0.75, 0.85), ("LOW", 90, 0.15, 0.92)],
+            [('[{"feature": "cpu", "importance": 0.5}]',)],
+        ]
+
+        # _generate_plotly_graphsをモック
+        with patch.object(dashboard, "_generate_plotly_graphs", return_value={"test_plot": "/path/to/plot.html"}):
+            result = dashboard.generate_comprehensive_dashboard(hours=24, include_plots=True)
+
+        assert "plots" in result["sections"]
+        captured = capsys.readouterr()
+        assert "インタラクティブグラフ生成" in captured.out
+
+
+class TestMainFunctionWithPlots:
+    """main関数 --plots フラグテスト"""
+
+    @patch("src.advanced_trend_dashboard.dashboard.PLOTLY_AVAILABLE", True)
+    @patch("src.advanced_trend_dashboard.dashboard.AdvancedTrendDashboard")
+    @patch("sys.argv", ["prog", "--generate", "--plots"])
+    def test_generate_with_plots_flag(self, mock_dashboard_class, capsys):
+        """--generate --plotsフラグでプロット情報を表示"""
+        from src.advanced_trend_dashboard import main
+
+        mock_dashboard = MagicMock()
+        mock_dashboard.generate_comprehensive_dashboard.return_value = {
+            "sections": {
+                "plots": {
+                    "prediction_trends": "/path/to/prediction.html",
+                    "risk_distribution": "/path/to/risk.html",
+                }
+            }
+        }
+        mock_dashboard_class.return_value = mock_dashboard
+
+        main()
+
+        mock_dashboard.generate_comprehensive_dashboard.assert_called_once_with(hours=24, include_plots=True)
+        captured = capsys.readouterr()
+        assert "インタラクティブグラフ" in captured.out
+        assert "prediction_trends" in captured.out
+
+    @patch("src.advanced_trend_dashboard.dashboard.PLOTLY_AVAILABLE", True)
+    @patch("src.advanced_trend_dashboard.dashboard.AdvancedTrendDashboard")
+    @patch("sys.argv", ["prog", "--generate", "--hours", "48", "--plots"])
+    def test_generate_with_custom_hours_and_plots(self, mock_dashboard_class, capsys):
+        """--hours 48 --plotsフラグ"""
+        from src.advanced_trend_dashboard import main
+
+        mock_dashboard = MagicMock()
+        mock_dashboard.generate_comprehensive_dashboard.return_value = {
+            "sections": {"plots": {"test": "/path/to/test.html"}}
+        }
+        mock_dashboard_class.return_value = mock_dashboard
+
+        main()
+
+        mock_dashboard.generate_comprehensive_dashboard.assert_called_once_with(hours=48, include_plots=True)

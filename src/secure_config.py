@@ -3,6 +3,7 @@ Secure configuration management for Ultra Think Project.
 Handles environment variables and credential loading safely.
 """
 
+import json
 import logging
 import os
 from pathlib import Path
@@ -33,7 +34,7 @@ class SecureConfig:
                         if line and not line.startswith("#") and "=" in line:
                             key, value = line.split("=", 1)
                             os.environ.setdefault(key.strip(), value.strip())
-            except Exception as e:
+            except (PermissionError, UnicodeDecodeError, ValueError) as e:
                 logger.warning(f"Failed to load .env file: {e}")
 
     def _validate_required_vars(self) -> None:
@@ -99,7 +100,7 @@ class SecureConfig:
             scopes = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file"]
             credentials = service_account.Credentials.from_service_account_file(creds_path, scopes=scopes)
             return credentials
-        except Exception as e:
+        except (FileNotFoundError, PermissionError, ValueError, json.JSONDecodeError) as e:
             logger.error(f"Failed to load Google credentials: {e}")
             return None
 
@@ -117,7 +118,7 @@ class SecureConfig:
         except ImportError:
             logger.error("firebase_admin not installed")
             return None
-        except Exception as e:
+        except (FileNotFoundError, PermissionError, ValueError, json.JSONDecodeError) as e:
             logger.error(f"Failed to load Firebase credentials: {e}")
             return None
 

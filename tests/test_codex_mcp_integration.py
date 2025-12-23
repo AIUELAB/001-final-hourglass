@@ -178,9 +178,7 @@ class TestCodexMCPLauncherStart:
         mock_process.poll.return_value = None
         mock_popen.return_value = mock_process
 
-        launcher = CodexMCPLauncher(
-            codex_path="/usr/bin/codex", extra_args=["--verbose", "--debug"]
-        )
+        launcher = CodexMCPLauncher(codex_path="/usr/bin/codex", extra_args=["--verbose", "--debug"])
         launcher.start()
 
         call_args = mock_popen.call_args
@@ -317,9 +315,7 @@ class TestSmokeTest:
     @patch("codex_mcp_integration._find_codex_path")
     @patch("codex_mcp_integration._ensure_env_safe")
     @patch("codex_mcp_integration.CodexMCPLauncher")
-    def test_smoke_test_process_dies_immediately(
-        self, mock_launcher_class, mock_env, mock_find, capsys
-    ):
+    def test_smoke_test_process_dies_immediately(self, mock_launcher_class, mock_env, mock_find, capsys):
         """プロセスが即座に終了"""
         mock_find.return_value = "/usr/bin/codex"
 
@@ -336,9 +332,7 @@ class TestSmokeTest:
     @patch("codex_mcp_integration._find_codex_path")
     @patch("codex_mcp_integration._ensure_env_safe")
     @patch("codex_mcp_integration.CodexMCPLauncher")
-    def test_smoke_test_process_terminates_early(
-        self, mock_launcher_class, mock_env, mock_find, capsys
-    ):
+    def test_smoke_test_process_terminates_early(self, mock_launcher_class, mock_env, mock_find, capsys):
         """プロセスが早期終了"""
         mock_find.return_value = "/usr/bin/codex"
 
@@ -357,9 +351,7 @@ class TestSmokeTest:
     @patch("codex_mcp_integration._find_codex_path")
     @patch("codex_mcp_integration._ensure_env_safe")
     @patch("codex_mcp_integration.CodexMCPLauncher")
-    def test_smoke_test_unexpected_exception(
-        self, mock_launcher_class, mock_env, mock_find, capsys
-    ):
+    def test_smoke_test_unexpected_exception(self, mock_launcher_class, mock_env, mock_find, capsys):
         """予期せぬ例外"""
         mock_find.return_value = "/usr/bin/codex"
         mock_launcher = MagicMock()
@@ -388,16 +380,12 @@ class TestSmokeTest:
         result = smoke_test(duration_seconds=0.1, extra_args=["--verbose"])
 
         assert result is True
-        mock_launcher_class.assert_called_once_with(
-            codex_path="/usr/bin/codex", extra_args=["--verbose"]
-        )
+        mock_launcher_class.assert_called_once_with(codex_path="/usr/bin/codex", extra_args=["--verbose"])
 
     @patch("codex_mcp_integration._find_codex_path")
     @patch("codex_mcp_integration._ensure_env_safe")
     @patch("codex_mcp_integration.CodexMCPLauncher")
-    def test_smoke_test_finally_calls_stop(
-        self, mock_launcher_class, mock_env, mock_find
-    ):
+    def test_smoke_test_finally_calls_stop(self, mock_launcher_class, mock_env, mock_find):
         """例外発生時もstopが呼ばれる"""
         mock_find.return_value = "/usr/bin/codex"
 

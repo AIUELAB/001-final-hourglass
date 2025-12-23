@@ -428,15 +428,9 @@ class TestGlobalFunctions:
             # グローバル変数をリセット
             session_manager._session_manager = None
 
-            with patch.object(
-                session_manager.SessionManager, "__init__", return_value=None
-            ) as mock_init:
-                with patch.object(
-                    session_manager.SessionManager, "start_auto_save"
-                ) as mock_auto_save:
-                    with patch.object(
-                        session_manager.SessionManager, "restore_session"
-                    ):
+            with patch.object(session_manager.SessionManager, "__init__", return_value=None) as mock_init:
+                with patch.object(session_manager.SessionManager, "start_auto_save") as mock_auto_save:
+                    with patch.object(session_manager.SessionManager, "restore_session"):
                         mock_init.return_value = None
                         # 直接テスト
                         pass

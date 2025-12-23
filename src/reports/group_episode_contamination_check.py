@@ -139,74 +139,77 @@ def load_csv() -> pd.DataFrame:
     return pd.read_csv(csv_path, encoding="utf-8-sig", low_memory=False)
 
 
-def check_pattern_a(df: pd.DataFrame) -> list:
+def check_pattern_a(df: pd.DataFrame) -> list[dict[str, Any]]:
     """A: is_group_member=True なのに group_name が空（または逆）"""
-    issues = []
+    issues: list[dict[str, Any]] = []
 
-    for _, row in df.iterrows():
-        is_member = str(row.get("is_group_member", "")).upper() == "TRUE"
-        group_name = str(row.get("group_name", "")).strip()
-        has_group = group_name and group_name.lower() not in ["nan", ""]
+    # ベクトル化: is_member フラグ
+    is_member_col = df["is_group_member"].fillna("").astype(str).str.upper() == "TRUE"
 
-        if is_member and not has_group:
-            issues.append(
-                {
-                    "pattern": "A1",
-                    "description": "is_group_member=True but group_name is empty",
-                    "episode_id": row.get("episode_id", ""),
-                    "person_id": row.get("person_id", ""),
-                    "person_name": row.get("person_name", ""),
-                    "is_group_member": is_member,
-                    "group_name": group_name,
-                }
-            )
-        elif has_group and not is_member:
-            issues.append(
-                {
-                    "pattern": "A2",
-                    "description": "group_name exists but is_group_member=False",
-                    "episode_id": row.get("episode_id", ""),
-                    "person_id": row.get("person_id", ""),
-                    "person_name": row.get("person_name", ""),
-                    "is_group_member": is_member,
-                    "group_name": group_name,
-                }
-            )
+    # ベクトル化: has_group フラグ
+    group_name_col = df["group_name"].fillna("").astype(str).str.strip()
+    has_group_col = (group_name_col != "") & (group_name_col.str.lower() != "nan")
+
+    # A1: is_member=True かつ has_group=False
+    mask_a1 = is_member_col & ~has_group_col
+    if mask_a1.any():
+        a1_rows = df.loc[mask_a1, ["episode_id", "person_id", "person_name"]].copy()
+        a1_rows["is_group_member"] = True
+        a1_rows["group_name"] = group_name_col[mask_a1]
+        a1_rows["pattern"] = "A1"
+        a1_rows["description"] = "is_group_member=True but group_name is empty"
+        issues.extend(a1_rows.to_dict("records"))
+
+    # A2: has_group=True かつ is_member=False
+    mask_a2 = has_group_col & ~is_member_col
+    if mask_a2.any():
+        a2_rows = df.loc[mask_a2, ["episode_id", "person_id", "person_name"]].copy()
+        a2_rows["is_group_member"] = False
+        a2_rows["group_name"] = group_name_col[mask_a2]
+        a2_rows["pattern"] = "A2"
+        a2_rows["description"] = "group_name exists but is_group_member=False"
+        issues.extend(a2_rows.to_dict("records"))
 
     return issues
 
 
-def check_pattern_b(df: pd.DataFrame) -> list:
+def check_pattern_b(df: pd.DataFrame) -> list[dict[str, Any]]:
     """B: 同一person_id で group_name/is_group_member が不整合"""
-    issues = []
-    id_to_info: dict[str, dict[str, Any]] = defaultdict(lambda: {"group_names": set(), "is_members": set(), "rows": []})
+    issues: list[dict[str, Any]] = []
 
-    for _, row in df.iterrows():
-        person_id = str(row.get("person_id", ""))
-        if not person_id or person_id == "nan":
-            continue
+    # 前処理: 有効な person_id のみ抽出
+    df_valid = df[df["person_id"].notna() & (df["person_id"].astype(str) != "nan")].copy()
+    if df_valid.empty:
+        return issues
 
-        group_name = str(row.get("group_name", "")) if pd.notna(row.get("group_name")) else ""
-        is_member = str(row.get("is_group_member", "")).upper() == "TRUE"
+    # ベクトル化: 列の正規化
+    df_valid["_person_id"] = df_valid["person_id"].astype(str)
+    df_valid["_group_name"] = df_valid["group_name"].fillna("").astype(str).replace("", "(empty)")
+    df_valid["_is_member"] = df_valid["is_group_member"].fillna("").astype(str).str.upper() == "TRUE"
 
-        id_to_info[person_id]["group_names"].add(group_name if group_name else "(empty)")
-        id_to_info[person_id]["is_members"].add(str(is_member))
-        id_to_info[person_id]["rows"].append(row)
+    # groupby で集約
+    grouped = df_valid.groupby("_person_id").agg(
+        person_name=("person_name", "first"),
+        group_names=("_group_name", lambda x: set(x)),
+        is_members=("_is_member", lambda x: set(x.astype(str))),
+        episode_count=("episode_id", "count"),
+    )
 
-    for person_id, info in id_to_info.items():
-        if len(info["group_names"]) > 1 or len(info["is_members"]) > 1:
-            sample_row = info["rows"][0]
-            issues.append(
-                {
-                    "pattern": "B",
-                    "description": "Inconsistent group_name/is_group_member for same person_id",
-                    "person_id": person_id,
-                    "person_name": sample_row.get("person_name", ""),
-                    "group_names": list(info["group_names"]),
-                    "is_members": list(info["is_members"]),
-                    "episode_count": len(info["rows"]),
-                }
-            )
+    # 不整合検出: group_names または is_members に複数の値がある
+    inconsistent = grouped[(grouped["group_names"].apply(len) > 1) | (grouped["is_members"].apply(len) > 1)]
+
+    for person_id, row in inconsistent.iterrows():
+        issues.append(
+            {
+                "pattern": "B",
+                "description": "Inconsistent group_name/is_group_member for same person_id",
+                "person_id": person_id,
+                "person_name": row["person_name"],
+                "group_names": list(row["group_names"]),
+                "is_members": list(row["is_members"]),
+                "episode_count": row["episode_count"],
+            }
+        )
 
     return issues
 
@@ -214,13 +217,15 @@ def check_pattern_b(df: pd.DataFrame) -> list:
 def check_pattern_c(df: pd.DataFrame) -> list:
     """C: person_name が団体パターン（末尾: グループ/劇団/楽団/会社等）"""
     issues = []
-    checked_names: set[str] = set()
 
-    for _, row in df.iterrows():
-        person_name = str(row.get("person_name", ""))
-        if not person_name or person_name in checked_names:
+    # ユニーク名とエピソード数を事前計算
+    name_counts = df["person_name"].value_counts()
+    unique_names = df.drop_duplicates(subset=["person_name"])[["person_name", "person_id", "episode_id"]]
+
+    for _, row in unique_names.iterrows():
+        person_name = str(row["person_name"]) if pd.notna(row["person_name"]) else ""
+        if not person_name:
             continue
-        checked_names.add(person_name)
 
         matched_suffix = _match_org_suffix(person_name)
         if not matched_suffix:
@@ -230,16 +235,15 @@ def check_pattern_c(df: pd.DataFrame) -> list:
         if any(person_name.endswith(ep) for ep in EXCLUDE_PERSON_SUFFIXES):
             continue
 
-        sample = df[df["person_name"] == person_name].iloc[0]
         issues.append(
             {
                 "pattern": "C",
                 "description": f"Organization suffix detected: {matched_suffix}",
                 "person_name": person_name,
-                "person_id": sample.get("person_id", ""),
-                "episode_id": sample.get("episode_id", ""),
+                "person_id": row["person_id"],
+                "episode_id": row["episode_id"],
                 "matched_suffix": matched_suffix,
-                "episode_count": len(df[df["person_name"] == person_name]),
+                "episode_count": name_counts.get(person_name, 0),
             }
         )
 
@@ -283,35 +287,38 @@ def check_pattern_d(df: pd.DataFrame) -> list:
     ]
 
     separators = ["・", "／", "/", "｜", "|"]
-    checked_names = set()
 
-    for _, row in df.iterrows():
-        person_name = str(row.get("person_name", ""))
-        if not person_name or person_name in checked_names:
+    # ユニーク名で処理（drop_duplicates使用）
+    unique_names = df.drop_duplicates(subset=["person_name"])[["person_name", "person_id", "episode_id"]]
+
+    for _, row in unique_names.iterrows():
+        person_name = str(row["person_name"]) if pd.notna(row["person_name"]) else ""
+        if not person_name:
             continue
-        checked_names.add(person_name)
 
         for sep in separators:
             if sep in person_name:
                 parts = person_name.split(sep)
+                matched = False
                 for part in parts:
                     for kw in org_keywords:
                         if kw.lower() in part.lower():
-                            sample = df[df["person_name"] == person_name].iloc[0]
                             issues.append(
                                 {
                                     "pattern": "D",
                                     "description": f"Organization+Person mixed: contains '{kw}'",
                                     "person_name": person_name,
-                                    "person_id": sample.get("person_id", ""),
-                                    "episode_id": sample.get("episode_id", ""),
+                                    "person_id": row["person_id"],
+                                    "episode_id": row["episode_id"],
                                     "separator": sep,
                                     "matched_keyword": kw,
                                 }
                             )
+                            matched = True
                             break
-                    else:
-                        continue
+                    if matched:
+                        break
+                if matched:
                     break
 
     return issues
@@ -349,24 +356,25 @@ def check_pattern_e(df: pd.DataFrame) -> list:
         r".*（ゲーム）$",
     ]
 
-    checked_names = set()
+    all_patterns = item_patterns + work_patterns
 
-    for _, row in df.iterrows():
-        person_name = str(row.get("person_name", ""))
-        if not person_name or person_name in checked_names:
+    # ユニーク名で処理（drop_duplicates使用）
+    unique_names = df.drop_duplicates(subset=["person_name"])[["person_name", "person_id", "episode_id"]]
+
+    for _, row in unique_names.iterrows():
+        person_name = str(row["person_name"]) if pd.notna(row["person_name"]) else ""
+        if not person_name:
             continue
-        checked_names.add(person_name)
 
-        for pattern in item_patterns + work_patterns:
+        for pattern in all_patterns:
             if re.match(pattern, person_name):
-                sample = df[df["person_name"] == person_name].iloc[0]
                 issues.append(
                     {
                         "pattern": "E",
                         "description": f"Item/Work name pattern: {pattern}",
                         "person_name": person_name,
-                        "person_id": sample.get("person_id", ""),
-                        "episode_id": sample.get("episode_id", ""),
+                        "person_id": row["person_id"],
+                        "episode_id": row["episode_id"],
                         "matched_pattern": pattern,
                     }
                 )

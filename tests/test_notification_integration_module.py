@@ -543,3 +543,165 @@ class TestNotifyAutomationTask:
 
         assert result == "backup complete"
         mock_play.assert_called()
+
+
+class TestGetIntEnvValueError:
+    """_get_int_env ValueError テスト（カバレッジ向上用）"""
+
+    @patch.dict(os.environ, {"REPEAT_ERROR_NOTIFICATIONS": "not_a_number"})
+    def test_int_env_invalid_returns_default(self):
+        """無効な整数環境変数はデフォルト値を返す"""
+        from src.notification_integration import NotificationConfig
+
+        config = NotificationConfig()
+        # 無効な値の場合、デフォルト値(2)が返る
+        assert config.repeat_error == 2
+
+    @patch.dict(os.environ, {"REPEAT_SUCCESS_NOTIFICATIONS": "abc"})
+    def test_int_env_invalid_success_repeat(self):
+        """成功リピートの無効値"""
+        from src.notification_integration import NotificationConfig
+
+        config = NotificationConfig()
+        assert config.repeat_success == 1
+
+    @patch.dict(os.environ, {"REPEAT_WARNING_NOTIFICATIONS": ""})
+    def test_int_env_empty_string(self):
+        """空文字列の場合"""
+        from src.notification_integration import NotificationConfig
+
+        config = NotificationConfig()
+        assert config.repeat_warning == 1
+
+
+class TestGetConfiguredNotificationSystemInit:
+    """get_configured_notification_system 初期化テスト（カバレッジ向上用）"""
+
+    def test_creates_new_system_when_none(self):
+        """グローバル変数がNoneの時に新規作成"""
+        import src.notification_integration as ni
+
+        # グローバル変数をリセット
+        original_system = ni.notification_system
+        ni.notification_system = None
+
+        try:
+            system = ni.get_configured_notification_system()
+            assert system is not None
+            assert isinstance(system, ni.AudioNotificationSystem)
+        finally:
+            ni.notification_system = original_system
+
+    def test_returns_existing_system(self):
+        """既存システムがある場合は再利用"""
+        import src.notification_integration as ni
+
+        # 一度システムを取得
+        system1 = ni.get_configured_notification_system()
+        # 再度取得
+        system2 = ni.get_configured_notification_system()
+        # 同じインスタンスであることを確認
+        assert system1 is system2
+
+
+class TestPlayNotificationRepeatBranches:
+    """play_notification repeat分岐テスト（カバレッジ向上用）"""
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_info_default_repeat(self, mock_config, mock_get_system, mock_should):
+        """INFO通知のデフォルトrepeat=1"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.INFO)
+
+        assert result is True
+        # repeat=1でplay_notificationが呼ばれる
+        mock_system.play_notification.assert_called_once()
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_waiting_default_repeat(self, mock_config, mock_get_system, mock_should):
+        """WAITING通知のデフォルトrepeat=1"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.WAITING)
+
+        assert result is True
+        mock_system.play_notification.assert_called_once()
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_progress_default_repeat(self, mock_config, mock_get_system, mock_should):
+        """PROGRESS通知のデフォルトrepeat=1"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.PROGRESS)
+
+        assert result is True
+        mock_system.play_notification.assert_called_once()
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_task_start_default_repeat(self, mock_config, mock_get_system, mock_should):
+        """TASK_START通知のデフォルトrepeat=1"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.TASK_START)
+
+        assert result is True
+        mock_system.play_notification.assert_called_once()
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_task_complete_default_repeat(self, mock_config, mock_get_system, mock_should):
+        """TASK_COMPLETE通知のデフォルトrepeat=1"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.TASK_COMPLETE)
+
+        assert result is True
+        mock_system.play_notification.assert_called_once()
+
+    @patch("src.notification_integration.should_notify", return_value=True)
+    @patch("src.notification_integration.get_configured_notification_system")
+    @patch("src.notification_integration.config")
+    def test_play_notification_with_explicit_repeat(self, mock_config, mock_get_system, mock_should):
+        """明示的なrepeat指定"""
+        from src.notification_integration import NotificationType, play_notification
+
+        mock_system = MagicMock()
+        mock_system.play_notification.return_value = True
+        mock_get_system.return_value = mock_system
+
+        result = play_notification(NotificationType.INFO, repeat=3)
+
+        assert result is True
+        # repeat=3が渡される
+        call_args = mock_system.play_notification.call_args
+        assert call_args[0][2] == 3  # 3番目の引数がrepeat

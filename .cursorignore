@@ -60,6 +60,10 @@ deletion_backups/
 emergency_backups/
 cache/
 
+# 例外: マスターCSVは品質ゲート/修正作業で参照するため許可する
+# - それ以外の大量CSVは引き続き除外（LSP/インデクサ過負荷防止）
+!preserved/data/MASTER_EPISODES_CURRENT.csv
+
 # iOS specific
 ios-apps/
 Pods/

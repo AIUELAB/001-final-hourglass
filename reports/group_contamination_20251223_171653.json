@@ -1,0 +1,291 @@
+{
+  "timestamp": "2025-12-23T17:16:50.864489",
+  "total_records": 11262,
+  "unique_persons": 7399,
+  "patterns": {
+    "A": {
+      "name": "is_group_member/group_name 不整合",
+      "count": 2513,
+      "samples": [
+        {
+          "episode_id": "E0AB589A3",
+          "person_id": "P766B4C0",
+          "person_name": "ムーティ",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E0ADC8F95",
+          "person_id": "PDE8D948",
+          "person_name": "朝永振一郎",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E0F655FEF",
+          "person_id": "P33DB5A0",
+          "person_name": "瀬戸内寂聴",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E1406368E",
+          "person_id": "P1E93EED",
+          "person_name": "横山大観",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E150C556C",
+          "person_id": "P417473C",
+          "person_name": "ジョン・ケージ",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E1518BD47",
+          "person_id": "P5578985",
+          "person_name": "南部陽一郎",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E167883E9",
+          "person_id": "PD80FDA9",
+          "person_name": "養老孟司",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E1BFCCD8E",
+          "person_id": "PEC562D3",
+          "person_name": "アルフレート・ブレンデル",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E1C50654F",
+          "person_id": "P0DBEFC8",
+          "person_name": "パット・メセニー",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        },
+        {
+          "episode_id": "E1C5277B4",
+          "person_id": "PBB3B79B",
+          "person_name": "湯川秀樹",
+          "is_group_member": false,
+          "group_name": "未登録",
+          "pattern": "A2",
+          "description": "group_name exists but is_group_member=False"
+        }
+      ]
+    },
+    "B": {
+      "name": "同一person_idで不整合",
+      "count": 12,
+      "samples": [
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "P11C6BE5",
+          "person_name": "秋吉敏子",
+          "group_names": [
+            "ロサンゼルス・タバキン・ビッグバンド",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 3
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "P1F7C9F8",
+          "person_name": "アート・ブレイキー",
+          "group_names": [
+            "ジャズ・メッセンジャーズ",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 3
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "P3C4603A",
+          "person_name": "世界のナベアツ",
+          "group_names": [
+            "世界のナベアツ",
+            "ジャリズム"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 2
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "P6FA490C",
+          "person_name": "天海祐希",
+          "group_names": [
+            "宝塚歌劇団",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 4
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "P90E4AC0",
+          "person_name": "浅利慶太",
+          "group_names": [
+            "劇団四季",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 2
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "P9875363",
+          "person_name": "松本隆",
+          "group_names": [
+            "はっぴいえんど",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 3
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "PA6C8748",
+          "person_name": "松任谷由実",
+          "group_names": [
+            "ソロ",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 3
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "PDB8672B",
+          "person_name": "安室奈美恵",
+          "group_names": [
+            "SUPER MONKEY'S",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 5
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "PDBE9D52",
+          "person_name": "孫悟空",
+          "group_names": [
+            "Z戦士",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 4
+        },
+        {
+          "pattern": "B",
+          "description": "Inconsistent group_name/is_group_member for same person_id",
+          "person_id": "PDE55A4B",
+          "person_name": "林家木久扇",
+          "group_names": [
+            "笑点メンバー",
+            "未登録"
+          ],
+          "is_members": [
+            "True"
+          ],
+          "episode_count": 4
+        }
+      ]
+    },
+    "C": {
+      "name": "団体名パターン検出",
+      "count": 0,
+      "samples": []
+    },
+    "D": {
+      "name": "組織・個人混在",
+      "count": 0,
+      "samples": []
+    },
+    "E": {
+      "name": "作品名/道具名パターン",
+      "count": 2,
+      "samples": [
+        {
+          "pattern": "E",
+          "description": "Item/Work name pattern: .*ツール$",
+          "person_name": "ルイ・パスツール",
+          "person_id": "P1B0144C",
+          "episode_id": "EP-000000719",
+          "matched_pattern": ".*ツール$"
+        },
+        {
+          "pattern": "E",
+          "description": "Item/Work name pattern: .*ツール$",
+          "person_name": "パスツール",
+          "person_id": "PB062B18",
+          "episode_id": "EP-000006266",
+          "matched_pattern": ".*ツール$"
+        }
+      ]
+    },
+    "F": {
+      "name": "GROUP_ENTITIES混入",
+      "count": 0,
+      "samples": []
+    },
+    "G": {
+      "name": "GROUP_MEMBER_MAP不整合",
+      "count": 0,
+      "samples": []
+    }
+  }
+}

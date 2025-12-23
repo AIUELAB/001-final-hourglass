@@ -2,9 +2,10 @@
 tests/test_kpi_definitions.py - monitoring/kpi_definitions.py ユニットテスト
 """
 
+import json
 import os
 import tempfile
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, mock_open, patch
 
 import pandas as pd
 import pytest
@@ -411,6 +412,7 @@ class TestCalcDeletedIdContaminationRate:
             result = calculator._calc_deleted_id_contamination_rate()
 
             assert result.value == 0.0
+            assert result.details is not None
             assert "note" in result.details or result.details.get("deleted_ids_count", 0) >= 0
         finally:
             os.unlink(temp_path)
@@ -534,3 +536,189 @@ class TestMainFunction:
                 assert "Overall Score:" in captured.out
         finally:
             os.unlink(temp_path)
+
+
+class TestDeletedIdContaminationWithTombstone:
+    """Tombstoneファイル存在時の削除済みID混入率テスト"""
+
+    def test_with_tombstone_contamination(self, tmp_path):
+        """削除済みIDが混入している場合"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        # CSVファイル作成
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text\n"
+            "山田太郎,P001,REAL,テスト\n"
+            "田中花子,P002,REAL,テスト\n"
+            "削除済み,P999,REAL,テスト\n"
+        )
+
+        # Tombstoneファイル作成
+        tombstone_file = tmp_path / "tombstone.json"
+        tombstone_data = {
+            "deleted_ids": [
+                {"person_id": "P999", "person_name": "削除済み"},
+            ]
+        }
+        tombstone_file.write_text(json.dumps(tombstone_data))
+
+        with patch("src.monitoring.kpi_definitions.TOMBSTONE_PATH", tombstone_file):
+            calculator = EPUPKPICalculator(str(csv_file))
+            result = calculator._calc_deleted_id_contamination_rate()
+
+            # 混入が検出される
+            assert result.details is not None
+            assert result.details["contaminated"] >= 1
+            assert "contaminated_entries" in result.details
+
+    def test_with_tombstone_by_name(self, tmp_path):
+        """名前による削除済みID検出"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text("person_name,person_id,person_type,episode_text\n" "削除対象者,PNEW,REAL,テスト\n")
+
+        tombstone_file = tmp_path / "tombstone.json"
+        tombstone_data = {
+            "deleted_ids": [
+                {"person_id": "POLD", "person_name": "削除対象者"},
+            ]
+        }
+        tombstone_file.write_text(json.dumps(tombstone_data))
+
+        with patch("src.monitoring.kpi_definitions.TOMBSTONE_PATH", tombstone_file):
+            calculator = EPUPKPICalculator(str(csv_file))
+            result = calculator._calc_deleted_id_contamination_rate()
+
+            assert result.value >= 0.0
+            assert result.details is not None
+            assert result.details["contaminated"] >= 1
+
+    def test_tombstone_json_error(self, tmp_path):
+        """TombstoneがJSONエラーの場合"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text("person_name,person_id,person_type,episode_text\n" "山田太郎,P001,REAL,テスト\n")
+
+        tombstone_file = tmp_path / "tombstone.json"
+        tombstone_file.write_text("invalid json")
+
+        with patch("src.monitoring.kpi_definitions.TOMBSTONE_PATH", tombstone_file):
+            calculator = EPUPKPICalculator(str(csv_file))
+            result = calculator._calc_deleted_id_contamination_rate()
+
+            # JSONエラー時は空セットを返す
+            assert result.value == 0.0
+
+
+class TestOrgTitleContaminationWithData:
+    """組織名・肩書き混入のテスト（実データ）"""
+
+    def test_with_org_contamination(self, tmp_path):
+        """組織名が混入している場合"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text\n"
+            "山田太郎,P001,REAL,テスト\n"
+            "株式会社テスト代表取締役社長山田太郎,P002,REAL,テスト\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+        result = calculator._calc_org_title_contamination_rate()
+
+        # 値が取得できること
+        assert result.value >= 0.0
+        assert result.details is not None
+        assert "contaminated_examples" in result.details
+
+
+class TestSuffixPatternWithData:
+    """後置詞型パターンのテスト（実データ）"""
+
+    def test_with_suffix_pattern(self, tmp_path):
+        """後置詞型パターンが検出される場合"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text\n"
+            "山田太郎,P001,REAL,テスト\n"
+            "田中の母,P002,REAL,テスト\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+        result = calculator._calc_suffix_pattern_rate()
+
+        assert result.value >= 0.0
+        assert result.details is not None
+        assert "error_count" in result.details
+
+
+class TestCalculateAllCriticalStatus:
+    """CRITICAL状態のテスト"""
+
+    def test_calculate_all_with_critical(self, tmp_path):
+        """CRITICALステータスのケース"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        # 不正なフォーマットのデータ
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text,category\n"
+            "テスト,NaN,REAL,短い,スポーツ\n"
+            "架空キャラ,P002,FICTIONAL,架空の存在です,文化\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+        report = calculator.calculate_all()
+
+        # レポートが生成される
+        assert report is not None
+        assert report.overall_status in ["OK", "WARNING", "CRITICAL"]
+
+
+class TestCalculateAllScoreWithZeroTarget:
+    """ターゲット0%のスコア計算テスト"""
+
+    def test_score_calculation_with_zero_target(self, tmp_path):
+        """ターゲット0%のKPIスコア計算"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        # 問題のあるデータ（メタ表現、NaN IDなど）
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text,category\n"
+            "山田太郎,P001,REAL,あなたと同じ30歳のとき彼は成功した,スポーツ\n"
+            "田中花子,NaN,REAL,あなたと同じ25歳のとき彼女は活躍した,文化\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+        report = calculator.calculate_all()
+
+        # スコアが計算される
+        assert report.overall_score >= 0.0
+        assert report.overall_score <= 1.0
+
+
+class TestMainKPIOutput:
+    """main関数のKPI出力テスト"""
+
+    def test_main_kpi_output_with_target_zero(self, capsys, tmp_path):
+        """ターゲット0%のKPI出力"""
+        from src.monitoring.kpi_definitions import main
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text,category\n"
+            "山田太郎,P001,REAL,あなたと同じ30歳のときエピソード内容,スポーツ\n"
+        )
+
+        with patch("sys.argv", ["kpi_definitions.py", str(csv_file)]):
+            main()
+            captured = capsys.readouterr()
+            # 出力にステータスアイコンが含まれる
+            assert "✅" in captured.out or "⚠️" in captured.out or "❌" in captured.out

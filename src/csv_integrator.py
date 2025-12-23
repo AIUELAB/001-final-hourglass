@@ -148,34 +148,49 @@ class CSVIntegrator:
             >>> print(df_with_ids[["episode_id", "person_id"]])
         """
 
-        def generate_episode_id(row: pd.Series) -> str:
-            """episode_id生成（person_name + age + episode_textの一部）"""
-            key = f"{row['person_name']}_{row['age']}_{str(row.get('episode_text', ''))[:50]}"
+        def _hash_to_episode_id(key: str) -> str:
+            """文字列キーからepisode_idを生成"""
             hash_obj = hashlib.md5(key.encode("utf-8"), usedforsecurity=False)
             return "E" + hash_obj.hexdigest()[:8].upper()
 
-        def generate_person_id(row: pd.Series) -> str:
-            """person_id生成（person_nameからMD5ハッシュ）"""
-            key = str(row["person_name"])
+        def _hash_to_person_id(key: str) -> str:
+            """文字列キーからperson_idを生成"""
             hash_obj = hashlib.md5(key.encode("utf-8"), usedforsecurity=False)
             return "P" + hash_obj.hexdigest()[:7].upper()
 
+        def _generate_episode_ids_vectorized(df_subset: pd.DataFrame) -> pd.Series:
+            """ベクトル化: episode_id一括生成"""
+            # 文字列連結をベクトル化
+            keys = (
+                df_subset["person_name"].astype(str)
+                + "_"
+                + df_subset["age"].astype(str)
+                + "_"
+                + df_subset["episode_text"].fillna("").astype(str).str[:50]
+            )
+            return keys.apply(_hash_to_episode_id)
+
+        def _generate_person_ids_vectorized(df_subset: pd.DataFrame) -> pd.Series:
+            """ベクトル化: person_id一括生成"""
+            keys = df_subset["person_name"].astype(str)
+            return keys.apply(_hash_to_person_id)
+
         # IDカラムが存在しない場合、または空文字/NaNの場合は生成
         if "episode_id" not in df.columns:
-            df["episode_id"] = df.apply(generate_episode_id, axis=1)
+            df["episode_id"] = _generate_episode_ids_vectorized(df)
         else:
             # 既存の空文字またはNaNを上書き
             mask = df["episode_id"].isna() | (df["episode_id"] == "")
             if mask.any():
-                df.loc[mask, "episode_id"] = df[mask].apply(generate_episode_id, axis=1)
+                df.loc[mask, "episode_id"] = _generate_episode_ids_vectorized(df[mask])
 
         if "person_id" not in df.columns:
-            df["person_id"] = df.apply(generate_person_id, axis=1)
+            df["person_id"] = _generate_person_ids_vectorized(df)
         else:
             # 既存の空文字またはNaNを上書き
             mask = df["person_id"].isna() | (df["person_id"] == "")
             if mask.any():
-                df.loc[mask, "person_id"] = df[mask].apply(generate_person_id, axis=1)
+                df.loc[mask, "person_id"] = _generate_person_ids_vectorized(df[mask])
 
         return df
 

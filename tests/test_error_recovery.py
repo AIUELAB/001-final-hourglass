@@ -365,3 +365,177 @@ class TestDisplayError:
 
         # consoleが呼ばれたことを確認
         mock_console.print.assert_called()
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_display_error_with_traceback(self, mock_console, mock_session):
+        """トレースバック付きエラー表示"""
+        from error_recovery import ErrorRecovery
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        recovery = ErrorRecovery()
+        error = ValueError("test error with traceback")
+        recovery.display_error(error, context="test context", show_traceback=True)
+
+        # consoleが呼ばれたことを確認
+        mock_console.print.assert_called()
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_display_error_no_context(self, mock_console, mock_session):
+        """コンテキストなしでエラー表示"""
+        from error_recovery import ErrorRecovery
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        recovery = ErrorRecovery()
+        error = ValueError("test error no context")
+        recovery.display_error(error, context="", show_traceback=False)
+
+        # consoleが呼ばれたことを確認
+        mock_console.print.assert_called()
+
+
+class TestErrorHandlerRecoveryFailed:
+    """ErrorHandler復旧失敗テスト"""
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_recovery_action_fails(self, mock_console, mock_session):
+        """復旧アクションが失敗した場合"""
+        from error_recovery import ErrorHandler
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        # 常に失敗する復旧アクション
+        def failing_recovery():
+            raise ValueError("Recovery failed")
+
+        with ErrorHandler(context="test", suppress=True, recovery_action=failing_recovery, show_traceback=False):
+            raise ValueError("Original error")
+
+
+class TestSetupGlobalExceptionHandler:
+    """setup_global_exception_handler テスト"""
+
+    def test_setup_changes_excepthook(self):
+        """sys.excepthookが変更される"""
+        import sys
+
+        from error_recovery import setup_global_exception_handler
+
+        original_hook = sys.excepthook
+
+        try:
+            setup_global_exception_handler()
+            # excepthookが変更されたことを確認
+            assert sys.excepthook != original_hook
+        finally:
+            # 元に戻す
+            sys.excepthook = original_hook
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_exception_handler_keyboard_interrupt(self, mock_console, mock_session):
+        """KeyboardInterruptは通常通り処理"""
+        import sys
+
+        from error_recovery import setup_global_exception_handler
+
+        mock_manager = MagicMock()
+        mock_session.return_value = mock_manager
+
+        original_hook = sys.excepthook
+
+        try:
+            setup_global_exception_handler()
+            handler = sys.excepthook
+
+            # KeyboardInterruptをシミュレート
+            with patch.object(sys, "__excepthook__") as mock_default_hook:
+                handler(KeyboardInterrupt, KeyboardInterrupt(), None)
+                # 標準のexcepthookが呼ばれる
+                mock_default_hook.assert_called_once()
+        finally:
+            sys.excepthook = original_hook
+
+
+class TestErrorHandlerDecorator:
+    """error_handler デコレータテスト"""
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_decorator_basic(self, mock_console, mock_session):
+        """デコレータの基本動作"""
+        from error_recovery import error_handler
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        @error_handler(context="test_func", suppress=True)
+        def test_function():
+            raise ValueError("Test error")
+
+        # 例外が抑制されることを確認
+        result = test_function()
+        assert result is None
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_decorator_success(self, mock_console, mock_session):
+        """デコレータで成功時の戻り値"""
+        from error_recovery import error_handler
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        @error_handler(context="test_func", suppress=True)
+        def test_function(x, y):
+            return x + y
+
+        result = test_function(1, 2)
+        assert result == 3
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_decorator_with_kwargs(self, mock_console, mock_session):
+        """デコレータでkwargsの伝搬"""
+        from error_recovery import error_handler
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        @error_handler(context="test_func", suppress=True)
+        def test_function(a=1, b=2):
+            return a * b
+
+        result = test_function(a=3, b=4)
+        assert result == 12
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_decorator_default_context(self, mock_console, mock_session):
+        """デコレータでcontextがNoneの場合は関数名を使用"""
+        from error_recovery import error_handler
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        @error_handler(suppress=True)
+        def my_custom_function():
+            raise ValueError("Test error")
+
+        # 例外が抑制されることを確認
+        result = my_custom_function()
+        assert result is None

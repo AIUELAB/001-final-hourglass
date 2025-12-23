@@ -262,7 +262,7 @@ class TestNHKAsadoraAdapter:
         """相対パスのCSVファイルを読み込み"""
         csv_file = tmp_path / "test_asadora.csv"
         csv_file.write_text(
-            "person_name,drama_title,category,tier\n" "テスト太郎,テスト朝ドラ,芸能,S\n",
+            "person_name,drama_title,category,tier\nテスト太郎,テスト朝ドラ,芸能,S\n",
             encoding="utf-8",
         )
 
@@ -310,7 +310,7 @@ class TestNHKAsadoraAdapter:
         """drama_titleのみでdescription生成"""
         csv_file = tmp_path / "drama_only.csv"
         csv_file.write_text(
-            "person_name,drama_title\n" "テスト太郎,おしん\n",
+            "person_name,drama_title\nテスト太郎,おしん\n",
             encoding="utf-8",
         )
 
@@ -325,7 +325,7 @@ class TestNHKAsadoraAdapter:
         """role_descriptionのみでdescription生成"""
         csv_file = tmp_path / "role_only.csv"
         csv_file.write_text(
-            "person_name,role_description\n" "テスト太郎,主人公のモデル\n",
+            "person_name,role_description\nテスト太郎,主人公のモデル\n",
             encoding="utf-8",
         )
 
@@ -339,7 +339,7 @@ class TestNHKAsadoraAdapter:
         """検証エラー時はskip_reasonが設定される"""
         csv_file = tmp_path / "validation_error.csv"
         csv_file.write_text(
-            "person_name,person_type,tier\n" "テスト太郎,INVALID_TYPE,Z\n",  # 無効なperson_typeとtier
+            "person_name,person_type,tier\nテスト太郎,INVALID_TYPE,Z\n",  # 無効なperson_typeとtier
             encoding="utf-8",
         )
 
@@ -355,7 +355,7 @@ class TestNHKAsadoraAdapter:
         """行パースエラー時は警告出力してスキップ"""
         csv_file = tmp_path / "parse_error.csv"
         csv_file.write_text(
-            "person_name,birth_year\n" "テスト太郎,1990\n" "エラー行,not_a_number\n" "テスト次郎,2000\n",
+            "person_name,birth_year\nテスト太郎,1990\nエラー行,not_a_number\nテスト次郎,2000\n",
             encoding="utf-8",
         )
 

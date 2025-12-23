@@ -49,6 +49,11 @@ class DuplicationDetector:
         self.normalizer = None
         self.alias_map = None
 
+        # パフォーマンス改善: 正規化キャッシュ（N+1問題解消）
+        self._normalized_cache: Dict[str, str] = {}  # master_name -> normalized_name
+        self._normalized_reverse: Dict[str, str] = {}  # normalized_name -> master_name
+        self._cache_built = False
+
     def _load_normalizer(self):
         """PersonNameNormalizerを遅延ロード"""
         if self.normalizer is None:
@@ -65,6 +70,25 @@ class DuplicationDetector:
 
             self.normalizer = PersonNameNormalizer()
             self.alias_map = ALIAS_KEYWORDS
+
+            # キャッシュ構築（N+1問題解消）
+            self._build_cache()
+
+    def _build_cache(self):
+        """正規化キャッシュを事前構築（O(n)→O(1)最適化）"""
+        if self._cache_built or self.normalizer is None:
+            return
+
+        for master_name in self.master_names:
+            result = self.normalizer.normalize(master_name)
+            if result:
+                normalized = result.normalized_name
+                self._normalized_cache[master_name] = normalized
+                # 逆引き: 正規化名→元名（最初の一致を優先）
+                if normalized not in self._normalized_reverse:
+                    self._normalized_reverse[normalized] = master_name
+
+        self._cache_built = True
 
     def detect_duplicate(self, candidate: PersonCandidate) -> Tuple[bool, Optional[str], float, str]:
         """
@@ -98,31 +122,30 @@ class DuplicationDetector:
         if self.alias_map is None:
             raise RuntimeError("alias_map not initialized after _load_normalizer()")
 
-        # Layer 2: 正規化一致
+        # キャッシュが未構築の場合は構築（テストでnormalizerを直接設定した場合用）
+        if not self._cache_built:
+            self._build_cache()
+
+        # Layer 2: 正規化一致（キャッシュ使用: O(1)）
         normalized_result = self.normalizer.normalize(candidate.person_name)
         if normalized_result:
             normalized_name = normalized_result.normalized_name
 
-            # 正規化後の名前でマスターを検索
-            for master_name in self.master_names:
-                master_normalized = self.normalizer.normalize(master_name)
-                if master_normalized and master_normalized.normalized_name == normalized_name:
-                    return (True, master_name, 1.0, "normalized")
+            # キャッシュから O(1) で検索
+            if normalized_name in self._normalized_reverse:
+                return (True, self._normalized_reverse[normalized_name], 1.0, "normalized")
 
         # Layer 3: 別名一致
         canonical_name = self.alias_map.get(candidate.person_name)
         if canonical_name and canonical_name in self.master_names:
             return (True, canonical_name, 1.0, "alias")
 
-        # Layer 4: 類似一致（SequenceMatcher ≥0.85 + 属性検証）
+        # Layer 4: 類似一致（SequenceMatcher ≥0.85 + 属性検証、キャッシュ使用）
         normalized_candidate_name = normalized_result.normalized_name if normalized_result else candidate.person_name
 
         for master_name in self.master_names:
-            # 正規化してから類似度計算
-            master_normalized_result = self.normalizer.normalize(master_name)
-            normalized_master_name = (
-                master_normalized_result.normalized_name if master_normalized_result else master_name
-            )
+            # キャッシュから正規化名を取得（O(1)）
+            normalized_master_name = self._normalized_cache.get(master_name, master_name)
 
             # 文字列類似度計算
             similarity = SequenceMatcher(None, normalized_candidate_name, normalized_master_name).ratio()

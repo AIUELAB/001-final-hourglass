@@ -320,3 +320,151 @@ class TestAtomicSheetUpdate:
 
         assert success is False
         assert result["error"] is not None
+
+    def test_atomic_update_without_cache_clear(self, updater_with_mock_api, mock_cache_manager):
+        """clear_cache=Falseでキャッシュクリアをスキップ"""
+        with patch.object(updater_with_mock_api, "_get_sheet_id", return_value=0):
+            with patch.object(updater_with_mock_api, "_prepare_rows_data", return_value=[]):
+                with patch.object(updater_with_mock_api, "_create_format_requests", return_value=[]):
+                    df = pd.DataFrame({"col1": [1, 2, 3]})
+                    updater_with_mock_api.atomic_sheet_update("spreadsheet_id", "sheet_name", df, clear_cache=False)
+
+        # キャッシュクリアが呼ばれない
+        mock_cache_manager.purge_all_cache.assert_not_called()
+
+
+class TestForceFullReplacement:
+    """force_full_replacement メソッドのテスト"""
+
+    def test_successful_replacement(self, updater_with_mock_api, mock_google_api):
+        """正常な完全置換"""
+        # モック設定
+        mock_spreadsheet = {
+            "sheets": [
+                {"properties": {"title": "existing_sheet", "sheetId": 123}},
+            ]
+        }
+        mock_google_api["service"].spreadsheets().get().execute.return_value = mock_spreadsheet
+        mock_google_api["service"].spreadsheets().batchUpdate().execute.return_value = {}
+
+        # atomic_sheet_updateをモック
+        with patch.object(updater_with_mock_api, "atomic_sheet_update") as mock_atomic:
+            mock_atomic.return_value = (True, {"success": True, "rows_updated": 10})
+
+            df = pd.DataFrame({"col1": [1, 2, 3]})
+            success, result = updater_with_mock_api.force_full_replacement(
+                "spreadsheet_id", df, new_sheet_name="existing_sheet"
+            )
+
+            assert success is True
+            assert "完全置換成功" in result["message"]
+
+    def test_replacement_without_rename(self, updater_with_mock_api, mock_google_api):
+        """リネームなしの完全置換（new_sheet_name=None）"""
+        mock_google_api["service"].spreadsheets().batchUpdate().execute.return_value = {}
+
+        with patch.object(updater_with_mock_api, "atomic_sheet_update") as mock_atomic:
+            mock_atomic.return_value = (True, {"success": True, "rows_updated": 10})
+
+            df = pd.DataFrame({"col1": [1, 2, 3]})
+            success, result = updater_with_mock_api.force_full_replacement("spreadsheet_id", df, new_sheet_name=None)
+
+            assert success is True
+
+    def test_replacement_atomic_update_fails(self, updater_with_mock_api, mock_google_api):
+        """atomic_sheet_updateが失敗した場合"""
+        mock_google_api["service"].spreadsheets().batchUpdate().execute.return_value = {}
+
+        with patch.object(updater_with_mock_api, "atomic_sheet_update") as mock_atomic:
+            mock_atomic.return_value = (False, {"error": "Write failed"})
+
+            df = pd.DataFrame({"col1": [1, 2, 3]})
+            success, result = updater_with_mock_api.force_full_replacement(
+                "spreadsheet_id", df, new_sheet_name="sheet1"
+            )
+
+            assert success is False
+            assert "error" in result
+
+    def test_replacement_exception_handling(self, updater_with_mock_api, mock_google_api):
+        """例外発生時の処理"""
+        mock_google_api["service"].spreadsheets().batchUpdate().execute.side_effect = Exception("API Error")
+
+        df = pd.DataFrame({"col1": [1, 2, 3]})
+        success, result = updater_with_mock_api.force_full_replacement("spreadsheet_id", df, new_sheet_name="sheet1")
+
+        assert success is False
+        assert "error" in result
+
+    def test_replacement_deletes_old_sheet(self, updater_with_mock_api, mock_google_api):
+        """古いシートが存在する場合は削除"""
+        mock_spreadsheet = {
+            "sheets": [
+                {"properties": {"title": "old_sheet", "sheetId": 999}},
+                {"properties": {"title": "TEMP_test", "sheetId": 888}},
+            ]
+        }
+        mock_google_api["service"].spreadsheets().get().execute.return_value = mock_spreadsheet
+        mock_google_api["service"].spreadsheets().batchUpdate().execute.return_value = {}
+
+        with patch.object(updater_with_mock_api, "atomic_sheet_update") as mock_atomic:
+            mock_atomic.return_value = (True, {"success": True, "rows_updated": 10})
+            with patch.object(updater_with_mock_api, "_get_sheet_id") as mock_get_id:
+                mock_get_id.side_effect = [999, 888]  # old_sheet_id, temp_sheet_id
+
+                df = pd.DataFrame({"col1": [1, 2, 3]})
+                success, result = updater_with_mock_api.force_full_replacement(
+                    "spreadsheet_id", df, new_sheet_name="old_sheet"
+                )
+
+                assert success is True
+
+
+class TestInitGoogleApiException:
+    """_init_google_api 例外処理テスト"""
+
+    def test_api_init_exception(self, mock_cache_manager, tmp_path):
+        """API初期化で例外が発生した場合"""
+        credentials_file = tmp_path / "credentials.json"
+        credentials_file.write_text('{"type": "service_account"}')
+
+        with patch("src.auto_updater.service_account") as mock_sa:
+            mock_sa.Credentials.from_service_account_file.side_effect = ValueError("Auth Error")
+
+            updater = AutoUpdater(credentials_path=str(credentials_file))
+
+            # serviceがNoneであることを確認（例外が発生してもクラッシュしない）
+            assert updater.service is None
+
+
+class TestUpdateWithRetryException:
+    """update_with_retry 例外処理テスト"""
+
+    def test_exception_during_retry(self, updater_with_mock_api):
+        """リトライ中に例外が発生した場合"""
+        with patch.object(updater_with_mock_api, "atomic_sheet_update") as mock_update:
+            # 最初の呼び出しで例外、2回目で成功
+            mock_update.side_effect = [
+                Exception("First exception"),
+                (True, {"success": True, "rows_updated": 10}),
+            ]
+
+            with patch("time.sleep"):
+                df = pd.DataFrame({"col1": [1, 2, 3]})
+                success, result = updater_with_mock_api.update_with_retry("spreadsheet_id", "sheet_name", df)
+
+            # 例外が発生しても続行し、2回目で成功
+            assert success is True
+            assert mock_update.call_count == 2
+
+    def test_all_retries_with_exceptions(self, updater_with_mock_api):
+        """全リトライで例外が発生した場合"""
+        with patch.object(updater_with_mock_api, "atomic_sheet_update") as mock_update:
+            mock_update.side_effect = Exception("Persistent error")
+
+            with patch("time.sleep"):
+                df = pd.DataFrame({"col1": [1, 2, 3]})
+                success, result = updater_with_mock_api.update_with_retry("spreadsheet_id", "sheet_name", df)
+
+            assert success is False
+            assert "最大リトライ" in result["error"]

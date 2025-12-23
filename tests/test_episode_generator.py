@@ -227,9 +227,7 @@ class TestGeneratePrompt:
         from src.episode_generator import EpisodeGenerator
 
         generator = EpisodeGenerator(api_key="test")
-        prompt = generator.generate_prompt(
-            person_name="山中伸弥", category="科学・技術", age=47
-        )
+        prompt = generator.generate_prompt(person_name="山中伸弥", category="科学・技術", age=47)
 
         assert "山中伸弥" in prompt
 
@@ -239,9 +237,7 @@ class TestGeneratePrompt:
         from src.episode_generator import EpisodeGenerator
 
         generator = EpisodeGenerator(api_key="test")
-        prompt = generator.generate_prompt(
-            person_name="山中伸弥", category="科学・技術", age=47
-        )
+        prompt = generator.generate_prompt(person_name="山中伸弥", category="科学・技術", age=47)
 
         assert "47歳" in prompt
 
@@ -355,9 +351,7 @@ class TestGenerate:
         generator = EpisodeGenerator(api_key="test")
 
         with pytest.raises(KeyError, match="person_name"):
-            generator.generate(
-                person_data={"category": "科学・技術", "person_type": "REAL"}, age=47
-            )
+            generator.generate(person_data={"category": "科学・技術", "person_type": "REAL"}, age=47)
 
     @patch("src.episode_generator.anthropic.Anthropic")
     def test_generate_success(self, mock_anthropic):

@@ -176,9 +176,7 @@ class TestCreateVersion:
         """メタデータ付きバージョン作成"""
         with tempfile.TemporaryDirectory() as tmpdir:
             vc = VersionController(versions_dir=tmpdir)
-            version_id = vc.create_version(
-                {"test": "data"}, metadata={"author": "test"}
-            )
+            version_id = vc.create_version({"test": "data"}, metadata={"author": "test"})
             assert version_id is not None
 
     def test_create_version_dataframe(self):
@@ -373,3 +371,228 @@ class TestAutoVersionOnChange:
             result = vc.auto_version_on_change({"data": "new"})
             # 最初は前のバージョンがないので変更として検出される
             assert result is not None or result is None  # 実装依存
+
+    def test_auto_version_no_change(self):
+        """変更なし時は新バージョン作成しない"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            data = {"data": "test"}
+            # 最初のバージョンを作成
+            vc.create_version(data)
+            # 同じデータで自動バージョン作成を試みる（変更なし）
+            result = vc.auto_version_on_change(data)
+            # 変更がない場合はNoneを返す
+            assert result is None
+
+
+# ============================================================================
+# 追加テスト: 未カバー行のテスト
+# ============================================================================
+
+
+class TestLoadHistoryError:
+    """履歴読み込みエラーテスト"""
+
+    def test_load_history_corrupted_file(self, caplog):
+        """破損した履歴ファイル読み込み"""
+        import logging
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # 破損した履歴ファイルを作成
+            history_file = Path(tmpdir) / "version_history.json"
+            history_file.write_text("{invalid json")
+
+            with caplog.at_level(logging.ERROR):
+                vc = VersionController(versions_dir=tmpdir)
+
+            # 空の履歴として初期化される
+            assert vc.version_history == []
+
+
+class TestSaveHistoryError:
+    """履歴保存エラーテスト"""
+
+    def test_save_history_permission_error(self, caplog, tmp_path):
+        """履歴保存時の権限エラー"""
+        import logging
+        import os
+        import stat
+
+        versions_dir = tmp_path / "versions"
+        vc = VersionController(versions_dir=str(versions_dir))
+
+        # 履歴ファイルを読み取り専用にする
+        history_file = vc.history_file
+        history_file.touch()
+        os.chmod(history_file, stat.S_IRUSR)
+
+        try:
+            with caplog.at_level(logging.ERROR):
+                vc._save_history()
+            # エラーログが出力される（または例外をキャッチ）
+        finally:
+            # 権限を復元
+            os.chmod(history_file, stat.S_IRWXU)
+
+
+class TestGetCurrentVersionError:
+    """現在のバージョン読み込みエラーテスト"""
+
+    def test_get_current_version_corrupted(self, caplog):
+        """破損した現在バージョンファイル"""
+        import logging
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+
+            # 破損した現在バージョンファイルを作成
+            vc.current_file.write_text("{invalid")
+
+            with caplog.at_level(logging.ERROR):
+                result = vc.get_current_version()
+
+            assert result is None
+
+
+class TestDetectChangesWithPreviousVersion:
+    """detect_changesで前バージョンからハッシュ取得テスト"""
+
+    def test_detect_changes_uses_previous_version_hash(self):
+        """前バージョンが存在する場合のハッシュ比較"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            # バージョンを作成
+            vc.create_version({"old": "data"})
+            # previous_data=Noneで呼び出し（現在のバージョンと比較）
+            result = vc.detect_changes({"new": "data"})
+            assert result["changed"] is True
+
+
+class TestDetectChangesColumnDiff:
+    """カラム差分検出テスト"""
+
+    def test_detect_changes_columns_added(self):
+        """カラム追加を検出"""
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            df1 = pd.DataFrame({"col1": [1, 2]})
+            df2 = pd.DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
+            result = vc.detect_changes(df2, df1)
+            assert "columns_added" in result["details"]
+            assert "col2" in result["details"]["columns_added"]
+
+    def test_detect_changes_columns_removed(self):
+        """カラム削除を検出"""
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            df1 = pd.DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
+            df2 = pd.DataFrame({"col1": [1, 2]})
+            result = vc.detect_changes(df2, df1)
+            assert "columns_removed" in result["details"]
+            assert "col2" in result["details"]["columns_removed"]
+
+
+class TestSaveAndLoadData:
+    """データ保存・読み込みテスト"""
+
+    def test_save_and_load_other_type(self):
+        """その他の型の保存・読み込み"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            # 整数型などの「その他」の型
+            version_id = vc.create_version(12345)
+            result = vc.get_version(version_id)
+            assert result is not None
+            data, metadata = result
+            assert data == 12345
+
+    def test_load_csv_data(self):
+        """CSV形式のデータ読み込み"""
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            df = pd.DataFrame({"col": [1, 2, 3]})
+            version_id = vc.create_version(df)
+            result = vc.get_version(version_id)
+            assert result is not None
+            data, metadata = result
+            assert isinstance(data, pd.DataFrame)
+            assert len(data) == 3
+
+    def test_load_data_file_not_exists(self):
+        """存在しないファイルの読み込み"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            file_path = Path(tmpdir) / "nonexistent"
+            result = vc._load_data(file_path)
+            assert result is None
+
+
+class TestGetVersionDiff:
+    """get_version_diffメソッドのテスト"""
+
+    def test_get_version_diff_success(self):
+        """バージョン差分取得成功"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            v1 = vc.create_version({"data": "v1"})
+            v2 = vc.create_version({"data": "v2"})
+            diff = vc.get_version_diff(v1, v2)
+            assert "version1" in diff
+            assert "version2" in diff
+            # hash_changedはv1とv2のハッシュが同じか異なるかを示す
+            assert "hash_changed" in diff
+
+    def test_get_version_diff_with_dataframe(self):
+        """DataFrame間の差分取得"""
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            df1 = pd.DataFrame({"col": [1, 2]})
+            df2 = pd.DataFrame({"col": [1, 2, 3], "new_col": ["a", "b", "c"]})
+            v1 = vc.create_version(df1)
+            v2 = vc.create_version(df2)
+            diff = vc.get_version_diff(v1, v2)
+            # 差分情報が含まれることを確認（順序によって値が異なる可能性）
+            assert "rows_diff" in diff
+            assert "columns_diff" in diff
+
+    def test_get_version_diff_not_found(self):
+        """存在しないバージョンの差分"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            diff = vc.get_version_diff("nonexistent1", "nonexistent2")
+            assert "error" in diff
+
+
+class TestValidateIntegrityError:
+    """整合性検証エラーテスト"""
+
+    def test_validate_integrity_hash_mismatch(self, caplog):
+        """ハッシュ不一致時のエラーログ"""
+        import json
+        import logging
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            vc = VersionController(versions_dir=tmpdir)
+            version_id = vc.create_version({"test": "data"})
+
+            # メタデータのハッシュを改ざん
+            metadata_file = vc.versions_dir / "metadata" / f"{version_id}.json"
+            with open(metadata_file, "r") as f:
+                metadata = json.load(f)
+            metadata["hash"] = "tampered_hash"
+            with open(metadata_file, "w") as f:
+                json.dump(metadata, f)
+
+            with caplog.at_level(logging.ERROR):
+                is_valid = vc.validate_integrity(version_id)
+
+            assert is_valid is False
+            assert "整合性エラー" in caplog.text

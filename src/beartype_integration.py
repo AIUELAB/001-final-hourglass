@@ -264,7 +264,7 @@ def example_usage():
             url="https://api.github.com",
             port=443,
             protocol="https",
-            api_key="secret_key",
+            api_key="DEMO_KEY_NOT_FOR_PRODUCTION",
         )
         print(f"✅ Server configured: {server.name}")
 

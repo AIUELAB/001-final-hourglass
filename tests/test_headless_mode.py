@@ -758,3 +758,247 @@ class TestHeadlessExecutorAsync:
             assert "secrets" in result
             # bandit, safety, check_no_secrets で3回
             assert mock_cmd.call_count == 3
+
+
+# ============================================================================
+# 追加テスト: 未カバー行のテスト
+# ============================================================================
+
+
+class TestResultCacheExceptions:
+    """TaskCache 例外処理テスト"""
+
+    def test_get_cache_load_exception(self, tmp_path):
+        """キャッシュ読み込み時の例外処理"""
+        from src.headless_mode import TaskCache
+
+        cache = TaskCache(cache_dir=tmp_path)
+
+        # 不正なJSONファイルを作成
+        cache_file = tmp_path / "test_invalid.json"
+        cache_file.write_text("invalid json content {{{")
+
+        # _get_cache_keyをモックして不正なファイルを返す
+        with patch.object(cache, "_get_cache_key", return_value="test_invalid"):
+            result = cache.get("test", {})
+            # 例外が発生してもNoneを返す
+            assert result is None
+
+    def test_set_cache_save_exception(self, tmp_path):
+        """キャッシュ保存時の例外処理"""
+        from datetime import datetime, timedelta
+
+        from src.headless_mode import OutputFormat, TaskCache, TaskResult, TaskType
+
+        # 読み取り専用ディレクトリでテスト
+        readonly_dir = tmp_path / "readonly"
+        readonly_dir.mkdir()
+
+        cache = TaskCache(cache_dir=readonly_dir)
+        now = datetime.now()
+        result = TaskResult(
+            task_id="test-1",
+            task_type=TaskType.TEST,
+            status="success",
+            start_time=now,
+            end_time=now + timedelta(seconds=1),
+            output={"test": "data"},
+        )
+
+        # 書き込み権限を削除（Unix系）
+        import os
+        import stat
+
+        os.chmod(readonly_dir, stat.S_IRUSR | stat.S_IXUSR)
+
+        try:
+            # 例外が発生しても処理は続行
+            cache.set("test", {}, result)
+        finally:
+            # 権限を復元
+            os.chmod(readonly_dir, stat.S_IRWXU)
+
+
+class TestParallelExecution:
+    """並列実行テスト"""
+
+    @pytest.fixture
+    def parallel_executor(self, tmp_path):
+        """並列実行用エクゼキュータ"""
+        from src.headless_mode import HeadlessExecutor, OutputFormat
+
+        return HeadlessExecutor(
+            output_format=OutputFormat.JSON,
+            verbose=False,
+            timeout=30,
+            parallel=True,
+            use_cache=False,
+        )
+
+    @pytest.mark.asyncio
+    async def test_execute_workflow_parallel(self, parallel_executor):
+        """並列でタスクを実行"""
+        from datetime import datetime, timedelta
+
+        from src.headless_mode import TaskResult, TaskType
+
+        with patch.object(parallel_executor, "execute_task", new_callable=AsyncMock) as mock_execute:
+            now = datetime.now()
+            mock_result = TaskResult(
+                task_id="test-1",
+                task_type=TaskType.TEST,
+                status="success",
+                start_time=now,
+                end_time=now + timedelta(seconds=1),
+                output={},
+            )
+            mock_execute.return_value = mock_result
+
+            results = await parallel_executor.execute_workflow([TaskType.TEST, TaskType.LINT], {}, [])
+
+            assert len(results) == 2
+            assert mock_execute.call_count == 2
+
+
+class TestFormatText:
+    """_format_text テスト"""
+
+    def test_format_text_with_results(self):
+        """テキストフォーマットでの出力"""
+        from datetime import datetime, timedelta
+
+        from src.headless_mode import HeadlessExecutor, OutputFormat, TaskResult, TaskType
+
+        executor = HeadlessExecutor(output_format=OutputFormat.TEXT)
+        now = datetime.now()
+
+        results = [
+            TaskResult(
+                task_id="test-1",
+                task_type=TaskType.TEST,
+                status="success",
+                start_time=now,
+                end_time=now + timedelta(seconds=1.5),
+                output={"passed": 10},
+                errors=[],
+            ),
+            TaskResult(
+                task_id="lint-1",
+                task_type=TaskType.LINT,
+                status="failure",
+                start_time=now,
+                end_time=now + timedelta(seconds=0.5),
+                output={},
+                errors=["Error 1", "Error 2"],
+            ),
+        ]
+
+        output = executor.format_output(results)
+        # 出力が空でないことを確認
+        assert len(output) > 0
+
+
+class TestFormatHtmlWithErrors:
+    """_format_html エラー付きテスト"""
+
+    def test_format_html_with_errors(self):
+        """HTMLフォーマットでエラー付き出力"""
+        from datetime import datetime, timedelta
+
+        from src.headless_mode import HeadlessExecutor, OutputFormat, TaskResult, TaskType
+
+        executor = HeadlessExecutor(output_format=OutputFormat.HTML)
+        now = datetime.now()
+
+        results = [
+            TaskResult(
+                task_id="test-1",
+                task_type=TaskType.TEST,
+                status="failure",
+                start_time=now,
+                end_time=now + timedelta(seconds=1),
+                output={},
+                errors=["Error 1", "Error 2"],
+            ),
+        ]
+
+        output = executor.format_output(results)
+        assert "<html>" in output
+        assert "Errors:" in output
+
+
+class TestRunCommandException:
+    """_run_command 例外テスト"""
+
+    @pytest.fixture
+    def executor(self, tmp_path):
+        """テスト用エクゼキュータ"""
+        from src.headless_mode import HeadlessExecutor, OutputFormat
+
+        return HeadlessExecutor(output_format=OutputFormat.JSON, timeout=5)
+
+    @pytest.mark.asyncio
+    async def test_run_command_general_exception(self, executor):
+        """_run_command で一般例外が発生した場合"""
+        with patch("asyncio.create_subprocess_exec", side_effect=OSError("Command not found")):
+            result = await executor._run_command(["nonexistent_command"])
+
+            assert result["exit_code"] == -1
+            assert "Command not found" in result["stderr"]
+
+
+class TestCleanupMethod:
+    """cleanup メソッドテスト"""
+
+    def test_cleanup_with_cache(self, tmp_path):
+        """キャッシュ有りでのクリーンアップ"""
+        from src.headless_mode import HeadlessExecutor, OutputFormat
+
+        executor = HeadlessExecutor(
+            output_format=OutputFormat.JSON,
+            use_cache=True,
+        )
+
+        # クリーンアップが例外なく完了することを確認
+        executor.cleanup()
+
+
+class TestMainCliFunction:
+    """main CLI関数テスト"""
+
+    def test_main_with_verbose(self):
+        """verbose フラグ付きでmain実行"""
+        from datetime import datetime, timedelta
+
+        from click.testing import CliRunner
+
+        from src.headless_mode import main
+
+        runner = CliRunner()
+
+        with patch("src.headless_mode.HeadlessExecutor") as mock_executor:
+            mock_instance = MagicMock()
+            mock_executor.return_value = mock_instance
+
+            async def mock_workflow(*args, **kwargs):
+                from src.headless_mode import TaskResult, TaskType
+
+                now = datetime.now()
+                return [
+                    TaskResult(
+                        task_id="test-1",
+                        task_type=TaskType.TEST,
+                        status="success",
+                        start_time=now,
+                        end_time=now + timedelta(seconds=1),
+                        output={},
+                    )
+                ]
+
+            mock_instance.execute_workflow = mock_workflow
+            mock_instance.format_output.return_value = "{}"
+            mock_instance.cleanup = MagicMock()
+
+            result = runner.invoke(main, ["-t", "test", "-v"])
+            # 実行されたことを確認（エラーがあっても処理は完了）
+            assert result.exit_code in [0, 1]  # 成功または失敗

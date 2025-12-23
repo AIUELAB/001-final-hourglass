@@ -76,7 +76,7 @@ class AutoUpdater:
             else:
                 self.logger.warning("⚠️  認証ファイルが見つかりません")
 
-        except Exception as e:
+        except (FileNotFoundError, ValueError, PermissionError) as e:
             self.logger.error(f"❌ Google API初期化エラー: {e}")
 
     def atomic_sheet_update(

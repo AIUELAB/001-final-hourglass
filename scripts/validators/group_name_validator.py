@@ -147,6 +147,8 @@ KNOWN_GROUP_NAMES = {
     "U2",
     "リンキン・パーク",
     "Linkin Park",
+    "レッド・ホット・チリ・ペッパーズ",
+    "Red Hot Chili Peppers",
     "コールドプレイ",
     "マルーン5",
     "BTS",

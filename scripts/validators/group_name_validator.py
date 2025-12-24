@@ -171,6 +171,7 @@ KNOWN_GROUP_NAMES = {
     "Snow Man",
     "SixTONES",
     "なにわ男子",
+    "光GENJI",  # 1980年代ジャニーズグループ
     "ダフト・パンク",
     "Daft Punk",
     "BAD HOP",

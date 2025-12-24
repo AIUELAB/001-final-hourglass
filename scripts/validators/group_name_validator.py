@@ -339,6 +339,7 @@ COMPANY_PREFIXES = [
 
 # ============================================
 # 疑わしいパターン（警告レベル）
+# ヒューリスティックで未知のグループ名を事前検出
 # ============================================
 SUSPICIOUS_PATTERNS = [
     # 「名前・名前」形式（コンビ名の可能性）
@@ -351,6 +352,38 @@ SUSPICIOUS_PATTERNS = [
     # 「〇〇ズ」「〇〇ーズ」パターン（グループ名の可能性）
     r"ーズ$",
 ]
+
+# ============================================
+# 高度なヒューリスティックパターン（Layer 2強化）
+# 構造的分析で未知パターンを検出
+# ============================================
+HEURISTIC_PATTERNS = {
+    # パターンA: 日本グループ・個人名形式
+    # 例: 「チェッカーズ・藤井フミヤ」「SMAP・木村拓哉」
+    # 除外: 全カタカナ（外国人名）
+    "group_individual": {
+        "pattern": r"^(?![ァ-ヶー]+・[ァ-ヶー]+$)([ァ-ヶー\w]+)・([一-龥]{1,2}[一-龥ぁ-んァ-ヶー]{1,4})$",
+        "description": "グループ名・個人名形式の可能性",
+    },
+    # パターンB: 職業接尾辞パターン
+    # 例: 「狂言師野村万之丞」「落語家桂三枝」
+    "job_title_prefix": {
+        "pattern": r"^(狂言|歌舞伎|能|落語|漫才|漫談|講談|浪曲|奇術|手品)(師|家)([一-龥]{2,6})$",
+        "description": "職業名+個人名形式の可能性",
+    },
+    # パターンC: 企業サフィックスパターン
+    # 例: 「日本電産永守重信」
+    "company_suffix": {
+        "pattern": r"^(.+(?:電産|電機|電気|重工|商事|物産|製作所|工業|銀行|証券|保険|建設|不動産))([一-龥]{2,6})$",
+        "description": "企業名+個人名形式の可能性",
+    },
+    # パターンD: 役職プレフィックス
+    # 例: 「ユニクロ海外事業責任者玉塚元一」
+    "role_prefix": {
+        "pattern": r"^.+(社長|会長|CEO|代表|責任者|部長|専務|常務|取締役)([一-龥]{2,6})$",
+        "description": "役職名+個人名形式の可能性",
+    },
+}
 
 
 class GroupNameValidator:
@@ -416,9 +449,19 @@ class GroupNameValidator:
 
         name = str(name).strip()
 
+        # 例外リストにある場合はスキップ
+        if name in INDIVIDUAL_EXCEPTIONS:
+            return False, ""
+
+        # 基本パターン検出
         for pattern in SUSPICIOUS_PATTERNS:
             if re.search(pattern, name):
                 return True, f"疑わしいパターン: {pattern}"
+
+        # 高度なヒューリスティックパターン検出 (Layer 2強化)
+        for key, config in HEURISTIC_PATTERNS.items():
+            if re.search(config["pattern"], name):
+                return True, f"[{key}] {config['description']}"
 
         return False, ""
 

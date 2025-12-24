@@ -185,6 +185,7 @@ KNOWN_GROUP_NAMES = {
     "DREAMS COME TRUE",
     "ドリカム",
     "B'z",
+    "スキマスイッチ",  # 音楽デュオ（大橋卓弥・常田真太郎）
     "L'Arc〜en〜Ciel",
     "ラルク",
     "X JAPAN",

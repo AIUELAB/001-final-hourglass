@@ -150,6 +150,7 @@ KNOWN_GROUP_NAMES = {
     "レッド・ホット・チリ・ペッパーズ",
     "Red Hot Chili Peppers",
     "氣志團",
+    "フェアリーズ",
     "コールドプレイ",
     "マルーン5",
     "BTS",

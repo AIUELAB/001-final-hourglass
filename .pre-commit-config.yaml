@@ -188,6 +188,14 @@ repos:
     pass_filenames: false
     files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
 
+  - id: check-group-names
+    name: Check no group/combo names in person_name
+    entry: python scripts/validators/group_name_validator.py --strict
+    language: python
+    additional_dependencies: [pandas]
+    pass_filenames: false
+    files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
+
 # ============================================
 # プロジェクト固有の除外設定
 # ============================================

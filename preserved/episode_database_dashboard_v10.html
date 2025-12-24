@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>エピソードメインデータベース v9 - 統合ダッシュボード</title>
+    <title>エピソードメインデータベース v10 - 統合ダッシュボード（Fame Score v3対応）</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -1339,8 +1339,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 エピソードメインデータベース v9</h1>
-            <p>実在人物 + 架空キャラクター - 有名度ランキング対応（年齢×曜日ヒートマップ対応）
+            <h1>📊 エピソードメインデータベース v10</h1>
+            <p>実在人物 + 架空キャラクター - Fame Score v3対応（Wikipedia多言語PV + Wikidata + Google検索）
                 <span id="connection-status" style="margin-left: 15px; padding: 4px 10px; background: rgba(255,255,255,0.2); border-radius: 12px; font-size: 12px;">🔄 接続中...</span>
             </p>
         </div>
@@ -3957,8 +3957,11 @@
                             }
 
                             // fame_scoreの処理（空文字の場合はnullにする）- parseFloatで小数点を保持
-                            // fame_score_v2 を優先使用（Wikipedia Pageviews ベースの新スコア）
+                            // fame_score_v3 を優先使用（Wikipedia多言語PV + Wikidata + Google検索）
                             const fameScoreValue = (() => {
+                                if (r["fame_score_v3"] && r["fame_score_v3"].trim() !== '') {
+                                    return parseFloat(r["fame_score_v3"]);
+                                }
                                 if (r["fame_score_v2"] && r["fame_score_v2"].trim() !== '') {
                                     return parseFloat(r["fame_score_v2"]);
                                 }
@@ -3967,6 +3970,9 @@
                                 }
                                 return null;
                             })();
+                            // Fame Rank v3
+                            const fameRankValue = r["fame_rank_v3"] && r["fame_rank_v3"].trim() !== ''
+                                ? parseInt(r["fame_rank_v3"]) : null;
                             // Wikipedia月間PV数
                             const wikipediaPvValue = r["wikipedia_pv"] && r["wikipedia_pv"].trim() !== ''
                                 ? parseInt(r["wikipedia_pv"]) : null;
@@ -4030,6 +4036,7 @@
                                 group_name: r['group_name'] || '',
                                 episode_count: parseFloat(r['episode_count']) || 1,
                                 fame_score: fameScoreValue,
+                                fame_rank: fameRankValue,
                                 wikipedia_pv: wikipediaPvValue,
                                 fame_tier: parseInt(r["fame_tier"]) || 0,
                                 episode_fame_score: episodeFameScoreValue,

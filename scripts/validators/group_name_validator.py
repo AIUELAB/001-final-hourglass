@@ -149,6 +149,7 @@ KNOWN_GROUP_NAMES = {
     "Linkin Park",
     "レッド・ホット・チリ・ペッパーズ",
     "Red Hot Chili Peppers",
+    "氣志團",
     "コールドプレイ",
     "マルーン5",
     "BTS",

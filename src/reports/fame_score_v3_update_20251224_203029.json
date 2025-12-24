@@ -1,0 +1,167 @@
+{
+  "timestamp": "2025-12-24T20:30:29.765005",
+  "total_persons": 500,
+  "backup_path": "preserved/data/MASTER_EPISODES_CURRENT.backup_20251224_203022.csv",
+  "top_20": [
+    {
+      "rank": 1,
+      "person_id": "P0AB1BB5",
+      "person_name": "ヨシフ・スターリン",
+      "score": 753.76,
+      "multi_lang_pv": 2237714,
+      "sitelinks": 276
+    },
+    {
+      "rank": 2,
+      "person_id": "P0C4F00C",
+      "person_name": "ケネディ",
+      "score": 753.2,
+      "multi_lang_pv": 2171182,
+      "sitelinks": 248
+    },
+    {
+      "rank": 3,
+      "person_id": "P019E95A",
+      "person_name": "ウィリアム・シェイクスピア",
+      "score": 742.79,
+      "multi_lang_pv": 1561035,
+      "sitelinks": 330
+    },
+    {
+      "rank": 4,
+      "person_id": "P03A1CF3",
+      "person_name": "マーガレット・サッチャー",
+      "score": 738.8,
+      "multi_lang_pv": 1356918,
+      "sitelinks": 204
+    },
+    {
+      "rank": 5,
+      "person_id": "P0096BE1",
+      "person_name": "ジークムント・フロイト",
+      "score": 726.93,
+      "multi_lang_pv": 944090,
+      "sitelinks": 247
+    },
+    {
+      "rank": 6,
+      "person_id": "P0A34897",
+      "person_name": "ゴルバチョフ",
+      "score": 724.72,
+      "multi_lang_pv": 1005626,
+      "sitelinks": 197
+    },
+    {
+      "rank": 7,
+      "person_id": "P0B2BD54",
+      "person_name": "ドワイト・D・アイゼンハワー",
+      "score": 711.48,
+      "multi_lang_pv": 1056342,
+      "sitelinks": 187
+    },
+    {
+      "rank": 8,
+      "person_id": "P0931B36",
+      "person_name": "ユーリ・ガガーリン",
+      "score": 709.78,
+      "multi_lang_pv": 528916,
+      "sitelinks": 201
+    },
+    {
+      "rank": 9,
+      "person_id": "P106E042",
+      "person_name": "ダンテ",
+      "score": 708.29,
+      "multi_lang_pv": 512573,
+      "sitelinks": 266
+    },
+    {
+      "rank": 10,
+      "person_id": "P048A94A",
+      "person_name": "カール大帝",
+      "score": 706.89,
+      "multi_lang_pv": 1065290,
+      "sitelinks": 184
+    },
+    {
+      "rank": 11,
+      "person_id": "P023077B",
+      "person_name": "ピョートル大帝",
+      "score": 698.32,
+      "multi_lang_pv": 1118668,
+      "sitelinks": 177
+    },
+    {
+      "rank": 12,
+      "person_id": "P05EA89C",
+      "person_name": "ガウス",
+      "score": 688.66,
+      "multi_lang_pv": 334039,
+      "sitelinks": 196
+    },
+    {
+      "rank": 13,
+      "person_id": "P09D3693",
+      "person_name": "フリードリヒ・エンゲルス",
+      "score": 682.67,
+      "multi_lang_pv": 289142,
+      "sitelinks": 195
+    },
+    {
+      "rank": 14,
+      "person_id": "P0A82B6B",
+      "person_name": "ジャッキー・チェン",
+      "score": 681.2,
+      "multi_lang_pv": 1502113,
+      "sitelinks": 160
+    },
+    {
+      "rank": 15,
+      "person_id": "P00C1626",
+      "person_name": "ジュール・ヴェルヌ",
+      "score": 678.61,
+      "multi_lang_pv": 404968,
+      "sitelinks": 185
+    },
+    {
+      "rank": 16,
+      "person_id": "P0ED55D5",
+      "person_name": "アリアナ・グランデ",
+      "score": 672.84,
+      "multi_lang_pv": 3607102,
+      "sitelinks": 136
+    },
+    {
+      "rank": 17,
+      "person_id": "P014EF52",
+      "person_name": "マララ・ユスフザイ",
+      "score": 672.42,
+      "multi_lang_pv": 1581427,
+      "sitelinks": 153
+    },
+    {
+      "rank": 18,
+      "person_id": "P0622615",
+      "person_name": "グレタ・トゥーンベリ",
+      "score": 672.03,
+      "multi_lang_pv": 1853382,
+      "sitelinks": 149
+    },
+    {
+      "rank": 19,
+      "person_id": "P071CB8A",
+      "person_name": "マルセル・プルースト",
+      "score": 666.39,
+      "multi_lang_pv": 289697,
+      "sitelinks": 184
+    },
+    {
+      "rank": 20,
+      "person_id": "P038E0E8",
+      "person_name": "セリーヌ・ディオン",
+      "score": 660.98,
+      "multi_lang_pv": 900030,
+      "sitelinks": 157
+    }
+  ]
+}

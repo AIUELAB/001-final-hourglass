@@ -1,0 +1,167 @@
+{
+  "timestamp": "2025-12-24T20:30:55.489436",
+  "total_persons": 1000,
+  "backup_path": "preserved/data/MASTER_EPISODES_CURRENT.backup_20251224_203040.csv",
+  "top_20": [
+    {
+      "rank": 1,
+      "person_id": "P22A0493",
+      "person_name": "ドナルド・トランプ",
+      "score": 789.27,
+      "multi_lang_pv": 6959965,
+      "sitelinks": 325
+    },
+    {
+      "rank": 2,
+      "person_id": "P1E9BD30",
+      "person_name": "ナポレオン・ボナパルト",
+      "score": 757.87,
+      "multi_lang_pv": 2513999,
+      "sitelinks": 282
+    },
+    {
+      "rank": 3,
+      "person_id": "P0AB1BB5",
+      "person_name": "ヨシフ・スターリン",
+      "score": 753.76,
+      "multi_lang_pv": 2237714,
+      "sitelinks": 276
+    },
+    {
+      "rank": 4,
+      "person_id": "P0C4F00C",
+      "person_name": "ケネディ",
+      "score": 753.2,
+      "multi_lang_pv": 2171182,
+      "sitelinks": 248
+    },
+    {
+      "rank": 5,
+      "person_id": "P1DFEF43",
+      "person_name": "ヴォルフガング・アマデウス・モーツァルト",
+      "score": 747.06,
+      "multi_lang_pv": 1769237,
+      "sitelinks": 266
+    },
+    {
+      "rank": 6,
+      "person_id": "P19A674B",
+      "person_name": "アレクサンダー大王",
+      "score": 744.92,
+      "multi_lang_pv": 1673970,
+      "sitelinks": 258
+    },
+    {
+      "rank": 7,
+      "person_id": "P019E95A",
+      "person_name": "ウィリアム・シェイクスピア",
+      "score": 742.79,
+      "multi_lang_pv": 1561035,
+      "sitelinks": 330
+    },
+    {
+      "rank": 8,
+      "person_id": "P1D91E90",
+      "person_name": "シェイクスピア",
+      "score": 742.67,
+      "multi_lang_pv": 1561035,
+      "sitelinks": 330
+    },
+    {
+      "rank": 9,
+      "person_id": "P18312C9",
+      "person_name": "チェ・ゲバラ",
+      "score": 742.57,
+      "multi_lang_pv": 1550845,
+      "sitelinks": 223
+    },
+    {
+      "rank": 10,
+      "person_id": "P1B30288",
+      "person_name": "ユリウス・カエサル",
+      "score": 740.25,
+      "multi_lang_pv": 1421448,
+      "sitelinks": 281
+    },
+    {
+      "rank": 11,
+      "person_id": "P208FF4E",
+      "person_name": "ガンディー",
+      "score": 739.08,
+      "multi_lang_pv": 1378954,
+      "sitelinks": 280
+    },
+    {
+      "rank": 12,
+      "person_id": "P19E01E4",
+      "person_name": "ベニト・ムッソリーニ",
+      "score": 739.07,
+      "multi_lang_pv": 1449794,
+      "sitelinks": 199
+    },
+    {
+      "rank": 13,
+      "person_id": "P03A1CF3",
+      "person_name": "マーガレット・サッチャー",
+      "score": 738.8,
+      "multi_lang_pv": 1356918,
+      "sitelinks": 204
+    },
+    {
+      "rank": 14,
+      "person_id": "P209B131",
+      "person_name": "習近平",
+      "score": 728.26,
+      "multi_lang_pv": 2345793,
+      "sitelinks": 182
+    },
+    {
+      "rank": 15,
+      "person_id": "P0096BE1",
+      "person_name": "ジークムント・フロイト",
+      "score": 726.93,
+      "multi_lang_pv": 944090,
+      "sitelinks": 247
+    },
+    {
+      "rank": 16,
+      "person_id": "P0A34897",
+      "person_name": "ゴルバチョフ",
+      "score": 724.72,
+      "multi_lang_pv": 1005626,
+      "sitelinks": 197
+    },
+    {
+      "rank": 17,
+      "person_id": "P1E4253",
+      "person_name": "フリーダ・カーロ",
+      "score": 724.3,
+      "multi_lang_pv": 1249662,
+      "sitelinks": 192
+    },
+    {
+      "rank": 18,
+      "person_id": "P2218008",
+      "person_name": "エジソン",
+      "score": 716.97,
+      "multi_lang_pv": 669900,
+      "sitelinks": 249
+    },
+    {
+      "rank": 19,
+      "person_id": "P14505B4",
+      "person_name": "ジャンヌ・ダルク",
+      "score": 715.21,
+      "multi_lang_pv": 1192970,
+      "sitelinks": 187
+    },
+    {
+      "rank": 20,
+      "person_id": "P0B2BD54",
+      "person_name": "ドワイト・D・アイゼンハワー",
+      "score": 711.48,
+      "multi_lang_pv": 1056342,
+      "sitelinks": 187
+    }
+  ]
+}

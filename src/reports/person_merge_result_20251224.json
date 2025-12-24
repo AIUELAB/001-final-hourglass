@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-12-24T21:39:17.859579",
+  "backup_path": "preserved/data/MASTER_EPISODES_CURRENT.backup_20251224_213849.csv",
+  "before": {
+    "persons": 7320,
+    "records": 11241
+  },
+  "after": {
+    "persons": 7190,
+    "records": 11241
+  },
+  "merged_ids": 130,
+  "status": "completed"
+}

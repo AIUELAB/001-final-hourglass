@@ -286,3 +286,20 @@ is_group_member: False      ← グループ自体
 | ゆでたまご | - | 削除 |
 | ダフト・パンク | - | 削除 |
 | 林家ペー・パー子 | - | 削除 |
+
+### 検出・予防
+
+```bash
+# グループ/コンビ名チェック
+python scripts/validators/group_name_validator.py
+
+# 特定の名前をチェック
+python scripts/validators/group_name_validator.py --check "博多華丸・大吉"
+
+# CI/pre-commit用（違反があればexit 1）
+python scripts/validators/group_name_validator.py --strict
+```
+
+### 自動実行
+- **pre-commit**: マスターCSV変更時に自動チェック
+- **回帰テスト**: `tests/test_group_name_prevention.py`

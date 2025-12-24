@@ -1,0 +1,1579 @@
+{
+  "generated_at": "2025-12-24T21:35:52.542377",
+  "summary": {
+    "total_merges": 113,
+    "total_skipped": 8
+  },
+  "merges": [
+    {
+      "cluster_id": 1,
+      "primary_id": "P15C7D56",
+      "official_name": "関智一",
+      "merge_from": [
+        "P919C9CE"
+      ],
+      "merge_from_names": [
+        "關智一"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 2,
+      "primary_id": "P9EF7685",
+      "official_name": "草彅剛",
+      "merge_from": [
+        "P66C887B"
+      ],
+      "merge_from_names": [
+        "草なぎ剛"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 3,
+      "primary_id": "P710BB63",
+      "official_name": "HIKAKIN",
+      "merge_from": [
+        "PCAA9A83"
+      ],
+      "merge_from_names": [
+        "ヒカキン"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 4,
+      "primary_id": "PA0A84C1",
+      "official_name": "マリー・キュリー",
+      "merge_from": [
+        "P30C82AF"
+      ],
+      "merge_from_names": [
+        "メアリー・キュリー"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 5,
+      "primary_id": "PABED904",
+      "official_name": "スティーブ・ジョブズ",
+      "merge_from": [
+        "PC8CD5A8"
+      ],
+      "merge_from_names": [
+        "スティーブン・ポール・ジョブズ"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 6,
+      "primary_id": "P99AEAE2",
+      "official_name": "あいみょん",
+      "merge_from": [
+        "PB80DFBB"
+      ],
+      "merge_from_names": [
+        "Aimyon"
+      ],
+      "total_episodes": 7
+    },
+    {
+      "cluster_id": 7,
+      "primary_id": "PFF08AEB",
+      "official_name": "三笘薫",
+      "merge_from": [
+        "PA382630"
+      ],
+      "merge_from_names": [
+        "三苫薫"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 8,
+      "primary_id": "P8E2D58A",
+      "official_name": "やなせたかし",
+      "merge_from": [
+        "P0F31D14"
+      ],
+      "merge_from_names": [
+        "アンパンマンのやなせたかし"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 9,
+      "primary_id": "PAED3B78",
+      "official_name": "三輪明宏",
+      "merge_from": [
+        "PDDF534C"
+      ],
+      "merge_from_names": [
+        "美輪明宏"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 12,
+      "primary_id": "PC2131F8",
+      "official_name": "長嶋一茂",
+      "merge_from": [
+        "P9570418"
+      ],
+      "merge_from_names": [
+        "長島一茂"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 13,
+      "primary_id": "P7F25755",
+      "official_name": "新田真剣佑",
+      "merge_from": [
+        "PF70558C"
+      ],
+      "merge_from_names": [
+        "真剣佑"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 14,
+      "primary_id": "P3D3C0A3",
+      "official_name": "GACKT",
+      "merge_from": [
+        "P327C68B"
+      ],
+      "merge_from_names": [
+        "ガクト"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 15,
+      "primary_id": "P056DAFA",
+      "official_name": "福島瑞穂",
+      "merge_from": [
+        "P3556406"
+      ],
+      "merge_from_names": [
+        "福島みずほ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 16,
+      "primary_id": "P611D093",
+      "official_name": "松潤",
+      "merge_from": [
+        "P95DECD5"
+      ],
+      "merge_from_names": [
+        "松本潤"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 17,
+      "primary_id": "PAC8CF5F",
+      "official_name": "オダギリジョー",
+      "merge_from": [
+        "P7BB6434"
+      ],
+      "merge_from_names": [
+        "小田切譲"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 18,
+      "primary_id": "PE82C735",
+      "official_name": "レオナルド・ディカプリオ",
+      "merge_from": [
+        "P2C5D871"
+      ],
+      "merge_from_names": [
+        "ディカプリオ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 19,
+      "primary_id": "P6945868",
+      "official_name": "セナ・アイルトン",
+      "merge_from": [
+        "P5460B52"
+      ],
+      "merge_from_names": [
+        "アイルトン・セナ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 20,
+      "primary_id": "PA4E5C6D",
+      "official_name": "フロイド・メイウェザー",
+      "merge_from": [
+        "P3C101C2"
+      ],
+      "merge_from_names": [
+        "フロイド・メイウェザー・ジュニア"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 21,
+      "primary_id": "PF09ED33",
+      "official_name": "富樫義博",
+      "merge_from": [
+        "P0132F3E"
+      ],
+      "merge_from_names": [
+        "冨樫義博"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 22,
+      "primary_id": "P29B3AB0",
+      "official_name": "福沢諭吉",
+      "merge_from": [
+        "PB7F9667"
+      ],
+      "merge_from_names": [
+        "福澤諭吉"
+      ],
+      "total_episodes": 10
+    },
+    {
+      "cluster_id": 23,
+      "primary_id": "P02FA518",
+      "official_name": "北里柴三郎",
+      "merge_from": [
+        "P7C98F54"
+      ],
+      "merge_from_names": [
+        "柴三郎"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 24,
+      "primary_id": "P9CCF1E2",
+      "official_name": "寺地拳四朗",
+      "merge_from": [
+        "PC4A7BAC"
+      ],
+      "merge_from_names": [
+        "拳四朗"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 25,
+      "primary_id": "P2214B68",
+      "official_name": "中村吉右衛門（2代目）",
+      "merge_from": [
+        "P9499606"
+      ],
+      "merge_from_names": [
+        "中村吉右衛門"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 26,
+      "primary_id": "P0C4F00C",
+      "official_name": "ケネディ",
+      "merge_from": [
+        "PF5FF6D0"
+      ],
+      "merge_from_names": [
+        "ジョン・F・ケネディ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 27,
+      "primary_id": "P1D91E90",
+      "official_name": "シェイクスピア",
+      "merge_from": [
+        "P019E95A"
+      ],
+      "merge_from_names": [
+        "ウィリアム・シェイクスピア"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 28,
+      "primary_id": "PA63002F",
+      "official_name": "池上彰",
+      "merge_from": [
+        "P90B1E9F"
+      ],
+      "merge_from_names": [
+        "イケガミアキラ"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 29,
+      "primary_id": "PBC4ECE7",
+      "official_name": "黒澤明",
+      "merge_from": [
+        "PEAD2B7B"
+      ],
+      "merge_from_names": [
+        "黒沢明"
+      ],
+      "total_episodes": 23
+    },
+    {
+      "cluster_id": 30,
+      "primary_id": "P5172E80",
+      "official_name": "チャーリー・チャップリン",
+      "merge_from": [
+        "P6B3F4DB",
+        "P84A5F17"
+      ],
+      "merge_from_names": [
+        "チャールズ・チャップリン",
+        "チャップリン"
+      ],
+      "total_episodes": 8
+    },
+    {
+      "cluster_id": 32,
+      "primary_id": "PAEC0A93",
+      "official_name": "高橋留美子",
+      "merge_from": [
+        "P96E7130"
+      ],
+      "merge_from_names": [
+        "留美子高橋"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 33,
+      "primary_id": "P8DEB733",
+      "official_name": "キリアン・ムバッペ",
+      "merge_from": [
+        "PA7D299B",
+        "P6FBA3FA"
+      ],
+      "merge_from_names": [
+        "エムバペ",
+        "キリアン・エムバペ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 34,
+      "primary_id": "PA7BC1AE",
+      "official_name": "シュリニヴァーサ・ラマヌジャン",
+      "merge_from": [
+        "PCA756C4"
+      ],
+      "merge_from_names": [
+        "ラマヌジャン"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 35,
+      "primary_id": "P2BFEA10",
+      "official_name": "古舘伊知郎",
+      "merge_from": [
+        "PDD8E185"
+      ],
+      "merge_from_names": [
+        "古館伊知郎"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 36,
+      "primary_id": "PC6B9A38",
+      "official_name": "ビル・ゲイツ",
+      "merge_from": [
+        "P2D4F6B5"
+      ],
+      "merge_from_names": [
+        "ゲイツ"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 37,
+      "primary_id": "PAD8E8CF",
+      "official_name": "サッチャー",
+      "merge_from": [
+        "P03A1CF3"
+      ],
+      "merge_from_names": [
+        "マーガレット・サッチャー"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 38,
+      "primary_id": "P4AAA19D",
+      "official_name": "フランクリン・ルーズベルト",
+      "merge_from": [
+        "P2CF9AEC"
+      ],
+      "merge_from_names": [
+        "フランクリン・D・ローズベルト"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 39,
+      "primary_id": "P307CF34",
+      "official_name": "千原ジュニア",
+      "merge_from": [
+        "P3286C8B"
+      ],
+      "merge_from_names": [
+        "千原浩史"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 40,
+      "primary_id": "PF09D3AA",
+      "official_name": "宮澤喜一",
+      "merge_from": [
+        "P6859388"
+      ],
+      "merge_from_names": [
+        "宮沢喜一"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 41,
+      "primary_id": "PA6CFA85",
+      "official_name": "デヴィッド・ボウイ",
+      "merge_from": [
+        "PB937E5E",
+        "P707DB1E"
+      ],
+      "merge_from_names": [
+        "デイヴィッド・ボウイ",
+        "ボウイ・デビッド"
+      ],
+      "total_episodes": 7
+    },
+    {
+      "cluster_id": 42,
+      "primary_id": "P596E029",
+      "official_name": "石ノ森章太郎",
+      "merge_from": [
+        "PE149D28"
+      ],
+      "merge_from_names": [
+        "石森章太郎"
+      ],
+      "total_episodes": 7
+    },
+    {
+      "cluster_id": 43,
+      "primary_id": "PD08590B",
+      "official_name": "ミハイル・ゴルバチョフ",
+      "merge_from": [
+        "P0A34897"
+      ],
+      "merge_from_names": [
+        "ゴルバチョフ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 44,
+      "primary_id": "PF44A276",
+      "official_name": "ショパン",
+      "merge_from": [
+        "PF385043"
+      ],
+      "merge_from_names": [
+        "フレデリック・ショパン"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 45,
+      "primary_id": "P83B2D07",
+      "official_name": "ロバート・デ・ニーロ",
+      "merge_from": [
+        "P09CC63E"
+      ],
+      "merge_from_names": [
+        "デ・ニーロ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 46,
+      "primary_id": "P56E484F",
+      "official_name": "スティーブン・ホーキング",
+      "merge_from": [
+        "P59C64A8"
+      ],
+      "merge_from_names": [
+        "ホーキング"
+      ],
+      "total_episodes": 9
+    },
+    {
+      "cluster_id": 47,
+      "primary_id": "PD7D47F2",
+      "official_name": "マハトマ・ガンジー",
+      "merge_from": [
+        "P208FF4E"
+      ],
+      "merge_from_names": [
+        "ガンディー"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 48,
+      "primary_id": "P19A674B",
+      "official_name": "アレクサンダー大王",
+      "merge_from": [
+        "P97D2BFA"
+      ],
+      "merge_from_names": [
+        "アレクサンドロス大王"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 49,
+      "primary_id": "P9BAD338",
+      "official_name": "ゆうこりん（小倉優子）",
+      "merge_from": [
+        "P580540B"
+      ],
+      "merge_from_names": [
+        "小倉優子"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 50,
+      "primary_id": "P1A4E38A",
+      "official_name": "ロナウド・ナザーリオ",
+      "merge_from": [
+        "P3E85F53"
+      ],
+      "merge_from_names": [
+        "ロナウド"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 51,
+      "primary_id": "P8A03084",
+      "official_name": "つんく♂",
+      "merge_from": [
+        "PF4E4B7E"
+      ],
+      "merge_from_names": [
+        "つんく"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 52,
+      "primary_id": "PA647C8E",
+      "official_name": "ガリレオ・ガリレイ",
+      "merge_from": [
+        "PD4874BF"
+      ],
+      "merge_from_names": [
+        "ガリレイ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 53,
+      "primary_id": "PA42B2FB",
+      "official_name": "兼近大樹",
+      "merge_from": [
+        "P3E6EC5B"
+      ],
+      "merge_from_names": [
+        "兼近"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 54,
+      "primary_id": "PAB07C14",
+      "official_name": "ニーチェ",
+      "merge_from": [
+        "P7EAE36D",
+        "PDD1D606"
+      ],
+      "merge_from_names": [
+        "フリードリヒ・ニーチェ",
+        "フリードリッヒ・ニーチェ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 55,
+      "primary_id": "PC34E000",
+      "official_name": "バッハ",
+      "merge_from": [
+        "PB6418FB",
+        "PCF5D9BF"
+      ],
+      "merge_from_names": [
+        "ヨハン・セバスチャン・バッハ",
+        "ヨハン・セバスティアン・バッハ"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 56,
+      "primary_id": "P46ADEDA",
+      "official_name": "ウィンストン・チャーチル",
+      "merge_from": [
+        "PE7003B3"
+      ],
+      "merge_from_names": [
+        "チャーチル"
+      ],
+      "total_episodes": 14
+    },
+    {
+      "cluster_id": 58,
+      "primary_id": "P970A0CD",
+      "official_name": "トーマス・エジソン",
+      "merge_from": [
+        "P2218008",
+        "PBF68AA6"
+      ],
+      "merge_from_names": [
+        "エジソン",
+        "トーマス・アルバ・エジソン"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 59,
+      "primary_id": "PAD7299B",
+      "official_name": "竹田恆和",
+      "merge_from": [
+        "PF14BE6F"
+      ],
+      "merge_from_names": [
+        "竹田恒和"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 60,
+      "primary_id": "P4DEE500",
+      "official_name": "市川團十郎",
+      "merge_from": [
+        "PDADF881"
+      ],
+      "merge_from_names": [
+        "市川團十郎（12代目）"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 62,
+      "primary_id": "PE88E31",
+      "official_name": "フランツ・カフカ",
+      "merge_from": [
+        "P7F5AD5C"
+      ],
+      "merge_from_names": [
+        "カフカ"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 63,
+      "primary_id": "PDE1EBEB",
+      "official_name": "キング牧師",
+      "merge_from": [
+        "PBB3E573",
+        "P3D93F26",
+        "P9D4B33",
+        "P82652A3"
+      ],
+      "merge_from_names": [
+        "マルティン・ルター・キング・ジュニア",
+        "マルティン・ルター・キング",
+        "マーティン・ルーサー・キング",
+        "マーティン・ルーサー・キング・ジュニア"
+      ],
+      "total_episodes": 7
+    },
+    {
+      "cluster_id": 64,
+      "primary_id": "PD9455EA",
+      "official_name": "ジョン・フォン・ノイマン",
+      "merge_from": [
+        "PF2008C1"
+      ],
+      "merge_from_names": [
+        "ジョン・ノイマン"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 65,
+      "primary_id": "P8D5DEDF",
+      "official_name": "デビッド・ベッカム",
+      "merge_from": [
+        "PFE0B530"
+      ],
+      "merge_from_names": [
+        "デイビッド・ベッカム"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 66,
+      "primary_id": "P0B8695D",
+      "official_name": "ラヴェル",
+      "merge_from": [
+        "P1408A33"
+      ],
+      "merge_from_names": [
+        "モーリス・ラヴェル"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 67,
+      "primary_id": "P232373B",
+      "official_name": "クレメンス・ロジャー",
+      "merge_from": [
+        "P41316B0"
+      ],
+      "merge_from_names": [
+        "ロジャー・クレメンス"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 68,
+      "primary_id": "PA3A0CA2",
+      "official_name": "田中眞紀子",
+      "merge_from": [
+        "PE416E39"
+      ],
+      "merge_from_names": [
+        "田中真紀子"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 69,
+      "primary_id": "P956E8E9",
+      "official_name": "西川潔",
+      "merge_from": [
+        "P26D7E4E"
+      ],
+      "merge_from_names": [
+        "西川きよし"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 71,
+      "primary_id": "P74ABE22",
+      "official_name": "マラドーナ",
+      "merge_from": [
+        "PD44C641"
+      ],
+      "merge_from_names": [
+        "ディエゴ・マラドーナ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 72,
+      "primary_id": "P7B8B40C",
+      "official_name": "柳田國男",
+      "merge_from": [
+        "P24A6C90"
+      ],
+      "merge_from_names": [
+        "柳田国男"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 73,
+      "primary_id": "PBCB04BA",
+      "official_name": "コロンブス",
+      "merge_from": [
+        "P6602989"
+      ],
+      "merge_from_names": [
+        "クリストファー・コロンブス"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 74,
+      "primary_id": "P7B36480",
+      "official_name": "ドストエフスキー",
+      "merge_from": [
+        "P50CB213"
+      ],
+      "merge_from_names": [
+        "フョードル・ドストエフスキー"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 75,
+      "primary_id": "P0EBC78E",
+      "official_name": "カビブ・ヌルマゴメドフ",
+      "merge_from": [
+        "PCA28D24"
+      ],
+      "merge_from_names": [
+        "ハビブ・ヌルマゴメドフ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 76,
+      "primary_id": "PB1C262A",
+      "official_name": "ブラームス",
+      "merge_from": [
+        "P85B66D5"
+      ],
+      "merge_from_names": [
+        "ヨハネス・ブラームス"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 77,
+      "primary_id": "P9436D2A",
+      "official_name": "ウォルト・ディズニー",
+      "merge_from": [
+        "P8ECC850",
+        "PC6CE45D"
+      ],
+      "merge_from_names": [
+        "ディズニー",
+        "ディズニー・ウォルト"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 78,
+      "primary_id": "PB672FE7",
+      "official_name": "ドビュッシー",
+      "merge_from": [
+        "P7186F21"
+      ],
+      "merge_from_names": [
+        "クロード・ドビュッシー"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 79,
+      "primary_id": "PDD94141",
+      "official_name": "渡邉恒雄",
+      "merge_from": [
+        "PCA745ED"
+      ],
+      "merge_from_names": [
+        "渡辺恒雄"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 80,
+      "primary_id": "P4BBAD3C",
+      "official_name": "ペレ",
+      "merge_from": [
+        "P7D34495",
+        "P806ABD1"
+      ],
+      "merge_from_names": [
+        "ペレ・マラドーナ",
+        "エドソン・ペレ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 81,
+      "primary_id": "P4075660",
+      "official_name": "岸惠子",
+      "merge_from": [
+        "P69C9F16"
+      ],
+      "merge_from_names": [
+        "岸恵子"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 82,
+      "primary_id": "P2CAD621",
+      "official_name": "ニコラウス・コペルニクス",
+      "merge_from": [
+        "P408B7F2"
+      ],
+      "merge_from_names": [
+        "コペルニクス"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 83,
+      "primary_id": "P1343B6",
+      "official_name": "J.K.ローリング",
+      "merge_from": [
+        "P76108A7"
+      ],
+      "merge_from_names": [
+        "J・K・ローリング"
+      ],
+      "total_episodes": 7
+    },
+    {
+      "cluster_id": 84,
+      "primary_id": "PB45DC2C",
+      "official_name": "シグムント・フロイト",
+      "merge_from": [
+        "P0096BE1",
+        "PF263831"
+      ],
+      "merge_from_names": [
+        "ジークムント・フロイト",
+        "フロイト"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 85,
+      "primary_id": "P44173BB",
+      "official_name": "アントニン・ドヴォルザーク",
+      "merge_from": [
+        "P81279F8"
+      ],
+      "merge_from_names": [
+        "ドヴォルザーク"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 86,
+      "primary_id": "P88A2240",
+      "official_name": "ジェフ・ベゾス",
+      "merge_from": [
+        "P45C2F04",
+        "P35B7EC3",
+        "P36AF516",
+        "PCB224C9"
+      ],
+      "merge_from_names": [
+        "ジム・ベゾス",
+        "ジェフ・ベソス",
+        "ジェフリー・プレストン・ベゾス",
+        "ベゾス"
+      ],
+      "total_episodes": 6
+    },
+    {
+      "cluster_id": 87,
+      "primary_id": "P5F77568",
+      "official_name": "イマヌエル・カント",
+      "merge_from": [
+        "PC95A729"
+      ],
+      "merge_from_names": [
+        "カント"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 89,
+      "primary_id": "PB271220",
+      "official_name": "ラフマニノフ",
+      "merge_from": [
+        "P3693BD9"
+      ],
+      "merge_from_names": [
+        "セルゲイ・ラフマニノフ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 90,
+      "primary_id": "P13DC777",
+      "official_name": "ジェイク・ギレンホール",
+      "merge_from": [
+        "P262A9CE"
+      ],
+      "merge_from_names": [
+        "ジェイク・ジレンホール"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 91,
+      "primary_id": "P6EC13D8",
+      "official_name": "チャールズ・ダーウィン",
+      "merge_from": [
+        "P4F863D2",
+        "P3B12DD0"
+      ],
+      "merge_from_names": [
+        "チャールス・ダーウィン",
+        "ダーウィン"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 92,
+      "primary_id": "PC91C14C",
+      "official_name": "エメリヤーエンコ・ヒョードル",
+      "merge_from": [
+        "P17898FC"
+      ],
+      "merge_from_names": [
+        "ヒョードル・エメリヤーエンコ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 93,
+      "primary_id": "PD0FAF68",
+      "official_name": "フランシス・フォード・コッポラ",
+      "merge_from": [
+        "P033080A"
+      ],
+      "merge_from_names": [
+        "コッポラ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 94,
+      "primary_id": "P4FA034A",
+      "official_name": "エディー・マーフィー",
+      "merge_from": [
+        "P5BE5350"
+      ],
+      "merge_from_names": [
+        "エディ・マーフィー"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 95,
+      "primary_id": "P52BB5A5",
+      "official_name": "ヨハネス・フェルメール",
+      "merge_from": [
+        "PB259CA9"
+      ],
+      "merge_from_names": [
+        "フェルメール"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 96,
+      "primary_id": "P80F6D7E",
+      "official_name": "クリムト",
+      "merge_from": [
+        "P826D412"
+      ],
+      "merge_from_names": [
+        "グスタフ・クリムト"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 97,
+      "primary_id": "P7ED6C89",
+      "official_name": "ルノワール",
+      "merge_from": [
+        "P3D941F2"
+      ],
+      "merge_from_names": [
+        "オーギュスト・ルノワール"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 98,
+      "primary_id": "P4ABFA9A",
+      "official_name": "デカルト",
+      "merge_from": [
+        "PA3293CA"
+      ],
+      "merge_from_names": [
+        "ルネ・デカルト"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 99,
+      "primary_id": "PAC3E10B",
+      "official_name": "フグ田サザエ",
+      "merge_from": [
+        "P3B0F758"
+      ],
+      "merge_from_names": [
+        "サザエさん"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 100,
+      "primary_id": "P03AB89B",
+      "official_name": "アントワーヌ・グリーズマン",
+      "merge_from": [
+        "P2CEA202"
+      ],
+      "merge_from_names": [
+        "グリーズマン"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 101,
+      "primary_id": "P2595B54",
+      "official_name": "アーネスト・ヘミングウェイ",
+      "merge_from": [
+        "PE7B5EB4"
+      ],
+      "merge_from_names": [
+        "ヘミングウェイ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 102,
+      "primary_id": "P7B3C561",
+      "official_name": "ミケランジェロ",
+      "merge_from": [
+        "P98FEC31"
+      ],
+      "merge_from_names": [
+        "ミケランジェロ・ブオナローティ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 104,
+      "primary_id": "P62F5978",
+      "official_name": "ヤニス・アンテトクンポ",
+      "merge_from": [
+        "PEBDA668",
+        "P48007C9"
+      ],
+      "merge_from_names": [
+        "ヤニス・アデトクンポ",
+        "ヤニス・アデトクンボ"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 105,
+      "primary_id": "P8A875EA",
+      "official_name": "ジャン＝ポール・サルトル",
+      "merge_from": [
+        "P46036A3",
+        "P0BF8BD0"
+      ],
+      "merge_from_names": [
+        "ジャン・ポール・サルトル",
+        "サルトル"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 106,
+      "primary_id": "P9BC758E",
+      "official_name": "レフ・トルストイ",
+      "merge_from": [
+        "PBC3682D"
+      ],
+      "merge_from_names": [
+        "トルストイ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 107,
+      "primary_id": "P7E10CF9",
+      "official_name": "ニューマン・ポール",
+      "merge_from": [
+        "P22BF022"
+      ],
+      "merge_from_names": [
+        "ポール・ニューマン"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 108,
+      "primary_id": "P48073B",
+      "official_name": "ジャック・マー",
+      "merge_from": [
+        "PCCEDEF9"
+      ],
+      "merge_from_names": [
+        "アリババ・ジャック・マー"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 109,
+      "primary_id": "P4C00879",
+      "official_name": "アンディ・ウォーホル",
+      "merge_from": [
+        "P1B3A0FF"
+      ],
+      "merge_from_names": [
+        "ウォーホル"
+      ],
+      "total_episodes": 5
+    },
+    {
+      "cluster_id": 110,
+      "primary_id": "P455A1CE",
+      "official_name": "ジョージ・オーウェル",
+      "merge_from": [
+        "PAA0EDAE"
+      ],
+      "merge_from_names": [
+        "オーウェル"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 111,
+      "primary_id": "P1D9237A",
+      "official_name": "フェルディナント・マゼラン",
+      "merge_from": [
+        "P818FCAD"
+      ],
+      "merge_from_names": [
+        "フェルディナンド・マゼラン"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 112,
+      "primary_id": "PA7878CF",
+      "official_name": "スンダー・ピチャイ",
+      "merge_from": [
+        "P23AE666"
+      ],
+      "merge_from_names": [
+        "サンダー・ピチャイ"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 113,
+      "primary_id": "PD331311",
+      "official_name": "ラリー・ページ",
+      "merge_from": [
+        "PEF28016"
+      ],
+      "merge_from_names": [
+        "ラリー・ペイジ"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 114,
+      "primary_id": "PD15CB0E",
+      "official_name": "ベンジャミン・フランクリン",
+      "merge_from": [
+        "PF8BE485"
+      ],
+      "merge_from_names": [
+        "フランクリン・ベンジャミン"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 115,
+      "primary_id": "P92C859C",
+      "official_name": "デヴィッド・リンチ",
+      "merge_from": [
+        "PD7096AD"
+      ],
+      "merge_from_names": [
+        "デイヴィッド・リンチ"
+      ],
+      "total_episodes": 4
+    },
+    {
+      "cluster_id": 116,
+      "primary_id": "P07A2369",
+      "official_name": "西田幾多郎",
+      "merge_from": [
+        "P6116925"
+      ],
+      "merge_from_names": [
+        "西田幾太郎"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 117,
+      "primary_id": "P569EDC7",
+      "official_name": "真島ヒロ",
+      "merge_from": [
+        "PFED7262"
+      ],
+      "merge_from_names": [
+        "真島浩"
+      ],
+      "total_episodes": 3
+    },
+    {
+      "cluster_id": 118,
+      "primary_id": "P887401C",
+      "official_name": "テニス・カルロス・アルカラス",
+      "merge_from": [
+        "PB3E4E4C"
+      ],
+      "merge_from_names": [
+        "カルロス・アルカラス"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 119,
+      "primary_id": "P7F43D55",
+      "official_name": "ダニー・リカルド",
+      "merge_from": [
+        "P2F399C9"
+      ],
+      "merge_from_names": [
+        "ダニエル・リカルド"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 120,
+      "primary_id": "P919956D",
+      "official_name": "丸山眞男",
+      "merge_from": [
+        "P2D8B3D6"
+      ],
+      "merge_from_names": [
+        "丸山真男"
+      ],
+      "total_episodes": 2
+    },
+    {
+      "cluster_id": 39,
+      "primary_id": "P307CF34",
+      "official_name": "千原ジュニア",
+      "merge_from": [
+        "P3286C8B"
+      ],
+      "merge_from_names": [
+        "千原浩史"
+      ],
+      "total_episodes": 2
+    }
+  ],
+  "skipped": [
+    {
+      "cluster_id": 10,
+      "reason": "例外（分離維持）",
+      "entries": [
+        {
+          "person_id": "P777A8A2",
+          "name_input": "森田一義",
+          "name_csv": "森田一義",
+          "episode_count": 1,
+          "fame_score": 6.0,
+          "exists_in_csv": true
+        },
+        {
+          "person_id": "P1A40E23",
+          "name_input": "タモリ",
+          "name_csv": "タモリ",
+          "episode_count": 6,
+          "fame_score": 7.0,
+          "exists_in_csv": true
+        }
+      ]
+    },
+    {
+      "cluster_id": 11,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "PCAF398B",
+          "name_input": "和田アキ子",
+          "name_csv": "和田アキ子",
+          "episode_count": 3,
+          "fame_score": 7.0,
+          "exists_in_csv": true
+        },
+        {
+          "person_id": "P26E37BA",
+          "name_input": "紅白歌合戦司会・和田アキ子",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        }
+      ]
+    },
+    {
+      "cluster_id": 31,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "PC54F136",
+          "name_input": "エルヴィス・プレスリー",
+          "name_csv": "エルヴィス・プレスリー",
+          "episode_count": 11,
+          "fame_score": 70.0,
+          "exists_in_csv": true
+        },
+        {
+          "person_id": "P5E34276",
+          "name_input": "エルビス・プレスリー",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        }
+      ]
+    },
+    {
+      "cluster_id": 57,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "PCE243C0",
+          "name_input": "ナイナイ・矢部浩之",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        },
+        {
+          "person_id": "PF566BFB",
+          "name_input": "矢部浩之",
+          "name_csv": "矢部浩之",
+          "episode_count": 11,
+          "fame_score": 70.0,
+          "exists_in_csv": true
+        }
+      ]
+    },
+    {
+      "cluster_id": 61,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "P70535B0",
+          "name_input": "欽ちゃん・萩本欽一",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        },
+        {
+          "person_id": "PFA7BC9B",
+          "name_input": "萩本欽一",
+          "name_csv": "萩本欽一",
+          "episode_count": 2,
+          "fame_score": 7.0,
+          "exists_in_csv": true
+        }
+      ]
+    },
+    {
+      "cluster_id": 70,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "PCA4639A",
+          "name_input": "ケヴィン・コスナー",
+          "name_csv": "ケヴィン・コスナー",
+          "episode_count": 3,
+          "fame_score": 6.0,
+          "exists_in_csv": true
+        },
+        {
+          "person_id": "P04FDBB9",
+          "name_input": "ケビン・コスナー",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        }
+      ]
+    },
+    {
+      "cluster_id": 88,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "PEC07F35",
+          "name_input": "マーク・ザッカーバーグ",
+          "name_csv": "マーク・ザッカーバーグ",
+          "episode_count": 6,
+          "fame_score": 7.0,
+          "exists_in_csv": true
+        },
+        {
+          "person_id": "P9D8F752",
+          "name_input": "ザッカーバーグ",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        }
+      ]
+    },
+    {
+      "cluster_id": 103,
+      "reason": "片方のみ存在",
+      "entries": [
+        {
+          "person_id": "P077C719",
+          "name_input": "マイルス・デイビス",
+          "name_csv": "（CSV未登録）",
+          "episode_count": 0,
+          "fame_score": 0,
+          "exists_in_csv": false
+        },
+        {
+          "person_id": "P95D0700",
+          "name_input": "マイルス・デイヴィス",
+          "name_csv": "マイルス・デイヴィス",
+          "episode_count": 5,
+          "fame_score": 6.0,
+          "exists_in_csv": true
+        }
+      ]
+    }
+  ]
+}

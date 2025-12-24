@@ -216,3 +216,29 @@ python scripts/validators/person_name_duplicate_validator.py --check "エルビ�
 ### 自動実行
 - pre-commit: マスターCSV変更時に自動チェック
 - 回帰テスト: `tests/test_person_name_duplicates.py`
+
+---
+
+## 10. グループ自己参照の禁止
+
+### ルール
+グループ/コンビ自体のエピソードでは、`group_name`に自分自身を設定しない。
+
+### 誤った例
+```
+person_name: 博多華丸・大吉
+group_name: 博多華丸・大吉  ← 自己参照（NG）
+is_group_member: True       ← グループ自体なのでFalseであるべき
+```
+
+### 正しい例
+```
+person_name: 博多華丸・大吉
+group_name: 未登録          ← グループ自体なので不要
+is_group_member: False      ← グループ自体
+```
+
+### 修正対象（2025-12-24）
+35件の自己参照を一括修正:
+- 博多華丸・大吉、見取り図、アインシュタイン、BAD HOP、ゆでたまご
+- ダフト・パンク、中川家、世界のナベアツ、ワンダイレクション 等

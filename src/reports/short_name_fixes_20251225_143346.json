@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-12-25T14:33:46.473813",
+  "mode": "dry-run",
+  "total_fixes": 3,
+  "changes": [
+    {
+      "person_id": "PE1E5DFB",
+      "person_name": "フェルミ",
+      "reason": "フェルミ → エンリコ・フェルミ（イタリアの物理学者）",
+      "wikidata_qid": "Q8753",
+      "old_sitelinks": 56.0,
+      "new_sitelinks": 167,
+      "old_score": 381.68,
+      "new_score": 548.04,
+      "diff": 111.0
+    },
+    {
+      "person_id": "P9FD76A6",
+      "person_name": "ケプラー",
+      "reason": "ケプラー → ヨハネス・ケプラー（ドイツの天文学者）",
+      "wikidata_qid": "Q8963",
+      "old_sitelinks": 75.0,
+      "new_sitelinks": 181,
+      "old_score": 433.93,
+      "new_score": 592.72,
+      "diff": 106.0
+    },
+    {
+      "person_id": "P3943D87",
+      "person_name": "UA",
+      "reason": "UA → UA（日本の歌手、作詞家）",
+      "wikidata_qid": "Q455980",
+      "old_sitelinks": 0.0,
+      "new_sitelinks": 12,
+      "old_score": 425.8,
+      "new_score": 360.61,
+      "diff": 12.0
+    }
+  ]
+}

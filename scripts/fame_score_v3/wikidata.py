@@ -175,6 +175,138 @@ def get_inlinks_count(
         return 0
 
 
+def get_wikipedia_backlinks_count(
+    wikidata_id: str,
+    lang: str = "ja",
+    timeout: float = 30.0,
+) -> int:
+    """
+    Wikipedia記事の被リンク数（バックリンク）を取得。
+
+    Wikipedia APIを使用するため、SPARQLより高速。
+
+    Args:
+        wikidata_id: Wikidata ID（例: "Q312"）
+        lang: Wikipedia言語コード（例: "ja", "en"）
+        timeout: タイムアウト秒数
+
+    Returns:
+        被リンク数（取得失敗時は0）
+    """
+    _rate_limit()
+
+    # まずWikidata IDからWikipedia記事タイトルを取得
+    entity_url = f"https://www.wikidata.org/wiki/Special:EntityData/{wikidata_id}.json"
+    headers = {"User-Agent": "FameScoreBot/3.0 (https://github.com/example; contact@example.com)"}
+
+    try:
+        response = requests.get(entity_url, headers=headers, timeout=timeout)
+        if response.status_code != 200:
+            return 0
+
+        data = response.json()
+        entity = data.get("entities", {}).get(wikidata_id, {})
+        sitelinks = entity.get("sitelinks", {})
+
+        # 言語版Wikipediaのタイトルを取得
+        wiki_key = f"{lang}wiki"
+        if wiki_key not in sitelinks:
+            # 日本語版がない場合は英語版を試す
+            wiki_key = "enwiki"
+            if wiki_key not in sitelinks:
+                return 0
+
+        article_title = sitelinks[wiki_key].get("title", "")
+        if not article_title:
+            return 0
+
+        # Wikipedia APIでバックリンク数を取得
+        wiki_lang = "en" if wiki_key == "enwiki" else lang
+        return _get_backlinks_from_wikipedia(article_title, wiki_lang, timeout)
+
+    except (requests.RequestException, ValueError, KeyError):
+        return 0
+
+
+def _get_backlinks_from_wikipedia(
+    article_title: str,
+    lang: str = "ja",
+    timeout: float = 30.0,
+) -> int:
+    """
+    Wikipedia記事タイトルから被リンク数を取得。
+
+    Args:
+        article_title: Wikipedia記事タイトル
+        lang: Wikipedia言語コード
+        timeout: タイムアウト秒数
+
+    Returns:
+        被リンク数
+    """
+    url = f"https://{lang}.wikipedia.org/w/api.php"
+    params = {
+        "action": "query",
+        "titles": article_title,
+        "prop": "linkshere",
+        "lhlimit": "500",  # 最大500件まで取得
+        "lhnamespace": "0",  # 記事名前空間のみ
+        "format": "json",
+    }
+    headers = {"User-Agent": "FameScoreBot/3.0 (https://github.com/example; contact@example.com)"}
+
+    try:
+        response = requests.get(url, params=params, headers=headers, timeout=timeout)
+        if response.status_code != 200:
+            return 0
+
+        data = response.json()
+        pages = data.get("query", {}).get("pages", {})
+
+        for page_data in pages.values():
+            if "linkshere" in page_data:
+                return len(page_data["linkshere"])
+        return 0
+
+    except (requests.RequestException, ValueError):
+        return 0
+
+
+def get_inlinks_hybrid(
+    wikidata_id: str,
+    lang: str = "ja",
+    use_sparql_fallback: bool = False,
+) -> int:
+    """
+    被リンク数をハイブリッド方式で取得。
+
+    優先順位:
+    1. Wikipedia API（高速、言語別）
+    2. Wikidata SPARQL（正確、全言語）- オプション
+
+    Args:
+        wikidata_id: Wikidata ID
+        lang: Wikipedia言語コード
+        use_sparql_fallback: Wikipedia APIで0の場合SPARQLを試すか
+
+    Returns:
+        被リンク数
+    """
+    if not wikidata_id:
+        return 0
+
+    # Wikipedia APIを優先（高速）
+    backlinks = get_wikipedia_backlinks_count(wikidata_id, lang)
+    if backlinks > 0:
+        return backlinks
+
+    # SPARQLフォールバック（オプション、時間がかかる）
+    if use_sparql_fallback:
+        return get_inlinks_count(wikidata_id)
+
+    return 0
+
+
 def search_wikidata(
     name: str,
     lang: str = "ja",

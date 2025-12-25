@@ -1,14 +1,14 @@
 エンティティ誤採用検知レポート
 ============================================================
 
-検知結果: 116件
+検知結果: 107件
   - Critical: 0件
-  - High: 8件
-  - Medium: 108件
+  - High: 6件
+  - Medium: 101件
 
 [HIGH] P7D97736 | ワシントン
-  type: REAL, wikidata: Q61
-  sitelinks: 295, pv: 992233, score: 728.3
+  type: REAL, wikidata: Q23
+  sitelinks: 264, pv: 992233, score: 729.2
   - 曖昧名前: 一般名詞/地名/宗教用語と同名
   Action: Wikidata P31を確認し、誤りなら修正
 
@@ -18,22 +18,9 @@
   - 曖昧名前: 一般名詞/地名/宗教用語と同名
   Action: Wikidata P31を確認し、誤りなら修正
 
-[HIGH] PA7E2C77 | ハリー・ポッター
-  type: FICTIONAL, wikidata: Q8337
-  sitelinks: 167, pv: 1635354, score: 694.5
-  - 架空キャラ高sitelinks(167): 誤マッピングの可能性
-  Action: Wikidata P31を確認し、誤りなら修正
-
-[HIGH] P4FEE7C7 | ミッキーマウス
-  type: FICTIONAL, wikidata: Q11934
-  sitelinks: 174, pv: 367450, score: 659.5
-  - 架空キャラ高sitelinks(174): 誤マッピングの可能性
-  Action: Wikidata P31を確認し、誤りなら修正
-
 [HIGH] PB883441 | ゼウス
   type: FICTIONAL, wikidata: Q34201
   sitelinks: 143, pv: 730085, score: 633.4
-  - 架空キャラ中sitelinks(143): 要確認
   - 短名前(3文字)高スコア(633)
   - 曖昧名前: 一般名詞/地名/宗教用語と同名
   Action: Wikidata P31を確認し、誤りなら修正
@@ -41,7 +28,6 @@
 [HIGH] PF6B0D8E | アテナ
   type: FICTIONAL, wikidata: Q37122
   sitelinks: 123, pv: 568219, score: 596.4
-  - 架空キャラ中sitelinks(123): 要確認
   - 短名前(3文字)高スコア(596)
   - 曖昧名前: 一般名詞/地名/宗教用語と同名
   Action: Wikidata P31を確認し、誤りなら修正
@@ -184,6 +170,12 @@
   - 短名前(3文字)高スコア(661)
   Action: 手動確認推奨
 
+[MEDIUM] P4FEE7C7 | ミッキーマウス
+  type: FICTIONAL, wikidata: Q11934
+  sitelinks: 174, pv: 367450, score: 659.5
+  - 架空キャラ中sitelinks(174): 有名キャラか確認
+  Action: 手動確認推奨
+
 [MEDIUM] PCC67E67 | 北斎
   type: REAL, wikidata: Q5586
   sitelinks: 171, pv: 368475, score: 654.7
@@ -224,24 +216,6 @@
   type: REAL, wikidata: Q37979
   sitelinks: 128, pv: 633618, score: 606.6
   - 短名前(2文字)高スコア(607)
-  Action: 手動確認推奨
-
-[MEDIUM] P9B7FD0C | シャーロック・ホームズ
-  type: FICTIONAL, wikidata: Q4653
-  sitelinks: 130, pv: 541307, score: 605.2
-  - 架空キャラ中sitelinks(130): 要確認
-  Action: 手動確認推奨
-
-[MEDIUM] P3E6A4F5 | ピーター・パーカー
-  type: FICTIONAL, wikidata: Q79037
-  sitelinks: 126, pv: 555351, score: 600.1
-  - 架空キャラ中sitelinks(126): 要確認
-  Action: 手動確認推奨
-
-[MEDIUM] P5D39F70 | アポロン
-  type: FICTIONAL, wikidata: Q37340
-  sitelinks: 122, pv: 626883, score: 597.7
-  - 架空キャラ中sitelinks(122): 要確認
   Action: 手動確認推奨
 
 [MEDIUM] PAE8B089 | 紫式部
@@ -286,18 +260,6 @@
   - 短名前(3文字)高スコア(575)
   Action: 手動確認推奨
 
-[MEDIUM] P20B5EE5 | アーサー王
-  type: FICTIONAL, wikidata: Q45792
-  sitelinks: 107, pv: 614336, score: 574.4
-  - 架空キャラ中sitelinks(107): 要確認
-  Action: 手動確認推奨
-
-[MEDIUM] PE255F82 | ドラえもん
-  type: FICTIONAL, wikidata: Q235311
-  sitelinks: 110, pv: 372058, score: 563.1
-  - 架空キャラ中sitelinks(110): 要確認
-  Action: 手動確認推奨
-
 [MEDIUM] P7ED53F1 | ロダン
   type: REAL, wikidata: Q30755
   sitelinks: 127, pv: 144718, score: 560.0
@@ -308,12 +270,6 @@
   type: REAL, wikidata: Q531814
   sitelinks: 99, pv: 523436, score: 558.0
   - 短名前(2文字)高スコア(558)
-  Action: 手動確認推奨
-
-[MEDIUM] PBFE49C3 | ジェームズ・ボンド
-  type: FICTIONAL, wikidata: Q844
-  sitelinks: 101, pv: 474979, score: 557.2
-  - 架空キャラ中sitelinks(101): 要確認
   Action: 手動確認推奨
 
 [MEDIUM] PA4ED84C | 菅義偉
@@ -334,12 +290,6 @@
   - 短名前(3文字)高スコア(549)
   Action: 手動確認推奨
 
-[MEDIUM] PCBDFF2B | シンデレラ
-  type: FICTIONAL, wikidata: Q11841
-  sitelinks: 102, pv: 344748, score: 549.0
-  - 架空キャラ中sitelinks(102): 要確認
-  Action: 手動確認推奨
-
 [MEDIUM] PD3F791F | Eve
   type: REAL, wikidata: Q830183
   sitelinks: 122, pv: 130738, score: 548.6
@@ -355,7 +305,6 @@
 [MEDIUM] PAFFB8D3 | バンビ
   type: FICTIONAL, wikidata: Q43051
   sitelinks: 113, pv: 185235, score: 545.8
-  - 架空キャラ中sitelinks(113): 要確認
   - 短名前(3文字)高スコア(546)
   Action: 手動確認推奨
 
@@ -381,12 +330,6 @@
   type: REAL, wikidata: Q37453
   sitelinks: 128, pv: 64101, score: 535.9
   - 短名前(1文字)高スコア(536)
-  Action: 手動確認推奨
-
-[MEDIUM] PA265B33 | ジャスミン
-  type: FICTIONAL, wikidata: Q82014
-  sitelinks: 111, pv: 126598, score: 531.4
-  - 架空キャラ中sitelinks(111): 要確認
   Action: 手動確認推奨
 
 [MEDIUM] P4BF6991 | シーア
@@ -446,7 +389,6 @@
 [MEDIUM] PC3F045B | マイク
   type: FICTIONAL, wikidata: Q46384
   sitelinks: 109, pv: 97768, score: 520.1
-  - 架空キャラ中sitelinks(109): 要確認
   - 短名前(3文字)高スコア(520)
   Action: 手動確認推奨
 

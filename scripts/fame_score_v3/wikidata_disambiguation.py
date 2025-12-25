@@ -69,7 +69,30 @@ EXCLUDE_TYPES = {
     "Q6256",  # country（国）
     "Q515",  # city（都市）
     "Q16521",  # taxon（分類群 - 生物学的分類）
+    # 追加: 基本概念・動物・地理関連
+    "Q729",  # animal（動物）
+    "Q12136",  # disease（病気）
+    "Q82794",  # geographic region（地理的地域）
+    "Q7275",  # state（州）
+    "Q3624078",  # sovereign state（主権国家）
+    "Q5119",  # capital city（首都）
+    "Q18786",  # continent（大陸）
+    "Q8502",  # mountain（山）
+    "Q4022",  # river（川）
+    "Q23397",  # lake（湖）
+    "Q523",  # star（恒星）
+    "Q634",  # planet（惑星）
+    "Q1457376",  # musical ensemble（音楽グループ）
+    "Q215380",  # band（バンド）
+    "Q483501",  # musical artist（ミュージシャン名義）
+    "Q488111",  # chemical element（化学元素）
+    "Q11862829",  # academic discipline（学問分野）
+    "Q9174",  # religion（宗教）
 }
+
+# Q番号が小さい場合は基本概念の可能性が高い
+# 例: Q1=宇宙、Q5=人間、Q114=ケニア、Q140=ライオン、Q199=1
+BASIC_CONCEPT_QID_THRESHOLD = 1000
 
 
 @dataclass
@@ -209,21 +232,46 @@ def get_entity_details(
         return None
 
 
-def is_valid_person_type(instance_of: list[str], expected_type: str = "REAL") -> tuple[bool, str]:
+def is_basic_concept_qid(qid: str) -> bool:
+    """
+    Q番号が小さい（基本概念の可能性が高い）かチェック。
+
+    例: Q114=ケニア、Q140=ライオン、Q199=1
+    """
+    try:
+        qnum = int(qid[1:])  # "Q140" -> 140
+        return qnum < BASIC_CONCEPT_QID_THRESHOLD
+    except (ValueError, IndexError):
+        return False
+
+
+def is_valid_person_type(
+    instance_of: list[str],
+    expected_type: str = "REAL",
+    qid: str = None,
+) -> tuple[bool, str]:
     """
     P31の値から有効な人物タイプか判定。
 
     Args:
         instance_of: P31の値リスト
         expected_type: "REAL" または "FICTIONAL"
+        qid: WikidataのQ番号（基本概念チェック用）
 
     Returns:
         (有効か, 拒否理由)
     """
+    # Q番号が非常に小さい場合は基本概念の可能性（Q1=宇宙、Q5=人間を除く）
+    if qid and qid not in ("Q5", Q_HUMAN):
+        if is_basic_concept_qid(qid):
+            # 基本概念の可能性があるが、P31がhumanなら許可
+            if Q_HUMAN not in instance_of:
+                return False, f"basic_concept:{qid}"
+
     # 除外タイプに該当する場合
-    for qid in instance_of:
-        if qid in EXCLUDE_TYPES:
-            return False, f"excluded_type:{qid}"
+    for inst_qid in instance_of:
+        if inst_qid in EXCLUDE_TYPES:
+            return False, f"excluded_type:{inst_qid}"
 
     # humanかどうか
     is_human = Q_HUMAN in instance_of
@@ -301,11 +349,35 @@ def calculate_confidence(
     return min(score, 100.0)
 
 
+def get_min_confidence_for_name(name: str, person_type: str) -> float:
+    """
+    名前の長さとタイプに基づいて最低確信度を決定。
+
+    短い名前（≤3文字）は誤マッチのリスクが高いため、閾値を引き上げる。
+    """
+    # Unicode文字数でカウント（日本語対応）
+    name_len = len(name.strip())
+
+    if name_len <= 2:
+        # 非常に短い名前（例: "ONE", "ジジ"）は最も厳格
+        return 85.0
+    elif name_len <= 3:
+        # 短い名前（例: "ken"）は厳格
+        return 75.0
+    elif person_type == "FICTIONAL":
+        # 架空キャラクターは中程度
+        return 60.0
+    else:
+        # デフォルト
+        return 50.0
+
+
 def disambiguate_person(
     name: str,
     person_type: str = "REAL",
     lang: str = "ja",
-    min_confidence: float = 50.0,
+    min_confidence: float = None,
+    work_title: str = None,
 ) -> DisambiguationResult:
     """
     人物名からWikidataエンティティを曖昧性解決して選択。
@@ -314,13 +386,23 @@ def disambiguate_person(
         name: 人物名
         person_type: "REAL" または "FICTIONAL"
         lang: 検索言語
-        min_confidence: 最低確信度（これ未満は不採用）
+        min_confidence: 最低確信度（Noneの場合は名前長から自動決定）
+        work_title: 作品名（架空キャラの場合、検索クエリに追加）
 
     Returns:
         DisambiguationResult
     """
+    # 最低確信度を決定
+    if min_confidence is None:
+        min_confidence = get_min_confidence_for_name(name, person_type)
+
+    # 架空キャラクターで作品名がある場合、検索クエリに追加
+    search_query = name
+    if person_type == "FICTIONAL" and work_title and work_title not in ("未登録", ""):
+        search_query = f"{name} {work_title}"
+
     # 候補を取得
-    raw_candidates = search_wikidata_candidates(name, lang=lang, limit=10)
+    raw_candidates = search_wikidata_candidates(search_query, lang=lang, limit=10)
 
     if not raw_candidates:
         return DisambiguationResult(
@@ -353,8 +435,8 @@ def disambiguate_person(
             occupation=details["occupation"],
         )
 
-        # タイプチェック
-        is_valid, reason = is_valid_person_type(candidate.instance_of, person_type)
+        # タイプチェック（Q番号も渡す）
+        is_valid, reason = is_valid_person_type(candidate.instance_of, person_type, qid=qid)
         if not is_valid:
             candidate.rejection_reason = reason
             candidate.confidence = 0

@@ -5,9 +5,16 @@
 """
 
 import hashlib
+import logging
 import math
 from dataclasses import dataclass
 from typing import Optional
+
+logger = logging.getLogger(__name__)
+
+# 架空キャラクターのsitelinkガードレール
+FICTIONAL_SITELINKS_WARNING_THRESHOLD = 100
+FICTIONAL_SITELINKS_CAP = 50  # 異常に高い場合のキャップ
 
 
 @dataclass
@@ -95,6 +102,7 @@ def stable_tiebreaker(person_id: str) -> float:
 def calculate_fame_score(
     signals: FameSignals,
     person_id: str = "",
+    person_type: str = "REAL",
 ) -> FameScore:
     """
     有名人度スコアを計算。
@@ -102,13 +110,25 @@ def calculate_fame_score(
     Args:
         signals: 各シグナルの値
         person_id: 人物ID（タイブレーク用）
+        person_type: "REAL" または "FICTIONAL"
 
     Returns:
         FameScore オブジェクト
     """
+    # 架空キャラクターのガードレール
+    sitelinks_for_calc = signals.sitelinks
+    if person_type == "FICTIONAL":
+        if signals.sitelinks > FICTIONAL_SITELINKS_WARNING_THRESHOLD:
+            logger.warning(
+                f"FICTIONAL character {person_id} has unusually high sitelinks: "
+                f"{signals.sitelinks} (capped to {FICTIONAL_SITELINKS_CAP})"
+            )
+            # 異常に高いsitelinksをキャップ
+            sitelinks_for_calc = min(signals.sitelinks, FICTIONAL_SITELINKS_CAP)
+
     # 正規化
     norm_pv = normalize_pv(signals.multi_lang_pv)
-    norm_sitelinks = normalize_sitelinks(signals.sitelinks)
+    norm_sitelinks = normalize_sitelinks(sitelinks_for_calc)
     norm_inlinks = normalize_inlinks(signals.inlinks)
 
     # 重み付け合成

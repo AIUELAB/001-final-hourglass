@@ -1,5 +1,5 @@
 """
-有名人度スコア検証テスト
+スコア検証テスト
 
 異常値（NaN, inf, 負数, 上限超過）の検出と
 スケール変換のバグ防止テスト
@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 from validate_fame_score import validate_fame_scores, FAME_SCORE_MAX
+from validate_all_scores import validate_all_scores, SCORE_SPECS
 
 
 class TestFameScoreValidation:
@@ -94,6 +95,67 @@ class TestScaleConversionBugPrevention:
         assert (
             stats["episode_fame_score_max"] <= 1000
         ), f"episode_fame_scoreが1000を超えています: {stats['episode_fame_score_max']}"
+
+
+class TestAllScoresValidation:
+    """全スコアフィールド検証テスト"""
+
+    def test_all_scores_within_defined_ranges(self):
+        """全スコアが定義されたスケール範囲内であること"""
+        result = validate_all_scores()
+
+        # エラーがないこと
+        assert result["valid"], f"検証エラー: {result['errors'][:5]}"
+
+    def test_score_specs_cover_major_fields(self):
+        """主要スコアフィールドが定義されていること"""
+        spec_names = {spec.name for spec in SCORE_SPECS}
+
+        required_fields = [
+            "fame_score_v3",
+            "episode_fame_score",
+            "composite_score",
+            "fame_tier",
+        ]
+
+        for field in required_fields:
+            assert field in spec_names, f"必須フィールド未定義: {field}"
+
+    def test_no_scale_mixing_errors(self):
+        """スケール混在エラーがないこと（0-10と0-1000の混同など）"""
+        result = validate_all_scores()
+        stats = result["stats"]
+
+        # 0-10スケールのフィールドが100を超えていないこと
+        scale_10_fields = [
+            "composite_score",
+            "composite_score_5axis",
+            "llm_memorability_score",
+            "llm_empathy_score",
+        ]
+
+        for field in scale_10_fields:
+            if stats[field]["count"] > 0:
+                max_val = stats[field]["max"]
+                assert max_val <= 15, f"{field}が0-10スケールを大きく超過: {max_val}" "（10倍バグの可能性）"
+
+
+class TestDashboardScaleConsistency:
+    """ダッシュボードスケール整合性テスト"""
+
+    def test_dashboard_no_incorrect_multipliers(self):
+        """ダッシュボードに不正な乗算がないこと"""
+        dashboard_path = Path(__file__).parent.parent / "preserved/episode_database_dashboard_v10.html"
+
+        with open(dashboard_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # fame_score * 10 パターンが存在しないこと
+        assert "fame_score * 10" not in content, "fame_score * 10 パターンが残存"
+        assert "fame_score *10" not in content, "fame_score *10 パターンが残存"
+
+        # episode_fame_score * 10 パターンが存在しないこと
+        assert "episode_fame_score * 10" not in content, "episode_fame_score * 10 パターンが残存"
 
 
 if __name__ == "__main__":

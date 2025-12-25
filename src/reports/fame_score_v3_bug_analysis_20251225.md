@@ -182,12 +182,58 @@ git checkout HEAD~1 -- preserved/episode_database_dashboard_v10.html
 
 ---
 
-## 8. 完了サマリー
+## 8. 追加修正（包括監査）
+
+### 8.1 発見した追加の不整合
+
+| 箇所 | 問題 | 修正内容 |
+|------|------|----------|
+| 4049行 | `super_total_score`計算でスケール混在 | `composite * 100`で0-1000に統一 |
+| 4457行 | `composite_score`閾値が0-1000用 | 閾値を0-10用（7.5/6.5）に修正 |
+| 4467行 | `/1000`表示（composite_scoreは0-10） | `/10`に修正 |
+| 3687行 | `episode_fame_score`閾値が0-1000用 | 閾値を0-500用（350/250）に修正 |
+| 4452行 | `episode_fame_score`バッジ閾値 | 同上 |
+
+### 8.2 スコアフィールド定義（確定版）
+
+| スケール | フィールド |
+|----------|-----------|
+| 0-5 (Tier) | fame_tier, episode_fame_tier |
+| 0-10 | composite_score, llm_*, 記憶性, 共感性, 意外性, 生成品質, etc. |
+| 0-100 | fame_score (旧), fame_score_v2, impressiveness_score |
+| 0-500 | episode_fame_score |
+| 0-1000 | fame_score_v3, quality_score, priority_score |
+
+---
+
+## 9. 再発防止システム（包括版）
+
+### 9.1 検証スクリプト
+- `scripts/validate_fame_score.py` - 有名人度スコア専用
+- `scripts/validate_all_scores.py` - **全スコアフィールド包括検証**
+
+### 9.2 テストスイート（10テスト）
+- `TestFameScoreValidation` - 有名人度スコア検証（6テスト）
+- `TestAllScoresValidation` - 全スコア検証（3テスト）
+- `TestDashboardScaleConsistency` - ダッシュボード整合性（1テスト）
+
+### 9.3 定期実行コマンド
+```bash
+# 全スコア検証
+python scripts/validate_all_scores.py
+
+# テスト実行
+pytest tests/test_fame_score_validation.py -v
+```
+
+---
+
+## 10. 完了サマリー
 
 | 項目 | 結果 |
 |------|------|
-| 根本原因 | ダッシュボードの誤った10倍変換（fame_score_v3は既に0-1000スケール） |
-| 修正箇所 | 8箇所（ダッシュボードのみ） |
-| CSVデータ | 変更不要（正常） |
-| 検証 | ✅ 全テスト合格 |
-| 再発防止 | 検証スクリプト＋テスト追加
+| 根本原因 | ダッシュボードの誤った10倍変換 + スケール混在 |
+| 修正箇所 | **13箇所**（8箇所→追加5箇所） |
+| CSVデータ | 変更不要（全て正常範囲） |
+| 検証 | ✅ 全10テスト合格 |
+| 再発防止 | 包括検証スクリプト + テストスイート

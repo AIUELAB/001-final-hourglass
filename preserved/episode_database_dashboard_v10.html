@@ -3680,11 +3680,11 @@
 
             tbody.innerHTML = pageData.map((ep) => {
                 const rank = ep.rank;  // 元の順位を使用
-                const score = ep.episode_fame_score || 0;  // episode_fame_scoreは既に0-1000スケール
+                const score = ep.episode_fame_score || 0;  // episode_fame_scoreは0-500スケール（最大約433）
                 const tier = ep.episode_fame_tier;
 
-                // スコアの色（0-1000スケール用に閾値を調整）
-                const scoreColor = score >= 800 ? '#9333ea' : score >= 600 ? '#3b82f6' : '#6b7280';
+                // スコアの色（0-500スケール用に閾値を調整）
+                const scoreColor = score >= 350 ? '#9333ea' : score >= 250 ? '#3b82f6' : '#6b7280';
 
                 // Tierバッジの色
                 const tierColors = {
@@ -4043,13 +4043,14 @@
                                 episode_fame_tier: parseInt(r['episode_fame_tier']) || 0,
                                 // 7軸スコア
                                 composite_score: parseFloat(r['composite_score']) || null,
-                                // 超総合スコア（0-1000スケール）= composite×0.5 + fame_1000×0.25 + ep_fame_1000×0.25
+                                // 超総合スコア（0-1000スケール）= composite_1000×0.5 + fame_1000×0.25 + ep_fame_1000×0.25
                                 super_total_score: (() => {
                                     const composite = parseFloat(r['composite_score']) || 0;
+                                    const composite1000 = composite * 100;  // 0-10 → 0-1000に変換
                                     const fame1000 = fameScoreValue || 0;  // fame_score_v3は既に0-1000スケール
                                     const epFame1000 = episodeFameScoreValue || 0;  // episode_fame_scoreは既に0-1000スケール
                                     // 加重平均: エピソード品質50% + 有名人度25% + エピ有名度25%
-                                    return composite * 0.5 + fame1000 * 0.25 + epFame1000 * 0.25;
+                                    return composite1000 * 0.5 + fame1000 * 0.25 + epFame1000 * 0.25;
                                 })(),
                                 memorability_score: parseFloat(r['記憶性スコア']) || null,
                                 empathy_score: parseFloat(r['共感性スコア']) || null,
@@ -4448,14 +4449,14 @@
                                     </div>
                                     <div class="id-row">
                                         <span class="fame-label sortable-label" data-sort="episode_fame_score">エピ有名度 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge ${ep.episode_fame_score === null ? 'badge-na' : ''}" style="${ep.episode_fame_score !== null ? 'background: ' + (ep.episode_fame_score >= 800 ? '#dc2626' : ep.episode_fame_score >= 600 ? '#ea580c' : '#78716c') + '; color: white;' : ''} font-weight: 600;" ${ep.episode_fame_score === null ? 'title="データ未算出"' : ''}>
+                                        <span class="badge ${ep.episode_fame_score === null ? 'badge-na' : ''}" style="${ep.episode_fame_score !== null ? 'background: ' + (ep.episode_fame_score >= 350 ? '#dc2626' : ep.episode_fame_score >= 250 ? '#ea580c' : '#78716c') + '; color: white;' : ''} font-weight: 600;" ${ep.episode_fame_score === null ? 'title="データ未算出"' : ''}>
                                             ${ep.episode_fame_score !== null ? ep.episode_fame_score.toFixed(0) : 'N/A'}
                                         </span>
                                     </div>
                                     <div class="id-row">
                                         <span class="fame-label sortable-label" data-sort="composite_score">総合 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge" style="background: ${ep.composite_score >= 650 ? '#10b981' : ep.composite_score >= 500 ? '#84cc16' : '#6b7280'}; color: white; font-weight: 600;">
-                                            ${ep.composite_score ? ep.composite_score.toFixed(0) : '-'}
+                                        <span class="badge" style="background: ${ep.composite_score >= 7.5 ? '#10b981' : ep.composite_score >= 6.5 ? '#84cc16' : '#6b7280'}; color: white; font-weight: 600;">
+                                            ${ep.composite_score ? ep.composite_score.toFixed(1) : '-'}
                                         </span>
                                     </div>
                                 </div>
@@ -4464,7 +4465,7 @@
                             <!-- 7軸スコアセル -->
                             <td class="score-cell${ep.composite_score || ep.memorability_score || ep.empathy_score ? '' : ' no-scores'}">
                                 ${ep.composite_score || ep.memorability_score || ep.empathy_score ? `
-                                    <div class="composite-score">総合: <strong>${ep.composite_score ? ep.composite_score.toFixed(0) : '-'}</strong><small>/1000</small></div>
+                                    <div class="composite-score">総合: <strong>${ep.composite_score ? ep.composite_score.toFixed(1) : '-'}</strong><small>/10</small></div>
                                     <div class="axis-scores">
                                         <div class="score-row">
                                             <span><span class="score-label">記憶:</span>${ep.memorability_score ? ep.memorability_score.toFixed(1) : '<span class="missing">-</span>'}</span>

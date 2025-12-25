@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-12-25T12:52:02.863253",
+  "mode": "dry-run",
+  "total_suspicious": 4,
+  "fixed": 0,
+  "unchanged": 2,
+  "no_match": 2,
+  "changes": [
+    {
+      "person_id": "P0BEF798",
+      "person_name": "弁慶",
+      "status": "no_match",
+      "old_sitelinks": 30,
+      "new_sitelinks": 0,
+      "old_score": 396.68,
+      "new_score": 351.46,
+      "selected_qid": null,
+      "confidence": 0,
+      "rejection_reason": "low_confidence:0.0",
+      "changed": true
+    },
+    {
+      "person_id": "P3943D87",
+      "person_name": "UA",
+      "status": "no_match",
+      "old_sitelinks": 55,
+      "new_sitelinks": 0,
+      "old_score": 425.8,
+      "new_score": 342.61,
+      "selected_qid": null,
+      "confidence": 0,
+      "rejection_reason": "low_confidence:0.0",
+      "changed": true
+    }
+  ]
+}

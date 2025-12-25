@@ -3,11 +3,17 @@
 Fame Score v3 Phase 2 - Google検索ヒット数を追加してスコアを再計算。
 
 使用方法:
-    # ドライラン（上位100人のみテスト）
+    # ドライラン（上位10人のみテスト）
     python scripts/update_fame_scores_phase2.py --dry-run
 
-    # 本番実行
+    # 本番実行（日次上限まで）
     python scripts/update_fame_scores_phase2.py --execute
+
+    # 最大10クエリに制限
+    python scripts/update_fame_scores_phase2.py --execute --max-queries 10
+
+    # 自動実行モード（スケジューラ用）
+    python scripts/update_fame_scores_phase2.py --execute --auto
 
 環境変数:
     GOOGLE_API_KEY: Google Cloud APIキー
@@ -24,11 +30,22 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+from dotenv import load_dotenv
+
+# .envファイルを読み込み
+load_dotenv()
 
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.fame_score_v3.google_search import get_google_search_hits, get_stats, is_google_available, reset_stats
+from scripts.fame_score_v3.google_search import (
+    get_search_hits,
+    get_stats,
+    is_google_available,
+    is_serpapi_available,
+    reset_stats,
+)
+from scripts.fame_score_v3.quota_manager import GoogleQuotaManager
 from scripts.fame_score_v3.scorer import FameSignals, assign_ranks, calculate_fame_score
 
 # 定数
@@ -39,6 +56,27 @@ REPORT_DIR = Path("src/reports")
 # レート制限（Google API: 100 queries/day free tier）
 BATCH_SIZE = 50
 BATCH_INTERVAL = 2.0  # 秒
+
+# 短名スキップリスト（一般語と衝突するため検索結果が汚染される）
+SKIP_SHORT_NAMES = {
+    "ken",
+    "ONE",
+    "UA",
+    "IU",
+    "SZA",
+    "hide",
+    "AI",
+    "DJ",
+    "MC",
+    "Eve",
+    "May",
+    "Rio",
+    "Jun",
+    "Rei",
+    "Yui",
+    "Ryu",
+    "Kai",
+}
 
 
 def init_cache_db() -> sqlite3.Connection:
@@ -56,7 +94,7 @@ def init_cache_db() -> sqlite3.Connection:
 
 
 def get_persons_without_google_hits(conn: sqlite3.Connection) -> list[tuple[str, str]]:
-    """Google検索ヒット数が未取得の人物リストを取得"""
+    """Google検索ヒット数が未取得の人物リストを取得（スコア降順）"""
     cursor = conn.execute("""
         SELECT person_id, person_name
         FROM fame_cache
@@ -67,27 +105,38 @@ def get_persons_without_google_hits(conn: sqlite3.Connection) -> list[tuple[str,
 
 
 def run_dry_run() -> None:
-    """ドライラン（上位100人のみテスト）"""
+    """ドライラン（上位10人のみテスト）"""
     print(f"\n{'='*60}")
-    print("Phase 2 ドライラン（上位100人のみ）")
+    print("Phase 2 ドライラン（上位10人のみ）")
     print(f"{'='*60}\n")
 
-    if not is_google_available():
-        print("ERROR: Google API キーが設定されていません")
-        print("環境変数を設定してください:")
+    if not is_google_available() and not is_serpapi_available():
+        print("ERROR: 検索API キーが設定されていません")
+        print("以下のいずれかを設定してください:")
+        print("  export SERPAPI_API_KEY=your_api_key  (推奨)")
+        print("  または")
         print("  export GOOGLE_API_KEY=your_api_key")
         print("  export GOOGLE_CSE_ID=your_cse_id")
         return
 
+    api_type = "SerpAPI" if is_serpapi_available() else "Google"
+    print(f"使用API: {api_type}")
+
+    # クォータ確認
+    quota_mgr = GoogleQuotaManager(CACHE_DB_PATH)
+    status = quota_mgr.get_status()
+    print(f"今日のクォータ: {status.total_queries}/{status.quota_limit} (残り: {status.remaining})")
+    print()
+
     conn = init_cache_db()
 
-    # 上位100人を取得
+    # 上位10人を取得
     cursor = conn.execute("""
         SELECT person_id, person_name, fame_score_v3, multi_lang_pv, sitelinks
         FROM fame_cache
         WHERE fame_score_v3 IS NOT NULL
         ORDER BY fame_score_v3 DESC
-        LIMIT 100
+        LIMIT 10
     """)
     persons = cursor.fetchall()
 
@@ -95,9 +144,11 @@ def run_dry_run() -> None:
     print()
 
     results = []
-    for i, (pid, name, old_score, pv, sitelinks) in enumerate(persons[:10], 1):
+    for i, (pid, name, old_score, pv, sitelinks) in enumerate(persons, 1):
+        start_time = time.time()
         print(f"{i}. {name}...")
-        hits = get_google_search_hits(name, person_id=pid)
+        hits = get_search_hits(name, person_id=pid)
+        elapsed_ms = int((time.time() - start_time) * 1000)
 
         if hits:
             # 新スコア計算
@@ -120,8 +171,25 @@ def run_dry_run() -> None:
 
             print(f"   Google: {hits:,} hits")
             print(f"   スコア: {old_score:.2f} → {new_score.score:.2f}")
+
+            # ログ記録
+            quota_mgr.log_search(
+                person_id=pid,
+                query=name,
+                google_hits=hits,
+                status="success",
+                processing_time_ms=elapsed_ms,
+            )
         else:
             print("   Google: 取得失敗")
+            quota_mgr.log_search(
+                person_id=pid,
+                query=name,
+                google_hits=None,
+                status="error",
+                error_message="API call failed",
+                processing_time_ms=elapsed_ms,
+            )
 
         time.sleep(1.0)  # レート制限
 
@@ -132,61 +200,150 @@ def run_dry_run() -> None:
     conn.close()
 
 
-def run_execute(max_queries: int = 0) -> None:
-    """本番実行"""
-    print(f"\n{'='*60}")
-    print("Phase 2 本番実行")
-    print(f"{'='*60}\n")
+def run_execute(max_queries: int = 0, auto_mode: bool = False) -> int:
+    """
+    本番実行
 
-    if not is_google_available():
-        print("ERROR: Google API キーが設定されていません")
-        return
+    Args:
+        max_queries: 最大クエリ数（0=クォータ上限まで）
+        auto_mode: 自動実行モード（ログ出力を抑制）
+
+    Returns:
+        終了コード（0=正常、1=エラー）
+    """
+    if not auto_mode:
+        print(f"\n{'='*60}")
+        print("Phase 2 本番実行")
+        print(f"{'='*60}\n")
+
+    if not is_google_available() and not is_serpapi_available():
+        if not auto_mode:
+            print("ERROR: 検索API キーが設定されていません")
+        return 1
+
+    if not auto_mode:
+        api_type = "SerpAPI" if is_serpapi_available() else "Google"
+        print(f"使用API: {api_type}")
+
+    # クォータマネージャー初期化
+    quota_mgr = GoogleQuotaManager(CACHE_DB_PATH)
+    status = quota_mgr.get_status()
+
+    if not auto_mode:
+        print(f"今日のクォータ: {status.total_queries}/{status.quota_limit} (残り: {status.remaining})")
+
+    # 残りクエリがない場合
+    if not quota_mgr.can_make_request():
+        if not auto_mode:
+            print("日次上限に到達しています。明日再実行してください。")
+        return 0  # 自動モードでは正常終了扱い
 
     conn = init_cache_db()
 
     # Google検索未取得の人物を取得
     persons = get_persons_without_google_hits(conn)
-    print(f"Google検索未取得: {len(persons)}人")
+    total_unsearched = len(persons)
 
-    if max_queries > 0:
-        persons = persons[:max_queries]
-        print(f"処理対象: {len(persons)}人（制限）")
+    if not auto_mode:
+        print(f"Google検索未取得: {total_unsearched}人")
 
     if not persons:
-        print("全員取得済みです")
+        if not auto_mode:
+            print("全員取得済みです")
+        quota_mgr.set_status(None, "completed")
         conn.close()
-        return
+        return 0
+
+    # 処理数を決定
+    remaining_quota = quota_mgr.get_remaining_quota()
+    if max_queries > 0:
+        limit = min(max_queries, remaining_quota, len(persons))
+    else:
+        limit = min(remaining_quota, len(persons))
+
+    persons = persons[:limit]
+
+    if not auto_mode:
+        print(f"処理対象: {len(persons)}人（クォータ残: {remaining_quota}）")
+        print()
 
     # バッチ処理
     updated = 0
     errors = 0
+    skipped = 0
     total_batches = (len(persons) + BATCH_SIZE - 1) // BATCH_SIZE
 
     for batch_idx in range(total_batches):
+        # クォータ再確認
+        if not quota_mgr.can_make_request():
+            if not auto_mode:
+                print("\n日次上限に到達しました。処理を中断します。")
+            break
+
         start_idx = batch_idx * BATCH_SIZE
         end_idx = min(start_idx + BATCH_SIZE, len(persons))
         batch = persons[start_idx:end_idx]
 
-        print(f"\nバッチ {batch_idx + 1}/{total_batches} ({start_idx + 1}-{end_idx}/{len(persons)})")
+        if not auto_mode:
+            print(f"\nバッチ {batch_idx + 1}/{total_batches} ({start_idx + 1}-{end_idx}/{len(persons)})")
 
         for pid, name in batch:
+            # クォータ再確認（バッチ内でも）
+            if not quota_mgr.can_make_request():
+                break
+
+            # 短名スキップ（一般語汚染防止）
+            if name in SKIP_SHORT_NAMES:
+                if not auto_mode:
+                    print(f"  ⊘ {name}: スキップ（短名）")
+                skipped += 1
+                continue
+
+            start_time = time.time()
+
             # キャッシュ優先（既にgoogle_hitsがあればスキップ）
-            hits = get_google_search_hits(name, person_id=pid)
+            hits = get_search_hits(name, person_id=pid)
+            elapsed_ms = int((time.time() - start_time) * 1000)
 
             if hits is not None:
                 updated += 1
+                # クォータをインクリメント
+                quota_mgr.increment_quota()
+                # ログ記録
+                quota_mgr.log_search(
+                    person_id=pid,
+                    query=name,
+                    google_hits=hits,
+                    status="success",
+                    processing_time_ms=elapsed_ms,
+                )
+                if not auto_mode:
+                    print(f"  ✓ {name}: {hits:,} hits")
             else:
                 errors += 1
+                quota_mgr.log_search(
+                    person_id=pid,
+                    query=name,
+                    google_hits=None,
+                    status="error",
+                    error_message="API call failed",
+                    processing_time_ms=elapsed_ms,
+                )
+                if not auto_mode:
+                    print(f"  ✗ {name}: エラー")
 
         conn.commit()
 
         if batch_idx < total_batches - 1:
             time.sleep(BATCH_INTERVAL)
 
-    print(f"\n取得完了: {updated}人 (エラー: {errors})")
+    if not auto_mode:
+        print(f"\n取得完了: {updated}人 (エラー: {errors})")
 
     # 全スコアを再計算
-    print("\nスコア再計算中...")
+    if not auto_mode:
+        print("\nスコア再計算中...")
+
     cursor = conn.execute("""
         SELECT person_id, multi_lang_pv, sitelinks, inlinks, google_hits
         FROM fame_cache
@@ -215,7 +372,9 @@ def run_execute(max_queries: int = 0) -> None:
     conn.commit()
 
     # CSVを更新
-    print("CSV更新中...")
+    if not auto_mode:
+        print("CSV更新中...")
+
     df = pd.read_csv(MASTER_CSV_PATH, low_memory=False)
 
     if "google_hits" not in df.columns:
@@ -235,36 +394,70 @@ def run_execute(max_queries: int = 0) -> None:
             df.loc[mask, "google_hits"] = hits
 
     df.to_csv(MASTER_CSV_PATH, index=False, encoding="utf-8-sig")
-    print(f"CSV保存: {MASTER_CSV_PATH}")
 
-    # レポート
+    if not auto_mode:
+        print(f"CSV保存: {MASTER_CSV_PATH}")
+
+    # 進捗レポート
+    final_status = quota_mgr.get_status()
+    remaining_unsearched = conn.execute(
+        "SELECT COUNT(*) FROM fame_cache WHERE google_hits IS NULL AND fame_score_v3 IS NOT NULL"
+    ).fetchone()[0]
+
+    estimated_days = (remaining_unsearched + 99) // 100  # 切り上げ
+
     report = {
         "timestamp": datetime.now().isoformat(),
+        "date": final_status.date,
         "updated": updated,
         "errors": errors,
-        "total_with_google": conn.execute("SELECT COUNT(*) FROM fame_cache WHERE google_hits IS NOT NULL").fetchone()[
-            0
-        ],
+        "quota": {
+            "used": final_status.total_queries,
+            "remaining": final_status.remaining,
+            "limit": final_status.quota_limit,
+            "status": final_status.status,
+        },
+        "progress": {
+            "total_with_google": conn.execute(
+                "SELECT COUNT(*) FROM fame_cache WHERE google_hits IS NOT NULL"
+            ).fetchone()[0],
+            "remaining_unsearched": remaining_unsearched,
+            "estimated_days_to_complete": estimated_days,
+        },
     }
 
+    # レポート保存
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
     report_path = REPORT_DIR / f"fame_phase2_update_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
-    print(f"レポート: {report_path}")
 
-    # 上位10人を表示
-    print("\n=== Phase 2 新ランキング Top 10 ===")
-    cursor = conn.execute("""
-        SELECT fame_rank_v3, person_name, fame_score_v3, google_hits
-        FROM fame_cache
-        ORDER BY fame_rank_v3
-        LIMIT 10
-    """)
-    for rank, name, score, hits in cursor.fetchall():
-        hits_str = f"{hits:,}" if hits else "N/A"
-        print(f"  {rank}位: {name} (スコア: {score:.2f}, Google: {hits_str})")
+    if not auto_mode:
+        print(f"レポート: {report_path}")
+
+    # サマリー表示
+    if not auto_mode:
+        print()
+        print("=== 進捗サマリー ===")
+        print(f"  今日の処理: {updated}件")
+        print(f"  Google検索済み合計: {report['progress']['total_with_google']}人")
+        print(f"  未検索残り: {remaining_unsearched}人")
+        print(f"  完了予定: 約{estimated_days}日後")
+
+        # 上位10人を表示
+        print("\n=== Phase 2 新ランキング Top 10 ===")
+        cursor = conn.execute("""
+            SELECT fame_rank_v3, person_name, fame_score_v3, google_hits
+            FROM fame_cache
+            ORDER BY fame_rank_v3
+            LIMIT 10
+        """)
+        for rank, name, score, hits in cursor.fetchall():
+            hits_str = f"{hits:,}" if hits else "N/A"
+            print(f"  {rank}位: {name} (スコア: {score:.2f}, Google: {hits_str})")
 
     conn.close()
+    return 0
 
 
 def main():
@@ -282,7 +475,7 @@ def main():
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="ドライラン（上位100人のみテスト）",
+        help="ドライラン（上位10人のみテスト）",
     )
     parser.add_argument(
         "--execute",
@@ -293,15 +486,22 @@ def main():
         "--max-queries",
         type=int,
         default=0,
-        help="最大クエリ数（0=無制限、API無料枠は100/日）",
+        help="最大クエリ数（0=クォータ上限まで）",
+    )
+    parser.add_argument(
+        "--auto",
+        action="store_true",
+        help="自動実行モード（スケジューラ用、出力抑制）",
     )
 
     args = parser.parse_args()
 
     if args.dry_run:
         run_dry_run()
+        sys.exit(0)
     elif args.execute:
-        run_execute(max_queries=args.max_queries)
+        exit_code = run_execute(max_queries=args.max_queries, auto_mode=args.auto)
+        sys.exit(exit_code)
     else:
         parser.print_help()
 

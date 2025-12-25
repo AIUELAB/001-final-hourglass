@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-12-25T14:20:33.764502",
+  "date": "2025-12-25",
+  "updated": 40,
+  "errors": 0,
+  "quota": {
+    "used": 100,
+    "remaining": 0,
+    "limit": 100,
+    "status": "paused"
+  },
+  "progress": {
+    "total_with_google": 193,
+    "remaining_unsearched": 7168,
+    "estimated_days_to_complete": 72
+  }
+}

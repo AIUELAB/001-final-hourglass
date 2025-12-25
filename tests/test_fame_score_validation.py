@@ -158,5 +158,85 @@ class TestDashboardScaleConsistency:
         assert "episode_fame_score * 10" not in content, "episode_fame_score * 10 パターンが残存"
 
 
+class TestWikidataDisambiguation:
+    """Wikidata同名曖昧性テスト"""
+
+    def test_no_high_risk_short_names(self):
+        """高リスク短名（ラテン文字≤5文字 + sitelinks≥100）がないこと"""
+        from validate_wikidata_disambiguation import detect_suspicious_persons
+
+        suspicious = detect_suspicious_persons()
+        high_risk = [s for s in suspicious if s.risk_level == "high"]
+
+        assert len(high_risk) == 0, (
+            f"高リスク短名が検出されました: "
+            f"{[(s.person_id, s.person_name, s.sitelinks_count) for s in high_risk[:5]]}"
+        )
+
+    def test_ken_not_using_kenya_entity(self):
+        """ken (PF632FA6) がケニア(sitelinks=331)を使用していないこと（回帰テスト）"""
+        import csv
+
+        csv_path = Path(__file__).parent.parent / "preserved/data/MASTER_EPISODES_CURRENT.csv"
+
+        with open(csv_path, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("person_id") == "PF632FA6":
+                    sitelinks = float(row.get("sitelinks_count", "0") or "0")
+                    # ケニアのsitelinks(331)ではないこと
+                    assert sitelinks < 50, (
+                        f"ken (PF632FA6) のsitelinkが異常に高い: {sitelinks} "
+                        "(ケニアのエンティティを使用している可能性)"
+                    )
+                    break
+
+    def test_one_not_using_number_entity(self):
+        """ONE (PBC21E64) が数字1(sitelinks≈214)を使用していないこと（回帰テスト）"""
+        import csv
+
+        csv_path = Path(__file__).parent.parent / "preserved/data/MASTER_EPISODES_CURRENT.csv"
+
+        with open(csv_path, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                if row.get("person_id") == "PBC21E64":
+                    sitelinks = float(row.get("sitelinks_count", "0") or "0")
+                    # 数字1のsitelinks(214)ではないこと
+                    assert sitelinks < 50, (
+                        f"ONE (PBC21E64) のsitelinkが異常に高い: {sitelinks} "
+                        "(数字1のエンティティを使用している可能性)"
+                    )
+                    break
+
+    def test_ken_score_below_justin_bieber(self):
+        """ken (PF632FA6) のスコアがジャスティン・ビーバーより低いこと"""
+        import csv
+
+        csv_path = Path(__file__).parent.parent / "preserved/data/MASTER_EPISODES_CURRENT.csv"
+
+        ken_score = None
+        jb_score = None
+
+        with open(csv_path, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                pid = row.get("person_id", "")
+                name = row.get("person_name", "")
+                score = float(row.get("fame_score_v3", "0") or "0")
+
+                if pid == "PF632FA6":
+                    ken_score = score
+                elif "ジャスティン" in name and "ビーバー" in name:
+                    jb_score = score
+
+                if ken_score is not None and jb_score is not None:
+                    break
+
+        assert ken_score is not None, "ken (PF632FA6) が見つかりません"
+        assert jb_score is not None, "ジャスティン・ビーバーが見つかりません"
+        assert ken_score < jb_score, f"ken ({ken_score}) がジャスティン・ビーバー ({jb_score}) より高い"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-12-25T14:45:08.920243",
+  "mode": "applied",
+  "total_fixes": 4,
+  "changes": [
+    {
+      "person_id": "P5D9ABB5",
+      "person_name": "タマ",
+      "reason": "タマ → たま（貴志駅の猫駅長、1999-2015）",
+      "wikidata_qid": "Q1201902",
+      "old_sitelinks": 91.0,
+      "new_sitelinks": 26,
+      "old_score": 514.67,
+      "new_score": 417.04,
+      "diff": -65.0
+    },
+    {
+      "person_id": "PE1E5DFB",
+      "person_name": "フェルミ",
+      "reason": "フェルミ → エンリコ・フェルミ（イタリアの物理学者）",
+      "wikidata_qid": "Q8753",
+      "old_sitelinks": 167.0,
+      "new_sitelinks": 167,
+      "old_score": 548.04,
+      "new_score": 548.04,
+      "diff": 0.0
+    },
+    {
+      "person_id": "P9FD76A6",
+      "person_name": "ケプラー",
+      "reason": "ケプラー → ヨハネス・ケプラー（ドイツの天文学者）",
+      "wikidata_qid": "Q8963",
+      "old_sitelinks": 181.0,
+      "new_sitelinks": 181,
+      "old_score": 592.72,
+      "new_score": 592.72,
+      "diff": 0.0
+    },
+    {
+      "person_id": "P3943D87",
+      "person_name": "UA",
+      "reason": "UA → UA（日本の歌手、作詞家）",
+      "wikidata_qid": "Q455980",
+      "old_sitelinks": 12.0,
+      "new_sitelinks": 12,
+      "old_score": 360.61,
+      "new_score": 360.61,
+      "diff": 0.0
+    }
+  ]
+}

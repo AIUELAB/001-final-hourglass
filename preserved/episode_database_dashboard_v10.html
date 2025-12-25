@@ -3238,7 +3238,7 @@
 
             // 統計計算（0-1000スケール、全人物対象）
             const avgScore = sortedFameData.length > 0
-                ? (sortedFameData.reduce((sum, p) => sum + ((p.fame_score || 0) * 10), 0) / sortedFameData.length).toFixed(0)
+                ? (sortedFameData.reduce((sum, p) => sum + (p.fame_score || 0), 0) / sortedFameData.length).toFixed(0)
                 : 0;
             const tier5Count = sortedFameData.filter(p => p.fame_tier === 5).length;
 
@@ -3276,7 +3276,7 @@
 
             tbody.innerHTML = pageData.map((person) => {
                 const rank = person.rank;  // 元の順位を使用
-                const score = (person.fame_score || 0) * 10;  // 0-100 → 0-1000スケールに変換
+                const score = person.fame_score || 0;  // fame_score_v3は既に0-1000スケール
                 const tier = person.fame_tier || 0;
 
                 // スコアの色（0-1000スケール用に閾値を調整）
@@ -3640,7 +3640,7 @@
 
             // 統計計算（全件ベース、0-1000スケール）
             const avgScore = sortedEpisodeData.length > 0
-                ? (sortedEpisodeData.reduce((sum, ep) => sum + (ep.episode_fame_score * 10), 0) / sortedEpisodeData.length).toFixed(0)
+                ? (sortedEpisodeData.reduce((sum, ep) => sum + (ep.episode_fame_score || 0), 0) / sortedEpisodeData.length).toFixed(0)
                 : 0;
             const tier5Count = sortedEpisodeData.filter(ep => ep.episode_fame_tier === 5).length;
 
@@ -3680,7 +3680,7 @@
 
             tbody.innerHTML = pageData.map((ep) => {
                 const rank = ep.rank;  // 元の順位を使用
-                const score = ep.episode_fame_score * 10;  // 0-100 → 0-1000スケールに変換
+                const score = ep.episode_fame_score || 0;  // episode_fame_scoreは既に0-1000スケール
                 const tier = ep.episode_fame_tier;
 
                 // スコアの色（0-1000スケール用に閾値を調整）
@@ -4046,8 +4046,8 @@
                                 // 超総合スコア（0-1000スケール）= composite×0.5 + fame_1000×0.25 + ep_fame_1000×0.25
                                 super_total_score: (() => {
                                     const composite = parseFloat(r['composite_score']) || 0;
-                                    const fame1000 = (fameScoreValue || 0) * 10;  // 0-100 → 0-1000
-                                    const epFame1000 = (episodeFameScoreValue || 0) * 10;  // 0-100 → 0-1000
+                                    const fame1000 = fameScoreValue || 0;  // fame_score_v3は既に0-1000スケール
+                                    const epFame1000 = episodeFameScoreValue || 0;  // episode_fame_scoreは既に0-1000スケール
                                     // 加重平均: エピソード品質50% + 有名人度25% + エピ有名度25%
                                     return composite * 0.5 + fame1000 * 0.25 + epFame1000 * 0.25;
                                 })(),
@@ -4442,14 +4442,14 @@
                                     </div>
                                     <div class="id-row">
                                         <span class="fame-label sortable-label" data-sort="fame_score">有名人度 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge ${ep.fame_score === null ? 'badge-na' : ''}" style="${ep.fame_score !== null ? 'background: ' + (ep.fame_score * 10 >= 800 ? '#7c3aed' : ep.fame_score * 10 >= 600 ? '#3b82f6' : '#6b7280') + '; color: white;' : ''} font-weight: 600;" ${ep.fame_score === null ? 'title="データ未算出"' : ''}>
-                                            ${ep.fame_score !== null ? (ep.fame_score * 10).toFixed(0) : 'N/A'}
+                                        <span class="badge ${ep.fame_score === null ? 'badge-na' : ''}" style="${ep.fame_score !== null ? 'background: ' + (ep.fame_score >= 800 ? '#7c3aed' : ep.fame_score >= 600 ? '#3b82f6' : '#6b7280') + '; color: white;' : ''} font-weight: 600;" ${ep.fame_score === null ? 'title="データ未算出"' : ''}>
+                                            ${ep.fame_score !== null ? ep.fame_score.toFixed(0) : 'N/A'}
                                         </span>
                                     </div>
                                     <div class="id-row">
                                         <span class="fame-label sortable-label" data-sort="episode_fame_score">エピ有名度 <span class="sort-icon">⬍</span></span>
-                                        <span class="badge ${ep.episode_fame_score === null ? 'badge-na' : ''}" style="${ep.episode_fame_score !== null ? 'background: ' + (ep.episode_fame_score * 10 >= 800 ? '#dc2626' : ep.episode_fame_score * 10 >= 600 ? '#ea580c' : '#78716c') + '; color: white;' : ''} font-weight: 600;" ${ep.episode_fame_score === null ? 'title="データ未算出"' : ''}>
-                                            ${ep.episode_fame_score !== null ? (ep.episode_fame_score * 10).toFixed(0) : 'N/A'}
+                                        <span class="badge ${ep.episode_fame_score === null ? 'badge-na' : ''}" style="${ep.episode_fame_score !== null ? 'background: ' + (ep.episode_fame_score >= 800 ? '#dc2626' : ep.episode_fame_score >= 600 ? '#ea580c' : '#78716c') + '; color: white;' : ''} font-weight: 600;" ${ep.episode_fame_score === null ? 'title="データ未算出"' : ''}>
+                                            ${ep.episode_fame_score !== null ? ep.episode_fame_score.toFixed(0) : 'N/A'}
                                         </span>
                                     </div>
                                     <div class="id-row">

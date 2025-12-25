@@ -43,6 +43,8 @@ def load_csv_data():
                 "work_title": row.get("work_title", "") or "",
                 "episode_count": int(float(row.get("episode_count", 1) or 1)),
                 "fame_score": float(row.get("fame_score_v3", 0) or 0),
+                "fame_score_japan": float(row.get("fame_score_japan", 0) or 0),
+                "is_japanese": row.get("is_japanese", "False") == "True",
                 "sitelinks_count": int(float(row.get("sitelinks_count", 0) or 0)),
                 "multi_lang_pv": int(float(row.get("multi_lang_pv", 0) or 0)),
             }
@@ -91,11 +93,18 @@ def main():
 
     print(f"人物数: {len(persons)}")
 
-    # Top 5 fame scores
+    # Top 5 fame scores (Global)
     sorted_persons = sorted(persons.values(), key=lambda x: x["fame_score"], reverse=True)
-    print("\nTop 5 Fame Score:")
+    print("\nTop 5 Fame Score (Global):")
     for p in sorted_persons[:5]:
         print(f"  {p['person_name']}: {p['fame_score']:.2f}")
+
+    # Top 5 fame scores (Japan)
+    sorted_japan = sorted(persons.values(), key=lambda x: x["fame_score_japan"], reverse=True)
+    print("\nTop 5 Fame Score (Japan):")
+    for p in sorted_japan[:5]:
+        jp_flag = "🇯🇵" if p["is_japanese"] else ""
+        print(f"  {p['person_name']}: {p['fame_score_japan']:.2f} {jp_flag}")
 
     print("\nダッシュボード更新中...")
     if update_dashboard(episodes):

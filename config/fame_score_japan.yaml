@@ -1,0 +1,32 @@
+# 日本向け有名人度スコア設定
+# 案2+3ハイブリッド: カテゴリ重み + PV比率加点
+
+japan_boost:
+  enabled: true
+
+  # 日本人基本上乗せ
+  base_alpha: 0.10  # +10%
+
+  # カテゴリ別追加重み（日本人の場合のみ適用）
+  category_weights:
+    スポーツ: 0.40           # +40%（大谷翔平Top10対応）
+    音楽: 0.20               # +20%
+    エンターテイメント: 0.20  # +20%
+    アニメ: 0.25             # +25%
+    漫画: 0.25               # +25%
+    ゲーム: 0.20             # +20%
+    芸術・文化: 0.15         # +15%
+    default: 0.05            # その他 +5%
+
+  # 日本語PV比率ボーナス
+  pv_ratio_bonus:
+    enabled: true
+    max_bonus: 0.15    # 最大+15%
+    scale: 0.50        # ja_pv_ratio × 0.5（上限0.15）
+
+# 正規化パラメータ（scorer.pyと同じ）
+normalization:
+  max_pv: 10000000        # 最大1000万PV
+  max_sitelinks: 200      # 最大200言語版
+  max_inlinks: 100000     # 最大10万被リンク
+  max_google_hits: 1000000000  # 最大10億ヒット

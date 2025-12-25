@@ -50,6 +50,7 @@ def get_wikidata_metrics_by_id(
             "label_ja": str,        # 日本語ラベル
             "label_en": str,        # 英語ラベル
             "description_ja": str,  # 日本語説明
+            "is_japanese": bool,    # 日本人フラグ
         }
     """
     _rate_limit()
@@ -62,6 +63,7 @@ def get_wikidata_metrics_by_id(
         "label_ja": "",
         "label_en": "",
         "description_ja": "",
+        "is_japanese": False,
     }
 
     # Entity Data APIを使用（SPARQLより高速）
@@ -92,10 +94,37 @@ def get_wikidata_metrics_by_id(
         result["label_en"] = labels.get("en", {}).get("value", "")
         result["description_ja"] = descriptions.get("ja", {}).get("value", "")
 
+        # 日本人判定（P27 = country of citizenship）
+        result["is_japanese"] = _check_is_japanese(claims)
+
         return result
 
     except (requests.RequestException, ValueError, KeyError):
         return result
+
+
+def _check_is_japanese(claims: dict) -> bool:
+    """
+    P27（国籍）をチェックして日本人かどうか判定。
+
+    Q17 = Japan
+    """
+    Q_JAPAN = "Q17"
+
+    # P27 (country of citizenship)
+    p27_claims = claims.get("P27", [])
+    for claim in p27_claims:
+        try:
+            value = claim.get("mainsnak", {}).get("datavalue", {}).get("value", {})
+            if value.get("id") == Q_JAPAN:
+                return True
+        except (KeyError, TypeError):
+            continue
+
+    # P27がない場合、P19（出生地）をフォールバック確認
+    # 日本の都道府県/市区町村は Q17 の下位エンティティだが、
+    # 完全な判定は複雑なためP27優先
+    return False
 
 
 def get_inlinks_count(

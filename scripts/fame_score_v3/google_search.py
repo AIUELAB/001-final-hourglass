@@ -9,6 +9,10 @@ Google検索ヒット数を取得するモジュール（Phase 2用）。
 使用には以下のAPIキーが必要:
 - GOOGLE_API_KEY: Google Cloud APIキー
 - GOOGLE_CSE_ID: Custom Search Engine ID
+
+曖昧性対策（v2）:
+- 曖昧な名前にはカテゴリを付加して検索
+- 短い名前（≤3文字）もカテゴリ付加
 """
 
 import os
@@ -18,6 +22,98 @@ from pathlib import Path
 from typing import Optional
 
 import requests
+
+# 曖昧性の高い名前リスト（カテゴリ付加が必要）
+AMBIGUOUS_NAMES = {
+    # 宗教・神話
+    "マドンナ",
+    "ジーザス",
+    "モーゼ",
+    "ブッダ",
+    "クリシュナ",
+    "アポロ",
+    "アテナ",
+    "ゼウス",
+    "ヘラ",
+    "アレス",
+    "ポセイドン",
+    # 地名と同名
+    "ワシントン",
+    "リンカーン",
+    "ジャクソン",
+    "マディソン",
+    "モンロー",
+    "ジョージア",
+    "ビクトリア",
+    "アレクサンドリア",
+    # 一般名詞（英語）
+    "ONE",
+    "ken",
+    "MAX",
+    "JOY",
+    "LOVE",
+    "ZERO",
+    "ACE",
+    "RAY",
+    # 一般名詞（日本語）
+    "愛",
+    "光",
+    "翼",
+    "海",
+    "空",
+    "風",
+    "雪",
+    "桜",
+    "蓮",
+    # 哲学者・科学者（同名多数）
+    "ジョン・ロック",
+    "アダム・スミス",
+}
+
+# カテゴリ→検索用修飾語のマッピング
+CATEGORY_TO_SEARCH_MODIFIER = {
+    "スポーツ": "選手",
+    "音楽": "ミュージシャン",
+    "エンターテイメント": "タレント",
+    "映画・演劇": "俳優",
+    "政治・社会": "政治家",
+    "科学・技術": "科学者",
+    "芸術・文化": "アーティスト",
+    "文学": "作家",
+    "歴史": "歴史上の人物",
+    "アニメ・漫画・ゲーム": "キャラクター",
+    "アニメ": "アニメキャラ",
+    "漫画": "漫画キャラ",
+    "ゲーム": "ゲームキャラ",
+}
+
+
+def build_search_query(
+    name: str,
+    category: str = "",
+    person_type: str = "REAL",
+) -> str:
+    """
+    検索クエリを構築（曖昧性対策付き）。
+
+    Args:
+        name: 人物名
+        category: カテゴリ（スポーツ、音楽等）
+        person_type: REAL または FICTIONAL
+
+    Returns:
+        検索クエリ文字列
+    """
+    # 曖昧な名前、または短い名前の場合はカテゴリを付加
+    needs_modifier = name in AMBIGUOUS_NAMES or len(name.strip()) <= 3 or person_type == "FICTIONAL"
+
+    if needs_modifier and category:
+        modifier = CATEGORY_TO_SEARCH_MODIFIER.get(category, "")
+        if modifier:
+            return f"{name} {modifier}"
+
+    return name
+
 
 # APIキー（遅延読み込み用のキャッシュ）
 _api_keys_cache: dict = {}
@@ -316,13 +412,20 @@ def get_bing_search_hits(
 
 
 def get_search_hits(
-    query: str,
+    name: str,
     person_id: Optional[str] = None,
+    category: str = "",
+    person_type: str = "REAL",
     force_refresh: bool = False,
     prefer_google: bool = True,
 ) -> Optional[int]:
     """
     検索ヒット数を取得（キャッシュ優先、SerpAPI/Google優先、フォールバックでBing）。
+
+    曖昧性対策（v2）:
+    - 曖昧な名前（マドンナ、ken等）にはカテゴリを付加
+    - 短い名前（≤3文字）もカテゴリ付加
+    - 架空キャラクターはカテゴリ付加
 
     優先順位:
     1. SerpAPI（利用可能な場合）
@@ -330,14 +433,19 @@ def get_search_hits(
     3. Bing Search API
 
     Args:
-        query: 検索クエリ（人物名）
+        name: 人物名
         person_id: 人物ID（キャッシュキー）
+        category: カテゴリ（スポーツ、音楽等）
+        person_type: REAL または FICTIONAL
         force_refresh: キャッシュを無視して再検索
         prefer_google: Googleを優先するか
 
     Returns:
         検索ヒット数（取得失敗時はNone）
     """
+    # 曖昧性対策: クエリを最適化
+    query = build_search_query(name, category, person_type)
+
     # SerpAPIを最優先（Google Custom Searchより安定）
     if is_serpapi_available():
         result = get_serpapi_search_hits(query, person_id, force_refresh)
@@ -361,23 +469,41 @@ def get_search_hits(
 
 
 if __name__ == "__main__":
-    print("=== Google/Bing検索ヒット数テスト（キャッシュ優先）===\n")
+    print("=== Google/Bing検索ヒット数テスト（曖昧性対策v2）===\n")
     print(f"Google API: {'有効' if is_google_available() else '無効'}")
+    print(f"SerpAPI: {'有効' if is_serpapi_available() else '無効'}")
     print(f"Bing API: {'有効' if is_bing_available() else '無効'}")
     print(f"Cache DB: {CACHE_DB_PATH}")
     print()
 
-    if not is_google_available() and not is_bing_available():
+    # クエリ構築テスト
+    print("=== クエリ構築テスト ===")
+    test_queries = [
+        ("ドナルド・トランプ", "政治・社会", "REAL"),
+        ("マドンナ", "音楽", "REAL"),  # 曖昧→ミュージシャン付加
+        ("ken", "音楽", "REAL"),  # 短い→ミュージシャン付加
+        ("ONE", "芸術・文化", "REAL"),  # 曖昧→アーティスト付加
+        ("ジジ", "アニメ・漫画・ゲーム", "FICTIONAL"),  # 架空→キャラクター付加
+        ("大谷翔平", "スポーツ", "REAL"),  # 通常（修飾語なし）
+    ]
+
+    for name, category, ptype in test_queries:
+        query = build_search_query(name, category, ptype)
+        print(f'  {name} ({category}, {ptype}) → "{query}"')
+
+    print()
+
+    if not is_google_available() and not is_bing_available() and not is_serpapi_available():
         print("APIキーが設定されていません。")
     else:
+        print("=== 検索テスト ===")
         test_cases = [
-            ("P22A0493", "ドナルド・トランプ"),
-            ("P22A0493", "ドナルド・トランプ"),  # 2回目はキャッシュヒット
+            ("P22A0493", "ドナルド・トランプ", "政治・社会", "REAL"),
         ]
 
-        for pid, name in test_cases:
+        for pid, name, category, ptype in test_cases:
             print(f"検索中: {name} ({pid})...")
-            hits = get_search_hits(name, person_id=pid)
+            hits = get_search_hits(name, person_id=pid, category=category, person_type=ptype)
             if hits is not None:
                 print(f"  ヒット数: {hits:,}")
             else:

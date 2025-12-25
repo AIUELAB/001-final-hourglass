@@ -57,6 +57,37 @@ REPORT_DIR = Path("src/reports")
 BATCH_SIZE = 50
 BATCH_INTERVAL = 2.0  # 秒
 
+# 人物メタ情報キャッシュ（category, person_type）
+_person_meta_cache: dict[str, dict] = {}
+
+
+def load_person_meta() -> dict[str, dict]:
+    """
+    CSVから人物のカテゴリ・person_type情報を読み込み。
+    曖昧性対策用（Google検索クエリにカテゴリを付加）。
+    """
+    global _person_meta_cache
+    if _person_meta_cache:
+        return _person_meta_cache
+
+    if not MASTER_CSV_PATH.exists():
+        return {}
+
+    try:
+        df = pd.read_csv(MASTER_CSV_PATH, encoding="utf-8-sig")
+        for _, row in df.iterrows():
+            pid = row.get("person_id", "")
+            if pid and pid not in _person_meta_cache:
+                _person_meta_cache[pid] = {
+                    "category": row.get("category", ""),
+                    "person_type": row.get("person_type", "REAL"),
+                }
+    except Exception as e:
+        print(f"警告: 人物メタ情報の読み込み失敗: {e}")
+
+    return _person_meta_cache
+
+
 # 短名スキップリスト（一般語と衝突するため検索結果が汚染される）
 SKIP_SHORT_NAMES = {
     "ken",
@@ -143,11 +174,20 @@ def run_dry_run() -> None:
     print(f"テスト対象: {len(persons)}人")
     print()
 
+    # 人物メタ情報を読み込み（曖昧性対策用）
+    person_meta = load_person_meta()
+
     results = []
     for i, (pid, name, old_score, pv, sitelinks) in enumerate(persons, 1):
         start_time = time.time()
-        print(f"{i}. {name}...")
-        hits = get_search_hits(name, person_id=pid)
+
+        # メタ情報取得（曖昧性対策: カテゴリ付加検索）
+        meta = person_meta.get(pid, {})
+        category = meta.get("category", "")
+        person_type = meta.get("person_type", "REAL")
+
+        print(f"{i}. {name} ({category})...")
+        hits = get_search_hits(name, person_id=pid, category=category, person_type=person_type)
         elapsed_ms = int((time.time() - start_time) * 1000)
 
         if hits:
@@ -267,6 +307,9 @@ def run_execute(max_queries: int = 0, auto_mode: bool = False) -> int:
         print(f"処理対象: {len(persons)}人（クォータ残: {remaining_quota}）")
         print()
 
+    # 人物メタ情報を読み込み（曖昧性対策用）
+    person_meta = load_person_meta()
+
     # バッチ処理
     updated = 0
     errors = 0
@@ -301,8 +344,13 @@ def run_execute(max_queries: int = 0, auto_mode: bool = False) -> int:
 
             start_time = time.time()
 
+            # メタ情報取得（曖昧性対策: カテゴリ付加検索）
+            meta = person_meta.get(pid, {})
+            category = meta.get("category", "")
+            person_type = meta.get("person_type", "REAL")
+
             # キャッシュ優先（既にgoogle_hitsがあればスキップ）
-            hits = get_search_hits(name, person_id=pid)
+            hits = get_search_hits(name, person_id=pid, category=category, person_type=person_type)
             elapsed_ms = int((time.time() - start_time) * 1000)
 
             if hits is not None:

@@ -157,11 +157,12 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
             issues.append(f"基本概念QID疑い({wikidata_id}): 要確認")
 
     # Rule 2: 架空キャラで高sitelinks
+    # 有名キャラ（ミッキーマウス等）は高sitelinkも正常なので閾値を上げる
     if person_type == "FICTIONAL":
-        if sitelinks > 150:
-            issues.append(f"架空キャラ高sitelinks({sitelinks}): 誤マッピングの可能性")
-        elif sitelinks > 100:
-            issues.append(f"架空キャラ中sitelinks({sitelinks}): 要確認")
+        if sitelinks > 200:
+            issues.append(f"架空キャラ高sitelinks({sitelinks}): 要確認")
+        elif sitelinks > 150:
+            issues.append(f"架空キャラ中sitelinks({sitelinks}): 有名キャラか確認")
 
     # Rule 3: 短名前で高スコア
     name_len = len(person_name.strip())

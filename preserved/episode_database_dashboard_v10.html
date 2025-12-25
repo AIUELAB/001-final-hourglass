@@ -1601,6 +1601,13 @@
 
                 <div id="ranking-stats" style="display: flex; gap: 20px; margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
                     <div style="flex: 1; text-align: center;">
+                        <select id="score-mode-toggle" style="padding: 10px 20px; border: 2px solid #667eea; border-radius: 8px; font-size: 16px; font-weight: 600; background: white; cursor: pointer; color: #667eea;">
+                            <option value="global">🌏 Global Score</option>
+                            <option value="japan">🇯🇵 Japan Score</option>
+                        </select>
+                        <div style="font-size: 14px; color: #6c757d; margin-top: 5px;">スコア種別</div>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
                         <div style="font-size: 24px; font-weight: 600; color: #667eea;" id="fame-total-count">-</div>
                         <div style="font-size: 14px; color: #6c757d;">全人物数</div>
                     </div>
@@ -184006,6 +184013,8 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
     <script>
         let rankingData = [];
         let rankingFilter = 'all';
+        // スコアモード: 'global' または 'japan'
+        let currentScoreMode = 'global';
         // ソート状態管理
         let fameRankingSortColumn = 'fame_score';  // デフォルトは有名人度スコア
         let fameRankingSortDirection = 'desc';     // デフォルトは降順
@@ -184018,6 +184027,13 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
 
         // 有名度ランキング初期化
         function initFameRanking() {
+            // スコアモード切替イベント（Global/Japan）
+            document.getElementById('score-mode-toggle').addEventListener('change', (e) => {
+                currentScoreMode = e.target.value;
+                currentFamePage = 1;  // モード変更時はページ1にリセット
+                updateRankingTable();
+            });
+
             // フィルター変更イベント
             document.getElementById('ranking-filter').addEventListener('change', (e) => {
                 rankingFilter = e.target.value;
@@ -184171,6 +184187,8 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                         person_name: name,
                         person_id: ep.person_id || '',
                         fame_score: ep.fame_score || 0,
+                        fame_score_japan: ep.fame_score_japan || ep.fame_score || 0,
+                        is_japanese: ep.is_japanese || false,
                         fame_tier: ep.fame_tier || 0,
                         person_type: ep.person_type || 'REAL',
                         episode_count: ep.episode_count || 1
@@ -184188,8 +184206,9 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                 rankingList = rankingList.filter(p => (p.person_type || '').toUpperCase().includes('FICTIONAL'));
             }
 
-            // まず有名度スコアでソート（降順）して順位を決定
-            rankingList.sort((a, b) => (b.fame_score || 0) - (a.fame_score || 0));
+            // まず選択中のスコアでソート（降順）して順位を決定
+            const getDisplayScore = (p) => currentScoreMode === 'japan' ? (p.fame_score_japan || 0) : (p.fame_score || 0);
+            rankingList.sort((a, b) => getDisplayScore(b) - getDisplayScore(a));
 
             // 全人物に元の順位を付与
             const allRankedPersons = rankingList.map((person, index) => ({
@@ -184219,16 +184238,16 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                         valB = (b.person_type || '').toLowerCase();
                         break;
                     case 'fame_score':
-                        valA = a.fame_score || 0;
-                        valB = b.fame_score || 0;
+                        valA = currentScoreMode === 'japan' ? (a.fame_score_japan || 0) : (a.fame_score || 0);
+                        valB = currentScoreMode === 'japan' ? (b.fame_score_japan || 0) : (b.fame_score || 0);
                         break;
                     case 'fame_tier':
                         valA = a.fame_tier || 0;
                         valB = b.fame_tier || 0;
                         break;
                     default:
-                        valA = a.fame_score || 0;
-                        valB = b.fame_score || 0;
+                        valA = currentScoreMode === 'japan' ? (a.fame_score_japan || 0) : (a.fame_score || 0);
+                        valB = currentScoreMode === 'japan' ? (b.fame_score_japan || 0) : (b.fame_score || 0);
                 }
 
                 // 文字列の場合
@@ -184258,9 +184277,10 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                 currentFamePage = totalFamePages;
             }
 
-            // 統計計算（0-1000スケール、全人物対象）
+            // 統計計算（0-1000スケール、全人物対象、選択中のスコアモードを使用）
+            const getScoreForStats = (p) => currentScoreMode === 'japan' ? (p.fame_score_japan || 0) : (p.fame_score || 0);
             const avgScore = sortedFameData.length > 0
-                ? (sortedFameData.reduce((sum, p) => sum + (p.fame_score || 0), 0) / sortedFameData.length).toFixed(0)
+                ? (sortedFameData.reduce((sum, p) => sum + getScoreForStats(p), 0) / sortedFameData.length).toFixed(0)
                 : 0;
             const tier5Count = sortedFameData.filter(p => p.fame_tier === 5).length;
 
@@ -184298,8 +184318,14 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
 
             tbody.innerHTML = pageData.map((person) => {
                 const rank = person.rank;  // 元の順位を使用
-                const score = person.fame_score || 0;  // fame_score_v3は既に0-1000スケール
+                // 選択中のスコアモードに応じてスコアを取得
+                const score = currentScoreMode === 'japan'
+                    ? (person.fame_score_japan || 0)
+                    : (person.fame_score || 0);
                 const tier = person.fame_tier || 0;
+
+                // 日本人フラグ
+                const japanFlag = person.is_japanese ? ' 🇯🇵' : '';
 
                 // スコアの色（0-1000スケール用に閾値を調整）
                 const scoreColor = score >= 800 ? '#9333ea' : score >= 600 ? '#3b82f6' : '#6b7280';
@@ -184332,14 +184358,14 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                         <td style="padding: 15px; text-align: center;">${rankBadge}</td>
                         <td style="padding: 15px; text-align: center; font-family: monospace; font-size: 12px; color: #6c757d;">${person.person_id || ''}</td>
                         <td style="padding: 15px;">
-                            <div style="font-weight: 600; font-size: 15px;">${person.person_name}</div>
+                            <div style="font-weight: 600; font-size: 15px;">${person.person_name}${japanFlag}</div>
                         </td>
                         <td style="padding: 15px; text-align: center;">
                             <span style="font-size: 20px;">${typeIcon}</span>
                             <div style="font-size: 12px; color: #6c757d; margin-top: 2px;">${typeLabel}</div>
                         </td>
                         <td style="padding: 15px; text-align: center;">
-                            <span style="font-size: 20px; font-weight: 600; color: ${scoreColor};">${score}</span>
+                            <span style="font-size: 20px; font-weight: 600; color: ${scoreColor};">${score.toFixed(0)}</span>
                         </td>
                         <td style="padding: 15px; text-align: center;">
                             <span style="background: ${tierColor}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">

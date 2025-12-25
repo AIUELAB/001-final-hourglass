@@ -141,12 +141,20 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
     fame_score = cache_entry["fame_score_v3"]
     person_type = csv_entry.get("person_type", "REAL")
 
-    # Rule 1: 基本概念QID
+    # Rule 1: 基本概念QID（人物以外のみフラグ）
+    # 高sitelinks + REAL = 正しいマッピングの可能性高（有名人は早期登録でQ番号小）
     qnum = get_qid_number(wikidata_id)
-    if wikidata_id and qnum < 500:
+    is_likely_correct_mapping = (
+        person_type == "REAL" and sitelinks >= 150  # 有名人は多言語展開
+    )
+
+    if wikidata_id and qnum < 100 and not is_likely_correct_mapping:
+        # Q < 100 は基本概念の可能性が高い（Q5=human, Q6=country等）
         issues.append(f"基本概念QID({wikidata_id}): Q番号が非常に小さい")
-    elif wikidata_id and qnum < 1000:
-        issues.append(f"基本概念QID疑い({wikidata_id}): Q番号が小さい")
+    elif wikidata_id and qnum < 500 and not is_likely_correct_mapping:
+        # Q < 500 でsitelinkも低い場合のみ疑わしい
+        if sitelinks < 50:
+            issues.append(f"基本概念QID疑い({wikidata_id}): 要確認")
 
     # Rule 2: 架空キャラで高sitelinks
     if person_type == "FICTIONAL":
@@ -175,11 +183,12 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
     if person_name in AMBIGUOUS_NAMES:
         issues.append("曖昧名前: 一般名詞/地名/宗教用語と同名")
 
-    # Rule 6: PV/sitelinks比率異常
-    if sitelinks > 0:
+    # Rule 6: PV/sitelinks比率異常（閾値を上げて誤検知を減らす）
+    # 日本人有名人は日本語PVが高いがsitelinksが少ないことがある（正常）
+    if sitelinks > 0 and sitelinks < 30:  # sitelinks少ない場合のみチェック
         pv_per_sl = multi_lang_pv / sitelinks
-        if pv_per_sl > 50000:
-            issues.append(f"PV/sitelinks比率高({pv_per_sl:.0f}): PVデータ異常の可能性")
+        if pv_per_sl > 200000:  # 閾値を引き上げ
+            issues.append(f"PV/sitelinks比率高({pv_per_sl:.0f}): 要確認")
 
     # Rule 7: Wikidataなしで高スコア
     if not wikidata_id and fame_score > 300:
@@ -249,9 +258,9 @@ def main():
 
     # Critical表示
     if critical_count > 0:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"=== CRITICAL ({critical_count}件) ===")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         for r in results:
             if r.severity == "critical":
                 print(f"\n[{r.person_id}] {r.person_name} ({r.person_type})")
@@ -263,9 +272,9 @@ def main():
 
     # High表示
     if high_count > 0:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"=== HIGH ({high_count}件) ===")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         for r in results:
             if r.severity == "high":
                 print(f"\n[{r.person_id}] {r.person_name} ({r.person_type})")
@@ -275,9 +284,9 @@ def main():
 
     # Medium（概要のみ）
     if medium_count > 0:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"=== MEDIUM ({medium_count}件) - 概要 ===")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         for r in results[:30]:  # 最初の30件のみ
             if r.severity == "medium":
                 print(f"  [{r.person_id}] {r.person_name}: {r.issues[0]}")

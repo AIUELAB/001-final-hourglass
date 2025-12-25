@@ -164,12 +164,14 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
         elif sitelinks > 150:
             issues.append(f"架空キャラ中sitelinks({sitelinks}): 有名キャラか確認")
 
-    # Rule 3: 短名前で高スコア
-    name_len = len(person_name.strip())
-    if name_len <= 2 and fame_score > 400:
-        issues.append(f"短名前({name_len}文字)高スコア({fame_score:.0f})")
-    elif name_len <= 3 and fame_score > 500:
-        issues.append(f"短名前({name_len}文字)高スコア({fame_score:.0f})")
+    # Rule 3: 短名前で高スコア（無効化 - 誤検知100%のため）
+    # 日本語では有名人を短い名前で呼ぶことが多く、実用的な価値がない
+    # 例: 釈迦、孔子、ゴッホ、バッハ等は全て正しいマッピング
+    # name_len = len(person_name.strip())
+    # if name_len <= 2 and fame_score > 400:
+    #     issues.append(f"短名前({name_len}文字)高スコア({fame_score:.0f})")
+    # elif name_len <= 3 and fame_score > 500:
+    #     issues.append(f"短名前({name_len}文字)高スコア({fame_score:.0f})")
 
     # Rule 4: Google検索異常値
     if google_hits:

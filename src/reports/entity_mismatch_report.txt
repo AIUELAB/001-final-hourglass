@@ -1,16 +1,10 @@
 エンティティ誤採用検知レポート
 ============================================================
 
-検知結果: 16件
+検知結果: 15件
   - Critical: 0件
-  - High: 6件
+  - High: 5件
   - Medium: 10件
-
-[HIGH] P7D97736 | ワシントン
-  type: REAL, wikidata: Q23
-  sitelinks: 264, pv: 992233, score: 729.2
-  - 曖昧名前: 一般名詞/地名/宗教用語と同名
-  Action: Wikidata P31を確認し、誤りなら修正
 
 [HIGH] P64A6504 | マドンナ
   type: REAL, wikidata: Q1744

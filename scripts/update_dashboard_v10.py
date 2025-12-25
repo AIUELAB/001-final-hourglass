@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""
+ダッシュボードv10の埋め込みデータを最新CSVで更新。
+"""
+
+import csv
+import json
+import re
+from pathlib import Path
+
+CSV_PATH = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
+DASHBOARD_PATH = Path("preserved/episode_database_dashboard_v10.html")
+
+
+def load_csv_data():
+    """CSVからデータを読み込み"""
+    episodes = []
+    with open(CSV_PATH, "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            # Handle slot (can be number or string like 'WEEK_1')
+            slot_raw = row.get("slot", "0")
+            try:
+                slot = int(float(slot_raw))
+            except (ValueError, TypeError):
+                slot = 0
+
+            # Handle age
+            age_raw = row.get("age", "0")
+            try:
+                age = int(float(age_raw))
+            except (ValueError, TypeError):
+                age = 0
+
+            episode = {
+                "person_id": row.get("person_id", ""),
+                "person_name": row.get("person_name", ""),
+                "age": age,
+                "slot": slot,
+                "category": row.get("category", ""),
+                "episode_text": row.get("episode_text", "")[:500],
+                "entity_type": row.get("person_type", "REAL").lower(),
+                "work_title": row.get("work_title", "") or "",
+                "episode_count": int(float(row.get("episode_count", 1) or 1)),
+                "fame_score": float(row.get("fame_score_v3", 0) or 0),
+                "sitelinks_count": int(float(row.get("sitelinks_count", 0) or 0)),
+                "multi_lang_pv": int(float(row.get("multi_lang_pv", 0) or 0)),
+            }
+            episodes.append(episode)
+    return episodes
+
+
+def update_dashboard(episodes):
+    """ダッシュボードHTMLの埋め込みデータを更新"""
+    with open(DASHBOARD_PATH, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    # EMBEDDED_EPISODE_DATA を探して置換
+    pattern = r"const EMBEDDED_EPISODE_DATA = \[[\s\S]*?\];"
+
+    # 新しいデータを作成
+    json_data = json.dumps(episodes, ensure_ascii=False, indent=2)
+    new_data = f"const EMBEDDED_EPISODE_DATA = {json_data};"
+
+    # 置換
+    new_html, count = re.subn(pattern, new_data, html)
+
+    if count == 0:
+        print("警告: EMBEDDED_EPISODE_DATA が見つかりませんでした")
+        return False
+
+    with open(DASHBOARD_PATH, "w", encoding="utf-8") as f:
+        f.write(new_html)
+
+    return True
+
+
+def main():
+    print("=== ダッシュボードv10 更新 ===\n")
+
+    print("CSVデータ読み込み中...")
+    episodes = load_csv_data()
+    print(f"エピソード数: {len(episodes)}")
+
+    # 統計
+    persons = {}
+    for ep in episodes:
+        pid = ep["person_id"]
+        if pid not in persons:
+            persons[pid] = ep
+
+    print(f"人物数: {len(persons)}")
+
+    # Top 5 fame scores
+    sorted_persons = sorted(persons.values(), key=lambda x: x["fame_score"], reverse=True)
+    print("\nTop 5 Fame Score:")
+    for p in sorted_persons[:5]:
+        print(f"  {p['person_name']}: {p['fame_score']:.2f}")
+
+    print("\nダッシュボード更新中...")
+    if update_dashboard(episodes):
+        print(f"✓ 更新完了: {DASHBOARD_PATH}")
+    else:
+        print("✗ 更新失敗")
+
+
+if __name__ == "__main__":
+    main()

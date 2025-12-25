@@ -19,10 +19,22 @@ from typing import Optional
 
 import requests
 
-# 環境変数からAPIキーを取得
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
-GOOGLE_CSE_ID = os.environ.get("GOOGLE_CSE_ID", "")
-BING_API_KEY = os.environ.get("BING_API_KEY", "")
+# APIキー（遅延読み込み用のキャッシュ）
+_api_keys_cache: dict = {}
+
+
+def _get_api_key(key_name: str) -> str:
+    """APIキーを遅延読み込みで取得（環境変数の変更に対応）"""
+    if key_name not in _api_keys_cache:
+        _api_keys_cache[key_name] = os.environ.get(key_name, "")
+    return _api_keys_cache[key_name]
+
+
+def _refresh_api_keys() -> None:
+    """APIキーキャッシュをクリア（再読み込み用）"""
+    global _api_keys_cache
+    _api_keys_cache = {}
+
 
 # キャッシュDB
 CACHE_DB_PATH = Path("data/cache/fame_score.db")
@@ -62,12 +74,17 @@ def _rate_limit() -> None:
 
 def is_google_available() -> bool:
     """Google検索APIが利用可能か確認"""
-    return bool(GOOGLE_API_KEY and GOOGLE_CSE_ID)
+    return bool(_get_api_key("GOOGLE_API_KEY") and _get_api_key("GOOGLE_CSE_ID"))
+
+
+def is_serpapi_available() -> bool:
+    """SerpAPIが利用可能か確認"""
+    return bool(_get_api_key("SERPAPI_API_KEY"))
 
 
 def is_bing_available() -> bool:
     """Bing検索APIが利用可能か確認"""
-    return bool(BING_API_KEY)
+    return bool(_get_api_key("BING_API_KEY"))
 
 
 def get_cached_google_hits(person_id: str) -> Optional[int]:
@@ -155,8 +172,8 @@ def get_google_search_hits(
 
     url = "https://www.googleapis.com/customsearch/v1"
     params = {
-        "key": GOOGLE_API_KEY,
-        "cx": GOOGLE_CSE_ID,
+        "key": _get_api_key("GOOGLE_API_KEY"),
+        "cx": _get_api_key("GOOGLE_CSE_ID"),
         "q": query,
         "num": 1,
     }
@@ -186,6 +203,71 @@ def get_google_search_hits(
         return None
 
 
+def get_serpapi_search_hits(
+    query: str,
+    person_id: Optional[str] = None,
+    force_refresh: bool = False,
+    timeout: float = 10.0,
+) -> Optional[int]:
+    """
+    SerpAPIで検索ヒット数を取得（Google検索の代替）。
+
+    Args:
+        query: 検索クエリ（人物名）
+        person_id: 人物ID（キャッシュキー）
+        force_refresh: キャッシュを無視して再検索
+        timeout: タイムアウト秒数
+
+    Returns:
+        検索ヒット数（取得失敗時はNone）
+    """
+    # キャッシュチェック
+    if person_id and not force_refresh:
+        cached = get_cached_google_hits(person_id)
+        if cached is not None:
+            return cached
+
+    if not is_serpapi_available():
+        return None
+
+    _rate_limit()
+    _stats["api_calls"] += 1
+
+    url = "https://serpapi.com/search"
+    params = {
+        "engine": "google",
+        "q": query,
+        "api_key": _get_api_key("SERPAPI_API_KEY"),
+        "num": 1,
+        "hl": "ja",
+        "gl": "jp",
+    }
+
+    try:
+        response = requests.get(url, params=params, timeout=timeout)
+        if response.status_code == 200:
+            data = response.json()
+            total = data.get("search_information", {}).get("total_results", 0)
+            hits = int(total)
+
+            # キャッシュに保存
+            if person_id:
+                save_google_hits_to_cache(person_id, hits)
+
+            return hits
+        elif response.status_code == 429:
+            print("    [WARNING] SerpAPI rate limit exceeded")
+            _stats["api_errors"] += 1
+            return None
+        else:
+            _stats["api_errors"] += 1
+            return None
+    except (requests.RequestException, ValueError) as e:
+        print(f"    [WARNING] SerpAPI search error: {e}")
+        _stats["api_errors"] += 1
+        return None
+
+
 def get_bing_search_hits(
     query: str,
     timeout: float = 10.0,
@@ -207,7 +289,7 @@ def get_bing_search_hits(
     _stats["api_calls"] += 1
 
     url = "https://api.bing.microsoft.com/v7.0/search"
-    headers = {"Ocp-Apim-Subscription-Key": BING_API_KEY}
+    headers = {"Ocp-Apim-Subscription-Key": _get_api_key("BING_API_KEY")}
     params = {
         "q": query,
         "count": 1,
@@ -240,7 +322,12 @@ def get_search_hits(
     prefer_google: bool = True,
 ) -> Optional[int]:
     """
-    検索ヒット数を取得（キャッシュ優先、Google優先、フォールバックでBing）。
+    検索ヒット数を取得（キャッシュ優先、SerpAPI/Google優先、フォールバックでBing）。
+
+    優先順位:
+    1. SerpAPI（利用可能な場合）
+    2. Google Custom Search API
+    3. Bing Search API
 
     Args:
         query: 検索クエリ（人物名）
@@ -251,11 +338,19 @@ def get_search_hits(
     Returns:
         検索ヒット数（取得失敗時はNone）
     """
+    # SerpAPIを最優先（Google Custom Searchより安定）
+    if is_serpapi_available():
+        result = get_serpapi_search_hits(query, person_id, force_refresh)
+        if result is not None:
+            return result
+
+    # Google Custom Search API
     if prefer_google and is_google_available():
         result = get_google_search_hits(query, person_id, force_refresh)
         if result is not None:
             return result
 
+    # Bing Search API
     if is_bing_available():
         return get_bing_search_hits(query)
 

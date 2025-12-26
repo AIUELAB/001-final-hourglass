@@ -144,6 +144,7 @@ _stats = {
     "cache_hits": 0,
     "api_calls": 0,
     "api_errors": 0,
+    "quota_exceeded": False,
 }
 
 
@@ -155,7 +156,7 @@ def get_stats() -> dict:
 def reset_stats() -> None:
     """統計情報をリセット"""
     global _stats
-    _stats = {"cache_hits": 0, "api_calls": 0, "api_errors": 0}
+    _stats = {"cache_hits": 0, "api_calls": 0, "api_errors": 0, "quota_exceeded": False}
 
 
 def _rate_limit() -> None:
@@ -287,14 +288,28 @@ def get_google_search_hits(
 
             return hits
         elif response.status_code == 429:
-            print("    [WARNING] Google API rate limit exceeded")
+            print("    [ERROR] Google API quota exceeded (HTTP 429) - daily limit reached")
+            _stats["api_errors"] += 1
+            _stats["quota_exceeded"] = True
+            return None
+        elif response.status_code == 403:
+            print("    [ERROR] Google API forbidden (HTTP 403) - check API key permissions")
             _stats["api_errors"] += 1
             return None
         else:
+            print(f"    [ERROR] Google API error (HTTP {response.status_code})")
             _stats["api_errors"] += 1
             return None
-    except (requests.RequestException, ValueError) as e:
-        print(f"    [WARNING] Google search error: {e}")
+    except requests.Timeout:
+        print("    [ERROR] Google API timeout")
+        _stats["api_errors"] += 1
+        return None
+    except requests.RequestException as e:
+        print(f"    [ERROR] Google API request failed: {type(e).__name__}")
+        _stats["api_errors"] += 1
+        return None
+    except ValueError as e:
+        print(f"    [ERROR] Google API response parse error: {e}")
         _stats["api_errors"] += 1
         return None
 

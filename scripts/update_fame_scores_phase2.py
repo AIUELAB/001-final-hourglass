@@ -369,18 +369,39 @@ def run_execute(max_queries: int = 0, auto_mode: bool = False) -> int:
                     print(f"  ✓ {name}: {hits:,} hits")
             else:
                 errors += 1
-                quota_mgr.log_search(
-                    person_id=pid,
-                    query=name,
-                    google_hits=None,
-                    status="error",
-                    error_message="API call failed",
-                    processing_time_ms=elapsed_ms,
-                )
-                if not auto_mode:
-                    print(f"  ✗ {name}: エラー")
+                # 統計情報からクォータ超過を検知
+                stats = get_stats()
+                if stats.get("quota_exceeded"):
+                    quota_mgr.log_search(
+                        person_id=pid,
+                        query=name,
+                        google_hits=None,
+                        status="error",
+                        error_message="HTTP 429: Quota exceeded",
+                        processing_time_ms=elapsed_ms,
+                    )
+                    if not auto_mode:
+                        print(f"  ✗ {name}: クォータ超過 (HTTP 429)")
+                        print("\n⚠️ Google API日次クォータを超過しました。処理を中断します。")
+                    break
+                else:
+                    quota_mgr.log_search(
+                        person_id=pid,
+                        query=name,
+                        google_hits=None,
+                        status="error",
+                        error_message="API call failed",
+                        processing_time_ms=elapsed_ms,
+                    )
+                    if not auto_mode:
+                        print(f"  ✗ {name}: エラー")
 
         conn.commit()
+
+        # クォータ超過フラグをチェック（外側ループの中断）
+        stats = get_stats()
+        if stats.get("quota_exceeded"):
+            break
 
         if batch_idx < total_batches - 1:
             time.sleep(BATCH_INTERVAL)

@@ -180,6 +180,19 @@ def get_quality_issues():
         "ポセイドン",
     }
 
+    # 検証済みエンティティ（person_id: wikidata_id）
+    # 曖昧名前でも正しいマッピングであることが確認済み
+    verified_entities = {
+        "P64A6504": "Q1744",  # マドンナ (歌手)
+        "PB883441": "Q34201",  # ゼウス (ギリシア神話)
+        "PF6B0D8E": "Q37122",  # アテナ (ギリシア神話)
+        "PF632FA6": "Q1361450",  # ken (L'Arc〜en〜Ciel)
+        "PBC21E64": "Q11237288",  # ONE (漫画家)
+        "P4FEE7C7": "Q11934",  # ミッキーマウス (ディズニー)
+        "P5C4FB25": "Q4391858",  # 大谷翔平 (野球選手)
+        "P2DB2A57": "Q11624818",  # 藤田晋 (CyberAgent CEO)
+    }
+
     issues = {
         "ambiguous_names": 0,
         "high_fictional_sitelinks": 0,
@@ -188,17 +201,21 @@ def get_quality_issues():
     }
 
     cursor = conn.execute("""
-        SELECT person_name, wikidata_id, sitelinks, multi_lang_pv, fame_score_v3
+        SELECT person_id, person_name, wikidata_id, sitelinks, multi_lang_pv, fame_score_v3
         FROM fame_cache
     """)
 
     for row in cursor:
-        name, wid, sitelinks, pv, score = row
+        pid, name, wid, sitelinks, pv, score = row
         sitelinks = sitelinks or 0
         pv = pv or 0
         score = score or 0
 
-        if name in ambiguous_names:
+        # 検証済みエンティティは除外
+        verified_qid = verified_entities.get(pid)
+        is_verified = verified_qid and verified_qid == wid
+
+        if name in ambiguous_names and not is_verified:
             issues["ambiguous_names"] += 1
 
         if not wid and score > 300:

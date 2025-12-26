@@ -9,6 +9,7 @@ from typing import Optional
 
 from .config import (
     ANCHOR_BONUS,
+    ANCHOR_BONUS_TIERS,
     ANCHOR_PATTERNS,
     HISTORICAL_BONUS_MAX,
     HISTORICAL_IMPACT_KEYWORDS,
@@ -82,9 +83,10 @@ def calculate_person_fame_score(celebrity_score: float) -> float:
 
 def calculate_anchor_bonus(person_name: str, text: str) -> dict:
     """
-    ANCHOR_PATTERNSにマッチしたらボーナス付与（v2.2追加）
+    ANCHOR_PATTERNSにマッチしたらボーナス付与（v2.2追加、v2.3段階化）
 
     参考ランキングで上位に来るべき人物のエピソードにボーナスを与える
+    v2.3: 段階化ボーナス（Tier1=15点, Tier2=10点, Tier3=5点）
 
     Args:
         person_name: 人物名
@@ -92,24 +94,29 @@ def calculate_anchor_bonus(person_name: str, text: str) -> dict:
 
     Returns:
         {
-            "bonus": ボーナス値（0または10）,
-            "matched_pattern": マッチしたパターン（Noneまたはdict）
+            "bonus": ボーナス値（0/5/10/15）,
+            "matched_pattern": マッチしたパターン（Noneまたはdict）,
+            "tier": マッチしたティア（Noneまたは1/2/3）
         }
     """
     if not person_name or not text:
-        return {"bonus": 0.0, "matched_pattern": None}
+        return {"bonus": 0.0, "matched_pattern": None, "tier": None}
 
     for pattern in ANCHOR_PATTERNS:
         # 人物名パターンチェック
         if re.search(pattern["person_pattern"], person_name):
             # エピソードパターンチェック
             if re.search(pattern["episode_pattern"], text):
+                # v2.3: 段階化ボーナス取得（tierがない場合は後方互換でANCHOR_BONUS使用）
+                tier = pattern.get("tier", 2)
+                bonus = ANCHOR_BONUS_TIERS.get(tier, ANCHOR_BONUS)
                 return {
-                    "bonus": ANCHOR_BONUS,
+                    "bonus": bonus,
                     "matched_pattern": pattern,
+                    "tier": tier,
                 }
 
-    return {"bonus": 0.0, "matched_pattern": None}
+    return {"bonus": 0.0, "matched_pattern": None, "tier": None}
 
 
 def calculate_episode_fame_v2(

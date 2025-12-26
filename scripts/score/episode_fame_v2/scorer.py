@@ -4,9 +4,12 @@ Episode Fame Score v2 統合スコアラー
 感銘重視のエピソードランキングを生成
 """
 
+import re
 from typing import Optional
 
 from .config import (
+    ANCHOR_BONUS,
+    ANCHOR_PATTERNS,
     HISTORICAL_BONUS_MAX,
     HISTORICAL_IMPACT_KEYWORDS,
     MAX_SAME_PERSON_IN_TOP_N,
@@ -77,6 +80,38 @@ def calculate_person_fame_score(celebrity_score: float) -> float:
     return min(100.0, normalized)
 
 
+def calculate_anchor_bonus(person_name: str, text: str) -> dict:
+    """
+    ANCHOR_PATTERNSにマッチしたらボーナス付与（v2.2追加）
+
+    参考ランキングで上位に来るべき人物のエピソードにボーナスを与える
+
+    Args:
+        person_name: 人物名
+        text: エピソード本文
+
+    Returns:
+        {
+            "bonus": ボーナス値（0または10）,
+            "matched_pattern": マッチしたパターン（Noneまたはdict）
+        }
+    """
+    if not person_name or not text:
+        return {"bonus": 0.0, "matched_pattern": None}
+
+    for pattern in ANCHOR_PATTERNS:
+        # 人物名パターンチェック
+        if re.search(pattern["person_pattern"], person_name):
+            # エピソードパターンチェック
+            if re.search(pattern["episode_pattern"], text):
+                return {
+                    "bonus": ANCHOR_BONUS,
+                    "matched_pattern": pattern,
+                }
+
+    return {"bonus": 0.0, "matched_pattern": None}
+
+
 def calculate_episode_fame_v2(
     text: str,
     llm_scores: dict,
@@ -130,18 +165,23 @@ def calculate_episode_fame_v2(
     # 4. PersonFame（人物知名度）
     person_fame_score = calculate_person_fame_score(celebrity_score)
 
+    # 5. AnchorBonus（参考ランキング補正）v2.2追加
+    anchor = calculate_anchor_bonus(person_name, text)
+    anchor_bonus = anchor["bonus"]
+
     # 除外チェック
     exclude = quality["exclude"]
 
     if exclude:
         total_score = 0.0
     else:
-        # 重み付け合計
+        # 重み付け合計 + アンカーボーナス
         total_score = (
             inspiration_score * WEIGHTS["inspiration"]
             + quality_score * WEIGHTS["quality"]
             + historical_score * WEIGHTS["historical"]
             + person_fame_score * WEIGHTS["person_fame"]
+            + anchor_bonus  # v2.2: アンカーボーナス追加
         )
 
     # ティア判定
@@ -156,12 +196,14 @@ def calculate_episode_fame_v2(
             "quality": round(quality_score, 2),
             "historical": round(historical_score, 2),
             "person_fame": round(person_fame_score, 2),
+            "anchor_bonus": round(anchor_bonus, 2),  # v2.2追加
         },
         "weights": WEIGHTS,
         "details": {
             "inspiration": inspiration,
             "quality": quality,
             "historical": historical,
+            "anchor": anchor,  # v2.2追加
         },
     }
 

@@ -189,3 +189,101 @@ class TestRegressionPrevention:
         assert (
             result_high["total"] > result_low["total"]
         ), f"感銘度が高いエピソードのスコアが低い: {result_high['total']} vs {result_low['total']}"
+
+
+class TestAnchorBonus:
+    """アンカーボーナスのテスト（v2.2追加）"""
+
+    def test_mandela_anchor_match(self):
+        """マンデラパターンでボーナス付与"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="ネルソン・マンデラ",
+            text="差別撤廃と大統領就任を実現した",
+        )
+        assert result["bonus"] == 10.0
+        assert result["matched_pattern"] is not None
+
+    def test_king_anchor_match(self):
+        """キング牧師パターンでボーナス付与"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="マーティン・ルーサー・キング",
+            text="I Have a Dreamの演説で公民権運動を牽引",
+        )
+        assert result["bonus"] == 10.0
+
+    def test_gandhi_anchor_match(self):
+        """ガンディーパターンでボーナス付与"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="マハトマ・ガンディー",
+            text="塩の行進で非暴力抵抗運動を展開",
+        )
+        assert result["bonus"] == 10.0
+
+    def test_no_match_no_bonus(self):
+        """パターン不一致でボーナスなし"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="一般人",
+            text="普通の一日を過ごした",
+        )
+        assert result["bonus"] == 0.0
+        assert result["matched_pattern"] is None
+
+    def test_person_match_but_episode_no_match(self):
+        """人物はマッチするがエピソードパターンが不一致"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="ネルソン・マンデラ",
+            text="幼少期の思い出",  # 差別撤廃|大統領にマッチしない
+        )
+        assert result["bonus"] == 0.0
+
+    def test_empty_inputs(self):
+        """空の入力でボーナスなし"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        assert calculate_anchor_bonus("", "test")["bonus"] == 0.0
+        assert calculate_anchor_bonus("test", "")["bonus"] == 0.0
+        assert calculate_anchor_bonus(None, "test")["bonus"] == 0.0
+
+    def test_anchor_bonus_in_v2_score(self):
+        """v2スコアにアンカーボーナスが含まれる"""
+        llm_scores = {
+            k: 5.0
+            for k in [
+                "memorability",
+                "storytelling_quality",
+                "factual_density",
+                "educational_value",
+                "empathy",
+            ]
+        }
+
+        # アンカーマッチあり
+        result_with_anchor = calculate_episode_fame_v2(
+            text="差別撤廃と大統領就任を実現した",
+            llm_scores=llm_scores,
+            celebrity_score=500,
+            person_name="ネルソン・マンデラ",
+        )
+
+        # アンカーマッチなし
+        result_without_anchor = calculate_episode_fame_v2(
+            text="差別撤廃と大統領就任を実現した",
+            llm_scores=llm_scores,
+            celebrity_score=500,
+            person_name="一般人",
+        )
+
+        # アンカーボーナスの差は10点
+        diff = result_with_anchor["total"] - result_without_anchor["total"]
+        assert diff == 10.0, f"アンカーボーナス差が10点でない: {diff}"
+        assert result_with_anchor["components"]["anchor_bonus"] == 10.0

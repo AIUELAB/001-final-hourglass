@@ -68,6 +68,9 @@ VERIFIED_ENTITIES = {
     "PF6B0D8E": "Q37122",  # アテナ (ギリシア神話)
     "PF632FA6": "Q1361450",  # ken (L'Arc〜en〜Ciel)
     "PBC21E64": "Q11237288",  # ONE (漫画家)
+    "P4FEE7C7": "Q11934",  # ミッキーマウス (ディズニー)
+    "P5C4FB25": "Q4391858",  # 大谷翔平 (野球選手)
+    "P2DB2A57": "Q11624818",  # 藤田晋 (CyberAgent CEO)
 }
 
 
@@ -166,9 +169,11 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
         if sitelinks < 50:
             issues.append(f"基本概念QID疑い({wikidata_id}): 要確認")
 
-    # Rule 2: 架空キャラで高sitelinks
+    # Rule 2: 架空キャラで高sitelinks（検証済みエンティティは除外）
     # 有名キャラ（ミッキーマウス等）は高sitelinkも正常なので閾値を上げる
-    if person_type == "FICTIONAL":
+    verified_qid = VERIFIED_ENTITIES.get(person_id)
+    is_verified = verified_qid and verified_qid == wikidata_id
+    if person_type == "FICTIONAL" and not is_verified:
         if sitelinks > 200:
             issues.append(f"架空キャラ高sitelinks({sitelinks}): 要確認")
         elif sitelinks > 150:
@@ -183,8 +188,8 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
     # elif name_len <= 3 and fame_score > 500:
     #     issues.append(f"短名前({name_len}文字)高スコア({fame_score:.0f})")
 
-    # Rule 4: Google検索異常値
-    if google_hits:
+    # Rule 4: Google検索異常値（検証済みエンティティは除外）
+    if google_hits and not is_verified:
         if google_hits > 1_000_000_000:  # 10億以上
             issues.append(f"Google検索異常({google_hits:,}): 一般名詞混入の可能性大")
         elif google_hits > 100_000_000:  # 1億以上
@@ -193,14 +198,12 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
             issues.append(f"Google検索不整合: hits={google_hits:,} vs sitelinks={sitelinks}")
 
     # Rule 5: 曖昧な名前（検証済みエンティティは除外）
-    if person_name in AMBIGUOUS_NAMES:
-        verified_qid = VERIFIED_ENTITIES.get(person_id)
-        if not (verified_qid and verified_qid == wikidata_id):
-            issues.append("曖昧名前: 一般名詞/地名/宗教用語と同名")
+    if person_name in AMBIGUOUS_NAMES and not is_verified:
+        issues.append("曖昧名前: 一般名詞/地名/宗教用語と同名")
 
-    # Rule 6: PV/sitelinks比率異常（閾値を上げて誤検知を減らす）
+    # Rule 6: PV/sitelinks比率異常（検証済みエンティティは除外）
     # 日本人有名人は日本語PVが高いがsitelinksが少ないことがある（正常）
-    if sitelinks > 0 and sitelinks < 30:  # sitelinks少ない場合のみチェック
+    if sitelinks > 0 and sitelinks < 30 and not is_verified:
         pv_per_sl = multi_lang_pv / sitelinks
         if pv_per_sl > 200000:  # 閾値を引き上げ
             issues.append(f"PV/sitelinks比率高({pv_per_sl:.0f}): 要確認")

@@ -49,6 +49,9 @@ def load_csv_data():
                 "is_japanese": row.get("is_japanese", "False") == "True",
                 "sitelinks_count": int(float(row.get("sitelinks_count", 0) or 0)),
                 "multi_lang_pv": int(float(row.get("multi_lang_pv", 0) or 0)),
+                # v2 (感銘重視スコア)
+                "episode_fame_v2": float(row.get("episode_fame_v2", 0) or 0),
+                "episode_fame_tier_v2": int(float(row.get("episode_fame_tier_v2", 0) or 0)),
             }
             episodes.append(episode)
     return episodes

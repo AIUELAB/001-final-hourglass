@@ -2,10 +2,11 @@
 Episode Fame Score v2 統合スコアラー
 
 感銘重視のエピソードランキングを生成
+v2.4: LLM直接評価オプション追加
 """
 
 import re
-from typing import Optional
+from typing import Any, Optional
 
 from .config import (
     ANCHOR_BONUS,
@@ -20,6 +21,19 @@ from .config import (
 )
 from .inspiration_scorer import calculate_inspiration_score
 from .quality_gate import calculate_quality_score
+
+# LLM評価は遅延インポート（オプション機能）
+_llm_scorer = None
+
+
+def get_llm_scorer(api_key: Optional[str] = None):
+    """LLMスコアラーの遅延初期化"""
+    global _llm_scorer
+    if _llm_scorer is None:
+        from .inspiration_scorer_llm import InspirationScorerLLM
+
+        _llm_scorer = InspirationScorerLLM(api_key=api_key)
+    return _llm_scorer
 
 
 def calculate_historical_impact(text: str) -> dict:
@@ -128,6 +142,8 @@ def calculate_episode_fame_v2(
     death_year: Optional[int] = None,
     person_name: Optional[str] = None,
     category: Optional[str] = None,
+    use_llm_inspiration: bool = False,
+    llm_api_key: Optional[str] = None,
 ) -> dict:
     """
     Episode Fame Score v2を計算
@@ -141,6 +157,8 @@ def calculate_episode_fame_v2(
         death_year: 死亡年
         person_name: 人物名
         category: カテゴリ
+        use_llm_inspiration: LLM直接評価を使用するか（v2.4追加）
+        llm_api_key: LLM APIキー（v2.4追加）
 
     Returns:
         {
@@ -152,7 +170,30 @@ def calculate_episode_fame_v2(
         }
     """
     # 1. InspirationScore（感銘度）
-    inspiration = calculate_inspiration_score(text, person_name, category)
+    if use_llm_inspiration:
+        # v2.4: LLM直接評価
+        scorer = get_llm_scorer(llm_api_key)
+        llm_result = scorer.evaluate(text, person_name or "")
+        inspiration = {
+            "total": llm_result["total"],
+            "axes": {
+                "difficulty": llm_result["difficulty"],
+                "effort": llm_result["effort"],
+                "decision": llm_result["decision"],
+                "achievement": llm_result["achievement"],
+                "social_impact": llm_result["social_impact"],
+            },
+            "narrative_bonus": llm_result.get("narrative_depth", 0) * 1.5,
+            "details": {
+                "matched_keywords": {},
+                "llm_reasoning": llm_result.get("reasoning", ""),
+                "narrative_pattern": llm_result.get("narrative_pattern", ""),
+            },
+            "llm_evaluated": True,
+        }
+    else:
+        # 従来版（キーワードマッチング）
+        inspiration = calculate_inspiration_score(text, person_name, category)
     inspiration_score = inspiration["total"]
 
     # 2. QualityScore（品質）

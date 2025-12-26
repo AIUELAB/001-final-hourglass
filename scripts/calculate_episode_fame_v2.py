@@ -50,7 +50,9 @@ def load_episodes() -> list:
     return episodes
 
 
-def calculate_all_v2_scores(episodes: list, celebrity_scores: dict, verbose: bool = False) -> list:
+def calculate_all_v2_scores(
+    episodes: list, celebrity_scores: dict, verbose: bool = False, use_llm: bool = False
+) -> list:
     """全エピソードのv2スコアを計算"""
     results = []
 
@@ -99,6 +101,7 @@ def calculate_all_v2_scores(episodes: list, celebrity_scores: dict, verbose: boo
             death_year=death_year,
             person_name=ep.get("person_name", ""),
             category=ep.get("category", ""),
+            use_llm_inspiration=use_llm,
         )
 
         # 結果をエピソードに追加
@@ -241,10 +244,12 @@ def check_reference_ranking_match(episodes: list, reference_persons: list) -> di
     }
 
 
-def main(dry_run: bool = True, verbose: bool = True):
+def main(dry_run: bool = True, verbose: bool = True, use_llm: bool = False):
     """メイン処理"""
     print("=== Episode Fame Score v2 計算 ===")
-    print(f"実行モード: {'ドライラン' if dry_run else '本番適用'}")
+    mode_str = "ドライラン" if dry_run else "本番適用"
+    llm_str = " (LLM評価)" if use_llm else ""
+    print(f"実行モード: {mode_str}{llm_str}")
     print()
 
     # データ読み込み
@@ -257,7 +262,7 @@ def main(dry_run: bool = True, verbose: bool = True):
 
     # v2スコア計算
     print("2. v2スコア計算中...")
-    results = calculate_all_v2_scores(episodes, celebrity_scores, verbose=verbose)
+    results = calculate_all_v2_scores(episodes, celebrity_scores, verbose=verbose, use_llm=use_llm)
     print(f"   計算完了: {len(results)}件")
     print()
 
@@ -385,7 +390,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Episode Fame Score v2 計算")
     parser.add_argument("--apply", action="store_true", help="本番適用（CSVに書き出し）")
+    parser.add_argument("--use-llm", action="store_true", help="LLM直接評価を使用（v2.4）")
     parser.add_argument("--quiet", action="store_true", help="詳細表示を抑制")
     args = parser.parse_args()
 
-    main(dry_run=not args.apply, verbose=not args.quiet)
+    main(dry_run=not args.apply, verbose=not args.quiet, use_llm=args.use_llm)

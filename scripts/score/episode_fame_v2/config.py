@@ -460,28 +460,49 @@ TIER_THRESHOLDS = {
 }
 
 # ============================================================
-# 参考ランキング（アンカー集合）
-# 上位に来るべきエピソードのパターン
+# 参考ランキング（アンカー集合）v2.3拡張
+# 上位に来るべきエピソードのパターン（25パターン）
+# tier: 1=最重要(+15), 2=重要(+10), 3=標準(+5)
 # ============================================================
 ANCHOR_PATTERNS = [
-    # 逆境克服→社会変革
-    {"person_pattern": "マンデラ", "episode_pattern": "差別撤廃|大統領", "rank_range": (1, 10)},
-    {"person_pattern": "キング", "episode_pattern": "I Have a Dream|公民権", "rank_range": (1, 10)},
-    {"person_pattern": "ガンディー", "episode_pattern": "塩の行進|非暴力", "rank_range": (1, 10)},
-    {"person_pattern": "ローザ・パークス", "episode_pattern": "バス|座席拒否", "rank_range": (1, 15)},
-    # 困難克服→達成
-    {"person_pattern": "マララ", "episode_pattern": "ノーベル|平和賞", "rank_range": (1, 10)},
-    {"person_pattern": "ベートーヴェン", "episode_pattern": "難聴|創作", "rank_range": (1, 10)},
-    {"person_pattern": "フリーダ・カーロ", "episode_pattern": "事故|絵画", "rank_range": (1, 20)},
-    {"person_pattern": "マザー・テレサ", "episode_pattern": "ノーベル|奉仕", "rank_range": (1, 15)},
-    # 革新的発見/発明
-    {"person_pattern": "アインシュタイン", "episode_pattern": "相対性|革命的", "rank_range": (1, 20)},
-    {"person_pattern": "マリー・キュリー", "episode_pattern": "ノーベル|放射能", "rank_range": (1, 20)},
-    {"person_pattern": "ダーウィン", "episode_pattern": "ビーグル|進化論", "rank_range": (1, 30)},
-    # スポーツでの偉業
-    {"person_pattern": "大谷翔平", "episode_pattern": "MVP|二刀流", "rank_range": (1, 20)},
-    {"person_pattern": "イチロー", "episode_pattern": "MLB|新人王", "rank_range": (1, 40)},
+    # === Tier 1: 逆境克服→社会変革（最重要） ===
+    {"person_pattern": "マンデラ", "episode_pattern": "差別撤廃|大統領|アパルトヘイト|獄中", "tier": 1},
+    {"person_pattern": "キング", "episode_pattern": "I Have a Dream|公民権|演説|行進", "tier": 1},
+    {"person_pattern": "ガンディー", "episode_pattern": "塩の行進|非暴力|独立|断食", "tier": 1},
+    {"person_pattern": "マララ", "episode_pattern": "ノーベル|平和賞|教育|銃撃", "tier": 1},
+    {"person_pattern": "ダライ・ラマ", "episode_pattern": "ノーベル|平和|チベット|亡命", "tier": 1},
+    # === Tier 1: 困難克服→偉業達成 ===
+    {"person_pattern": "ベートーヴェン", "episode_pattern": "難聴|創作|第九|交響曲", "tier": 1},
+    {"person_pattern": "ヘレン・ケラー", "episode_pattern": "盲目|聾唖|サリバン|奇跡", "tier": 1},
+    {"person_pattern": "ホーキング", "episode_pattern": "ALS|車椅子|宇宙|ブラックホール", "tier": 1},
+    # === Tier 2: 革新的発見/社会貢献 ===
+    {"person_pattern": "マリー・キュリー", "episode_pattern": "ノーベル|放射能|女性初|ラジウム", "tier": 2},
+    {"person_pattern": "アインシュタイン", "episode_pattern": "相対性|革命的|ノーベル|物理", "tier": 2},
+    {"person_pattern": "マザー・テレサ", "episode_pattern": "ノーベル|奉仕|貧困|慈善", "tier": 2},
+    {"person_pattern": "ローザ・パークス", "episode_pattern": "バス|座席拒否|公民権|抵抗", "tier": 2},
+    {"person_pattern": "フリーダ・カーロ", "episode_pattern": "事故|絵画|苦痛|芸術", "tier": 2},
+    {"person_pattern": "アンネ・フランク", "episode_pattern": "日記|ナチス|隠れ家|ホロコースト", "tier": 2},
+    {"person_pattern": "杉原千畝", "episode_pattern": "ビザ|ユダヤ|命|救出", "tier": 2},
+    # === Tier 2: 科学/発明の偉業 ===
+    {"person_pattern": "ダーウィン", "episode_pattern": "ビーグル|進化論|種の起源|自然選択", "tier": 2},
+    {"person_pattern": "ニュートン", "episode_pattern": "万有引力|りんご|光学|微積分", "tier": 2},
+    {"person_pattern": "エジソン", "episode_pattern": "発明|電球|失敗|1000回", "tier": 2},
+    {"person_pattern": "ライト兄弟", "episode_pattern": "飛行|初飛行|航空|キティホーク", "tier": 2},
+    # === Tier 3: スポーツ/文化での偉業 ===
+    {"person_pattern": "大谷翔平", "episode_pattern": "MVP|二刀流|メジャー|ホームラン", "tier": 3},
+    {"person_pattern": "イチロー", "episode_pattern": "MLB|新人王|安打|記録", "tier": 3},
+    {"person_pattern": "羽生結弦", "episode_pattern": "五輪|金メダル|フィギュア|震災", "tier": 3},
+    {"person_pattern": "モハメド・アリ", "episode_pattern": "ボクシング|徴兵拒否|チャンピオン|復活", "tier": 3},
+    {"person_pattern": "ピカソ", "episode_pattern": "ゲルニカ|キュビスム|革命|芸術", "tier": 3},
+    {"person_pattern": "宮崎駿", "episode_pattern": "アニメ|ジブリ|アカデミー|引退", "tier": 3},
 ]
 
-# アンカーパターンマッチ時のボーナス（v2.2追加）
+# アンカーボーナス段階化（v2.3拡張）
+ANCHOR_BONUS_TIERS = {
+    1: 15.0,  # Tier 1: 最重要（逆境克服→社会変革）
+    2: 10.0,  # Tier 2: 重要（革新的発見/社会貢献）
+    3: 5.0,  # Tier 3: 標準（スポーツ/文化での偉業）
+}
+
+# 後方互換性のため維持（デフォルト値）
 ANCHOR_BONUS = 10.0

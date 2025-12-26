@@ -192,38 +192,63 @@ class TestRegressionPrevention:
 
 
 class TestAnchorBonus:
-    """アンカーボーナスのテスト（v2.2追加）"""
+    """アンカーボーナスのテスト（v2.2追加、v2.3段階化対応）"""
 
-    def test_mandela_anchor_match(self):
-        """マンデラパターンでボーナス付与"""
+    def test_mandela_anchor_match_tier1(self):
+        """マンデラパターンでTier1ボーナス（15点）付与"""
         from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
 
         result = calculate_anchor_bonus(
             person_name="ネルソン・マンデラ",
             text="差別撤廃と大統領就任を実現した",
         )
-        assert result["bonus"] == 10.0
+        assert result["bonus"] == 15.0, f"Tier1は15点: {result['bonus']}"
+        assert result["tier"] == 1
         assert result["matched_pattern"] is not None
 
-    def test_king_anchor_match(self):
-        """キング牧師パターンでボーナス付与"""
+    def test_king_anchor_match_tier1(self):
+        """キング牧師パターンでTier1ボーナス（15点）付与"""
         from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
 
         result = calculate_anchor_bonus(
             person_name="マーティン・ルーサー・キング",
             text="I Have a Dreamの演説で公民権運動を牽引",
         )
-        assert result["bonus"] == 10.0
+        assert result["bonus"] == 15.0
+        assert result["tier"] == 1
 
-    def test_gandhi_anchor_match(self):
-        """ガンディーパターンでボーナス付与"""
+    def test_gandhi_anchor_match_tier1(self):
+        """ガンディーパターンでTier1ボーナス（15点）付与"""
         from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
 
         result = calculate_anchor_bonus(
             person_name="マハトマ・ガンディー",
             text="塩の行進で非暴力抵抗運動を展開",
         )
-        assert result["bonus"] == 10.0
+        assert result["bonus"] == 15.0
+        assert result["tier"] == 1
+
+    def test_curie_anchor_match_tier2(self):
+        """マリー・キュリーパターンでTier2ボーナス（10点）付与"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="マリー・キュリー",
+            text="ノーベル賞を2度受賞した女性初の科学者",
+        )
+        assert result["bonus"] == 10.0, f"Tier2は10点: {result['bonus']}"
+        assert result["tier"] == 2
+
+    def test_ohtani_anchor_match_tier3(self):
+        """大谷翔平パターンでTier3ボーナス（5点）付与"""
+        from scripts.score.episode_fame_v2.scorer import calculate_anchor_bonus
+
+        result = calculate_anchor_bonus(
+            person_name="大谷翔平",
+            text="MVPを受賞し二刀流として活躍",
+        )
+        assert result["bonus"] == 5.0, f"Tier3は5点: {result['bonus']}"
+        assert result["tier"] == 3
 
     def test_no_match_no_bonus(self):
         """パターン不一致でボーナスなし"""
@@ -255,7 +280,7 @@ class TestAnchorBonus:
         assert calculate_anchor_bonus(None, "test")["bonus"] == 0.0
 
     def test_anchor_bonus_in_v2_score(self):
-        """v2スコアにアンカーボーナスが含まれる"""
+        """v2スコアにアンカーボーナスが含まれる（v2.3: Tier1=15点）"""
         llm_scores = {
             k: 5.0
             for k in [
@@ -267,7 +292,7 @@ class TestAnchorBonus:
             ]
         }
 
-        # アンカーマッチあり
+        # アンカーマッチあり（マンデラはTier1=15点）
         result_with_anchor = calculate_episode_fame_v2(
             text="差別撤廃と大統領就任を実現した",
             llm_scores=llm_scores,
@@ -283,7 +308,7 @@ class TestAnchorBonus:
             person_name="一般人",
         )
 
-        # アンカーボーナスの差は10点
+        # v2.3: Tier1アンカーボーナスの差は15点
         diff = result_with_anchor["total"] - result_without_anchor["total"]
-        assert diff == 10.0, f"アンカーボーナス差が10点でない: {diff}"
-        assert result_with_anchor["components"]["anchor_bonus"] == 10.0
+        assert diff == 15.0, f"Tier1アンカーボーナス差が15点でない: {diff}"
+        assert result_with_anchor["components"]["anchor_bonus"] == 15.0

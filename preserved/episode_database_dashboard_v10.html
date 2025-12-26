@@ -1725,8 +1725,8 @@
                                 <th class="sortable-header" data-sort="person_name" data-type="string" style="padding: 15px; text-align: left;">人物名<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="age" data-type="number" style="padding: 15px; text-align: center; width: 60px;">年齢<span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="episode_text" data-type="string" style="padding: 15px; text-align: left;">エピソード全文<span class="sort-indicator"></span></th>
-                                <th class="sortable-header sort-active sort-desc" data-sort="episode_fame_score" data-type="number" style="padding: 15px; text-align: center; width: 120px;">エピソード有名度<span class="sort-indicator"></span></th>
-                                <th class="sortable-header" data-sort="episode_fame_tier" data-type="number" style="padding: 15px; text-align: center; width: 100px;">Tier<span class="sort-indicator"></span></th>
+                                <th class="sortable-header sort-active sort-desc" data-sort="episode_fame_score_v4" data-type="number" style="padding: 15px; text-align: center; width: 120px;">エピソード有名度v4<span class="sort-indicator"></span></th>
+                                <th class="sortable-header" data-sort="episode_fame_tier_v4" data-type="number" style="padding: 15px; text-align: center; width: 100px;">Tier<span class="sort-indicator"></span></th>
                             </tr>
                         </thead>
                         <tbody id="episode-ranking-table-body">
@@ -228305,7 +228305,7 @@
     <script>
         let episodeRankingFilter = 'all';
         // ソート状態管理
-        let episodeFameRankingSortColumn = 'episode_fame_score';  // デフォルトはエピソード有名度
+        let episodeFameRankingSortColumn = 'episode_fame_score_v4';  // デフォルトはエピソード有名度v4
         let episodeFameRankingSortDirection = 'desc';              // デフォルトは降順
         // ページネーション状態管理
         let currentEpisodePage = 1;          // 現在のページ番号
@@ -228511,13 +228511,21 @@
                         valA = a.episode_fame_score || 0;
                         valB = b.episode_fame_score || 0;
                         break;
+                    case 'episode_fame_score_v4':
+                        valA = a.episode_fame_score_v4 || 0;
+                        valB = b.episode_fame_score_v4 || 0;
+                        break;
                     case 'episode_fame_tier':
                         valA = a.episode_fame_tier || 0;
                         valB = b.episode_fame_tier || 0;
                         break;
+                    case 'episode_fame_tier_v4':
+                        valA = a.episode_fame_tier_v4 || 0;
+                        valB = b.episode_fame_tier_v4 || 0;
+                        break;
                     default:
-                        valA = a.episode_fame_score || 0;
-                        valB = b.episode_fame_score || 0;
+                        valA = a.episode_fame_score_v4 || 0;
+                        valB = b.episode_fame_score_v4 || 0;
                 }
 
                 // 文字列の場合
@@ -228586,11 +228594,11 @@
 
             tbody.innerHTML = pageData.map((ep) => {
                 const rank = ep.rank;  // 元の順位を使用
-                const score = ep.episode_fame_score || 0;  // episode_fame_scoreは0-500スケール（最大約433）
-                const tier = ep.episode_fame_tier;
+                const score = ep.episode_fame_score_v4 || 0;  // episode_fame_score_v4は0-100スケール
+                const tier = ep.episode_fame_tier_v4;
 
-                // スコアの色（0-500スケール用に閾値を調整）
-                const scoreColor = score >= 350 ? '#9333ea' : score >= 250 ? '#3b82f6' : '#6b7280';
+                // スコアの色（0-100スケール用に閾値を調整）
+                const scoreColor = score >= 75 ? '#9333ea' : score >= 60 ? '#3b82f6' : '#6b7280';
 
                 // Tierバッジの色
                 const tierColors = {
@@ -228884,6 +228892,9 @@
                                 ? parseInt(r["wikipedia_pv"]) : null;
                             const episodeFameScoreValue = r['episode_fame_score'] && r['episode_fame_score'].trim() !== ''
                                 ? parseFloat(r['episode_fame_score']) : null;
+                            // Episode Fame Score v4（0-100スケール）
+                            const episodeFameScoreV4Value = r['episode_fame_score_v4'] && r['episode_fame_score_v4'].trim() !== ''
+                                ? parseFloat(r['episode_fame_score_v4']) : null;
 
                             // episode_idの取得（BOM対応強化）
                             const getField = (fieldName) => {
@@ -228950,7 +228961,9 @@
                                 wikipedia_pv: wikipediaPvValue,
                                 fame_tier: parseInt(r["fame_tier"]) || 0,
                                 episode_fame_score: episodeFameScoreValue,
+                                episode_fame_score_v4: episodeFameScoreV4Value,
                                 episode_fame_tier: parseInt(r['episode_fame_tier']) || 0,
+                                episode_fame_tier_v4: parseInt(r['episode_fame_tier_v4']) || 0,
                                 // 7軸スコア
                                 composite_score: parseFloat(r['composite_score']) || null,
                                 // 超総合スコア（0-1000スケール）= composite_1000×0.5 + fame_1000×0.25 + ep_fame_1000×0.25

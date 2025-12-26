@@ -482,3 +482,6 @@ ANCHOR_PATTERNS = [
     {"person_pattern": "大谷翔平", "episode_pattern": "MVP|二刀流", "rank_range": (1, 20)},
     {"person_pattern": "イチロー", "episode_pattern": "MLB|新人王", "rank_range": (1, 40)},
 ]
+
+# アンカーパターンマッチ時のボーナス（v2.2追加）
+ANCHOR_BONUS = 10.0

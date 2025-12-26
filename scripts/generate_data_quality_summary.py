@@ -221,7 +221,8 @@ def get_quality_issues():
         if not wid and score > 300:
             issues["no_wikidata_high_score"] += 1
 
-        if sitelinks > 0 and sitelinks < 30:
+        # PV/sitelinks比率異常（検証済みエンティティは除外）
+        if sitelinks > 0 and sitelinks < 30 and not is_verified:
             pv_ratio = pv / sitelinks
             if pv_ratio > 200000:
                 issues["pv_sitelinks_ratio"] += 1

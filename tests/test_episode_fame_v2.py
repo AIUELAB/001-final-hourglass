@@ -312,3 +312,122 @@ class TestAnchorBonus:
         diff = result_with_anchor["total"] - result_without_anchor["total"]
         assert diff == 15.0, f"Tier1アンカーボーナス差が15点でない: {diff}"
         assert result_with_anchor["components"]["anchor_bonus"] == 15.0
+
+
+class TestLLMInspirationScorer:
+    """LLM InspirationScorer のテスト (v2.4)"""
+
+    def test_llm_scorer_import(self):
+        """LLMスコアラーがインポートできる"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import (
+            InspirationScorerLLM,
+            calculate_inspiration_score_llm,
+        )
+
+        assert InspirationScorerLLM is not None
+        assert calculate_inspiration_score_llm is not None
+
+    def test_llm_scorer_init_without_api_key(self):
+        """APIキーなしで初期化できる（clientはlazyなので例外なし）"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import InspirationScorerLLM
+
+        scorer = InspirationScorerLLM(api_key=None)
+        assert scorer.model == "claude-3-5-haiku-20241022"
+
+    def test_empty_text_returns_zero(self):
+        """空テキストはスコア0を返す"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import InspirationScorerLLM
+
+        scorer = InspirationScorerLLM(api_key="dummy")
+        result = scorer.evaluate("", use_cache=False)
+        assert result["total"] == 0
+        assert result["difficulty"] == 0
+        assert result["cached"] is False
+
+    def test_calculate_total_formula(self):
+        """総合スコア計算式の検証"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import InspirationScorerLLM
+
+        scorer = InspirationScorerLLM(api_key="dummy")
+
+        # テストデータ: 全軸10点、narrative_depth=10
+        result = {
+            "difficulty": 10,
+            "effort": 10,
+            "decision": 10,
+            "achievement": 10,
+            "social_impact": 10,
+            "narrative_depth": 10,
+        }
+        total = scorer._calculate_total(result)
+        # 10 * (0.25+0.20+0.15+0.25+0.15) * 10 + min(5, 10*0.5) = 100 + 5 = 105 → 100 (上限)
+        assert total == 100.0
+
+    def test_calculate_total_with_average_scores(self):
+        """平均的なスコアでの計算検証"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import InspirationScorerLLM
+
+        scorer = InspirationScorerLLM(api_key="dummy")
+
+        # テストデータ: 全軸5点、narrative_depth=5
+        result = {
+            "difficulty": 5,
+            "effort": 5,
+            "decision": 5,
+            "achievement": 5,
+            "social_impact": 5,
+            "narrative_depth": 5,
+        }
+        total = scorer._calculate_total(result)
+        # 5 * 1.0 * 10 + min(5, 5*0.5) = 50 + 2.5 = 52.5
+        assert total == 52.5
+
+    def test_parse_response_extracts_json(self):
+        """レスポンスからJSONを正しく抽出"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import InspirationScorerLLM
+
+        scorer = InspirationScorerLLM(api_key="dummy")
+
+        response = """評価結果:
+        {"difficulty": 7, "effort": 6, "decision": 5, "achievement": 8, "social_impact": 6, "narrative_pattern": "逆境克服", "narrative_depth": 7, "reasoning": "テスト"}
+        """
+        result = scorer._parse_response(response)
+        assert result["difficulty"] == 7.0
+        assert result["effort"] == 6.0
+        assert result["narrative_pattern"] == "逆境克服"
+
+    def test_parse_response_clamps_values(self):
+        """0-10範囲外の値は制限される"""
+        from scripts.score.episode_fame_v2.inspiration_scorer_llm import InspirationScorerLLM
+
+        scorer = InspirationScorerLLM(api_key="dummy")
+
+        response = '{"difficulty": 15, "effort": -5, "decision": 5, "achievement": 5, "social_impact": 5}'
+        result = scorer._parse_response(response)
+        assert result["difficulty"] == 10.0  # 上限
+        assert result["effort"] == 0.0  # 下限
+
+    def test_scorer_integration_flag(self):
+        """scorer.pyでuse_llm_inspirationフラグが機能する"""
+        from scripts.score.episode_fame_v2.scorer import calculate_episode_fame_v2
+
+        # use_llm_inspiration=False（デフォルト）はキーワードマッチングを使用
+        llm_scores = {
+            "accuracy": 8,
+            "focus": 7,
+            "uniqueness": 6,
+            "expression": 7,
+            "inspiration": 8,
+            "educational_value": 7,
+            "empathy": 8,
+        }
+
+        result = calculate_episode_fame_v2(
+            text="逆境を乗り越えてノーベル賞を受賞した",
+            llm_scores=llm_scores,
+            celebrity_score=500,
+            use_llm_inspiration=False,  # キーワードマッチング
+        )
+        # キーワードマッチング結果
+        assert "inspiration" in result["components"]
+        assert result["details"]["inspiration"].get("llm_evaluated") is not True

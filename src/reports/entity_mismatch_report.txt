@@ -1,31 +1,13 @@
 エンティティ誤採用検知レポート
 ============================================================
 
-検知結果: 4件
+検知結果: 1件
   - Critical: 0件
   - High: 0件
-  - Medium: 4件
-
-[MEDIUM] P4FEE7C7 | ミッキーマウス
-  type: FICTIONAL, wikidata: Q11934
-  sitelinks: 174, pv: 367450, score: 770.7
-  - 架空キャラ中sitelinks(174): 有名キャラか確認
-  Action: 手動確認推奨
-
-[MEDIUM] P5C4FB25 | 大谷翔平
-  type: REAL, wikidata: Q4391858
-  sitelinks: 37, pv: 5452838, score: 644.8
-  - Google検索不整合: hits=50,000,000 vs sitelinks=37
-  Action: 手動確認推奨
-
-[MEDIUM] P2DB2A57 | 藤田晋
-  type: REAL, wikidata: Q11624818
-  sitelinks: 1, pv: 225891, score: 487.4
-  - PV/sitelinks比率高(225891): 要確認
-  Action: 手動確認推奨
+  - Medium: 1件
 
 [MEDIUM] P36B0357 | 田中雄士
-  type: REAL, wikidata: Q24872861
-  sitelinks: 1, pv: 387498, score: 449.0
-  - PV/sitelinks比率高(387498): 要確認
+  type: REAL, wikidata:
+  sitelinks: 0, pv: 387498, score: 449.0
+  - Wikidataなし高スコア(449)
   Action: 手動確認推奨

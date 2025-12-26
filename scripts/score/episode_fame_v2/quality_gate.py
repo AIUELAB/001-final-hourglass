@@ -73,6 +73,8 @@ def check_meta_expressions(text: str) -> dict:
     """
     メタ表現チェック（「あなたと同じ～歳」など）
 
+    v2.1で無効化: 99.9%のエピソードが該当するため意味がない
+
     Args:
         text: エピソード本文
 
@@ -83,26 +85,11 @@ def check_meta_expressions(text: str) -> dict:
             "penalty": float (0-1, 1=ペナルティなし)
         }
     """
-    if not text:
-        return {
-            "has_meta": False,
-            "matched_patterns": [],
-            "penalty": 1.0,
-        }
-
-    matched = []
-    for pattern in QUALITY_GATE["meta_patterns"]:
-        matches = re.findall(pattern, text)
-        if matches:
-            matched.extend(matches)
-
-    has_meta = len(matched) > 0
-    penalty = 1.0 - QUALITY_GATE["meta_penalty"] if has_meta else 1.0
-
+    # v2.1: メタ表現ペナルティを無効化（常にペナルティなしを返す）
     return {
-        "has_meta": has_meta,
-        "matched_patterns": matched,
-        "penalty": penalty,
+        "has_meta": False,
+        "matched_patterns": [],
+        "penalty": 1.0,
     }
 
 

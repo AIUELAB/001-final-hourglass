@@ -89,12 +89,13 @@ class TestQualityGate:
         # カタカナが含まれているのでpass
         assert result["pass"] is True
 
-    def test_meta_expression_penalty(self):
-        """メタ表現でペナルティ"""
+    def test_meta_expression_no_penalty_v21(self):
+        """メタ表現でペナルティなし（v2.1で無効化）"""
         text = "あなたと同じ30歳のとき、この偉業を達成した"
         result = check_meta_expressions(text)
-        assert result["has_meta"] is True
-        assert result["penalty"] < 1.0
+        # v2.1: メタ表現ペナルティは無効化（99.9%が該当し意味がないため）
+        assert result["has_meta"] is False
+        assert result["penalty"] == 1.0
 
 
 class TestBiasControl:

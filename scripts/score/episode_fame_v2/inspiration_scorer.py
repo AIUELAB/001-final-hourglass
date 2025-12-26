@@ -60,11 +60,13 @@ def calculate_narrative_bonus(text: str) -> float:
     """
     ナラティブボーナス（困難→努力/決断→結果の流れがあるか）
 
+    v2.1: 複合パターン対応・上限拡大
+
     Args:
         text: エピソード本文
 
     Returns:
-        0-10のボーナス
+        0-15のボーナス
     """
     bonus = 0.0
 
@@ -73,25 +75,37 @@ def calculate_narrative_bonus(text: str) -> float:
     has_achievement = any(kw in text for kw in INSPIRATION_KEYWORDS["achievement"])
     has_effort = any(kw in text for kw in INSPIRATION_KEYWORDS["effort"])
     has_decision = any(kw in text for kw in INSPIRATION_KEYWORDS["decision"])
+    has_social = any(kw in text for kw in INSPIRATION_KEYWORDS["social_impact"])
 
-    # 困難→達成パターン
+    # 困難→達成パターン（基本）
     if has_difficulty and has_achievement:
         bonus += 3.0
 
-    # 努力の要素も含む
+    # 困難→努力→達成パターン（v2.1: 2.0→3.0）
     if has_difficulty and has_effort and has_achievement:
+        bonus += 3.0
+
+    # 困難→決断→達成パターン（v2.1追加）
+    if has_difficulty and has_decision and has_achievement:
         bonus += 2.0
 
-    # 決断の要素も含む
+    # 決断→達成パターン
     if has_decision and has_achievement:
         bonus += 1.0
 
-    # 社会的影響
-    has_social = any(kw in text for kw in INSPIRATION_KEYWORDS["social_impact"])
+    # 社会的影響→達成パターン（v2.1追加）
+    if has_social and has_achievement:
+        bonus += 2.0
+
+    # 社会的影響と困難/努力/決断の組み合わせ
     if has_social and (has_difficulty or has_effort or has_decision):
         bonus += 2.0
 
-    return min(bonus, 10.0)
+    # 完全ナラティブボーナス（v2.1追加: 5軸すべてマッチ）
+    if all([has_difficulty, has_decision, has_effort, has_achievement, has_social]):
+        bonus += 3.0
+
+    return min(bonus, 15.0)  # v2.1: 上限10→15
 
 
 def calculate_inspiration_score(

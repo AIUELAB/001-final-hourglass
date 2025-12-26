@@ -60,6 +60,16 @@ AMBIGUOUS_NAMES = {
     "ポセイドン",
 }
 
+# 検証済みエンティティ（person_id: wikidata_id）
+# 曖昧名前でも正しいマッピングであることが確認済み
+VERIFIED_ENTITIES = {
+    "P64A6504": "Q1744",  # マドンナ (歌手)
+    "PB883441": "Q34201",  # ゼウス (ギリシア神話)
+    "PF6B0D8E": "Q37122",  # アテナ (ギリシア神話)
+    "PF632FA6": "Q1361450",  # ken (L'Arc〜en〜Ciel)
+    "PBC21E64": "Q11237288",  # ONE (漫画家)
+}
+
 
 @dataclass
 class DetectionResult:
@@ -182,9 +192,11 @@ def detect_issues(cache_entry: dict, csv_entry: dict) -> DetectionResult:
         elif google_hits > 20_000_000 and sitelinks < 100:
             issues.append(f"Google検索不整合: hits={google_hits:,} vs sitelinks={sitelinks}")
 
-    # Rule 5: 曖昧な名前
+    # Rule 5: 曖昧な名前（検証済みエンティティは除外）
     if person_name in AMBIGUOUS_NAMES:
-        issues.append("曖昧名前: 一般名詞/地名/宗教用語と同名")
+        verified_qid = VERIFIED_ENTITIES.get(person_id)
+        if not (verified_qid and verified_qid == wikidata_id):
+            issues.append("曖昧名前: 一般名詞/地名/宗教用語と同名")
 
     # Rule 6: PV/sitelinks比率異常（閾値を上げて誤検知を減らす）
     # 日本人有名人は日本語PVが高いがsitelinksが少ないことがある（正常）

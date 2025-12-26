@@ -1,0 +1,414 @@
+{
+  "timestamp": "20251226_125925",
+  "total": 11240,
+  "tier_distribution": {
+    "2": 10483,
+    "3": 738,
+    "1": 19
+  },
+  "score_distribution": {
+    "50": 9979,
+    "40": 517,
+    "60": 741,
+    "20": 3
+  },
+  "samples": {
+    "high": [],
+    "mid": [
+      {
+        "episode_id": "E000C374C",
+        "person_name": "尾崎豊",
+        "score": 55.05,
+        "tier": 2,
+        "components": {
+          "llm": 59.22,
+          "llm_weighted": 26.65,
+          "keyword": 47.0,
+          "keyword_weighted": 11.75,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 61.01,
+          "person_weighted": 9.15,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成; 有名人(61)",
+        "text_preview": "あなたと同じ15歳のとき、尾崎豊は高校1年生でレコードデビューを果たしました。練馬区の高校に通いながら、放課後は音楽活動"
+      },
+      {
+        "episode_id": "E0047F67B",
+        "person_name": "錦織圭",
+        "score": 56.94,
+        "tier": 2,
+        "components": {
+          "llm": 58.8,
+          "llm_weighted": 26.46,
+          "keyword": 55.0,
+          "keyword_weighted": 13.75,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 61.53,
+          "person_weighted": 9.23,
+          "matched_keywords": [
+            "初めて"
+          ]
+        },
+        "reason": "キーワード:初めて; タイプ:達成; 有名人(62)",
+        "text_preview": "あなたと同じ16歳のとき、錦織圭はアメリカ・フロリダの名門テニスアカデミーで、言葉も文化も違う環境の中で必死に練習を重ね"
+      },
+      {
+        "episode_id": "E00FBF3FA",
+        "person_name": "ロイ・ヘインズ",
+        "score": 58.93,
+        "tier": 2,
+        "components": {
+          "llm": 63.77,
+          "llm_weighted": 28.7,
+          "keyword": 66.0,
+          "keyword_weighted": 16.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 41.53,
+          "person_weighted": 6.23,
+          "matched_keywords": [
+            "初めて",
+            "改革",
+            "革命"
+          ]
+        },
+        "reason": "LLM高評価(64); キーワード:初めて,改革,革命; タイプ:達成",
+        "text_preview": "あなたと同じ27歳のとき、ロイ・ヘインズはジャズ界の伝説チャーリー・パーカーのバンドに参加するという夢のような機会を得て"
+      },
+      {
+        "episode_id": "E01392073",
+        "person_name": "石川佳純",
+        "score": 57.33,
+        "tier": 2,
+        "components": {
+          "llm": 62.75,
+          "llm_weighted": 28.24,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 60.63,
+          "person_weighted": 9.09,
+          "matched_keywords": []
+        },
+        "reason": "LLM高評価(63); タイプ:達成; 有名人(61)",
+        "text_preview": "あなたと同じ18歳のとき、石川佳純は全日本卓球選手権で初優勝を果たしました。2011年1月、高校3年生だった彼女は、決勝"
+      },
+      {
+        "episode_id": "E01675E01",
+        "person_name": "長尾謙杜",
+        "score": 52.89,
+        "tier": 2,
+        "components": {
+          "llm": 55.67,
+          "llm_weighted": 25.05,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 52.25,
+          "person_weighted": 7.84,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成; 有名人(52)",
+        "text_preview": "あなたと同じ10歳のとき、長尾謙杜は関西ジャニーズJr.として活動を始めたばかりの時期でした。小学4年生という年齢ながら"
+      },
+      {
+        "episode_id": "E029DEEFE",
+        "person_name": "長渕剛",
+        "score": 55.93,
+        "tier": 2,
+        "components": {
+          "llm": 59.63,
+          "llm_weighted": 26.83,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 60.65,
+          "person_weighted": 9.1,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:挑戦; 有名人(61)",
+        "text_preview": "あなたと同じ19歳のとき、長渕剛は鹿児島から上京し、横浜の大学に通いながらアマチュアバンド活動に打ち込んでいました。当時"
+      },
+      {
+        "episode_id": "E02E8EB29",
+        "person_name": "宇多田ヒカル",
+        "score": 56.98,
+        "tier": 2,
+        "components": {
+          "llm": 58.16,
+          "llm_weighted": 26.17,
+          "keyword": 55.0,
+          "keyword_weighted": 13.75,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 63.7,
+          "person_weighted": 9.55,
+          "matched_keywords": [
+            "伝説的"
+          ]
+        },
+        "reason": "キーワード:伝説的; タイプ:達成; 有名人(64)",
+        "text_preview": "あなたと同じ15歳のとき、宇多田ヒカルは日本の音楽史を塗り替える快挙を成し遂げました。1999年3月、高校1年生だった彼"
+      },
+      {
+        "episode_id": "E039C8603",
+        "person_name": "チェット・ベイカー",
+        "score": 54.8,
+        "tier": 2,
+        "components": {
+          "llm": 60.04,
+          "llm_weighted": 27.02,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 51.89,
+          "person_weighted": 7.78,
+          "matched_keywords": []
+        },
+        "reason": "LLM高評価(60); タイプ:達成; 有名人(52)",
+        "text_preview": "あなたと同じ23歳のとき、チェット・ベイカーはウエストコースト・ジャズシーンの新星として注目を浴びていた。1952年、ジ"
+      },
+      {
+        "episode_id": "E0411E01D",
+        "person_name": "谷崎潤一郎",
+        "score": 56.45,
+        "tier": 2,
+        "components": {
+          "llm": 58.7,
+          "llm_weighted": 26.42,
+          "keyword": 52.0,
+          "keyword_weighted": 13.0,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 63.58,
+          "person_weighted": 9.54,
+          "matched_keywords": [
+            "代表作"
+          ]
+        },
+        "reason": "キーワード:代表作; タイプ:達成; 有名人(64)",
+        "text_preview": "あなたと同じ76歳のとき、谷崎潤一郎は戦後の混乱期にあっても創作意欲を失わず、大作『細雪』の完成に情熱を注いでいました。"
+      },
+      {
+        "episode_id": "E0447D592",
+        "person_name": "キャノンボール・アダレイ",
+        "score": 53.19,
+        "tier": 2,
+        "components": {
+          "llm": 55.77,
+          "llm_weighted": 25.1,
+          "keyword": 55.0,
+          "keyword_weighted": 13.75,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 45.65,
+          "person_weighted": 6.85,
+          "matched_keywords": [
+            "歴史的"
+          ]
+        },
+        "reason": "キーワード:歴史的; タイプ:達成",
+        "text_preview": "あなたと同じ30歳のとき、キャノンボール・アダレイはマイルス・デイヴィスのバンドで歴史的名盤「サムシン・エルス」のレコー"
+      }
+    ],
+    "low": [
+      {
+        "episode_id": "E04F059CB",
+        "person_name": "ジェームズ・ボンド",
+        "score": 49.87,
+        "tier": 2,
+        "components": {
+          "llm": 47.03,
+          "llm_weighted": 21.16,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 58.01,
+          "person_weighted": 8.7,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成; 有名人(58)",
+        "text_preview": "あなたと同じ35歳のとき、ジェームズ・ボンドは英国秘密情報部MI6のダブルオー・エージェントとして、最も危険な任務を遂行"
+      },
+      {
+        "episode_id": "E0768D6D8",
+        "person_name": "森嶋帆高",
+        "score": 45.84,
+        "tier": 2,
+        "components": {
+          "llm": 54.08,
+          "llm_weighted": 24.34,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 10.02,
+          "person_weighted": 1.5,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成",
+        "text_preview": "あなたと同じ16歳のとき、森嶋帆高は離島から家出して東京へ向かい、人生を変える決断をしました。孤独と不安を抱えながらも、"
+      },
+      {
+        "episode_id": "E07F0DFE2",
+        "person_name": "シンシン",
+        "score": 49.01,
+        "tier": 2,
+        "components": {
+          "llm": 55.15,
+          "llm_weighted": 24.82,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 27.98,
+          "person_weighted": 4.2,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成",
+        "text_preview": "あなたと同じ20歳のとき、シンシンは上野動物園で最高齢のジャイアントパンダとして、穏やかな日々を過ごしていました。パンダ"
+      },
+      {
+        "episode_id": "E09D7835C",
+        "person_name": "下野紘",
+        "score": 49.01,
+        "tier": 2,
+        "components": {
+          "llm": 48.08,
+          "llm_weighted": 21.64,
+          "keyword": 47.0,
+          "keyword_weighted": 11.75,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 54.15,
+          "person_weighted": 8.12,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成; 有名人(54)",
+        "text_preview": "あなたと同じ10歳のとき、下野紘は東京都で少年時代を過ごしていました。この頃から演技やエンターテインメントに興味を持ち始"
+      },
+      {
+        "episode_id": "E0B7B34BA",
+        "person_name": "伊織順平",
+        "score": 45.86,
+        "tier": 2,
+        "components": {
+          "llm": 54.22,
+          "llm_weighted": 24.4,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 9.76,
+          "person_weighted": 1.46,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成",
+        "text_preview": "あなたと同じ16歳のとき、伊織順平は月光館学園の2年生として、特別課外活動部の一員でした。当初は自分に自信が持てず、仲間"
+      },
+      {
+        "episode_id": "E0D15BBE9",
+        "person_name": "コンスウェロ",
+        "score": 46.85,
+        "tier": 2,
+        "components": {
+          "llm": 56.28,
+          "llm_weighted": 25.33,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 10.19,
+          "person_weighted": 1.53,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成",
+        "text_preview": "あなたと同じ5歳のとき、コンスウェロは動物園で最年長のゾウとして、若い飼育員たちに大切なことを教えていました。長年の経験"
+      },
+      {
+        "episode_id": "E0DB4671D",
+        "person_name": "深澤辰哉",
+        "score": 47.73,
+        "tier": 2,
+        "components": {
+          "llm": 47.48,
+          "llm_weighted": 21.37,
+          "keyword": 42.0,
+          "keyword_weighted": 10.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 55.75,
+          "person_weighted": 8.36,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成; 有名人(56)",
+        "text_preview": "あなたと同じ10歳のとき、深澤辰哉は東京で小学4年生として日々を過ごしていました。この頃から既に明るく人懐っこい性格で、"
+      },
+      {
+        "episode_id": "E1375C378",
+        "person_name": "水田信二",
+        "score": 47.57,
+        "tier": 2,
+        "components": {
+          "llm": 47.48,
+          "llm_weighted": 21.37,
+          "keyword": 44.0,
+          "keyword_weighted": 11.0,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 51.38,
+          "person_weighted": 7.71,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成; 有名人(51)",
+        "text_preview": "あなたと同じ10歳のとき、水田信二は大阪の下町で、毎日友達と野球に夢中になっていました。当時から負けず嫌いで、ツッコミの"
+      },
+      {
+        "episode_id": "E17448B88",
+        "person_name": "ガストン",
+        "score": 44.28,
+        "tier": 1,
+        "components": {
+          "llm": 49.28,
+          "llm_weighted": 22.18,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 14.05,
+          "person_weighted": 2.11,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成",
+        "text_preview": "あなたと同じ30歳のとき、ガストンは村一番の狩人として確固たる地位を築き、若い狩人たちの指導者としても活躍していました。"
+      },
+      {
+        "episode_id": "E18EFE579",
+        "person_name": "バズ・ライトイヤー",
+        "score": 49.77,
+        "tier": 2,
+        "components": {
+          "llm": 50.53,
+          "llm_weighted": 22.74,
+          "keyword": 50.0,
+          "keyword_weighted": 12.5,
+          "type": 50.0,
+          "type_weighted": 7.5,
+          "person": 46.85,
+          "person_weighted": 7.03,
+          "matched_keywords": []
+        },
+        "reason": "タイプ:達成",
+        "text_preview": "あなたと同じ30歳のとき、バズ・ライトイヤーは宇宙警備隊のエリート隊員として、重要な任務の最前線で活躍していました。この"
+      }
+    ]
+  }
+}

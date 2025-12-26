@@ -1,40 +1,10 @@
 エンティティ誤採用検知レポート
 ============================================================
 
-検知結果: 16件
+検知結果: 4件
   - Critical: 0件
-  - High: 5件
-  - Medium: 11件
-
-[HIGH] P64A6504 | マドンナ
-  type: REAL, wikidata: Q1744
-  sitelinks: 188, pv: 1416766, score: 801.6
-  - 曖昧名前: 一般名詞/地名/宗教用語と同名
-  Action: Wikidata P31を確認し、誤りなら修正
-
-[HIGH] PB883441 | ゼウス
-  type: FICTIONAL, wikidata: Q34201
-  sitelinks: 143, pv: 730085, score: 747.5
-  - 曖昧名前: 一般名詞/地名/宗教用語と同名
-  Action: Wikidata P31を確認し、誤りなら修正
-
-[HIGH] PF6B0D8E | アテナ
-  type: FICTIONAL, wikidata: Q37122
-  sitelinks: 123, pv: 568219, score: 704.4
-  - 曖昧名前: 一般名詞/地名/宗教用語と同名
-  Action: Wikidata P31を確認し、誤りなら修正
-
-[HIGH] PF632FA6 | ken
-  type: REAL, wikidata: Q1361450
-  sitelinks: 35, pv: 600170, score: 561.8
-  - 曖昧名前: 一般名詞/地名/宗教用語と同名
-  Action: Wikidata P31を確認し、誤りなら修正
-
-[HIGH] PBC21E64 | ONE
-  type: REAL, wikidata: Q11237288
-  sitelinks: 19, pv: 357786, score: 457.1
-  - 曖昧名前: 一般名詞/地名/宗教用語と同名
-  Action: Wikidata P31を確認し、誤りなら修正
+  - High: 0件
+  - Medium: 4件
 
 [MEDIUM] P4FEE7C7 | ミッキーマウス
   type: FICTIONAL, wikidata: Q11934
@@ -58,46 +28,4 @@
   type: REAL, wikidata: Q24872861
   sitelinks: 1, pv: 387498, score: 449.0
   - PV/sitelinks比率高(387498): 要確認
-  Action: 手動確認推奨
-
-[MEDIUM] P97C4DA4 | 鈴木奈穂子
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 86085, score: 353.1
-  - Wikidataなし高スコア(353)
-  Action: 手動確認推奨
-
-[MEDIUM] P498083D | ティモシー・シャラメ
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 31296, score: 321.6
-  - Wikidataなし高スコア(322)
-  Action: 手動確認推奨
-
-[MEDIUM] P869B1DC | アニャ・テイラー＝ジョイ
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 26990, score: 317.4
-  - Wikidataなし高スコア(317)
-  Action: 手動確認推奨
-
-[MEDIUM] PA7C642B | アレン・アイバーソン
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 23713, score: 313.0
-  - Wikidataなし高スコア(313)
-  Action: 手動確認推奨
-
-[MEDIUM] P03AB89B | アントワーヌ・グリーズマン
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 22526, score: 311.2
-  - Wikidataなし高スコア(311)
-  Action: 手動確認推奨
-
-[MEDIUM] PEE46C60 | マハーシャラ・アリ
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 18327, score: 305.1
-  - Wikidataなし高スコア(305)
-  Action: 手動確認推奨
-
-[MEDIUM] P3BD6594 | カイリー・アービング
-  type: REAL, wikidata:
-  sitelinks: 0, pv: 16773, score: 301.9
-  - Wikidataなし高スコア(302)
   Action: 手動確認推奨

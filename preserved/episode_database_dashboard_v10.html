@@ -1649,12 +1649,13 @@
                                 <th class="sortable-header" data-sort="person_type" data-type="string" style="padding: 15px; text-align: center; width: 100px;">種別<span class="sort-indicator"></span></th>
                                 <th class="sortable-header sort-active sort-desc" data-sort="fame_score" data-type="number" style="padding: 15px; text-align: center; width: 140px;"><span id="fame-score-header-text">Celebrity Score v2</span><span class="sort-indicator"></span></th>
                                 <th class="sortable-header" data-sort="fame_tier" data-type="number" style="padding: 15px; text-align: center; width: 100px;">Tier<span class="sort-indicator"></span></th>
+                                <th class="sortable-header" data-sort="celebrity_score_v2" data-type="number" style="padding: 15px; text-align: center; width: 130px;">⭐ Celebrity v2<span class="sort-indicator"></span></th>
                                 <th style="padding: 15px; text-align: center; width: 150px;">月間ビュー数</th>
                             </tr>
                         </thead>
                         <tbody id="ranking-table-body">
                             <tr>
-                                <td colspan="7" style="padding: 40px; text-align: center; color: #6c757d;">
+                                <td colspan="8" style="padding: 40px; text-align: center; color: #6c757d;">
                                     データを読み込んでいます...
                                 </td>
                             </tr>
@@ -251724,6 +251725,10 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                         valA = a.fame_tier || 0;
                         valB = b.fame_tier || 0;
                         break;
+                    case 'celebrity_score_v2':
+                        valA = a.celebrity_score_v2 || 0;
+                        valB = b.celebrity_score_v2 || 0;
+                        break;
                     default:
                         if (currentScoreMode === 'japan') {
                             valA = a.fame_score_japan || 0;
@@ -251794,7 +251799,7 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
             if (sortedFameData.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="padding: 40px; text-align: center; color: #6c757d;">
+                        <td colspan="8" style="padding: 40px; text-align: center; color: #6c757d;">
                             該当する人物が見つかりません
                         </td>
                     </tr>
@@ -251867,6 +251872,11 @@ CNNは現在、画像認識技術の基盤となっており、スマートフ�
                         <td style="padding: 15px; text-align: center;">
                             <span style="background: ${tierColor}; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
                                 ${tierLabel}
+                            </span>
+                        </td>
+                        <td style="padding: 15px; text-align: center;">
+                            <span style="font-size: 14px; font-weight: 600; color: ${(person.celebrity_score_v2 || 0) >= 800 ? '#9333ea' : (person.celebrity_score_v2 || 0) >= 600 ? '#3b82f6' : '#6b7280'};">
+                                ${(person.celebrity_score_v2 || 0).toFixed(1)}
                             </span>
                         </td>
                         <td style="padding: 15px; text-align: center; color: #6c757d; font-size: 14px;">

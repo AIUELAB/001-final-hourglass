@@ -102,9 +102,10 @@ class FactChecker:
     ]
 
     # 時代錯誤パターン
+    # 注意: 「明治大学」など現代の固有名詞と混同しないようnegative lookaheadを使用
     ANACHRONISM_PATTERNS = [
         (r"江戸時代.*インターネット", "時代錯誤：江戸時代にインターネットは存在しない"),
-        (r"明治.*テレビ", "時代錯誤：明治時代にテレビは存在しない"),
+        (r"明治(?!大学)時代.*テレビ", "時代錯誤：明治時代にテレビは存在しない"),
         (r"昭和初期.*スマートフォン", "時代錯誤：昭和初期にスマートフォンは存在しない"),
         (r"戦前.*コンピュータ", "時代錯誤：戦前にコンピュータは一般的でない"),
     ]
@@ -263,10 +264,41 @@ class FactChecker:
                 report.violations.append(violation)
 
         # パーセンテージの妥当性
+        # 100%超が正常な文脈:
+        # - 「前年比150%」= 1.5倍
+        # - 「成長率200%」= 2倍
+        # - 「300%向上」= 3倍向上
+        # - 「リターン2703%」= 投資リターン
+        valid_over_100_contexts = [
+            r"前年比\d+(?:\.\d+)?[%％]",
+            r"成長率?\d+(?:\.\d+)?[%％]",
+            r"増加率?\d+(?:\.\d+)?[%％]",
+            r"伸び率?\d+(?:\.\d+)?[%％]",
+            r"\d+(?:\.\d+)?[%％]増",
+            r"\d+(?:\.\d+)?[%％]成長",
+            r"\d+(?:\.\d+)?[%％]向上",
+            r"\d+(?:\.\d+)?[%％]アップ",
+            r"\d+(?:\.\d+)?[%％]のリターン",
+            r"\d+(?:\.\d+)?[%％]リターン",
+            r"リターン\d+(?:\.\d+)?[%％]",
+            r"\d+(?:\.\d+)?倍",
+        ]
+
+        # 正当な文脈での100%超パーセンテージを収集
+        valid_percentages = set()
+        for pattern in valid_over_100_contexts:
+            matches = re.findall(pattern, text)
+            for m in matches:
+                # パーセンテージ数値を抽出
+                pct_match = re.search(r"(\d+(?:\.\d+)?)[%％]", m)
+                if pct_match:
+                    valid_percentages.add(pct_match.group(1))
+
         percentages = re.findall(r"(\d+(?:\.\d+)?)[%％]", text)
         for pct_str in percentages:
             pct = float(pct_str)
-            if pct > 100:
+            # 100%超かつ正当な文脈でない場合のみ警告
+            if pct > 100 and pct_str not in valid_percentages:
                 violation = FactCheckViolation(
                     violation_type="INVALID_PERCENTAGE",
                     message=f"100%を超える割合: {pct}%",

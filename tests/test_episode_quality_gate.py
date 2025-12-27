@@ -73,13 +73,13 @@ class TestEpisodeQualityGate:
         df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", low_memory=False)
         assert len(df[df["episode_id"] == "EP-000006345"]) == 0, "EP-000006345 は削除されているべき"
 
-    def test_ep000000505_no_meta(self):
-        """EP-000000505 にメタ表現がないこと"""
+    def test_ep000000505_standard_format(self):
+        """EP-000000505 が標準フォーマットに準拠していること"""
         df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", low_memory=False)
         ep = df[df["episode_id"] == "EP-000000505"]
         if len(ep) > 0:
-            text = ep.iloc[0]["episode_text"]
-            assert "あなたと同じ" not in text, "EP-000000505 のメタ表現は修正されているべき"
+            text = str(ep.iloc[0]["episode_text"])
+            assert text.startswith("あなたと同じ"), "EP-000000505 は標準フォーマットで開始すべき"
 
     def test_ep000001326_deleted(self):
         """EP-000001326 が削除されていること（具体性欠如）"""

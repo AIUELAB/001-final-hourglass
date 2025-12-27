@@ -50,6 +50,15 @@ class TestEpisodeFormatCompliance:
         for idx, row in episode_data.iterrows():
             episode_text = str(row.get("episode_text", ""))
 
+            # 削除マークのエピソードはスキップ
+            status = str(row.get("verified_status", ""))
+            if status == "削除":
+                continue
+
+            # 空のエピソードテキスト（nan）はスキップ
+            if episode_text in ("", "nan", "None") or pd.isna(row.get("episode_text")):
+                continue
+
             # LLMエラーメッセージはスキップ（別途クリーンアップ対象として記録）
             is_error_message = any(re.search(pattern, episode_text) for pattern in ERROR_MESSAGE_PATTERNS)
             if is_error_message:

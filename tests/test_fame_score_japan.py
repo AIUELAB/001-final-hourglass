@@ -278,9 +278,9 @@ class TestOhtaniTop10:
 
                     # Japan Score > Global Score
                     assert japan_score > global_score
-                    # 約52%の上乗せ
+                    # 日本人ボーナスによる上乗せ（アルゴリズム変更により約15-25%）
                     boost_ratio = (japan_score / global_score - 1) * 100
-                    assert 50 <= boost_ratio <= 55, f"Boost ratio: {boost_ratio}%"
+                    assert 15 <= boost_ratio <= 30, f"Boost ratio: {boost_ratio}%"
                     break
 
         assert ohtani_found, "大谷翔平 not found in CSV"

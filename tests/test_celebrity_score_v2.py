@@ -59,7 +59,7 @@ class TestCategoryCap:
     """カテゴリ上限テスト"""
 
     def test_politics_cap_700(self):
-        """政治家は700上限"""
+        """政治家は700上限（タイブレーカー許容）"""
         signals = CelebritySignals(
             multi_lang_pv=10000000,
             sitelinks=180,
@@ -70,11 +70,12 @@ class TestCategoryCap:
             category="政治・社会",
         )
         result = calculate_celebrity_score_v2(signals)
-        assert result.score <= 700
+        # タイブレーカー用の微小値（最大0.001）を許容
+        assert result.score <= 700.001
         assert result.category_cap_applied
 
     def test_anime_cap_700(self):
-        """アニメキャラは700上限"""
+        """アニメキャラは700上限（タイブレーカー許容）"""
         signals = CelebritySignals(
             multi_lang_pv=5000000,
             sitelinks=100,
@@ -85,7 +86,8 @@ class TestCategoryCap:
             category="アニメ・漫画・ゲーム",
         )
         result = calculate_celebrity_score_v2(signals)
-        assert result.score <= 700
+        # タイブレーカー用の微小値（最大0.001）を許容
+        assert result.score <= 700.001
 
     def test_no_cap_for_science(self):
         """科学者には上限なし"""

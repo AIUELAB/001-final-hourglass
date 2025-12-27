@@ -52,6 +52,9 @@ def load_csv_data():
                 # v2 (感銘重視スコア)
                 "episode_fame_v2": float(row.get("episode_fame_v2", 0) or 0),
                 "episode_fame_tier_v2": int(float(row.get("episode_fame_tier_v2", 0) or 0)),
+                # Celebrity Score v2 (体感ランキング)
+                "celebrity_score_v2": float(row.get("celebrity_score_v2", 0) or 0),
+                "celebrity_rank_v2": int(float(row.get("celebrity_rank_v2", 0) or 0)),
             }
             episodes.append(episode)
     return episodes
@@ -110,6 +113,13 @@ def main():
     for p in sorted_japan[:5]:
         jp_flag = "🇯🇵" if p["is_japanese"] else ""
         print(f"  {p['person_name']}: {p['fame_score_japan']:.2f} {jp_flag}")
+
+    # Top 10 Celebrity Score v2 (体感ランキング)
+    sorted_celeb_v2 = sorted(persons.values(), key=lambda x: x["celebrity_score_v2"], reverse=True)
+    print("\nTop 10 Celebrity Score v2 (体感ランキング):")
+    for i, p in enumerate(sorted_celeb_v2[:10], 1):
+        jp_flag = "🇯🇵" if p["is_japanese"] else ""
+        print(f"  {i:2d}. {p['person_name']}: {p['celebrity_score_v2']:.1f} {jp_flag}")
 
     print("\nダッシュボード更新中...")
     if update_dashboard(episodes):

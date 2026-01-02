@@ -55,7 +55,25 @@ def load_csv_data():
                 # Celebrity Score v2 (体感ランキング)
                 "celebrity_score_v2": float(row.get("celebrity_score_v2", 0) or 0),
                 "celebrity_rank_v2": int(float(row.get("celebrity_rank_v2", 0) or 0)),
+                # 7軸スコア (原本)
+                "memorability_score": float(row.get("記憶性スコア", 0) or 0),
+                "empathy_score": float(row.get("共感性スコア", 0) or 0),
+                "surprise_score": float(row.get("意外性スコア", 0) or 0),
+                "generation_quality_score": float(row.get("生成品質スコア", 0) or 0),
+                "educational_value": float(row.get("教育的価値", 0) or 0),
+                "storytelling_quality": float(row.get("ストーリー品質", 0) or 0),
+                "factual_density": float(row.get("事実密度", 0) or 0),
             }
+            # 5軸スコア (派生) を計算
+            mem = episode["memorability_score"]
+            gen = episode["generation_quality_score"]
+            emp = episode["empathy_score"]
+            sur = episode["surprise_score"]
+            episode["overall_quality"] = (mem + gen) / 2 if (mem and gen) else None
+            episode["emotional_impact"] = (emp + sur) / 2 if (emp and sur) else None
+            episode["educational_value_5"] = episode["educational_value"] or None
+            episode["story_quality_5"] = episode["storytelling_quality"] or None
+            episode["factual_density_5"] = episode["factual_density"] or None
             episodes.append(episode)
     return episodes
 

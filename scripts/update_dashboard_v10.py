@@ -55,6 +55,9 @@ def load_csv_data():
                 # Celebrity Score v2 (体感ランキング)
                 "celebrity_score_v2": float(row.get("celebrity_score_v2", 0) or 0),
                 "celebrity_rank_v2": int(float(row.get("celebrity_rank_v2", 0) or 0)),
+                # Episode Fame (メインスコア - 常に最新バージョンを使用)
+                # RULE: ダッシュボードは常に episode_fame_score を表示（v6と同期済み）
+                "episode_fame_score": float(row.get("episode_fame_score", 0) or 0),
                 # Episode Fame v6 (多シグナル統合)
                 "episode_fame_v6": float(row.get("episode_fame_v6", 0) or 0),
                 "episode_fame_tier_v6": int(float(row.get("episode_fame_tier_v6", 0) or 0)),

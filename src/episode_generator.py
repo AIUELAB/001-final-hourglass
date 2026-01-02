@@ -253,6 +253,19 @@ class EpisodeGenerator:
         # LLM呼び出し
         episode_text = self.call_anthropic_api(prompt)
 
+        # 【品質ゲート】人物名整合性バリデーション
+        from src.validators.episode_name_validator import validate_episode_name, ValidationResult
+        import re as re_module
+
+        validation = validate_episode_name(person_name, episode_text, strict=False)
+        if validation.result == ValidationResult.MISMATCH and validation.text_name:
+            # 自動修正: 本文冒頭を person_name に置換
+            episode_text = re_module.sub(
+                rf"^(あなたと同じ[\d.]+歳のとき、){re_module.escape(validation.text_name)}((?:『.+?』)?は)",
+                rf"\1{person_name}\2",
+                episode_text,
+            )
+
         # スコア計算
         scores = self.calculate_scores(episode_text)
 

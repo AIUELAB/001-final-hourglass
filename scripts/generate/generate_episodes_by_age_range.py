@@ -383,6 +383,21 @@ def generate_episode_by_age_range(
         )
 
         episode_text = message.content[0].text.strip()
+
+        # 【品質ゲート】人物名整合性バリデーション
+        from src.validators.episode_name_validator import validate_episode_name, ValidationResult
+
+        validation = validate_episode_name(person_name, episode_text, strict=False)
+        if validation.result == ValidationResult.MISMATCH:
+            # 自動修正: 本文冒頭を person_name に置換
+            old_text = episode_text
+            episode_text = re.sub(
+                rf"^(あなたと同じ[\d.]+歳のとき、){re.escape(validation.text_name)}((?:『.+?』)?は)",
+                rf"\1{person_name}\2",
+                episode_text,
+            )
+            print(f"  ⚠️ 人物名自動修正: {validation.text_name} → {person_name}")
+
         person_id = generate_person_id(person_name)
         scores = calculate_quality_scores(episode_text)
 

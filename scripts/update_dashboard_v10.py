@@ -55,6 +55,9 @@ def load_csv_data():
                 # Celebrity Score v2 (体感ランキング)
                 "celebrity_score_v2": float(row.get("celebrity_score_v2", 0) or 0),
                 "celebrity_rank_v2": int(float(row.get("celebrity_rank_v2", 0) or 0)),
+                # Episode Fame v6 (多シグナル統合)
+                "episode_fame_v6": float(row.get("episode_fame_v6", 0) or 0),
+                "episode_fame_tier_v6": int(float(row.get("episode_fame_tier_v6", 0) or 0)),
                 # 7軸スコア (原本)
                 "memorability_score": float(row.get("記憶性スコア", 0) or 0),
                 "empathy_score": float(row.get("共感性スコア", 0) or 0),

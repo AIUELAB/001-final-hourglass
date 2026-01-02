@@ -64,6 +64,11 @@ def load_csv_data():
                 "storytelling_quality": float(row.get("ストーリー品質", 0) or 0),
                 "factual_density": float(row.get("事実密度", 0) or 0),
             }
+            # 7軸チャート用エイリアス
+            episode["quality_score"] = episode["generation_quality_score"]
+            episode["educational_score"] = episode["educational_value"]
+            episode["narrative_score"] = episode["storytelling_quality"]
+            episode["factual_score"] = episode["factual_density"]
             # 5軸スコア (派生) を計算
             mem = episode["memorability_score"]
             gen = episode["generation_quality_score"]

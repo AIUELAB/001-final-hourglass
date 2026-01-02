@@ -38,7 +38,7 @@ def load_csv_data():
                 "age": age,
                 "slot": slot,
                 "category": row.get("category", ""),
-                "episode_text": row.get("episode_text", "")[:500],
+                "episode_text": row.get("episode_text", "")[:500].replace("\n", " ").replace("\r", ""),
                 "entity_type": row.get("person_type", "REAL").lower(),
                 "person_type": row.get("person_type", "REAL"),
                 "work_title": row.get("work_title", "") or "",

@@ -494,3 +494,67 @@ python scripts/validators/fictional_canon_validator.py --strict
 ```bash
 pytest tests/test_fictional_canon_gate.py -v
 ```
+
+---
+
+## 16. 日本人名の正規化（2026-01-03追加）
+
+### ルール
+日本人は**漢字表記**を正式名として登録する。
+
+### 禁止表記
+| パターン | 禁止例 | 正しい例 |
+|----------|--------|----------|
+| ローマ字 | Akira Kurosawa | 黒澤明 |
+| カタカナ音訳 | アキラ・クロサワ | 黒澤明 |
+| ローマ字カタカナ混在 | Hayao ミヤザキ | 宮崎駿 |
+
+### 例外
+- 芸名がカタカナの場合: タモリ、HIKAKIN、あいみょん 等
+- 公式にローマ字を使用する場合: YOSHIKI、SUGIZO 等
+- 外国籍の日本在住者: ラモス瑠偉 等
+
+### 根本原因（黒澤明重複問題）
+```
+P3159F6D "アキラ・クロサワ" ←── 非標準（ローマ字のカタカナ音訳）
+         ↓
+         検出されず重複発生
+         ↓
+PBC4ECE7 "黒澤明" ←── 正式（漢字表記）
+```
+
+詳細: `src/reports/kurosawa_root_cause_analysis_20260103.md`
+
+### 既知エイリアス（KNOWN_ALIASES）
+監督、作家、漫画家、音楽家、科学者、実業家、歴史的人物のローマ字表記を登録済み。
+
+| カテゴリ | 例 |
+|----------|-----|
+| 映画監督 | Akira Kurosawa→黒澤明, Hayao Miyazaki→宮崎駿 |
+| 作家 | Haruki Murakami→村上春樹, Yukio Mishima→三島由紀夫 |
+| 漫画家 | Osamu Tezuka→手塚治虫, Akira Toriyama→鳥山明 |
+| 音楽家 | Ryuichi Sakamoto→坂本龍一, Yoko Ono→オノ・ヨーコ |
+| 実業家 | Soichiro Honda→本田宗一郎, Akio Morita→盛田昭夫 |
+| 歴史人物 | Nobunaga Oda→織田信長, Ieyasu Tokugawa→徳川家康 |
+
+### 検出アルゴリズム
+1. **ローマ字パターン検出**: `^[A-Z][a-z]+ [A-Z][a-z]+$` 形式
+2. **日本人姓リスト照合**: Kurosawa, Miyazaki, Murakami 等
+3. **Wikidata照合**: 日本語ラベルを自動取得
+
+### 検証スクリプト
+```bash
+# 全件スキャン
+python scripts/validators/japanese_name_normalizer.py
+
+# 特定の名前をチェック
+python scripts/validators/japanese_name_normalizer.py --check "Akira Kurosawa"
+
+# Wikidata照合なし（高速）
+python scripts/validators/japanese_name_normalizer.py --no-wikidata
+```
+
+### 再発防止
+- **pre-commit hook**: ローマ字/カタカナ音訳の日本人名をブロック
+- **KNOWN_ALIASES拡充**: 著名人を継続的に追加
+- **Wikidata統合**: 正式名を自動確認

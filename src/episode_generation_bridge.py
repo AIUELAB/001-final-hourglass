@@ -229,6 +229,26 @@ class EpisodeGenerationBridge:
                     )
                     continue
 
+                # 品質ゲート Layer 2.5: EpisodeNameValidator
+                from src.validators.episode_name_validator import validate_episode_name, ValidationResult
+                import re as re_module
+
+                name_validation = validate_episode_name(
+                    episode.get("person_name", ""), episode.get("episode_text", ""), strict=False
+                )
+                if name_validation.result == ValidationResult.MISMATCH and name_validation.text_name:
+                    # 自動修正
+                    original_text = episode["episode_text"]
+                    episode["episode_text"] = re_module.sub(
+                        rf"^(あなたと同じ[\d.]+歳のとき、){re_module.escape(name_validation.text_name)}((?:『.+?』)?は)",
+                        rf"\1{episode['person_name']}\2",
+                        original_text,
+                    )
+                    logger.info(
+                        f"{person_data['person_name']} ({age}歳): "
+                        f"人物名自動修正 {name_validation.text_name} → {episode['person_name']}"
+                    )
+
                 # 品質ゲート Layer 3: TemplateBlocker
                 is_template, violations = self.template_blocker.check_episode(
                     episode_text=episode["episode_text"],

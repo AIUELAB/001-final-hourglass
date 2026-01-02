@@ -45,23 +45,65 @@ def generate_episode_id() -> str:
 
 
 def get_suggested_ages(birth_year: int, existing_ages: list[float]) -> list[int]:
-    """追加すべき年齢を提案"""
+    """
+    追加すべき年齢を提案
+
+    【改修履歴】
+    2026-01-02: 5歳刻み問題の是正
+    - 撤廃: 固定的な5歳刻みリスト [20, 25, 30, ...]
+    - 新方針: 人物のライフステージに基づく自然な年齢分布
+
+    新しいロジック:
+    1. デビュー期（17-23歳）: キャリアの始まり
+    2. 確立期（26-34歳）: 才能の開花・実績の確立
+    3. 成熟期（37-48歳）: キャリアのピーク・転機
+    4. 晩年期（52-65歳）: 集大成・引退・振り返り
+
+    各期から1つずつ候補を選び、既存エピソードと重複しない年齢を返す。
+    """
+    import random
+
     current_year = 2024
     max_age = min(current_year - birth_year, 75)
-
-    # 標準的なターゲット年齢
-    target_ages = [20, 25, 30, 35, 40, 45, 50, 55, 60]
 
     # 既存の年齢を整数に変換
     existing_int = {int(a) for a in existing_ages if pd.notna(a)}
 
-    # 追加候補（既存にない、かつmax_age以下）
+    # ライフステージ別の候補年齢（5歳刻みを避け、自然な分布）
+    life_stages = [
+        (17, 23),  # デビュー期
+        (26, 34),  # 確立期
+        (37, 48),  # 成熟期
+        (52, 65),  # 晩年期
+    ]
+
     suggested = []
-    for age in target_ages:
-        if age not in existing_int and age <= max_age:
-            # 近い年齢がなければ追加
+    for min_age, max_stage_age in life_stages:
+        if min_age > max_age:
+            continue
+
+        stage_max = min(max_stage_age, max_age)
+
+        # その期間内で既存と重複しない候補を探す
+        # 5の倍数を避けるため、奇数年齢を優先
+        candidates = []
+        for age in range(min_age, stage_max + 1):
+            # 5の倍数は避ける（埋め草パターン回避）
+            if age % 5 == 0:
+                continue
+            # 既存と3歳以上離れていること
             if not any(abs(age - e) <= 3 for e in existing_int):
-                suggested.append(age)
+                candidates.append(age)
+
+        # 5の倍数も候補がなければ検討
+        if not candidates:
+            for age in range(min_age, stage_max + 1):
+                if not any(abs(age - e) <= 3 for e in existing_int):
+                    candidates.append(age)
+
+        if candidates:
+            # ランダムに1つ選択（パターン化を防ぐ）
+            suggested.append(random.choice(candidates))
 
     return suggested[:3]  # 最大3つ
 

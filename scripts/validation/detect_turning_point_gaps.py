@@ -112,7 +112,63 @@ TIER1_KEYWORDS = [
     "首相就任",
     "アカデミー賞",
     "グラミー賞",
+    "即位",  # 君主の即位
 ]
+
+# ノーベル賞が制度的に適用されない人物（古代/中世/哲学者/未受賞発明家等）
+NOBEL_EXCLUDED_PERSONS = {
+    # 古代哲学者
+    "ソクラテス",
+    "プラトン",
+    "アリストテレス",
+    "孔子",
+    "老子",
+    "釈迦",
+    "ムハンマド",
+    # 近代哲学者（ノーベル賞対象外）
+    "ニーチェ",
+    "カント",
+    "ヘーゲル",
+    "デカルト",
+    "スピノザ",
+    "ジョン・ロック",
+    # ルネサンス・中世
+    "レオナルド・ダ・ヴィンチ",
+    "ミケランジェロ",
+    "ガリレオ・ガリレイ",
+    "ニュートン",  # ノーベル賞創設前
+    # 音楽家（ノーベル賞創設前）
+    "モーツァルト",
+    "ベートーヴェン",
+    "バッハ",
+    # 発明家・経済学者（未受賞/創設前）
+    "トーマス・エジソン",  # ノーベル賞未受賞
+    "アダム・スミス",  # 18世紀経済学者
+    "マルクス",  # 経済思想家
+}
+
+# カテゴリ誤分類の疑いがある人物
+CATEGORY_MISCLASSIFIED = {
+    # スポーツ選手
+    "大谷翔平": "スポーツ",
+    "山本由伸": "スポーツ",
+    "宮本武蔵": "スポーツ",
+    # 政治家
+    "野田佳彦": "政治・社会",
+}
+
+# オリンピック非主要競技の選手（サッカー、野球等）
+NON_OLYMPIC_PRIMARY_SPORTS = {
+    "クリスティアーノ・ロナウド",
+    "リオネル・メッシ",
+    "ペレ",
+    "マラドーナ",
+    "大谷翔平",
+    "山本由伸",
+    "イチロー",
+    "ベーブ・ルース",
+    "宮本武蔵",  # 古代剣豪
+}
 
 
 @dataclass
@@ -187,26 +243,42 @@ def detect_gaps(top_n: int = 100) -> list[PersonTurningPointStatus]:
 
         # 欠落候補の検出
         missing = []
+        warnings = []
 
-        # 政治家なのにTier1政治キーワードがない
-        if p["category"] == "政治・社会" and not any(
-            k in tier1_found for k in ["大統領就任", "大統領初当選", "首相就任"]
-        ):
-            missing.append("最高職就任（大統領/首相）")
+        # カテゴリ誤分類の検出
+        is_misclassified = False
+        if p["person_name"] in CATEGORY_MISCLASSIFIED:
+            correct_cat = CATEGORY_MISCLASSIFIED[p["person_name"]]
+            if p["category"] != correct_cat:
+                warnings.append(f"カテゴリ誤分類: {p['category']} → {correct_cat}")
+                is_misclassified = True
 
-        # 科学者なのにノーベル賞系がない（ノーベル賞受賞者の場合）
-        if (
-            p["category"] == "学術・研究"
-            and p["celebrity_score"] > 700
-            and not any("ノーベル" in k for k in tier1_found)
-        ):
-            missing.append("ノーベル賞（該当する場合）")
+        # カテゴリ誤分類の場合は、そのカテゴリに基づく欠落判定をスキップ
+        if not is_misclassified:
+            # 政治家なのにTier1政治キーワードがない（君主の即位も含む）
+            if p["category"] == "政治・社会" and not any(
+                k in tier1_found for k in ["大統領就任", "大統領初当選", "首相就任", "即位"]
+            ):
+                missing.append("最高職就任（大統領/首相/即位）")
 
-        # アスリートなのにオリンピック金メダルがない
-        if p["category"] == "スポーツ" and not any(
-            "オリンピック" in k or "金メダル" in k for k in tier1_found + expected_found
-        ):
-            missing.append("オリンピック金メダル/主要タイトル")
+            # 科学者なのにノーベル賞系がない（ノーベル賞受賞者の場合）
+            # ただし、制度的に適用されない人物は除外
+            if (
+                p["category"] == "学術・研究"
+                and p["celebrity_score"] > 700
+                and not any("ノーベル" in k for k in tier1_found)
+                and p["person_name"] not in NOBEL_EXCLUDED_PERSONS
+            ):
+                missing.append("ノーベル賞（該当する場合）")
+
+            # アスリートなのにオリンピック金メダルがない
+            # ただし、サッカー/野球等のオリンピック非主要競技は除外
+            if (
+                p["category"] == "スポーツ"
+                and not any("オリンピック" in k or "金メダル" in k for k in tier1_found + expected_found)
+                and p["person_name"] not in NON_OLYMPIC_PRIMARY_SPORTS
+            ):
+                missing.append("オリンピック金メダル/主要タイトル")
 
         status = PersonTurningPointStatus(
             person_id=p["person_id"],

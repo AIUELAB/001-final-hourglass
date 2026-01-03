@@ -1,0 +1,257 @@
+{
+  "generated_at": "2026-01-04T00:51:04.006873",
+  "summary": {
+    "total_checked": 50,
+    "with_tier1": 12,
+    "without_tier1": 38,
+    "with_missing_candidates": 9
+  },
+  "missing_candidates": [
+    {
+      "person_id": "P5C4FB25",
+      "person_name": "大谷翔平",
+      "category": "学術・研究",
+      "celebrity_score": 921.264759500286,
+      "missing": [
+        "ノーベル賞（該当する場合）"
+      ],
+      "tier1_found": [
+        "史上初"
+      ]
+    },
+    {
+      "person_id": "P972C987",
+      "person_name": "クリスティアーノ・ロナウド",
+      "category": "スポーツ",
+      "celebrity_score": 774.152832165347,
+      "missing": [
+        "オリンピック金メダル/主要タイトル"
+      ],
+      "tier1_found": []
+    },
+    {
+      "person_id": "P606493C",
+      "person_name": "ソクラテス",
+      "category": "学術・研究",
+      "celebrity_score": 764.610013922231,
+      "missing": [
+        "ノーベル賞（該当する場合）"
+      ],
+      "tier1_found": []
+    },
+    {
+      "person_id": "P2C70422",
+      "person_name": "エリザベス2世",
+      "category": "政治・社会",
+      "celebrity_score": 760.703969920488,
+      "missing": [
+        "最高職就任（大統領/首相）"
+      ],
+      "tier1_found": []
+    },
+    {
+      "person_id": "PAB07C14",
+      "person_name": "ニーチェ",
+      "category": "学術・研究",
+      "celebrity_score": 759.84277632446,
+      "missing": [
+        "ノーベル賞（該当する場合）"
+      ],
+      "tier1_found": []
+    },
+    {
+      "person_id": "P886F664",
+      "person_name": "レオナルド・ダ・ヴィンチ",
+      "category": "学術・研究",
+      "celebrity_score": 757.677519468343,
+      "missing": [
+        "ノーベル賞（該当する場合）"
+      ],
+      "tier1_found": []
+    },
+    {
+      "person_id": "P7F524A2",
+      "person_name": "山本由伸",
+      "category": "スポーツ",
+      "celebrity_score": 746.944817688686,
+      "missing": [
+        "オリンピック金メダル/主要タイトル"
+      ],
+      "tier1_found": [
+        "史上初"
+      ]
+    },
+    {
+      "person_id": "PA8B9D38",
+      "person_name": "ジョン・ロック",
+      "category": "学術・研究",
+      "celebrity_score": 744.57804351319,
+      "missing": [
+        "ノーベル賞（該当する場合）"
+      ],
+      "tier1_found": []
+    },
+    {
+      "person_id": "P65E1C6F",
+      "person_name": "宮本武蔵",
+      "category": "スポーツ",
+      "celebrity_score": 734.318107171009,
+      "missing": [
+        "オリンピック金メダル/主要タイトル"
+      ],
+      "tier1_found": []
+    }
+  ],
+  "no_tier1_keywords": [
+    {
+      "person_id": "P0898C9B",
+      "person_name": "葛飾北斎",
+      "category": "芸術・文化",
+      "celebrity_score": 958.640320076374,
+      "expected_found": [
+        "代表作"
+      ]
+    },
+    {
+      "person_id": "P5D3C50B",
+      "person_name": "松尾芭蕉",
+      "category": "芸術・文化",
+      "celebrity_score": 894.05611284155,
+      "expected_found": []
+    },
+    {
+      "person_id": "P00FAA88",
+      "person_name": "小泉八雲",
+      "category": "芸術・文化",
+      "celebrity_score": 881.718881151326,
+      "expected_found": []
+    },
+    {
+      "person_id": "P5185F6A",
+      "person_name": "村上春樹",
+      "category": "ビジネス",
+      "celebrity_score": 866.965092432725,
+      "expected_found": []
+    },
+    {
+      "person_id": "P4860277",
+      "person_name": "パブロ・ピカソ",
+      "category": "芸術・文化",
+      "celebrity_score": 809.547396324848,
+      "expected_found": [
+        "カンヌ"
+      ]
+    },
+    {
+      "person_id": "PAE8B089",
+      "person_name": "紫式部",
+      "category": "歴史",
+      "celebrity_score": 802.491169897275,
+      "expected_found": []
+    },
+    {
+      "person_id": "P645AD9F",
+      "person_name": "三船敏郎",
+      "category": "映画・演劇",
+      "celebrity_score": 799.224711830632,
+      "expected_found": []
+    },
+    {
+      "person_id": "PC54F136",
+      "person_name": "エルヴィス・プレスリー",
+      "category": "音楽",
+      "celebrity_score": 791.141896736304,
+      "expected_found": []
+    },
+    {
+      "person_id": "P972C987",
+      "person_name": "クリスティアーノ・ロナウド",
+      "category": "スポーツ",
+      "celebrity_score": 774.152832165347,
+      "expected_found": []
+    },
+    {
+      "person_id": "PC34E000",
+      "person_name": "バッハ",
+      "category": "芸術・文化",
+      "celebrity_score": 774.063129595703,
+      "expected_found": [
+        "代表作"
+      ]
+    },
+    {
+      "person_id": "P3771855",
+      "person_name": "イーロン・マスク",
+      "category": "ビジネス",
+      "celebrity_score": 771.729679820659,
+      "expected_found": []
+    },
+    {
+      "person_id": "PABED904",
+      "person_name": "スティーブ・ジョブズ",
+      "category": "科学・技術",
+      "celebrity_score": 769.558888189118,
+      "expected_found": []
+    },
+    {
+      "person_id": "P606493C",
+      "person_name": "ソクラテス",
+      "category": "学術・研究",
+      "celebrity_score": 764.610013922231,
+      "expected_found": []
+    },
+    {
+      "person_id": "P2C70422",
+      "person_name": "エリザベス2世",
+      "category": "政治・社会",
+      "celebrity_score": 760.703969920488,
+      "expected_found": []
+    },
+    {
+      "person_id": "P1D91E90",
+      "person_name": "シェイクスピア",
+      "category": "文学",
+      "celebrity_score": 759.941421260417,
+      "expected_found": []
+    },
+    {
+      "person_id": "PAB07C14",
+      "person_name": "ニーチェ",
+      "category": "学術・研究",
+      "celebrity_score": 759.84277632446,
+      "expected_found": []
+    },
+    {
+      "person_id": "PF44A276",
+      "person_name": "ショパン",
+      "category": "音楽",
+      "celebrity_score": 759.4775644068,
+      "expected_found": [
+        "デビュー"
+      ]
+    },
+    {
+      "person_id": "P886F664",
+      "person_name": "レオナルド・ダ・ヴィンチ",
+      "category": "学術・研究",
+      "celebrity_score": 757.677519468343,
+      "expected_found": [
+        "発見"
+      ]
+    },
+    {
+      "person_id": "PA80CA7",
+      "person_name": "マリリン・モンロー",
+      "category": "エンターテイメント",
+      "celebrity_score": 757.122721576024,
+      "expected_found": []
+    },
+    {
+      "person_id": "P1DFEF43",
+      "person_name": "ヴォルフガング・アマデウス・モーツァルト",
+      "category": "音楽",
+      "celebrity_score": 754.131855240093,
+      "expected_found": []
+    }
+  ]
+}

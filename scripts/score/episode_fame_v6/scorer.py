@@ -295,6 +295,13 @@ class EpisodeFameV6Scorer:
         )
 
 
+def _contains_tier1_keyword(episode_text: str) -> bool:
+    """エピソードテキストにTier1キーワードが含まれるかチェック"""
+    if not episode_text:
+        return False
+    return any(kw in episode_text for kw in TIER1_KEYWORDS)
+
+
 def apply_bias_control(ranked_episodes: list[dict]) -> list[dict]:
     """
     同一人物制限を適用してランキングを調整
@@ -304,15 +311,28 @@ def apply_bias_control(ranked_episodes: list[dict]) -> list[dict]:
 
     Returns:
         制限適用後のランキング
+
+    Note:
+        Tier1キーワード（ノーベル賞、大統領就任等）を含むエピソードは
+        制限を+1件緩和し、最重要転機が落ちにくくなるよう保護する。
+        追加枠は「通常枠が埋まった後に」適用される。
     """
     result = []
     person_counts = {}  # person_id -> count in result
+    person_tier1_used = {}  # person_id -> Tier1追加枠を使用したかどうか
     deferred = []  # 制限で外れたエピソード
+
+    # Tier1エピソード保護のための追加枠
+    TIER1_EXTRA_SLOTS = 1  # Tier1キーワード含有時に+1件の追加枠
 
     for ep in ranked_episodes:
         person_id = ep.get("person_id", "")
+        episode_text = ep.get("episode_text", "")
         current_count = person_counts.get(person_id, 0)
         current_rank = len(result) + 1
+
+        # Tier1キーワード判定
+        is_tier1 = _contains_tier1_keyword(episode_text)
 
         # 現在の順位に対する制限を確認
         limit = None
@@ -321,10 +341,16 @@ def apply_bias_control(ranked_episodes: list[dict]) -> list[dict]:
                 limit = max_count
                 break
 
+        # 通常枠での判定
         if limit is None or current_count < limit:
-            # 制限内なので採用
+            # 制限内なので採用（通常枠）
             result.append(ep)
             person_counts[person_id] = current_count + 1
+        elif is_tier1 and not person_tier1_used.get(person_id, False):
+            # 通常枠は埋まっているが、Tier1追加枠が使える
+            result.append(ep)
+            person_counts[person_id] = current_count + 1
+            person_tier1_used[person_id] = True  # 追加枠を消費
         else:
             # 制限超過なので後回し
             deferred.append(ep)

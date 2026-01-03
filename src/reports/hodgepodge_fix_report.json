@@ -1,0 +1,1241 @@
+{
+  "timestamp": "2026-01-03T18:47:06.094865",
+  "dry_run": true,
+  "total_targets": 85,
+  "action_counts": {
+    "minor_adjustment": 76,
+    "trim_other_ages": 8,
+    "acceptable": 1
+  },
+  "suggestions": [
+    {
+      "episode_id": "EP-000001710",
+      "person_name": "大江健三郎",
+      "field_age": "56.0",
+      "ages_mentioned": [
+        23,
+        56
+      ],
+      "max_deviation": 33.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-251219022755815",
+      "person_name": "ジョン・コルトレーン",
+      "field_age": "74.0",
+      "ages_mentioned": [
+        40,
+        74
+      ],
+      "max_deviation": 34.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001715",
+      "person_name": "宮本輝",
+      "field_age": "63.0",
+      "ages_mentioned": [
+        30,
+        63
+      ],
+      "max_deviation": 33.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000002123",
+      "person_name": "益川敏英",
+      "field_age": "65.0",
+      "ages_mentioned": [
+        33,
+        65
+      ],
+      "max_deviation": 32.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000001722",
+      "person_name": "山田詠美",
+      "field_age": "59.0",
+      "ages_mentioned": [
+        32,
+        59
+      ],
+      "max_deviation": 27.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001620",
+      "person_name": "益川敏英",
+      "field_age": "64.0",
+      "ages_mentioned": [
+        33,
+        64
+      ],
+      "max_deviation": 31.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001659",
+      "person_name": "森光子",
+      "field_age": "47.0",
+      "ages_mentioned": [
+        47,
+        88
+      ],
+      "max_deviation": 41.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001962",
+      "person_name": "東野圭吾",
+      "field_age": "52.0",
+      "ages_mentioned": [
+        31,
+        52
+      ],
+      "max_deviation": 21.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000001685",
+      "person_name": "鈴木大地",
+      "field_age": "55.0",
+      "ages_mentioned": [
+        25,
+        55
+      ],
+      "max_deviation": 30.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001949",
+      "person_name": "熊谷正寿",
+      "field_age": "38.0",
+      "ages_mentioned": [
+        19,
+        38,
+        70
+      ],
+      "max_deviation": 32.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001361",
+      "person_name": "堀江謙一",
+      "field_age": "67.0",
+      "ages_mentioned": [
+        23,
+        67
+      ],
+      "max_deviation": 44.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001714",
+      "person_name": "又吉直樹",
+      "field_age": "55.0",
+      "ages_mentioned": [
+        35,
+        55
+      ],
+      "max_deviation": 20.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EDC75E3CB",
+      "person_name": "泉重千代",
+      "field_age": "70.0",
+      "ages_mentioned": [
+        70,
+        100,
+        105,
+        120
+      ],
+      "max_deviation": 50.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "重千代は100歳を超えてもなお畑仕事を続け、105歳まで現役で働いていたと伝えられています...",
+          "1986年、120歳(戸籍上)で世界最高齢の男性としてギネスブックに認定された時、彼の素朴で健康的な..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-000001711",
+      "person_name": "村上龍",
+      "field_age": "44.0",
+      "ages_mentioned": [
+        24,
+        44
+      ],
+      "max_deviation": 20.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001362",
+      "person_name": "三浦雄一郎",
+      "field_age": "56.0",
+      "ages_mentioned": [
+        56,
+        70,
+        75,
+        80
+      ],
+      "max_deviation": 24.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000001713",
+      "person_name": "開高健",
+      "field_age": "51.0",
+      "ages_mentioned": [
+        29,
+        51
+      ],
+      "max_deviation": 22.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001712",
+      "person_name": "石川達三",
+      "field_age": "45.0",
+      "ages_mentioned": [
+        23,
+        45
+      ],
+      "max_deviation": 22.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000000274",
+      "person_name": "村上龍",
+      "field_age": "46.0",
+      "ages_mentioned": [
+        13,
+        46
+      ],
+      "max_deviation": 33.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.125
+      }
+    },
+    {
+      "episode_id": "EP-2512181850581563",
+      "person_name": "杉村太蔵",
+      "field_age": "70.0",
+      "ages_mentioned": [
+        26,
+        70
+      ],
+      "max_deviation": 44.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001044",
+      "person_name": "富野由悠季",
+      "field_age": "38.0",
+      "ages_mentioned": [
+        15,
+        38
+      ],
+      "max_deviation": 23.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-D71D2F47",
+      "person_name": "安藤百福",
+      "field_age": "96.0",
+      "ages_mentioned": [
+        48,
+        61,
+        96
+      ],
+      "max_deviation": 48.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000001653",
+      "person_name": "山下泰裕",
+      "field_age": "54.0",
+      "ages_mentioned": [
+        27,
+        54
+      ],
+      "max_deviation": 27.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001642",
+      "person_name": "坂本龍一",
+      "field_age": "62.0",
+      "ages_mentioned": [
+        36,
+        62
+      ],
+      "max_deviation": 26.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001889",
+      "person_name": "日野原重明",
+      "field_age": "73.0",
+      "ages_mentioned": [
+        73,
+        100
+      ],
+      "max_deviation": 27.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001979",
+      "person_name": "日野原重明",
+      "field_age": "57.0",
+      "ages_mentioned": [
+        57,
+        105
+      ],
+      "max_deviation": 48.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "E66655ECF",
+      "person_name": "伊能忠敬",
+      "field_age": "83.0",
+      "ages_mentioned": [
+        50,
+        55,
+        73,
+        83
+      ],
+      "max_deviation": 33.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.4,
+        "sentences_to_review": [
+          "あなたと同じ83歳のとき、伊能忠敬はその完成を見ることなく、3年前の1818年に73歳でこの世を去っ...",
+          "50歳を過ぎてから天文学を学び始め、55歳で第一次測量に出発した忠敬の情熱は、年齢を重ねてもなお衰え..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-000001764",
+      "person_name": "葛飾北斎",
+      "field_age": "47.0",
+      "ages_mentioned": [
+        47,
+        70
+      ],
+      "max_deviation": 23.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-251218185058181",
+      "person_name": "葛飾北斎",
+      "field_age": "71.0",
+      "ages_mentioned": [
+        70,
+        71,
+        110
+      ],
+      "max_deviation": 39.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001709",
+      "person_name": "石原慎太郎",
+      "field_age": "48.0",
+      "ages_mentioned": [
+        23,
+        48
+      ],
+      "max_deviation": 25.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000000983",
+      "person_name": "エドワード・ジェンナー",
+      "field_age": "47.0",
+      "ages_mentioned": [
+        8,
+        47
+      ],
+      "max_deviation": 39.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000001080",
+      "person_name": "井深大",
+      "field_age": "75.0",
+      "ages_mentioned": [
+        0,
+        75
+      ],
+      "max_deviation": 75.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000008463",
+      "person_name": "ニール・ゲイマン",
+      "field_age": "38.0",
+      "ages_mentioned": [
+        7,
+        38
+      ],
+      "max_deviation": 31.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000006354",
+      "person_name": "ブライアン・メイ",
+      "field_age": "35.0",
+      "ages_mentioned": [
+        35,
+        59
+      ],
+      "max_deviation": 24.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "しかし2006年、59歳で論文「黄道光の速度場」を完成させ、ついに博士号を取得..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-251219D017E9",
+      "person_name": "ウォーレン・バフェット",
+      "field_age": "95.0",
+      "ages_mentioned": [
+        11,
+        95
+      ],
+      "max_deviation": 84.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "E9CBC1B61",
+      "person_name": "泉重千代",
+      "field_age": "75.0",
+      "ages_mentioned": [
+        75,
+        120
+      ],
+      "max_deviation": 45.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001992",
+      "person_name": "日野原重明",
+      "field_age": "60.0",
+      "ages_mentioned": [
+        60,
+        105
+      ],
+      "max_deviation": 45.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001482",
+      "person_name": "日野原重明",
+      "field_age": "33.0",
+      "ages_mentioned": [
+        33,
+        105
+      ],
+      "max_deviation": 72.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001236",
+      "person_name": "伊藤美誠",
+      "field_age": "24.0",
+      "ages_mentioned": [
+        2,
+        24
+      ],
+      "max_deviation": 22.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001641",
+      "person_name": "濱口竜介",
+      "field_age": "65.0",
+      "ages_mentioned": [
+        42,
+        65
+      ],
+      "max_deviation": 23.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000000141",
+      "person_name": "武尊",
+      "field_age": "27.0",
+      "ages_mentioned": [
+        27,
+        70
+      ],
+      "max_deviation": 43.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000000196",
+      "person_name": "是枝裕和",
+      "field_age": "38.0",
+      "ages_mentioned": [
+        14,
+        38
+      ],
+      "max_deviation": 24.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000000276",
+      "person_name": "村上茉愛",
+      "field_age": "57.0",
+      "ages_mentioned": [
+        57,
+        80
+      ],
+      "max_deviation": 23.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-56472836",
+      "person_name": "美空ひばり",
+      "field_age": "52.0",
+      "ages_mentioned": [
+        12,
+        52
+      ],
+      "max_deviation": 40.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "12歳でデビューし「天才少女歌手」と呼ばれ、死の直前に発表した「川の流れのように」は彼女の遺言ともい..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-000004460",
+      "person_name": "福島瑞穂",
+      "field_age": "55.0",
+      "ages_mentioned": [
+        55,
+        87
+      ],
+      "max_deviation": 32.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000001662",
+      "person_name": "井山裕太",
+      "field_age": "44.0",
+      "ages_mentioned": [
+        19,
+        44
+      ],
+      "max_deviation": 25.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000000815",
+      "person_name": "中村修平",
+      "field_age": "51.0",
+      "ages_mentioned": [
+        51,
+        80
+      ],
+      "max_deviation": 29.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.125
+      }
+    },
+    {
+      "episode_id": "EP-8EF16586",
+      "person_name": "井深大",
+      "field_age": "89.0",
+      "ages_mentioned": [
+        0,
+        89
+      ],
+      "max_deviation": 89.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000001096",
+      "person_name": "大隈重信",
+      "field_age": "62.0",
+      "ages_mentioned": [
+        62,
+        125
+      ],
+      "max_deviation": 63.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000002510",
+      "person_name": "出澤剛",
+      "field_age": "79.0",
+      "ages_mentioned": [
+        25,
+        79
+      ],
+      "max_deviation": 54.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001626",
+      "person_name": "広中平祐",
+      "field_age": "59.0",
+      "ages_mentioned": [
+        32,
+        59
+      ],
+      "max_deviation": 27.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-2512181850582282",
+      "person_name": "河瀨直美",
+      "field_age": "81.0",
+      "ages_mentioned": [
+        26,
+        81
+      ],
+      "max_deviation": 55.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000002100",
+      "person_name": "神木隆之介",
+      "field_age": "31.0",
+      "ages_mentioned": [
+        2,
+        31
+      ],
+      "max_deviation": 29.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000002526",
+      "person_name": "いとうあさこ",
+      "field_age": "70.0",
+      "ages_mentioned": [
+        40,
+        70
+      ],
+      "max_deviation": 30.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000003258",
+      "person_name": "綿矢りさ",
+      "field_age": "40.0",
+      "ages_mentioned": [
+        19,
+        40
+      ],
+      "max_deviation": 21.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000003329",
+      "person_name": "ジョディ・フォスター",
+      "field_age": "30.0",
+      "ages_mentioned": [
+        3,
+        30
+      ],
+      "max_deviation": 27.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000003362",
+      "person_name": "平清盛",
+      "field_age": "50.0",
+      "ages_mentioned": [
+        3,
+        50
+      ],
+      "max_deviation": 47.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "あなたと同じ50歳のとき、平清盛は、源氏との決定的な対立の中で、孫である安徳天皇をわずか3歳で即位さ..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-000003386",
+      "person_name": "マーガレット・アトウッド",
+      "field_age": "52.0",
+      "ages_mentioned": [
+        52,
+        84
+      ],
+      "max_deviation": 32.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-406B8991",
+      "person_name": "オーソン・ウェルズ",
+      "field_age": "70.0",
+      "ages_mentioned": [
+        25,
+        70
+      ],
+      "max_deviation": 45.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "25歳で「市民ケーン」を監督し、映画史を変えた天才は、ハリウッドとの確執から晩年は不遇でした..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-000003560",
+      "person_name": "中川大志",
+      "field_age": "25.0",
+      "ages_mentioned": [
+        3,
+        25
+      ],
+      "max_deviation": 22.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000003849",
+      "person_name": "シャキール・オニール",
+      "field_age": "28.0",
+      "ages_mentioned": [
+        4,
+        28
+      ],
+      "max_deviation": 24.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000004262",
+      "person_name": "小津映司",
+      "field_age": "45.0",
+      "ages_mentioned": [
+        45,
+        87
+      ],
+      "max_deviation": 42.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-92BDB562",
+      "person_name": "三浦春馬",
+      "field_age": "30.0",
+      "ages_mentioned": [
+        4,
+        30
+      ],
+      "max_deviation": 26.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000004728",
+      "person_name": "加藤茶",
+      "field_age": "65.0",
+      "ages_mentioned": [
+        45,
+        65
+      ],
+      "max_deviation": 20.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000006831",
+      "person_name": "小島太",
+      "field_age": "31.0",
+      "ages_mentioned": [
+        8,
+        31
+      ],
+      "max_deviation": 23.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000008448",
+      "person_name": "赤松健",
+      "field_age": "35.0",
+      "ages_mentioned": [
+        10,
+        35
+      ],
+      "max_deviation": 25.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-98414924",
+      "person_name": "グレタ・ガルボ",
+      "field_age": "84.0",
+      "ages_mentioned": [
+        36,
+        84
+      ],
+      "max_deviation": 48.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "36歳で引退し、その後50年以上隠遁生活を送った「スウェーデンのスフィンクス」でした..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-DAACA8B8",
+      "person_name": "ピエル・パオロ・パゾリーニ",
+      "field_age": "53.0",
+      "ages_mentioned": [
+        17,
+        53
+      ],
+      "max_deviation": 36.0,
+      "suggestion": {
+        "action": "trim_other_ages",
+        "other_age_ratio": 0.3333333333333333,
+        "sentences_to_review": [
+          "「アッカトーネ」「奇跡の丘」「ソドムの市」で物議を醸した詩人・映画監督は、17歳の少年に車で轢かれた..."
+        ]
+      }
+    },
+    {
+      "episode_id": "EP-000001170",
+      "person_name": "小松菜奈",
+      "field_age": "26.0",
+      "ages_mentioned": [
+        13,
+        26,
+        30
+      ],
+      "max_deviation": 13.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-251218185058451",
+      "person_name": "葛飾北斎",
+      "field_age": "75.0",
+      "ages_mentioned": [
+        70,
+        75,
+        90
+      ],
+      "max_deviation": 15.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000002122",
+      "person_name": "小柴昌俊",
+      "field_age": "75.0",
+      "ages_mentioned": [
+        65,
+        75
+      ],
+      "max_deviation": 10.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001660",
+      "person_name": "吉田沙保里",
+      "field_age": "45.0",
+      "ages_mentioned": [
+        29,
+        45
+      ],
+      "max_deviation": 16.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000001597",
+      "person_name": "湯川秀樹",
+      "field_age": "46.0",
+      "ages_mentioned": [
+        35,
+        46
+      ],
+      "max_deviation": 11.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000000663",
+      "person_name": "稲盛和夫",
+      "field_age": "68.0",
+      "ages_mentioned": [
+        68,
+        78
+      ],
+      "max_deviation": 10.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000000864",
+      "person_name": "まど・みちお",
+      "field_age": "85.0",
+      "ages_mentioned": [
+        85,
+        104
+      ],
+      "max_deviation": 19.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "E3B8642A5",
+      "person_name": "エスペランサ・スポルディング",
+      "field_age": "25.0",
+      "ages_mentioned": [
+        15,
+        25
+      ],
+      "max_deviation": 10.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000001953",
+      "person_name": "三浦雄一郎",
+      "field_age": "66.0",
+      "ages_mentioned": [
+        66,
+        70,
+        75,
+        80
+      ],
+      "max_deviation": 14.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000001117",
+      "person_name": "山口智子",
+      "field_age": "63.0",
+      "ages_mentioned": [
+        50,
+        63
+      ],
+      "max_deviation": 13.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.16666666666666666
+      }
+    },
+    {
+      "episode_id": "EP-000003765",
+      "person_name": "幣原喜重郎",
+      "field_age": "64.0",
+      "ages_mentioned": [
+        64,
+        76
+      ],
+      "max_deviation": 12.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000002010",
+      "person_name": "日野原重明",
+      "field_age": "88.0",
+      "ages_mentioned": [
+        75,
+        88
+      ],
+      "max_deviation": 13.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001533",
+      "person_name": "堀江謙一",
+      "field_age": "40.0",
+      "ages_mentioned": [
+        23,
+        40
+      ],
+      "max_deviation": 17.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.14285714285714285
+      }
+    },
+    {
+      "episode_id": "EP-000001625",
+      "person_name": "小平邦彦",
+      "field_age": "52.0",
+      "ages_mentioned": [
+        37,
+        52
+      ],
+      "max_deviation": 15.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-745AE96A",
+      "person_name": "ニーチェ",
+      "field_age": "55.0",
+      "ages_mentioned": [
+        44,
+        55
+      ],
+      "max_deviation": 11.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000003259",
+      "person_name": "金原ひとみ",
+      "field_age": "29.0",
+      "ages_mentioned": [
+        19,
+        29
+      ],
+      "max_deviation": 10.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.25
+      }
+    },
+    {
+      "episode_id": "EP-000004120",
+      "person_name": "マーク・ラファロ",
+      "field_age": "52.0",
+      "ages_mentioned": [
+        35,
+        52
+      ],
+      "max_deviation": 17.0,
+      "suggestion": {
+        "action": "minor_adjustment",
+        "other_age_ratio": 0.2
+      }
+    },
+    {
+      "episode_id": "EP-000001636",
+      "person_name": "黒澤明",
+      "field_age": "57.0",
+      "ages_mentioned": [
+        41,
+        57
+      ],
+      "max_deviation": 16.0,
+      "suggestion": {
+        "action": "acceptable",
+        "other_age_ratio": 0.0
+      }
+    }
+  ]
+}

@@ -21,33 +21,37 @@ sys.path.insert(0, str(PROJECT_ROOT))
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 REPORT_PATH = PROJECT_ROOT / "src" / "reports" / "score_inversions.md"
 
-# 社会的影響度の高いキーワード
-HIGH_IMPACT_KEYWORDS = [
-    # 販売実績
-    "万部",
-    "ミリオンセラー",
-    "ベストセラー",
-    "大ヒット",
-    "興行収入",
-    # 受賞・記録
+# Tier1: 客観的に最重要（これが低順位なら明らかな逆転）
+TIER1_KEYWORDS = [
+    # 国際賞・最高賞
     "ノーベル賞",
+    "ノーベル物理学賞",
+    "ノーベル化学賞",
+    "ノーベル文学賞",
+    "ノーベル平和賞",
+    "ノーベル医学・生理学賞",
+    "ノーベル経済学賞",
     "アカデミー賞",
-    "金メダル",
-    "世界記録",
-    "日本記録",
-    # 歴史的イベント
+    "グラミー賞",
+    "フィールズ賞",
+    # オリンピック
+    "オリンピック金メダル",
+    "金メダル獲得",
+    # 政治最高職
+    "大統領就任",
+    "大統領に就任",
+    "首相就任",
+    "首相に就任",
+    "即位",
+    "皇位継承",
+    # 歴史的偉業
     "世界初",
     "史上初",
-    "日本初",
-    "革命",
-    "独立",
-    "解放",
-    # 役職
-    "大統領",
-    "首相",
-    "CEO",
-    "創業者",
+    "世界記録樹立",
 ]
+
+# Tier2: 重要だが汎用的（逆転検出には使用しない）
+# 参考用: "万部", "ベストセラー", "大ヒット", "革命", "独立", "解放", "CEO", "創業者"
 
 
 def detect_inversions(all_eps: list[dict]) -> list[dict]:
@@ -71,12 +75,12 @@ def detect_inversions(all_eps: list[dict]) -> list[dict]:
         # 各エピソードの高影響度キーワードをカウント
         for rank, ep in enumerate(sorted_eps, 1):
             text = ep.get("episode_text", "")
-            matched_keywords = [kw for kw in HIGH_IMPACT_KEYWORDS if kw in text]
+            matched_keywords = [kw for kw in TIER1_KEYWORDS if kw in text]
 
             # 高影響度キーワードがあるのに2位以下の場合
             if matched_keywords and rank > 1:
                 top_ep = sorted_eps[0]
-                top_keywords = [kw for kw in HIGH_IMPACT_KEYWORDS if kw in top_ep.get("episode_text", "")]
+                top_keywords = [kw for kw in TIER1_KEYWORDS if kw in top_ep.get("episode_text", "")]
 
                 # 1位より多くのキーワードを持っているのに低順位
                 if len(matched_keywords) > len(top_keywords):

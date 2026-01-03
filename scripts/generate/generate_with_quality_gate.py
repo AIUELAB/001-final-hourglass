@@ -520,7 +520,7 @@ def get_person_episode_count(person_name: str) -> int:
         return 0
 
 
-EPISODE_LIMIT = 5  # 1人あたりのエピソード上限
+EPISODE_LIMIT = 999  # 1人あたりのエピソード上限（実質無制限）
 
 
 def generate_episode_with_quality_gate(
@@ -539,19 +539,7 @@ def generate_episode_with_quality_gate(
         is_turning_point: Trueの場合、5件制限を緩和（+2件まで許可）
     """
 
-    # Step 0: 5件制限チェック（転機優先対応）
-    if not skip_limit_check:
-        existing_count = get_person_episode_count(person_name)
-        # 転機フラグがある場合は拡張制限を適用
-        effective_limit = EPISODE_LIMIT + TURNING_POINT_EXTRA_SLOTS if is_turning_point else EPISODE_LIMIT
-        if existing_count >= effective_limit:
-            limit_type = f"転機拡張: {effective_limit}" if is_turning_point else str(EPISODE_LIMIT)
-            print(f"\n⚠️ スキップ: {person_name} は既に{existing_count}件（制限: {limit_type}件）")
-            if stats:
-                stats.add_rejection("episode_limit_reached")
-            return None
-        elif existing_count >= EPISODE_LIMIT and is_turning_point:
-            print(f"\n🌟 転機優先: {person_name} ({existing_count}件目→転機枠で許可)")
+    # Note: エピソード件数制限は撤廃済み（2026-01-03）
 
     # Step 0.5: 時間的妥当性チェック（未来/死亡後エピソード防止）
     is_valid, reason = validate_temporal_accuracy(person_name, age, person_type)

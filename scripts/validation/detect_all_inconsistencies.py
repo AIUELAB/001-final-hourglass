@@ -92,8 +92,9 @@ def check_age_year_consistency(row):
                 }
             )
 
-    # A4: 年齢が0未満または150超
-    if age is not None:
+    # A4: 年齢が0未満または150超（架空キャラは除外：神話/ファンタジーで正当な年齢があるため）
+    person_type = row.get("person_type", "")
+    if age is not None and person_type != "FICTIONAL":
         if age < 0 or age > 150:
             issues.append(
                 {
@@ -123,9 +124,13 @@ def check_name_text_consistency(row):
     alt_pattern = f"のとき、{person_name}の"
 
     if expected_pattern not in text and alt_pattern not in text:
-        # 名前の一部が含まれているかチェック
-        name_parts = person_name.split()
-        if not any(part in text[:100] for part in name_parts if len(part) > 1):
+        # 名前の一部（姓/名/通称）が含まれているかチェック
+        # スペース区切り、中黒区切り、姓名分離などを考慮
+        name_parts = re.split(r"[\s・　]+", person_name)
+        # 2文字以上の部分一致でOK（略称使用は許容）
+        found_partial = any(part in text[:150] for part in name_parts if len(part) >= 2)
+        # 姓のみ、名のみでも許容（例: モーツァルト、ダーウィン）
+        if not found_partial:
             issues.append(
                 {
                     "type": "B1_name_not_in_text",
@@ -134,16 +139,81 @@ def check_name_text_consistency(row):
                 }
             )
 
-    # B2: 英語名が混入している可能性
+    # B2: 英語名が混入している可能性（作品名・曲名・固有名詞は除外）
     english_name_match = re.search(r"[A-Z][a-z]+ [A-Z][a-z]+", text[:150])
     if english_name_match and not re.search(r"[A-Za-z]", person_name):
-        issues.append(
-            {
-                "type": "B2_english_name_in_text",
-                "detail": f"English name '{english_name_match.group()}' found in text but person_name is '{person_name}'",
-                "severity": "low",
-            }
-        )
+        matched = english_name_match.group()
+        # 作品名・曲名・タイトル・グループ名として許容するパターン
+        title_keywords = [
+            "First",
+            "Love",
+            "Best",
+            "New",
+            "The",
+            "My",
+            "One",
+            "Last",
+            "World",
+            "Star",
+            "Super",
+            "Final",
+            "Grand",
+            "Big",
+            "Live",
+            "Tour",
+            "Show",
+            "Album",
+            "Single",
+            "Music",
+            "Song",
+            "Film",
+            "Movie",
+            "Series",
+            "This",
+            "That",
+            "You",
+            "We",
+            "Man",
+            "Girl",
+            "Boy",
+            "Night",
+            "Day",
+            "Heart",
+            "Dream",
+            "Time",
+            "Life",
+            "Snow",
+            "Rain",
+            "Sun",
+            "Moon",
+            "King",
+            "Queen",
+            "Prince",
+            "Rock",
+            "Pop",
+            "Jazz",
+            "Blue",
+            "Red",
+            "Black",
+            "White",
+            "Gold",
+            "Silver",
+            "All",
+            "Dance",
+            "Beat",
+            "Sound",
+        ]
+        is_likely_title = any(kw in matched for kw in title_keywords)
+        # 『』「」で囲まれている場合も作品名として許容
+        is_quoted = re.search(rf"[『「]{re.escape(matched)}[』」]", text[:200])
+        if not is_likely_title and not is_quoted:
+            issues.append(
+                {
+                    "type": "B2_english_name_in_text",
+                    "detail": f"English name '{matched}' found in text but person_name is '{person_name}'",
+                    "severity": "low",
+                }
+            )
 
     # B3: PERSON種別と本文の矛盾
     if person_type == "FICTIONAL":
@@ -175,18 +245,31 @@ def check_fictional_canon(row):
         return issues
 
     # D1: 架空キャラに具体的な年（西暦）が断定されている
-    year_match = re.search(r"(\d{4})年", text)
+    # ただし、作品発表/放送/連載開始年への言及は許容（例: 「1996年に連載開始」）
+    # また「X年の歳月」「X年間」は期間表現なので除外
+    year_match = re.search(r"(\d{4})年(?!の歳月|間)", text)
     if year_match:
         year = int(year_match.group(1))
         # 現実の年（1900-2030）を参照している場合
         if 1900 <= year <= 2030:
-            issues.append(
-                {
-                    "type": "D1_fictional_real_year",
-                    "detail": f"FICTIONAL character with specific real year: {year}",
-                    "severity": "medium",
-                }
-            )
+            # 作品発表文脈の許容パターン（メタ情報として適切）
+            work_context_patterns = [
+                r"\d{4}年.{0,10}(連載|放送|公開|発表|発売|リリース|登場|デビュー|アニメ化)",
+                r"\d{4}年(から|より)(連載|放送|開始)",
+                r"(連載|放送|公開)が始まった\d{4}年",
+                r"(初登場|誕生|生まれ)した?\d{4}年",
+                r"\d{4}年\d{1,2}月\d{1,2}日に(誕生|生まれ)",  # 設定上の誕生日
+                r"声優|制作|原作|作者|監督",  # 作品メタ情報への言及
+            ]
+            is_work_context = any(re.search(p, text) for p in work_context_patterns)
+            if not is_work_context:
+                issues.append(
+                    {
+                        "type": "D1_fictional_real_year",
+                        "detail": f"FICTIONAL character with specific real year: {year}",
+                        "severity": "medium",
+                    }
+                )
 
     # D2: メタ的表現の検出
     meta_patterns = [

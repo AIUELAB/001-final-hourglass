@@ -1,0 +1,204 @@
+{
+  "timestamp": "2026-01-03T23:23:39.572193",
+  "target_episode": "EP-3947C4DE",
+  "person": "アインシュタイン (P93F1DB1)",
+  "problem_summary": {
+    "col30_score": null,
+    "v5_score": null,
+    "v6_score": null,
+    "v6_rank_in_person": null
+  },
+  "root_cause": "ダッシュボードが episode_fame_score (col30) を使用しているが、v6スコアが反映されていない",
+  "episodes_by_v6_rank": [
+    {
+      "episode_id": null,
+      "age": "26.0",
+      "episode_type": "達成",
+      "episode_text_head": "あなたと同じ26歳のとき、アインシュタインは1905年、「奇跡の年」と呼ばれる驚異的な業績を成し遂げました。スイス特許庁の技術者として働きながら、わずか1年間で物理学の根幹を揺るがす4本の論文を発表。...",
+      "scores": {
+        "episode_fame_score_col30": 61.66,
+        "episode_fame_v5": 44.54,
+        "episode_fame_v6": 89.25
+      },
+      "v6_breakdown": {
+        "person_fame_raw": 100.0,
+        "person_fame_weighted": 30.0,
+        "llm_quality_raw": 66.0,
+        "llm_quality_weighted": 16.5,
+        "historical_impact_raw": 98.0,
+        "historical_impact_weighted": 19.6,
+        "pv_signal_raw": 100.0,
+        "pv_signal_weighted": 15.0,
+        "episode_bonus_raw": 81.55,
+        "episode_bonus_weighted": 8.15,
+        "penalty": 0,
+        "total_v6_calculated": 89.25
+      },
+      "input_features": {
+        "celebrity_score_v2": 817.349271153028,
+        "sitelinks_count": 317,
+        "multi_lang_pv": 2302739,
+        "episode_count": 5,
+        "記憶性スコア": 6.0,
+        "共感性スコア": 6.6,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 9.0,
+        "教育的価値": 5.8,
+        "ストーリー品質": 6.2,
+        "事実密度": 10.0
+      }
+    },
+    {
+      "episode_id": null,
+      "age": "36.0",
+      "episode_type": "転機",
+      "episode_text_head": "あなたと同じ36歳のとき、アインシュタインは特許庁の三等技師として働きながら、誰にも理解されない理論と格闘していた。1915年、一般相対性理論の完成を目前に控えた彼は、連日深夜まで計算に没頭し、体重は...",
+      "scores": {
+        "episode_fame_score_col30": 75.83,
+        "episode_fame_v5": 48.77,
+        "episode_fame_v6": 88.23
+      },
+      "v6_breakdown": {
+        "person_fame_raw": 100.0,
+        "person_fame_weighted": 30.0,
+        "llm_quality_raw": 65.92,
+        "llm_quality_weighted": 16.48,
+        "historical_impact_raw": 93.0,
+        "historical_impact_weighted": 18.6,
+        "pv_signal_raw": 100.0,
+        "pv_signal_weighted": 15.0,
+        "episode_bonus_raw": 81.55,
+        "episode_bonus_weighted": 8.15,
+        "penalty": 0,
+        "total_v6_calculated": 88.23
+      },
+      "input_features": {
+        "celebrity_score_v2": 817.349271153028,
+        "sitelinks_count": 317,
+        "multi_lang_pv": 2302739,
+        "episode_count": 5,
+        "記憶性スコア": 6.0,
+        "共感性スコア": 5.5,
+        "意外性スコア": 5.4,
+        "生成品質スコア": 9.0,
+        "教育的価値": 5.3,
+        "ストーリー品質": 6.9,
+        "事実密度": 10.0
+      }
+    },
+    {
+      "episode_id": null,
+      "age": "41.0",
+      "episode_type": "達成",
+      "episode_text_head": "あなたと同じ41歳のとき、アインシュタインは1920年、反ユダヤ主義の高まりの中で激しい批判にさらされていました。ドイツでは「相対性理論はユダヤ人の詐欺だ」という攻撃キャンペーンが展開され、ノーベル賞...",
+      "scores": {
+        "episode_fame_score_col30": 76.85,
+        "episode_fame_v5": 61.06,
+        "episode_fame_v6": 85.85
+      },
+      "v6_breakdown": {
+        "person_fame_raw": 100.0,
+        "person_fame_weighted": 30.0,
+        "llm_quality_raw": 66.8,
+        "llm_quality_weighted": 16.7,
+        "historical_impact_raw": 80.0,
+        "historical_impact_weighted": 16.0,
+        "pv_signal_raw": 100.0,
+        "pv_signal_weighted": 15.0,
+        "episode_bonus_raw": 81.55,
+        "episode_bonus_weighted": 8.15,
+        "penalty": 0,
+        "total_v6_calculated": 85.85
+      },
+      "input_features": {
+        "celebrity_score_v2": 817.349271153028,
+        "sitelinks_count": 317,
+        "multi_lang_pv": 2302739,
+        "episode_count": 5,
+        "記憶性スコア": 6.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.5,
+        "生成品質スコア": 9.0,
+        "教育的価値": 6.2,
+        "ストーリー品質": 6.8,
+        "事実密度": 10.0
+      }
+    },
+    {
+      "episode_id": null,
+      "age": "1.0",
+      "episode_type": "達成",
+      "episode_text_head": "あなたと同じ1歳のとき、アインシュタインは周囲を心配させるほど言葉を話し始めるのが遅い子どもでした。両親は彼の発達を心配していましたが、実は彼は静かに世界を観察し、深く物事を考えていたのです。この時期...",
+      "scores": {
+        "episode_fame_score_col30": 75.9,
+        "episode_fame_v5": 50.45,
+        "episode_fame_v6": 83.9
+      },
+      "v6_breakdown": {
+        "person_fame_raw": 100.0,
+        "person_fame_weighted": 30.0,
+        "llm_quality_raw": 66.18,
+        "llm_quality_weighted": 16.54,
+        "historical_impact_raw": 71.0,
+        "historical_impact_weighted": 14.2,
+        "pv_signal_raw": 100.0,
+        "pv_signal_weighted": 15.0,
+        "episode_bonus_raw": 81.55,
+        "episode_bonus_weighted": 8.15,
+        "penalty": 0,
+        "total_v6_calculated": 83.9
+      },
+      "input_features": {
+        "celebrity_score_v2": 817.349271153028,
+        "sitelinks_count": 317,
+        "multi_lang_pv": 2302739,
+        "episode_count": 5,
+        "記憶性スコア": 6.0,
+        "共感性スコア": 6.6,
+        "意外性スコア": 6.5,
+        "生成品質スコア": 9.0,
+        "教育的価値": 6.2,
+        "ストーリー品質": 6.2,
+        "事実密度": 7.4
+      }
+    },
+    {
+      "episode_id": null,
+      "age": "69.0",
+      "episode_type": "転機",
+      "episode_text_head": "あなたと同じ69歳のとき、アインシュタインは1948年、プリンストン高等研究所で統一場理論の研究に没頭していました。この年、アインシュタインは腹部大動脈瘤の手術を受け、一時は生命の危険もありましたが、...",
+      "scores": {
+        "episode_fame_score_col30": 76.29,
+        "episode_fame_v5": 49.98,
+        "episode_fame_v6": 83.29
+      },
+      "v6_breakdown": {
+        "person_fame_raw": 100.0,
+        "person_fame_weighted": 30.0,
+        "llm_quality_raw": 64.55,
+        "llm_quality_weighted": 16.14,
+        "historical_impact_raw": 70.0,
+        "historical_impact_weighted": 14.0,
+        "pv_signal_raw": 100.0,
+        "pv_signal_weighted": 15.0,
+        "episode_bonus_raw": 81.55,
+        "episode_bonus_weighted": 8.15,
+        "penalty": 0,
+        "total_v6_calculated": 83.29
+      },
+      "input_features": {
+        "celebrity_score_v2": 817.349271153028,
+        "sitelinks_count": 317,
+        "multi_lang_pv": 2302739,
+        "episode_count": 5,
+        "記憶性スコア": 6.0,
+        "共感性スコア": 5.0,
+        "意外性スコア": 5.0,
+        "生成品質スコア": 9.0,
+        "教育的価値": 5.9,
+        "ストーリー品質": 6.2,
+        "事実密度": 10.0
+      }
+    }
+  ]
+}

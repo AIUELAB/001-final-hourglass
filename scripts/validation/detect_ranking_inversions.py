@@ -54,7 +54,7 @@ TIER3_KEYWORDS = [
 
 # ティア別閾値
 TIER_THRESHOLDS = {
-    1: {"min_score": 85.0, "max_rank": 2},
+    1: {"min_score": 80.0, "max_rank": 2},  # 85→80に緩和（Tier1ボーナス適用後の現実的閾値）
     2: {"min_score": 70.0, "max_rank": 3},
     3: {"min_score": 60.0, "max_rank": 5},
 }

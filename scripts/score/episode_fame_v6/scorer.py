@@ -21,6 +21,8 @@ from .config import (
     TYPE_MAPPING,
     HISTORICAL_KEYWORDS,
     KEYWORD_BONUS_MAX,
+    TIER1_KEYWORDS,
+    TIER1_DIRECT_BONUS,
     PRIMARY_TOPIC_BONUS,
     PRIMARY_TOPIC_THRESHOLD,
     ACHIEVEMENT_CONTEXT,
@@ -273,6 +275,11 @@ class EpisodeFameV6Scorer:
             + episode_bonus * WEIGHTS["episode_bonus"]
             - penalty
         )
+
+        # Tier1キーワード直接ボーナス（ノーベル賞、グラミー賞等）
+        if any(kw in data.episode_text for kw in TIER1_KEYWORDS):
+            total += TIER1_DIRECT_BONUS
+
         total = max(0, min(100, total))
         tier = self.calculate_tier(total)
 

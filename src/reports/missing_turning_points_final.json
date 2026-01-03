@@ -1,0 +1,44 @@
+{
+  "scan_timestamp": "2026-01-03T19:06:18.395950",
+  "total_candidates": 6,
+  "high_priority": [
+    {
+      "person_name": "イーロン・マスク",
+      "episode_count": 4,
+      "turning_point": "PayPal売却（2002年、31歳）",
+      "priority": "high"
+    },
+    {
+      "person_name": "黒澤明",
+      "episode_count": 5,
+      "turning_point": "姿三四郎（1943年、33歳、監督デビュー）",
+      "priority": "high"
+    },
+    {
+      "person_name": "大谷翔平",
+      "episode_count": 4,
+      "turning_point": "50-50達成（2024年、30歳）",
+      "priority": "high"
+    },
+    {
+      "person_name": "レディー・ガガ",
+      "episode_count": 2,
+      "turning_point": "Bad Romance発売（2009年、23歳）",
+      "priority": "high"
+    }
+  ],
+  "medium_priority": [
+    {
+      "person_name": "イーロン・マスク",
+      "episode_count": 4,
+      "turning_point": "Twitter/X買収（2022年、51歳）",
+      "priority": "medium"
+    },
+    {
+      "person_name": "ビル・ゲイツ",
+      "episode_count": 5,
+      "turning_point": "世界一の富豪（1995年、40歳）",
+      "priority": "medium"
+    }
+  ]
+}

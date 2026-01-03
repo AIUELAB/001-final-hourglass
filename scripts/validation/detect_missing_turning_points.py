@@ -1,220 +1,371 @@
 #!/usr/bin/env python3
 """
-重要転機エピソード欠落検出スクリプト
+転機エピソード欠落検出スクリプト
 
-職種別の「必須転機候補」を定義し、上位著名人に対して
-転機がカバーされているかを点検する。
+対象: celebrity_score_v2 上位100人物
+目的: 重要な転機エピソードが欠落している人物を特定
+
+職種別必須転機パターン:
+- 政治家: 大統領/首相/総理 就任・当選
+- アスリート: オリンピック金メダル、世界記録、世界選手権優勝
+- 科学者: ノーベル賞、代表的発見
+- 芸術家: 代表作発表、世界的受賞
+- 実業家: 創業、上場、CEO就任
+
+出力: src/reports/missing_turning_points.json
 """
 
 import csv
-from collections import defaultdict
+import json
+import re
+from datetime import datetime
 from pathlib import Path
+from collections import defaultdict
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+CSV_PATH = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
+REPORT_PATH = PROJECT_ROOT / "src/reports/missing_turning_points.json"
 
 
-CSV_PATH = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
-
-
-# 職種別の必須転機キーワード
-TURNING_POINT_REQUIREMENTS = {
+# 職種別必須転機キーワード
+TURNING_POINT_PATTERNS = {
     "政治家": {
-        "keywords": ["大統領", "首相", "総理", "主席", "書記長", "総統", "国王", "女王", "皇帝"],
-        "description": "最高職への就任/当選",
+        "keywords": ["大統領", "首相", "総理大臣", "総理", "当選", "就任", "初当選", "政権"],
+        "required": ["大統領就任", "首相就任", "初当選"],  # 重要度高
+    },
+    "スポーツ選手": {
+        "keywords": ["オリンピック", "金メダル", "世界記録", "世界選手権", "優勝", "MVP", "タイトル"],
+        "required": ["オリンピック金メダル", "世界記録", "メジャー優勝"],
     },
     "科学者": {
-        "keywords": ["ノーベル", "発見", "発明", "理論", "証明"],
-        "description": "ノーベル賞/代表的発見",
+        "keywords": ["ノーベル賞", "発見", "発明", "理論", "法則", "受賞"],
+        "required": ["ノーベル賞受賞", "代表的発見"],
     },
-    "アスリート": {
-        "keywords": ["金メダル", "オリンピック", "世界記録", "世界選手権", "優勝", "制覇"],
-        "description": "五輪/世界大会優勝、世界記録",
-    },
-    "映画監督": {
-        "keywords": ["アカデミー賞", "カンヌ", "パルム・ドール", "金獅子", "ベルリン", "代表作"],
-        "description": "世界的受賞/代表作発表",
-    },
-    "作家": {
-        "keywords": ["ノーベル文学賞", "芥川賞", "直木賞", "ベストセラー", "代表作"],
-        "description": "文学賞/代表作発表",
-    },
-    "音楽家": {
-        "keywords": ["グラミー", "オリコン1位", "ビルボード", "アルバム", "デビュー"],
-        "description": "主要賞/大ヒット",
+    "芸術家": {
+        "keywords": ["受賞", "デビュー", "代表作", "初演", "発表", "グラミー賞", "アカデミー賞"],
+        "required": ["代表作発表", "主要賞受賞"],
     },
     "実業家": {
-        "keywords": ["創業", "設立", "上場", "IPO", "CEO"],
-        "description": "会社創業/上場",
+        "keywords": ["創業", "設立", "上場", "CEO", "会長", "社長", "起業"],
+        "required": ["会社設立", "上場", "経営者就任"],
+    },
+    "作家": {
+        "keywords": ["デビュー", "受賞", "ノーベル文学賞", "芥川賞", "直木賞", "代表作"],
+        "required": ["デビュー作", "主要文学賞"],
+    },
+    "音楽家": {
+        "keywords": ["デビュー", "グラミー賞", "ヒット", "アルバム", "ツアー", "受賞"],
+        "required": ["デビュー", "代表曲発表"],
+    },
+    "映画監督": {
+        "keywords": ["監督作", "初監督", "受賞", "カンヌ", "ヴェネツィア", "アカデミー賞", "金獅子賞"],
+        "required": ["監督デビュー", "代表作発表"],
     },
 }
 
-# 著名人物とそのカテゴリ・期待される転機（手動定義）
-CRITICAL_PERSONS = [
-    # 政治家
-    ("ウラジーミル・プーチン", "政治家", ["大統領"]),
-    ("バラク・オバマ", "政治家", ["大統領"]),
-    ("ドナルド・トランプ", "政治家", ["大統領"]),
-    ("ネルソン・マンデラ", "政治家", ["大統領", "釈放"]),
-    ("マーガレット・サッチャー", "政治家", ["首相"]),
-    ("安倍晋三", "政治家", ["首相", "総理"]),
-    ("毛沢東", "政治家", ["主席", "革命"]),
-    ("ウィンストン・チャーチル", "政治家", ["首相"]),
-    ("アドルフ・ヒトラー", "政治家", ["総統", "ドイツ"]),
-    # 科学者
-    ("アルベルト・アインシュタイン", "科学者", ["相対性理論", "ノーベル"]),
-    ("マリー・キュリー", "科学者", ["ノーベル", "ラジウム"]),
-    ("スティーブン・ホーキング", "科学者", ["ブラックホール", "宇宙"]),
-    ("湯川秀樹", "科学者", ["ノーベル", "中間子"]),
-    # アスリート
-    ("大谷翔平", "アスリート", ["二刀流", "MVP", "メジャー"]),
-    ("イチロー", "アスリート", ["ヒット", "記録", "メジャー"]),
-    ("羽生結弦", "アスリート", ["金メダル", "オリンピック"]),
-    ("マイケル・ジョーダン", "アスリート", ["NBA", "優勝", "チャンピオン"]),
-    ("リオネル・メッシ", "アスリート", ["ワールドカップ", "バロンドール"]),
-    # 映画監督
-    ("黒澤明", "映画監督", ["七人の侍", "羅生門", "アカデミー"]),
-    ("スティーヴン・スピルバーグ", "映画監督", ["アカデミー", "ジョーズ", "ET"]),
-    ("宮崎駿", "映画監督", ["千と千尋", "アカデミー"]),
-    # 作家
-    ("村上春樹", "作家", ["ノルウェイの森", "代表作"]),
-    ("川端康成", "作家", ["ノーベル文学賞"]),
-    ("大江健三郎", "作家", ["ノーベル文学賞"]),
-    # 音楽家
-    ("ビートルズ", "音楽家", ["デビュー", "ヒット"]),
-    ("マイケル・ジャクソン", "音楽家", ["スリラー", "グラミー"]),
-    # 実業家
-    ("スティーブ・ジョブズ", "実業家", ["Apple", "iPhone", "創業"]),
-    ("イーロン・マスク", "実業家", ["Tesla", "SpaceX", "創業"]),
-    ("ビル・ゲイツ", "実業家", ["マイクロソフト", "Microsoft", "創業"]),
-    ("孫正義", "実業家", ["ソフトバンク", "創業"]),
-]
+# カテゴリから職種を推定するマッピング
+CATEGORY_TO_OCCUPATION = {
+    "政治・社会": "政治家",
+    "スポーツ": "スポーツ選手",
+    "科学・技術": "科学者",
+    "芸術・文化": "芸術家",
+    "ビジネス・経済": "実業家",
+    "エンタメ": "音楽家",  # デフォルト
+}
 
 
 def load_episodes():
-    """エピソードをロード"""
-    episodes = []
+    """エピソード読み込み"""
     with open(CSV_PATH, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            episodes.append(row)
-    return episodes
+        return list(reader)
 
 
-def get_person_episodes(episodes, person_name):
-    """特定人物のエピソードを取得"""
-    return [ep for ep in episodes if ep.get("person_name") == person_name]
+def get_top_persons(episodes, top_n=100):
+    """celebrity_score_v2上位N人物を取得"""
+    person_scores = {}
+    person_info = {}
+
+    for row in episodes:
+        person_id = row.get("person_id", "")
+        person_name = row.get("person_name", "")
+
+        # celebrity_score_v2を取得
+        try:
+            score = float(row.get("celebrity_score_v2", 0) or 0)
+        except (ValueError, TypeError):
+            score = 0
+
+        if person_id and score > 0:
+            if person_id not in person_scores or score > person_scores[person_id]:
+                person_scores[person_id] = score
+                person_info[person_id] = {
+                    "person_id": person_id,
+                    "person_name": person_name,
+                    "category": row.get("category", ""),
+                    "person_type": row.get("person_type", ""),
+                }
+
+    # スコア順でソート
+    sorted_persons = sorted(person_scores.items(), key=lambda x: -x[1])
+
+    result = []
+    for person_id, score in sorted_persons[:top_n]:
+        info = person_info[person_id]
+        info["celebrity_score_v2"] = score
+        result.append(info)
+
+    return result
 
 
-def check_turning_point_coverage(person_episodes, expected_keywords):
-    """転機キーワードがカバーされているかチェック"""
-    all_text = " ".join(ep.get("episode_text", "") for ep in person_episodes)
+def get_person_episodes(episodes, person_id):
+    """指定person_idのエピソード一覧を取得"""
+    return [row for row in episodes if row.get("person_id") == person_id]
 
-    covered = []
-    missing = []
 
-    for kw in expected_keywords:
+def infer_occupation(person_info, episodes):
+    """人物の職種を推定"""
+    category = person_info.get("category", "")
+    person_name = person_info.get("person_name", "")
+
+    # 特定人物の職種を直接指定（有名人物）
+    known_occupations = {
+        "パブロ・ピカソ": "芸術家",
+        "葛飾北斎": "芸術家",
+        "レオナルド・ダ・ヴィンチ": "芸術家",
+        "フィンセント・ファン・ゴッホ": "芸術家",
+        "松尾芭蕉": "作家",
+        "小泉八雲": "作家",
+        "村上春樹": "作家",
+        "川端康成": "作家",
+        "三島由紀夫": "作家",
+        "夏目漱石": "作家",
+        "マイケル・ジャクソン": "音楽家",
+        "ビートルズ": "音楽家",
+        "黒澤明": "映画監督",
+        "三船敏郎": "芸術家",  # 俳優
+        "アルベルト・アインシュタイン": "科学者",
+        "アインシュタイン": "科学者",
+    }
+
+    if person_name in known_occupations:
+        return known_occupations[person_name]
+
+    # カテゴリから推定
+    occupation = CATEGORY_TO_OCCUPATION.get(category, None)
+
+    # エピソードテキストからも補完
+    all_text = " ".join(row.get("episode_text", "") for row in episodes)
+
+    # 職種キーワードで判定
+    occupation_scores = defaultdict(int)
+    for occ, patterns in TURNING_POINT_PATTERNS.items():
+        for kw in patterns["keywords"]:
+            if kw in all_text:
+                occupation_scores[occ] += 1
+
+    if occupation_scores:
+        best_occ = max(occupation_scores.items(), key=lambda x: x[1])[0]
+        if occupation_scores[best_occ] >= 2:
+            occupation = best_occ
+
+    return occupation or "不明"
+
+
+def check_turning_points(person_info, episodes, occupation):
+    """転機エピソードの有無をチェック"""
+    patterns = TURNING_POINT_PATTERNS.get(occupation, {})
+    keywords = patterns.get("keywords", [])
+
+    # 全エピソードテキストを結合
+    all_text = " ".join(row.get("episode_text", "") for row in episodes)
+
+    # 各キーワードのヒット状況
+    found_keywords = []
+    missing_keywords = []
+
+    for kw in keywords:
         if kw in all_text:
-            covered.append(kw)
+            found_keywords.append(kw)
         else:
-            missing.append(kw)
+            missing_keywords.append(kw)
 
-    return covered, missing
+    # 重要キーワードの欠落を特定（より緩い判定）
+    # required内のキーワードが部分的に含まれていればOK
+    required = patterns.get("required", [])
+    critical_missing = []
+
+    for req in required:
+        # 必須パターンの個別単語をチェック
+        req_words = req.replace("就任", " 就任").replace("受賞", " 受賞").replace("発表", " 発表").split()
+        found = any(word in all_text for word in req_words if len(word) >= 2)
+        if not found:
+            critical_missing.append(req)
+
+    return {
+        "found": found_keywords,
+        "missing": missing_keywords,
+        "critical_missing": critical_missing,
+        "coverage": len(found_keywords) / len(keywords) if keywords else 1.0,
+    }
+
+
+def analyze_specific_turning_points(person_name, occupation, all_text):
+    """人物固有の転機を分析（有名人物向け）"""
+    suggestions = []
+
+    # 特定人物の転機候補（Wikipedia/一般常識ベース）
+    # 実際のシステムでは外部DBを参照すべきだが、主要人物はハードコード
+    specific_turning_points = {
+        "大谷翔平": [
+            ("MLB二刀流シーズンMVP", "MVP"),
+            ("ホームラン王", "本塁打王"),
+            ("投手勝利", "勝利"),
+        ],
+        "イチロー": [
+            ("MLB最多安打記録", "262安打"),
+            ("3000本安打", "3000本"),
+            ("MLB殿堂入り", "殿堂"),
+        ],
+        "アルベルト・アインシュタイン": [
+            ("相対性理論発表", "相対性理論"),
+            ("ノーベル物理学賞", "ノーベル"),
+            ("奇跡の年", "1905年"),
+        ],
+        "スティーブ・ジョブズ": [
+            ("Apple創業", "創業"),
+            ("iPhone発表", "iPhone"),
+            ("Appleへの復帰", "復帰"),
+        ],
+        "ウラジーミル・プーチン": [
+            ("大統領初当選", "大統領"),
+            ("KGB入局", "KGB"),
+        ],
+        "黒澤明": [
+            ("羅生門ヴェネツィア金獅子賞", "金獅子賞"),
+            ("七人の侍完成", "七人の侍"),
+            ("監督デビュー", "デビュー"),
+        ],
+        "ドナルド・トランプ": [
+            ("大統領就任", "大統領"),
+            ("トランプタワー建設", "タワー"),
+        ],
+        "イーロン・マスク": [
+            ("SpaceX設立", "SpaceX"),
+            ("Tesla CEO就任", "Tesla"),
+            ("Twitter買収", "Twitter"),
+        ],
+    }
+
+    if person_name in specific_turning_points:
+        for tp_name, keyword in specific_turning_points[person_name]:
+            if keyword not in all_text:
+                suggestions.append(tp_name)
+
+    return suggestions
 
 
 def main():
-    print("=" * 70)
-    print("重要転機エピソード欠落検出")
-    print("=" * 70)
+    print("=" * 60)
+    print("転機エピソード欠落検出")
+    print("=" * 60)
 
+    # エピソード読み込み
     episodes = load_episodes()
     print(f"総エピソード数: {len(episodes)}")
 
-    # 人物別にグループ化
-    person_map = defaultdict(list)
-    for ep in episodes:
-        name = ep.get("person_name", "")
-        if name:
-            person_map[name].append(ep)
+    # 上位100人物を取得
+    top_persons = get_top_persons(episodes, top_n=100)
+    print(f"対象人物数: {len(top_persons)}")
 
-    print(f"人物数: {len(person_map)}")
+    # 各人物を分析
+    results = []
+    missing_count = 0
+
+    for person in top_persons:
+        person_id = person["person_id"]
+        person_name = person["person_name"]
+
+        # 人物のエピソード取得
+        person_episodes = get_person_episodes(episodes, person_id)
+        ep_count = len(person_episodes)
+
+        # 職種推定
+        occupation = infer_occupation(person, person_episodes)
+
+        # 転機チェック
+        tp_check = check_turning_points(person, person_episodes, occupation)
+
+        # 全テキスト
+        all_text = " ".join(row.get("episode_text", "") for row in person_episodes)
+
+        # 人物固有の転機分析
+        specific_missing = analyze_specific_turning_points(person_name, occupation, all_text)
+
+        # 欠落があるか判定
+        has_missing = (
+            tp_check["coverage"] < 0.5  # カバレッジ50%未満
+            or len(tp_check["critical_missing"]) > 0  # 重要転機欠落
+            or len(specific_missing) > 0  # 固有転機欠落
+        )
+
+        if has_missing:
+            missing_count += 1
+
+        result = {
+            "person_id": person_id,
+            "person_name": person_name,
+            "celebrity_score_v2": person["celebrity_score_v2"],
+            "category": person["category"],
+            "occupation": occupation,
+            "episode_count": ep_count,
+            "turning_point_coverage": tp_check["coverage"],
+            "found_keywords": tp_check["found"],
+            "missing_keywords": tp_check["missing"],
+            "critical_missing": tp_check["critical_missing"],
+            "specific_missing": specific_missing,
+            "has_missing": has_missing,
+        }
+        results.append(result)
+
+    # 欠落ありをスコア順でソート
+    missing_results = [r for r in results if r["has_missing"]]
+    missing_results.sort(key=lambda x: -x["celebrity_score_v2"])
+
+    # レポート生成
+    report = {
+        "scan_timestamp": datetime.now().isoformat(),
+        "total_persons_checked": len(top_persons),
+        "persons_with_missing": missing_count,
+        "missing_rate": missing_count / len(top_persons) if top_persons else 0,
+        "missing_turning_points": missing_results,
+        "all_results": results,
+    }
+
+    # レポート保存
+    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(REPORT_PATH, "w", encoding="utf-8") as f:
+        json.dump(report, f, ensure_ascii=False, indent=2)
+
+    # 画面出力
     print()
-
-    # 欠落検出結果
-    missing_list = []
-    covered_list = []
-    not_found_list = []
-
-    for person_name, category, expected_keywords in CRITICAL_PERSONS:
-        person_eps = person_map.get(person_name, [])
-
-        if not person_eps:
-            not_found_list.append((person_name, category, expected_keywords))
-            continue
-
-        covered, missing = check_turning_point_coverage(person_eps, expected_keywords)
-
-        if missing:
-            missing_list.append(
-                {
-                    "person_name": person_name,
-                    "category": category,
-                    "episode_count": len(person_eps),
-                    "covered": covered,
-                    "missing": missing,
-                }
-            )
-        else:
-            covered_list.append(
-                {
-                    "person_name": person_name,
-                    "category": category,
-                    "episode_count": len(person_eps),
-                    "covered": covered,
-                }
-            )
-
-    # 結果出力
-    print("=" * 70)
-    print("【欠落あり】重要転機がカバーされていない人物")
-    print("=" * 70)
-    for item in missing_list:
-        print(f"\n{item['person_name']} ({item['category']}, {item['episode_count']}件)")
-        print(f"  カバー済み: {', '.join(item['covered']) or 'なし'}")
-        print(f"  欠落キーワード: {', '.join(item['missing'])}")
-
+    print("【検出結果】")
+    print(f"  転機欠落あり: {missing_count}人 / {len(top_persons)}人")
+    print(f"  欠落率: {report['missing_rate']:.1%}")
     print()
-    print("=" * 70)
-    print("【データなし】エピソードが存在しない人物")
-    print("=" * 70)
-    for person_name, category, keywords in not_found_list:
-        print(f"  {person_name} ({category}) - 期待: {', '.join(keywords)}")
+    print(f"レポート: {REPORT_PATH}")
 
+    # 上位10件を表示
     print()
-    print("=" * 70)
-    print("【OK】転機がカバーされている人物")
-    print("=" * 70)
-    for item in covered_list:
-        print(f"  {item['person_name']}: {', '.join(item['covered'])}")
+    print("【転機欠落人物（上位10件）】")
+    for r in missing_results[:10]:
+        print(f"  {r['person_name']} (score={r['celebrity_score_v2']:.1f}, eps={r['episode_count']})")
+        if r["specific_missing"]:
+            print(f"    欠落: {', '.join(r['specific_missing'][:3])}")
+        elif r["critical_missing"]:
+            print(f"    欠落: {', '.join(r['critical_missing'][:3])}")
 
-    # サマリー
-    print()
-    print("=" * 70)
-    print("サマリー")
-    print("=" * 70)
-    print(f"  チェック対象: {len(CRITICAL_PERSONS)}人")
-    print(f"  欠落あり: {len(missing_list)}人")
-    print(f"  データなし: {len(not_found_list)}人")
-    print(f"  カバー済み: {len(covered_list)}人")
-
-    # 欠落追加候補を提案
-    if missing_list:
-        print()
-        print("=" * 70)
-        print("追加候補（承認待ち）")
-        print("=" * 70)
-        for item in missing_list:
-            for kw in item["missing"]:
-                print(f"  - {item['person_name']}: 「{kw}」関連エピソード")
-
-    return missing_list, not_found_list
+    return report
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 """高度トレンドダッシュボード - データモデル"""
 
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 
 
 @dataclass

@@ -26,8 +26,11 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 # プロジェクトルート
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# 埋め草検出モジュール
+from scripts.validation.filler_detector import is_filler
 
 # CSVパス
 MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
@@ -48,6 +51,10 @@ QUALITY_THRESHOLDS = {
     "high_quality_rate_target": 0.35,  # 600+率の目標（35%）
     "high_quality_rate_alert": 0.25,  # 600+率のアラート閾値（25%）
     "rejection_rate_alert": 0.20,  # 棄却率アラート閾値（20%）
+    # 埋め草・エピソード制限
+    "filler_count_critical": 1,  # 埋め草候補がこれ以上あればCRITICAL
+    "episode_limit": 5,  # 1人あたりのエピソード上限
+    "limit_violation_warning": 1,  # 制限超過がこれ以上あればWARNING
     # 軸別
     "axis_avg_alert": 5.0,  # 軸平均のアラート閾値
     "axis_avg_critical": 4.0,  # 軸平均の緊急閾値
@@ -95,6 +102,9 @@ def calculate_quality_metrics(episodes: List[Dict]) -> Dict:
         "axis_scores": {axis: [] for axis in SEVEN_AXIS_FIELDS},
         "score_distribution": defaultdict(int),
         "source_distribution": defaultdict(int),
+        # 埋め草・制限関連
+        "filler_candidates": [],
+        "person_episode_counts": defaultdict(int),
     }
 
     for ep in episodes:
@@ -133,6 +143,34 @@ def calculate_quality_metrics(episodes: List[Dict]) -> Dict:
         # ソース分布
         source = ep.get("source", "unknown")
         metrics["source_distribution"][source] += 1
+
+        # 人物名取得
+        person_name = ep.get("person_name", "")
+
+        # 埋め草チェック
+        text = ep.get("episode_text", "")
+        if text and is_filler(text):
+            metrics["filler_candidates"].append(
+                {
+                    "episode_id": ep.get("episode_id", ""),
+                    "person_name": person_name,
+                    "text_preview": text[:50] + "...",
+                }
+            )
+
+        # 人物別カウント
+        if person_name:
+            metrics["person_episode_counts"][person_name] += 1
+
+    # 制限違反の計算
+    episode_limit = QUALITY_THRESHOLDS["episode_limit"]
+    metrics["limit_violations"] = [
+        {"person_name": name, "count": count, "excess": count - episode_limit}
+        for name, count in metrics["person_episode_counts"].items()
+        if count > episode_limit
+    ]
+    metrics["filler_count"] = len(metrics["filler_candidates"])
+    metrics["limit_violation_count"] = len(metrics["limit_violations"])
 
     # 統計計算
     if metrics["composite_scores"]:
@@ -219,6 +257,34 @@ def check_alerts(metrics: Dict) -> List[Dict]:
                 }
             )
 
+    # 埋め草チェック
+    filler_count = metrics.get("filler_count", 0)
+    if filler_count >= QUALITY_THRESHOLDS["filler_count_critical"]:
+        filler_examples = metrics.get("filler_candidates", [])[:3]
+        example_ids = [f["episode_id"] for f in filler_examples]
+        alerts.append(
+            {
+                "level": "CRITICAL",
+                "type": "filler_detected",
+                "message": f"埋め草エピソードが検出されました: {filler_count}件 (例: {', '.join(example_ids)})",
+                "action": "scripts/validation/check_episode_quality.py を実行し、埋め草を削除してください",
+            }
+        )
+
+    # エピソード制限超過チェック
+    limit_violation_count = metrics.get("limit_violation_count", 0)
+    if limit_violation_count >= QUALITY_THRESHOLDS["limit_violation_warning"]:
+        violation_examples = metrics.get("limit_violations", [])[:3]
+        example_names = [f"{v['person_name']}({v['count']}件)" for v in violation_examples]
+        alerts.append(
+            {
+                "level": "WARNING",
+                "type": "episode_limit_exceeded",
+                "message": f"エピソード制限超過: {limit_violation_count}人 (例: {', '.join(example_names)})",
+                "action": "1人あたり5件以下になるよう、低品質エピソードを削除してください",
+            }
+        )
+
     return alerts
 
 
@@ -234,6 +300,9 @@ def generate_report(master_metrics: Dict, staging_metrics: Optional[Dict], alert
             "score_distribution": dict(master_metrics["score_distribution"]),
             "axis_averages": master_metrics["axis_averages"],
             "source_distribution": dict(master_metrics["source_distribution"]),
+            # 埋め草・制限
+            "filler_count": master_metrics.get("filler_count", 0),
+            "limit_violation_count": master_metrics.get("limit_violation_count", 0),
         },
         "alerts": alerts,
         "thresholds": QUALITY_THRESHOLDS,
@@ -277,6 +346,14 @@ def print_report(report: Dict):
     for axis, avg in md["axis_averages"].items():
         status = "✅" if avg >= 6.0 else "⚠️" if avg >= 5.0 else "❌"
         print(f"    {axis}: {avg:.2f} {status}")
+    print()
+
+    # 埋め草・制限チェック
+    filler_count = md.get("filler_count", 0)
+    limit_violation_count = md.get("limit_violation_count", 0)
+    print("【品質ゲート】")
+    print(f"  埋め草候補: {filler_count}件 {'✅' if filler_count == 0 else '❌'}")
+    print(f"  5件超過人物: {limit_violation_count}人 {'✅' if limit_violation_count == 0 else '⚠️'}")
     print()
 
     # ステージングデータ

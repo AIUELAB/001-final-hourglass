@@ -32,7 +32,7 @@ from scripts.score.episode_fame_v6.scorer import (
     EpisodeFameV6Scorer,
     apply_bias_control,
 )
-from scripts.score.episode_fame_v6.config import ANCHOR_PATTERNS, TIER_THRESHOLDS
+from scripts.score.episode_fame_v6.config import ANCHOR_PATTERNS
 
 CSV_PATH = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORTS_DIR = PROJECT_ROOT / "src/reports/logs"

@@ -12,7 +12,6 @@ v1（fame_score_v3）との違い:
 - v2: 話題性・トレンド・品質重視（エピソード数+LLM品質追加）
 """
 
-import hashlib
 import math
 from dataclasses import dataclass
 from typing import Optional

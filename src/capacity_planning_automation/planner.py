@@ -2,7 +2,6 @@
 """容量計画自動化 - メインプランナー"""
 
 import json
-import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple

@@ -7,10 +7,8 @@
 """
 
 import pandas as pd
-import numpy as np
 from pathlib import Path
 from scipy import stats
-from itertools import product
 import json
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent

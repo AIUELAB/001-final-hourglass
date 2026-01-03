@@ -11,7 +11,6 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 # 閾値設定
 SHORT_NAME_LENGTH = 5  # 短い名前の定義

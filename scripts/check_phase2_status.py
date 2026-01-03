@@ -5,9 +5,7 @@ Phase 2 Google検索ステータス確認スクリプト
 クォータ状況、キャッシュ状況、進捗を表示する。
 """
 
-import os
 import sys
-from datetime import datetime
 from pathlib import Path
 
 # プロジェクトルートをパスに追加

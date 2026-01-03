@@ -5,7 +5,6 @@ InspirationScore（感銘度）スコアラー
 感銘度を0-100でスコアリング
 """
 
-import re
 from typing import Optional
 
 from .config import (

@@ -3,8 +3,6 @@
 マスターCSVのエピソードID欠落を修復するスクリプト
 """
 
-import csv
-import re
 from datetime import datetime
 from pathlib import Path
 import shutil

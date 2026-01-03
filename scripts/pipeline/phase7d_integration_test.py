@@ -10,7 +10,6 @@ Usage:
 
 import argparse
 import json
-import os
 import sys
 import time
 from datetime import datetime
@@ -24,7 +23,6 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from backend.app.utils.score_calculator import (
-    HYBRID_WEIGHTS,
     LLM_TARGET_STATS,
     calculate_hybrid_rule_scores,
     calculate_hybrid_scores_dynamic,

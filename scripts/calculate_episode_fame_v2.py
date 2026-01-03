@@ -17,7 +17,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scripts.score.episode_fame_v2 import (
     calculate_episode_fame_v2,
-    get_tier,
     rank_episodes,
 )
 

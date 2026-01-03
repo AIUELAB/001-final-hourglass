@@ -1,0 +1,2118 @@
+{
+  "analyzed_at": "2026-01-03T03:38:25.201145",
+  "dry_run": false,
+  "contradictions_found": 195,
+  "episodes_deleted": 95,
+  "details": [
+    {
+      "person_name": "朝永振一郎",
+      "person_id": "PDE8D948",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        59.0,
+        79.0,
+        80.0
+      ],
+      "correct_age": 59,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001922",
+          "age": 79.0,
+          "reason": "史実(59歳)と20歳のズレ"
+        },
+        {
+          "episode_id": "EP-2512181850582549",
+          "age": 80.0,
+          "reason": "史実(59歳)と21歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000000315",
+          "age": 59.0
+        }
+      ]
+    },
+    {
+      "person_name": "瀬戸内寂聴",
+      "person_id": "P33DB5A0",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        51.0,
+        90.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000005537",
+          "age": 51.0,
+          "reason": "中央値(90.0歳)から39歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002012",
+          "age": 90.0
+        }
+      ]
+    },
+    {
+      "person_name": "南部陽一郎",
+      "person_id": "P5578985",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        64.0,
+        87.0
+      ],
+      "correct_age": 87,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001621",
+          "age": 64.0,
+          "reason": "史実(87歳)と23歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001320",
+          "age": 87.0
+        }
+      ]
+    },
+    {
+      "person_name": "南部陽一郎",
+      "person_id": "P5578985",
+      "keywords": [
+        "受賞",
+        "発表",
+        "ノーベル"
+      ],
+      "ages_found": [
+        78.0,
+        84.0
+      ],
+      "correct_age": 87,
+      "deleted_episodes": [
+        {
+          "episode_id": "E8F5CB79D",
+          "age": 78.0,
+          "reason": "史実(87歳)と9歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001923",
+          "age": 84.0
+        }
+      ]
+    },
+    {
+      "person_name": "パット・メセニー",
+      "person_id": "P0DBEFC8",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        10.0,
+        45.0,
+        60.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-251217181601945",
+          "age": 10.0,
+          "reason": "中央値(45.0歳)から35歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "E1C50654F",
+          "age": 45.0
+        },
+        {
+          "episode_id": "EP-2512181850581646",
+          "age": 60.0
+        }
+      ]
+    },
+    {
+      "person_name": "湯川秀樹",
+      "person_id": "PBB3B79B",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        61.0,
+        74.0
+      ],
+      "correct_age": 42,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-2512181850581935",
+          "age": 61.0,
+          "reason": "史実(42歳)と19歳のズレ"
+        },
+        {
+          "episode_id": "E84281238",
+          "age": 74.0,
+          "reason": "史実(42歳)と32歳のズレ"
+        }
+      ],
+      "kept_episodes": []
+    },
+    {
+      "person_name": "渋沢栄一",
+      "person_id": "PB1B157C",
+      "keywords": [
+        "設立"
+      ],
+      "ages_found": [
+        62.0,
+        79.0,
+        81.0
+      ],
+      "correct_age": 33,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001897",
+          "age": 81.0,
+          "reason": "史実(33歳)と48歳のズレ"
+        },
+        {
+          "episode_id": "EP-000002929",
+          "age": 62.0,
+          "reason": "史実(33歳)と29歳のズレ"
+        },
+        {
+          "episode_id": "E49A3DCC6",
+          "age": 79.0,
+          "reason": "史実(33歳)と46歳のズレ"
+        }
+      ],
+      "kept_episodes": []
+    },
+    {
+      "person_name": "川端康成",
+      "person_id": "P1D59005",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        42.0,
+        72.0
+      ],
+      "correct_age": 69,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001442",
+          "age": 42.0,
+          "reason": "史実(69歳)と27歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EBA0B5D53",
+          "age": 72.0
+        }
+      ]
+    },
+    {
+      "person_name": "堀江貴文",
+      "person_id": "PC302D12",
+      "keywords": [
+        "設立"
+      ],
+      "ages_found": [
+        22.0,
+        58.0
+      ],
+      "correct_age": 23,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001303",
+          "age": 58.0,
+          "reason": "史実(23歳)と35歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001312",
+          "age": 22.0
+        }
+      ]
+    },
+    {
+      "person_name": "ジミー・カーター",
+      "person_id": "P48FD907",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        77.0,
+        78.0,
+        100.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000009269",
+          "age": 100.0,
+          "reason": "中央値(78.0歳)から22歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EE62770F7",
+          "age": 77.0
+        },
+        {
+          "episode_id": "EP-000001899",
+          "age": 78.0
+        }
+      ]
+    },
+    {
+      "person_name": "ソニー・ロリンズ",
+      "person_id": "P3684C33",
+      "keywords": [
+        "引退"
+      ],
+      "ages_found": [
+        48.0,
+        80.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002797",
+          "age": 48.0,
+          "reason": "中央値(80.0歳)から32歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850582524",
+          "age": 80.0
+        }
+      ]
+    },
+    {
+      "person_name": "下村脩",
+      "person_id": "PE465A4C",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        40.0,
+        64.0,
+        70.0,
+        80.0,
+        82.0
+      ],
+      "correct_age": 80,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001481",
+          "age": 64.0,
+          "reason": "史実(80歳)と16歳のズレ"
+        },
+        {
+          "episode_id": "EP-000001606",
+          "age": 40.0,
+          "reason": "史実(80歳)と40歳のズレ"
+        },
+        {
+          "episode_id": "EF6926FA4",
+          "age": 70.0,
+          "reason": "史実(80歳)と10歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001925",
+          "age": 82.0
+        },
+        {
+          "episode_id": "EP-2512181850582232",
+          "age": 80.0
+        }
+      ]
+    },
+    {
+      "person_name": "葛飾北斎",
+      "person_id": "P0898C9B",
+      "keywords": [
+        "完成",
+        "富嶽"
+      ],
+      "ages_found": [
+        71.0,
+        75.0,
+        76.0,
+        81.0
+      ],
+      "correct_age": 72,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-251218185058021",
+          "age": 81.0,
+          "reason": "史実(72歳)と9歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-251218185058181",
+          "age": 71.0
+        },
+        {
+          "episode_id": "EP-251218185058351",
+          "age": 76.0
+        },
+        {
+          "episode_id": "EP-251218185058451",
+          "age": 75.0
+        }
+      ]
+    },
+    {
+      "person_name": "小澤征爾",
+      "person_id": "PF3D03A0",
+      "keywords": [
+        "創設"
+      ],
+      "ages_found": [
+        55.0,
+        80.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002035",
+          "age": 55.0,
+          "reason": "中央値(80.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850582360",
+          "age": 80.0
+        }
+      ]
+    },
+    {
+      "person_name": "オーネット・コールマン",
+      "person_id": "P6F66CF7",
+      "keywords": [
+        "発表"
+      ],
+      "ages_found": [
+        30.0,
+        57.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EB56B4790",
+          "age": 30.0,
+          "reason": "中央値(57.0歳)から27歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002795",
+          "age": 57.0
+        }
+      ]
+    },
+    {
+      "person_name": "根岸英一",
+      "person_id": "P95AAF95",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        59.0,
+        75.0
+      ],
+      "correct_age": 75,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001622",
+          "age": 59.0,
+          "reason": "史実(75歳)と16歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000000066",
+          "age": 75.0
+        }
+      ]
+    },
+    {
+      "person_name": "歌川広重",
+      "person_id": "P06FCF1D",
+      "keywords": [
+        "完成"
+      ],
+      "ages_found": [
+        40.0,
+        62.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000143",
+          "age": 40.0,
+          "reason": "中央値(62.0歳)から22歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850581913",
+          "age": 62.0
+        }
+      ]
+    },
+    {
+      "person_name": "明石家さんま",
+      "person_id": "P500AE5A",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        40.0,
+        69.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-2512181850581355",
+          "age": 40.0,
+          "reason": "中央値(69.0歳)から29歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000000203",
+          "age": 69.0
+        }
+      ]
+    },
+    {
+      "person_name": "稲盛和夫",
+      "person_id": "P77AEA02",
+      "keywords": [
+        "創業"
+      ],
+      "ages_found": [
+        35.0,
+        90.0
+      ],
+      "correct_age": 27,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-894C2533",
+          "age": 90.0,
+          "reason": "史実(27歳)と63歳のズレ"
+        },
+        {
+          "episode_id": "EP-000003002",
+          "age": 35.0,
+          "reason": "史実(27歳)と8歳のズレ"
+        }
+      ],
+      "kept_episodes": []
+    },
+    {
+      "person_name": "川上弘美",
+      "person_id": "P00684CB",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        34.0,
+        64.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000253",
+          "age": 34.0,
+          "reason": "中央値(64.0歳)から30歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850581833",
+          "age": 64.0
+        }
+      ]
+    },
+    {
+      "person_name": "村野藤吾",
+      "person_id": "P98D6D23",
+      "keywords": [
+        "完成"
+      ],
+      "ages_found": [
+        47.0,
+        93.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000264",
+          "age": 47.0,
+          "reason": "中央値(93.0歳)から46歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-4DEAA75D",
+          "age": 93.0
+        }
+      ]
+    },
+    {
+      "person_name": "本庶佑",
+      "person_id": "PBB3BA57",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        21.0,
+        56.0,
+        70.0,
+        76.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000003236",
+          "age": 21.0,
+          "reason": "中央値(70.0歳)から49歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001480",
+          "age": 56.0
+        },
+        {
+          "episode_id": "EP-000002113",
+          "age": 76.0
+        },
+        {
+          "episode_id": "EP-000002112",
+          "age": 70.0
+        }
+      ]
+    },
+    {
+      "person_name": "木村拓哉",
+      "person_id": "P2F5B850",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        51.0,
+        81.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002861",
+          "age": 51.0,
+          "reason": "中央値(81.0歳)から30歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850582458",
+          "age": 81.0
+        }
+      ]
+    },
+    {
+      "person_name": "本田美奈子",
+      "person_id": "PC786E8B",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        17.0,
+        38.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000333",
+          "age": 17.0,
+          "reason": "中央値(38.0歳)から21歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-9A43E8B0",
+          "age": 38.0
+        }
+      ]
+    },
+    {
+      "person_name": "豊田喜一郎",
+      "person_id": "P7CB91C7",
+      "keywords": [
+        "創業"
+      ],
+      "ages_found": [
+        34.0,
+        57.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001689",
+          "age": 34.0,
+          "reason": "中央値(57.0歳)から23歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-CA89F02C",
+          "age": 57.0
+        }
+      ]
+    },
+    {
+      "person_name": "藤田嗣治",
+      "person_id": "P64FCF48",
+      "keywords": [
+        "完成"
+      ],
+      "ages_found": [
+        47.0,
+        70.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000393",
+          "age": 47.0,
+          "reason": "中央値(70.0歳)から23歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000000394",
+          "age": 70.0
+        }
+      ]
+    },
+    {
+      "person_name": "鈴木章",
+      "person_id": "P9CE537D",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        52.0,
+        73.0,
+        80.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001623",
+          "age": 52.0,
+          "reason": "中央値(73.0歳)から21歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000000472",
+          "age": 73.0
+        },
+        {
+          "episode_id": "EP-2512181850582485",
+          "age": 80.0
+        }
+      ]
+    },
+    {
+      "person_name": "鈴木大地",
+      "person_id": "P0F04705",
+      "keywords": [
+        "引退"
+      ],
+      "ages_found": [
+        19.0,
+        55.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000480",
+          "age": 19.0,
+          "reason": "中央値(55.0歳)から36歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001685",
+          "age": 55.0
+        }
+      ]
+    },
+    {
+      "person_name": "真鍋淑郎",
+      "person_id": "P68F7BB8",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        52.0,
+        82.0,
+        83.0,
+        85.0,
+        90.0
+      ],
+      "correct_age": 90,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001615",
+          "age": 52.0,
+          "reason": "史実(90歳)と38歳のズレ"
+        },
+        {
+          "episode_id": "EP-2512181850582227",
+          "age": 82.0,
+          "reason": "史実(90歳)と8歳のズレ"
+        },
+        {
+          "episode_id": "EP-2512181850582319",
+          "age": 83.0,
+          "reason": "史実(90歳)と7歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002129",
+          "age": 85.0
+        },
+        {
+          "episode_id": "EP-000000517",
+          "age": 90.0
+        }
+      ]
+    },
+    {
+      "person_name": "磯崎新",
+      "person_id": "P7D78194",
+      "keywords": [
+        "受賞",
+        "発表"
+      ],
+      "ages_found": [
+        45.0,
+        91.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001635",
+          "age": 45.0,
+          "reason": "中央値(91.0歳)から46歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-12192FC9",
+          "age": 91.0
+        }
+      ]
+    },
+    {
+      "person_name": "マリー・キュリー",
+      "person_id": "PA0A84C1",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        36.0,
+        66.0
+      ],
+      "correct_age": 36,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-35130013",
+          "age": 66.0,
+          "reason": "史実(36歳)と30歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000007808",
+          "age": 36.0
+        }
+      ]
+    },
+    {
+      "person_name": "妹島和世",
+      "person_id": "P6E7E522",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        24.0,
+        49.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001383",
+          "age": 24.0,
+          "reason": "中央値(49.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001631",
+          "age": 49.0
+        }
+      ]
+    },
+    {
+      "person_name": "ジャイアント馬場",
+      "person_id": "P25011A2",
+      "keywords": [
+        "設立"
+      ],
+      "ages_found": [
+        27.0,
+        61.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000000944",
+          "age": 27.0,
+          "reason": "中央値(61.0歳)から34歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-58320279",
+          "age": 61.0
+        }
+      ]
+    },
+    {
+      "person_name": "今村昌平",
+      "person_id": "PC1B4021",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        24.0,
+        55.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001419",
+          "age": 24.0,
+          "reason": "中央値(55.0歳)から31歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001638",
+          "age": 55.0
+        }
+      ]
+    },
+    {
+      "person_name": "大江健三郎",
+      "person_id": "P6D12F2B",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        28.0,
+        56.0
+      ],
+      "correct_age": 59,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001071",
+          "age": 28.0,
+          "reason": "史実(59歳)と31歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001710",
+          "age": 56.0
+        }
+      ]
+    },
+    {
+      "person_name": "大江健三郎",
+      "person_id": "P6D12F2B",
+      "keywords": [
+        "受賞",
+        "発表",
+        "ノーベル"
+      ],
+      "ages_found": [
+        53.0,
+        64.0
+      ],
+      "correct_age": 59,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001454",
+          "age": 53.0,
+          "reason": "史実(59歳)と6歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001601",
+          "age": 64.0
+        }
+      ]
+    },
+    {
+      "person_name": "大村智",
+      "person_id": "PDA29F98",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        31.0,
+        47.0,
+        53.0,
+        74.0,
+        75.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002127",
+          "age": 75.0,
+          "reason": "中央値(53.0歳)から22歳離れている"
+        },
+        {
+          "episode_id": "EP-000003237",
+          "age": 31.0,
+          "reason": "中央値(53.0歳)から22歳離れている"
+        },
+        {
+          "episode_id": "EP-2512181850581540",
+          "age": 74.0,
+          "reason": "中央値(53.0歳)から21歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001478",
+          "age": 47.0
+        },
+        {
+          "episode_id": "EP-000001611",
+          "age": 53.0
+        }
+      ]
+    },
+    {
+      "person_name": "大隈重信",
+      "person_id": "P4E95933",
+      "keywords": [
+        "創設"
+      ],
+      "ages_found": [
+        25.0,
+        36.0,
+        60.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001592",
+          "age": 60.0,
+          "reason": "中央値(36.0歳)から24歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001749",
+          "age": 36.0
+        },
+        {
+          "episode_id": "EP-000003233",
+          "age": 25.0
+        }
+      ]
+    },
+    {
+      "person_name": "佐藤栄作",
+      "person_id": "P1A7A3FF",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        41.0,
+        68.0,
+        74.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001599",
+          "age": 41.0,
+          "reason": "中央値(68.0歳)から27歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850581720",
+          "age": 68.0
+        },
+        {
+          "episode_id": "EP-EF89F750",
+          "age": 74.0
+        }
+      ]
+    },
+    {
+      "person_name": "坂本龍一",
+      "person_id": "PEF39186",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        36.0,
+        62.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001272",
+          "age": 36.0,
+          "reason": "中央値(62.0歳)から26歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001642",
+          "age": 62.0
+        }
+      ]
+    },
+    {
+      "person_name": "坂口博信",
+      "person_id": "P0E7610D",
+      "keywords": [
+        "設立"
+      ],
+      "ages_found": [
+        42.0,
+        63.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000004200",
+          "age": 42.0,
+          "reason": "中央値(63.0歳)から21歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850581762",
+          "age": 63.0
+        }
+      ]
+    },
+    {
+      "person_name": "吉野彰",
+      "person_id": "PB1FE7C9",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        44.0,
+        65.0,
+        70.0,
+        71.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001614",
+          "age": 44.0,
+          "reason": "中央値(70.0歳)から26歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002128",
+          "age": 65.0
+        },
+        {
+          "episode_id": "EP-2512181850581534",
+          "age": 70.0
+        },
+        {
+          "episode_id": "EP-000001282",
+          "age": 71.0
+        }
+      ]
+    },
+    {
+      "person_name": "広中平祐",
+      "person_id": "PACD7B74",
+      "keywords": [
+        "受賞",
+        "完成"
+      ],
+      "ages_found": [
+        34.0,
+        59.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000003247",
+          "age": 34.0,
+          "reason": "中央値(59.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001626",
+          "age": 59.0
+        }
+      ]
+    },
+    {
+      "person_name": "高橋留美子",
+      "person_id": "PAEC0A93",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        24.0,
+        78.0
+      ],
+      "correct_age": 21,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002524",
+          "age": 78.0,
+          "reason": "史実(21歳)と57歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001833",
+          "age": 24.0
+        }
+      ]
+    },
+    {
+      "person_name": "吉永小百合",
+      "person_id": "P710CB7F",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        31.0,
+        38.0,
+        78.0
+      ],
+      "correct_age": 15,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001433",
+          "age": 38.0,
+          "reason": "史実(15歳)と23歳のズレ"
+        },
+        {
+          "episode_id": "EP-000002020",
+          "age": 78.0,
+          "reason": "史実(15歳)と63歳のズレ"
+        },
+        {
+          "episode_id": "EP-000001985",
+          "age": 31.0,
+          "reason": "史実(15歳)と16歳のズレ"
+        }
+      ],
+      "kept_episodes": []
+    },
+    {
+      "person_name": "槇文彦",
+      "person_id": "P66775B1",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        56.0,
+        95.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000001629",
+          "age": 56.0,
+          "reason": "中央値(95.0歳)から39歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-6C213DEE",
+          "age": 95.0
+        }
+      ]
+    },
+    {
+      "person_name": "河瀨直美",
+      "person_id": "P7650C16",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        35.0,
+        40.0,
+        83.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-2512181850582006",
+          "age": 83.0,
+          "reason": "中央値(40.0歳)から43歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000001647",
+          "age": 40.0
+        },
+        {
+          "episode_id": "EP-000003815",
+          "age": 35.0
+        }
+      ]
+    },
+    {
+      "person_name": "プラトン",
+      "person_id": "P637BBEB",
+      "keywords": [
+        "創設"
+      ],
+      "ages_found": [
+        50.0,
+        80.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002239",
+          "age": 50.0,
+          "reason": "中央値(80.0歳)から30歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-ED3E48F7",
+          "age": 80.0
+        }
+      ]
+    },
+    {
+      "person_name": "スティービー・ワンダー",
+      "person_id": "PB4DBBD",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        25.0,
+        50.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002292",
+          "age": 25.0,
+          "reason": "中央値(50.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002293",
+          "age": 50.0
+        }
+      ]
+    },
+    {
+      "person_name": "ガブリエル・ガルシア＝マルケス",
+      "person_id": "PDDC5AEE",
+      "keywords": [
+        "受賞",
+        "発表",
+        "ノーベル"
+      ],
+      "ages_found": [
+        55.0,
+        75.0
+      ],
+      "correct_age": 55,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002314",
+          "age": 75.0,
+          "reason": "史実(55歳)と20歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002313",
+          "age": 55.0
+        }
+      ]
+    },
+    {
+      "person_name": "アウンサンスーチー",
+      "person_id": "P2127BD2",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        43.0,
+        70.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000002353",
+          "age": 70.0,
+          "reason": "中央値(43.0歳)から27歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000002351",
+          "age": 43.0
+        },
+        {
+          "episode_id": "EP-251218185058645",
+          "age": 43.0
+        }
+      ]
+    },
+    {
+      "person_name": "ジェンスン・ファン",
+      "person_id": "P6A20761",
+      "keywords": [
+        "創業"
+      ],
+      "ages_found": [
+        9.0,
+        61.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-251217211617549",
+          "age": 9.0,
+          "reason": "中央値(61.0歳)から52歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850581606",
+          "age": 61.0
+        }
+      ]
+    },
+    {
+      "person_name": "石川さゆり",
+      "person_id": "P78DC03A",
+      "keywords": [
+        "デビュー"
+      ],
+      "ages_found": [
+        13.0,
+        66.0,
+        68.0
+      ],
+      "correct_age": 15,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-251214201130150",
+          "age": 66.0,
+          "reason": "史実(15歳)と51歳のズレ"
+        },
+        {
+          "episode_id": "EP-251214201049876",
+          "age": 68.0,
+          "reason": "史実(15歳)と53歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-251217180939421",
+          "age": 13.0
+        }
+      ]
+    },
+    {
+      "person_name": "ひろゆき",
+      "person_id": "PF4EEA37",
+      "keywords": [
+        "創設"
+      ],
+      "ages_found": [
+        12.0,
+        38.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-251218193245834",
+          "age": 12.0,
+          "reason": "中央値(38.0歳)から26歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000003066",
+          "age": 38.0
+        }
+      ]
+    },
+    {
+      "person_name": "根岸隆",
+      "person_id": "PC72DE22",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        38.0,
+        64.0,
+        68.0,
+        69.0,
+        74.0
+      ],
+      "correct_age": 75,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-251214202347735",
+          "age": 69.0,
+          "reason": "史実(75歳)と6歳のズレ"
+        },
+        {
+          "episode_id": "EP-000003212",
+          "age": 38.0,
+          "reason": "史実(75歳)と37歳のズレ"
+        },
+        {
+          "episode_id": "EP-251214202511904",
+          "age": 68.0,
+          "reason": "史実(75歳)と7歳のズレ"
+        },
+        {
+          "episode_id": "EP-251214202340483",
+          "age": 64.0,
+          "reason": "史実(75歳)と11歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-251219020927212",
+          "age": 74.0
+        }
+      ]
+    },
+    {
+      "person_name": "ゲーテ",
+      "person_id": "P7310829",
+      "keywords": [
+        "完成"
+      ],
+      "ages_found": [
+        50.0,
+        82.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000003431",
+          "age": 50.0,
+          "reason": "中央値(82.0歳)から32歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2F4DDDB4",
+          "age": 82.0
+        }
+      ]
+    },
+    {
+      "person_name": "フランク・シナトラ",
+      "person_id": "PE40D50E",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        40.0,
+        82.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000003467",
+          "age": 40.0,
+          "reason": "中央値(82.0歳)から42歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-39DB210E",
+          "age": 82.0
+        }
+      ]
+    },
+    {
+      "person_name": "フェデリコ・フェリーニ",
+      "person_id": "P2484165",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        50.0,
+        73.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000003820",
+          "age": 50.0,
+          "reason": "中央値(73.0歳)から23歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-874B36CB",
+          "age": 73.0
+        },
+        {
+          "episode_id": "EP-104CD22B",
+          "age": 73.0
+        }
+      ]
+    },
+    {
+      "person_name": "ダニエル・カーネマン",
+      "person_id": "P61DE7C4",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        40.0,
+        65.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000005485",
+          "age": 40.0,
+          "reason": "中央値(65.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000004000",
+          "age": 65.0
+        }
+      ]
+    },
+    {
+      "person_name": "ニコラウス・コペルニクス",
+      "person_id": "P2CAD621",
+      "keywords": [
+        "完成"
+      ],
+      "ages_found": [
+        45.0,
+        70.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000007813",
+          "age": 45.0,
+          "reason": "中央値(70.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2512181850581489",
+          "age": 70.0
+        }
+      ]
+    },
+    {
+      "person_name": "ミケランジェロ・アントニオーニ",
+      "person_id": "P774B9E9",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        48.0,
+        94.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000009040",
+          "age": 48.0,
+          "reason": "中央値(94.0歳)から46歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-7FE65CFA",
+          "age": 94.0
+        }
+      ]
+    },
+    {
+      "person_name": "フランク・ロイド・ライト",
+      "person_id": "P8D79EFF",
+      "keywords": [
+        "完成"
+      ],
+      "ages_found": [
+        52.0,
+        91.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000004531",
+          "age": 52.0,
+          "reason": "中央値(91.0歳)から39歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-9EF2B638",
+          "age": 91.0
+        }
+      ]
+    },
+    {
+      "person_name": "ミルトン・フリードマン",
+      "person_id": "P58A3909",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        50.0,
+        94.0
+      ],
+      "correct_age": 64,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000006980",
+          "age": 50.0,
+          "reason": "史実(64歳)と14歳のズレ"
+        },
+        {
+          "episode_id": "EP-553073A2",
+          "age": 94.0,
+          "reason": "史実(64歳)と30歳のズレ"
+        }
+      ],
+      "kept_episodes": []
+    },
+    {
+      "person_name": "森永太一郎",
+      "person_id": "P3841A61",
+      "keywords": [
+        "創業"
+      ],
+      "ages_found": [
+        35.0,
+        65.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000004949",
+          "age": 35.0,
+          "reason": "中央値(65.0歳)から30歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-49AF5C4E",
+          "age": 65.0
+        }
+      ]
+    },
+    {
+      "person_name": "イングリッド・バーグマン",
+      "person_id": "P539B1EC",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        30.0,
+        35.0,
+        67.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-0D8839B7",
+          "age": 67.0,
+          "reason": "中央値(35.0歳)から32歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000008500",
+          "age": 30.0
+        },
+        {
+          "episode_id": "EP-000005030",
+          "age": 35.0
+        }
+      ]
+    },
+    {
+      "person_name": "ビリー・ワイルダー",
+      "person_id": "P8170CE3",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        45.0,
+        95.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000005348",
+          "age": 45.0,
+          "reason": "中央値(95.0歳)から50歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-E8021A0B",
+          "age": 95.0
+        }
+      ]
+    },
+    {
+      "person_name": "シドニー・ルメット",
+      "person_id": "P344F87F",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        45.0,
+        86.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000005566",
+          "age": 45.0,
+          "reason": "中央値(86.0歳)から41歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-2B04B568",
+          "age": 86.0
+        }
+      ]
+    },
+    {
+      "person_name": "ジョン・フォード",
+      "person_id": "P6812714",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        48.0,
+        79.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000005568",
+          "age": 48.0,
+          "reason": "中央値(79.0歳)から31歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-88EC3985",
+          "age": 79.0
+        }
+      ]
+    },
+    {
+      "person_name": "ウィリアム・ワイラー",
+      "person_id": "P3B3B39E",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        45.0,
+        79.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000005570",
+          "age": 45.0,
+          "reason": "中央値(79.0歳)から34歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-C17260EB",
+          "age": 79.0
+        }
+      ]
+    },
+    {
+      "person_name": "エリザベス・テイラー",
+      "person_id": "PE61768B",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        28.0,
+        79.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000006597",
+          "age": 28.0,
+          "reason": "中央値(79.0歳)から51歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-6C565DB6",
+          "age": 79.0
+        }
+      ]
+    },
+    {
+      "person_name": "古橋廣之進",
+      "person_id": "PAE0CCF5",
+      "keywords": [
+        "世界記録"
+      ],
+      "ages_found": [
+        26.0,
+        80.0
+      ],
+      "correct_age": 21,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-2F6CBC9D",
+          "age": 80.0,
+          "reason": "史実(21歳)と59歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000006671",
+          "age": 26.0
+        }
+      ]
+    },
+    {
+      "person_name": "シドニー・ポラック",
+      "person_id": "PBE7BE6B",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        50.0,
+        73.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000006784",
+          "age": 50.0,
+          "reason": "中央値(73.0歳)から23歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-55465925",
+          "age": 73.0
+        }
+      ]
+    },
+    {
+      "person_name": "フリードリヒ・ハイエク",
+      "person_id": "P4615DFF",
+      "keywords": [
+        "受賞",
+        "ノーベル"
+      ],
+      "ages_found": [
+        55.0,
+        92.0
+      ],
+      "correct_age": 75,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000007788",
+          "age": 55.0,
+          "reason": "史実(75歳)と20歳のズレ"
+        },
+        {
+          "episode_id": "EP-25BBD53E",
+          "age": 92.0,
+          "reason": "史実(75歳)と17歳のズレ"
+        }
+      ],
+      "kept_episodes": []
+    },
+    {
+      "person_name": "ロッシーニ",
+      "person_id": "PD461C55",
+      "keywords": [
+        "引退"
+      ],
+      "ages_found": [
+        39.0,
+        76.0
+      ],
+      "correct_age": 37,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-95D253A5",
+          "age": 76.0,
+          "reason": "史実(37歳)と39歳のズレ"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000008109",
+          "age": 39.0
+        }
+      ]
+    },
+    {
+      "person_name": "シドニー・ポワチエ",
+      "person_id": "PF51A6EA",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        37.0,
+        91.0,
+        92.0,
+        95.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-000008497",
+          "age": 37.0,
+          "reason": "中央値(92.0歳)から55歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-251218185058737",
+          "age": 92.0
+        },
+        {
+          "episode_id": "EP-2512196CDB15",
+          "age": 91.0
+        },
+        {
+          "episode_id": "EP-045BB1C396CE",
+          "age": 95.0
+        }
+      ]
+    },
+    {
+      "person_name": "ヴィヴィアン・リー",
+      "person_id": "PE61719C",
+      "keywords": [
+        "受賞"
+      ],
+      "ages_found": [
+        26.0,
+        28.0,
+        53.0
+      ],
+      "correct_age": null,
+      "deleted_episodes": [
+        {
+          "episode_id": "EP-69551BB2",
+          "age": 53.0,
+          "reason": "中央値(28.0歳)から25歳離れている"
+        }
+      ],
+      "kept_episodes": [
+        {
+          "episode_id": "EP-000008499",
+          "age": 26.0
+        },
+        {
+          "episode_id": "EP-000008514",
+          "age": 28.0
+        }
+      ]
+    }
+  ]
+}

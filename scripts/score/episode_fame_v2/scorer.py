@@ -6,7 +6,7 @@ v2.4: LLM直接評価オプション追加
 """
 
 import re
-from typing import Any, Optional
+from typing import Optional
 
 from .config import (
     ANCHOR_BONUS,

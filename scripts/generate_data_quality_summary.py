@@ -8,7 +8,7 @@ Fame Score v3実装後のデータ品質を総合的に評価し、
 
 import csv
 import sqlite3
-from collections import Counter, defaultdict
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from statistics import mean, median, stdev

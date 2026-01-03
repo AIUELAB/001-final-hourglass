@@ -10,15 +10,12 @@ MasterUpdater - マスタデータ自動更新機能
 5. バックアップ自動作成
 """
 
-import json
-import os
 import re
 import shutil
 import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
@@ -29,7 +26,6 @@ from src.group_master import (
     GROUP_ENTITIES,
     GROUP_MEMBER_MAP,
     DISPERSION_RULES,
-    DispersionStrategy,
 )
 
 

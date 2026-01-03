@@ -262,7 +262,6 @@ class CSVIntegrator:
 
 if __name__ == "__main__":
     # 動作確認用
-    import sys
 
     integrator = CSVIntegrator()
 

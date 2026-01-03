@@ -24,7 +24,7 @@ import json
 import logging
 import shutil
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import pandas as pd
 

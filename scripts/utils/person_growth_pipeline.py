@@ -36,7 +36,6 @@ import os
 import re
 import sys
 import unicodedata
-from collections import defaultdict
 from datetime import datetime
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -54,7 +53,6 @@ from src.csv_path_resolver import (
     get_config_dir,
     get_master_csv_path,
     get_person_sources_dir,
-    get_project_root,
     get_reports_dir,
 )
 from src.duplication_detector import DuplicationDetector

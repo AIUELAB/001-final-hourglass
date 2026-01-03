@@ -1,0 +1,3555 @@
+{
+  "scan_timestamp": "2026-01-03T19:02:14.122041",
+  "total_persons_checked": 100,
+  "persons_with_missing": 59,
+  "missing_rate": 0.59,
+  "missing_turning_points": [
+    {
+      "person_id": "P0898C9B",
+      "person_name": "葛飾北斎",
+      "celebrity_score_v2": 958.640320076374,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "代表作"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PBC4ECE7",
+      "person_name": "黒澤明",
+      "celebrity_score_v2": 941.608366382915,
+      "category": "映画・演劇",
+      "occupation": "映画監督",
+      "episode_count": 5,
+      "turning_point_coverage": 0.7142857142857143,
+      "found_keywords": [
+        "受賞",
+        "カンヌ",
+        "ヴェネツィア",
+        "アカデミー賞",
+        "金獅子賞"
+      ],
+      "missing_keywords": [
+        "監督作",
+        "初監督"
+      ],
+      "critical_missing": [
+        "監督デビュー",
+        "代表作発表"
+      ],
+      "specific_missing": [
+        "監督デビュー"
+      ],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5D3C50B",
+      "person_name": "松尾芭蕉",
+      "celebrity_score_v2": 894.05611284155,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "デビュー",
+        "受賞",
+        "ノーベル文学賞",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P00FAA88",
+      "person_name": "小泉八雲",
+      "celebrity_score_v2": 881.718881151326,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 1,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "デビュー",
+        "受賞",
+        "ノーベル文学賞",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5185F6A",
+      "person_name": "村上春樹",
+      "celebrity_score_v2": 866.965092432725,
+      "category": "ビジネス",
+      "occupation": "作家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "ノーベル文学賞",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P1D59005",
+      "person_name": "川端康成",
+      "celebrity_score_v2": 842.001878443368,
+      "category": "学術・研究",
+      "occupation": "作家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "受賞",
+        "ノーベル文学賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P72B391A",
+      "person_name": "三島由紀夫",
+      "celebrity_score_v2": 825.772496426084,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "デビュー",
+        "受賞",
+        "ノーベル文学賞"
+      ],
+      "missing_keywords": [
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P93F1DB1",
+      "person_name": "アインシュタイン",
+      "celebrity_score_v2": 817.349271153028,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.6666666666666666,
+      "found_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発明",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4860277",
+      "person_name": "パブロ・ピカソ",
+      "celebrity_score_v2": 809.547396324848,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P645AD9F",
+      "person_name": "三船敏郎",
+      "celebrity_score_v2": 799.224711830632,
+      "category": "映画・演劇",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "受賞",
+        "代表作"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P9CF2EE",
+      "person_name": "マイケル・ジャクソン",
+      "celebrity_score_v2": 789.381566296701,
+      "category": "芸術・文化",
+      "occupation": "音楽家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "グラミー賞",
+        "アルバム",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "ヒット",
+        "ツアー"
+      ],
+      "critical_missing": [
+        "デビュー",
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P6D12F2B",
+      "person_name": "大江健三郎",
+      "celebrity_score_v2": 775.971078520422,
+      "category": "文学",
+      "occupation": "作家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "受賞",
+        "ノーベル文学賞",
+        "芥川賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P972C987",
+      "person_name": "クリスティアーノ・ロナウド",
+      "celebrity_score_v2": 774.152832165347,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 3,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "優勝"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC34E000",
+      "person_name": "バッハ",
+      "celebrity_score_v2": 774.063129595703,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "代表作"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P3771855",
+      "person_name": "イーロン・マスク",
+      "celebrity_score_v2": 771.729679820659,
+      "category": "ビジネス",
+      "occupation": "実業家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "創業",
+        "設立"
+      ],
+      "missing_keywords": [
+        "上場",
+        "CEO",
+        "会長",
+        "社長",
+        "起業"
+      ],
+      "critical_missing": [
+        "会社設立",
+        "上場",
+        "経営者就任"
+      ],
+      "specific_missing": [
+        "Tesla CEO就任",
+        "Twitter買収"
+      ],
+      "has_missing": true
+    },
+    {
+      "person_id": "PABED904",
+      "person_name": "スティーブ・ジョブズ",
+      "celebrity_score_v2": 769.558888189118,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P2C70422",
+      "person_name": "エリザベス2世",
+      "celebrity_score_v2": 760.703969920488,
+      "category": "政治・社会",
+      "occupation": "政治家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.125,
+      "found_keywords": [
+        "首相"
+      ],
+      "missing_keywords": [
+        "大統領",
+        "総理大臣",
+        "総理",
+        "当選",
+        "就任",
+        "初当選",
+        "政権"
+      ],
+      "critical_missing": [
+        "大統領就任",
+        "初当選"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P886F664",
+      "person_name": "レオナルド・ダ・ヴィンチ",
+      "celebrity_score_v2": 757.677519468343,
+      "category": "学術・研究",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P76D13BF",
+      "person_name": "テイラー・スウィフト",
+      "celebrity_score_v2": 750.427998364281,
+      "category": "音楽",
+      "occupation": "音楽家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "デビュー",
+        "ヒット",
+        "アルバム"
+      ],
+      "missing_keywords": [
+        "グラミー賞",
+        "ツアー",
+        "受賞"
+      ],
+      "critical_missing": [
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PF53E0B9",
+      "person_name": "フィンセント・ファン・ゴッホ",
+      "celebrity_score_v2": 750.420026314383,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P7B3C561",
+      "person_name": "ミケランジェロ",
+      "celebrity_score_v2": 748.878051409636,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P8844AC5",
+      "person_name": "レディー・ガガ",
+      "celebrity_score_v2": 748.505190741717,
+      "category": "ビジネス",
+      "occupation": "芸術家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "発表",
+        "アカデミー賞"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "グラミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P7F524A2",
+      "person_name": "山本由伸",
+      "celebrity_score_v2": 746.944817688686,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 2,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "優勝",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P73422E6",
+      "person_name": "芥川龍之介",
+      "celebrity_score_v2": 744.483160571043,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "デビュー",
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "代表作",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P96AB20C",
+      "person_name": "坂口志文",
+      "celebrity_score_v2": 739.08575131523,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 2,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "ノーベル賞",
+        "発見"
+      ],
+      "missing_keywords": [
+        "発明",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PDF11D1E",
+      "person_name": "アガサ・クリスティ",
+      "celebrity_score_v2": 736.649501912214,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P34EA398",
+      "person_name": "北野武",
+      "celebrity_score_v2": 734.985480867411,
+      "category": "映画・演劇",
+      "occupation": "映画監督",
+      "episode_count": 5,
+      "turning_point_coverage": 0.42857142857142855,
+      "found_keywords": [
+        "受賞",
+        "ヴェネツィア",
+        "金獅子賞"
+      ],
+      "missing_keywords": [
+        "監督作",
+        "初監督",
+        "カンヌ",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "監督デビュー",
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P64A6504",
+      "person_name": "マドンナ",
+      "celebrity_score_v2": 734.566664283339,
+      "category": "エンターテイメント",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "発明",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P65E1C6F",
+      "person_name": "宮本武蔵",
+      "celebrity_score_v2": 734.318107171009,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "優勝",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P970A0CD",
+      "person_name": "トーマス・エジソン",
+      "celebrity_score_v2": 734.258690027569,
+      "category": "学術・研究",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "発見",
+        "発明"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P6EC13D8",
+      "person_name": "チャールズ・ダーウィン",
+      "celebrity_score_v2": 733.627954394203,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "理論"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4AAA19D",
+      "person_name": "フランクリン・ルーズベルト",
+      "celebrity_score_v2": 733.386871717447,
+      "category": "歴史",
+      "occupation": "政治家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.375,
+      "found_keywords": [
+        "大統領",
+        "当選",
+        "就任"
+      ],
+      "missing_keywords": [
+        "首相",
+        "総理大臣",
+        "総理",
+        "初当選",
+        "政権"
+      ],
+      "critical_missing": [
+        "初当選"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P56E484F",
+      "person_name": "スティーブン・ホーキング",
+      "celebrity_score_v2": 732.653633648272,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "理論"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P3600C58",
+      "person_name": "アイザック・ニュートン",
+      "celebrity_score_v2": 732.183478562364,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.6666666666666666,
+      "found_keywords": [
+        "発見",
+        "発明",
+        "理論",
+        "法則"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PA647C8E",
+      "person_name": "ガリレオ・ガリレイ",
+      "celebrity_score_v2": 731.135960426449,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "発見",
+        "法則"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発明",
+        "理論",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PEE74CA",
+      "person_name": "フレディ・マーキュリー",
+      "celebrity_score_v2": 730.901115089661,
+      "category": "音楽",
+      "occupation": "音楽家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "デビュー",
+        "ヒット",
+        "アルバム"
+      ],
+      "missing_keywords": [
+        "グラミー賞",
+        "ツアー",
+        "受賞"
+      ],
+      "critical_missing": [
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4540FE3",
+      "person_name": "モハメド・アリ",
+      "celebrity_score_v2": 730.362462844107,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "タイトル"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "優勝",
+        "MVP"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PEC7C3C6",
+      "person_name": "カズオ・イシグロ",
+      "celebrity_score_v2": 730.18222747913,
+      "category": "文学",
+      "occupation": "芸術家",
+      "episode_count": 1,
+      "turning_point_coverage": 0.42857142857142855,
+      "found_keywords": [
+        "受賞",
+        "代表作",
+        "発表"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PE88E31",
+      "person_name": "フランツ・カフカ",
+      "celebrity_score_v2": 729.4200842511,
+      "category": "文学",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "代表作",
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P64F7E78",
+      "person_name": "スティーヴン・スピルバーグ",
+      "celebrity_score_v2": 727.427393698186,
+      "category": "エンターテイメント",
+      "occupation": "芸術家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "受賞",
+        "アカデミー賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PE06A608",
+      "person_name": "ジャスティン・ビーバー",
+      "celebrity_score_v2": 727.23902405476,
+      "category": "ビジネス",
+      "occupation": "音楽家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "アルバム",
+        "ツアー"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "グラミー賞",
+        "ヒット",
+        "受賞"
+      ],
+      "critical_missing": [
+        "デビュー",
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PD15CB0E",
+      "person_name": "ベンジャミン・フランクリン",
+      "celebrity_score_v2": 725.277507740355,
+      "category": "歴史",
+      "occupation": "科学者",
+      "episode_count": 4,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "ノーベル賞",
+        "発明",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発見",
+        "理論",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PD2608C4",
+      "person_name": "ボブ・ディラン",
+      "celebrity_score_v2": 725.257460558679,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PBB3B79B",
+      "person_name": "湯川秀樹",
+      "celebrity_score_v2": 724.634170035991,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.6666666666666666,
+      "found_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発明",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PED4DBC2",
+      "person_name": "ニコラ・テスラ",
+      "celebrity_score_v2": 723.598997528428,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "発明"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PA0A84C1",
+      "person_name": "マリー・キュリー",
+      "celebrity_score_v2": 723.407631860515,
+      "category": "学術・研究",
+      "occupation": "科学者",
+      "episode_count": 4,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "ノーベル賞",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発見",
+        "発明",
+        "理論",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4BBAD3C",
+      "person_name": "ペレ",
+      "celebrity_score_v2": 723.225207260137,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "優勝"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC744D1A",
+      "person_name": "レンブラント",
+      "celebrity_score_v2": 722.731180493596,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4C00879",
+      "person_name": "アンディ・ウォーホル",
+      "celebrity_score_v2": 722.040357341835,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5F71AE3",
+      "person_name": "ビヨンセ",
+      "celebrity_score_v2": 721.05398649053,
+      "category": "エンターテイメント",
+      "occupation": "音楽家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "グラミー賞",
+        "アルバム",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "ヒット",
+        "ツアー"
+      ],
+      "critical_missing": [
+        "デビュー",
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P8A875EA",
+      "person_name": "ジャン＝ポール・サルトル",
+      "celebrity_score_v2": 719.30945967994,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "代表作"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P0C9B285",
+      "person_name": "クリント・イーストウッド",
+      "celebrity_score_v2": 718.246728046333,
+      "category": "映画・演劇",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.42857142857142855,
+      "found_keywords": [
+        "受賞",
+        "デビュー",
+        "アカデミー賞"
+      ],
+      "missing_keywords": [
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P12074EA",
+      "person_name": "野田佳彦",
+      "celebrity_score_v2": 718.068886578568,
+      "category": "学術・研究",
+      "occupation": "政治家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "総理大臣",
+        "総理",
+        "就任",
+        "政権"
+      ],
+      "missing_keywords": [
+        "大統領",
+        "首相",
+        "当選",
+        "初当選"
+      ],
+      "critical_missing": [
+        "初当選"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P2595B54",
+      "person_name": "アーネスト・ヘミングウェイ",
+      "celebrity_score_v2": 717.087262017953,
+      "category": "文学",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "理論",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P93E4D16",
+      "person_name": "サルバドール・ダリ",
+      "celebrity_score_v2": 716.458463790643,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PFBF0C13",
+      "person_name": "アルベール・カミュ",
+      "celebrity_score_v2": 716.023517271705,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "受賞",
+        "ノーベル文学賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P731D5C7",
+      "person_name": "エドガー・アラン・ポー",
+      "celebrity_score_v2": 715.205378073357,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "代表作",
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P74ABE22",
+      "person_name": "マラドーナ",
+      "celebrity_score_v2": 714.954248886619,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 4,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "優勝"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4ABFA9A",
+      "person_name": "デカルト",
+      "celebrity_score_v2": 714.922446585589,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    }
+  ],
+  "all_results": [
+    {
+      "person_id": "P0898C9B",
+      "person_name": "葛飾北斎",
+      "celebrity_score_v2": 958.640320076374,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "代表作"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PBC4ECE7",
+      "person_name": "黒澤明",
+      "celebrity_score_v2": 941.608366382915,
+      "category": "映画・演劇",
+      "occupation": "映画監督",
+      "episode_count": 5,
+      "turning_point_coverage": 0.7142857142857143,
+      "found_keywords": [
+        "受賞",
+        "カンヌ",
+        "ヴェネツィア",
+        "アカデミー賞",
+        "金獅子賞"
+      ],
+      "missing_keywords": [
+        "監督作",
+        "初監督"
+      ],
+      "critical_missing": [
+        "監督デビュー",
+        "代表作発表"
+      ],
+      "specific_missing": [
+        "監督デビュー"
+      ],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5C4FB25",
+      "person_name": "大谷翔平",
+      "celebrity_score_v2": 921.264759500286,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 4,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P5D3C50B",
+      "person_name": "松尾芭蕉",
+      "celebrity_score_v2": 894.05611284155,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "デビュー",
+        "受賞",
+        "ノーベル文学賞",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P00FAA88",
+      "person_name": "小泉八雲",
+      "celebrity_score_v2": 881.718881151326,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 1,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "デビュー",
+        "受賞",
+        "ノーベル文学賞",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5185F6A",
+      "person_name": "村上春樹",
+      "celebrity_score_v2": 866.965092432725,
+      "category": "ビジネス",
+      "occupation": "作家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "ノーベル文学賞",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P1D59005",
+      "person_name": "川端康成",
+      "celebrity_score_v2": 842.001878443368,
+      "category": "学術・研究",
+      "occupation": "作家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "受賞",
+        "ノーベル文学賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P72B391A",
+      "person_name": "三島由紀夫",
+      "celebrity_score_v2": 825.772496426084,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "デビュー",
+        "受賞",
+        "ノーベル文学賞"
+      ],
+      "missing_keywords": [
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P93F1DB1",
+      "person_name": "アインシュタイン",
+      "celebrity_score_v2": 817.349271153028,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.6666666666666666,
+      "found_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発明",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4860277",
+      "person_name": "パブロ・ピカソ",
+      "celebrity_score_v2": 809.547396324848,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PAE8B089",
+      "person_name": "紫式部",
+      "celebrity_score_v2": 802.491169897275,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P645AD9F",
+      "person_name": "三船敏郎",
+      "celebrity_score_v2": 799.224711830632,
+      "category": "映画・演劇",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "受賞",
+        "代表作"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC54F136",
+      "person_name": "エルヴィス・プレスリー",
+      "celebrity_score_v2": 791.141896736304,
+      "category": "音楽",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P9CF2EE",
+      "person_name": "マイケル・ジャクソン",
+      "celebrity_score_v2": 789.381566296701,
+      "category": "芸術・文化",
+      "occupation": "音楽家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "グラミー賞",
+        "アルバム",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "ヒット",
+        "ツアー"
+      ],
+      "critical_missing": [
+        "デビュー",
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P6D12F2B",
+      "person_name": "大江健三郎",
+      "celebrity_score_v2": 775.971078520422,
+      "category": "文学",
+      "occupation": "作家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "受賞",
+        "ノーベル文学賞",
+        "芥川賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P972C987",
+      "person_name": "クリスティアーノ・ロナウド",
+      "celebrity_score_v2": 774.152832165347,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 3,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "優勝"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC34E000",
+      "person_name": "バッハ",
+      "celebrity_score_v2": 774.063129595703,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "代表作"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC6B9A38",
+      "person_name": "ビル・ゲイツ",
+      "celebrity_score_v2": 772.308265658074,
+      "category": "ビジネス",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P3771855",
+      "person_name": "イーロン・マスク",
+      "celebrity_score_v2": 771.729679820659,
+      "category": "ビジネス",
+      "occupation": "実業家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "創業",
+        "設立"
+      ],
+      "missing_keywords": [
+        "上場",
+        "CEO",
+        "会長",
+        "社長",
+        "起業"
+      ],
+      "critical_missing": [
+        "会社設立",
+        "上場",
+        "経営者就任"
+      ],
+      "specific_missing": [
+        "Tesla CEO就任",
+        "Twitter買収"
+      ],
+      "has_missing": true
+    },
+    {
+      "person_id": "PABED904",
+      "person_name": "スティーブ・ジョブズ",
+      "celebrity_score_v2": 769.558888189118,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P606493C",
+      "person_name": "ソクラテス",
+      "celebrity_score_v2": 764.610013922231,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P2C70422",
+      "person_name": "エリザベス2世",
+      "celebrity_score_v2": 760.703969920488,
+      "category": "政治・社会",
+      "occupation": "政治家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.125,
+      "found_keywords": [
+        "首相"
+      ],
+      "missing_keywords": [
+        "大統領",
+        "総理大臣",
+        "総理",
+        "当選",
+        "就任",
+        "初当選",
+        "政権"
+      ],
+      "critical_missing": [
+        "大統領就任",
+        "初当選"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P1D91E90",
+      "person_name": "シェイクスピア",
+      "celebrity_score_v2": 759.941421260417,
+      "category": "文学",
+      "occupation": "不明",
+      "episode_count": 4,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PAB07C14",
+      "person_name": "ニーチェ",
+      "celebrity_score_v2": 759.84277632446,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PF44A276",
+      "person_name": "ショパン",
+      "celebrity_score_v2": 759.4775644068,
+      "category": "音楽",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P886F664",
+      "person_name": "レオナルド・ダ・ヴィンチ",
+      "celebrity_score_v2": 757.677519468343,
+      "category": "学術・研究",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PA80CA7",
+      "person_name": "マリリン・モンロー",
+      "celebrity_score_v2": 757.122721576024,
+      "category": "エンターテイメント",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P1DFEF43",
+      "person_name": "ヴォルフガング・アマデウス・モーツァルト",
+      "celebrity_score_v2": 754.131855240093,
+      "category": "音楽",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PBCB04BA",
+      "person_name": "コロンブス",
+      "celebrity_score_v2": 752.398939596711,
+      "category": "探検・冒険",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P19E01E4",
+      "person_name": "ベニト・ムッソリーニ",
+      "celebrity_score_v2": 752.01839131048,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PF577513",
+      "person_name": "オスカー・ワイルド",
+      "celebrity_score_v2": 751.813340923421,
+      "category": "文学",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P1C9D468",
+      "person_name": "孔子",
+      "celebrity_score_v2": 750.581249578255,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P76D13BF",
+      "person_name": "テイラー・スウィフト",
+      "celebrity_score_v2": 750.427998364281,
+      "category": "音楽",
+      "occupation": "音楽家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "デビュー",
+        "ヒット",
+        "アルバム"
+      ],
+      "missing_keywords": [
+        "グラミー賞",
+        "ツアー",
+        "受賞"
+      ],
+      "critical_missing": [
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PF53E0B9",
+      "person_name": "フィンセント・ファン・ゴッホ",
+      "celebrity_score_v2": 750.420026314383,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P7B3C561",
+      "person_name": "ミケランジェロ",
+      "celebrity_score_v2": 748.878051409636,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P8844AC5",
+      "person_name": "レディー・ガガ",
+      "celebrity_score_v2": 748.505190741717,
+      "category": "ビジネス",
+      "occupation": "芸術家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "発表",
+        "アカデミー賞"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "グラミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P7F524A2",
+      "person_name": "山本由伸",
+      "celebrity_score_v2": 746.944817688686,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 2,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "優勝",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P1343B6",
+      "person_name": "J.K.ローリング",
+      "celebrity_score_v2": 746.339911509906,
+      "category": "文学",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PA8B9D38",
+      "person_name": "ジョン・ロック",
+      "celebrity_score_v2": 744.57804351319,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P73422E6",
+      "person_name": "芥川龍之介",
+      "celebrity_score_v2": 744.483160571043,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "デビュー",
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "代表作",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P2FA2ED",
+      "person_name": "ブルース・リー",
+      "celebrity_score_v2": 743.428194764753,
+      "category": "エンターテイメント",
+      "occupation": "不明",
+      "episode_count": 4,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PA175324",
+      "person_name": "ジョージ・ワシントン",
+      "celebrity_score_v2": 742.627539819624,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P32BB33",
+      "person_name": "ジョン・レノン",
+      "celebrity_score_v2": 740.593252178374,
+      "category": "音楽",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P96AB20C",
+      "person_name": "坂口志文",
+      "celebrity_score_v2": 739.08575131523,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 2,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "ノーベル賞",
+        "発見"
+      ],
+      "missing_keywords": [
+        "発明",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P3A64118",
+      "person_name": "ルートヴィヒ・ヴァン・ベートーヴェン",
+      "celebrity_score_v2": 737.095964045536,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PDF11D1E",
+      "person_name": "アガサ・クリスティ",
+      "celebrity_score_v2": 736.649501912214,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P7B36480",
+      "person_name": "ドストエフスキー",
+      "celebrity_score_v2": 736.416315017371,
+      "category": "文学",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P34EA398",
+      "person_name": "北野武",
+      "celebrity_score_v2": 734.985480867411,
+      "category": "映画・演劇",
+      "occupation": "映画監督",
+      "episode_count": 5,
+      "turning_point_coverage": 0.42857142857142855,
+      "found_keywords": [
+        "受賞",
+        "ヴェネツィア",
+        "金獅子賞"
+      ],
+      "missing_keywords": [
+        "監督作",
+        "初監督",
+        "カンヌ",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "監督デビュー",
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P64A6504",
+      "person_name": "マドンナ",
+      "celebrity_score_v2": 734.566664283339,
+      "category": "エンターテイメント",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "発明",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P65E1C6F",
+      "person_name": "宮本武蔵",
+      "celebrity_score_v2": 734.318107171009,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 5,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "優勝",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P970A0CD",
+      "person_name": "トーマス・エジソン",
+      "celebrity_score_v2": 734.258690027569,
+      "category": "学術・研究",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "発見",
+        "発明"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P6EC13D8",
+      "person_name": "チャールズ・ダーウィン",
+      "celebrity_score_v2": 733.627954394203,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "理論"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4AAA19D",
+      "person_name": "フランクリン・ルーズベルト",
+      "celebrity_score_v2": 733.386871717447,
+      "category": "歴史",
+      "occupation": "政治家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.375,
+      "found_keywords": [
+        "大統領",
+        "当選",
+        "就任"
+      ],
+      "missing_keywords": [
+        "首相",
+        "総理大臣",
+        "総理",
+        "初当選",
+        "政権"
+      ],
+      "critical_missing": [
+        "初当選"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5B17F17",
+      "person_name": "始皇帝",
+      "celebrity_score_v2": 733.078139943125,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P56E484F",
+      "person_name": "スティーブン・ホーキング",
+      "celebrity_score_v2": 732.653633648272,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "理論"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P3600C58",
+      "person_name": "アイザック・ニュートン",
+      "celebrity_score_v2": 732.183478562364,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.6666666666666666,
+      "found_keywords": [
+        "発見",
+        "発明",
+        "理論",
+        "法則"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P637BBEB",
+      "person_name": "プラトン",
+      "celebrity_score_v2": 731.211960336248,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PA045EB3",
+      "person_name": "毛沢東",
+      "celebrity_score_v2": 731.169619784077,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PA647C8E",
+      "person_name": "ガリレオ・ガリレイ",
+      "celebrity_score_v2": 731.135960426449,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "発見",
+        "法則"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発明",
+        "理論",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PEE74CA",
+      "person_name": "フレディ・マーキュリー",
+      "celebrity_score_v2": 730.901115089661,
+      "category": "音楽",
+      "occupation": "音楽家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "デビュー",
+        "ヒット",
+        "アルバム"
+      ],
+      "missing_keywords": [
+        "グラミー賞",
+        "ツアー",
+        "受賞"
+      ],
+      "critical_missing": [
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4540FE3",
+      "person_name": "モハメド・アリ",
+      "celebrity_score_v2": 730.362462844107,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "タイトル"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "優勝",
+        "MVP"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PEC7C3C6",
+      "person_name": "カズオ・イシグロ",
+      "celebrity_score_v2": 730.18222747913,
+      "category": "文学",
+      "occupation": "芸術家",
+      "episode_count": 1,
+      "turning_point_coverage": 0.42857142857142855,
+      "found_keywords": [
+        "受賞",
+        "代表作",
+        "発表"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PE88E31",
+      "person_name": "フランツ・カフカ",
+      "celebrity_score_v2": 729.4200842511,
+      "category": "文学",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "代表作",
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P106E042",
+      "person_name": "ダンテ",
+      "celebrity_score_v2": 728.828677930433,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PB494835",
+      "person_name": "アリストテレス",
+      "celebrity_score_v2": 728.274740841441,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P64F7E78",
+      "person_name": "スティーヴン・スピルバーグ",
+      "celebrity_score_v2": 727.427393698186,
+      "category": "エンターテイメント",
+      "occupation": "芸術家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "受賞",
+        "アカデミー賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PE06A608",
+      "person_name": "ジャスティン・ビーバー",
+      "celebrity_score_v2": 727.23902405476,
+      "category": "ビジネス",
+      "occupation": "音楽家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "アルバム",
+        "ツアー"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "グラミー賞",
+        "ヒット",
+        "受賞"
+      ],
+      "critical_missing": [
+        "デビュー",
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PFE2FE63",
+      "person_name": "アルフレッド・ヒッチコック",
+      "celebrity_score_v2": 727.120725469018,
+      "category": "エンターテイメント",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P52366A0",
+      "person_name": "ルイ14世",
+      "celebrity_score_v2": 725.333833506302,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PD15CB0E",
+      "person_name": "ベンジャミン・フランクリン",
+      "celebrity_score_v2": 725.277507740355,
+      "category": "歴史",
+      "occupation": "科学者",
+      "episode_count": 4,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "ノーベル賞",
+        "発明",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発見",
+        "理論",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PD2608C4",
+      "person_name": "ボブ・ディラン",
+      "celebrity_score_v2": 725.257460558679,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P14505B4",
+      "person_name": "ジャンヌ・ダルク",
+      "celebrity_score_v2": 724.886857873815,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PBB3B79B",
+      "person_name": "湯川秀樹",
+      "celebrity_score_v2": 724.634170035991,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.6666666666666666,
+      "found_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発明",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P30B919",
+      "person_name": "ネイマール",
+      "celebrity_score_v2": 723.71103444942,
+      "category": "エンターテイメント",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PED4DBC2",
+      "person_name": "ニコラ・テスラ",
+      "celebrity_score_v2": 723.598997528428,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.16666666666666666,
+      "found_keywords": [
+        "発明"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PA0A84C1",
+      "person_name": "マリー・キュリー",
+      "celebrity_score_v2": 723.407631860515,
+      "category": "学術・研究",
+      "occupation": "科学者",
+      "episode_count": 4,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "ノーベル賞",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "発見",
+        "発明",
+        "理論",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4BBAD3C",
+      "person_name": "ペレ",
+      "celebrity_score_v2": 723.225207260137,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "優勝"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC744D1A",
+      "person_name": "レンブラント",
+      "celebrity_score_v2": 722.731180493596,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PF3F6841",
+      "person_name": "ジュリアス・シーザー",
+      "celebrity_score_v2": 722.064236624473,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P4C00879",
+      "person_name": "アンディ・ウォーホル",
+      "celebrity_score_v2": 722.040357341835,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PEFFBBBD",
+      "person_name": "エミネム",
+      "celebrity_score_v2": 721.447286823317,
+      "category": "音楽",
+      "occupation": "芸術家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.5714285714285714,
+      "found_keywords": [
+        "受賞",
+        "代表作",
+        "発表",
+        "グラミー賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "初演",
+        "アカデミー賞"
+      ],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P8B4B9CA",
+      "person_name": "エリザベス1世",
+      "celebrity_score_v2": 721.180368387646,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P5F71AE3",
+      "person_name": "ビヨンセ",
+      "celebrity_score_v2": 721.05398649053,
+      "category": "エンターテイメント",
+      "occupation": "音楽家",
+      "episode_count": 4,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "グラミー賞",
+        "アルバム",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "ヒット",
+        "ツアー"
+      ],
+      "critical_missing": [
+        "デビュー",
+        "代表曲発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P8A875EA",
+      "person_name": "ジャン＝ポール・サルトル",
+      "celebrity_score_v2": 719.30945967994,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "代表作"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PE2FAD8D",
+      "person_name": "スティーブン・キング",
+      "celebrity_score_v2": 719.031148811203,
+      "category": "エンターテイメント",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P19A674B",
+      "person_name": "アレクサンダー大王",
+      "celebrity_score_v2": 718.82228396931,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P0ED55D5",
+      "person_name": "アリアナ・グランデ",
+      "celebrity_score_v2": 718.589380746329,
+      "category": "ビジネス",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P0C9B285",
+      "person_name": "クリント・イーストウッド",
+      "celebrity_score_v2": 718.246728046333,
+      "category": "映画・演劇",
+      "occupation": "芸術家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.42857142857142855,
+      "found_keywords": [
+        "受賞",
+        "デビュー",
+        "アカデミー賞"
+      ],
+      "missing_keywords": [
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P12074EA",
+      "person_name": "野田佳彦",
+      "celebrity_score_v2": 718.068886578568,
+      "category": "学術・研究",
+      "occupation": "政治家",
+      "episode_count": 2,
+      "turning_point_coverage": 0.5,
+      "found_keywords": [
+        "総理大臣",
+        "総理",
+        "就任",
+        "政権"
+      ],
+      "missing_keywords": [
+        "大統領",
+        "首相",
+        "当選",
+        "初当選"
+      ],
+      "critical_missing": [
+        "初当選"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PC31A4BC",
+      "person_name": "アダム・スミス",
+      "celebrity_score_v2": 717.886198022829,
+      "category": "学術・研究",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P455A1CE",
+      "person_name": "ジョージ・オーウェル",
+      "celebrity_score_v2": 717.74387355996,
+      "category": "文学",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "PDA47EE9",
+      "person_name": "アウグスティヌス",
+      "celebrity_score_v2": 717.422605216133,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 3,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P2595B54",
+      "person_name": "アーネスト・ヘミングウェイ",
+      "celebrity_score_v2": 717.087262017953,
+      "category": "文学",
+      "occupation": "科学者",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "理論",
+        "受賞"
+      ],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "法則"
+      ],
+      "critical_missing": [
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P5AD921B",
+      "person_name": "シャルルマーニュ",
+      "celebrity_score_v2": 716.618897298065,
+      "category": "歴史",
+      "occupation": "不明",
+      "episode_count": 2,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    },
+    {
+      "person_id": "P93E4D16",
+      "person_name": "サルバドール・ダリ",
+      "celebrity_score_v2": 716.458463790643,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "代表作",
+        "初演",
+        "発表",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "代表作発表",
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "PFBF0C13",
+      "person_name": "アルベール・カミュ",
+      "celebrity_score_v2": 716.023517271705,
+      "category": "芸術・文化",
+      "occupation": "作家",
+      "episode_count": 5,
+      "turning_point_coverage": 0.3333333333333333,
+      "found_keywords": [
+        "受賞",
+        "ノーベル文学賞"
+      ],
+      "missing_keywords": [
+        "デビュー",
+        "芥川賞",
+        "直木賞",
+        "代表作"
+      ],
+      "critical_missing": [
+        "デビュー作",
+        "主要文学賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P731D5C7",
+      "person_name": "エドガー・アラン・ポー",
+      "celebrity_score_v2": 715.205378073357,
+      "category": "芸術・文化",
+      "occupation": "芸術家",
+      "episode_count": 3,
+      "turning_point_coverage": 0.2857142857142857,
+      "found_keywords": [
+        "代表作",
+        "発表"
+      ],
+      "missing_keywords": [
+        "受賞",
+        "デビュー",
+        "初演",
+        "グラミー賞",
+        "アカデミー賞"
+      ],
+      "critical_missing": [
+        "主要賞受賞"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P74ABE22",
+      "person_name": "マラドーナ",
+      "celebrity_score_v2": 714.954248886619,
+      "category": "スポーツ",
+      "occupation": "スポーツ選手",
+      "episode_count": 4,
+      "turning_point_coverage": 0.14285714285714285,
+      "found_keywords": [
+        "優勝"
+      ],
+      "missing_keywords": [
+        "オリンピック",
+        "金メダル",
+        "世界記録",
+        "世界選手権",
+        "MVP",
+        "タイトル"
+      ],
+      "critical_missing": [
+        "オリンピック金メダル",
+        "世界記録",
+        "メジャー優勝"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P4ABFA9A",
+      "person_name": "デカルト",
+      "celebrity_score_v2": 714.922446585589,
+      "category": "科学・技術",
+      "occupation": "科学者",
+      "episode_count": 3,
+      "turning_point_coverage": 0.0,
+      "found_keywords": [],
+      "missing_keywords": [
+        "ノーベル賞",
+        "発見",
+        "発明",
+        "理論",
+        "法則",
+        "受賞"
+      ],
+      "critical_missing": [
+        "ノーベル賞受賞",
+        "代表的発見"
+      ],
+      "specific_missing": [],
+      "has_missing": true
+    },
+    {
+      "person_id": "P9BC758E",
+      "person_name": "レフ・トルストイ",
+      "celebrity_score_v2": 714.307414659524,
+      "category": "文学",
+      "occupation": "不明",
+      "episode_count": 5,
+      "turning_point_coverage": 1.0,
+      "found_keywords": [],
+      "missing_keywords": [],
+      "critical_missing": [],
+      "specific_missing": [],
+      "has_missing": false
+    }
+  ]
+}

@@ -23,6 +23,7 @@ from .config import (
     KEYWORD_BONUS_MAX,
     TIER1_KEYWORDS,
     TIER1_DIRECT_BONUS,
+    MAJOR_AWARD_KEYWORDS,
     PRIMARY_TOPIC_BONUS,
     PRIMARY_TOPIC_THRESHOLD,
     ACHIEVEMENT_CONTEXT,
@@ -279,6 +280,14 @@ class EpisodeFameV6Scorer:
         # Tier1キーワード直接ボーナス（ノーベル賞、グラミー賞等）
         if any(kw in data.episode_text for kw in TIER1_KEYWORDS):
             total += TIER1_DIRECT_BONUS
+
+        # 国際賞カテゴリボーナス（低知名度人物でも国際賞受賞EPは上位に）
+        # TIER1とは別に加算。最大1つのボーナスのみ適用
+        award_bonus = 0
+        for keyword, bonus in MAJOR_AWARD_KEYWORDS.items():
+            if keyword in data.episode_text:
+                award_bonus = max(award_bonus, bonus)
+        total += award_bonus
 
         total = max(0, min(100, total))
         tier = self.calculate_tier(total)

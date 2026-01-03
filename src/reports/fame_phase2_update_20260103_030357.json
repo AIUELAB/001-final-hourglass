@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-01-03T03:03:57.618081",
+  "date": "2026-01-03",
+  "updated": 99,
+  "errors": 0,
+  "quota": {
+    "used": 99,
+    "remaining": 1,
+    "limit": 100,
+    "status": "active"
+  },
+  "progress": {
+    "total_with_google": 1085,
+    "remaining_unsearched": 6068,
+    "estimated_days_to_complete": 61
+  }
+}

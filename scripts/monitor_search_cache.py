@@ -14,7 +14,7 @@ from pathlib import Path
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.fame_score_v3.google_search import get_stats, reset_stats
+from scripts.fame_score_v3.google_search import get_stats
 from scripts.fame_score_v3.quota_manager import GoogleQuotaManager
 
 CACHE_DB_PATH = Path("data/cache/fame_score.db")

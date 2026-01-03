@@ -22,13 +22,12 @@ import logging
 import os
 import re
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import pandas as pd
 from anthropic import Anthropic
 
 from src.models.curated_episode import CuratedEpisode
-from src.models.verified_source import VerifiedSource
 
 # ロギング設定
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")

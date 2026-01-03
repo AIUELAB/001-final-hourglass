@@ -13,7 +13,6 @@ EPUP: 同一人物エピソード間のスコア逆転検出
 
 import argparse
 import csv
-import re
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent

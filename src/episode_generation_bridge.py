@@ -17,7 +17,6 @@ Episode Generation Bridge - 品質ゲート統合エピソード生成
 """
 
 import logging
-import random
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 

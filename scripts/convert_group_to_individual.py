@@ -6,7 +6,6 @@ Phase 10: 個人専用エピソード化
 """
 
 import pandas as pd
-from datetime import datetime
 
 # 変換設定
 CONVERSIONS = {

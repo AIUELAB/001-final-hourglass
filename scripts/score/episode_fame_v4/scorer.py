@@ -5,7 +5,6 @@ LLM 7軸評価スコアを統合したエピソード有名度スコア計算
 """
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 from .config import (
     WEIGHTS,

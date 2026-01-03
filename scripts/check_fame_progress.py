@@ -3,7 +3,6 @@
 
 import sqlite3
 import subprocess
-import time
 
 
 def check_progress():

@@ -16,7 +16,7 @@ import argparse
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Dict, Any
 
 import pandas as pd
 

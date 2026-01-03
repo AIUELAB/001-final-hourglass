@@ -43,7 +43,6 @@ from scripts.fame_score_v3.google_search import (
     get_stats,
     is_google_available,
     is_serpapi_available,
-    reset_stats,
 )
 from scripts.fame_score_v3.quota_manager import GoogleQuotaManager
 from scripts.fame_score_v3.scorer import FameSignals, assign_ranks, calculate_fame_score

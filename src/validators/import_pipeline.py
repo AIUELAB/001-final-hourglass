@@ -24,8 +24,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.validators.person_name_validator import (
     PersonNameValidator,
-    ValidationIssue,
-    IssueType,
     Severity,
 )
 

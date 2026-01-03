@@ -17,7 +17,6 @@ PERSON ID 重複検出スクリプト
 import json
 import re
 import sys
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 

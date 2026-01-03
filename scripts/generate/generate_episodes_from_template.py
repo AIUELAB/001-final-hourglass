@@ -30,7 +30,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 年齢検証モジュールをインポート
 try:
-    from src.episode_age_validator import EpisodeAgeValidator, validate_episode_before_generation
+    from src.episode_age_validator import validate_episode_before_generation
     from src.birth_year_database import get_birth_year, get_max_valid_age
 
     AGE_VALIDATION_AVAILABLE = True
@@ -41,9 +41,7 @@ except ImportError:
 # グループ名検証モジュールをインポート（品質ゲート）
 try:
     from src.validators.person_name_validator import (
-        PersonNameValidator,
         validate_before_episode_generation as validate_person_name,
-        get_validator,
     )
     from src.group_master import is_group_entity, GROUP_MEMBER_MAP
 

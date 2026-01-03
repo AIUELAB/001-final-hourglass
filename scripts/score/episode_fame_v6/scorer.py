@@ -10,19 +10,22 @@ Episode Fame Score v6 算出ロジック
 """
 
 import math
-import re
 from dataclasses import dataclass
-from typing import Optional
 
 import numpy as np
 
 from .config import (
     WEIGHTS,
     LLM_WEIGHTS,
-    LLM_COLUMN_MAP,
     TYPE_BONUS,
+    TYPE_MAPPING,
     HISTORICAL_KEYWORDS,
     KEYWORD_BONUS_MAX,
+    PRIMARY_TOPIC_BONUS,
+    PRIMARY_TOPIC_THRESHOLD,
+    ACHIEVEMENT_CONTEXT,
+    NEGATIVE_CONTEXT,
+    NEGATIVE_CONTEXT_PENALTY,
     PENALTY_KEYWORDS,
     PENALTY_MAX,
     BIAS_CONTROL,
@@ -145,29 +148,66 @@ class EpisodeFameV6Scorer:
             return weighted_sum / weight_sum
         return 50.0  # デフォルト
 
+    def _has_achievement_context(self, text: str) -> bool:
+        """達成コンテキストがあるかチェック"""
+        return any(ctx in text for ctx in ACHIEVEMENT_CONTEXT)
+
+    def _has_negative_context(self, text: str) -> bool:
+        """否定コンテキストがあるかチェック"""
+        return any(ctx in text for ctx in NEGATIVE_CONTEXT)
+
     def calculate_historical_impact(self, episode_text: str, episode_type: str) -> float:
         """歴史的インパクトスコア（0-100）"""
         score = 50.0  # ベース
 
-        # タイプボーナス
-        type_bonus = TYPE_BONUS.get(episode_type, 0)
+        # タイプボーナス（日本語→英語変換対応）
+        en_type = TYPE_MAPPING.get(episode_type, episode_type)  # 日本語なら変換、英語ならそのまま
+        type_bonus = TYPE_BONUS.get(en_type, 0)
         score += type_bonus
+
+        # コンテキスト分析
+        text_head = episode_text[:PRIMARY_TOPIC_THRESHOLD]  # 冒頭部分
+        has_achievement = self._has_achievement_context(episode_text)
+        has_negative = self._has_negative_context(text_head)  # 冒頭の否定コンテキストのみチェック
 
         # キーワードボーナス
         keyword_bonus = 0
+        primary_topic_found = False
+
         for kw in HISTORICAL_KEYWORDS["tier1"]:
             if kw in episode_text:
                 keyword_bonus += 10
+                # 主題一致ボーナス: 冒頭100文字以内に出現 + 達成コンテキストあり
+                if kw in text_head and not primary_topic_found:
+                    if has_achievement and not has_negative:
+                        # 達成コンテキストあり、否定コンテキストなし → フルボーナス
+                        keyword_bonus += PRIMARY_TOPIC_BONUS
+                    elif not has_negative:
+                        # 達成コンテキストなし、否定コンテキストなし → 半分ボーナス
+                        keyword_bonus += PRIMARY_TOPIC_BONUS // 2
+                    # 否定コンテキストあり → ボーナスなし
+                    primary_topic_found = True
+
         for kw in HISTORICAL_KEYWORDS["tier2"]:
             if kw in episode_text:
                 keyword_bonus += 6
+                # tier2も主題一致ボーナス対象
+                if kw in text_head and not primary_topic_found:
+                    if has_achievement and not has_negative:
+                        keyword_bonus += PRIMARY_TOPIC_BONUS // 2
+                    primary_topic_found = True
+
         for kw in HISTORICAL_KEYWORDS["tier3"]:
             if kw in episode_text:
                 keyword_bonus += 3
 
-        score += min(keyword_bonus, KEYWORD_BONUS_MAX)
+        # 否定コンテキストペナルティ（冒頭に否定的言及がある場合）
+        if has_negative:
+            keyword_bonus -= NEGATIVE_CONTEXT_PENALTY
 
-        return min(100, score)
+        score += min(max(0, keyword_bonus), KEYWORD_BONUS_MAX + PRIMARY_TOPIC_BONUS)
+
+        return min(100, max(0, score))
 
     def calculate_pv_signal(self, pv: int) -> float:
         """PVシグナルスコア（0-100）"""

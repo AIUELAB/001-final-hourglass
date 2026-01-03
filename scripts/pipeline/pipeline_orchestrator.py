@@ -39,7 +39,7 @@ from scripts.validation.episode_validator import validate_episodes, load_episode
 
 # 追加検出ツール
 try:
-    from scripts.validation.detect_problematic_episodes import analyze_episode, is_future_episode
+    from scripts.validation.detect_problematic_episodes import analyze_episode
 
     PROBLEMATIC_DETECTION_AVAILABLE = True
 except ImportError:

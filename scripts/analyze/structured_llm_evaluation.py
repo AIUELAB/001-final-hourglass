@@ -18,7 +18,7 @@ import time
 import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 
 import pandas as pd
 from dotenv import load_dotenv

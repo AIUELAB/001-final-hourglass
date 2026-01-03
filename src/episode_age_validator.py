@@ -7,7 +7,6 @@
 
 import sys
 from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -17,9 +16,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.birth_year_database import (
     CURRENT_YEAR,
     get_birth_year,
-    get_max_valid_age,
-    is_future_episode,
-    validate_episode_age,
 )
 
 

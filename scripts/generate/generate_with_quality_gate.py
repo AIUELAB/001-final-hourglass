@@ -35,8 +35,65 @@ from typing import Dict, List, Optional
 import anthropic
 
 # プロジェクトルート
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# 埋め草検出モジュール
+from scripts.validation.filler_detector import is_filler, FillerAnalysis, is_refusal_message
+
+# 現在年（未来エピソード検出用）
+CURRENT_YEAR = 2026
+
+# 既知の人物データ（生年・没年）- 未来/死亡後エピソード検出用
+KNOWN_PEOPLE_TEMPORAL = {
+    # スポーツ
+    "大谷翔平": {"birth": 1994},
+    "羽生結弦": {"birth": 1994},
+    "藤井聡太": {"birth": 2002},
+    "イチロー": {"birth": 1973},
+    "浅田真央": {"birth": 1990},
+    "錦織圭": {"birth": 1989},
+    # 芸能人・死亡済み
+    "志村けん": {"birth": 1950, "death": 2020},
+    "坂本龍一": {"birth": 1952, "death": 2023},
+    "鳥山明": {"birth": 1955, "death": 2024},
+    # 音楽・芸術
+    "久石譲": {"birth": 1950},
+    "エルトン・ジョン": {"birth": 1947},
+    # 文化人
+    "村上春樹": {"birth": 1949},
+    "養老孟司": {"birth": 1937},
+    # 歴史上の人物
+    "湯川秀樹": {"birth": 1907, "death": 1981},
+    "川端康成": {"birth": 1899, "death": 1972},
+}
+
+
+def validate_temporal_accuracy(person_name: str, age: int, person_type: str) -> tuple[bool, str]:
+    """時間的妥当性を検証（未来/死亡後エピソードを検出）"""
+    if person_type != "REAL":
+        return True, ""
+
+    if person_name not in KNOWN_PEOPLE_TEMPORAL:
+        return True, ""  # 未知の人物は許可
+
+    data = KNOWN_PEOPLE_TEMPORAL[person_name]
+    birth = data["birth"]
+    death = data.get("death")
+
+    episode_year = birth + age
+
+    # 死亡後のエピソード
+    if death and episode_year > death:
+        return False, f"死亡({death}年)後のエピソード({episode_year}年)は不可"
+
+    # 未来のエピソード（現在年+2年以上先）
+    if episode_year > CURRENT_YEAR + 2:
+        current_age = CURRENT_YEAR - birth
+        return False, f"未来({episode_year}年)のエピソード不可。現在{current_age}歳"
+
+    return True, ""
+
 
 # CSVパス
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
@@ -68,6 +125,70 @@ QUALITY_GATES = {
         "事実密度": 5.0,  # 強化: 4.0→5.0（最弱軸なので優先改善）
     },
 }
+
+# =============================================================================
+# 重要転機キーワード（5件制限を緩和）
+# =============================================================================
+TURNING_POINT_KEYWORDS = [
+    # 政治的転機
+    "大統領",
+    "首相",
+    "総理",
+    "主席",
+    "書記長",
+    "総統",
+    "国王",
+    "女王",
+    "皇帝",
+    "当選",
+    "就任",
+    "選挙",
+    "政権",
+    # 科学的マイルストーン
+    "ノーベル賞",
+    "ノーベル",
+    "発見",
+    "発明",
+    "理論",
+    "証明",
+    "相対性理論",
+    "量子力学",
+    "DNA",
+    # スポーツ達成
+    "金メダル",
+    "オリンピック",
+    "世界記録",
+    "世界選手権",
+    "優勝",
+    "制覇",
+    "MVP",
+    "チャンピオン",
+    # 芸術的達成
+    "アカデミー賞",
+    "グラミー賞",
+    "カンヌ",
+    "パルム・ドール",
+    "ベルリン",
+    "芥川賞",
+    "直木賞",
+    "ノーベル文学賞",
+    # ビジネス転機
+    "創業",
+    "設立",
+    "上場",
+    "IPO",
+]
+
+# 転機優先: この件数までは転機キーワードを含むエピソードを優先
+TURNING_POINT_EXTRA_SLOTS = 2  # 5件制限を超えて2件まで転機を許可
+
+
+def is_critical_turning_point(episode_text: str) -> bool:
+    """エピソードが重要転機かどうか判定"""
+    if not episode_text:
+        return False
+    return any(kw in episode_text for kw in TURNING_POINT_KEYWORDS)
+
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
@@ -387,6 +508,21 @@ def llm_improve_draft(original_text: str, improvement_prompt: str) -> Optional[s
         return None
 
 
+def get_person_episode_count(person_name: str) -> int:
+    """指定人物の既存エピソード数を取得"""
+    if not CSV_PATH.exists():
+        return 0
+    try:
+        with open(CSV_PATH, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            return sum(1 for row in reader if row.get("person_name") == person_name)
+    except Exception:
+        return 0
+
+
+EPISODE_LIMIT = 5  # 1人あたりのエピソード上限
+
+
 def generate_episode_with_quality_gate(
     person_name: str,
     category: str,
@@ -394,8 +530,37 @@ def generate_episode_with_quality_gate(
     person_type: str = "REAL",
     work_title: Optional[str] = None,
     stats: Optional[GenerationStats] = None,
+    skip_limit_check: bool = False,
+    is_turning_point: bool = False,  # 重要転機フラグ
 ) -> Optional[Dict]:
-    """品質ゲート付きエピソード生成"""
+    """品質ゲート付きエピソード生成
+
+    Args:
+        is_turning_point: Trueの場合、5件制限を緩和（+2件まで許可）
+    """
+
+    # Step 0: 5件制限チェック（転機優先対応）
+    if not skip_limit_check:
+        existing_count = get_person_episode_count(person_name)
+        # 転機フラグがある場合は拡張制限を適用
+        effective_limit = EPISODE_LIMIT + TURNING_POINT_EXTRA_SLOTS if is_turning_point else EPISODE_LIMIT
+        if existing_count >= effective_limit:
+            limit_type = f"転機拡張: {effective_limit}" if is_turning_point else str(EPISODE_LIMIT)
+            print(f"\n⚠️ スキップ: {person_name} は既に{existing_count}件（制限: {limit_type}件）")
+            if stats:
+                stats.add_rejection("episode_limit_reached")
+            return None
+        elif existing_count >= EPISODE_LIMIT and is_turning_point:
+            print(f"\n🌟 転機優先: {person_name} ({existing_count}件目→転機枠で許可)")
+
+    # Step 0.5: 時間的妥当性チェック（未来/死亡後エピソード防止）
+    is_valid, reason = validate_temporal_accuracy(person_name, age, person_type)
+    if not is_valid:
+        print(f"\n🚫 時間的妥当性エラー: {person_name} ({age}歳)")
+        print(f"   理由: {reason}")
+        if stats:
+            stats.add_rejection("temporal_invalid")
+        return None
 
     if stats:
         stats.total_attempts += 1
@@ -425,6 +590,23 @@ def generate_episode_with_quality_gate(
         if not draft:
             if stats:
                 stats.add_rejection("generation_failed")
+            return None
+
+        # Step 1.5: LLM拒否メッセージチェック（即棄却、リトライ不可）
+        if is_refusal_message(draft):
+            print("  🚫 LLM拒否メッセージ検出: このエピソードは生成不可")
+            print(f"     テキスト: {draft[:100]}...")
+            if stats:
+                stats.add_rejection("refusal_message")
+            return None
+
+        # Step 1.6: 埋め草チェック（即棄却、リトライ不可）
+        if is_filler(draft):
+            filler_analysis = FillerAnalysis(draft)
+            print(f"  ❌ 埋め草検出: 具体性={filler_analysis.specificity_score}, 抽象度={filler_analysis.filler_count}")
+            print(f"     抽象フレーズ: {filler_analysis.matched_filler_phrases[:3]}")
+            if stats:
+                stats.add_rejection("filler_detected")
             return None
 
         print(f"  テキスト: {draft[:60]}...")

@@ -8,7 +8,6 @@ Usage:
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -21,7 +20,6 @@ sys.path.insert(0, str(project_root))
 from backend.app.utils.score_calculator import (
     LLM_EVALUATION_PROMPT,
     LLM_TARGET_STATS,
-    batch_evaluate_with_llm,
     calculate_hybrid_rule_scores,
     calculate_hybrid_scores_with_llm,
     calibrate_llm_score,

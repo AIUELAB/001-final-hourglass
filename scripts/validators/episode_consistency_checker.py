@@ -33,7 +33,6 @@ import pandas as pd
 # 同ディレクトリからインポート
 sys.path.insert(0, str(Path(__file__).parent))
 from group_name_validator import (
-    GROUP_PREFIXES,
     HEURISTIC_PATTERNS,
     KNOWN_GROUP_NAMES,
     GroupNameValidator,

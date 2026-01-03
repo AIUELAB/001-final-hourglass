@@ -22,9 +22,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
-from urllib.parse import quote
 
-import pandas as pd
 import requests
 
 # Wikidata SPARQL エンドポイント

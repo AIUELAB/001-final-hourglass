@@ -6,7 +6,6 @@ Phase 2 Google検索の無料枠管理用テーブルを追加する。
 """
 
 import sqlite3
-from datetime import datetime
 from pathlib import Path
 
 # プロジェクトルートからの相対パス

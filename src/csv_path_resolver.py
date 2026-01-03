@@ -16,7 +16,6 @@ CSV Path Resolver - 単一マスターCSV原則の実装
 """
 
 from pathlib import Path
-from typing import Optional
 
 
 def get_project_root() -> Path:

@@ -177,14 +177,12 @@ class EpisodeFameV6Scorer:
         for kw in HISTORICAL_KEYWORDS["tier1"]:
             if kw in episode_text:
                 keyword_bonus += 10
-                # 主題一致ボーナス: 冒頭100文字以内に出現 + 達成コンテキストあり
+                # 主題一致ボーナス: 冒頭100文字以内に出現
+                # Tier1キーワード（ノーベル賞等）は出現自体が重要なので条件緩和
                 if kw in text_head and not primary_topic_found:
-                    if has_achievement and not has_negative:
-                        # 達成コンテキストあり、否定コンテキストなし → フルボーナス
+                    if not has_negative:
+                        # 否定コンテキストなし → フルボーナス
                         keyword_bonus += PRIMARY_TOPIC_BONUS
-                    elif not has_negative:
-                        # 達成コンテキストなし、否定コンテキストなし → 半分ボーナス
-                        keyword_bonus += PRIMARY_TOPIC_BONUS // 2
                     # 否定コンテキストあり → ボーナスなし
                     primary_topic_found = True
 

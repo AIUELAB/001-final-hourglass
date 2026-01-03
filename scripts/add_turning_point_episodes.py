@@ -107,6 +107,15 @@ EPISODES_TO_ADD = [
         "episode_type": "達成",
         "category": "政治・社会",
     },
+    {
+        "person_id": "P2C70422",
+        "person_name": "エリザベス2世",
+        "age": 25,  # 1926年4月21日生、1952年2月6日即位
+        "year": 1952,
+        "episode_text": "あなたと同じ25歳のとき、エリザベス2世は1952年2月6日に父ジョージ6世の崩御によりイギリス女王に即位しました。ケニア訪問中に父の死を知らされ、直ちに帰国。1953年6月2日にウェストミンスター寺院で戴冠式が執り行われ、史上初めてテレビ中継された戴冠式となりました。70年以上にわたりイギリス君主として在位することになります。",
+        "episode_type": "達成",
+        "category": "政治・社会",
+    },
 ]
 
 
@@ -136,10 +145,22 @@ def main(dry_run: bool = True):
 
     print(f"=== 最高職就任エピソード追加 {'(ドライラン)' if dry_run else '(実行)'} ===\n")
     print(f"既存エピソード数: {len(rows)}")
-    print(f"追加予定: {len(EPISODES_TO_ADD)}件\n")
+
+    # 既にTURNING_POINT_MANUALが存在する人物をスキップ
+    existing_tp_persons = {
+        r["person_id"]
+        for r in rows
+        if r.get("source") == "TURNING_POINT_MANUAL"
+    }
+
+    # 未追加のエピソードのみフィルタ
+    to_add = [ep for ep in EPISODES_TO_ADD if ep["person_id"] not in existing_tp_persons]
+    skipped = len(EPISODES_TO_ADD) - len(to_add)
+
+    print(f"追加予定: {len(to_add)}件（スキップ: {skipped}件）\n")
 
     new_rows = []
-    for ep in EPISODES_TO_ADD:
+    for ep in to_add:
         episode_id = generate_episode_id()
 
         # 既存レコードから人物情報を取得

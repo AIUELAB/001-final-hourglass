@@ -1,0 +1,335 @@
+{
+  "timestamp": "2026-01-04T14:29:41.626409",
+  "summary": {
+    "total_candidates": 495,
+    "critical": 22,
+    "high": 54,
+    "medium": 419,
+    "typo_or_data_error": 11,
+    "true_hodgepodge": 363
+  },
+  "issue_types": {
+    "wide_year_range": 167,
+    "multiple_works": 356,
+    "multiple_ages": 108,
+    "multiple_awards": 75,
+    "time_jump_heavy": 28
+  },
+  "classification": {
+    "typo_or_data_error": [
+      {
+        "episode_id": "EP-000004523",
+        "person_name": "谷口吉郎",
+        "score": 606,
+        "years": [
+          1968,
+          5000
+        ]
+      },
+      {
+        "episode_id": "E9F7A1AAF",
+        "person_name": "ガンダルフ",
+        "score": 200,
+        "years": [
+          1000,
+          2000
+        ]
+      },
+      {
+        "episode_id": "EP-000000750",
+        "person_name": "デミス・ハサビス",
+        "score": 200,
+        "years": [
+          2015,
+          3000
+        ]
+      },
+      {
+        "episode_id": "EP-000006442",
+        "person_name": "籔内佐斗司",
+        "score": 141,
+        "years": [
+          1300,
+          2008
+        ]
+      },
+      {
+        "episode_id": "EP-9F137870",
+        "person_name": "ジャンヌ・ダルク",
+        "score": 100,
+        "years": [
+          1431,
+          1920
+        ]
+      },
+      {
+        "episode_id": "EP-2026010220026",
+        "person_name": "ジャンヌ・ダルク",
+        "score": 97,
+        "years": [
+          1431,
+          1920
+        ]
+      },
+      {
+        "episode_id": "EP-000008307",
+        "person_name": "ドナテッロ",
+        "score": 87,
+        "years": [
+          1000,
+          1436
+        ]
+      },
+      {
+        "episode_id": "EP-000008662",
+        "person_name": "ヨハン・ケプラー",
+        "score": 78,
+        "years": [
+          1609,
+          2000
+        ]
+      },
+      {
+        "episode_id": "EP-000008657",
+        "person_name": "ヨハン・ケプラー",
+        "score": 78,
+        "years": [
+          1610,
+          2000
+        ]
+      },
+      {
+        "episode_id": "EP-251214144849700",
+        "person_name": "ミック・ジャガー",
+        "score": 75,
+        "years": [
+          1576,
+          1953
+        ]
+      },
+      {
+        "episode_id": "EP-251214201954947",
+        "person_name": "伊達政宗",
+        "score": 69,
+        "years": [
+          1629,
+          1630,
+          1633,
+          1974
+        ]
+      }
+    ],
+    "critical_real": [
+      {
+        "episode_id": "EP-000008663",
+        "person_name": "アンドレアス・ヴェサリウス",
+        "age": "28.0",
+        "score": 28,
+        "works_count": 1,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-251219BA6613",
+        "person_name": "クリント・イーストウッド",
+        "age": "93.0",
+        "score": 19,
+        "works_count": 3,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-251219B0036C",
+        "person_name": "デヴィッド・アッテンボロー",
+        "age": "98.0",
+        "score": 19,
+        "works_count": 1,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-B0C09FC8EA3E",
+        "person_name": "キャロル・バーネット",
+        "age": "92.0",
+        "score": 18,
+        "works_count": 3,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-000001710",
+        "person_name": "大江健三郎",
+        "age": "59.0",
+        "score": 17,
+        "works_count": 2,
+        "time_jumps": 2
+      },
+      {
+        "episode_id": "EP-251214201702852",
+        "person_name": "池田秀一",
+        "age": "66.0",
+        "score": 17,
+        "works_count": 4,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-000005898",
+        "person_name": "河岡義裕",
+        "age": "49.0",
+        "score": 17,
+        "works_count": 0,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-251219022755815",
+        "person_name": "ジョン・コルトレーン",
+        "age": "74.0",
+        "score": 16,
+        "works_count": 1,
+        "time_jumps": 0
+      },
+      {
+        "episode_id": "EP-000000517",
+        "person_name": "真鍋淑郎",
+        "age": "90.0",
+        "score": 16,
+        "works_count": 4,
+        "time_jumps": 2
+      },
+      {
+        "episode_id": "EP-000001715",
+        "person_name": "宮本輝",
+        "age": "63.0",
+        "score": 16,
+        "works_count": 4,
+        "time_jumps": 4
+      },
+      {
+        "episode_id": "EP-4033913B",
+        "person_name": "ジョージ・マロリー",
+        "age": "37.0",
+        "score": 15,
+        "works_count": 2,
+        "time_jumps": 0
+      }
+    ],
+    "high": [
+      {
+        "episode_id": "EP-000002123",
+        "person_name": "益川敏英",
+        "age": "65.0",
+        "score": 14
+      },
+      {
+        "episode_id": "EP-000000899",
+        "person_name": "アニー・エルノー",
+        "age": "25.0",
+        "score": 14
+      },
+      {
+        "episode_id": "EP-251219A48B02",
+        "person_name": "ディック・ヴァン・ダイク",
+        "age": "94.0",
+        "score": 14
+      },
+      {
+        "episode_id": "EP-19BFE27B",
+        "person_name": "原節子",
+        "age": "95.0",
+        "score": 14
+      },
+      {
+        "episode_id": "EP-000001722",
+        "person_name": "山田詠美",
+        "age": "59.0",
+        "score": 13
+      },
+      {
+        "episode_id": "EP-251214201803233",
+        "person_name": "池田秀一",
+        "age": "67.0",
+        "score": 13
+      },
+      {
+        "episode_id": "EP-000008143",
+        "person_name": "ピョートル・チャイコフスキー",
+        "age": "40.0",
+        "score": 13
+      },
+      {
+        "episode_id": "EP-DE2A7F57",
+        "person_name": "原節子",
+        "age": "95.0",
+        "score": 13
+      },
+      {
+        "episode_id": "EP-251214200810476",
+        "person_name": "ハービー・ハンコック",
+        "age": "66.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-2512181850581979",
+        "person_name": "ホロヴィッツ",
+        "age": "82.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-000001620",
+        "person_name": "益川敏英",
+        "age": "68.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-000002129",
+        "person_name": "真鍋淑郎",
+        "age": "85.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-000001652",
+        "person_name": "長谷川町子",
+        "age": "63.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-000001785",
+        "person_name": "観世寿夫",
+        "age": "60.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-000001964",
+        "person_name": "西加奈子",
+        "age": "47.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-9EF2B638",
+        "person_name": "フランク・ロイド・ライト",
+        "age": "91.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-574BF314",
+        "person_name": "西城秀樹",
+        "age": "63.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-2512181850581658",
+        "person_name": "ボレル",
+        "age": "62.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-04F5F291",
+        "person_name": "ピエール・カルダン",
+        "age": "98.0",
+        "score": 12
+      },
+      {
+        "episode_id": "EP-000001659",
+        "person_name": "森光子",
+        "age": "47.0",
+        "score": 11
+      }
+    ]
+  }
+}

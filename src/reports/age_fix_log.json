@@ -1,0 +1,126 @@
+{
+  "timestamp": "2026-01-04T13:31:00.203811",
+  "fixed_count": 17,
+  "target_count": 17,
+  "fixes": [
+    {
+      "episode_id": "EP-000001616",
+      "person": "朝永振一郎",
+      "old_age": 57,
+      "new_age": 59,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001923",
+      "person": "南部陽一郎",
+      "old_age": 84,
+      "new_age": 87,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-2512181850582522",
+      "person": "ジミー・カーター",
+      "old_age": 80,
+      "new_age": 78,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EC9359CDE",
+      "person": "ジミー・カーター",
+      "old_age": 83,
+      "new_age": 78,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001925",
+      "person": "下村脩",
+      "old_age": 82,
+      "new_age": 80,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001620",
+      "person": "益川敏英",
+      "old_age": 64,
+      "new_age": 68,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001924",
+      "person": "益川敏英",
+      "old_age": 70,
+      "new_age": 68,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "E960EEB9F",
+      "person": "益川敏英",
+      "old_age": 73,
+      "new_age": 68,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001612",
+      "person": "梶田隆章",
+      "old_age": 59,
+      "new_age": 56,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000000378",
+      "person": "野依良治",
+      "old_age": 66,
+      "new_age": 63,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001605",
+      "person": "田中耕一",
+      "old_age": 48,
+      "new_age": 43,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001610",
+      "person": "中村修二",
+      "old_age": 62,
+      "new_age": 60,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001710",
+      "person": "大江健三郎",
+      "old_age": 56,
+      "new_age": 59,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001601",
+      "person": "大江健三郎",
+      "old_age": 64,
+      "new_age": 59,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-000001607",
+      "person": "山中伸弥",
+      "old_age": 47,
+      "new_age": 50,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-AD3DBAC7",
+      "person": "アルベール・カミュ",
+      "old_age": 46,
+      "new_age": 44,
+      "status": "fixed"
+    },
+    {
+      "episode_id": "EP-173D34FC",
+      "person": "アルベール・カミュ",
+      "old_age": 46,
+      "new_age": 44,
+      "status": "fixed"
+    }
+  ]
+}

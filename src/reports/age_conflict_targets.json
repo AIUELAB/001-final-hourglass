@@ -1,0 +1,375 @@
+[
+  {
+    "person_id": "PDE8D948",
+    "person_name": "朝永振一郎",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "57.0",
+      "59.0"
+    ],
+    "wikidata_id": "Q184563",
+    "birth_year": null
+  },
+  {
+    "person_id": "P5578985",
+    "person_name": "南部陽一郎",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "60.0",
+      "84.0",
+      "87.0"
+    ],
+    "wikidata_id": "Q188120",
+    "birth_year": null
+  },
+  {
+    "person_id": "PD260CC4",
+    "person_name": "ネルソン・マンデラ",
+    "event": "就任",
+    "ages_in_episodes": [
+      "70.0",
+      "75.0"
+    ],
+    "wikidata_id": "Q8023",
+    "birth_year": null
+  },
+  {
+    "person_id": "P48FD907",
+    "person_name": "ジミー・カーター",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "77.0",
+      "78.0",
+      "80.0",
+      "83.0"
+    ],
+    "wikidata_id": "Q23685",
+    "birth_year": null
+  },
+  {
+    "person_id": "PD04D3FA",
+    "person_name": "伊藤美誠",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "19.0",
+      "20.0"
+    ],
+    "wikidata_id": "Q11380376",
+    "birth_year": null
+  },
+  {
+    "person_id": "PE465A4C",
+    "person_name": "下村脩",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "80.0",
+      "82.0"
+    ],
+    "wikidata_id": "Q205345",
+    "birth_year": null
+  },
+  {
+    "person_id": "PDC014B6",
+    "person_name": "白井健三",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "16.0",
+      "17.0",
+      "28.0"
+    ],
+    "wikidata_id": "Q15044007",
+    "birth_year": null
+  },
+  {
+    "person_id": "P73C0B20",
+    "person_name": "益川敏英",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "64.0",
+      "70.0",
+      "73.0"
+    ],
+    "wikidata_id": "Q202168",
+    "birth_year": null
+  },
+  {
+    "person_id": "PE9DD0AD",
+    "person_name": "羽生結弦",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "11.0",
+      "15.0"
+    ],
+    "wikidata_id": "Q597023",
+    "birth_year": null
+  },
+  {
+    "person_id": "PDA4A7D2",
+    "person_name": "梶田隆章",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "56.0",
+      "59.0"
+    ],
+    "wikidata_id": "Q11538917",
+    "birth_year": null
+  },
+  {
+    "person_id": "PF536869",
+    "person_name": "平野歩夢",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "15.0",
+      "26.0"
+    ],
+    "wikidata_id": "Q4831824",
+    "birth_year": null
+  },
+  {
+    "person_id": "P89D4A53",
+    "person_name": "村田諒太",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "20.0",
+      "25.0"
+    ],
+    "wikidata_id": "Q58309",
+    "birth_year": null
+  },
+  {
+    "person_id": "PBB3BA57",
+    "person_name": "本庶佑",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "56.0",
+      "76.0"
+    ],
+    "wikidata_id": "Q2395341",
+    "birth_year": null
+  },
+  {
+    "person_id": "P8DABD79",
+    "person_name": "野依良治",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "63.0",
+      "66.0"
+    ],
+    "wikidata_id": "Q157210",
+    "birth_year": null
+  },
+  {
+    "person_id": "PFBC1CE5",
+    "person_name": "高橋尚子",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "28.0",
+      "55.0"
+    ],
+    "wikidata_id": "Q235937",
+    "birth_year": null
+  },
+  {
+    "person_id": "PDC321CE",
+    "person_name": "白川英樹",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "64.0",
+      "72.0"
+    ],
+    "wikidata_id": "Q110916",
+    "birth_year": null
+  },
+  {
+    "person_id": "P242459D",
+    "person_name": "田中耕一",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "43.0",
+      "48.0"
+    ],
+    "wikidata_id": "Q110963",
+    "birth_year": null
+  },
+  {
+    "person_id": "PCD107D4",
+    "person_name": "織田幹雄",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "25.0",
+      "50.0"
+    ],
+    "wikidata_id": "Q317661",
+    "birth_year": null
+  },
+  {
+    "person_id": "P985B0C1",
+    "person_name": "荒川静香",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "21.0",
+      "24.0",
+      "29.0"
+    ],
+    "wikidata_id": "Q229686",
+    "birth_year": null
+  },
+  {
+    "person_id": "PCAD0C1D",
+    "person_name": "中村修二",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "53.0",
+      "60.0",
+      "62.0"
+    ],
+    "wikidata_id": "Q730065",
+    "birth_year": null
+  },
+  {
+    "person_id": "P6D12F2B",
+    "person_name": "大江健三郎",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "56.0",
+      "64.0"
+    ],
+    "wikidata_id": "Q80095",
+    "birth_year": null
+  },
+  {
+    "person_id": "P9602A59",
+    "person_name": "山中伸弥",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "47.0",
+      "50.0",
+      "70.0"
+    ],
+    "wikidata_id": "Q80917",
+    "birth_year": null
+  },
+  {
+    "person_id": "P6AFA05A",
+    "person_name": "山下泰裕",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "54.0",
+      "73.0"
+    ],
+    "wikidata_id": "Q272469",
+    "birth_year": null
+  },
+  {
+    "person_id": "P64D55AC",
+    "person_name": "小林誠",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "64.0",
+      "65.0"
+    ],
+    "wikidata_id": "Q202164",
+    "birth_year": null
+  },
+  {
+    "person_id": "PC1773C8",
+    "person_name": "利根川進",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "47.0",
+      "48.0",
+      "60.0"
+    ],
+    "wikidata_id": "Q108602",
+    "birth_year": null
+  },
+  {
+    "person_id": "P07F6E60",
+    "person_name": "加藤澤男",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "30.0",
+      "49.0"
+    ],
+    "wikidata_id": "Q312684",
+    "birth_year": null
+  },
+  {
+    "person_id": "P5874DAA",
+    "person_name": "上野由岐子",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "25.0",
+      "32.0"
+    ],
+    "wikidata_id": "Q3130485",
+    "birth_year": null
+  },
+  {
+    "person_id": "P7FB205A",
+    "person_name": "マイケル・フェルプス",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "15.0",
+      "23.0"
+    ],
+    "wikidata_id": "Q39562",
+    "birth_year": null
+  },
+  {
+    "person_id": "PACFD6A",
+    "person_name": "カール・ルイス",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "23.0",
+      "35.0"
+    ],
+    "wikidata_id": "Q131237",
+    "birth_year": null
+  },
+  {
+    "person_id": "PFBF0C13",
+    "person_name": "アルベール・カミュ",
+    "event": "ノーベル賞受賞",
+    "ages_in_episodes": [
+      "40.0",
+      "45.0",
+      "46.0"
+    ],
+    "wikidata_id": "Q34670",
+    "birth_year": null
+  },
+  {
+    "person_id": "P4803CDD",
+    "person_name": "高藤直寿",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "28.0",
+      "30.0"
+    ],
+    "wikidata_id": "Q14666407",
+    "birth_year": null
+  },
+  {
+    "person_id": "P2B267DC",
+    "person_name": "ケイティ・レデツキー",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "19.0",
+      "26.0"
+    ],
+    "wikidata_id": null,
+    "birth_year": null
+  },
+  {
+    "person_id": "P53D3756",
+    "person_name": "シモーン・バイルズ",
+    "event": "オリンピック金",
+    "ages_in_episodes": [
+      "19.0",
+      "24.0"
+    ],
+    "wikidata_id": "Q7520267",
+    "birth_year": null
+  }
+]

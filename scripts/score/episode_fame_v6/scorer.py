@@ -289,7 +289,9 @@ class EpisodeFameV6Scorer:
                 award_bonus = max(award_bonus, bonus)
         total += award_bonus
 
-        total = max(0, min(100, total))
+        # 上限クランプを削除: 100超の値を許容し、同率問題を解消
+        # raw値をそのまま使用することで、ランキング順位が一意に決まる
+        total = max(0, total)  # 下限のみ維持
 
         # Tier1エピソードの最低スコア保証（78点フロア）
         # ノーベル賞等の重要イベントは最低78点を保証

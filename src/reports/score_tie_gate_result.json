@@ -1,0 +1,247 @@
+{
+  "scan_date": "2026-01-04T19:13:30.083909",
+  "total_episodes": 10254,
+  "unique_scores": 4021,
+  "score_100_count": 0,
+  "top200_max_tie_size": 3,
+  "total_max_tie_size": 73,
+  "total_max_tie_score": 78.0,
+  "score_max": 115.65,
+  "score_min": 26.62,
+  "top_ties": [
+    {
+      "score": 78.0,
+      "count": 73,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 65.55,
+      "count": 14,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 64.39,
+      "count": 13,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 65.1,
+      "count": 12,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 64.62,
+      "count": 11,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 66.74,
+      "count": 11,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 63.39,
+      "count": 11,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 63.43,
+      "count": 11,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 61.27,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 65.6,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 68.15,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 57.97,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 62.07,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 63.1,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 61.52,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 65.91,
+      "count": 10,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 65.65,
+      "count": 9,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 58.4,
+      "count": 9,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 58.15,
+      "count": 9,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "score": 59.68,
+      "count": 9,
+      "episodes": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    }
+  ],
+  "thresholds": {
+    "score_100_max": 0,
+    "top200_max_tie_size": 5,
+    "total_max_tie_size": 50
+  },
+  "violations": [
+    {
+      "type": "total_tie",
+      "severity": "WARNING",
+      "value": 73,
+      "threshold": 50,
+      "message": "全体の最大同率: 73件 > 閾値50"
+    }
+  ]
+}

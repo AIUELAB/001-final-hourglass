@@ -10,6 +10,7 @@ Episode Fame Score v6 算出ロジック
 """
 
 import math
+import re
 from dataclasses import dataclass
 
 import numpy as np
@@ -29,8 +30,16 @@ from .config import (
     ACHIEVEMENT_CONTEXT,
     NEGATIVE_CONTEXT,
     NEGATIVE_CONTEXT_PENALTY,
+    NEGATIVE_CONTEXT_MAX_PENALTY,
+    OTHER_PERSON_REFERENCE_PATTERNS,
+    FUTURE_REFERENCE_PATTERNS,
     PENALTY_KEYWORDS,
     PENALTY_MAX,
+    RETROSPECTIVE_PATTERNS,
+    RETROSPECTIVE_PENALTY_PER_PATTERN,
+    RETROSPECTIVE_PENALTY_MAX,
+    CONCRETE_EVENT_INDICATORS,
+    LACK_OF_SPECIFICITY_PENALTY,
     BIAS_CONTROL,
     NORMALIZATION,
     EPISODE_COUNT_SATURATION,
@@ -71,6 +80,7 @@ class ScoreBreakdown:
     pv_signal: float  # 0-100
     episode_bonus: float  # 0-100
     penalty: float  # 0-15
+    retrospective_penalty: float  # 0-20 (回顧・具体性欠如ペナルティ)
     total_score: float  # 0-100
     tier: int  # 1-5
 
@@ -159,6 +169,40 @@ class EpisodeFameV6Scorer:
         """否定コンテキストがあるかチェック"""
         return any(ctx in text for ctx in NEGATIVE_CONTEXT)
 
+    def _count_negative_contexts(self, text: str) -> int:
+        """否定コンテキストの出現数をカウント"""
+        return sum(1 for ctx in NEGATIVE_CONTEXT if ctx in text)
+
+    def _has_other_person_reference(self, text: str) -> bool:
+        """他者参照パターンがあるかチェック（例: ノーベル賞物理学者を含む）"""
+        return any(re.search(pattern, text) for pattern in OTHER_PERSON_REFERENCE_PATTERNS)
+
+    def _has_future_reference(self, text: str) -> bool:
+        """未来参照パターンがあるかチェック（例: 翌年、彼はノーベル賞を受賞）"""
+        return any(re.search(pattern, text) for pattern in FUTURE_REFERENCE_PATTERNS)
+
+    def _keyword_is_subject_achievement(self, text: str, keyword: str) -> bool:
+        """キーワードが主語の達成を表すかチェック（他者参照・未来参照でない）"""
+        # キーワード周辺のコンテキストを取得
+        kw_pos = text.find(keyword)
+        if kw_pos < 0:
+            return False
+
+        # キーワード前後50文字のコンテキスト
+        start = max(0, kw_pos - 50)
+        end = min(len(text), kw_pos + len(keyword) + 50)
+        context = text[start:end]
+
+        # 他者参照パターンチェック
+        if self._has_other_person_reference(context):
+            return False
+
+        # 未来参照パターンチェック
+        if self._has_future_reference(context):
+            return False
+
+        return True
+
     def calculate_historical_impact(self, episode_text: str, episode_type: str) -> float:
         """歴史的インパクトスコア（0-100）"""
         score = 50.0  # ベース
@@ -172,6 +216,11 @@ class EpisodeFameV6Scorer:
         text_head = episode_text[:PRIMARY_TOPIC_THRESHOLD]  # 冒頭部分
         has_achievement = self._has_achievement_context(episode_text)
         has_negative = self._has_negative_context(text_head)  # 冒頭の否定コンテキストのみチェック
+        negative_count = self._count_negative_contexts(text_head)  # 複数カウント
+
+        # 他者参照・未来参照チェック（冒頭部分）
+        has_other_ref = self._has_other_person_reference(text_head)
+        has_future_ref = self._has_future_reference(episode_text)
 
         # キーワードボーナス
         keyword_bonus = 0
@@ -179,14 +228,20 @@ class EpisodeFameV6Scorer:
 
         for kw in HISTORICAL_KEYWORDS["tier1"]:
             if kw in episode_text:
-                keyword_bonus += 10
+                # キーワードが主語の達成かチェック
+                is_subject_achievement = self._keyword_is_subject_achievement(episode_text, kw)
+
+                if is_subject_achievement:
+                    keyword_bonus += 10
+                else:
+                    # 他者参照・未来参照の場合は半減
+                    keyword_bonus += 5
+
                 # 主題一致ボーナス: 冒頭100文字以内に出現
-                # Tier1キーワード（ノーベル賞等）は出現自体が重要なので条件緩和
                 if kw in text_head and not primary_topic_found:
-                    if not has_negative:
-                        # 否定コンテキストなし → フルボーナス
+                    # 否定コンテキスト・他者参照・未来参照がない場合のみフルボーナス
+                    if not has_negative and not has_other_ref and not has_future_ref:
                         keyword_bonus += PRIMARY_TOPIC_BONUS
-                    # 否定コンテキストあり → ボーナスなし
                     primary_topic_found = True
 
         for kw in HISTORICAL_KEYWORDS["tier2"]:
@@ -194,7 +249,7 @@ class EpisodeFameV6Scorer:
                 keyword_bonus += 6
                 # tier2も主題一致ボーナス対象
                 if kw in text_head and not primary_topic_found:
-                    if has_achievement and not has_negative:
+                    if has_achievement and not has_negative and not has_other_ref:
                         keyword_bonus += PRIMARY_TOPIC_BONUS // 2
                     primary_topic_found = True
 
@@ -202,9 +257,10 @@ class EpisodeFameV6Scorer:
             if kw in episode_text:
                 keyword_bonus += 3
 
-        # 否定コンテキストペナルティ（冒頭に否定的言及がある場合）
-        if has_negative:
-            keyword_bonus -= NEGATIVE_CONTEXT_PENALTY
+        # 否定コンテキストペナルティ（累積、最大値あり）
+        if negative_count > 0:
+            penalty = min(negative_count * NEGATIVE_CONTEXT_PENALTY, NEGATIVE_CONTEXT_MAX_PENALTY)
+            keyword_bonus -= penalty
 
         score += min(max(0, keyword_bonus), KEYWORD_BONUS_MAX + PRIMARY_TOPIC_BONUS)
 
@@ -230,6 +286,37 @@ class EpisodeFameV6Scorer:
             if kw in episode_text:
                 penalty += 3
         return min(penalty, PENALTY_MAX)
+
+    def calculate_retrospective_penalty(self, episode_text: str) -> float:
+        """
+        回顧・具体性欠如ペナルティ計算（0-20）
+
+        「晩年の回顧」「人生を振り返り」など具体的事象がない
+        エピソードにペナルティを適用する。
+        """
+        penalty = 0.0
+
+        # 1. 回顧パターン検出
+        retrospective_count = 0
+        for pattern in RETROSPECTIVE_PATTERNS:
+            if re.search(pattern, episode_text):
+                retrospective_count += 1
+
+        if retrospective_count > 0:
+            penalty += min(
+                retrospective_count * RETROSPECTIVE_PENALTY_PER_PATTERN,
+                RETROSPECTIVE_PENALTY_MAX,
+            )
+
+        # 2. 具体性欠如の検出
+        # 具体的イベント指標が1つもない場合、追加ペナルティ
+        has_concrete_event = any(re.search(pattern, episode_text) for pattern in CONCRETE_EVENT_INDICATORS)
+
+        if not has_concrete_event and retrospective_count > 0:
+            # 回顧表現があり、かつ具体的イベントがない場合のみ追加ペナルティ
+            penalty += LACK_OF_SPECIFICITY_PENALTY
+
+        return min(penalty, 20.0)  # 最大20点
 
     def calculate_tier(self, score: float) -> int:
         """ティア判定"""
@@ -266,6 +353,7 @@ class EpisodeFameV6Scorer:
         pv_signal = self.calculate_pv_signal(data.multi_lang_pv)
         episode_bonus = self.calculate_episode_bonus(data.episode_count)
         penalty = self.calculate_penalty(data.episode_text)
+        retrospective_penalty = self.calculate_retrospective_penalty(data.episode_text)
 
         # 加重合計
         total = (
@@ -275,6 +363,7 @@ class EpisodeFameV6Scorer:
             + pv_signal * WEIGHTS["pv_signal"]
             + episode_bonus * WEIGHTS["episode_bonus"]
             - penalty
+            - retrospective_penalty  # 回顧・具体性欠如ペナルティ適用
         )
 
         # Tier1キーワード直接ボーナス（ノーベル賞、グラミー賞等）
@@ -307,6 +396,7 @@ class EpisodeFameV6Scorer:
             pv_signal=pv_signal,
             episode_bonus=episode_bonus,
             penalty=penalty,
+            retrospective_penalty=retrospective_penalty,
             total_score=total,
             tier=tier,
         )

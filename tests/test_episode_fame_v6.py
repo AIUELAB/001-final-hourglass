@@ -162,11 +162,12 @@ class TestScorer:
         ]
 
     def test_score_range(self, sample_episodes):
-        """スコアが0-100の範囲内"""
+        """スコアが0以上（上限なし: 同率問題解消のため100超許容）"""
         scorer = EpisodeFameV6Scorer(sample_episodes)
         for ep in sample_episodes:
             breakdown = scorer.score_episode(ep)
-            assert 0 <= breakdown.total_score <= 100, f"スコアが範囲外: {breakdown.total_score}"
+            # 下限は0、上限はなし（Tier1ボーナス等で100超も正常）
+            assert breakdown.total_score >= 0, f"スコアが負: {breakdown.total_score}"
 
     def test_high_fame_person_scores_higher(self, sample_episodes):
         """高知名度人物が高スコア"""

@@ -7,6 +7,10 @@
 検出ロジック:
 - 社会的影響度キーワード（万部、ベストセラー、金メダル、ノーベル等）を含むエピソードが
   同一人物内で上位にいない場合に警告
+
+v2改善 (2026-01-04):
+- 1位もTier1キーワードを含む場合は逆転としてカウントしない（両方重要なので順位差は許容）
+- 差分閾値を導入（5点以上の差がある場合のみ逆転）
 """
 
 import csv
@@ -53,6 +57,9 @@ TIER1_KEYWORDS = [
 # Tier2: 重要だが汎用的（逆転検出には使用しない）
 # 参考用: "万部", "ベストセラー", "大ヒット", "革命", "独立", "解放", "CEO", "創業者"
 
+# v2改善: 差分閾値（この点差以上の場合のみ逆転とみなす）
+SCORE_DIFF_THRESHOLD = 5.0
+
 
 def detect_inversions(all_eps: list[dict]) -> list[dict]:
     """逆転候補を検出"""
@@ -72,31 +79,51 @@ def detect_inversions(all_eps: list[dict]) -> list[dict]:
         # v6スコアでソート
         sorted_eps = sorted(eps, key=lambda x: float(x.get("episode_fame_v6") or 0), reverse=True)
 
+        # 1位のエピソード情報を取得
+        top_ep = sorted_eps[0]
+        top_v6 = float(top_ep.get("episode_fame_v6") or 0)
+        top_text = top_ep.get("episode_text", "")
+        top_keywords = [kw for kw in TIER1_KEYWORDS if kw in top_text]
+
         # 各エピソードの高影響度キーワードをカウント
         for rank, ep in enumerate(sorted_eps, 1):
+            if rank == 1:
+                continue  # 1位はスキップ
+
             text = ep.get("episode_text", "")
             matched_keywords = [kw for kw in TIER1_KEYWORDS if kw in text]
 
             # 高影響度キーワードがあるのに2位以下の場合
-            if matched_keywords and rank > 1:
-                top_ep = sorted_eps[0]
-                top_keywords = [kw for kw in TIER1_KEYWORDS if kw in top_ep.get("episode_text", "")]
+            if not matched_keywords:
+                continue
 
-                # 1位より多くのキーワードを持っているのに低順位
-                if len(matched_keywords) > len(top_keywords):
-                    inversions.append(
-                        {
-                            "person_name": ep.get("person_name", ""),
-                            "person_id": person_id,
-                            "episode_id": ep.get("episode_id", ""),
-                            "rank": rank,
-                            "v6_score": float(ep.get("episode_fame_v6") or 0),
-                            "keywords": matched_keywords,
-                            "top_episode_id": top_ep.get("episode_id", ""),
-                            "top_v6_score": float(top_ep.get("episode_fame_v6") or 0),
-                            "top_keywords": top_keywords,
-                        }
-                    )
+            current_v6 = float(ep.get("episode_fame_v6") or 0)
+            score_diff = top_v6 - current_v6
+
+            # v2改善: 1位もTier1キーワードを含む場合は逆転としてカウントしない
+            if top_keywords:
+                continue  # 両方重要なエピソードなので順位差は許容
+
+            # v2改善: 差分が閾値未満の場合も逆転としてカウントしない
+            if score_diff < SCORE_DIFF_THRESHOLD:
+                continue  # 僅差なので許容
+
+            # 1位より多くのキーワードを持っているのに低順位
+            if len(matched_keywords) > len(top_keywords):
+                inversions.append(
+                    {
+                        "person_name": ep.get("person_name", ""),
+                        "person_id": person_id,
+                        "episode_id": ep.get("episode_id", ""),
+                        "rank": rank,
+                        "v6_score": current_v6,
+                        "keywords": matched_keywords,
+                        "top_episode_id": top_ep.get("episode_id", ""),
+                        "top_v6_score": top_v6,
+                        "top_keywords": top_keywords,
+                        "score_diff": score_diff,
+                    }
+                )
 
     return inversions
 
@@ -114,14 +141,19 @@ def generate_report(inversions: list[dict]) -> str:
 
     if not inversions:
         lines.append("✅ 逆転候補なし")
+        lines.append("")
+        lines.append("検出条件:")
+        lines.append(f"- 差分閾値: {SCORE_DIFF_THRESHOLD}点以上")
+        lines.append("- 1位がTier1キーワードを含む場合は除外")
     else:
-        lines.append("| 人物名 | 逆転EP | 順位 | v6 | キーワード | 1位EP | 1位v6 |")
-        lines.append("|--------|--------|------|-----|-----------|-------|-------|")
+        lines.append("| 人物名 | 逆転EP | 順位 | v6 | 差分 | キーワード | 1位EP | 1位v6 |")
+        lines.append("|--------|--------|------|-----|------|-----------|-------|-------|")
         for inv in inversions[:20]:  # 上位20件
             keywords = ", ".join(inv["keywords"][:3])
+            score_diff = inv.get("score_diff", 0)
             lines.append(
                 f"| {inv['person_name']} | {inv['episode_id']} | {inv['rank']}位 | "
-                f"{inv['v6_score']:.2f} | {keywords} | {inv['top_episode_id']} | {inv['top_v6_score']:.2f} |"
+                f"{inv['v6_score']:.2f} | {score_diff:.2f} | {keywords} | {inv['top_episode_id']} | {inv['top_v6_score']:.2f} |"
             )
 
     return "\n".join(lines)

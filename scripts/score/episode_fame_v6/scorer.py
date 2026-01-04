@@ -290,6 +290,12 @@ class EpisodeFameV6Scorer:
         total += award_bonus
 
         total = max(0, min(100, total))
+
+        # Tier1エピソードの最低スコア保証（78点フロア）
+        # ノーベル賞等の重要イベントは最低78点を保証
+        if any(kw in data.episode_text for kw in TIER1_KEYWORDS):
+            total = max(total, 78.0)
+
         tier = self.calculate_tier(total)
 
         return ScoreBreakdown(

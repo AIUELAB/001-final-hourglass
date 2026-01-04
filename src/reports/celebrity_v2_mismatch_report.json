@@ -1,0 +1,1428 @@
+{
+  "timestamp": "2026-01-04T12:46:07.844919",
+  "summary": {
+    "csv_persons": 6851,
+    "db_persons": 7153,
+    "mismatches": 177,
+    "template_copy_score": 610.063299107762,
+    "template_copy_count": 173
+  },
+  "mismatches": [
+    {
+      "person_id": "P0698595",
+      "person_name": "J.M.W.ターナー",
+      "csv_score": 610.063299,
+      "db_score": 125.560393,
+      "difference": 484.502906,
+      "db_rank": 7022
+    },
+    {
+      "person_id": "P38F7CE6",
+      "person_name": "シューマン",
+      "csv_score": 610.063299,
+      "db_score": 125.560446,
+      "difference": 484.502853,
+      "db_rank": 6924
+    },
+    {
+      "person_id": "P9A86289",
+      "person_name": "ジェームズ・クラーク・マクスウェル",
+      "csv_score": 125.560443,
+      "db_score": 601.72205,
+      "difference": 476.161607,
+      "db_rank": 945
+    },
+    {
+      "person_id": "P58A3909",
+      "person_name": "ミルトン・フリードマン",
+      "csv_score": 125.560589,
+      "db_score": 597.131878,
+      "difference": 471.571289,
+      "db_rank": 1026
+    },
+    {
+      "person_id": "P05A04C4",
+      "person_name": "笑福亭仁鶴",
+      "csv_score": 610.063299,
+      "db_score": 150.72329,
+      "difference": 459.340009,
+      "db_rank": 6473
+    },
+    {
+      "person_id": "P4C91A44",
+      "person_name": "ゲオルク・ヘーゲル",
+      "csv_score": 610.063299,
+      "db_score": 196.412431,
+      "difference": 413.650868,
+      "db_rank": 6440
+    },
+    {
+      "person_id": "PAB5B665",
+      "person_name": "ジャン・ジャック・ルソー",
+      "csv_score": 610.063299,
+      "db_score": 245.413751,
+      "difference": 364.649548,
+      "db_rank": 6411
+    },
+    {
+      "person_id": "PB79412A",
+      "person_name": "空海",
+      "csv_score": 610.063299,
+      "db_score": 285.946665,
+      "difference": 324.116634,
+      "db_rank": 6367
+    },
+    {
+      "person_id": "P45509DD",
+      "person_name": "メンデルスゾーン",
+      "csv_score": 610.063299,
+      "db_score": 290.43631,
+      "difference": 319.626989,
+      "db_rank": 6357
+    },
+    {
+      "person_id": "P7022B27",
+      "person_name": "桂枝雀",
+      "csv_score": 610.063299,
+      "db_score": 305.988289,
+      "difference": 304.07501,
+      "db_rank": 6331
+    },
+    {
+      "person_id": "P58F7B83",
+      "person_name": "モンテスキュー",
+      "csv_score": 610.063299,
+      "db_score": 337.811519,
+      "difference": 272.251781,
+      "db_rank": 6234
+    },
+    {
+      "person_id": "P4B14B67",
+      "person_name": "大宅壮一",
+      "csv_score": 610.063299,
+      "db_score": 359.667791,
+      "difference": 250.395508,
+      "db_rank": 6133
+    },
+    {
+      "person_id": "P1F0726F",
+      "person_name": "ウィルバー・ライト",
+      "csv_score": 610.063299,
+      "db_score": 361.012275,
+      "difference": 249.051024,
+      "db_rank": 6124
+    },
+    {
+      "person_id": "PBE44B57",
+      "person_name": "高松宮宣仁親王",
+      "csv_score": 610.063299,
+      "db_score": 363.710062,
+      "difference": 246.353237,
+      "db_rank": 6104
+    },
+    {
+      "person_id": "P83CD79E",
+      "person_name": "オーヴィル・ライト",
+      "csv_score": 610.063299,
+      "db_score": 372.389021,
+      "difference": 237.674279,
+      "db_rank": 6039
+    },
+    {
+      "person_id": "PFD51BD8",
+      "person_name": "立花隆",
+      "csv_score": 610.063299,
+      "db_score": 377.066362,
+      "difference": 232.996937,
+      "db_rank": 6002
+    },
+    {
+      "person_id": "P83E3795",
+      "person_name": "植木等",
+      "csv_score": 610.063299,
+      "db_score": 386.752428,
+      "difference": 223.310871,
+      "db_rank": 5916
+    },
+    {
+      "person_id": "PE06B4A2",
+      "person_name": "片山哲",
+      "csv_score": 610.063299,
+      "db_score": 388.945561,
+      "difference": 221.117738,
+      "db_rank": 5898
+    },
+    {
+      "person_id": "P69DDB48",
+      "person_name": "カラヴァッジオ",
+      "csv_score": 610.063299,
+      "db_score": 396.47128,
+      "difference": 213.592019,
+      "db_rank": 5816
+    },
+    {
+      "person_id": "PA5D8DCA",
+      "person_name": "芦田均",
+      "csv_score": 610.063299,
+      "db_score": 396.985825,
+      "difference": 213.077474,
+      "db_rank": 5808
+    },
+    {
+      "person_id": "PBE355C2",
+      "person_name": "香淳皇后",
+      "csv_score": 610.063299,
+      "db_score": 397.857947,
+      "difference": 212.205352,
+      "db_rank": 5793
+    },
+    {
+      "person_id": "PC786E8B",
+      "person_name": "本田美奈子",
+      "csv_score": 610.063299,
+      "db_score": 405.097376,
+      "difference": 204.965924,
+      "db_rank": 5706
+    },
+    {
+      "person_id": "P32FF357",
+      "person_name": "小林麻央",
+      "csv_score": 610.063299,
+      "db_score": 405.168696,
+      "difference": 204.894603,
+      "db_rank": 5705
+    },
+    {
+      "person_id": "PF03C86E",
+      "person_name": "鈴木貫太郎",
+      "csv_score": 610.063299,
+      "db_score": 407.841615,
+      "difference": 202.221684,
+      "db_rank": 5674
+    },
+    {
+      "person_id": "PB59B3AC",
+      "person_name": "原敬",
+      "csv_score": 610.063299,
+      "db_score": 408.834399,
+      "difference": 201.2289,
+      "db_rank": 5659
+    },
+    {
+      "person_id": "PD730316",
+      "person_name": "三笠宮崇仁",
+      "csv_score": 610.063299,
+      "db_score": 409.803563,
+      "difference": 200.259736,
+      "db_rank": 5638
+    },
+    {
+      "person_id": "P49AD4C5",
+      "person_name": "三木武夫",
+      "csv_score": 610.063299,
+      "db_score": 414.113385,
+      "difference": 195.949914,
+      "db_rank": 5586
+    },
+    {
+      "person_id": "PE5C25AF",
+      "person_name": "織田信長",
+      "csv_score": 682.657281,
+      "db_score": 490.000335,
+      "difference": 192.656946,
+      "db_rank": 4222
+    },
+    {
+      "person_id": "P980372A",
+      "person_name": "山県有朋",
+      "csv_score": 610.063299,
+      "db_score": 417.801202,
+      "difference": 192.262097,
+      "db_rank": 5535
+    },
+    {
+      "person_id": "PBD295B5",
+      "person_name": "大平正芳",
+      "csv_score": 610.063299,
+      "db_score": 426.686304,
+      "difference": 183.376995,
+      "db_rank": 5417
+    },
+    {
+      "person_id": "P7DB6573",
+      "person_name": "福田赳夫",
+      "csv_score": 610.063299,
+      "db_score": 427.869441,
+      "difference": 182.193858,
+      "db_rank": 5401
+    },
+    {
+      "person_id": "P613526B",
+      "person_name": "海部俊樹",
+      "csv_score": 610.063299,
+      "db_score": 435.99505,
+      "difference": 174.068249,
+      "db_rank": 5259
+    },
+    {
+      "person_id": "PEAF30A7",
+      "person_name": "竹下登",
+      "csv_score": 610.063299,
+      "db_score": 439.663022,
+      "difference": 170.400277,
+      "db_rank": 5198
+    },
+    {
+      "person_id": "P98950E8",
+      "person_name": "辻静雄",
+      "csv_score": 610.063299,
+      "db_score": 445.330311,
+      "difference": 164.732988,
+      "db_rank": 5109
+    },
+    {
+      "person_id": "PA615277",
+      "person_name": "アンディ・フグ",
+      "csv_score": 610.063299,
+      "db_score": 446.975166,
+      "difference": 163.088133,
+      "db_rank": 5088
+    },
+    {
+      "person_id": "PF22C321",
+      "person_name": "ベン・ホーガン",
+      "csv_score": 610.063299,
+      "db_score": 447.789477,
+      "difference": 162.273822,
+      "db_rank": 5070
+    },
+    {
+      "person_id": "PA9F61D8",
+      "person_name": "湯木貞一",
+      "csv_score": 610.063299,
+      "db_score": 453.647811,
+      "difference": 156.415489,
+      "db_rank": 4952
+    },
+    {
+      "person_id": "PF32D761",
+      "person_name": "木村伊兵衛",
+      "csv_score": 610.063299,
+      "db_score": 456.35934,
+      "difference": 153.703959,
+      "db_rank": 4909
+    },
+    {
+      "person_id": "P9D92F34",
+      "person_name": "長谷川恒男",
+      "csv_score": 610.063299,
+      "db_score": 458.322852,
+      "difference": 151.740447,
+      "db_rank": 4869
+    },
+    {
+      "person_id": "PABDE1FC",
+      "person_name": "小倉昌男",
+      "csv_score": 610.063299,
+      "db_score": 459.645718,
+      "difference": 150.417581,
+      "db_rank": 4836
+    },
+    {
+      "person_id": "P8A02144",
+      "person_name": "一休宗純",
+      "csv_score": 610.063299,
+      "db_score": 460.477087,
+      "difference": 149.586212,
+      "db_rank": 4824
+    },
+    {
+      "person_id": "P89609D6",
+      "person_name": "大正天皇",
+      "csv_score": 610.063299,
+      "db_score": 461.036378,
+      "difference": 149.026921,
+      "db_rank": 4817
+    },
+    {
+      "person_id": "P6029CA5",
+      "person_name": "リーマン",
+      "csv_score": 610.063299,
+      "db_score": 466.871955,
+      "difference": 143.191345,
+      "db_rank": 4726
+    },
+    {
+      "person_id": "P3841A61",
+      "person_name": "森永太一郎",
+      "csv_score": 610.063299,
+      "db_score": 468.602059,
+      "difference": 141.461241,
+      "db_rank": 4697
+    },
+    {
+      "person_id": "P94661CE",
+      "person_name": "ロックフェラー",
+      "csv_score": 610.063299,
+      "db_score": 471.804912,
+      "difference": 138.258387,
+      "db_rank": 4635
+    },
+    {
+      "person_id": "PA709E37",
+      "person_name": "東条英機",
+      "csv_score": 610.063299,
+      "db_score": 472.516753,
+      "difference": 137.546546,
+      "db_rank": 4617
+    },
+    {
+      "person_id": "P072AD0B",
+      "person_name": "志賀潔",
+      "csv_score": 610.063299,
+      "db_score": 472.927229,
+      "difference": 137.13607,
+      "db_rank": 4610
+    },
+    {
+      "person_id": "PC3663D2",
+      "person_name": "加藤周一",
+      "csv_score": 610.063299,
+      "db_score": 474.866962,
+      "difference": 135.196337,
+      "db_rank": 4564
+    },
+    {
+      "person_id": "P50AFF83",
+      "person_name": "九鬼周造",
+      "csv_score": 610.063299,
+      "db_score": 477.885295,
+      "difference": 132.178004,
+      "db_rank": 4491
+    },
+    {
+      "person_id": "P55B45C6",
+      "person_name": "マーゴ・フォンテイン",
+      "csv_score": 610.063299,
+      "db_score": 477.947077,
+      "difference": 132.116222,
+      "db_rank": 4489
+    },
+    {
+      "person_id": "PE875672",
+      "person_name": "佐藤忠良",
+      "csv_score": 610.063299,
+      "db_score": 484.431095,
+      "difference": 125.632204,
+      "db_rank": 4356
+    },
+    {
+      "person_id": "P0245FD9",
+      "person_name": "コンスタンティン・ブランクーシ",
+      "csv_score": 610.063299,
+      "db_score": 485.025341,
+      "difference": 125.037958,
+      "db_rank": 4348
+    },
+    {
+      "person_id": "P56F4CD8",
+      "person_name": "仁科芳雄",
+      "csv_score": 610.063299,
+      "db_score": 486.90461,
+      "difference": 123.158689,
+      "db_rank": 4299
+    },
+    {
+      "person_id": "PEFEF6D5",
+      "person_name": "ジョージ・マロリー",
+      "csv_score": 610.063299,
+      "db_score": 486.955707,
+      "difference": 123.107592,
+      "db_rank": 4298
+    },
+    {
+      "person_id": "P5DEAE80",
+      "person_name": "長岡半太郎",
+      "csv_score": 610.063299,
+      "db_score": 486.997254,
+      "difference": 123.066045,
+      "db_rank": 4297
+    },
+    {
+      "person_id": "P950658F",
+      "person_name": "出光佐三",
+      "csv_score": 610.063299,
+      "db_score": 487.335193,
+      "difference": 122.728106,
+      "db_rank": 4289
+    },
+    {
+      "person_id": "P60A0B73",
+      "person_name": "ピエール・カルダン",
+      "csv_score": 610.063299,
+      "db_score": 487.521579,
+      "difference": 122.54172,
+      "db_rank": 4283
+    },
+    {
+      "person_id": "PA85E61E",
+      "person_name": "コンスタブル",
+      "csv_score": 610.063299,
+      "db_score": 487.585235,
+      "difference": 122.478064,
+      "db_rank": 4281
+    },
+    {
+      "person_id": "PEC80ECA",
+      "person_name": "豊臣秀吉",
+      "csv_score": 373.900146,
+      "db_score": 490.000341,
+      "difference": 116.100196,
+      "db_rank": 4221
+    },
+    {
+      "person_id": "PD9AC398",
+      "person_name": "大河内傳次郎",
+      "csv_score": 610.063299,
+      "db_score": 497.149026,
+      "difference": 112.914273,
+      "db_rank": 4062
+    },
+    {
+      "person_id": "P7310829",
+      "person_name": "ゲーテ",
+      "csv_score": 610.063299,
+      "db_score": 719.014928,
+      "difference": 108.951629,
+      "db_rank": 86
+    },
+    {
+      "person_id": "PCA263CB",
+      "person_name": "ジャコメッティ",
+      "csv_score": 610.063299,
+      "db_score": 503.438862,
+      "difference": 106.624437,
+      "db_rank": 3902
+    },
+    {
+      "person_id": "PDFE59DF",
+      "person_name": "ハワード・ホークス",
+      "csv_score": 610.063299,
+      "db_score": 504.645189,
+      "difference": 105.41811,
+      "db_rank": 3867
+    },
+    {
+      "person_id": "P048D1AE",
+      "person_name": "木下惠介",
+      "csv_score": 610.063299,
+      "db_score": 505.380063,
+      "difference": 104.683236,
+      "db_rank": 3846
+    },
+    {
+      "person_id": "P9082122",
+      "person_name": "ルー・ゲーリッグ",
+      "csv_score": 610.063299,
+      "db_score": 507.720826,
+      "difference": 102.342473,
+      "db_rank": 3784
+    },
+    {
+      "person_id": "PFF3645C",
+      "person_name": "鈴木清順",
+      "csv_score": 610.063299,
+      "db_score": 510.673647,
+      "difference": 99.389652,
+      "db_rank": 3705
+    },
+    {
+      "person_id": "PAD83A47",
+      "person_name": "中江兆民",
+      "csv_score": 610.063299,
+      "db_score": 511.119703,
+      "difference": 98.943596,
+      "db_rank": 3698
+    },
+    {
+      "person_id": "P6CD8311",
+      "person_name": "和辻哲郎",
+      "csv_score": 610.063299,
+      "db_score": 511.708725,
+      "difference": 98.354574,
+      "db_rank": 3679
+    },
+    {
+      "person_id": "PECB5C9D",
+      "person_name": "河合隼雄",
+      "csv_score": 610.063299,
+      "db_score": 513.514309,
+      "difference": 96.54899,
+      "db_rank": 3628
+    },
+    {
+      "person_id": "PFDF2E4D",
+      "person_name": "ヴィヴィアン・ウエストウッド",
+      "csv_score": 610.063299,
+      "db_score": 514.607377,
+      "difference": 95.455922,
+      "db_rank": 3599
+    },
+    {
+      "person_id": "P2F7C9F0",
+      "person_name": "成瀬巳喜男",
+      "csv_score": 610.063299,
+      "db_score": 514.625868,
+      "difference": 95.437431,
+      "db_rank": 3597
+    },
+    {
+      "person_id": "PC33A8DA",
+      "person_name": "近衛文麿",
+      "csv_score": 610.063299,
+      "db_score": 516.878867,
+      "difference": 93.184432,
+      "db_rank": 3533
+    },
+    {
+      "person_id": "PC631F74",
+      "person_name": "服部良一",
+      "csv_score": 610.063299,
+      "db_score": 518.802231,
+      "difference": 91.261068,
+      "db_rank": 3491
+    },
+    {
+      "person_id": "PF04FCF1",
+      "person_name": "尾形光琳",
+      "csv_score": 610.063299,
+      "db_score": 518.900839,
+      "difference": 91.16246,
+      "db_rank": 3487
+    },
+    {
+      "person_id": "P20346E9",
+      "person_name": "木村花",
+      "csv_score": 610.063299,
+      "db_score": 521.145692,
+      "difference": 88.917607,
+      "db_rank": 3441
+    },
+    {
+      "person_id": "P73898E0",
+      "person_name": "岡本喜八",
+      "csv_score": 610.063299,
+      "db_score": 521.972658,
+      "difference": 88.090641,
+      "db_rank": 3419
+    },
+    {
+      "person_id": "PEBDD3B2",
+      "person_name": "逸見政孝",
+      "csv_score": 610.063299,
+      "db_score": 522.405734,
+      "difference": 87.657566,
+      "db_rank": 3407
+    },
+    {
+      "person_id": "PC4022E3",
+      "person_name": "ジョナス・ソーク",
+      "csv_score": 610.063299,
+      "db_score": 523.212771,
+      "difference": 86.850528,
+      "db_rank": 3385
+    },
+    {
+      "person_id": "PD12BCEF",
+      "person_name": "堤康次郎",
+      "csv_score": 610.063299,
+      "db_score": 526.215935,
+      "difference": 83.847364,
+      "db_rank": 3299
+    },
+    {
+      "person_id": "PC6DDCB6",
+      "person_name": "古賀政男",
+      "csv_score": 610.063299,
+      "db_score": 526.696223,
+      "difference": 83.367076,
+      "db_rank": 3284
+    },
+    {
+      "person_id": "P07A779C",
+      "person_name": "田中絹代",
+      "csv_score": 610.063299,
+      "db_score": 526.942043,
+      "difference": 83.121256,
+      "db_rank": 3278
+    },
+    {
+      "person_id": "P3B3B39E",
+      "person_name": "ウィリアム・ワイラー",
+      "csv_score": 610.063299,
+      "db_score": 528.506833,
+      "difference": 81.556466,
+      "db_rank": 3226
+    },
+    {
+      "person_id": "PA1813DE",
+      "person_name": "円山応挙",
+      "csv_score": 610.063299,
+      "db_score": 528.768872,
+      "difference": 81.294427,
+      "db_rank": 3215
+    },
+    {
+      "person_id": "P48B6814",
+      "person_name": "市川右太衛門",
+      "csv_score": 610.063299,
+      "db_score": 529.597576,
+      "difference": 80.465724,
+      "db_rank": 3179
+    },
+    {
+      "person_id": "PD0BA4CF",
+      "person_name": "伊藤若冲",
+      "csv_score": 610.063299,
+      "db_score": 529.851506,
+      "difference": 80.211793,
+      "db_rank": 3173
+    },
+    {
+      "person_id": "PD180689",
+      "person_name": "星野道夫",
+      "csv_score": 610.063299,
+      "db_score": 531.755703,
+      "difference": 78.307596,
+      "db_rank": 3111
+    },
+    {
+      "person_id": "PE85B85F",
+      "person_name": "小林桂樹",
+      "csv_score": 610.063299,
+      "db_score": 531.816584,
+      "difference": 78.246715,
+      "db_rank": 3107
+    },
+    {
+      "person_id": "PBC85A4B",
+      "person_name": "ルドルフ・ディーゼル",
+      "csv_score": 610.063299,
+      "db_score": 532.33339,
+      "difference": 77.72991,
+      "db_rank": 3095
+    },
+    {
+      "person_id": "P85620CD",
+      "person_name": "岡倉天心",
+      "csv_score": 610.063299,
+      "db_score": 532.48331,
+      "difference": 77.579989,
+      "db_rank": 3090
+    },
+    {
+      "person_id": "PE17624B",
+      "person_name": "岡潔",
+      "csv_score": 610.063299,
+      "db_score": 533.718935,
+      "difference": 76.344364,
+      "db_rank": 3043
+    },
+    {
+      "person_id": "P02043B1",
+      "person_name": "宝田明",
+      "csv_score": 610.063299,
+      "db_score": 536.633539,
+      "difference": 73.42976,
+      "db_rank": 2957
+    },
+    {
+      "person_id": "P4CF4141",
+      "person_name": "魯山人",
+      "csv_score": 610.063299,
+      "db_score": 537.282921,
+      "difference": 72.780378,
+      "db_rank": 2943
+    },
+    {
+      "person_id": "PA6BA3A6",
+      "person_name": "片岡千恵蔵",
+      "csv_score": 610.063299,
+      "db_score": 538.100629,
+      "difference": 71.96267,
+      "db_rank": 2915
+    },
+    {
+      "person_id": "P564BAB4",
+      "person_name": "原節子",
+      "csv_score": 610.063299,
+      "db_score": 538.177964,
+      "difference": 71.885336,
+      "db_rank": 2912
+    },
+    {
+      "person_id": "PC932FDF",
+      "person_name": "河島英五",
+      "csv_score": 610.063299,
+      "db_score": 538.203108,
+      "difference": 71.860191,
+      "db_rank": 2910
+    },
+    {
+      "person_id": "P5CD550B",
+      "person_name": "児玉源太郎",
+      "csv_score": 610.063299,
+      "db_score": 538.230819,
+      "difference": 71.83248,
+      "db_rank": 2906
+    },
+    {
+      "person_id": "P3151C85",
+      "person_name": "米長邦雄",
+      "csv_score": 610.063299,
+      "db_score": 539.18522,
+      "difference": 70.878079,
+      "db_rank": 2877
+    },
+    {
+      "person_id": "P8D79EFF",
+      "person_name": "フランク・ロイド・ライト",
+      "csv_score": 610.063299,
+      "db_score": 680.215582,
+      "difference": 70.152283,
+      "db_rank": 238
+    },
+    {
+      "person_id": "P280B118",
+      "person_name": "長谷川一夫",
+      "csv_score": 610.063299,
+      "db_score": 540.493461,
+      "difference": 69.569838,
+      "db_rank": 2826
+    },
+    {
+      "person_id": "PC790547",
+      "person_name": "京マチ子",
+      "csv_score": 610.063299,
+      "db_score": 541.034254,
+      "difference": 69.029046,
+      "db_rank": 2804
+    },
+    {
+      "person_id": "P92DF315",
+      "person_name": "イサム・ノグチ",
+      "csv_score": 610.063299,
+      "db_score": 541.895973,
+      "difference": 68.167326,
+      "db_rank": 2771
+    },
+    {
+      "person_id": "P7CB91C7",
+      "person_name": "豊田喜一郎",
+      "csv_score": 610.063299,
+      "db_score": 543.09329,
+      "difference": 66.970009,
+      "db_rank": 2741
+    },
+    {
+      "person_id": "P6477989",
+      "person_name": "北条時宗",
+      "csv_score": 610.063299,
+      "db_score": 543.194005,
+      "difference": 66.869294,
+      "db_rank": 2735
+    },
+    {
+      "person_id": "P4C95033",
+      "person_name": "杉村春子",
+      "csv_score": 610.063299,
+      "db_score": 544.271969,
+      "difference": 65.79133,
+      "db_rank": 2692
+    },
+    {
+      "person_id": "P344F87F",
+      "person_name": "シドニー・ルメット",
+      "csv_score": 610.063299,
+      "db_score": 545.136485,
+      "difference": 64.926814,
+      "db_rank": 2661
+    },
+    {
+      "person_id": "P7C1A689",
+      "person_name": "ロバート・スコット",
+      "csv_score": 610.063299,
+      "db_score": 545.908751,
+      "difference": 64.154548,
+      "db_rank": 2643
+    },
+    {
+      "person_id": "P41F44E2",
+      "person_name": "山田康雄",
+      "csv_score": 610.063299,
+      "db_score": 546.788598,
+      "difference": 63.274701,
+      "db_rank": 2618
+    },
+    {
+      "person_id": "PF959A20",
+      "person_name": "萩原朔太郎",
+      "csv_score": 610.063299,
+      "db_score": 546.939085,
+      "difference": 63.124214,
+      "db_rank": 2613
+    },
+    {
+      "person_id": "P437E8BA",
+      "person_name": "竹久夢二",
+      "csv_score": 610.063299,
+      "db_score": 547.479663,
+      "difference": 62.583636,
+      "db_rank": 2598
+    },
+    {
+      "person_id": "P5676A70",
+      "person_name": "直江兼続",
+      "csv_score": 610.063299,
+      "db_score": 547.672432,
+      "difference": 62.390867,
+      "db_rank": 2584
+    },
+    {
+      "person_id": "P0142925",
+      "person_name": "岸田今日子",
+      "csv_score": 610.063299,
+      "db_score": 547.803428,
+      "difference": 62.259871,
+      "db_rank": 2576
+    },
+    {
+      "person_id": "PE61768B",
+      "person_name": "エリザベス・テイラー",
+      "csv_score": 610.063299,
+      "db_score": 672.13871,
+      "difference": 62.075411,
+      "db_rank": 264
+    },
+    {
+      "person_id": "P4646874",
+      "person_name": "牧野富太郎",
+      "csv_score": 610.063299,
+      "db_score": 549.525442,
+      "difference": 60.537857,
+      "db_rank": 2518
+    },
+    {
+      "person_id": "P0BE5FCE",
+      "person_name": "小林秀雄",
+      "csv_score": 610.063299,
+      "db_score": 549.606906,
+      "difference": 60.456393,
+      "db_rank": 2515
+    },
+    {
+      "person_id": "P82F7F58",
+      "person_name": "高村光太郎",
+      "csv_score": 610.063299,
+      "db_score": 549.875496,
+      "difference": 60.187803,
+      "db_rank": 2509
+    },
+    {
+      "person_id": "P646FED8",
+      "person_name": "加藤剛",
+      "csv_score": 610.063299,
+      "db_score": 551.208073,
+      "difference": 58.855226,
+      "db_rank": 2467
+    },
+    {
+      "person_id": "P119492A",
+      "person_name": "本多忠勝",
+      "csv_score": 610.063299,
+      "db_score": 551.360863,
+      "difference": 58.702436,
+      "db_rank": 2462
+    },
+    {
+      "person_id": "PBE7BE6B",
+      "person_name": "シドニー・ポラック",
+      "csv_score": 610.063299,
+      "db_score": 551.457003,
+      "difference": 58.606296,
+      "db_rank": 2457
+    },
+    {
+      "person_id": "PD0758DA",
+      "person_name": "柴田勝家",
+      "csv_score": 610.063299,
+      "db_score": 552.333733,
+      "difference": 57.729566,
+      "db_rank": 2418
+    },
+    {
+      "person_id": "PEA80B88",
+      "person_name": "北原白秋",
+      "csv_score": 610.063299,
+      "db_score": 553.271734,
+      "difference": 56.791565,
+      "db_rank": 2385
+    },
+    {
+      "person_id": "P1E7E752",
+      "person_name": "笠智衆",
+      "csv_score": 610.063299,
+      "db_score": 553.329025,
+      "difference": 56.734275,
+      "db_rank": 2381
+    },
+    {
+      "person_id": "PC6610E0",
+      "person_name": "鶴田浩二",
+      "csv_score": 610.063299,
+      "db_score": 554.059318,
+      "difference": 56.003981,
+      "db_rank": 2352
+    },
+    {
+      "person_id": "P7DE3B45",
+      "person_name": "井伏鱒二",
+      "csv_score": 610.063299,
+      "db_score": 554.892373,
+      "difference": 55.170926,
+      "db_rank": 2323
+    },
+    {
+      "person_id": "P9B42007",
+      "person_name": "藤子不二雄A",
+      "csv_score": 610.063299,
+      "db_score": 554.994428,
+      "difference": 55.068871,
+      "db_rank": 2318
+    },
+    {
+      "person_id": "PEC52465",
+      "person_name": "村下孝蔵",
+      "csv_score": 610.063299,
+      "db_score": 555.387058,
+      "difference": 54.676242,
+      "db_rank": 2300
+    },
+    {
+      "person_id": "P750FCC2",
+      "person_name": "北条氏康",
+      "csv_score": 610.063299,
+      "db_score": 556.976657,
+      "difference": 53.086642,
+      "db_rank": 2250
+    },
+    {
+      "person_id": "P4F8D9AE",
+      "person_name": "いかりや長介",
+      "csv_score": 610.063299,
+      "db_score": 557.56351,
+      "difference": 52.499789,
+      "db_rank": 2229
+    },
+    {
+      "person_id": "P15C16D3",
+      "person_name": "上岡龍太郎",
+      "csv_score": 610.063299,
+      "db_score": 557.836718,
+      "difference": 52.226581,
+      "db_rank": 2220
+    },
+    {
+      "person_id": "PE9BD8BB",
+      "person_name": "田宮二郎",
+      "csv_score": 610.063299,
+      "db_score": 558.068896,
+      "difference": 51.994404,
+      "db_rank": 2212
+    },
+    {
+      "person_id": "P1DCEC19",
+      "person_name": "カート・コバーン",
+      "csv_score": 610.063299,
+      "db_score": 660.877686,
+      "difference": 50.814387,
+      "db_rank": 317
+    },
+    {
+      "person_id": "PD91A781",
+      "person_name": "山本KID徳郁",
+      "csv_score": 610.063299,
+      "db_score": 560.664614,
+      "difference": 49.398686,
+      "db_rank": 2120
+    },
+    {
+      "person_id": "P08CF536",
+      "person_name": "沖田総司",
+      "csv_score": 610.063299,
+      "db_score": 563.052409,
+      "difference": 47.010891,
+      "db_rank": 2037
+    },
+    {
+      "person_id": "PB34B6FD",
+      "person_name": "雪舟",
+      "csv_score": 610.063299,
+      "db_score": 564.217437,
+      "difference": 45.845862,
+      "db_rank": 2001
+    },
+    {
+      "person_id": "P28778EB",
+      "person_name": "最澄",
+      "csv_score": 610.063299,
+      "db_score": 564.357309,
+      "difference": 45.70599,
+      "db_rank": 1999
+    },
+    {
+      "person_id": "PD5F4214",
+      "person_name": "ジェームズ・ワット",
+      "csv_score": 637.303582,
+      "db_score": 681.440108,
+      "difference": 44.136526,
+      "db_rank": 236
+    },
+    {
+      "person_id": "PDA34867",
+      "person_name": "今川義元",
+      "csv_score": 610.063299,
+      "db_score": 566.473672,
+      "difference": 43.589627,
+      "db_rank": 1929
+    },
+    {
+      "person_id": "P6DF20B8",
+      "person_name": "萩原健一",
+      "csv_score": 610.063299,
+      "db_score": 566.947002,
+      "difference": 43.116297,
+      "db_rank": 1912
+    },
+    {
+      "person_id": "P175CFAC",
+      "person_name": "道元",
+      "csv_score": 610.063299,
+      "db_score": 566.997231,
+      "difference": 43.066068,
+      "db_rank": 1911
+    },
+    {
+      "person_id": "P483F3B8",
+      "person_name": "立川談志",
+      "csv_score": 610.063299,
+      "db_score": 567.19702,
+      "difference": 42.866279,
+      "db_rank": 1905
+    },
+    {
+      "person_id": "P6423F5B",
+      "person_name": "市川雷蔵",
+      "csv_score": 610.063299,
+      "db_score": 568.466812,
+      "difference": 41.596487,
+      "db_rank": 1855
+    },
+    {
+      "person_id": "PE23413F",
+      "person_name": "菅原文太",
+      "csv_score": 610.063299,
+      "db_score": 569.162897,
+      "difference": 40.900402,
+      "db_rank": 1832
+    },
+    {
+      "person_id": "P5BD6C43",
+      "person_name": "上島竜兵",
+      "csv_score": 610.063299,
+      "db_score": 570.66972,
+      "difference": 39.39358,
+      "db_rank": 1790
+    },
+    {
+      "person_id": "PED6F5E3",
+      "person_name": "篠山紀信",
+      "csv_score": 610.063299,
+      "db_score": 570.816942,
+      "difference": 39.246357,
+      "db_rank": 1785
+    },
+    {
+      "person_id": "P2484165",
+      "person_name": "フェデリコ・フェリーニ",
+      "csv_score": 610.063299,
+      "db_score": 649.240408,
+      "difference": 39.177109,
+      "db_rank": 388
+    },
+    {
+      "person_id": "P5701315",
+      "person_name": "井伊直弼",
+      "csv_score": 610.063299,
+      "db_score": 571.288212,
+      "difference": 38.775087,
+      "db_rank": 1764
+    },
+    {
+      "person_id": "P8BF77B7",
+      "person_name": "中原中也",
+      "csv_score": 610.063299,
+      "db_score": 571.326566,
+      "difference": 38.736733,
+      "db_rank": 1763
+    },
+    {
+      "person_id": "PE6FD819",
+      "person_name": "親鸞",
+      "csv_score": 610.063299,
+      "db_score": 571.79231,
+      "difference": 38.270989,
+      "db_rank": 1750
+    },
+    {
+      "person_id": "P735A5E8",
+      "person_name": "石田三成",
+      "csv_score": 610.063299,
+      "db_score": 572.078204,
+      "difference": 37.985096,
+      "db_rank": 1740
+    },
+    {
+      "person_id": "P8559C46",
+      "person_name": "三遊亭円楽",
+      "csv_score": 610.063299,
+      "db_score": 572.328903,
+      "difference": 37.734396,
+      "db_rank": 1726
+    },
+    {
+      "person_id": "PEB231FA",
+      "person_name": "忌野清志郎",
+      "csv_score": 610.063299,
+      "db_score": 573.290941,
+      "difference": 36.772358,
+      "db_rank": 1686
+    },
+    {
+      "person_id": "P653E53B",
+      "person_name": "横山光輝",
+      "csv_score": 610.063299,
+      "db_score": 574.214685,
+      "difference": 35.848614,
+      "db_rank": 1646
+    },
+    {
+      "person_id": "P5F50783",
+      "person_name": "真田信繁",
+      "csv_score": 610.063299,
+      "db_score": 574.292678,
+      "difference": 35.770621,
+      "db_rank": 1644
+    },
+    {
+      "person_id": "P25011A2",
+      "person_name": "ジャイアント馬場",
+      "csv_score": 610.063299,
+      "db_score": 574.950036,
+      "difference": 35.113263,
+      "db_rank": 1625
+    },
+    {
+      "person_id": "P26C8B35",
+      "person_name": "大原麗子",
+      "csv_score": 610.063299,
+      "db_score": 575.705888,
+      "difference": 34.357411,
+      "db_rank": 1604
+    },
+    {
+      "person_id": "P8998A23",
+      "person_name": "毛利元就",
+      "csv_score": 610.063299,
+      "db_score": 575.826158,
+      "difference": 34.237141,
+      "db_rank": 1600
+    },
+    {
+      "person_id": "P594A4FE",
+      "person_name": "樋口一葉",
+      "csv_score": 610.063299,
+      "db_score": 575.928826,
+      "difference": 34.134473,
+      "db_rank": 1594
+    },
+    {
+      "person_id": "PA5B78DE",
+      "person_name": "源義経",
+      "csv_score": 610.063299,
+      "db_score": 576.462942,
+      "difference": 33.600357,
+      "db_rank": 1578
+    },
+    {
+      "person_id": "P13C05FB",
+      "person_name": "伊丹十三",
+      "csv_score": 610.063299,
+      "db_score": 577.041621,
+      "difference": 33.021678,
+      "db_rank": 1562
+    },
+    {
+      "person_id": "P5888348",
+      "person_name": "金田正一",
+      "csv_score": 610.063299,
+      "db_score": 577.261178,
+      "difference": 32.802121,
+      "db_rank": 1545
+    },
+    {
+      "person_id": "PBEC1492",
+      "person_name": "明智光秀",
+      "csv_score": 610.063299,
+      "db_score": 577.563919,
+      "difference": 32.49938,
+      "db_rank": 1537
+    },
+    {
+      "person_id": "P8CFA7F7",
+      "person_name": "イングマール・ベルイマン",
+      "csv_score": 610.063299,
+      "db_score": 642.254447,
+      "difference": 32.191148,
+      "db_rank": 440
+    },
+    {
+      "person_id": "PEBEB93F",
+      "person_name": "夏目雅子",
+      "csv_score": 610.063299,
+      "db_score": 579.217903,
+      "difference": 30.845396,
+      "db_rank": 1477
+    },
+    {
+      "person_id": "P0127810",
+      "person_name": "岡田有希子",
+      "csv_score": 610.063299,
+      "db_score": 580.384647,
+      "difference": 29.678652,
+      "db_rank": 1445
+    },
+    {
+      "person_id": "PD7D4CBE",
+      "person_name": "高杉晋作",
+      "csv_score": 610.063299,
+      "db_score": 581.105749,
+      "difference": 28.95755,
+      "db_rank": 1420
+    },
+    {
+      "person_id": "PE40C0F6",
+      "person_name": "西城秀樹",
+      "csv_score": 610.063299,
+      "db_score": 581.319176,
+      "difference": 28.744123,
+      "db_rank": 1416
+    },
+    {
+      "person_id": "P2CF74D2",
+      "person_name": "フィリップ・シーモア・ホフマン",
+      "csv_score": 610.063299,
+      "db_score": 582.80584,
+      "difference": 27.25746,
+      "db_rank": 1364
+    },
+    {
+      "person_id": "P9A4B396",
+      "person_name": "永井荷風",
+      "csv_score": 610.063299,
+      "db_score": 583.768293,
+      "difference": 26.295006,
+      "db_rank": 1343
+    },
+    {
+      "person_id": "PA3902F7",
+      "person_name": "加藤清正",
+      "csv_score": 610.063299,
+      "db_score": 584.469715,
+      "difference": 25.593584,
+      "db_rank": 1320
+    },
+    {
+      "person_id": "PDE2F08C",
+      "person_name": "松本零士",
+      "csv_score": 610.063299,
+      "db_score": 584.893672,
+      "difference": 25.169627,
+      "db_rank": 1309
+    },
+    {
+      "person_id": "PB02841E",
+      "person_name": "さくらももこ",
+      "csv_score": 610.063299,
+      "db_score": 588.268411,
+      "difference": 21.794888,
+      "db_rank": 1217
+    },
+    {
+      "person_id": "PA32E92F",
+      "person_name": "近藤勇",
+      "csv_score": 610.063299,
+      "db_score": 589.386822,
+      "difference": 20.676477,
+      "db_rank": 1195
+    },
+    {
+      "person_id": "P8165AF2",
+      "person_name": "勝新太郎",
+      "csv_score": 610.063299,
+      "db_score": 590.218053,
+      "difference": 19.845246,
+      "db_rank": 1178
+    },
+    {
+      "person_id": "PC239DD8",
+      "person_name": "石川啄木",
+      "csv_score": 610.063299,
+      "db_score": 599.471447,
+      "difference": 10.591852,
+      "db_rank": 989
+    },
+    {
+      "person_id": "P97F3D64",
+      "person_name": "ジェームズ・ディーン",
+      "csv_score": 610.063299,
+      "db_score": 620.206651,
+      "difference": 10.143352,
+      "db_rank": 658
+    },
+    {
+      "person_id": "P0700798",
+      "person_name": "前田健 (お笑い芸人)",
+      "csv_score": 610.063299,
+      "db_score": 619.122322,
+      "difference": 9.059023,
+      "db_rank": 675
+    },
+    {
+      "person_id": "PB3BBC6E",
+      "person_name": "石原裕次郎",
+      "csv_score": 610.063299,
+      "db_score": 602.320029,
+      "difference": 7.74327,
+      "db_rank": 930
+    },
+    {
+      "person_id": "P6812714",
+      "person_name": "ジョン・フォード",
+      "csv_score": 610.063299,
+      "db_score": 616.292322,
+      "difference": 6.229023,
+      "db_rank": 716
+    }
+  ]
+}

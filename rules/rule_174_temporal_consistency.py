@@ -71,9 +71,25 @@ class TemporalConsistencyChecker:
         """初期化"""
         pass
 
+    def extract_all_years(self, text: str) -> list[int]:
+        """
+        テキストから全ての年を抽出（1800-2100年の範囲）
+
+        Args:
+            text: テキスト
+
+        Returns:
+            年のリスト（重複除去済み、ソート済み）
+        """
+        year_pattern = r'(\d{4})年'
+        years = [int(m) for m in re.findall(year_pattern, text)]
+        # 有効範囲でフィルタリング、重複除去、ソート
+        valid_years = sorted(set(y for y in years if 1800 <= y <= 2100))
+        return valid_years
+
     def extract_year_from_text(self, text: str) -> Optional[int]:
         """
-        テキストから年を抽出
+        テキストから年を抽出（後方互換性のため維持）
 
         Args:
             text: テキスト
@@ -81,13 +97,54 @@ class TemporalConsistencyChecker:
         Returns:
             年（見つからなければNone）
         """
-        # パターン: "2021年"、"2021年シーズン"
-        year_pattern = r'(\d{4})年'
-        match = re.search(year_pattern, text)
-        if match:
-            return int(match.group(1))
+        years = self.extract_all_years(text)
+        return years[0] if years else None
 
-        return None
+    def determine_target_year(
+        self,
+        text: str,
+        age: Optional[int] = None,
+        birth_year: Optional[int] = None
+    ) -> tuple[Optional[int], str]:
+        """
+        対象年（エピソードの主題となる年）を推定
+
+        Args:
+            text: エピソード本文
+            age: 年齢
+            birth_year: 生年
+
+        Returns:
+            (対象年, 推定方法) のタプル
+            対象年が確定できない場合は (None, "undetermined")
+        """
+        years = self.extract_all_years(text)
+
+        if not years:
+            return None, "no_years"
+
+        # 単一年の場合はその年を採用
+        if len(years) == 1:
+            return years[0], "single_year"
+
+        # birth_year + age で期待年を計算
+        if birth_year is not None and age is not None:
+            expected_year = birth_year + age
+            # 期待年に最も近い年を探す
+            closest = min(years, key=lambda y: abs(y - expected_year))
+            diff = abs(closest - expected_year)
+
+            if diff <= 2:
+                return closest, "birth_year_match"
+
+        # リード文（最初の句点まで）の年を優先
+        first_sentence = text.split("。")[0] if "。" in text else text[:100]
+        first_years = self.extract_all_years(first_sentence)
+        if first_years:
+            return first_years[0], "lead_sentence"
+
+        # 確定できない場合
+        return None, "undetermined"
 
     def check_age_consistency(
         self,
@@ -165,6 +222,53 @@ class TemporalConsistencyChecker:
 
         return inconsistencies
 
+    def classify_multi_year_episode(
+        self,
+        text: str,
+        age: Optional[int] = None,
+        birth_year: Optional[int] = None
+    ) -> Optional[TemporalInconsistency]:
+        """
+        多年参照エピソードを分類
+
+        経歴文脈での多年参照は INFO（要確認）として扱い、
+        明確な時系列矛盾のみ WARNING/CRITICAL とする。
+
+        Args:
+            text: エピソード本文
+            age: 年齢
+            birth_year: 生年
+
+        Returns:
+            問題があればTemporalInconsistency、なければNone
+        """
+        years = self.extract_all_years(text)
+
+        # 3年未満の参照は問題なし
+        if len(years) < 3:
+            return None
+
+        target_year, method = self.determine_target_year(text, age, birth_year)
+
+        # 対象年が確定できる場合
+        if target_year is not None:
+            # 技術タイムライン矛盾をチェック
+            tech_issues = self.check_technology_timeline(text)
+            if tech_issues:
+                return tech_issues[0]  # 最初の矛盾を返す
+
+            # 対象年が確定できれば、経歴文脈として許容
+            return None
+
+        # 対象年が確定できない多年参照は INFO（品質ゲートでブロックしない）
+        year_range = max(years) - min(years) if years else 0
+        return TemporalInconsistency(
+            severity="INFO",
+            message=f"多年参照エピソード（{len(years)}年号、スパン{year_range}年）",
+            evidence=f"年候補: {years}",
+            suggestion="経歴文脈として許容されるケースが多い。明確な矛盾がなければ問題なし"
+        )
+
     def check_person_birth_year(
         self,
         person_name: str,
@@ -187,20 +291,22 @@ class TemporalConsistencyChecker:
         if birth_year is None:
             return None
 
-        # テキストから年を抽出
-        year = self.extract_year_from_text(text)
-        if year is None:
+        # 対象年を推定（multi-year対応）
+        target_year, method = self.determine_target_year(text, age, birth_year)
+
+        if target_year is None:
+            # 対象年が確定できない場合は多年参照チェックに委ねる
             return None
 
         # 年齢の整合性チェック
-        expected_age = year - birth_year
+        expected_age = target_year - birth_year
         age_diff = abs(expected_age - age)
 
         if age_diff > 2:  # 2歳以上のズレは疑わしい
             return TemporalInconsistency(
                 severity="WARNING",
-                message=f"{year}年に{age}歳は矛盾（生年{birth_year}年なら{expected_age}歳）",
-                evidence=f"{person_name}、{year}年、{age}歳、生年{birth_year}",
+                message=f"{target_year}年に{age}歳は矛盾（生年{birth_year}年なら{expected_age}歳）",
+                evidence=f"{person_name}、{target_year}年、{age}歳、生年{birth_year}（推定方法: {method}）",
                 suggestion=f"年齢を{expected_age}歳に修正、または年を{birth_year + age}年に修正"
             )
 
@@ -244,13 +350,21 @@ class TemporalConsistencyChecker:
             if birth_issue:
                 inconsistencies.append(birth_issue)
 
+        # 多年参照エピソードの分類（偽陽性抑制）
+        multi_year_issue = self.classify_multi_year_episode(
+            episode_text, age, birth_year
+        )
+        if multi_year_issue:
+            inconsistencies.append(multi_year_issue)
+
         # 重大度でソート
         severity_order = {"CRITICAL": 0, "WARNING": 1, "INFO": 2}
         inconsistencies.sort(key=lambda x: severity_order[x.severity])
 
-        # 判定
+        # 判定（CRITICALがなければ合格、INFOは無視）
         critical_count = sum(1 for i in inconsistencies if i.severity == "CRITICAL")
         warning_count = sum(1 for i in inconsistencies if i.severity == "WARNING")
+        info_count = sum(1 for i in inconsistencies if i.severity == "INFO")
 
         passed = critical_count == 0
 
@@ -267,6 +381,7 @@ class TemporalConsistencyChecker:
             ],
             "critical_count": critical_count,
             "warning_count": warning_count,
+            "info_count": info_count,
             "rule_id": "RULE_174",
             "rule_name": "時系列整合性検証"
         }

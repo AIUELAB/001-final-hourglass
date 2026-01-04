@@ -1,0 +1,840 @@
+[
+  {
+    "episode_id": "",
+    "person_name": "ジョン・コルトレーン",
+    "age": 74,
+    "birth_year": null,
+    "year_candidates": [
+      1926,
+      1967,
+      2000
+    ],
+    "year_span": 74,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン74年）",
+    "text_preview": "あなたと同じ74歳のとき ジョン・コルトレーンは既にこの世を去って33年が経過していました。ジョン・コルトレーンは1926年生まれで1967年に40歳という若さで肝臓がんにより亡くなったため、74歳を迎えることはありませんでした。しかし2000年という年は、ジョン・コルトレーンの音楽的遺産が新たな世..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ハービー・ハンコック",
+    "age": 66,
+    "birth_year": null,
+    "year_candidates": [
+      1965,
+      2006,
+      2008
+    ],
+    "year_span": 43,
+    "target_year": 2006,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ66歳のとき、ハービー・ハンコックは2006年にグラミー賞最優秀アルバム賞を受賞した『River: The Joni Letters』をリリースしました。このアルバムはジョニ・ミッチェルの楽曲をジャズでカバーした作品で、ノラ・ジョーンズ、ティナ・ターナー、コリーヌ・ベイリー・レイなど豪華..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "安室奈美恵",
+    "age": 39,
+    "birth_year": null,
+    "year_candidates": [
+      1990,
+      1998,
+      2017
+    ],
+    "year_span": 27,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン27年）",
+    "text_preview": "あなたと同じ39歳のとき、安室奈美恵は引退発表の裏で、実は10年以上も密かに続けていた「全く別の顔」を持っていました。2017年の引退発表時、業界関係者が最も驚いたのは、彼女が1990年代後半から匿名で楽曲制作に関わり続けていたこと。表舞台では歌手として活動しながら、裏では「A.N」という偽名でジャ..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ウェイン・ショーター",
+    "age": 53,
+    "birth_year": null,
+    "year_candidates": [
+      1970,
+      1977,
+      1986
+    ],
+    "year_span": 16,
+    "target_year": 1986,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ53歳のとき、ウェイン・ショーターは1986年に重要な転換点を迎えていました。この年、ウェイン・ショーターは1970年から16年間活動を続けてきたフュージョン・グループ「ウェザー・リポート」での最後の年を過ごしていました。同グループは1986年に解散し、ウェイン・ショーターの音楽キャリア..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "宮崎駿",
+    "age": 54,
+    "birth_year": null,
+    "year_candidates": [
+      1995,
+      1997,
+      2003
+    ],
+    "year_span": 8,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン8年）",
+    "text_preview": "あなたと同じ54歳のとき、宮崎駿は『もののけ姫』の制作に取り組んでいました。1995年、彼は「これが最後の作品になる」という覚悟で、日本の古代を舞台にした壮大な物語の制作を開始しました。当時としては異例の23億円もの制作費と3年の歳月をかけ、延べ14万枚もの作画を手がけるという前人未踏の挑戦でした。..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "オーネット・コールマン",
+    "age": 57,
+    "birth_year": null,
+    "year_candidates": [
+      1960,
+      1980,
+      1987
+    ],
+    "year_span": 27,
+    "target_year": 1987,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ57歳のとき、オーネット・コールマンは1987年に画期的なアルバム『In All Languages』を発表しました。このアルバムでは、彼の息子デナード・コールマンがドラムを担当し、親子共演が実現。さらに注目すべきは、1960年代のオリジナル・カルテットと1980年代の新バンド「プライム..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "栗山英樹",
+    "age": 46,
+    "birth_year": null,
+    "year_candidates": [
+      2007,
+      2016,
+      2023
+    ],
+    "year_span": 16,
+    "target_year": 2007,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ46歳のとき、栗山英樹は2007年に日本ハムファイターズの二軍監督に就任しました。現役時代は怪我に泣いた選手でしたが、引退後は白鷗大学で教鞭をとり、スポーツ評論家として活躍していました。野球界からは距離を置いていた彼に、当時の日本ハム球団が声をかけたのです。栗山は「選手の心に寄り添う指導..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "渡辺謙",
+    "age": 36,
+    "birth_year": null,
+    "year_candidates": [
+      1989,
+      1994,
+      1995
+    ],
+    "year_span": 6,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン6年）",
+    "text_preview": "あなたと同じ36歳のとき、渡辺謙は白血病との闘病から復帰し、映画『明日があるさ THE MOVIE』で本格的にカムバックを果たしました。1989年に急性骨髄性白血病と診断され、NHK大河ドラマ『独眼竜政宗』で一躍スターになった直後の闘病生活は、彼の人生を大きく変えました。1994年に再発を経験しなが..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "満屋裕明",
+    "age": 35,
+    "birth_year": null,
+    "year_candidates": [
+      1960,
+      1985,
+      1987
+    ],
+    "year_span": 27,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン27年）",
+    "text_preview": "あなたと同じ35歳のとき、満屋裕明は米国国立がん研究所で世界初のHIV治療薬開発に挑んでいたが、実は当初、全く別の目的でAZTという化合物を研究していた。AZTはもともと1960年代に白血病治療薬として開発されたものの、毒性が強すぎて使い物にならず「失敗作」として棚上げされていた薬だった。満屋がこの..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "江崎玲於奈",
+    "age": 58,
+    "birth_year": null,
+    "year_candidates": [
+      1957,
+      1973,
+      1984
+    ],
+    "year_span": 27,
+    "target_year": 1984,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ58歳のとき、江崎玲於奈は1984年、ノーベル物理学賞受賞から11年が経過し、筑波大学の学長として日本の科学教育改革に尽力していました。彼が1973年にノーベル物理学賞を受賞したのは、半導体における量子トンネル効果の発見によるものでした。1957年、ソニーの研究員時代に発見した「エサキダ..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "本田宗一郎",
+    "age": 42,
+    "birth_year": null,
+    "year_candidates": [
+      1954,
+      1959,
+      1961
+    ],
+    "year_span": 7,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン7年）",
+    "text_preview": "あなたと同じ42歳のとき、本田宗一郎はマン島TTレースに挑戦しました。1954年、世界最高峰のオートバイレースへの参戦を宣言。「技術で世界一になる」—周囲の反対を押し切り、1959年に初出場を果たしました。1961年には125cc・250ccクラスでワンツーフィニッシュを達成。「チャレンジングスピリ..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "赤崎勇",
+    "age": 75,
+    "birth_year": null,
+    "year_candidates": [
+      1989,
+      2004,
+      2014
+    ],
+    "year_span": 25,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン25年）",
+    "text_preview": "あなたと同じ75歳のとき、赤崎勇は名城大学で青色LED研究の集大成に取り組んでいました。2004年、彼は窒化ガリウムを用いた青色発光ダイオードの実用化への貢献により、京都賞を受賞しました。1989年に世界に先駆けて高品質な窒化ガリウム結晶の成長に成功して以来、多くの研究者に「不可能」と言われ続けた青..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "谷亮子",
+    "age": 45,
+    "birth_year": null,
+    "year_candidates": [
+      1992,
+      1996,
+      2000
+    ],
+    "year_span": 8,
+    "target_year": 2000,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ45歳のとき、谷亮子は柔道界を離れて10年以上が経過していましたが、2000年シドニーオリンピックでの金メダル獲得の記憶は色褪せることはありませんでした。当時25歳だった彼女は、48kg級決勝でロシアのリュボフ・ブルレトワを背負投で破り、「田村亮子」として4度目の五輪挑戦でついに悲願の金..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "鈴木大地",
+    "age": 55,
+    "birth_year": null,
+    "year_candidates": [
+      1988,
+      2015,
+      2019
+    ],
+    "year_span": 31,
+    "target_year": 1988,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ55歳のとき、鈴木大地は1988年ソウルオリンピックでの金メダル獲得から長い年月を経て、スポーツ行政の最前線で活躍していました。彼が25歳で成し遂げた100m背泳ぎでの金メダルは、水中を30mも潜水する独創的な「バサロ泳法」によるものでした。この泳法は世界を驚かせ、後にルール改正のきっか..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "真鍋淑郎",
+    "age": 85,
+    "birth_year": null,
+    "year_candidates": [
+      1960,
+      2016,
+      2021
+    ],
+    "year_span": 61,
+    "target_year": 2016,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ85歳のとき、真鍋淑郎は2016年、プリンストン大学で気候変動研究を続けていました。1960年代に世界に先駆けて大気と海洋を結合した気候モデルを開発し、二酸化炭素濃度の上昇が地球温暖化を引き起こすことを予測した彼は、半世紀以上経ってもなお研究への情熱を失っていませんでした。この年、彼は後..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "福井謙一",
+    "age": 47,
+    "birth_year": null,
+    "year_candidates": [
+      1952,
+      1960,
+      1981
+    ],
+    "year_span": 29,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン29年）",
+    "text_preview": "あなたと同じ47歳のとき、福井謙一は京都大学で「フロンティア軌道理論」の研究を深化させていました。この理論は、化学反応において最も重要な役割を果たす電子軌道に着目したもので、1952年に発表した論文は当初、国際的にはほとんど注目されませんでした。しかし、1960年代後半からアメリカの化学者ホフマンら..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "アルバート・ブーラ",
+    "age": 40,
+    "birth_year": null,
+    "year_candidates": [
+      1995,
+      2010,
+      2019
+    ],
+    "year_span": 24,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン24年）",
+    "text_preview": "あなたと同じ40歳のとき、アルバート・ブーラは獣医師からファイザーCEOへの異例の転身を遂げていました。1995年にギリシャの獣医師としてファイザーの動物薬部門に入社した彼は、周囲から「人間の薬には素人」と軽視されていました。しかし2010年、新興国事業の責任者に抜擢された際、動物薬で培った「予防医..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "サニブラウン",
+    "age": 25,
+    "birth_year": null,
+    "year_candidates": [
+      2017,
+      2019,
+      2024
+    ],
+    "year_span": 7,
+    "target_year": 2024,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ25歳のとき、サニブラウンは2024年パリオリンピックの舞台で日本代表として4×100mリレーに出場しました。2017年の世界ユース選手権で100mと200mの2冠を達成し、「和製ボルト」と称された彼は、その後も日本短距離界のエースとして活躍を続けました。2019年には日本選手権で9秒9..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "室伏広治",
+    "age": 30,
+    "birth_year": null,
+    "year_candidates": [
+      2005,
+      2006,
+      2011
+    ],
+    "year_span": 6,
+    "target_year": 2005,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ30歳のとき、室伏広治は2005年、ハンマー投げ世界選手権で日本人初の金メダルを獲得しました。この大会では、優勝候補だったベラルーシの選手がドーピング違反で失格となり、室伏が繰り上げで金メダルを手にしました。しかし彼は、この勝利に満足せず「自分の力で真の金メダルを取りたい」と語り、その後..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "山本耀司",
+    "age": 62,
+    "birth_year": null,
+    "year_candidates": [
+      1981,
+      2000,
+      2005
+    ],
+    "year_span": 24,
+    "target_year": 2005,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ62歳のとき、山本耀司は2005年に経営危機を乗り越え、創造への情熱を燃やし続けていました。この年、彼は映画『ノートブック』の衣装デザインを手がけるなど、ファッションの枠を超えた活動を展開。1981年のパリコレデビュー以来、黒を基調とした革新的なデザインで世界を驚かせてきた彼ですが、20..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "山下泰裕",
+    "age": 54,
+    "birth_year": null,
+    "year_candidates": [
+      1984,
+      1985,
+      2011
+    ],
+    "year_span": 27,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン27年）",
+    "text_preview": "あなたと同じ54歳のとき、山下泰裕は全日本柔道連盟の強化委員長として、次世代の柔道家育成に情熱を注いでいました。彼が27歳で現役を引退した1985年から約20年、指導者として歩んできた道のりは、現役時代の栄光に劣らぬものでした。1984年のロサンゼルス五輪では、右ふくらはぎ肉離れという重傷を抱えなが..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "小柴昌俊",
+    "age": 49,
+    "birth_year": null,
+    "year_candidates": [
+      1975,
+      1987,
+      2002
+    ],
+    "year_span": 27,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン27年）",
+    "text_preview": "あなたと同じ49歳のとき、小柴昌俊は東京大学教授として、後にノーベル賞受賞につながる壮大なプロジェクトに着手しました。1975年、岐阜県神岡鉱山の地下1000メートルに、世界最大級のニュートリノ観測装置「カミオカンデ」の建設を構想しました。当時、多くの研究者が実現不可能と考えていた陽子崩壊の検出を目..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "加藤澤男",
+    "age": 49,
+    "birth_year": null,
+    "year_candidates": [
+      1968,
+      1972,
+      1976,
+      1995
+    ],
+    "year_span": 27,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（4年号、スパン27年）",
+    "text_preview": "あなたと同じ49歳のとき、加藤澤男は後進の指導に情熱を注いでいました。1995年当時、彼はすでに体操界のレジェンドとして、オリンピック3大会(1968年メキシコ、1972年ミュンヘ、1976年モントリオール)で通算8個の金メダルを獲得した実績を持っていました。特に1968年メキシコ五輪では、団体総合..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "吉野彰",
+    "age": 71,
+    "birth_year": null,
+    "year_candidates": [
+      1985,
+      1991,
+      2019
+    ],
+    "year_span": 34,
+    "target_year": 2019,
+    "estimation_method": "lead_sentence",
+    "severity": "CRITICAL",
+    "message": "1985年にスマートフォンは存在しない（登場: 2007年）",
+    "text_preview": "あなたと同じ71歳のとき、吉野彰は2019年、リチウムイオン電池開発でノーベル化学賞を受賞。研究開始から35年間、500回以上の実験失敗を重ね、特に1985年の実用化初期は企業から「商業価値がない」と80回以上断られ続けました。しかし学生時代の読んだファラデーの「ろうそくの科学」の抱いた「化学で人類..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "堀江謙一",
+    "age": 65,
+    "birth_year": null,
+    "year_candidates": [
+      1962,
+      2003,
+      2004
+    ],
+    "year_span": 42,
+    "target_year": 2003,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ65歳のとき、堀江謙一は2003年、単独無寄港世界一周航海の準備を進めていました。この時期、彼は1962年の太平洋単独横断から40年以上にわたる冒険経験を、講演活動や著作を通じて若い世代に伝えることに力を注いでいました。同時に、自らも新たな挑戦を諦めず、翌2004年には71フィートのヨッ..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "森重文",
+    "age": 50,
+    "birth_year": null,
+    "year_candidates": [
+      1951,
+      1990,
+      2001
+    ],
+    "year_span": 50,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン50年）",
+    "text_preview": "あなたと同じ50歳のとき、森重文は世界的な数学者として京都大学で研究を続けていました。1951年生まれの森は、2001年当時、既にフィールズ賞(1990年受賞)という数学界最高の栄誉を手にしていました。彼の専門は代数幾何学で、特に「3次元代数多様体の極小モデル理論」における革新的な業績で知られていま..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "丹下健三",
+    "age": 49,
+    "birth_year": null,
+    "year_candidates": [
+      1961,
+      1964,
+      1979
+    ],
+    "year_span": 18,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン18年）",
+    "text_preview": "あなたと同じ49歳のとき、丹下健三は戦後日本を代表する建築家としての地位を確立していました。この年、1961年に彼は東京都庁舎コンペで最優秀賞を獲得し、さらに代々木の国立屋内総合競技場の設計に着手しました。この競技場は1964年の東京オリンピックのメイン会場となり、吊り屋根構造という革新的な技術と日..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "成瀬巳喜男",
+    "age": 39,
+    "birth_year": null,
+    "year_candidates": [
+      1944,
+      1946,
+      1947
+    ],
+    "year_span": 3,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン3年）",
+    "text_preview": "あなたと同じ39歳のとき、成瀬巳喜男は戦後の混乱期に映画界へ復帰し、新たな挑戦を始めていました。1944年に召集されて満州へ送られた成瀬は、終戦後シベリアに抑留され、1946年に帰国。1947年、39歳で東宝撮影所に戻り、『四つの恋の物語』の一篇を監督しました。戦争によって中断された映画人生を再スタ..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "カズオ・イシグロ",
+    "age": 44,
+    "birth_year": null,
+    "year_candidates": [
+      1998,
+      2005,
+      2017
+    ],
+    "year_span": 19,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン19年）",
+    "text_preview": "あなたと同じ44歳のとき、カズオ・イシグロは長編小説『わたしを離さないで』の構想を練り始めていました。1998年当時、彼は前作『充たされざる者』の発表から既に3年が経過しており、新たな創作の方向性を模索していた時期でした。この作品は後に2005年に出版され、臓器提供のために生み出されたクローン人間と..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "塚原光男",
+    "age": 32,
+    "birth_year": null,
+    "year_candidates": [
+      1968,
+      1972,
+      1979
+    ],
+    "year_span": 11,
+    "target_year": 1979,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ32歳のとき、塚原光男は1979年、現役引退を決意しました。1968年メキシコ五輪から3大会連続で五輪に出場し、金メダル5個を含む計8個のメダルを獲得した伝説的な体操選手でした。特に1972年ミュンヘン五輪では鉄棒で「月面宙返り」を成功させ、世界を驚かせました。32歳での引退後は指導者の..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "仁科芳雄",
+    "age": 40,
+    "birth_year": null,
+    "year_candidates": [
+      1930,
+      1937,
+      1939
+    ],
+    "year_span": 9,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン9年）",
+    "text_preview": "あなたと同じ40歳のとき、仁科芳雄は理化学研究所で日本初のサイクロトロン建設に情熱を注いでいました。1930年代後半、欧米に遅れをとっていた日本の原子核物理学を世界水準に引き上げるため、限られた予算と資材の中で奮闘しました。1937年には小型サイクロトロンの建設に成功し、1939年には大型サイクロト..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "バンクシー",
+    "age": 25,
+    "birth_year": null,
+    "year_candidates": [
+      1999,
+      2002,
+      2017
+    ],
+    "year_span": 18,
+    "target_year": 1999,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ25歳のとき、バンクシーは1999年頃、警察から逃れるため制作時間を短縮できるステンシル技法を本格採用した。厚紙を切り抜いて素早くスプレーする手法で、2002年にロンドンのウォータールー橋に「Girl with Balloon」を制作。赤いハート型風船を手放す少女と「There is a..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "フランツ・カフカ",
+    "age": 25,
+    "birth_year": null,
+    "year_candidates": [
+      1908,
+      1915,
+      1925
+    ],
+    "year_span": 17,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン17年）",
+    "text_preview": "あなたと同じ25歳のとき、フランツ・カフカは保険会社の事務員として働きながら、深夜に小説を書く二重生活を送っていました。1908年、父親から「文学なんて時間の無駄だ」と言われ続けていた彼は、自作の原稿を友人マックス・ブロートに見せました。ブロートが「これは素晴らしい作品だ」と絶賛すると、カフカは「い..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "フレディ・マーキュリー",
+    "age": 35,
+    "birth_year": null,
+    "year_candidates": [
+      1981,
+      1987,
+      1992
+    ],
+    "year_span": 11,
+    "target_year": 1981,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ35歳のとき、フレディ・マーキュリーは1981年、クイーンの世界的成功の頂点にいながら、オペラ歌手モンセラート・カバリェとの共演アルバム「Barcelona」の構想を本格化させた。バンドメンバーからの強い反対にも関わらず、彼は「音楽に境界線はない」と語り、クラシックとロックの融合に着手し..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ムハマド・ユヌス",
+    "age": 50,
+    "birth_year": null,
+    "year_candidates": [
+      1983,
+      1990,
+      2006
+    ],
+    "year_span": 23,
+    "target_year": 1990,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ50歳のとき、ムハマド・ユヌスは1990年にバングラデシュの村でクリケットを楽しんでいた。チームメイトの青年が「先生、僕たちには用具を買う42ドルがない」と打ち明けた。ユヌスは自分のポケットマネーで買い与えようとしたが、「これでは根本的な解決にならない」と考え直した。代わりに小額融資を提..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "アウンサンスーチー",
+    "age": 55,
+    "birth_year": null,
+    "year_candidates": [
+      1995,
+      2000,
+      2003
+    ],
+    "year_span": 8,
+    "target_year": 2000,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ55歳のとき、アウンサンスーチーは2000年9月から軍事政権との秘密対話に参加した。15年間の自宅軟禁中、彼女は国民民主連盟(NLD)の活動再開と政治犯釈放を条件として交渉に応じていた。政府側は国外退去と引き換えに自由を提案したが、アウンサンスーチーは「私の責任はミャンマーの人々にある」..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ベティ・ホワイト",
+    "age": 59,
+    "birth_year": null,
+    "year_candidates": [
+      1970,
+      1975,
+      1976,
+      1981,
+      1985
+    ],
+    "year_span": 15,
+    "target_year": 1981,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ59歳のとき、ベティ・ホワイトは1981年に「The Betty White Show」の制作総指揮を務めていました。この年、彼女は既にテレビ界で30年以上のキャリアを積んでおり、1970年代の「The Mary Tyler Moore Show」でのスー・アン・ニヴンス役により、197..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ハリー・ベラフォンテ",
+    "age": 68,
+    "birth_year": null,
+    "year_candidates": [
+      1956,
+      1985,
+      1995
+    ],
+    "year_span": 39,
+    "target_year": 1995,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ68歳のとき、ハリー・ベラフォンテは1995年に社会活動家としての功績が高く評価されていました。この年、彼はユニセフ親善大使として長年にわたる人道支援活動を継続し、特にアフリカの子どもたちの教育支援に力を注いでいました。1985年には「ウィ・アー・ザ・ワールド」の制作に参加し、アフリカの..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ヤン・ルカン",
+    "age": 48,
+    "birth_year": null,
+    "year_candidates": [
+      1980,
+      2008,
+      2013
+    ],
+    "year_span": 33,
+    "target_year": 2008,
+    "estimation_method": "lead_sentence",
+    "severity": "CRITICAL",
+    "message": "1980年にディープラーニングは存在しない（登場: 2012年）",
+    "text_preview": "あなたと同じ48歳のとき、ヤン・ルカンは2008年にニューヨーク大学の教授に就任し、深層学習研究の新たな拠点を築いていました。この時期、彼が1980年代から研究してきた畳み込みニューラルネットワーク(CNN)は、まだ主流の技術とは認められていませんでした。しかし彼は信念を曲げず、画像認識の可能性を追..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ヤン・ルカン",
+    "age": 59,
+    "birth_year": null,
+    "year_candidates": [
+      1980,
+      2010,
+      2019
+    ],
+    "year_span": 39,
+    "target_year": 2019,
+    "estimation_method": "lead_sentence",
+    "severity": "CRITICAL",
+    "message": "1980年にスマートフォンは存在しない（登場: 2007年）",
+    "text_preview": "あなたと同じ59歳のとき、ヤン・ルカンは2019年にチューリング賞を受賞しました。この賞は「コンピュータ科学のノーベル賞」と呼ばれ、賞金は100万ドルです。ヤン・ルカンは畳み込みニューラルネットワーク（CNN）の開発における貢献により、ジェフリー・ヒントン、ヨシュア・ベンジオと共同で受賞しました。\n..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "MISIA",
+    "age": 48,
+    "birth_year": null,
+    "year_candidates": [
+      1978,
+      2025,
+      2026
+    ],
+    "year_span": 48,
+    "target_year": 2026,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ48歳のとき、MISIAは2026年を迎えます。彼女は1978年7月7日生まれのため、2026年時点で48歳となりますが、この年齢はまだ到来していません。\n\nそのため、実際のエピソードとして、47歳の2025年における活動をご紹介します。MISIAはデビュー25周年を超えてもなお、その圧..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "池田秀一",
+    "age": 67,
+    "birth_year": null,
+    "year_candidates": [
+      1949,
+      1972,
+      1979,
+      2017
+    ],
+    "year_span": 68,
+    "target_year": 2017,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ67歳のとき、池田秀一は2017年に声優業界での長年の功績が評価され、第11回声優アワードにて功労賞を受賞しました。\n\n池田秀一は1949年12月2日生まれで、1972年から声優活動を開始。2017年時点で既に45年以上のキャリアを積んでいました。特に1979年放送開始の「機動戦士ガンダ..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "池田秀一",
+    "age": 66,
+    "birth_year": null,
+    "year_candidates": [
+      1949,
+      1966,
+      2016
+    ],
+    "year_span": 67,
+    "target_year": 2016,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ66歳のとき、池田秀一は2016年に声優として活動50周年という節目の年を迎えていました。この年、池田秀一は代表作『機動戦士ガンダム』のシャア・アズナブル役で、『機動戦士ガンダム THE ORIGIN』シリーズに出演し、37年ぶりに同キャラクターの声を担当しました。また、『名探偵コナン』..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "真島昌利",
+    "age": 30,
+    "birth_year": null,
+    "year_candidates": [
+      1982,
+      1985,
+      1995,
+      2012
+    ],
+    "year_span": 30,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（4年号、スパン30年）",
+    "text_preview": "あなたと同じ30歳のとき、真島昌利はTHE BLUE HEARTSのギタリストとして活動の絶頂期を迎えていました。1982年生まれの真島は、1985年にバンドを結成し、30歳となる2012年頃には既にTHE BLUE HEARTSは解散(1995年)していましたが、その後のTHE HIGH-LOWS..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "リチャード・ニクソン",
+    "age": 60,
+    "birth_year": null,
+    "year_candidates": [
+      1960,
+      1962,
+      1968
+    ],
+    "year_span": 8,
+    "target_year": null,
+    "estimation_method": "undetermined",
+    "severity": "INFO",
+    "message": "多年参照エピソード（3年号、スパン8年）",
+    "text_preview": "あなたと同じ60歳のとき、リチャード・ニクソンは弁護士として法律実務に携わりながら、政界復帰への準備を進めていました。1960年の大統領選挙でケネディに敗北し、1962年のカリフォルニア州知事選でも落選した後、ニューヨークの法律事務所で働いていたこの時期、彼は豊富な政治経験を活かして共和党の再建に尽..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ベン・ホーガン",
+    "age": 84,
+    "birth_year": null,
+    "year_candidates": [
+      1949,
+      1950,
+      1997
+    ],
+    "year_span": 48,
+    "target_year": 1997,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ84歳のとき、ベン・ホーガンは1997年7月25日、テキサス州で大腸がんのため亡くなりました。メジャー9勝を挙げ、「ゴルフスイングの神様」と称えられた伝説のゴルファーでした。1949年の交通事故で瀕死の重傷を負いながらも復活し、1950年の全米オープンを制覇した姿は「ホーガンの奇跡」とし..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ジネディーヌ・ジダン",
+    "age": 30,
+    "birth_year": null,
+    "year_candidates": [
+      2002,
+      2004,
+      2006
+    ],
+    "year_span": 4,
+    "target_year": 2002,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ30歳のとき、ジネディーヌ・ジダンは2002年ワールドカップで屈辱を味わった。前回王者フランスの司令塔として臨んだが、グループリーグで1得点もできずに敗退。世界中から「終わった選手」と酷評された。しかし彼はこの失敗を糧に、32歳で迎えた2004年欧州選手権では復活を遂げ、さらに2006年..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ローマ教皇ベネディクト16世",
+    "age": 95,
+    "birth_year": null,
+    "year_candidates": [
+      2005,
+      2013,
+      2022
+    ],
+    "year_span": 17,
+    "target_year": 2022,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ95歳のとき、ローマ教皇ベネディクト16世は2022年12月31日、バチカンで老衰のため亡くなりました。ドイツ出身の神学者として、2005年から2013年まで教皇を務めました。約600年ぶりに存命中に退位するという歴史的決断を下し、「名誉教皇」として晩年を過ごしました。保守的な神学的立場..."
+  },
+  {
+    "episode_id": "",
+    "person_name": "ノーマン・リア",
+    "age": 69,
+    "birth_year": null,
+    "year_candidates": [
+      1970,
+      1981,
+      1991
+    ],
+    "year_span": 21,
+    "target_year": 1991,
+    "estimation_method": "lead_sentence",
+    "severity": "NONE",
+    "message": "対象年確定済み（経歴文脈として許容）",
+    "text_preview": "あなたと同じ69歳のとき、ノーマン・リアは1991年に新たなテレビプロジェクトに取り組んでいました。この年、彼は1970年代に『All in the Family』や『The Jeffersons』などの社会派コメディで一世を風靡してから約20年が経過していました。ノーマン・リアは1991年当時、テ..."
+  }
+]

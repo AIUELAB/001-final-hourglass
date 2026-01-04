@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-01-04T12:49:20.442394",
+  "summary": {
+    "csv_persons": 6851,
+    "db_persons": 7153,
+    "mismatches": 0,
+    "template_copy_detected": false
+  },
+  "duplicates": {},
+  "mismatches": []
+}

@@ -1,0 +1,948 @@
+{
+  "scan_date": "2026-01-04T18:49:55.137013",
+  "known_fact_violations": [
+    {
+      "person_name": "葛飾北斎",
+      "event": "富嶽三十六景",
+      "claimed_age": 76.0,
+      "correct_age_range": [
+        71,
+        73
+      ],
+      "severity": "WARNING",
+      "episode_id": ""
+    }
+  ],
+  "milestone_duplicates": [
+    {
+      "person_id": "P80B8474",
+      "person_name": "谷崎潤一郎",
+      "milestone": "を受賞",
+      "ages": [
+        40.0,
+        75.0
+      ],
+      "age_spread": 35.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P766B4C0",
+      "person_name": "ムーティ",
+      "milestone": "に就任",
+      "ages": [
+        39.0,
+        69.0
+      ],
+      "age_spread": 30.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PDE8D948",
+      "person_name": "朝永振一郎",
+      "milestone": "を受賞",
+      "ages": [
+        50.0,
+        59.0
+      ],
+      "age_spread": 9.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P096C603",
+      "person_name": "アバド",
+      "milestone": "に就任",
+      "ages": [
+        50.0,
+        56.0
+      ],
+      "age_spread": 6.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P58515C0",
+      "person_name": "ハービー・ハンコック",
+      "milestone": "を受賞",
+      "ages": [
+        43.0,
+        66.0
+      ],
+      "age_spread": 23.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PF3D03A0",
+      "person_name": "小澤征爾",
+      "milestone": "に就任",
+      "ages": [
+        28.0,
+        38.0,
+        41.0
+      ],
+      "age_spread": 13.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PF35F62B",
+      "person_name": "黒柳徹子",
+      "milestone": "に就任",
+      "ages": [
+        71.0,
+        77.0
+      ],
+      "age_spread": 6.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P9BAAFC3",
+      "person_name": "藤山一郎",
+      "milestone": "を受賞",
+      "ages": [
+        72.0,
+        79.0,
+        80.0
+      ],
+      "age_spread": 8.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P4B87516",
+      "person_name": "桐野夏生",
+      "milestone": "を受賞",
+      "ages": [
+        46.0,
+        60.0
+      ],
+      "age_spread": 14.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P3627B4A",
+      "person_name": "是枝裕和",
+      "milestone": "を受賞",
+      "ages": [
+        38.0,
+        45.0,
+        50.0
+      ],
+      "age_spread": 12.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PD887F18",
+      "person_name": "東野圭吾",
+      "milestone": "を受賞",
+      "ages": [
+        38.0,
+        45.0,
+        52.0
+      ],
+      "age_spread": 14.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PA6C8748",
+      "person_name": "松任谷由実",
+      "milestone": "デビューを果たし",
+      "ages": [
+        17.0,
+        22.0
+      ],
+      "age_spread": 5.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "PBB3BA57",
+      "person_name": "本庶佑",
+      "milestone": "を受賞",
+      "ages": [
+        56.0,
+        70.0,
+        76.0
+      ],
+      "age_spread": 20.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P7AADB6D",
+      "person_name": "衣笠祥雄",
+      "milestone": "を受賞",
+      "ages": [
+        61.0,
+        71.0
+      ],
+      "age_spread": 10.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PFBC1CE5",
+      "person_name": "高橋尚子",
+      "milestone": "金メダルを獲得",
+      "ages": [
+        28.0,
+        55.0
+      ],
+      "age_spread": 27.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P68F7BB8",
+      "person_name": "真鍋淑郎",
+      "milestone": "を受賞",
+      "ages": [
+        85.0,
+        90.0
+      ],
+      "age_spread": 5.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "PCD107D4",
+      "person_name": "織田幹雄",
+      "milestone": "金メダルを獲得",
+      "ages": [
+        25.0,
+        50.0
+      ],
+      "age_spread": 25.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P985B0C1",
+      "person_name": "荒川静香",
+      "milestone": "金メダルを獲得",
+      "ages": [
+        24.0,
+        29.0
+      ],
+      "age_spread": 5.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P34EA398",
+      "person_name": "北野武",
+      "milestone": "を受賞",
+      "ages": [
+        42.0,
+        51.0,
+        54.0
+      ],
+      "age_spread": 12.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P93F1DB1",
+      "person_name": "アインシュタイン",
+      "milestone": "を受賞",
+      "ages": [
+        26.0,
+        41.0
+      ],
+      "age_spread": 15.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PC1B4021",
+      "person_name": "今村昌平",
+      "milestone": "を受賞",
+      "ages": [
+        37.0,
+        55.0
+      ],
+      "age_spread": 18.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PDA29F98",
+      "person_name": "大村智",
+      "milestone": "を受賞",
+      "ages": [
+        47.0,
+        53.0
+      ],
+      "age_spread": 6.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P9602A59",
+      "person_name": "山中伸弥",
+      "milestone": "を受賞",
+      "ages": [
+        50.0,
+        70.0
+      ],
+      "age_spread": 20.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P64D55AC",
+      "person_name": "小林誠",
+      "milestone": "を受賞",
+      "ages": [
+        47.0,
+        64.0,
+        65.0
+      ],
+      "age_spread": 18.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PEF39186",
+      "person_name": "坂本龍一",
+      "milestone": "を受賞",
+      "ages": [
+        30.0,
+        62.0
+      ],
+      "age_spread": 32.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PB1FE7C9",
+      "person_name": "吉野彰",
+      "milestone": "を受賞",
+      "ages": [
+        65.0,
+        71.0
+      ],
+      "age_spread": 6.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P2BFEA10",
+      "person_name": "古舘伊知郎",
+      "milestone": "に就任",
+      "ages": [
+        42.0,
+        50.0
+      ],
+      "age_spread": 8.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P7277239",
+      "person_name": "小平邦彦",
+      "milestone": "を受賞",
+      "ages": [
+        39.0,
+        52.0
+      ],
+      "age_spread": 13.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PA3EE75D",
+      "person_name": "森重文",
+      "milestone": "を受賞",
+      "ages": [
+        39.0,
+        41.0,
+        55.0
+      ],
+      "age_spread": 16.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PACD7B74",
+      "person_name": "広中平祐",
+      "milestone": "受賞した",
+      "ages": [
+        40.0,
+        59.0
+      ],
+      "age_spread": 19.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PACD7B74",
+      "person_name": "広中平祐",
+      "milestone": "を受賞",
+      "ages": [
+        39.0,
+        40.0,
+        59.0
+      ],
+      "age_spread": 20.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PAEC0A93",
+      "person_name": "高橋留美子",
+      "milestone": "を受賞",
+      "ages": [
+        49.0,
+        60.0
+      ],
+      "age_spread": 11.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P26F5CF5",
+      "person_name": "西沢立衛",
+      "milestone": "受賞した",
+      "ages": [
+        55.0,
+        60.0
+      ],
+      "age_spread": 5.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P26F5CF5",
+      "person_name": "西沢立衛",
+      "milestone": "を受賞",
+      "ages": [
+        38.0,
+        60.0
+      ],
+      "age_spread": 22.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P645AD9F",
+      "person_name": "三船敏郎",
+      "milestone": "を受賞",
+      "ages": [
+        27.0,
+        64.0
+      ],
+      "age_spread": 37.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PBB3459E",
+      "person_name": "開高健",
+      "milestone": "を受賞",
+      "ages": [
+        51.0,
+        58.0
+      ],
+      "age_spread": 7.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P7650C16",
+      "person_name": "河瀨直美",
+      "milestone": "を受賞",
+      "ages": [
+        40.0,
+        81.0
+      ],
+      "age_spread": 41.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P21389FC",
+      "person_name": "長谷川町子",
+      "milestone": "を受賞",
+      "ages": [
+        63.0,
+        72.0
+      ],
+      "age_spread": 9.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "PD99CD83",
+      "person_name": "千代の富士",
+      "milestone": "受賞した",
+      "ages": [
+        48.0,
+        61.0
+      ],
+      "age_spread": 13.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PD99CD83",
+      "person_name": "千代の富士",
+      "milestone": "を受賞",
+      "ages": [
+        48.0,
+        61.0
+      ],
+      "age_spread": 13.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PD1CEFEA",
+      "person_name": "デンゼル・ワシントン",
+      "milestone": "を受賞",
+      "ages": [
+        25.0,
+        45.0
+      ],
+      "age_spread": 20.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P0F4A3E8",
+      "person_name": "ジミー・ペイジ",
+      "milestone": "を受賞",
+      "ages": [
+        54.0,
+        67.0,
+        69.0
+      ],
+      "age_spread": 15.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P720FDCD",
+      "person_name": "マーロン・ブランド",
+      "milestone": "を受賞",
+      "ages": [
+        28.0,
+        40.0
+      ],
+      "age_spread": 12.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P0C1F041",
+      "person_name": "ジェームズ・キャメロン",
+      "milestone": "を受賞",
+      "ages": [
+        38.0,
+        45.0
+      ],
+      "age_spread": 7.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "P467ADC9",
+      "person_name": "テネシー・ウィリアムズ",
+      "milestone": "を受賞",
+      "ages": [
+        40.0,
+        45.0
+      ],
+      "age_spread": 5.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "PD756B74",
+      "person_name": "ヒュー・ジャックマン",
+      "milestone": "デビューを果たし",
+      "ages": [
+        32.0,
+        38.0
+      ],
+      "age_spread": 6.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "PFBF0C13",
+      "person_name": "アルベール・カミュ",
+      "milestone": "受賞した",
+      "ages": [
+        30.0,
+        45.0
+      ],
+      "age_spread": 15.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PFBF0C13",
+      "person_name": "アルベール・カミュ",
+      "milestone": "を受賞",
+      "ages": [
+        30.0,
+        45.0
+      ],
+      "age_spread": 15.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P1481792",
+      "person_name": "ペドロ・アルモドバル",
+      "milestone": "を受賞",
+      "ages": [
+        42.0,
+        55.0
+      ],
+      "age_spread": 13.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PBFDC1F6",
+      "person_name": "エリア・カザン",
+      "milestone": "を受賞",
+      "ages": [
+        38.0,
+        48.0
+      ],
+      "age_spread": 10.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PEE19063",
+      "person_name": "アニー・ディラード",
+      "milestone": "を受賞",
+      "ages": [
+        29.0,
+        40.0
+      ],
+      "age_spread": 11.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PF857BAB",
+      "person_name": "バーブラ・ストライサンド",
+      "milestone": "を受賞",
+      "ages": [
+        25.0,
+        26.0,
+        40.0
+      ],
+      "age_spread": 15.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P57CA6BA",
+      "person_name": "ジョン・アップダイク",
+      "milestone": "を受賞",
+      "ages": [
+        40.0,
+        50.0
+      ],
+      "age_spread": 10.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P92C859C",
+      "person_name": "デヴィッド・リンチ",
+      "milestone": "を受賞",
+      "ages": [
+        40.0,
+        50.0
+      ],
+      "age_spread": 10.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P8DD4CB1",
+      "person_name": "ジョン・ヒューストン",
+      "milestone": "受賞した",
+      "ages": [
+        44.0,
+        81.0
+      ],
+      "age_spread": 37.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P8DD4CB1",
+      "person_name": "ジョン・ヒューストン",
+      "milestone": "を受賞",
+      "ages": [
+        44.0,
+        81.0
+      ],
+      "age_spread": 37.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PEA0D029",
+      "person_name": "上村松園",
+      "milestone": "を受賞",
+      "ages": [
+        35.0,
+        45.0
+      ],
+      "age_spread": 10.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "P991E137",
+      "person_name": "ジンジャー・ロジャース",
+      "milestone": "を受賞",
+      "ages": [
+        28.0,
+        35.0
+      ],
+      "age_spread": 7.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "WARNING"
+    },
+    {
+      "person_id": "PC8E41D4",
+      "person_name": "カトリーヌ・ドヌーヴ",
+      "milestone": "を受賞",
+      "ages": [
+        21.0,
+        35.0
+      ],
+      "age_spread": 14.0,
+      "episodes": [
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    },
+    {
+      "person_id": "PBC4ECE7",
+      "person_name": "黒澤明",
+      "milestone": "を受賞",
+      "ages": [
+        40.0,
+        44.0,
+        75.0
+      ],
+      "age_spread": 35.0,
+      "episodes": [
+        "",
+        "",
+        ""
+      ],
+      "severity": "CRITICAL"
+    }
+  ],
+  "summary": {
+    "known_fact_violations": 1,
+    "critical_duplicates": 43,
+    "warning_duplicates": 17
+  }
+}

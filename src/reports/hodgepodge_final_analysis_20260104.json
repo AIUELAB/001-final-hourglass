@@ -1,0 +1,64 @@
+{
+  "analysis_date": "2026-01-04T17:36:55.959965",
+  "task": "年齢/年を跨ぐ寄せ集めエピソード分析",
+  "summary": {
+    "year_issues": {
+      "total_flagged": 62,
+      "severe_cases": 3,
+      "requiring_fix": 0,
+      "verdict": "全件偽陽性（経歴文脈として適切）"
+    },
+    "hodgepodge": {
+      "total_candidates": 5,
+      "severe_cases": 0,
+      "requiring_fix": 0,
+      "verdict": "修正不要"
+    }
+  },
+  "severe_case_analysis": [
+    {
+      "ep_id": "EP-000001682",
+      "person": "加藤澤男",
+      "age": 49,
+      "main_event": "1995年の後進指導",
+      "other_years": "1968, 1972, 1976 (五輪実績)",
+      "verdict": "正常（経歴文脈）"
+    },
+    {
+      "ep_id": "EP-251214202811512",
+      "person": "ベティ・ホワイト",
+      "age": 59,
+      "main_event": "1981年の番組制作総指揮",
+      "other_years": "1970s, 1975, 1976 (エミー賞歴)",
+      "verdict": "正常（経歴文脈）"
+    },
+    {
+      "ep_id": "EP-251214201803233",
+      "person": "池田秀一",
+      "age": 67,
+      "main_event": "2017年の声優アワード功労賞",
+      "other_years": "1949, 1972, 1979 (キャリア経緯)",
+      "verdict": "正常（経歴文脈）"
+    }
+  ],
+  "root_cause": {
+    "finding": "プロンプトには既に年齢集中ガイダンスが存在",
+    "location": "scripts/generate/generate_episodes_from_template.py L206, L218",
+    "cause_of_flagged_items": [
+      "レガシーエピソード（ガイダンス追加前に生成）",
+      "適切な経歴文脈（偽陽性）"
+    ],
+    "system_status": "正常稼働中"
+  },
+  "prevention_measures": {
+    "existing_gates": [
+      "プロンプト内年齢集中指示（L206）",
+      "受賞EP用追加制約（L218）"
+    ],
+    "recommended_additions": [
+      "hodgepodge_quality_gate.py（既存）で検出閾値調整",
+      "定期監視レポート出力継続"
+    ]
+  },
+  "conclusion": "修正対象0件。現行品質ゲートは正常稼働中。"
+}

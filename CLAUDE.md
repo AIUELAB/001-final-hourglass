@@ -36,6 +36,8 @@
 | 禁止表現 | メタ的表現禁止 | `fix_fictional_meta_episodes.py` |
 | 人物名正規化 | 正規表記使用 | `normalize_person_names.py` |
 | グループ所属 | 不整合自動検出 | `sync_group_from_master.py` |
+| **同一年齢重複禁止** | 同一人物・同一年齢で類似内容禁止 | `same_age_duplicate_gate.py` |
+| 回顧・抽象ペナルティ | 具体的事象がないEPはスコア抑制 | `episode_fame_v6/scorer.py` |
 
 ---
 

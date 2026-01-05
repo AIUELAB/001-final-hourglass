@@ -151,16 +151,19 @@ class MassProductionPipeline:
         llm_client: Any,
         config: Optional[MassProductionConfig] = None,
         master_csv_path: Optional[Path] = None,
+        top_k: int = 1,
     ):
         """
         Args:
             llm_client: LLMクライアント（generate_async メソッドを持つ）
             config: パイプライン設定
             master_csv_path: マスターCSVパス
+            top_k: 各人物×年齢グループから選択する件数
         """
         self.llm = llm_client
         self.config = config or DEFAULT_CONFIG
         self.master_csv_path = master_csv_path or MASTER_CSV_PATH
+        self.top_k = top_k
 
         # コンポーネント初期化
         self._init_components()
@@ -350,11 +353,11 @@ class MassProductionPipeline:
             stats.end_time = datetime.now()
             return PipelineResult(stats=stats, episodes=[])
 
-        # 6. ランキング（人物×年齢ごとにベスト1選択）
-        logger.info("=== Stage 5: ランキング ===")
+        # 6. ランキング（人物×年齢ごとにベストN選択）
+        logger.info(f"=== Stage 5: ランキング (top_k={self.top_k}) ===")
         t0 = time.time()
 
-        final_episodes = self.ranker.select_best(non_duplicates)
+        final_episodes = self.ranker.select_best(non_duplicates, top_k=self.top_k)
         stats.episodes_final = len(final_episodes)
         stats.ranking_time = time.time() - t0
 

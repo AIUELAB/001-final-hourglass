@@ -1,0 +1,350 @@
+{
+  "generated_at": "2026-01-06T02:19:56.491351",
+  "total_episodes": 10257,
+  "score_statistics": {
+    "super_total_score": {
+      "mean": 519878.76,
+      "median": 541167.0,
+      "std": 153494.66,
+      "min": 0.0,
+      "max": 918183.0,
+      "q25": 444036.0,
+      "q75": 618502.0
+    },
+    "celebrity_score_v2": {
+      "mean": 513.92,
+      "median": 541.31,
+      "std": 141.72,
+      "min": 87.89,
+      "max": 958.64,
+      "q25": 459.39,
+      "q75": 596.49
+    },
+    "episode_fame_v6": {
+      "mean": 63.76,
+      "median": 63.62,
+      "std": 13.24,
+      "min": 14.86,
+      "max": 116.92,
+      "q25": 57.71,
+      "q75": 70.17
+    }
+  },
+  "correlations": {
+    "super_total_vs_celebrity": 0.836,
+    "super_total_vs_fame": 0.781,
+    "celebrity_vs_fame": 0.785
+  },
+  "top30_ranking": [
+    {
+      "rank": 1,
+      "person_name": "大谷翔平",
+      "age": "30.0",
+      "super_total_score": 918183,
+      "celebrity_score_v2": 921.3,
+      "episode_fame_v6": 103.54
+    },
+    {
+      "rank": 2,
+      "person_name": "アインシュタイン",
+      "age": "26.0",
+      "super_total_score": 911068,
+      "celebrity_score_v2": 817.3,
+      "episode_fame_v6": 115.65
+    },
+    {
+      "rank": 3,
+      "person_name": "黒澤明",
+      "age": "75.0",
+      "super_total_score": 906224,
+      "celebrity_score_v2": 941.6,
+      "episode_fame_v6": 110.22
+    },
+    {
+      "rank": 4,
+      "person_name": "川端康成",
+      "age": "72.0",
+      "super_total_score": 892639,
+      "celebrity_score_v2": 842.0,
+      "episode_fame_v6": 110.21
+    },
+    {
+      "rank": 5,
+      "person_name": "エリザベス2世",
+      "age": "25.0",
+      "super_total_score": 880700,
+      "celebrity_score_v2": 760.7,
+      "episode_fame_v6": 102.48
+    },
+    {
+      "rank": 6,
+      "person_name": "アーネスト・ヘミングウェイ",
+      "age": "55.0",
+      "super_total_score": 874919,
+      "celebrity_score_v2": 717.1,
+      "episode_fame_v6": 116.92
+    },
+    {
+      "rank": 7,
+      "person_name": "大江健三郎",
+      "age": "59.0",
+      "super_total_score": 857303,
+      "celebrity_score_v2": 776.0,
+      "episode_fame_v6": 106.26
+    },
+    {
+      "rank": 8,
+      "person_name": "マイケル・ジャクソン",
+      "age": "25.0",
+      "super_total_score": 857048,
+      "celebrity_score_v2": 789.4,
+      "episode_fame_v6": 110.23
+    },
+    {
+      "rank": 9,
+      "person_name": "始皇帝",
+      "age": "38.0",
+      "super_total_score": 856687,
+      "celebrity_score_v2": 733.1,
+      "episode_fame_v6": 101.64
+    },
+    {
+      "rank": 10,
+      "person_name": "イチロー",
+      "age": "27.0",
+      "super_total_score": 854473,
+      "celebrity_score_v2": 691.7,
+      "episode_fame_v6": 81.81
+    },
+    {
+      "rank": 11,
+      "person_name": "パブロ・ピカソ",
+      "age": "73.0",
+      "super_total_score": 853721,
+      "celebrity_score_v2": 809.5,
+      "episode_fame_v6": 90.45
+    },
+    {
+      "rank": 12,
+      "person_name": "ビル・ゲイツ",
+      "age": "18.0",
+      "super_total_score": 851735,
+      "celebrity_score_v2": 772.3,
+      "episode_fame_v6": 102.46
+    },
+    {
+      "rank": 13,
+      "person_name": "宮崎駿",
+      "age": "62.0",
+      "super_total_score": 844724,
+      "celebrity_score_v2": 700.0,
+      "episode_fame_v6": 111.26
+    },
+    {
+      "rank": 14,
+      "person_name": "葛飾北斎",
+      "age": "71.0",
+      "super_total_score": 842413,
+      "celebrity_score_v2": 958.6,
+      "episode_fame_v6": 81.14
+    },
+    {
+      "rank": 15,
+      "person_name": "マリー・キュリー",
+      "age": "35.0",
+      "super_total_score": 841845,
+      "celebrity_score_v2": 723.4,
+      "episode_fame_v6": 107.7
+    },
+    {
+      "rank": 16,
+      "person_name": "坂口志文",
+      "age": "30.0",
+      "super_total_score": 839594,
+      "celebrity_score_v2": 739.1,
+      "episode_fame_v6": 103.97
+    },
+    {
+      "rank": 17,
+      "person_name": "ジョージ・ワシントン",
+      "age": "50.0",
+      "super_total_score": 837067,
+      "celebrity_score_v2": 742.6,
+      "episode_fame_v6": 101.62
+    },
+    {
+      "rank": 18,
+      "person_name": "ベンジャミン・フランクリン",
+      "age": "32.0",
+      "super_total_score": 836480,
+      "celebrity_score_v2": 725.3,
+      "episode_fame_v6": 112.08
+    },
+    {
+      "rank": 19,
+      "person_name": "山本由伸",
+      "age": "25.0",
+      "super_total_score": 836025,
+      "celebrity_score_v2": 746.9,
+      "episode_fame_v6": 100.35
+    },
+    {
+      "rank": 20,
+      "person_name": "湯川秀樹",
+      "age": "42.0",
+      "super_total_score": 833993,
+      "celebrity_score_v2": 724.6,
+      "episode_fame_v6": 106.32
+    },
+    {
+      "rank": 21,
+      "person_name": "サッチャー",
+      "age": "53.0",
+      "super_total_score": 832411,
+      "celebrity_score_v2": 700.0,
+      "episode_fame_v6": 103.99
+    },
+    {
+      "rank": 22,
+      "person_name": "スティーブ・ジョブズ",
+      "age": "19.0",
+      "super_total_score": 831890,
+      "celebrity_score_v2": 769.6,
+      "episode_fame_v6": 88.37
+    },
+    {
+      "rank": 23,
+      "person_name": "ネルソン・マンデラ",
+      "age": "76.0",
+      "super_total_score": 831867,
+      "celebrity_score_v2": 700.0,
+      "episode_fame_v6": 104.94
+    },
+    {
+      "rank": 24,
+      "person_name": "バラク・オバマ",
+      "age": "47.0",
+      "super_total_score": 831664,
+      "celebrity_score_v2": 700.0,
+      "episode_fame_v6": 104.49
+    },
+    {
+      "rank": 25,
+      "person_name": "村上春樹",
+      "age": "35.0",
+      "super_total_score": 829290,
+      "celebrity_score_v2": 867.0,
+      "episode_fame_v6": 85.16
+    },
+    {
+      "rank": 26,
+      "person_name": "レディー・ガガ",
+      "age": "28.0",
+      "super_total_score": 829165,
+      "celebrity_score_v2": 748.5,
+      "episode_fame_v6": 105.17
+    },
+    {
+      "rank": 27,
+      "person_name": "カズオ・イシグロ",
+      "age": "44.0",
+      "super_total_score": 827188,
+      "celebrity_score_v2": 730.2,
+      "episode_fame_v6": 101.17
+    },
+    {
+      "rank": 28,
+      "person_name": "松尾芭蕉",
+      "age": "24.0",
+      "super_total_score": 824284,
+      "celebrity_score_v2": 894.1,
+      "episode_fame_v6": 77.53
+    },
+    {
+      "rank": 29,
+      "person_name": "アルベール・カミュ",
+      "age": "30.0",
+      "super_total_score": 820950,
+      "celebrity_score_v2": 716.0,
+      "episode_fame_v6": 106.99
+    },
+    {
+      "rank": 30,
+      "person_name": "アウグスティヌス",
+      "age": "43.0",
+      "super_total_score": 819470,
+      "celebrity_score_v2": 717.4,
+      "episode_fame_v6": 98.71
+    }
+  ],
+  "reference_persons_ranking": [
+    {
+      "person_name": "大谷翔平",
+      "rank": 1,
+      "age": "30.0",
+      "super_total_score": 918183
+    },
+    {
+      "person_name": "イチロー",
+      "rank": 17,
+      "age": "27.0",
+      "super_total_score": 854473
+    },
+    {
+      "person_name": "孫正義",
+      "rank": 103,
+      "age": "24.0",
+      "super_total_score": 795185
+    },
+    {
+      "person_name": "本田宗一郎",
+      "rank": 202,
+      "age": "39.0",
+      "super_total_score": 768473
+    },
+    {
+      "person_name": "安藤百福",
+      "rank": 204,
+      "age": "48.0",
+      "super_total_score": 768343
+    },
+    {
+      "person_name": "カーネル・サンダース",
+      "rank": 281,
+      "age": "65.0",
+      "super_total_score": 758663
+    },
+    {
+      "person_name": "伊能忠敬",
+      "rank": 370,
+      "age": "50.0",
+      "super_total_score": 750428
+    },
+    {
+      "person_name": "矢沢永吉",
+      "rank": 461,
+      "age": "49.0",
+      "super_total_score": 743201
+    }
+  ],
+  "score_bands": {
+    "~300k": 776,
+    "300k-500k": 2825,
+    "500k-700k": 5456,
+    "700k-800k": 891,
+    "800k-900k": 91,
+    "900k+": 3
+  },
+  "category_distribution": {
+    "芸術・文化": 19,
+    "文学": 16,
+    "科学・技術": 14,
+    "政治・社会": 13,
+    "スポーツ": 6,
+    "映画・演劇": 6,
+    "学術・研究": 6,
+    "歴史": 5,
+    "エンターテイメント": 5,
+    "音楽": 4
+  }
+}

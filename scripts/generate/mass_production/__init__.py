@@ -38,6 +38,13 @@ from .generator import (
     PromptBuilder,
     TextValidator,
 )
+from .llm_clients import (
+    AnthropicClient,
+    BaseLLMClient,
+    GeminiClient,
+    OpenAIClient,
+    create_llm_client,
+)
 from .pipeline import (
     DryRunPipeline,
     MassProductionPipeline,
@@ -84,6 +91,12 @@ __all__ = [
     "DryRunPipeline",
     "PipelineResult",
     "PipelineStats",
+    # LLM Clients
+    "BaseLLMClient",
+    "AnthropicClient",
+    "OpenAIClient",
+    "GeminiClient",
+    "create_llm_client",
 ]
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"

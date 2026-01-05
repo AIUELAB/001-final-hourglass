@@ -41,6 +41,7 @@ class SuperTotalConfig:
         weight_episode_fame: エピソード有名度の重み
         weight_quality: 品質スコアの重み
         weight_historical: 歴史的インパクトの重み
+        achievement_boost_multiplier: 偉業ブースト乗数（v2.0.0追加）
         output_scale: 出力スケール（デフォルト: 1,000,000）
     """
 
@@ -53,8 +54,34 @@ class SuperTotalConfig:
     weight_episode_fame: float = 0.30
     weight_quality: float = 0.20  # v1.0.0: 0.25 → v1.1.0: 0.20
     weight_historical: float = 0.20  # v1.0.0: 0.10 → v1.1.0: 0.20
+    # 偉業ブースト乗数（v2.0.0: 0.5で半減、v1.x: 1.0でフル）
+    achievement_boost_multiplier: float = 1.0
     # 出力スケール
     output_scale: int = 1_000_000
+
+    @classmethod
+    def from_json(cls, config_path: Path) -> "SuperTotalConfig":
+        """JSONファイルから設定を読み込む
+
+        Args:
+            config_path: 設定ファイルパス
+
+        Returns:
+            SuperTotalConfig インスタンス
+        """
+        with open(config_path, encoding="utf-8") as f:
+            data = json.load(f)
+        return cls(
+            version=data.get("version", "v2.0.0"),
+            weight_celebrity=data["weights"]["celebrity"],
+            weight_episode_fame=data["weights"]["episode_fame"],
+            weight_quality=data["weights"]["quality"],
+            weight_historical=data["weights"]["historical"],
+            min_factual_density=data["gates"]["min_factual_density"],
+            min_generation_quality=data["gates"]["min_generation_quality"],
+            achievement_boost_multiplier=data.get("achievement_boost_multiplier", 1.0),
+            output_scale=data.get("output_scale", 1_000_000),
+        )
 
 
 # v1.2.0: 偉業キーワードダイレクトブースト（科学史キーワード追加）
@@ -354,11 +381,12 @@ class SuperTotalScorer:
 
     def _calc_achievement_boost(self, row: dict) -> tuple:
         """
-        偉業キーワードブーストを計算（v1.2.0）
+        偉業キーワードブーストを計算（v1.2.0, v2.0.0修正）
 
         エピソードテキストに偉業キーワードが含まれる場合、
         スコアに乗数ブーストを適用する。
         TURNING_POINT_MANUALタグがある場合も追加ブースト。
+        v2.0.0: achievement_boost_multiplierでブースト全体を調整可能
 
         Returns:
             (boost: float, keywords: list[str])
@@ -379,6 +407,9 @@ class SuperTotalScorer:
         if source == "TURNING_POINT_MANUAL":
             boost += TURNING_POINT_BOOST
             keywords.append("TURNING_POINT")
+
+        # v2.0.0: achievement_boost_multiplierで全体調整
+        boost = boost * self.config.achievement_boost_multiplier
 
         return boost, keywords
 

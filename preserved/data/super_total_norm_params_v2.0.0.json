@@ -1,0 +1,10 @@
+{
+  "version": "v2.0.0",
+  "computed_at": "2026-01-06T01:45:46.858499",
+  "celebrity_median": 541.314587466054,
+  "celebrity_iqr": 137.09313921271598,
+  "fame_median": 63.62,
+  "fame_iqr": 12.46,
+  "importance_median": 7.9,
+  "importance_iqr": 1.0
+}

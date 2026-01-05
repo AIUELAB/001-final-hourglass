@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-01-06T03:25:46.857525",
+  "target_count": 19,
+  "improved_count": 13,
+  "partial_count": 6,
+  "no_improvement_count": 0,
+  "failed_count": 0,
+  "improved_episodes": [
+    {
+      "episode_id": "EP-2512181850581777",
+      "person_name": "孫正義",
+      "age": 60,
+      "original_surprise": 5.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "E82ECE08D",
+      "person_name": "マーク・ザッカーバーグ",
+      "age": 19,
+      "original_surprise": 5.0,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-000004941",
+      "person_name": "マーク・ザッカーバーグ",
+      "age": 25,
+      "original_surprise": 5.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-000002023",
+      "person_name": "イチロー",
+      "age": 45,
+      "original_surprise": 5.0,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-000001061",
+      "person_name": "孫正義",
+      "age": 44,
+      "original_surprise": 5.5,
+      "new_surprise": 8.8
+    },
+    {
+      "episode_id": "E60B62C6F",
+      "person_name": "孫正義",
+      "age": 17,
+      "original_surprise": 5.5,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-000001862",
+      "person_name": "マーク・ザッカーバーグ",
+      "age": 15,
+      "original_surprise": 5.5,
+      "new_surprise": 9.0
+    },
+    {
+      "episode_id": "EP-000004637",
+      "person_name": "スティーブ・ジョブズ",
+      "age": 30,
+      "original_surprise": 5.5,
+      "new_surprise": 9.2
+    },
+    {
+      "episode_id": "EP-000006090",
+      "person_name": "スティーブ・ジョブズ",
+      "age": 21,
+      "original_surprise": 5.5,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-000008536",
+      "person_name": "マーク・ザッカーバーグ",
+      "age": 23,
+      "original_surprise": 5.6,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "ED718CF31",
+      "person_name": "スティーブ・ジョブズ",
+      "age": 14,
+      "original_surprise": 5.6,
+      "new_surprise": 8.2
+    },
+    {
+      "episode_id": "EP-000000970",
+      "person_name": "スティーブ・ジョブズ",
+      "age": 52,
+      "original_surprise": 6.1,
+      "new_surprise": 8.0
+    },
+    {
+      "episode_id": "EP-000000485",
+      "person_name": "イチロー",
+      "age": 51,
+      "original_surprise": 6.8,
+      "new_surprise": 9.0
+    }
+  ]
+}

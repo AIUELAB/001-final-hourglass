@@ -44,7 +44,7 @@ class SuperTotalConfig:
         output_scale: 出力スケール（デフォルト: 1,000,000）
     """
 
-    version: str = "v1.1.0"
+    version: str = "v1.2.0"
     # ゲート閾値
     min_factual_density: float = 6.0
     min_generation_quality: float = 6.0
@@ -57,7 +57,7 @@ class SuperTotalConfig:
     output_scale: int = 1_000_000
 
 
-# v1.1.0: 偉業キーワードダイレクトブースト
+# v1.2.0: 偉業キーワードダイレクトブースト（科学史キーワード追加）
 ACHIEVEMENT_BOOST = {
     # 最高レベル（+12%）
     "ノーベル賞": 0.12,
@@ -66,12 +66,20 @@ ACHIEVEMENT_BOOST = {
     "ノーベル文学賞": 0.12,
     "ノーベル平和賞": 0.12,
     "ノーベル医学賞": 0.12,
+    "E=mc²": 0.12,  # v1.2.0追加: 世界で最も有名な方程式
+    "特殊相対性理論": 0.12,  # v1.2.0追加: 科学史上最重要理論
+    "一般相対性理論": 0.12,  # v1.2.0追加
     # 高レベル（+10%）
     "世界初": 0.10,
     "史上初": 0.10,
     "オリンピック金メダル": 0.10,
     "アカデミー賞": 0.10,
     "グラミー賞": 0.10,
+    "相対性理論": 0.10,  # v1.2.0追加
+    "奇跡の年": 0.10,  # v1.2.0追加: アインシュタイン1905年
+    "量子力学": 0.10,  # v1.2.0追加
+    "万有引力": 0.10,  # v1.2.0追加: ニュートン
+    "進化論": 0.10,  # v1.2.0追加: ダーウィン
     # 中レベル（+8%）
     "50本塁打": 0.08,
     "50盗塁": 0.08,
@@ -79,11 +87,16 @@ ACHIEVEMENT_BOOST = {
     "MVP": 0.08,
     "世界記録": 0.08,
     "日本初": 0.08,
+    "画期的": 0.08,  # v1.2.0追加
+    "革命的": 0.08,  # v1.2.0追加
     # 低レベル（+5%）
     "金メダル": 0.05,
     "優勝": 0.05,
     "記録更新": 0.05,
 }
+
+# v1.2.0: ターニングポイントブースト
+TURNING_POINT_BOOST = 0.08  # TURNING_POINT_MANUALタグ持ちに+8%
 
 
 @dataclass
@@ -341,10 +354,11 @@ class SuperTotalScorer:
 
     def _calc_achievement_boost(self, row: dict) -> tuple:
         """
-        偉業キーワードブーストを計算（v1.1.0）
+        偉業キーワードブーストを計算（v1.2.0）
 
         エピソードテキストに偉業キーワードが含まれる場合、
         スコアに乗数ブーストを適用する。
+        TURNING_POINT_MANUALタグがある場合も追加ブースト。
 
         Returns:
             (boost: float, keywords: list[str])
@@ -359,6 +373,12 @@ class SuperTotalScorer:
                 if boost_value > boost:
                     boost = boost_value
                 keywords.append(keyword)
+
+        # v1.2.0: TURNING_POINT_MANUALタグブースト（累積）
+        source = row.get("source", "")
+        if source == "TURNING_POINT_MANUAL":
+            boost += TURNING_POINT_BOOST
+            keywords.append("TURNING_POINT")
 
         return boost, keywords
 

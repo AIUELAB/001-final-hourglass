@@ -2,14 +2,20 @@
 """
 意外性スコア改善スクリプト
 
-意外性スコア3.0未満のエピソードを改稿して意外性を向上させる
+意外性スコアが閾値未満のエピソードを改稿して意外性を向上させる
 
 使用方法:
     # テスト実行（5件）
-    python scripts/improve_surprise_score.py --count 5 --dry-run
+    python scripts/improve/improve_surprise_score.py --count 5 --dry-run
 
-    # 本番実行
-    python scripts/improve_surprise_score.py --count 50 --execute
+    # 本番実行（閾値3.0未満）
+    python scripts/improve/improve_surprise_score.py --count 50 --execute
+
+    # 閾値8.0、特定人物のみ
+    python scripts/improve/improve_surprise_score.py \
+      --threshold 8.0 \
+      --persons "イチロー,孫正義,スティーブ・ジョブズ" \
+      --execute
 
 環境変数:
     ANTHROPIC_API_KEY: Anthropic APIキー
@@ -23,13 +29,13 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import anthropic
 import pandas as pd
 
-# プロジェクトルート
-PROJECT_ROOT = Path(__file__).parent.parent
+# プロジェクトルート（scripts/improve/ → scripts/ → project_root）
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # CSVパス
@@ -160,16 +166,41 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
         return None
 
 
-def get_low_surprise_episodes(df: pd.DataFrame, count: int) -> pd.DataFrame:
-    """意外性スコア3.0未満のエピソードを取得"""
-    low_surprise = df[df["意外性スコア"] < 3.0].copy()
+def get_low_surprise_episodes(
+    df: pd.DataFrame,
+    count: int,
+    threshold: float = 3.0,
+    persons: Optional[List[str]] = None,
+) -> pd.DataFrame:
+    """意外性スコアが閾値未満のエピソードを取得
+
+    Args:
+        df: 全エピソードのDataFrame
+        count: 取得件数
+        threshold: 意外性スコアの閾値（デフォルト3.0）
+        persons: 対象人物名のリスト（Noneで全員）
+    """
+    # 人物フィルタを先に適用
+    filtered_df = df
+    if persons:
+        mask = df["person_name"].apply(lambda x: any(p in str(x) for p in persons))
+        filtered_df = df[mask]
+
+    # 閾値でフィルタ
+    low_surprise = filtered_df[filtered_df["意外性スコア"] < threshold].copy()
+
     # 意外性スコアが低い順にソート
     low_surprise = low_surprise.sort_values("意外性スコア")
     return low_surprise.head(count)
 
 
-def improve_episode(row: pd.Series) -> Optional[Dict]:
-    """1件のエピソードを改稿"""
+def improve_episode(row: pd.Series, target_threshold: float = 3.0) -> Optional[Dict]:
+    """1件のエピソードを改稿
+
+    Args:
+        row: エピソードのデータ行
+        target_threshold: 目標閾値（この値以上で品質ゲート合格）
+    """
     episode_id = row["episode_id"]
     person_name = row["person_name"]
     age = int(row["age"])
@@ -178,7 +209,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
 
     print(f"\n{'='*60}")
     print(f"改稿中: {person_name} ({age}歳) [{episode_id}]")
-    print(f"元の意外性スコア: {original_surprise:.2f}")
+    print(f"元の意外性スコア: {original_surprise:.2f} (目標: ≥{target_threshold:.1f})")
     print(f"{'='*60}")
 
     # 改稿
@@ -203,11 +234,11 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
 
     # 改善判定
     surprise_improved = new_surprise > original_surprise
-    gate_passed = new_surprise >= 3.0
+    gate_passed = new_surprise >= target_threshold
 
     if surprise_improved and gate_passed:
         print(f"  ✅ 意外性向上: {original_surprise:.2f} → {new_surprise:.2f}")
-        print("  ✅ 品質ゲート合格 (≥3.0)")
+        print(f"  ✅ 品質ゲート合格 (≥{target_threshold:.1f})")
         return {
             "episode_id": episode_id,
             "person_name": person_name,
@@ -222,7 +253,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
         }
     elif surprise_improved:
         print(f"  🔄 意外性向上: {original_surprise:.2f} → {new_surprise:.2f}")
-        print("  ⚠️ 品質ゲート未達 (<3.0)")
+        print(f"  ⚠️ 品質ゲート未達 (<{target_threshold:.1f})")
         return {
             "episode_id": episode_id,
             "person_name": person_name,
@@ -240,7 +271,12 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
         return {"episode_id": episode_id, "status": "no_improvement"}
 
 
-def run_improvement(count: int, execute: bool) -> Dict:
+def run_improvement(
+    count: int,
+    execute: bool,
+    threshold: float = 3.0,
+    persons: Optional[List[str]] = None,
+) -> Dict:
     """改稿バッチ実行"""
     print("=" * 60)
     print("📊 意外性スコア改善")
@@ -249,10 +285,13 @@ def run_improvement(count: int, execute: bool) -> Dict:
     # CSV読み込み
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
     print(f"  総エピソード: {len(df)}件")
+    print(f"  閾値: 意外性スコア < {threshold}")
+    if persons:
+        print(f"  対象人物: {', '.join(persons)}")
 
     # 対象抽出
-    targets = get_low_surprise_episodes(df, count)
-    print(f"  改稿対象: {len(targets)}件 (意外性スコア < 3.0)")
+    targets = get_low_surprise_episodes(df, count, threshold, persons)
+    print(f"  改稿対象: {len(targets)}件")
 
     if len(targets) == 0:
         print("  ⚠️ 対象エピソードがありません")
@@ -263,7 +302,7 @@ def run_improvement(count: int, execute: bool) -> Dict:
 
     for i, (_, row) in enumerate(targets.iterrows()):
         print(f"\n[{i+1}/{len(targets)}]", end="")
-        result = improve_episode(row)
+        result = improve_episode(row, target_threshold=threshold)
 
         if result is None:
             results["failed"].append(row["episode_id"])
@@ -342,13 +381,20 @@ def run_improvement(count: int, execute: bool) -> Dict:
 def main():
     parser = argparse.ArgumentParser(description="意外性スコア改善スクリプト")
     parser.add_argument("--count", type=int, default=50, help="改稿件数")
+    parser.add_argument("--threshold", type=float, default=3.0, help="意外性スコアの閾値（デフォルト3.0）")
+    parser.add_argument("--persons", type=str, help="対象人物名（カンマ区切り、例: イチロー,孫正義）")
     parser.add_argument("--dry-run", action="store_true", help="テスト実行（保存なし）")
     parser.add_argument("--execute", action="store_true", help="本番実行")
     args = parser.parse_args()
 
     execute = args.execute and not args.dry_run
 
-    run_improvement(args.count, execute)
+    # 人物リストをパース
+    persons = None
+    if args.persons:
+        persons = [p.strip() for p in args.persons.split(",") if p.strip()]
+
+    run_improvement(args.count, execute, args.threshold, persons)
 
 
 if __name__ == "__main__":

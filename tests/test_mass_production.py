@@ -644,5 +644,294 @@ class TestFinalRanker:
         assert stats["pass_rate"] == 0.5
 
 
+# =============================================================================
+# Phase 3 テスト: Pipeline & CLI
+# =============================================================================
+
+from mass_production.pipeline import (
+    DryRunPipeline,
+    MassProductionPipeline,
+    PipelineResult,
+    PipelineStats,
+)
+
+
+class TestPipelineStats:
+    """パイプライン統計のテスト"""
+
+    def test_default_values(self):
+        """デフォルト値"""
+        stats = PipelineStats()
+        assert stats.candidates_selected == 0
+        assert stats.episodes_generated == 0
+        assert stats.episodes_final == 0
+
+    def test_gate_pass_rate_zero(self):
+        """ゲート通過率（生成0件）"""
+        stats = PipelineStats()
+        assert stats.gate_pass_rate == 0.0
+
+    def test_gate_pass_rate_calculated(self):
+        """ゲート通過率（計算）"""
+        stats = PipelineStats()
+        stats.episodes_generated = 100
+        stats.episodes_passed_gate = 60
+        assert stats.gate_pass_rate == 0.6
+
+    def test_dedup_pass_rate(self):
+        """重複チェック通過率"""
+        stats = PipelineStats()
+        stats.episodes_passed_gate = 60
+        stats.episodes_non_duplicate = 54
+        assert stats.dedup_pass_rate == 0.9
+
+    def test_overall_yield(self):
+        """総合歩留まり"""
+        stats = PipelineStats()
+        stats.episodes_generated = 100
+        stats.episodes_final = 50
+        assert stats.overall_yield == 0.5
+
+    def test_to_dict(self):
+        """辞書変換"""
+        stats = PipelineStats()
+        stats.candidates_selected = 100
+        stats.episodes_final = 50
+
+        d = stats.to_dict()
+        assert d["candidates_selected"] == 100
+        assert d["episodes_final"] == 50
+        assert "time_breakdown" in d
+
+    def test_summary(self):
+        """サマリー出力"""
+        stats = PipelineStats()
+        stats.candidates_selected = 100
+        stats.episodes_generated = 300
+        stats.episodes_passed_gate = 180
+        stats.episodes_non_duplicate = 162
+        stats.episodes_final = 90
+
+        summary = stats.summary()
+        assert "候補選択: 100件" in summary
+        assert "生成完了: 300件" in summary
+        assert "最終出力: 90件" in summary
+
+
+class TestPipelineResult:
+    """パイプライン結果のテスト"""
+
+    def test_creation(self):
+        """PipelineResult作成"""
+        stats = PipelineStats()
+        result = PipelineResult(
+            stats=stats,
+            episodes=[{"episode_text": "テスト"}],
+            output_path=Path("/tmp/test.csv"),
+        )
+        assert len(result.episodes) == 1
+        assert result.output_path == Path("/tmp/test.csv")
+
+
+class TestDryRunPipeline:
+    """ドライランパイプラインのテスト"""
+
+    @pytest.fixture
+    def sample_csv(self, tmp_path):
+        """サンプルCSVを作成"""
+        csv_path = tmp_path / "test_master.csv"
+        data = {
+            "episode_id": ["EP-001", "EP-002", "EP-003"],
+            "person_id": ["P001", "P002", "P003"],
+            "person_name": ["山田太郎", "鈴木花子", "田中一郎"],
+            "age": [25, 30, 40],
+            "category": ["科学・技術", "芸術・文化", "スポーツ"],
+            "birth_year": [1980, 1975, 1960],
+            "death_year": ["", "", ""],
+            "episode_text": ["テスト1", "テスト2", "テスト3"],
+            "事実密度": [8.0, 6.0, 9.0],
+            "生成品質スコア": [8.5, 7.0, 9.0],
+        }
+        df = pd.DataFrame(data)
+        df.to_csv(csv_path, index=False)
+        return csv_path
+
+    def test_analyze(self, sample_csv):
+        """分析実行"""
+        pipeline = DryRunPipeline(master_csv_path=sample_csv)
+        analysis = pipeline.analyze(target_count=50)
+
+        assert "candidates" in analysis
+        assert "expected_generated" in analysis
+        assert "category_distribution" in analysis
+        assert "reason_distribution" in analysis
+        assert "config" in analysis
+
+    def test_analyze_estimates(self, sample_csv):
+        """推定値計算"""
+        pipeline = DryRunPipeline(master_csv_path=sample_csv)
+        analysis = pipeline.analyze(target_count=10)
+
+        # candidates_per_input=3 なので生成数は3倍
+        assert analysis["expected_generated"] == analysis["candidates"] * 3
+
+
+class TestMassProductionPipeline:
+    """大量生産パイプラインのテスト"""
+
+    @pytest.fixture
+    def sample_csv(self, tmp_path):
+        """サンプルCSVを作成"""
+        csv_path = tmp_path / "test_master.csv"
+        data = {
+            "episode_id": ["EP-001", "EP-002"],
+            "person_id": ["P001", "P002"],
+            "person_name": ["山田太郎", "鈴木花子"],
+            "age": [25, 30],
+            "category": ["科学・技術", "芸術・文化"],
+            "birth_year": [1980, 1975],
+            "death_year": ["", ""],
+            "episode_text": ["既存テスト1", "既存テスト2"],
+            "事実密度": [8.0, 6.0],
+            "生成品質スコア": [8.5, 7.0],
+        }
+        df = pd.DataFrame(data)
+        df.to_csv(csv_path, index=False)
+        return csv_path
+
+    def test_init(self, sample_csv):
+        """パイプライン初期化"""
+        mock_llm = MockLLMClient(delay=0.01)
+        pipeline = MassProductionPipeline(
+            llm_client=mock_llm,
+            master_csv_path=sample_csv,
+        )
+        assert pipeline.selector is not None
+        assert pipeline.generator is not None
+        assert pipeline.evaluator is not None
+        assert pipeline.ranker is not None
+
+    @pytest.mark.asyncio
+    async def test_run_async_dry_run(self, sample_csv):
+        """非同期実行（ドライラン）"""
+        mock_llm = MockLLMClient(delay=0.01)
+        pipeline = MassProductionPipeline(
+            llm_client=mock_llm,
+            master_csv_path=sample_csv,
+        )
+
+        result = await pipeline.run_async(
+            target_count=5,
+            dry_run=True,
+        )
+
+        assert isinstance(result, PipelineResult)
+        assert result.stats.candidates_selected > 0
+        # ドライランなので出力パスはNone
+        assert result.output_path is None
+
+    def test_run_sync_dry_run(self, sample_csv):
+        """同期実行（ドライラン）"""
+        mock_llm = MockLLMClient(delay=0.01)
+        pipeline = MassProductionPipeline(
+            llm_client=mock_llm,
+            master_csv_path=sample_csv,
+        )
+
+        result = pipeline.run(
+            target_count=5,
+            dry_run=True,
+        )
+
+        assert isinstance(result, PipelineResult)
+        assert result.stats.total_time > 0
+
+
+class TestCLI:
+    """CLIのテスト"""
+
+    def test_create_parser(self):
+        """パーサー作成"""
+        from mass_production.cli import create_parser
+
+        parser = create_parser()
+        assert parser is not None
+
+        # デフォルト値を確認
+        args = parser.parse_args([])
+        assert args.target == 500
+        assert args.dry_run is False
+        assert args.analyze_only is False
+
+    def test_parse_target(self):
+        """--target オプション"""
+        from mass_production.cli import create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(["--target", "100"])
+        assert args.target == 100
+
+    def test_parse_dry_run(self):
+        """--dry-run オプション"""
+        from mass_production.cli import create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(["--dry-run"])
+        assert args.dry_run is True
+
+    def test_parse_analyze_only(self):
+        """--analyze-only オプション"""
+        from mass_production.cli import create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(["--analyze-only"])
+        assert args.analyze_only is True
+
+    def test_parse_workers(self):
+        """--workers オプション"""
+        from mass_production.cli import create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(["--workers", "30"])
+        assert args.workers == 30
+
+    def test_parse_category(self):
+        """--category オプション"""
+        from mass_production.cli import create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(["--category", "科学・技術"])
+        assert args.category == "科学・技術"
+
+    def test_build_config(self):
+        """設定構築"""
+        from mass_production.cli import build_config, create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(
+            [
+                "--workers",
+                "30",
+                "--min-factual-density",
+                "8.0",
+            ]
+        )
+        config = build_config(args)
+
+        assert config.generation.max_workers == 30
+        assert config.quality.min_factual_density == 8.0
+
+    def test_create_llm_client_mock(self):
+        """モックLLMクライアント作成"""
+        from mass_production.cli import create_llm_client, create_parser
+
+        parser = create_parser()
+        args = parser.parse_args(["--llm-provider", "mock"])
+        client = create_llm_client(args)
+
+        assert client is not None
+        assert hasattr(client, "generate_async")
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

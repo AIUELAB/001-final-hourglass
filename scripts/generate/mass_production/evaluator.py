@@ -437,6 +437,47 @@ class FinalRanker:
             },
         }
 
+    def select_best(
+        self,
+        episodes: List[Dict[str, Any]],
+        top_k: int = 1,
+    ) -> List[Dict[str, Any]]:
+        """
+        辞書形式のエピソードから最高品質を選択
+
+        Args:
+            episodes: エピソード辞書リスト
+            top_k: 各グループから選択する件数
+
+        Returns:
+            選定結果リスト
+        """
+        if not episodes:
+            return []
+
+        # 人物×年齢でグループ化
+        groups: Dict[tuple, List[Dict[str, Any]]] = {}
+        for ep in episodes:
+            key = (ep.get("person_name", ""), ep.get("age", 0))
+            if key not in groups:
+                groups[key] = []
+            groups[key].append(ep)
+
+        # 各グループから上位を選択
+        selected = []
+        for key, group in groups.items():
+            # 複合スコアでソート（scores辞書内のcomposite or 生成品質スコア）
+            def get_score(ep: Dict) -> float:
+                scores = ep.get("scores", {})
+                if isinstance(scores, dict):
+                    return scores.get("composite", scores.get("生成品質スコア", 0.0))
+                return 0.0
+
+            sorted_group = sorted(group, key=get_score, reverse=True)
+            selected.extend(sorted_group[:top_k])
+
+        return selected
+
 
 def main():
     """デモ実行"""

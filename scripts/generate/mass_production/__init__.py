@@ -38,6 +38,12 @@ from .generator import (
     PromptBuilder,
     TextValidator,
 )
+from .pipeline import (
+    DryRunPipeline,
+    MassProductionPipeline,
+    PipelineResult,
+    PipelineStats,
+)
 from .selector import MassProductionSelector, SelectionCandidate
 
 __all__ = [
@@ -73,6 +79,11 @@ __all__ = [
     "PersonAgeDeduplicator",
     "ContentSimilarityChecker",
     "DuplicateCheckResult",
+    # Pipeline
+    "MassProductionPipeline",
+    "DryRunPipeline",
+    "PipelineResult",
+    "PipelineStats",
 ]
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"

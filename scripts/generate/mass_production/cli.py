@@ -112,6 +112,13 @@ def create_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--min-memorability",
+        type=float,
+        default=None,
+        help=f"最小記憶性（デフォルト: {DEFAULT_CONFIG.quality.min_memorability}）",
+    )
+
+    parser.add_argument(
         "--similarity-threshold",
         type=float,
         default=None,
@@ -190,6 +197,8 @@ def build_config(args: argparse.Namespace) -> MassProductionConfig:
         config.quality.min_factual_density = args.min_factual_density
     if args.min_generation_quality is not None:
         config.quality.min_generation_quality = args.min_generation_quality
+    if args.min_memorability is not None:
+        config.quality.min_memorability = args.min_memorability
     if args.similarity_threshold is not None:
         config.quality.max_similarity_threshold = args.similarity_threshold
 

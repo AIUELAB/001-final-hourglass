@@ -1,0 +1,26 @@
+{
+  "version": "v1.2.0",
+  "created_at": "2026-01-05T00:00:00",
+  "description": "現行設定（ノーベル賞重視傾向あり）",
+  "weights": {
+    "celebrity": 0.30,
+    "episode_fame": 0.30,
+    "quality": 0.20,
+    "historical": 0.20
+  },
+  "gates": {
+    "min_factual_density": 6.0,
+    "min_generation_quality": 6.0
+  },
+  "quality_weights": {
+    "memorability": 0.25,
+    "surprise": 0.18,
+    "story": 0.15,
+    "educational": 0.15,
+    "factual": 0.12,
+    "empathy": 0.10,
+    "generation": 0.05
+  },
+  "achievement_boost_multiplier": 1.0,
+  "output_scale": 1000000
+}

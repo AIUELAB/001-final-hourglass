@@ -1,0 +1,538 @@
+{
+  "claude_gap": {
+    "source": "claude",
+    "overlap_at_10": 0.1,
+    "overlap_at_50": 0.14,
+    "overlap_at_100": 0.08247422680412371,
+    "ndcg_at_10": 0.547957574178294,
+    "ndcg_at_50": 0.4750910837012715,
+    "ndcg_at_100": 0.42465062624855643,
+    "avg_rank_diff": 1784.8367346938776,
+    "undervalued_examples": [
+      {
+        "person_name": "孫正義",
+        "ref_rank": 3,
+        "current_rank": 103,
+        "rank_diff": 100
+      },
+      {
+        "person_name": "羽生結弦",
+        "ref_rank": 4,
+        "current_rank": 360,
+        "rank_diff": 356
+      },
+      {
+        "person_name": "スティーブ・ジョブズ",
+        "ref_rank": 5,
+        "current_rank": 140,
+        "rank_diff": 135
+      },
+      {
+        "person_name": "マーク・ザッカーバーグ",
+        "ref_rank": 6,
+        "current_rank": 461,
+        "rank_diff": 455
+      },
+      {
+        "person_name": "本田宗一郎",
+        "ref_rank": 7,
+        "current_rank": 202,
+        "rank_diff": 195
+      },
+      {
+        "person_name": "坂本龍馬",
+        "ref_rank": 9,
+        "current_rank": 1366,
+        "rank_diff": 1357
+      },
+      {
+        "person_name": "手塚治虫",
+        "ref_rank": 10,
+        "current_rank": 784,
+        "rank_diff": 774
+      },
+      {
+        "person_name": "織田信長",
+        "ref_rank": 11,
+        "current_rank": 6218,
+        "rank_diff": 6207
+      },
+      {
+        "person_name": "豊臣秀吉",
+        "ref_rank": 12,
+        "current_rank": 6607,
+        "rank_diff": 6595
+      },
+      {
+        "person_name": "徳川家康",
+        "ref_rank": 13,
+        "current_rank": 5922,
+        "rank_diff": 5909
+      },
+      {
+        "person_name": "松下幸之助",
+        "ref_rank": 14,
+        "current_rank": 631,
+        "rank_diff": 617
+      },
+      {
+        "person_name": "藤井聡太",
+        "ref_rank": 16,
+        "current_rank": 1819,
+        "rank_diff": 1803
+      },
+      {
+        "person_name": "浅田真央",
+        "ref_rank": 17,
+        "current_rank": 134,
+        "rank_diff": 117
+      },
+      {
+        "person_name": "木村拓哉",
+        "ref_rank": 18,
+        "current_rank": 971,
+        "rank_diff": 953
+      },
+      {
+        "person_name": "北野武",
+        "ref_rank": 19,
+        "current_rank": 168,
+        "rank_diff": 149
+      },
+      {
+        "person_name": "松井秀喜",
+        "ref_rank": 20,
+        "current_rank": 913,
+        "rank_diff": 893
+      },
+      {
+        "person_name": "錦織圭",
+        "ref_rank": 21,
+        "current_rank": 1648,
+        "rank_diff": 1627
+      },
+      {
+        "person_name": "安室奈美恵",
+        "ref_rank": 22,
+        "current_rank": 1393,
+        "rank_diff": 1371
+      },
+      {
+        "person_name": "イーロン・マスク",
+        "ref_rank": 23,
+        "current_rank": 118,
+        "rank_diff": 95
+      },
+      {
+        "person_name": "本田圭佑",
+        "ref_rank": 24,
+        "current_rank": 1154,
+        "rank_diff": 1130
+      },
+      {
+        "person_name": "福山雅治",
+        "ref_rank": 25,
+        "current_rank": 1289,
+        "rank_diff": 1264
+      },
+      {
+        "person_name": "タモリ",
+        "ref_rank": 26,
+        "current_rank": 1187,
+        "rank_diff": 1161
+      },
+      {
+        "person_name": "明石家さんま",
+        "ref_rank": 27,
+        "current_rank": 2447,
+        "rank_diff": 2420
+      },
+      {
+        "person_name": "松本人志",
+        "ref_rank": 28,
+        "current_rank": 1519,
+        "rank_diff": 1491
+      },
+      {
+        "person_name": "マイケル・ジョーダン",
+        "ref_rank": 29,
+        "current_rank": 594,
+        "rank_diff": 565
+      },
+      {
+        "person_name": "野茂英雄",
+        "ref_rank": 30,
+        "current_rank": 1799,
+        "rank_diff": 1769
+      }
+    ],
+    "overvalued_examples": [
+      {
+        "person_name": "ジョージ・ワシントン",
+        "ref_rank": "N/A",
+        "current_rank": 29,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "葛飾北斎",
+        "ref_rank": "N/A",
+        "current_rank": 24,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "パブロ・ピカソ",
+        "ref_rank": "N/A",
+        "current_rank": 18,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "アインシュタイン",
+        "ref_rank": "N/A",
+        "current_rank": 2,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "大江健三郎",
+        "ref_rank": "N/A",
+        "current_rank": 14,
+        "note": "参照Best100に含まれない"
+      }
+    ]
+  },
+  "gemini_gap": {
+    "source": "gemini",
+    "overlap_at_10": 0.1,
+    "overlap_at_50": 0.17777777777777778,
+    "overlap_at_100": 0.2222222222222222,
+    "ndcg_at_10": 0.46993785293667034,
+    "ndcg_at_50": 0.5132453937192323,
+    "ndcg_at_100": 0.588212548468273,
+    "avg_rank_diff": 1725.7333333333333,
+    "undervalued_examples": [
+      {
+        "person_name": "カーネル・サンダース",
+        "ref_rank": 1,
+        "current_rank": 1152,
+        "rank_diff": 1151
+      },
+      {
+        "person_name": "伊能忠敬",
+        "ref_rank": 2,
+        "current_rank": 368,
+        "rank_diff": 366
+      },
+      {
+        "person_name": "安藤百福",
+        "ref_rank": 3,
+        "current_rank": 2760,
+        "rank_diff": 2757
+      },
+      {
+        "person_name": "本田宗一郎",
+        "ref_rank": 4,
+        "current_rank": 556,
+        "rank_diff": 552
+      },
+      {
+        "person_name": "矢沢永吉",
+        "ref_rank": 5,
+        "current_rank": 2245,
+        "rank_diff": 2240
+      },
+      {
+        "person_name": "J.K.ローリング",
+        "ref_rank": 7,
+        "current_rank": 223,
+        "rank_diff": 216
+      },
+      {
+        "person_name": "孫正義",
+        "ref_rank": 8,
+        "current_rank": 1233,
+        "rank_diff": 1225
+      },
+      {
+        "person_name": "坂本龍馬",
+        "ref_rank": 11,
+        "current_rank": 1366,
+        "rank_diff": 1355
+      },
+      {
+        "person_name": "ジェフ・ベゾス",
+        "ref_rank": 12,
+        "current_rank": 916,
+        "rank_diff": 904
+      },
+      {
+        "person_name": "三木谷浩史",
+        "ref_rank": 14,
+        "current_rank": 3967,
+        "rank_diff": 3953
+      },
+      {
+        "person_name": "松下幸之助",
+        "ref_rank": 15,
+        "current_rank": 705,
+        "rank_diff": 690
+      },
+      {
+        "person_name": "マイケル・ジョーダン",
+        "ref_rank": 16,
+        "current_rank": 296,
+        "rank_diff": 280
+      },
+      {
+        "person_name": "マザー・テレサ",
+        "ref_rank": 17,
+        "current_rank": 604,
+        "rank_diff": 587
+      },
+      {
+        "person_name": "夏目漱石",
+        "ref_rank": 18,
+        "current_rank": 766,
+        "rank_diff": 748
+      },
+      {
+        "person_name": "中内㓛",
+        "ref_rank": 20,
+        "current_rank": 4631,
+        "rank_diff": 4611
+      },
+      {
+        "person_name": "ココ・シャネル",
+        "ref_rank": 21,
+        "current_rank": 1318,
+        "rank_diff": 1297
+      },
+      {
+        "person_name": "タモリ",
+        "ref_rank": 22,
+        "current_rank": 1187,
+        "rank_diff": 1165
+      },
+      {
+        "person_name": "エイブラハム・リンカーン",
+        "ref_rank": 23,
+        "current_rank": 344,
+        "rank_diff": 321
+      },
+      {
+        "person_name": "植村直己",
+        "ref_rank": 24,
+        "current_rank": 1014,
+        "rank_diff": 990
+      },
+      {
+        "person_name": "出口治明",
+        "ref_rank": 25,
+        "current_rank": 6642,
+        "rank_diff": 6617
+      },
+      {
+        "person_name": "藤井聡太",
+        "ref_rank": 26,
+        "current_rank": 1717,
+        "rank_diff": 1691
+      },
+      {
+        "person_name": "岡本太郎",
+        "ref_rank": 27,
+        "current_rank": 1712,
+        "rank_diff": 1685
+      },
+      {
+        "person_name": "羽生結弦",
+        "ref_rank": 28,
+        "current_rank": 360,
+        "rank_diff": 332
+      },
+      {
+        "person_name": "田中角栄",
+        "ref_rank": 29,
+        "current_rank": 6919,
+        "rank_diff": 6890
+      },
+      {
+        "person_name": "水木しげる",
+        "ref_rank": 30,
+        "current_rank": 2916,
+        "rank_diff": 2886
+      }
+    ],
+    "overvalued_examples": [
+      {
+        "person_name": "ジョージ・ワシントン",
+        "ref_rank": "N/A",
+        "current_rank": 29,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "パブロ・ピカソ",
+        "ref_rank": "N/A",
+        "current_rank": 18,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "アインシュタイン",
+        "ref_rank": "N/A",
+        "current_rank": 2,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "大江健三郎",
+        "ref_rank": "N/A",
+        "current_rank": 14,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "エリザベス2世",
+        "ref_rank": "N/A",
+        "current_rank": 6,
+        "note": "参照Best100に含まれない"
+      }
+    ]
+  },
+  "claude_features": {
+    "source": "claude",
+    "in_ref_count": 15,
+    "not_in_ref_count": 185,
+    "feature_comparison": {
+      "celebrity_score_v2": {
+        "in_ref_mean": 760.74,
+        "not_in_ref_mean": 759.9,
+        "diff": 0.84
+      },
+      "episode_fame_v6": {
+        "in_ref_mean": 90.84,
+        "not_in_ref_mean": 91.3,
+        "diff": -0.46
+      },
+      "記憶性スコア": {
+        "in_ref_mean": 7.01,
+        "not_in_ref_mean": 6.39,
+        "diff": 0.62
+      },
+      "意外性スコア": {
+        "in_ref_mean": 6.19,
+        "not_in_ref_mean": 5.52,
+        "diff": 0.68
+      },
+      "共感性スコア": {
+        "in_ref_mean": 5.96,
+        "not_in_ref_mean": 5.62,
+        "diff": 0.34
+      },
+      "教育的価値": {
+        "in_ref_mean": 6.12,
+        "not_in_ref_mean": 5.68,
+        "diff": 0.44
+      },
+      "ストーリー品質": {
+        "in_ref_mean": 7.21,
+        "not_in_ref_mean": 6.81,
+        "diff": 0.4
+      },
+      "事実密度": {
+        "in_ref_mean": 9.85,
+        "not_in_ref_mean": 9.74,
+        "diff": 0.11
+      },
+      "生成品質スコア": {
+        "in_ref_mean": 8.67,
+        "not_in_ref_mean": 8.66,
+        "diff": 0.01
+      },
+      "episode_importance_score": {
+        "in_ref_mean": 8.1,
+        "not_in_ref_mean": 18.18,
+        "diff": -10.08
+      }
+    },
+    "in_ref_categories": {
+      "スポーツ": 5,
+      "芸術・文化": 3,
+      "ビジネス": 2,
+      "映画・演劇": 2,
+      "文学": 1
+    },
+    "not_in_ref_categories": {
+      "芸術・文化": 33,
+      "科学・技術": 23,
+      "文学": 20,
+      "政治・社会": 20,
+      "音楽": 19
+    }
+  },
+  "gemini_features": {
+    "source": "gemini",
+    "in_ref_count": 9,
+    "not_in_ref_count": 191,
+    "feature_comparison": {
+      "celebrity_score_v2": {
+        "in_ref_mean": 814.44,
+        "not_in_ref_mean": 757.39,
+        "diff": 57.05
+      },
+      "episode_fame_v6": {
+        "in_ref_mean": 93.48,
+        "not_in_ref_mean": 91.17,
+        "diff": 2.31
+      },
+      "記憶性スコア": {
+        "in_ref_mean": 7.02,
+        "not_in_ref_mean": 6.41,
+        "diff": 0.61
+      },
+      "意外性スコア": {
+        "in_ref_mean": 6.2,
+        "not_in_ref_mean": 5.54,
+        "diff": 0.66
+      },
+      "共感性スコア": {
+        "in_ref_mean": 5.7,
+        "not_in_ref_mean": 5.65,
+        "diff": 0.05
+      },
+      "教育的価値": {
+        "in_ref_mean": 5.96,
+        "not_in_ref_mean": 5.7,
+        "diff": 0.26
+      },
+      "ストーリー品質": {
+        "in_ref_mean": 6.94,
+        "not_in_ref_mean": 6.84,
+        "diff": 0.11
+      },
+      "事実密度": {
+        "in_ref_mean": 9.62,
+        "not_in_ref_mean": 9.75,
+        "diff": -0.13
+      },
+      "生成品質スコア": {
+        "in_ref_mean": 8.61,
+        "not_in_ref_mean": 8.66,
+        "diff": -0.05
+      },
+      "episode_importance_score": {
+        "in_ref_mean": 7.96,
+        "not_in_ref_mean": 17.87,
+        "diff": -9.92
+      }
+    },
+    "in_ref_categories": {
+      "芸術・文化": 3,
+      "スポーツ": 2,
+      "ビジネス": 1,
+      "文学": 1,
+      "アニメ・漫画・ゲーム": 1
+    },
+    "not_in_ref_categories": {
+      "芸術・文化": 33,
+      "科学・技術": 23,
+      "文学": 20,
+      "政治・社会": 20,
+      "音楽": 19
+    }
+  }
+}

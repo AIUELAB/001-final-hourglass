@@ -38,7 +38,7 @@ class GenerationConfig:
     candidates_per_input: int = 3  # 入力あたり候補数
     max_retries: int = 3  # リトライ回数
     timeout_seconds: int = 60  # タイムアウト
-    batch_size: int = 20  # バッチサイズ
+    batch_size: int = 10  # バッチサイズ（評価用LLMトークン制限対応）
 
 
 @dataclass

@@ -31,7 +31,7 @@ class AnthropicClient(BaseLLMClient):
         self,
         model: str = "claude-sonnet-4-20250514",
         api_key: Optional[str] = None,
-        max_tokens: int = 500,
+        max_tokens: int = 2000,
     ):
         """
         Args:
@@ -81,7 +81,7 @@ class OpenAIClient(BaseLLMClient):
         self,
         model: str = "gpt-4o-mini",
         api_key: Optional[str] = None,
-        max_tokens: int = 500,
+        max_tokens: int = 2000,
     ):
         """
         Args:

@@ -36,20 +36,20 @@ class EvaluationScores:
     composite_score: float = 0.0
 
     def to_dict(self) -> Dict[str, Any]:
-        """辞書に変換"""
+        """辞書に変換（CSV出力用の英語キー）"""
         return {
-            "事実密度": self.factual_density,
-            "生成品質スコア": self.generation_quality,
-            "記憶性スコア": self.memorability,
-            "意外性スコア": self.surprise,
-            "ストーリー品質": self.story_quality,
-            "教育的価値": self.educational_value,
-            "共感性スコア": self.empathy,
+            "factual_density": self.factual_density,
+            "generation_quality": self.generation_quality,
+            "memorability": self.memorability,
+            "unexpectedness": self.surprise,
+            "story_quality": self.story_quality,
+            "educational_value": self.educational_value,
+            "empathy": self.empathy,
             "year_count": self.year_count,
             "number_count": self.number_count,
             "proper_noun_count": self.proper_noun_count,
             "char_count": self.char_count,
-            "composite_score": self.composite_score,
+            "composite": self.composite_score,
         }
 
 

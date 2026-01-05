@@ -160,9 +160,9 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--llm-provider",
         type=str,
-        default="openai",
-        choices=["openai", "anthropic", "mock"],
-        help="LLMプロバイダー（デフォルト: openai）",
+        default="anthropic",
+        choices=["anthropic", "openai", "gemini", "mock"],
+        help="LLMプロバイダー（デフォルト: anthropic）",
     )
 
     parser.add_argument(
@@ -198,36 +198,16 @@ def build_config(args: argparse.Namespace) -> MassProductionConfig:
 
 def create_llm_client(args: argparse.Namespace):
     """LLMクライアント作成"""
-    if args.llm_provider == "mock":
-        from .generator import MockLLMClient
+    try:
+        from .llm_clients import create_llm_client as factory
 
-        return MockLLMClient(delay=0.05)
-
-    elif args.llm_provider == "openai":
-        try:
-            from scripts.generate.llm_clients import OpenAIClient
-
-            model = args.llm_model or "gpt-4o-mini"
-            return OpenAIClient(model=model)
-        except ImportError:
-            logger.warning("OpenAIClient not found, using mock")
-            from .generator import MockLLMClient
-
-            return MockLLMClient(delay=0.05)
-
-    elif args.llm_provider == "anthropic":
-        try:
-            from scripts.generate.llm_clients import AnthropicClient
-
-            model = args.llm_model or "claude-3-haiku-20240307"
-            return AnthropicClient(model=model)
-        except ImportError:
-            logger.warning("AnthropicClient not found, using mock")
-            from .generator import MockLLMClient
-
-            return MockLLMClient(delay=0.05)
-
-    else:
+        return factory(
+            provider=args.llm_provider,
+            model=args.llm_model,
+        )
+    except (ImportError, ValueError) as e:
+        if args.llm_provider != "mock":
+            logger.warning(f"LLMクライアント作成失敗: {e}, モックを使用")
         from .generator import MockLLMClient
 
         return MockLLMClient(delay=0.05)

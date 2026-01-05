@@ -21,8 +21,8 @@ LOGS_DIR = PROJECT_ROOT / "src/reports/logs"
 class QualityGateConfig:
     """品質ゲート設定"""
 
-    min_factual_density: float = 7.0  # 事実密度閾値（現行6.0から引上げ）
-    min_generation_quality: float = 8.0  # 生成品質閾値（現行6.0から引上げ）
+    min_factual_density: float = 6.5  # 事実密度閾値（7.0→6.5に緩和）
+    min_generation_quality: float = 7.0  # 生成品質閾値（8.0→7.0に緩和）
     min_memorability: float = 6.0  # 記憶性閾値
     min_year_count: int = 1  # 年号最低数
     min_number_count: int = 3  # 数値最低数

@@ -98,6 +98,13 @@ def create_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
+        "--top-k",
+        type=int,
+        default=1,
+        help="各人物×年齢グループから選択する件数（デフォルト: 1）",
+    )
+
+    parser.add_argument(
         "--min-factual-density",
         type=float,
         default=None,
@@ -269,6 +276,7 @@ def run_pipeline(
         llm_client=llm,
         config=config,
         master_csv_path=master_csv_path,
+        top_k=args.top_k,
     )
 
     def progress_callback(stage: str, completed: int, total: int):

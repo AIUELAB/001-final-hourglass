@@ -61,6 +61,8 @@ def load_csv_data():
                 # Episode Fame v6 (多シグナル統合)
                 "episode_fame_v6": float(row.get("episode_fame_v6", 0) or 0),
                 "episode_fame_tier_v6": int(float(row.get("episode_fame_tier_v6", 0) or 0)),
+                # 超総合スコア (v1.1.0)
+                "super_total_score": float(row.get("super_total_score", 0) or 0),
                 # 7軸スコア (原本)
                 "memorability_score": float(row.get("記憶性スコア", 0) or 0),
                 "empathy_score": float(row.get("共感性スコア", 0) or 0),

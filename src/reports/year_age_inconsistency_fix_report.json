@@ -1,0 +1,72 @@
+{
+  "scan_timestamp": "2026-01-05T17:10:11.290098",
+  "task": "年齢×年号×出来事の時系列矛盾検出と修正",
+  "起点問題": {
+    "EP-000004833": {
+      "person_name": "マリー・キュリー",
+      "age": 35,
+      "status": "整合確認済み（修正不要）",
+      "note": "ユーザー報告の問題は現在のCSVに存在しない"
+    },
+    "EP-000007808": {
+      "person_name": "マリー・キュリー",
+      "age": 36,
+      "status": "整合確認済み（修正不要）",
+      "note": "1903年が本文にあり、1867+36=1903で整合"
+    }
+  },
+  "全体スキャン結果": {
+    "修正前": {
+      "total_episodes": 10252,
+      "critical_count": 16,
+      "warning_count": 14
+    },
+    "修正後": {
+      "total_episodes": 10252,
+      "critical_count": 13,
+      "fixed_count": 3
+    }
+  },
+  "修正内容": [
+    {
+      "episode_id": "EP-251217210039576",
+      "person_name": "今田耕司",
+      "age": 13,
+      "fix": "1975年→1979年"
+    },
+    {
+      "episode_id": "EP-251219020130827",
+      "person_name": "今田耕司",
+      "age": 11,
+      "fix": "1973年→1977年"
+    },
+    {
+      "episode_id": "EP-251217212955817",
+      "person_name": "今田耕司",
+      "age": 6,
+      "fix": "1968年→1972年"
+    }
+  ],
+  "再発防止策": {
+    "gate_v2_created": "scripts/validation/year_age_consistency_gate_v2.py",
+    "improvement": "回顧型言及パターン除外により偽陽性を大幅削減",
+    "gate_result": {
+      "v1_critical": 38,
+      "v2_critical": 2,
+      "reduction_rate": "94.7%"
+    }
+  },
+  "テスト": {
+    "file": "tests/test_year_age_consistency_gate.py",
+    "test_count": 20,
+    "result": "ALL PASSED"
+  },
+  "根本原因": {
+    "primary": "生成パイプラインに年号整合チェックが欠如",
+    "secondary": "既存ゲートv1の偽陽性が多く真の問題を検出困難",
+    "code_evidence": [
+      "scripts/generate/*.py: birth_yearから年齢範囲計算のみ、本文年号未検証",
+      "year_age_consistency_gate.py (v1): 回顧型除外なし→CRITICAL 38件"
+    ]
+  }
+}

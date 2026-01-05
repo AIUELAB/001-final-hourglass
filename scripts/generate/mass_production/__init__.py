@@ -22,6 +22,22 @@ from .deduplicator import (
     FastDeduplicator,
     PersonAgeDeduplicator,
 )
+from .evaluator import (
+    BatchEvaluator,
+    EvaluationResult,
+    EvaluationScores,
+    FinalRanker,
+    MockLLMEvaluator,
+    StructuralEvaluator,
+)
+from .generator import (
+    GenerationInput,
+    GenerationResult,
+    MockLLMClient,
+    ParallelGenerator,
+    PromptBuilder,
+    TextValidator,
+)
 from .selector import MassProductionSelector, SelectionCandidate
 
 __all__ = [
@@ -38,6 +54,20 @@ __all__ = [
     # Selector
     "MassProductionSelector",
     "SelectionCandidate",
+    # Generator
+    "ParallelGenerator",
+    "GenerationInput",
+    "GenerationResult",
+    "PromptBuilder",
+    "TextValidator",
+    "MockLLMClient",
+    # Evaluator
+    "BatchEvaluator",
+    "EvaluationResult",
+    "EvaluationScores",
+    "StructuralEvaluator",
+    "FinalRanker",
+    "MockLLMEvaluator",
     # Deduplicator
     "FastDeduplicator",
     "PersonAgeDeduplicator",
@@ -45,4 +75,4 @@ __all__ = [
     "DuplicateCheckResult",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

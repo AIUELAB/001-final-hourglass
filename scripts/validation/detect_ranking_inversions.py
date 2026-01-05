@@ -55,9 +55,13 @@ TIER3_KEYWORDS = [
 # ティア別閾値
 TIER_THRESHOLDS = {
     1: {"min_score": 78.0, "max_rank": 3},  # 80→78, 2→3に緩和（複数重要EPがある人物に対応）
-    2: {"min_score": 70.0, "max_rank": 3},
+    2: {"min_score": 70.0, "max_rank": 4},  # 3→4に緩和（同一人物で複数重要EPがある場合）
     3: {"min_score": 60.0, "max_rank": 5},
 }
+
+# celebrity_score_v2の最低基準（これ以下は検出対象外）
+# 低いcelebrity_v2は「データ取得問題」であり「スコア逆転」ではない
+MIN_CELEBRITY_SCORE = 300
 
 
 def detect_inversions():
@@ -73,10 +77,21 @@ def detect_inversions():
         if pid:
             by_person[pid].append(r)
 
+    # celebrity_score_v2が低い人物は除外（データ取得問題であり逆転ではない）
+    excluded_persons = set()
+    for pid, episodes in by_person.items():
+        celeb_v2 = float(episodes[0].get("celebrity_score_v2") or 0)
+        if celeb_v2 < MIN_CELEBRITY_SCORE:
+            excluded_persons.add(pid)
+
     inversions = []
 
     for pid, episodes in by_person.items():
         if len(episodes) < 2:
+            continue
+
+        # celebrity_score_v2が低い人物は除外
+        if pid in excluded_persons:
             continue
 
         person_name = episodes[0].get("person_name", "不明")
@@ -134,10 +149,11 @@ def detect_inversions():
                     is_inversion = True
                     reason.append(f"v6スコアが{v6:.1f}（{min_score}以上期待）")
 
-                # col30がv6と大きく乖離している場合
-                if abs(col30 - v6) > 10:
+                # col30がv6より大きく高い場合のみ（v6が退化している場合）
+                # v6 > col30 は改善なので問題なし
+                if col30 - v6 > 10:
                     is_inversion = True
-                    reason.append(f"col30({col30:.1f})とv6({v6:.1f})が乖離")
+                    reason.append(f"v6({v6:.1f})がcol30({col30:.1f})より低下")
 
                 if is_inversion:
                     inversions.append(

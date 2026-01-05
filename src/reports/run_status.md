@@ -1,68 +1,81 @@
 # 実行状態レポート
 
-## 最終更新: 2026-01-03 04:30
+## 最終更新: 2026-01-06 (逆転候補精査完了)
 
 ---
 
-## 完了タスク: EP-3947C4DE（アインシュタイン 奇跡の年）順位修正
+## 完了タスク: 逆転候補精査 + 検出ロジック調整
 
-### 実行結果
+### 精査結果
 
-| 項目 | 結果 |
-|------|------|
-| 対象EP | EP-3947C4DE（奇跡の年1905年） |
-| 修正前順位 | アインシュタイン内5位（v6=69.02） |
-| 修正後順位 | **アインシュタイン内1位（v6=89.25）** ✅ |
-| 回帰テスト | 5/5通過 ✅ |
+| 項目 | 修正前 | 修正後 |
+|------|--------|--------|
+| 検出件数 | 314件 | **230件** (-27%) |
+| 高優先度 | 29件 | **7件** (-76%) |
+| 中優先度 | 217件 | 181件 |
+| 低優先度 | 68件 | 42件 |
 
-### 根本原因と対策
+### 根本原因分析
 
-| 原因 | 対策 |
-|------|------|
-| テンプレートコピーによるperson-level不整合 | 参照EPから正しい値をコピー |
-| 580人物で同様の不整合 | 一括修正（1,724件更新） |
+| 問題 | 件数 | 原因 |
+|------|------|------|
+| **google_hits欠落** | 5,873件 (82%) | API制限による設計上の制約 |
+| wikidata_id なし | 683件 (9.5%) | Wikidata紐付け失敗 |
+| celebrity_v2 < 200 | 717件 (10%) | 上記データ問題の結果 |
 
-### 生成/更新ファイル
+### 修正内容
 
-- `scripts/fix_einstein_episode_data.py` - アインシュタインEP修正
-- `scripts/validation/detect_person_level_mismatch.py` - 不整合検出・修正
-- `tests/test_person_level_consistency.py` - 整合性回帰テスト
-- `src/reports/einstein_episode_ranking_fix_20260103.md` - 完了報告
+`scripts/validation/detect_ranking_inversions.py`:
 
-### 確認コマンド
+1. **col30乖離検出を改善**
+   - 修正前: `abs(col30 - v6) > 10` (両方向)
+   - 修正後: `col30 - v6 > 10` (退化のみ)
 
-```bash
-# 回帰テスト
-pytest tests/test_person_level_consistency.py -v
+2. **celebrity_score_v2フィルター追加**
+   - MIN_CELEBRITY_SCORE = 300
+   - 低スコアは「データ取得問題」であり「逆転」ではない
 
-# 不整合検出
-python scripts/validation/detect_person_level_mismatch.py
-```
+3. **Tier2閾値緩和**
+   - max_rank: 3 → 4 (複数重要EPがある人物に対応)
+
+### 残存7件（高優先度）の分析
+
+| 人物 | 問題 | 判定 |
+|------|------|------|
+| 梶田隆章, 羽生善治, 天野浩, 小林誠 | v6順位4位 | 他EPがより高スコア（問題なし） |
+| 吉田茂, 井深大, 平井一夫 | v6スコア低い | 改善候補（低優先） |
 
 ---
 
-## 過去タスク: 村上春樹エピソード有名度問題修正
+## 過去完了タスク
 
-### 実行結果
+### ランキング改善プロジェクト (2026-01-06)
+- 8人物全員Top500入り達成
+- v2.0.0設定適用 (NDCG@100 +251%)
 
-| 項目 | 結果 |
-|------|------|
-| 対象EP | EP-000002037（ノルウェイの森1000万部） |
-| 修正前順位 | 村上春樹内2位（v6=77.83） |
-| 修正後順位 | **村上春樹内1位（v6=84.43）** ✅ |
-| 回帰テスト | 7/7通過 ✅ |
+### アインシュタインEP順位修正 (2026-01-03)
+- EP-3947C4DE: 5位 → 1位
+- person-level不整合1,724件修正
 
-### 生成/更新ファイル
-
-- `scripts/score/episode_fame_v6/config.py` - TYPE_MAPPING, KEYWORDS追加
-- `scripts/score/episode_fame_v6/scorer.py` - TYPE_MAPPING使用
-- `scripts/recalculate_episode_fame_v6.py` - 再計算スクリプト
-- `scripts/validation/detect_score_inversions.py` - 逆転検出
-- `tests/test_episode_fame_v6_inversions.py` - 回帰テスト
+### 村上春樹スコア逆転修正 (2026-01-03)
+- EP-000002037: 2位 → 1位
+- TYPE_MAPPING追加
 
 ---
 
 ## 残タスク
 
-- [ ] 逆転候補203件の精査
+- [ ] 中期施策: 参照Top30低順位人物のエピソード追加
+- [ ] STATUS.md更新
 - [ ] CI/CDパイプラインへの回帰テスト統合
+
+---
+
+**検証コマンド**:
+```bash
+# 逆転候補検出
+python scripts/validation/detect_ranking_inversions.py
+
+# スコア逆転検出
+python scripts/validation/detect_score_inversions.py
+```

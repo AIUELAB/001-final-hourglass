@@ -364,5 +364,285 @@ class TestDiversityConstraints:
         assert expected.issubset(all_categories)
 
 
+# =============================================================================
+# Phase 2 テスト: Generator & Evaluator
+# =============================================================================
+
+from mass_production.generator import (
+    GenerationInput,
+    GenerationResult,
+    MockLLMClient,
+    ParallelGenerator,
+    PromptBuilder,
+    TextValidator,
+)
+from mass_production.evaluator import (
+    BatchEvaluator,
+    EvaluationResult,
+    EvaluationScores,
+    FinalRanker,
+    MockLLMEvaluator,
+    StructuralEvaluator,
+)
+
+
+class TestPromptBuilder:
+    """プロンプトビルダーのテスト"""
+
+    def test_build_basic(self):
+        """基本的なプロンプト生成"""
+        builder = PromptBuilder()
+        input_data = GenerationInput(
+            person_id="P001",
+            person_name="山田太郎",
+            age=30,
+            category="科学・技術",
+            birth_year=1990,
+        )
+        prompt = builder.build(input_data, style="factual")
+
+        assert "山田太郎" in prompt
+        assert "30歳" in prompt
+        assert "科学・技術" in prompt
+        assert "1990年" in prompt
+
+    def test_build_all_styles(self):
+        """全スタイルでのプロンプト生成"""
+        builder = PromptBuilder()
+        input_data = GenerationInput(
+            person_id="P001",
+            person_name="テスト",
+            age=25,
+            category="テスト",
+        )
+
+        for style in ["factual", "narrative", "inspirational"]:
+            prompt = builder.build(input_data, style=style)
+            assert prompt  # 空でないこと
+            assert "テスト" in prompt
+
+    def test_age_context(self):
+        """年齢コンテキストの生成"""
+        builder = PromptBuilder()
+
+        # 若年期
+        input_young = GenerationInput(person_id="P001", person_name="X", age=18, category="Y")
+        prompt_young = builder.build(input_young)
+        assert "若年期" in prompt_young
+
+        # 壮年期
+        input_mid = GenerationInput(person_id="P001", person_name="X", age=35, category="Y")
+        prompt_mid = builder.build(input_mid)
+        assert "壮年期" in prompt_mid
+
+
+class TestGenerationInput:
+    """生成入力のテスト"""
+
+    def test_creation(self):
+        """GenerationInput作成"""
+        inp = GenerationInput(
+            person_id="P001",
+            person_name="テスト太郎",
+            age=30,
+            category="科学・技術",
+            birth_year=1990,
+            death_year=2050,
+        )
+        assert inp.person_name == "テスト太郎"
+        assert inp.age == 30
+        assert inp.birth_year == 1990
+
+
+class TestMockLLMClient:
+    """モックLLMクライアントのテスト"""
+
+    @pytest.mark.asyncio
+    async def test_generate_async(self):
+        """非同期生成"""
+        client = MockLLMClient(delay=0.01)
+        result = await client.generate_async("テストプロンプト")
+        assert "あなたと同じ" in result
+        assert client.call_count == 1
+
+
+class TestTextValidator:
+    """テキストバリデーターのテスト"""
+
+    def test_valid_text(self):
+        """有効なテキストの検証"""
+        validator = TextValidator()
+        text = "あなたと同じ30歳のとき、山田太郎は1985年に東京で100人以上の専門家と出会い、3年間で5つのプロジェクトを立ち上げた。その成果は1億円の資金調達につながった。"
+        is_valid, errors = validator.validate(text, age=30)
+        # 年号と数値が十分あるので一部チェックは通過
+        assert "年号" not in str(errors)
+
+    def test_invalid_prefix(self):
+        """無効な冒頭の検出"""
+        validator = TextValidator()
+        text = "山田太郎は1985年に成功した。"
+        is_valid, errors = validator.validate(text, age=30)
+        assert not is_valid
+        assert any("冒頭" in e for e in errors)
+
+    def test_missing_year(self):
+        """年号なしの検出"""
+        validator = TextValidator()
+        text = "あなたと同じ30歳のとき、山田太郎は東京で成功を収めた。"
+        is_valid, errors = validator.validate(text, age=30)
+        assert any("年号" in e for e in errors)
+
+
+class TestStructuralEvaluator:
+    """構造的評価器のテスト"""
+
+    def test_year_extraction(self):
+        """年号抽出"""
+        evaluator = StructuralEvaluator()
+        result = evaluator.evaluate("1985年と2020年に重要な出来事があった。")
+        assert result["year_count"] == 2
+
+    def test_number_extraction(self):
+        """数値抽出"""
+        evaluator = StructuralEvaluator()
+        result = evaluator.evaluate("100人が参加し、3時間で50kmを走破した。")
+        assert result["number_count"] >= 3
+
+    def test_proper_noun_extraction(self):
+        """固有名詞抽出"""
+        evaluator = StructuralEvaluator()
+        result = evaluator.evaluate("アインシュタインは『相対性理論』を発表した。")
+        assert result["proper_noun_count"] >= 1
+
+
+class TestEvaluationScores:
+    """評価スコアのテスト"""
+
+    def test_to_dict(self):
+        """辞書変換"""
+        scores = EvaluationScores(
+            factual_density=8.0,
+            generation_quality=7.5,
+            memorability=6.0,
+        )
+        d = scores.to_dict()
+        assert d["事実密度"] == 8.0
+        assert d["生成品質スコア"] == 7.5
+        assert d["記憶性スコア"] == 6.0
+
+
+class TestBatchEvaluator:
+    """バッチ評価器のテスト"""
+
+    def test_evaluate_batch(self):
+        """バッチ評価"""
+        client = MockLLMEvaluator()
+        evaluator = BatchEvaluator(client)
+
+        episodes = [
+            {
+                "episode_text": "あなたと同じ30歳のとき、山田太郎は1985年に100人と出会った。",
+                "person_name": "山田太郎",
+                "age": 30,
+            }
+        ]
+
+        results = evaluator.evaluate_batch(episodes, batch_size=10)
+        assert len(results) == 1
+        assert isinstance(results[0], EvaluationResult)
+        assert results[0].scores.factual_density > 0
+
+    def test_gate_check(self):
+        """ゲートチェック"""
+        client = MockLLMEvaluator()
+        evaluator = BatchEvaluator(client)
+
+        episodes = [
+            {
+                "episode_text": "短い。",  # 低品質
+                "person_name": "テスト",
+                "age": 30,
+            }
+        ]
+
+        results = evaluator.evaluate_batch(episodes)
+        # 構造的に不足しているので失敗するはず
+        assert len(results[0].gate_failures) > 0
+
+
+class TestFinalRanker:
+    """最終選定器のテスト"""
+
+    def test_rank_and_select(self):
+        """ランキングと選定"""
+        ranker = FinalRanker()
+
+        # テストデータ
+        results = [
+            EvaluationResult(
+                episode_text="テスト1",
+                person_name="山田",
+                age=30,
+                scores=EvaluationScores(composite_score=8.5),
+                passed_gate=True,
+            ),
+            EvaluationResult(
+                episode_text="テスト2",
+                person_name="山田",
+                age=30,
+                scores=EvaluationScores(composite_score=7.0),
+                passed_gate=True,
+            ),
+            EvaluationResult(
+                episode_text="テスト3",
+                person_name="鈴木",
+                age=25,
+                scores=EvaluationScores(composite_score=9.0),
+                passed_gate=True,
+            ),
+        ]
+
+        selected = ranker.rank_and_select(results, top_k=1)
+        assert len(selected) == 2  # 山田30歳から1件、鈴木25歳から1件
+
+        # 山田は高スコアの方が選ばれる
+        yamada = [r for r in selected if r.person_name == "山田"][0]
+        assert yamada.scores.composite_score == 8.5
+
+    def test_statistics(self):
+        """統計情報"""
+        ranker = FinalRanker()
+
+        results = [
+            EvaluationResult(
+                episode_text="",
+                person_name="A",
+                age=30,
+                scores=EvaluationScores(
+                    composite_score=8.0,
+                    factual_density=7.0,
+                    generation_quality=8.0,
+                ),
+                passed_gate=True,
+            ),
+            EvaluationResult(
+                episode_text="",
+                person_name="B",
+                age=25,
+                scores=EvaluationScores(
+                    composite_score=6.0,
+                    factual_density=5.0,
+                    generation_quality=6.0,
+                ),
+                passed_gate=False,
+            ),
+        ]
+
+        stats = ranker.get_statistics(results)
+        assert stats["total_count"] == 2
+        assert stats["passed_count"] == 1
+        assert stats["pass_rate"] == 0.5
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

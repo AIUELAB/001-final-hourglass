@@ -17,3 +17,12 @@ if str(src_path) not in sys.path:
 project_root = Path(__file__).parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
+
+# Add scripts/ and scripts/generate for mass_production imports
+scripts_path = project_root / "scripts"
+if str(scripts_path) not in sys.path:
+    sys.path.insert(0, str(scripts_path))
+
+generate_path = project_root / "scripts" / "generate"
+if str(generate_path) not in sys.path:
+    sys.path.insert(0, str(generate_path))

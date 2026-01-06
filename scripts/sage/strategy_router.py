@@ -15,6 +15,7 @@ from .adapters import (
     GeneratorAdapter,
     LegacyGeneratorAdapter,
     MockEPGENAdapter,
+    TokenUsage,
 )
 from .config import Strategy
 
@@ -32,8 +33,16 @@ class StrategyStats:
     fallback_count: int = 0
     average_super_total: float = 0.0
     total_super_total: float = 0.0
+    # Phase 1: コスト計測
+    total_input_tokens: int = 0
+    total_output_tokens: int = 0
+    total_llm_calls: int = 0
+    estimated_cost_usd: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
+        total_tokens = self.total_input_tokens + self.total_output_tokens
+        avg_tokens = total_tokens / self.total_attempts if self.total_attempts > 0 else 0
+        avg_calls = self.total_llm_calls / self.total_attempts if self.total_attempts > 0 else 0
         return {
             "strategy": self.strategy.value,
             "total_attempts": self.total_attempts,
@@ -45,6 +54,14 @@ class StrategyStats:
             "epgen_success_rate": (self.epgen_successes / self.epgen_attempts if self.epgen_attempts > 0 else 0.0),
             "legacy_success_rate": (self.legacy_successes / self.legacy_attempts if self.legacy_attempts > 0 else 0.0),
             "average_super_total": self.average_super_total,
+            # Phase 1: コスト計測
+            "total_input_tokens": self.total_input_tokens,
+            "total_output_tokens": self.total_output_tokens,
+            "total_tokens": total_tokens,
+            "total_llm_calls": self.total_llm_calls,
+            "avg_tokens_per_episode": round(avg_tokens, 1),
+            "avg_llm_calls_per_episode": round(avg_calls, 2),
+            "estimated_cost_usd": round(self.estimated_cost_usd, 4),
         }
 
 
@@ -276,6 +293,42 @@ class StrategyRouter:
             success_count = self._stats.epgen_successes + self._stats.legacy_successes
             if success_count > 0:
                 self._stats.average_super_total = self._stats.total_super_total / success_count
+
+        # Phase 1: トークン使用量を記録
+        if result.token_usage:
+            self._stats.total_input_tokens += result.token_usage.input_tokens
+            self._stats.total_output_tokens += result.token_usage.output_tokens
+            self._stats.total_llm_calls += 1
+            self._stats.estimated_cost_usd += result.token_usage.estimated_cost_usd
+
+    def collect_adapter_stats(self) -> dict[str, Any]:
+        """アダプターから統計を収集"""
+        epgen_stats = self._epgen.get_stats()
+        legacy_stats = self._legacy.get_stats()
+
+        # アダプターのトークン統計を集約
+        total_input = epgen_stats.get("total_input_tokens", 0) + legacy_stats.get("total_input_tokens", 0)
+        total_output = epgen_stats.get("total_output_tokens", 0) + legacy_stats.get("total_output_tokens", 0)
+        total_calls = epgen_stats.get("llm_call_count", 0) + legacy_stats.get("llm_call_count", 0)
+        total_cost = epgen_stats.get("estimated_cost_usd", 0) + legacy_stats.get("estimated_cost_usd", 0)
+
+        # StrategyStatsを更新
+        self._stats.total_input_tokens = total_input
+        self._stats.total_output_tokens = total_output
+        self._stats.total_llm_calls = total_calls
+        self._stats.estimated_cost_usd = total_cost
+
+        return {
+            "epgen": epgen_stats,
+            "legacy": legacy_stats,
+            "combined": {
+                "total_input_tokens": total_input,
+                "total_output_tokens": total_output,
+                "total_tokens": total_input + total_output,
+                "total_llm_calls": total_calls,
+                "estimated_cost_usd": round(total_cost, 4),
+            },
+        }
 
 
 def create_router(strategy: str = "epgen_first", use_mock: bool = False) -> StrategyRouter:

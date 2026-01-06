@@ -10,6 +10,82 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
+# Claude API 料金 (per 1M tokens, 2026-01時点)
+PRICING = {
+    "claude-sonnet-4-20250514": {"input": 3.0, "output": 15.0},
+    "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
+    "claude-3-5-haiku-20241022": {"input": 0.25, "output": 1.25},
+    "claude-3-haiku-20240307": {"input": 0.25, "output": 1.25},
+}
+
+
+@dataclass
+class TokenUsage:
+    """トークン使用量"""
+
+    input_tokens: int = 0
+    output_tokens: int = 0
+    model: str = "claude-sonnet-4-20250514"
+
+    @property
+    def total_tokens(self) -> int:
+        return self.input_tokens + self.output_tokens
+
+    @property
+    def estimated_cost_usd(self) -> float:
+        """推定コスト（USD）"""
+        pricing = PRICING.get(self.model, PRICING["claude-sonnet-4-20250514"])
+        input_cost = (self.input_tokens / 1_000_000) * pricing["input"]
+        output_cost = (self.output_tokens / 1_000_000) * pricing["output"]
+        return input_cost + output_cost
+
+    def __add__(self, other: "TokenUsage") -> "TokenUsage":
+        return TokenUsage(
+            input_tokens=self.input_tokens + other.input_tokens,
+            output_tokens=self.output_tokens + other.output_tokens,
+            model=self.model,
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "input_tokens": self.input_tokens,
+            "output_tokens": self.output_tokens,
+            "total_tokens": self.total_tokens,
+            "model": self.model,
+            "estimated_cost_usd": round(self.estimated_cost_usd, 6),
+        }
+
+    @classmethod
+    def estimate_from_text(
+        cls,
+        prompt: str,
+        response: str,
+        model: str = "claude-sonnet-4-20250514",
+    ) -> "TokenUsage":
+        """
+        テキストからトークン数を推定
+
+        日本語: ~1.5文字/トークン
+        英語: ~4文字/トークン
+        混合: ~2文字/トークン（保守的推定）
+        """
+        # 日本語文字の割合を計算
+        jp_chars = sum(1 for c in prompt + response if ord(c) > 0x3000)
+        total_chars = len(prompt + response) or 1
+        jp_ratio = jp_chars / total_chars
+
+        # 文字/トークン比を計算（日本語多いほど低い）
+        chars_per_token = 4 - (jp_ratio * 2.5)  # 4 (英語) ~ 1.5 (日本語)
+
+        input_tokens = int(len(prompt) / chars_per_token)
+        output_tokens = int(len(response) / chars_per_token)
+
+        return cls(
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            model=model,
+        )
+
 
 class GeneratorType(Enum):
     """生成器の種類"""
@@ -158,6 +234,7 @@ class GenerationResult:
     error_message: str = ""
     retry_count: int = 0
     evidence: list[str] = field(default_factory=list)
+    token_usage: Optional[TokenUsage] = None  # トークン使用量追跡
 
     def __post_init__(self) -> None:
         if not self.generation_timestamp:
@@ -167,7 +244,7 @@ class GenerationResult:
 
     def to_dict(self) -> dict[str, Any]:
         """辞書に変換"""
-        return {
+        result = {
             "success": self.success,
             "person_id": self.candidate.person_id,
             "person_name": self.candidate.person_name,
@@ -183,6 +260,9 @@ class GenerationResult:
             "retry_count": self.retry_count,
             **(self.evaluation.to_dict() if self.evaluation else {}),
         }
+        if self.token_usage:
+            result["token_usage"] = self.token_usage.to_dict()
+        return result
 
     def to_csv_row(self) -> dict[str, Any]:
         """CSV行形式に変換"""
@@ -221,6 +301,11 @@ class GeneratorAdapter(ABC):
         self._generation_count = 0
         self._success_count = 0
         self._total_tokens = 0
+        # Phase 1: 詳細トークン計測
+        self._total_input_tokens = 0
+        self._total_output_tokens = 0
+        self._llm_call_count = 0
+        self._model_name = "claude-sonnet-4-20250514"
 
     @property
     def success_rate(self) -> float:
@@ -235,6 +320,22 @@ class GeneratorAdapter(ABC):
         if self._generation_count == 0:
             return 0.0
         return self._total_tokens / self._generation_count
+
+    @property
+    def total_token_usage(self) -> TokenUsage:
+        """累計トークン使用量"""
+        return TokenUsage(
+            input_tokens=self._total_input_tokens,
+            output_tokens=self._total_output_tokens,
+            model=self._model_name,
+        )
+
+    def record_token_usage(self, usage: TokenUsage) -> None:
+        """トークン使用量を記録"""
+        self._total_input_tokens += usage.input_tokens
+        self._total_output_tokens += usage.output_tokens
+        self._total_tokens += usage.total_tokens
+        self._llm_call_count += 1
 
     @abstractmethod
     def generate(self, candidate: Candidate) -> GenerationResult:
@@ -304,6 +405,7 @@ class GeneratorAdapter(ABC):
 
     def get_stats(self) -> dict[str, Any]:
         """統計情報を取得"""
+        token_usage = self.total_token_usage
         return {
             "name": self.name,
             "generator_type": self.generator_type.value,
@@ -312,6 +414,12 @@ class GeneratorAdapter(ABC):
             "success_rate": self.success_rate,
             "total_tokens": self._total_tokens,
             "average_tokens": self.average_tokens,
+            # Phase 1: 詳細トークン計測
+            "llm_call_count": self._llm_call_count,
+            "total_input_tokens": self._total_input_tokens,
+            "total_output_tokens": self._total_output_tokens,
+            "estimated_cost_usd": token_usage.estimated_cost_usd,
+            "model": self._model_name,
         }
 
     def reset_stats(self) -> None:
@@ -319,3 +427,6 @@ class GeneratorAdapter(ABC):
         self._generation_count = 0
         self._success_count = 0
         self._total_tokens = 0
+        self._total_input_tokens = 0
+        self._total_output_tokens = 0
+        self._llm_call_count = 0

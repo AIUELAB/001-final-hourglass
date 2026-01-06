@@ -5,12 +5,14 @@ EPGEN と既存生成器を統一インターフェースで扱うアダプタ�
 """
 
 from .base import (
+    PRICING,
     AxisScores,
     Candidate,
     EvaluationResult,
     GenerationResult,
     GeneratorAdapter,
     GeneratorType,
+    TokenUsage,
 )
 from .epgen_adapter import EPGENAdapter, MockEPGENAdapter
 from .legacy_adapter import LegacyGeneratorAdapter
@@ -22,6 +24,8 @@ __all__ = [
     "EvaluationResult",
     "AxisScores",
     "Candidate",
+    "TokenUsage",
+    "PRICING",
     "EPGENAdapter",
     "MockEPGENAdapter",
     "LegacyGeneratorAdapter",

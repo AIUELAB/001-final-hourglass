@@ -33,15 +33,15 @@ def load_csv_data():
                 age = 0
 
             # slot または age から nendai (年代ラベル) を生成
-            nendai_labels = {1: '幼少期', 10: '10代', 20: '20代', 30: '30代', 40: '40代', 50: '50代', 60: '60歳以上'}
+            nendai_labels = {1: "幼少期", 10: "10代", 20: "20代", 30: "30代", 40: "40代", 50: "50代", 60: "60歳以上"}
             if slot in nendai_labels:
                 nendai = nendai_labels[slot]
             elif age >= 60:
-                nendai = '60歳以上'
+                nendai = "60歳以上"
             elif age >= 10:
-                nendai = f'{(age // 10) * 10}代'
+                nendai = f"{(age // 10) * 10}代"
             elif age >= 1:
-                nendai = '幼少期'
+                nendai = "幼少期"
             else:
                 nendai = None
 
@@ -53,6 +53,7 @@ def load_csv_data():
                 "slot": slot,
                 "nendai": nendai,
                 "category": row.get("category", ""),
+                "episode_type": row.get("episode_type", ""),
                 "generation_timestamp": row.get("generation_timestamp", ""),
                 "episode_text": row.get("episode_text", "")[:500].replace("\n", " ").replace("\r", ""),
                 "entity_type": row.get("person_type", "REAL").lower(),

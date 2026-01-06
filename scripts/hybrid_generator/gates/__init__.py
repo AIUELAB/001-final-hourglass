@@ -10,6 +10,8 @@ from .candidate_prioritizer import (
 )
 from .completeness import (
     CompletenessCheckResult,
+    age_to_nendai,
+    auto_fill_derived_fields,
     check_completeness,
     quick_completeness_check,
 )
@@ -36,6 +38,8 @@ __all__ = [
     "CandidatePrioritizer",
     "CandidatePriorityScore",
     "CompletenessCheckResult",
+    "age_to_nendai",
+    "auto_fill_derived_fields",
     "check_completeness",
     "quick_completeness_check",
     "FactChecker",

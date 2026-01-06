@@ -1,7 +1,13 @@
 """
-Completeness Gate - 必須フィールド完全性チェック
+Completeness Gate - 必須フィールド完全性チェック + 派生フィールド自動補完
 
 EPUP再発防止: エピソード追加前に全必須フィールドの充填を検証。
+
+RCA-20260106: 年代・5軸スコア欠損問題の再発防止
+- 年代: ageから自動計算
+- 総合品質: (記憶性 + 生成品質) / 2
+- 感情インパクト: (共感性 + 意外性) / 2
+- composite_score_5axis: 5軸平均
 """
 
 from dataclasses import dataclass
@@ -32,6 +38,72 @@ REQUIRED_BASIC_FIELDS = [
 VALID_EPISODE_TYPES = {"転機", "達成", "死去", "挑戦", "キャリア", "革新", "創業", "失敗", "復帰"}
 
 
+def age_to_nendai(age_str: str) -> str:
+    """年齢から年代ラベルを生成（EPUP再発防止）"""
+    try:
+        age = float(age_str)
+        if age >= 60:
+            return "60歳以上"
+        elif age >= 50:
+            return "50代"
+        elif age >= 40:
+            return "40代"
+        elif age >= 30:
+            return "30代"
+        elif age >= 20:
+            return "20代"
+        elif age >= 10:
+            return "10代"
+        elif age >= 1:
+            return "幼少期"
+        else:
+            return ""
+    except (ValueError, TypeError):
+        return ""
+
+
+def auto_fill_derived_fields(episode: dict) -> dict:
+    """
+    派生フィールドを自動補完（EPUP再発防止）
+
+    補完対象:
+    - 年代: ageから計算
+    - 総合品質: (記憶性 + 生成品質) / 2
+    - 感情インパクト: (共感性 + 意外性) / 2
+    - composite_score_5axis: 5軸平均
+    """
+    filled = episode.copy()
+
+    # 年代の補完
+    if not filled.get("年代", "").strip() and filled.get("age", "").strip():
+        filled["年代"] = age_to_nendai(str(filled["age"]))
+
+    # 7軸スコアを取得
+    mem = float(filled.get("記憶性スコア", 0) or 0)
+    gen = float(filled.get("生成品質スコア", 0) or 0)
+    emp = float(filled.get("共感性スコア", 0) or 0)
+    sur = float(filled.get("意外性スコア", 0) or 0)
+    edu = float(filled.get("教育的価値", 0) or 0)
+    story = float(filled.get("ストーリー品質", 0) or 0)
+    fact = float(filled.get("事実密度", 0) or 0)
+
+    # 5軸スコアの補完
+    if not str(filled.get("総合品質", "")).strip() and mem and gen:
+        filled["総合品質"] = f"{(mem + gen) / 2:.2f}"
+
+    if not str(filled.get("感情インパクト", "")).strip() and emp and sur:
+        filled["感情インパクト"] = f"{(emp + sur) / 2:.2f}"
+
+    # composite_score_5axisの補完
+    if not str(filled.get("composite_score_5axis", "")).strip():
+        overall = float(filled.get("総合品質", 0) or 0)
+        emotional = float(filled.get("感情インパクト", 0) or 0)
+        if overall and emotional and edu and story and fact:
+            filled["composite_score_5axis"] = f"{(overall + emotional + edu + story + fact) / 5:.2f}"
+
+    return filled
+
+
 @dataclass
 class CompletenessCheckResult:
     """完全性チェック結果"""
@@ -42,16 +114,21 @@ class CompletenessCheckResult:
     message: str
 
 
-def check_completeness(episode: dict) -> CompletenessCheckResult:
+def check_completeness(episode: dict, auto_fill: bool = True) -> CompletenessCheckResult:
     """
     エピソードの完全性をチェック
 
     Args:
         episode: エピソードデータ（dict）
+        auto_fill: Trueの場合、派生フィールドを自動補完してから検証（デフォルト: True）
 
     Returns:
         CompletenessCheckResult
     """
+    # 自動補完（デフォルトで有効）
+    if auto_fill:
+        episode = auto_fill_derived_fields(episode)
+
     missing = []
     invalid = []
 
@@ -116,6 +193,6 @@ def check_completeness(episode: dict) -> CompletenessCheckResult:
     )
 
 
-def quick_completeness_check(episode: dict) -> bool:
+def quick_completeness_check(episode: dict, auto_fill: bool = True) -> bool:
     """簡易完全性チェック（True/Falseのみ）"""
-    return check_completeness(episode).passed
+    return check_completeness(episode, auto_fill=auto_fill).passed

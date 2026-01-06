@@ -353,7 +353,8 @@ def print_report(report: Dict):
     limit_violation_count = md.get("limit_violation_count", 0)
     print("【品質ゲート】")
     print(f"  埋め草候補: {filler_count}件 {'✅' if filler_count == 0 else '❌'}")
-    print(f"  5件超過人物: {limit_violation_count}人 {'✅' if limit_violation_count == 0 else '⚠️'}")
+    episode_limit = QUALITY_THRESHOLDS.get("episode_limit", 10)
+    print(f"  {episode_limit}件超過人物: {limit_violation_count}人 {'✅' if limit_violation_count == 0 else '⚠️'}")
     print()
 
     # ステージングデータ

@@ -3,7 +3,7 @@
 エピソード品質チェックスクリプト（EPUP品質ゲート）
 - 埋め草エピソードの検出
 - 具体性スコアの算出
-- 5件制限チェック
+- 10件制限チェック
 
 使用方法:
     python scripts/validation/check_episode_quality.py [--fix-limit]
@@ -32,7 +32,7 @@ EPISODE_LIMIT = 10
 
 def main():
     parser = argparse.ArgumentParser(description="エピソード品質チェック")
-    parser.add_argument("--fix-limit", action="store_true", help="5件超過を自動修正")
+    parser.add_argument("--fix-limit", action="store_true", help="10件超過を自動修正")
     args = parser.parse_args()
 
     with open(CSV_PATH, "r", encoding="utf-8-sig") as f:
@@ -51,7 +51,7 @@ def main():
     filler_episodes = []
 
     for name, eps in person_episodes.items():
-        # 5件超過チェック
+        # 10件超過チェック
         if len(eps) > EPISODE_LIMIT:
             limit_violations.append(
                 {
@@ -79,7 +79,7 @@ def main():
     print("=== エピソード品質チェック ===\n")
     print(f"総エピソード数: {len(rows)}")
     print(f"総人物数: {len(person_episodes)}")
-    print("\n--- 5件超過 ---")
+    print(f"\n--- {EPISODE_LIMIT}件超過 ---")
     print(f"違反人物数: {len(limit_violations)}")
 
     if limit_violations:

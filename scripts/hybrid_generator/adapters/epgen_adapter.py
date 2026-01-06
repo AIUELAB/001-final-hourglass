@@ -263,10 +263,12 @@ class MockEPGENAdapter(GeneratorAdapter):
 
     def generate(self, candidate: Candidate) -> GenerationResult:
         """モック生成"""
+        # 具体性チェックを通過するリアルなモックテキスト
         mock_text = (
             f"あなたと同じ{candidate.age}歳のとき、{candidate.person_name}は"
-            f"重要な転機を迎えました。1955年、彼は新たな挑戦を始め、"
-            f"困難を乗り越えて大きな成功を収めました。"
+            f"人生の転機を迎えました。1995年、彼は「新世紀プロジェクト」を"
+            f"立ち上げ、東京大学との共同研究で100万件のデータを分析。"
+            f"この成果は「サイエンス」誌に掲載され、業界に革命をもたらしました。"
         )
 
         axis_scores = AxisScores(

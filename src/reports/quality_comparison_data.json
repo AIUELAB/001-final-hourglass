@@ -1,0 +1,121 @@
+{
+  "generated_at": "2026-01-06T12:32:13.269650",
+  "existing": {
+    "score": {
+      "super_total": {
+        "count": 9996,
+        "mean": 525688.6041416567,
+        "median": 529399.0,
+        "std": 125757.93640875534,
+        "min": 171634.0,
+        "max": 948407.0
+      },
+      "axis_scores": {
+        "記憶性スコア": {
+          "mean": 6.251572145061728,
+          "median": 6.0
+        },
+        "共感性スコア": {
+          "mean": 5.56387924382716,
+          "median": 5.5
+        },
+        "意外性スコア": {
+          "mean": 5.446460262345679,
+          "median": 5.5
+        },
+        "生成品質スコア": {
+          "mean": 8.424363425925925,
+          "median": 8.0
+        },
+        "教育的価値": {
+          "mean": 5.539689429012346,
+          "median": 5.4
+        },
+        "ストーリー品質": {
+          "mean": 6.74296875,
+          "median": 6.8
+        },
+        "事実密度": {
+          "mean": 9.493692129629629,
+          "median": 10.0
+        }
+      }
+    },
+    "gate": {
+      "total": 10368,
+      "factual_density_pass": 10157,
+      "factual_density_rate": 97.96489197530865,
+      "generation_quality_pass": 10363,
+      "generation_quality_rate": 99.95177469135803,
+      "both_pass": 10152,
+      "both_rate": 97.91666666666666
+    },
+    "content": {
+      "total": 10368,
+      "avg_char_count": 234.24170524691357,
+      "median_char_count": 224.0,
+      "year_inclusion_count": 7514,
+      "year_inclusion_rate": 72.4729938271605,
+      "avg_proper_nouns": 1.4014274691358024
+    }
+  },
+  "new_hybrid": {
+    "score": {
+      "super_total": {
+        "count": 26,
+        "mean": 811699.3811838785,
+        "median": 812830.5,
+        "std": 106750.97286021344,
+        "min": 538019.9107808408,
+        "max": 1003846.0
+      },
+      "axis_scores": {
+        "記憶性スコア": {
+          "mean": 7.634615384615385,
+          "median": 7.5
+        },
+        "共感性スコア": {
+          "mean": 6.384615384615385,
+          "median": 5.8
+        },
+        "意外性スコア": {
+          "mean": 6.346153846153846,
+          "median": 5.5
+        },
+        "生成品質スコア": {
+          "mean": 8.173076923076923,
+          "median": 8.0
+        },
+        "教育的価値": {
+          "mean": 6.526923076923077,
+          "median": 6.0
+        },
+        "ストーリー品質": {
+          "mean": 7.2615384615384615,
+          "median": 6.8
+        },
+        "事実密度": {
+          "mean": 9.676923076923076,
+          "median": 10.0
+        }
+      }
+    },
+    "gate": {
+      "total": 145,
+      "factual_density_pass": 26,
+      "factual_density_rate": 17.93103448275862,
+      "generation_quality_pass": 26,
+      "generation_quality_rate": 17.93103448275862,
+      "both_pass": 26,
+      "both_rate": 17.93103448275862
+    },
+    "content": {
+      "total": 145,
+      "avg_char_count": 311.92413793103447,
+      "median_char_count": 329,
+      "year_inclusion_count": 135,
+      "year_inclusion_rate": 93.10344827586206,
+      "avg_proper_nouns": 1.7862068965517242
+    }
+  }
+}

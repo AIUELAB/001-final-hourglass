@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Hybrid Generator CLI
+SAGE CLI - Smart Adaptive Generation Engine
 
-ハイブリッドエピソード生成システムのコマンドラインインターフェース。
+高品質エピソード生成システムのコマンドラインインターフェース。
 """
 
 import argparse
@@ -16,9 +16,9 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.hybrid_generator.adapters import Candidate
-from scripts.hybrid_generator.config import LOGS_DIR, MASTER_CSV, Strategy
-from scripts.hybrid_generator.orchestrator import HybridOrchestrator, create_orchestrator
+from scripts.sage.adapters import Candidate
+from scripts.sage.config import LOGS_DIR, MASTER_CSV, Strategy
+from scripts.sage.orchestrator import HybridOrchestrator, create_orchestrator
 
 # ロガー設定
 logging.basicConfig(
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 def parse_args():
     """引数をパース"""
     parser = argparse.ArgumentParser(
-        description="ハイブリッドエピソード生成システム",
+        description="SAGE - Smart Adaptive Generation Engine",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:
@@ -218,7 +218,7 @@ def main():
 
     # 実行
     print(f"\n{'='*60}")
-    print("ハイブリッドエピソード生成")
+    print("SAGE - Smart Adaptive Generation Engine")
     print(f"{'='*60}")
     print(f"戦略: {args.strategy}")
     print(f"候補数: {len(candidates)}")

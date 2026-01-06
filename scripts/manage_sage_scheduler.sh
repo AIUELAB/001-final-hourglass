@@ -1,20 +1,20 @@
 #!/bin/bash
-# ハイブリッドエピソード生成スケジューラ管理
+# SAGE エピソード生成スケジューラ管理 (Smart Adaptive Generation Engine)
 #
 # 使用方法:
-#   ./scripts/manage_hybrid_scheduler.sh start    # 自動実行開始（毎日4:00）
-#   ./scripts/manage_hybrid_scheduler.sh stop     # 自動実行停止
-#   ./scripts/manage_hybrid_scheduler.sh status   # 状態確認
-#   ./scripts/manage_hybrid_scheduler.sh run      # 手動実行（10件）
-#   ./scripts/manage_hybrid_scheduler.sh run 5    # 手動実行（5件）
-#   ./scripts/manage_hybrid_scheduler.sh test     # モックテスト（API不要）
+#   ./scripts/manage_sage_scheduler.sh start    # 自動実行開始（毎日4:00）
+#   ./scripts/manage_sage_scheduler.sh stop     # 自動実行停止
+#   ./scripts/manage_sage_scheduler.sh status   # 状態確認
+#   ./scripts/manage_sage_scheduler.sh run      # 手動実行（10件）
+#   ./scripts/manage_sage_scheduler.sh run 5    # 手動実行（5件）
+#   ./scripts/manage_sage_scheduler.sh test     # モックテスト（API不要）
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-PLIST_NAME="com.aiuelab.hourglass.hybrid"
+PLIST_NAME="com.aiuelab.hourglass.sage"
 PLIST_PATH="$HOME/Library/LaunchAgents/${PLIST_NAME}.plist"
 LOG_DIR="$PROJECT_ROOT/src/reports/logs"
 
@@ -32,7 +32,7 @@ create_plist() {
     <key>ProgramArguments</key>
     <array>
         <string>${PROJECT_ROOT}/venv/bin/python</string>
-        <string>${PROJECT_ROOT}/scripts/hybrid_generator/cli.py</string>
+        <string>${PROJECT_ROOT}/scripts/sage/cli.py</string>
         <string>--strategy</string>
         <string>epgen_first</string>
         <string>--target</string>
@@ -52,10 +52,10 @@ create_plist() {
     </dict>
 
     <key>StandardOutPath</key>
-    <string>${LOG_DIR}/hybrid_scheduler.log</string>
+    <string>${LOG_DIR}/sage_scheduler.log</string>
 
     <key>StandardErrorPath</key>
-    <string>${LOG_DIR}/hybrid_scheduler_error.log</string>
+    <string>${LOG_DIR}/sage_scheduler_error.log</string>
 
     <key>EnvironmentVariables</key>
     <dict>
@@ -87,14 +87,14 @@ rotate_logs() {
 
 # 古いログを削除（30日以上）
 cleanup_old_logs() {
-    find "$LOG_DIR" -name "hybrid_*.log" -mtime +30 -delete 2>/dev/null || true
+    find "$LOG_DIR" -name "sage_*.log" -mtime +30 -delete 2>/dev/null || true
     find "$LOG_DIR" -name "run_*.json" -mtime +30 -delete 2>/dev/null || true
     find "$LOG_DIR" -name "diff_*.json" -mtime +30 -delete 2>/dev/null || true
 }
 
 case "$1" in
     start)
-        echo "=== ハイブリッド生成スケジューラ開始 ==="
+        echo "=== SAGE 生成スケジューラ開始 ==="
 
         # ログディレクトリ作成
         mkdir -p "$LOG_DIR"
@@ -112,11 +112,11 @@ case "$1" in
         echo "  毎日 4:00 に自動実行されます"
         echo "  戦略: epgen_first"
         echo "  目標: 10件/日"
-        echo "  ログ: $LOG_DIR/hybrid_scheduler.log"
+        echo "  ログ: $LOG_DIR/sage_scheduler.log"
         ;;
 
     stop)
-        echo "=== ハイブリッド生成スケジューラ停止 ==="
+        echo "=== SAGE 生成スケジューラ停止 ==="
 
         if [ -f "$PLIST_PATH" ]; then
             launchctl unload "$PLIST_PATH" 2>/dev/null || true
@@ -128,7 +128,7 @@ case "$1" in
         ;;
 
     status)
-        echo "=== ハイブリッド生成スケジューラ状態 ==="
+        echo "=== SAGE 生成スケジューラ状態 ==="
 
         if launchctl list 2>/dev/null | grep -q "$PLIST_NAME"; then
             echo "スケジューラ: 実行中（毎日 4:00）"
@@ -161,40 +161,40 @@ with open('$latest_run') as f:
 
         echo ""
         echo "=== ログファイル ==="
-        if [ -f "$LOG_DIR/hybrid_scheduler.log" ]; then
-            echo "スケジューラログ: $(wc -l < "$LOG_DIR/hybrid_scheduler.log") 行"
+        if [ -f "$LOG_DIR/sage_scheduler.log" ]; then
+            echo "スケジューラログ: $(wc -l < "$LOG_DIR/sage_scheduler.log") 行"
             echo "--- 最新5行 ---"
-            tail -5 "$LOG_DIR/hybrid_scheduler.log"
+            tail -5 "$LOG_DIR/sage_scheduler.log"
         fi
         ;;
 
     run)
-        echo "=== ハイブリッド生成 手動実行 ==="
+        echo "=== SAGE 生成 手動実行 ==="
         cd "$PROJECT_ROOT"
 
         # ログローテーション
-        rotate_logs "$LOG_DIR/hybrid_scheduler.log"
+        rotate_logs "$LOG_DIR/sage_scheduler.log"
         cleanup_old_logs
 
         target=${2:-10}
         echo "目標生成数: $target"
         echo ""
 
-        "$PROJECT_ROOT/venv/bin/python" scripts/hybrid_generator/cli.py \
+        "$PROJECT_ROOT/venv/bin/python" scripts/sage/cli.py \
             --strategy epgen_first \
             --target "$target" \
             --execute
         ;;
 
     test)
-        echo "=== ハイブリッド生成 モックテスト ==="
+        echo "=== SAGE 生成 モックテスト ==="
         cd "$PROJECT_ROOT"
 
         target=${2:-3}
         echo "目標生成数: $target（モックモード）"
         echo ""
 
-        "$PROJECT_ROOT/venv/bin/python" scripts/hybrid_generator/cli.py \
+        "$PROJECT_ROOT/venv/bin/python" scripts/sage/cli.py \
             --strategy epgen_first \
             --target "$target" \
             --mock \
@@ -203,14 +203,14 @@ with open('$latest_run') as f:
 
     rotate)
         echo "=== ログローテーション ==="
-        rotate_logs "$LOG_DIR/hybrid_scheduler.log"
-        rotate_logs "$LOG_DIR/hybrid_scheduler_error.log"
+        rotate_logs "$LOG_DIR/sage_scheduler.log"
+        rotate_logs "$LOG_DIR/sage_scheduler_error.log"
         cleanup_old_logs
         echo "完了"
         ;;
 
     *)
-        echo "ハイブリッドエピソード生成スケジューラ管理"
+        echo "SAGE エピソード生成スケジューラ管理 (Smart Adaptive Generation Engine)"
         echo ""
         echo "使用方法:"
         echo "  $0 start      自動実行開始（毎日4:00）"

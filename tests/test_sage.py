@@ -1,7 +1,7 @@
 """
-Hybrid Generator Tests
+SAGE Tests - Smart Adaptive Generation Engine
 
-ハイブリッドエピソード生成システムの自動テスト。
+高品質エピソード生成システムの自動テスト。
 """
 
 import sys
@@ -13,29 +13,29 @@ import pytest
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.hybrid_generator.adapters import (
+from scripts.sage.adapters import (
     AxisScores,
     Candidate,
     MockEPGENAdapter,
 )
-from scripts.hybrid_generator.config import (
+from scripts.sage.config import (
     GENERATION_RULES,
     PROHIBITED_PATTERNS,
     QUALITY_THRESHOLDS,
     RejectionReason,
     Strategy,
 )
-from scripts.hybrid_generator.gates import (
+from scripts.sage.gates import (
     DuplicateDetector,
     FactChecker,
     TextSimilarityCalculator,
 )
-from scripts.hybrid_generator.pre_generation_rules import (
+from scripts.sage.pre_generation_rules import (
     PreGenerationRules,
     check_prohibited_patterns,
     check_specificity,
 )
-from scripts.hybrid_generator.quality import (
+from scripts.sage.quality import (
     CompositeScoreCalculator,
     QualityEvaluator,
     SuperTotalCalculator,

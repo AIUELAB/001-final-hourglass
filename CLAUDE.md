@@ -38,6 +38,14 @@
 | グループ所属 | 不整合自動検出 | `sync_group_from_master.py` |
 | **同一年齢重複禁止** | 同一人物・同一年齢で類似内容禁止 | `same_age_duplicate_gate.py` |
 | 回顧・抽象ペナルティ | 具体的事象がないEPはスコア抑制 | `episode_fame_v6/scorer.py` |
+| **重要度スコア整合性** | 具体的偉業 > 物語的転機でimportance評価 | `validate_importance_score.py` |
+| **象徴的業績カバレッジ** | 重要人物は必須業績エピソードを持つこと | `audit_iconic_achievements.py` |
+
+### 象徴的業績カバレッジ詳細
+- **マスターデータ**: `preserved/data/iconic_achievements_master.json`
+- **監査コマンド**: `python scripts/validation/audit_iconic_achievements.py`
+- **欠落検出時**: 該当エピソードを手動追加
+- **新規人物追加時**: マスターデータに必須業績を定義
 
 ---
 

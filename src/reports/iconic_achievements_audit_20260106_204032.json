@@ -1,0 +1,331 @@
+{
+  "audit_date": "2026-01-06T20:40:32.213515",
+  "version": "1.0.0",
+  "summary": {
+    "total_persons_checked": 7,
+    "fully_covered": 7,
+    "partially_covered": 0,
+    "not_covered": 0,
+    "total_missing_achievements": 0
+  },
+  "persons": {
+    "大谷翔平": {
+      "person_id": "P5C4FB25",
+      "category": "スポーツ",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 5,
+      "required_count": 5,
+      "covered": [
+        {
+          "achievement": "WBC 2023 優勝・大会MVP",
+          "age": 28,
+          "matched_episode_id": "EP-260106OHTANI-WBC",
+          "keywords": [
+            "WBC",
+            "ワールド・ベースボール・クラシック",
+            "トラウト"
+          ]
+        },
+        {
+          "achievement": "MLB MVP 1回目（満票）",
+          "age": 27,
+          "matched_episode_id": "EP-000001072",
+          "keywords": [
+            "MVP",
+            "満票",
+            "二刀流"
+          ]
+        },
+        {
+          "achievement": "MLB MVP 2回目",
+          "age": 29,
+          "matched_episode_id": "EP-260106OHTANI-MVP2",
+          "keywords": [
+            "MVP",
+            "2年連続",
+            "規定投球回",
+            "規定打席"
+          ]
+        },
+        {
+          "achievement": "ワールドシリーズ制覇",
+          "age": 30,
+          "matched_episode_id": "EP-000001986",
+          "keywords": [
+            "ワールドシリーズ",
+            "ドジャース",
+            "本塁打王"
+          ]
+        },
+        {
+          "achievement": "MLB新人王",
+          "age": 23,
+          "matched_episode_id": "EP-260106OHTANI-ROY",
+          "keywords": [
+            "新人王",
+            "エンゼルス",
+            "二刀流"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "イチロー": {
+      "person_id": "P1234567",
+      "category": "スポーツ",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 4,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "MLB年間最多安打記録（262本）",
+          "age": 30,
+          "matched_episode_id": "EP-260106ICHIRO-262",
+          "keywords": [
+            "262",
+            "最多安打",
+            "シーズン記録"
+          ]
+        },
+        {
+          "achievement": "MLB通算3000本安打",
+          "age": 42,
+          "matched_episode_id": "EP-000002023",
+          "keywords": [
+            "3000本",
+            "通算"
+          ]
+        },
+        {
+          "achievement": "MLB新人王・MVP同時受賞",
+          "age": 27,
+          "matched_episode_id": "EP-2601052258185703D4",
+          "keywords": [
+            "新人王",
+            "MVP",
+            "シアトル"
+          ]
+        },
+        {
+          "achievement": "WBC 2006/2009 連覇・MVP",
+          "age": 32,
+          "matched_episode_id": "EP-260106ICHIRO-WBC",
+          "keywords": [
+            "WBC",
+            "決勝打",
+            "連覇"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "アインシュタイン": {
+      "person_id": "P93F1DB1",
+      "category": "科学・技術",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 3,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "奇跡の年・特殊相対性理論・E=mc²",
+          "age": 26,
+          "matched_episode_id": "EP-3947C4DE",
+          "keywords": [
+            "奇跡の年",
+            "E=mc²",
+            "特殊相対性理論",
+            "光量子仮説"
+          ]
+        },
+        {
+          "achievement": "ノーベル物理学賞受賞",
+          "age": 42,
+          "matched_episode_id": "EP-000002832",
+          "keywords": [
+            "ノーベル賞",
+            "光電効果"
+          ]
+        },
+        {
+          "achievement": "一般相対性理論完成",
+          "age": 36,
+          "matched_episode_id": "EP-251214200921598",
+          "keywords": [
+            "一般相対性理論",
+            "重力"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "スティーブ・ジョブズ": {
+      "person_id": "PA1B2C3D",
+      "category": "ビジネス・経済",
+      "episode_count": 6,
+      "coverage_rate": 1.0,
+      "covered_count": 4,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "Apple創業",
+          "age": 21,
+          "matched_episode_id": "EED55877B",
+          "keywords": [
+            "Apple",
+            "創業",
+            "ウォズニアック",
+            "ガレージ"
+          ]
+        },
+        {
+          "achievement": "iPhone発表",
+          "age": 52,
+          "matched_episode_id": "EP-000000970",
+          "keywords": [
+            "iPhone",
+            "スマートフォン",
+            "革命"
+          ]
+        },
+        {
+          "achievement": "Apple追放と復帰",
+          "age": 30,
+          "matched_episode_id": "EP-260106JOBS-EXILE",
+          "keywords": [
+            "追放",
+            "NeXT",
+            "Pixar"
+          ]
+        },
+        {
+          "achievement": "iPod発表",
+          "age": 46,
+          "matched_episode_id": "EP-260106JOBS-IPOD",
+          "keywords": [
+            "iPod",
+            "1000曲",
+            "音楽"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "羽生結弦": {
+      "person_id": "PXYZ1234",
+      "category": "スポーツ",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 3,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "ソチ五輪金メダル",
+          "age": 19,
+          "matched_episode_id": "EP-000009216",
+          "keywords": [
+            "ソチ",
+            "金メダル",
+            "オリンピック"
+          ]
+        },
+        {
+          "achievement": "平昌五輪金メダル（連覇）",
+          "age": 23,
+          "matched_episode_id": "EP-260106HANYU-PYEONG",
+          "keywords": [
+            "平昌",
+            "連覇",
+            "66年ぶり"
+          ]
+        },
+        {
+          "achievement": "4回転アクセル成功",
+          "age": 27,
+          "matched_episode_id": "EP-260106HANYU-4A",
+          "keywords": [
+            "4回転アクセル",
+            "クワッドアクセル",
+            "史上初"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "藤井聡太": {
+      "person_id": "PFUJI001",
+      "category": "文化・芸術",
+      "episode_count": 3,
+      "coverage_rate": 1.0,
+      "covered_count": 2,
+      "required_count": 2,
+      "covered": [
+        {
+          "achievement": "最年少プロ棋士・29連勝",
+          "age": 14,
+          "matched_episode_id": "E8AF7BAE5",
+          "keywords": [
+            "最年少",
+            "29連勝",
+            "プロ入り"
+          ]
+        },
+        {
+          "achievement": "八冠達成",
+          "age": 21,
+          "matched_episode_id": "EP-000000404",
+          "keywords": [
+            "八冠",
+            "全冠制覇",
+            "史上初"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "宮崎駿": {
+      "person_id": "PMIYAZ01",
+      "category": "文化・芸術",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 3,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "千と千尋の神隠し・アカデミー賞",
+          "age": 62,
+          "matched_episode_id": "EP-260104013152092AA8",
+          "keywords": [
+            "千と千尋",
+            "アカデミー賞",
+            "オスカー"
+          ]
+        },
+        {
+          "achievement": "スタジオジブリ設立",
+          "age": 44,
+          "matched_episode_id": "EP-260106MIYAZAKI-GHIBLI",
+          "keywords": [
+            "ジブリ",
+            "設立",
+            "高畑勲"
+          ]
+        },
+        {
+          "achievement": "風の谷のナウシカ",
+          "age": 43,
+          "matched_episode_id": "EP-260106MIYAZAKI-GHIBLI",
+          "keywords": [
+            "ナウシカ",
+            "環境",
+            "代表作"
+          ]
+        }
+      ],
+      "missing": []
+    }
+  },
+  "missing_achievements": []
+}

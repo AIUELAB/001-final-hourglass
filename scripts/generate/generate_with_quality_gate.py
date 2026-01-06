@@ -520,7 +520,7 @@ def get_person_episode_count(person_name: str) -> int:
         return 0
 
 
-EPISODE_LIMIT = 999  # 1人あたりのエピソード上限（実質無制限）
+EPISODE_LIMIT = 10  # 1人あたりのエピソード上限
 
 
 def generate_episode_with_quality_gate(
@@ -536,10 +536,8 @@ def generate_episode_with_quality_gate(
     """品質ゲート付きエピソード生成
 
     Args:
-        is_turning_point: Trueの場合、5件制限を緩和（+2件まで許可）
+        is_turning_point: Trueの場合、10件制限を緩和（+2件まで許可）
     """
-
-    # Note: エピソード件数制限は撤廃済み（2026-01-03）
 
     # Step 0.5: 時間的妥当性チェック（未来/死亡後エピソード防止）
     is_valid, reason = validate_temporal_accuracy(person_name, age, person_type)

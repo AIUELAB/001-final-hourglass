@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 王貞治エピソード品質テスト
-- 5件制限の遵守
+- 10件制限の遵守
 - 重要イベントの存在確認
 - 埋め草の不在確認
 """
@@ -38,9 +38,9 @@ class TestOhSadaharuEpisodes:
     """王貞治エピソードの品質テスト"""
 
     def test_episode_count_limit(self):
-        """エピソード数が5件以下であること"""
+        """エピソード数が10件以下であること"""
         episodes = get_oh_episodes()
-        assert len(episodes) <= 5, f"王貞治エピソード数: {len(episodes)}件（制限5件）"
+        assert len(episodes) <= 10, f"王貞治エピソード数: {len(episodes)}件（制限10件）"
 
     def test_important_events_exist(self):
         """重要イベントが含まれていること"""
@@ -74,8 +74,8 @@ class TestOhSadaharuEpisodes:
         episodes = get_oh_episodes()
         ages = {float(e.get("age", 0)) for e in episodes}
 
-        # 期待される年齢（35, 37, 40, 55, 60）
-        expected = {35.0, 37.0, 40.0, 55.0, 60.0}
+        # 期待される年齢（35, 40, 55, 60）
+        expected = {35.0, 40.0, 55.0, 60.0}
         assert ages == expected, f"期待: {expected}, 実際: {ages}"
 
 

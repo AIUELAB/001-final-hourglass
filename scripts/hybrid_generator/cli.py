@@ -109,6 +109,12 @@ def parse_args():
         help="結果をJSON形式で出力",
     )
 
+    parser.add_argument(
+        "--mock",
+        action="store_true",
+        help="モックアダプターを使用（API不要でテスト）",
+    )
+
     return parser.parse_args()
 
 
@@ -185,6 +191,7 @@ def main():
         strategy=args.strategy,
         dry_run=dry_run,
         target_count=args.target,
+        use_mock=args.mock,
     )
 
     # 推奨候補の表示

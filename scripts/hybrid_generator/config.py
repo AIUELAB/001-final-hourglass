@@ -219,6 +219,7 @@ class HybridConfig:
     # 生成設定
     target_count: int = 10
     dry_run: bool = True
+    use_mock: bool = False  # True: モックアダプター使用（API不要）
     verbose: bool = False
 
     # ルール・閾値

@@ -96,7 +96,7 @@ class HybridOrchestrator:
         )
         self._router = StrategyRouter(
             strategy=self.config.strategy,
-            use_mock=False,
+            use_mock=self.config.use_mock,
         )
         self._evaluator = QualityEvaluator(self.config.quality_thresholds)
         self._super_total = SuperTotalCalculator(self.config.quality_thresholds)
@@ -371,6 +371,11 @@ class HybridOrchestrator:
                 for age in [20, 25, 30, 35, 40, 45, 50, 55, 60, 65]:
                     if age not in existing_ages and age <= max_age:
                         available_ages.append(age)
+            else:
+                # birth_yearがない場合はデフォルト範囲を使用
+                for age in [25, 30, 35, 40, 45, 50]:
+                    if age not in existing_ages:
+                        available_ages.append(age)
 
             if not available_ages:
                 continue
@@ -400,6 +405,7 @@ def create_orchestrator(
     strategy: str = "epgen_first",
     dry_run: bool = True,
     target_count: int = 10,
+    use_mock: bool = False,
 ) -> HybridOrchestrator:
     """
     オーケストレータを作成
@@ -408,6 +414,7 @@ def create_orchestrator(
         strategy: 戦略名
         dry_run: dry-runモード
         target_count: 目標生成数
+        use_mock: モックアダプター使用
 
     Returns:
         HybridOrchestrator: オーケストレータ
@@ -416,5 +423,6 @@ def create_orchestrator(
         strategy=Strategy(strategy),
         dry_run=dry_run,
         target_count=target_count,
+        use_mock=use_mock,
     )
     return HybridOrchestrator(config)

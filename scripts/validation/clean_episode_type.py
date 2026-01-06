@@ -3,8 +3,7 @@
 episode_typeデータクリーニングスクリプト
 
 生成システム由来の値を正規カテゴリに変換:
-- 8主要カテゴリ: 転機, 達成, 死去, 挑戦, キャリア, 革新, 創業, 失敗
-- 追加カテゴリ: 復帰, 家族
+- 9カテゴリ: 転機, 達成, 死去, 挑戦, キャリア, 革新, 創業, 失敗, 復帰
 
 Usage:
     python scripts/validation/clean_episode_type.py --dry-run
@@ -23,7 +22,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 CSV_PATH = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 BACKUP_DIR = PROJECT_ROOT / "preserved/data/backups"
 
-# 正規カテゴリ
+# 正規カテゴリ（9種）
 VALID_CATEGORIES = {
     "転機",
     "達成",
@@ -34,7 +33,6 @@ VALID_CATEGORIES = {
     "創業",
     "失敗",
     "復帰",
-    "家族",  # 追加カテゴリ
 }
 
 # 直接マッピング（確実に変換できるもの）
@@ -46,7 +44,7 @@ DIRECT_MAPPING = {
     "FOUNDING": "創業",
     "FAILURE": "失敗",
     "COMEBACK": "復帰",
-    "FAMILY": "家族",
+    "FAMILY": "転機",  # 家族イベントは転機に統合
     "CAREER": "キャリア",
     "LEGACY": "キャリア",  # レガシー → キャリアに統合
     "人生の転機": "転機",

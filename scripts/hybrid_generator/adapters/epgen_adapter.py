@@ -4,13 +4,15 @@ EPGEN Adapter
 scripts/generate/mass_production/ のパイプラインをラップするアダプター。
 """
 
+import os
 import sys
 from pathlib import Path
 from typing import Optional
 
 # プロジェクトルートをパスに追加
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "generate" / "mass_production"))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from .base import (
     AxisScores,
@@ -40,9 +42,15 @@ class EPGENAdapter(GeneratorAdapter):
         """遅延初期化でジェネレータを取得"""
         if self._generator is None:
             try:
-                from generator import ParallelGenerator
+                from scripts.generate.mass_production.generator import ParallelGenerator
+                from scripts.generate.mass_production.llm_clients import AnthropicClient
 
-                self._generator = ParallelGenerator()
+                api_key = os.environ.get("ANTHROPIC_API_KEY")
+                if not api_key:
+                    raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
+
+                llm_client = AnthropicClient(api_key=api_key)
+                self._generator = ParallelGenerator(llm_client=llm_client)
             except ImportError as e:
                 raise ImportError(
                     f"Failed to import ParallelGenerator: {e}. "
@@ -54,12 +62,18 @@ class EPGENAdapter(GeneratorAdapter):
         """遅延初期化で評価器を取得"""
         if self._evaluator is None:
             try:
-                from evaluator import QualityEvaluator
+                from scripts.generate.mass_production.evaluator import BatchEvaluator
+                from scripts.generate.mass_production.llm_clients import AnthropicClient
 
-                self._evaluator = QualityEvaluator()
+                api_key = os.environ.get("ANTHROPIC_API_KEY")
+                if not api_key:
+                    raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
+
+                llm_client = AnthropicClient(api_key=api_key)
+                self._evaluator = BatchEvaluator(llm_client=llm_client)
             except ImportError as e:
                 raise ImportError(
-                    f"Failed to import QualityEvaluator: {e}. "
+                    f"Failed to import BatchEvaluator: {e}. "
                     "Make sure scripts/generate/mass_production/evaluator.py exists."
                 )
         return self._evaluator
@@ -68,7 +82,7 @@ class EPGENAdapter(GeneratorAdapter):
         """遅延初期化でプロンプトビルダーを取得"""
         if self._prompt_builder is None:
             try:
-                from generator import PromptBuilder
+                from scripts.generate.mass_production.generator import PromptBuilder
 
                 self._prompt_builder = PromptBuilder()
             except ImportError:
@@ -91,14 +105,13 @@ class EPGENAdapter(GeneratorAdapter):
             generator = self._get_generator()
 
             # GenerationInput形式に変換
-            from generator import GenerationInput
+            from scripts.generate.mass_production.generator import GenerationInput
 
             gen_input = GenerationInput(
                 person_id=candidate.person_id,
                 person_name=candidate.person_name,
                 age=candidate.age,
                 category=candidate.category,
-                person_type=candidate.person_type,
             )
 
             # 非同期生成を同期的に実行
@@ -108,16 +121,17 @@ class EPGENAdapter(GeneratorAdapter):
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)
 
-            # generate_sync メソッドがあれば使用
+            # generate_sync メソッドがあれば使用（リスト形式で渡す）
             if hasattr(generator, "generate_sync"):
-                result = generator.generate_sync(gen_input)
+                results = generator.generate_sync([gen_input])
+                result = results[0] if results else None
             else:
                 # generate_batch を使用
                 results = loop.run_until_complete(generator.generate_batch([gen_input]))
                 result = results[0] if results else None
 
             if result and result.success:
-                episode_text = result.text
+                episode_text = result.episode_text
 
                 # 評価を実行
                 evaluation = self.evaluate(episode_text, candidate)
@@ -153,7 +167,7 @@ class EPGENAdapter(GeneratorAdapter):
         """
         エピソードを評価
 
-        EPGEN の QualityEvaluator を使用して7軸評価を実行。
+        EPGEN の BatchEvaluator を使用して7軸評価を実行。
 
         Args:
             text: エピソードテキスト
@@ -165,43 +179,54 @@ class EPGENAdapter(GeneratorAdapter):
         try:
             evaluator = self._get_evaluator()
 
-            # 評価実行
-            scores = evaluator.evaluate(
-                text=text,
-                person_name=candidate.person_name,
-                age=candidate.age,
-                category=candidate.category,
-            )
+            # BatchEvaluatorはリスト形式で受け取る
+            episode_data = {
+                "episode_text": text,
+                "person_name": candidate.person_name,
+                "age": candidate.age,
+                "category": candidate.category,
+            }
 
-            axis_scores = AxisScores(
-                memorability=scores.get("memorability", 5.0),
-                empathy=scores.get("empathy", 5.0),
-                surprise=scores.get("surprise", 5.0),
-                generation_quality=scores.get("generation_quality", 5.0),
-                educational_value=scores.get("educational_value", 5.0),
-                story_quality=scores.get("story_quality", 5.0),
-                factual_density=scores.get("factual_density", 5.0),
-            )
+            # 評価実行（バッチサイズ1で実行）
+            results = evaluator.evaluate_batch([episode_data], batch_size=1)
 
-            # 統合スコア計算
-            composite_score = scores.get("composite", axis_scores.weighted_average() * 100)
+            if results and len(results) > 0:
+                eval_result = results[0]
+                scores = eval_result.scores
 
-            # 品質ゲートチェック（EPGEN基準）
-            gate_failures = []
-            if axis_scores.factual_density < 6.5:
-                gate_failures.append("factual_density < 6.5")
-            if axis_scores.generation_quality < 6.5:
-                gate_failures.append("generation_quality < 6.5")
-            if axis_scores.memorability < 5.5:
-                gate_failures.append("memorability < 5.5")
+                axis_scores = AxisScores(
+                    memorability=scores.memorability,
+                    empathy=scores.empathy,
+                    surprise=scores.surprise,
+                    generation_quality=scores.generation_quality,
+                    educational_value=scores.educational_value,
+                    story_quality=scores.story_quality,
+                    factual_density=scores.factual_density,
+                )
 
-            return EvaluationResult(
-                axis_scores=axis_scores,
-                composite_score=composite_score,
-                super_total_score=0.0,  # 後で計算
-                passed_gate=len(gate_failures) == 0,
-                gate_failures=gate_failures,
-            )
+                # 統合スコア計算 (100x スケール: 470-700が目標範囲)
+                composite_score = (
+                    scores.composite_score * 100 if scores.composite_score < 100 else scores.composite_score
+                )
+
+                # 品質ゲートチェック（EPGEN基準）
+                gate_failures = []
+                if axis_scores.factual_density < 6.5:
+                    gate_failures.append("factual_density < 6.5")
+                if axis_scores.generation_quality < 6.5:
+                    gate_failures.append("generation_quality < 6.5")
+                if axis_scores.memorability < 5.5:
+                    gate_failures.append("memorability < 5.5")
+
+                return EvaluationResult(
+                    axis_scores=axis_scores,
+                    composite_score=composite_score,
+                    super_total_score=0.0,  # 後で計算
+                    passed_gate=len(gate_failures) == 0,
+                    gate_failures=gate_failures,
+                )
+            else:
+                raise ValueError("No evaluation result returned")
 
         except Exception as e:
             # 評価失敗時はデフォルト値

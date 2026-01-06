@@ -168,6 +168,18 @@ class MassProductionSelector:
 
         candidates: List[SelectionCandidate] = []
 
+        # 純粋差分モード: 未カバーのみ（トークン節約）
+        if self.config.uncovered_only:
+            print("📊 純粋差分モード: 既存DBにない人物×年齢のみ生成")
+            uncovered = self._get_uncovered_candidates(
+                count=target_count,
+                exclude_persons=exclude_persons,
+            )
+            candidates.extend(uncovered)
+            random.shuffle(candidates)
+            return candidates[:target_count]
+
+        # 従来モード: 3戦略ミックス
         # 戦略1: 未カバー人物×年齢（優先度: 高）
         uncovered_count = int(target_count * self.config.uncovered_ratio)
         uncovered = self._get_uncovered_candidates(

@@ -352,5 +352,11 @@
     "weekly_count": 1,
     "last_generation": "2026-01-06T14:42:15.422241",
     "cooldown_end": "2026-01-07T14:42:15.422241"
+  },
+  "PCF6595B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-06T14:42:31.474701",
+    "cooldown_end": "2026-01-07T14:42:31.474701"
   }
 }

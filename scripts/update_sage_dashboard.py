@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Hybrid Generator Dashboard Updater
+SAGE Dashboard Updater - Smart Adaptive Generation Engine
 
 実行ログを集計してダッシュボードを更新する。
 """
@@ -13,7 +13,7 @@ from collections import defaultdict
 
 PROJECT_ROOT = Path(__file__).parent.parent
 LOGS_DIR = PROJECT_ROOT / "src" / "reports" / "logs"
-DASHBOARD_PATH = PROJECT_ROOT / "preserved" / "hybrid_generator_dashboard.html"
+DASHBOARD_PATH = PROJECT_ROOT / "preserved" / "sage_dashboard.html"
 
 
 def collect_run_logs(days: int = 30) -> list[dict]:
@@ -128,7 +128,7 @@ def generate_dashboard_html(stats: dict) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Generator Dashboard</title>
+    <title>SAGE Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
@@ -150,7 +150,7 @@ def generate_dashboard_html(stats: dict) -> str:
     </style>
 </head>
 <body>
-    <h1>Hybrid Generator Dashboard</h1>
+    <h1>SAGE Dashboard</h1>
 
     <div class="stats-grid">
         <div class="stat-card">

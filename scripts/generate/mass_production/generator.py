@@ -134,6 +134,90 @@ class PromptBuilder:
         else:
             return "晩年期: 最後の大仕事、功績の認知、名誉、継承などに焦点"
 
+    def get_prompt_stats(self, input_data: GenerationInput) -> dict:
+        """プロンプト統計を取得（デバッグ用）"""
+        prompt = self.build(input_data)
+        return {
+            "char_count": len(prompt),
+            "estimated_tokens": len(prompt) // 2,  # 日本語は約2文字/トークン
+            "builder": "standard",
+        }
+
+
+class CompactPromptBuilder:
+    """
+    圧縮版プロンプトビルダー（Phase 2最適化）
+
+    目標: トークン数 -30%（品質維持）
+    手法:
+    - 冗長なヘッダー・フォーマット削除
+    - インライン形式で情報密度向上
+    - 短縮キーワード使用
+    """
+
+    # 圧縮版年齢コンテキスト
+    AGE_CONTEXT_COMPACT = {
+        (0, 20): "若年期:学業/才能発見/デビュー",
+        (20, 30): "青年期:キャリア形成/転機/決断",
+        (30, 40): "壮年前半:成功確立/代表作/リーダーシップ",
+        (40, 50): "壮年後半:円熟/新挑戦/影響力拡大",
+        (50, 60): "成熟期:集大成/後進育成/社会貢献",
+        (60, 200): "晩年期:最後の大仕事/功績認知/継承",
+    }
+
+    def __init__(self, forbidden_patterns: Optional[List[str]] = None):
+        self.forbidden_patterns = forbidden_patterns or FORBIDDEN_PATTERNS
+
+    def build(
+        self,
+        input_data: GenerationInput,
+        style: str = "factual",
+        variation: int = 0,
+    ) -> str:
+        """圧縮版プロンプトを生成"""
+        age_ctx = self._get_age_context_compact(input_data.age)
+        forbidden_inline = "/".join(self.forbidden_patterns[:4])  # 主要4件のみ
+
+        # 生年・没年情報（あれば）
+        year_info = ""
+        if input_data.birth_year:
+            year_info += f"生{input_data.birth_year}"
+        if input_data.death_year:
+            year_info += f"没{input_data.death_year}"
+
+        prompt = f"""EP生成|{input_data.person_name}|{input_data.age}歳|{input_data.category}{f"|{year_info}" if year_info else ""}
+
+開始文:「あなたと同じ{input_data.age}歳のとき、」
+必須:年号≥1/数値≥3/固有名詞≥5/「」作品名≥2
+禁止:{forbidden_inline}
+焦点:{age_ctx}
+{f"補足:{input_data.additional_context[:100]}" if input_data.additional_context else ""}
+300-400字,EPテキストのみ出力"""
+        return prompt
+
+    def _get_age_context_compact(self, age: int) -> str:
+        """圧縮版年齢コンテキスト"""
+        for (min_age, max_age), context in self.AGE_CONTEXT_COMPACT.items():
+            if min_age <= age < max_age:
+                return context
+        return "晩年期:功績認知/継承"
+
+    def get_prompt_stats(self, input_data: GenerationInput) -> dict:
+        """プロンプト統計を取得"""
+        prompt = self.build(input_data)
+        return {
+            "char_count": len(prompt),
+            "estimated_tokens": len(prompt) // 2,
+            "builder": "compact",
+        }
+
+
+def create_prompt_builder(compact: bool = False) -> PromptBuilder:
+    """プロンプトビルダーを作成（ファクトリー関数）"""
+    if compact:
+        return CompactPromptBuilder()
+    return PromptBuilder()
+
 
 class ParallelGenerator:
     """並列エピソード生成器"""
@@ -146,7 +230,11 @@ class ParallelGenerator:
     ):
         self.llm = llm_client
         self.config = config or GenerationConfig()
-        self.prompt_builder = prompt_builder or PromptBuilder()
+        # Phase 2: 設定に応じてプロンプトビルダー選択
+        if prompt_builder is not None:
+            self.prompt_builder = prompt_builder
+        else:
+            self.prompt_builder = create_prompt_builder(compact=self.config.use_compact_prompt)
 
     async def generate_batch(
         self,

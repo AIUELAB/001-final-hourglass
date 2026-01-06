@@ -39,6 +39,8 @@ class GenerationConfig:
     max_retries: int = 3  # リトライ回数
     timeout_seconds: int = 60  # タイムアウト
     batch_size: int = 10  # バッチサイズ（評価用LLMトークン制限対応）
+    # Phase 2: プロンプト圧縮オプション
+    use_compact_prompt: bool = False  # 圧縮版プロンプト使用（-73%トークン）
 
 
 @dataclass

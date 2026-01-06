@@ -182,6 +182,10 @@ class DuplicateDetector:
 
         Returns:
             DuplicateCheckResult: チェック結果
+
+        Note:
+            EPUP再発防止: 同一年齢のエピソードが既に存在する場合、
+            類似度閾値を厳格化（0.6→0.4）して重複を防ぐ。
         """
         if self.master_df.empty:
             return DuplicateCheckResult(
@@ -193,10 +197,12 @@ class DuplicateDetector:
         # 同一人物のエピソードを検索
         existing = self.master_df[self.master_df["person_id"] == person_id]
 
+        # 同一年齢のエピソードが既に存在するか確認
+        has_same_age = False
         if age is not None:
-            # 同一年齢に絞る
             same_age = existing[existing["age"] == age]
             if not same_age.empty:
+                has_same_age = True
                 existing = same_age
 
         if existing.empty:
@@ -205,6 +211,12 @@ class DuplicateDetector:
                 similarity_score=0.0,
                 reason="No existing episodes for this person",
             )
+
+        # EPUP再発防止: 同一年齢の場合は閾値を厳格化
+        effective_threshold = self.similarity_threshold
+        if has_same_age:
+            # 同一年齢なら閾値を0.4に下げる（通常0.6）
+            effective_threshold = min(self.similarity_threshold, 0.4)
 
         # 類似度計算
         max_similarity = 0.0
@@ -223,14 +235,14 @@ class DuplicateDetector:
                 most_similar_id = row.get("episode_id", "unknown")
                 most_similar_text = existing_text[:100]
 
-        is_duplicate = max_similarity >= self.similarity_threshold
+        is_duplicate = max_similarity >= effective_threshold
 
         return DuplicateCheckResult(
             is_duplicate=is_duplicate,
             similarity_score=max_similarity,
             most_similar_episode_id=most_similar_id,
             most_similar_text=most_similar_text,
-            reason=f"Similarity: {max_similarity:.2f} (threshold: {self.similarity_threshold})",
+            reason=f"Similarity: {max_similarity:.2f} (threshold: {effective_threshold}, same_age: {has_same_age})",
             rejection_reason=RejectionReason.HIGH_SIMILARITY if is_duplicate else None,
         )
 

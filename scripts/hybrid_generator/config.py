@@ -64,9 +64,9 @@ QUALITY_THRESHOLDS = {
     "min_factual_density": 6.0,  # 事実密度（最重要）
     "min_generation_quality": 6.0,  # 生成品質（最重要）
     "min_memorability": 5.5,  # 記憶性
-    "min_empathy": 5.0,  # 共感性
-    "min_surprise": 5.0,  # 意外性
-    "min_educational_value": 5.0,  # 教育的価値
+    "min_empathy": 4.0,  # 共感性（Phase4調整: 5.0→4.0、架空キャラ対応）
+    "min_surprise": 4.0,  # 意外性（Phase4調整: 5.0→4.0、架空キャラ対応）
+    "min_educational_value": 4.0,  # 教育的価値（Phase4調整: 5.0→4.0、架空キャラ対応）
     "min_story_quality": 5.0,  # ストーリー品質
     # 統合スコア閾値
     "min_composite": 380,  # 即棄却ライン

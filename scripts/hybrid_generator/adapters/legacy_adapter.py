@@ -4,6 +4,7 @@ Legacy Generator Adapter
 既存の src/episode_generator.py をラップするアダプター。
 """
 
+import os
 import sys
 from pathlib import Path
 from typing import Optional
@@ -40,7 +41,10 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
             try:
                 from episode_generator import EpisodeGenerator
 
-                self._generator = EpisodeGenerator()
+                api_key = os.environ.get("ANTHROPIC_API_KEY")
+                if not api_key:
+                    raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
+                self._generator = EpisodeGenerator(api_key=api_key)
             except ImportError as e:
                 raise ImportError(
                     f"Failed to import EpisodeGenerator: {e}. " "Make sure src/episode_generator.py exists."
@@ -61,21 +65,43 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
             generator = self._get_generator()
 
             # 生成パラメータを準備
-            params = {
+            person_data = {
                 "person_name": candidate.person_name,
-                "age": candidate.age,
                 "category": candidate.category,
-                "person_type": candidate.person_type,
+                "person_type": candidate.person_type or "REAL",
             }
 
             # 生成実行
-            result = generator.generate(**params)
+            result = generator.generate(person_data, candidate.age)
 
             if result and "episode_text" in result:
                 episode_text = result["episode_text"]
 
-                # 評価を実行
-                evaluation = self.evaluate(episode_text, candidate)
+                # 結果からスコアを抽出
+                axis_scores = AxisScores(
+                    memorability=result.get("記憶性スコア", 7.0),
+                    empathy=result.get("共感性スコア", 7.0),
+                    surprise=result.get("意外性スコア", 7.0),
+                    generation_quality=result.get("生成品質スコア", 7.0),
+                    educational_value=result.get("教育的価値", 7.0),
+                    story_quality=result.get("ストーリー品質", 7.0),
+                    factual_density=result.get("事実密度", 7.0),
+                )
+
+                # 品質ゲートチェック
+                gate_failures = []
+                if axis_scores.factual_density < 6.0:
+                    gate_failures.append("factual_density < 6.0")
+                if axis_scores.generation_quality < 6.0:
+                    gate_failures.append("generation_quality < 6.0")
+
+                evaluation = EvaluationResult(
+                    axis_scores=axis_scores,
+                    composite_score=result.get("composite_score", axis_scores.weighted_average() * 100),
+                    super_total_score=0.0,  # 後で計算
+                    passed_gate=len(gate_failures) == 0,
+                    gate_failures=gate_failures,
+                )
 
                 return GenerationResult(
                     success=True,

@@ -99,13 +99,24 @@ def load_csv_data():
             episode["educational_score"] = episode["educational_value"]
             episode["narrative_score"] = episode["storytelling_quality"]
             episode["factual_score"] = episode["factual_density"]
-            # 5軸スコア (派生) を計算
+            # 5軸スコア - CSVから読み込み（存在しない場合のみ計算でフォールバック）
+            # RCA-20260106: CSVの総合品質/感情インパクトを無視していた問題を修正
             mem = episode["memorability_score"]
             gen = episode["generation_quality_score"]
             emp = episode["empathy_score"]
             sur = episode["surprise_score"]
-            episode["overall_quality"] = (mem + gen) / 2 if (mem and gen) else None
-            episode["emotional_impact"] = (emp + sur) / 2 if (emp and sur) else None
+            # 総合品質: CSVから読み込み、なければ計算
+            csv_overall = row.get("総合品質", "")
+            if csv_overall and csv_overall.strip():
+                episode["overall_quality"] = float(csv_overall)
+            else:
+                episode["overall_quality"] = (mem + gen) / 2 if (mem and gen) else None
+            # 感情インパクト: CSVから読み込み、なければ計算
+            csv_emotional = row.get("感情インパクト", "")
+            if csv_emotional and csv_emotional.strip():
+                episode["emotional_impact"] = float(csv_emotional)
+            else:
+                episode["emotional_impact"] = (emp + sur) / 2 if (emp and sur) else None
             episode["educational_value_5"] = episode["educational_value"] or None
             episode["story_quality_5"] = episode["storytelling_quality"] or None
             episode["factual_density_5"] = episode["factual_density"] or None

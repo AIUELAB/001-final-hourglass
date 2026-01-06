@@ -35,7 +35,7 @@ class GenerationConfig:
     """生成設定"""
 
     max_workers: int = 50  # 最大並列数
-    candidates_per_input: int = 3  # 入力あたり候補数
+    candidates_per_input: int = 1  # 入力あたり候補数（3→1でトークン66%削減）
     max_retries: int = 3  # リトライ回数
     timeout_seconds: int = 60  # タイムアウト
     batch_size: int = 10  # バッチサイズ（評価用LLMトークン制限対応）
@@ -46,9 +46,10 @@ class SelectionConfig:
     """候補選定設定"""
 
     target_count: int = 500  # 目標候補数
-    uncovered_ratio: float = 0.4  # 未カバー優先比率
-    low_quality_ratio: float = 0.3  # 低品質置換比率
-    diversity_ratio: float = 0.3  # 多様性向上比率
+    uncovered_only: bool = True  # 純粋差分モード（既存DBにないものだけ生成）
+    uncovered_ratio: float = 0.4  # 未カバー優先比率（uncovered_only=False時）
+    low_quality_ratio: float = 0.3  # 低品質置換比率（uncovered_only=False時）
+    diversity_ratio: float = 0.3  # 多様性向上比率（uncovered_only=False時）
 
     # カテゴリローテーション（曜日別）
     weekday_categories: Dict[int, List[str]] = field(

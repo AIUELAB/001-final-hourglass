@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-大量生産CLI
+EPGEN CLI - Episode Generator
 
-コマンドラインインターフェース
+高品質エピソードの大量生産コマンドラインインターフェース
 """
 
 import argparse
@@ -28,25 +28,28 @@ logger = logging.getLogger(__name__)
 def create_parser() -> argparse.ArgumentParser:
     """引数パーサー作成"""
     parser = argparse.ArgumentParser(
-        prog="mass-production",
-        description="高品質エピソード大量生産システム",
+        prog="epgen",
+        description="EPGEN - 高品質エピソード大量生産システム",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:
   # ドライラン（分析のみ）
-  python -m scripts.generate.mass_production.cli --dry-run --target 100
+  epgen --dry-run --target 100
 
   # 本番実行（100件候補）
-  python -m scripts.generate.mass_production.cli --target 100
+  epgen --target 100
 
   # カテゴリ指定実行
-  python -m scripts.generate.mass_production.cli --target 50 --category "科学・技術"
+  epgen --target 50 --category "科学・技術"
 
-  # 並列数指定
-  python -m scripts.generate.mass_production.cli --target 100 --workers 30
+  # 純粋差分モード無効（従来モード）
+  epgen --target 100 --no-uncovered-only
 
   # 詳細ログ
-  python -m scripts.generate.mass_production.cli --target 100 --verbose
+  epgen --target 100 --verbose
+
+  # Python module形式
+  python -m scripts.generate.mass_production.cli --target 100
 """,
     )
 
@@ -132,6 +135,20 @@ def create_parser() -> argparse.ArgumentParser:
         help=f"重複判定類似度閾値（デフォルト: {DEFAULT_CONFIG.quality.max_similarity_threshold}）",
     )
 
+    # トークン節約オプション
+    parser.add_argument(
+        "--uncovered-only",
+        action="store_true",
+        default=True,
+        help="純粋差分モード: 既存DBにない人物×年齢のみ生成（デフォルト: 有効）",
+    )
+
+    parser.add_argument(
+        "--no-uncovered-only",
+        action="store_true",
+        help="従来モード: 低品質置換・多様性候補も含める",
+    )
+
     # パスオプション
     parser.add_argument(
         "--master-csv",
@@ -208,6 +225,12 @@ def build_config(args: argparse.Namespace) -> MassProductionConfig:
         config.quality.min_memorability = args.min_memorability
     if args.similarity_threshold is not None:
         config.quality.max_similarity_threshold = args.similarity_threshold
+
+    # トークン節約モード設定
+    if args.no_uncovered_only:
+        config.selection.uncovered_only = False
+    else:
+        config.selection.uncovered_only = args.uncovered_only
 
     return config
 

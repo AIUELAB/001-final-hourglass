@@ -1,0 +1,420 @@
+"""
+Hybrid Generation Orchestrator
+
+ハイブリッドエピソード生成のメインオーケストレータ。
+全コンポーネントを統合し、エンドツーエンドの生成パイプラインを提供。
+"""
+
+import json
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
+
+import pandas as pd
+
+from .adapters import Candidate, GenerationResult
+from .config import (
+    GENERATION_RULES,
+    LOGS_DIR,
+    MASTER_CSV,
+    QUALITY_THRESHOLDS,
+    HybridConfig,
+    RejectionReason,
+    Strategy,
+)
+from .gates import (
+    DiversityManager,
+    DuplicateDetector,
+    FactChecker,
+)
+from .persistence import SafeCSVWriter, WriteResult
+from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
+from .quality import ImprovementLoop, QualityEvaluator, SuperTotalCalculator
+from .strategy_router import StrategyRouter
+
+# ロガー設定
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class GenerationRun:
+    """生成実行結果"""
+
+    run_id: str
+    started_at: str
+    completed_at: str = ""
+    strategy: str = ""
+    target_count: int = 0
+    generated_count: int = 0
+    accepted_count: int = 0
+    rejected_count: int = 0
+    dry_run: bool = True
+    results: list[GenerationResult] = field(default_factory=list)
+    rejections: list[dict] = field(default_factory=list)
+    write_result: Optional[WriteResult] = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "run_id": self.run_id,
+            "started_at": self.started_at,
+            "completed_at": self.completed_at,
+            "strategy": self.strategy,
+            "target_count": self.target_count,
+            "generated_count": self.generated_count,
+            "accepted_count": self.accepted_count,
+            "rejected_count": self.rejected_count,
+            "dry_run": self.dry_run,
+            "acceptance_rate": (self.accepted_count / self.generated_count if self.generated_count > 0 else 0.0),
+        }
+
+
+class HybridOrchestrator:
+    """
+    ハイブリッド生成オーケストレータ
+
+    全コンポーネントを統合し、以下のパイプラインを実行:
+    1. 候補選定（多様性考慮）
+    2. 生成前ルールチェック
+    3. 戦略ベースの生成
+    4. 品質ゲートチェック
+    5. ファクトチェック
+    6. 重複検出
+    7. 改善ループ
+    8. 安全な永続化
+    """
+
+    def __init__(self, config: HybridConfig = None):
+        self.config = config or HybridConfig()
+
+        # コンポーネント初期化
+        self._pre_rules = PreGenerationRules(
+            master_csv=self.config.master_csv,
+            rules=self.config.generation_rules,
+            thresholds=self.config.quality_thresholds,
+        )
+        self._router = StrategyRouter(
+            strategy=self.config.strategy,
+            use_mock=False,
+        )
+        self._evaluator = QualityEvaluator(self.config.quality_thresholds)
+        self._super_total = SuperTotalCalculator(self.config.quality_thresholds)
+        self._fact_checker = FactChecker()
+        self._duplicate_detector = DuplicateDetector(
+            master_csv=self.config.master_csv,
+            thresholds=self.config.quality_thresholds,
+        )
+        self._diversity_manager = DiversityManager(
+            master_csv=self.config.master_csv,
+            targets=self.config.diversity_targets,
+            rules=self.config.generation_rules,
+        )
+        self._writer = SafeCSVWriter(
+            master_csv=self.config.master_csv,
+            logs_dir=self.config.logs_dir,
+        )
+
+        # マスターデータ
+        self._master_df: Optional[pd.DataFrame] = None
+
+    @property
+    def master_df(self) -> pd.DataFrame:
+        """マスターデータの遅延読み込み"""
+        if self._master_df is None:
+            if self.config.master_csv.exists():
+                self._master_df = pd.read_csv(self.config.master_csv, encoding="utf-8-sig")
+            else:
+                self._master_df = pd.DataFrame()
+        return self._master_df
+
+    def reload_master(self) -> None:
+        """マスターデータを再読み込み"""
+        self._master_df = None
+        self._duplicate_detector.reload_master()
+
+    def run(
+        self,
+        candidates: list[Candidate],
+        dry_run: bool = True,
+    ) -> GenerationRun:
+        """
+        生成を実行
+
+        Args:
+            candidates: 生成候補リスト
+            dry_run: True の場合は実際に書き込まない
+
+        Returns:
+            GenerationRun: 実行結果
+        """
+        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        run = GenerationRun(
+            run_id=run_id,
+            started_at=datetime.now().isoformat(),
+            strategy=self.config.strategy.value,
+            target_count=len(candidates),
+            dry_run=dry_run,
+        )
+
+        accepted_results = []
+        rejections = []
+
+        for candidate in candidates:
+            try:
+                result, rejection = self._process_candidate(candidate)
+
+                if result and result.success:
+                    accepted_results.append(result)
+                    run.generated_count += 1
+                    run.accepted_count += 1
+                else:
+                    run.generated_count += 1
+                    run.rejected_count += 1
+                    if rejection:
+                        rejections.append(rejection)
+
+            except Exception as e:
+                logger.error(f"Error processing {candidate.person_name}: {e}")
+                run.rejected_count += 1
+                rejections.append(
+                    {
+                        "person_id": candidate.person_id,
+                        "person_name": candidate.person_name,
+                        "reason": RejectionReason.GENERATION_ERROR.value,
+                        "message": str(e),
+                    }
+                )
+
+        # 永続化
+        if accepted_results:
+            if dry_run:
+                run.write_result = self._writer.dry_run(accepted_results)
+            else:
+                run.write_result = self._writer.write(accepted_results)
+
+        run.results = accepted_results
+        run.rejections = rejections
+        run.completed_at = datetime.now().isoformat()
+
+        # ログ保存
+        self._save_run_log(run)
+
+        return run
+
+    def _process_candidate(self, candidate: Candidate) -> tuple[Optional[GenerationResult], Optional[dict]]:
+        """
+        単一候補を処理
+
+        Args:
+            candidate: 生成候補
+
+        Returns:
+            (result, rejection): 生成結果と棄却情報
+        """
+        # 1. 生成前ルールチェック
+        pre_check = self._pre_rules.check_all(candidate)
+        if not pre_check.passed:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": pre_check.reason.value if pre_check.reason else "pre_check",
+                "message": pre_check.message,
+            }
+
+        # 2. 多様性クォータチェック
+        quota_passed, quota_reason = self._diversity_manager.check_person_quota(candidate.person_id)
+        if not quota_passed:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": RejectionReason.WEEKLY_LIMIT_EXCEEDED.value,
+                "message": quota_reason,
+            }
+
+        # 3. 生成
+        result = self._router.route(candidate)
+
+        if not result.success:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": RejectionReason.GENERATION_ERROR.value,
+                "message": result.error_message,
+            }
+
+        # 4. 禁止パターンチェック
+        pattern_check = check_prohibited_patterns(result.episode_text)
+        if not pattern_check.passed:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
+                "message": pattern_check.message,
+            }
+
+        # 5. 具体性チェック
+        specificity_check = check_specificity(result.episode_text)
+        if not specificity_check.passed:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": specificity_check.reason.value if specificity_check.reason else "filler",
+                "message": specificity_check.message,
+            }
+
+        # 6. ファクトチェック
+        fact_result = self._fact_checker.check(result.episode_text, candidate.person_name)
+        if not fact_result.passed:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": fact_result.rejection_reason.value if fact_result.rejection_reason else "fact_check",
+                "message": fact_result.reason,
+            }
+
+        # 7. 重複チェック
+        dup_result = self._duplicate_detector.check_all(result.episode_text, candidate.person_id, candidate.age)
+        if dup_result.is_duplicate:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": dup_result.rejection_reason.value if dup_result.rejection_reason else "duplicate",
+                "message": dup_result.reason,
+            }
+
+        # 8. 品質ゲートチェック
+        if result.evaluation:
+            gate_result = self._evaluator.check_quality_gates(result.evaluation.axis_scores)
+            if not gate_result.passed:
+                return None, {
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
+                    "message": ", ".join(gate_result.failures),
+                }
+
+        # 9. 超総合スコア計算
+        if result.evaluation:
+            super_result = self._super_total.calculate(
+                candidate.person_id,
+                result.evaluation.axis_scores,
+                self.master_df,
+            )
+            result.evaluation.super_total_score = super_result.score
+
+            if not super_result.passed_gate:
+                return None, {
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": RejectionReason.LOW_SUPER_TOTAL.value,
+                    "message": ", ".join(super_result.gate_failures),
+                }
+
+        # 10. 生成履歴を記録
+        self._pre_rules.record_generation(candidate.person_id, success=True)
+        self._diversity_manager.record_generation(candidate.person_id)
+
+        return result, None
+
+    def _save_run_log(self, run: GenerationRun) -> None:
+        """実行ログを保存"""
+        log_path = self.config.logs_dir / f"run_{run.run_id}.json"
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+
+        log_data = run.to_dict()
+        log_data["rejections"] = run.rejections
+        log_data["router_stats"] = self._router.stats.to_dict()
+
+        with open(log_path, "w", encoding="utf-8") as f:
+            json.dump(log_data, f, ensure_ascii=False, indent=2)
+
+    def get_recommended_candidates(self, count: int = 10) -> list[Candidate]:
+        """
+        推奨候補を取得
+
+        多様性を考慮して候補を選定。
+
+        Args:
+            count: 候補数
+
+        Returns:
+            list[Candidate]: 候補リスト
+        """
+        from .gates import get_recommended_candidates
+
+        recommended = get_recommended_candidates(self.master_df, count)
+        candidates = []
+
+        for rec in recommended:
+            # マスターから詳細情報を取得
+            person_data = self.master_df[self.master_df["person_id"] == rec["person_id"]]
+
+            if person_data.empty:
+                continue
+
+            row = person_data.iloc[0]
+
+            # 生成可能な年齢を選定（既存にない年齢）
+            existing_ages = set(person_data["age"].dropna().astype(int))
+            birth_year = row.get("birth_year")
+            death_year = row.get("death_year")
+
+            # 候補年齢を生成
+            available_ages = []
+            if birth_year and not pd.isna(birth_year):
+                birth_year = int(birth_year)
+                max_age = 100
+                if death_year and not pd.isna(death_year):
+                    max_age = int(death_year) - birth_year
+
+                for age in [20, 25, 30, 35, 40, 45, 50, 55, 60, 65]:
+                    if age not in existing_ages and age <= max_age:
+                        available_ages.append(age)
+
+            if not available_ages:
+                continue
+
+            # 最初の利用可能な年齢を使用
+            selected_age = available_ages[0]
+
+            candidates.append(
+                Candidate(
+                    person_id=rec["person_id"],
+                    person_name=str(row.get("person_name", "")),
+                    age=selected_age,
+                    category=rec["category"],
+                    person_type=str(row.get("person_type", "REAL")),
+                    birth_year=birth_year if not pd.isna(birth_year) else None,
+                    death_year=int(death_year) if death_year and not pd.isna(death_year) else None,
+                )
+            )
+
+            if len(candidates) >= count:
+                break
+
+        return candidates
+
+
+def create_orchestrator(
+    strategy: str = "epgen_first",
+    dry_run: bool = True,
+    target_count: int = 10,
+) -> HybridOrchestrator:
+    """
+    オーケストレータを作成
+
+    Args:
+        strategy: 戦略名
+        dry_run: dry-runモード
+        target_count: 目標生成数
+
+    Returns:
+        HybridOrchestrator: オーケストレータ
+    """
+    config = HybridConfig(
+        strategy=Strategy(strategy),
+        dry_run=dry_run,
+        target_count=target_count,
+    )
+    return HybridOrchestrator(config)

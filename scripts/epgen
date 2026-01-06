@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+"""
+EPGEN - Episode Generator
+
+Usage:
+  ./scripts/epgen --target 100
+  ./scripts/epgen --analyze-only --target 500
+  ./scripts/epgen --help
+"""
+
+import sys
+from pathlib import Path
+
+# Add project root to path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from scripts.generate.mass_production.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -102,7 +102,7 @@ Legacy成功率: ~100%（フォールバック時）
 総合採用率: ~90%
 ```
 
-## コスト最適化（Phase 1-3）
+## コスト最適化（Phase 1-4）
 
 ### 最適化サマリー
 
@@ -111,6 +111,7 @@ Legacy成功率: ~100%（フォールバック時）
 | Phase 1 | コスト計測 | 可視化100% | 有効 |
 | Phase 2 | プロンプト圧縮 | **-73%** | 無効（要設定） |
 | Phase 3 | 評価Haiku化 | **-92%** | 有効 |
+| Phase 4 | 評価バッチ拡大 | **-60%** | 有効（50件） |
 
 ### Phase 1: コスト計測基盤
 
@@ -172,6 +173,25 @@ router = create_router(use_haiku_evaluation=False)
 |--------|----------|-----------|--------|
 | Sonnet | $3.00 | $15.00 | - |
 | Haiku | $0.25 | $1.25 | -92% |
+
+### Phase 4: 評価バッチ拡大
+
+評価バッチサイズを20→50件に拡大（API呼び出し-60%）。
+
+```python
+from scripts.generate.mass_production.config import QualityGateConfig
+
+# デフォルト50件（自動適用）
+config = QualityGateConfig()
+print(config.evaluation_batch_size)  # 50
+
+# カスタムバッチサイズ
+config = QualityGateConfig(evaluation_batch_size=100)
+```
+
+**効果:**
+- 100件評価時: 5回 → 2回のAPI呼び出し
+- レイテンシ改善 + コスト削減
 
 ### 全最適化有効時の使用方法
 
@@ -261,6 +281,9 @@ scripts/sage/
 - `src/reports/logs/run_*.json` - 実行ログ
 
 ## バージョン履歴
+
+### v1.2 (2026-01-07)
+- **Phase 4**: 評価バッチ拡大（20→50件、API呼び出し-60%）
 
 ### v1.1 (2026-01-07)
 - **Phase 1**: コスト計測基盤（TokenUsage, cost_metrics）

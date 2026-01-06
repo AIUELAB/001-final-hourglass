@@ -20,7 +20,12 @@ from .base import (
     GenerationResult,
     GeneratorAdapter,
     GeneratorType,
+    TokenUsage,
 )
+
+# プロンプト長推定用の定数
+LEGACY_PROMPT_BASE_LENGTH = 1800  # 基本プロンプト長（概算）
+EVALUATION_PROMPT_BASE_LENGTH = 1500  # 評価プロンプト長（概算）
 
 
 class LegacyGeneratorAdapter(GeneratorAdapter):
@@ -77,6 +82,17 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
             if result and "episode_text" in result:
                 episode_text = result["episode_text"]
 
+                # トークン使用量を推定（生成）
+                prompt_text = (
+                    f"{candidate.person_name} {candidate.age}歳 {candidate.category}" + " " * LEGACY_PROMPT_BASE_LENGTH
+                )
+                token_usage = TokenUsage.estimate_from_text(
+                    prompt=prompt_text,
+                    response=episode_text,
+                    model=self._model_name,
+                )
+                self.record_token_usage(token_usage)
+
                 # 結果からスコアを抽出
                 axis_scores = AxisScores(
                     memorability=result.get("記憶性スコア", 7.0),
@@ -112,6 +128,7 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
                     evaluation=evaluation,
                     generator_type=self.generator_type,
                     evidence=self._extract_evidence(episode_text),
+                    token_usage=token_usage,
                 )
             else:
                 return GenerationResult(

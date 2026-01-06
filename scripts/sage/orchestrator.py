@@ -323,9 +323,33 @@ class HybridOrchestrator:
         log_path = self.config.logs_dir / f"run_{run.run_id}.json"
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
+        # アダプター統計を収集してrouter_statsを更新
+        adapter_stats = self._router.collect_adapter_stats()
+
         log_data = run.to_dict()
         log_data["rejections"] = run.rejections
         log_data["router_stats"] = self._router.stats.to_dict()
+        # Phase 1: コスト計測をログに追加
+        log_data["cost_metrics"] = {
+            "total_input_tokens": self._router.stats.total_input_tokens,
+            "total_output_tokens": self._router.stats.total_output_tokens,
+            "total_tokens": self._router.stats.total_input_tokens + self._router.stats.total_output_tokens,
+            "total_llm_calls": self._router.stats.total_llm_calls,
+            "estimated_cost_usd": round(self._router.stats.estimated_cost_usd, 4),
+            "avg_tokens_per_episode": (
+                round(
+                    (self._router.stats.total_input_tokens + self._router.stats.total_output_tokens)
+                    / run.generated_count,
+                    1,
+                )
+                if run.generated_count > 0
+                else 0
+            ),
+            "avg_cost_per_episode_usd": (
+                round(self._router.stats.estimated_cost_usd / run.generated_count, 6) if run.generated_count > 0 else 0
+            ),
+        }
+        log_data["adapter_stats"] = adapter_stats
 
         with open(log_path, "w", encoding="utf-8") as f:
             json.dump(log_data, f, ensure_ascii=False, indent=2)

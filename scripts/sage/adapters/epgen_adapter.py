@@ -21,7 +21,12 @@ from .base import (
     GenerationResult,
     GeneratorAdapter,
     GeneratorType,
+    TokenUsage,
 )
+
+# プロンプト長推定用の定数
+EPGEN_PROMPT_BASE_LENGTH = 2000  # 基本プロンプト長（概算）
+EVALUATION_PROMPT_BASE_LENGTH = 1500  # 評価プロンプト長（概算）
 
 
 class EPGENAdapter(GeneratorAdapter):
@@ -144,8 +149,24 @@ class EPGENAdapter(GeneratorAdapter):
             if result and result.success:
                 episode_text = result.episode_text
 
+                # トークン使用量を推定（生成）
+                prompt_text = (
+                    f"{candidate.person_name} {candidate.age}歳 {candidate.category}" + " " * EPGEN_PROMPT_BASE_LENGTH
+                )
+                gen_token_usage = TokenUsage.estimate_from_text(
+                    prompt=prompt_text,
+                    response=episode_text,
+                    model=self._model_name,
+                )
+                self.record_token_usage(gen_token_usage)
+
                 # 評価を実行
                 evaluation = self.evaluate(episode_text, candidate)
+
+                # 生成と評価の合計トークン使用量
+                total_token_usage = gen_token_usage
+                if hasattr(self, "_last_eval_tokens") and self._last_eval_tokens:
+                    total_token_usage = gen_token_usage + self._last_eval_tokens
 
                 return GenerationResult(
                     success=True,
@@ -156,6 +177,7 @@ class EPGENAdapter(GeneratorAdapter):
                     evaluation=evaluation,
                     generator_type=self.generator_type,
                     evidence=self._extract_evidence(episode_text),
+                    token_usage=total_token_usage,
                 )
             else:
                 error_msg = getattr(result, "error", "Generation failed") if result else "No result"
@@ -204,6 +226,17 @@ class EPGENAdapter(GeneratorAdapter):
             if results and len(results) > 0:
                 eval_result = results[0]
                 scores = eval_result.scores
+
+                # トークン使用量を推定（評価）
+                eval_prompt = f"{text} {candidate.person_name}" + " " * EVALUATION_PROMPT_BASE_LENGTH
+                eval_response = f"scores: {scores}"  # 概算
+                eval_token_usage = TokenUsage.estimate_from_text(
+                    prompt=eval_prompt,
+                    response=eval_response,
+                    model=self._model_name,
+                )
+                self.record_token_usage(eval_token_usage)
+                self._last_eval_tokens = eval_token_usage
 
                 axis_scores = AxisScores(
                     memorability=scores.memorability,

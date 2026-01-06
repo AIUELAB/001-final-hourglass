@@ -29,32 +29,32 @@
 
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-value">19</div>
+            <div class="stat-value">22</div>
             <div class="stat-label">Total Runs</div>
-            <div class="stat-sub">dry-run: 16 / execute: 3</div>
+            <div class="stat-sub">dry-run: 18 / execute: 4</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">53</div>
+            <div class="stat-value">74</div>
             <div class="stat-label">Episodes Accepted</div>
-            <div class="stat-sub">of 80 generated</div>
+            <div class="stat-sub">of 114 generated</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value rate-warning">66.2%</div>
+            <div class="stat-value rate-warning">64.9%</div>
             <div class="stat-label">Acceptance Rate</div>
             <div class="stat-sub">target: >= 70%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value rate-good">80.8%</div>
+            <div class="stat-value rate-good">83.9%</div>
             <div class="stat-label">EPGEN Success Rate</div>
-            <div class="stat-sub">63/78 attempts</div>
+            <div class="stat-sub">94/112 attempts</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">15</div>
+            <div class="stat-value">18</div>
             <div class="stat-label">Fallbacks</div>
             <div class="stat-sub">EPGEN -> Legacy</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">27</div>
+            <div class="stat-value">40</div>
             <div class="stat-label">Rejected</div>
             <div class="stat-sub">quality gates</div>
         </div>
@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="updated">Last updated: 2026-01-06 14:31:12</div>
+    <div class="updated">Last updated: 2026-01-06 14:45:35</div>
 
     <script>
         // Daily chart
@@ -82,12 +82,12 @@
                 datasets: [
                     {
                         label: 'Accepted',
-                        data: [53],
+                        data: [74],
                         backgroundColor: 'rgba(0, 217, 255, 0.7)',
                     },
                     {
                         label: 'Generated',
-                        data: [80],
+                        data: [114],
                         backgroundColor: 'rgba(100, 100, 100, 0.5)',
                     }
                 ]
@@ -108,7 +108,7 @@
             data: {
                 labels: ["generation_error", "filler_detected", "low_factual_density", "cooldown_active", "same_age_duplicate", "prohibited_pattern", "low_specificity", "low_composite"],
                 datasets: [{
-                    data: [6, 8, 1, 1, 1, 1, 2, 7],
+                    data: [6, 8, 1, 1, 1, 4, 4, 15],
                     backgroundColor: [
                         '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'
                     ]

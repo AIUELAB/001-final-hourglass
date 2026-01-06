@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 黒澤明エピソード品質テスト
-- 5件制限の遵守
+- 10件制限の遵守
 - 年齢整合性（『乱』=75歳）
 - 『七人の侍』エピソードの存在
 """
@@ -25,9 +25,9 @@ class TestKurosawaEpisodes:
     """黒澤明エピソードの品質テスト"""
 
     def test_episode_count_limit(self):
-        """エピソード数が5件以下であること"""
+        """エピソード数が10件以下であること"""
         episodes = get_kurosawa_episodes()
-        assert len(episodes) <= 5, f"黒澤明エピソード数: {len(episodes)}件（制限5件）"
+        assert len(episodes) <= 10, f"黒澤明エピソード数: {len(episodes)}件（制限10件）"
 
     def test_ran_age_correct(self):
         """『乱』をメインで扱うエピソード（E574646B5）の年齢が75歳であること"""
@@ -62,7 +62,7 @@ class TestKurosawaEpisodes:
         episodes = get_kurosawa_episodes()
 
         # 期待される年齢セット
-        expected_ages = {40.0, 44.0, 57.0, 60.0, 75.0}
+        expected_ages = {33.0, 40.0, 44.0, 60.0, 75.0}
         actual_ages = {float(e.get("age", 0)) for e in episodes}
 
         assert expected_ages == actual_ages, f"期待年齢: {expected_ages}, 実際: {actual_ages}"

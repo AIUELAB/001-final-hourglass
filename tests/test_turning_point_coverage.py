@@ -150,9 +150,9 @@ class TestTurningPointCoverage:
             TURNING_POINT_EXTRA_SLOTS,
         )
 
-        assert EPISODE_LIMIT == 5, f"EPISODE_LIMITが5でない: {EPISODE_LIMIT}"
+        assert EPISODE_LIMIT == 10, f"EPISODE_LIMITが10でない: {EPISODE_LIMIT}"
         assert TURNING_POINT_EXTRA_SLOTS >= 1, "転機追加枠が1未満"
-        assert EPISODE_LIMIT + TURNING_POINT_EXTRA_SLOTS >= 6, "転機時の制限が6未満"
+        assert EPISODE_LIMIT + TURNING_POINT_EXTRA_SLOTS >= 11, "転機時の制限が11未満"
 
 
 if __name__ == "__main__":

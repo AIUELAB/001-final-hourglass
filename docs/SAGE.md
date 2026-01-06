@@ -102,15 +102,129 @@ Legacy成功率: ~100%（フォールバック時）
 総合採用率: ~90%
 ```
 
+## コスト最適化（Phase 1-3）
+
+### 最適化サマリー
+
+| Phase | 対象 | 削減率 | デフォルト |
+|-------|------|--------|-----------|
+| Phase 1 | コスト計測 | 可視化100% | 有効 |
+| Phase 2 | プロンプト圧縮 | **-73%** | 無効（要設定） |
+| Phase 3 | 評価Haiku化 | **-92%** | 有効 |
+
+### Phase 1: コスト計測基盤
+
+トークン使用量とコストをログに自動記録。
+
+```python
+# ログ出力例（src/reports/logs/run_*.json）
+{
+  "cost_metrics": {
+    "total_input_tokens": 15000,
+    "total_output_tokens": 5000,
+    "estimated_cost_usd": 0.1200,
+    "avg_tokens_per_episode": 2000,
+    "avg_cost_per_episode_usd": 0.012
+  }
+}
+```
+
+### Phase 2: プロンプト圧縮
+
+生成プロンプトを73%圧縮（558文字 → 149文字）。
+
+```python
+from scripts.generate.mass_production.config import GenerationConfig
+
+# 圧縮版プロンプト有効化
+config = GenerationConfig(use_compact_prompt=True)
+```
+
+**圧縮版プロンプト例:**
+```
+EP生成|大谷翔平|25歳|スポーツ|生1994
+
+開始文:「あなたと同じ25歳のとき、」
+必須:年号≥1/数値≥3/固有名詞≥5/「」作品名≥2
+禁止:人生を振り返/自らの歩みを振り返/静かな日々を送/晩年.*回顧
+焦点:青年期:キャリア形成/転機/決断
+
+300-400字,EPテキストのみ出力
+```
+
+### Phase 3: 評価Haiku化
+
+評価APIをSonnet→Haikuに変更（コスト-92%）。
+
+```python
+from scripts.sage.strategy_router import create_router
+
+# Haiku評価（デフォルト）
+router = create_router(use_haiku_evaluation=True)
+
+# Sonnet評価（高精度モード）
+router = create_router(use_haiku_evaluation=False)
+```
+
+**モデル料金比較:**
+
+| モデル | Input/1M | Output/1M | 削減率 |
+|--------|----------|-----------|--------|
+| Sonnet | $3.00 | $15.00 | - |
+| Haiku | $0.25 | $1.25 | -92% |
+
+### 全最適化有効時の使用方法
+
+```python
+from scripts.sage.strategy_router import create_router
+from scripts.sage.orchestrator import SAGEOrchestrator
+from scripts.sage.config import SAGEConfig
+
+# 設定
+config = SAGEConfig()
+
+# ルーター作成（Phase 3: Haiku評価デフォルト有効）
+router = create_router(
+    strategy="epgen_first",
+    use_haiku_evaluation=True,  # Phase 3
+)
+
+# オーケストレーター
+orchestrator = SAGEOrchestrator(config=config)
+
+# 生成実行
+results = orchestrator.generate(target=100)
+```
+
+**CLI使用時:**
+```bash
+# Phase 3（Haiku評価）はデフォルト有効
+python scripts/sage/cli.py --target 100 --execute
+```
+
 ## コスト分析
+
+### 最適化前
 
 | 項目 | 値 |
 |------|-----|
-| モデル | claude-sonnet-4-20250514 |
+| 生成モデル | claude-sonnet-4-20250514 |
+| 評価モデル | claude-sonnet-4-20250514 |
 | 生成トークン | ~800 in / ~400 out |
 | 評価トークン | ~700 in / ~250 out |
 | 合計/件 | ~1,500 in / ~650 out |
 | コスト/100件 | ~$1.60 (¥239) |
+
+### 最適化後（Phase 1-3適用）
+
+| 項目 | 値 |
+|------|-----|
+| 生成モデル | claude-sonnet-4-20250514 |
+| 評価モデル | claude-3-5-haiku-20241022 |
+| 生成トークン | ~215 in / ~400 out（圧縮時） |
+| 評価トークン | ~700 in / ~250 out |
+| コスト/100件 | ~$0.50-0.70 (¥75-105) |
+| 削減率 | **約60-70%** |
 
 ## ディレクトリ構造
 
@@ -147,6 +261,12 @@ scripts/sage/
 - `src/reports/logs/run_*.json` - 実行ログ
 
 ## バージョン履歴
+
+### v1.1 (2026-01-07)
+- **Phase 1**: コスト計測基盤（TokenUsage, cost_metrics）
+- **Phase 2**: プロンプト圧縮（-73%トークン削減）
+- **Phase 3**: 評価Haiku化（-92%コスト削減）
+- 総合コスト削減: 約60-70%
 
 ### v1.0 (2026-01-07)
 - Hybrid Generator → SAGE へリブランド

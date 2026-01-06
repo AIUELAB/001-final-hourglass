@@ -6,12 +6,20 @@
 """
 
 import random
+import sys
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
 import pandas as pd
+
+# プロジェクトルートをパスに追加
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.birth_year_database import get_birth_year, get_max_valid_age, CURRENT_YEAR
 
 from .config import MassProductionConfig, SelectionConfig
 
@@ -29,6 +37,40 @@ class SelectionCandidate:
     existing_episode_id: Optional[str]  # 置換対象EPがある場合
     selection_reason: str  # 選定理由
     priority_score: float  # 優先度スコア
+
+
+def get_valid_age_range(person_name: str) -> tuple[int, int]:
+    """
+    人物の有効な年齢範囲を取得
+
+    Args:
+        person_name: 人物名
+
+    Returns:
+        (min_age, max_age) タプル。生年不明の場合は (0, 130)
+    """
+    birth_year = get_birth_year(person_name)
+    if birth_year is None:
+        # 生年不明の場合、安全な範囲を設定（警告付き）
+        return (0, 70)  # 高齢は避ける
+
+    max_age = CURRENT_YEAR - birth_year
+    return (0, max_age)
+
+
+def is_valid_age(person_name: str, age: int) -> bool:
+    """
+    年齢が有効かどうかをチェック
+
+    Args:
+        person_name: 人物名
+        age: チェック対象の年齢
+
+    Returns:
+        有効ならTrue
+    """
+    min_age, max_age = get_valid_age_range(person_name)
+    return min_age <= age <= max_age
 
 
 class MassProductionSelector:
@@ -161,11 +203,13 @@ class MassProductionSelector:
         count: int,
         exclude_persons: Set[str],
     ) -> List[SelectionCandidate]:
-        """未カバー人物×年齢を取得"""
+        """未カバー人物×年齢を取得（年齢境界チェック付き）"""
         candidates = []
+        skipped_age_boundary = 0
 
         for _, person in self.person_stats.iterrows():
-            if person["person_name"] in exclude_persons:
+            person_name = person["person_name"]
+            if person_name in exclude_persons:
                 continue
 
             # covered_agesをintのsetに変換（NaN除外）
@@ -180,19 +224,28 @@ class MassProductionSelector:
                 except (ValueError, TypeError):
                     pass
 
-            # 重要な年齢帯（20-70歳）を優先
-            important_ages = list(range(20, 71))
+            # 生年データを取得して有効な年齢範囲を決定
+            birth_year = get_birth_year(person_name)
+            min_valid_age, max_valid_age = get_valid_age_range(person_name)
+
+            # 重要な年齢帯（20-70歳）を優先、ただし有効範囲内のみ
+            important_ages = [a for a in range(20, 71) if min_valid_age <= a <= max_valid_age]
 
             for age in important_ages:
                 if age not in covered_ages:
+                    # 年齢境界チェック
+                    if not is_valid_age(person_name, age):
+                        skipped_age_boundary += 1
+                        continue
+
                     candidates.append(
                         SelectionCandidate(
                             person_id=person["person_id"],
-                            person_name=person["person_name"],
+                            person_name=person_name,
                             age=age,
                             category=person["category"] or "その他",
-                            birth_year=None,  # CSVにないのでNone
-                            death_year=None,
+                            birth_year=birth_year,  # 生年データベースから取得
+                            death_year=None,  # TODO: 没年データも統合
                             existing_episode_id=None,
                             selection_reason="uncovered_age",
                             priority_score=1.0 - (abs(age - 35) / 50),  # 35歳に近いほど高優先
@@ -201,6 +254,9 @@ class MassProductionSelector:
 
             if len(candidates) >= count * 2:  # 十分な候補を確保
                 break
+
+        if skipped_age_boundary > 0:
+            print(f"  ⚠️ 年齢境界違反でスキップ: {skipped_age_boundary}件")
 
         # 優先度でソートして返却
         candidates.sort(key=lambda c: c.priority_score, reverse=True)
@@ -211,7 +267,7 @@ class MassProductionSelector:
         count: int,
         exclude_persons: Set[str],
     ) -> List[SelectionCandidate]:
-        """低品質EP置換対象を取得"""
+        """低品質EP置換対象を取得（年齢境界チェック付き）"""
         # 品質カラムが存在するかチェック
         has_factual = "事実密度" in self.df.columns
         has_quality = "生成品質スコア" in self.df.columns
@@ -246,20 +302,33 @@ class MassProductionSelector:
         low_quality_df = low_quality_df.nlargest(min(count * 2, len(low_quality_df)), "priority")
 
         candidates = []
+        skipped_age_boundary = 0
         for _, row in low_quality_df.iterrows():
+            person_name = row["person_name"]
+            age = int(row["age"]) if not pd.isna(row["age"]) else 30
+            birth_year = get_birth_year(person_name)
+
+            # 年齢境界チェック
+            if not is_valid_age(person_name, age):
+                skipped_age_boundary += 1
+                continue
+
             candidates.append(
                 SelectionCandidate(
                     person_id=row.get("person_id", ""),
-                    person_name=row["person_name"],
-                    age=int(row["age"]) if not pd.isna(row["age"]) else 30,
+                    person_name=person_name,
+                    age=age,
                     category=row.get("category", "その他") or "その他",
-                    birth_year=None,  # CSVにないのでNone
+                    birth_year=birth_year,  # 生年データベースから取得
                     death_year=None,
                     existing_episode_id=row.get("episode_id"),
                     selection_reason="low_quality_replacement",
                     priority_score=row["priority"] / 14.0,
                 )
             )
+
+        if skipped_age_boundary > 0:
+            print(f"  ⚠️ 低品質候補で年齢境界違反スキップ: {skipped_age_boundary}件")
 
         return candidates[:count]
 
@@ -270,7 +339,7 @@ class MassProductionSelector:
         exclude_persons: Set[str],
         already_selected: Set[str],
     ) -> List[SelectionCandidate]:
-        """多様性向上候補を取得"""
+        """多様性向上候補を取得（年齢境界チェック付き）"""
         # 今日のターゲットカテゴリ
         weekday = today.weekday()
         target_categories = self.config.weekday_categories.get(weekday, [])
@@ -306,6 +375,7 @@ class MassProductionSelector:
 
         candidates = []
         seen_persons = set()
+        skipped_age_boundary = 0
 
         for _, row in sampled.iterrows():
             person = row["person_name"]
@@ -313,7 +383,11 @@ class MassProductionSelector:
                 continue
             seen_persons.add(person)
 
-            # 新しい年齢を選択（既存年齢を避ける）
+            # 生年データを取得して有効範囲を決定
+            birth_year = get_birth_year(person)
+            min_valid_age, max_valid_age = get_valid_age_range(person)
+
+            # 新しい年齢を選択（既存年齢を避け、有効範囲内のみ）
             existing_ages_raw = self.df[self.df["person_name"] == person]["age"].dropna()
             existing_ages = set()
             for a in existing_ages_raw:
@@ -322,9 +396,14 @@ class MassProductionSelector:
                 except (ValueError, TypeError):
                     pass
 
-            # 20-70歳の範囲で未カバー年齢を選択
-            possible_ages = [a for a in range(20, 71) if a not in existing_ages]
-            new_age = random.choice(possible_ages) if possible_ages else 35
+            # 20-70歳の範囲で未カバー年齢を選択（有効範囲内のみ）
+            possible_ages = [a for a in range(20, 71) if a not in existing_ages and min_valid_age <= a <= max_valid_age]
+
+            if not possible_ages:
+                skipped_age_boundary += 1
+                continue
+
+            new_age = random.choice(possible_ages)
 
             candidates.append(
                 SelectionCandidate(
@@ -332,7 +411,7 @@ class MassProductionSelector:
                     person_name=person,
                     age=new_age,
                     category=row.get("category", "その他") or "その他",
-                    birth_year=None,  # CSVにないのでNone
+                    birth_year=birth_year,  # 生年データベースから取得
                     death_year=None,
                     existing_episode_id=None,
                     selection_reason="diversity",
@@ -342,6 +421,9 @@ class MassProductionSelector:
 
             if len(candidates) >= count:
                 break
+
+        if skipped_age_boundary > 0:
+            print(f"  ⚠️ 多様性候補で年齢境界違反スキップ: {skipped_age_boundary}件")
 
         return candidates
 

@@ -285,6 +285,8 @@ class MassProductionPipeline:
         t0 = time.time()
 
         # GenerationResult → Dict 変換
+        # birth_yearをinputsから取得してマップ
+        birth_year_map = {(inp.person_name, inp.age): inp.birth_year for inp in inputs}
         episodes_for_eval = [
             {
                 "person_id": r.person_id,
@@ -295,6 +297,8 @@ class MassProductionPipeline:
                 "variation": r.variation,
                 "template_style": r.template_style,
                 "generation_time_ms": r.generation_time_ms,
+                "birth_year": birth_year_map.get((r.person_name, r.age)),  # 年齢境界チェック用
+                "person_type": "REAL",  # デフォルトは実在人物
             }
             for r in successful
         ]

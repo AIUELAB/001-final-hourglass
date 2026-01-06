@@ -1,9 +1,13 @@
 """
 Gates Package
 
-ファクトチェック、重複検出、多様性制約のゲート層。
+ファクトチェック、重複検出、多様性制約、候補優先度のゲート層。
 """
 
+from .candidate_prioritizer import (
+    CandidatePrioritizer,
+    CandidatePriorityScore,
+)
 from .diversity import (
     DiversityCheckResult,
     DiversityManager,
@@ -24,6 +28,8 @@ from .fact_check import (
 )
 
 __all__ = [
+    "CandidatePrioritizer",
+    "CandidatePriorityScore",
     "FactChecker",
     "FactCheckResult",
     "FabricationDetector",

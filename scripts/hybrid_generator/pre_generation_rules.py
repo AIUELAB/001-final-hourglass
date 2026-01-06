@@ -50,6 +50,7 @@ class RuleCheckResult:
     reason: Optional[RejectionReason] = None
     message: str = ""
     details: dict = None
+    retryable: bool = False  # Trueの場合、リトライで改善可能
 
     def __post_init__(self) -> None:
         if self.details is None:
@@ -345,9 +346,12 @@ def check_prohibited_patterns(text: str) -> RuleCheckResult:
 
 def check_specificity(text: str, min_specificity: int = 2) -> RuleCheckResult:
     """
-    具体性チェック（埋め草検出）
+    具体性チェック（埋め草検出）- 段階的閾値
 
     年号、固有名詞、数値データの存在を確認。
+    - score < 1: 即棄却（FILLER_DETECTED, リトライ不可）
+    - score 1: リトライ可（LOW_SPECIFICITY, retryable=True）
+    - score >= 2: 合格
 
     Args:
         text: チェック対象テキスト
@@ -358,36 +362,61 @@ def check_specificity(text: str, min_specificity: int = 2) -> RuleCheckResult:
     """
     specificity_score = 0
 
-    # 年号の存在（例：1955年、2024年）
-    year_pattern = r"\b(1[89]\d{2}|20[0-2]\d)年\b"
-    if re.search(year_pattern, text):
+    # 年号の存在（西暦 + 元号対応）
+    year_pattern = r"(1[789]\d{2}|20[0-2]\d)年|(明治|大正|昭和|平成|令和)\d{1,2}年"
+    year_matches = re.findall(year_pattern, text)
+    if year_matches:
         specificity_score += 1
+        # 2つ以上の年号でボーナス
+        if len(year_matches) >= 2:
+            specificity_score += 0.5
 
-    # 固有名詞の存在（カタカナ3文字以上連続）
+    # 固有名詞の存在（カタカナ3文字以上連続、「」『』内）
     katakana_pattern = r"[\u30A0-\u30FF]{3,}"
-    if re.search(katakana_pattern, text):
+    quoted_pattern = r"「[^」]+」|『[^』]+』"
+    katakana_count = len(re.findall(katakana_pattern, text))
+    quoted_count = len(re.findall(quoted_pattern, text))
+
+    if katakana_count >= 3 or quoted_count >= 2:
         specificity_score += 1
+    elif katakana_count >= 1 or quoted_count >= 1:
+        specificity_score += 0.5
 
     # 数値データの存在（例：100万人、50%、第1位）
-    number_pattern = r"\d+[万億%位回番]|\d+\.\d+"
-    if re.search(number_pattern, text):
+    number_pattern = r"\d+[本回度件位番勝敗万億個年日月%]|\d+\.\d+"
+    number_matches = re.findall(number_pattern, text)
+    if len(number_matches) >= 3:
         specificity_score += 1
+    elif len(number_matches) >= 1:
+        specificity_score += 0.5
 
-    # 作品名・イベント名（「」内）
-    quoted_pattern = r"「[^」]+」"
-    if re.search(quoted_pattern, text):
-        specificity_score += 1
+    # イベント・出来事キーワード
+    event_pattern = r"(受賞|優勝|達成|記録|就任|引退|完成|公開|発表|死去|誕生|デビュー|発売|創設|設立|開催)"
+    if re.search(event_pattern, text):
+        specificity_score += 0.5
 
-    if specificity_score < min_specificity:
+    # 段階的判定
+    if specificity_score < 1:
+        # 極度に具体性不足 → 即棄却（リトライ不可）
         return RuleCheckResult(
             passed=False,
             reason=RejectionReason.FILLER_DETECTED,
-            message=f"Low specificity score: {specificity_score} < {min_specificity}",
+            message=f"Very low specificity: {specificity_score:.1f} < 1 (no retry)",
             details={"specificity_score": specificity_score},
+            retryable=False,
+        )
+    elif specificity_score < min_specificity:
+        # 具体性やや不足 → リトライ可
+        return RuleCheckResult(
+            passed=False,
+            reason=RejectionReason.LOW_SPECIFICITY,
+            message=f"Low specificity: {specificity_score:.1f} < {min_specificity} (retryable)",
+            details={"specificity_score": specificity_score},
+            retryable=True,
         )
 
     return RuleCheckResult(
         passed=True,
-        message=f"Specificity check passed: {specificity_score}",
+        message=f"Specificity check passed: {specificity_score:.1f}",
         details={"specificity_score": specificity_score},
     )

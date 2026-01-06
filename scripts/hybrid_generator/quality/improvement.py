@@ -40,6 +40,7 @@ IMPROVEMENT_TEMPLATES = {
             "数値データ（記録、統計）を追加",
             "検証可能な出来事への言及を追加",
         ],
+        "retryable": True,
     },
     RejectionReason.LOW_GENERATION_QUALITY: {
         "feedback": "生成品質が不足しています。",
@@ -49,14 +50,22 @@ IMPROVEMENT_TEMPLATES = {
             "具体的なエピソードに焦点を当てる",
             "ストーリー性を高める",
         ],
+        "retryable": True,
     },
     RejectionReason.FILLER_DETECTED: {
-        "feedback": "具体性が不足しています（埋め草検出）。",
+        "feedback": "具体性が極めて不足しています（即棄却）。",
+        "suggestions": [],
+        "retryable": False,  # score < 1 は即棄却
+    },
+    RejectionReason.LOW_SPECIFICITY: {
+        "feedback": "具体性がやや不足しています（リトライ可）。",
         "suggestions": [
-            "抽象的な表現を具体的な出来事に置き換え",
-            "「ある日」「いつか」などの曖昧表現を削除",
-            "具体的な年号、場所、人物を追加",
+            "西暦年号を2つ以上追加",
+            "固有名詞（人名、作品名、組織名、地名）を5つ以上追加",
+            "「」で囲んだ作品名・イベント名を2つ以上追加",
+            "数値データを3つ以上追加",
         ],
+        "retryable": True,  # score 1-2 はリトライ可
     },
     RejectionReason.PROHIBITED_PATTERN: {
         "feedback": "禁止パターンが検出されました。",
@@ -211,29 +220,80 @@ class ImprovementLoop:
         return current, retry_count
 
 
-def should_retry(result: GenerationResult) -> bool:
+def should_retry(
+    result: GenerationResult,
+    reason: RejectionReason = None,
+    retry_count: int = 0,
+    max_retries: int = 2,
+) -> bool:
     """
     リトライすべきか判定
 
+    即棄却とリトライ可能な棄却を区別。
+
     Args:
         result: 生成結果
+        reason: 棄却理由（あれば）
+        retry_count: 現在のリトライ回数
+        max_retries: 最大リトライ回数
 
     Returns:
         bool: リトライすべきか
     """
+    # リトライ上限チェック
+    if retry_count >= max_retries:
+        return False
+
+    # 生成失敗時はリトライ
     if not result.success:
         return True
 
     if result.evaluation is None:
         return True
 
+    # 棄却理由に基づく判定
+    if reason:
+        # 即棄却（リトライ不可）の理由
+        immediate_reject_reasons = {
+            RejectionReason.PROHIBITED_PATTERN,
+            RejectionReason.FABRICATION_DETECTED,
+            RejectionReason.AGE_BOUNDARY_VIOLATION,
+            RejectionReason.FILLER_DETECTED,  # score < 1
+            RejectionReason.SAME_AGE_DUPLICATE,
+            RejectionReason.HIGH_SIMILARITY,
+        }
+
+        if reason in immediate_reject_reasons:
+            return False
+
+        # リトライ可能な理由
+        retryable_reasons = {
+            RejectionReason.LOW_SPECIFICITY,  # score 1-2
+            RejectionReason.LOW_FACTUAL_DENSITY,
+            RejectionReason.LOW_GENERATION_QUALITY,
+            RejectionReason.LOW_COMPOSITE_SCORE,
+        }
+
+        if reason in retryable_reasons:
+            return True
+
     # 即棄却ラインより低い場合はリトライしても無駄
     min_composite = QUALITY_THRESHOLDS.get("min_composite", 380)
     if result.evaluation.composite_score < min_composite:
         return False
 
+    # リトライ閾値以下だがリトライで改善可能な場合
+    retry_composite = QUALITY_THRESHOLDS.get("retry_composite", 470)
+    if result.evaluation.composite_score < retry_composite:
+        return True
+
     # ゲート失敗かつ改善可能な場合はリトライ
     if not result.evaluation.passed_gate:
-        return True
+        # ゲート失敗理由がリトライ可能かチェック
+        for failure in result.evaluation.gate_failures:
+            template = IMPROVEMENT_TEMPLATES.get(failure, {})
+            if template.get("retryable", True):
+                return True
+        return False
 
     return False

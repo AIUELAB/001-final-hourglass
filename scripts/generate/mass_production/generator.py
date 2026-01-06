@@ -50,17 +50,26 @@ class PromptBuilder:
     STYLES = {
         "factual": {
             "name": "事実重視",
-            "instruction": "具体的な年号・数値・固有名詞を豊富に含め、検証可能な事実のみを記述してください。",
+            "instruction": """以下の構成で記述してください:
+1. 西暦年号を2つ以上含める（例: 1995年、2003年）
+2. 固有名詞を5つ以上含める（人名、作品名、組織名、地名など）
+3. 数値データを3つ以上含める（記録、金額、順位など）
+4. 「」で囲んだ作品名・イベント名を2つ以上含める
+
+禁止表現:
+- 「〜と言われている」「〜かもしれない」などの曖昧表現
+- 「その後の活躍につながった」などの抽象表現
+- 推測や伝聞に基づく記述""",
             "tone": "客観的・報道的",
         },
         "narrative": {
             "name": "物語調",
-            "instruction": "出来事の経緯や背景を時系列で描写し、臨場感のある文章にしてください。",
+            "instruction": "出来事の経緯や背景を時系列で描写し、臨場感のある文章にしてください。年号と固有名詞を必ず含めること。",
             "tone": "描写的・没入感のある",
         },
         "inspirational": {
             "name": "インスピレーション",
-            "instruction": "困難の克服や成長の瞬間に焦点を当て、読者に気づきを与える内容にしてください。",
+            "instruction": "困難の克服や成長の瞬間に焦点を当て、読者に気づきを与える内容にしてください。年号と固有名詞を必ず含めること。",
             "tone": "感動的・啓発的",
         },
     }
@@ -279,6 +288,12 @@ class TextValidator:
         numbers = re.findall(number_pattern, text)
         if len(numbers) < 3:
             errors.append(f"数値が不足しています（{len(numbers)}/3）")
+
+        # 固有名詞チェック（「」内、『』内、カタカナ3文字以上）
+        proper_noun_pattern = r"「[^」]+」|『[^』]+』|[\u30A0-\u30FF]{3,}"
+        proper_nouns = re.findall(proper_noun_pattern, text)
+        if len(proper_nouns) < 5:
+            errors.append(f"固有名詞が不足しています（{len(proper_nouns)}/5）")
 
         if len(text) < 250:
             errors.append(f"文字数が不足しています（{len(text)}/250〜400）")

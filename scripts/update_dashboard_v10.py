@@ -32,16 +32,34 @@ def load_csv_data():
             except (ValueError, TypeError):
                 age = 0
 
+            # slot または age から nendai (年代ラベル) を生成
+            nendai_labels = {1: '幼少期', 10: '10代', 20: '20代', 30: '30代', 40: '40代', 50: '50代', 60: '60歳以上'}
+            if slot in nendai_labels:
+                nendai = nendai_labels[slot]
+            elif age >= 60:
+                nendai = '60歳以上'
+            elif age >= 10:
+                nendai = f'{(age // 10) * 10}代'
+            elif age >= 1:
+                nendai = '幼少期'
+            else:
+                nendai = None
+
             episode = {
+                "episode_id": row.get("episode_id", ""),
                 "person_id": row.get("person_id", ""),
                 "person_name": row.get("person_name", ""),
                 "age": age,
                 "slot": slot,
+                "nendai": nendai,
                 "category": row.get("category", ""),
+                "generation_timestamp": row.get("generation_timestamp", ""),
                 "episode_text": row.get("episode_text", "")[:500].replace("\n", " ").replace("\r", ""),
                 "entity_type": row.get("person_type", "REAL").lower(),
                 "person_type": row.get("person_type", "REAL"),
                 "work_title": row.get("work_title", "") or "",
+                "group_name": row.get("group_name", "") or "",
+                "is_group_member": row.get("is_group_member", "False") == "True",
                 "episode_count": int(float(row.get("episode_count", 1) or 1)),
                 "fame_score": float(row.get("fame_score_v3", 0) or 0),
                 "fame_score_japan": float(row.get("fame_score_japan", 0) or 0),
@@ -71,6 +89,9 @@ def load_csv_data():
                 "educational_value": float(row.get("教育的価値", 0) or 0),
                 "storytelling_quality": float(row.get("ストーリー品質", 0) or 0),
                 "factual_density": float(row.get("事実密度", 0) or 0),
+                # composite_score
+                "composite_score": float(row.get("composite_score", 0) or 0),
+                "composite_score_5axis": float(row.get("composite_score_5axis", 0) or 0),
             }
             # 7軸チャート用エイリアス
             episode["quality_score"] = episode["generation_quality_score"]

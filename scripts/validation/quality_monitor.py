@@ -53,7 +53,7 @@ QUALITY_THRESHOLDS = {
     "rejection_rate_alert": 0.20,  # 棄却率アラート閾値（20%）
     # 埋め草・エピソード制限
     "filler_count_critical": 1,  # 埋め草候補がこれ以上あればCRITICAL
-    "episode_limit": 5,  # 1人あたりのエピソード上限
+    "episode_limit": 10,  # 1人あたりのエピソード上限
     "limit_violation_warning": 1,  # 制限超過がこれ以上あればWARNING
     # 軸別
     "axis_avg_alert": 5.0,  # 軸平均のアラート閾値

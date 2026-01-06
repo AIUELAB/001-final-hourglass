@@ -27,7 +27,7 @@ from scripts.validation.filler_detector import (
 )
 
 CSV_PATH = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
-EPISODE_LIMIT = 5
+EPISODE_LIMIT = 10
 
 
 def main():

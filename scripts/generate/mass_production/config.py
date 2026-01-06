@@ -30,6 +30,8 @@ class QualityGateConfig:
     max_similarity_threshold: float = 0.7  # 重複判定閾値
     # Phase 3: 評価モデル設定
     use_haiku_for_evaluation: bool = True  # 評価にHaiku使用（コスト-92%）
+    # Phase 4: 評価バッチサイズ
+    evaluation_batch_size: int = 50  # 評価バッチサイズ（20→50で呼び出し-60%）
 
 
 @dataclass

@@ -173,7 +173,7 @@ JSON配列のみを出力してください。説明は不要です。
     def evaluate_batch(
         self,
         episodes: List[Dict[str, Any]],
-        batch_size: int = 20,
+        batch_size: int = 50,  # Phase 4: 20→50に拡大（API呼び出し-60%）
         progress_callback: Optional[Callable[[int, int], None]] = None,
     ) -> List[EvaluationResult]:
         """
@@ -181,7 +181,7 @@ JSON配列のみを出力してください。説明は不要です。
 
         Args:
             episodes: エピソードリスト
-            batch_size: バッチサイズ
+            batch_size: バッチサイズ（デフォルト50、Phase 4最適化）
             progress_callback: 進捗コールバック
 
         Returns:

@@ -168,6 +168,14 @@ class GeminiClient(BaseLLMClient):
         return response.text.strip()
 
 
+# Phase 3: モデル定数
+MODELS = {
+    "sonnet": "claude-sonnet-4-20250514",
+    "haiku": "claude-3-5-haiku-20241022",
+    "sonnet-3.5": "claude-3-5-sonnet-20241022",
+}
+
+
 def create_llm_client(
     provider: str = "anthropic",
     model: Optional[str] = None,
@@ -178,12 +186,16 @@ def create_llm_client(
 
     Args:
         provider: プロバイダー名（anthropic, openai, gemini, mock）
-        model: モデル名（省略時はデフォルト）
+        model: モデル名（省略時はデフォルト）。'sonnet', 'haiku'などの短縮名も使用可能
         api_key: APIキー（省略時は環境変数）
 
     Returns:
         LLMクライアントインスタンス
     """
+    # 短縮名を正式名に変換
+    if model and model in MODELS:
+        model = MODELS[model]
+
     if provider == "anthropic":
         return AnthropicClient(
             model=model or "claude-sonnet-4-20250514",
@@ -205,6 +217,28 @@ def create_llm_client(
         return MockLLMClient(delay=0.05)
     else:
         raise ValueError(f"未対応のプロバイダー: {provider}")
+
+
+def create_evaluation_client(
+    use_haiku: bool = True,
+    api_key: Optional[str] = None,
+) -> BaseLLMClient:
+    """
+    評価用LLMクライアントを作成（Phase 3最適化）
+
+    Args:
+        use_haiku: Haikuを使用するか（True=低コスト, False=Sonnet高精度）
+        api_key: APIキー（省略時は環境変数）
+
+    Returns:
+        評価用LLMクライアント
+
+    コスト比較:
+        Haiku:  $0.25/M in, $1.25/M out（-92%）
+        Sonnet: $3.00/M in, $15.00/M out
+    """
+    model = "haiku" if use_haiku else "sonnet"
+    return create_llm_client(provider="anthropic", model=model, api_key=api_key)
 
 
 def main():

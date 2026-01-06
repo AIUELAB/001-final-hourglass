@@ -94,16 +94,18 @@ class StrategyRouter:
         self,
         strategy: Strategy = Strategy.EPGEN_FIRST,
         use_mock: bool = False,
+        use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
     ):
         self.strategy = strategy
         self.use_mock = use_mock
+        self.use_haiku_evaluation = use_haiku_evaluation
         self._stats = StrategyStats(strategy=strategy)
 
         # アダプター初期化
         if use_mock:
             self._epgen = MockEPGENAdapter()
         else:
-            self._epgen = EPGENAdapter()
+            self._epgen = EPGENAdapter(use_haiku_evaluation=use_haiku_evaluation)
         self._legacy = LegacyGeneratorAdapter()
 
     @property
@@ -331,16 +333,25 @@ class StrategyRouter:
         }
 
 
-def create_router(strategy: str = "epgen_first", use_mock: bool = False) -> StrategyRouter:
+def create_router(
+    strategy: str = "epgen_first",
+    use_mock: bool = False,
+    use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
+) -> StrategyRouter:
     """
     ルーターを作成
 
     Args:
         strategy: 戦略名 ('epgen_first', 'legacy_first', 'ab_compare')
         use_mock: モックを使用するか
+        use_haiku_evaluation: 評価にHaikuを使用（True=コスト-92%、False=Sonnet高精度）
 
     Returns:
         StrategyRouter: ルーター
     """
     strategy_enum = Strategy(strategy)
-    return StrategyRouter(strategy=strategy_enum, use_mock=use_mock)
+    return StrategyRouter(
+        strategy=strategy_enum,
+        use_mock=use_mock,
+        use_haiku_evaluation=use_haiku_evaluation,
+    )

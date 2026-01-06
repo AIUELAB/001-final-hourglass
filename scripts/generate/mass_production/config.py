@@ -28,6 +28,8 @@ class QualityGateConfig:
     min_number_count: int = 3  # 数値最低数
     min_proper_noun_count: int = 5  # 固有名詞最低数
     max_similarity_threshold: float = 0.7  # 重複判定閾値
+    # Phase 3: 評価モデル設定
+    use_haiku_for_evaluation: bool = True  # 評価にHaiku使用（コスト-92%）
 
 
 @dataclass

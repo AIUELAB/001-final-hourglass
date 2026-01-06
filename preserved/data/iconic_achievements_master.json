@@ -1,0 +1,276 @@
+{
+  "version": "1.0.0",
+  "description": "象徴的業績マスターデータ - 重要人物の必須エピソード定義",
+  "created_at": "2026-01-06",
+  "persons": {
+    "大谷翔平": {
+      "person_id": "P5C4FB25",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "WBC 2023 優勝・大会MVP",
+          "age": 28,
+          "year": 2023,
+          "keywords": ["WBC", "ワールド・ベースボール・クラシック", "トラウト"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "MLB MVP 1回目（満票）",
+          "age": 27,
+          "year": 2021,
+          "keywords": ["MVP", "満票", "二刀流"],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "MLB MVP 2回目",
+          "age": 29,
+          "year": 2023,
+          "keywords": ["MVP", "2年連続", "規定投球回", "規定打席"],
+          "importance": 10.0,
+          "priority": 3
+        },
+        {
+          "achievement": "ワールドシリーズ制覇",
+          "age": 30,
+          "year": 2024,
+          "keywords": ["ワールドシリーズ", "ドジャース", "本塁打王"],
+          "importance": 9.5,
+          "priority": 4
+        },
+        {
+          "achievement": "MLB新人王",
+          "age": 23,
+          "year": 2018,
+          "keywords": ["新人王", "エンゼルス", "二刀流"],
+          "importance": 9.0,
+          "priority": 5
+        }
+      ]
+    },
+    "イチロー": {
+      "person_id": "P1234567",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "MLB年間最多安打記録（262本）",
+          "age": 30,
+          "year": 2004,
+          "keywords": ["262", "最多安打", "シーズン記録"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "MLB通算3000本安打",
+          "age": 42,
+          "year": 2016,
+          "keywords": ["3000本", "通算"],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "MLB新人王・MVP同時受賞",
+          "age": 27,
+          "year": 2001,
+          "keywords": ["新人王", "MVP", "シアトル"],
+          "importance": 10.0,
+          "priority": 3
+        },
+        {
+          "achievement": "WBC 2006/2009 連覇・MVP",
+          "age": 32,
+          "year": 2006,
+          "keywords": ["WBC", "決勝打", "連覇"],
+          "importance": 9.5,
+          "priority": 4
+        }
+      ]
+    },
+    "アインシュタイン": {
+      "person_id": "P93F1DB1",
+      "category": "科学・技術",
+      "required_episodes": [
+        {
+          "achievement": "奇跡の年・特殊相対性理論・E=mc²",
+          "age": 26,
+          "year": 1905,
+          "keywords": ["奇跡の年", "E=mc²", "特殊相対性理論", "光量子仮説"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ノーベル物理学賞受賞",
+          "age": 42,
+          "year": 1921,
+          "keywords": ["ノーベル賞", "光電効果"],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "一般相対性理論完成",
+          "age": 36,
+          "year": 1915,
+          "keywords": ["一般相対性理論", "重力"],
+          "importance": 10.0,
+          "priority": 3
+        }
+      ]
+    },
+    "スティーブ・ジョブズ": {
+      "person_id": "PA1B2C3D",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "Apple創業",
+          "age": 21,
+          "year": 1976,
+          "keywords": ["Apple", "創業", "ウォズニアック", "ガレージ"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "iPhone発表",
+          "age": 52,
+          "year": 2007,
+          "keywords": ["iPhone", "スマートフォン", "革命"],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "Apple追放と復帰",
+          "age": 30,
+          "year": 1985,
+          "keywords": ["追放", "NeXT", "Pixar"],
+          "importance": 9.5,
+          "priority": 3
+        },
+        {
+          "achievement": "iPod発表",
+          "age": 46,
+          "year": 2001,
+          "keywords": ["iPod", "1000曲", "音楽"],
+          "importance": 9.0,
+          "priority": 4
+        }
+      ]
+    },
+    "羽生結弦": {
+      "person_id": "PXYZ1234",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "ソチ五輪金メダル",
+          "age": 19,
+          "year": 2014,
+          "keywords": ["ソチ", "金メダル", "オリンピック"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "平昌五輪金メダル（連覇）",
+          "age": 23,
+          "year": 2018,
+          "keywords": ["平昌", "連覇", "66年ぶり"],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "4回転アクセル成功",
+          "age": 27,
+          "year": 2022,
+          "keywords": ["4回転アクセル", "クワッドアクセル", "史上初"],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "藤井聡太": {
+      "person_id": "PFUJI001",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "最年少プロ棋士・29連勝",
+          "age": 14,
+          "year": 2017,
+          "keywords": ["最年少", "29連勝", "プロ入り"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "八冠達成",
+          "age": 21,
+          "year": 2023,
+          "keywords": ["八冠", "全冠制覇", "史上初"],
+          "importance": 10.0,
+          "priority": 2
+        }
+      ]
+    },
+    "宮崎駿": {
+      "person_id": "PMIYAZ01",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "千と千尋の神隠し・アカデミー賞",
+          "age": 62,
+          "year": 2003,
+          "keywords": ["千と千尋", "アカデミー賞", "オスカー"],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "スタジオジブリ設立",
+          "age": 44,
+          "year": 1985,
+          "keywords": ["ジブリ", "設立", "高畑勲"],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "風の谷のナウシカ",
+          "age": 43,
+          "year": 1984,
+          "keywords": ["ナウシカ", "環境", "代表作"],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    }
+  },
+  "category_templates": {
+    "スポーツ": {
+      "typical_achievements": [
+        "オリンピック金メダル",
+        "世界選手権優勝",
+        "MVP受賞",
+        "記録更新",
+        "引退試合"
+      ]
+    },
+    "科学・技術": {
+      "typical_achievements": [
+        "ノーベル賞受賞",
+        "重要論文発表",
+        "発明・発見",
+        "学会設立"
+      ]
+    },
+    "ビジネス・経済": {
+      "typical_achievements": [
+        "会社創業",
+        "IPO",
+        "革新的製品発表",
+        "業界変革"
+      ]
+    },
+    "文化・芸術": {
+      "typical_achievements": [
+        "代表作発表",
+        "受賞歴",
+        "デビュー",
+        "引退/最終作品"
+      ]
+    }
+  }
+}

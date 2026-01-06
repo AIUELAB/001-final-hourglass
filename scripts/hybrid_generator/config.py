@@ -192,7 +192,8 @@ class RejectionReason(Enum):
     NO_EVIDENCE = "no_evidence"  # 根拠なし
     # パターンチェック
     PROHIBITED_PATTERN = "prohibited_pattern"  # 禁止パターン
-    FILLER_DETECTED = "filler_detected"  # 埋め草検出
+    FILLER_DETECTED = "filler_detected"  # 埋め草検出（即棄却: score < 1）
+    LOW_SPECIFICITY = "low_specificity"  # 具体性不足（リトライ可: score 1-2）
     # その他
     GENERATION_ERROR = "generation_error"  # 生成エラー
     MAX_RETRIES_EXCEEDED = "max_retries"  # リトライ上限

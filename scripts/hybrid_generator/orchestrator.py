@@ -25,6 +25,7 @@ from .config import (
     Strategy,
 )
 from .gates import (
+    CandidatePrioritizer,
     DiversityManager,
     DuplicateDetector,
     FactChecker,
@@ -333,34 +334,40 @@ class HybridOrchestrator:
         """
         推奨候補を取得
 
-        多様性を考慮して候補を選定。
+        EP数、カテゴリバランス、年齢カバレッジを考慮して候補を選定。
+        CandidatePrioritizer を使用してスコアリング・優先度付け。
 
         Args:
             count: 候補数
 
         Returns:
-            list[Candidate]: 候補リスト
+            list[Candidate]: 優先度順の候補リスト
         """
-        from .gates import get_recommended_candidates
+        if self.master_df.empty:
+            return []
 
-        recommended = get_recommended_candidates(self.master_df, count)
-        candidates = []
+        # 候補プールを構築（ユニークな人物×利用可能年齢）
+        candidate_pool = []
+        unique_persons = self.master_df.drop_duplicates(subset=["person_id"])
 
-        for rec in recommended:
-            # マスターから詳細情報を取得
-            person_data = self.master_df[self.master_df["person_id"] == rec["person_id"]]
+        for _, row in unique_persons.iterrows():
+            person_id = row["person_id"]
+            person_name = str(row.get("person_name", ""))
+            category = str(row.get("category", ""))
 
-            if person_data.empty:
+            # クールダウン・クォータチェック
+            quota_passed, _ = self._diversity_manager.check_person_quota(person_id)
+            if not quota_passed:
                 continue
 
-            row = person_data.iloc[0]
-
-            # 生成可能な年齢を選定（既存にない年齢）
+            # 既存年齢を取得
+            person_data = self.master_df[self.master_df["person_id"] == person_id]
             existing_ages = set(person_data["age"].dropna().astype(int))
+
             birth_year = row.get("birth_year")
             death_year = row.get("death_year")
 
-            # 候補年齢を生成
+            # 利用可能な年齢を計算
             available_ages = []
             if birth_year and not pd.isna(birth_year):
                 birth_year = int(birth_year)
@@ -368,32 +375,69 @@ class HybridOrchestrator:
                 if death_year and not pd.isna(death_year):
                     max_age = int(death_year) - birth_year
 
-                for age in [20, 25, 30, 35, 40, 45, 50, 55, 60, 65]:
-                    if age not in existing_ages and age <= max_age:
+                # 5歳刻みで候補年齢を生成（より細かく）
+                for age in range(15, min(max_age + 1, 100), 5):
+                    if age not in existing_ages:
                         available_ages.append(age)
             else:
                 # birth_yearがない場合はデフォルト範囲を使用
-                for age in [25, 30, 35, 40, 45, 50]:
+                for age in [20, 25, 30, 35, 40, 45, 50, 55, 60]:
                     if age not in existing_ages:
                         available_ages.append(age)
 
-            if not available_ages:
+            # 各年齢を候補プールに追加
+            for age in available_ages[:3]:  # 人物あたり最大3年齢
+                candidate_pool.append(
+                    {
+                        "person_id": person_id,
+                        "person_name": person_name,
+                        "category": category,
+                        "age": age,
+                        "person_type": str(row.get("person_type", "REAL")),
+                        "birth_year": birth_year if not pd.isna(birth_year) else None,
+                        "death_year": int(death_year) if death_year and not pd.isna(death_year) else None,
+                    }
+                )
+
+        if not candidate_pool:
+            return []
+
+        # CandidatePrioritizer でスコアリング
+        prioritizer = CandidatePrioritizer(master_csv=self.config.master_csv)
+        scored = prioritizer.prioritize_candidates(candidate_pool, top_n=count * 2)
+
+        # 人物重複を避けて上位を選定
+        seen_persons = set()
+        candidates = []
+
+        for score_result in scored:
+            if score_result.person_id in seen_persons:
                 continue
 
-            # 最初の利用可能な年齢を使用
-            selected_age = available_ages[0]
+            seen_persons.add(score_result.person_id)
 
-            candidates.append(
-                Candidate(
-                    person_id=rec["person_id"],
-                    person_name=str(row.get("person_name", "")),
-                    age=selected_age,
-                    category=rec["category"],
-                    person_type=str(row.get("person_type", "REAL")),
-                    birth_year=birth_year if not pd.isna(birth_year) else None,
-                    death_year=int(death_year) if death_year and not pd.isna(death_year) else None,
-                )
+            # 候補データを取得
+            pool_item = next(
+                (
+                    p
+                    for p in candidate_pool
+                    if p["person_id"] == score_result.person_id and p["age"] == score_result.age
+                ),
+                None,
             )
+
+            if pool_item:
+                candidates.append(
+                    Candidate(
+                        person_id=score_result.person_id,
+                        person_name=score_result.person_name,
+                        age=score_result.age,
+                        category=score_result.category,
+                        person_type=pool_item.get("person_type", "REAL"),
+                        birth_year=pool_item.get("birth_year"),
+                        death_year=pool_item.get("death_year"),
+                    )
+                )
 
             if len(candidates) >= count:
                 break

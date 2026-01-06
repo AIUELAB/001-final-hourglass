@@ -107,11 +107,22 @@ class EPGENAdapter(GeneratorAdapter):
             # GenerationInput形式に変換
             from scripts.generate.mass_production.generator import GenerationInput
 
+            # 具体性強化のための追加コンテキスト
+            additional_context = (
+                "重要: 以下の要素を必ず含めること:\n"
+                "- 西暦年号を2つ以上\n"
+                "- 固有名詞（人名、作品名、組織名、地名）を5つ以上\n"
+                "- 「」で囲んだ作品名・イベント名を2つ以上\n"
+                "- 数値データを3つ以上\n"
+                "抽象的な表現や推測・伝聞は禁止"
+            )
+
             gen_input = GenerationInput(
                 person_id=candidate.person_id,
                 person_name=candidate.person_name,
                 age=candidate.age,
                 category=candidate.category,
+                additional_context=additional_context,
             )
 
             # 非同期生成を同期的に実行

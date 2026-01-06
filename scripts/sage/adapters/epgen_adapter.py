@@ -37,11 +37,18 @@ class EPGENAdapter(GeneratorAdapter):
     6段階パイプライン: Selection → Generation → Evaluation → Deduplication → Ranking → Persistence
     """
 
-    def __init__(self):
+    def __init__(self, use_haiku_evaluation: bool = True):
+        """
+        Args:
+            use_haiku_evaluation: 評価にHaikuを使用（True=低コスト-92%, False=Sonnet高精度）
+        """
         super().__init__("epgen", GeneratorType.EPGEN)
         self._generator = None
         self._evaluator = None
         self._prompt_builder = None
+        self._use_haiku_evaluation = use_haiku_evaluation
+        # Phase 3: 評価モデル名を追跡
+        self._eval_model_name = "claude-3-5-haiku-20241022" if use_haiku_evaluation else "claude-sonnet-4-20250514"
 
     def _get_generator(self):
         """遅延初期化でジェネレータを取得"""
@@ -64,17 +71,18 @@ class EPGENAdapter(GeneratorAdapter):
         return self._generator
 
     def _get_evaluator(self):
-        """遅延初期化で評価器を取得"""
+        """遅延初期化で評価器を取得（Phase 3: Haiku対応）"""
         if self._evaluator is None:
             try:
                 from scripts.generate.mass_production.evaluator import BatchEvaluator
-                from scripts.generate.mass_production.llm_clients import AnthropicClient
+                from scripts.generate.mass_production.llm_clients import create_evaluation_client
 
                 api_key = os.environ.get("ANTHROPIC_API_KEY")
                 if not api_key:
                     raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
 
-                llm_client = AnthropicClient(api_key=api_key)
+                # Phase 3: 評価にHaikuを使用（コスト-92%）
+                llm_client = create_evaluation_client(use_haiku=self._use_haiku_evaluation, api_key=api_key)
                 self._evaluator = BatchEvaluator(llm_client=llm_client)
             except ImportError as e:
                 raise ImportError(

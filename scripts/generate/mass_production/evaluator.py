@@ -2,13 +2,22 @@
 """
 バッチ品質評価モジュール
 
-7軸評価 + 構造チェックによる品質ゲート
+7軸評価 + 構造チェック + 年齢境界チェックによる品質ゲート
 """
 
 import json
 import re
+import sys
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
+
+# プロジェクトルートをパスに追加
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.birth_year_database import get_birth_year, validate_episode_age, CURRENT_YEAR
 
 from .config import QUALITY_SCORE_WEIGHTS, QualityGateConfig
 
@@ -64,6 +73,7 @@ class EvaluationResult:
     passed_gate: bool
     gate_failures: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+    birth_year: Optional[int] = None  # 生年（年齢境界チェック用）
 
 
 class StructuralEvaluator:
@@ -216,8 +226,14 @@ JSON配列のみを出力してください。説明は不要です。
                 # 複合スコア計算
                 scores.composite_score = self._calculate_composite_score(scores)
 
-                # ゲートチェック
-                passed, failures = self._check_gate(scores)
+                # person_typeを取得（デフォルトはREAL）
+                person_type = ep.get("person_type", "REAL")
+
+                # ゲートチェック（年齢境界チェック含む）
+                passed, failures = self._check_gate(scores, person_name, age, person_type)
+
+                # 生年を取得
+                birth_year = get_birth_year(person_name)
 
                 results.append(
                     EvaluationResult(
@@ -228,6 +244,7 @@ JSON配列のみを出力してください。説明は不要です。
                         passed_gate=passed,
                         gate_failures=failures,
                         metadata=ep.get("metadata", {}),
+                        birth_year=birth_year,
                     )
                 )
 
@@ -302,9 +319,21 @@ JSON配列のみを出力してください。説明は不要です。
         )
         return round(weighted_sum, 2)
 
-    def _check_gate(self, scores: EvaluationScores) -> tuple[bool, List[str]]:
-        """品質ゲートチェック"""
+    def _check_gate(
+        self,
+        scores: EvaluationScores,
+        person_name: str = "",
+        age: int = 0,
+        person_type: str = "REAL",
+    ) -> tuple[bool, List[str]]:
+        """品質ゲートチェック（年齢境界検証含む）"""
         failures = []
+
+        # 🚨 最優先: 年齢境界チェック（未来年齢を防止）
+        if person_name and age > 0:
+            is_valid, msg = validate_episode_age(person_name, age, person_type)
+            if not is_valid:
+                failures.append(f"年齢境界違反: {msg}")
 
         # 7軸スコアチェック
         if scores.factual_density < self.config.min_factual_density:

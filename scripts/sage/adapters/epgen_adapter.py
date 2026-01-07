@@ -24,6 +24,7 @@ from .base import (
     GeneratorType,
     TokenUsage,
 )
+from ..quality.evaluator import IconicScoreCalculator
 from ..quality.improvement import get_retry_prompt_injection, is_retryable_failure
 
 # プロンプト長推定用の定数
@@ -58,6 +59,8 @@ class EPGENAdapter(GeneratorAdapter):
         self._eval_model_name = "claude-3-5-haiku-20241022" if use_haiku_evaluation else "claude-sonnet-4-20250514"
         # 象徴的業績データ（遅延読み込み）
         self._iconic_achievements: Optional[dict[str, Any]] = None
+        # 象徴性スコア計算器（8軸目）
+        self._iconic_score_calculator = IconicScoreCalculator()
 
     def _get_iconic_achievements(self) -> dict[str, Any]:
         """象徴的業績マスターデータを取得（遅延読み込み）"""
@@ -326,6 +329,13 @@ class EPGENAdapter(GeneratorAdapter):
                 self.record_token_usage(eval_token_usage)
                 self._last_eval_tokens = eval_token_usage
 
+                # 象徴性スコア計算（8軸目: テキスト分析ベース）
+                iconic_score = self._iconic_score_calculator.calculate(
+                    text=text,
+                    person_name=candidate.person_name,
+                    age=candidate.age,
+                )
+
                 axis_scores = AxisScores(
                     memorability=scores.memorability,
                     empathy=scores.empathy,
@@ -334,6 +344,7 @@ class EPGENAdapter(GeneratorAdapter):
                     educational_value=scores.educational_value,
                     story_quality=scores.story_quality,
                     factual_density=scores.factual_density,
+                    iconic_score=iconic_score,  # 8軸目追加
                 )
 
                 # 統合スコア計算 (100x スケール: 470-700が目標範囲)

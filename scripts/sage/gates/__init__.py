@@ -10,6 +10,14 @@ from .anti_gaming import (
     get_gaming_violations,
     quick_anti_gaming_check,
 )
+from .semantic_gaming_detector import (
+    EmotionalBiasDetector,
+    SemanticGamingDetector,
+    SemanticGamingResult,
+    StructuralPatternDetector,
+    SynonymRepetitionDetector,
+    check_semantic_gaming,
+)
 from .candidate_prioritizer import (
     CandidatePrioritizer,
     CandidatePriorityScore,
@@ -27,17 +35,47 @@ from .diversity import (
     GenerationQuota,
     get_recommended_candidates,
 )
+from .narrative_diversity import (
+    EraTheme,
+    EraThemeClassifier,
+    NarrativeBalanceResult,
+    NarrativeBalancer,
+    StoryClassificationResult,
+    StoryType,
+    StoryTypeClassifier,
+    analyze_narrative_balance,
+    classify_story,
+)
 from .duplicate import (
     DuplicateCheckResult,
     DuplicateDetector,
     TextSimilarityCalculator,
     quick_duplicate_check,
 )
+from .advanced_similarity import (
+    AdvancedDuplicateChecker,
+    AdvancedDuplicateResult,
+    CrossCategoryDuplicateDetector,
+    SemanticSimilarity,
+    SemanticSimilarityResult,
+    TemporalDuplicateDetector,
+    TemporalDuplicateResult,
+    check_advanced_duplicate,
+)
 from .fact_check import (
     FabricationDetector,
     FactCheckResult,
     FactChecker,
     quick_fact_check,
+)
+from .wiki_fact_checker import (
+    CategoryFactRules,
+    CrossReferenceValidator,
+    PersonInfo,
+    WikidataClient,
+    WikiFactCheckResult,
+    WikiFactChecker,
+    verify_episode_facts,
 )
 
 __all__ = [
@@ -46,6 +84,13 @@ __all__ = [
     "AntiGamingResult",
     "get_gaming_violations",
     "quick_anti_gaming_check",
+    # Semantic Gaming Detector (Phase 6)
+    "SemanticGamingDetector",
+    "SemanticGamingResult",
+    "SynonymRepetitionDetector",
+    "StructuralPatternDetector",
+    "EmotionalBiasDetector",
+    "check_semantic_gaming",
     # Candidate Prioritizer
     "CandidatePrioritizer",
     "CandidatePriorityScore",
@@ -60,14 +105,41 @@ __all__ = [
     "FactCheckResult",
     "FabricationDetector",
     "quick_fact_check",
+    # Wiki Fact Check (Phase 6)
+    "WikiFactChecker",
+    "WikiFactCheckResult",
+    "WikidataClient",
+    "CrossReferenceValidator",
+    "CategoryFactRules",
+    "PersonInfo",
+    "verify_episode_facts",
     # Duplicate
     "DuplicateDetector",
     "DuplicateCheckResult",
     "TextSimilarityCalculator",
     "quick_duplicate_check",
+    # Advanced Similarity (Phase 6)
+    "AdvancedDuplicateChecker",
+    "AdvancedDuplicateResult",
+    "SemanticSimilarity",
+    "SemanticSimilarityResult",
+    "TemporalDuplicateDetector",
+    "TemporalDuplicateResult",
+    "CrossCategoryDuplicateDetector",
+    "check_advanced_duplicate",
     # Diversity
     "DiversityManager",
     "DiversityCheckResult",
     "GenerationQuota",
     "get_recommended_candidates",
+    # Narrative Diversity (Phase 6)
+    "StoryType",
+    "StoryTypeClassifier",
+    "StoryClassificationResult",
+    "EraTheme",
+    "EraThemeClassifier",
+    "NarrativeBalancer",
+    "NarrativeBalanceResult",
+    "classify_story",
+    "analyze_narrative_balance",
 ]

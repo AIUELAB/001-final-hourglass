@@ -17,6 +17,16 @@ from .improvement import (
     should_retry,
 )
 from .super_total import SuperTotalCalculator, SuperTotalResult, calculate_super_total_for_episode
+from .category_evaluator import (
+    CategoryEvaluationResult,
+    CategoryEvaluator,
+    CategoryThreshold,
+    CategoryThresholds,
+    PersonQualityAnalyzer,
+    PersonQualitySignature,
+    evaluate_by_category,
+    get_category_thresholds,
+)
 
 __all__ = [
     "QualityEvaluator",
@@ -30,4 +40,13 @@ __all__ = [
     "ImprovementAction",
     "ImprovementFeedback",
     "should_retry",
+    # Category Evaluator (Phase 6)
+    "CategoryEvaluator",
+    "CategoryEvaluationResult",
+    "CategoryThreshold",
+    "CategoryThresholds",
+    "PersonQualityAnalyzer",
+    "PersonQualitySignature",
+    "evaluate_by_category",
+    "get_category_thresholds",
 ]

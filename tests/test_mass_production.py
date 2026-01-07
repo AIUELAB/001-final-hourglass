@@ -35,18 +35,24 @@ class TestConfig:
     def test_quality_gate_config_defaults(self):
         """品質ゲート設定のデフォルト値"""
         config = QualityGateConfig()
-        assert config.min_factual_density == 7.0
-        assert config.min_generation_quality == 8.0
-        assert config.min_memorability == 6.0
+        # Phase 2-4 最適化で閾値を緩和
+        assert config.min_factual_density == 6.5
+        assert config.min_generation_quality == 6.5
+        assert config.min_memorability == 5.5
         assert config.max_similarity_threshold == 0.7
+        # Phase 3: Haiku評価デフォルト有効
+        assert config.use_haiku_for_evaluation is True
+        # Phase 4: バッチサイズ拡大
+        assert config.evaluation_batch_size == 50
 
     def test_generation_config_defaults(self):
         """生成設定のデフォルト値"""
         config = GenerationConfig()
         assert config.max_workers == 50
-        assert config.candidates_per_input == 3
+        # Phase 2: トークン削減のため候補数を1に
+        assert config.candidates_per_input == 1
         assert config.max_retries == 3
-        assert config.batch_size == 20
+        assert config.batch_size == 10
 
     def test_selection_config_defaults(self):
         """選定設定のデフォルト値"""
@@ -311,12 +317,12 @@ class TestQualityGate:
     """品質ゲートのテスト"""
 
     def test_quality_thresholds(self):
-        """品質閾値が厳格化されていること"""
+        """品質閾値が設定されていること"""
         config = QualityGateConfig()
 
-        # 現行6.0から引き上げられていること
-        assert config.min_factual_density >= 7.0
-        assert config.min_generation_quality >= 8.0
+        # Phase 2-4最適化でバランス調整された閾値
+        assert config.min_factual_density == 6.5
+        assert config.min_generation_quality == 6.5
 
     def test_year_count_requirement(self):
         """年号必須要件"""
@@ -519,16 +525,16 @@ class TestEvaluationScores:
     """評価スコアのテスト"""
 
     def test_to_dict(self):
-        """辞書変換"""
+        """辞書変換（CSV出力用の英語キー）"""
         scores = EvaluationScores(
             factual_density=8.0,
             generation_quality=7.5,
             memorability=6.0,
         )
         d = scores.to_dict()
-        assert d["事実密度"] == 8.0
-        assert d["生成品質スコア"] == 7.5
-        assert d["記憶性スコア"] == 6.0
+        assert d["factual_density"] == 8.0
+        assert d["generation_quality"] == 7.5
+        assert d["memorability"] == 6.0
 
 
 class TestBatchEvaluator:
@@ -772,8 +778,8 @@ class TestDryRunPipeline:
         pipeline = DryRunPipeline(master_csv_path=sample_csv)
         analysis = pipeline.analyze(target_count=10)
 
-        # candidates_per_input=3 なので生成数は3倍
-        assert analysis["expected_generated"] == analysis["candidates"] * 3
+        # Phase 2最適化: candidates_per_input=1（トークン削減）
+        assert analysis["expected_generated"] == analysis["candidates"] * 1
 
 
 class TestMassProductionPipeline:

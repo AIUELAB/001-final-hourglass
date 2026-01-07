@@ -32,13 +32,23 @@ from .gates import (
     FactChecker,
 )
 from .persistence import SafeCSVWriter, WriteResult
-from .inventory_manager import InventoryManager
+from .inventory_manager import InventoryManager, ReplacementTarget
 from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
 from .quality import ImprovementLoop, QualityEvaluator, SuperTotalCalculator
 from .strategy_router import StrategyRouter
 
 # ロガー設定
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class ProcessingResult:
+    """候補処理結果 (Phase 4)"""
+
+    result: Optional[GenerationResult] = None
+    rejection: Optional[dict] = None
+    is_replacement: bool = False
+    replacement_target: Optional[ReplacementTarget] = None
 
 
 @dataclass
@@ -53,9 +63,11 @@ class GenerationRun:
     generated_count: int = 0
     accepted_count: int = 0
     rejected_count: int = 0
+    replaced_count: int = 0  # Phase 4: 置換数
     dry_run: bool = True
     results: list[GenerationResult] = field(default_factory=list)
     rejections: list[dict] = field(default_factory=list)
+    replacements: list[dict] = field(default_factory=list)  # Phase 4: 置換履歴
     write_result: Optional[WriteResult] = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -68,6 +80,7 @@ class GenerationRun:
             "generated_count": self.generated_count,
             "accepted_count": self.accepted_count,
             "rejected_count": self.rejected_count,
+            "replaced_count": self.replaced_count,
             "dry_run": self.dry_run,
             "acceptance_rate": (self.accepted_count / self.generated_count if self.generated_count > 0 else 0.0),
         }
@@ -171,20 +184,56 @@ class HybridOrchestrator:
 
         accepted_results = []
         rejections = []
+        replacements = []
 
         for candidate in candidates:
             try:
-                result, rejection = self._process_candidate(candidate)
+                proc_result = self._process_candidate(candidate)
 
-                if result and result.success:
-                    accepted_results.append(result)
+                if proc_result.result and proc_result.result.success:
                     run.generated_count += 1
-                    run.accepted_count += 1
+
+                    # Phase 4: 置換モード処理
+                    if proc_result.is_replacement and proc_result.replacement_target:
+                        # 置換実行
+                        replace_result = self._writer.replace_episode(
+                            old_episode_id=proc_result.replacement_target.episode_id,
+                            new_result=proc_result.result,
+                            dry_run=dry_run,
+                        )
+                        if replace_result.success:
+                            run.replaced_count += 1
+                            replacements.append(
+                                {
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "old_episode_id": proc_result.replacement_target.episode_id,
+                                    "old_score": proc_result.replacement_target.score,
+                                    "new_score": proc_result.result.evaluation.super_total_score
+                                    if proc_result.result.evaluation
+                                    else 0,
+                                }
+                            )
+                        else:
+                            # 置換失敗
+                            run.rejected_count += 1
+                            rejections.append(
+                                {
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "reason": "replacement_failed",
+                                    "message": replace_result.error_message,
+                                }
+                            )
+                    else:
+                        # 通常の追加
+                        accepted_results.append(proc_result.result)
+                        run.accepted_count += 1
                 else:
                     run.generated_count += 1
                     run.rejected_count += 1
-                    if rejection:
-                        rejections.append(rejection)
+                    if proc_result.rejection:
+                        rejections.append(proc_result.rejection)
 
             except Exception as e:
                 logger.error(f"Error processing {candidate.person_name}: {e}")
@@ -198,7 +247,7 @@ class HybridOrchestrator:
                     }
                 )
 
-        # 永続化
+        # 永続化（新規追加分のみ）
         if accepted_results:
             if dry_run:
                 run.write_result = self._writer.dry_run(accepted_results)
@@ -207,6 +256,7 @@ class HybridOrchestrator:
 
         run.results = accepted_results
         run.rejections = rejections
+        run.replacements = replacements
         run.completed_at = datetime.now().isoformat()
 
         # ログ保存
@@ -214,7 +264,7 @@ class HybridOrchestrator:
 
         return run
 
-    def _process_candidate(self, candidate: Candidate) -> tuple[Optional[GenerationResult], Optional[dict]]:
+    def _process_candidate(self, candidate: Candidate) -> ProcessingResult:
         """
         単一候補を処理
 
@@ -222,101 +272,119 @@ class HybridOrchestrator:
             candidate: 生成候補
 
         Returns:
-            (result, rejection): 生成結果と棄却情報
+            ProcessingResult: 処理結果（生成結果、棄却情報、置換情報を含む）
         """
         # 1. 生成前ルールチェック
         pre_check = self._pre_rules.check_all(candidate)
         if not pre_check.passed:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": pre_check.reason.value if pre_check.reason else "pre_check",
-                "message": pre_check.message,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": pre_check.reason.value if pre_check.reason else "pre_check",
+                    "message": pre_check.message,
+                }
+            )
 
         # 2. 多様性クォータチェック
         quota_passed, quota_reason = self._diversity_manager.check_person_quota(candidate.person_id)
         if not quota_passed:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": RejectionReason.WEEKLY_LIMIT_EXCEEDED.value,
-                "message": quota_reason,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": RejectionReason.WEEKLY_LIMIT_EXCEEDED.value,
+                    "message": quota_reason,
+                }
+            )
 
         # 3. 生成
         result = self._router.route(candidate)
 
         if not result.success:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": RejectionReason.GENERATION_ERROR.value,
-                "message": result.error_message,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": RejectionReason.GENERATION_ERROR.value,
+                    "message": result.error_message,
+                }
+            )
 
         # 4. 禁止パターンチェック
         pattern_check = check_prohibited_patterns(result.episode_text)
         if not pattern_check.passed:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
-                "message": pattern_check.message,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
+                    "message": pattern_check.message,
+                }
+            )
 
         # 5. 具体性チェック
         specificity_check = check_specificity(result.episode_text)
         if not specificity_check.passed:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": specificity_check.reason.value if specificity_check.reason else "filler",
-                "message": specificity_check.message,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": specificity_check.reason.value if specificity_check.reason else "filler",
+                    "message": specificity_check.message,
+                }
+            )
 
         # 5.5. Phase 3: アンチゲーミングチェック（キーワード詰め込み、抽象語過多、テンプレート臭）
         gaming_result = self._anti_gaming.check(result.episode_text, candidate.person_name)
         # missing_specifics は step 5 でカバー済みなので除外
         gaming_violations = [v for v in gaming_result.violations if v != "missing_specifics"]
         if gaming_violations:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": gaming_result.rejection_reason.value if gaming_result.rejection_reason else "anti_gaming",
-                "message": f"Anti-gaming violations: {', '.join(gaming_violations)}",
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": gaming_result.rejection_reason.value if gaming_result.rejection_reason else "anti_gaming",
+                    "message": f"Anti-gaming violations: {', '.join(gaming_violations)}",
+                }
+            )
 
         # 6. ファクトチェック
         fact_result = self._fact_checker.check(result.episode_text, candidate.person_name)
         if not fact_result.passed:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": fact_result.rejection_reason.value if fact_result.rejection_reason else "fact_check",
-                "message": fact_result.reason,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": fact_result.rejection_reason.value if fact_result.rejection_reason else "fact_check",
+                    "message": fact_result.reason,
+                }
+            )
 
         # 7. 重複チェック
         dup_result = self._duplicate_detector.check_all(result.episode_text, candidate.person_id, candidate.age)
         if dup_result.is_duplicate:
-            return None, {
-                "person_id": candidate.person_id,
-                "person_name": candidate.person_name,
-                "reason": dup_result.rejection_reason.value if dup_result.rejection_reason else "duplicate",
-                "message": dup_result.reason,
-            }
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": dup_result.rejection_reason.value if dup_result.rejection_reason else "duplicate",
+                    "message": dup_result.reason,
+                }
+            )
 
         # 8. 品質ゲートチェック
         if result.evaluation:
             gate_result = self._evaluator.check_quality_gates(result.evaluation.axis_scores)
             if not gate_result.passed:
-                return None, {
-                    "person_id": candidate.person_id,
-                    "person_name": candidate.person_name,
-                    "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
-                    "message": ", ".join(gate_result.failures),
-                }
+                return ProcessingResult(
+                    rejection={
+                        "person_id": candidate.person_id,
+                        "person_name": candidate.person_name,
+                        "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
+                        "message": ", ".join(gate_result.failures),
+                    }
+                )
 
         # 9. 超総合スコア計算
         if result.evaluation:
@@ -328,18 +396,51 @@ class HybridOrchestrator:
             result.evaluation.super_total_score = super_result.score
 
             if not super_result.passed_gate:
-                return None, {
-                    "person_id": candidate.person_id,
-                    "person_name": candidate.person_name,
-                    "reason": RejectionReason.LOW_SUPER_TOTAL.value,
-                    "message": ", ".join(super_result.gate_failures),
-                }
+                return ProcessingResult(
+                    rejection={
+                        "person_id": candidate.person_id,
+                        "person_name": candidate.person_name,
+                        "reason": RejectionReason.LOW_SUPER_TOTAL.value,
+                        "message": ", ".join(super_result.gate_failures),
+                    }
+                )
 
         # 10. 生成履歴を記録
         self._pre_rules.record_generation(candidate.person_id, success=True)
         self._diversity_manager.record_generation(candidate.person_id)
 
-        return result, None
+        # 11. Phase 4: 置換モード判定
+        is_replacement = False
+        replacement_target = None
+
+        if self._inventory_manager.is_replacement_mode(candidate.age):
+            # 置換対象を取得
+            replacement_target = self._inventory_manager.get_replacement_target(candidate.age)
+            if replacement_target and result.evaluation:
+                new_score = result.evaluation.super_total_score or 0
+                # 5%以上の改善が必要
+                if self._inventory_manager.should_replace(candidate.age, new_score):
+                    is_replacement = True
+                    logger.info(
+                        f"Replacement candidate: {candidate.person_name} age={candidate.age} "
+                        f"new_score={new_score:.0f} > old_score={replacement_target.score:.0f}"
+                    )
+                else:
+                    # 置換閾値未達
+                    return ProcessingResult(
+                        rejection={
+                            "person_id": candidate.person_id,
+                            "person_name": candidate.person_name,
+                            "reason": "replacement_threshold_not_met",
+                            "message": f"Score {new_score:.0f} does not exceed threshold for age {candidate.age}",
+                        }
+                    )
+
+        return ProcessingResult(
+            result=result,
+            is_replacement=is_replacement,
+            replacement_target=replacement_target,
+        )
 
     def _save_run_log(self, run: GenerationRun) -> None:
         """実行ログを保存"""
@@ -351,6 +452,7 @@ class HybridOrchestrator:
 
         log_data = run.to_dict()
         log_data["rejections"] = run.rejections
+        log_data["replacements"] = run.replacements  # Phase 4: 置換履歴
         log_data["router_stats"] = self._router.stats.to_dict()
         # Phase 1: コスト計測をログに追加
         log_data["cost_metrics"] = {

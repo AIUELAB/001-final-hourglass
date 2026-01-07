@@ -26,6 +26,7 @@ class WriteResult:
     success: bool
     added_count: int = 0
     skipped_count: int = 0
+    replaced_count: int = 0  # Phase 4: 置換数
     error_message: str = ""
     backup_path: Optional[Path] = None
     diff_log_path: Optional[Path] = None
@@ -35,6 +36,7 @@ class WriteResult:
             "success": self.success,
             "added_count": self.added_count,
             "skipped_count": self.skipped_count,
+            "replaced_count": self.replaced_count,
             "error_message": self.error_message,
             "backup_path": str(self.backup_path) if self.backup_path else None,
             "diff_log_path": str(self.diff_log_path) if self.diff_log_path else None,
@@ -291,6 +293,151 @@ class SafeCSVWriter:
                 success=False,
                 error_message=str(e),
             )
+
+    def replace_episode(
+        self,
+        old_episode_id: str,
+        new_result: GenerationResult,
+        dry_run: bool = True,
+    ) -> WriteResult:
+        """
+        Phase 4: エピソードを置換
+
+        Args:
+            old_episode_id: 置換対象のエピソードID
+            new_result: 新しい生成結果
+            dry_run: True の場合は実際に書き込まない
+
+        Returns:
+            WriteResult: 実行結果
+        """
+        try:
+            # 1. 既存データ読み込み
+            if not self.master_csv.exists():
+                return WriteResult(
+                    success=False,
+                    error_message="Master CSV not found",
+                )
+
+            existing_df = pd.read_csv(self.master_csv, encoding="utf-8-sig")
+
+            # 2. 置換対象を検索
+            target_mask = existing_df["episode_id"] == old_episode_id
+            if not target_mask.any():
+                return WriteResult(
+                    success=False,
+                    error_message=f"Episode not found: {old_episode_id}",
+                )
+
+            old_row = existing_df[target_mask].iloc[0].to_dict()
+
+            # 3. 新しい行を準備
+            new_row = self._result_to_row(new_result)
+
+            # 検証
+            valid, error = self._validate_row(new_row)
+            if not valid:
+                return WriteResult(
+                    success=False,
+                    error_message=f"Validation failed: {error}",
+                )
+
+            # 差分エントリ
+            diff_entries = [
+                DiffEntry(
+                    episode_id=old_episode_id,
+                    person_name=str(old_row.get("person_name", "")),
+                    age=int(old_row.get("age", 0)),
+                    action="replace",
+                    details={
+                        "old_episode_id": old_episode_id,
+                        "new_episode_id": new_row["episode_id"],
+                        "old_score": old_row.get("super_total_score", 0),
+                        "new_score": new_row.get("super_total_score", 0),
+                    },
+                )
+            ]
+
+            if dry_run:
+                diff_log_path = self._save_diff_log(diff_entries, dry_run=True)
+                return WriteResult(
+                    success=True,
+                    replaced_count=1,
+                    diff_log_path=diff_log_path,
+                )
+
+            # 4. バックアップ作成
+            backup_info = create_pre_operation_backup("replace_episode")
+            backup_path = backup_info.path if backup_info else None
+
+            # 5. 置換実行（古いエピソードを削除して新しいエピソードを追加）
+            existing_df = existing_df[~target_mask]
+            new_df = pd.DataFrame([new_row])
+
+            # カラム順序を整える
+            for col in self.COLUMN_ORDER:
+                if col not in new_df.columns:
+                    new_df[col] = ""
+
+            # 結合
+            combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+
+            # 6. 書き込み
+            combined_df.to_csv(self.master_csv, index=False, encoding="utf-8-sig")
+
+            # 7. 差分ログを保存
+            diff_log_path = self._save_diff_log(diff_entries, dry_run=False)
+
+            # 8. 置換履歴を保存
+            self._save_replacement_log(old_episode_id, new_row["episode_id"], old_row, new_row)
+
+            return WriteResult(
+                success=True,
+                replaced_count=1,
+                backup_path=backup_path,
+                diff_log_path=diff_log_path,
+            )
+
+        except Exception as e:
+            return WriteResult(
+                success=False,
+                error_message=str(e),
+            )
+
+    def _save_replacement_log(
+        self,
+        old_episode_id: str,
+        new_episode_id: str,
+        old_row: dict,
+        new_row: dict,
+    ) -> None:
+        """置換履歴を保存"""
+        log_path = self.logs_dir / "replacement_log.json"
+
+        # 既存ログを読み込み
+        if log_path.exists():
+            with open(log_path, encoding="utf-8") as f:
+                log_data = json.load(f)
+        else:
+            log_data = {"replacements": []}
+
+        # 新しいエントリを追加
+        log_data["replacements"].append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "old_episode_id": old_episode_id,
+                "new_episode_id": new_episode_id,
+                "person_name": old_row.get("person_name", ""),
+                "age": old_row.get("age", 0),
+                "old_score": old_row.get("super_total_score", 0),
+                "new_score": new_row.get("super_total_score", 0),
+                "score_improvement": (new_row.get("super_total_score", 0) - old_row.get("super_total_score", 0)),
+            }
+        )
+
+        # 保存
+        with open(log_path, "w", encoding="utf-8") as f:
+            json.dump(log_data, f, ensure_ascii=False, indent=2)
 
     def _save_diff_log(self, entries: list[DiffEntry], dry_run: bool = False) -> Optional[Path]:
         """差分ログを保存"""

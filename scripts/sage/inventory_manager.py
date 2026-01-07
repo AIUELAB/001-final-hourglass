@@ -38,6 +38,17 @@ class InventoryConfig:
 
 
 @dataclass
+class ReplacementTarget:
+    """置換対象情報"""
+
+    episode_id: str
+    person_id: str
+    person_name: str
+    age: int
+    score: float  # super_total_score
+
+
+@dataclass
 class AgeStatus:
     """年齢別ステータス"""
 
@@ -49,6 +60,7 @@ class AgeStatus:
     mode: GenerationMode  # 生成モード
     min_upper_score: float  # 上位レベル最低スコア（置換判定用）
     deficit: int  # 不足数（負なら余剰）
+    replacement_threshold: float = 0.0  # 置換必要スコア（min * 1.05）
 
     def to_dict(self) -> dict:
         return {
@@ -60,6 +72,7 @@ class AgeStatus:
             "mode": self.mode.value,
             "min_upper_score": self.min_upper_score,
             "deficit": self.deficit,
+            "replacement_threshold": self.replacement_threshold,
         }
 
 
@@ -132,11 +145,17 @@ class InventoryManager:
                 if len(scores) > 0:
                     min_upper_score = float(scores.min())
 
-            # モード判定
+            # モード判定 (Phase 4: 置換モード対応)
             if not achieved:
                 mode = GenerationMode.GENERATE
             else:
-                mode = GenerationMode.STOP  # 基本は停止
+                # 達成済みの場合は置換モード（品質改善のみ許可）
+                mode = GenerationMode.REPLACE
+
+            # 置換閾値を計算（5%改善必要）
+            replacement_threshold = (
+                min_upper_score * (1 + self.config.replacement_threshold) if min_upper_score > 0 else 0.0
+            )
 
             self._inventory[age] = AgeStatus(
                 age=age,
@@ -147,6 +166,7 @@ class InventoryManager:
                 mode=mode,
                 min_upper_score=min_upper_score,
                 deficit=deficit,
+                replacement_threshold=replacement_threshold,
             )
 
         self._last_update = datetime.now()
@@ -215,8 +235,16 @@ class InventoryManager:
         threshold = status.min_upper_score * (1 + self.config.replacement_threshold)
         return new_score >= threshold
 
-    def get_replacement_target(self, age: int) -> str | None:
-        """置換対象のepisode_idを取得（最低スコアのエピソード）"""
+    def get_replacement_target(self, age: int) -> ReplacementTarget | None:
+        """
+        置換対象を取得（最低スコアのエピソード）
+
+        Args:
+            age: 年齢
+
+        Returns:
+            ReplacementTarget: 置換対象情報、またはNone
+        """
         if not self._inventory:
             self.refresh()
 
@@ -234,9 +262,24 @@ class InventoryManager:
         if len(upper_df) == 0:
             return None
 
-        # 最低スコアのエピソードID
+        # 最低スコアのエピソード
         min_idx = upper_df["super_total_score"].idxmin()
-        return str(upper_df.loc[min_idx, "episode_id"])
+        row = upper_df.loc[min_idx]
+
+        return ReplacementTarget(
+            episode_id=str(row["episode_id"]),
+            person_id=str(row["person_id"]),
+            person_name=str(row["person_name"]),
+            age=int(row["age"]),
+            score=float(row["super_total_score"]) if pd.notna(row["super_total_score"]) else 0.0,
+        )
+
+    def is_replacement_mode(self, age: int) -> bool:
+        """置換モードかどうかを判定"""
+        status = self.get_status(age)
+        if status is None:
+            return False
+        return status.mode == GenerationMode.REPLACE
 
     def get_summary(self) -> dict:
         """全体サマリーを取得"""

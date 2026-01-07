@@ -511,6 +511,12 @@ class HybridOrchestrator:
 
         for _, row in unique_persons.iterrows():
             person_id = row["person_id"]
+
+            # Phase 8: 架空キャラ除外フィルタ
+            person_type = str(row.get("person_type", "REAL"))
+            if not self.config.fictional_enabled and person_type != "REAL":
+                continue
+
             person_name = str(row.get("person_name", ""))
             category = str(row.get("category", ""))
 

@@ -17,8 +17,9 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.sage.adapters import Candidate
-from scripts.sage.config import LOGS_DIR, MASTER_CSV, Strategy
+from scripts.sage.config import LOGS_DIR, MASTER_CSV, Strategy, HybridConfig
 from scripts.sage.orchestrator import HybridOrchestrator, create_orchestrator
+from scripts.sage.async_orchestrator import AsyncOrchestrator, AsyncConfig
 
 # ロガー設定
 logging.basicConfig(
@@ -115,6 +116,27 @@ def parse_args():
         help="モックアダプターを使用（API不要でテスト）",
     )
 
+    # Phase 8: 最適化オプション
+    parser.add_argument(
+        "--async",
+        dest="use_async",
+        action="store_true",
+        help="非同期並列処理を有効化（3-4倍高速化）",
+    )
+
+    parser.add_argument(
+        "--max-concurrent",
+        type=int,
+        default=10,
+        help="非同期処理の同時実行数 (default: 10)",
+    )
+
+    parser.add_argument(
+        "--fictional",
+        action="store_true",
+        help="架空キャラを含める（デフォルトはREALのみ）",
+    )
+
     return parser.parse_args()
 
 
@@ -186,13 +208,24 @@ def main():
     # dry-runフラグの処理
     dry_run = not args.execute
 
-    # オーケストレータ作成
-    orchestrator = create_orchestrator(
-        strategy=args.strategy,
+    # Phase 8: 設定作成
+    config = HybridConfig(
+        strategy=Strategy(args.strategy),
         dry_run=dry_run,
         target_count=args.target,
         use_mock=args.mock,
+        fictional_enabled=args.fictional,  # デフォルトFalse = REALのみ
+        async_enabled=args.use_async,
+        max_concurrent=args.max_concurrent,
     )
+
+    # オーケストレータ作成（非同期 or 同期）
+    if args.use_async:
+        async_config = AsyncConfig(max_concurrent=args.max_concurrent)
+        orchestrator = AsyncOrchestrator(config, async_config)
+        logger.info(f"非同期モード有効: max_concurrent={args.max_concurrent}")
+    else:
+        orchestrator = HybridOrchestrator(config)
 
     # 推奨候補の表示
     if args.recommend > 0:
@@ -223,9 +256,15 @@ def main():
     print(f"戦略: {args.strategy}")
     print(f"候補数: {len(candidates)}")
     print(f"モード: {'dry-run' if dry_run else '実行'}")
+    print(f"処理: {'非同期' if args.use_async else '同期'}")
+    print(f"架空キャラ: {'含む' if args.fictional else '除外'}")
     print(f"{'='*60}\n")
 
-    run = orchestrator.run(candidates, dry_run=dry_run)
+    # Phase 8: 非同期/同期の切り替え
+    if args.use_async:
+        run = orchestrator.run_sync(candidates, dry_run=dry_run)
+    else:
+        run = orchestrator.run(candidates, dry_run=dry_run)
 
     # 結果出力
     if args.json:

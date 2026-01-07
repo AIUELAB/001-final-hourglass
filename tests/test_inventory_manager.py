@@ -18,6 +18,7 @@ from scripts.sage.inventory_manager import (
     GenerationMode,
     InventoryConfig,
     InventoryManager,
+    ReplacementTarget,
 )
 
 
@@ -179,6 +180,85 @@ class TestUpperLevelCriteria:
         config = manager.config
         assert config.min_factual_density == 7.0
         assert config.min_generation_quality == 8.0
+
+
+class TestPhase4ReplacementMode:
+    """Phase 4: 置換モードのテスト"""
+
+    @pytest.fixture
+    def manager(self):
+        """テスト用マネージャー"""
+        return InventoryManager()
+
+    def test_is_replacement_mode_achieved(self, manager):
+        """達成年齢は置換モード"""
+        manager.refresh()
+        for age, status in manager._inventory.items():
+            if status.achieved:
+                assert manager.is_replacement_mode(age) is True
+                assert status.mode == GenerationMode.REPLACE
+                break
+
+    def test_is_replacement_mode_unachieved(self, manager):
+        """未達成年齢は置換モードではない"""
+        manager.refresh()
+        for age, status in manager._inventory.items():
+            if not status.achieved:
+                assert manager.is_replacement_mode(age) is False
+                assert status.mode == GenerationMode.GENERATE
+                break
+
+    def test_replacement_threshold_calculated(self, manager):
+        """置換閾値が計算されている"""
+        manager.refresh()
+        for age, status in manager._inventory.items():
+            if status.achieved and status.min_upper_score > 0:
+                # 閾値は最低スコアの1.05倍
+                expected = status.min_upper_score * 1.05
+                assert abs(status.replacement_threshold - expected) < 0.01
+                break
+
+    def test_get_replacement_target_returns_dataclass(self, manager):
+        """get_replacement_target は ReplacementTarget を返す"""
+        manager.refresh()
+        for age, status in manager._inventory.items():
+            if status.achieved:
+                target = manager.get_replacement_target(age)
+                if target is not None:
+                    assert isinstance(target, ReplacementTarget)
+                    assert target.episode_id
+                    assert target.person_id
+                    assert target.age == age
+                    assert target.score >= 0
+                break
+
+    def test_get_replacement_target_unachieved_returns_none(self, manager):
+        """未達成年齢は置換対象なし"""
+        manager.refresh()
+        for age, status in manager._inventory.items():
+            if not status.achieved:
+                target = manager.get_replacement_target(age)
+                assert target is None
+                break
+
+
+class TestReplacementTarget:
+    """ReplacementTarget のテスト"""
+
+    def test_dataclass_creation(self):
+        """データクラス作成"""
+        target = ReplacementTarget(
+            episode_id="EP-000000001",
+            person_id="P123456",
+            person_name="テスト太郎",
+            age=30,
+            score=500000.0,
+        )
+        assert target.episode_id == "EP-000000001"
+        assert target.person_id == "P123456"
+        assert target.person_name == "テスト太郎"
+        assert target.age == 30
+        assert target.score == 500000.0
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ from typing import Optional
 import pandas as pd
 
 from ..config import DIVERSITY_TARGETS, MASTER_CSV
+from ..inventory_manager import InventoryManager
 
 
 @dataclass
@@ -27,6 +28,7 @@ class CandidatePriorityScore:
     ep_count_score: float
     category_score: float
     age_coverage_score: float
+    inventory_priority_score: float = 0.0  # Phase 15: 年齢在庫優先度
     details: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
@@ -41,6 +43,7 @@ class CandidatePriorityScore:
                 "ep_count_score": self.ep_count_score,
                 "category_score": self.category_score,
                 "age_coverage_score": self.age_coverage_score,
+                "inventory_priority_score": self.inventory_priority_score,
             },
             "details": self.details,
         }
@@ -54,10 +57,11 @@ class CandidatePrioritizer:
     最適な生成対象を選定する。
     """
 
-    # スコアウェイト
-    EP_COUNT_WEIGHT = 0.5  # EP数少ない人物を優先
-    CATEGORY_WEIGHT = 0.3  # 不足カテゴリを優先
-    AGE_COVERAGE_WEIGHT = 0.2  # 未カバー年齢を優先
+    # スコアウェイト (Phase 15: 年齢在庫優先度追加)
+    EP_COUNT_WEIGHT = 0.4  # EP数少ない人物を優先
+    CATEGORY_WEIGHT = 0.25  # 不足カテゴリを優先
+    AGE_COVERAGE_WEIGHT = 0.15  # 未カバー年齢を優先
+    INVENTORY_AGE_PRIORITY_WEIGHT = 0.2  # 年齢在庫不足を優先
 
     def __init__(
         self,
@@ -70,6 +74,8 @@ class CandidatePrioritizer:
         self._ep_counts: Optional[dict[str, int]] = None
         self._category_counts: Optional[dict[str, int]] = None
         self._person_ages: Optional[dict[str, set[int]]] = None
+        # Phase 15: 年齢在庫管理
+        self._inventory_manager: Optional[InventoryManager] = None
 
     @property
     def master_df(self) -> pd.DataFrame:
@@ -176,6 +182,52 @@ class CandidatePrioritizer:
             # 離れた年齢 → 高スコア
             return 50
 
+    def _get_inventory_manager(self) -> InventoryManager:
+        """InventoryManagerを遅延初期化で取得"""
+        if self._inventory_manager is None:
+            self._inventory_manager = InventoryManager()
+            self._inventory_manager.refresh()
+        return self._inventory_manager
+
+    def _calculate_inventory_age_priority_score(self, age: int) -> float:
+        """
+        年齢在庫優先度スコアを計算（Phase 15）
+
+        不足数が多く、現実的な年齢ほど高スコア。
+        公式: deficit / (1 + |age - 40| / 20) を正規化
+
+        Returns:
+            0-100の正規化スコア
+        """
+        inventory = self._get_inventory_manager()
+        status = inventory.get_status(age)
+
+        if status is None:
+            return 0.0
+
+        # GENERATEモードでないなら低スコア
+        from ..inventory_manager import GenerationMode
+
+        if status.mode != GenerationMode.GENERATE:
+            return 10.0  # REPLACEモードは低優先度
+
+        # 不足数
+        deficit = status.deficit
+        if deficit <= 0:
+            return 0.0
+
+        # 年齢ペナルティ（40歳を中心として計算）
+        age_penalty = 1 + abs(age - 40) / 20
+
+        # 基本スコア: deficit / age_penalty
+        raw_score = deficit / age_penalty
+
+        # 正規化 (0-100): 最大不足数365を想定
+        # 典型的なdeficit=200, age_penalty=1.5 → raw=133
+        normalized = min(100, raw_score / 3)  # 300以上で100点
+
+        return normalized
+
     def score(
         self,
         person_id: str,
@@ -199,12 +251,14 @@ class CandidatePrioritizer:
         ep_count_score, ep_count = self._calculate_ep_count_score(person_id)
         category_score = self._calculate_category_score(category)
         age_coverage_score = self._calculate_age_coverage_score(person_id, age)
+        inventory_priority_score = self._calculate_inventory_age_priority_score(age)
 
-        # 重み付き合計
+        # 重み付き合計 (Phase 15: 年齢在庫優先度追加)
         total_score = (
             ep_count_score * self.EP_COUNT_WEIGHT
             + category_score * self.CATEGORY_WEIGHT
             + age_coverage_score * self.AGE_COVERAGE_WEIGHT
+            + inventory_priority_score * self.INVENTORY_AGE_PRIORITY_WEIGHT
         )
 
         return CandidatePriorityScore(
@@ -217,11 +271,13 @@ class CandidatePrioritizer:
             ep_count_score=ep_count_score,
             category_score=category_score,
             age_coverage_score=age_coverage_score,
+            inventory_priority_score=inventory_priority_score,
             details={
                 "weights": {
                     "ep_count": self.EP_COUNT_WEIGHT,
                     "category": self.CATEGORY_WEIGHT,
                     "age_coverage": self.AGE_COVERAGE_WEIGHT,
+                    "inventory_priority": self.INVENTORY_AGE_PRIORITY_WEIGHT,
                 }
             },
         )

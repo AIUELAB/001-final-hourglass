@@ -96,3 +96,20 @@ python scripts/sage/cli.py --batch-results BATCH_ID
 7. [x] H4 実装完了 (9cb02c2) - プロンプトキャッシュ (-90%入力トークン)
 8. [x] Batch API統合完了 (7d6944c) - 50%コスト削減モード
 9. [x] Phase 14 実装完了 (0d63060) - 候補選定改善（デフォルト年齢拡張）
+10. [x] Phase 15 実装完了 (b32f156) - 年齢在庫優先度スコアリング
+    - CandidatePrioritizerに_calculate_inventory_age_priority_score()追加
+    - ウェイト: EP 0.4, Category 0.25, Age 0.15, Inventory 0.2
+    - 中心年齢（40歳）からの距離ペナルティ
+    - GENERATEモード年齢優先（REPLACEは低スコア10.0）
+
+## 最新実績 (2026-01-07 23:00時点)
+- 総ラン数: 79回 (dry-run: 40 / execute: 39)
+- 生成: 2,601件
+- 採用: 2,265件 (採用率87.1%)
+- EPGEN成功率: 95.5%
+- フォールバック: 115件
+- リジェクト: 334件
+
+## 新規ツール
+- `scripts/sage/analyze_age_priority.py`: 年齢別優先度分析
+- `scripts/sage/monitor_batch_jobs.py`: Batch APIジョブ監視

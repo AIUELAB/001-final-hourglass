@@ -72,11 +72,26 @@ if not self.config.fictional_enabled and person_type != "REAL":
 
 ---
 
-## 次回セッションのTODO
+## 完了したTODO
 
-1. [ ] Phase 3 (Batch API統合) を実装するか確認
-2. [ ] 現在の実装でコミットするか確認
-3. [ ] 追加の最適化が必要か確認
+1. [x] Phase 8 コミット完了 (57269ec)
+2. [x] Phase 9 実装完了 - 評価Haiku + Batch API (f7b9b86)
+3. [x] 追加最適化: 評価モデル設定、バッチサイズ設定
+
+## Phase 9 追加内容
+
+- `config.py`: evaluation_model, evaluation_batch_size, token_logging_enabled
+- `batch_processor.py`: Anthropic Batch API統合（新規）
+- `cli.py`: --batch-* オプション追加
+- `orchestrator.py`: 評価モデル設定を適用
+
+## 期待効果
+
+| 施策 | コスト削減 |
+|------|-----------|
+| 評価Haiku化 | -92%（評価分） |
+| Batch API | -50%（遅延許容時） |
+| 評価バッチ拡大 | -60%（呼び出し回数） |
 
 ---
 

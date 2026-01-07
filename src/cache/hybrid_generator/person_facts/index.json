@@ -1,0 +1,23 @@
+{
+  "P_TEST_001": {
+    "person_id": "P_TEST_001",
+    "person_name": "テスト太郎",
+    "birth_year": 1950,
+    "death_year": null,
+    "category": "",
+    "key_facts": [
+      "ノーベル賞受賞",
+      "東京大学卒業"
+    ],
+    "key_works": [
+      "代表作A",
+      "代表作B"
+    ],
+    "key_years": [
+      1980,
+      1990,
+      2000
+    ],
+    "last_updated": "2026-01-07T14:12:18.505772"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "person_id": "TEST001",
+  "person_name": "アルベルト・アインシュタイン",
+  "wikidata_id": "Q937",
+  "birth_year": null,
+  "death_year": null,
+  "nationality": "",
+  "occupation": [],
+  "primary_domain": "一般",
+  "notable_traits": [],
+  "notable_works": [],
+  "story_potential": {
+    "逆境克服": 0.0,
+    "革新": 0.0,
+    "人間関係": 0.0,
+    "転機": 0.0,
+    "栄光": 0.0
+  },
+  "wikipedia_summary": "",
+  "analyzed_at": "2026-01-07T16:13:41.036880",
+  "confidence": 0.0
+}

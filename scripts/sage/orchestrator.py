@@ -556,7 +556,8 @@ class HybridOrchestrator:
                             available_ages.append(age)
             else:
                 # birth_yearがない場合はデフォルト範囲を使用
-                for age in [20, 25, 30, 35, 40, 45, 50, 55, 60]:
+                # Phase 14: GENERATEモード年齢を含む広い範囲（15-80歳、5歳刻み）
+                for age in range(15, 85, 5):
                     if age not in existing_ages:
                         # Phase 1: 365本達成年齢はスキップ
                         if self._inventory_manager.should_generate(age):

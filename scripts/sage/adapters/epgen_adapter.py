@@ -38,16 +38,18 @@ class EPGENAdapter(GeneratorAdapter):
     6段階パイプライン: Selection → Generation → Evaluation → Deduplication → Ranking → Persistence
     """
 
-    def __init__(self, use_haiku_evaluation: bool = True):
+    def __init__(self, use_haiku_evaluation: bool = True, use_compact_prompt: bool = True):
         """
         Args:
             use_haiku_evaluation: 評価にHaikuを使用（True=低コスト-92%, False=Sonnet高精度）
+            use_compact_prompt: 圧縮版プロンプト使用（True=-60%トークン, False=通常版）
         """
         super().__init__("epgen", GeneratorType.EPGEN)
         self._generator = None
         self._evaluator = None
         self._prompt_builder = None
         self._use_haiku_evaluation = use_haiku_evaluation
+        self._use_compact_prompt = use_compact_prompt  # Phase 10: 圧縮版プロンプト
         # Phase 3: 評価モデル名を追跡
         self._eval_model_name = "claude-3-5-haiku-20241022" if use_haiku_evaluation else "claude-sonnet-4-20250514"
 
@@ -93,12 +95,12 @@ class EPGENAdapter(GeneratorAdapter):
         return self._evaluator
 
     def _get_prompt_builder(self):
-        """遅延初期化でプロンプトビルダーを取得"""
+        """遅延初期化でプロンプトビルダーを取得（Phase 10: 圧縮版対応）"""
         if self._prompt_builder is None:
             try:
-                from scripts.generate.mass_production.generator import PromptBuilder
+                from scripts.generate.mass_production.generator import create_prompt_builder
 
-                self._prompt_builder = PromptBuilder()
+                self._prompt_builder = create_prompt_builder(compact=self._use_compact_prompt)
             except ImportError:
                 self._prompt_builder = None
         return self._prompt_builder

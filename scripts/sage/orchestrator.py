@@ -110,12 +110,13 @@ class HybridOrchestrator:
             rules=self.config.generation_rules,
             thresholds=self.config.quality_thresholds,
         )
-        # Phase 9: 評価モデル設定を適用
+        # Phase 9-10: 評価モデル・プロンプト設定を適用
         use_haiku = "haiku" in self.config.evaluation_model.lower()
         self._router = StrategyRouter(
             strategy=self.config.strategy,
             use_mock=self.config.use_mock,
             use_haiku_evaluation=use_haiku,
+            use_compact_prompt=self.config.use_compact_prompt,
         )
         self._evaluator = QualityEvaluator(self.config.quality_thresholds)
         self._super_total = SuperTotalCalculator(self.config.quality_thresholds)

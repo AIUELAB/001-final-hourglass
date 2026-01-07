@@ -4,10 +4,11 @@ EPGEN Adapter
 scripts/generate/mass_production/ のパイプラインをラップするアダプター。
 """
 
+import json
 import os
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 # プロジェクトルートをパスに追加
 PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
@@ -38,6 +39,9 @@ class EPGENAdapter(GeneratorAdapter):
     6段階パイプライン: Selection → Generation → Evaluation → Deduplication → Ranking → Persistence
     """
 
+    # 象徴的業績マスターデータのパス
+    ICONIC_ACHIEVEMENTS_PATH = PROJECT_ROOT / "preserved" / "data" / "iconic_achievements_master.json"
+
     def __init__(self, use_haiku_evaluation: bool = True, use_compact_prompt: bool = True):
         """
         Args:
@@ -52,6 +56,69 @@ class EPGENAdapter(GeneratorAdapter):
         self._use_compact_prompt = use_compact_prompt  # Phase 10: 圧縮版プロンプト
         # Phase 3: 評価モデル名を追跡
         self._eval_model_name = "claude-3-5-haiku-20241022" if use_haiku_evaluation else "claude-sonnet-4-20250514"
+        # 象徴的業績データ（遅延読み込み）
+        self._iconic_achievements: Optional[dict[str, Any]] = None
+
+    def _get_iconic_achievements(self) -> dict[str, Any]:
+        """象徴的業績マスターデータを取得（遅延読み込み）"""
+        if self._iconic_achievements is None:
+            if self.ICONIC_ACHIEVEMENTS_PATH.exists():
+                with open(self.ICONIC_ACHIEVEMENTS_PATH, encoding="utf-8") as f:
+                    self._iconic_achievements = json.load(f)
+            else:
+                self._iconic_achievements = {"persons": {}}
+        return self._iconic_achievements
+
+    def _get_iconic_context(self, person_name: str, age: int) -> str:
+        """
+        該当人物・年齢の象徴的業績コンテキストを取得
+
+        Args:
+            person_name: 人物名
+            age: 年齢
+
+        Returns:
+            str: 象徴的業績コンテキスト（なければ空文字列）
+        """
+        achievements = self._get_iconic_achievements()
+        persons = achievements.get("persons", {})
+
+        # 人物名で検索
+        person_data = persons.get(person_name)
+        if not person_data:
+            return ""
+
+        # 年齢に一致する業績を検索
+        required_episodes = person_data.get("required_episodes", [])
+        matching_achievements = []
+
+        for ep in required_episodes:
+            ep_age = ep.get("age", 0)
+            # 年齢が一致、または±2歳以内なら関連業績として追加
+            if abs(ep_age - age) <= 2:
+                achievement = ep.get("achievement", "")
+                keywords = ep.get("keywords", [])
+                year = ep.get("year")
+                matching_achievements.append(
+                    {
+                        "achievement": achievement,
+                        "year": year,
+                        "keywords": keywords,
+                    }
+                )
+
+        if not matching_achievements:
+            return ""
+
+        # コンテキスト文字列を生成
+        context_parts = ["【象徴的業績ガイド】この年齢に関連する重要な出来事:"]
+        for ach in matching_achievements:
+            year_str = f"（{ach['year']}年）" if ach.get("year") else ""
+            keywords_str = "、".join(ach.get("keywords", [])[:3])
+            context_parts.append(f"- {ach['achievement']}{year_str} キーワード: {keywords_str}")
+
+        context_parts.append("上記の具体的な事実を盛り込んだエピソードを生成してください。")
+        return "\n".join(context_parts)
 
     def _get_generator(self):
         """遅延初期化でジェネレータを取得"""
@@ -133,6 +200,11 @@ class EPGENAdapter(GeneratorAdapter):
                 "- 数値データを3つ以上\n"
                 "抽象的な表現や推測・伝聞は禁止"
             )
+
+            # 象徴的業績コンテキストを注入
+            iconic_context = self._get_iconic_context(candidate.person_name, candidate.age)
+            if iconic_context:
+                additional_context = f"{iconic_context}\n\n{additional_context}"
 
             # Phase 5: リトライ時の失敗理由別プロンプト注入
             if retry_injection:

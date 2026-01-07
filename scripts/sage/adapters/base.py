@@ -125,7 +125,7 @@ class Candidate:
 
 @dataclass
 class AxisScores:
-    """7軸スコア"""
+    """8軸スコア（象徴性スコア追加）"""
 
     memorability: float = 0.0  # 記憶性スコア
     empathy: float = 0.0  # 共感性スコア
@@ -134,6 +134,7 @@ class AxisScores:
     educational_value: float = 0.0  # 教育的価値
     story_quality: float = 0.0  # ストーリー品質
     factual_density: float = 0.0  # 事実密度
+    iconic_score: float = 0.0  # 象徴性スコア（感銘度）
 
     def to_dict(self) -> dict[str, float]:
         """辞書に変換"""
@@ -145,6 +146,7 @@ class AxisScores:
             "教育的価値": self.educational_value,
             "ストーリー品質": self.story_quality,
             "事実密度": self.factual_density,
+            "象徴性スコア": self.iconic_score,
         }
 
     @classmethod
@@ -158,10 +160,11 @@ class AxisScores:
             educational_value=data.get("教育的価値", 0.0),
             story_quality=data.get("ストーリー品質", 0.0),
             factual_density=data.get("事実密度", 0.0),
+            iconic_score=data.get("象徴性スコア", 0.0),
         )
 
     def average(self) -> float:
-        """7軸平均"""
+        """8軸平均"""
         values = [
             self.memorability,
             self.empathy,
@@ -170,11 +173,12 @@ class AxisScores:
             self.educational_value,
             self.story_quality,
             self.factual_density,
+            self.iconic_score,
         ]
         return sum(values) / len(values)
 
     def weighted_average(self) -> float:
-        """加重平均（事実密度と生成品質を重視）"""
+        """加重平均（事実密度、生成品質、象徴性を重視）"""
         weights = {
             "memorability": 1.0,
             "empathy": 1.0,
@@ -183,6 +187,7 @@ class AxisScores:
             "educational_value": 1.0,
             "story_quality": 1.0,
             "factual_density": 1.5,  # 重み増
+            "iconic_score": 1.5,  # 重み増（感銘度重視）
         }
         total_weight = sum(weights.values())
         weighted_sum = (
@@ -193,6 +198,7 @@ class AxisScores:
             + self.educational_value * weights["educational_value"]
             + self.story_quality * weights["story_quality"]
             + self.factual_density * weights["factual_density"]
+            + self.iconic_score * weights["iconic_score"]
         )
         return weighted_sum / total_weight
 

@@ -1,0 +1,1228 @@
+{
+  "updated_at": "2026-01-07T11:09:35.923415",
+  "config": {
+    "target_per_age": 365,
+    "min_factual_density": 7.0,
+    "min_generation_quality": 8.0
+  },
+  "summary": {
+    "total_ages": 121,
+    "achieved_ages": 7,
+    "achievement_rate": 5.8,
+    "total_upper_episodes": 10740,
+    "total_target": 44165,
+    "overall_progress": 24.3
+  },
+  "ages": {
+    "0": {
+      "age": 0,
+      "total_count": 3,
+      "upper_count": 2,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 395117.0,
+      "deficit": 363
+    },
+    "1": {
+      "age": 1,
+      "total_count": 6,
+      "upper_count": 4,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 412343.0,
+      "deficit": 361
+    },
+    "2": {
+      "age": 2,
+      "total_count": 4,
+      "upper_count": 2,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 341338.0,
+      "deficit": 363
+    },
+    "3": {
+      "age": 3,
+      "total_count": 20,
+      "upper_count": 18,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 351204.0,
+      "deficit": 347
+    },
+    "4": {
+      "age": 4,
+      "total_count": 19,
+      "upper_count": 15,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 227886.0,
+      "deficit": 350
+    },
+    "5": {
+      "age": 5,
+      "total_count": 53,
+      "upper_count": 51,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 218436.0,
+      "deficit": 314
+    },
+    "6": {
+      "age": 6,
+      "total_count": 44,
+      "upper_count": 43,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 272313.0,
+      "deficit": 322
+    },
+    "7": {
+      "age": 7,
+      "total_count": 44,
+      "upper_count": 42,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 340170.0,
+      "deficit": 323
+    },
+    "8": {
+      "age": 8,
+      "total_count": 11,
+      "upper_count": 8,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 211657.0,
+      "deficit": 357
+    },
+    "9": {
+      "age": 9,
+      "total_count": 45,
+      "upper_count": 42,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 341510.0,
+      "deficit": 323
+    },
+    "10": {
+      "age": 10,
+      "total_count": 51,
+      "upper_count": 45,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 219379.0,
+      "deficit": 320
+    },
+    "11": {
+      "age": 11,
+      "total_count": 59,
+      "upper_count": 54,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 205960.0,
+      "deficit": 311
+    },
+    "12": {
+      "age": 12,
+      "total_count": 49,
+      "upper_count": 46,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 239479.0,
+      "deficit": 319
+    },
+    "13": {
+      "age": 13,
+      "total_count": 60,
+      "upper_count": 59,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 224127.0,
+      "deficit": 306
+    },
+    "14": {
+      "age": 14,
+      "total_count": 40,
+      "upper_count": 32,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 309565.0,
+      "deficit": 333
+    },
+    "15": {
+      "age": 15,
+      "total_count": 51,
+      "upper_count": 39,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 218910.0,
+      "deficit": 326
+    },
+    "16": {
+      "age": 16,
+      "total_count": 47,
+      "upper_count": 39,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 223178.0,
+      "deficit": 326
+    },
+    "17": {
+      "age": 17,
+      "total_count": 51,
+      "upper_count": 44,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 221423.0,
+      "deficit": 321
+    },
+    "18": {
+      "age": 18,
+      "total_count": 58,
+      "upper_count": 53,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 231528.0,
+      "deficit": 312
+    },
+    "19": {
+      "age": 19,
+      "total_count": 55,
+      "upper_count": 52,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 267438.0,
+      "deficit": 313
+    },
+    "20": {
+      "age": 20,
+      "total_count": 1720,
+      "upper_count": 1507,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 271638.0,
+      "deficit": -1142
+    },
+    "21": {
+      "age": 21,
+      "total_count": 73,
+      "upper_count": 67,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 255197.0,
+      "deficit": 298
+    },
+    "22": {
+      "age": 22,
+      "total_count": 122,
+      "upper_count": 115,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 233703.0,
+      "deficit": 250
+    },
+    "23": {
+      "age": 23,
+      "total_count": 94,
+      "upper_count": 86,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 209589.0,
+      "deficit": 279
+    },
+    "24": {
+      "age": 24,
+      "total_count": 176,
+      "upper_count": 165,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 259356.0,
+      "deficit": 200
+    },
+    "25": {
+      "age": 25,
+      "total_count": 463,
+      "upper_count": 419,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 228159.0,
+      "deficit": -54
+    },
+    "26": {
+      "age": 26,
+      "total_count": 205,
+      "upper_count": 198,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 259353.0,
+      "deficit": 167
+    },
+    "27": {
+      "age": 27,
+      "total_count": 144,
+      "upper_count": 138,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 225494.0,
+      "deficit": 227
+    },
+    "28": {
+      "age": 28,
+      "total_count": 322,
+      "upper_count": 304,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 247934.0,
+      "deficit": 61
+    },
+    "29": {
+      "age": 29,
+      "total_count": 128,
+      "upper_count": 122,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 155019.0,
+      "deficit": 243
+    },
+    "30": {
+      "age": 30,
+      "total_count": 468,
+      "upper_count": 444,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 191189.0,
+      "deficit": -79
+    },
+    "31": {
+      "age": 31,
+      "total_count": 114,
+      "upper_count": 106,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 233906.0,
+      "deficit": 259
+    },
+    "32": {
+      "age": 32,
+      "total_count": 271,
+      "upper_count": 261,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 229562.0,
+      "deficit": 104
+    },
+    "33": {
+      "age": 33,
+      "total_count": 116,
+      "upper_count": 109,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 196687.0,
+      "deficit": 256
+    },
+    "34": {
+      "age": 34,
+      "total_count": 92,
+      "upper_count": 89,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 262334.0,
+      "deficit": 276
+    },
+    "35": {
+      "age": 35,
+      "total_count": 831,
+      "upper_count": 771,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 260678.0,
+      "deficit": -406
+    },
+    "36": {
+      "age": 36,
+      "total_count": 75,
+      "upper_count": 70,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 265089.0,
+      "deficit": 295
+    },
+    "37": {
+      "age": 37,
+      "total_count": 75,
+      "upper_count": 72,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 235304.0,
+      "deficit": 293
+    },
+    "38": {
+      "age": 38,
+      "total_count": 288,
+      "upper_count": 271,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 226099.0,
+      "deficit": 94
+    },
+    "39": {
+      "age": 39,
+      "total_count": 95,
+      "upper_count": 90,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 248353.0,
+      "deficit": 275
+    },
+    "40": {
+      "age": 40,
+      "total_count": 649,
+      "upper_count": 592,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 175185.0,
+      "deficit": -227
+    },
+    "41": {
+      "age": 41,
+      "total_count": 91,
+      "upper_count": 85,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 224702.0,
+      "deficit": 280
+    },
+    "42": {
+      "age": 42,
+      "total_count": 275,
+      "upper_count": 254,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 224318.0,
+      "deficit": 111
+    },
+    "43": {
+      "age": 43,
+      "total_count": 103,
+      "upper_count": 98,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 259056.0,
+      "deficit": 267
+    },
+    "44": {
+      "age": 44,
+      "total_count": 107,
+      "upper_count": 97,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 248120.0,
+      "deficit": 268
+    },
+    "45": {
+      "age": 45,
+      "total_count": 667,
+      "upper_count": 624,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 178441.0,
+      "deficit": -259
+    },
+    "46": {
+      "age": 46,
+      "total_count": 75,
+      "upper_count": 71,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 265894.0,
+      "deficit": 294
+    },
+    "47": {
+      "age": 47,
+      "total_count": 85,
+      "upper_count": 81,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 225586.0,
+      "deficit": 284
+    },
+    "48": {
+      "age": 48,
+      "total_count": 193,
+      "upper_count": 184,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 254494.0,
+      "deficit": 181
+    },
+    "49": {
+      "age": 49,
+      "total_count": 51,
+      "upper_count": 50,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 263968.0,
+      "deficit": 315
+    },
+    "50": {
+      "age": 50,
+      "total_count": 436,
+      "upper_count": 396,
+      "target": 365,
+      "achieved": true,
+      "mode": "stop",
+      "min_upper_score": 229982.0,
+      "deficit": -31
+    },
+    "51": {
+      "age": 51,
+      "total_count": 50,
+      "upper_count": 46,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 232058.0,
+      "deficit": 319
+    },
+    "52": {
+      "age": 52,
+      "total_count": 110,
+      "upper_count": 105,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 229816.0,
+      "deficit": 260
+    },
+    "53": {
+      "age": 53,
+      "total_count": 56,
+      "upper_count": 51,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 235665.0,
+      "deficit": 314
+    },
+    "54": {
+      "age": 54,
+      "total_count": 55,
+      "upper_count": 48,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 214441.0,
+      "deficit": 317
+    },
+    "55": {
+      "age": 55,
+      "total_count": 309,
+      "upper_count": 278,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 236543.0,
+      "deficit": 87
+    },
+    "56": {
+      "age": 56,
+      "total_count": 57,
+      "upper_count": 54,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 210638.0,
+      "deficit": 311
+    },
+    "57": {
+      "age": 57,
+      "total_count": 50,
+      "upper_count": 45,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 255137.0,
+      "deficit": 320
+    },
+    "58": {
+      "age": 58,
+      "total_count": 101,
+      "upper_count": 93,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 252414.0,
+      "deficit": 272
+    },
+    "59": {
+      "age": 59,
+      "total_count": 48,
+      "upper_count": 46,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 245639.0,
+      "deficit": 319
+    },
+    "60": {
+      "age": 60,
+      "total_count": 190,
+      "upper_count": 182,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 212502.0,
+      "deficit": 183
+    },
+    "61": {
+      "age": 61,
+      "total_count": 90,
+      "upper_count": 85,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 251021.0,
+      "deficit": 280
+    },
+    "62": {
+      "age": 62,
+      "total_count": 80,
+      "upper_count": 72,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 236736.0,
+      "deficit": 293
+    },
+    "63": {
+      "age": 63,
+      "total_count": 78,
+      "upper_count": 74,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 224702.0,
+      "deficit": 291
+    },
+    "64": {
+      "age": 64,
+      "total_count": 54,
+      "upper_count": 50,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 308203.0,
+      "deficit": 315
+    },
+    "65": {
+      "age": 65,
+      "total_count": 110,
+      "upper_count": 103,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 247092.0,
+      "deficit": 262
+    },
+    "66": {
+      "age": 66,
+      "total_count": 39,
+      "upper_count": 37,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 243156.0,
+      "deficit": 328
+    },
+    "67": {
+      "age": 67,
+      "total_count": 42,
+      "upper_count": 38,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 233346.0,
+      "deficit": 327
+    },
+    "68": {
+      "age": 68,
+      "total_count": 45,
+      "upper_count": 41,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 275144.0,
+      "deficit": 324
+    },
+    "69": {
+      "age": 69,
+      "total_count": 44,
+      "upper_count": 40,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 178554.0,
+      "deficit": 325
+    },
+    "70": {
+      "age": 70,
+      "total_count": 74,
+      "upper_count": 71,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 266933.0,
+      "deficit": 294
+    },
+    "71": {
+      "age": 71,
+      "total_count": 32,
+      "upper_count": 30,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 361985.0,
+      "deficit": 335
+    },
+    "72": {
+      "age": 72,
+      "total_count": 37,
+      "upper_count": 33,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 310660.0,
+      "deficit": 332
+    },
+    "73": {
+      "age": 73,
+      "total_count": 30,
+      "upper_count": 25,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 260320.0,
+      "deficit": 340
+    },
+    "74": {
+      "age": 74,
+      "total_count": 26,
+      "upper_count": 24,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 373252.0,
+      "deficit": 341
+    },
+    "75": {
+      "age": 75,
+      "total_count": 37,
+      "upper_count": 34,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 218899.0,
+      "deficit": 331
+    },
+    "76": {
+      "age": 76,
+      "total_count": 26,
+      "upper_count": 22,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 327750.0,
+      "deficit": 343
+    },
+    "77": {
+      "age": 77,
+      "total_count": 17,
+      "upper_count": 16,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 451184.0,
+      "deficit": 349
+    },
+    "78": {
+      "age": 78,
+      "total_count": 13,
+      "upper_count": 11,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 462525.0,
+      "deficit": 354
+    },
+    "79": {
+      "age": 79,
+      "total_count": 26,
+      "upper_count": 26,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 382636.0,
+      "deficit": 339
+    },
+    "80": {
+      "age": 80,
+      "total_count": 51,
+      "upper_count": 51,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 222421.0,
+      "deficit": 314
+    },
+    "81": {
+      "age": 81,
+      "total_count": 32,
+      "upper_count": 32,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 361072.0,
+      "deficit": 333
+    },
+    "82": {
+      "age": 82,
+      "total_count": 29,
+      "upper_count": 26,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 371295.0,
+      "deficit": 339
+    },
+    "83": {
+      "age": 83,
+      "total_count": 22,
+      "upper_count": 21,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 351766.0,
+      "deficit": 344
+    },
+    "84": {
+      "age": 84,
+      "total_count": 20,
+      "upper_count": 18,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 282484.0,
+      "deficit": 347
+    },
+    "85": {
+      "age": 85,
+      "total_count": 17,
+      "upper_count": 17,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 239331.0,
+      "deficit": 348
+    },
+    "86": {
+      "age": 86,
+      "total_count": 14,
+      "upper_count": 12,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 239485.0,
+      "deficit": 353
+    },
+    "87": {
+      "age": 87,
+      "total_count": 9,
+      "upper_count": 9,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 500712.0,
+      "deficit": 356
+    },
+    "88": {
+      "age": 88,
+      "total_count": 15,
+      "upper_count": 15,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 397934.0,
+      "deficit": 350
+    },
+    "89": {
+      "age": 89,
+      "total_count": 12,
+      "upper_count": 11,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 274336.0,
+      "deficit": 354
+    },
+    "90": {
+      "age": 90,
+      "total_count": 17,
+      "upper_count": 16,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 384061.0,
+      "deficit": 349
+    },
+    "91": {
+      "age": 91,
+      "total_count": 24,
+      "upper_count": 23,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 255854.0,
+      "deficit": 342
+    },
+    "92": {
+      "age": 92,
+      "total_count": 12,
+      "upper_count": 10,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 486290.0,
+      "deficit": 355
+    },
+    "93": {
+      "age": 93,
+      "total_count": 16,
+      "upper_count": 16,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 293306.0,
+      "deficit": 349
+    },
+    "94": {
+      "age": 94,
+      "total_count": 13,
+      "upper_count": 13,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 395473.0,
+      "deficit": 352
+    },
+    "95": {
+      "age": 95,
+      "total_count": 15,
+      "upper_count": 15,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 279626.0,
+      "deficit": 350
+    },
+    "96": {
+      "age": 96,
+      "total_count": 8,
+      "upper_count": 8,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 373902.0,
+      "deficit": 357
+    },
+    "97": {
+      "age": 97,
+      "total_count": 7,
+      "upper_count": 7,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 445670.0,
+      "deficit": 358
+    },
+    "98": {
+      "age": 98,
+      "total_count": 5,
+      "upper_count": 5,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 434496.0,
+      "deficit": 360
+    },
+    "99": {
+      "age": 99,
+      "total_count": 2,
+      "upper_count": 2,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 581695.0,
+      "deficit": 363
+    },
+    "100": {
+      "age": 100,
+      "total_count": 4,
+      "upper_count": 4,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 448700.0,
+      "deficit": 361
+    },
+    "101": {
+      "age": 101,
+      "total_count": 1,
+      "upper_count": 1,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 536797.0,
+      "deficit": 364
+    },
+    "102": {
+      "age": 102,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "103": {
+      "age": 103,
+      "total_count": 1,
+      "upper_count": 1,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 606813.0,
+      "deficit": 364
+    },
+    "104": {
+      "age": 104,
+      "total_count": 1,
+      "upper_count": 1,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 575391.0,
+      "deficit": 364
+    },
+    "105": {
+      "age": 105,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "106": {
+      "age": 106,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "107": {
+      "age": 107,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "108": {
+      "age": 108,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "109": {
+      "age": 109,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "110": {
+      "age": 110,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "111": {
+      "age": 111,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "112": {
+      "age": 112,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "113": {
+      "age": 113,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "114": {
+      "age": 114,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "115": {
+      "age": 115,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "116": {
+      "age": 116,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "117": {
+      "age": 117,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "118": {
+      "age": 118,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "119": {
+      "age": 119,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    },
+    "120": {
+      "age": 120,
+      "total_count": 0,
+      "upper_count": 0,
+      "target": 365,
+      "achieved": false,
+      "mode": "generate",
+      "min_upper_score": 0.0,
+      "deficit": 365
+    }
+  }
+}

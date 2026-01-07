@@ -31,6 +31,7 @@ from .gates import (
     FactChecker,
 )
 from .persistence import SafeCSVWriter, WriteResult
+from .inventory_manager import InventoryManager
 from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
 from .quality import ImprovementLoop, QualityEvaluator, SuperTotalCalculator
 from .strategy_router import StrategyRouter
@@ -114,6 +115,12 @@ class HybridOrchestrator:
         self._writer = SafeCSVWriter(
             master_csv=self.config.master_csv,
             logs_dir=self.config.logs_dir,
+        )
+
+        # Phase 1: 年齢別在庫管理（365本停止機能）
+        self._inventory_manager = InventoryManager(
+            master_csv=self.config.master_csv,
+            cache_dir=self.config.cache_dir,
         )
 
         # マスターデータ
@@ -351,6 +358,12 @@ class HybridOrchestrator:
         }
         log_data["adapter_stats"] = adapter_stats
 
+        # Phase 1: 在庫サマリーを追加
+        try:
+            log_data["inventory_summary"] = self._inventory_manager.get_summary()
+        except Exception:
+            log_data["inventory_summary"] = {}
+
         with open(log_path, "w", encoding="utf-8") as f:
             json.dump(log_data, f, ensure_ascii=False, indent=2)
 
@@ -360,6 +373,7 @@ class HybridOrchestrator:
 
         EP数、カテゴリバランス、年齢カバレッジを考慮して候補を選定。
         CandidatePrioritizer を使用してスコアリング・優先度付け。
+        Phase 1: 365本達成年齢はスキップ。
 
         Args:
             count: 候補数
@@ -369,6 +383,9 @@ class HybridOrchestrator:
         """
         if self.master_df.empty:
             return []
+
+        # Phase 1: 在庫状況を更新
+        self._inventory_manager.refresh()
 
         # 候補プールを構築（ユニークな人物×利用可能年齢）
         candidate_pool = []
@@ -402,12 +419,16 @@ class HybridOrchestrator:
                 # 5歳刻みで候補年齢を生成（より細かく）
                 for age in range(15, min(max_age + 1, 100), 5):
                     if age not in existing_ages:
-                        available_ages.append(age)
+                        # Phase 1: 365本達成年齢はスキップ
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
             else:
                 # birth_yearがない場合はデフォルト範囲を使用
                 for age in [20, 25, 30, 35, 40, 45, 50, 55, 60]:
                     if age not in existing_ages:
-                        available_ages.append(age)
+                        # Phase 1: 365本達成年齢はスキップ
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
 
             # 各年齢を候補プールに追加
             for age in available_ages[:3]:  # 人物あたり最大3年齢

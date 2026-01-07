@@ -26,10 +26,23 @@ if not self.config.fictional_enabled and person_type != "REAL":
   - `--fictional`: 架空キャラを含める
   - `--max-concurrent`: 同時実行数
 
-### Phase 3: Batch API統合 ⏳ (保留)
+### Phase 3: Batch API統合 ✅ (完了)
+- `scripts/sage/cli.py`: `--execute --batch`フラグ統合
+- EPGENの本格的なプロンプトビルダーを使用
 - 50%コスト削減可能
-- 24時間遅延あり
-- ユーザー判断待ち
+- 24時間遅延（結果は後で取得）
+
+**使用方法:**
+```bash
+# バッチモードで生成（50%コスト削減）
+python scripts/sage/cli.py --target 100 --execute --batch
+
+# ステータス確認
+python scripts/sage/cli.py --batch-status BATCH_ID
+
+# 結果取得
+python scripts/sage/cli.py --batch-results BATCH_ID
+```
 
 ---
 
@@ -79,44 +92,4 @@ if not self.config.fictional_enabled and person_type != "REAL":
 3. [x] Phase 10 実装完了 (fee2b9a) - プロンプト圧縮 (-60%トークン)
 4. [x] Phase 11 確認完了 - 失敗理由別テンプレート（Phase 5で実装済み）
 5. [x] Phase 12 実装完了 (cb63fe5) - 候補スコア閾値厳格化 (-15%生成)
-
-## 全Phase設定確認済み
-- Phase 8: fictional_enabled = False
-- Phase 9: evaluation_model = claude-3-5-haiku-20241022
-- Phase 10: use_compact_prompt = True
-- Phase 12: min_candidate_priority = 0.3
-
-## 次のステップ
-- H4: プロンプトキャッシュ活用 (Anthropic Prompt Caching)
-- カテゴリ別閾値 (B) - 任意
-
-------|-----------|
-| 評価Haiku化 | -92%（評価分） |
-| Batch API | -50%（遅延許容時） |
-| 評価バッチ拡大 | -60%（呼び出し回数） |
-
----
-
-## 再開コマンド
-
-```bash
-# 現在の採用率確認
-python scripts/sage/cli.py --target 20 --dry-run
-
-# REAL only 生成 (デフォルト)
-python scripts/sage/cli.py --target 100 --execute
-
-# 架空キャラ含む生成
-python scripts/sage/cli.py --target 100 --execute --fictional
-
-# 非同期処理
-python scripts/sage/cli.py --target 100 --execute --async
-```
-
----
-
-## セッション復元手順
-
-1. このファイルを読む: `.serena/memories/session_20260107_sage_optimization.md`
-2. プランファイルを確認: `/Users/admin/.claude/plans/rosy-toasting-llama.md`
-3. 最新ログを確認: `src/reports/logs/run_20260107_181712.json`
+6. [x] Phase 13 実装完了 (3429336) - カテゴリ別閾値（dry-run 95%, 本番 80%）

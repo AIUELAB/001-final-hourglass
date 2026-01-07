@@ -10,7 +10,7 @@ import pandas as pd
 from datetime import datetime
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 BACKUP_PATH = (
     PROJECT_ROOT

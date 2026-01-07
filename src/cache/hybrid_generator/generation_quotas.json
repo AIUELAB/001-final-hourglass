@@ -1330,5 +1330,11 @@
     "weekly_count": 1,
     "last_generation": "2026-01-07T18:39:31.957626",
     "cooldown_end": "2026-01-07T22:39:31.957626"
+  },
+  "PC373200": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T21:11:15.410955",
+    "cooldown_end": "2026-01-08T01:11:15.410955"
   }
 }

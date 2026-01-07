@@ -230,6 +230,12 @@ class HybridConfig:
     async_enabled: bool = True  # True: 非同期処理有効（3-4倍高速化）
     max_concurrent: int = 10  # 非同期処理の同時実行数
 
+    # Phase 9: コスト最適化設定
+    generation_model: str = "claude-sonnet-4-20250514"  # 生成モデル
+    evaluation_model: str = "claude-3-5-haiku-20241022"  # 評価モデル（Haiku: -92%コスト）
+    evaluation_batch_size: int = 50  # 評価バッチサイズ（20→50: -60%呼び出し）
+    token_logging_enabled: bool = True  # トークン計測ログ有効
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

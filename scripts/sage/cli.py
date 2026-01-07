@@ -137,6 +137,40 @@ def parse_args():
         help="架空キャラを含める（デフォルトはREALのみ）",
     )
 
+    # Phase 9: Batch API オプション
+    parser.add_argument(
+        "--batch",
+        action="store_true",
+        help="Batch API モード（50%%コスト削減、結果は後で取得）",
+    )
+
+    parser.add_argument(
+        "--batch-submit",
+        type=int,
+        metavar="COUNT",
+        help="バッチリクエストを送信（件数を指定）",
+    )
+
+    parser.add_argument(
+        "--batch-status",
+        type=str,
+        metavar="BATCH_ID",
+        help="バッチステータスを確認",
+    )
+
+    parser.add_argument(
+        "--batch-results",
+        type=str,
+        metavar="BATCH_ID",
+        help="バッチ結果を取得",
+    )
+
+    parser.add_argument(
+        "--batch-list",
+        action="store_true",
+        help="保留中のバッチジョブをリスト",
+    )
+
     return parser.parse_args()
 
 
@@ -227,6 +261,78 @@ def main():
     else:
         orchestrator = HybridOrchestrator(config)
 
+    # Phase 9: Batch API 処理
+    if args.batch_list:
+        from scripts.sage.batch_processor import BatchProcessor
+
+        processor = BatchProcessor(config)
+        jobs = processor.list_pending_jobs()
+        print(f"\n保留中のバッチジョブ ({len(jobs)}件):")
+        for job in jobs:
+            print(f"  {job['batch_id']} - {job['request_count']}件 - {job['created_at']}")
+        return
+
+    if args.batch_status:
+        import asyncio
+        from scripts.sage.batch_processor import BatchProcessor
+
+        processor = BatchProcessor(config)
+        job = asyncio.run(processor.check_status(args.batch_status))
+        print(f"\nバッチステータス: {args.batch_status}")
+        print(f"  状態: {job.status}")
+        print(f"  成功: {job.succeeded_count}/{job.request_count}")
+        print(f"  失敗: {job.failed_count}")
+        return
+
+    if args.batch_results:
+        import asyncio
+        from scripts.sage.batch_processor import BatchProcessor
+
+        processor = BatchProcessor(config)
+        results = asyncio.run(processor.get_results(args.batch_results))
+        print(f"\nバッチ結果 ({len(results)}件):")
+        for r in results:
+            status = "成功" if r.get("text") else f"失敗: {r.get('error', 'unknown')}"
+            print(f"  {r['custom_id']}: {status}")
+        return
+
+    if args.batch_submit:
+        import asyncio
+        from scripts.sage.batch_processor import BatchProcessor, create_batch_request
+
+        processor = BatchProcessor(config)
+
+        # 候補を取得
+        batch_candidates = orchestrator.get_recommended_candidates(args.batch_submit)
+        if not batch_candidates:
+            logger.error("バッチ用の候補が見つかりません")
+            return
+
+        # バッチリクエストを作成
+        requests = []
+        for c in batch_candidates:
+            # 簡易プロンプト（実際はEPGENのプロンプトビルダーを使用）
+            prompt = f"{c.person_name}の{c.age}歳時のエピソードを生成してください。カテゴリ: {c.category}"
+            req = create_batch_request(
+                person_name=c.person_name,
+                age=c.age,
+                category=c.category,
+                prompt=prompt,
+                model=config.generation_model,
+            )
+            requests.append(req)
+
+        # バッチ送信
+        job = asyncio.run(processor.submit_batch(requests))
+        print("\nバッチ送信完了:")
+        print(f"  バッチID: {job.batch_id}")
+        print(f"  リクエスト数: {job.request_count}")
+        print(f"  ステータス: {job.status}")
+        print("\n結果を取得するには:")
+        print(f"  python cli.py --batch-status {job.batch_id}")
+        print(f"  python cli.py --batch-results {job.batch_id}")
+        return
+
     # 推奨候補の表示
     if args.recommend > 0:
         candidates = orchestrator.get_recommended_candidates(args.recommend)
@@ -250,15 +356,15 @@ def main():
         return
 
     # 実行
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("SAGE - Smart Adaptive Generation Engine")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"戦略: {args.strategy}")
     print(f"候補数: {len(candidates)}")
     print(f"モード: {'dry-run' if dry_run else '実行'}")
     print(f"処理: {'非同期' if args.use_async else '同期'}")
     print(f"架空キャラ: {'含む' if args.fictional else '除外'}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     # Phase 8: 非同期/同期の切り替え
     if args.use_async:
@@ -270,9 +376,9 @@ def main():
     if args.json:
         print(json.dumps(run.to_dict(), ensure_ascii=False, indent=2))
     else:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("実行結果")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"実行ID: {run.run_id}")
         print(f"生成数: {run.generated_count}")
         print(f"採用数: {run.accepted_count}")

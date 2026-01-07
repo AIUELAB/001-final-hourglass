@@ -230,6 +230,7 @@ class CandidatePrioritizer:
         self,
         candidates: list[dict],
         top_n: int = 10,
+        min_score: float = 0.0,  # Phase 12: 最低スコア閾値
     ) -> list[CandidatePriorityScore]:
         """
         候補リストを優先度順にソート
@@ -237,6 +238,7 @@ class CandidatePrioritizer:
         Args:
             candidates: 候補リスト [{"person_id", "person_name", "category", "age"}, ...]
             top_n: 上位N件を返す
+            min_score: 最低スコア閾値（これ未満は除外）
 
         Returns:
             list[CandidatePriorityScore]: スコア順の候補
@@ -250,7 +252,9 @@ class CandidatePrioritizer:
                 category=c.get("category", ""),
                 age=c.get("age", 30),
             )
-            scored.append(score)
+            # Phase 12: 閾値以上のみ追加
+            if score.score >= min_score:
+                scored.append(score)
 
         # スコア降順でソート
         scored.sort(key=lambda x: x.score, reverse=True)

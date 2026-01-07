@@ -575,9 +575,13 @@ class HybridOrchestrator:
         if not candidate_pool:
             return []
 
-        # CandidatePrioritizer でスコアリング
+        # CandidatePrioritizer でスコアリング（Phase 12: 閾値適用）
         prioritizer = CandidatePrioritizer(master_csv=self.config.master_csv)
-        scored = prioritizer.prioritize_candidates(candidate_pool, top_n=count * 2)
+        scored = prioritizer.prioritize_candidates(
+            candidate_pool,
+            top_n=count * 2,
+            min_score=self.config.min_candidate_priority,
+        )
 
         # 人物重複を避けて上位を選定
         seen_persons = set()

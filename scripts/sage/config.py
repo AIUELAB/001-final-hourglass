@@ -239,6 +239,9 @@ class HybridConfig:
     # Phase 10: プロンプト最適化設定
     use_compact_prompt: bool = True  # True: 圧縮版プロンプト使用（-60%トークン）
 
+    # Phase 12: 候補スコア閾値
+    min_candidate_priority: float = 0.3  # 優先度スコア閾値（0.3未満は生成スキップ）
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

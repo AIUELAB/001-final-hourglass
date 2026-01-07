@@ -296,23 +296,54 @@ def main():
             print(f"  {r['custom_id']}: {status}")
         return
 
-    if args.batch_submit:
+    if args.batch_submit or (args.batch and args.execute):
+        # Phase 9: Batch API統合（50%コスト削減）
         import asyncio
+
         from scripts.sage.batch_processor import BatchProcessor, create_batch_request
+
+        # --execute --batch の場合は args.target を使用
+        batch_count = args.batch_submit if args.batch_submit else args.target
 
         processor = BatchProcessor(config)
 
         # 候補を取得
-        batch_candidates = orchestrator.get_recommended_candidates(args.batch_submit)
+        batch_candidates = orchestrator.get_recommended_candidates(batch_count)
         if not batch_candidates:
             logger.error("バッチ用の候補が見つかりません")
             return
 
+        # プロンプトビルダーを取得（EPGENの本格的なプロンプト）
+        try:
+            from scripts.generate.mass_production.generator import (
+                GenerationInput,
+                create_prompt_builder,
+            )
+
+            prompt_builder = create_prompt_builder(compact=config.use_compact_prompt)
+        except ImportError:
+            logger.warning("プロンプトビルダーが見つかりません。簡易プロンプトを使用します。")
+            prompt_builder = None
+            GenerationInput = None
+
         # バッチリクエストを作成
         requests = []
         for c in batch_candidates:
-            # 簡易プロンプト（実際はEPGENのプロンプトビルダーを使用）
-            prompt = f"{c.person_name}の{c.age}歳時のエピソードを生成してください。カテゴリ: {c.category}"
+            if prompt_builder and GenerationInput:
+                # EPGENの本格的なプロンプト
+                gen_input = GenerationInput(
+                    person_id=c.person_id,
+                    person_name=c.person_name,
+                    age=c.age,
+                    category=c.category,
+                    birth_year=getattr(c, "birth_year", None),
+                    death_year=getattr(c, "death_year", None),
+                )
+                prompt = prompt_builder.build(gen_input)
+            else:
+                # フォールバック: 簡易プロンプト
+                prompt = f"{c.person_name}の{c.age}歳時のエピソードを生成してください。カテゴリ: {c.category}"
+
             req = create_batch_request(
                 person_name=c.person_name,
                 age=c.age,
@@ -324,13 +355,17 @@ def main():
 
         # バッチ送信
         job = asyncio.run(processor.submit_batch(requests))
-        print("\nバッチ送信完了:")
-        print(f"  バッチID: {job.batch_id}")
-        print(f"  リクエスト数: {job.request_count}")
-        print(f"  ステータス: {job.status}")
+        print("\n" + "=" * 60)
+        print("Batch API 送信完了（50%コスト削減モード）")
+        print("=" * 60)
+        print(f"バッチID: {job.batch_id}")
+        print(f"リクエスト数: {job.request_count}")
+        print(f"ステータス: {job.status}")
+        print(f"プロンプト: {'EPGEN本格版' if prompt_builder else '簡易版'}")
         print("\n結果を取得するには:")
-        print(f"  python cli.py --batch-status {job.batch_id}")
-        print(f"  python cli.py --batch-results {job.batch_id}")
+        print(f"  python scripts/sage/cli.py --batch-status {job.batch_id}")
+        print(f"  python scripts/sage/cli.py --batch-results {job.batch_id}")
+        print("\n注意: 結果は通常2-24時間後に取得可能になります。")
         return
 
     # 推奨候補の表示

@@ -90,6 +90,8 @@ def load_csv_data():
                 "educational_value": float(row.get("教育的価値", 0) or 0),
                 "storytelling_quality": float(row.get("ストーリー品質", 0) or 0),
                 "factual_density": float(row.get("事実密度", 0) or 0),
+                # 8軸目: 象徴性スコア
+                "iconic_score": float(row.get("象徴性スコア", 0) or 0),
                 # composite_score
                 "composite_score": float(row.get("composite_score", 0) or 0),
                 "composite_score_5axis": float(row.get("composite_score_5axis", 0) or 0),

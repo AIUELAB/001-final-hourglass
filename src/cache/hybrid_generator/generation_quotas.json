@@ -30,10 +30,10 @@
     "cooldown_end": "2026-01-07T20:52:54.030305"
   },
   "P2ED3A2C": {
-    "daily_count": 0,
-    "weekly_count": 1,
-    "last_generation": "2026-01-07T16:02:12.354298",
-    "cooldown_end": null
+    "daily_count": 1,
+    "weekly_count": 2,
+    "last_generation": "2026-01-07T17:44:12.819353",
+    "cooldown_end": "2026-01-07T21:44:12.819353"
   },
   "P4B0B910": {
     "daily_count": 1,
@@ -442,5 +442,893 @@
     "weekly_count": 1,
     "last_generation": "2026-01-07T17:15:17.151792",
     "cooldown_end": "2026-01-07T21:15:17.151792"
+  },
+  "P85E297B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:44:26.521532",
+    "cooldown_end": "2026-01-07T21:44:26.521532"
+  },
+  "PE465A4C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:44:37.633083",
+    "cooldown_end": "2026-01-07T21:44:37.633083"
+  },
+  "PF025BA6": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:45:01.305645",
+    "cooldown_end": "2026-01-07T21:45:01.305645"
+  },
+  "P6A3BCD0": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:45:27.826211",
+    "cooldown_end": "2026-01-07T21:45:27.826211"
+  },
+  "PBB3EAC0": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:45:39.060030",
+    "cooldown_end": "2026-01-07T21:45:39.060030"
+  },
+  "P8652D2C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:45:52.078817",
+    "cooldown_end": "2026-01-07T21:45:52.078817"
+  },
+  "P93778B3": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:46:01.560133",
+    "cooldown_end": "2026-01-07T21:46:01.560133"
+  },
+  "P3A577E2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:46:30.326818",
+    "cooldown_end": "2026-01-07T21:46:30.326818"
+  },
+  "P501960B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:46:43.985624",
+    "cooldown_end": "2026-01-07T21:46:43.985624"
+  },
+  "P623A101": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:46:54.846484",
+    "cooldown_end": "2026-01-07T21:46:54.846484"
+  },
+  "PA1D865F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:47:07.961802",
+    "cooldown_end": "2026-01-07T21:47:07.961802"
+  },
+  "P837A0C7": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:47:19.289597",
+    "cooldown_end": "2026-01-07T21:47:19.289597"
+  },
+  "P87D73CC": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:47:33.905986",
+    "cooldown_end": "2026-01-07T21:47:33.905986"
+  },
+  "PC50E786": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:47:47.880654",
+    "cooldown_end": "2026-01-07T21:47:47.880654"
+  },
+  "P023077B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:48:02.645033",
+    "cooldown_end": "2026-01-07T21:48:02.645033"
+  },
+  "PCDA711E": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T17:48:18.098556",
+    "cooldown_end": "2026-01-07T21:48:18.098556"
+  },
+  "P5E4BA67": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:06:27.918742",
+    "cooldown_end": "2026-01-07T22:06:27.918742"
+  },
+  "P059B4BD": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:06:41.644540",
+    "cooldown_end": "2026-01-07T22:06:41.644540"
+  },
+  "PD331311": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:06:54.761786",
+    "cooldown_end": "2026-01-07T22:06:54.761786"
+  },
+  "P0A107F5": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:07:08.416686",
+    "cooldown_end": "2026-01-07T22:07:08.416686"
+  },
+  "PD266F5A": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:07:20.957639",
+    "cooldown_end": "2026-01-07T22:07:20.957639"
+  },
+  "PAACE7F7": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:07:34.380601",
+    "cooldown_end": "2026-01-07T22:07:34.380601"
+  },
+  "P29D7CFD": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:07:46.605123",
+    "cooldown_end": "2026-01-07T22:07:46.605123"
+  },
+  "PBFE165C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:08:00.851963",
+    "cooldown_end": "2026-01-07T22:08:00.851963"
+  },
+  "PB5C673A": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:08:14.678601",
+    "cooldown_end": "2026-01-07T22:08:14.678601"
+  },
+  "PA6F7C3F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:08:29.065079",
+    "cooldown_end": "2026-01-07T22:08:29.065079"
+  },
+  "P2E04175": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:08:46.041688",
+    "cooldown_end": "2026-01-07T22:08:46.041688"
+  },
+  "P298DD5C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:08:59.588830",
+    "cooldown_end": "2026-01-07T22:08:59.588830"
+  },
+  "P227C0CA": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:09:13.646603",
+    "cooldown_end": "2026-01-07T22:09:13.646603"
+  },
+  "P483F2B3": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:09:27.671983",
+    "cooldown_end": "2026-01-07T22:09:27.671983"
+  },
+  "P6F10E03": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:09:41.597373",
+    "cooldown_end": "2026-01-07T22:09:41.597373"
+  },
+  "P343082B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:09:54.678014",
+    "cooldown_end": "2026-01-07T22:09:54.678014"
+  },
+  "PAA72749": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:10:08.801867",
+    "cooldown_end": "2026-01-07T22:10:08.801867"
+  },
+  "P11FF1BC": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:10:23.972724",
+    "cooldown_end": "2026-01-07T22:10:23.972724"
+  },
+  "PCD0B08F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:10:50.166686",
+    "cooldown_end": "2026-01-07T22:10:50.166686"
+  },
+  "P5088566": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:11:03.256738",
+    "cooldown_end": "2026-01-07T22:11:03.256738"
+  },
+  "P8E6A612": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:11:17.712432",
+    "cooldown_end": "2026-01-07T22:11:17.712432"
+  },
+  "P3417C9A": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:11:43.932067",
+    "cooldown_end": "2026-01-07T22:11:43.932067"
+  },
+  "P504D003": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:11:56.279140",
+    "cooldown_end": "2026-01-07T22:11:56.279140"
+  },
+  "PEBAC6AF": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:12:21.967683",
+    "cooldown_end": "2026-01-07T22:12:21.967683"
+  },
+  "PDA0AAF5": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:12:34.940508",
+    "cooldown_end": "2026-01-07T22:12:34.940508"
+  },
+  "PDEE045B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:12:49.613493",
+    "cooldown_end": "2026-01-07T22:12:49.613493"
+  },
+  "PE672E65": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:13:06.144385",
+    "cooldown_end": "2026-01-07T22:13:06.144385"
+  },
+  "P1577287": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:13:20.510600",
+    "cooldown_end": "2026-01-07T22:13:20.510600"
+  },
+  "PAD0383C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:13:34.519471",
+    "cooldown_end": "2026-01-07T22:13:34.519471"
+  },
+  "P5538D97": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:13:47.476974",
+    "cooldown_end": "2026-01-07T22:13:47.476974"
+  },
+  "P77F1C02": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:14:00.242569",
+    "cooldown_end": "2026-01-07T22:14:00.242569"
+  },
+  "P1313787": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:14:13.554477",
+    "cooldown_end": "2026-01-07T22:14:13.554477"
+  },
+  "PABC7B02": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:14:26.728141",
+    "cooldown_end": "2026-01-07T22:14:26.728141"
+  },
+  "PFD3015C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:14:40.140042",
+    "cooldown_end": "2026-01-07T22:14:40.140042"
+  },
+  "PFCBDFE9": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:14:53.022837",
+    "cooldown_end": "2026-01-07T22:14:53.022837"
+  },
+  "P87987DF": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:15:07.004062",
+    "cooldown_end": "2026-01-07T22:15:07.004062"
+  },
+  "P559E659": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:15:19.182770",
+    "cooldown_end": "2026-01-07T22:15:19.182770"
+  },
+  "P5D9D6AE": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:15:32.346365",
+    "cooldown_end": "2026-01-07T22:15:32.346365"
+  },
+  "P4695768": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:15:45.364057",
+    "cooldown_end": "2026-01-07T22:15:45.364057"
+  },
+  "PF5F4E4B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:16:00.593417",
+    "cooldown_end": "2026-01-07T22:16:00.593417"
+  },
+  "PEECF396": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:16:15.249380",
+    "cooldown_end": "2026-01-07T22:16:15.249380"
+  },
+  "PB96DC37": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:16:28.013514",
+    "cooldown_end": "2026-01-07T22:16:28.013514"
+  },
+  "P5525D21": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:16:41.831835",
+    "cooldown_end": "2026-01-07T22:16:41.831835"
+  },
+  "P9E8BBDB": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:17:23.189274",
+    "cooldown_end": "2026-01-07T22:17:23.189274"
+  },
+  "P18A20FA": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:17:35.472979",
+    "cooldown_end": "2026-01-07T22:17:35.472979"
+  },
+  "P8112383": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:17:50.117312",
+    "cooldown_end": "2026-01-07T22:17:50.117312"
+  },
+  "P37D6167": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:18:03.318466",
+    "cooldown_end": "2026-01-07T22:18:03.318466"
+  },
+  "PF51199C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:18:30.139661",
+    "cooldown_end": "2026-01-07T22:18:30.139661"
+  },
+  "PBFBAFB2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:18:39.952189",
+    "cooldown_end": "2026-01-07T22:18:39.952189"
+  },
+  "P53F94E2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:19:04.775701",
+    "cooldown_end": "2026-01-07T22:19:04.775701"
+  },
+  "PF7CC537": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:19:19.355020",
+    "cooldown_end": "2026-01-07T22:19:19.355020"
+  },
+  "P7E95EF2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:19:32.894800",
+    "cooldown_end": "2026-01-07T22:19:32.894800"
+  },
+  "PA94086F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:19:46.221424",
+    "cooldown_end": "2026-01-07T22:19:46.221424"
+  },
+  "P15231EE": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:20:18.168827",
+    "cooldown_end": "2026-01-07T22:20:18.168827"
+  },
+  "PAC4FBA3": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:20:31.561072",
+    "cooldown_end": "2026-01-07T22:20:31.561072"
+  },
+  "P50537BD": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:20:45.483857",
+    "cooldown_end": "2026-01-07T22:20:45.483857"
+  },
+  "PD192D09": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:20:59.528189",
+    "cooldown_end": "2026-01-07T22:20:59.528189"
+  },
+  "P95CCCE1": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:21:13.904908",
+    "cooldown_end": "2026-01-07T22:21:13.904908"
+  },
+  "PE1E5DFB": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:21:27.490149",
+    "cooldown_end": "2026-01-07T22:21:27.490149"
+  },
+  "P3C9ABA8": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:21:41.014905",
+    "cooldown_end": "2026-01-07T22:21:41.014905"
+  },
+  "PF906A8D": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:21:54.176736",
+    "cooldown_end": "2026-01-07T22:21:54.176736"
+  },
+  "PBB03AB8": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:22:07.623242",
+    "cooldown_end": "2026-01-07T22:22:07.623242"
+  },
+  "PD0FABD2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:22:20.032067",
+    "cooldown_end": "2026-01-07T22:22:20.032067"
+  },
+  "PA2EF3E4": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:22:32.974697",
+    "cooldown_end": "2026-01-07T22:22:32.974697"
+  },
+  "P554B3D4": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:22:44.537105",
+    "cooldown_end": "2026-01-07T22:22:44.537105"
+  },
+  "P1697EF1": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:22:56.623451",
+    "cooldown_end": "2026-01-07T22:22:56.623451"
+  },
+  "P825D22D": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:23:10.833275",
+    "cooldown_end": "2026-01-07T22:23:10.833275"
+  },
+  "P6D0FBD6": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:23:25.657036",
+    "cooldown_end": "2026-01-07T22:23:25.657036"
+  },
+  "PAC115F7": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:23:40.369072",
+    "cooldown_end": "2026-01-07T22:23:40.369072"
+  },
+  "PEB725E2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:23:55.045990",
+    "cooldown_end": "2026-01-07T22:23:55.045990"
+  },
+  "P9F5AB84": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:24:05.768062",
+    "cooldown_end": "2026-01-07T22:24:05.768062"
+  },
+  "P14C7C84": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:24:28.621087",
+    "cooldown_end": "2026-01-07T22:24:28.621087"
+  },
+  "P512E1F9": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:24:52.554898",
+    "cooldown_end": "2026-01-07T22:24:52.554898"
+  },
+  "P7C23172": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:25:05.919963",
+    "cooldown_end": "2026-01-07T22:25:05.919963"
+  },
+  "P257F75F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:25:20.188699",
+    "cooldown_end": "2026-01-07T22:25:20.188699"
+  },
+  "P53D8DF9": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:25:33.912459",
+    "cooldown_end": "2026-01-07T22:25:33.912459"
+  },
+  "P88F4120": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:26:01.111057",
+    "cooldown_end": "2026-01-07T22:26:01.111057"
+  },
+  "P8DFA541": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:26:14.891443",
+    "cooldown_end": "2026-01-07T22:26:14.891443"
+  },
+  "P0FA0606": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:26:28.812151",
+    "cooldown_end": "2026-01-07T22:26:28.812151"
+  },
+  "P476BE02": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:26:44.088065",
+    "cooldown_end": "2026-01-07T22:26:44.088065"
+  },
+  "PA74B16A": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:26:58.090712",
+    "cooldown_end": "2026-01-07T22:26:58.090712"
+  },
+  "P8E66869": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:27:11.534846",
+    "cooldown_end": "2026-01-07T22:27:11.534846"
+  },
+  "PDFCE210": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:27:24.066508",
+    "cooldown_end": "2026-01-07T22:27:24.066508"
+  },
+  "P3B77E73": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:27:35.668721",
+    "cooldown_end": "2026-01-07T22:27:35.668721"
+  },
+  "P1DF3F1A": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:27:45.290217",
+    "cooldown_end": "2026-01-07T22:27:45.290217"
+  },
+  "PC337D58": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:27:57.390330",
+    "cooldown_end": "2026-01-07T22:27:57.390330"
+  },
+  "P47CC417": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:28:10.585751",
+    "cooldown_end": "2026-01-07T22:28:10.585751"
+  },
+  "P61EC972": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:28:20.561905",
+    "cooldown_end": "2026-01-07T22:28:20.561905"
+  },
+  "PD035F91": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:28:32.325095",
+    "cooldown_end": "2026-01-07T22:28:32.325095"
+  },
+  "PFE7B1B2": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:28:47.158597",
+    "cooldown_end": "2026-01-07T22:28:47.158597"
+  },
+  "P0224306": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:29:01.995798",
+    "cooldown_end": "2026-01-07T22:29:01.995798"
+  },
+  "P91DE2B9": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:29:13.984335",
+    "cooldown_end": "2026-01-07T22:29:13.984335"
+  },
+  "P1BE9087": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:29:31.354838",
+    "cooldown_end": "2026-01-07T22:29:31.354838"
+  },
+  "P4DB03E0": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:29:48.470424",
+    "cooldown_end": "2026-01-07T22:29:48.470424"
+  },
+  "PDA1217D": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:30:16.269513",
+    "cooldown_end": "2026-01-07T22:30:16.269513"
+  },
+  "P8819533": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:30:30.199807",
+    "cooldown_end": "2026-01-07T22:30:30.199807"
+  },
+  "P74C6E25": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:30:42.626691",
+    "cooldown_end": "2026-01-07T22:30:42.626691"
+  },
+  "PF651010": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:30:53.309976",
+    "cooldown_end": "2026-01-07T22:30:53.309976"
+  },
+  "P0EEA87C": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:31:07.241543",
+    "cooldown_end": "2026-01-07T22:31:07.241543"
+  },
+  "PA21CC2A": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:31:19.890573",
+    "cooldown_end": "2026-01-07T22:31:19.890573"
+  },
+  "P183DBEF": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:31:34.641423",
+    "cooldown_end": "2026-01-07T22:31:34.641423"
+  },
+  "P9068215": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:31:47.265913",
+    "cooldown_end": "2026-01-07T22:31:47.265913"
+  },
+  "P1AA5997": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:32:15.873354",
+    "cooldown_end": "2026-01-07T22:32:15.873354"
+  },
+  "P5F98C1E": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:32:30.327339",
+    "cooldown_end": "2026-01-07T22:32:30.327339"
+  },
+  "P24F9F03": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:32:45.668186",
+    "cooldown_end": "2026-01-07T22:32:45.668186"
+  },
+  "P9F00F05": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:33:00.552913",
+    "cooldown_end": "2026-01-07T22:33:00.552913"
+  },
+  "P25D7434": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:33:14.582756",
+    "cooldown_end": "2026-01-07T22:33:14.582756"
+  },
+  "PCF8786B": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:33:27.762344",
+    "cooldown_end": "2026-01-07T22:33:27.762344"
+  },
+  "P2C64484": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:33:39.646605",
+    "cooldown_end": "2026-01-07T22:33:39.646605"
+  },
+  "P4FD1792": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:33:55.913591",
+    "cooldown_end": "2026-01-07T22:33:55.913591"
+  },
+  "PE61274F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:34:11.268157",
+    "cooldown_end": "2026-01-07T22:34:11.268157"
+  },
+  "P15A4170": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:34:25.921532",
+    "cooldown_end": "2026-01-07T22:34:25.921532"
+  },
+  "PCBAFBBC": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:34:40.633730",
+    "cooldown_end": "2026-01-07T22:34:40.633730"
+  },
+  "P744B0CA": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:34:55.857991",
+    "cooldown_end": "2026-01-07T22:34:55.857991"
+  },
+  "PAD74694": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:35:09.333987",
+    "cooldown_end": "2026-01-07T22:35:09.333987"
+  },
+  "P2AB5806": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:35:23.706522",
+    "cooldown_end": "2026-01-07T22:35:23.706522"
+  },
+  "P060331F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:35:38.440092",
+    "cooldown_end": "2026-01-07T22:35:38.440092"
+  },
+  "PE82FA9F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:35:52.218124",
+    "cooldown_end": "2026-01-07T22:35:52.218124"
+  },
+  "P2344AB9": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:36:08.612538",
+    "cooldown_end": "2026-01-07T22:36:08.612538"
+  },
+  "P96D8EB8": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:36:21.901839",
+    "cooldown_end": "2026-01-07T22:36:21.901839"
+  },
+  "P5C4E72E": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:36:49.627357",
+    "cooldown_end": "2026-01-07T22:36:49.627357"
+  },
+  "PEE18412": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:37:14.378296",
+    "cooldown_end": "2026-01-07T22:37:14.378296"
+  },
+  "P6574113": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:37:28.743293",
+    "cooldown_end": "2026-01-07T22:37:28.743293"
+  },
+  "PD79EB37": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:37:41.487165",
+    "cooldown_end": "2026-01-07T22:37:41.487165"
+  },
+  "P32EFD7F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:37:54.300837",
+    "cooldown_end": "2026-01-07T22:37:54.300837"
+  },
+  "P99EC04E": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:38:05.710326",
+    "cooldown_end": "2026-01-07T22:38:05.710326"
+  },
+  "PFA09391": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:38:20.906549",
+    "cooldown_end": "2026-01-07T22:38:20.906549"
+  },
+  "P38F4CAC": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:38:36.653108",
+    "cooldown_end": "2026-01-07T22:38:36.653108"
+  },
+  "PB194D17": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:38:50.567545",
+    "cooldown_end": "2026-01-07T22:38:50.567545"
+  },
+  "PEEE4921": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:39:06.305176",
+    "cooldown_end": "2026-01-07T22:39:06.305176"
+  },
+  "PB875522": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:39:19.507997",
+    "cooldown_end": "2026-01-07T22:39:19.507997"
+  },
+  "P2AC8021": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T18:39:31.957626",
+    "cooldown_end": "2026-01-07T22:39:31.957626"
   }
 }

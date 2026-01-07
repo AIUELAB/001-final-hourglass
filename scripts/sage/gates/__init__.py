@@ -77,6 +77,12 @@ from .wiki_fact_checker import (
     WikiFactChecker,
     verify_episode_facts,
 )
+from .perplexity_fact_checker import (
+    HybridFactChecker,
+    PerplexityFactCheckResult,
+    PerplexityFactChecker,
+    perplexity_fact_check,
+)
 
 __all__ = [
     # Anti-Gaming
@@ -113,6 +119,11 @@ __all__ = [
     "CategoryFactRules",
     "PersonInfo",
     "verify_episode_facts",
+    # Perplexity Fact Check
+    "PerplexityFactChecker",
+    "PerplexityFactCheckResult",
+    "HybridFactChecker",
+    "perplexity_fact_check",
     # Duplicate
     "DuplicateDetector",
     "DuplicateCheckResult",

@@ -25,6 +25,7 @@ from .config import (
     Strategy,
 )
 from .gates import (
+    AntiGamingMonitor,
     CandidatePrioritizer,
     DiversityManager,
     DuplicateDetector,
@@ -122,6 +123,9 @@ class HybridOrchestrator:
             master_csv=self.config.master_csv,
             cache_dir=self.config.cache_dir,
         )
+
+        # Phase 3: アンチゲーミングモニター
+        self._anti_gaming = AntiGamingMonitor()
 
         # マスターデータ
         self._master_df: Optional[pd.DataFrame] = None
@@ -269,6 +273,18 @@ class HybridOrchestrator:
                 "person_name": candidate.person_name,
                 "reason": specificity_check.reason.value if specificity_check.reason else "filler",
                 "message": specificity_check.message,
+            }
+
+        # 5.5. Phase 3: アンチゲーミングチェック（キーワード詰め込み、抽象語過多、テンプレート臭）
+        gaming_result = self._anti_gaming.check(result.episode_text, candidate.person_name)
+        # missing_specifics は step 5 でカバー済みなので除外
+        gaming_violations = [v for v in gaming_result.violations if v != "missing_specifics"]
+        if gaming_violations:
+            return None, {
+                "person_id": candidate.person_id,
+                "person_name": candidate.person_name,
+                "reason": gaming_result.rejection_reason.value if gaming_result.rejection_reason else "anti_gaming",
+                "message": f"Anti-gaming violations: {', '.join(gaming_violations)}",
             }
 
         # 6. ファクトチェック

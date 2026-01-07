@@ -262,10 +262,10 @@ class TestQualityEvaluator:
             memorability=7.0,
             empathy=7.0,
             surprise=7.0,
-            generation_quality=7.0,  # >= 6.0
+            generation_quality=8.0,  # >= 8.0 (Phase2)
             educational_value=7.0,
             story_quality=7.0,
-            factual_density=7.0,  # >= 6.0
+            factual_density=7.0,  # >= 7.0 (Phase2)
         )
         result = evaluator.check_quality_gates(scores)
         assert result.passed
@@ -277,10 +277,10 @@ class TestQualityEvaluator:
             memorability=7.0,
             empathy=7.0,
             surprise=7.0,
-            generation_quality=7.0,
+            generation_quality=8.0,  # >= 8.0 (Phase2)
             educational_value=7.0,
             story_quality=7.0,
-            factual_density=5.0,  # < 6.0
+            factual_density=6.0,  # < 7.0 (Phase2)
         )
         result = evaluator.check_quality_gates(scores)
         assert not result.passed
@@ -293,10 +293,10 @@ class TestQualityEvaluator:
             memorability=7.0,
             empathy=7.0,
             surprise=7.0,
-            generation_quality=5.0,  # < 6.0
+            generation_quality=7.0,  # < 8.0 (Phase2)
             educational_value=7.0,
             story_quality=7.0,
-            factual_density=7.0,
+            factual_density=7.0,  # >= 7.0 (Phase2)
         )
         result = evaluator.check_quality_gates(scores)
         assert not result.passed

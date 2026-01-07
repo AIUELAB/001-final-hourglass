@@ -27,55 +27,86 @@ class QualityEvaluator:
     品質評価器
 
     7軸評価と品質ゲートを統合管理。
+    Phase 13: カテゴリ別閾値対応。
     """
 
     def __init__(self, thresholds: dict[str, float] = None):
         self.thresholds = thresholds or QUALITY_THRESHOLDS.copy()
+        # Phase 13: CategoryThresholdsインスタンス（遅延初期化）
+        self._category_thresholds = None
 
-    def check_quality_gates(self, scores: AxisScores) -> GateCheckResult:
+    def _get_category_thresholds(self):
+        """CategoryThresholdsの遅延初期化"""
+        if self._category_thresholds is None:
+            from .category_evaluator import CategoryThresholds
+
+            self._category_thresholds = CategoryThresholds()
+        return self._category_thresholds
+
+    def check_quality_gates(
+        self,
+        scores: AxisScores,
+        category: Optional[str] = None,
+        use_category: bool = True,
+    ) -> GateCheckResult:
         """
         品質ゲートをチェック
 
         Args:
             scores: 7軸スコア
+            category: カテゴリ名（Phase 13: カテゴリ別閾値用）
+            use_category: カテゴリ別閾値を使用するか（デフォルトTrue）
 
         Returns:
             GateCheckResult: ゲートチェック結果
         """
         failures = []
 
+        # Phase 13: カテゴリ別閾値の適用
+        if category and use_category:
+            cat_threshold = self._get_category_thresholds().get_threshold(category)
+            min_fd = cat_threshold.factual_density
+            min_gq = cat_threshold.generation_quality
+            min_mem = cat_threshold.memorability
+            min_emp = cat_threshold.empathy
+            min_sur = cat_threshold.surprise
+            min_edu = cat_threshold.educational_value
+            min_story = cat_threshold.story_quality
+        else:
+            # グローバル閾値を使用
+            min_fd = self.thresholds.get("min_factual_density", 6.0)
+            min_gq = self.thresholds.get("min_generation_quality", 6.0)
+            min_mem = self.thresholds.get("min_memorability", 5.5)
+            min_emp = self.thresholds.get("min_empathy", 5.0)
+            min_sur = self.thresholds.get("min_surprise", 5.0)
+            min_edu = self.thresholds.get("min_educational_value", 5.0)
+            min_story = self.thresholds.get("min_story_quality", 5.0)
+
         # 事実密度（ハードゲート）
-        min_fd = self.thresholds.get("min_factual_density", 6.0)
         if scores.factual_density < min_fd:
             failures.append(f"factual_density {scores.factual_density:.1f} < {min_fd}")
 
         # 生成品質（ハードゲート）
-        min_gq = self.thresholds.get("min_generation_quality", 6.0)
         if scores.generation_quality < min_gq:
             failures.append(f"generation_quality {scores.generation_quality:.1f} < {min_gq}")
 
         # 記憶性
-        min_mem = self.thresholds.get("min_memorability", 5.5)
         if scores.memorability < min_mem:
             failures.append(f"memorability {scores.memorability:.1f} < {min_mem}")
 
         # 共感性
-        min_emp = self.thresholds.get("min_empathy", 5.0)
         if scores.empathy < min_emp:
             failures.append(f"empathy {scores.empathy:.1f} < {min_emp}")
 
         # 意外性
-        min_sur = self.thresholds.get("min_surprise", 5.0)
         if scores.surprise < min_sur:
             failures.append(f"surprise {scores.surprise:.1f} < {min_sur}")
 
         # 教育的価値
-        min_edu = self.thresholds.get("min_educational_value", 5.0)
         if scores.educational_value < min_edu:
             failures.append(f"educational_value {scores.educational_value:.1f} < {min_edu}")
 
         # ストーリー品質
-        min_story = self.thresholds.get("min_story_quality", 5.0)
         if scores.story_quality < min_story:
             failures.append(f"story_quality {scores.story_quality:.1f} < {min_story}")
 

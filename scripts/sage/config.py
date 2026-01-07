@@ -245,6 +245,9 @@ class HybridConfig:
     # H4: プロンプトキャッシュ最適化
     prompt_cache_enabled: bool = True  # True: Anthropic Prompt Caching有効（-90%入力トークン）
 
+    # Phase 13: カテゴリ別閾値
+    use_category_thresholds: bool = True  # True: カテゴリ別閾値有効（採用率+5-10pt）
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

@@ -377,9 +377,13 @@ class HybridOrchestrator:
                 }
             )
 
-        # 8. 品質ゲートチェック
+        # 8. 品質ゲートチェック（Phase 13: カテゴリ別閾値対応）
         if result.evaluation:
-            gate_result = self._evaluator.check_quality_gates(result.evaluation.axis_scores)
+            gate_result = self._evaluator.check_quality_gates(
+                result.evaluation.axis_scores,
+                category=candidate.category,
+                use_category=self.config.use_category_thresholds,
+            )
             if not gate_result.passed:
                 return ProcessingResult(
                     rejection={

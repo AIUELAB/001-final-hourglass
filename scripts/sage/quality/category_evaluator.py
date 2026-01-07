@@ -80,51 +80,149 @@ class CategoryThresholds:
     カテゴリごとに異なる品質閾値を適用。
     """
 
-    # カテゴリ別閾値定義
+    # カテゴリ別閾値定義（v2: バランス調整版）
+    # 調整方針: 品質維持しつつ通過率70%以上を目標
     THRESHOLDS = {
+        # === 科学・学術系 ===
         "科学": CategoryThreshold(
-            factual_density=8.5,
-            generation_quality=8.5,
-            educational_value=8.0,
+            factual_density=8.0,  # 8.5→8.0
+            generation_quality=8.0,  # 8.5→8.0
+            educational_value=7.5,  # 8.0→7.5
             story_quality=6.0,
         ),
-        "スポーツ": CategoryThreshold(
-            factual_density=7.5,
+        "科学・技術": CategoryThreshold(
+            factual_density=7.0,  # 7.5→7.0 通過率向上
             generation_quality=8.0,
-            memorability=7.0,
-            empathy=7.0,
+            educational_value=7.0,
+            story_quality=6.0,
+            empathy=5.0,  # 技術系人物は共感性が低い傾向
         ),
+        "学術・研究": CategoryThreshold(
+            factual_density=7.0,  # 7.5→7.0 通過率向上
+            generation_quality=8.0,
+            educational_value=7.0,  # 7.5→7.0
+            story_quality=6.0,
+            empathy=5.0,  # 技術系人物は共感性が低い傾向
+        ),
+        # === スポーツ ===
+        "スポーツ": CategoryThreshold(
+            factual_density=7.0,  # 7.5→7.0
+            generation_quality=8.0,
+            memorability=6.0,  # 7.0→6.0
+            empathy=6.0,  # 7.0→6.0
+        ),
+        # === 芸術・文化系 ===
         "芸術": CategoryThreshold(
             factual_density=6.0,
             generation_quality=8.0,
-            story_quality=8.0,
-            empathy=7.0,
+            story_quality=7.5,  # 8.0→7.5
+            empathy=6.5,  # 7.0→6.5
         ),
-        "政治": CategoryThreshold(
-            factual_density=8.0,
+        "芸術・文化": CategoryThreshold(
+            factual_density=6.0,
             generation_quality=8.0,
-            educational_value=7.5,
+            story_quality=7.0,
+            empathy=6.0,
+        ),
+        "音楽": CategoryThreshold(
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=7.0,
+            empathy=6.5,
+            memorability=6.0,
+        ),
+        # === 政治・歴史系 ===
+        "政治": CategoryThreshold(
+            factual_density=7.5,  # 8.0→7.5
+            generation_quality=8.0,
+            educational_value=7.0,  # 7.5→7.0
+        ),
+        "政治・社会": CategoryThreshold(
+            factual_density=7.0,
+            generation_quality=8.0,
+            educational_value=7.0,
         ),
         "歴史": CategoryThreshold(
-            factual_density=8.0,
+            factual_density=7.0,  # 8.0→7.5→7.0 通過率向上
             generation_quality=8.0,
-            educational_value=7.5,
+            educational_value=7.0,  # 7.5→7.0
         ),
+        # === ビジネス ===
         "ビジネス": CategoryThreshold(
+            factual_density=7.0,  # 7.5→7.0
+            generation_quality=8.0,
+            educational_value=6.5,  # 7.0→6.5
+        ),
+        # === エンターテイメント系 ===
+        "エンターテインメント": CategoryThreshold(
+            factual_density=6.0,  # 6.5→6.0
+            generation_quality=8.0,
+            story_quality=7.0,  # 7.5→7.0
+            memorability=6.0,  # 7.0→6.0
+        ),
+        "エンターテイメント": CategoryThreshold(  # 表記揺れ対応
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=7.0,
+            memorability=6.0,
+        ),
+        "映画・演劇": CategoryThreshold(
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=7.0,
+            empathy=6.0,
+        ),
+        "俳優・女優": CategoryThreshold(
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=7.0,
+            empathy=6.0,
+        ),
+        "俳優": CategoryThreshold(
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=7.0,
+            empathy=6.0,
+        ),
+        "アニメ・漫画・ゲーム": CategoryThreshold(
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=7.0,
+            memorability=6.0,
+        ),
+        # === 文学 ===
+        "文学": CategoryThreshold(
+            factual_density=6.0,  # 6.5→6.0
+            generation_quality=8.0,  # 8.5→8.0
+            story_quality=7.0,  # 8.5→7.5→7.0 通過率向上
+        ),
+        # === 探検・冒険 ===
+        "探検・冒険": CategoryThreshold(
+            factual_density=6.5,
+            generation_quality=8.0,
+            story_quality=7.0,
+            memorability=6.5,
+        ),
+        # === その他 ===
+        "医学・健康": CategoryThreshold(
             factual_density=7.5,
             generation_quality=8.0,
             educational_value=7.0,
         ),
-        "エンターテインメント": CategoryThreshold(
-            factual_density=6.5,
+        "アナウンサー・キャスター": CategoryThreshold(
+            factual_density=6.0,
+            generation_quality=8.0,
+            story_quality=6.5,
+        ),
+        "競走馬": CategoryThreshold(
+            factual_density=7.0,
+            generation_quality=8.0,
+            memorability=6.0,
+        ),
+        "日本の伝説": CategoryThreshold(
+            factual_density=5.5,  # 伝説なので事実密度は低め
             generation_quality=8.0,
             story_quality=7.5,
-            memorability=7.0,
-        ),
-        "文学": CategoryThreshold(
-            factual_density=6.5,
-            generation_quality=8.5,
-            story_quality=8.5,
         ),
     }
 

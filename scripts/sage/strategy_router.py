@@ -95,17 +95,22 @@ class StrategyRouter:
         strategy: Strategy = Strategy.EPGEN_FIRST,
         use_mock: bool = False,
         use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
+        use_compact_prompt: bool = True,  # Phase 10: 圧縮版プロンプト使用
     ):
         self.strategy = strategy
         self.use_mock = use_mock
         self.use_haiku_evaluation = use_haiku_evaluation
+        self.use_compact_prompt = use_compact_prompt
         self._stats = StrategyStats(strategy=strategy)
 
         # アダプター初期化
         if use_mock:
             self._epgen = MockEPGENAdapter()
         else:
-            self._epgen = EPGENAdapter(use_haiku_evaluation=use_haiku_evaluation)
+            self._epgen = EPGENAdapter(
+                use_haiku_evaluation=use_haiku_evaluation,
+                use_compact_prompt=use_compact_prompt,
+            )
         self._legacy = LegacyGeneratorAdapter()
 
     @property
@@ -286,7 +291,7 @@ class StrategyRouter:
         epgen_score = self._get_quality_score(epgen)
         legacy_score = self._get_quality_score(legacy)
 
-        return f"EPGEN: {epgen_score:.0f}, Legacy: {legacy_score:.0f}, " f"Diff: {abs(epgen_score - legacy_score):.0f}"
+        return f"EPGEN: {epgen_score:.0f}, Legacy: {legacy_score:.0f}, Diff: {abs(epgen_score - legacy_score):.0f}"
 
     def _update_super_total_stats(self, result: GenerationResult) -> None:
         """超総合スコア統計を更新"""
@@ -337,6 +342,7 @@ def create_router(
     strategy: str = "epgen_first",
     use_mock: bool = False,
     use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
+    use_compact_prompt: bool = True,  # Phase 10: 圧縮版プロンプト使用
 ) -> StrategyRouter:
     """
     ルーターを作成
@@ -345,6 +351,7 @@ def create_router(
         strategy: 戦略名 ('epgen_first', 'legacy_first', 'ab_compare')
         use_mock: モックを使用するか
         use_haiku_evaluation: 評価にHaikuを使用（True=コスト-92%、False=Sonnet高精度）
+        use_compact_prompt: 圧縮版プロンプト使用（True=-60%トークン, False=通常版）
 
     Returns:
         StrategyRouter: ルーター
@@ -354,4 +361,5 @@ def create_router(
         strategy=strategy_enum,
         use_mock=use_mock,
         use_haiku_evaluation=use_haiku_evaluation,
+        use_compact_prompt=use_compact_prompt,
     )

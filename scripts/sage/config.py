@@ -236,6 +236,9 @@ class HybridConfig:
     evaluation_batch_size: int = 50  # 評価バッチサイズ（20→50: -60%呼び出し）
     token_logging_enabled: bool = True  # トークン計測ログ有効
 
+    # Phase 10: プロンプト最適化設定
+    use_compact_prompt: bool = True  # True: 圧縮版プロンプト使用（-60%トークン）
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

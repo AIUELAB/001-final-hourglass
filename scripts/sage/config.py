@@ -224,6 +224,12 @@ class HybridConfig:
     use_mock: bool = False  # True: モックアダプター使用（API不要）
     verbose: bool = False
 
+    # Phase 8: 最適化設定
+    fictional_enabled: bool = False  # False: REALのみ生成（架空キャラ除外）
+    batch_api_enabled: bool = True  # True: Batch API有効（50%コスト削減）
+    async_enabled: bool = True  # True: 非同期処理有効（3-4倍高速化）
+    max_concurrent: int = 10  # 非同期処理の同時実行数
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

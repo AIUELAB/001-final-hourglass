@@ -392,20 +392,21 @@ class MockEPGENAdapter(GeneratorAdapter):
             f"この成果は「サイエンス」誌に掲載され、業界に革命をもたらしました。"
         )
 
+        # Phase 2閾値対応: 事実密度>=7, 生成品質>=8
         axis_scores = AxisScores(
-            memorability=7.0,
-            empathy=6.5,
+            memorability=7.5,
+            empathy=7.0,
             surprise=7.5,
-            generation_quality=7.0,
-            educational_value=6.5,
-            story_quality=7.0,
-            factual_density=7.0,
+            generation_quality=8.5,  # Phase 2: >=8.0必須
+            educational_value=7.0,
+            story_quality=7.5,
+            factual_density=8.0,  # Phase 2: >=7.0必須
         )
 
         evaluation = EvaluationResult(
             axis_scores=axis_scores,
-            composite_score=680.0,
-            super_total_score=450000.0,
+            composite_score=750.0,
+            super_total_score=550000.0,
             passed_gate=True,
             gate_failures=[],
         )
@@ -423,20 +424,21 @@ class MockEPGENAdapter(GeneratorAdapter):
 
     def evaluate(self, text: str, candidate: Candidate) -> EvaluationResult:
         """モック評価"""
+        # Phase 2閾値対応: 事実密度>=7, 生成品質>=8
         axis_scores = AxisScores(
-            memorability=7.0,
-            empathy=6.5,
+            memorability=7.5,
+            empathy=7.0,
             surprise=7.5,
-            generation_quality=7.0,
-            educational_value=6.5,
-            story_quality=7.0,
-            factual_density=7.0,
+            generation_quality=8.5,  # Phase 2: >=8.0必須
+            educational_value=7.0,
+            story_quality=7.5,
+            factual_density=8.0,  # Phase 2: >=7.0必須
         )
 
         return EvaluationResult(
             axis_scores=axis_scores,
-            composite_score=680.0,
-            super_total_score=450000.0,
+            composite_score=750.0,
+            super_total_score=550000.0,
             passed_gate=True,
             gate_failures=[],
         )

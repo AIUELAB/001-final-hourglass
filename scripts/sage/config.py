@@ -242,6 +242,9 @@ class HybridConfig:
     # Phase 12: 候補スコア閾値
     min_candidate_priority: float = 0.3  # 優先度スコア閾値（0.3未満は生成スキップ）
 
+    # H4: プロンプトキャッシュ最適化
+    prompt_cache_enabled: bool = True  # True: Anthropic Prompt Caching有効（-90%入力トークン）
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

@@ -74,21 +74,23 @@ if not self.config.fictional_enabled and person_type != "REAL":
 
 ## 完了したTODO
 
-1. [x] Phase 8 コミット完了 (57269ec)
-2. [x] Phase 9 実装完了 - 評価Haiku + Batch API (f7b9b86)
-3. [x] 追加最適化: 評価モデル設定、バッチサイズ設定
+1. [x] Phase 8 コミット完了 (57269ec) - 架空キャラ除外フィルタ
+2. [x] Phase 9 実装完了 (f7b9b86) - 評価Haiku + Batch API
+3. [x] Phase 10 実装完了 (fee2b9a) - プロンプト圧縮 (-60%トークン)
+4. [x] Phase 11 確認完了 - 失敗理由別テンプレート（Phase 5で実装済み）
+5. [x] Phase 12 実装完了 (cb63fe5) - 候補スコア閾値厳格化 (-15%生成)
 
-## Phase 9 追加内容
+## 全Phase設定確認済み
+- Phase 8: fictional_enabled = False
+- Phase 9: evaluation_model = claude-3-5-haiku-20241022
+- Phase 10: use_compact_prompt = True
+- Phase 12: min_candidate_priority = 0.3
 
-- `config.py`: evaluation_model, evaluation_batch_size, token_logging_enabled
-- `batch_processor.py`: Anthropic Batch API統合（新規）
-- `cli.py`: --batch-* オプション追加
-- `orchestrator.py`: 評価モデル設定を適用
+## 次のステップ
+- H4: プロンプトキャッシュ活用 (Anthropic Prompt Caching)
+- カテゴリ別閾値 (B) - 任意
 
-## 期待効果
-
-| 施策 | コスト削減 |
-|------|-----------|
+------|-----------|
 | 評価Haiku化 | -92%（評価分） |
 | Batch API | -50%（遅延許容時） |
 | 評価バッチ拡大 | -60%（呼び出し回数） |

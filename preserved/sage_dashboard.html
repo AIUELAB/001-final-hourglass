@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Generator Dashboard</title>
+    <title>SAGE Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,36 +25,36 @@
     </style>
 </head>
 <body>
-    <h1>Hybrid Generator Dashboard</h1>
+    <h1>SAGE Dashboard</h1>
 
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-value">22</div>
+            <div class="stat-value">79</div>
             <div class="stat-label">Total Runs</div>
-            <div class="stat-sub">dry-run: 18 / execute: 4</div>
+            <div class="stat-sub">dry-run: 40 / execute: 39</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">74</div>
+            <div class="stat-value">2265</div>
             <div class="stat-label">Episodes Accepted</div>
-            <div class="stat-sub">of 114 generated</div>
+            <div class="stat-sub">of 2601 generated</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value rate-warning">64.9%</div>
+            <div class="stat-value rate-good">87.1%</div>
             <div class="stat-label">Acceptance Rate</div>
             <div class="stat-sub">target: >= 70%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value rate-good">83.9%</div>
+            <div class="stat-value rate-good">95.5%</div>
             <div class="stat-label">EPGEN Success Rate</div>
-            <div class="stat-sub">94/112 attempts</div>
+            <div class="stat-sub">2462/2577 attempts</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">18</div>
+            <div class="stat-value">115</div>
             <div class="stat-label">Fallbacks</div>
             <div class="stat-sub">EPGEN -> Legacy</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">40</div>
+            <div class="stat-value">334</div>
             <div class="stat-label">Rejected</div>
             <div class="stat-sub">quality gates</div>
         </div>
@@ -71,23 +71,23 @@
         </div>
     </div>
 
-    <div class="updated">Last updated: 2026-01-06 14:45:35</div>
+    <div class="updated">Last updated: 2026-01-07 23:03:38</div>
 
     <script>
         // Daily chart
         new Chart(document.getElementById('dailyChart'), {
             type: 'bar',
             data: {
-                labels: ["2026-01-06"],
+                labels: ["2026-01-06", "2026-01-07"],
                 datasets: [
                     {
                         label: 'Accepted',
-                        data: [74],
+                        data: [618, 1647],
                         backgroundColor: 'rgba(0, 217, 255, 0.7)',
                     },
                     {
                         label: 'Generated',
-                        data: [114],
+                        data: [716, 1885],
                         backgroundColor: 'rgba(100, 100, 100, 0.5)',
                     }
                 ]
@@ -106,9 +106,9 @@
         new Chart(document.getElementById('rejectionChart'), {
             type: 'doughnut',
             data: {
-                labels: ["generation_error", "filler_detected", "low_factual_density", "cooldown_active", "same_age_duplicate", "prohibited_pattern", "low_specificity", "low_composite"],
+                labels: ["generation_error", "filler_detected", "low_factual_density", "cooldown_active", "same_age_duplicate", "prohibited_pattern", "low_specificity", "low_composite", "fabrication_detected", "low_super_total", "low_generation_quality", "async_error"],
                 datasets: [{
-                    data: [6, 8, 1, 1, 1, 4, 4, 15],
+                    data: [16, 16, 1, 23, 1, 80, 90, 21, 2, 1, 80, 3],
                     backgroundColor: [
                         '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'
                     ]

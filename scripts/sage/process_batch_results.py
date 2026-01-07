@@ -308,7 +308,9 @@ class BatchResultProcessor:
             "教育的価値": scores.educational_value,
             "ストーリー品質": scores.story_quality,
             "事実密度": scores.factual_density,
-            "episode_fame_v6": ep["super_total"],
+            # Note: episode_fame_v6は後でv6スコアラーで計算される
+            # super_totalは0-1,000,000スケールなので直接入れない
+            "super_total_score": ep["super_total"],
             "person_type": "REAL",
             "source": "batch_api",
             "generated_at": datetime.now().isoformat(),

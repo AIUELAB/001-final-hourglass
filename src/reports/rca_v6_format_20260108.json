@@ -1,0 +1,84 @@
+{
+  "report_id": "RCA-20260108-V6-FORMAT",
+  "title": "episode_fame_v6異常値・定型逸脱 根本原因分析レポート",
+  "created_at": "2026-01-08T08:25:37.804334",
+  "status": "COMPLETED",
+  "executive_summary": {
+    "issues_identified": 2,
+    "issues_fixed": 1,
+    "issues_pending": 1,
+    "affected_episodes": {
+      "v6_anomaly": 1626,
+      "format_deviation": 626
+    }
+  },
+  "issues": [
+    {
+      "id": "ISSUE-001",
+      "title": "episode_fame_v6 異常値",
+      "severity": "CRITICAL",
+      "status": "FIXED",
+      "root_cause": {
+        "description": "process_batch_results.py:311でsuper_total(0-1M)をepisode_fame_v6(0-100)列に直接代入",
+        "code_location": "scripts/sage/process_batch_results.py:311",
+        "original_code": "\"episode_fame_v6\": ep[\"super_total\"]",
+        "scale_mismatch": "super_total: 0-1,000,000 → episode_fame_v6: 0-100"
+      },
+      "fix": {
+        "description": "episode_fame_v6設定を削除、super_total_scoreに変更",
+        "code_change": "\"super_total_score\": ep[\"super_total\"]",
+        "data_fix": "1,626件のv6を正しい値で再計算"
+      },
+      "verification": {
+        "before": {
+          "range": "373188-408932",
+          "mean": 406146
+        },
+        "after": {
+          "range": "25.08-78.00",
+          "mean": 35.27
+        },
+        "anomalies_remaining": 0
+      }
+    },
+    {
+      "id": "ISSUE-002",
+      "title": "定型逸脱（私は）パターン",
+      "severity": "MEDIUM",
+      "status": "PENDING",
+      "root_cause": {
+        "description": "LLM生成時に一人称「私は」で開始するエピソードが生成された",
+        "expected_format": "あなたと同じ{age}歳のとき、{person_name}は...",
+        "actual_format": "あなたと同じ{age}歳のとき、私は..."
+      },
+      "affected_count": 626,
+      "sample_ids": [
+        "EP-260105225818577130",
+        "EP-260105225818577134",
+        "EP-260105225818577139",
+        "EP-260105225818577141"
+      ],
+      "resolution": "保留（後日対応）"
+    }
+  ],
+  "prevention_measures": {
+    "validation_gate": {
+      "file": "scripts/validation/episode_format_gate.py",
+      "tests": "tests/test_episode_format_gate.py",
+      "checks": [
+        "episode_fame_v6範囲検証 (0-200)",
+        "一人称「私は」パターン検出"
+      ]
+    },
+    "code_fix": {
+      "file": "scripts/sage/process_batch_results.py",
+      "description": "super_totalをepisode_fame_v6に直接入れない"
+    }
+  },
+  "execution_commands": {
+    "validate_format": "python scripts/validation/episode_format_gate.py",
+    "run_tests": "pytest tests/test_episode_format_gate.py -v",
+    "recalc_v6": "python scripts/recalculate_episode_fame_v6.py"
+  },
+  "backup_created": "MASTER_EPISODES_BACKUP_v6fix_20260108_082222.csv"
+}

@@ -10738,5 +10738,53 @@
     "weekly_count": 1,
     "last_generation": "2026-01-07T11:10:32.688357",
     "cooldown_end": "2026-01-08T11:10:32.688357"
+  },
+  "P_TEST_102": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T12:38:59.634934",
+    "cooldown_end": "2026-01-08T12:38:59.634934"
+  },
+  "P_TEST_105": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T12:39:00.251227",
+    "cooldown_end": "2026-01-08T12:39:00.251227"
+  },
+  "P_TEST_106": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T12:39:00.279805",
+    "cooldown_end": "2026-01-08T12:39:00.279805"
+  },
+  "P_TEST_20": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T12:39:00.309043",
+    "cooldown_end": "2026-01-08T12:39:00.309043"
+  },
+  "P_TEST_25": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T12:39:00.749018",
+    "cooldown_end": "2026-01-08T12:39:00.749018"
+  },
+  "PA1B2C3D": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T14:06:24.276266",
+    "cooldown_end": "2026-01-08T14:06:24.276266"
+  },
+  "PB2C3D4E": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T14:06:36.656405",
+    "cooldown_end": "2026-01-08T14:06:36.656405"
+  },
+  "PC3D4E5F": {
+    "daily_count": 1,
+    "weekly_count": 1,
+    "last_generation": "2026-01-07T14:06:49.526817",
+    "cooldown_end": "2026-01-08T14:06:49.526817"
   }
 }

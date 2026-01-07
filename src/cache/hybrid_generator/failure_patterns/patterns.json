@@ -1,0 +1,23 @@
+{
+  "low_factual_density": {
+    "pattern_id": "low_factual_density",
+    "rejection_reason": "low_factual_density",
+    "count": 2,
+    "examples": [
+      "テストエピソード1",
+      "テストエピソード2"
+    ],
+    "mitigation": "年号と固有名詞を追加",
+    "last_seen": "2026-01-07T14:12:18.506468"
+  },
+  "low_generation_quality": {
+    "pattern_id": "low_generation_quality",
+    "rejection_reason": "low_generation_quality",
+    "count": 1,
+    "examples": [
+      "テストエピソード3"
+    ],
+    "mitigation": "文章構成を改善",
+    "last_seen": "2026-01-07T14:12:18.507573"
+  }
+}

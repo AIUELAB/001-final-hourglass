@@ -44,7 +44,7 @@ GENERATION_RULES = {
     "same_age_duplicate": True,  # 同一人物・同一年齢の重複禁止
     "prohibited_patterns": True,  # メタ表現・禁止パターン
     # 多様性制約
-    "cooldown_hours": 24,  # 同一人物の再生成までの待機時間
+    "cooldown_hours": 4,  # 同一人物の再生成までの待機時間（24→4に短縮）
     "max_per_person_per_week": 3,  # 週あたり同一人物の生成上限
     "max_per_person_per_day": 1,  # 日あたり同一人物の生成上限
     # 品質制約

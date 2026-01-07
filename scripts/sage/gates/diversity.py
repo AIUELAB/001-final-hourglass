@@ -99,7 +99,8 @@ class DiversityManager:
         """クォータキャッシュを保存"""
         self._quota_cache_path.parent.mkdir(parents=True, exist_ok=True)
         data = {}
-        for pid, quota in self._quota_cache.items():
+        # 並列実行時の辞書変更エラー防止のためコピーを使用
+        for pid, quota in list(self._quota_cache.items()):
             data[pid] = {
                 "daily_count": quota.daily_count,
                 "weekly_count": quota.weekly_count,
@@ -233,16 +234,51 @@ class DiversityManager:
 
     def reset_daily_quotas(self) -> None:
         """日次クォータをリセット"""
-        for quota in self._quota_cache.values():
+        # 並列実行時の辞書変更エラー防止のためコピーを使用
+        for quota in list(self._quota_cache.values()):
             quota.daily_count = 0
         self._save_quota_cache()
 
     def reset_weekly_quotas(self) -> None:
         """週間クォータをリセット"""
-        for quota in self._quota_cache.values():
+        # 並列実行時の辞書変更エラー防止のためコピーを使用
+        for quota in list(self._quota_cache.values()):
             quota.daily_count = 0
             quota.weekly_count = 0
         self._save_quota_cache()
+
+    def clear_all_cooldowns(self) -> int:
+        """
+        全クールダウンをクリア（バルク生成用）
+
+        Returns:
+            int: クリアした件数
+        """
+        cleared = 0
+        for quota in list(self._quota_cache.values()):
+            if quota.cooldown_end:
+                quota.cooldown_end = None
+                cleared += 1
+        self._save_quota_cache()
+        return cleared
+
+    def clear_expired_cooldowns(self) -> int:
+        """
+        期限切れクールダウンをクリア
+
+        Returns:
+            int: クリアした件数
+        """
+        now = datetime.now()
+        cleared = 0
+        for quota in list(self._quota_cache.values()):
+            if quota.cooldown_end:
+                cooldown_end = datetime.fromisoformat(quota.cooldown_end)
+                if now >= cooldown_end:
+                    quota.cooldown_end = None
+                    cleared += 1
+        self._save_quota_cache()
+        return cleared
 
     def get_underrepresented_categories(self) -> list[str]:
         """

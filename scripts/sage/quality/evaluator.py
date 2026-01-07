@@ -1,16 +1,22 @@
 """
 Quality Evaluator
 
-7軸評価と品質ゲートチェックを実行。
+8軸評価（象徴性スコア追加）と品質ゲートチェックを実行。
 既存の評価ロジックを統合。
 """
 
+import json
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Optional
 
 from ..adapters.base import AxisScores, EvaluationResult
 from ..config import QUALITY_THRESHOLDS, RejectionReason
+
+# プロジェクトルート
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
+ICONIC_ACHIEVEMENTS_PATH = PROJECT_ROOT / "preserved" / "data" / "iconic_achievements_master.json"
 
 
 @dataclass
@@ -203,7 +209,7 @@ class CompositeScoreCalculator:
     """
     統合スコア計算器
 
-    7軸スコアから統合スコアを計算。
+    8軸スコアから統合スコアを計算。
     """
 
     # 軸ごとの重み
@@ -215,6 +221,7 @@ class CompositeScoreCalculator:
         "educational_value": 1.0,
         "story_quality": 1.0,
         "factual_density": 1.5,  # 重要度高
+        "iconic_score": 1.5,  # 重要度高（感銘度）
     }
 
     @classmethod
@@ -223,7 +230,7 @@ class CompositeScoreCalculator:
         統合スコアを計算
 
         Args:
-            scores: 7軸スコア
+            scores: 8軸スコア
 
         Returns:
             float: 統合スコア（0-1000スケール）
@@ -236,6 +243,7 @@ class CompositeScoreCalculator:
             + scores.educational_value * cls.WEIGHTS["educational_value"]
             + scores.story_quality * cls.WEIGHTS["story_quality"]
             + scores.factual_density * cls.WEIGHTS["factual_density"]
+            + scores.iconic_score * cls.WEIGHTS["iconic_score"]
         )
         total_weight = sum(cls.WEIGHTS.values())
         avg = weighted_sum / total_weight
@@ -276,7 +284,7 @@ def create_evaluation_result(
     評価結果を生成
 
     Args:
-        scores: 7軸スコア
+        scores: 8軸スコア
         composite_override: 統合スコア（オーバーライド）
         super_total: 超総合スコア
 
@@ -301,3 +309,131 @@ def create_evaluation_result(
         passed_gate=gate_result.passed,
         gate_failures=gate_result.failures,
     )
+
+
+class IconicScoreCalculator:
+    """
+    象徴性スコア計算器
+
+    エピソードが人物の象徴的な業績や転機を描写しているかを評価。
+    「ユーザーが読んで感銘を受ける」度合いを数値化。
+    """
+
+    # 象徴的キーワード（ボーナス対象）
+    ICONIC_KEYWORDS = [
+        "初めて",
+        "史上最年少",
+        "史上初",
+        "唯一",
+        "世界記録",
+        "歴史的",
+        "革命的",
+        "画期的",
+        "転機",
+        "人生を変えた",
+        "金メダル",
+        "優勝",
+        "ノーベル賞",
+        "受賞",
+        "達成",
+        "発明",
+        "発見",
+        "創業",
+        "設立",
+        "デビュー",
+    ]
+
+    def __init__(self):
+        self._iconic_achievements: Optional[dict[str, Any]] = None
+
+    def _load_iconic_achievements(self) -> dict[str, Any]:
+        """象徴的業績マスターデータを読み込み"""
+        if self._iconic_achievements is None:
+            if ICONIC_ACHIEVEMENTS_PATH.exists():
+                with open(ICONIC_ACHIEVEMENTS_PATH, encoding="utf-8") as f:
+                    self._iconic_achievements = json.load(f)
+            else:
+                self._iconic_achievements = {"persons": {}}
+        return self._iconic_achievements
+
+    def _check_achievement_match(
+        self,
+        text: str,
+        person_name: str,
+        age: int,
+    ) -> tuple[bool, float]:
+        """
+        マスターデータとのマッチをチェック
+
+        Returns:
+            (matched, bonus): マッチしたか、ボーナススコア
+        """
+        achievements = self._load_iconic_achievements()
+        persons = achievements.get("persons", {})
+        person_data = persons.get(person_name)
+
+        if not person_data:
+            return False, 0.0
+
+        required_episodes = person_data.get("required_episodes", [])
+        max_bonus = 0.0
+
+        for ep in required_episodes:
+            ep_age = ep.get("age", 0)
+            keywords = ep.get("keywords", [])
+            importance = ep.get("importance", 8.0)
+
+            # 年齢一致チェック（±2歳）
+            if abs(ep_age - age) <= 2:
+                # キーワードマッチチェック
+                keyword_matches = sum(1 for kw in keywords if kw in text)
+                if keyword_matches >= 1:
+                    # マッチ度に応じたボーナス
+                    match_ratio = keyword_matches / max(len(keywords), 1)
+                    bonus = (importance / 10) * 3.0 * match_ratio  # 最大+3.0
+                    max_bonus = max(max_bonus, bonus)
+
+        return max_bonus > 0, max_bonus
+
+    def calculate(
+        self,
+        text: str,
+        person_name: str = "",
+        age: int = 0,
+    ) -> float:
+        """
+        象徴性スコアを計算
+
+        Args:
+            text: エピソードテキスト
+            person_name: 人物名
+            age: 年齢
+
+        Returns:
+            float: 象徴性スコア（1.0-10.0）
+        """
+        score = 5.0  # ベースライン
+
+        # マスターデータマッチ: 最大+3.0
+        matched, match_bonus = self._check_achievement_match(text, person_name, age)
+        if matched:
+            score += match_bonus
+
+        # キーワードボーナス: 最大+1.5
+        keyword_bonus = 0.0
+        for kw in self.ICONIC_KEYWORDS:
+            if kw in text:
+                keyword_bonus += 0.3
+        keyword_bonus = min(keyword_bonus, 1.5)
+        score += keyword_bonus
+
+        # 具体性ボーナス: 最大+0.5
+        # 西暦年号の存在
+        if re.search(r"(1[89]\d{2}|20[0-2]\d)年", text):
+            score += 0.25
+        # 「」で囲まれた固有名詞の存在
+        if re.search(r"「[^」]+」", text):
+            score += 0.25
+
+        # スコアを1.0-10.0の範囲に制限
+        return max(1.0, min(10.0, score))

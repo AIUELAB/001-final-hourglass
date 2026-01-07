@@ -329,9 +329,53 @@ def main():
             prompt_builder = None
             GenerationInput = None
 
+        # Phase 5: 象徴的業績マスターデータをロード（Batch用）
+        iconic_data = {}
+        try:
+            import json
+            from pathlib import Path
+
+            iconic_path = Path(__file__).parent.parent.parent / "preserved" / "data" / "iconic_achievements_master.json"
+            if iconic_path.exists():
+                with open(iconic_path, encoding="utf-8") as f:
+                    iconic_data = json.load(f).get("persons", {})
+                logger.info(f"象徴的業績データ読み込み: {len(iconic_data)}名")
+        except Exception as e:
+            logger.warning(f"象徴的業績データ読み込み失敗: {e}")
+
+        def get_iconic_context(person_name: str, age: int) -> str:
+            """象徴的業績コンテキストを取得（Batch用）"""
+            person_data = iconic_data.get(person_name)
+            if not person_data:
+                return ""
+
+            matches = []
+            for ep in person_data.get("required_episodes", []):
+                ep_age = ep.get("age", 0)
+                if abs(ep_age - age) <= 2:  # ±2歳でマッチ
+                    achievement = ep.get("achievement", "")
+                    year = ep.get("year", "")
+                    keywords = ", ".join(ep.get("keywords", []))
+                    matches.append(f"- {achievement}（{year}年） キーワード: {keywords}")
+
+            if not matches:
+                return ""
+
+            return (
+                "【象徴的業績ガイド】この年齢に関連する重要な出来事:\n"
+                + "\n".join(matches)
+                + "\n上記の具体的な事実を盛り込んだエピソードを生成してください。"
+            )
+
         # バッチリクエストを作成
         requests = []
+        iconic_count = 0
         for c in batch_candidates:
+            # Phase 5: 象徴的コンテキストを取得
+            iconic_context = get_iconic_context(c.person_name, c.age)
+            if iconic_context:
+                iconic_count += 1
+
             if prompt_builder and GenerationInput:
                 # EPGENの本格的なプロンプト
                 gen_input = GenerationInput(
@@ -343,9 +387,13 @@ def main():
                     death_year=getattr(c, "death_year", None),
                 )
                 prompt = prompt_builder.build(gen_input)
+                # Phase 5: 象徴的コンテキストをプロンプトに注入
+                if iconic_context:
+                    prompt = f"{iconic_context}\n\n{prompt}"
             else:
                 # フォールバック: 簡易プロンプト
-                prompt = f"{c.person_name}の{c.age}歳時のエピソードを生成してください。カテゴリ: {c.category}"
+                base_prompt = f"{c.person_name}の{c.age}歳時のエピソードを生成してください。カテゴリ: {c.category}"
+                prompt = f"{iconic_context}\n\n{base_prompt}" if iconic_context else base_prompt
 
             req = create_batch_request(
                 person_name=c.person_name,
@@ -365,6 +413,7 @@ def main():
         print(f"リクエスト数: {job.request_count}")
         print(f"ステータス: {job.status}")
         print(f"プロンプト: {'EPGEN本格版' if prompt_builder else '簡易版'}")
+        print(f"象徴的コンテキスト注入: {iconic_count}/{len(batch_candidates)}件")
         print("\n結果を取得するには:")
         print(f"  python scripts/sage/cli.py --batch-status {job.batch_id}")
         print(f"  python scripts/sage/cli.py --batch-results {job.batch_id}")

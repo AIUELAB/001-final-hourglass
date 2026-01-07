@@ -1,0 +1,545 @@
+"""
+Category Prompt Manager - Phase 7D
+
+カテゴリ別プロンプトテンプレート管理。
+各カテゴリの特性に応じた生成プロンプトを提供。
+"""
+
+import logging
+from dataclasses import dataclass, field
+from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class PromptTemplate:
+    """プロンプトテンプレート"""
+
+    category: str
+    focus_points: list[str] = field(default_factory=list)  # 重点ポイント
+    avoid_points: list[str] = field(default_factory=list)  # 避けるべき表現
+    style: str = "客観的"  # 文体
+    tone: str = "neutral"  # トーン
+    example_themes: list[str] = field(default_factory=list)  # テーマ例
+    quality_emphasis: dict[str, float] = field(default_factory=dict)  # 重視スコア軸
+
+    def to_dict(self) -> dict[str, Any]:
+        """辞書に変換"""
+        return {
+            "category": self.category,
+            "focus_points": self.focus_points,
+            "avoid_points": self.avoid_points,
+            "style": self.style,
+            "tone": self.tone,
+            "example_themes": self.example_themes,
+            "quality_emphasis": self.quality_emphasis,
+        }
+
+
+# ==============================================================================
+# カテゴリ別プロンプト定義
+# ==============================================================================
+
+CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
+    "科学・技術": PromptTemplate(
+        category="科学・技術",
+        focus_points=[
+            "発見・発明の具体的瞬間",
+            "実験や研究の詳細なプロセス",
+            "理論構築の論理的道筋",
+            "科学的手法とその背景",
+            "他の研究者との協力・競争",
+        ],
+        avoid_points=[
+            "過度に感情的な表現",
+            "抽象的・曖昧な記述",
+            "専門用語の説明なしでの使用",
+            "結果だけの記述（プロセス省略）",
+        ],
+        style="客観的・論理的",
+        tone="academic",
+        example_themes=[
+            "仮説検証の過程",
+            "失敗から学んだ教訓",
+            "予想外の発見",
+            "技術革新のきっかけ",
+        ],
+        quality_emphasis={
+            "事実密度": 1.5,
+            "教育的価値": 1.3,
+            "生成品質": 1.0,
+        },
+    ),
+    "スポーツ": PromptTemplate(
+        category="スポーツ",
+        focus_points=[
+            "試合・競技の具体的展開",
+            "身体的・精神的挑戦",
+            "ライバルとの関係性",
+            "トレーニングの工夫と努力",
+            "チームダイナミクス",
+        ],
+        avoid_points=[
+            "過度な感動表現（涙、感動等の多用）",
+            "結果のみの記述",
+            "抽象的な精神論",
+        ],
+        style="躍動感・臨場感",
+        tone="dynamic",
+        example_themes=[
+            "逆転劇の瞬間",
+            "怪我からの復帰",
+            "ライバルとの名勝負",
+            "記録更新の舞台裏",
+        ],
+        quality_emphasis={
+            "ストーリー品質": 1.3,
+            "共感性": 1.2,
+            "事実密度": 1.2,
+        },
+    ),
+    "芸術・文化": PromptTemplate(
+        category="芸術・文化",
+        focus_points=[
+            "創作プロセスの詳細",
+            "インスピレーションの源泉",
+            "作品が社会に与えた影響",
+            "芸術的葛藤と克服",
+            "同時代の芸術家との交流",
+        ],
+        avoid_points=[
+            "技術的すぎる専門記述",
+            "作品の単なる説明",
+            "評論家的な批評",
+        ],
+        style="情緒的・描写的",
+        tone="artistic",
+        example_themes=[
+            "代表作誕生の背景",
+            "スランプと突破",
+            "新しいスタイルの確立",
+            "文化的衝撃を与えた瞬間",
+        ],
+        quality_emphasis={
+            "ストーリー品質": 1.4,
+            "記憶性": 1.3,
+            "意外性": 1.2,
+        },
+    ),
+    "政治・経済": PromptTemplate(
+        category="政治・経済",
+        focus_points=[
+            "意思決定の背景と過程",
+            "関係者間の交渉・駆け引き",
+            "政策・決定の具体的影響",
+            "時代背景との関連",
+            "リーダーシップの発揮場面",
+        ],
+        avoid_points=[
+            "政治的偏向",
+            "現代の価値観での過度な批判",
+            "陰謀論的な記述",
+        ],
+        style="客観的・分析的",
+        tone="analytical",
+        example_themes=[
+            "歴史的決断の瞬間",
+            "危機管理の実際",
+            "改革の推進と抵抗",
+            "国際関係の転機",
+        ],
+        quality_emphasis={
+            "事実密度": 1.4,
+            "教育的価値": 1.3,
+            "生成品質": 1.2,
+        },
+    ),
+    "歴史・軍事": PromptTemplate(
+        category="歴史・軍事",
+        focus_points=[
+            "具体的な出来事の詳細",
+            "人物の動機と判断",
+            "時代背景と社会状況",
+            "歴史的転機のメカニズム",
+            "後世への影響",
+        ],
+        avoid_points=[
+            "現代視点からの安易な批判",
+            "戦争美化",
+            "残虐表現の過度な詳細",
+        ],
+        style="客観的・歴史的",
+        tone="historical",
+        example_themes=[
+            "戦略的判断の分岐点",
+            "危機的状況での決断",
+            "歴史を変えた瞬間",
+            "敗北から学んだ教訓",
+        ],
+        quality_emphasis={
+            "事実密度": 1.5,
+            "教育的価値": 1.4,
+            "記憶性": 1.2,
+        },
+    ),
+    "エンターテインメント": PromptTemplate(
+        category="エンターテインメント",
+        focus_points=[
+            "ブレイクスルーの瞬間",
+            "ファンとの関係性",
+            "業界での挑戦と革新",
+            "キャリアの転機",
+            "作品制作の裏話",
+        ],
+        avoid_points=[
+            "ゴシップ的内容",
+            "プライベートの過度な詳細",
+            "スキャンダル中心の記述",
+        ],
+        style="親しみやすい・エネルギッシュ",
+        tone="engaging",
+        example_themes=[
+            "デビューの苦労話",
+            "大ヒット作の誕生秘話",
+            "ジャンルを超えた挑戦",
+            "復活劇",
+        ],
+        quality_emphasis={
+            "ストーリー品質": 1.3,
+            "共感性": 1.3,
+            "意外性": 1.2,
+        },
+    ),
+    "ビジネス・起業": PromptTemplate(
+        category="ビジネス・起業",
+        focus_points=[
+            "ビジネスアイデアの着想",
+            "困難の克服過程",
+            "経営判断の背景",
+            "イノベーションの実現方法",
+            "チームビルディング",
+        ],
+        avoid_points=[
+            "成功礼賛のみ",
+            "金銭的成功の過度な強調",
+            "失敗の軽視",
+        ],
+        style="実践的・インスピレーショナル",
+        tone="inspirational",
+        example_themes=[
+            "ピボットの決断",
+            "資金難の乗り越え方",
+            "市場創造の瞬間",
+            "失敗から学んだビジネス哲学",
+        ],
+        quality_emphasis={
+            "教育的価値": 1.3,
+            "ストーリー品質": 1.2,
+            "事実密度": 1.2,
+        },
+    ),
+    "医療・福祉": PromptTemplate(
+        category="医療・福祉",
+        focus_points=[
+            "医学的発見・治療法開発の過程",
+            "患者との関わり",
+            "倫理的ジレンマへの対応",
+            "社会貢献の具体的成果",
+            "困難な状況での判断",
+        ],
+        avoid_points=[
+            "医学的詳細の過度な専門性",
+            "患者プライバシーへの配慮不足",
+            "過度に感傷的な表現",
+        ],
+        style="温かみのある・専門的",
+        tone="compassionate",
+        example_themes=[
+            "治療法開発のブレイクスルー",
+            "難病との闘い",
+            "医療制度改革への貢献",
+            "緊急事態での対応",
+        ],
+        quality_emphasis={
+            "事実密度": 1.3,
+            "共感性": 1.3,
+            "教育的価値": 1.2,
+        },
+    ),
+    "宗教・思想": PromptTemplate(
+        category="宗教・思想",
+        focus_points=[
+            "思想形成の背景",
+            "教えの具体的内容と実践",
+            "弟子・信者との関係",
+            "社会への影響",
+            "思想的転機",
+        ],
+        avoid_points=[
+            "特定宗教への偏向",
+            "現代価値観での安易な批判",
+            "神秘主義的な誇張",
+        ],
+        style="思慮深い・哲学的",
+        tone="philosophical",
+        example_themes=[
+            "悟り・覚醒の瞬間",
+            "迫害と信念の貫徹",
+            "思想の伝播と発展",
+            "宗教間対話の試み",
+        ],
+        quality_emphasis={
+            "教育的価値": 1.4,
+            "ストーリー品質": 1.2,
+            "記憶性": 1.2,
+        },
+    ),
+    "架空キャラクター": PromptTemplate(
+        category="架空キャラクター",
+        focus_points=[
+            "物語内での具体的行動・決断",
+            "キャラクターの成長・変化",
+            "他キャラクターとの関係性",
+            "物語のテーマとの関連",
+            "読者・視聴者への影響",
+        ],
+        avoid_points=[
+            "メタ的表現（作者への言及等）",
+            "現実との混同",
+            "物語外の設定説明",
+        ],
+        style="物語的・没入感重視",
+        tone="narrative",
+        example_themes=[
+            "決定的な選択の瞬間",
+            "仲間との絆",
+            "敵との対決",
+            "自己発見・成長",
+        ],
+        quality_emphasis={
+            "ストーリー品質": 1.5,
+            "記憶性": 1.3,
+            "共感性": 1.2,
+        },
+    ),
+}
+
+# デフォルトテンプレート
+DEFAULT_PROMPT_TEMPLATE = PromptTemplate(
+    category="一般",
+    focus_points=[
+        "具体的なエピソード",
+        "人物の動機と行動",
+        "結果と影響",
+    ],
+    avoid_points=[
+        "抽象的な記述",
+        "事実と異なる内容",
+    ],
+    style="バランスの取れた",
+    tone="neutral",
+    example_themes=["人生の転機", "挑戦と克服", "学びの瞬間"],
+    quality_emphasis={
+        "事実密度": 1.0,
+        "ストーリー品質": 1.0,
+        "生成品質": 1.0,
+    },
+)
+
+
+# ==============================================================================
+# CategoryPromptManager
+# ==============================================================================
+
+
+class CategoryPromptManager:
+    """
+    カテゴリ別プロンプト管理クラス
+
+    各カテゴリの特性に応じた生成プロンプトを提供。
+    """
+
+    def __init__(self, templates: Optional[dict[str, PromptTemplate]] = None):
+        self.templates = templates or CATEGORY_PROMPTS
+
+    def get_template(self, category: str) -> PromptTemplate:
+        """
+        カテゴリのテンプレートを取得
+
+        Args:
+            category: カテゴリ名
+
+        Returns:
+            PromptTemplate: プロンプトテンプレート
+        """
+        # 完全一致
+        if category in self.templates:
+            return self.templates[category]
+
+        # 部分一致
+        for key, template in self.templates.items():
+            if key in category or category in key:
+                return template
+
+        # デフォルト
+        return DEFAULT_PROMPT_TEMPLATE
+
+    def build_prompt_instruction(
+        self,
+        category: str,
+        person_name: str,
+        age: int,
+        additional_context: Optional[str] = None,
+    ) -> str:
+        """
+        プロンプト指示文を構築
+
+        Args:
+            category: カテゴリ名
+            person_name: 人物名
+            age: 年齢
+            additional_context: 追加コンテキスト
+
+        Returns:
+            str: プロンプト指示文
+        """
+        template = self.get_template(category)
+
+        # 重点ポイント
+        focus_text = "\n".join([f"- {p}" for p in template.focus_points])
+
+        # 避けるポイント
+        avoid_text = "\n".join([f"- {p}" for p in template.avoid_points])
+
+        # テーマ例
+        themes_text = "、".join(template.example_themes)
+
+        instruction = f"""【カテゴリ特化ガイダンス: {template.category}】
+
+■ 文体・トーン
+{template.style}な表現で、{template.tone}なトーンを心がけてください。
+
+■ 重点ポイント（必ず含める）
+{focus_text}
+
+■ 避けるべき表現
+{avoid_text}
+
+■ 参考テーマ例
+{themes_text}
+
+■ 品質重視軸
+"""
+
+        for axis, weight in template.quality_emphasis.items():
+            if weight > 1.0:
+                instruction += f"- {axis}: 特に重視（係数 {weight}）\n"
+
+        if additional_context:
+            instruction += f"\n■ 追加情報\n{additional_context}\n"
+
+        return instruction
+
+    def get_quality_weights(self, category: str) -> dict[str, float]:
+        """
+        カテゴリの品質重み係数を取得
+
+        Args:
+            category: カテゴリ名
+
+        Returns:
+            dict[str, float]: 品質軸ごとの重み
+        """
+        template = self.get_template(category)
+        # デフォルト重み
+        weights = {
+            "記憶性スコア": 1.0,
+            "共感性スコア": 1.0,
+            "意外性スコア": 1.0,
+            "生成品質スコア": 1.0,
+            "教育的価値": 1.0,
+            "ストーリー品質": 1.0,
+            "事実密度": 1.0,
+        }
+
+        # テンプレートの重みを適用
+        for axis, weight in template.quality_emphasis.items():
+            if axis in weights:
+                weights[axis] = weight
+            # 日本語軸名の変換
+            axis_map = {
+                "事実密度": "事実密度",
+                "ストーリー品質": "ストーリー品質",
+                "教育的価値": "教育的価値",
+                "記憶性": "記憶性スコア",
+                "共感性": "共感性スコア",
+                "意外性": "意外性スコア",
+                "生成品質": "生成品質スコア",
+            }
+            if axis in axis_map and axis_map[axis] in weights:
+                weights[axis_map[axis]] = weight
+
+        return weights
+
+    def list_categories(self) -> list[str]:
+        """登録カテゴリ一覧を取得"""
+        return list(self.templates.keys())
+
+    def get_stats(self) -> dict[str, Any]:
+        """統計情報を取得"""
+        return {
+            "total_categories": len(self.templates),
+            "categories": self.list_categories(),
+            "average_focus_points": sum(len(t.focus_points) for t in self.templates.values()) / len(self.templates),
+            "average_avoid_points": sum(len(t.avoid_points) for t in self.templates.values()) / len(self.templates),
+        }
+
+
+# ==============================================================================
+# テスト
+# ==============================================================================
+
+
+if __name__ == "__main__":
+    print("=== CategoryPromptManager Test ===")
+
+    manager = CategoryPromptManager()
+
+    # カテゴリ一覧
+    print(f"\n登録カテゴリ: {len(manager.list_categories())}")
+    for cat in manager.list_categories():
+        print(f"  - {cat}")
+
+    # 科学・技術テンプレート
+    print("\n--- 科学・技術 テンプレート ---")
+    template = manager.get_template("科学・技術")
+    print(f"文体: {template.style}")
+    print(f"トーン: {template.tone}")
+    print(f"重点ポイント: {len(template.focus_points)}件")
+    print(f"品質重視: {template.quality_emphasis}")
+
+    # プロンプト指示文構築
+    print("\n--- プロンプト指示文 ---")
+    instruction = manager.build_prompt_instruction(
+        category="科学・技術",
+        person_name="アインシュタイン",
+        age=26,
+        additional_context="1905年、特殊相対性理論発表の年",
+    )
+    print(instruction[:500] + "...")
+
+    # 品質重み
+    print("\n--- 品質重み ---")
+    weights = manager.get_quality_weights("スポーツ")
+    for axis, weight in weights.items():
+        if weight != 1.0:
+            print(f"  {axis}: {weight}")
+
+    # 統計
+    print("\n--- 統計 ---")
+    stats = manager.get_stats()
+    print(f"総カテゴリ数: {stats['total_categories']}")
+    print(f"平均重点ポイント数: {stats['average_focus_points']:.1f}")
+
+    print("\n=== Test Complete ===")

@@ -287,6 +287,7 @@ class CandidatePrioritizer:
         candidates: list[dict],
         top_n: int = 10,
         min_score: float = 0.0,  # Phase 12: 最低スコア閾値
+        exclude_existing_ages: bool = True,  # Phase 16: 既存年齢を除外
     ) -> list[CandidatePriorityScore]:
         """
         候補リストを優先度順にソート
@@ -295,6 +296,7 @@ class CandidatePrioritizer:
             candidates: 候補リスト [{"person_id", "person_name", "category", "age"}, ...]
             top_n: 上位N件を返す
             min_score: 最低スコア閾値（これ未満は除外）
+            exclude_existing_ages: 既存年齢を除外するか（デフォルトTrue）
 
         Returns:
             list[CandidatePriorityScore]: スコア順の候補
@@ -308,6 +310,10 @@ class CandidatePrioritizer:
                 category=c.get("category", ""),
                 age=c.get("age", 30),
             )
+            # Phase 16: 既存年齢は除外（same_age_duplicate防止）
+            if exclude_existing_ages and score.age_coverage_score == 0:
+                continue
+
             # Phase 12: 閾値以上のみ追加
             if score.score >= min_score:
                 scored.append(score)

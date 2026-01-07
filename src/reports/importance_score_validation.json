@@ -1,3035 +1,963 @@
 {
-  "total_episodes": 9927,
+  "total_episodes": 11655,
   "total_persons": 6741,
-  "issues_count": 180,
+  "issues_count": 61,
   "issues": [
     {
       "type": "achievement_undervalued",
-      "person_id": "PDE8D948",
-      "person_name": "朝永振一郎",
-      "episode_id": "EP-000002120",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、朝永振一郎は量子電磁力学の革新的な理論「くりこみ理論」を完成させた直後でした。1956年、彼は東京教育大学の教授として、戦後の混乱期に研究を続けることの困難さと向き合っていま"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDE8D948",
-      "person_name": "朝永振一郎",
-      "episode_id": "EP-000000315",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 9.4,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ59歳のとき、朝永振一郎は1965年にノーベル物理学賞を受賞しましたが、実は授賞式直前まで「自分の理論は間違っているかもしれない」と深刻に悩んでいました。きっかけは同年春、アメリカの若手研"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBB3B79B",
-      "person_name": "湯川秀樹",
-      "episode_id": "EP-000000124",
-      "keyword": "E=mc²",
-      "current_importance": 7.1,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ62歳のとき、湯川秀樹は突然「詩作」に没頭し始めました。1969年、物理学界の重鎮だった彼が、研究所の会議中にも詩句をメモしている姿に周囲は困惑しました。きっかけは、孫との何気ない会話で「"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBB3B79B",
-      "person_name": "湯川秀樹",
-      "episode_id": "EP-000000123",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.7,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ42歳のとき、湯川秀樹は1949年10月、ノーベル物理学賞受賞の知らせを受けた瞬間、実は深い困惑に陥っていた。中間子理論を発表した1935年当時、日本の物理学界では「机上の空論」と酷評され"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1D59005",
-      "person_name": "川端康成",
-      "episode_id": "EP-000001880",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ17歳のとき、川端康成は祖父の死に直面していました。幼い頃から両親や姉を亡くし、最後の肉親だった祖父の看病をしながら、その様子を日記に克明に記録し続けたのです。この「十六歳の日記」には、死"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1D59005",
-      "person_name": "川端康成",
-      "episode_id": "EBA0B5D53",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ72歳のとき、川端康成は日本人初のノーベル文学賞受賞という栄誉に輝きました。1968年、ストックホルムでの授賞式で彼が行った記念講演「美しい日本の私」は、禅や日本の美意識を世界に伝える名演"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P48FD907",
-      "person_name": "ジミー・カーター",
-      "episode_id": "EE62770F7",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ77歳のとき、ジミー・カーターはノーベル平和賞を受賞しました。2002年、大統領退任から20年以上が経過していましたが、年齢を重ねてもなお、世界中で紛争調停や民主選挙の監視、貧困問題への取"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P48FD907",
-      "person_name": "ジミー・カーター",
-      "episode_id": "EP-2512181850582522",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ78歳のとき、ジミー・カーターは2004年、元大統領として前例のない活動を続けていました。この年、彼はハビタット・フォー・ヒューマニティの建築現場で、自らハンマーを握り家を建てる作業に参加"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P014EF52",
-      "person_name": "マララ・ユスフザイ",
-      "episode_id": "E46AC429E",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ18歳のとき、マララ・ユスフザイはノーベル平和賞を史上最年少で受賞しました。その3年前、11歳のときからパキスタンのスワート渓谷で女子教育の権利を訴え続け、15歳でタリバンに銃撃されるとい"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P014EF52",
-      "person_name": "マララ・ユスフザイ",
-      "episode_id": "EP-000001867",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ17歳のとき、マララ・ユスフザイは世界最年少でノーベル平和賞を受賞しました。その2年前、15歳のときにタリバンに銃撃され瀕死の重傷を負いながらも、奇跡的に回復。17歳の誕生日には国連本部で"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PE465A4C",
-      "person_name": "下村脩",
-      "episode_id": "EP-2512181850582232",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ80歳のとき、下村脩は2008年にノーベル化学賞を受賞しました。オワンクラゲから緑色蛍光タンパク質（GFP）を発見した功績が、約半世紀を経て世界最高の栄誉として認められた瞬間でした。受賞後"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P72B391A",
-      "person_name": "三島由紀夫",
-      "episode_id": "EP-000000831",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 8.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ44歳のとき、三島由紀夫は最後の小説『豊饒の海』を完成させた直後、編集者に「これでもう書くことはない」と告白していました。実は彼は数年前から「文学的な死」を強く意識し、小説家としての限界を"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P73C0B20",
-      "person_name": "益川敏英",
-      "episode_id": "EF07CACBF",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ72歳のとき、益川敏英はノーベル物理学賞の受賞という栄誉に輝きました。2008年、素粒子物理学における「小林・益川理論」が評価されたこの快挙で特筆すべきは、益川が「英語ができない物理学者」"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDA4A7D2",
-      "person_name": "梶田隆章",
-      "episode_id": "EP-000000003",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.8,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ66歳のとき、梶田隆章は、ノーベル物理学賞受賞という栄誉の陰で、ある痛烈な後悔と向き合っていました。1998年のニュートリノ振動発見時、彼は恩師・戸塚洋二氏に「まだ確証が足りない」と慎重論"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDA4A7D2",
-      "person_name": "梶田隆章",
-      "episode_id": "EP-000001612",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ56歳のとき、梶田隆章は2015年にノーベル物理学賞を受賞しました。岐阜県神岡町の地下1000メートルに建設されたスーパーカミオカンデで、ニュートリノに質量があることを示す「ニュートリノ振"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDA4A7D2",
-      "person_name": "梶田隆章",
-      "episode_id": "EP-000002115",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、梶田隆章はノーベル物理学賞受賞から4年目を迎え、次世代の研究者育成に力を注いでいました。2019年、東京大学宇宙線研究所所長として、岐阜県飛騨市の地下1000メートルに設置さ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDA4A7D2",
-      "person_name": "梶田隆章",
-      "episode_id": "EP-2512181850581899",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ61歳のとき、梶田隆章は東京大学宇宙線研究所所長として、ニュートリノ研究の次世代を担う若手研究者の育成に力を注いでいました。ノーベル物理学賞受賞から数年が経ち、自身の研究経験を体系化した講"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PEE604BB",
-      "person_name": "梅田望夫",
-      "episode_id": "EP-000000005",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ47歳のとき、梅田望夫は『ウェブ進化論』の執筆中に、意外な挫折に直面していた。シリコンバレーでの華々しいコンサルタント活動とは裏腹に、日本の出版社からは「ウェブ2.0なんて一時的な流行語」"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P189D363",
-      "person_name": "江崎玲於奈",
-      "episode_id": "EP-000000150",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ47歳のとき、江崎玲於奈は研究者人生最大の危機に直面していました。1973年のノーベル物理学賞受賞が決まったその日、彼は突然「日本を出る」という衝撃的な決断を下したのです。周囲は「なぜ今、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P7216F84",
-      "person_name": "村山斉",
-      "episode_id": "EP-000000270",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ47歳のとき、村山斉は東京大学Kavli IPMUの初代機構長として、日本の学術界では前例のない「英語公用語化」を断行していました。会議も論文も全て英語で行うという決断に、多くの日本人研究"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5E02E4A",
-      "person_name": "赤崎勇",
-      "episode_id": "EP-000002116",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ75歳のとき、赤崎勇は名城大学で青色LED研究の集大成に取り組んでいました。2004年、彼は窒化ガリウムを用いた青色発光ダイオードの実用化への貢献により、京都賞を受賞しました。1989年に"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5E02E4A",
-      "person_name": "赤崎勇",
-      "episode_id": "EP-000000350",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.8,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ72歳のとき、赤崎勇は青色発光ダイオードの発明でノーベル物理学賞を受賞しましたが、実はこの偉業の陰には20年以上の「無駄な研究」がありました。1970年代、窒化ガリウムの研究は「不可能」と"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P8DABD79",
-      "person_name": "野依良治",
-      "episode_id": "EP-000002135",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ63歳のとき、野依良治は2001年にノーベル化学賞を受賞し、日本中に感動を与えました。授賞理由は「キラル触媒による不斉合成反応の研究」という画期的な業績でした。この技術により、医薬品や香料"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P8DABD79",
-      "person_name": "野依良治",
-      "episode_id": "EP-000001603",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 9.5,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ44歳のとき、野依良治は名古屋大学教授として不斉合成触媒の研究に打ち込んでいました。1981年、彼はキラルな分子を作り分ける画期的な「BINAP触媒」の開発に成功しました。この触媒は、医薬"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P9CE537D",
-      "person_name": "鈴木章",
-      "episode_id": "EP-000000472",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 8.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ73歳のとき、鈴木章は研究室の大掃除中に20年前の失敗実験ノートを偶然発見しました。そこには「反応が進まず失敗」と赤字で書かれたパラジウム触媒実験の記録がありました。しかし改めて見直すと、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P9CE537D",
-      "person_name": "鈴木章",
-      "episode_id": "EP-000002125",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ75歳のとき、鈴木章は2005年にノーベル化学賞受賞へとつながる研究成果を、既に30年以上前に完成させていました。北海道大学で地道に研究を続けた鈴木章は、1979年に「鈴木・宮浦カップリン"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P68F7BB8",
-      "person_name": "真鍋淑郎",
-      "episode_id": "EP-000002129",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ85歳のとき、真鍋淑郎は2016年、プリンストン大学で気候変動研究を続けていました。1960年代に世界に先駆けて大気と海洋を結合した気候モデルを開発し、二酸化炭素濃度の上昇が地球温暖化を引"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P68F7BB8",
-      "person_name": "真鍋淑郎",
-      "episode_id": "EP-000000517",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 9.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ90歳のとき、真鍋淑郎は2021年、ノーベル物理学賞を受賞しました。しかし受賞理由となった気候モデル研究は、実は「失敗作」から生まれていました。1960年代、彼は天気予報の精度向上を目指し"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDC321CE",
-      "person_name": "白川英樹",
-      "episode_id": "EP-000000525",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.5,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ64歳のとき、白川英樹は導電性高分子の研究でノーベル化学賞を受賞しましたが、この偉業の原点は30年前の「大失敗」でした。1967年、韓国人留学生が実験で触媒を1000倍も多く入れてしまい、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDC321CE",
-      "person_name": "白川英樹",
-      "episode_id": "EP-000001602",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 9.5,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ59歳のとき、白川英樹はノーベル化学賞の受賞という栄誉に輝きました。2000年10月、導電性高分子の発見と開発の功績により、アラン・マクダイアミド、アラン・ヒーガーとともに受賞が決定したの"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P83BF45E",
-      "person_name": "白川正芳",
-      "episode_id": "EP-000000526",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 8.1,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ71歳のとき、白川正芳は実験の大失敗から思わぬ発見をしました。1977年、導電性ポリマーの合成実験で、助手が触媒を1000倍も多く入れるミスを犯したのです。通常なら廃棄する銀色に光る異様な"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P00A8693",
-      "person_name": "福井謙一",
-      "episode_id": "EP-000002139",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ63歳のとき、福井謙一は1981年、日本人として初めてノーベル化学賞を受賞しました。授賞理由は「化学反応過程の理論的研究」、特にフロンティア軌道理論の確立です。この理論は、分子の最外殻電子"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P00A8693",
-      "person_name": "福井謙一",
-      "episode_id": "EP-000001618",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 9.3,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ47歳のとき、福井謙一は京都大学で「フロンティア軌道理論」の研究を深化させていました。この理論は、化学反応において最も重要な役割を果たす電子軌道に着目したもので、1952年に発表した論文は"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P00A8693",
-      "person_name": "福井謙一",
-      "episode_id": "EP-000000537",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.7,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ64歳のとき、福井謙一はノーベル化学賞受賞の報を、なんと学会の居酒屋で酔っ払いながら聞きました。1981年10月19日夜、同僚との飲み会中にNHKの記者から電話が入り、最初は「悪質ないたず"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD61753C",
-      "person_name": "田中良和",
-      "episode_id": "EP-2512181850581957",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ63歳のとき、田中良和は質量分析技術の革新的な研究成果を体系化し、次世代の研究者育成に力を注いでいました。ノーベル化学賞受賞から約10年が経過したこの時期、彼は自身の研究室で若手研究者たち"
+      "person_id": "P3B58042",
+      "person_name": "永瀬廉",
+      "episode_id": "EP-260106211319588",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、永瀬廉は2019年にKing & Princeのメンバーとして「Memorial」のリリースに参加し、オリコン週間チャート1位を獲得した。同年放送されたドラマ「弱くても勝てま"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "PD61753C",
-      "person_name": "田中良和",
-      "achievement_ep": "EP-2512181850581957",
-      "achievement_importance": 7.0,
-      "narrative_ep": "EP-000000595",
-      "narrative_importance": 8.6,
+      "person_id": "P7F88681",
+      "person_name": "宮崎駿",
+      "achievement_ep": "EP-260104013152092AA8",
+      "achievement_importance": 9.3,
+      "narrative_ep": "EP-260106MIYAZAKI-GHIBLI",
+      "narrative_importance": 9.5,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P30947C1",
+      "person_name": "ハム",
+      "episode_id": "EP-260106222338739",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、ハムはピクサー・アニメーション・スタジオで制作された「トイ・ストーリー」に主要キャラクターとして出演し、1995年11月22日の全米公開で映画史に名を刻んだ。この作品は世界初"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P066FEAE",
+      "person_name": "マーリン",
+      "episode_id": "EP-260106211319626",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、マーリンは2003年にピクサー・アニメーション・スタジオが制作した「ファインディング・ニモ」で声優デビューを果たした。グレート・バリア・リーフを舞台にしたこの作品で、マーリン"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P066FEAE",
+      "person_name": "マーリン",
+      "achievement_ep": "EP-260106211319626",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EE3F92CD9",
+      "narrative_importance": 7.0,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P41131F0",
+      "person_name": "ティガー",
+      "episode_id": "EP-260106211319628",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ30歳のとき、ティガーは1996年に開催された「100エーカーの森フェスティバル」で主演を務めた。この年、ウォルト・ディズニー・カンパニーはティガーの映像作品への出演回数が年間52回に達し"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P41131F0",
+      "person_name": "ティガー",
+      "achievement_ep": "EP-260106211319628",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EF05FED8F",
+      "narrative_importance": 7.0,
       "narrative_keyword": "失敗"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "PDE1EBEB",
-      "person_name": "キング牧師",
-      "episode_id": "EP-000002343",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、キング牧師は1963年8月28日のワシントン大行進で「I have a dream」の演説を行いました。当初準備していた原稿は公民権法案の成立を求める政治的な内容でしたが、演"
+      "person_id": "PA94AF7A",
+      "person_name": "柴田章太郎",
+      "episode_id": "EP-260107032101163",
+      "keyword": "フィールズ賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ20歳のとき、柴田章太郎は2024年に東京大学理学部数学科で「リーマン予想と素数分布」に関する画期的な論文を発表した。この研究は国際数学会議で高い評価を受け、94点という異例の高得点を記録"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "PA0A84C1",
-      "person_name": "マリー・キュリー",
-      "episode_id": "EP-000004833",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、マリー・キュリーは4年間の過酷な作業の末、ついに純粋なラジウムの分離に成功した。夫ピエールと共に8トンものピッチブレンド鉱石を処理し続け、わずか0.1グラムの塩化ラジウムを抽"
+      "person_id": "P582419A",
+      "person_name": "星野みなみ",
+      "episode_id": "EP-260107002315406",
+      "keyword": "IPO",
+      "current_importance": 0.0,
+      "expected_importance": 8.0,
+      "text_preview": "あなたと同じ35歳のとき、星野みなみは2018年に東京都港区で設立したIT企業「デジタルソリューションズ」の代表取締役として、年商15億円を達成していた。2019年に開催された「Japan Tech "
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "PA0A84C1",
-      "person_name": "マリー・キュリー",
-      "achievement_ep": "EP-000004833",
-      "achievement_importance": 7.9,
-      "narrative_ep": "EP-000000695",
-      "narrative_importance": 9.4,
-      "narrative_keyword": "転機"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P37122AD",
-      "person_name": "ニールス・ボーア",
-      "episode_id": "EP-87AFF768",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ77歳のとき、ニールス・ボーアは1962年11月18日、デンマーク・コペンハーゲンの自宅で心臓発作のため亡くなりました。原子構造のボーアモデルを提唱し、量子力学の発展に決定的な貢献をした2"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P37122AD",
-      "person_name": "ニールス・ボーア",
-      "achievement_ep": "EP-87AFF768",
-      "achievement_importance": 7.9,
-      "narrative_ep": "EP-000000738",
-      "narrative_importance": 8.5,
+      "person_id": "P582419A",
+      "person_name": "星野みなみ",
+      "achievement_ep": "EP-260107002315406",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000000200",
+      "narrative_importance": 7.3,
       "narrative_keyword": "失敗"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "PACB6535",
-      "person_name": "上田慎一郎",
-      "episode_id": "EP-000000835",
-      "keyword": "量子力学",
-      "current_importance": 7.5,
+      "person_id": "P68AD2FE",
+      "person_name": "岩隈久志",
+      "episode_id": "EP-260106234523987",
+      "keyword": "ノーヒットノーラン",
+      "current_importance": 0.0,
+      "expected_importance": 8.5,
+      "text_preview": "あなたと同じ35歳のとき、岩隈久志は2016年シーズンをシアトル・マリナーズの先発ローテーションの柱として迎えていた。この年、彼は16勝12敗、防御率4.12の成績を残し、203.1イニングを投げ抜い"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PD82AB6D",
+      "person_name": "中村天風",
+      "episode_id": "EP-260107032101182",
+      "keyword": "フィールズ賞",
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ21歳のとき、上田慎一郎は東京大学理学部物理学科の学生でしたが、実は映画制作に夢中になっていました。量子力学の講義をサボってまで自主映画を撮り続け、ついには物理学の単位を大量に落としてしま"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PCAD0C1D",
-      "person_name": "中村修二",
-      "episode_id": "EP-000001610",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.4,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、中村修二は2014年にノーベル物理学賞を受賞しました。青色発光ダイオード(LED)の開発という偉業を成し遂げた彼は、徳島の小さな企業・日亜化学工業で研究員として孤軍奮闘してい"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PCAD0C1D",
-      "person_name": "中村修二",
-      "episode_id": "EP-000002118",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、中村修二は2009年、カリフォルニア大学サンタバーバラ校の教授として、青色LEDの実用化から約15年が経過していました。この頃、彼は次世代の照明革命として省エネルギー技術の普"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3600C58",
-      "person_name": "アイザック・ニュートン",
-      "episode_id": "EP-000000882",
-      "keyword": "万有引力",
-      "current_importance": 8.4,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、アイザック・ニュートンは王立造幣局長として偽造犯捜査に没頭していましたが、ある日、酒場で偽造犯から「あの堅物学者め」と嘲笑されているのを偶然耳にしました。激怒したニュートンは"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3600C58",
-      "person_name": "アイザック・ニュートン",
-      "episode_id": "EP-7C789EE6",
-      "keyword": "万有引力",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ84歳のとき、アイザック・ニュートンは1727年3月31日、ロンドンで眠るように亡くなりました。万有引力の法則、微積分学の発明、光学の研究など、近代科学の基礎を築いた「科学の巨人」は、国葬"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P93F1DB1",
-      "person_name": "アインシュタイン",
-      "episode_id": "EP-000003646",
-      "keyword": "一般相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ36歳のとき、アインシュタインは特許庁の三等技師として働きながら、誰にも理解されない理論と格闘していた。1915年、一般相対性理論の完成を目前に控えた彼は、連日深夜まで計算に没頭し、体重は"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P93F1DB1",
-      "person_name": "アインシュタイン",
-      "episode_id": "EP-3947C4DE",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ26歳のとき、アインシュタインは1905年、「奇跡の年」と呼ばれる驚異的な業績を成し遂げました。スイス特許庁の技術者として働きながら、わずか1年間で物理学の根幹を揺るがす4本の論文を発表。"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB5C673A",
-      "person_name": "アラン・アスペ",
-      "episode_id": "EP-000000896",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.5,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、アラン・アスペは物理学界の大論争に終止符を打つ実験に挑戦していました。しかし1982年、ついに完成した精密な実験装置で量子もつれの検証を行った結果は、なんと彼自身が予想してい"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PA6F7C3F",
-      "person_name": "アニー・エルノー",
-      "episode_id": "EP-000000899",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.3,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ25歳のとき、アニー・エルノーは1965年、リセの国語教師として働きながら処女作『空の食器棚』を執筆していましたが、実は同時期に予期せぬ妊娠を経験し、当時違法だった中絶手術を受けるという人"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6EC13D8",
-      "person_name": "チャールズ・ダーウィン",
-      "episode_id": "EP-000000960",
-      "keyword": "進化論",
-      "current_importance": 8.7,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ25歳のとき、チャールズ・ダーウィンはガラパゴス諸島で重大な「見落とし」をしていました。1835年9月、彼は島々で採集したフィンチたちを、実は異なる種ではなく同じ種の変種だと誤解していたの"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6EC13D8",
-      "person_name": "チャールズ・ダーウィン",
-      "episode_id": "EP-000003728",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ50歳のとき、チャールズ・ダーウィンは22年間温めてきた進化論の発表を迫られていました。若い研究者ウォレスから同じ理論が送られてきたのです。名声を独占することもできたが、チャールズ・ダーウ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6EC13D8",
-      "person_name": "チャールズ・ダーウィン",
-      "episode_id": "EP-000006367",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ52歳のとき、チャールズ・ダーウィンは1861年、『種の起源』への批判に苦悩していた。そんな中、庭で聞いた鳥の鳴き声が異なる種でも共通のメロディーを持つことに気づく。科学者でありながら音楽"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P89ECCA1",
-      "person_name": "天野浩",
-      "episode_id": "EP-000001094",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.5,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ31歳のとき、天野浩は青色LED研究で深刻な挫折を味わっていました。1992年、窒化ガリウムの結晶成長実験で何度も失敗を重ね、研究室では「もう諦めろ」という声も上がっていました。ところが、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P89ECCA1",
-      "person_name": "天野浩",
-      "episode_id": "EP-000002117",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、天野浩は青色LED開発の功績によりノーベル物理学賞を受賞しました。2014年、名古屋大学教授として研究を続けていた天野氏は、赤﨑勇教授、中村修二氏とともにこの栄誉に輝きました"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P89ECCA1",
-      "person_name": "天野浩",
-      "episode_id": "EP-000001609",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ43歳のとき、天野浩は名古屋大学で青色発光ダイオード(青色LED)の研究開発に取り組んでいました。2003年当時、彼は赤崎勇教授の指導のもと、窒化ガリウムの結晶成長技術の確立に貢献した研究"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBE849C0",
-      "person_name": "山口百恵",
-      "episode_id": "EP-000001113",
-      "keyword": "量子力学",
-      "current_importance": 7.5,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ66歳のとき、山口百恵は突然、量子コンピューター開発チームに参加することを発表しました。実は引退後の40年間、彼女は密かに物理学を独学し続け、音楽の波形解析から量子力学の美しさに魅了されて"
+      "text_preview": "あなたと同じ20歳のとき、中村天風は2018年に東京大学理学部数学科の3年生として、代数幾何学の研究に没頭していた。同年9月に開催された「第42回日本数学会秋季総合分科会」で発表した論文「リーマン面上"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "PBE849C0",
-      "person_name": "山口百恵",
-      "achievement_ep": "EP-000001113",
-      "achievement_importance": 7.5,
-      "narrative_ep": "EP-000001114",
+      "person_id": "PD82AB6D",
+      "person_name": "中村天風",
+      "achievement_ep": "EP-260107032101182",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000000787",
+      "narrative_importance": 7.0,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PDC9A92E",
+      "person_name": "山本義隆",
+      "episode_id": "EP-260107032101186",
+      "keyword": "量子力学",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ20歳のとき、1961年の山本義隆は東京大学理学部物理学科の3年生として、理論物理学の研究に没頭していた。湯川秀樹の中間子理論に強い関心を示し、坂田昌一の研究室で素粒子物理学の基礎を学んで"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P257E099",
+      "person_name": "松たか子",
+      "episode_id": "EP-260107023018147",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ30歳のとき、松たか子は2007年に映画「アフタースクール」で第31回日本アカデミー賞優秀助演女優賞を受賞し、女優としての地位を確固たるものにしていた。同年には舞台「ヘドダ・ガブラー」で主"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P257E099",
+      "person_name": "松たか子",
+      "achievement_ep": "EP-260107023018147",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000001436",
       "narrative_importance": 8.0,
+      "narrative_keyword": "葛藤"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P52C3157",
+      "person_name": "エリオット・ペイジ",
+      "episode_id": "EP-260107023018152",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、エリオット・ペイジは2022年に自身のトランスジェンダー体験を描いた回想録の執筆に取り組んでいた。2007年の映画「JUNO」でアカデミー賞主演女優賞にノミネートされ、全世界"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PDC2A13D",
+      "person_name": "永野芽郁",
+      "episode_id": "EP-260107035605070",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、永野芽郁は2034年に主演映画「時の彼方へ」で第47回日本アカデミー賞最優秀主演女優賞を受賞した。この作品は全国312館で公開され、興行収入18億円を記録した。同年、テレビ朝"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P6D52AB2",
+      "person_name": "杉野遥亮",
+      "episode_id": "EP-260107023018155",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、杉野遥亮は2028年に主演映画「青春の記録」で興行収入15億円を記録し、俳優としての地位を確立していた。この作品で第42回日本アカデミー賞最優秀主演男優賞を受賞し、授賞式では"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6D52AB2",
+      "person_name": "杉野遥亮",
+      "achievement_ep": "EP-260107023018155",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000002474",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P0F160E0",
+      "person_name": "唐沢寿明",
+      "episode_id": "EP-260107023018159",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、唐沢寿明は1998年にテレビドラマ「白い巨塔」で財前五郎役を演じ、平均視聴率32.1％という驚異的な数字を記録した。この作品で第16回ザテレビジョンドラマアカデミー賞主演男優"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P6AA0F07",
+      "person_name": "赤楚衛二",
+      "episode_id": "EP-260107023018160",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、赤楚衛二は2025年に俳優として最も充実した時期を迎えていた。2020年のドラマ「半沢直樹」での演技が評価され、その後2022年には映画「ある男」で日本アカデミー賞優秀助演男"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6AA0F07",
+      "person_name": "赤楚衛二",
+      "achievement_ep": "EP-260107023018160",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000002490",
+      "narrative_importance": 7.9,
       "narrative_keyword": "転機"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P64D55AC",
-      "person_name": "小林誠",
-      "episode_id": "EP-000001619",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 8.1,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ47歳のとき、小林誠は京都大学で素粒子物理学の研究に打ち込んでいました。この頃、彼が1973年に益川敏英氏と共に発表した「小林・益川理論」は、実験によって次々と検証されつつありました。この"
+      "person_id": "PE79E1E7",
+      "person_name": "デニス・ヴィルヌーヴ",
+      "episode_id": "EP-260107023018164",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ30歳のとき、デニス・ヴィルヌーヴは2023年に「デューン 砂の惑星」の続編製作に着手していた。1967年ケベック州生まれの彼は、2016年の「メッセージ」でアカデミー賞8部門にノミネート"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P64D55AC",
-      "person_name": "小林誠",
-      "episode_id": "EP-000002124",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ65歳のとき、小林誠は2008年にノーベル物理学賞を受賞しました。1973年に益川敏英氏と共同で発表した「小林・益川理論」が、素粒子物理学の標準理論を支える重要な業績として認められたのです"
+      "person_id": "P696DEEE",
+      "person_name": "菅直人",
+      "episode_id": "EP-260107041416718",
+      "keyword": "量子力学",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ20歳のとき、菅直人は1967年に東京工業大学理学部応用物理学科の3年生として学業に励んでいた。この年、彼は学内の学生運動「全学共闘会議」に参加し、機動隊との衝突が発生した「10・8羽田闘"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P64D55AC",
-      "person_name": "小林誠",
-      "episode_id": "EP-000001153",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 9.4,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ64歳のとき、小林誠はノーベル物理学賞を受賞しましたが、実は受賞発表当日に自宅で一人きりで知ったのです。2008年10月7日午後7時、NHKニュースを見ていた彼は突然自分の名前が呼ばれて仰"
+      "person_id": "P450D8E3",
+      "person_name": "中谷美紀",
+      "episode_id": "EP-260106232505222",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、中谷美紀は1996年にTBSドラマ「毛利元就」で戦国武将の娘役を演じ、本格的な女優としての地位を確立した。同年放送されたフジテレビ系ドラマ「ロングバケーション」では木村拓哉、"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P52E145B",
-      "person_name": "小柴昌俊",
-      "episode_id": "EP-000002122",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ75歳のとき、小柴昌俊は2002年にノーベル物理学賞を受賞しました。カミオカンデという巨大な観測装置を使って、1987年に超新星爆発から飛来したニュートリノを世界に先駆けて検出した功績が認"
+      "person_id": "P27252C6",
+      "person_name": "ウィル・スミス",
+      "episode_id": "EP-260106232505225",
+      "keyword": "グラミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 8.5,
+      "text_preview": "あなたと同じ20歳のとき、ウィル・スミスは1988年にラッパーとして「Rock the House」でレコードデビューを果たした。相方のジェフリー・タウンズとのデュオ「DJ Jazzy Jeff & "
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P52E145B",
-      "person_name": "小柴昌俊",
-      "episode_id": "EP-000001191",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 9.3,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ76歳のとき、小柴昌俊は2002年のノーベル物理学賞受賞後、意外な決断をしました。賞金の半分を使って故郷・愛知県東栄町に科学館建設を提案したところ、町議会で「人口4000人の山村に無用の長"
+      "person_id": "P600A360",
+      "person_name": "岡田将生",
+      "episode_id": "EP-260107004503456",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、岡田将生は2009年に映画「アフタースクール」で注目を集めた新進気鋭の俳優だった。身長180センチの長身と端正な顔立ちで、同年放送されたフジテレビのドラマ「LIAR GAME"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P1A7A3FF",
-      "person_name": "佐藤栄作",
-      "episode_id": "EP-2512181850581720",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ68歳のとき、佐藤栄作は首相退任から3年が経ち、政界を離れた静かな日々を送っていました。1974年、長年の政治活動で培った平和外交への貢献が評価され、ノーベル平和賞の受賞が決定します。非核"
+      "person_id": "P3E3040F",
+      "person_name": "柄本佑",
+      "episode_id": "EP-260106232505237",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、柄本佑は2007年に映画「アフタースクール」で本格的な俳優デビューを果たした。父は俳優の柄本明、弟は柄本時生という芸能一家に生まれた彼は、2008年に「おくりびと」で重要な役"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P1A7A3FF",
-      "person_name": "佐藤栄作",
-      "episode_id": "EP-EF89F750",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ74歳のとき、佐藤栄作は1975年6月3日、東京で脳溢血により亡くなりました。7年8か月という連続在任記録を持ち、沖縄返還を実現させた彼は、非核三原則でノーベル平和賞を受賞した唯一の日本人"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB1FE7C9",
-      "person_name": "吉野彰",
-      "episode_id": "EP-000002128",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ65歳のとき、吉野彰は2013年に世界的な科学賞の受賞が相次ぎ、リチウムイオン電池の発明者として国際的な評価を確立していました。この年、グローバルエネルギー賞やIEEE Medal for"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB1FE7C9",
-      "person_name": "吉野彰",
-      "episode_id": "EP-2512181850581534",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ70歳のとき、吉野彰は2018年にリチウムイオン電池の実用化から四半世紀を経て、次世代への技術継承に力を注いでいました。旭化成の名誉フェローとして、若手研究者たちに「失敗を恐れず、社会に役"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB1FE7C9",
-      "person_name": "吉野彰",
-      "episode_id": "EP-000001282",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 9.6,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ71歳のとき、吉野彰は2019年、リチウムイオン電池開発でノーベル化学賞を受賞。研究開始から35年間、500回以上の実験失敗を重ね、特に1985年の実用化初期は企業から「商業価値がない」と"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P02834B3",
-      "person_name": "北野大",
-      "episode_id": "EP-000001328",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 9.4,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、北野大は、世界中の研究者から注目を集める画期的な研究成果を発表しました。それは、これまで不可能とされていた化学反応を可能にする新しい触媒の開発でした。この触媒は、環境負荷が少"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBB70378",
-      "person_name": "安部公房",
-      "episode_id": "EP-2026010220010",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 9.3,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ31歳のとき、安部公房は長編小説『砂の女』を発表しました。1962年、砂丘の穴に閉じ込められた男の物語は、人間存在の不条理を描き、20カ国以上で翻訳される世界的ベストセラーとなりました。カ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBB70378",
-      "person_name": "安部公房",
-      "episode_id": "EP-0F0AAF74",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ68歳のとき、安部公房は1993年1月22日、東京で心不全のため亡くなりました。「砂の女」「箱男」など不条理で実験的な作品で世界的に評価され、ノーベル文学賞候補にも挙げられた前衛作家でした"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PEC7C3C6",
-      "person_name": "カズオ・イシグロ",
-      "episode_id": "EP-000001624",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 9.3,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ44歳のとき、カズオ・イシグロは長編小説『わたしを離さないで』の構想を練り始めていました。1998年当時、彼は前作『充たされざる者』の発表から既に3年が経過しており、新たな創作の方向性を模"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2595B54",
-      "person_name": "アーネスト・ヘミングウェイ",
-      "episode_id": "EP-251218185058698",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、アーネスト・ヘミングウェイは、アイダホ州ケッチャムで静かな日々を送りながら、長年の執筆活動で培った経験を振り返っていました。この時期、彼はパリ時代の回想録『移動祝祭日』の執筆"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2595B54",
-      "person_name": "アーネスト・ヘミングウェイ",
-      "episode_id": "EP-2601041958204b1",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、アーネスト・ヘミングウェイはノーベル文学賞を受賞した。1954年10月、スウェーデン・アカデミーは「現代散文の様式に強力な影響を与えた叙述の熟達」を評価し、彼に文学の最高栄誉"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P2595B54",
-      "person_name": "アーネスト・ヘミングウェイ",
-      "achievement_ep": "EP-251218185058698",
-      "achievement_importance": 7.0,
-      "narrative_ep": "EP-000002235",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "苦悩"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P704E885",
-      "person_name": "リチャード・ファインマン",
-      "episode_id": "EP-000005586",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ47歳のとき、リチャード・ファインマンは1965年、ノーベル物理学賞受賞の知らせを受けながらも「賞なんて意味がない」と一度は辞退を申し出た。しかし妻の「受け取らない方がもっと騒がれるわ」と"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P704E885",
-      "person_name": "リチャード・ファインマン",
-      "episode_id": "EP-000002273",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、リチャード・ファインマンは1958年、妻アーリーンを結核で失った深い悲しみから物理学への情熱を失っていました。コーネル大学の食堂で学生が投げた皿の回転を見て「なぜ皿の縁の回転"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDDC5AEE",
-      "person_name": "ガブリエル・ガルシア＝マルケス",
-      "episode_id": "EP-000002838",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ22歳のとき、ガブリエル・ガルシア＝マルケスは新聞記者として働きながら、カフカの『変身』をスペイン語で読んで衝撃を受けました。「こんな風に書いてもいいのか」と目を開かれた彼は、現実と幻想を"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDDC5AEE",
-      "person_name": "ガブリエル・ガルシア＝マルケス",
-      "episode_id": "EP-000002313",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、ガブリエル・ガルシア＝マルケスは1982年のノーベル文学賞受賞後、深刻な創作の危機に陥っていた。『百年の孤独』の成功により次作への期待は高まったが、筆が完全に止まってしまった"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PA1FF10B",
-      "person_name": "ムハマド・ユヌス",
-      "episode_id": "EP-000002332",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ70歳のとき、ムハマド・ユヌスは2010年にユヌス・スポーツハブを設立し、バングラデシュの貧困地域でサッカーを通じた社会起業プログラムを開始した。グラミン銀行で培ったマイクロファイナンスの"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PA1FF10B",
-      "person_name": "ムハマド・ユヌス",
-      "episode_id": "EP-000002331",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、ムハマド・ユヌスは1990年にバングラデシュの村でクリケットを楽しんでいた。チームメイトの青年が「先生、僕たちには用具を買う42ドルがない」と打ち明けた。ユヌスは自分のポケッ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PA1FF10B",
-      "person_name": "ムハマド・ユヌス",
-      "episode_id": "EP-000002330",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、ムハマド・ユヌスは経済学教授として安定した生活を送っていたが、1974年のバングラデシュ大飢饉の現実に直面していた。近隣のジョブラ村で竹かご作りをする42人の女性たちは、材料"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P44BD084",
-      "person_name": "ダライ・ラマ14世",
-      "episode_id": "EP-000002349",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、ダライ・ラマ14世は1980年、インドの亡命政府で中国政府との対話再開に向けた重要な政策転換を決断していた。多くのチベット人が武力闘争を支持する中、彼は非暴力路線の継続を表明"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2127BD2",
-      "person_name": "アウンサンスーチー",
-      "episode_id": "EP-251218185058645",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ43歳のとき、アウンサンスーチーは自宅軟禁下にありながら、民主化運動のリーダーとして国際社会への影響力を拡大していました。1988年に始まった軍事政権への抵抗から数年が経過したこの時期、彼"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC72DE22",
-      "person_name": "根岸隆",
-      "episode_id": "EP-251219020927212",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.5,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ74歳のとき 根岸隆は2009年にノーベル化学賞を受賞し、その栄誉を胸に後進の指導に一層の情熱を注いでいた。パラジウム触媒を用いたクロスカップリング反応の功績が世界的に認められた翌年の20"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P393AE5A",
-      "person_name": "ガルシア・マルケス",
-      "episode_id": "EP-000003473",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、ガルシア・マルケスは長年の夢だったノーベル文学賞を受賞した。しかし彼は授賞式で、華やかな燕尾服ではなく、あえて故郷コロンビアの民族衣装「グアヤベラ」を着用した。「私はラテンア"
+      "person_id": "P70D8313",
+      "person_name": "シアーシャ・ローナン",
+      "episode_id": "EP-260107023018181",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、シアーシャ・ローナンは2019年に「ストーリー・オブ・マイライフ/わたしの若草物語」でジョー・マーチ役を演じ、第92回アカデミー賞主演女優賞にノミネートされた。この作品でロー"
     },
     {
       "type": "achievement_undervalued",
       "person_id": "PB3FDE26",
       "person_name": "イサック・ニュートン",
-      "episode_id": "EP-000003652",
+      "episode_id": "EP-260107043018926",
       "keyword": "万有引力",
-      "current_importance": 7.9,
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ44歳のとき、イサック・ニュートンは20年間温めてきた万有引力の理論を『プリンキピア』として世に送り出した。出版費用が工面できず絶望的だった時、友人ハレーが私財を投じて支援してくれた。16"
+      "text_preview": "あなたと同じ20歳のとき、1662年にケンブリッジ大学トリニティ・カレッジで学士号を取得したニュートンは、翌1665年に発生した「ロンドン大疫病」により大学が閉鎖されたため、故郷のウールスソープ・マナ"
     },
     {
       "type": "achievement_undervalued",
       "person_id": "P282F99D",
       "person_name": "ワトソン・クリック",
-      "episode_id": "EP-000003654",
-      "keyword": "DNA二重らせん",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ39歳のとき、ワトソン・クリックは12年間の研究の末、ついにDNA二重らせん構造の解明に成功した。1953年、ケンブリッジ大学の小さな研究室で、X線結晶解析の写真を何度も見つめ直し、ついに"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PAD75754",
-      "person_name": "ライナス・ポーリング",
-      "episode_id": "EP-000003656",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、ライナス・ポーリングは第二次世界大戦の真っ只中、軍から爆弾開発への協力を求められていました。しかし彼は「科学は人類の幸福のためにあるべきだ」と信念を貫き、代わりに人工血漿の開"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PAD75754",
-      "person_name": "ライナス・ポーリング",
-      "episode_id": "EP-000007307",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ39歳のとき、ライナス・ポーリングは1940年、タンパク質の構造解析で行き詰まり、3年間の研究が無駄になったと絶望していた。しかし風邪で寝込んだある日、紙を螺旋状に折って遊んでいると、突然"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD9455EA",
-      "person_name": "ジョン・フォン・ノイマン",
-      "episode_id": "EP-79BC0812",
+      "episode_id": "EP-260107032101216",
       "keyword": "量子力学",
-      "current_importance": 7.9,
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ53歳のとき、ジョン・フォン・ノイマンは1957年2月8日、ワシントンD.C.で骨肉腫のため亡くなりました。現代のコンピュータ・アーキテクチャの基礎「ノイマン型」を確立し、ゲーム理論を創始"
+      "text_preview": "あなたと同じ20歳のとき、ワトソン・クリックはケンブリッジ大学キングス・カレッジで物理学の学位取得に向けて研究に没頭していた。1936年、彼は「量子力学と分子構造」をテーマとした卒業論文を執筆し、92"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P8702A25",
-      "person_name": "小谷正雄",
-      "episode_id": "EP-000003667",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
+      "person_id": "P920164A",
+      "person_name": "ジェームズ・ワトソン",
+      "episode_id": "EP-260107032101219",
+      "keyword": "ノーベル賞",
+      "current_importance": 0.0,
       "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、小谷正雄は25年間取り組んできた量子もつれの理論研究が行き詰まり、周囲から研究の断念を勧められていた。しかし、ある深夜の実験中、偶然観測した光子の振る舞いに新たな可能性を見出"
+      "text_preview": "あなたと同じ35歳のとき、ジェームズ・ワトソンは1963年にフランシス・クリックとモーリス・ウィルキンズと共にノーベル生理学・医学賞を受賞した。1953年にネイチャー誌で発表したDNAの二重らせん構造"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P920164A",
+      "person_name": "ジェームズ・ワトソン",
+      "achievement_ep": "EP-260107032101219",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000003661",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "失敗"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "PFBF0C13",
-      "person_name": "アルベール・カミュ",
-      "episode_id": "EP-000004794",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ44歳のとき、アルベール・カミュは貧困の中で育った故郷アルジェリアの恵まれない子どもたちのために、ノーベル文学賞の賞金の一部を使って奨学金制度を創設した。自身も幼い頃に父を亡くし、掃除婦の"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PFBF0C13",
-      "person_name": "アルベール・カミュ",
-      "episode_id": "EP-000003710",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ30歳のとき、アルベール・カミュは結核の持病と貧困に苦しみながらも、アルジェリアの新聞記者として不正を告発し続けていた。1943年、ナチス占領下のパリで『異邦人』を出版するも、当初は300"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PFBF0C13",
-      "person_name": "アルベール・カミュ",
-      "episode_id": "EP-000005190",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、アルベール・カミュは貧しいアルジェリアの母子家庭で育った過去を振り返っていた。文字も読めない母親のために、17歳で結核を患いながらも奨学金で大学に通い続けた。1957年、44"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P760EBC5",
-      "person_name": "セオドア・ルーズベルト",
-      "episode_id": "EP-546EE303",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、セオドア・ルーズベルトは1919年1月6日、ニューヨークで心臓発作のため亡くなりました。第26代アメリカ大統領として「棍棒外交」を展開し、パナマ運河建設を推進した政治家でした"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2C70422",
-      "person_name": "エリザベス2世",
-      "episode_id": "EP-000004141",
-      "keyword": "奇跡の年",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ56歳のとき、エリザベス2世は「奇跡の年」と呼ばれる1992年の試練を乗り越えていました。この年、長男チャールズ皇太子とダイアナ妃が別居し、次男アンドルー王子も離婚、さらに愛するウィンザー"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P8ECD1D3",
-      "person_name": "香取秀俊",
-      "episode_id": "EP-000004333",
-      "keyword": "相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ55歳のとき、香取秀俊は光格子時計の精度向上に20年以上を費やしながらも、まだ完全な実用化には至らず焦燥感を抱いていた。しかし2019年、ついに18桁の精度を達成し、宇宙の重力波検出や相対"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P53D9DD7",
-      "person_name": "マリオ・バルガス・リョサ",
-      "episode_id": "EP-000004402",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、マリオ・バルガス・リョサは祖国ペルーの大統領選挙で敗北し、政治の世界から文学の世界へ完全に戻る決断をした。選挙戦で受けた激しい批判と脅迫に心を痛めながらも、「真の戦いは言葉で"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P4955358",
-      "person_name": "トニ・モリスン",
-      "episode_id": "EP-000004678",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、トニ・モリスンは編集者として働きながら夜中に執筆を続け、ついに6作目の小説「ジャズ」を完成させた。シングルマザーとして2人の息子を育て上げ、出版社での激務をこなしながらも、ア"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P4955358",
-      "person_name": "トニ・モリスン",
-      "episode_id": "EP-000004404",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、トニ・モリスンは編集者として働きながら、夜中に台所のテーブルで小説を書き続けていた。シングルマザーとして2人の息子を育て、昼間は出版社で他人の原稿を編集し、深夜2時まで自分の"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P7C23172",
-      "person_name": "クリック",
-      "episode_id": "EP-000004436",
-      "keyword": "DNA二重らせん",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ37歳のとき、クリックは物理学から生物学への転身に苦悩していた。戦争で研究が中断され、PhD取得も遅れた彼は、ケンブリッジ大学で「年老いた大学院生」と呼ばれていた。しかし1951年、22歳"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD1B48C5",
-      "person_name": "エルヴィン・シュレーディンガー",
-      "episode_id": "EP-EDBDB5D3",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ73歳のとき、エルヴィン・シュレーディンガーは1961年1月4日、ウィーンで結核のため亡くなりました。波動力学を確立し、ノーベル物理学賞を受賞した量子力学の創始者の一人でした。「シュレーデ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC6BFEBE",
-      "person_name": "ボルン",
-      "episode_id": "EP-000004440",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、ボルンは量子力学の確率解釈という革命的な理論を発表していた。しかし当時、アインシュタインをはじめ多くの物理学者から「神はサイコロを振らない」と激しく批判された。それでも彼は2"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC6BFEBE",
-      "person_name": "ボルン",
-      "episode_id": "EP-000005716",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、ボルンは1922年、自身の波動関数理論が実験結果と合わないという致命的な矛盾に直面した。3年間の苦悩の末、彼は従来の「波動関数は物理的実体」という常識を捨て去る決断をした。そ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB49E4A1",
-      "person_name": "ハイゼンベルク",
-      "episode_id": "EP-000004441",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ24歳のとき、ハイゼンベルクは花粉症で体調を崩し、ドイツの離島ヘルゴラント島で療養していた。本を持参し忘れた彼は、仕方なく量子力学の計算に没頭した。深夜3時、ついに電子の位置と運動量を同時"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB49E4A1",
-      "person_name": "ハイゼンベルク",
-      "episode_id": "EP-95492A06",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ74歳のとき、ヴェルナー・ハイゼンベルクは1976年2月1日、ミュンヘンでがんのため亡くなりました。「不確定性原理」を発見し、量子力学の基礎を築いたノーベル物理学賞受賞者でした。31歳での"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P72CD347",
-      "person_name": "島津源蔵",
-      "episode_id": "EP-000004446",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、島津源蔵は明治8年、京都で理化学器械の製造を始めた。当時の日本は西洋の科学技術に大きく遅れをとっていた。周囲からは「そんな難しいものが作れるはずがない」と嘲笑されたが、源蔵は"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P4F5BE7E",
-      "person_name": "シモン・ペレス",
-      "episode_id": "EP-000004472",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ65歳のとき、シモン・ペレスは長年の政敵だったイツハク・ラビン首相とともに、パレスチナ解放機構のアラファト議長との秘密交渉を成功させていた。1988年から続いた第一次インティファーダで10"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P4F5BE7E",
-      "person_name": "シモン・ペレス",
-      "episode_id": "EP-2512181850581600",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ64歳のとき、シモン・ペレスは外相として中東和平の実現に向けて奔走していました。1987年、長年の政治経験を活かし、労働党とリクードによる挙国一致内閣で外務大臣を務めていた彼は、パレスチナ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC84DAF6",
-      "person_name": "ジョン・スタインベック",
-      "episode_id": "EP-000004679",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、ジョン・スタインベックは『怒りの葡萄』出版から8年が経ち、作家として頂点を極めていた。しかし彼は安住することなく、戦争特派員として朝鮮戦争の最前線へ向かった。砲弾が飛び交う中"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P91DE2B9",
-      "person_name": "ケルヴィン卿",
-      "episode_id": "EP-000007600",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ45歳のとき、ケルヴィン卿は1869年、自身の熱力学理論に致命的な矛盾を発見した。地球の年齢計算で導き出した2000万年という数値が、ダーウィンの進化論に必要な時間と大きく食い違ったのだ。"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P9DC0935",
-      "person_name": "ドロシー・ホジキン",
-      "episode_id": "EP-000004848",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、ドロシー・ホジキンは関節リウマチで手の変形が進み、実験器具を握ることさえ困難になっていた。それでも彼女は諦めなかった。助手と共に工夫を重ね、変形した指でもX線結晶学の精密な測"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P4853AA2",
-      "person_name": "オルハン・パムク",
-      "episode_id": "EP-000005034",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、オルハン・パムクは故郷イスタンブールへの愛を込めた回想録『イスタンブール』を執筆していた。幼少期から感じていた街の「ヒュズン(憂愁)」という独特な感情を、10年もの歳月をかけ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB7D523C",
-      "person_name": "エマニュエル・シャルパンティエ",
-      "episode_id": "EP-000007851",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、エマニュエル・シャルパンティエは2011年、CRISPR-Cas9の研究で行き詰まっていた。単独での限界を感じた彼女は、プライドを捨てて競合研究者だったジェニファー・ダウドナ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB7D523C",
-      "person_name": "エマニュエル・シャルパンティエ",
-      "episode_id": "EP-000005064",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、エマニュエル・シャルパンティエは、ノーベル化学賞受賞の知らせを受けた。幼い頃から「女性は科学に向いていない」と言われ続け、研究資金獲得に苦労した日々。しかし彼女は細菌の免疫シ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P9A86289",
-      "person_name": "ジェームズ・クラーク・マクスウェル",
-      "episode_id": "EP-000007798",
-      "keyword": "相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ35歳のとき、ジェームズ・クラーク・マクスウェルは1866年、ケンブリッジ大学教授職を突然辞任し、スコットランドの田舎に隠遁した。学会は「天才の失墜」と嘲笑したが、彼は雑音のない環境で電気"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6029CA5",
-      "person_name": "リーマン",
-      "episode_id": "EP-45669C6D",
-      "keyword": "一般相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ39歳のとき、ベルンハルト・リーマンは1866年7月20日、イタリアのセラスカで結核のため亡くなりました。リーマン幾何学を創始し、アインシュタインの一般相対性理論の数学的基礎を築いた数学者"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6029CA5",
-      "person_name": "リーマン",
-      "episode_id": "EP-000005085",
-      "keyword": "相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ32歳のとき、リーマンは貧困と病気に苦しみながらも、数学史上最も重要な講演「幾何学の基礎にある仮説について」を行った。この講演で彼が提示したリーマン幾何学は、当時誰にも理解されなかったが、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P43C052B",
-      "person_name": "ポール・ディラック",
-      "episode_id": "EP-000008963",
+      "person_id": "P10A1E08",
+      "person_name": "上田正仁",
+      "episode_id": "EP-260107043018934",
       "keyword": "量子力学",
-      "current_importance": 7.9,
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ26歳のとき、ポール・ディラックは1928年、電子のスピンを表現する数式で負のエネルギー解が出現し、物理学界から「数学的な間違い」と酷評された。しかし彼は批判を受け入れず、この「失敗作」を"
+      "text_preview": "あなたと同じ20歳のとき、上田正仁は1992年に東京大学理学部物理学科3年生として、量子力学の研究に没頭していた。当時、彼は佐々木節教授の指導の下で「ボーズ・アインシュタイン凝縮」の理論研究を開始し、"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P43C052B",
-      "person_name": "ポール・ディラック",
-      "episode_id": "EP-000005088",
-      "keyword": "相対性理論",
-      "current_importance": 7.9,
+      "person_id": "P3582F17",
+      "person_name": "清水富雄",
+      "episode_id": "EP-260107043018937",
+      "keyword": "量子力学",
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ30歳のとき、ポール・ディラックは量子力学と相対性理論を統合する方程式に取り組んでいた。数学的美しさを追求した彼の方程式は、思いもよらない結果を示していた。負のエネルギー状態の存在である。"
+      "text_preview": "あなたと同じ20歳のとき、清水富雄は1987年に京都大学理学部で量子力学の研究に没頭していた。指導教官である田中正雄教授のもと、超伝導体の電子構造解析に関する論文を執筆し、日本物理学会の「第42回年次"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P43C052B",
-      "person_name": "ポール・ディラック",
-      "episode_id": "EP-EBCEA11D",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ82歳のとき、ポール・ディラックは1984年10月20日、フロリダで亡くなりました。反物質の存在を予言し、量子力学と相対性理論を統合した「ディラック方程式」を導いたノーベル物理学賞受賞者で"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC1BAB1C",
-      "person_name": "アルフレッド・ウォーレス",
-      "episode_id": "EP-000005883",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ35歳のとき、アルフレッド・ウォーレスは1858年、マラリアの高熱に苦しみながらモルッカ諸島の奥地で一人横たわっていた。しかし意識が朦朧とする中、突然「適者生存」という概念が脳裏に閃いた。"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC1BAB1C",
-      "person_name": "アルフレッド・ウォーレス",
-      "episode_id": "EP-000009150",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ30歳のとき、アルフレッド・ウォーレスは1853年、マレー諸島探検の帰路でヘレン号の船火事に遭い、8年間収集した数万点の標本を全て失った。絶望の淵に立たされたが、彼は再び同じ海域へ向かう決"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC1BAB1C",
-      "person_name": "アルフレッド・ウォーレス",
-      "episode_id": "EP-2512181850581326",
-      "keyword": "進化論",
-      "current_importance": 7.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ31歳のとき、アルフレッド・ウォーレスは、マレー諸島での探検調査を本格的に開始していました。1854年、アマゾンでの探検で収集した標本を船の火災で失うという痛手を経験した後、彼は再起をかけ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P00CA940",
-      "person_name": "パール・バック",
-      "episode_id": "EP-000005204",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、パール・バックは中国での30年間の体験を込めた小説「大地」を執筆していました。当初、17の出版社から断られ続けましたが、彼女は諦めませんでした。ついに1931年に出版されると"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB828439",
-      "person_name": "エルネスト・ヘミングウェイ",
-      "episode_id": "EP-000005499",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、エルネスト・ヘミングウェイは1934年、アフリカサファリ中に赤痢で生死の境をさまよった。高熱で意識を失いながらも、枕元に置いた手帳に「死ぬ瞬間の感覚」を克明に記録し続けた。こ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P390FD71",
-      "person_name": "ウィリアム・フォークナー",
-      "episode_id": "EP-000005530",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ32歳のとき、ウィリアム・フォークナーは1929年、小説家として6年間無名のまま極貧生活を送り、ついに文学を諦めて発電所の夜勤警備員として働いていた。しかし静寂な夜間勤務中、彼は警備日誌の"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P8B43D2F",
-      "person_name": "アリス・マンロー",
-      "episode_id": "EP-2512181850581388",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、アリス・マンローは、3人の娘を育てながら書店経営と執筆活動を両立させる多忙な日々を送っていました。1971年、彼女は初の短編集『Dance of the Happy Shad"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDDA000E",
-      "person_name": "コフィー・アナン",
-      "episode_id": "EP-251218185058711",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、コフィー・アナンは国連事務総長として2期目の任期を全うし、グローバルな課題解決に向けた経験知を体系化していました。1998年、イラク危機においてサダム・フセイン政権との困難な"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PEF05E2B",
-      "person_name": "ラルフ・バンチ",
-      "episode_id": "EP-000005613",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ46歳のとき、ラルフ・バンチは1950年、中東和平調停で13ヶ月間の交渉が決裂寸前に追い込まれていた。イスラエルとアラブ諸国の代表団が帰国を宣言した絶望的状況で、彼は会議室の鍵を隠し全員を"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P511C132",
-      "person_name": "デズモンド・ツツ",
-      "episode_id": "EP-000005615",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ53歳のとき、デズモンド・ツツは1984年、ノーベル平和賞受賞の知らせを受けた瞬間、喜びではなく深い恐怖を感じた。「これで政府に暗殺される」と本気で覚悟したのだ。しかし妻の「神があなたを選"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P29B35AD",
-      "person_name": "オクタビオ・パス",
-      "episode_id": "EP-000007368",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、オクタビオ・パスは1964年、インド大使として赴任中にメキシコ政府が学生デモを武力弾圧したトラテロルコ事件に衝撃を受けた。外交官として20年間築いた安定したキャリアを捨て、抗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P38D9999",
-      "person_name": "エンリコ・フェルミ",
-      "episode_id": "EP-000005876",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ34歳のとき、エンリコ・フェルミは1935年、ノーベル物理学賞を受賞したにも関わらず、ファシスト政権下のイタリアで妻ラウラがユダヤ人であることを理由に身の危険を感じていた。受賞式のためスト"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3516A64",
-      "person_name": "グリエルモ・マルコーニ",
-      "episode_id": "EP-38A47BD9",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ63歳のとき、グリエルモ・マルコーニは1937年7月20日、ローマで心臓発作により亡くなりました。無線通信の実用化でノーベル物理学賞を受賞した彼は、大西洋横断無線通信を成功させ、タイタニッ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5DCF43B",
-      "person_name": "エミー・ネーター",
-      "episode_id": "EP-000005893",
-      "keyword": "一般相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、エミー・ネーターは1917年、女性という理由でゲッティンゲン大学の教授職を拒否され続けていた。しかし彼女は諦めず、無給で講義を続けながらアインシュタインの一般相対性理論の数学"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3D2178E",
-      "person_name": "ヤシル・アラファト",
-      "episode_id": "EP-2512181850581669",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ64歳のとき、ヤシル・アラファトは1993年、歴史的な転換点を迎えていました。長年の武装闘争路線から対話路線へと舵を切り、イスラエルのラビン首相との間でオスロ合意に調印したのです。ホワイト"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3D2178E",
-      "person_name": "ヤシル・アラファト",
-      "episode_id": "EP-000006056",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ65歳のとき、ヤシル・アラファトは1994年、長年の武装闘争路線を完全に放棄するという痛苦の決断を下した。パレスチナ解放機構内部からは「裏切り者」との激しい批判を浴びたが、彼は「銃ではなく"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5CAB8FF",
-      "person_name": "スティーブン・ジェイ・グールド",
-      "episode_id": "EP-000006307",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ40歳のとき、スティーブン・ジェイ・グールドは1981年、腹膜中皮腫という致命的な癌で余命8ヶ月と宣告された。しかし統計学者でもあった彼は「中央値は私ではない」と冷静に分析し、生存率の分布"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5CAB8FF",
-      "person_name": "スティーブン・ジェイ・グールド",
-      "episode_id": "EP-000007384",
-      "keyword": "進化論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ50歳のとき、スティーブン・ジェイ・グールドは1991年、20年間信じてきた「段階的平衡説」への学界からの激しい批判に直面していた。しかし彼は反論論文を書く代わりに、意外にも一般向けの科学"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1FBE9EA",
-      "person_name": "キャリー・マリス",
-      "episode_id": "EP-000006310",
+      "person_id": "P446F8BF",
+      "person_name": "ジェニファー・ダウドナ",
+      "episode_id": "EP-260107043018951",
       "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
+      "current_importance": 0.0,
       "expected_importance": 10.0,
-      "text_preview": "あなたと同じ38歳のとき、キャリー・マリスは1982年、深夜のドライブ中にDNA増幅の革命的アイデアを思いついたが、同僚たちは「理論的に不可能」と一蹴した。しかし彼は孤独な実験を続け、2年後にPCR法"
+      "text_preview": "あなたと同じ20歳のとき、ジェニファー・ダウドナは1984年にハーバード大学の生化学研究室で画期的な発見に取り組んでいた。指導教授のジャック・ショスタク博士のもとで、RNA分子の立体構造解析に没頭し、"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P258C928",
-      "person_name": "ヨアヒム・フランク",
-      "episode_id": "EP-000006470",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ55歳のとき、ヨアヒム・フランクは2000年、20年間研究してきたクライオ電子顕微鏡技術が学界から「画像が不鮮明すぎて無意味」と酷評され続けていた。しかし諦めずに画像処理アルゴリズムの改良"
+      "person_id": "P9A6DFAE",
+      "person_name": "ハビエル・バルデム",
+      "episode_id": "EP-260107035605072",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、ハビエル・バルデムは1989年にスペインのテレビシリーズ「El Píocaro」で俳優デビューを果たした。マドリード出身の彼は、母親で女優のピラール・バルデムの影響を受け、演"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P6578F22",
-      "person_name": "ニュートン",
-      "episode_id": "EP-000006491",
+      "person_id": "P6345DFA",
+      "person_name": "ケネス・ブラナー",
+      "episode_id": "EP-260107035605073",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、ケネス・ブラナーは1980年にロンドンの王立演劇学校を卒業し、同年にロイヤル・シェイクスピア・カンパニーに入団した。彼は史上最年少の21歳でヘンリー5世役を演じ、批評家から絶"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P3CB8E2C",
+      "person_name": "菊地凛子",
+      "episode_id": "EP-260107035605076",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、菊地凛子は女優としてのキャリアの基盤を築いていました。1981年生まれの彼女は、2001年当時、すでにモデルや小規模な演技の仕事を経験しながら、自分の表現方法を模索していた時"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P6C9540C",
+      "person_name": "多部未華子",
+      "episode_id": "EP-260107015605002",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、多部未華子は2009年にNHK連続テレビ小説「つばさ」で主演を務め、平均視聴率13.8%を記録した。東京都出身の彼女は、前年2008年の映画「アフタースクール」で注目を集め、"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P4BB0CCF",
+      "person_name": "菅野美穂",
+      "episode_id": "EP-260106232505258",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、菅野美穂は1997年にフジテレビの連続ドラマ「イグアナの娘」で主演を務め、視聴率15.4%を記録した。このドラマでの演技が評価され、同年の「第15回ザテレビジョンドラマアカデ"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P4BB0CCF",
+      "person_name": "菅野美穂",
+      "achievement_ep": "EP-260106232505258",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000004997",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "悩み"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PBCA8C60",
+      "person_name": "首藤文代",
+      "episode_id": "EP-260107043018973",
+      "keyword": "フィールズ賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ20歳のとき、首藤文代は1998年に東京大学理学部数学科で代数幾何学の研究に没頭していた。指導教授の田中博明の下で、楕円曲線の有理点に関する論文を執筆し、学部生としては異例の127ページに"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PED9B72B",
+      "person_name": "長沢工",
+      "episode_id": "EP-260107043018977",
+      "keyword": "フィールズ賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ20歳のとき、長沢工は2024年に東京大学理学部数学科で「リーマン予想に関する新アプローチ」の研究論文を発表し、国際数学会議で最年少発表者として注目を集めた。この論文は査読期間わずか3か月"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PE906FC0",
+      "person_name": "板倉聖宣",
+      "episode_id": "EP-260107043018985",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ20歳のとき、板倉聖宣は1950年に東京大学理学部物理学科に在籍していた。同年、湯川秀樹がノーベル物理学賞を受賞した記念講演会に参加し、物理教育の重要性について深く考察した。1951年には"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P3ABB32C",
+      "person_name": "ジム・デイビス",
+      "episode_id": "EP-260107030455579",
+      "keyword": "世界記録",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、ジム・デイビスは1965年にインディアナ州マンシーで地元新聞社のアシスタントとして働いていた。彼は週給40ドルの収入で生計を立てながら、漫画家になる夢を追い続けていた。196"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PA7EF463",
+      "person_name": "ジョン・トラボルタ",
+      "episode_id": "EP-260107035605130",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ30歳のとき、ジョン・トラボルタは1984年に映画「愛と青春の旅だち」でデブラ・ウィンガーと共演し、興行収入1億2900万ドルという大ヒットを記録した。この作品は全米映画興行成績で年間第3"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PD2B9626",
+      "person_name": "釈由美子",
+      "episode_id": "EP-260106232505282",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、釈由美子は2000年に女優としてのキャリアを本格的にスタートさせていた。1999年にグラビアアイドルとしてデビューした彼女は、翌年には映画「漂流教室」で女優デビューを果たした"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PECDE08E",
+      "person_name": "酒井法子",
+      "episode_id": "EP-260106232505285",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ30歳のとき、酒井法子は1999年に女優としての地位を確立していた。1987年にアイドルデビューしてから12年が経過し、フジテレビのドラマ「ひとつ屋根の下」では江口洋介や福山雅治と共演して"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P3BE1A5D",
+      "person_name": "ジョン・ボイエガ",
+      "episode_id": "EP-260106232505295",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ35歳のとき、ジョン・ボイエガは2027年にハリウッドでの地位を確固たるものにしていた。2015年の「スター・ウォーズ/フォースの覚醒」でフィン役を演じてから12年が経過し、彼の出演作品は"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P3BE1A5D",
+      "person_name": "ジョン・ボイエガ",
+      "achievement_ep": "EP-260106232505295",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000007147",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "きっかけ"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P82B6AEF",
+      "person_name": "トーマシン・マッケンジー",
+      "episode_id": "EP-260106232505296",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ30歳のとき、トーマシン・マッケンジーは2030年にハリウッドで最も影響力のある女優の一人として確固たる地位を築いていた。2017年の「リーヴ・ノー・トレース」でのデビューから13年が経過"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P488F443",
+      "person_name": "大森南朋",
+      "episode_id": "EP-260107004503466",
       "keyword": "万有引力",
-      "current_importance": 7.9,
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ25歳のとき、ニュートンは1667年、ペストの流行で故郷に避難中、庭でリンゴが落ちるのを見て「なぜ真下に落ちるのか」と疑問を抱いた。しかし実は、この単純な現象を数式で証明しようと試みるも2"
+      "text_preview": "あなたと同じ20歳のとき、大森南朋は1992年に舞台俳優としてのキャリアをスタートさせていた。東京芸術大学音楽学部声楽科に在学中だった彼は、演劇実験室◎万有引力の寺山修司作品「奴婢訓」で初舞台を踏んだ"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P488F443",
+      "person_name": "大森南朋",
+      "achievement_ep": "EP-260107004503466",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000007568",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "転機"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P7C096C0",
-      "person_name": "アル・ゴア",
-      "episode_id": "EP-000006496",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ52歳のとき、アル・ゴアは2000年の大統領選挙で敗北した屈辱から立ち直るため、政治家としてのキャリアを一度完全に捨て去った。しかし環境問題への情熱を諦めきれず、全米を回り気候変動の講演を"
+      "person_id": "P1A7BCC1",
+      "person_name": "オリバー・ストーン",
+      "episode_id": "EP-260107093545004",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、オリバー・ストーンは1967年にコロンビア大学を中退し、ベトナム戦争に従軍志願した。第25歩兵師団に配属されたストーンは、368日間の戦闘任務を遂行し、ブロンズスター勲章とパ"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P7C096C0",
-      "person_name": "アル・ゴア",
-      "episode_id": "EP-251218185058677",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、アル・ゴアは1998年、クリントン政権の副大統領として二期目の重要な局面を迎えていました。この年、彼は長年取り組んできた環境問題への情熱を政策に結実させ、京都議定書の推進に尽"
+      "person_id": "P9842E27",
+      "person_name": "ブリン",
+      "episode_id": "EP-260107024537301",
+      "keyword": "IPO",
+      "current_importance": 0.0,
+      "expected_importance": 8.0,
+      "text_preview": "あなたと同じ35歳のとき、ブリンはグーグルの共同創設者として2003年に同社の株式公開を成功させ、時価総額230億ドルという記録的な数値を達成した。スタンフォード大学で博士課程在籍中の1996年にラリ"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "PD08590B",
-      "person_name": "ミハイル・ゴルバチョフ",
-      "episode_id": "EP-53B0E902",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ91歳のとき、ミハイル・ゴルバチョフは2022年8月30日、モスクワで長い闘病の末に亡くなりました。ペレストロイカ（改革）とグラスノスチ（情報公開）でソ連を変革し、ベルリンの壁崩壊と冷戦終"
+      "person_id": "P065CB6C",
+      "person_name": "工藤阿須加",
+      "episode_id": "EP-260107004503495",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、工藤阿須加は2011年にテレビドラマ「小暴れ小太郎」で俳優デビューを果たした。父親が元プロ野球選手の工藤公康であることから注目を集めたが、彼自身も慶應義塾大学在学中からモデル"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P7C1D7AD",
-      "person_name": "ナディア・ムラド",
-      "episode_id": "EP-000006799",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ25歳のとき、ナディア・ムラドは2018年、ノーベル平和賞受賞スピーチで世界が注目する中、予想に反して復讐ではなく「加害者の処罰と教育」を訴えた。ISに拉致され性奴隷として売買された壮絶な"
+      "person_id": "PC300104",
+      "person_name": "キャシー・ベイツ",
+      "episode_id": "EP-260107004503502",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ20歳のとき、キャシー・ベイツは南メソジスト大学で演劇を学んでいました。1968年、テネシー州メンフィス出身の彼女は、家族の期待する安定した道ではなく、演劇への情熱を追い求める決断をした時"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "P86BBBAB",
-      "person_name": "シリン・エバーディー",
-      "episode_id": "EP-000006817",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ56歳のとき、シリン・エバーディーは2009年、ノーベル平和賞のメダルと賞状を政府に没収され絶望の淵に立たされた。しかし彼女は予想外の行動に出る。メダルを失った代わりに、自分自身が「生きる"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PABB7172",
-      "person_name": "ワトソンとクリック",
-      "episode_id": "EP-000007306",
-      "keyword": "DNA二重らせん",
-      "current_importance": 7.9,
+      "person_id": "P1EDCCBE",
+      "person_name": "メジロマックイーン",
+      "episode_id": "EP-260106222338762",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ35歳のとき、ワトソンとクリックは1953年、DNA構造解明の競争でライバルのポーリング博士に完全に遅れを取っていた。しかし彼らは自らの理論構築を一旦諦め、同僚ロザリンド・フランクリンのX"
+      "text_preview": "あなたと同じ20歳のとき、メジロマックイーンは1991年の「天皇賞（春）」で圧倒的な強さを見せつけた。淀川競馬場3200メートルのコースを3分16秒0の好タイムで駆け抜け、2着馬に5馬身差をつけて勝利"
     },
     {
       "type": "achievement_undervalued",
-      "person_id": "PBCDD32E",
-      "person_name": "アンリ・ベクレル",
-      "episode_id": "EP-000007309",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ44歳のとき、アンリ・ベクレルは1896年、X線の研究中に曇りの日が続いて実験が中断した。諦めて引き出しにしまった写真乾板を数日後に現像すると、なぜか鮮明な影が写っていた。太陽光なしでウラ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD6B73BC",
-      "person_name": "フリッツ・ハーバー",
-      "episode_id": "EP-000007320",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ46歳のとき、フリッツ・ハーバーは1914年、念願のアンモニア合成法でノーベル化学賞候補となったその瞬間、第一次大戦が勃発した。平和のための化学肥料開発が一転、毒ガス兵器製造を国から求めら"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB365755",
-      "person_name": "パブロ・ネルーダ",
-      "episode_id": "EP-000007369",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、パブロ・ネルーダは1949年、チリ政府から国家反逆罪で指名手配され、祖国から逃亡を余儀なくされた。愛する故郷を離れる絶望の中、彼は「私は何も持たずに生まれ、何も持たずに死ぬだ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB365755",
-      "person_name": "パブロ・ネルーダ",
-      "episode_id": "EP-000007355",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、パブロ・ネルーダは1954年、共産党員として国外追放されていたパリで、愛する祖国チリへの郷愁に苦しんでいた。しかし故郷への手紙が検閲で届かない絶望の中、彼は意外な決断をした。"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB235A5C",
-      "person_name": "ジョゼ・サラマーゴ",
-      "episode_id": "EP-251218185058725",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ62歳のとき、ジョゼ・サラマーゴは長年のジャーナリストとしての経験を活かし、『修道院回想録』で国際的な評価を確立していました。1984年、ポルトガル共産党員として政治的な信念を貫きながら、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PE0F2ADE",
-      "person_name": "デレック・ウォルコット",
-      "episode_id": "EP-000007370",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ42歳のとき、デレック・ウォルコットは1972年、故郷セントルシアでの詩の朗読会で聴衆からの激しいヤジに遭遇した。「植民地の言葉で書くな」という批判に打ちのめされた彼は、一度は英語での創作"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5CB0A9D",
-      "person_name": "シェーマス・ヒーニー",
-      "episode_id": "EP-000007371",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ56歳のとき、シェーマス・ヒーニーは1995年、ノーベル文学賞受賞の知らせを受けた瞬間、実は深い迷いを抱いていた。アイルランド紛争の渦中で「政治的でない」詩人として批判されることを恐れ、一"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P90872B1",
-      "person_name": "アルベルト・シュヴァイツァー",
-      "episode_id": "EP-3B64FCA7",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ90歳のとき、アルベルト・シュヴァイツァーは1965年9月4日、アフリカ・ガボンのランバレネで亡くなりました。「密林の聖者」として知られ、アフリカで医療活動を行いながら「生命への畏敬」の哲"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P7554735",
-      "person_name": "ハロルド・ユーリー",
-      "episode_id": "EP-000007380",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、ハロルド・ユーリーは1928年、重水素の存在を理論的に予測したものの、3年間の実験が全て失敗に終わっていた。諦めかけたその時、助手のミスで濃縮装置の温度設定を間違えるという事"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P17A57BB",
-      "person_name": "クリントン・デイヴィソン",
-      "episode_id": "EP-000007588",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、クリントン・デイヴィソンは1926年、ベル研究所でニッケル結晶に電子ビームを当てる実験中、装置が爆発事故を起こした。同僚たちが実験の失敗を嘆く中、彼は破損したニッケル結晶の表"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PFE5FA28",
-      "person_name": "湯川豊",
-      "episode_id": "EP-000007790",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ42歳のとき、湯川豊は15年間研究してきた統一場理論の論文が世界的権威ある学術誌に3度連続で却下され、研究者生命の危機に直面していた。絶望の中、彼は論文を全て破り捨て、まったく異なるアプロ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1C3CC6E",
-      "person_name": "鈴木康夫",
-      "episode_id": "EP-000007847",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、鈴木康夫は20年間研究してきた触媒反応が全て失敗に終わり、研究室の閉鎖を告げられた。絶望の中、最後の実験で偶然温度設定を間違えたところ、従来の1000倍の効率で反応が進行する"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5D09448",
-      "person_name": "ウォレス",
-      "episode_id": "EP-000008010",
-      "keyword": "進化論",
-      "current_importance": 7.9,
+      "person_id": "P43C2188",
+      "person_name": "ダイワスカーレット",
+      "episode_id": "EP-260106222338773",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ35歳のとき、ウォレスは1858年、マレー諸島で高熱のマラリアに倒れた。死の淵で意識が朦朧とする中、突然「生存に最も適した個体が生き残る」という進化の法則が頭に浮かんだ。回復後すぐにダーウ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P72A4F6C",
-      "person_name": "西島和彦",
-      "episode_id": "EP-000008058",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ38歳のとき、西島和彦は1963年、自身が提唱したストレンジネス理論が実験で否定される可能性に直面していた。多くの同僚が理論の修正を勧める中、彼は逆に「理論が間違っているなら実験装置を疑う"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5BA0CB8",
-      "person_name": "ユージン・オニール",
-      "episode_id": "EP-000008117",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ48歳のとき、ユージン・オニールは1936年、ノーベル文学賞受賞の栄光に包まれながらも、実は12年間も新作を発表できずにいた。アルコール依存症に苦しみ、家族との確執で創作意欲を失っていた彼"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2C0AB4D",
-      "person_name": "フランシス・アーノルド",
-      "episode_id": "EP-000008186",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、フランシス・アーノルドは2011年、15年間続けてきた酵素進化研究で致命的な実験ミスを犯した。数千回の実験データが無意味になったその瞬間、彼女は従来の合理的設計を完全に放棄す"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P308970B",
-      "person_name": "バーナード・ショー",
-      "episode_id": "EP-000008563",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、バーナード・ショーは1901年、9年間書き続けた戯曲が全て不採用となり、劇作家として完全に諦めかけていた。しかし友人の「君の作品は時代を先取りしすぎている」という一言で発想を"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2379608",
-      "person_name": "ベルナルド・リーマン",
-      "episode_id": "EP-000008652",
-      "keyword": "一般相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ32歳のとき、ベルナルド・リーマンは1858年、ゲッチンゲン大学での就職講演で「幾何学の基礎にある仮説について」を発表した。聴衆の大半が理解できない革新的すぎる内容に会場は静寂に包まれ、リ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB1277E1",
-      "person_name": "ヴィルヘルム・レントゲン",
-      "episode_id": "EP-000008654",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ50歳のとき、ヴィルヘルム・レントゲンは1895年、陰極線の実験中に偶然蛍光スクリーンが光る現象を発見した。当初は実験の失敗だと思い捨てようとしたが、妻ベルタの手をスクリーンに当てると骨が"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5580115",
-      "person_name": "ヨハネス・ファン・デル・ワールス",
-      "episode_id": "EP-000008660",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ45歳のとき、ヨハネス・ファン・デル・ワールスは1882年、大学教授への昇進が学歴不足で拒否され続けていた。中学校教師のまま終わるかと思われたその時、彼は独学で書き上げた分子間力の論文を大"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P52BF511",
-      "person_name": "ベルンハルト・リーマン",
-      "episode_id": "EP-000008666",
-      "keyword": "相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ32歳のとき、ベルンハルト・リーマンは1859年、ゲッティンゲン大学で「幾何学の基礎をなす仮説について」という講義を行った。当初、平行線公理の証明という古典的な問題に取り組んでいたが、証明"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P52BF511",
-      "person_name": "ベルンハルト・リーマン",
-      "episode_id": "EP-2FA8F4C6",
-      "keyword": "一般相対性理論",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ39歳のとき、ベルンハルト・リーマンは1866年7月20日、イタリア・セラスカで結核のため亡くなりました。リーマン幾何学を創始し、アインシュタインの一般相対性理論の数学的基盤を提供した天才"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5168246",
-      "person_name": "ヘルマン・ヘッセ",
-      "episode_id": "EP-000008856",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ48歳のとき、ヘルマン・ヘッセは1925年、妻の精神的病気と自身の創作の行き詰まりで深刻な人生の危機に直面していた。しかし絶望の淵で、当時まだ珍しかった精神分析療法を受ける勇気ある決断をし"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P7E06F8B",
-      "person_name": "アイザック・バシェビス・シンガー",
-      "episode_id": "EP-000008870",
-      "keyword": "ノーベル文学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ54歳のとき、アイザック・バシェビス・シンガーは1978年、ノーベル文学賞受賞の知らせを受けた瞬間、涙を流しながら「これは死語となったイディッシュ語への賞だ」と語った。戦争で故郷ポーランド"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1D9DD9A",
-      "person_name": "スティーヴン・ワインバーグ",
-      "episode_id": "EP-000008957",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ40歳のとき、スティーヴン・ワインバーグは1973年、電弱統一理論でノーベル物理学賞を受賞したにも関わらず、その理論が実験で証明されていないことに深い不安を抱いていた。しかし受賞から6年後"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P012187D",
-      "person_name": "マレー・ゲルマン",
-      "episode_id": "EP-000008958",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、マレー・ゲルマンは1964年、自身のクォーク理論が物理学界から「数学的な遊び」として嘲笑され、研究予算削減の危機に直面した。しかし彼は挫けることなく、ジョイス『フィネガンズ・"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P117407D",
-      "person_name": "ジョン・グッドイナフ",
-      "episode_id": "EP-000009287",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 7.9,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ97歳のとき、ジョン・グッドイナフはストックホルムのコンサートホールでノーベル化学賞を受賞した。1980年にリチウムイオン電池の正極材料となるコバルト酸リチウムを発見してから、実に39年後"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD791BC2",
-      "person_name": "レフ・ワレサ",
-      "episode_id": "EP-2512181850581505",
-      "keyword": "ノーベル平和賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ70歳のとき、レフ・ワレサは2013年、ポーランド民主化から四半世紀を経て、新たな世代への助言者としての役割を担っていました。かつて造船所の電気技師として「連帯」を率い、共産主義体制を平和"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC4F79CF",
-      "person_name": "ペンローズ",
-      "episode_id": "EP-2512181850582346",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ80歳のとき、ペンローズは2011年にノーベル物理学賞受賞の余韻の中、さらなる知的探求を続けていました。この年齢になっても、意識と量子力学の関係についての独自の理論を発展させ、世界中の研究"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PC4F79CF",
-      "person_name": "ペンローズ",
-      "episode_id": "EP-2512181850582070",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 7.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ89歳のとき、ペンローズは数学と物理学への情熱を一切衰えさせることなく、意識の本質を探求し続けていました。2020年、彼はブラックホールの形成が一般相対性理論の確実な予測であることを示した"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PAFD9900",
-      "person_name": "エルンスト・マイヤー",
-      "episode_id": "EP-251218185058705",
-      "keyword": "進化論",
-      "current_importance": 7.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、エルンスト・マイヤーは、ハーバード大学で比較動物学の教授として、進化生物学の理論的基盤を確立する重要な時期を迎えていました。1964年、彼は長年の研究成果を『動物の種と進化』"
+      "text_preview": "あなたと同じ20歳のとき、ダイワスカーレットは2007年の競馬界で圧倒的な存在感を示していた。同年5月に行われた「ヴィクトリアマイル」では、武豊騎手とのコンビで1分33秒3の好タイムで優勝を果たした。"
     }
   ],
   "suggestions": [
     {
-      "episode_id": "EP-000002120",
+      "episode_id": "EP-260106211319588",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000315",
+      "episode_id": "EP-260106222338739",
       "field": "episode_importance_score",
-      "current": 9.4,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000124",
+      "episode_id": "EP-260106211319626",
       "field": "episode_importance_score",
-      "current": 7.1,
-      "suggested": 10.0,
-      "reason": "「E=mc²」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000123",
+      "episode_id": "EP-260106211319628",
       "field": "episode_importance_score",
-      "current": 8.7,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000001880",
+      "episode_id": "EP-260107032101163",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EBA0B5D53",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EE62770F7",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850582522",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "E46AC429E",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001867",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850582232",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000831",
-      "field": "episode_importance_score",
-      "current": 8.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EF07CACBF",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000003",
-      "field": "episode_importance_score",
-      "current": 7.8,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001612",
-      "field": "episode_importance_score",
-      "current": 8.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002115",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581899",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000005",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
+      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000150",
+      "episode_id": "EP-260107002315406",
       "field": "episode_importance_score",
-      "current": 8.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 8.0,
+      "reason": "「IPO」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000270",
+      "episode_id": "EP-260106234523987",
       "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 8.5,
+      "reason": "「ノーヒットノーラン」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000002116",
+      "episode_id": "EP-260107032101182",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000350",
+      "episode_id": "EP-260107032101186",
       "field": "episode_importance_score",
-      "current": 7.8,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002135",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001603",
-      "field": "episode_importance_score",
-      "current": 9.5,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000472",
-      "field": "episode_importance_score",
-      "current": 8.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002125",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002129",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000517",
-      "field": "episode_importance_score",
-      "current": 9.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000525",
-      "field": "episode_importance_score",
-      "current": 7.5,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001602",
-      "field": "episode_importance_score",
-      "current": 9.5,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000526",
-      "field": "episode_importance_score",
-      "current": 8.1,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002139",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001618",
-      "field": "episode_importance_score",
-      "current": 9.3,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000537",
-      "field": "episode_importance_score",
-      "current": 7.7,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581957",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002343",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004833",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-87AFF768",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000835",
-      "field": "episode_importance_score",
-      "current": 7.5,
+      "current": 0.0,
       "suggested": 9.5,
       "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000001610",
+      "episode_id": "EP-260107023018147",
       "field": "episode_importance_score",
-      "current": 8.4,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000002118",
+      "episode_id": "EP-260107023018152",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000882",
+      "episode_id": "EP-260107035605070",
       "field": "episode_importance_score",
-      "current": 8.4,
-      "suggested": 9.5,
-      "reason": "「万有引力」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-7C789EE6",
+      "episode_id": "EP-260107023018155",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「万有引力」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000003646",
+      "episode_id": "EP-260107023018159",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「一般相対性理論」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-3947C4DE",
+      "episode_id": "EP-260107023018160",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000896",
+      "episode_id": "EP-260107023018164",
       "field": "episode_importance_score",
-      "current": 8.5,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000000899",
+      "episode_id": "EP-260107041416718",
       "field": "episode_importance_score",
-      "current": 7.3,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000000960",
-      "field": "episode_importance_score",
-      "current": 8.7,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000003728",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000006367",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001094",
-      "field": "episode_importance_score",
-      "current": 7.5,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002117",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001609",
-      "field": "episode_importance_score",
-      "current": 8.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001113",
-      "field": "episode_importance_score",
-      "current": 7.5,
+      "current": 0.0,
       "suggested": 9.5,
       "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000001619",
+      "episode_id": "EP-260106232505222",
       "field": "episode_importance_score",
-      "current": 8.1,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000002124",
+      "episode_id": "EP-260106232505225",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 8.5,
+      "reason": "「グラミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000001153",
+      "episode_id": "EP-260107004503456",
       "field": "episode_importance_score",
-      "current": 9.4,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000002122",
+      "episode_id": "EP-260106232505237",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000001191",
+      "episode_id": "EP-260107023018181",
       "field": "episode_importance_score",
-      "current": 9.3,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-2512181850581720",
+      "episode_id": "EP-260107043018926",
       "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-EF89F750",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002128",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581534",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001282",
-      "field": "episode_importance_score",
-      "current": 9.6,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001328",
-      "field": "episode_importance_score",
-      "current": 9.4,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2026010220010",
-      "field": "episode_importance_score",
-      "current": 9.3,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-0F0AAF74",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000001624",
-      "field": "episode_importance_score",
-      "current": 9.3,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-251218185058698",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2601041958204b1",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005586",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002273",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002838",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002313",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002332",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002331",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002330",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000002349",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-251218185058645",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-251219020927212",
-      "field": "episode_importance_score",
-      "current": 7.5,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000003473",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000003652",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
       "reason": "「万有引力」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000003654",
+      "episode_id": "EP-260107032101216",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「DNA二重らせん」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000003656",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007307",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-79BC0812",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
       "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000003667",
+      "episode_id": "EP-260107032101219",
       "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000004794",
+      "episode_id": "EP-260107043018934",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000003710",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005190",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-546EE303",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004141",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「奇跡の年」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004333",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004402",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004678",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004404",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004436",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「DNA二重らせん」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-EDBDB5D3",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004440",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005716",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004441",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-95492A06",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004446",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004472",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581600",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004679",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007600",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000004848",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005034",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007851",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005064",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007798",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-45669C6D",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「一般相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005085",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008963",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
       "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000005088",
+      "episode_id": "EP-260107043018937",
       "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
-      "reason": "「相対性理論」は高い歴史的重要性を持つ"
+      "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-EBCEA11D",
+      "episode_id": "EP-260107043018951",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005883",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000009150",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581326",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005204",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005499",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005530",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581388",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-251218185058711",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005613",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005615",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007368",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005876",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-38A47BD9",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000005893",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「一般相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581669",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000006056",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000006307",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007384",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000006310",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 10.0,
       "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000006470",
+      "episode_id": "EP-260107035605072",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000006491",
+      "episode_id": "EP-260107035605073",
       "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107035605076",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107015605002",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260106232505258",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107043018973",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107043018977",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107043018985",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107030455579",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「世界記録」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107035605130",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260106232505282",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260106232505285",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260106232505295",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260106232505296",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107004503466",
+      "field": "episode_importance_score",
+      "current": 0.0,
       "suggested": 9.5,
       "reason": "「万有引力」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000006496",
+      "episode_id": "EP-260107093545004",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-251218185058677",
+      "episode_id": "EP-260107024537301",
       "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 8.0,
+      "reason": "「IPO」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-53B0E902",
+      "episode_id": "EP-260107004503495",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000006799",
+      "episode_id": "EP-260107004503502",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000006817",
+      "episode_id": "EP-260106222338762",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007306",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
-      "reason": "「DNA二重らせん」は高い歴史的重要性を持つ"
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
     },
     {
-      "episode_id": "EP-000007309",
+      "episode_id": "EP-260106222338773",
       "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007320",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007369",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007355",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-251218185058725",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007370",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007371",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-3B64FCA7",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007380",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007588",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007790",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000007847",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008010",
-      "field": "episode_importance_score",
-      "current": 7.9,
+      "current": 0.0,
       "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008058",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008117",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008186",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008563",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008652",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「一般相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008654",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008660",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008666",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 9.5,
-      "reason": "「相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2FA8F4C6",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「一般相対性理論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008856",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008870",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル文学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008957",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000008958",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-000009287",
-      "field": "episode_importance_score",
-      "current": 7.9,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850581505",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル平和賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850582346",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-2512181850582070",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-251218185058705",
-      "field": "episode_importance_score",
-      "current": 7.0,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
     }
   ],
-  "checked_at": "2026-01-06T20:15:26.884898"
+  "checked_at": "2026-01-07T11:33:16.713072"
 }

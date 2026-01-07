@@ -61,8 +61,9 @@ GENERATION_RULES = {
 
 QUALITY_THRESHOLDS = {
     # 7軸スコア閾値（0-10）- ハードゲート
-    "min_factual_density": 6.0,  # 事実密度（最重要）
-    "min_generation_quality": 6.0,  # 生成品質（最重要）
+    # Phase 2: 上位レベル必須化（事実密度>=7, 生成品質>=8）
+    "min_factual_density": 7.0,  # 事実密度（最重要）← Phase2: 6.0→7.0
+    "min_generation_quality": 8.0,  # 生成品質（最重要）← Phase2: 6.0→8.0
     "min_memorability": 5.5,  # 記憶性
     "min_empathy": 4.0,  # 共感性（Phase4調整: 5.0→4.0、架空キャラ対応）
     "min_surprise": 4.0,  # 意外性（Phase4調整: 5.0→4.0、架空キャラ対応）

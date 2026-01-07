@@ -328,7 +328,11 @@ def create_batch_request(
     Returns:
         BatchRequest: バッチリクエスト
     """
-    custom_id = f"{person_name}_{age}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+    # custom_idは英数字のみ許可（^[a-zA-Z0-9_-]{1,64}$）
+    import hashlib
+
+    name_hash = hashlib.md5(person_name.encode()).hexdigest()[:8]
+    custom_id = f"ep_{name_hash}_{age}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
     return BatchRequest(
         custom_id=custom_id,
         person_name=person_name,

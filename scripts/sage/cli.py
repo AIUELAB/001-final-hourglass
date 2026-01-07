@@ -307,8 +307,11 @@ def main():
 
         processor = BatchProcessor(config)
 
-        # 候補を取得
-        batch_candidates = orchestrator.get_recommended_candidates(batch_count)
+        # 候補を取得（--person指定時はそれを使用）
+        if args.person:
+            batch_candidates = find_candidates_by_name(orchestrator, args.person, args.age)
+        else:
+            batch_candidates = orchestrator.get_recommended_candidates(batch_count)
         if not batch_candidates:
             logger.error("バッチ用の候補が見つかりません")
             return

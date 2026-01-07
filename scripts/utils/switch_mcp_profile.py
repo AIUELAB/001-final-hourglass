@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Dict, Optional
 
 # プロジェクトルート
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 PROFILES_FILE = PROJECT_ROOT / "mcp_profiles.json"
 CLAUDE_GLOBAL_CONFIG = Path.home() / ".claude.json"
 BACKUP_SUFFIX = f".backup_phase18c_{datetime.now().strftime('%Y%m%d_%H%M%S')}"

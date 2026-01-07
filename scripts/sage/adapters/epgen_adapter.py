@@ -23,6 +23,7 @@ from .base import (
     GeneratorType,
     TokenUsage,
 )
+from ..quality.improvement import get_retry_prompt_injection, is_retryable_failure
 
 # プロンプト長推定用の定数
 EPGEN_PROMPT_BASE_LENGTH = 2000  # 基本プロンプト長（概算）
@@ -102,12 +103,13 @@ class EPGENAdapter(GeneratorAdapter):
                 self._prompt_builder = None
         return self._prompt_builder
 
-    def generate(self, candidate: Candidate) -> GenerationResult:
+    def generate(self, candidate: Candidate, retry_injection: str = "") -> GenerationResult:
         """
         エピソードを生成
 
         Args:
             candidate: 生成候補
+            retry_injection: リトライ時の追加プロンプト（Phase 5）
 
         Returns:
             GenerationResult: 生成結果
@@ -129,6 +131,10 @@ class EPGENAdapter(GeneratorAdapter):
                 "- 数値データを3つ以上\n"
                 "抽象的な表現や推測・伝聞は禁止"
             )
+
+            # Phase 5: リトライ時の失敗理由別プロンプト注入
+            if retry_injection:
+                additional_context = f"{retry_injection}\n\n{additional_context}"
 
             gen_input = GenerationInput(
                 person_id=candidate.person_id,
@@ -326,6 +332,44 @@ class EPGENAdapter(GeneratorAdapter):
             evidence.append(n)
 
         return evidence
+
+    def generate_with_retry(self, candidate: Candidate, max_retries: int = 2) -> GenerationResult:
+        """
+        リトライ付きで生成（Phase 5: 失敗理由別プロンプト注入）
+
+        Args:
+            candidate: 生成候補
+            max_retries: 最大リトライ回数
+
+        Returns:
+            GenerationResult: 生成結果
+        """
+        result = self.generate(candidate)
+        retry_count = 0
+
+        while retry_count < max_retries:
+            # 成功かつゲート通過なら終了
+            if result.success and result.evaluation and result.evaluation.passed_gate:
+                break
+
+            # 失敗がリトライ不可なら終了
+            if result.evaluation and not is_retryable_failure(result.evaluation.gate_failures):
+                break
+
+            # Phase 5: 失敗理由から改善プロンプトを生成
+            retry_injection = ""
+            if result.evaluation and result.evaluation.gate_failures:
+                retry_injection = get_retry_prompt_injection(result.evaluation.gate_failures)
+
+            retry_count += 1
+            result = self.generate(candidate, retry_injection=retry_injection)
+            result.retry_count = retry_count
+
+        self._generation_count += 1
+        if result.success:
+            self._success_count += 1
+
+        return result
 
 
 class MockEPGENAdapter(GeneratorAdapter):

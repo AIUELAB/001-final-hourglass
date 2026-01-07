@@ -10,7 +10,9 @@ from typing import Optional
 
 from ..adapters.base import GenerationResult, GeneratorAdapter
 from ..config import GENERATION_RULES, QUALITY_THRESHOLDS, RejectionReason
-from .evaluator import QualityEvaluator
+
+# QualityEvaluatorは循環インポート回避のため遅延インポート
+# from .evaluator import QualityEvaluator
 
 
 class ImprovementAction(Enum):
@@ -86,6 +88,170 @@ IMPROVEMENT_TEMPLATES = {
 }
 
 
+# Phase 5: 失敗理由別プロンプト注入テンプレート
+# gate_failures文字列パターン → リトライ時のプロンプト追加指示
+FAILURE_PROMPT_INJECTIONS = {
+    # 事実密度不足
+    "factual_density": {
+        "pattern": "factual_density",
+        "injection": (
+            "【重要】前回は事実密度が不足していました。以下を必ず含めてください:\n"
+            "- 西暦年号を2つ以上（例: 1995年、2003年）\n"
+            "- 固有名詞を5つ以上（人名、作品名、組織名、地名）\n"
+            "- 数値データを3つ以上（記録、金額、順位など）\n"
+            "- 「」で囲んだ作品名・イベント名を2つ以上"
+        ),
+        "retryable": True,
+        "priority": 1,
+    },
+    # 生成品質不足
+    "generation_quality": {
+        "pattern": "generation_quality",
+        "injection": (
+            "【重要】前回は生成品質が不足していました。以下を改善してください:\n"
+            "- 文章の流れを自然にする\n"
+            "- 冗長な表現を削除\n"
+            "- 一つの出来事に焦点を当てる\n"
+            "- 起承転結のある構成にする"
+        ),
+        "retryable": True,
+        "priority": 2,
+    },
+    # 記憶性不足
+    "memorability": {
+        "pattern": "memorability",
+        "injection": (
+            "【重要】前回は記憶に残りにくい内容でした。以下を意識してください:\n"
+            "- 印象的なエピソードを選ぶ\n"
+            "- 意外性のある事実を含める\n"
+            "- 具体的な数字や記録を強調\n"
+            "- 「あの時」が伝わる臨場感"
+        ),
+        "retryable": True,
+        "priority": 3,
+    },
+    # 意外性不足
+    "surprise": {
+        "pattern": "surprise",
+        "injection": (
+            "【重要】前回は意外性が不足していました。以下を意識してください:\n"
+            "- あまり知られていない事実を含める\n"
+            "- 一般的なイメージと異なる側面を描く\n"
+            "- 「知らなかった！」と思える情報を入れる"
+        ),
+        "retryable": True,
+        "priority": 4,
+    },
+    # ストーリー品質不足
+    "story_quality": {
+        "pattern": "story_quality",
+        "injection": (
+            "【重要】前回はストーリー性が不足していました。以下を意識してください:\n"
+            "- 起承転結のある構成にする\n"
+            "- 挑戦→困難→克服の流れを作る\n"
+            "- 読者が感情移入できる描写を入れる"
+        ),
+        "retryable": True,
+        "priority": 5,
+    },
+    # 教育的価値不足
+    "educational_value": {
+        "pattern": "educational_value",
+        "injection": (
+            "【重要】前回は教育的価値が不足していました。以下を意識してください:\n"
+            "- 学びや気づきにつながる内容を入れる\n"
+            "- 成功の要因や努力の過程を描く\n"
+            "- 読者の人生に活かせる教訓を含める"
+        ),
+        "retryable": True,
+        "priority": 6,
+    },
+    # 共感性不足
+    "empathy": {
+        "pattern": "empathy",
+        "injection": (
+            "【重要】前回は共感性が不足していました。以下を意識してください:\n"
+            "- 感情が伝わる描写を入れる\n"
+            "- 苦悩や喜びの瞬間を描く\n"
+            "- 読者が「わかる」と思える要素を入れる"
+        ),
+        "retryable": True,
+        "priority": 7,
+    },
+    # 超総合スコア不足
+    "super_total": {
+        "pattern": "super_total",
+        "injection": (
+            "【重要】前回は総合的な品質が不足していました。以下をすべて意識してください:\n"
+            "- 具体的な事実（年号、数値、固有名詞）\n"
+            "- 印象的で記憶に残る内容\n"
+            "- 自然で読みやすい文章\n"
+            "- 学びや気づきのある内容"
+        ),
+        "retryable": True,
+        "priority": 0,
+    },
+}
+
+
+def get_retry_prompt_injection(gate_failures: list[str]) -> str:
+    """
+    失敗理由に基づいてリトライ用のプロンプト注入テキストを生成
+
+    Args:
+        gate_failures: 失敗理由リスト（例: ["factual_density 5.5 < 6.5"]）
+
+    Returns:
+        str: プロンプトに追加する改善指示テキスト
+    """
+    if not gate_failures:
+        return ""
+
+    injections = []
+    seen_patterns = set()
+
+    for failure in gate_failures:
+        for key, template in FAILURE_PROMPT_INJECTIONS.items():
+            pattern = template["pattern"]
+            if pattern in failure and pattern not in seen_patterns:
+                if template.get("retryable", True):
+                    injections.append((template["priority"], template["injection"]))
+                    seen_patterns.add(pattern)
+                break
+
+    if not injections:
+        return ""
+
+    # 優先度順にソート
+    injections.sort(key=lambda x: x[0])
+
+    # 最大2つまで（トークン節約）
+    injection_texts = [inj[1] for inj in injections[:2]]
+
+    return "\n\n".join(injection_texts)
+
+
+def is_retryable_failure(gate_failures: list[str]) -> bool:
+    """
+    失敗理由がリトライ可能かどうかを判定
+
+    Args:
+        gate_failures: 失敗理由リスト
+
+    Returns:
+        bool: リトライ可能な場合True
+    """
+    if not gate_failures:
+        return False
+
+    for failure in gate_failures:
+        for template in FAILURE_PROMPT_INJECTIONS.values():
+            if template["pattern"] in failure:
+                if template.get("retryable", True):
+                    return True
+    return False
+
+
 class ImprovementLoop:
     """
     改善ループ
@@ -99,6 +265,9 @@ class ImprovementLoop:
         max_retries: int = None,
         thresholds: dict = None,
     ):
+        # 循環インポート回避のため遅延インポート
+        from .evaluator import QualityEvaluator
+
         self.adapter = adapter
         self.max_retries = max_retries or GENERATION_RULES.get("max_retries", 2)
         self.thresholds = thresholds or QUALITY_THRESHOLDS.copy()

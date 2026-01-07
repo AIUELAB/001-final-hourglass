@@ -112,6 +112,7 @@ Legacy成功率: ~100%（フォールバック時）
 | Phase 2 | プロンプト圧縮 | **-73%** | 無効（要設定） |
 | Phase 3 | 評価Haiku化 | **-92%** | 有効 |
 | Phase 4 | 評価バッチ拡大 | **-60%** | 有効（50件） |
+| Phase 5 | 失敗理由別テンプレート | **-20%** | 有効 |
 
 ### Phase 1: コスト計測基盤
 
@@ -192,6 +193,36 @@ config = QualityGateConfig(evaluation_batch_size=100)
 **効果:**
 - 100件評価時: 5回 → 2回のAPI呼び出し
 - レイテンシ改善 + コスト削減
+
+### Phase 5: 失敗理由別テンプレート
+
+品質ゲート失敗時に、失敗理由に応じた具体的な改善指示をリトライプロンプトに注入。
+
+```python
+from scripts.sage.quality.improvement import get_retry_prompt_injection
+
+# 失敗理由例: ["factual_density 5.5 < 6.5"]
+gate_failures = result.evaluation.gate_failures
+injection = get_retry_prompt_injection(gate_failures)
+# → "【重要】前回は事実密度が不足していました。以下を必ず含めてください:..."
+```
+
+**対応する失敗パターン:**
+
+| パターン | 改善指示 | 優先度 |
+|----------|----------|--------|
+| super_total | 総合品質改善 | 0 |
+| factual_density | 年号・数値・固有名詞追加 | 1 |
+| generation_quality | 文章の流れ改善 | 2 |
+| memorability | 印象的なエピソード選択 | 3 |
+| surprise | 意外性のある事実追加 | 4 |
+| story_quality | 起承転結の構成 | 5 |
+| educational_value | 学びにつながる内容 | 6 |
+| empathy | 感情が伝わる描写 | 7 |
+
+**効果:**
+- 的確なフィードバックでリトライ成功率向上
+- 無駄なリトライ削減（再生成-20%）
 
 ### 全最適化有効時の使用方法
 
@@ -281,6 +312,9 @@ scripts/sage/
 - `src/reports/logs/run_*.json` - 実行ログ
 
 ## バージョン履歴
+
+### v1.3 (2026-01-07)
+- **Phase 5**: 失敗理由別テンプレート（リトライ成功率向上、再生成-20%）
 
 ### v1.2 (2026-01-07)
 - **Phase 4**: 評価バッチ拡大（20→50件、API呼び出し-60%）

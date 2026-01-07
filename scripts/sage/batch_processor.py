@@ -279,9 +279,13 @@ class BatchProcessor:
         """
         jobs = []
         for job_file in self._jobs_dir.glob("*.json"):
+            # _results.jsonファイルをスキップ
+            if "_results" in job_file.name:
+                continue
             with open(job_file, encoding="utf-8") as f:
                 job_data = json.load(f)
-            if job_data.get("status") == "in_progress":
+            # 辞書形式のみ処理（リスト形式はスキップ）
+            if isinstance(job_data, dict) and job_data.get("status") == "in_progress":
                 jobs.append(job_data)
         return jobs
 

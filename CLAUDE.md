@@ -41,6 +41,14 @@
 | **重要度スコア整合性** | 具体的偉業 > 物語的転機でimportance評価 | `validate_importance_score.py` |
 | **象徴的業績カバレッジ** | 重要人物は必須業績エピソードを持つこと | `audit_iconic_achievements.py` |
 
+### 同一年齢重複禁止詳細（EPUP原則: 1人1年齢1エピソード）
+- **原則**: 同一人物（person_id）× 同一年齢（age）で複数エピソードを生成しない
+- **生成時防止**: SAGE orchestrator step 2.5 で事前チェック（API呼び出し前）
+- **書き込み時防止**: SafeCSVWriter._check_duplicate() でEPUP違反を検出
+- **検証ゲート**: `python scripts/validation/same_age_duplicate_gate.py`
+- **解決ツール**: `python scripts/validation/same_age_duplicate_resolver.py`
+- **重複発見時**: composite_score最高のエピソードを残し、他を削除
+
 ### 象徴的業績カバレッジ詳細
 - **マスターデータ**: `preserved/data/iconic_achievements_master.json`
 - **監査コマンド**: `python scripts/validation/audit_iconic_achievements.py`

@@ -171,6 +171,21 @@ def parse_args():
         help="保留中のバッチジョブをリスト",
     )
 
+    # Phase 10: 人物追加機能
+    parser.add_argument(
+        "--add-person",
+        type=str,
+        metavar="NAME",
+        help="Wikidataから新規人物を追加（例: --add-person '藤井聡太'）",
+    )
+
+    parser.add_argument(
+        "--category",
+        type=str,
+        default="その他",
+        help="人物のカテゴリ指定（--add-person使用時、default: その他）",
+    )
+
     return parser.parse_args()
 
 
@@ -241,6 +256,38 @@ def main():
 
     # dry-runフラグの処理
     dry_run = not args.execute
+
+    # Phase 10: 人物追加処理
+    if args.add_person:
+        from scripts.sage.person_discoverer import add_person_from_wikidata
+
+        print(f"\n{'=' * 60}")
+        print("Wikidata 人物追加")
+        print(f"{'=' * 60}")
+        print(f"人物名: {args.add_person}")
+        print(f"カテゴリ: {args.category}")
+        print(f"モード: {'dry-run（確認のみ）' if dry_run else '実行'}")
+        print(f"{'=' * 60}\n")
+
+        result = add_person_from_wikidata(
+            name=args.add_person,
+            category=args.category,
+            dry_run=dry_run,
+        )
+
+        if result.success:
+            print(f"✅ {result.message}")
+            print(f"   person_id: {result.person_id}")
+            if result.wikidata_info:
+                wi = result.wikidata_info
+                print(f"   wikidata_id: {wi.get('wikidata_id', 'N/A')}")
+                print(f"   sitelinks: {wi.get('sitelinks', 'N/A')}")
+            if dry_run:
+                print(f"\n実際に追加するには: --add-person '{args.add_person}' --execute")
+        else:
+            print(f"❌ {result.message}")
+
+        return
 
     # Phase 8: 設定作成
     config = HybridConfig(

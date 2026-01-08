@@ -11,6 +11,23 @@ from pathlib import Path
 CSV_PATH = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
 DASHBOARD_PATH = Path("preserved/episode_database_dashboard_v10.html")
 
+# fame_tier変換マップ (string→int)
+TIER_TO_INT = {"SS": 1, "S": 2, "A": 3, "B": 4, "C": 5, "D": 6, "E": 7}
+
+
+def _parse_fame_tier(val):
+    """fame_tierを数値に変換（旧数値/新文字列対応）"""
+    if not val or val == "":
+        return 7  # E tier
+    # 文字列tier
+    if val in TIER_TO_INT:
+        return TIER_TO_INT[val]
+    # 数値（旧形式）
+    try:
+        return int(float(val))
+    except (ValueError, TypeError):
+        return 7
+
 
 def load_csv_data():
     """CSVからデータを読み込み"""
@@ -64,7 +81,7 @@ def load_csv_data():
                 "episode_count": int(float(row.get("episode_count", 1) or 1)),
                 "fame_score": float(row.get("fame_score_v3", 0) or 0),
                 "fame_score_japan": float(row.get("fame_score_japan", 0) or 0),
-                "fame_tier": int(float(row.get("fame_tier", 0) or 0)),
+                "fame_tier": _parse_fame_tier(row.get("fame_tier", "E")),
                 "is_japanese": row.get("is_japanese", "False") == "True",
                 "sitelinks_count": int(float(row.get("sitelinks_count", 0) or 0)),
                 "multi_lang_pv": int(float(row.get("multi_lang_pv", 0) or 0)),

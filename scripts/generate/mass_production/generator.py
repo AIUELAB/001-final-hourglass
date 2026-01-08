@@ -13,6 +13,14 @@ from typing import Any, Callable, Dict, List, Optional
 
 from .config import FORBIDDEN_PATTERNS, GenerationConfig, REQUIRED_PATTERNS
 
+# システムプロンプト取得関数をインポート
+try:
+    from scripts.sage.prompts.category_prompts import get_system_prompt
+except ImportError:
+    # フォールバック: 関数が見つからない場合はNoneを返す
+    def get_system_prompt(person_name: str, age: int) -> str | None:
+        return None
+
 
 @dataclass
 class GenerationResult:
@@ -47,6 +55,18 @@ class GenerationInput:
 class PromptBuilder:
     """プロンプトビルダー"""
 
+    # 共通の文体ルール（全スタイルに適用）
+    WRITING_RULES = """
+【文体ルール（絶対遵守）】
+- すべての文を丁寧語（です・ます調）で終える
+- 主語は「{person_name}は」「彼は」「彼女は」を使用
+- 「私は」「私の」「私が」は絶対に使用しない
+- 冒頭は必ず「あなたと同じ{age}歳のとき、{person_name}は」で開始
+
+【禁止文末】
+- 「〜だ。」「〜である。」「〜た。」「〜ていた。」（常体禁止）
+"""
+
     STYLES = {
         "factual": {
             "name": "事実重視",
@@ -60,17 +80,21 @@ class PromptBuilder:
 - 「〜と言われている」「〜かもしれない」などの曖昧表現
 - 「その後の活躍につながった」などの抽象表現
 - 推測や伝聞に基づく記述""",
-            "tone": "客観的・報道的",
+            "tone": "客観的・報道的（丁寧語）",
         },
         "narrative": {
             "name": "物語調",
-            "instruction": "出来事の経緯や背景を時系列で描写し、臨場感のある文章にしてください。年号と固有名詞を必ず含めること。",
-            "tone": "描写的・没入感のある",
+            "instruction": """出来事の経緯や背景を時系列で描写し、臨場感のある文章にしてください。
+年号と固有名詞を必ず含めること。
+※丁寧語（です・ます調）で記述すること。""",
+            "tone": "描写的・没入感のある（丁寧語）",
         },
         "inspirational": {
             "name": "インスピレーション",
-            "instruction": "困難の克服や成長の瞬間に焦点を当て、読者に気づきを与える内容にしてください。年号と固有名詞を必ず含めること。",
-            "tone": "感動的・啓発的",
+            "instruction": """困難の克服や成長の瞬間に焦点を当て、読者に気づきを与える内容にしてください。
+年号と固有名詞を必ず含めること。
+※丁寧語（です・ます調）で記述すること。""",
+            "tone": "感動的・啓発的（丁寧語）",
         },
     }
 
@@ -87,6 +111,12 @@ class PromptBuilder:
         age_context = self._get_age_context(input_data.age)
         forbidden_list = "\n".join(f"- {p}" for p in self.forbidden_patterns)
 
+        # 文体ルールを人物名・年齢で埋める
+        writing_rules = self.WRITING_RULES.format(
+            person_name=input_data.person_name,
+            age=input_data.age,
+        )
+
         prompt = f"""# エピソード生成タスク
 
 ## 対象人物
@@ -96,19 +126,24 @@ class PromptBuilder:
 {f"- 生年: {input_data.birth_year}年" if input_data.birth_year else ""}
 {f"- 没年: {input_data.death_year}年" if input_data.death_year else ""}
 
+{writing_rules}
+
 ## 生成スタイル: {style_info['name']}
 {style_info['instruction']}
 トーン: {style_info['tone']}
 
 ## 必須要件
-1. 冒頭は必ず「あなたと同じ{input_data.age}歳のとき、」で開始
+1. 冒頭は必ず「あなたと同じ{input_data.age}歳のとき、{input_data.person_name}は」で開始
 2. 西暦年号を最低1つ含める
 3. 具体的な数値を最低3つ含める
 4. 固有名詞を最低5つ含める
 5. 300〜400文字で完結させる
+6. すべての文を「です」「ます」「でした」「ました」で終える
 
 ## 禁止事項
 {forbidden_list}
+- 「私は」「私の」「私が」などの一人称表現
+- 「〜だ。」「〜である。」などの常体文末
 
 ## 年齢コンテキスト
 {age_context}
@@ -116,7 +151,7 @@ class PromptBuilder:
 {f"## 追加情報{chr(10)}{input_data.additional_context}" if input_data.additional_context else ""}
 
 ## 出力形式
-エピソードテキストのみを出力してください。
+エピソードテキストのみを出力してください（丁寧語で）。
 """
         return prompt
 
@@ -255,9 +290,12 @@ class ParallelGenerator:
                 style = self._get_style_for_variation(variation)
                 prompt = self.prompt_builder.build(input_data, style, variation)
 
+                # システムプロンプトを生成（丁寧語・私は禁止ルール）
+                system_prompt = get_system_prompt(input_data.person_name, input_data.age)
+
                 start_time = time.time()
                 try:
-                    text = await self._generate_with_retry(prompt)
+                    text = await self._generate_with_retry(prompt, system_prompt)
                     elapsed_ms = int((time.time() - start_time) * 1000)
 
                     result = GenerationResult(
@@ -297,13 +335,13 @@ class ParallelGenerator:
         results = await asyncio.gather(*tasks)
         return list(results)
 
-    async def _generate_with_retry(self, prompt: str) -> str:
+    async def _generate_with_retry(self, prompt: str, system_prompt: str | None = None) -> str:
         last_error = None
 
         for attempt in range(self.config.max_retries):
             try:
                 text = await asyncio.wait_for(
-                    self.llm.generate_async(prompt),
+                    self.llm.generate_async(prompt, system_prompt),
                     timeout=self.config.timeout_seconds,
                 )
                 return text
@@ -336,7 +374,7 @@ class MockLLMClient:
         self.delay = delay
         self.call_count = 0
 
-    async def generate_async(self, prompt: str) -> str:
+    async def generate_async(self, prompt: str, system_prompt: str | None = None) -> str:
         await asyncio.sleep(self.delay)
         self.call_count += 1
 
@@ -346,7 +384,8 @@ class MockLLMClient:
         name = name_match.group(1) if name_match else "テスト太郎"
         age = age_match.group(1) if age_match else "30"
 
-        return f"あなたと同じ{age}歳のとき、{name}は1985年に重要な転機を迎えた。東京で開催された国際会議に参加し、100人以上の専門家と交流。その後3年間で5つの革新的なプロジェクトを立ち上げ、総額1億円の資金を調達した。"
+        # 丁寧語（です・ます調）でモック応答を返す
+        return f"あなたと同じ{age}歳のとき、{name}は1985年に重要な転機を迎えました。東京で開催された国際会議に参加し、100人以上の専門家と交流しました。その後3年間で5つの革新的なプロジェクトを立ち上げ、総額1億円の資金を調達しました。"
 
 
 class TextValidator:

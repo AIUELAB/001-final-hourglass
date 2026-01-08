@@ -26,6 +26,7 @@ class GateType(Enum):
     ANTI_GAMING = "anti_gaming"
     FACT_CHECK = "fact_check"
     DUPLICATE = "duplicate"
+    POLITE_FORM = "polite_form"  # 丁寧語チェック
 
     # 品質評価（スコア計算後に実行）
     QUALITY_GATE = "quality_gate"
@@ -111,6 +112,11 @@ class GateDAG:
             gate_type=GateType.DUPLICATE,
             depends_on=[],
             is_parallel_safe=False,  # マスターCSV参照のため
+        ),
+        GateType.POLITE_FORM: GateDependency(
+            gate_type=GateType.POLITE_FORM,
+            depends_on=[],
+            is_parallel_safe=True,  # 丁寧語チェック（並列可）
         ),
         # 品質評価（前段チェック完了後）
         GateType.QUALITY_GATE: GateDependency(

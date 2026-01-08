@@ -1,0 +1,1782 @@
+{
+  "audit_date": "2026-01-08T10:18:58.235715",
+  "version": "2.0.0",
+  "summary": {
+    "total_persons_checked": 26,
+    "fully_covered": 7,
+    "partially_covered": 14,
+    "not_covered": 5,
+    "total_missing_achievements": 36
+  },
+  "persons": {
+    "大谷翔平": {
+      "person_id": "P5C4FB25",
+      "category": "スポーツ",
+      "episode_count": 9,
+      "coverage_rate": 1.0,
+      "covered_count": 5,
+      "required_count": 5,
+      "covered": [
+        {
+          "achievement": "WBC 2023 優勝・大会MVP",
+          "age": 28,
+          "matched_episode_id": "EP-260106OHTANI-WBC",
+          "keywords": [
+            "WBC",
+            "ワールド・ベースボール・クラシック",
+            "トラウト"
+          ]
+        },
+        {
+          "achievement": "MLB MVP 1回目（満票）",
+          "age": 27,
+          "matched_episode_id": "EP-000001072",
+          "keywords": [
+            "MVP",
+            "満票",
+            "二刀流"
+          ]
+        },
+        {
+          "achievement": "MLB MVP 2回目",
+          "age": 29,
+          "matched_episode_id": "EP-260106OHTANI-MVP2",
+          "keywords": [
+            "MVP",
+            "2年連続",
+            "規定投球回",
+            "規定打席"
+          ]
+        },
+        {
+          "achievement": "ワールドシリーズ制覇",
+          "age": 30,
+          "matched_episode_id": "EP-000001986",
+          "keywords": [
+            "ワールドシリーズ",
+            "ドジャース",
+            "本塁打王"
+          ]
+        },
+        {
+          "achievement": "MLB新人王",
+          "age": 23,
+          "matched_episode_id": "EP-260106OHTANI-ROY",
+          "keywords": [
+            "新人王",
+            "エンゼルス",
+            "二刀流"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "イチロー": {
+      "person_id": "P1234567",
+      "category": "スポーツ",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 4,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "MLB年間最多安打記録（262本）",
+          "age": 30,
+          "matched_episode_id": "EP-260106ICHIRO-262",
+          "keywords": [
+            "262",
+            "最多安打",
+            "シーズン記録"
+          ]
+        },
+        {
+          "achievement": "MLB通算3000本安打",
+          "age": 42,
+          "matched_episode_id": "EP-000002023",
+          "keywords": [
+            "3000本",
+            "通算"
+          ]
+        },
+        {
+          "achievement": "MLB新人王・MVP同時受賞",
+          "age": 27,
+          "matched_episode_id": "EP-2601052258185703D4",
+          "keywords": [
+            "新人王",
+            "MVP",
+            "シアトル"
+          ]
+        },
+        {
+          "achievement": "WBC 2006/2009 連覇・MVP",
+          "age": 32,
+          "matched_episode_id": "EP-260106ICHIRO-WBC",
+          "keywords": [
+            "WBC",
+            "決勝打",
+            "連覇"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "アインシュタイン": {
+      "person_id": "P93F1DB1",
+      "category": "科学・技術",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 3,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "奇跡の年・特殊相対性理論・E=mc²",
+          "age": 26,
+          "matched_episode_id": "EP-3947C4DE",
+          "keywords": [
+            "奇跡の年",
+            "E=mc²",
+            "特殊相対性理論",
+            "光量子仮説"
+          ]
+        },
+        {
+          "achievement": "ノーベル物理学賞受賞",
+          "age": 42,
+          "matched_episode_id": "EP-000002832",
+          "keywords": [
+            "ノーベル賞",
+            "光電効果"
+          ]
+        },
+        {
+          "achievement": "一般相対性理論完成",
+          "age": 36,
+          "matched_episode_id": "EP-251214200921598",
+          "keywords": [
+            "一般相対性理論",
+            "重力"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "スティーブ・ジョブズ": {
+      "person_id": "PA1B2C3D",
+      "category": "ビジネス・経済",
+      "episode_count": 6,
+      "coverage_rate": 1.0,
+      "covered_count": 4,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "Apple創業",
+          "age": 21,
+          "matched_episode_id": "EED55877B",
+          "keywords": [
+            "Apple",
+            "創業",
+            "ウォズニアック",
+            "ガレージ"
+          ]
+        },
+        {
+          "achievement": "iPhone発表",
+          "age": 52,
+          "matched_episode_id": "EP-000000970",
+          "keywords": [
+            "iPhone",
+            "スマートフォン",
+            "革命"
+          ]
+        },
+        {
+          "achievement": "Apple追放と復帰",
+          "age": 30,
+          "matched_episode_id": "EP-260106JOBS-EXILE",
+          "keywords": [
+            "追放",
+            "NeXT",
+            "Pixar"
+          ]
+        },
+        {
+          "achievement": "iPod発表",
+          "age": 46,
+          "matched_episode_id": "EP-260106JOBS-IPOD",
+          "keywords": [
+            "iPod",
+            "1000曲",
+            "音楽"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "羽生結弦": {
+      "person_id": "PXYZ1234",
+      "category": "スポーツ",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 3,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "ソチ五輪金メダル",
+          "age": 19,
+          "matched_episode_id": "EP-000009216",
+          "keywords": [
+            "ソチ",
+            "金メダル",
+            "オリンピック"
+          ]
+        },
+        {
+          "achievement": "平昌五輪金メダル（連覇）",
+          "age": 23,
+          "matched_episode_id": "EP-260106HANYU-PYEONG",
+          "keywords": [
+            "平昌",
+            "連覇",
+            "66年ぶり"
+          ]
+        },
+        {
+          "achievement": "4回転アクセル成功",
+          "age": 27,
+          "matched_episode_id": "EP-260106HANYU-4A",
+          "keywords": [
+            "4回転アクセル",
+            "クワッドアクセル",
+            "史上初"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "藤井聡太": {
+      "person_id": "PFUJI001",
+      "category": "文化・芸術",
+      "episode_count": 3,
+      "coverage_rate": 1.0,
+      "covered_count": 2,
+      "required_count": 2,
+      "covered": [
+        {
+          "achievement": "最年少プロ棋士・29連勝",
+          "age": 14,
+          "matched_episode_id": "E8AF7BAE5",
+          "keywords": [
+            "最年少",
+            "29連勝",
+            "プロ入り"
+          ]
+        },
+        {
+          "achievement": "八冠達成",
+          "age": 21,
+          "matched_episode_id": "EP-000000404",
+          "keywords": [
+            "八冠",
+            "全冠制覇",
+            "史上初"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "宮崎駿": {
+      "person_id": "PMIYAZ01",
+      "category": "文化・芸術",
+      "episode_count": 7,
+      "coverage_rate": 1.0,
+      "covered_count": 3,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "千と千尋の神隠し・アカデミー賞",
+          "age": 62,
+          "matched_episode_id": "EP-260104013152092AA8",
+          "keywords": [
+            "千と千尋",
+            "アカデミー賞",
+            "オスカー"
+          ]
+        },
+        {
+          "achievement": "スタジオジブリ設立",
+          "age": 44,
+          "matched_episode_id": "EP-260106MIYAZAKI-GHIBLI",
+          "keywords": [
+            "ジブリ",
+            "設立",
+            "高畑勲"
+          ]
+        },
+        {
+          "achievement": "風の谷のナウシカ",
+          "age": 43,
+          "matched_episode_id": "EP-260106MIYAZAKI-GHIBLI",
+          "keywords": [
+            "ナウシカ",
+            "環境",
+            "代表作"
+          ]
+        }
+      ],
+      "missing": []
+    },
+    "ヘレン・ケラー": {
+      "person_id": "PHELEN01",
+      "category": "歴史・教育",
+      "episode_count": 3,
+      "coverage_rate": 0.3333333333333333,
+      "covered_count": 1,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "「水」を理解した瞬間",
+          "age": 6,
+          "matched_episode_id": "EP-260108060151565",
+          "keywords": [
+            "水",
+            "サリヴァン",
+            "井戸",
+            "W-A-T-E-R"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "ラドクリフ大学卒業",
+          "age": 24,
+          "year": 1904,
+          "keywords": [
+            "大学",
+            "卒業",
+            "盲ろう者初"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "社会活動家としての講演活動",
+          "age": 30,
+          "year": 1910,
+          "keywords": [
+            "講演",
+            "障害者権利",
+            "社会活動"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "フィンセント・ファン・ゴッホ": {
+      "person_id": "PGOGH001",
+      "category": "芸術・文化",
+      "episode_count": 4,
+      "coverage_rate": 0.75,
+      "covered_count": 3,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "耳切り事件",
+          "age": 35,
+          "matched_episode_id": "EP-000006741",
+          "keywords": [
+            "耳",
+            "アルル",
+            "ゴーギャン",
+            "自傷"
+          ]
+        },
+        {
+          "achievement": "星月夜の制作",
+          "age": 36,
+          "matched_episode_id": "EP-000006454",
+          "keywords": [
+            "星月夜",
+            "サン=レミ",
+            "傑作"
+          ]
+        },
+        {
+          "achievement": "ひまわり連作",
+          "age": 35,
+          "matched_episode_id": "EP-000002224",
+          "keywords": [
+            "ひまわり",
+            "黄色",
+            "アルル"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "死後の評価と嫂ヨハンナの貢献",
+          "age": 37,
+          "year": 1890,
+          "keywords": [
+            "死後",
+            "再評価",
+            "ヨハンナ",
+            "テオ"
+          ],
+          "importance": 9.0,
+          "priority": 4
+        }
+      ]
+    },
+    "レオナルド・ダ・ヴィンチ": {
+      "person_id": "PDAVINCI",
+      "category": "芸術・文化",
+      "episode_count": 5,
+      "coverage_rate": 0.5,
+      "covered_count": 2,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "モナ・リザ制作",
+          "age": 51,
+          "matched_episode_id": "EP-2026010219012",
+          "keywords": [
+            "モナ・リザ",
+            "ラ・ジョコンダ",
+            "謎の微笑"
+          ]
+        },
+        {
+          "achievement": "最後の晩餐完成",
+          "age": 46,
+          "matched_episode_id": "EP-000005579",
+          "keywords": [
+            "最後の晩餐",
+            "サンタ・マリア・デッレ・グラツィエ",
+            "壁画"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "ヴィトルヴィウス的人体図",
+          "age": 38,
+          "year": 1490,
+          "keywords": [
+            "人体図",
+            "比例",
+            "解剖学"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        },
+        {
+          "achievement": "飛行機械の設計図",
+          "age": 48,
+          "year": 1500,
+          "keywords": [
+            "飛行機械",
+            "オーニソプター",
+            "発明"
+          ],
+          "importance": 9.0,
+          "priority": 4
+        }
+      ]
+    },
+    "坂本龍馬": {
+      "person_id": "PRYOMA01",
+      "category": "歴史・政治",
+      "episode_count": 2,
+      "coverage_rate": 0.75,
+      "covered_count": 3,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "薩長同盟の仲介",
+          "age": 30,
+          "matched_episode_id": "EP-3BC9C467",
+          "keywords": [
+            "薩長同盟",
+            "西郷隆盛",
+            "木戸孝允",
+            "仲介"
+          ]
+        },
+        {
+          "achievement": "船中八策の起草",
+          "age": 31,
+          "matched_episode_id": "EP-3BC9C467",
+          "keywords": [
+            "船中八策",
+            "大政奉還",
+            "新政府"
+          ]
+        },
+        {
+          "achievement": "近江屋での暗殺",
+          "age": 31,
+          "matched_episode_id": "EP-3BC9C467",
+          "keywords": [
+            "近江屋",
+            "暗殺",
+            "中岡慎太郎"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "海援隊設立",
+          "age": 31,
+          "year": 1867,
+          "keywords": [
+            "海援隊",
+            "貿易",
+            "株式会社"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "ムハマド・アリ": {
+      "person_id": "PALI0001",
+      "category": "スポーツ",
+      "episode_count": 0,
+      "coverage_rate": 0.0,
+      "covered_count": 0,
+      "required_count": 4,
+      "covered": [],
+      "missing": [
+        {
+          "achievement": "世界ヘビー級王座初獲得",
+          "age": 22,
+          "year": 1964,
+          "keywords": [
+            "ソニー・リストン",
+            "世界王座",
+            "クレイ"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "キンシャサの奇跡",
+          "age": 32,
+          "year": 1974,
+          "keywords": [
+            "キンシャサ",
+            "フォアマン",
+            "ロープ・ア・ドープ"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "徴兵拒否と王座剥奪",
+          "age": 25,
+          "year": 1967,
+          "keywords": [
+            "徴兵拒否",
+            "ベトナム戦争",
+            "良心的兵役拒否"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        },
+        {
+          "achievement": "スリラー・イン・マニラ",
+          "age": 33,
+          "year": 1975,
+          "keywords": [
+            "フレイジャー",
+            "マニラ",
+            "名勝負"
+          ],
+          "importance": 9.0,
+          "priority": 4
+        }
+      ]
+    },
+    "セリーナ・ウィリアムズ": {
+      "person_id": "PSERENA1",
+      "category": "スポーツ",
+      "episode_count": 3,
+      "coverage_rate": 0.5,
+      "covered_count": 2,
+      "required_count": 4,
+      "covered": [
+        {
+          "achievement": "全米オープン初優勝",
+          "age": 17,
+          "matched_episode_id": "EP-000002147",
+          "keywords": [
+            "全米オープン",
+            "グランドスラム",
+            "初優勝"
+          ]
+        },
+        {
+          "achievement": "グランドスラム23勝達成",
+          "age": 35,
+          "matched_episode_id": "EP-000002147",
+          "keywords": [
+            "23勝",
+            "オープン化以降最多",
+            "全豪"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "キャリアグランドスラム達成",
+          "age": 21,
+          "year": 2003,
+          "keywords": [
+            "キャリアグランドスラム",
+            "4大大会",
+            "制覇"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "出産後の復帰",
+          "age": 36,
+          "year": 2018,
+          "keywords": [
+            "出産",
+            "復帰",
+            "決勝進出"
+          ],
+          "importance": 9.0,
+          "priority": 4
+        }
+      ]
+    },
+    "クリストファー・コロンブス": {
+      "person_id": "PCOLUMB1",
+      "category": "歴史・探検",
+      "episode_count": 0,
+      "coverage_rate": 0.0,
+      "covered_count": 0,
+      "required_count": 3,
+      "covered": [],
+      "missing": [
+        {
+          "achievement": "新大陸到達",
+          "age": 41,
+          "year": 1492,
+          "keywords": [
+            "新大陸",
+            "サン・サルバドル",
+            "発見"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "スペイン女王からの支援獲得",
+          "age": 41,
+          "year": 1492,
+          "keywords": [
+            "イサベル女王",
+            "支援",
+            "サンタフェ協定"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "4度の航海",
+          "age": 51,
+          "year": 1502,
+          "keywords": [
+            "4度目",
+            "航海",
+            "中米"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "ロアール・アムンセン": {
+      "person_id": "PAMUNDS1",
+      "category": "歴史・探検",
+      "episode_count": 2,
+      "coverage_rate": 0.6666666666666666,
+      "covered_count": 2,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "南極点初到達",
+          "age": 39,
+          "matched_episode_id": "EP-000003528",
+          "keywords": [
+            "南極点",
+            "初到達",
+            "スコット"
+          ]
+        },
+        {
+          "achievement": "北極点飛行横断",
+          "age": 54,
+          "matched_episode_id": "EP-356F7555",
+          "keywords": [
+            "北極点",
+            "飛行船",
+            "ノルゲ号"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "北西航路初横断",
+          "age": 33,
+          "year": 1905,
+          "keywords": [
+            "北西航路",
+            "ヨア号",
+            "横断"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        }
+      ]
+    },
+    "マリー・キュリー": {
+      "person_id": "PCURIE01",
+      "category": "科学・技術",
+      "episode_count": 3,
+      "coverage_rate": 0.6666666666666666,
+      "covered_count": 2,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "ラジウム発見",
+          "age": 31,
+          "matched_episode_id": "EP-000000695",
+          "keywords": [
+            "ラジウム",
+            "ポロニウム",
+            "放射能"
+          ]
+        },
+        {
+          "achievement": "ノーベル物理学賞受賞",
+          "age": 36,
+          "matched_episode_id": "EP-000004833",
+          "keywords": [
+            "ノーベル賞",
+            "女性初",
+            "物理学"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "ノーベル化学賞受賞",
+          "age": 44,
+          "year": 1911,
+          "keywords": [
+            "ノーベル賞",
+            "2度目",
+            "化学"
+          ],
+          "importance": 10.0,
+          "priority": 3
+        }
+      ]
+    },
+    "ネルソン・マンデラ": {
+      "person_id": "PMANDEL1",
+      "category": "政治・社会",
+      "episode_count": 4,
+      "coverage_rate": 0.6666666666666666,
+      "covered_count": 2,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "27年間の投獄から釈放",
+          "age": 71,
+          "matched_episode_id": "EP-000002189",
+          "keywords": [
+            "釈放",
+            "27年",
+            "ロベン島"
+          ]
+        },
+        {
+          "achievement": "南アフリカ初の黒人大統領就任",
+          "age": 76,
+          "matched_episode_id": "EP-000009240",
+          "keywords": [
+            "大統領",
+            "黒人初",
+            "選挙"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "ノーベル平和賞受賞",
+          "age": 75,
+          "year": 1993,
+          "keywords": [
+            "ノーベル平和賞",
+            "デクラーク",
+            "和解"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "マハトマ・ガンジー": {
+      "person_id": "PGANDHI1",
+      "category": "政治・社会",
+      "episode_count": 5,
+      "coverage_rate": 0.6666666666666666,
+      "covered_count": 2,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "塩の行進",
+          "age": 60,
+          "matched_episode_id": "EP-2512181850581595",
+          "keywords": [
+            "塩の行進",
+            "非暴力",
+            "ダンディ"
+          ]
+        },
+        {
+          "achievement": "インド独立",
+          "age": 78,
+          "matched_episode_id": "EP-2512181850581595",
+          "keywords": [
+            "独立",
+            "非暴力",
+            "スワラージ"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "南アフリカでの公民権運動",
+          "age": 37,
+          "year": 1906,
+          "keywords": [
+            "南アフリカ",
+            "サティヤグラハ",
+            "抵抗"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "ライト兄弟": {
+      "person_id": "PWRIGHT1",
+      "category": "科学・技術",
+      "episode_count": 0,
+      "coverage_rate": 0.0,
+      "covered_count": 0,
+      "required_count": 2,
+      "covered": [],
+      "missing": [
+        {
+          "achievement": "人類初の動力飛行成功",
+          "age": 36,
+          "year": 1903,
+          "keywords": [
+            "キティホーク",
+            "初飛行",
+            "12秒"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "特許取得と実用化",
+          "age": 39,
+          "year": 1906,
+          "keywords": [
+            "特許",
+            "飛行制御",
+            "実用化"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "イーロン・マスク": {
+      "person_id": "PMUSK001",
+      "category": "ビジネス・起業",
+      "episode_count": 5,
+      "coverage_rate": 0.3333333333333333,
+      "covered_count": 1,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "Tesla Model 3量産成功",
+          "age": 47,
+          "matched_episode_id": "EP-000004922",
+          "keywords": [
+            "Tesla",
+            "Model 3",
+            "量産"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "SpaceX再利用ロケット成功",
+          "age": 44,
+          "year": 2015,
+          "keywords": [
+            "ファルコン9",
+            "再利用",
+            "着陸"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "クルードラゴン有人飛行",
+          "age": 49,
+          "year": 2020,
+          "keywords": [
+            "クルードラゴン",
+            "有人",
+            "ISS"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "ビル・ゲイツ": {
+      "person_id": "PGATES01",
+      "category": "ビジネス・起業",
+      "episode_count": 5,
+      "coverage_rate": 0.3333333333333333,
+      "covered_count": 1,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "Microsoft創業",
+          "age": 19,
+          "matched_episode_id": "E7B9C2143",
+          "keywords": [
+            "Microsoft",
+            "創業",
+            "ポール・アレン"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "Windows 95発売",
+          "age": 40,
+          "year": 1995,
+          "keywords": [
+            "Windows 95",
+            "GUI",
+            "スタートメニュー"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "世界一の富豪",
+          "age": 39,
+          "year": 1995,
+          "keywords": [
+            "世界一",
+            "富豪",
+            "フォーブス"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "手塚治虫": {
+      "person_id": "PTEZUKA1",
+      "category": "芸術・文化",
+      "episode_count": 5,
+      "coverage_rate": 0.3333333333333333,
+      "covered_count": 1,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "日本初のTVアニメ放送",
+          "age": 34,
+          "matched_episode_id": "EP-000000175",
+          "keywords": [
+            "TVアニメ",
+            "鉄腕アトム",
+            "30分"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "鉄腕アトム連載開始",
+          "age": 24,
+          "year": 1952,
+          "keywords": [
+            "アトム",
+            "連載",
+            "少年"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ブラック・ジャック連載",
+          "age": 45,
+          "year": 1973,
+          "keywords": [
+            "ブラック・ジャック",
+            "医療",
+            "復活"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "黒澤明": {
+      "person_id": "PKUROS01",
+      "category": "芸術・文化",
+      "episode_count": 5,
+      "coverage_rate": 0.6666666666666666,
+      "covered_count": 2,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "羅生門ヴェネツィア金獅子賞",
+          "age": 40,
+          "matched_episode_id": "EP-000000233",
+          "keywords": [
+            "羅生門",
+            "金獅子賞",
+            "ヴェネツィア"
+          ]
+        },
+        {
+          "achievement": "七人の侍公開",
+          "age": 44,
+          "matched_episode_id": "EP-KUROSAWA-7SAMURAI",
+          "keywords": [
+            "七人の侍",
+            "時代劇",
+            "傑作"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "アカデミー名誉賞受賞",
+          "age": 80,
+          "year": 1990,
+          "keywords": [
+            "アカデミー賞",
+            "名誉賞",
+            "世界の黒澤"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "本田宗一郎": {
+      "person_id": "PHONDA01",
+      "category": "ビジネス・起業",
+      "episode_count": 5,
+      "coverage_rate": 0.3333333333333333,
+      "covered_count": 1,
+      "required_count": 3,
+      "covered": [
+        {
+          "achievement": "F1初優勝",
+          "age": 59,
+          "matched_episode_id": "EP-000000318",
+          "keywords": [
+            "F1",
+            "初優勝",
+            "メキシコGP"
+          ]
+        }
+      ],
+      "missing": [
+        {
+          "achievement": "本田技研工業設立",
+          "age": 42,
+          "year": 1948,
+          "keywords": [
+            "本田技研",
+            "設立",
+            "バイク"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "マン島TT初参戦・初優勝",
+          "age": 53,
+          "year": 1959,
+          "keywords": [
+            "マン島TT",
+            "優勝",
+            "世界進出"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        }
+      ]
+    },
+    "ベートーヴェン": {
+      "person_id": "PBEETHO1",
+      "category": "芸術・文化",
+      "episode_count": 0,
+      "coverage_rate": 0.0,
+      "covered_count": 0,
+      "required_count": 3,
+      "covered": [],
+      "missing": [
+        {
+          "achievement": "交響曲第9番初演",
+          "age": 53,
+          "year": 1824,
+          "keywords": [
+            "第九",
+            "歓喜の歌",
+            "ウィーン"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "難聴との闘いとハイリゲンシュタットの遺書",
+          "age": 32,
+          "year": 1802,
+          "keywords": [
+            "難聴",
+            "遺書",
+            "ハイリゲンシュタット"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "交響曲第5番「運命」発表",
+          "age": 38,
+          "year": 1808,
+          "keywords": [
+            "運命",
+            "第5番",
+            "ジャジャジャジャーン"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "ピカソ": {
+      "person_id": "PPICASS1",
+      "category": "芸術・文化",
+      "episode_count": 0,
+      "coverage_rate": 0.0,
+      "covered_count": 0,
+      "required_count": 3,
+      "covered": [],
+      "missing": [
+        {
+          "achievement": "ゲルニカ制作",
+          "age": 55,
+          "year": 1937,
+          "keywords": [
+            "ゲルニカ",
+            "反戦",
+            "スペイン内戦"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "キュビスム創始（アヴィニョンの娘たち）",
+          "age": 26,
+          "year": 1907,
+          "keywords": [
+            "キュビスム",
+            "アヴィニョンの娘たち",
+            "革新"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "青の時代・バラ色の時代",
+          "age": 23,
+          "year": 1904,
+          "keywords": [
+            "青の時代",
+            "バラ色",
+            "パリ"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    }
+  },
+  "missing_achievements": [
+    {
+      "person_name": "ムハマド・アリ",
+      "person_id": "PALI0001",
+      "category": "スポーツ",
+      "achievement": "世界ヘビー級王座初獲得",
+      "age": 22,
+      "year": 1964,
+      "keywords": [
+        "ソニー・リストン",
+        "世界王座",
+        "クレイ"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "クリストファー・コロンブス",
+      "person_id": "PCOLUMB1",
+      "category": "歴史・探検",
+      "achievement": "新大陸到達",
+      "age": 41,
+      "year": 1492,
+      "keywords": [
+        "新大陸",
+        "サン・サルバドル",
+        "発見"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "ライト兄弟",
+      "person_id": "PWRIGHT1",
+      "category": "科学・技術",
+      "achievement": "人類初の動力飛行成功",
+      "age": 36,
+      "year": 1903,
+      "keywords": [
+        "キティホーク",
+        "初飛行",
+        "12秒"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "イーロン・マスク",
+      "person_id": "PMUSK001",
+      "category": "ビジネス・起業",
+      "achievement": "SpaceX再利用ロケット成功",
+      "age": 44,
+      "year": 2015,
+      "keywords": [
+        "ファルコン9",
+        "再利用",
+        "着陸"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "手塚治虫",
+      "person_id": "PTEZUKA1",
+      "category": "芸術・文化",
+      "achievement": "鉄腕アトム連載開始",
+      "age": 24,
+      "year": 1952,
+      "keywords": [
+        "アトム",
+        "連載",
+        "少年"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "本田宗一郎",
+      "person_id": "PHONDA01",
+      "category": "ビジネス・起業",
+      "achievement": "本田技研工業設立",
+      "age": 42,
+      "year": 1948,
+      "keywords": [
+        "本田技研",
+        "設立",
+        "バイク"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "ベートーヴェン",
+      "person_id": "PBEETHO1",
+      "category": "芸術・文化",
+      "achievement": "交響曲第9番初演",
+      "age": 53,
+      "year": 1824,
+      "keywords": [
+        "第九",
+        "歓喜の歌",
+        "ウィーン"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "ピカソ",
+      "person_id": "PPICASS1",
+      "category": "芸術・文化",
+      "achievement": "ゲルニカ制作",
+      "age": 55,
+      "year": 1937,
+      "keywords": [
+        "ゲルニカ",
+        "反戦",
+        "スペイン内戦"
+      ],
+      "importance": 10.0,
+      "priority": 1
+    },
+    {
+      "person_name": "ムハマド・アリ",
+      "person_id": "PALI0001",
+      "category": "スポーツ",
+      "achievement": "キンシャサの奇跡",
+      "age": 32,
+      "year": 1974,
+      "keywords": [
+        "キンシャサ",
+        "フォアマン",
+        "ロープ・ア・ドープ"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "セリーナ・ウィリアムズ",
+      "person_id": "PSERENA1",
+      "category": "スポーツ",
+      "achievement": "キャリアグランドスラム達成",
+      "age": 21,
+      "year": 2003,
+      "keywords": [
+        "キャリアグランドスラム",
+        "4大大会",
+        "制覇"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "ロアール・アムンセン",
+      "person_id": "PAMUNDS1",
+      "category": "歴史・探検",
+      "achievement": "北西航路初横断",
+      "age": 33,
+      "year": 1905,
+      "keywords": [
+        "北西航路",
+        "ヨア号",
+        "横断"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "ビル・ゲイツ",
+      "person_id": "PGATES01",
+      "category": "ビジネス・起業",
+      "achievement": "Windows 95発売",
+      "age": 40,
+      "year": 1995,
+      "keywords": [
+        "Windows 95",
+        "GUI",
+        "スタートメニュー"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "本田宗一郎",
+      "person_id": "PHONDA01",
+      "category": "ビジネス・起業",
+      "achievement": "マン島TT初参戦・初優勝",
+      "age": 53,
+      "year": 1959,
+      "keywords": [
+        "マン島TT",
+        "優勝",
+        "世界進出"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "ベートーヴェン",
+      "person_id": "PBEETHO1",
+      "category": "芸術・文化",
+      "achievement": "難聴との闘いとハイリゲンシュタットの遺書",
+      "age": 32,
+      "year": 1802,
+      "keywords": [
+        "難聴",
+        "遺書",
+        "ハイリゲンシュタット"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "ピカソ",
+      "person_id": "PPICASS1",
+      "category": "芸術・文化",
+      "achievement": "キュビスム創始（アヴィニョンの娘たち）",
+      "age": 26,
+      "year": 1907,
+      "keywords": [
+        "キュビスム",
+        "アヴィニョンの娘たち",
+        "革新"
+      ],
+      "importance": 10.0,
+      "priority": 2
+    },
+    {
+      "person_name": "ヘレン・ケラー",
+      "person_id": "PHELEN01",
+      "category": "歴史・教育",
+      "achievement": "ラドクリフ大学卒業",
+      "age": 24,
+      "year": 1904,
+      "keywords": [
+        "大学",
+        "卒業",
+        "盲ろう者初"
+      ],
+      "importance": 9.5,
+      "priority": 2
+    },
+    {
+      "person_name": "坂本龍馬",
+      "person_id": "PRYOMA01",
+      "category": "歴史・政治",
+      "achievement": "海援隊設立",
+      "age": 31,
+      "year": 1867,
+      "keywords": [
+        "海援隊",
+        "貿易",
+        "株式会社"
+      ],
+      "importance": 9.5,
+      "priority": 2
+    },
+    {
+      "person_name": "クリストファー・コロンブス",
+      "person_id": "PCOLUMB1",
+      "category": "歴史・探検",
+      "achievement": "スペイン女王からの支援獲得",
+      "age": 41,
+      "year": 1492,
+      "keywords": [
+        "イサベル女王",
+        "支援",
+        "サンタフェ協定"
+      ],
+      "importance": 9.5,
+      "priority": 2
+    },
+    {
+      "person_name": "ライト兄弟",
+      "person_id": "PWRIGHT1",
+      "category": "科学・技術",
+      "achievement": "特許取得と実用化",
+      "age": 39,
+      "year": 1906,
+      "keywords": [
+        "特許",
+        "飛行制御",
+        "実用化"
+      ],
+      "importance": 9.5,
+      "priority": 2
+    },
+    {
+      "person_name": "マリー・キュリー",
+      "person_id": "PCURIE01",
+      "category": "科学・技術",
+      "achievement": "ノーベル化学賞受賞",
+      "age": 44,
+      "year": 1911,
+      "keywords": [
+        "ノーベル賞",
+        "2度目",
+        "化学"
+      ],
+      "importance": 10.0,
+      "priority": 3
+    },
+    {
+      "person_name": "レオナルド・ダ・ヴィンチ",
+      "person_id": "PDAVINCI",
+      "category": "芸術・文化",
+      "achievement": "ヴィトルヴィウス的人体図",
+      "age": 38,
+      "year": 1490,
+      "keywords": [
+        "人体図",
+        "比例",
+        "解剖学"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "ムハマド・アリ",
+      "person_id": "PALI0001",
+      "category": "スポーツ",
+      "achievement": "徴兵拒否と王座剥奪",
+      "age": 25,
+      "year": 1967,
+      "keywords": [
+        "徴兵拒否",
+        "ベトナム戦争",
+        "良心的兵役拒否"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "ネルソン・マンデラ",
+      "person_id": "PMANDEL1",
+      "category": "政治・社会",
+      "achievement": "ノーベル平和賞受賞",
+      "age": 75,
+      "year": 1993,
+      "keywords": [
+        "ノーベル平和賞",
+        "デクラーク",
+        "和解"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "マハトマ・ガンジー",
+      "person_id": "PGANDHI1",
+      "category": "政治・社会",
+      "achievement": "南アフリカでの公民権運動",
+      "age": 37,
+      "year": 1906,
+      "keywords": [
+        "南アフリカ",
+        "サティヤグラハ",
+        "抵抗"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "イーロン・マスク",
+      "person_id": "PMUSK001",
+      "category": "ビジネス・起業",
+      "achievement": "クルードラゴン有人飛行",
+      "age": 49,
+      "year": 2020,
+      "keywords": [
+        "クルードラゴン",
+        "有人",
+        "ISS"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "ビル・ゲイツ",
+      "person_id": "PGATES01",
+      "category": "ビジネス・起業",
+      "achievement": "世界一の富豪",
+      "age": 39,
+      "year": 1995,
+      "keywords": [
+        "世界一",
+        "富豪",
+        "フォーブス"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "手塚治虫",
+      "person_id": "PTEZUKA1",
+      "category": "芸術・文化",
+      "achievement": "ブラック・ジャック連載",
+      "age": 45,
+      "year": 1973,
+      "keywords": [
+        "ブラック・ジャック",
+        "医療",
+        "復活"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "黒澤明",
+      "person_id": "PKUROS01",
+      "category": "芸術・文化",
+      "achievement": "アカデミー名誉賞受賞",
+      "age": 80,
+      "year": 1990,
+      "keywords": [
+        "アカデミー賞",
+        "名誉賞",
+        "世界の黒澤"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "ベートーヴェン",
+      "person_id": "PBEETHO1",
+      "category": "芸術・文化",
+      "achievement": "交響曲第5番「運命」発表",
+      "age": 38,
+      "year": 1808,
+      "keywords": [
+        "運命",
+        "第5番",
+        "ジャジャジャジャーン"
+      ],
+      "importance": 9.5,
+      "priority": 3
+    },
+    {
+      "person_name": "ヘレン・ケラー",
+      "person_id": "PHELEN01",
+      "category": "歴史・教育",
+      "achievement": "社会活動家としての講演活動",
+      "age": 30,
+      "year": 1910,
+      "keywords": [
+        "講演",
+        "障害者権利",
+        "社会活動"
+      ],
+      "importance": 9.0,
+      "priority": 3
+    },
+    {
+      "person_name": "クリストファー・コロンブス",
+      "person_id": "PCOLUMB1",
+      "category": "歴史・探検",
+      "achievement": "4度の航海",
+      "age": 51,
+      "year": 1502,
+      "keywords": [
+        "4度目",
+        "航海",
+        "中米"
+      ],
+      "importance": 9.0,
+      "priority": 3
+    },
+    {
+      "person_name": "ピカソ",
+      "person_id": "PPICASS1",
+      "category": "芸術・文化",
+      "achievement": "青の時代・バラ色の時代",
+      "age": 23,
+      "year": 1904,
+      "keywords": [
+        "青の時代",
+        "バラ色",
+        "パリ"
+      ],
+      "importance": 9.0,
+      "priority": 3
+    },
+    {
+      "person_name": "フィンセント・ファン・ゴッホ",
+      "person_id": "PGOGH001",
+      "category": "芸術・文化",
+      "achievement": "死後の評価と嫂ヨハンナの貢献",
+      "age": 37,
+      "year": 1890,
+      "keywords": [
+        "死後",
+        "再評価",
+        "ヨハンナ",
+        "テオ"
+      ],
+      "importance": 9.0,
+      "priority": 4
+    },
+    {
+      "person_name": "レオナルド・ダ・ヴィンチ",
+      "person_id": "PDAVINCI",
+      "category": "芸術・文化",
+      "achievement": "飛行機械の設計図",
+      "age": 48,
+      "year": 1500,
+      "keywords": [
+        "飛行機械",
+        "オーニソプター",
+        "発明"
+      ],
+      "importance": 9.0,
+      "priority": 4
+    },
+    {
+      "person_name": "ムハマド・アリ",
+      "person_id": "PALI0001",
+      "category": "スポーツ",
+      "achievement": "スリラー・イン・マニラ",
+      "age": 33,
+      "year": 1975,
+      "keywords": [
+        "フレイジャー",
+        "マニラ",
+        "名勝負"
+      ],
+      "importance": 9.0,
+      "priority": 4
+    },
+    {
+      "person_name": "セリーナ・ウィリアムズ",
+      "person_id": "PSERENA1",
+      "category": "スポーツ",
+      "achievement": "出産後の復帰",
+      "age": 36,
+      "year": 2018,
+      "keywords": [
+        "出産",
+        "復帰",
+        "決勝進出"
+      ],
+      "importance": 9.0,
+      "priority": 4
+    }
+  ]
+}

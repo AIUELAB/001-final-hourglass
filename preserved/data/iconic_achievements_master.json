@@ -608,8 +608,8 @@
         }
       ]
     },
-    "ライト兄弟": {
-      "person_id": "PWRIGHT1",
+    "ウィルバー・ライト": {
+      "person_id": "P1F0726F",
       "category": "科学・技術",
       "required_episodes": [
         {
@@ -780,7 +780,7 @@
         }
       ]
     },
-    "ベートーヴェン": {
+    "ルートヴィヒ・ヴァン・ベートーヴェン": {
       "person_id": "PBEETHO1",
       "category": "芸術・文化",
       "required_episodes": [
@@ -810,7 +810,7 @@
         }
       ]
     },
-    "ピカソ": {
+    "パブロ・ピカソ": {
       "person_id": "PPICASS1",
       "category": "芸術・文化",
       "required_episodes": [

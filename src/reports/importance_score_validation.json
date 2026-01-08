@@ -1,8 +1,18 @@
 {
-  "total_episodes": 11655,
+  "total_episodes": 13640,
   "total_persons": 6741,
-  "issues_count": 61,
+  "issues_count": 95,
   "issues": [
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PD97BD9A",
+      "person_name": "サリー",
+      "episode_id": "EP-260107171517619",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ55歳のとき、サリーはモンスターズ・インクの「スケアリング記録更新プロジェクト」において指導的役割を担っていました。2013年に同社が実施した「新人育成プログラム」では、サリーが直接指導し"
+    },
     {
       "type": "achievement_undervalued",
       "person_id": "P3B58042",
@@ -11,7 +21,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、永瀬廉は2019年にKing & Princeのメンバーとして「Memorial」のリリースに参加し、オリコン週間チャート1位を獲得した。同年放送されたドラマ「弱くても勝てま"
+      "text_preview": "あなたと同じ20歳のとき、永瀬廉は2019年にKing & Princeのメンバーとして「Memorial」のリリースに参加し、オリコン週間チャート1位を獲得しました。同年放送されたドラマ「弱くても勝"
     },
     {
       "type": "narrative_over_achievement",
@@ -41,7 +51,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、マーリンは2003年にピクサー・アニメーション・スタジオが制作した「ファインディング・ニモ」で声優デビューを果たした。グレート・バリア・リーフを舞台にしたこの作品で、マーリン"
+      "text_preview": "あなたと同じ20歳のとき、マーリンは2003年にピクサー・アニメーション・スタジオが制作した「ファインディング・ニモ」で声優デビューを果たしました。グレート・バリア・リーフを舞台にしたこの作品で、マー"
     },
     {
       "type": "narrative_over_achievement",
@@ -81,7 +91,7 @@
       "keyword": "フィールズ賞",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、柴田章太郎は2024年に東京大学理学部数学科で「リーマン予想と素数分布」に関する画期的な論文を発表した。この研究は国際数学会議で高い評価を受け、94点という異例の高得点を記録"
+      "text_preview": "あなたと同じ20歳のとき、柴田章太郎は2024年に東京大学理学部数学科で「リーマン予想と素数分布」に関する画期的な論文を発表しました。この研究は国際数学会議で高い評価を受け、94点という異例の高得点を"
     },
     {
       "type": "achievement_undervalued",
@@ -91,7 +101,7 @@
       "keyword": "IPO",
       "current_importance": 0.0,
       "expected_importance": 8.0,
-      "text_preview": "あなたと同じ35歳のとき、星野みなみは2018年に東京都港区で設立したIT企業「デジタルソリューションズ」の代表取締役として、年商15億円を達成していた。2019年に開催された「Japan Tech "
+      "text_preview": "あなたと同じ35歳のとき、星野みなみは2018年に東京都港区で設立したIT企業「デジタルソリューションズ」の代表取締役として、年商15億円を達成していました。2019年に開催された「Japan Tec"
     },
     {
       "type": "narrative_over_achievement",
@@ -111,7 +121,67 @@
       "keyword": "ノーヒットノーラン",
       "current_importance": 0.0,
       "expected_importance": 8.5,
-      "text_preview": "あなたと同じ35歳のとき、岩隈久志は2016年シーズンをシアトル・マリナーズの先発ローテーションの柱として迎えていた。この年、彼は16勝12敗、防御率4.12の成績を残し、203.1イニングを投げ抜い"
+      "text_preview": "あなたと同じ35歳のとき、岩隈久志は2016年シーズンをシアトル・マリナーズの先発ローテーションの柱として迎えていました。この年、彼は16勝12敗、防御率4.12の成績を残し、203.1イニングを投げ"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P569B26A",
+      "person_name": "本田武史",
+      "episode_id": "EP-260107221458192",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、本田武史は2037年に開催された「世界フィギュアスケート殿堂式典」において、アジア人初の殿堂入りを果たしました。2002年ソルトレイクシティ五輪で4位入賞を記録した本田は、現"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P569B26A",
+      "person_name": "本田武史",
+      "achievement_ep": "EP-260107221458192",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000000336",
+      "narrative_importance": 8.6,
+      "narrative_keyword": "断念"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P301A5B2",
+      "person_name": "青木功",
+      "episode_id": "EP-260107221458193",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、青木功は2002年に日本プロゴルフ協会会長に就任し、日本ゴルフ界の発展に尽力していました。同年開催された「ダンロップフェニックストーナメント」では大会アンバサダーとして参加し"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P059B4BD",
+      "person_name": "篠原一男",
+      "episode_id": "EP-260107182846050",
+      "keyword": "ノーベル賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、篠原一男は1985年に日本建築学会賞を受賞し、建築界における地位を確固たるものにしました。この年、彼の代表作「白の家」と「未完の家」が国際的な評価を受け、ニューヨーク近代美術"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P059B4BD",
+      "person_name": "篠原一男",
+      "achievement_ep": "EP-260107182846050",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000000672",
+      "narrative_importance": 7.8,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P107FFD3",
+      "person_name": "レーナ",
+      "episode_id": "EP-260107171517645",
+      "keyword": "世界記録",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ55歳のとき、レーナは2018年に開催された「パラリンピック指導者育成プログラム」の主任コーチとして、フィンランド代表チームを率いていました。1995年にヘルシンキ大学でスポーツ科学の博士"
     },
     {
       "type": "achievement_undervalued",
@@ -121,7 +191,7 @@
       "keyword": "フィールズ賞",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、中村天風は2018年に東京大学理学部数学科の3年生として、代数幾何学の研究に没頭していた。同年9月に開催された「第42回日本数学会秋季総合分科会」で発表した論文「リーマン面上"
+      "text_preview": "あなたと同じ20歳のとき、中村天風は2018年に東京大学理学部数学科の3年生として、代数幾何学の研究に没頭していました。同年9月に開催された「第42回日本数学会秋季総合分科会」で発表した論文「リーマン"
     },
     {
       "type": "narrative_over_achievement",
@@ -135,13 +205,73 @@
     },
     {
       "type": "achievement_undervalued",
+      "person_id": "PB5C673A",
+      "person_name": "アラン・アスペ",
+      "episode_id": "EP-260107182846056",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、アラン・アスペは2007年にフランス・パリ第11大学の教授として「量子もつれ」の実証実験で世界的な注目を集めていました。1982年に発表した「ベルの不等式の破れ」を証明する実"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P2E04175",
+      "person_name": "ジャンルイジ・ブッフォン",
+      "episode_id": "EP-260107182846058",
+      "keyword": "進化論",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、ジョルジュ＝ルイ・ルクレール・ド・ビュフォンは1767年にフランス王立植物園の園長として、『博物誌』第15巻の執筆を完了しました。この年、彼はパリの王立科学アカデミーで「地球"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P2E04175",
+      "person_name": "ジャンルイジ・ブッフォン",
+      "achievement_ep": "EP-260107182846058",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000000942",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "挫折"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P5088566",
+      "person_name": "ケン・トンプソン",
+      "episode_id": "EP-260107182846066",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、ケン・トンプソンは2003年にデニス・リッチーと共に「IEEE John von Neumann Medal」を受賞しました。ベル研究所で開発した「UNIX」オペレーティング"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P5088566",
+      "person_name": "ケン・トンプソン",
+      "achievement_ep": "EP-260107182846066",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000001008",
+      "narrative_importance": 8.2,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "achievement_undervalued",
       "person_id": "PDC9A92E",
       "person_name": "山本義隆",
       "episode_id": "EP-260107032101186",
       "keyword": "量子力学",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、1961年の山本義隆は東京大学理学部物理学科の3年生として、理論物理学の研究に没頭していた。湯川秀樹の中間子理論に強い関心を示し、坂田昌一の研究室で素粒子物理学の基礎を学んで"
+      "text_preview": "あなたと同じ20歳のとき、1961年の山本義隆は東京大学理学部物理学科の3年生として、理論物理学の研究に没頭していました。湯川秀樹の中間子理論に強い関心を示し、坂田昌一の研究室で素粒子物理学の基礎を学"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PAD0383C",
+      "person_name": "北川進",
+      "episode_id": "EP-260107182846074",
+      "keyword": "ノーベル化学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、北川進は2013年に京都大学物質-細胞統合システム拠点の拠点長として、世界最先端の多孔性配位高分子研究を主導していました。同年、トムソン・ロイター社による「引用栄誉賞」を受賞"
     },
     {
       "type": "achievement_undervalued",
@@ -151,7 +281,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、松たか子は2007年に映画「アフタースクール」で第31回日本アカデミー賞優秀助演女優賞を受賞し、女優としての地位を確固たるものにしていた。同年には舞台「ヘドダ・ガブラー」で主"
+      "text_preview": "あなたと同じ30歳のとき、松たか子は2007年に映画「アフタースクール」で第31回日本アカデミー賞優秀助演女優賞を受賞し、女優としての地位を確固たるものにしていました。同年には舞台「ヘドダ・ガブラー」"
     },
     {
       "type": "narrative_over_achievement",
@@ -165,13 +295,33 @@
     },
     {
       "type": "achievement_undervalued",
+      "person_id": "P37D6167",
+      "person_name": "茅誠司",
+      "episode_id": "EP-260107183945550",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、茅誠司は1971年に東京大学総長に就任し、大学紛争の収束に向けた改革を主導しました。物理学者として半導体研究で世界的な評価を得ていた茅は、1968年の東大安田講堂事件以降の混"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PBFBAFB2",
+      "person_name": "坂田昌一",
+      "episode_id": "EP-260107182846090",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、坂田昌一は1971年に湯川秀樹とともに京都大学基礎物理学研究所で素粒子論の研究を継続していました。彼が1955年に発表した「坂田モデル」は、クォーク理論の先駆けとして国際的に"
+    },
+    {
+      "type": "achievement_undervalued",
       "person_id": "P52C3157",
       "person_name": "エリオット・ペイジ",
       "episode_id": "EP-260107023018152",
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、エリオット・ペイジは2022年に自身のトランスジェンダー体験を描いた回想録の執筆に取り組んでいた。2007年の映画「JUNO」でアカデミー賞主演女優賞にノミネートされ、全世界"
+      "text_preview": "あなたと同じ35歳のとき、エリオット・ペイジは2022年に自身のトランスジェンダー体験を描いた回想録の執筆に取り組んでいました。2007年の映画「JUNO」でアカデミー賞主演女優賞にノミネートされ、全"
     },
     {
       "type": "achievement_undervalued",
@@ -181,7 +331,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、永野芽郁は2034年に主演映画「時の彼方へ」で第47回日本アカデミー賞最優秀主演女優賞を受賞した。この作品は全国312館で公開され、興行収入18億円を記録した。同年、テレビ朝"
+      "text_preview": "あなたと同じ35歳のとき、永野芽郁は2034年に主演映画「時の彼方へ」で第47回日本アカデミー賞最優秀主演女優賞を受賞しました。この作品は全国312館で公開され、興行収入18億円を記録しました。同年、"
     },
     {
       "type": "achievement_undervalued",
@@ -191,7 +341,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、杉野遥亮は2028年に主演映画「青春の記録」で興行収入15億円を記録し、俳優としての地位を確立していた。この作品で第42回日本アカデミー賞最優秀主演男優賞を受賞し、授賞式では"
+      "text_preview": "あなたと同じ35歳のとき、杉野遥亮は2028年に主演映画「青春の記録」で興行収入15億円を記録し、俳優としての地位を確立していました。この作品で第42回日本アカデミー賞最優秀主演男優賞を受賞し、授賞式"
     },
     {
       "type": "narrative_over_achievement",
@@ -211,7 +361,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、唐沢寿明は1998年にテレビドラマ「白い巨塔」で財前五郎役を演じ、平均視聴率32.1％という驚異的な数字を記録した。この作品で第16回ザテレビジョンドラマアカデミー賞主演男優"
+      "text_preview": "あなたと同じ35歳のとき、唐沢寿明は1998年にテレビドラマ「白い巨塔」で財前五郎役を演じ、平均視聴率32.1％という驚異的な数字を記録しました。この作品で第16回ザテレビジョンドラマアカデミー賞主演"
     },
     {
       "type": "achievement_undervalued",
@@ -221,7 +371,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、赤楚衛二は2025年に俳優として最も充実した時期を迎えていた。2020年のドラマ「半沢直樹」での演技が評価され、その後2022年には映画「ある男」で日本アカデミー賞優秀助演男"
+      "text_preview": "あなたと同じ35歳のとき、赤楚衛二は2025年に俳優として最も充実した時期を迎えていました。2020年のドラマ「半沢直樹」での演技が評価され、その後2022年には映画「ある男」で日本アカデミー賞優秀助"
     },
     {
       "type": "narrative_over_achievement",
@@ -241,7 +391,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、デニス・ヴィルヌーヴは2023年に「デューン 砂の惑星」の続編製作に着手していた。1967年ケベック州生まれの彼は、2016年の「メッセージ」でアカデミー賞8部門にノミネート"
+      "text_preview": "あなたと同じ30歳のとき、デニス・ヴィルヌーヴは2023年に「デューン 砂の惑星」の続編製作に着手していました。1967年ケベック州生まれの彼は、2016年の「メッセージ」でアカデミー賞8部門にノミネ"
     },
     {
       "type": "achievement_undervalued",
@@ -251,7 +401,7 @@
       "keyword": "量子力学",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、菅直人は1967年に東京工業大学理学部応用物理学科の3年生として学業に励んでいた。この年、彼は学内の学生運動「全学共闘会議」に参加し、機動隊との衝突が発生した「10・8羽田闘"
+      "text_preview": "あなたと同じ20歳のとき、菅直人は1967年に東京工業大学理学部応用物理学科の3年生として学業に励んでいました。この年、彼は学内の学生運動「全学共闘会議」に参加し、機動隊との衝突が発生した「10・8羽"
     },
     {
       "type": "achievement_undervalued",
@@ -261,7 +411,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、中谷美紀は1996年にTBSドラマ「毛利元就」で戦国武将の娘役を演じ、本格的な女優としての地位を確立した。同年放送されたフジテレビ系ドラマ「ロングバケーション」では木村拓哉、"
+      "text_preview": "あなたと同じ20歳のとき、中谷美紀は1996年にTBSドラマ「毛利元就」で戦国武将の娘役を演じ、本格的な女優としての地位を確立しました。同年放送されたフジテレビ系ドラマ「ロングバケーション」では木村拓"
     },
     {
       "type": "achievement_undervalued",
@@ -271,7 +421,7 @@
       "keyword": "グラミー賞",
       "current_importance": 0.0,
       "expected_importance": 8.5,
-      "text_preview": "あなたと同じ20歳のとき、ウィル・スミスは1988年にラッパーとして「Rock the House」でレコードデビューを果たした。相方のジェフリー・タウンズとのデュオ「DJ Jazzy Jeff & "
+      "text_preview": "あなたと同じ20歳のとき、ウィル・スミスは1988年にラッパーとして「Rock the House」でレコードデビューを果たしました。相方のジェフリー・タウンズとのデュオ「DJ Jazzy Jeff "
     },
     {
       "type": "achievement_undervalued",
@@ -281,7 +431,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、岡田将生は2009年に映画「アフタースクール」で注目を集めた新進気鋭の俳優だった。身長180センチの長身と端正な顔立ちで、同年放送されたフジテレビのドラマ「LIAR GAME"
+      "text_preview": "あなたと同じ20歳のとき、岡田将生は2009年に映画「アフタースクール」で注目を集めた新進気鋭の俳優でした。身長180センチの長身と端正な顔立ちで、同年放送されたフジテレビのドラマ「LIAR GAME"
     },
     {
       "type": "achievement_undervalued",
@@ -291,7 +441,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、柄本佑は2007年に映画「アフタースクール」で本格的な俳優デビューを果たした。父は俳優の柄本明、弟は柄本時生という芸能一家に生まれた彼は、2008年に「おくりびと」で重要な役"
+      "text_preview": "あなたと同じ20歳のとき、柄本佑は2007年に映画「アフタースクール」で本格的な俳優デビューを果たしました。父は俳優の柄本明、弟は柄本時生という芸能一家に生まれた彼は、2008年に「おくりびと」で重要"
     },
     {
       "type": "achievement_undervalued",
@@ -321,7 +471,7 @@
       "keyword": "量子力学",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、ワトソン・クリックはケンブリッジ大学キングス・カレッジで物理学の学位取得に向けて研究に没頭していた。1936年、彼は「量子力学と分子構造」をテーマとした卒業論文を執筆し、92"
+      "text_preview": "あなたと同じ20歳のとき、ワトソン・クリックはケンブリッジ大学キングス・カレッジで物理学の学位取得に向けて研究に没頭していました。1936年、彼は「量子力学と分子構造」をテーマとした卒業論文を執筆し、"
     },
     {
       "type": "achievement_undervalued",
@@ -331,7 +481,7 @@
       "keyword": "ノーベル賞",
       "current_importance": 0.0,
       "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、ジェームズ・ワトソンは1963年にフランシス・クリックとモーリス・ウィルキンズと共にノーベル生理学・医学賞を受賞した。1953年にネイチャー誌で発表したDNAの二重らせん構造"
+      "text_preview": "あなたと同じ35歳のとき、ジェームズ・ワトソンは1963年にフランシス・クリックとモーリス・ウィルキンズと共にノーベル生理学・医学賞を受賞しました。1953年にネイチャー誌で発表したDNAの二重らせん"
     },
     {
       "type": "narrative_over_achievement",
@@ -345,13 +495,33 @@
     },
     {
       "type": "achievement_undervalued",
+      "person_id": "PAC4FBA3",
+      "person_name": "ヨハネス・ケプラー",
+      "episode_id": "EP-260107182846097",
+      "keyword": "万有引力",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、ヨハネス・ケプラーは1631年11月15日にレーゲンスブルクで生涯を終えた。この年、彼は神聖ローマ皇帝ルドルフ2世時代からの未払い給与12000フローリンの回収のため同地を訪"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAC4FBA3",
+      "person_name": "ヨハネス・ケプラー",
+      "achievement_ep": "EP-260107182846097",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000003729",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "悩み"
+    },
+    {
+      "type": "achievement_undervalued",
       "person_id": "P10A1E08",
       "person_name": "上田正仁",
       "episode_id": "EP-260107043018934",
       "keyword": "量子力学",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、上田正仁は1992年に東京大学理学部物理学科3年生として、量子力学の研究に没頭していた。当時、彼は佐々木節教授の指導の下で「ボーズ・アインシュタイン凝縮」の理論研究を開始し、"
+      "text_preview": "あなたと同じ20歳のとき、上田正仁は1992年に東京大学理学部物理学科3年生として、量子力学の研究に没頭していました。当時、彼は佐々木節教授の指導の下で「ボーズ・アインシュタイン凝縮」の理論研究を開始"
     },
     {
       "type": "achievement_undervalued",
@@ -361,7 +531,17 @@
       "keyword": "量子力学",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、清水富雄は1987年に京都大学理学部で量子力学の研究に没頭していた。指導教官である田中正雄教授のもと、超伝導体の電子構造解析に関する論文を執筆し、日本物理学会の「第42回年次"
+      "text_preview": "あなたと同じ20歳のとき、清水富雄は1987年に京都大学理学部で量子力学の研究に没頭していました。指導教官である田中正雄教授のもと、超伝導体の電子構造解析に関する論文を執筆し、日本物理学会の「第42回"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PEB725E2",
+      "person_name": "細野秀雄",
+      "episode_id": "EP-260107182846109",
+      "keyword": "ノーベル賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、細野秀雄は2012年に東京工業大学で透明導電膜の研究において画期的な成果を発表しました。彼が開発したIGZO（インジウム・ガリウム・亜鉛酸化物）薄膜トランジスタは、従来のアモ"
     },
     {
       "type": "achievement_undervalued",
@@ -371,7 +551,37 @@
       "keyword": "ノーベル化学賞",
       "current_importance": 0.0,
       "expected_importance": 10.0,
-      "text_preview": "あなたと同じ20歳のとき、ジェニファー・ダウドナは1984年にハーバード大学の生化学研究室で画期的な発見に取り組んでいた。指導教授のジャック・ショスタク博士のもとで、RNA分子の立体構造解析に没頭し、"
+      "text_preview": "あなたと同じ20歳のとき、ジェニファー・ダウドナは1984年にハーバード大学の生化学研究室で画期的な発見に取り組んでいました。指導教授のジャック・ショスタク博士のもとで、RNA分子の立体構造解析に没頭"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P476BE02",
+      "person_name": "ハーバー",
+      "episode_id": "EP-260107182846120",
+      "keyword": "ノーベル化学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、フリッツ・ハーバーは1928年にベルリン大学で窒素固定法の研究を継続していました。1918年にノーベル化学賞を受賞したハーバー・ボッシュ法により、年間500万トンの合成アンモ"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P476BE02",
+      "person_name": "ハーバー",
+      "achievement_ep": "EP-260107182846120",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000004761",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P1DF3F1A",
+      "person_name": "菊池正士",
+      "episode_id": "EP-260107182846124",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、菊池正士は1948年に東京大学理学部教授として原子核物理学研究の指導に専念していました。戦後復興期の日本で、彼は理化学研究所時代から手がけていたサイクロトロン開発の成果を「原"
     },
     {
       "type": "achievement_undervalued",
@@ -381,7 +591,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ハビエル・バルデムは1989年にスペインのテレビシリーズ「El Píocaro」で俳優デビューを果たした。マドリード出身の彼は、母親で女優のピラール・バルデムの影響を受け、演"
+      "text_preview": "あなたと同じ20歳のとき、ハビエル・バルデムは1989年にスペインのテレビシリーズ「El Píocaro」で俳優デビューを果たしました。マドリード出身の彼は、母親で女優のピラール・バルデムの影響を受け"
     },
     {
       "type": "achievement_undervalued",
@@ -391,7 +601,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ケネス・ブラナーは1980年にロンドンの王立演劇学校を卒業し、同年にロイヤル・シェイクスピア・カンパニーに入団した。彼は史上最年少の21歳でヘンリー5世役を演じ、批評家から絶"
+      "text_preview": "あなたと同じ20歳のとき、ケネス・ブラナーは1980年にロンドンの王立演劇学校を卒業し、同年にロイヤル・シェイクスピア・カンパニーに入団しました。彼は史上最年少の21歳でヘンリー5世役を演じ、批評家か"
     },
     {
       "type": "achievement_undervalued",
@@ -411,7 +621,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、多部未華子は2009年にNHK連続テレビ小説「つばさ」で主演を務め、平均視聴率13.8%を記録した。東京都出身の彼女は、前年2008年の映画「アフタースクール」で注目を集め、"
+      "text_preview": "あなたと同じ20歳のとき、多部未華子は2009年にNHK連続テレビ小説「つばさ」で主演を務め、平均視聴率13.8%を記録しました。東京都出身の彼女は、前年2008年の映画「アフタースクール」で注目を集"
     },
     {
       "type": "achievement_undervalued",
@@ -421,7 +631,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、菅野美穂は1997年にフジテレビの連続ドラマ「イグアナの娘」で主演を務め、視聴率15.4%を記録した。このドラマでの演技が評価され、同年の「第15回ザテレビジョンドラマアカデ"
+      "text_preview": "あなたと同じ20歳のとき、菅野美穂は1997年にフジテレビの連続ドラマ「イグアナの娘」で主演を務め、視聴率15.4%を記録しました。このドラマでの演技が評価され、同年の「第15回ザテレビジョンドラマア"
     },
     {
       "type": "narrative_over_achievement",
@@ -441,7 +651,7 @@
       "keyword": "フィールズ賞",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、首藤文代は1998年に東京大学理学部数学科で代数幾何学の研究に没頭していた。指導教授の田中博明の下で、楕円曲線の有理点に関する論文を執筆し、学部生としては異例の127ページに"
+      "text_preview": "あなたと同じ20歳のとき、首藤文代は1998年に東京大学理学部数学科で代数幾何学の研究に没頭していました。指導教授の田中博明の下で、楕円曲線の有理点に関する論文を執筆し、学部生としては異例の127ペー"
     },
     {
       "type": "achievement_undervalued",
@@ -455,13 +665,33 @@
     },
     {
       "type": "achievement_undervalued",
+      "person_id": "P24F9F03",
+      "person_name": "ロバート・メトカーフ",
+      "episode_id": "EP-260107183945604",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、ロバート・メトカーフは2006年にポラリス・ベンチャー・パートナーズのパートナーとして活動していました。イーサネットの発明者として、1980年に設立した3Comは既に10億ド"
+    },
+    {
+      "type": "achievement_undervalued",
       "person_id": "PE906FC0",
       "person_name": "板倉聖宣",
       "episode_id": "EP-260107043018985",
       "keyword": "ノーベル物理学賞",
       "current_importance": 0.0,
       "expected_importance": 10.0,
-      "text_preview": "あなたと同じ20歳のとき、板倉聖宣は1950年に東京大学理学部物理学科に在籍していた。同年、湯川秀樹がノーベル物理学賞を受賞した記念講演会に参加し、物理教育の重要性について深く考察した。1951年には"
+      "text_preview": "あなたと同じ20歳のとき、板倉聖宣は1950年に東京大学理学部物理学科に在籍していました。同年、湯川秀樹がノーベル物理学賞を受賞した記念講演会に参加し、物理教育の重要性について深く考察しました。195"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P982092B",
+      "person_name": "喜安朗",
+      "episode_id": "EP-260108064823920",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ75歳のとき、喜安朗は2022年に東京大学名誉教授として「量子物理学における場の理論の発展」シンポジウムで基調講演を行った。1968年に発表した素粒子理論に関する論文が被引用数3,847回"
     },
     {
       "type": "achievement_undervalued",
@@ -471,7 +701,7 @@
       "keyword": "世界記録",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ジム・デイビスは1965年にインディアナ州マンシーで地元新聞社のアシスタントとして働いていた。彼は週給40ドルの収入で生計を立てながら、漫画家になる夢を追い続けていた。196"
+      "text_preview": "あなたと同じ20歳のとき、ジム・デイビスは1965年にインディアナ州マンシーで地元新聞社のアシスタントとして働いていました。彼は週給40ドルの収入で生計を立てながら、漫画家になる夢を追い続けていました"
     },
     {
       "type": "achievement_undervalued",
@@ -481,7 +711,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、ジョン・トラボルタは1984年に映画「愛と青春の旅だち」でデブラ・ウィンガーと共演し、興行収入1億2900万ドルという大ヒットを記録した。この作品は全米映画興行成績で年間第3"
+      "text_preview": "あなたと同じ30歳のとき、ジョン・トラボルタは1984年に映画「愛と青春の旅だち」でデブラ・ウィンガーと共演し、興行収入1億2900万ドルという大ヒットを記録しました。この作品は全米映画興行成績で年間"
     },
     {
       "type": "achievement_undervalued",
@@ -491,7 +721,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、釈由美子は2000年に女優としてのキャリアを本格的にスタートさせていた。1999年にグラビアアイドルとしてデビューした彼女は、翌年には映画「漂流教室」で女優デビューを果たした"
+      "text_preview": "あなたと同じ20歳のとき、釈由美子は2000年に女優としてのキャリアを本格的にスタートさせていました。1999年にグラビアアイドルとしてデビューした彼女は、翌年には映画「漂流教室」で女優デビューを果た"
     },
     {
       "type": "achievement_undervalued",
@@ -501,7 +731,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、酒井法子は1999年に女優としての地位を確立していた。1987年にアイドルデビューしてから12年が経過し、フジテレビのドラマ「ひとつ屋根の下」では江口洋介や福山雅治と共演して"
+      "text_preview": "あなたと同じ30歳のとき、酒井法子は1999年に女優としての地位を確立していました。1987年にアイドルデビューしてから12年が経過し、フジテレビのドラマ「ひとつ屋根の下」では江口洋介や福山雅治と共演"
     },
     {
       "type": "achievement_undervalued",
@@ -511,7 +741,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、ジョン・ボイエガは2027年にハリウッドでの地位を確固たるものにしていた。2015年の「スター・ウォーズ/フォースの覚醒」でフィン役を演じてから12年が経過し、彼の出演作品は"
+      "text_preview": "あなたと同じ35歳のとき、ジョン・ボイエガは2027年にハリウッドでの地位を確固たるものにしていました。2015年の「スター・ウォーズ/フォースの覚醒」でフィン役を演じてから12年が経過し、彼の出演作"
     },
     {
       "type": "narrative_over_achievement",
@@ -531,7 +761,17 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、トーマシン・マッケンジーは2030年にハリウッドで最も影響力のある女優の一人として確固たる地位を築いていた。2017年の「リーヴ・ノー・トレース」でのデビューから13年が経過"
+      "text_preview": "あなたと同じ30歳のとき、トーマシン・マッケンジーは2030年にハリウッドで最も影響力のある女優の一人として確固たる地位を築いていました。2017年の「リーヴ・ノー・トレース」でのデビューから13年が"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P7554735",
+      "person_name": "ハロルド・ユーリー",
+      "episode_id": "EP-260107221458125",
+      "keyword": "ノーベル化学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、ハロルド・ユーリーは1953年にシカゴ大学で重水素の研究を継続していました。1934年にノーベル化学賞を受賞した重水素発見から19年が経過し、彼の研究室では月の岩石形成に関す"
     },
     {
       "type": "achievement_undervalued",
@@ -541,7 +781,7 @@
       "keyword": "万有引力",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、大森南朋は1992年に舞台俳優としてのキャリアをスタートさせていた。東京芸術大学音楽学部声楽科に在学中だった彼は、演劇実験室◎万有引力の寺山修司作品「奴婢訓」で初舞台を踏んだ"
+      "text_preview": "あなたと同じ20歳のとき、大森南朋は1992年に舞台俳優としてのキャリアをスタートさせていました。東京芸術大学音楽学部声楽科に在学中だった彼は、演劇実験室◎万有引力の寺山修司作品「奴婢訓」で初舞台を踏"
     },
     {
       "type": "narrative_over_achievement",
@@ -561,7 +801,67 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、オリバー・ストーンは1967年にコロンビア大学を中退し、ベトナム戦争に従軍志願した。第25歩兵師団に配属されたストーンは、368日間の戦闘任務を遂行し、ブロンズスター勲章とパ"
+      "text_preview": "あなたと同じ20歳のとき、オリバー・ストーンは1967年にコロンビア大学を中退し、ベトナム戦争に従軍志願しました。第25歩兵師団に配属されたストーンは、368日間の戦闘任務を遂行し、ブロンズスター勲章"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P9FD850A",
+      "person_name": "アーネスト・ラザフォード",
+      "episode_id": "EP-260107221458136",
+      "keyword": "ノーベル賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、アーネスト・ラザフォードは1931年にケンブリッジ大学キャヴェンディッシュ研究所で原子核分裂の研究を続けていました。この年、彼の弟子ジェームズ・チャドウィックが中性子を発見し"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9FD850A",
+      "person_name": "アーネスト・ラザフォード",
+      "achievement_ep": "EP-260107221458136",
+      "achievement_importance": 0.0,
+      "narrative_ep": "EP-000007796",
+      "narrative_importance": 7.9,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PCDD9E44",
+      "person_name": "ジャン＝バティスト・ラマルク",
+      "episode_id": "EP-260107221458144",
+      "keyword": "進化論",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、ジャン＝バティスト・ラマルクは1814年にフランス科学アカデミーで「動物学哲学」の理論について最終講義を行った。この年、ナポレオンの失脚によりパリは政治的混乱の中にあったが、"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P6979883",
+      "person_name": "ピーター・ヒッグス",
+      "episode_id": "EP-260107221458150",
+      "keyword": "ノーベル物理学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、ピーター・ヒッグスは1989年にエディンバラ大学で理論物理学の研究を継続していました。1964年に発表したヒッグス機構の理論から25年が経過し、欧州原子核研究機構（CERN）"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P2C0AB4D",
+      "person_name": "フランシス・アーノルド",
+      "episode_id": "EP-260107221458151",
+      "keyword": "ノーベル化学賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、フランシス・アーノルドは2014年にカリフォルニア工科大学で酵素の進化工学研究を精力的に推進していました。彼女が開発した「指向性進化」技術により、従来の化学合成では困難だった"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P37DF6BC",
+      "person_name": "クリスティアーネ・ニュスライン＝フォルハルト",
+      "episode_id": "EP-260107221458153",
+      "keyword": "ノーベル賞",
+      "current_importance": 0.0,
+      "expected_importance": 10.0,
+      "text_preview": "あなたと同じ60歳のとき、クリスティアーネ・ニュスライン＝フォルハルトは2005年にノーベル生理学・医学賞を受賞しました。マックス・プランク研究所で30年間にわたり発生生物学研究を続け、ショウジョウバ"
     },
     {
       "type": "achievement_undervalued",
@@ -571,7 +871,17 @@
       "keyword": "IPO",
       "current_importance": 0.0,
       "expected_importance": 8.0,
-      "text_preview": "あなたと同じ35歳のとき、ブリンはグーグルの共同創設者として2003年に同社の株式公開を成功させ、時価総額230億ドルという記録的な数値を達成した。スタンフォード大学で博士課程在籍中の1996年にラリ"
+      "text_preview": "あなたと同じ35歳のとき、ブリンはグーグルの共同創設者として2003年に同社の株式公開を成功させ、時価総額230億ドルという記録的な数値を達成しました。スタンフォード大学で博士課程在籍中の1996年に"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P482796D",
+      "person_name": "エドワード・タイラー",
+      "episode_id": "EP-260107221458185",
+      "keyword": "進化論",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ60歳のとき、エドワード・タイラーはオックスフォード大学ピット・リヴァーズ博物館の初代館長に就任しました。1884年、彼が提唱した文化進化論の集大成である「人類学原理」第2版がロンドンで出"
     },
     {
       "type": "achievement_undervalued",
@@ -581,7 +891,7 @@
       "keyword": "アカデミー賞",
       "current_importance": 0.0,
       "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、工藤阿須加は2011年にテレビドラマ「小暴れ小太郎」で俳優デビューを果たした。父親が元プロ野球選手の工藤公康であることから注目を集めたが、彼自身も慶應義塾大学在学中からモデル"
+      "text_preview": "あなたと同じ20歳のとき、工藤阿須加は2011年にテレビドラマ「小暴れ小太郎」で俳優デビューを果たしました。父親が元プロ野球選手の工藤公康であることから注目を集めたが、彼自身も慶應義塾大学在学中からモ"
     },
     {
       "type": "achievement_undervalued",
@@ -592,6 +902,16 @@
       "current_importance": 0.0,
       "expected_importance": 9.0,
       "text_preview": "あなたと同じ20歳のとき、キャシー・ベイツは南メソジスト大学で演劇を学んでいました。1968年、テネシー州メンフィス出身の彼女は、家族の期待する安定した道ではなく、演劇への情熱を追い求める決断をした時"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "PC48F98E",
+      "person_name": "ダコタ・ファニング",
+      "episode_id": "EP-260108064537641",
+      "keyword": "殿堂入り",
+      "current_importance": 0.0,
+      "expected_importance": 9.5,
+      "text_preview": "あなたと同じ80歳のとき、ダコタ・ファニングは2074年にハリウッド殿堂入りを果たしました。アカデミー賞では2001年の「アイ・アム・サム」で史上最年少7歳でのノミネート記録を保持し続けている。207"
     },
     {
       "type": "achievement_undervalued",
@@ -611,10 +931,37 @@
       "keyword": "殿堂入り",
       "current_importance": 0.0,
       "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、ダイワスカーレットは2007年の競馬界で圧倒的な存在感を示していた。同年5月に行われた「ヴィクトリアマイル」では、武豊騎手とのコンビで1分33秒3の好タイムで優勝を果たした。"
+      "text_preview": "あなたと同じ20歳のとき、ダイワスカーレットは2007年の競馬界で圧倒的な存在感を示していました。同年5月に行われた「ヴィクトリアマイル」では、武豊騎手とのコンビで1分33秒3の好タイムで優勝を果たし"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P97F24BFA",
+      "person_name": "ジョエル・コーエン",
+      "episode_id": "EP-260108070946259",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ80歳のとき、ジョエル・コーエンは2024年に弟イーサン・コーエンとの共同監督作品から離れ、単独での映画制作に専念していました。アカデミー賞を4回受賞したコーエン兄弟として、1984年の「"
+    },
+    {
+      "type": "achievement_undervalued",
+      "person_id": "P0BBF0D15",
+      "person_name": "イーサン・コーエン",
+      "episode_id": "EP-260108070946260",
+      "keyword": "アカデミー賞",
+      "current_importance": 0.0,
+      "expected_importance": 9.0,
+      "text_preview": "あなたと同じ80歳のとき、イーサン・コーエンは2023年に弟ジョエル・コーエンとともにカンヌ国際映画祭で名誉パルムドールを受賞しました。コーエン兄弟として1984年の「ブラッド・シンプル」でデビューし"
     }
   ],
   "suggestions": [
+    {
+      "episode_id": "EP-260107171517619",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
+    },
     {
       "episode_id": "EP-260106211319588",
       "field": "episode_importance_score",
@@ -665,11 +1012,60 @@
       "reason": "「ノーヒットノーラン」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107221458192",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107221458193",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846050",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107171517645",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「世界記録」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107032101182",
       "field": "episode_importance_score",
       "current": 0.0,
       "suggested": 9.5,
       "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846056",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846058",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「進化論」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846066",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
     },
     {
       "episode_id": "EP-260107032101186",
@@ -679,11 +1075,32 @@
       "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107182846074",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107023018147",
       "field": "episode_importance_score",
       "current": 0.0,
       "suggested": 9.0,
       "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107183945550",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846090",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
     },
     {
       "episode_id": "EP-260107023018152",
@@ -791,6 +1208,13 @@
       "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107182846097",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「万有引力」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107043018934",
       "field": "episode_importance_score",
       "current": 0.0,
@@ -805,11 +1229,32 @@
       "reason": "「量子力学」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107182846109",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107043018951",
       "field": "episode_importance_score",
       "current": 0.0,
       "suggested": 10.0,
       "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846120",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107182846124",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
     },
     {
       "episode_id": "EP-260107035605072",
@@ -861,7 +1306,21 @@
       "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107183945604",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107043018985",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260108064823920",
       "field": "episode_importance_score",
       "current": 0.0,
       "suggested": 10.0,
@@ -910,6 +1369,13 @@
       "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107221458125",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107004503466",
       "field": "episode_importance_score",
       "current": 0.0,
@@ -924,11 +1390,53 @@
       "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260107221458136",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107221458144",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「進化論」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107221458150",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107221458151",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107221458153",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 10.0,
+      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260107024537301",
       "field": "episode_importance_score",
       "current": 0.0,
       "suggested": 8.0,
       "reason": "「IPO」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260107221458185",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「進化論」は高い歴史的重要性を持つ"
     },
     {
       "episode_id": "EP-260107004503495",
@@ -945,6 +1453,13 @@
       "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     },
     {
+      "episode_id": "EP-260108064537641",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.5,
+      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
+    },
+    {
       "episode_id": "EP-260106222338762",
       "field": "episode_importance_score",
       "current": 0.0,
@@ -957,7 +1472,21 @@
       "current": 0.0,
       "suggested": 9.5,
       "reason": "「殿堂入り」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260108070946259",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
+    },
+    {
+      "episode_id": "EP-260108070946260",
+      "field": "episode_importance_score",
+      "current": 0.0,
+      "suggested": 9.0,
+      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
     }
   ],
-  "checked_at": "2026-01-07T11:33:16.713072"
+  "checked_at": "2026-01-08T10:10:00.553476"
 }

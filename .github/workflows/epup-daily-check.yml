@@ -88,3 +88,93 @@ jobs:
                 labels: ['epup-alert', 'quality']
               });
             }
+
+  quality-regression:
+    name: 品質回帰チェック
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas pytest
+
+      - name: Run Quality Regression Check
+        id: regression
+        run: |
+          python scripts/validation/quality_regression_check.py --json > quality_report.json
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Run Quality Regression Tests
+        run: |
+          pytest tests/test_quality_regression.py -v --tb=short
+        continue-on-error: true
+
+      - name: Upload Quality Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-regression-report-${{ github.run_number }}
+          path: quality_report.json
+          retention-days: 30
+
+      - name: Create Issue on Quality Regression
+        if: steps.regression.outputs.exit_code != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let reportContent = '品質レポートの読み込みに失敗しました';
+
+            try {
+              const report = JSON.parse(fs.readFileSync('quality_report.json', 'utf8'));
+              const results = report.results || {};
+
+              const checks = Object.entries(results).map(([name, data]) => {
+                const status = data.passed ? '✅' : '❌';
+                const details = data.violation_rate !== undefined
+                  ? `${data.violation_rate}% (閾値: ${data.threshold}%)`
+                  : `${data.violation_count}件 (閾値: ${data.threshold}件)`;
+                return `| ${name} | ${status} | ${details} |`;
+              }).join('\n');
+
+              reportContent = `| チェック | 結果 | 詳細 |
+            |---------|------|------|
+            ${checks}`;
+            } catch (e) {
+              console.error('Report parsing error:', e);
+            }
+
+            const body = `## 🚨 品質回帰検出
+
+            **日時**: ${new Date().toISOString()}
+
+            ### チェック結果
+            ${reportContent}
+
+            ### 対応方法
+            1. 丁寧語漏れ: \`python scripts/validation/polite_form_normalizer.py --fix\`
+            2. 私はパターン: \`python scripts/validation/fix_watashi_pattern.py --fix\`
+            3. 再確認: \`python scripts/validation/quality_regression_check.py\`
+
+            ### レポート
+            [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            `;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[品質回帰] 検出 - ${new Date().toISOString().split('T')[0]}`,
+              body: body,
+              labels: ['quality-regression', 'automated']
+            });

@@ -1,0 +1,216 @@
+name: Discover New Persons (Weekly)
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # 毎週日曜12:00 JST (3:00 UTC)
+  workflow_dispatch:
+    inputs:
+      strategy:
+        description: '発見戦略'
+        required: false
+        default: 'wikidata'
+        type: choice
+        options:
+          - wikidata
+          - llm
+          - web_search
+          - combined
+      min_sitelinks:
+        description: '最小sitelinks数'
+        required: false
+        default: '50'
+        type: string
+      max_candidates:
+        description: '最大候補数'
+        required: false
+        default: '10'
+        type: string
+      dry_run:
+        description: 'Dry-run mode (do not commit)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+
+jobs:
+  discover:
+    name: 新規有名人発見
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy requests anthropic
+
+      - name: Set parameters
+        id: params
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "strategy=${{ inputs.strategy }}" >> $GITHUB_OUTPUT
+            echo "min_sitelinks=${{ inputs.min_sitelinks }}" >> $GITHUB_OUTPUT
+            echo "max_candidates=${{ inputs.max_candidates }}" >> $GITHUB_OUTPUT
+            echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
+          else
+            # スケジュール実行時のデフォルト値
+            echo "strategy=wikidata" >> $GITHUB_OUTPUT
+            echo "min_sitelinks=50" >> $GITHUB_OUTPUT
+            echo "max_candidates=10" >> $GITHUB_OUTPUT
+            echo "dry_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Person Discovery
+        id: discover
+        run: |
+          EXECUTE_FLAG=""
+          if [ "${{ steps.params.outputs.dry_run }}" != "true" ]; then
+            EXECUTE_FLAG="--execute"
+          fi
+
+          python scripts/batch/discover_persons.py \
+            --strategy ${{ steps.params.outputs.strategy }} \
+            --min-sitelinks ${{ steps.params.outputs.min_sitelinks }} \
+            --max-candidates ${{ steps.params.outputs.max_candidates }} \
+            $EXECUTE_FLAG
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet preserved/data/MASTER_EPISODES_CURRENT.csv; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit changes
+        if: steps.changes.outputs.has_changes == 'true' && steps.params.outputs.dry_run != 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add preserved/data/MASTER_EPISODES_CURRENT.csv
+          git commit -m "chore: 新規有名人自動追加 ($(date +%Y-%m-%d))"
+          git push
+
+      - name: Upload Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: discovery-reports-${{ github.run_number }}
+          path: src/reports/discovery_report_*.json
+          retention-days: 30
+
+      - name: Create Summary
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const reportsDir = 'src/reports';
+            const reports = fs.readdirSync(reportsDir)
+              .filter(f => f.startsWith('discovery_report_'))
+              .sort()
+              .reverse();
+
+            if (reports.length > 0) {
+              const report = JSON.parse(
+                fs.readFileSync(path.join(reportsDir, reports[0]), 'utf8')
+              );
+
+              const candidateList = report.candidates.slice(0, 10).map(c =>
+                `| ${c.name} | ${c.category} | ${c.sitelinks} | ${c.source} |`
+              ).join('\n');
+
+              const summary = `## 🔍 新規有名人発見レポート
+
+            **実行時刻**: ${report.timestamp}
+            **戦略**: ${report.strategy}
+            **発見数**: ${report.discovered_count}
+            **追加数**: ${report.added_count}
+            **スキップ数**: ${report.skipped_count}
+
+            ### 候補一覧
+            | 名前 | カテゴリ | Sitelinks | ソース |
+            |------|----------|-----------|--------|
+            ${candidateList}
+
+            ### 詳細
+            [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            `;
+
+              await core.summary
+                .addRaw(summary)
+                .write();
+            }
+
+      - name: Create Issue on Discovery
+        if: steps.changes.outputs.has_changes == 'true' && steps.params.outputs.dry_run != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const reportsDir = 'src/reports';
+            const reports = fs.readdirSync(reportsDir)
+              .filter(f => f.startsWith('discovery_report_'))
+              .sort()
+              .reverse();
+
+            if (reports.length > 0) {
+              const report = JSON.parse(
+                fs.readFileSync(path.join(reportsDir, reports[0]), 'utf8')
+              );
+
+              if (report.added_count > 0) {
+                const addedList = report.results
+                  .filter(r => r.success)
+                  .map(r => `- **${r.name}** (${r.person_id})`)
+                  .join('\n');
+
+                const body = `## 🆕 新規有名人が追加されました
+
+            **追加日時**: ${report.timestamp}
+            **戦略**: ${report.strategy}
+            **追加数**: ${report.added_count}
+
+            ### 追加された人物
+            ${addedList}
+
+            ### 次のステップ
+            追加された人物のエピソードを生成するには:
+            \`\`\`bash
+            python scripts/sage/cli.py --person "人物名" --target 5 --execute
+            \`\`\`
+
+            [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            `;
+
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: `[Discovery] 新規有名人追加 - ${new Date().toISOString().split('T')[0]}`,
+                  body: body,
+                  labels: ['discovery', 'automated']
+                });
+              }
+            }

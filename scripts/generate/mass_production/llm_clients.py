@@ -15,13 +15,13 @@ class BaseLLMClient(ABC):
     """LLMクライアント基底クラス"""
 
     @abstractmethod
-    async def generate_async(self, prompt: str) -> str:
+    async def generate_async(self, prompt: str, system_prompt: str | None = None) -> str:
         """非同期でテキスト生成"""
         pass
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt: str, system_prompt: str | None = None) -> str:
         """同期でテキスト生成"""
-        return asyncio.run(self.generate_async(prompt))
+        return asyncio.run(self.generate_async(prompt, system_prompt))
 
 
 class AnthropicClient(BaseLLMClient):
@@ -65,22 +65,48 @@ class AnthropicClient(BaseLLMClient):
         except ImportError:
             raise ImportError("anthropic パッケージがインストールされていません: pip install anthropic")
 
-    async def generate_async(self, prompt: str) -> str:
-        """非同期でテキスト生成"""
-        response = await self.async_client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            messages=[{"role": "user", "content": prompt}],
-        )
+    async def generate_async(self, prompt: str, system_prompt: str | None = None) -> str:
+        """
+        非同期でテキスト生成
+
+        Args:
+            prompt: ユーザープロンプト
+            system_prompt: システムプロンプト（オプション）
+
+        Returns:
+            str: 生成テキスト
+        """
+        kwargs = {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        response = await self.async_client.messages.create(**kwargs)
         return response.content[0].text.strip()
 
-    def generate(self, prompt: str) -> str:
-        """同期でテキスト生成"""
-        response = self.client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            messages=[{"role": "user", "content": prompt}],
-        )
+    def generate(self, prompt: str, system_prompt: str | None = None) -> str:
+        """
+        同期でテキスト生成
+
+        Args:
+            prompt: ユーザープロンプト
+            system_prompt: システムプロンプト（オプション）
+
+        Returns:
+            str: 生成テキスト
+        """
+        kwargs = {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        response = self.client.messages.create(**kwargs)
         return response.content[0].text.strip()
 
     async def generate_with_cache_async(
@@ -231,21 +257,31 @@ class OpenAIClient(BaseLLMClient):
         except ImportError:
             raise ImportError("openai パッケージがインストールされていません: pip install openai")
 
-    async def generate_async(self, prompt: str) -> str:
+    async def generate_async(self, prompt: str, system_prompt: str | None = None) -> str:
         """非同期でテキスト生成"""
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
         response = await self.async_client.chat.completions.create(
             model=self.model,
             max_tokens=self.max_tokens,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
         )
         return response.choices[0].message.content.strip()
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt: str, system_prompt: str | None = None) -> str:
         """同期でテキスト生成"""
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
         response = self.client.chat.completions.create(
             model=self.model,
             max_tokens=self.max_tokens,
-            messages=[{"role": "user", "content": prompt}],
+            messages=messages,
         )
         return response.choices[0].message.content.strip()
 
@@ -281,16 +317,20 @@ class GeminiClient(BaseLLMClient):
                 "google-generativeai パッケージがインストールされていません: " "pip install google-generativeai"
             )
 
-    async def generate_async(self, prompt: str) -> str:
+    async def generate_async(self, prompt: str, system_prompt: str | None = None) -> str:
         """非同期でテキスト生成（同期APIをラップ）"""
         # Gemini SDKは完全な非同期をサポートしていないため、
         # イベントループでブロッキング呼び出しを実行
         loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(None, self.generate, prompt)
+        return await loop.run_in_executor(None, self.generate, prompt, system_prompt)
 
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt: str, system_prompt: str | None = None) -> str:
         """同期でテキスト生成"""
-        response = self.client.generate_content(prompt)
+        # Geminiはsystem promptをユーザープロンプトの前に連結
+        full_prompt = prompt
+        if system_prompt:
+            full_prompt = f"{system_prompt}\n\n{prompt}"
+        response = self.client.generate_content(full_prompt)
         return response.text.strip()
 
 

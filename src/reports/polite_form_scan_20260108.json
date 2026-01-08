@@ -1,0 +1,466 @@
+{
+  "report_id": "POLITE-20260108083841",
+  "generated_at": "2026-01-08T08:38:41.341804",
+  "summary": {
+    "total_episodes": 13640,
+    "scanned_episodes": 13640,
+    "episodes_with_issues": 8282,
+    "issue_rate": "60.7%",
+    "total_issues": 21247
+  },
+  "issues_by_pattern": {
+    "した→しました": 10887,
+    "ていた→ていました": 6523,
+    "だった→でした": 1273,
+    "でいた→でいました": 1059,
+    "かった→かったです": 558,
+    "のだ→のです": 341,
+    "った→りました": 258,
+    "のである→のです": 224,
+    "である→です": 124
+  },
+  "sample_issues": [
+    {
+      "episode_id": "EP-000000506",
+      "person_name": "長渕剛",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "に__QUOTE_0__をリリースしたが、実はこの楽曲は当初レコード会社から__QUOTE_1__と難色を示されていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "かった→かったです",
+          "pattern": "かった。",
+          "matched": "かった。",
+          "sentence_preview": "、あえてシンプルなアコースティックギター一本で勝負したこの楽曲は、社内でも__QUOTE_2__と批判的な声が多かった。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "E039C8603",
+      "person_name": "チェット・ベイカー",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "あなたと同じ23歳のとき、チェット・ベイカーはウエストコースト・ジャズシーンの新星として注目を浴びていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "だった→でした",
+          "pattern": "だった。",
+          "matched": "だった。",
+          "sentence_preview": "オクラホマの小さな町出身の青年は、軍楽隊での経験を経て西海岸に辿り着いたばかりだった。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "だった→でした",
+          "pattern": "だった。",
+          "matched": "だった。",
+          "sentence_preview": "この録音が、後に__QUOTE_1__と呼ばれる伝説の始まりだった。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000005439",
+      "person_name": "チェット・ベイカー",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "しかし彼は楽器を諦める代わりに、入れ歯に慣れるまでの1年間を歌唱力の向上に全て捧げる決断をした。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "この挫折が彼の歌声に深い情感をもたらし、代表作__QUOTE_0__の不朽の名演を生み出した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "E0AB589A3",
+      "person_name": "ムーティ",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "あなたと同じ69歳のとき、ムーティはシカゴ交響楽団の音楽監督に就任し、新たな挑戦に身を投じていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "就任記念コンサートでは、得意とするヴェルディの__QUOTE_0__序曲を指揮した。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "初日の公演後、楽屋で一人になったムーティは、30年以上前にスカラ座で初めて指揮台に立った日のことを思い出していた。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000005989",
+      "person_name": "ルートヴィヒ・ヴァン・ベートーヴェン",
+      "issues": [
+        {
+          "rule_name": "った→りました",
+          "pattern": "([らりるれろわをん])った。",
+          "matched": "わった。",
+          "sentence_preview": "ートヴィヒ・ヴァン・ベートーヴェンは1805年、聴覚をほぼ完全に失った絶望の中で『フィデリオ』の初演が大失敗に終わった。",
+          "risk_level": "high"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "そして内なる情熱だけを頼りに、後に__QUOTE_1__と呼ばれる革命的な第5交響曲の作曲を開始した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000008983",
+      "person_name": "GACKT",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "き、GACKTは1999年、MALICE MIZERのボーカルとして絶頂期にありながら、突然バンドを脱退すると発表した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "EA7C818E8",
+      "person_name": "山田和樹",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "あなたと同じ45歳のとき、山田和樹は英国バーミンガムのコンサートホールで、オーケストラメンバーたちと向き合っていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "を胸に、彼は東洋人として初めてこの名門オーケストラを率いる重責を感じながらも、純粋に音楽と向き合う喜びを噛みしめていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "のである→のです",
+          "pattern": "のである。",
+          "matched": "のである。",
+          "sentence_preview": "その瞬間、真の指揮者としての新たな章が始まったのである。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000004805",
+      "person_name": "内村航平",
+      "issues": [
+        {
+          "rule_name": "でいた→でいました",
+          "pattern": "でいた。",
+          "matched": "でいた。",
+          "sentence_preview": "あなたと同じ27歳のとき、内村航平は世界選手権6連覇という偉業に挑んでいた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "かった→かったです",
+          "pattern": "かった。",
+          "matched": "かった。",
+          "sentence_preview": "それでも彼は諦めなかった。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "痛み止めを打ちながら毎日6時間の練習を続け、技の構成を変更してでも金メダルを目指した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "E13ED81B3",
+      "person_name": "五嶋みどり",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "あなたと同じ14歳のとき、五嶋みどりは音楽史に残る奇跡を起こした。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "それでも彼女は冷静さを保ち、今度は副コンサートマスターの楽器で演奏を完遂した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "E142BE6D8",
+      "person_name": "マルタ・アルゲリッチ",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "あなたと同じ60歳のとき、マルタ・アルゲリッチは日本への深い愛情を込めて別府マルタ・アルゲリッチ音楽祭を創設した。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "世界的ピアニストは__QUOTE_0__という信念のもと、大分県別府市という温泉地に新たな音楽の聖地を築こうと決意した。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "創設当初、マルタ・アルゲリッチは自ら若手音楽家たちの指導にあたり、__QUOTE_1__と語っていた。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000007614",
+      "person_name": "マルタ・アルゲリッチ",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "あなたと同じ35歳のとき、マルタ・アルゲリッチは1976年、突然すべてのコンサートをキャンセルし音楽界から姿を消した。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "だった→でした",
+          "pattern": "だった。",
+          "matched": "だった。",
+          "sentence_preview": "ショパンコンクール優勝から11年、頂点にいた彼女が選んだのは完全な沈黙だった。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "った→りました",
+          "pattern": "([らりるれろわをん])った。",
+          "matched": "わった。",
+          "sentence_preview": "その演奏は__QUOTE_0__と評され、真の芸術家として生まれ変わった。",
+          "risk_level": "high"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000005512",
+      "person_name": "イツァーク・パールマン",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "この伝説的な演奏は__QUOTE_0__を世界に示した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "E18EE0EDF",
+      "person_name": "バディ・リッチ",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "あなたと同じ49歳のとき、バディ・リッチは新たな挑戦に燃えていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "のだ→のです",
+          "pattern": "のだ。",
+          "matched": "のだ。",
+          "sentence_preview": "1966年、長年在籍したトミー・ドーシー楽団を離れ、自身のビッグバンドを結成することを決意したのだ。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "__QUOTE_1__その瞬間、彼の目には新たな可能性への確信が宿っていた。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "E1BFCCD8E",
+      "person_name": "アルフレート・ブレンデル",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "演奏前、楽屋で__QUOTE_0__と静かに語った彼の表情には、一抹の寂しさと深い満足感が混在していた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "のである→のです",
+          "pattern": "のである。",
+          "matched": "のである。",
+          "sentence_preview": "完璧主義者として知られた彼は、技術の衰えを感じる前に舞台を去ることを選んだのである。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000007603",
+      "person_name": "アルフレート・ブレンデル",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "は1976年、ベートーヴェン全32曲のピアノソナタ録音を完成させた直後、自分の演奏に満足できず全てを破棄すると宣言した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000000123",
+      "person_name": "湯川秀樹",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "なたと同じ42歳のとき、湯川秀樹は1949年10月、ノーベル物理学賞受賞の知らせを受けた瞬間、実は深い困惑に陥っていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "だった→でした",
+          "pattern": "だった。",
+          "matched": "だった。",
+          "sentence_preview": "中間子理論を発表した1935年当時、日本の物理学界では__QUOTE_0__と酷評され、京都大学内でも孤立状態だった。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "さらに彼自身、数学が苦手で実験も不得意という物理学者としては致命的な弱点を抱えていた。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "E8D1BB8AF",
+      "person_name": "カラヤン",
+      "issues": [
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "あなたと同じ60歳のとき、カラヤンは1968年、ベルリン・フィルハーモニー管弦楽団の芸術監督として絶頂期を迎えていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "カラヤンの目には、音楽への情熱と責任の重さが混じった複雑な光が宿っていた。",
+          "risk_level": "low"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000007604",
+      "person_name": "カラヤン",
+      "issues": [
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "プライドを捨て、初めて楽団員一人ひとりと個別に対話を重ね、指揮スタイルを根本から見直す決断をした。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "EP-000007613",
+      "person_name": "アバド",
+      "issues": [
+        {
+          "rule_name": "った→りました",
+          "pattern": "([らりるれろわをん])った。",
+          "matched": "わった。",
+          "sentence_preview": "あなたと同じ50歳のとき、アバドは1983年、ベルリン・フィルの音楽監督候補から外されるという屈辱を味わった。",
+          "risk_level": "high"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "しかし彼はこの挫折を機に、従来の権威的な指揮スタイルを完全に捨て去り、楽団員との対話を重視する革新的な手法を編み出した。",
+          "risk_level": "medium"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "20年後の2002年、ついにベルリン・フィル音楽監督に就任し、民主的なオーケストラ運営で楽団を変革した。",
+          "risk_level": "medium"
+        }
+      ]
+    },
+    {
+      "episode_id": "E2665C586",
+      "person_name": "マッコイ・タイナー",
+      "issues": [
+        {
+          "rule_name": "のだ→のです",
+          "pattern": "のだ。",
+          "matched": "のだ。",
+          "sentence_preview": "1960年のある日、ジョン・コルトレーンから直接カルテットへの参加を打診されたのだ。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "ていた→ていました",
+          "pattern": "ていた。",
+          "matched": "ていた。",
+          "sentence_preview": "ィアで育ったタイナーは、既に地元では注目される若手ピアニストだったが、コルトレーンという巨匠からの誘いに内心震えていた。",
+          "risk_level": "low"
+        },
+        {
+          "rule_name": "した→しました",
+          "pattern": "(?<!ま)(?<!で)した。",
+          "matched": "した。",
+          "sentence_preview": "てのレコーディングセッションでは、コルトレーンの革新的な音楽性についていくため、従来のピアノの弾き方を根本から見直した。",
+          "risk_level": "medium"
+        }
+      ]
+    }
+  ]
+}

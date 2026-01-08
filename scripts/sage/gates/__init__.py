@@ -83,6 +83,13 @@ from .perplexity_fact_checker import (
     PerplexityFactChecker,
     perplexity_fact_check,
 )
+from .polite_form import (
+    PoliteFormCheckResult,
+    auto_fix_polite_form,
+    check_and_fix_polite_form,
+    check_polite_form,
+    gate_check as polite_form_gate_check,
+)
 
 __all__ = [
     # Anti-Gaming
@@ -153,4 +160,10 @@ __all__ = [
     "NarrativeBalanceResult",
     "classify_story",
     "analyze_narrative_balance",
+    # Polite Form (丁寧語チェック)
+    "PoliteFormCheckResult",
+    "check_polite_form",
+    "auto_fix_polite_form",
+    "check_and_fix_polite_form",
+    "polite_form_gate_check",
 ]

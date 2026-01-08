@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pandas as pd
 
-CSV_PATH = Path(__file__).parent.parent / "MASTER_EPISODES_CURRENT.csv"
+CSV_PATH = Path(__file__).parent.parent.parent / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 
 
 def calculate_composite_score(row: pd.Series) -> float:

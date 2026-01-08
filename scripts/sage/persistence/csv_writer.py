@@ -129,15 +129,39 @@ class SafeCSVWriter:
 
         return True, ""
 
-    def _check_duplicate(self, row: dict, existing_df: pd.DataFrame) -> bool:
-        """重複チェック"""
+    def _check_duplicate(self, row: dict, existing_df: pd.DataFrame) -> tuple[bool, str]:
+        """
+        重複チェック（EPUP再発防止強化版）
+
+        Args:
+            row: 書き込み対象の行
+            existing_df: 既存データ
+
+        Returns:
+            (is_duplicate: bool, reason: str)
+        """
         if existing_df.empty:
-            return False
+            return False, ""
 
-        # 同一人物・同一年齢
-        duplicates = existing_df[(existing_df["person_id"] == row["person_id"]) & (existing_df["age"] == row["age"])]
+        person_id = row.get("person_id", "")
+        age = row.get("age")
 
-        return not duplicates.empty
+        if not person_id or age is None:
+            return False, ""
+
+        # 同一人物・同一年齢チェック（EPUP: 1人1年齢1エピソード原則）
+        duplicates = existing_df[(existing_df["person_id"] == person_id) & (existing_df["age"] == age)]
+
+        if not duplicates.empty:
+            existing_ep = duplicates.iloc[0]
+            reason = (
+                f"EPUP違反: 同一人物×同一年齢のエピソード既存 - "
+                f"person_id={person_id}, age={age}, "
+                f"existing_ep={existing_ep.get('episode_id', 'unknown')}"
+            )
+            return True, reason
+
+        return False, ""
 
     def dry_run(self, results: list[GenerationResult]) -> WriteResult:
         """
@@ -172,8 +196,9 @@ class SafeCSVWriter:
                 skipped_count += 1
                 continue
 
-            # 重複チェック
-            if self._check_duplicate(row, existing_df):
+            # 重複チェック（EPUP: 1人1年齢1エピソード原則）
+            is_dup, dup_reason = self._check_duplicate(row, existing_df)
+            if is_dup:
                 skipped_count += 1
                 continue
 

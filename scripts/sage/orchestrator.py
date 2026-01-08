@@ -31,6 +31,7 @@ from .gates import (
     DuplicateDetector,
     FactChecker,
 )
+from .gates.polite_form import auto_fix_polite_form
 from .persistence import SafeCSVWriter, WriteResult
 from .inventory_manager import InventoryManager, ReplacementTarget
 from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
@@ -302,6 +303,23 @@ class HybridOrchestrator:
                 }
             )
 
+        # 2.5. 同一人物×同一年齢の重複チェック（生成前 - EPUP再発防止）
+        # 既に同じ人物・同じ年齢のエピソードが存在する場合は生成をスキップ
+        pre_dup_check = self._duplicate_detector.check_exact_duplicate(candidate.person_id, candidate.age)
+        if pre_dup_check.is_duplicate:
+            logger.info(
+                f"EPUP: 同一年齢重複スキップ - {candidate.person_name}({candidate.age}歳) "
+                f"既存EP: {pre_dup_check.most_similar_episode_id}"
+            )
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "reason": RejectionReason.SAME_AGE_DUPLICATE.value,
+                    "message": f"同一年齢エピソード既存: {pre_dup_check.most_similar_episode_id}",
+                }
+            )
+
         # 3. 生成
         result = self._router.route(candidate)
 
@@ -314,6 +332,13 @@ class HybridOrchestrator:
                     "message": result.error_message,
                 }
             )
+
+        # 3.5. Phase 2最適化: 軽量表層修正（LLMコスト0で品質向上）
+        # 敬体/常体統一、句読点、文末の自動修正
+        original_text = result.episode_text
+        result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
+        if result.episode_text != original_text:
+            logger.debug(f"表層修正適用: {candidate.person_name}({candidate.age}歳)")
 
         # 4. 禁止パターンチェック
         pattern_check = check_prohibited_patterns(result.episode_text)
@@ -378,21 +403,64 @@ class HybridOrchestrator:
             )
 
         # 8. 品質ゲートチェック（Phase 13: カテゴリ別閾値対応）
-        if result.evaluation:
-            gate_result = self._evaluator.check_quality_gates(
-                result.evaluation.axis_scores,
-                category=candidate.category,
-                use_category=self.config.use_category_thresholds,
-            )
-            if not gate_result.passed:
-                return ProcessingResult(
-                    rejection={
-                        "person_id": candidate.person_id,
-                        "person_name": candidate.person_name,
-                        "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
-                        "message": ", ".join(gate_result.failures),
-                    }
+        # Phase 3最適化: LOW_GENERATION_QUALITYの場合1回リトライ
+        retry_count = 0
+        max_retry = 1
+
+        while True:
+            if result.evaluation:
+                gate_result = self._evaluator.check_quality_gates(
+                    result.evaluation.axis_scores,
+                    category=candidate.category,
+                    use_category=self.config.use_category_thresholds,
                 )
+                if not gate_result.passed:
+                    # Phase 3: LOW_GENERATION_QUALITYの場合のみリトライ可能
+                    is_retryable = (
+                        gate_result.reason == RejectionReason.LOW_GENERATION_QUALITY and retry_count < max_retry
+                    )
+
+                    if is_retryable:
+                        retry_count += 1
+                        logger.info(
+                            f"品質ゲート失敗、リトライ({retry_count}/{max_retry}): "
+                            f"{candidate.person_name}({candidate.age}歳) - {', '.join(gate_result.failures)}"
+                        )
+
+                        # 再生成
+                        result = self._router.route(candidate)
+                        if not result.success:
+                            return ProcessingResult(
+                                rejection={
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "reason": RejectionReason.GENERATION_ERROR.value,
+                                    "message": f"リトライ失敗: {result.error_message}",
+                                }
+                            )
+
+                        # 表層修正を再適用
+                        original_text = result.episode_text
+                        result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
+                        if result.episode_text != original_text:
+                            logger.debug(f"リトライ後表層修正適用: {candidate.person_name}({candidate.age}歳)")
+
+                        # ループ継続（再評価へ）
+                        continue
+
+                    # リトライ不可または回数上限到達
+                    return ProcessingResult(
+                        rejection={
+                            "person_id": candidate.person_id,
+                            "person_name": candidate.person_name,
+                            "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
+                            "message": ", ".join(gate_result.failures)
+                            + (f" (リトライ{retry_count}回後)" if retry_count > 0 else ""),
+                        }
+                    )
+
+            # 品質ゲート通過
+            break
 
         # 9. 超総合スコア計算
         if result.evaluation:

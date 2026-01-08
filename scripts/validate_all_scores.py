@@ -44,8 +44,8 @@ SCORE_SPECS = [
     ScoreSpec("llm_empathy_score", 0, 10, "0-10"),
     ScoreSpec("llm_surprise_score", 0, 10, "0-10"),
     ScoreSpec("llm_generation_quality_score", 0, 10, "0-10"),
-    # 0-100 スケール
-    ScoreSpec("fame_score", 0, 100, "0-100"),
+    # 0-100 スケール (fame_scoreはv3と同期のため0-1000)
+    ScoreSpec("fame_score", 0, 1000, "0-1000"),  # v3と同期済み
     ScoreSpec("fame_score_v2", 0, 100, "0-100"),
     ScoreSpec("impressiveness_score", 0, 100, "0-100"),
     # 0-500 スケール

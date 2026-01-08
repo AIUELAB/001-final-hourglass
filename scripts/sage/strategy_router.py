@@ -96,11 +96,13 @@ class StrategyRouter:
         use_mock: bool = False,
         use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
         use_compact_prompt: bool = True,  # Phase 10: 圧縮版プロンプト使用
+        enable_cache: bool = True,  # H4最適化: Prompt Caching
     ):
         self.strategy = strategy
         self.use_mock = use_mock
         self.use_haiku_evaluation = use_haiku_evaluation
         self.use_compact_prompt = use_compact_prompt
+        self.enable_cache = enable_cache
         self._stats = StrategyStats(strategy=strategy)
 
         # アダプター初期化
@@ -110,6 +112,7 @@ class StrategyRouter:
             self._epgen = EPGENAdapter(
                 use_haiku_evaluation=use_haiku_evaluation,
                 use_compact_prompt=use_compact_prompt,
+                enable_cache=enable_cache,  # H4: Prompt Caching
             )
         self._legacy = LegacyGeneratorAdapter()
 
@@ -343,6 +346,7 @@ def create_router(
     use_mock: bool = False,
     use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
     use_compact_prompt: bool = True,  # Phase 10: 圧縮版プロンプト使用
+    enable_cache: bool = True,  # H4最適化: Prompt Caching
 ) -> StrategyRouter:
     """
     ルーターを作成
@@ -352,6 +356,7 @@ def create_router(
         use_mock: モックを使用するか
         use_haiku_evaluation: 評価にHaikuを使用（True=コスト-92%、False=Sonnet高精度）
         use_compact_prompt: 圧縮版プロンプト使用（True=-60%トークン, False=通常版）
+        enable_cache: Prompt Caching有効化（True=-25%コスト, 同一人物連続処理時）
 
     Returns:
         StrategyRouter: ルーター
@@ -362,4 +367,5 @@ def create_router(
         use_mock=use_mock,
         use_haiku_evaluation=use_haiku_evaluation,
         use_compact_prompt=use_compact_prompt,
+        enable_cache=enable_cache,
     )

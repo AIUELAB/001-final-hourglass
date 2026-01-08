@@ -68,6 +68,10 @@ class PersonDiscoverer:
 
         logger.info(f"Loaded {len(self._existing_names)} existing persons")
 
+    def get_existing_names(self) -> set[str]:
+        """既存人物名のセットを取得"""
+        return self._existing_names.copy()
+
     def _generate_person_id(self, name: str) -> str:
         """person_nameからperson_idを生成"""
         hash_obj = hashlib.md5(name.encode("utf-8"), usedforsecurity=False)

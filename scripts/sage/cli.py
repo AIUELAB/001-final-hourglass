@@ -215,6 +215,33 @@ def parse_args():
         help="最大発見候補数（default: 20）",
     )
 
+    # Phase 12: Turboモード（レート制限まで自動生成）
+    parser.add_argument(
+        "--turbo",
+        action="store_true",
+        help="Turboモード（レート制限まで自動生成）",
+    )
+
+    parser.add_argument(
+        "--cost-limit",
+        type=float,
+        default=10.0,
+        help="コスト上限 USD（default: 10.0）",
+    )
+
+    parser.add_argument(
+        "--time-limit",
+        type=int,
+        default=60,
+        help="時間上限 分（default: 60）",
+    )
+
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="チェックポイントから再開",
+    )
+
     return parser.parse_args()
 
 
@@ -363,6 +390,62 @@ def main():
 
         if dry_run:
             print(f"\n実際に追加するには: --discover --discovery-strategy {args.discovery_strategy} --execute")
+
+        return
+
+    # Phase 12: Turboモード処理
+    if args.turbo:
+        from scripts.sage.turbo_engine import TurboConfig, TurboEngine
+
+        print(f"\n{'=' * 60}")
+        print("SAGE Turbo - 自動連続生成エンジン")
+        print(f"{'=' * 60}")
+        print(f"コスト上限: ${args.cost_limit:.2f}")
+        print(f"時間上限: {args.time_limit}分")
+        print(f"チェックポイント再開: {'有効' if args.resume else '無効'}")
+        print(f"モード: {'dry-run（確認のみ）' if dry_run else '実行'}")
+        print(f"{'=' * 60}\n")
+
+        turbo_config = TurboConfig(
+            cost_limit_usd=args.cost_limit,
+            time_limit_minutes=args.time_limit,
+            dry_run=dry_run,
+            fictional_enabled=args.fictional,
+        )
+
+        engine = TurboEngine(turbo_config)
+
+        # チェックポイントから再開
+        if args.resume:
+            if engine.resume_from_checkpoint():
+                print("✅ チェックポイントから再開")
+            else:
+                print("⚠️ チェックポイントなし - 新規開始")
+
+        # 実行
+        try:
+            report = engine.run()
+        except KeyboardInterrupt:
+            print("\n⚠️ ユーザーによる中断")
+            report = engine._generate_report()
+
+        # 結果表示
+        print(f"\n{'=' * 60}")
+        print("Turbo 実行結果")
+        print(f"{'=' * 60}")
+        print(f"実行時間: {report.duration_minutes:.1f}分")
+        print(f"生成数: {report.total_generated}")
+        print(f"採用数: {report.total_accepted}")
+        print(f"棄却数: {report.total_rejected}")
+        print(f"採用率: {report.acceptance_rate:.1%}")
+        print(f"総コスト: ${report.total_cost_usd:.4f}")
+        if report.total_accepted > 0:
+            print(f"エピソード単価: ${report.cost_per_episode_usd:.4f}")
+        print(f"レート制限回数: {report.rate_limit_count}")
+        print(f"停止理由: {report.stop_reason}")
+
+        if report.checkpoint_path:
+            print(f"\nチェックポイント: {report.checkpoint_path}")
 
         return
 

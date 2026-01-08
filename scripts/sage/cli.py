@@ -186,6 +186,35 @@ def parse_args():
         help="人物のカテゴリ指定（--add-person使用時、default: その他）",
     )
 
+    # Phase 11: 自動人物発見機能
+    parser.add_argument(
+        "--discover",
+        action="store_true",
+        help="新規有名人を自動発見",
+    )
+
+    parser.add_argument(
+        "--discovery-strategy",
+        type=str,
+        choices=["wikidata", "llm", "web_search", "combined"],
+        default="combined",
+        help="発見戦略（default: combined）",
+    )
+
+    parser.add_argument(
+        "--min-sitelinks",
+        type=int,
+        default=30,
+        help="最小sitelinks数（default: 30）",
+    )
+
+    parser.add_argument(
+        "--max-discover",
+        type=int,
+        default=20,
+        help="最大発見候補数（default: 20）",
+    )
+
     return parser.parse_args()
 
 
@@ -286,6 +315,54 @@ def main():
                 print(f"\n実際に追加するには: --add-person '{args.add_person}' --execute")
         else:
             print(f"❌ {result.message}")
+
+        return
+
+    # Phase 11: 自動人物発見処理
+    if args.discover:
+        from scripts.sage.person_discovery_engine import DiscoveryConfig, DiscoveryStrategy, PersonDiscoveryEngine
+
+        print(f"\n{'=' * 60}")
+        print("自動人物発見")
+        print(f"{'=' * 60}")
+        print(f"戦略: {args.discovery_strategy}")
+        print(f"最小sitelinks: {args.min_sitelinks}")
+        print(f"最大候補数: {args.max_discover}")
+        print(f"モード: {'dry-run（確認のみ）' if dry_run else '実行'}")
+        print(f"{'=' * 60}\n")
+
+        config = DiscoveryConfig(
+            strategy=DiscoveryStrategy(args.discovery_strategy),
+            min_sitelinks=args.min_sitelinks,
+            max_candidates=args.max_discover,
+            categories=[args.category] if args.category != "その他" else [],
+            dry_run=dry_run,
+        )
+
+        engine = PersonDiscoveryEngine(config)
+        report = engine.run(dry_run=dry_run)
+
+        # 結果表示
+        print(f"\n{'=' * 60}")
+        print("発見結果")
+        print(f"{'=' * 60}")
+        print(f"発見候補数: {report.discovered_count}")
+        print(f"追加数: {report.added_count}")
+        print(f"スキップ数: {report.skipped_count}")
+
+        if report.candidates:
+            print("\n候補一覧:")
+            for c in report.candidates[:10]:
+                print(f"  - {c['name']} ({c['category']}) sitelinks={c['sitelinks']} [{c['source']}]")
+            if len(report.candidates) > 10:
+                print(f"  ... 他 {len(report.candidates) - 10} 件")
+
+        # レポート保存
+        report_path = engine.save_report(report)
+        print(f"\nレポート: {report_path}")
+
+        if dry_run:
+            print(f"\n実際に追加するには: --discover --discovery-strategy {args.discovery_strategy} --execute")
 
         return
 

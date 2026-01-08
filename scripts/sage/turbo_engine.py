@@ -15,6 +15,7 @@ from typing import Any, Optional
 
 from .config import HybridConfig, Strategy
 from .orchestrator import GenerationRun, HybridOrchestrator
+from .pre_generation_rules import Candidate as PreRulesCandidate, PreGenerationRules
 
 logger = logging.getLogger(__name__)
 
@@ -111,6 +112,9 @@ class TurboReport:
     batch_count: int
     stop_reason: str
     checkpoint_path: Optional[str] = None
+    # Phase 1最適化: 生成前フィルタ統計
+    pre_filter_stats: dict[str, int] = field(default_factory=dict)
+    pre_filter_saved_cost_usd: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -139,6 +143,10 @@ class TurboEngine:
             fictional_enabled=self.config.fictional_enabled,
         )
         self.orchestrator = HybridOrchestrator(hybrid_config)
+
+        # Phase 1最適化: 生成前フィルタ
+        self._pre_rules = PreGenerationRules()
+        self._pre_filter_stats: dict[str, int] = {}  # {reason: count}
 
         # 開始時刻
         self._start_time: Optional[datetime] = None
@@ -236,21 +244,47 @@ class TurboEngine:
         return (datetime.now() - self._start_time).total_seconds() / 60
 
     def _get_next_batch(self) -> list:
-        """次のバッチの候補を取得"""
-        # 処理済みを除外して候補を取得
+        """次のバッチの候補を取得（Phase 1最適化版 + H4キャッシュ最適化）"""
+        # 処理済みを除外して候補を取得（余裕を持って3倍取得）
         all_candidates = self.orchestrator.get_recommended_candidates(
-            self.state.current_batch_size * 2  # 余裕を持って取得
+            self.state.current_batch_size * 3
         )
 
-        # 処理済みを除外
+        # 処理済みを除外 + 生成前フィルタ適用
         processed_set = set(self.state.candidates_processed)
-        candidates = []
+        filtered_candidates = []
+
         for c in all_candidates:
             key = f"{c.person_id}:{c.age}"
-            if key not in processed_set:
-                candidates.append(c)
-            if len(candidates) >= self.state.current_batch_size:
-                break
+            if key in processed_set:
+                continue
+
+            # 【Phase 1最適化】生成前ルールチェック（LLMコスト0で棄却予測）
+            # 型変換（adapters.base.Candidate → pre_generation_rules.Candidate）
+            pre_candidate = PreRulesCandidate(
+                person_id=c.person_id,
+                person_name=c.person_name,
+                age=c.age,
+                category=c.category,
+                person_type=c.person_type,
+                birth_year=c.birth_year,
+                death_year=c.death_year,
+            )
+            rule_result = self._pre_rules.check_all(pre_candidate)
+            if not rule_result.passed:
+                reason = rule_result.reason.value if rule_result.reason else "unknown"
+                self._pre_filter_stats[reason] = self._pre_filter_stats.get(reason, 0) + 1
+                logger.debug(f"生成前フィルタ除外: {c.person_name}({c.age}歳) - {reason}")
+                continue  # LLMコストなしでスキップ
+
+            filtered_candidates.append(c)
+
+        # 【H4最適化】person_id順にソート（Prompt Caching効率化）
+        # 同一人物の複数年齢を連続処理することでキャッシュヒット率向上
+        filtered_candidates.sort(key=lambda x: (x.person_id, x.age))
+
+        # バッチサイズ分を取得
+        candidates = filtered_candidates[: self.state.current_batch_size]
 
         return candidates
 
@@ -391,10 +425,14 @@ class TurboEngine:
         acceptance_rate = (
             self.state.total_accepted / self.state.total_generated if self.state.total_generated > 0 else 0
         )
+        # 生成前フィルタ統計
+        pre_filter_total = sum(self._pre_filter_stats.values())
+        pre_filter_info = f" 事前除外={pre_filter_total}" if pre_filter_total > 0 else ""
+
         logger.info(
             f"進捗: 生成={self.state.total_generated} "
             f"採用={self.state.total_accepted} "
-            f"(採用率: {acceptance_rate:.1%}) "
+            f"(採用率: {acceptance_rate:.1%}){pre_filter_info} "
             f"コスト=${self.state.total_cost_usd:.3f} "
             f"経過={self._elapsed_minutes():.1f}分"
         )
@@ -409,6 +447,11 @@ class TurboEngine:
         )
 
         cost_per_episode = self.state.total_cost_usd / self.state.total_accepted if self.state.total_accepted > 0 else 0
+
+        # Phase 1最適化: 生成前フィルタで節約したコストを推定
+        # 平均1件あたり約$0.005のLLMコスト（生成+評価）を節約
+        pre_filter_total = sum(self._pre_filter_stats.values())
+        pre_filter_saved_cost = pre_filter_total * 0.005
 
         return TurboReport(
             start_time=self._start_time.isoformat() if self._start_time else "",
@@ -426,6 +469,8 @@ class TurboEngine:
             batch_count=self.state.batch_count,
             stop_reason=self._stop_reason,
             checkpoint_path=checkpoint_path,
+            pre_filter_stats=self._pre_filter_stats.copy(),
+            pre_filter_saved_cost_usd=pre_filter_saved_cost,
         )
 
 
@@ -517,4 +562,12 @@ if __name__ == "__main__":
     print(f"1件あたりコスト: ${report.cost_per_episode_usd:.4f}")
     print(f"レート制限回数: {report.rate_limit_count}")
     print(f"チェックポイント: {report.checkpoint_path}")
+    # Phase 1最適化: 生成前フィルタ統計
+    if report.pre_filter_stats:
+        pre_filter_total = sum(report.pre_filter_stats.values())
+        print(f"\n--- 生成前フィルタ（Phase 1最適化）---")
+        print(f"事前除外件数: {pre_filter_total}")
+        print(f"節約コスト: ${report.pre_filter_saved_cost_usd:.3f}")
+        for reason, count in sorted(report.pre_filter_stats.items(), key=lambda x: -x[1]):
+            print(f"  {reason}: {count}件")
     print(f"{'=' * 60}")

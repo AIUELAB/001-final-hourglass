@@ -15,10 +15,13 @@ from .config import FORBIDDEN_PATTERNS, GenerationConfig, REQUIRED_PATTERNS
 
 # システムプロンプト取得関数をインポート
 try:
-    from scripts.sage.prompts.category_prompts import get_system_prompt
+    from scripts.sage.prompts.category_prompts import get_system_prompt, get_static_system_prompt
 except ImportError:
     # フォールバック: 関数が見つからない場合はNoneを返す
     def get_system_prompt(person_name: str, age: int) -> str | None:
+        return None
+
+    def get_static_system_prompt() -> str | None:
         return None
 
 
@@ -262,14 +265,23 @@ class ParallelGenerator:
         llm_client: Any,
         config: Optional[GenerationConfig] = None,
         prompt_builder: Optional[PromptBuilder] = None,
+        enable_cache: bool = False,  # H4最適化: Prompt Caching
     ):
         self.llm = llm_client
         self.config = config or GenerationConfig()
+        self.enable_cache = enable_cache  # H4: キャッシュ有効化フラグ
         # Phase 2: 設定に応じてプロンプトビルダー選択
         if prompt_builder is not None:
             self.prompt_builder = prompt_builder
         else:
             self.prompt_builder = create_prompt_builder(compact=self.config.use_compact_prompt)
+
+        # H4: キャッシュ統計
+        self.cache_stats = {
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "total_cached_requests": 0,
+        }
 
     async def generate_batch(
         self,
@@ -290,8 +302,11 @@ class ParallelGenerator:
                 style = self._get_style_for_variation(variation)
                 prompt = self.prompt_builder.build(input_data, style, variation)
 
-                # システムプロンプトを生成（丁寧語・私は禁止ルール）
-                system_prompt = get_system_prompt(input_data.person_name, input_data.age)
+                # H4最適化: キャッシュモード時は静的システムプロンプトを使用
+                if self.enable_cache:
+                    system_prompt = get_static_system_prompt()
+                else:
+                    system_prompt = get_system_prompt(input_data.person_name, input_data.age)
 
                 start_time = time.time()
                 try:
@@ -340,10 +355,21 @@ class ParallelGenerator:
 
         for attempt in range(self.config.max_retries):
             try:
-                text = await asyncio.wait_for(
-                    self.llm.generate_async(prompt, system_prompt),
-                    timeout=self.config.timeout_seconds,
-                )
+                # H4最適化: キャッシュモード時はキャッシュ付き生成を使用
+                if self.enable_cache and system_prompt and hasattr(self.llm, "generate_with_cache_async"):
+                    text, cache_info = await asyncio.wait_for(
+                        self.llm.generate_with_cache_async(system_prompt, prompt),
+                        timeout=self.config.timeout_seconds,
+                    )
+                    # キャッシュ統計を更新
+                    self.cache_stats["cache_creation_input_tokens"] += cache_info.get("cache_creation", 0)
+                    self.cache_stats["cache_read_input_tokens"] += cache_info.get("cache_read", 0)
+                    self.cache_stats["total_cached_requests"] += 1
+                else:
+                    text = await asyncio.wait_for(
+                        self.llm.generate_async(prompt, system_prompt),
+                        timeout=self.config.timeout_seconds,
+                    )
                 return text
             except asyncio.TimeoutError:
                 last_error = f"Timeout after {self.config.timeout_seconds}s"

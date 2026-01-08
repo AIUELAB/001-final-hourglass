@@ -42,11 +42,17 @@ class EPGENAdapter(GeneratorAdapter):
     # 象徴的業績マスターデータのパス
     ICONIC_ACHIEVEMENTS_PATH = PROJECT_ROOT / "preserved" / "data" / "iconic_achievements_master.json"
 
-    def __init__(self, use_haiku_evaluation: bool = True, use_compact_prompt: bool = True):
+    def __init__(
+        self,
+        use_haiku_evaluation: bool = True,
+        use_compact_prompt: bool = True,
+        enable_cache: bool = True,  # H4最適化: Prompt Caching（デフォルト有効）
+    ):
         """
         Args:
             use_haiku_evaluation: 評価にHaikuを使用（True=低コスト-92%, False=Sonnet高精度）
             use_compact_prompt: 圧縮版プロンプト使用（True=-60%トークン, False=通常版）
+            enable_cache: Prompt Caching有効化（True=-25%コスト, 同一人物連続処理時）
         """
         super().__init__("epgen", GeneratorType.EPGEN)
         self._generator = None
@@ -54,6 +60,7 @@ class EPGENAdapter(GeneratorAdapter):
         self._prompt_builder = None
         self._use_haiku_evaluation = use_haiku_evaluation
         self._use_compact_prompt = use_compact_prompt  # Phase 10: 圧縮版プロンプト
+        self._enable_cache = enable_cache  # H4最適化: Prompt Caching
         # Phase 3: 評価モデル名を追跡
         self._eval_model_name = "claude-3-5-haiku-20241022" if use_haiku_evaluation else "claude-sonnet-4-20250514"
         # 象徴的業績データ（遅延読み込み）
@@ -141,8 +148,15 @@ class EPGENAdapter(GeneratorAdapter):
                 if not api_key:
                     raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
 
-                llm_client = AnthropicClient(api_key=api_key)
-                self._generator = ParallelGenerator(llm_client=llm_client)
+                # H4最適化: キャッシュ有効時はenable_cache=Trueを指定
+                llm_client = AnthropicClient(
+                    api_key=api_key,
+                    enable_cache=self._enable_cache,
+                )
+                self._generator = ParallelGenerator(
+                    llm_client=llm_client,
+                    enable_cache=self._enable_cache,  # H4: Prompt Caching
+                )
             except ImportError as e:
                 raise ImportError(
                     f"Failed to import ParallelGenerator: {e}. "

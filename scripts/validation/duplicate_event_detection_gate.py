@@ -78,6 +78,15 @@ PAST_REFERENCE_PATTERNS = [
     r"(?:若い頃|若き日)に(?:.*?)(?:受賞|獲得|設立|創業|創設|デビュー)",
 ]
 
+# 引退検討パターン（Phase 49: 実際の引退ではないため除外）
+# 「引退を覚悟」「引退を勧める」は実際の引退イベントではない
+RETIREMENT_CONTEMPLATION_PATTERNS = [
+    r"引退を覚悟",
+    r"引退を(?:勧める|勧め)",
+    r"引退(?:も|を)(?:考え|検討)",
+    r"引退(?:の|を)?危機",
+]
+
 # 許容される重複パターン（背景言及として許容）
 ALLOWED_DUPLICATE_PATTERNS = {
     # (person_id, event_type): reason
@@ -149,6 +158,18 @@ def has_past_reference_context(text: str) -> bool:
     return False
 
 
+def has_retirement_contemplation_context(text: str) -> bool:
+    """引退検討の文脈かどうかを判定（Phase 49）
+
+    「引退を覚悟」「引退を勧める」などは実際の引退ではないため、
+    retirement イベントとして検出しない。
+    """
+    for pattern in RETIREMENT_CONTEMPLATION_PATTERNS:
+        if re.search(pattern, text):
+            return True
+    return False
+
+
 def extract_events(
     text: str,
     skip_anniversary: bool = True,
@@ -184,8 +205,14 @@ def extract_events(
     if skip_past_reference and has_past_reference_context(text):
         return []
 
+    # 引退検討文脈かどうかをチェック（Phase 49）
+    is_retirement_contemplation = has_retirement_contemplation_context(text)
+
     events = []
     for pattern, event_type in EVENT_PATTERNS:
+        # 引退検討文脈の場合、retirement イベントはスキップ
+        if event_type == "retirement" and is_retirement_contemplation:
+            continue
         matches = re.findall(pattern, text)
         for match in matches:
             detail = match if isinstance(match, str) else match

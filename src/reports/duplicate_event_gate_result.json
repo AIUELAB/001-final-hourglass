@@ -1,5 +1,5 @@
 {
-  "scan_date": "2026-01-10T02:41:07.675290",
+  "scan_date": "2026-01-10T02:44:51.854779",
   "total_duplicates": 18,
   "severity_counts": {
     "critical": 11,
@@ -380,9 +380,9 @@
     }
   ],
   "thresholds": {
-    "critical_max": 110,
-    "high_max": 35,
-    "total_max": 185
+    "critical_max": 15,
+    "high_max": 10,
+    "total_max": 25
   },
   "violations": []
 }

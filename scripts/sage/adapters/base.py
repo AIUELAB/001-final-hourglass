@@ -285,6 +285,9 @@ class GenerationResult:
     retry_count: int = 0
     evidence: list[str] = field(default_factory=list)
     token_usage: Optional[TokenUsage] = None  # トークン使用量追跡
+    # Phase 26: モデル追跡とコスト可視化
+    model: str = ""  # 使用モデル名（claude-3-5-haiku-20241022 等）
+    cost_usd: float = 0.0  # エピソード単位のコスト（USD）
 
     def __post_init__(self) -> None:
         if not self.generation_timestamp:
@@ -334,6 +337,13 @@ class GenerationResult:
             row.update(self.evaluation.axis_scores.to_dict())
             row["composite_score"] = self.evaluation.composite_score
             row["super_total_score"] = self.evaluation.super_total_score
+
+        # Phase 26: モデル追跡とコスト可視化
+        row["model"] = self.model
+        row["generator_type"] = (
+            self.generator_type.value if hasattr(self.generator_type, "value") else str(self.generator_type)
+        )
+        row["cost_usd"] = self.cost_usd
 
         return row
 

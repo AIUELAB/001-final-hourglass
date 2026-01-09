@@ -87,6 +87,10 @@ class SafeCSVWriter:
         "事実密度",
         "composite_score",
         "super_total_score",
+        # Phase 26: モデル追跡とコスト可視化
+        "model",  # 使用モデル名（claude-3-5-haiku-20241022 等）
+        "generator_type",  # batch_api_haiku / batch_api_sonnet
+        "cost_usd",  # エピソード単位のコスト（USD）
     ]
 
     def __init__(

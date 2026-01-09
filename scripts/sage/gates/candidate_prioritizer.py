@@ -191,10 +191,12 @@ class CandidatePrioritizer:
 
     def _calculate_inventory_age_priority_score(self, age: int) -> float:
         """
-        年齢在庫優先度スコアを計算（Phase 15）
+        年齢在庫優先度スコアを計算（Phase 15 + Phase 3最適化 + 安全性修正）
 
-        不足数が多く、現実的な年齢ほど高スコア。
-        公式: deficit / (1 + |age - 40| / 20) を正規化
+        不足数が多い年齢を優先。極端年齢（0-10, 80-84）で低カバレッジの場合は
+        年齢ペナルティを軽減してブーストする。
+
+        注意: 85歳以上は境界検証が困難なため、ブーストしない。
 
         Returns:
             0-100の正規化スコア
@@ -216,15 +218,39 @@ class CandidatePrioritizer:
         if deficit <= 0:
             return 0.0
 
-        # 年齢ペナルティ（40歳を中心として計算）
-        age_penalty = 1 + abs(age - 40) / 20
+        # カバレッジ率を計算 (target=400を想定)
+        target = self.targets.get(age, 400)
+        current = target - deficit
+        coverage_rate = current / target if target > 0 else 1.0
 
-        # 基本スコア: deficit / age_penalty
-        raw_score = deficit / age_penalty
+        # Phase 3最適化（安全性修正版）: 極端年齢ブースト
+        # 85歳以上はブーストなし（境界検証が困難）
+        is_safe_extreme_age = (age <= 10) or (80 <= age <= 84)
+        is_risky_extreme_age = age >= 85
+        is_very_low_coverage = coverage_rate < 0.15  # 15%未満
+
+        if is_risky_extreme_age:
+            # 85歳以上: ブーストなし、通常ペナルティ
+            age_penalty = 1.0 + abs(age - 40) / 20
+            extreme_boost = 1.0
+        elif is_safe_extreme_age and is_very_low_coverage:
+            # 安全な極端年齢(0-10, 80-84)で低カバレッジ: ブースト
+            age_penalty = 1.0 + abs(age - 40) / 60  # 1/3に軽減
+            extreme_boost = 1.5
+        elif is_safe_extreme_age:
+            # 安全な極端年齢: 中程度のブースト
+            age_penalty = 1.0 + abs(age - 40) / 40  # 1/2に軽減
+            extreme_boost = 1.2
+        else:
+            # 通常年齢: 従来のペナルティ
+            age_penalty = 1.0 + abs(age - 40) / 20
+            extreme_boost = 1.0
+
+        # 基本スコア: deficit / age_penalty * boost
+        raw_score = (deficit / age_penalty) * extreme_boost
 
         # 正規化 (0-100): 最大不足数365を想定
-        # 典型的なdeficit=200, age_penalty=1.5 → raw=133
-        normalized = min(100, raw_score / 3)  # 300以上で100点
+        normalized = min(100, raw_score / 3)
 
         return normalized
 

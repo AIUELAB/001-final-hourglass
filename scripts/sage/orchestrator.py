@@ -226,6 +226,7 @@ class HybridOrchestrator:
                                 {
                                     "person_id": candidate.person_id,
                                     "person_name": candidate.person_name,
+                                    "age": candidate.age,
                                     "reason": "replacement_failed",
                                     "message": replace_result.error_message,
                                 }
@@ -247,6 +248,7 @@ class HybridOrchestrator:
                     {
                         "person_id": candidate.person_id,
                         "person_name": candidate.person_name,
+                        "age": candidate.age,
                         "reason": RejectionReason.GENERATION_ERROR.value,
                         "message": str(e),
                     }
@@ -286,6 +288,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": pre_check.reason.value if pre_check.reason else "pre_check",
                     "message": pre_check.message,
                 }
@@ -298,6 +301,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": RejectionReason.WEEKLY_LIMIT_EXCEEDED.value,
                     "message": quota_reason,
                 }
@@ -315,6 +319,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": RejectionReason.SAME_AGE_DUPLICATE.value,
                     "message": f"同一年齢エピソード既存: {pre_dup_check.most_similar_episode_id}",
                 }
@@ -328,6 +333,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": RejectionReason.GENERATION_ERROR.value,
                     "message": result.error_message,
                 }
@@ -347,6 +353,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
                     "message": pattern_check.message,
                 }
@@ -359,6 +366,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": specificity_check.reason.value if specificity_check.reason else "filler",
                     "message": specificity_check.message,
                 }
@@ -373,6 +381,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": gaming_result.rejection_reason.value if gaming_result.rejection_reason else "anti_gaming",
                     "message": f"Anti-gaming violations: {', '.join(gaming_violations)}",
                 }
@@ -385,6 +394,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": fact_result.rejection_reason.value if fact_result.rejection_reason else "fact_check",
                     "message": fact_result.reason,
                 }
@@ -397,6 +407,7 @@ class HybridOrchestrator:
                 rejection={
                     "person_id": candidate.person_id,
                     "person_name": candidate.person_name,
+                    "age": candidate.age,
                     "reason": dup_result.rejection_reason.value if dup_result.rejection_reason else "duplicate",
                     "message": dup_result.reason,
                 }
@@ -434,6 +445,7 @@ class HybridOrchestrator:
                                 rejection={
                                     "person_id": candidate.person_id,
                                     "person_name": candidate.person_name,
+                                    "age": candidate.age,
                                     "reason": RejectionReason.GENERATION_ERROR.value,
                                     "message": f"リトライ失敗: {result.error_message}",
                                 }
@@ -453,6 +465,7 @@ class HybridOrchestrator:
                         rejection={
                             "person_id": candidate.person_id,
                             "person_name": candidate.person_name,
+                            "age": candidate.age,
                             "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
                             "message": ", ".join(gate_result.failures)
                             + (f" (リトライ{retry_count}回後)" if retry_count > 0 else ""),
@@ -476,6 +489,7 @@ class HybridOrchestrator:
                     rejection={
                         "person_id": candidate.person_id,
                         "person_name": candidate.person_name,
+                        "age": candidate.age,
                         "reason": RejectionReason.LOW_SUPER_TOTAL.value,
                         "message": ", ".join(super_result.gate_failures),
                     }
@@ -507,6 +521,7 @@ class HybridOrchestrator:
                         rejection={
                             "person_id": candidate.person_id,
                             "person_name": candidate.person_name,
+                            "age": candidate.age,
                             "reason": "replacement_threshold_not_met",
                             "message": f"Score {new_score:.0f} does not exceed threshold for age {candidate.age}",
                         }
@@ -561,7 +576,7 @@ class HybridOrchestrator:
         with open(log_path, "w", encoding="utf-8") as f:
             json.dump(log_data, f, ensure_ascii=False, indent=2)
 
-    def get_recommended_candidates(self, count: int = 10) -> list[Candidate]:
+    def get_recommended_candidates(self, count: int = 10, enable_cache: bool = True) -> list[Candidate]:
         """
         推奨候補を取得
 
@@ -571,6 +586,7 @@ class HybridOrchestrator:
 
         Args:
             count: 候補数
+            enable_cache: H4キャッシュ最適化有効（同一人物の複数年齢を許可）
 
         Returns:
             list[Candidate]: 優先度順の候補リスト
@@ -583,6 +599,7 @@ class HybridOrchestrator:
 
         # 候補プールを構築（ユニークな人物×利用可能年齢）
         candidate_pool = []
+        person_pool = {}  # H4: person_id -> list of ages for cache grouping
         unique_persons = self.master_df.drop_duplicates(subset=["person_id"])
 
         for _, row in unique_persons.iterrows():
@@ -609,90 +626,151 @@ class HybridOrchestrator:
             death_year = row.get("death_year")
 
             # 利用可能な年齢を計算
+            # H4最適化: 品質が出やすい年齢帯（20-60歳）を優先
+            # Phase 3最適化: 極端年齢（0-10, 80+）も候補に含める
             available_ages = []
+
+            # Phase 3: 年齢カテゴリ（バランスのため混合）
+            # 各カテゴリから1つずつ交互に追加してバランスを取る
+            priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
+            secondary_ages = [20, 60, 65]  # 中程度
+            extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全（80は既に多い）
+            extreme_elderly_risky = [85, 90, 95]  # 高齢リスク
+            tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
+            extreme_young_ages = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 若年層
+
             if birth_year and not pd.isna(birth_year):
                 birth_year = int(birth_year)
                 max_age = 100
                 if death_year and not pd.isna(death_year):
                     max_age = int(death_year) - birth_year
 
-                # 5歳刻みで候補年齢を生成（より細かく）
-                for age in range(15, min(max_age + 1, 100), 5):
-                    if age not in existing_ages:
-                        # Phase 1: 365本達成年齢はスキップ
-                        if self._inventory_manager.should_generate(age):
-                            available_ages.append(age)
+                # Phase 3最適化: 全年齢を候補に追加（CandidatePrioritizerでバランス）
+                all_age_lists = [
+                    priority_ages,
+                    secondary_ages,
+                    tertiary_ages,
+                    extreme_young_ages,
+                    extreme_elderly_safe,
+                    extreme_elderly_risky,
+                ]
+                for age_list in all_age_lists:
+                    for age in age_list:
+                        if age <= max_age and age not in existing_ages:
+                            if self._inventory_manager.should_generate(age):
+                                available_ages.append(age)
             else:
-                # birth_yearがない場合はデフォルト範囲を使用
-                # Phase 14: GENERATEモード年齢を含む広い範囲（15-80歳、5歳刻み）
-                for age in range(15, 85, 5):
-                    if age not in existing_ages:
-                        # Phase 1: 365本達成年齢はスキップ
-                        if self._inventory_manager.should_generate(age):
-                            available_ages.append(age)
+                # birth_yearがない場合は安全な範囲のみ使用
+                # Phase 3修正: 85歳以上は境界検証ができないため除外
+                # 0-10歳と80-84歳は安全（境界検証可能なため）
+                all_age_lists = [priority_ages, secondary_ages, tertiary_ages, extreme_young_ages, extreme_elderly_safe]
+                for age_list in all_age_lists:
+                    for age in age_list:
+                        if age not in existing_ages:
+                            if self._inventory_manager.should_generate(age):
+                                available_ages.append(age)
 
             # 各年齢を候補プールに追加
-            for age in available_ages[:3]:  # 人物あたり最大3年齢
-                candidate_pool.append(
-                    {
-                        "person_id": person_id,
-                        "person_name": person_name,
-                        "category": category,
-                        "age": age,
-                        "person_type": str(row.get("person_type", "REAL")),
-                        "birth_year": birth_year if not pd.isna(birth_year) else None,
-                        "death_year": int(death_year) if death_year and not pd.isna(death_year) else None,
-                    }
-                )
+            # Phase 3最適化: 全ての有効年齢を候補プールに追加
+            # CandidatePrioritizerが在庫優先度に基づいてバランスを取る
+            for age in available_ages:
+                item = {
+                    "person_id": person_id,
+                    "person_name": person_name,
+                    "category": category,
+                    "age": age,
+                    "person_type": str(row.get("person_type", "REAL")),
+                    "birth_year": birth_year if not pd.isna(birth_year) else None,
+                    "death_year": int(death_year) if death_year and not pd.isna(death_year) else None,
+                }
+                candidate_pool.append(item)
+
+                # H4: 人物ごとにグループ化
+                if person_id not in person_pool:
+                    person_pool[person_id] = []
+                person_pool[person_id].append(item)
 
         if not candidate_pool:
             return []
 
         # CandidatePrioritizer でスコアリング（Phase 12: 閾値適用）
+        # Phase 3最適化: 年齢グループバランスのため全候補をスコアリング
         prioritizer = CandidatePrioritizer(master_csv=self.config.master_csv)
         scored = prioritizer.prioritize_candidates(
             candidate_pool,
-            top_n=count * 2,
+            top_n=len(candidate_pool),  # Phase 3: 全候補をスコアリング
             min_score=self.config.min_candidate_priority,
         )
 
-        # 人物重複を避けて上位を選定
-        seen_persons = set()
+        # Phase 3最適化: 年齢グループバランシング（両モード共通）
+        def get_age_group(age: int) -> str:
+            if age <= 10:
+                return "young"
+            elif 80 <= age <= 84:
+                return "elderly_safe"
+            else:
+                return "normal"
+
+        # Phase 3: 各グループの目標数を計算（young:30%, elderly_safe:30%, normal:40%）
+        group_targets = {
+            "young": max(3, int(count * 0.30)),
+            "elderly_safe": max(3, int(count * 0.30)),
+            "normal": max(3, int(count * 0.40)),
+        }
+
+        # 各グループごとに候補を選択
         candidates = []
+        used_person_ages = set()  # (person_id, age) の重複防止
 
-        for score_result in scored:
-            if score_result.person_id in seen_persons:
-                continue
+        for group_name in ["young", "elderly_safe", "normal"]:
+            target = group_targets[group_name]
+            group_candidates = []
+            seen_persons_in_group = set()
 
-            seen_persons.add(score_result.person_id)
+            for score_result in scored:
+                if len(group_candidates) >= target:
+                    break
 
-            # 候補データを取得
-            pool_item = next(
-                (
-                    p
-                    for p in candidate_pool
-                    if p["person_id"] == score_result.person_id and p["age"] == score_result.age
-                ),
-                None,
-            )
+                person_id = score_result.person_id
+                age = score_result.age
 
-            if pool_item:
-                candidates.append(
-                    Candidate(
-                        person_id=score_result.person_id,
-                        person_name=score_result.person_name,
-                        age=score_result.age,
-                        category=score_result.category,
-                        person_type=pool_item.get("person_type", "REAL"),
-                        birth_year=pool_item.get("birth_year"),
-                        death_year=pool_item.get("death_year"),
+                # このグループに属する年齢のみ
+                if get_age_group(age) != group_name:
+                    continue
+
+                # 重複チェック
+                key = (person_id, age)
+                if key in used_person_ages:
+                    continue
+
+                # enable_cache=False時は同一人物を1回まで（全グループ通じて）
+                if not enable_cache and person_id in seen_persons_in_group:
+                    continue
+
+                used_person_ages.add(key)
+                seen_persons_in_group.add(person_id)
+
+                # person_poolから該当アイテムを取得
+                pool_item = next((p for p in person_pool.get(person_id, []) if p["age"] == age), None)
+
+                if pool_item:
+                    group_candidates.append(
+                        Candidate(
+                            person_id=pool_item["person_id"],
+                            person_name=pool_item["person_name"],
+                            age=pool_item["age"],
+                            category=pool_item["category"],
+                            person_type=pool_item.get("person_type", "REAL"),
+                            birth_year=pool_item.get("birth_year"),
+                            death_year=pool_item.get("death_year"),
+                        )
                     )
-                )
 
-            if len(candidates) >= count:
-                break
+            candidates.extend(group_candidates)
 
-        return candidates
+        # person_id, age順にソート（キャッシュ効率化）
+        candidates.sort(key=lambda x: (x.person_id, x.age))
+        return candidates[:count]
 
 
 def create_orchestrator(

@@ -27,11 +27,11 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 MASTER_CSV = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORT_PATH = PROJECT_ROOT / "src/reports/duplicate_event_gate_result.json"
 
-# デフォルト閾値（Phase 45: 回顧エピソード除外後）
+# デフォルト閾値（Phase 46: 同一EP内重複カウント修正後）
 DEFAULT_THRESHOLDS = {
-    "critical_max": 120,  # CRITICAL(10歳以上の差) - 現状113件
-    "high_max": 40,  # HIGH(5-9歳の差) - 現状31件
-    "total_max": 200,  # 合計 - 現状186件
+    "critical_max": 110,  # CRITICAL(10歳以上の差) - 現状107件
+    "high_max": 35,  # HIGH(5-9歳の差) - 現状29件
+    "total_max": 185,  # 合計 - 現状178件
 }
 
 # 記念年パターン（これらは重複カウントから除外）
@@ -192,7 +192,14 @@ def scan_duplicate_events() -> dict:
                 continue
 
             events = extract_events(text)
+            # 同一エピソード内の重複イベントタイプを除外（1EP1イベントタイプ）
+            seen_event_types = set()
             for event_type, event_detail in events:
+                # イベントタイプごとに1回だけカウント
+                if event_type in seen_event_types:
+                    continue
+                seen_event_types.add(event_type)
+
                 key = f"{event_type}:{event_detail[:30]}"
                 person_events[(person_id, person_name)][key].append(
                     {

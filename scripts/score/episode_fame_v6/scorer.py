@@ -337,13 +337,13 @@ class EpisodeFameV6Scorer:
             celebrity_score_v2=float(row.get("celebrity_score_v2") or 0),
             sitelinks_count=int(float(row.get("sitelinks_count") or 0)),
             multi_lang_pv=int(float(row.get("multi_lang_pv") or 0)),
-            memorability=float(row.get("記憶性スコア") or 0),
-            empathy=float(row.get("共感性スコア") or 0),
-            surprise=float(row.get("意外性スコア") or 0),
-            generation_quality=float(row.get("生成品質スコア") or 0),
-            educational_value=float(row.get("教育的価値") or 0),
-            storytelling_quality=float(row.get("ストーリー品質") or 0),
-            factual_density=float(row.get("事実密度") or 0),
+            memorability=float(row.get("memorability_score") or 0),
+            empathy=float(row.get("empathy_score") or 0),
+            surprise=float(row.get("surprise_score") or 0),
+            generation_quality=float(row.get("generation_quality_score") or 0),
+            educational_value=float(row.get("educational_value") or 0),
+            storytelling_quality=float(row.get("story_quality") or 0),
+            factual_density=float(row.get("factual_density") or 0),
         )
 
         # 各コンポーネント計算

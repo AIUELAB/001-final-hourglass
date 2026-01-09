@@ -169,42 +169,43 @@ class Candidate:
 
 @dataclass
 class AxisScores:
-    """8軸スコア（象徴性スコア追加）"""
+    """8軸スコア（iconic_score追加）"""
 
-    memorability: float = 0.0  # 記憶性スコア
-    empathy: float = 0.0  # 共感性スコア
-    surprise: float = 0.0  # 意外性スコア
-    generation_quality: float = 0.0  # 生成品質スコア
-    educational_value: float = 0.0  # 教育的価値
-    story_quality: float = 0.0  # ストーリー品質
-    factual_density: float = 0.0  # 事実密度
-    iconic_score: float = 0.0  # 象徴性スコア（感銘度）
+    memorability: float = 0.0  # memorability_score
+    empathy: float = 0.0  # empathy_score
+    surprise: float = 0.0  # surprise_score
+    generation_quality: float = 0.0  # generation_quality_score
+    educational_value: float = 0.0  # educational_value
+    story_quality: float = 0.0  # story_quality
+    factual_density: float = 0.0  # factual_density
+    iconic_score: float = 0.0  # iconic_score（感銘度）
 
     def to_dict(self) -> dict[str, float]:
-        """辞書に変換"""
+        """辞書に変換（Phase 28: 英語キー）"""
         return {
-            "記憶性スコア": self.memorability,
-            "共感性スコア": self.empathy,
-            "意外性スコア": self.surprise,
-            "生成品質スコア": self.generation_quality,
-            "教育的価値": self.educational_value,
-            "ストーリー品質": self.story_quality,
-            "事実密度": self.factual_density,
-            "象徴性スコア": self.iconic_score,
+            "memorability_score": self.memorability,
+            "empathy_score": self.empathy,
+            "surprise_score": self.surprise,
+            "generation_quality_score": self.generation_quality,
+            "educational_value": self.educational_value,
+            "story_quality": self.story_quality,
+            "factual_density": self.factual_density,
+            "iconic_score": self.iconic_score,
         }
 
     @classmethod
     def from_dict(cls, data: dict[str, float]) -> "AxisScores":
-        """辞書から生成"""
+        """辞書から生成（Phase 28: 英語キー + 後方互換）"""
+        # 英語キー優先、日本語キーにフォールバック
         return cls(
-            memorability=data.get("記憶性スコア", 0.0),
-            empathy=data.get("共感性スコア", 0.0),
-            surprise=data.get("意外性スコア", 0.0),
-            generation_quality=data.get("生成品質スコア", 0.0),
-            educational_value=data.get("教育的価値", 0.0),
-            story_quality=data.get("ストーリー品質", 0.0),
-            factual_density=data.get("事実密度", 0.0),
-            iconic_score=data.get("象徴性スコア", 0.0),
+            memorability=data.get("memorability_score", data.get("memorability_score", 0.0)),
+            empathy=data.get("empathy_score", data.get("empathy_score", 0.0)),
+            surprise=data.get("surprise_score", data.get("surprise_score", 0.0)),
+            generation_quality=data.get("generation_quality_score", data.get("generation_quality_score", 0.0)),
+            educational_value=data.get("educational_value", data.get("educational_value", 0.0)),
+            story_quality=data.get("story_quality", data.get("story_quality", 0.0)),
+            factual_density=data.get("factual_density", data.get("factual_density", 0.0)),
+            iconic_score=data.get("iconic_score", data.get("iconic_score", 0.0)),
         )
 
     def average(self) -> float:
@@ -222,7 +223,7 @@ class AxisScores:
         return sum(values) / len(values)
 
     def weighted_average(self) -> float:
-        """加重平均（事実密度、生成品質、象徴性を重視）"""
+        """加重平均（factual_density、生成品質、象徴性を重視）"""
         weights = {
             "memorability": 1.0,
             "empathy": 1.0,

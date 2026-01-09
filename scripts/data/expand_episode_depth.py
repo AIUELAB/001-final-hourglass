@@ -369,7 +369,7 @@ def main():
                 "group_name": existing.get("group_name"),
                 "fame_score": existing.get("fame_score"),
                 "episode_fame_score": existing.get("episode_fame_score"),
-                "事実密度": 7.0,
+                "factual_density": 7.0,
                 "source": "DEPTH_EXPANSION",
             }
 

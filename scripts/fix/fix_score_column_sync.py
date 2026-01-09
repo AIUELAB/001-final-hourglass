@@ -21,7 +21,6 @@ BACKUP_DIR = PROJECT_ROOT / "preserved" / "backups"
 
 def create_backup(csv_path: Path, operation: str) -> Path:
     """バックアップを作成"""
-    from datetime import datetime
     import shutil
 
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
@@ -31,15 +30,16 @@ def create_backup(csv_path: Path, operation: str) -> Path:
     shutil.copy2(csv_path, backup_path)
     return backup_path
 
+
 # カラムマッピング: 日本語名 -> llm_xxx_score
 SCORE_MAPPING = {
-    "記憶性スコア": "llm_memorability_score",
-    "共感性スコア": "llm_empathy_score",
-    "意外性スコア": "llm_surprise_score",
-    "生成品質スコア": "llm_generation_quality_score",
-    "教育的価値": "llm_educational_value",
-    "ストーリー品質": "llm_storytelling_quality",
-    "事実密度": "llm_factual_density",
+    "memorability_score": "llm_memorability_score",
+    "empathy_score": "llm_empathy_score",
+    "surprise_score": "llm_surprise_score",
+    "generation_quality_score": "llm_generation_quality_score",
+    "educational_value": "llm_educational_value",
+    "story_quality": "llm_storytelling_quality",
+    "factual_density": "llm_factual_density",
 }
 
 

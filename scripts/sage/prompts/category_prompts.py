@@ -153,8 +153,8 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "技術革新のきっかけ",
         ],
         quality_emphasis={
-            "事実密度": 1.5,
-            "教育的価値": 1.3,
+            "factual_density": 1.5,
+            "educational_value": 1.3,
             "生成品質": 1.0,
             "象徴性": 1.4,
         },
@@ -185,9 +185,9 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "記録更新の舞台裏",
         ],
         quality_emphasis={
-            "ストーリー品質": 1.3,
+            "story_quality": 1.3,
             "共感性": 1.2,
-            "事実密度": 1.2,
+            "factual_density": 1.2,
             "象徴性": 1.5,
         },
         iconic_guidance="オリンピック金メダル獲得の瞬間、史上初の記録達成、伝説的な名勝負など、スポーツ史に刻まれる象徴的な場面を具体的に描写してください。",
@@ -217,7 +217,7 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "文化的衝撃を与えた瞬間",
         ],
         quality_emphasis={
-            "ストーリー品質": 1.4,
+            "story_quality": 1.4,
             "記憶性": 1.3,
             "意外性": 1.2,
             "象徴性": 1.4,
@@ -249,8 +249,8 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "国際関係の転機",
         ],
         quality_emphasis={
-            "事実密度": 1.4,
-            "教育的価値": 1.3,
+            "factual_density": 1.4,
+            "educational_value": 1.3,
             "生成品質": 1.2,
             "象徴性": 1.3,
         },
@@ -281,8 +281,8 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "敗北から学んだ教訓",
         ],
         quality_emphasis={
-            "事実密度": 1.5,
-            "教育的価値": 1.4,
+            "factual_density": 1.5,
+            "educational_value": 1.4,
             "記憶性": 1.2,
             "象徴性": 1.4,
         },
@@ -313,7 +313,7 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "復活劇",
         ],
         quality_emphasis={
-            "ストーリー品質": 1.3,
+            "story_quality": 1.3,
             "共感性": 1.3,
             "意外性": 1.2,
             "象徴性": 1.3,
@@ -345,9 +345,9 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "失敗から学んだビジネス哲学",
         ],
         quality_emphasis={
-            "教育的価値": 1.3,
-            "ストーリー品質": 1.2,
-            "事実密度": 1.2,
+            "educational_value": 1.3,
+            "story_quality": 1.2,
+            "factual_density": 1.2,
             "象徴性": 1.4,
         },
         iconic_guidance="ガレージでの創業、革命的製品の発表、IPOの瞬間など、ビジネス界の伝説となった象徴的な場面を描写してください。",
@@ -377,9 +377,9 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "緊急事態での対応",
         ],
         quality_emphasis={
-            "事実密度": 1.3,
+            "factual_density": 1.3,
             "共感性": 1.3,
-            "教育的価値": 1.2,
+            "educational_value": 1.2,
             "象徴性": 1.3,
         },
         iconic_guidance="ワクチン開発成功、難病克服の瞬間、医学史を変えた発見など、人類の健康に貢献した象徴的な場面を描写してください。",
@@ -409,8 +409,8 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "宗教間対話の試み",
         ],
         quality_emphasis={
-            "教育的価値": 1.4,
-            "ストーリー品質": 1.2,
+            "educational_value": 1.4,
+            "story_quality": 1.2,
             "記憶性": 1.2,
             "象徴性": 1.4,
         },
@@ -441,7 +441,7 @@ CATEGORY_PROMPTS: dict[str, PromptTemplate] = {
             "自己発見・成長",
         ],
         quality_emphasis={
-            "ストーリー品質": 1.5,
+            "story_quality": 1.5,
             "記憶性": 1.3,
             "共感性": 1.2,
             "象徴性": 1.3,
@@ -468,8 +468,8 @@ DEFAULT_PROMPT_TEMPLATE = PromptTemplate(
     tone="neutral",
     example_themes=["人生の転機", "挑戦と克服", "学びの瞬間"],
     quality_emphasis={
-        "事実密度": 1.0,
-        "ストーリー品質": 1.0,
+        "factual_density": 1.0,
+        "story_quality": 1.0,
         "生成品質": 1.0,
         "象徴性": 1.2,
     },
@@ -587,14 +587,14 @@ class CategoryPromptManager:
         template = self.get_template(category)
         # デフォルト重み
         weights = {
-            "記憶性スコア": 1.0,
-            "共感性スコア": 1.0,
-            "意外性スコア": 1.0,
-            "生成品質スコア": 1.0,
-            "教育的価値": 1.0,
-            "ストーリー品質": 1.0,
-            "事実密度": 1.0,
-            "象徴性スコア": 1.0,
+            "memorability_score": 1.0,
+            "empathy_score": 1.0,
+            "surprise_score": 1.0,
+            "generation_quality_score": 1.0,
+            "educational_value": 1.0,
+            "story_quality": 1.0,
+            "factual_density": 1.0,
+            "iconic_score": 1.0,
         }
 
         # テンプレートの重みを適用
@@ -603,14 +603,14 @@ class CategoryPromptManager:
                 weights[axis] = weight
             # 日本語軸名の変換
             axis_map = {
-                "事実密度": "事実密度",
-                "ストーリー品質": "ストーリー品質",
-                "教育的価値": "教育的価値",
-                "記憶性": "記憶性スコア",
-                "共感性": "共感性スコア",
-                "意外性": "意外性スコア",
-                "生成品質": "生成品質スコア",
-                "象徴性": "象徴性スコア",
+                "factual_density": "factual_density",
+                "story_quality": "story_quality",
+                "educational_value": "educational_value",
+                "記憶性": "memorability_score",
+                "共感性": "empathy_score",
+                "意外性": "surprise_score",
+                "生成品質": "generation_quality_score",
+                "象徴性": "iconic_score",
             }
             if axis in axis_map and axis_map[axis] in weights:
                 weights[axis_map[axis]] = weight

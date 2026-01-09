@@ -20,24 +20,24 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 7軸のカラム名
 SEVEN_AXIS_COLUMNS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 # 短縮名（表示用）
 AXIS_SHORT_NAMES = {
-    "記憶性スコア": "記憶性",
-    "共感性スコア": "共感性",
-    "意外性スコア": "意外性",
-    "生成品質スコア": "生成品質",
-    "教育的価値": "教育的",
-    "ストーリー品質": "ストーリー",
-    "事実密度": "事実密度",
+    "memorability_score": "記憶性",
+    "empathy_score": "共感性",
+    "surprise_score": "意外性",
+    "generation_quality_score": "生成品質",
+    "educational_value": "教育的",
+    "story_quality": "ストーリー",
+    "factual_density": "factual_density",
 }
 
 

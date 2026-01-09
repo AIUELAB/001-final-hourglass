@@ -47,13 +47,13 @@ client = anthropic.Anthropic(api_key=API_KEY)
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 
@@ -88,14 +88,14 @@ def build_improvement_prompt(weak_axes: List[str], episode_text: str, person_nam
     """改稿用プロンプトを構築"""
 
     axis_instructions = {
-        "意外性スコア": """
+        "surprise_score": """
 【意外性を劇的に高めてください】
 - 一般的なイメージと正反対の側面を追加（例: 厳格な人物の意外な趣味）
 - 逆転のエピソード（例: 絶望的状況からの復活）
 - 「誰もが驚いたことに」「実は〜」「周囲の予想に反して」などの表現を使用
 - 淡々とした業績の羅列は避ける
 """,
-        "事実密度": """
+        "factual_density": """
 【具体的な事実・数値を必ず追加してください】
 - 具体的な年号（例: 1985年、2003年）を追加
 - 数値データ（例: 100万部、3時間、世界2位）を追加
@@ -103,28 +103,28 @@ def build_improvement_prompt(weak_axes: List[str], episode_text: str, person_nam
 - 検証可能な記録（史上初、〇〇賞受賞）を含める
 - 「多くの」「長年にわたり」などの曖昧な表現は具体化
 """,
-        "共感性スコア": """
+        "empathy_score": """
 【共感性を高めてください】
 - 人物の感情や内面の葛藤を具体的に描写
 - 読者が「自分だったら」と思える普遍的な状況を追加
 - 感情的なクライマックスを明確に
 - 喜び、悲しみ、苦悩、決意などの感情を具体的に
 """,
-        "教育的価値": """
-【教育的価値を高めてください】
+        "educational_value": """
+【educational_valueを高めてください】
 - この経験から得られる具体的な教訓や学びを追加
 - 他の人が参考にできる普遍的な知恵を含める
 - 「なるほど」と思わせる洞察を追加
 - 具体的な行動指針や考え方を示す
 """,
-        "ストーリー品質": """
+        "story_quality": """
 【ストーリー構成を改善してください】
 - 起承転結をより明確に
 - 導入で興味を引き、展開で引き込む構成に
 - クライマックスと余韻を意識した構成に
 - 読者を引き込む導入文から始める
 """,
-        "記憶性スコア": """
+        "memorability_score": """
 【記憶に残る要素を追加してください】
 - 印象的なエピソードや名言を追加
 - 視覚的に想像できる具体的なシーンを描写
@@ -180,16 +180,16 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸】
-1. 記憶性スコア: 読後も印象に残るか
-2. 共感性スコア: 感情移入できるか
-3. 意外性スコア: 予想外の展開があるか
-4. 生成品質スコア: 文章として完成度が高いか
-5. 教育的価値: 学びや教訓があるか
-6. ストーリー品質: 構成が良いか
-7. 事実密度: 具体的なデータ・事実があるか
+1. memorability_score: 読後も印象に残るか
+2. empathy_score: 感情移入できるか
+3. surprise_score: 予想外の展開があるか
+4. generation_quality_score: 文章として完成度が高いか
+5. educational_value: 学びや教訓があるか
+6. story_quality: 構成が良いか
+7. factual_density: 具体的なデータ・事実があるか
 
 必ず以下のJSON形式のみで回答してください:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(
@@ -232,7 +232,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
     if weak_axes:
         print(f"  弱軸: {', '.join(weak_axes)}")
     else:
-        weak_axes = ["意外性スコア", "事実密度", "共感性スコア"]
+        weak_axes = ["surprise_score", "factual_density", "empathy_score"]
         print(f"  デフォルト弱軸: {', '.join(weak_axes)}")
 
     # 改稿

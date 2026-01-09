@@ -32,13 +32,13 @@ def calculate_total_scores(gold_df, llm_df, hybrid_df):
     """総合スコア計算"""
     # CSV既存スコアの軸
     csv_cols = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     # 構造化LLM評価の軸
@@ -47,13 +47,13 @@ def calculate_total_scores(gold_df, llm_df, hybrid_df):
         "共感性_スコア",
         "意外性_スコア",
         "生成品質_スコア",
-        "教育的価値_スコア",
-        "ストーリー品質_スコア",
-        "事実密度_スコア",
+        "educational_value_スコア",
+        "story_quality_スコア",
+        "factual_density_スコア",
     ]
 
     # ハイブリッドの軸
-    hybrid_cols = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+    hybrid_cols = ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]
 
     gold_df["csv_total"] = gold_df[csv_cols].mean(axis=1)
     llm_df["llm_total"] = llm_df[llm_cols].mean(axis=1)
@@ -72,25 +72,25 @@ def compare_systems():
     print("=" * 80)
 
     # 軸マッピング
-    axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+    axes = ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]
 
     csv_map = {
-        "記憶性": "記憶性スコア",
-        "共感性": "共感性スコア",
-        "意外性": "意外性スコア",
-        "生成品質": "生成品質スコア",
-        "教育的価値": "教育的価値",
-        "ストーリー品質": "ストーリー品質",
-        "事実密度": "事実密度",
+        "記憶性": "memorability_score",
+        "共感性": "empathy_score",
+        "意外性": "surprise_score",
+        "生成品質": "generation_quality_score",
+        "educational_value": "educational_value",
+        "story_quality": "story_quality",
+        "factual_density": "factual_density",
     }
     llm_map = {
         "記憶性": "記憶性_スコア",
         "共感性": "共感性_スコア",
         "意外性": "意外性_スコア",
         "生成品質": "生成品質_スコア",
-        "教育的価値": "教育的価値_スコア",
-        "ストーリー品質": "ストーリー品質_スコア",
-        "事実密度": "事実密度_スコア",
+        "educational_value": "educational_value_スコア",
+        "story_quality": "story_quality_スコア",
+        "factual_density": "factual_density_スコア",
     }
 
     # 1. 基本統計量

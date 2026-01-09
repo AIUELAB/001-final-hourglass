@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-事実密度改善スクリプト
+factual_density改善スクリプト
 
-事実密度3.0-3.5のエピソードを改稿して事実密度を向上させる
+factual_density3.0-3.5のエピソードを改稿してfactual_densityを向上させる
 
 使用方法:
     # テスト実行（5件）
@@ -47,13 +47,13 @@ client = anthropic.Anthropic(api_key=API_KEY)
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 
@@ -69,8 +69,8 @@ def calculate_composite_score(scores: Dict[str, float]) -> float:
 
 
 def build_fact_improvement_prompt(episode_text: str, person_name: str, age: int) -> str:
-    """事実密度向上用プロンプト"""
-    return f"""以下のエピソードを改稿して、事実密度を大幅に向上させてください。
+    """factual_density向上用プロンプト"""
+    return f"""以下のエピソードを改稿して、factual_densityを大幅に向上させてください。
 
 【元のエピソード】
 {episode_text}
@@ -79,7 +79,7 @@ def build_fact_improvement_prompt(episode_text: str, person_name: str, age: int)
 人物名: {person_name}
 年齢: {age}歳
 
-【改善指示 - 事実密度を最優先で向上】
+【改善指示 - factual_densityを最優先で向上】
 以下の具体的な事実・データを必ず追加してください：
 1. 具体的な年号（例: 1985年、2003年3月）
 2. 数値データ（例: 100万部突破、3時間32分、世界ランキング2位）
@@ -122,16 +122,16 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸】
-1. 記憶性スコア: 読後も印象に残るか
-2. 共感性スコア: 感情移入できるか
-3. 意外性スコア: 予想外の展開があるか
-4. 生成品質スコア: 文章として完成度が高いか
-5. 教育的価値: 学びや教訓があるか
-6. ストーリー品質: 構成が良いか
-7. 事実密度: 具体的なデータ・事実があるか
+1. memorability_score: 読後も印象に残るか
+2. empathy_score: 感情移入できるか
+3. surprise_score: 予想外の展開があるか
+4. generation_quality_score: 文章として完成度が高いか
+5. educational_value: 学びや教訓があるか
+6. story_quality: 構成が良いか
+7. factual_density: 具体的なデータ・事実があるか
 
 必ず以下のJSON形式のみで回答してください:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(
@@ -148,10 +148,10 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 
 
 def get_low_fact_density_episodes(df: pd.DataFrame, count: int) -> pd.DataFrame:
-    """事実密度3.0-3.5のエピソードを取得"""
-    low_fact = df[(df["事実密度"] >= 3.0) & (df["事実密度"] < 3.5)].copy()
-    # 事実密度が低い順にソート
-    low_fact = low_fact.sort_values("事実密度")
+    """factual_density3.0-3.5のエピソードを取得"""
+    low_fact = df[(df["factual_density"] >= 3.0) & (df["factual_density"] < 3.5)].copy()
+    # factual_densityが低い順にソート
+    low_fact = low_fact.sort_values("factual_density")
     return low_fact.head(count)
 
 
@@ -161,11 +161,11 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
     person_name = row["person_name"]
     age = int(row["age"])
     original_text = str(row["episode_text"])
-    original_fact_density = float(row["事実密度"])
+    original_fact_density = float(row["factual_density"])
 
     print(f"\n{'='*60}")
     print(f"改稿中: {person_name} ({age}歳) [{episode_id}]")
-    print(f"元の事実密度: {original_fact_density:.2f}")
+    print(f"元のfactual_density: {original_fact_density:.2f}")
     print(f"{'='*60}")
 
     # 改稿
@@ -185,7 +185,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
         print("  ❌ 再評価失敗")
         return None
 
-    new_fact_density = new_scores.get("事実密度", 0)
+    new_fact_density = new_scores.get("factual_density", 0)
     new_composite = calculate_composite_score(new_scores)
 
     # 改善判定
@@ -193,7 +193,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
     gate_passed = new_fact_density >= 3.5
 
     if fact_improved and gate_passed:
-        print(f"  ✅ 事実密度向上: {original_fact_density:.2f} → {new_fact_density:.2f}")
+        print(f"  ✅ factual_density向上: {original_fact_density:.2f} → {new_fact_density:.2f}")
         print("  ✅ 品質ゲート合格 (≥3.5)")
         return {
             "episode_id": episode_id,
@@ -208,7 +208,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
             "status": "improved",
         }
     elif fact_improved:
-        print(f"  🔄 事実密度向上: {original_fact_density:.2f} → {new_fact_density:.2f}")
+        print(f"  🔄 factual_density向上: {original_fact_density:.2f} → {new_fact_density:.2f}")
         print("  ⚠️ 品質ゲート未達 (<3.5)")
         return {
             "episode_id": episode_id,
@@ -223,14 +223,14 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
             "status": "partial",
         }
     else:
-        print(f"  ❌ 事実密度未改善: {original_fact_density:.2f} → {new_fact_density:.2f}")
+        print(f"  ❌ factual_density未改善: {original_fact_density:.2f} → {new_fact_density:.2f}")
         return {"episode_id": episode_id, "status": "no_improvement"}
 
 
 def run_improvement(count: int, execute: bool) -> Dict:
     """改稿バッチ実行"""
     print("=" * 60)
-    print("📊 Phase 5: 事実密度改善")
+    print("📊 Phase 5: factual_density改善")
     print("=" * 60)
 
     # CSV読み込み
@@ -239,7 +239,7 @@ def run_improvement(count: int, execute: bool) -> Dict:
 
     # 対象抽出
     targets = get_low_fact_density_episodes(df, count)
-    print(f"  改稿対象: {len(targets)}件 (事実密度 3.0-3.5)")
+    print(f"  改稿対象: {len(targets)}件 (factual_density 3.0-3.5)")
 
     if len(targets) == 0:
         print("  ⚠️ 対象エピソードがありません")
@@ -327,7 +327,7 @@ def run_improvement(count: int, execute: bool) -> Dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="事実密度改善スクリプト")
+    parser = argparse.ArgumentParser(description="factual_density改善スクリプト")
     parser.add_argument("--count", type=int, default=50, help="改稿件数")
     parser.add_argument("--dry-run", action="store_true", help="テスト実行（保存なし）")
     parser.add_argument("--execute", action="store_true", help="本番実行")

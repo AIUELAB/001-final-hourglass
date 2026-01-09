@@ -5,7 +5,7 @@
 機能:
     1. 参照ランキングを教師データとして重み最適化
     2. グリッドサーチ/ベイズ最適化による探索
-    3. 品質ゲート（事実密度・生成品質の足切り）維持
+    3. 品質ゲート（factual_density・生成品質の足切り）維持
     4. 説明可能な重み設定の保存・バージョン管理
 """
 
@@ -108,13 +108,13 @@ class RankingTuner:
         numeric_cols = [
             "celebrity_score_v2",
             "episode_fame_v6",
-            "記憶性スコア",
-            "意外性スコア",
-            "共感性スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
-            "生成品質スコア",
+            "memorability_score",
+            "surprise_score",
+            "empathy_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
+            "generation_quality_score",
             "episode_importance_score",
             "super_total_score",
         ]
@@ -148,13 +148,13 @@ class RankingTuner:
     def _calc_quality_score(self, row: pd.Series, config: TuningConfig) -> float:
         """7軸加重平均による品質スコア"""
         weights = {
-            "記憶性スコア": config.quality_memorability,
-            "意外性スコア": config.quality_surprise,
-            "ストーリー品質": config.quality_story,
-            "教育的価値": config.quality_educational,
-            "事実密度": config.quality_factual,
-            "共感性スコア": config.quality_empathy,
-            "生成品質スコア": config.quality_generation,
+            "memorability_score": config.quality_memorability,
+            "surprise_score": config.quality_surprise,
+            "story_quality": config.quality_story,
+            "educational_value": config.quality_educational,
+            "factual_density": config.quality_factual,
+            "empathy_score": config.quality_empathy,
+            "generation_quality_score": config.quality_generation,
         }
 
         total_weight = 0
@@ -175,13 +175,13 @@ class RankingTuner:
         """ペナルティ乗数を計算"""
         multiplier = 1.0
 
-        # 事実密度ソフトペナルティ
-        fact = row.get("事実密度", 10)
+        # factual_densityソフトペナルティ
+        fact = row.get("factual_density", 10)
         if pd.notna(fact) and config.min_factual_density <= fact < 7.0:
             multiplier *= 0.85
 
         # 生成品質ソフトペナルティ
-        gen = row.get("生成品質スコア", 10)
+        gen = row.get("generation_quality_score", 10)
         if pd.notna(gen) and config.min_generation_quality <= gen < 7.0:
             multiplier *= 0.85
 
@@ -211,8 +211,8 @@ class RankingTuner:
     def calculate_score(self, row: pd.Series, config: TuningConfig) -> float:
         """超総合スコアを計算"""
         # ゲートチェック
-        fact = row.get("事実密度", 0)
-        gen = row.get("生成品質スコア", 0)
+        fact = row.get("factual_density", 0)
+        gen = row.get("generation_quality_score", 0)
 
         if pd.isna(fact) or fact < config.min_factual_density:
             return 0

@@ -9,13 +9,13 @@ from typing import Dict, List, Optional, Union
 
 # 7軸スコアのフィールド名（日本語）
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",  # memorability_score
-    "共感性スコア",  # empathy_score
-    "意外性スコア",  # surprise_score
-    "生成品質スコア",  # generation_quality_score
-    "教育的価値",  # educational_value
-    "ストーリー品質",  # storytelling_quality
-    "事実密度",  # factual_density
+    "memorability_score",  # memorability_score
+    "empathy_score",  # empathy_score
+    "surprise_score",  # surprise_score
+    "generation_quality_score",  # generation_quality_score
+    "educational_value",  # educational_value
+    "story_quality",  # storytelling_quality
+    "factual_density",  # factual_density
 ]
 
 # 5軸スコアのフィールド名（統合版）
@@ -23,35 +23,35 @@ SEVEN_AXIS_FIELDS = [
 FIVE_AXIS_FIELDS = [
     "総合品質",  # overall_quality: 記憶性 + 生成品質
     "感情インパクト",  # emotional_impact: 共感性 + 意外性
-    "教育的価値",  # educational_value (維持)
-    "ストーリー品質",  # storytelling_quality (維持)
-    "事実密度",  # factual_density (維持)
+    "educational_value",  # educational_value (維持)
+    "story_quality",  # storytelling_quality (維持)
+    "factual_density",  # factual_density (維持)
 ]
 
 # 5軸の計算定義
 FIVE_AXIS_COMPOSITION = {
     "総合品質": {
-        "sources": ["記憶性スコア", "生成品質スコア"],
+        "sources": ["memorability_score", "generation_quality_score"],
         "weights": [0.5, 0.5],
         "description": "記憶に残る品質の高いエピソード",
     },
     "感情インパクト": {
-        "sources": ["共感性スコア", "意外性スコア"],
+        "sources": ["empathy_score", "surprise_score"],
         "weights": [0.5, 0.5],
         "description": "共感と驚きによる感情的響き",
     },
-    "教育的価値": {
-        "sources": ["教育的価値"],
+    "educational_value": {
+        "sources": ["educational_value"],
         "weights": [1.0],
         "description": "学びと教訓の価値",
     },
-    "ストーリー品質": {
-        "sources": ["ストーリー品質"],
+    "story_quality": {
+        "sources": ["story_quality"],
         "weights": [1.0],
         "description": "物語としての構成力",
     },
-    "事実密度": {
-        "sources": ["事実密度"],
+    "factual_density": {
+        "sources": ["factual_density"],
         "weights": [1.0],
         "description": "具体的事実の密度",
     },
@@ -59,13 +59,13 @@ FIVE_AXIS_COMPOSITION = {
 
 # 英語→日本語のマッピング
 FIELD_MAPPING = {
-    "memorability_score": "記憶性スコア",
-    "empathy_score": "共感性スコア",
-    "surprise_score": "意外性スコア",
-    "generation_quality_score": "生成品質スコア",
-    "educational_value": "教育的価値",
-    "storytelling_quality": "ストーリー品質",
-    "factual_density": "事実密度",
+    "memorability_score": "memorability_score",
+    "empathy_score": "empathy_score",
+    "surprise_score": "surprise_score",
+    "generation_quality_score": "generation_quality_score",
+    "educational_value": "educational_value",
+    "storytelling_quality": "story_quality",
+    "factual_density": "factual_density",
 }
 
 
@@ -412,7 +412,7 @@ SURPRISE_KEYWORDS = {
     ],
 }
 
-# 教育的価値に関連するキーワード
+# educational_valueに関連するキーワード
 EDUCATIONAL_KEYWORDS = {
     "lesson": ["教訓", "学び", "示唆", "重要", "原則", "哲学", "信念", "思想"],
     "insight": ["発見", "気づき", "理解", "認識", "視点", "考え方"],
@@ -513,7 +513,7 @@ def count_keywords_simple(text: str, keywords: List[str]) -> int:
 
 def calculate_memorability_score(episode_data: Dict) -> float:
     """
-    記憶性スコアを計算（改善版v3）
+    memorability_scoreを計算（改善版v3）
 
     評価基準:
     - 歴史的重要度（キーワード検出）
@@ -531,7 +531,7 @@ def calculate_memorability_score(episode_data: Dict) -> float:
         episode_data: エピソードデータ
 
     Returns:
-        記憶性スコア（1.0-10.0）
+        memorability_score（1.0-10.0）
     """
     score = 3.5  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
@@ -595,7 +595,7 @@ def calculate_memorability_score(episode_data: Dict) -> float:
 
 def calculate_empathy_score(episode_data: Dict) -> float:
     """
-    共感性スコアを計算（改善版v3）
+    empathy_scoreを計算（改善版v3）
 
     評価基準:
     - 感情表現の豊かさ
@@ -613,7 +613,7 @@ def calculate_empathy_score(episode_data: Dict) -> float:
         episode_data: エピソードデータ
 
     Returns:
-        共感性スコア（1.0-10.0）
+        empathy_score（1.0-10.0）
     """
     score = 3.0  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
@@ -666,7 +666,7 @@ def calculate_empathy_score(episode_data: Dict) -> float:
 
 def calculate_surprise_score(episode_data: Dict) -> float:
     """
-    意外性スコアを計算（改善版v3）
+    surprise_scoreを計算（改善版v3）
 
     評価基準:
     - 意外な展開を示すキーワード
@@ -686,7 +686,7 @@ def calculate_surprise_score(episode_data: Dict) -> float:
         episode_data: エピソードデータ
 
     Returns:
-        意外性スコア（1.0-10.0）
+        surprise_score（1.0-10.0）
     """
     score = 3.0  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
@@ -765,7 +765,7 @@ def calculate_surprise_score(episode_data: Dict) -> float:
 
 def calculate_generation_quality_score(episode_data: Dict) -> float:
     """
-    生成品質スコアを計算（改善版v3）
+    generation_quality_scoreを計算（改善版v3）
 
     評価基準:
     - 文章の長さ（適切な長さ）
@@ -778,7 +778,7 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
         episode_data: エピソードデータ
 
     Returns:
-        生成品質スコア（1.0-10.0）
+        generation_quality_score（1.0-10.0）
     """
     score = 3.5  # ベーススコア（さらに下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
@@ -901,7 +901,7 @@ def calculate_generation_quality_score(episode_data: Dict) -> float:
 
 def calculate_educational_value_score(episode_data: Dict) -> float:
     """
-    教育的価値スコアを計算（改善版v3）
+    educational_valueスコアを計算（改善版v3）
 
     評価基準:
     - 教訓・学びを示すキーワード
@@ -919,7 +919,7 @@ def calculate_educational_value_score(episode_data: Dict) -> float:
         episode_data: エピソードデータ
 
     Returns:
-        教育的価値スコア（1.0-10.0）
+        educational_valueスコア（1.0-10.0）
     """
     score = 3.5  # ベーススコア（下方修正）
     episode_text = str(episode_data.get("episode_text", ""))
@@ -989,22 +989,22 @@ def calculate_all_five_axes(episode_data: Dict) -> Dict[str, float]:
         5軸スコアの辞書
     """
     return {
-        "記憶性スコア": calculate_memorability_score(episode_data),
-        "共感性スコア": calculate_empathy_score(episode_data),
-        "意外性スコア": calculate_surprise_score(episode_data),
-        "生成品質スコア": calculate_generation_quality_score(episode_data),
-        "教育的価値": calculate_educational_value_score(episode_data),
+        "memorability_score": calculate_memorability_score(episode_data),
+        "empathy_score": calculate_empathy_score(episode_data),
+        "surprise_score": calculate_surprise_score(episode_data),
+        "generation_quality_score": calculate_generation_quality_score(episode_data),
+        "educational_value": calculate_educational_value_score(episode_data),
     }
 
 
 # ============================================================
-# ストーリー品質・事実密度（統一版）
+# story_quality・factual_density（統一版）
 # ============================================================
 
 
 def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
     """
-    ストーリー品質スコアを算出（統一版・改善版v2）（1-10点）
+    story_qualityスコアを算出（統一版・改善版v2）（1-10点）
 
     評価基準：
     - ストーリーの構成: 起承転結があるか
@@ -1018,7 +1018,7 @@ def calculate_storytelling_quality(episode_text: str, episode_type: str) -> floa
         episode_type: エピソードタイプ（ACHIEVEMENT, TURNING_POINT等）
 
     Returns:
-        ストーリー品質スコア（1.0-10.0）
+        story_qualityスコア（1.0-10.0）
     """
     score = 3.0  # ベーススコア（改善版v2）
 
@@ -1128,7 +1128,7 @@ def calculate_storytelling_quality(episode_text: str, episode_type: str) -> floa
 
 def calculate_factual_density(episode_text: str, episode_type: str) -> float:
     """
-    事実密度スコアを算出（統一版・改善版v3）（1-10点）
+    factual_densityスコアを算出（統一版・改善版v3）（1-10点）
 
     評価基準：
     - 具体的な数値データ: 年号、数量、記録など（年齢は除外）
@@ -1142,7 +1142,7 @@ def calculate_factual_density(episode_text: str, episode_type: str) -> float:
         episode_type: エピソードタイプ（ACHIEVEMENT, TURNING_POINT等）
 
     Returns:
-        事実密度スコア（1.0-10.0）
+        factual_densityスコア（1.0-10.0）
     """
     score = 3.0  # ベーススコア（改善版v3）
 
@@ -1268,8 +1268,8 @@ def calculate_all_seven_axes(episode_data: Dict) -> Dict[str, float]:
     five_axes = calculate_all_five_axes(episode_data)
 
     # 2軸を追加
-    five_axes["ストーリー品質"] = calculate_storytelling_quality(episode_text, episode_type)
-    five_axes["事実密度"] = calculate_factual_density(episode_text, episode_type)
+    five_axes["story_quality"] = calculate_storytelling_quality(episode_text, episode_type)
+    five_axes["factual_density"] = calculate_factual_density(episode_text, episode_type)
 
     return five_axes
 
@@ -1518,9 +1518,9 @@ HYBRID_WEIGHTS = {
     "共感性": (0.2, 0.8),  # ルール20%, LLM80% (感情はLLM向き)
     "意外性": (0.5, 0.5),  # ルール50%, LLM50% (事実確認はルール向き)
     "生成品質": (0.9, 0.1),  # ルール90%, LLM10% (維持)
-    "教育的価値": (0.4, 0.6),  # ルール40%, LLM60% (維持)
-    "ストーリー品質": (0.4, 0.6),  # ルール40%, LLM60% (維持)
-    "事実密度": (1.0, 0.0),  # ルールのみ (維持)
+    "educational_value": (0.4, 0.6),  # ルール40%, LLM60% (維持)
+    "story_quality": (0.4, 0.6),  # ルール40%, LLM60% (維持)
+    "factual_density": (1.0, 0.0),  # ルールのみ (維持)
 }
 
 
@@ -1542,7 +1542,7 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
     episode_text = str(episode_data.get("episode_text", ""))
     episode_type = str(episode_data.get("episode_type", ""))
 
-    # 事実密度用のルールベース計算
+    # factual_density用のルールベース計算
     year_count = len(re.findall(r"(19|20)\d{2}年?", episode_text))
     number_count = len(re.findall(r"\d+[歳回位人件万億円ドル%]", episode_text))
     katakana_count = len(re.findall(r"[ァ-ヴー]{3,}", episode_text))
@@ -1554,7 +1554,7 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
     # ===== Phase 2改善: ベーススコア調整（スケール補正） =====
     # 目標: 平均7-8点、軸間独立性を維持
 
-    # 記憶性キーワード（独自: 印象深さ・象徴性）- Phase 5: 事実密度から独立
+    # 記憶性キーワード（独自: 印象深さ・象徴性）- Phase 5: factual_densityから独立
     memorability_kw = [
         "印象的",
         "忘れられない",
@@ -1575,8 +1575,8 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
     ]
     memorability_count = sum(1 for kw in memorability_kw if kw in episode_text)
 
-    # Phase 6: 記憶性独自の評価要素（事実密度・ストーリー品質との相関を排除）
-    # 歴史的重要性マーカー（記憶性専用 - ストーリー品質と異なる）
+    # Phase 6: 記憶性独自の評価要素（factual_density・story_qualityとの相関を排除）
+    # 歴史的重要性マーカー（記憶性専用 - story_qualityと異なる）
     historic_markers = ["歴史を変えた", "時代を画した", "革命的", "画期的", "先駆け", "礎を築いた"]
     historic_count = sum(1 for hm in historic_markers if hm in episode_text)
 
@@ -1588,7 +1588,7 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
     impact_markers = ["初めて", "世界初", "史上初", "唯一", "最高", "最大", "前人未踏", "破った"]
     impact_count = sum(1 for im in impact_markers if im in episode_text)
 
-    # 人物・出来事の固有性マーカー（記憶性専用 - ストーリー品質と異なる）
+    # 人物・出来事の固有性マーカー（記憶性専用 - story_qualityと異なる）
     uniqueness_markers = ["類を見ない", "比類なき", "空前の", "唯一無二", "特異な", "異例の", "稀有な"]
     uniqueness_count = sum(1 for um in uniqueness_markers if um in episode_text)
 
@@ -1596,7 +1596,7 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
     legend_markers = ["伝説", "逸話", "語り継がれ", "名を残し", "後世に"]
     legend_count = sum(1 for lm in legend_markers if lm in episode_text)
 
-    # Phase 6: ベース6.0 + 独自要素（事実密度・ストーリー品質との相関を排除）
+    # Phase 6: ベース6.0 + 独自要素（factual_density・story_qualityとの相関を排除）
     memorability_score = min(
         10,
         max(
@@ -1706,7 +1706,7 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
     universal_patterns = ["人生", "成功", "努力", "挑戦", "困難", "逆境", "成長", "可能性"]
     universal_count = sum(1 for up in universal_patterns if up in episode_text)
 
-    # Phase 4: 多層的な教育的価値評価
+    # Phase 4: 多層的なeducational_value評価
     lesson_score = 5.0  # ベースを下げて変動幅確保
     lesson_score += lesson_count * 0.4  # 基本キーワード
     lesson_score += insight_count * 0.8  # 洞察（重視）
@@ -1787,9 +1787,9 @@ def calculate_hybrid_rule_scores(episode_data: Dict) -> Dict[str, float]:
         "共感性": empathy_score,  # 差別化されたキーワード
         "意外性": surprise_score,  # 差別化されたキーワード
         "生成品質": text_quality,
-        "教育的価値": lesson_score,
-        "ストーリー品質": structure_score,
-        "事実密度": fact_score,
+        "educational_value": lesson_score,
+        "story_quality": structure_score,
+        "factual_density": fact_score,
     }
 
 
@@ -1825,9 +1825,9 @@ def calculate_hybrid_scores(episode_data: Dict, llm_scores: Optional[Dict[str, f
         "共感性": llm_scores.get("empathy", 7.5),
         "意外性": llm_scores.get("surprise", 7.5),
         "生成品質": llm_scores.get("story_quality", 7.5),
-        "教育的価値": llm_scores.get("empathy", 7.5),
-        "ストーリー品質": llm_scores.get("story_quality", 7.5),
-        "事実密度": 7.5,  # 使用しない（重み0）
+        "educational_value": llm_scores.get("empathy", 7.5),
+        "story_quality": llm_scores.get("story_quality", 7.5),
+        "factual_density": 7.5,  # 使用しない（重み0）
     }
 
     # 重み付き統合（LLMスコアあり時のみ）
@@ -1856,13 +1856,13 @@ def calculate_hybrid_seven_axes(episode_data: Dict) -> Dict[str, float]:
     hybrid = calculate_hybrid_scores(episode_data, llm_scores=None)
 
     return {
-        "記憶性スコア": hybrid["記憶性"],
-        "共感性スコア": hybrid["共感性"],
-        "意外性スコア": hybrid["意外性"],
-        "生成品質スコア": hybrid["生成品質"],
-        "教育的価値": hybrid["教育的価値"],
-        "ストーリー品質": hybrid["ストーリー品質"],
-        "事実密度": hybrid["事実密度"],
+        "memorability_score": hybrid["記憶性"],
+        "empathy_score": hybrid["共感性"],
+        "surprise_score": hybrid["意外性"],
+        "generation_quality_score": hybrid["生成品質"],
+        "educational_value": hybrid["educational_value"],
+        "story_quality": hybrid["story_quality"],
+        "factual_density": hybrid["factual_density"],
     }
 
 
@@ -1876,9 +1876,9 @@ def calculate_five_axis_scores(seven_axis_data: Dict) -> Dict[str, float]:
     7軸スコアから5軸統合スコアを計算
 
     統合ルール:
-    - 総合品質 = (記憶性スコア + 生成品質スコア) / 2
-    - 感情インパクト = (共感性スコア + 意外性スコア) / 2
-    - 教育的価値, ストーリー品質, 事実密度 = そのまま維持
+    - 総合品質 = (memorability_score + generation_quality_score) / 2
+    - 感情インパクト = (empathy_score + surprise_score) / 2
+    - educational_value, story_quality, factual_density = そのまま維持
 
     Args:
         seven_axis_data: 7軸スコアを含むデータ辞書
@@ -2027,19 +2027,19 @@ LLM_EVALUATION_PROMPT = """
    - 4: 普通
    - 1: 読みにくい
 
-5. 教育的価値 (1-10): 学びがあるか
+5. educational_value (1-10): 学びがあるか
    - 10: 人生を変える学び
    - 7: 参考になる
    - 4: 普通
    - 1: 学びなし
 
-6. ストーリー品質 (1-10): 物語としての完成度
+6. story_quality (1-10): 物語としての完成度
    - 10: 映画化できるレベル
    - 7: 引き込まれる
    - 4: 普通
    - 1: 面白くない
 
-7. 事実密度 (1-10): 具体的な事実の豊富さ
+7. factual_density (1-10): 具体的な事実の豊富さ
    - 10: 年号・数値・固有名詞が豊富
    - 7: 具体的
    - 4: 普通
@@ -2055,7 +2055,7 @@ LLM_EVALUATION_PROMPT = """
 
 【出力形式】
 必ず以下のJSON形式のみで出力してください（説明不要）:
-{{"記憶性": X, "共感性": X, "意外性": X, "生成品質": X, "教育的価値": X, "ストーリー品質": X, "事実密度": X}}
+{{"記憶性": X, "共感性": X, "意外性": X, "生成品質": X, "educational_value": X, "story_quality": X, "factual_density": X}}
 """
 
 # Phase 7B: ターゲット統計（ルールベース実績）
@@ -2064,9 +2064,9 @@ LLM_TARGET_STATS = {
     "共感性": {"mean": 5.52, "std": 0.61},
     "意外性": {"mean": 5.45, "std": 0.52},
     "生成品質": {"mean": 8.46, "std": 0.56},
-    "教育的価値": {"mean": 5.55, "std": 0.52},
-    "ストーリー品質": {"mean": 6.70, "std": 0.45},
-    "事実密度": {"mean": 9.57, "std": 1.05},
+    "educational_value": {"mean": 5.55, "std": 0.52},
+    "story_quality": {"mean": 6.70, "std": 0.45},
+    "factual_density": {"mean": 9.57, "std": 1.05},
 }
 
 # LLMの想定分布（観測値ベース）
@@ -2158,16 +2158,16 @@ def get_dynamic_weights(episode_data: Dict) -> Dict[str, tuple]:
         "共感性": (0.2, 0.8),
         "意外性": (0.5, 0.5),
         "生成品質": (0.9, 0.1),
-        "教育的価値": (0.4, 0.6),
-        "ストーリー品質": (0.4, 0.6),
-        "事実密度": (1.0, 0.0),
+        "educational_value": (0.4, 0.6),
+        "story_quality": (0.4, 0.6),
+        "factual_density": (1.0, 0.0),
     }
 
     # 特性に応じて重みを調整
 
-    # 数値・年号が多い → 事実密度・記憶性はルール重視
+    # 数値・年号が多い → factual_density・記憶性はルール重視
     if chars["has_numbers"]:
-        weights["事実密度"] = (1.0, 0.0)  # ルール100%
+        weights["factual_density"] = (1.0, 0.0)  # ルール100%
         weights["記憶性"] = (0.7, 0.3)  # ルール重視強化
 
     # 感情表現が多い → 共感性・記憶性はLLM重視
@@ -2175,17 +2175,17 @@ def get_dynamic_weights(episode_data: Dict) -> Dict[str, tuple]:
         weights["共感性"] = (0.1, 0.9)  # LLM90%
         weights["記憶性"] = (0.4, 0.6)  # LLM重視
 
-    # 対話・引用がある → ストーリー品質はLLM重視
+    # 対話・引用がある → story_qualityはLLM重視
     if chars["has_dialogue"]:
-        weights["ストーリー品質"] = (0.3, 0.7)  # LLM70%
+        weights["story_quality"] = (0.3, 0.7)  # LLM70%
 
-    # 教育的内容が含まれる → 教育的価値はLLM重視
+    # 教育的内容が含まれる → educational_valueはLLM重視
     if chars["has_educational"]:
-        weights["教育的価値"] = (0.3, 0.7)  # LLM70%
+        weights["educational_value"] = (0.3, 0.7)  # LLM70%
 
-    # 物語的要素がある → ストーリー品質・意外性はLLM重視
+    # 物語的要素がある → story_quality・意外性はLLM重視
     if chars["has_story_elements"]:
-        weights["ストーリー品質"] = (0.2, 0.8)  # LLM80%
+        weights["story_quality"] = (0.2, 0.8)  # LLM80%
         weights["意外性"] = (0.4, 0.6)  # LLM60%
 
     # 短いエピソード → ルール重視（LLMの判断材料が少ない）
@@ -2294,7 +2294,15 @@ def parse_llm_response(response_text: str) -> Optional[Dict[str, float]]:
         scores = json.loads(json_str)
 
         # 必須キーの検証
-        required_keys = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+        required_keys = [
+            "記憶性",
+            "共感性",
+            "意外性",
+            "生成品質",
+            "educational_value",
+            "story_quality",
+            "factual_density",
+        ]
         for key in required_keys:
             if key not in scores:
                 return None

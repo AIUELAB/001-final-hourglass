@@ -95,13 +95,13 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
 
                 # 結果からスコアを抽出
                 axis_scores = AxisScores(
-                    memorability=result.get("記憶性スコア", 7.0),
-                    empathy=result.get("共感性スコア", 7.0),
-                    surprise=result.get("意外性スコア", 7.0),
-                    generation_quality=result.get("生成品質スコア", 7.0),
-                    educational_value=result.get("教育的価値", 7.0),
-                    story_quality=result.get("ストーリー品質", 7.0),
-                    factual_density=result.get("事実密度", 7.0),
+                    memorability=result.get("memorability_score", 7.0),
+                    empathy=result.get("empathy_score", 7.0),
+                    surprise=result.get("surprise_score", 7.0),
+                    generation_quality=result.get("generation_quality_score", 7.0),
+                    educational_value=result.get("educational_value", 7.0),
+                    story_quality=result.get("story_quality", 7.0),
+                    factual_density=result.get("factual_density", 7.0),
                 )
 
                 # 品質ゲートチェック
@@ -164,13 +164,13 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
             scores = generator.calculate_scores(text, candidate.person_name, candidate.age)
 
             axis_scores = AxisScores(
-                memorability=scores.get("記憶性スコア", 5.0),
-                empathy=scores.get("共感性スコア", 5.0),
-                surprise=scores.get("意外性スコア", 5.0),
-                generation_quality=scores.get("生成品質スコア", 5.0),
-                educational_value=scores.get("教育的価値", 5.0),
-                story_quality=scores.get("ストーリー品質", 5.0),
-                factual_density=scores.get("事実密度", 5.0),
+                memorability=scores.get("memorability_score", 5.0),
+                empathy=scores.get("empathy_score", 5.0),
+                surprise=scores.get("surprise_score", 5.0),
+                generation_quality=scores.get("generation_quality_score", 5.0),
+                educational_value=scores.get("educational_value", 5.0),
+                story_quality=scores.get("story_quality", 5.0),
+                factual_density=scores.get("factual_density", 5.0),
             )
 
             # 統合スコア計算（7軸の加重平均 × 100）

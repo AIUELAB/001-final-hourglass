@@ -130,7 +130,7 @@ class EpisodeGenerator:
 {age_config["themes"]}
 3. 具体的な事実や出来事を含める
 4. 200-300文字程度
-5. 教育的価値のある内容
+5. educational_valueのある内容
 6. 事実に基づいた内容（架空の内容は避ける）
 
 ❌ 絶対禁止される表現:
@@ -185,13 +185,13 @@ class EpisodeGenerator:
         """
         char_count = len(episode_text)
         scores = {
-            "記憶性スコア": 8.5,
-            "共感性スコア": 7.5,
-            "意外性スコア": 8.0,
-            "生成品質スコア": 8.5,
-            "教育的価値": 8.0,
-            "ストーリー品質": 8.5,
-            "事実密度": 8.5,
+            "memorability_score": 8.5,
+            "empathy_score": 7.5,
+            "surprise_score": 8.0,
+            "generation_quality_score": 8.5,
+            "educational_value": 8.0,
+            "story_quality": 8.5,
+            "factual_density": 8.5,
         }
 
         # 文字数に応じて調整

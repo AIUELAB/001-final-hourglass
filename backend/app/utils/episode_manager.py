@@ -140,17 +140,21 @@ class EpisodeManager:
             "group_name": episode_data.group_name or "",
             "is_group_member": str(episode_data.is_group_member) if episode_data.is_group_member is not None else "",
             "人生の節目タグ": episode_data.milestone_tags or "",
-            "記憶性スコア": str(episode_data.memorability_score) if episode_data.memorability_score is not None else "",
-            "共感性スコア": str(episode_data.empathy_score) if episode_data.empathy_score is not None else "",
-            "意外性スコア": str(episode_data.surprise_score) if episode_data.surprise_score is not None else "",
-            "生成品質スコア": str(episode_data.generation_quality_score)
+            "memorability_score": str(episode_data.memorability_score)
+            if episode_data.memorability_score is not None
+            else "",
+            "empathy_score": str(episode_data.empathy_score) if episode_data.empathy_score is not None else "",
+            "surprise_score": str(episode_data.surprise_score) if episode_data.surprise_score is not None else "",
+            "generation_quality_score": str(episode_data.generation_quality_score)
             if episode_data.generation_quality_score is not None
             else "",
-            "教育的価値": str(episode_data.educational_value) if episode_data.educational_value is not None else "",
-            "ストーリー品質": str(episode_data.storytelling_quality)
+            "educational_value": str(episode_data.educational_value)
+            if episode_data.educational_value is not None
+            else "",
+            "story_quality": str(episode_data.storytelling_quality)
             if episode_data.storytelling_quality is not None
             else "",
-            "事実密度": str(episode_data.factual_density) if episode_data.factual_density is not None else "",
+            "factual_density": str(episode_data.factual_density) if episode_data.factual_density is not None else "",
             "generation_timestamp": datetime.now().isoformat(),
             "char_count": str(len(episode_data.episode_text)),
         }
@@ -191,13 +195,13 @@ class EpisodeManager:
 
                 # スコアフィールドの日本語名マッピング
                 field_mapping = {
-                    "memorability_score": "記憶性スコア",
-                    "empathy_score": "共感性スコア",
-                    "surprise_score": "意外性スコア",
-                    "generation_quality_score": "生成品質スコア",
-                    "educational_value": "教育的価値",
-                    "storytelling_quality": "ストーリー品質",
-                    "factual_density": "事実密度",
+                    "memorability_score": "memorability_score",
+                    "empathy_score": "empathy_score",
+                    "surprise_score": "surprise_score",
+                    "generation_quality_score": "generation_quality_score",
+                    "educational_value": "educational_value",
+                    "storytelling_quality": "story_quality",
+                    "factual_density": "factual_density",
                     "milestone_tags": "人生の節目タグ",
                 }
 
@@ -295,9 +299,9 @@ class EpisodeManager:
             "共感性": "llm_empathy_score",
             "意外性": "llm_surprise_score",
             "生成品質": "llm_generation_quality_score",
-            "教育的価値": "llm_educational_value",
-            "ストーリー品質": "llm_storytelling_quality",
-            "事実密度": "llm_factual_density",
+            "educational_value": "llm_educational_value",
+            "story_quality": "llm_storytelling_quality",
+            "factual_density": "llm_factual_density",
         }
 
         for i, ep in enumerate(self.episodes):

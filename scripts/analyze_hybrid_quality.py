@@ -52,13 +52,13 @@ def analyze_scores(episodes: list[dict]) -> dict:
     axis_scores = defaultdict(list)
 
     axis_columns = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     for ep in episodes:
@@ -103,8 +103,8 @@ def analyze_quality_gates(episodes: list[dict]) -> dict:
     both_pass = 0
 
     for ep in episodes:
-        fd = safe_float(ep.get("事実密度", ""))
-        gq = safe_float(ep.get("生成品質スコア", ""))
+        fd = safe_float(ep.get("factual_density", ""))
+        gq = safe_float(ep.get("generation_quality_score", ""))
 
         fd_ok = fd >= 6.0
         gq_ok = gq >= 6.0
@@ -197,13 +197,13 @@ def generate_report(existing_stats: dict, new_stats: dict) -> str:
 """
 
     axis_order = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     for axis in axis_order:
@@ -219,7 +219,7 @@ def generate_report(existing_stats: dict, new_stats: dict) -> str:
 
 | 指標 | 既存EP | 新規EP |
 |------|--------|--------|
-| 事実密度 ≥ 6.0 | {existing_stats['gate']['factual_density_rate']:.1f}% ({existing_stats['gate']['factual_density_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['factual_density_rate']:.1f}% ({new_stats['gate']['factual_density_pass']:,}/{new_stats['gate']['total']:,}) |
+| factual_density ≥ 6.0 | {existing_stats['gate']['factual_density_rate']:.1f}% ({existing_stats['gate']['factual_density_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['factual_density_rate']:.1f}% ({new_stats['gate']['factual_density_pass']:,}/{new_stats['gate']['total']:,}) |
 | 生成品質 ≥ 6.0 | {existing_stats['gate']['generation_quality_rate']:.1f}% ({existing_stats['gate']['generation_quality_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['generation_quality_rate']:.1f}% ({new_stats['gate']['generation_quality_pass']:,}/{new_stats['gate']['total']:,}) |
 | 両方クリア | {existing_stats['gate']['both_rate']:.1f}% ({existing_stats['gate']['both_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['both_rate']:.1f}% ({new_stats['gate']['both_pass']:,}/{new_stats['gate']['total']:,}) |
 

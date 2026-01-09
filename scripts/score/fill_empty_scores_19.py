@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """19件の空スコアエピソードを補完するスクリプト
 
-7軸スコア（記憶性・共感性・意外性・生成品質・教育的価値・ストーリー品質・事実密度）と
+7軸スコア（記憶性・共感性・意外性・生成品質・educational_value・story_quality・factual_density）と
 5軸スコア（総合品質・感情インパクト・composite_score_5axis）を補完する。
 
 LLMを使わず、テキスト分析ベースで高速に処理。
@@ -23,7 +23,7 @@ CSV_PATH = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 
 
 def calculate_memorability(text: str) -> float:
-    """記憶性スコア: 印象的なキーワード、具体的エピソード"""
+    """memorability_score: 印象的なキーワード、具体的エピソード"""
     if not text:
         return 6.0
     score = 6.0
@@ -58,7 +58,7 @@ def calculate_memorability(text: str) -> float:
 
 
 def calculate_empathy(text: str) -> float:
-    """共感性スコア: 感情的キーワード、人間味"""
+    """empathy_score: 感情的キーワード、人間味"""
     if not text:
         return 5.5
     score = 5.5
@@ -94,7 +94,7 @@ def calculate_empathy(text: str) -> float:
 
 
 def calculate_surprise(text: str) -> float:
-    """意外性スコア: 逆転・予想外の展開"""
+    """surprise_score: 逆転・予想外の展開"""
     if not text:
         return 5.5
     score = 5.5
@@ -121,7 +121,7 @@ def calculate_surprise(text: str) -> float:
 
 
 def calculate_generation_quality(text: str) -> float:
-    """生成品質スコア: 文章の長さ・構成"""
+    """generation_quality_score: 文章の長さ・構成"""
     if not text:
         return 7.0
     score = 7.0
@@ -142,7 +142,7 @@ def calculate_generation_quality(text: str) -> float:
 
 
 def calculate_educational_value(text: str) -> float:
-    """教育的価値: 学びのキーワード"""
+    """educational_value: 学びのキーワード"""
     if not text:
         return 5.5
     score = 5.5
@@ -174,7 +174,7 @@ def calculate_educational_value(text: str) -> float:
 
 
 def calculate_storytelling(text: str) -> float:
-    """ストーリー品質: 物語性"""
+    """story_quality: 物語性"""
     if not text:
         return 6.5
     score = 6.5
@@ -203,7 +203,7 @@ def calculate_storytelling(text: str) -> float:
 
 
 def calculate_factual_density(text: str) -> float:
-    """事実密度: 具体的情報の密度"""
+    """factual_density: 具体的情報の密度"""
     if not text:
         return 8.0
     score = 8.0
@@ -241,7 +241,7 @@ def fill_empty_scores():
 
         for row in reader:
             # 空スコア判定
-            if not row.get("記憶性スコア", "").strip():
+            if not row.get("memorability_score", "").strip():
                 empty_episodes.append(row)
             rows.append(row)
 
@@ -258,7 +258,7 @@ def fill_empty_scores():
     updated_count = 0
 
     for row in rows:
-        if not row.get("記憶性スコア", "").strip():
+        if not row.get("memorability_score", "").strip():
             text = row.get("episode_text", "")
             ep_id = row["episode_id"]
             person = row["person_name"]
@@ -278,13 +278,13 @@ def fill_empty_scores():
             composite_5axis = (overall_quality + emotional_impact + edu_value + storytelling + factual) / 5
 
             # 更新
-            row["記憶性スコア"] = f"{memorability:.1f}"
-            row["共感性スコア"] = f"{empathy:.1f}"
-            row["意外性スコア"] = f"{surprise:.1f}"
-            row["生成品質スコア"] = f"{gen_quality:.1f}"
-            row["教育的価値"] = f"{edu_value:.1f}"
-            row["ストーリー品質"] = f"{storytelling:.1f}"
-            row["事実密度"] = f"{factual:.1f}"
+            row["memorability_score"] = f"{memorability:.1f}"
+            row["empathy_score"] = f"{empathy:.1f}"
+            row["surprise_score"] = f"{surprise:.1f}"
+            row["generation_quality_score"] = f"{gen_quality:.1f}"
+            row["educational_value"] = f"{edu_value:.1f}"
+            row["story_quality"] = f"{storytelling:.1f}"
+            row["factual_density"] = f"{factual:.1f}"
             row["総合品質"] = f"{overall_quality:.2f}"
             row["感情インパクト"] = f"{emotional_impact:.2f}"
             row["composite_score_5axis"] = f"{composite_5axis:.2f}"

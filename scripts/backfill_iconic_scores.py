@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-象徴性スコアバックフィルスクリプト
+iconic_scoreバックフィルスクリプト
 
-既存エピソードの欠損している象徴性スコアを計算・更新する。
+既存エピソードの欠損しているiconic_scoreを計算・更新する。
 IconicScoreCalculatorを使用してテキスト分析ベースでスコアを算出。
 """
 
@@ -23,18 +23,18 @@ MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 
 
 def main():
-    print("=== 象徴性スコア バックフィル ===\n")
+    print("=== iconic_score バックフィル ===\n")
 
     # CSV読み込み
     print("CSVデータ読み込み中...")
     df = pd.read_csv(MASTER_CSV, encoding="utf-8-sig", low_memory=False)
     print(f"総エピソード数: {len(df)}")
 
-    # 象徴性スコアを数値に変換
-    df["象徴性スコア"] = pd.to_numeric(df["象徴性スコア"], errors="coerce")
+    # iconic_scoreを数値に変換
+    df["iconic_score"] = pd.to_numeric(df["iconic_score"], errors="coerce")
 
     # 欠損/0のインデックスを取得
-    mask = df["象徴性スコア"].isna() | (df["象徴性スコア"] == 0)
+    mask = df["iconic_score"].isna() | (df["iconic_score"] == 0)
     missing_indices = df[mask].index.tolist()
     print(f"要更新エピソード: {len(missing_indices)}")
 
@@ -65,7 +65,7 @@ def main():
         # スコア計算
         if text:
             score = calculator.calculate(text=text, person_name=person_name, age=age)
-            df.at[idx, "象徴性スコア"] = round(score, 1)
+            df.at[idx, "iconic_score"] = round(score, 1)
             updated_count += 1
 
     print(f"\n更新完了: {updated_count}件")
@@ -76,7 +76,7 @@ def main():
     print(f"✓ 保存完了: {MASTER_CSV}")
 
     # 統計確認
-    iconic = pd.to_numeric(df["象徴性スコア"], errors="coerce")
+    iconic = pd.to_numeric(df["iconic_score"], errors="coerce")
     print("\n=== 更新後統計 ===")
     print(f"平均スコア: {iconic.mean():.2f}")
     print(f"最小: {iconic.min():.1f}, 最大: {iconic.max():.1f}")

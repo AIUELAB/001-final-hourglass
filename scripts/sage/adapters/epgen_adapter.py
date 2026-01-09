@@ -67,7 +67,7 @@ class EPGENAdapter(GeneratorAdapter):
         self._eval_model_name = "claude-3-5-haiku-20241022" if use_haiku_evaluation else "claude-sonnet-4-20250514"
         # 象徴的業績データ（遅延読み込み）
         self._iconic_achievements: Optional[dict[str, Any]] = None
-        # 象徴性スコア計算器（8軸目）- 遅延初期化
+        # iconic_score計算器（8軸目）- 遅延初期化
         self._iconic_score_calculator = None
         # Phase 21: 多段階生成
         self._use_tiered_generation = use_tiered_generation
@@ -574,7 +574,7 @@ class EPGENAdapter(GeneratorAdapter):
                     eval_result = eval_results[i]
                     scores = eval_result.scores
 
-                    # 象徴性スコア計算
+                    # iconic_score計算
                     iconic_score = self._get_iconic_score_calculator().calculate(
                         text=r.episode_text,
                         person_name=r.candidate.person_name,
@@ -874,7 +874,7 @@ class EPGENAdapter(GeneratorAdapter):
                 self.record_token_usage(eval_token_usage)
                 self._last_eval_tokens = eval_token_usage
 
-                # 象徴性スコア計算（8軸目: テキスト分析ベース）
+                # iconic_score計算（8軸目: テキスト分析ベース）
                 iconic_score = self._get_iconic_score_calculator().calculate(
                     text=text,
                     person_name=candidate.person_name,
@@ -1022,7 +1022,7 @@ class MockEPGENAdapter(GeneratorAdapter):
             f"この成果は「サイエンス」誌に掲載され、業界に革命をもたらしました。"
         )
 
-        # Phase 2閾値対応: 事実密度>=7, 生成品質>=8
+        # Phase 2閾値対応: factual_density>=7, 生成品質>=8
         axis_scores = AxisScores(
             memorability=7.5,
             empathy=7.0,
@@ -1054,7 +1054,7 @@ class MockEPGENAdapter(GeneratorAdapter):
 
     def evaluate(self, text: str, candidate: Candidate) -> EvaluationResult:
         """モック評価"""
-        # Phase 2閾値対応: 事実密度>=7, 生成品質>=8
+        # Phase 2閾値対応: factual_density>=7, 生成品質>=8
         axis_scores = AxisScores(
             memorability=7.5,
             empathy=7.0,

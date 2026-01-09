@@ -6,7 +6,7 @@
 ルールベース評価とLLM評価を組み合わせた7軸評価システム。
 
 設計思想:
-- 客観的指標（事実密度等）: ルールベース重視
+- 客観的指標（factual_density等）: ルールベース重視
 - 主観的指標（共感性等）: LLM重視
 - 両方の強みを活かす加重平均方式
 
@@ -108,7 +108,7 @@ class RuleBasedEvaluator:
         }
 
     def _calc_fact_density(self, text: str) -> float:
-        """事実密度スコア（1-10）"""
+        """factual_densityスコア（1-10）"""
         years = len(self.YEAR_PATTERN.findall(text))
         numbers = len(self.NUMBER_PATTERN.findall(text))
         katakana = len(self.KATAKANA_PATTERN.findall(text))
@@ -202,7 +202,7 @@ class LightLLMEvaluator:
    - 5-6: 普通
    - 1-2: 陳腐
 
-3. ストーリー品質: 物語として構成が整っているか
+3. story_quality: 物語として構成が整っているか
    - 9-10: 完璧な起承転結
    - 5-6: 普通
    - 1-2: ストーリー性なし
@@ -314,15 +314,15 @@ class HybridEvaluator:
                 llm_scores["story_quality"],  # 代用
                 w.generation_quality,
             ),
-            "教育的価値": self._weighted_avg(
+            "educational_value": self._weighted_avg(
                 rule_scores["lesson_score"],
                 llm_scores["empathy"],  # 代用
                 w.educational_value,
             ),
-            "ストーリー品質": self._weighted_avg(
+            "story_quality": self._weighted_avg(
                 rule_scores["structure_score"], llm_scores["story_quality"], w.story_quality
             ),
-            "事実密度": self._weighted_avg(
+            "factual_density": self._weighted_avg(
                 rule_scores["fact_density"],
                 5,  # LLMは参照しない
                 w.fact_density,

@@ -2,9 +2,9 @@
 """
 全エピソードの7軸スコア一括算出スクリプト
 
-ストーリー品質と事実密度を全エピソードに対して算出
+story_qualityとfactual_densityを全エピソードに対して算出
 
-NOTE: ストーリー品質と事実密度の算出ロジックは統一モジュールからインポート
+NOTE: story_qualityとfactual_densityの算出ロジックは統一モジュールからインポート
       backend/app/utils/score_calculator.py に正規実装あり
 """
 
@@ -57,9 +57,9 @@ def batch_calculate():
     # Step 3: 現状確認
     print("Step 3: 現状確認中...")
 
-    # ストーリー品質の確認（数値でないものをカウント）
+    # story_qualityの確認（数値でないものをカウント）
     storytelling_needs_calc = 0
-    for val in df["ストーリー品質"]:
+    for val in df["story_quality"]:
         if pd.isna(val):
             storytelling_needs_calc += 1
         else:
@@ -68,11 +68,11 @@ def batch_calculate():
             except (ValueError, TypeError):
                 storytelling_needs_calc += 1
 
-    # 事実密度の確認
-    factual_needs_calc = df["事実密度"].isna().sum()
+    # factual_densityの確認
+    factual_needs_calc = df["factual_density"].isna().sum()
 
-    print(f"  ストーリー品質の算出が必要: {storytelling_needs_calc:,}件")
-    print(f"  事実密度の算出が必要: {factual_needs_calc:,}件")
+    print(f"  story_qualityの算出が必要: {storytelling_needs_calc:,}件")
+    print(f"  factual_densityの算出が必要: {factual_needs_calc:,}件")
     print()
 
     # Step 4: 一括算出
@@ -85,8 +85,8 @@ def batch_calculate():
         episode_text = str(row["episode_text"])
         episode_type = str(row["episode_type"])
 
-        # ストーリー品質の算出
-        current_storytelling = row["ストーリー品質"]
+        # story_qualityの算出
+        current_storytelling = row["story_quality"]
         needs_storytelling = False
 
         if pd.isna(current_storytelling):
@@ -99,13 +99,13 @@ def batch_calculate():
 
         if needs_storytelling:
             storytelling_score = calculate_storytelling_quality(episode_text, episode_type)
-            df.at[idx, "ストーリー品質"] = storytelling_score
+            df.at[idx, "story_quality"] = storytelling_score
             storytelling_updated += 1
 
-        # 事実密度の算出
-        if pd.isna(row["事実密度"]):
+        # factual_densityの算出
+        if pd.isna(row["factual_density"]):
             factual_score = calculate_factual_density(episode_text, episode_type)
-            df.at[idx, "事実密度"] = factual_score
+            df.at[idx, "factual_density"] = factual_score
             factual_updated += 1
 
         # 進捗表示（100件ごと）
@@ -113,21 +113,21 @@ def batch_calculate():
             print(f"    進捗: {idx + 1:,}/{len(df):,}件処理完了...")
 
     print("  ✅ 算出完了")
-    print(f"    - ストーリー品質: {storytelling_updated:,}件更新")
-    print(f"    - 事実密度: {factual_updated:,}件更新")
+    print(f"    - story_quality: {storytelling_updated:,}件更新")
+    print(f"    - factual_density: {factual_updated:,}件更新")
     print()
 
     # Step 5: 7軸スコアの統計
     print("Step 5: 7軸スコア統計")
 
     axes = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     complete_count = 0
@@ -177,8 +177,8 @@ def batch_calculate():
     print()
     print("📊 サマリー:")
     print(f"  - 総エピソード数: {len(df):,}件")
-    print(f"  - ストーリー品質更新: {storytelling_updated:,}件")
-    print(f"  - 事実密度更新: {factual_updated:,}件")
+    print(f"  - story_quality更新: {storytelling_updated:,}件")
+    print(f"  - factual_density更新: {factual_updated:,}件")
     print(f"  - 7軸完全設定: {complete_count:,}件 ({complete_count / len(df) * 100:.1f}%)")
     print(f"  - バックアップ: {BACKUP_PATH}")
     print()

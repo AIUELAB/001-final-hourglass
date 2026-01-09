@@ -124,7 +124,7 @@ class TestLLMComponent:
         assert score == 100.0
 
     def test_memorability_highest_weight(self):
-        """記憶性スコアが最も影響"""
+        """memorability_scoreが最も影響"""
         base = EpisodeFameSignals(
             llm_memorability=5.0,
             llm_surprise=5.0,
@@ -205,7 +205,7 @@ class TestTypeComponent:
         assert score_ach > score_none
 
     def test_fact_density_adjustment(self):
-        """事実密度による補正"""
+        """factual_densityによる補正"""
         score_high = calculate_type_component("ACHIEVEMENT", factual_density=8.0)
         score_low = calculate_type_component("ACHIEVEMENT", factual_density=2.0)
 

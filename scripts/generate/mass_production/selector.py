@@ -93,7 +93,7 @@ class MassProductionSelector:
     def _prepare_data(self) -> None:
         """データ前処理"""
         # 数値変換（存在するカラムのみ）
-        numeric_cols = ["age", "事実密度", "生成品質スコア"]
+        numeric_cols = ["age", "factual_density", "generation_quality_score"]
         for col in numeric_cols:
             if col in self.df.columns:
                 self.df[col] = pd.to_numeric(self.df[col], errors="coerce")
@@ -112,10 +112,10 @@ class MassProductionSelector:
         }
 
         # オプションカラム（存在する場合のみ）
-        if "事実密度" in self.df.columns:
-            agg_dict["事実密度"] = "mean"
-        if "生成品質スコア" in self.df.columns:
-            agg_dict["生成品質スコア"] = "mean"
+        if "factual_density" in self.df.columns:
+            agg_dict["factual_density"] = "mean"
+        if "generation_quality_score" in self.df.columns:
+            agg_dict["generation_quality_score"] = "mean"
 
         stats = self.df.groupby("person_name").agg(agg_dict).reset_index()
 
@@ -127,10 +127,10 @@ class MassProductionSelector:
             "category": "category",
             "age": "covered_ages",
         }
-        if "事実密度" in stats.columns:
-            column_mapping["事実密度"] = "avg_factual_density"
-        if "生成品質スコア" in stats.columns:
-            column_mapping["生成品質スコア"] = "avg_generation_quality"
+        if "factual_density" in stats.columns:
+            column_mapping["factual_density"] = "avg_factual_density"
+        if "generation_quality_score" in stats.columns:
+            column_mapping["generation_quality_score"] = "avg_generation_quality"
 
         stats = stats.rename(columns=column_mapping)
 
@@ -281,18 +281,18 @@ class MassProductionSelector:
     ) -> List[SelectionCandidate]:
         """低品質EP置換対象を取得（年齢境界チェック付き）"""
         # 品質カラムが存在するかチェック
-        has_factual = "事実密度" in self.df.columns
-        has_quality = "生成品質スコア" in self.df.columns
+        has_factual = "factual_density" in self.df.columns
+        has_quality = "generation_quality_score" in self.df.columns
 
         if not has_factual and not has_quality:
             return []  # 品質データなし
 
-        # 低品質EP（事実密度<7 or 生成品質<8）を抽出
+        # 低品質EP（factual_density<7 or 生成品質<8）を抽出
         conditions = []
         if has_factual:
-            conditions.append(self.df["事実密度"] < 7.0)
+            conditions.append(self.df["factual_density"] < 7.0)
         if has_quality:
-            conditions.append(self.df["生成品質スコア"] < 8.0)
+            conditions.append(self.df["generation_quality_score"] < 8.0)
 
         if len(conditions) == 2:
             low_quality_df = self.df[conditions[0] | conditions[1]].copy()
@@ -306,8 +306,8 @@ class MassProductionSelector:
             return []
 
         # 優先度計算（品質が低いほど高優先）
-        factual = low_quality_df["事実密度"].fillna(5) if has_factual else 5
-        quality = low_quality_df["生成品質スコア"].fillna(5) if has_quality else 5
+        factual = low_quality_df["factual_density"].fillna(5) if has_factual else 5
+        quality = low_quality_df["generation_quality_score"].fillna(5) if has_quality else 5
         low_quality_df["priority"] = 14.0 - (factual + quality)
 
         # ソートして上位を取得

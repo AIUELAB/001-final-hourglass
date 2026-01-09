@@ -14,13 +14,13 @@ from dataclasses import dataclass
 
 # 必須フィールド（7軸スコア）
 REQUIRED_SCORE_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 # 必須基本フィールド
@@ -79,13 +79,13 @@ def auto_fill_derived_fields(episode: dict) -> dict:
         filled["年代"] = age_to_nendai(str(filled["age"]))
 
     # 7軸スコアを取得
-    mem = float(filled.get("記憶性スコア", 0) or 0)
-    gen = float(filled.get("生成品質スコア", 0) or 0)
-    emp = float(filled.get("共感性スコア", 0) or 0)
-    sur = float(filled.get("意外性スコア", 0) or 0)
-    edu = float(filled.get("教育的価値", 0) or 0)
-    story = float(filled.get("ストーリー品質", 0) or 0)
-    fact = float(filled.get("事実密度", 0) or 0)
+    mem = float(filled.get("memorability_score", 0) or 0)
+    gen = float(filled.get("generation_quality_score", 0) or 0)
+    emp = float(filled.get("empathy_score", 0) or 0)
+    sur = float(filled.get("surprise_score", 0) or 0)
+    edu = float(filled.get("educational_value", 0) or 0)
+    story = float(filled.get("story_quality", 0) or 0)
+    fact = float(filled.get("factual_density", 0) or 0)
 
     # 5軸スコアの補完
     if not str(filled.get("総合品質", "")).strip() and mem and gen:

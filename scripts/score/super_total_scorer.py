@@ -35,7 +35,7 @@ class SuperTotalConfig:
 
     Attributes:
         version: 設定バージョン
-        min_factual_density: 事実密度の足切り閾値
+        min_factual_density: factual_densityの足切り閾値
         min_generation_quality: 生成品質の足切り閾値
         weight_celebrity: 人物有名度の重み
         weight_episode_fame: エピソード有名度の重み
@@ -200,13 +200,13 @@ class SuperTotalScorer:
 
     # 7軸重み（質の観点で重要度順）
     QUALITY_WEIGHTS = {
-        "記憶性スコア": 0.25,  # 最重要: 記憶に残るか
-        "意外性スコア": 0.18,  # 興味を引くか
-        "ストーリー品質": 0.15,  # 読みやすさ
-        "教育的価値": 0.15,  # 学びがあるか
-        "事実密度": 0.12,  # 具体性（ゲート済み）
-        "共感性スコア": 0.10,  # 感情的響き
-        "生成品質スコア": 0.05,  # 文章品質（ゲート済み）
+        "memorability_score": 0.25,  # 最重要: 記憶に残るか
+        "surprise_score": 0.18,  # 興味を引くか
+        "story_quality": 0.15,  # 読みやすさ
+        "educational_value": 0.15,  # 学びがあるか
+        "factual_density": 0.12,  # 具体性（ゲート済み）
+        "empathy_score": 0.10,  # 感情的響き
+        "generation_quality_score": 0.05,  # 文章品質（ゲート済み）
     }
 
     # 回顧・抽象パターン
@@ -324,18 +324,18 @@ class SuperTotalScorer:
         ハードゲート（足切り）チェック
 
         以下の条件で除外:
-        - 事実密度 < 6.0
+        - factual_density < 6.0
         - 生成品質 < 6.0
         - verification_status = "rejected"
 
         Returns:
             (passed: bool, reason: Optional[str])
         """
-        fact = self._safe_float(row.get("事実密度"), 0)
-        gen = self._safe_float(row.get("生成品質スコア"), 0)
+        fact = self._safe_float(row.get("factual_density"), 0)
+        gen = self._safe_float(row.get("generation_quality_score"), 0)
 
         if fact < self.config.min_factual_density:
-            return False, f"事実密度 {fact:.1f} < {self.config.min_factual_density}"
+            return False, f"factual_density {fact:.1f} < {self.config.min_factual_density}"
 
         if gen < self.config.min_generation_quality:
             return False, f"生成品質 {gen:.1f} < {self.config.min_generation_quality}"
@@ -373,7 +373,7 @@ class SuperTotalScorer:
         ソフトペナルティを計算
 
         適用されるペナルティ:
-        - 事実密度 6.0-7.0 → 乗数 0.85
+        - factual_density 6.0-7.0 → 乗数 0.85
         - 生成品質 6.0-7.0 → 乗数 0.85
         - 回顧パターン → 乗数 0.80
 
@@ -383,14 +383,14 @@ class SuperTotalScorer:
         penalties = []
         multiplier = 1.0
 
-        # 事実密度ソフトペナルティ
-        fact = self._safe_float(row.get("事実密度"), 10)
+        # factual_densityソフトペナルティ
+        fact = self._safe_float(row.get("factual_density"), 10)
         if 6.0 <= fact < 7.0:
             multiplier *= 0.85
-            penalties.append(f"事実密度ソフトペナルティ ({fact:.1f})")
+            penalties.append(f"factual_densityソフトペナルティ ({fact:.1f})")
 
         # 生成品質ソフトペナルティ
-        gen = self._safe_float(row.get("生成品質スコア"), 10)
+        gen = self._safe_float(row.get("generation_quality_score"), 10)
         if 6.0 <= gen < 7.0:
             multiplier *= 0.85
             penalties.append(f"生成品質ソフトペナルティ ({gen:.1f})")

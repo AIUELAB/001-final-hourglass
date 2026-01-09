@@ -35,7 +35,7 @@ class ImprovementFeedback:
 
 IMPROVEMENT_TEMPLATES = {
     RejectionReason.LOW_FACTUAL_DENSITY: {
-        "feedback": "事実密度が不足しています。",
+        "feedback": "factual_densityが不足しています。",
         "suggestions": [
             "具体的な年号（YYYY年）を追加",
             "固有名詞（作品名、イベント名、組織名）を追加",
@@ -91,11 +91,11 @@ IMPROVEMENT_TEMPLATES = {
 # Phase 5: 失敗理由別プロンプト注入テンプレート
 # gate_failures文字列パターン → リトライ時のプロンプト追加指示
 FAILURE_PROMPT_INJECTIONS = {
-    # 事実密度不足
+    # factual_density不足
     "factual_density": {
         "pattern": "factual_density",
         "injection": (
-            "【重要】前回は事実密度が不足していました。以下を必ず含めてください:\n"
+            "【重要】前回はfactual_densityが不足していました。以下を必ず含めてください:\n"
             "- 西暦年号を2つ以上（例: 1995年、2003年）\n"
             "- 固有名詞を5つ以上（人名、作品名、組織名、地名）\n"
             "- 数値データを3つ以上（記録、金額、順位など）\n"
@@ -142,7 +142,7 @@ FAILURE_PROMPT_INJECTIONS = {
         "retryable": True,
         "priority": 4,
     },
-    # ストーリー品質不足
+    # story_quality不足
     "story_quality": {
         "pattern": "story_quality",
         "injection": (
@@ -154,11 +154,11 @@ FAILURE_PROMPT_INJECTIONS = {
         "retryable": True,
         "priority": 5,
     },
-    # 教育的価値不足
+    # educational_value不足
     "educational_value": {
         "pattern": "educational_value",
         "injection": (
-            "【重要】前回は教育的価値が不足していました。以下を意識してください:\n"
+            "【重要】前回はeducational_valueが不足していました。以下を意識してください:\n"
             "- 学びや気づきにつながる内容を入れる\n"
             "- 成功の要因や努力の過程を描く\n"
             "- 読者の人生に活かせる教訓を含める"

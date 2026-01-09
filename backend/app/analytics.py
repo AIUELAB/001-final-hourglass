@@ -21,13 +21,13 @@ class ScoreAnalytics:
         """
         self.csv_path = Path(csv_path)
         self.score_columns = [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
         ]
 
     def load_scores(self) -> Dict[str, List[float]]:
@@ -220,13 +220,13 @@ class ScoreAnalytics:
                             "age": row.get("age", ""),
                             "episode": row.get("episode", "")[:100],  # 最初の100文字
                             "composite_score": round(composite, 2),
-                            "memorability_score": float(row.get("記憶性スコア", 0)),
-                            "empathy_score": float(row.get("共感性スコア", 0)),
-                            "surprise_score": float(row.get("意外性スコア", 0)),
-                            "generation_quality_score": float(row.get("生成品質スコア", 0)),
-                            "educational_value": float(row.get("教育的価値", 0)),
-                            "storytelling_quality": float(row.get("ストーリー品質", 0)),
-                            "factual_density": float(row.get("事実密度", 0)),
+                            "memorability_score": float(row.get("memorability_score", 0)),
+                            "empathy_score": float(row.get("empathy_score", 0)),
+                            "surprise_score": float(row.get("surprise_score", 0)),
+                            "generation_quality_score": float(row.get("generation_quality_score", 0)),
+                            "educational_value": float(row.get("educational_value", 0)),
+                            "storytelling_quality": float(row.get("story_quality", 0)),
+                            "factual_density": float(row.get("factual_density", 0)),
                         }
                     )
 

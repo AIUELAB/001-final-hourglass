@@ -63,7 +63,7 @@ LAYER2_CONFIG = {
     "auto_accept_threshold": 600,  # 即採用ライン
     "improvement_queue_min": 400,  # 改稿キュー最低ライン
     "rejection_threshold": 400,  # 棄却ライン
-    # 事実密度ゲート（新規追加 - EPUP Phase2）
+    # factual_densityゲート（新規追加 - EPUP Phase2）
     "fact_density_minimum": 3.5,  # これ未満は自動リジェクト
     "fact_density_preferred": 5.0,  # これ未満は警告
     "surprise_fiction_threshold": 8.5,  # これ以上は架空の疑い
@@ -71,13 +71,13 @@ LAYER2_CONFIG = {
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 
@@ -117,16 +117,16 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸】
-1. 記憶性スコア: 読後も印象に残るか
-2. 共感性スコア: 感情移入できるか
-3. 意外性スコア: 予想外の展開があるか
-4. 生成品質スコア: 文章として完成度が高いか
-5. 教育的価値: 学びや教訓があるか
-6. ストーリー品質: 構成が良いか
-7. 事実密度: 具体的なデータ・事実があるか
+1. memorability_score: 読後も印象に残るか
+2. empathy_score: 感情移入できるか
+3. surprise_score: 予想外の展開があるか
+4. generation_quality_score: 文章として完成度が高いか
+5. educational_value: 学びや教訓があるか
+6. story_quality: 構成が良いか
+7. factual_density: 具体的なデータ・事実があるか
 
 必ず以下のJSON形式のみで回答してください:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(
@@ -167,18 +167,18 @@ def find_weak_axes(scores: Dict[str, float], threshold: float = 5.0) -> List[str
 
 
 def classify_episode(composite_score: float, scores: Dict[str, float] = None) -> tuple[str, str]:
-    """スコアに基づいて分類（事実密度ゲート付き - EPUP Phase2）
+    """スコアに基づいて分類（factual_densityゲート付き - EPUP Phase2）
 
     Returns: (classification, reason)
     """
-    # Gate 1: 事実密度チェック（最優先）
+    # Gate 1: factual_densityチェック（最優先）
     if scores:
-        fact_density = scores.get("事実密度", 10)  # デフォルト高め（スコア未取得時はパス）
+        fact_density = scores.get("factual_density", 10)  # デフォルト高め（スコア未取得時はパス）
         if fact_density < LAYER2_CONFIG["fact_density_minimum"]:
-            return "rejected", f"事実密度不足: {fact_density:.1f} < 3.5"
+            return "rejected", f"factual_density不足: {fact_density:.1f} < 3.5"
 
         # Gate 2: 意外性異常検知（架空エピソードの疑い）
-        surprise = scores.get("意外性スコア", 0)
+        surprise = scores.get("surprise_score", 0)
         if surprise > LAYER2_CONFIG["surprise_fiction_threshold"]:
             return "improvement_queue", f"意外性過多（架空の疑い）: {surprise:.1f}"
 
@@ -277,7 +277,7 @@ def run_layer2(count: Optional[int], execute: bool) -> Dict:
 
         # 超総合スコア計算
         composite = calculate_composite_score(scores)
-        classification, reason = classify_episode(composite, scores)  # EPUP Phase2: 事実密度ゲート対応
+        classification, reason = classify_episode(composite, scores)  # EPUP Phase2: factual_densityゲート対応
         weak_axes = find_weak_axes(scores)
 
         # スコアをエピソードに追加

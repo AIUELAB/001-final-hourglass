@@ -160,10 +160,10 @@ def recalculate_all_scores(execute: bool = False, sample_size: int = None):
         episode_text = str(episode_data.get("episode_text", ""))
         episode_type = str(episode_data.get("episode_type", ""))
 
-        # 5軸を計算（記憶性、共感性、意外性、生成品質、教育的価値）
+        # 5軸を計算（記憶性、共感性、意外性、生成品質、educational_value）
         five_axes = calculate_all_five_axes(episode_data)
 
-        # 2軸を計算（ストーリー品質、事実密度）
+        # 2軸を計算（story_quality、factual_density）
         storytelling = calculate_storytelling_quality(episode_text, episode_type)
         factual = calculate_factual_density(episode_text, episode_type)
 
@@ -173,18 +173,18 @@ def recalculate_all_scores(execute: bool = False, sample_size: int = None):
             if execute:
                 df.loc[idx, axis] = score
 
-        new_scores["ストーリー品質"].append(storytelling)
-        new_scores["事実密度"].append(factual)
+        new_scores["story_quality"].append(storytelling)
+        new_scores["factual_density"].append(factual)
 
         if execute:
-            df.loc[idx, "ストーリー品質"] = storytelling
-            df.loc[idx, "事実密度"] = factual
+            df.loc[idx, "story_quality"] = storytelling
+            df.loc[idx, "factual_density"] = factual
 
         # composite_score計算
         updated_data = episode_data.copy()
         updated_data.update(five_axes)
-        updated_data["ストーリー品質"] = storytelling
-        updated_data["事実密度"] = factual
+        updated_data["story_quality"] = storytelling
+        updated_data["factual_density"] = factual
 
         composite = calculate_enhanced_composite_score(updated_data)
         if composite is not None:

@@ -23,7 +23,7 @@ OUTPUT_DIR = PROJECT_ROOT / "reports"
 
 
 # エピソードタイプによる基本重要性ボーナス
-# 注意: ACHIEVEMENT等は事実密度に応じて1.0-1.3倍に調整される
+# 注意: ACHIEVEMENT等はfactual_densityに応じて1.0-1.3倍に調整される
 TYPE_BONUS_BASE = {
     "ACHIEVEMENT": 1.3,  # 偉業達成（条件付きで最大効果）
     "TURNING_POINT": 1.0,  # 転機
@@ -37,7 +37,7 @@ TYPE_BONUS_BASE = {
     "CREATION": 1.0,  # 創作
 }
 
-# 事実密度による倍率補正が適用されるタイプ
+# factual_densityによる倍率補正が適用されるタイプ
 FACT_DENSITY_DEPENDENT_TYPES = {"ACHIEVEMENT", "FOUNDING", "INNOVATION", "DISCOVERY"}
 
 # 歴史的重要キーワード（+0.5 each, max 2.0）
@@ -124,19 +124,19 @@ def calculate_episode_fame_v3(row: dict) -> tuple[float, int, str]:
     episode_type = row.get("episode_type", "").strip().upper()
     episode_text = row.get("episode_text", "")
 
-    # 事実密度を取得（タイプボーナス条件に使用）
+    # factual_densityを取得（タイプボーナス条件に使用）
     fact_density = 0.0
     try:
-        fact_density = float(row.get("事実密度", 0) or 0)
+        fact_density = float(row.get("factual_density", 0) or 0)
     except (ValueError, TypeError):
         fact_density = 0.0
 
     # 1. エピソードタイプによる重要性 (+0〜13)
-    # 事実密度依存タイプは事実密度に応じて1.0-1.3倍に調整
+    # factual_density依存タイプはfactual_densityに応じて1.0-1.3倍に調整
     base_type_bonus = TYPE_BONUS_BASE.get(episode_type, 0)
 
     if episode_type in FACT_DENSITY_DEPENDENT_TYPES:
-        # 事実密度≥5.0で最大効果、<5.0で1.0倍に減衰
+        # factual_density≥5.0で最大効果、<5.0で1.0倍に減衰
         if fact_density >= 5.0:
             type_multiplier = 1.0
         else:

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-共感性スコア改善スクリプト
+empathy_score改善スクリプト
 
-共感性スコア3.0未満のエピソードを改稿して共感性を向上させる
+empathy_score3.0未満のエピソードを改稿して共感性を向上させる
 
 使用方法:
     # テスト実行（5件）
@@ -47,13 +47,13 @@ client = anthropic.Anthropic(api_key=API_KEY)
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 
@@ -139,16 +139,16 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸】
-1. 記憶性スコア: 読後も印象に残るか
-2. 共感性スコア: 感情移入できるか（人物の気持ちが伝わるか、読者が自分と重ねられるか）
-3. 意外性スコア: 予想外の展開があるか
-4. 生成品質スコア: 文章として完成度が高いか
-5. 教育的価値: 学びや教訓があるか
-6. ストーリー品質: 構成が良いか
-7. 事実密度: 具体的なデータ・事実があるか
+1. memorability_score: 読後も印象に残るか
+2. empathy_score: 感情移入できるか（人物の気持ちが伝わるか、読者が自分と重ねられるか）
+3. surprise_score: 予想外の展開があるか
+4. generation_quality_score: 文章として完成度が高いか
+5. educational_value: 学びや教訓があるか
+6. story_quality: 構成が良いか
+7. factual_density: 具体的なデータ・事実があるか
 
 必ず以下のJSON形式のみで回答してください:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(
@@ -165,10 +165,10 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 
 
 def get_low_empathy_episodes(df: pd.DataFrame, count: int) -> pd.DataFrame:
-    """共感性スコア3.0未満のエピソードを取得"""
-    low_empathy = df[df["共感性スコア"] < 3.0].copy()
-    # 共感性スコアが低い順にソート
-    low_empathy = low_empathy.sort_values("共感性スコア")
+    """empathy_score3.0未満のエピソードを取得"""
+    low_empathy = df[df["empathy_score"] < 3.0].copy()
+    # empathy_scoreが低い順にソート
+    low_empathy = low_empathy.sort_values("empathy_score")
     return low_empathy.head(count)
 
 
@@ -178,11 +178,11 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
     person_name = row["person_name"]
     age = int(row["age"])
     original_text = str(row["episode_text"])
-    original_empathy = float(row["共感性スコア"])
+    original_empathy = float(row["empathy_score"])
 
     print(f"\n{'='*60}")
     print(f"改稿中: {person_name} ({age}歳) [{episode_id}]")
-    print(f"元の共感性スコア: {original_empathy:.2f}")
+    print(f"元のempathy_score: {original_empathy:.2f}")
     print(f"{'='*60}")
 
     # 改稿
@@ -202,7 +202,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
         print("  ❌ 再評価失敗")
         return None
 
-    new_empathy = new_scores.get("共感性スコア", 0)
+    new_empathy = new_scores.get("empathy_score", 0)
     new_composite = calculate_composite_score(new_scores)
 
     # 改善判定
@@ -247,7 +247,7 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
 def run_improvement(count: int, execute: bool) -> Dict:
     """改稿バッチ実行"""
     print("=" * 60)
-    print("📊 共感性スコア改善")
+    print("📊 empathy_score改善")
     print("=" * 60)
 
     # CSV読み込み
@@ -256,7 +256,7 @@ def run_improvement(count: int, execute: bool) -> Dict:
 
     # 対象抽出
     targets = get_low_empathy_episodes(df, count)
-    print(f"  改稿対象: {len(targets)}件 (共感性スコア < 3.0)")
+    print(f"  改稿対象: {len(targets)}件 (empathy_score < 3.0)")
 
     if len(targets) == 0:
         print("  ⚠️ 対象エピソードがありません")
@@ -344,7 +344,7 @@ def run_improvement(count: int, execute: bool) -> Dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="共感性スコア改善スクリプト")
+    parser = argparse.ArgumentParser(description="empathy_score改善スクリプト")
     parser.add_argument("--count", type=int, default=50, help="改稿件数")
     parser.add_argument("--dry-run", action="store_true", help="テスト実行（保存なし）")
     parser.add_argument("--execute", action="store_true", help="本番実行")

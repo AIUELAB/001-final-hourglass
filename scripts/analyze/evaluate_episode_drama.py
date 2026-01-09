@@ -147,14 +147,14 @@ def calculate_composite_drama_score(evaluation: dict) -> float:
 
 def detect_low_quality_candidates(df: pd.DataFrame, threshold: float = 5.0) -> pd.DataFrame:
     """低品質候補を検出（既存スコアベース）"""
-    # 意外性スコアが低い
-    low_surprise = df[df["意外性スコア"] < threshold] if "意外性スコア" in df.columns else pd.DataFrame()
+    # surprise_scoreが低い
+    low_surprise = df[df["surprise_score"] < threshold] if "surprise_score" in df.columns else pd.DataFrame()
 
     # sourceがPHASE12_AGE_EXPANSION（年齢穴埋め）
     age_expansion = df[df["source"] == "PHASE12_AGE_EXPANSION"]
 
     # 品質スコアがNaN（未評価）
-    unscored = df[df["記憶性スコア"].isna()] if "記憶性スコア" in df.columns else pd.DataFrame()
+    unscored = df[df["memorability_score"].isna()] if "memorability_score" in df.columns else pd.DataFrame()
 
     # 統合（重複排除）
     candidates = pd.concat([low_surprise, age_expansion, unscored]).drop_duplicates(subset=["episode_id"])
@@ -200,7 +200,7 @@ def main():
 
         print("\n【サンプル（最初の10件）】")
         for _, row in candidates.head(10).iterrows():
-            surprise = row.get("意外性スコア", "N/A")
+            surprise = row.get("surprise_score", "N/A")
             source = row.get("source", "N/A")
             text_preview = str(row.get("episode_text", ""))[:50]
             print(f"  {row['person_name']} ({row['age']}歳): 意外性={surprise}, source={source}")

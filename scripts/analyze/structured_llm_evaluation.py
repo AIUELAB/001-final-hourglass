@@ -55,9 +55,9 @@ class EpisodeEvaluation:
     empathy: AxisEvaluation  # 共感性
     surprise: AxisEvaluation  # 意外性
     generation_quality: AxisEvaluation  # 生成品質
-    educational_value: AxisEvaluation  # 教育的価値
-    story_quality: AxisEvaluation  # ストーリー品質
-    fact_density: AxisEvaluation  # 事実密度
+    educational_value: AxisEvaluation  # educational_value
+    story_quality: AxisEvaluation  # story_quality
+    fact_density: AxisEvaluation  # factual_density
     overall_comment: str  # 総合コメント
 
 
@@ -114,17 +114,17 @@ EVALUATION_PROMPT = """あなたはエピソード評価の専門家です。以
 
 チェック: 文法、流れ、語彙、構成
 
-## 5. 教育的価値（Educational Value）
+## 5. educational_value（Educational Value）
 読者が何かを学べるか
 - 9-10点: 非常に教育的。深い学びがある
 - 7-8点: 教育的。知識や教訓が得られる
 - 5-6点: 普通。多少の学びはある
-- 3-4点: 教育的価値が低い
-- 1-2点: 全く教育的価値がない
+- 3-4点: educational_valueが低い
+- 1-2点: 全くeducational_valueがない
 
 チェック: 事実情報、教訓、「なるほど」感
 
-## 6. ストーリー品質（Story Quality）
+## 6. story_quality（Story Quality）
 物語として構成が整っているか
 - 9-10点: 完璧。起承転結が明確
 - 7-8点: 良い。構成が整っている
@@ -134,7 +134,7 @@ EVALUATION_PROMPT = """あなたはエピソード評価の専門家です。以
 
 チェック: 導入、展開、転機、結末
 
-## 7. 事実密度（Fact Density）
+## 7. factual_density（Fact Density）
 検証可能な事実がどれだけ含まれているか
 - 9-10点: 非常に高密度。検証可能な事実が多数
 - 7-8点: 密度が高い。事実が複数ある
@@ -290,9 +290,9 @@ def results_to_dataframe(results: List[Dict]) -> pd.DataFrame:
             ("empathy", "共感性"),
             ("surprise", "意外性"),
             ("generation_quality", "生成品質"),
-            ("educational_value", "教育的価値"),
-            ("story_quality", "ストーリー品質"),
-            ("fact_density", "事実密度"),
+            ("educational_value", "educational_value"),
+            ("story_quality", "story_quality"),
+            ("fact_density", "factual_density"),
         ]
 
         for eng_name, jp_name in axes:

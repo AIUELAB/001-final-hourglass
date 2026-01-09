@@ -344,21 +344,21 @@ class Database:
                         surprise_score = None
 
                         try:
-                            mem_str = row.get("記憶性スコア", "").strip()
+                            mem_str = row.get("memorability_score", "").strip()
                             if mem_str:
                                 memorability_score = float(mem_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            emp_str = row.get("共感性スコア", "").strip()
+                            emp_str = row.get("empathy_score", "").strip()
                             if emp_str:
                                 empathy_score = float(emp_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            sur_str = row.get("意外性スコア", "").strip()
+                            sur_str = row.get("surprise_score", "").strip()
                             if sur_str:
                                 surprise_score = float(sur_str)
                         except (ValueError, AttributeError):
@@ -371,28 +371,28 @@ class Database:
                         factual_density = None
 
                         try:
-                            gen_str = row.get("生成品質スコア", "").strip()
+                            gen_str = row.get("generation_quality_score", "").strip()
                             if gen_str:
                                 generation_quality_score = float(gen_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            edu_str = row.get("教育的価値", "").strip()
+                            edu_str = row.get("educational_value", "").strip()
                             if edu_str:
                                 educational_value = float(edu_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            story_str = row.get("ストーリー品質", "").strip()
+                            story_str = row.get("story_quality", "").strip()
                             if story_str:
                                 storytelling_quality = float(story_str)
                         except (ValueError, AttributeError):
                             pass
 
                         try:
-                            fact_str = row.get("事実密度", "").strip()
+                            fact_str = row.get("factual_density", "").strip()
                             if fact_str:
                                 factual_density = float(fact_str)
                         except (ValueError, AttributeError):

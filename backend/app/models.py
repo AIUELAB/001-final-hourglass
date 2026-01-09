@@ -155,13 +155,13 @@ class CorrelationRow(BaseModel):
     """相関行モデル"""
 
     axis: str
-    記憶性スコア: float
-    共感性スコア: float
-    意外性スコア: float
-    生成品質スコア: float
-    教育的価値: float
-    ストーリー品質: float
-    事実密度: float
+    memorability_score: float
+    empathy_score: float
+    surprise_score: float
+    generation_quality_score: float
+    educational_value: float
+    story_quality: float
+    factual_density: float
 
 
 class TopPerformer(BaseModel):
@@ -394,13 +394,13 @@ class Episode(BaseModel):
     # 7軸スコア（日本語カラム名）
     milestone_tags: Optional[str] = None
     人生の節目タグ: Optional[str] = None
-    記憶性スコア: Optional[str] = None
-    共感性スコア: Optional[str] = None
-    意外性スコア: Optional[str] = None
-    生成品質スコア: Optional[str] = None
-    教育的価値: Optional[str] = None
-    ストーリー品質: Optional[str] = None
-    事実密度: Optional[str] = None
+    memorability_score: Optional[str] = None
+    empathy_score: Optional[str] = None
+    surprise_score: Optional[str] = None
+    generation_quality_score: Optional[str] = None
+    educational_value: Optional[str] = None
+    story_quality: Optional[str] = None
+    factual_density: Optional[str] = None
     age_numeric: Optional[str] = None
 
     # LLM評価スコア

@@ -20,9 +20,9 @@ WEIGHTS = {
 LLM_WEIGHTS = {
     "memorability": 0.20,  # 記憶性（最重要）
     "surprise": 0.18,  # 意外性
-    "storytelling_quality": 0.15,  # ストーリー品質
-    "educational_value": 0.15,  # 教育的価値
-    "factual_density": 0.12,  # 事実密度
+    "storytelling_quality": 0.15,  # story_quality
+    "educational_value": 0.15,  # educational_value
+    "factual_density": 0.12,  # factual_density
     "empathy": 0.10,  # 共感性
     "generation_quality": 0.10,  # 生成品質
 }
@@ -47,7 +47,7 @@ TYPE_BONUS = {
     "INFLUENCE": 10,  # 影響
 }
 
-# 事実密度による補正が適用されるタイプ
+# factual_densityによる補正が適用されるタイプ
 FACT_DENSITY_DEPENDENT_TYPES = {"ACHIEVEMENT", "FOUNDING", "INNOVATION", "DISCOVERY"}
 
 # ============================================================

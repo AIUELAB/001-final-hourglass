@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-共感性スコア自動改善スクリプト
+empathy_score自動改善スクリプト
 
-指定バッチ数まで自動で共感性スコア改善を実行する
+指定バッチ数まで自動でempathy_score改善を実行する
 
 使用方法:
     # 4バッチ実行（デフォルト）
@@ -45,15 +45,15 @@ SESSION_STATUS = PROJECT_ROOT / ".session" / "STATUS.md"
 
 
 def get_low_empathy_count() -> int:
-    """共感性スコア3.0未満の件数を取得"""
+    """empathy_score3.0未満の件数を取得"""
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
-    return len(df[df["共感性スコア"] < 3.0])
+    return len(df[df["empathy_score"] < 3.0])
 
 
 def get_score_distribution() -> dict:
     """スコア分布を取得"""
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
-    col = "共感性スコア"
+    col = "empathy_score"
     return {
         "under_3": len(df[df[col] < 3.0]),
         "range_3_5": len(df[(df[col] >= 3.0) & (df[col] < 5.0)]),
@@ -65,11 +65,11 @@ def get_score_distribution() -> dict:
 def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay: int):
     """自動バッチ実行"""
     print("=" * 60)
-    print("🚀 共感性スコア自動改善")
+    print("🚀 empathy_score自動改善")
     print("=" * 60)
 
     initial_count = get_low_empathy_count()
-    print(f"  初期状態: 共感性スコア < 3.0 = {initial_count}件")
+    print(f"  初期状態: empathy_score < 3.0 = {initial_count}件")
     print(f"  最大バッチ数: {max_batches}")
     print(f"  バッチサイズ: {batch_size}")
     print(f"  バッチ間隔: {delay}秒")
@@ -180,7 +180,7 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
 
 
 def main():
-    parser = argparse.ArgumentParser(description="共感性スコア自動改善スクリプト")
+    parser = argparse.ArgumentParser(description="empathy_score自動改善スクリプト")
     parser.add_argument("--batches", type=int, default=4, help="最大バッチ数 (default: 4)")
     parser.add_argument("--batch-size", type=int, default=50, help="バッチサイズ (default: 50)")
     parser.add_argument("--delay", type=int, default=5, help="バッチ間隔（秒） (default: 5)")

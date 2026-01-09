@@ -30,7 +30,7 @@ class InventoryConfig:
     """在庫管理設定"""
 
     target_per_age: int = 365  # 年齢別目標本数
-    min_factual_density: float = 7.0  # 上位レベル: 事実密度閾値
+    min_factual_density: float = 7.0  # 上位レベル: factual_density閾値
     min_generation_quality: float = 8.0  # 上位レベル: 生成品質閾値
     replacement_threshold: float = 0.05  # 置換閾値: 5%改善
     min_age: int = 0  # 管理対象最小年齢
@@ -106,15 +106,15 @@ class InventoryManager:
         if self._df is None:
             self._df = pd.read_csv(self.master_csv, encoding="utf-8-sig", low_memory=False)
             # 数値変換
-            for col in ["事実密度", "生成品質スコア", "super_total_score"]:
+            for col in ["factual_density", "generation_quality_score", "super_total_score"]:
                 if col in self._df.columns:
                     self._df[col] = pd.to_numeric(self._df[col], errors="coerce")
         return self._df
 
     def _is_upper_level(self, row: pd.Series) -> bool:
-        """上位レベル判定: 事実密度>=7 AND 生成品質>=8"""
-        factual = row.get("事実密度", 0) or 0
-        quality = row.get("生成品質スコア", 0) or 0
+        """上位レベル判定: factual_density>=7 AND 生成品質>=8"""
+        factual = row.get("factual_density", 0) or 0
+        quality = row.get("generation_quality_score", 0) or 0
         return factual >= self.config.min_factual_density and quality >= self.config.min_generation_quality
 
     def refresh(self) -> None:
@@ -318,7 +318,7 @@ class InventoryManager:
         print("年齢別在庫レポート")
         print("=" * 60)
         print(
-            f"定義: 上位レベル = 事実密度>={self.config.min_factual_density} AND 生成品質>={self.config.min_generation_quality}"
+            f"定義: 上位レベル = factual_density>={self.config.min_factual_density} AND 生成品質>={self.config.min_generation_quality}"
         )
         print()
         print(f"365本達成年齢: {summary['achieved_ages']}/{summary['total_ages']} ({summary['achievement_rate']}%)")

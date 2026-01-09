@@ -102,7 +102,7 @@ class ParallelEpisodeGenerator:
                     "week": "",
                     "work_title": "",
                     "generation_timestamp": datetime.now().isoformat(),
-                    "意外性スコア": 8.0,  # 高品質例で生成
+                    "surprise_score": 8.0,  # 高品質例で生成
                 }
 
             except Exception as e:

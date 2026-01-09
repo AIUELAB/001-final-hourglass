@@ -42,13 +42,13 @@ class AdvancedSearchEngine:
 
                 # 7軸スコアを数値化
                 score_columns = [
-                    "記憶性スコア",
-                    "共感性スコア",
-                    "意外性スコア",
-                    "生成品質スコア",
-                    "教育的価値",
-                    "ストーリー品質",
-                    "事実密度",
+                    "memorability_score",
+                    "empathy_score",
+                    "surprise_score",
+                    "generation_quality_score",
+                    "educational_value",
+                    "story_quality",
+                    "factual_density",
                 ]
 
                 # 各スコアを数値化
@@ -104,20 +104,20 @@ class AdvancedSearchEngine:
 
         Args:
             query: 検索クエリ（人物名、エピソード内容）
-            min_memorability_score: 記憶性スコア最小値
-            max_memorability_score: 記憶性スコア最大値
-            min_empathy_score: 共感性スコア最小値
-            max_empathy_score: 共感性スコア最大値
-            min_surprise_score: 意外性スコア最小値
-            max_surprise_score: 意外性スコア最大値
-            min_generation_quality: 生成品質スコア最小値
-            max_generation_quality: 生成品質スコア最大値
-            min_educational_value: 教育的価値最小値
-            max_educational_value: 教育的価値最大値
-            min_storytelling_quality: ストーリー品質最小値
-            max_storytelling_quality: ストーリー品質最大値
-            min_factual_density: 事実密度最小値
-            max_factual_density: 事実密度最大値
+            min_memorability_score: memorability_score最小値
+            max_memorability_score: memorability_score最大値
+            min_empathy_score: empathy_score最小値
+            max_empathy_score: empathy_score最大値
+            min_surprise_score: surprise_score最小値
+            max_surprise_score: surprise_score最大値
+            min_generation_quality: generation_quality_score最小値
+            max_generation_quality: generation_quality_score最大値
+            min_educational_value: educational_value最小値
+            max_educational_value: educational_value最大値
+            min_storytelling_quality: story_quality最小値
+            max_storytelling_quality: story_quality最大値
+            min_factual_density: factual_density最小値
+            max_factual_density: factual_density最大値
             min_composite_score: 総合スコア最小値
             max_composite_score: 総合スコア最大値
             min_age: 年齢最小値
@@ -143,39 +143,39 @@ class AdvancedSearchEngine:
 
         # 7軸スコアフィルタリング
         if min_memorability_score is not None:
-            filtered = [ep for ep in filtered if ep.get("記憶性スコア", 0) >= min_memorability_score]
+            filtered = [ep for ep in filtered if ep.get("memorability_score", 0) >= min_memorability_score]
         if max_memorability_score is not None:
-            filtered = [ep for ep in filtered if ep.get("記憶性スコア", 10) <= max_memorability_score]
+            filtered = [ep for ep in filtered if ep.get("memorability_score", 10) <= max_memorability_score]
 
         if min_empathy_score is not None:
-            filtered = [ep for ep in filtered if ep.get("共感性スコア", 0) >= min_empathy_score]
+            filtered = [ep for ep in filtered if ep.get("empathy_score", 0) >= min_empathy_score]
         if max_empathy_score is not None:
-            filtered = [ep for ep in filtered if ep.get("共感性スコア", 10) <= max_empathy_score]
+            filtered = [ep for ep in filtered if ep.get("empathy_score", 10) <= max_empathy_score]
 
         if min_surprise_score is not None:
-            filtered = [ep for ep in filtered if ep.get("意外性スコア", 0) >= min_surprise_score]
+            filtered = [ep for ep in filtered if ep.get("surprise_score", 0) >= min_surprise_score]
         if max_surprise_score is not None:
-            filtered = [ep for ep in filtered if ep.get("意外性スコア", 10) <= max_surprise_score]
+            filtered = [ep for ep in filtered if ep.get("surprise_score", 10) <= max_surprise_score]
 
         if min_generation_quality is not None:
-            filtered = [ep for ep in filtered if ep.get("生成品質スコア", 0) >= min_generation_quality]
+            filtered = [ep for ep in filtered if ep.get("generation_quality_score", 0) >= min_generation_quality]
         if max_generation_quality is not None:
-            filtered = [ep for ep in filtered if ep.get("生成品質スコア", 10) <= max_generation_quality]
+            filtered = [ep for ep in filtered if ep.get("generation_quality_score", 10) <= max_generation_quality]
 
         if min_educational_value is not None:
-            filtered = [ep for ep in filtered if ep.get("教育的価値", 0) >= min_educational_value]
+            filtered = [ep for ep in filtered if ep.get("educational_value", 0) >= min_educational_value]
         if max_educational_value is not None:
-            filtered = [ep for ep in filtered if ep.get("教育的価値", 10) <= max_educational_value]
+            filtered = [ep for ep in filtered if ep.get("educational_value", 10) <= max_educational_value]
 
         if min_storytelling_quality is not None:
-            filtered = [ep for ep in filtered if ep.get("ストーリー品質", 0) >= min_storytelling_quality]
+            filtered = [ep for ep in filtered if ep.get("story_quality", 0) >= min_storytelling_quality]
         if max_storytelling_quality is not None:
-            filtered = [ep for ep in filtered if ep.get("ストーリー品質", 10) <= max_storytelling_quality]
+            filtered = [ep for ep in filtered if ep.get("story_quality", 10) <= max_storytelling_quality]
 
         if min_factual_density is not None:
-            filtered = [ep for ep in filtered if ep.get("事実密度", 0) >= min_factual_density]
+            filtered = [ep for ep in filtered if ep.get("factual_density", 0) >= min_factual_density]
         if max_factual_density is not None:
-            filtered = [ep for ep in filtered if ep.get("事実密度", 10) <= max_factual_density]
+            filtered = [ep for ep in filtered if ep.get("factual_density", 10) <= max_factual_density]
 
         # 総合スコアフィルタリング
         if min_composite_score is not None:
@@ -193,13 +193,13 @@ class AdvancedSearchEngine:
         reverse = order == "desc"
         if sort_by in [
             "composite_score",
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
             "age_numeric",
         ]:
             filtered.sort(key=lambda x: x.get(sort_by, 0), reverse=reverse)
@@ -226,13 +226,13 @@ class AdvancedSearchEngine:
             return {"total_episodes": 0, "score_ranges": {}}
 
         score_columns = [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
             "composite_score",
         ]
 

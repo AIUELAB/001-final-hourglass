@@ -21,7 +21,7 @@ LOGS_DIR = PROJECT_ROOT / "src/reports/logs"
 class QualityGateConfig:
     """品質ゲート設定"""
 
-    min_factual_density: float = 6.5  # 事実密度閾値（7.0→6.5に緩和）
+    min_factual_density: float = 6.5  # factual_density閾値（7.0→6.5に緩和）
     min_generation_quality: float = 6.5  # 生成品質閾値（8.0→7.0→6.5に緩和）
     min_memorability: float = 5.5  # 記憶性閾値（6.0→5.5に緩和）
     min_year_count: int = 1  # 年号最低数
@@ -94,13 +94,13 @@ DEFAULT_CONFIG = MassProductionConfig()
 
 # 品質スコア7軸の重み
 QUALITY_SCORE_WEIGHTS = {
-    "事実密度": 0.25,
-    "生成品質スコア": 0.20,
-    "記憶性スコア": 0.20,
-    "意外性スコア": 0.10,
-    "ストーリー品質": 0.10,
-    "教育的価値": 0.10,
-    "共感性スコア": 0.05,
+    "factual_density": 0.25,
+    "generation_quality_score": 0.20,
+    "memorability_score": 0.20,
+    "surprise_score": 0.10,
+    "story_quality": 0.10,
+    "educational_value": 0.10,
+    "empathy_score": 0.05,
 }
 
 

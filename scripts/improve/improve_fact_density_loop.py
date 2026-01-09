@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-事実密度改善ループスクリプト
+factual_density改善ループスクリプト
 
-事実密度3.0-3.5のエピソードがなくなるまで繰り返し改稿
+factual_density3.0-3.5のエピソードがなくなるまで繰り返し改稿
 
 使用方法:
     ANTHROPIC_API_KEY="..." ./venv/bin/python scripts/improve_fact_density_loop.py
@@ -27,7 +27,7 @@ MAX_ITERATIONS = 10  # 最大10回 = 1000件まで
 def count_remaining():
     """残りの低品質エピソード数を取得"""
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
-    low_fact = df[(df["事実密度"] >= 3.0) & (df["事実密度"] < 3.5)]
+    low_fact = df[(df["factual_density"] >= 3.0) & (df["factual_density"] < 3.5)]
     return len(low_fact)
 
 
@@ -46,7 +46,7 @@ def run_batch():
 
 def main():
     print("=" * 60)
-    print("📊 事実密度改善ループ開始")
+    print("📊 factual_density改善ループ開始")
     print("=" * 60)
 
     for iteration in range(MAX_ITERATIONS):
@@ -75,7 +75,7 @@ def main():
     print("📊 ループ完了")
     print("=" * 60)
     print(f"  残り低品質: {final_remaining}件")
-    print(f"  事実密度 平均: {df['事実密度'].mean():.2f}")
+    print(f"  factual_density 平均: {df['factual_density'].mean():.2f}")
     print(f"  composite_score 平均: {df['composite_score'].mean():.1f}")
 
 

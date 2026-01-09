@@ -13,9 +13,9 @@ episode_quality_score = (
     factuality_score * 0.25 +
     drama_score * 0.20 +
     memorability_score * 0.15 +
-    教育的価値 * 0.15 +
-    ストーリー品質 * 0.15 +
-    事実密度 * 0.10
+    educational_value * 0.15 +
+    story_quality * 0.15 +
+    factual_density * 0.10
 )
 
 選別閾値:
@@ -55,12 +55,12 @@ REPORT_DIR = "reports"
 # 品質スコア重み
 QUALITY_WEIGHTS = {
     "quality_score": 0.25,  # factuality相当
-    "記憶性スコア": 0.15,
-    "教育的価値": 0.15,
-    "ストーリー品質": 0.15,
-    "事実密度": 0.10,
-    "共感性スコア": 0.10,
-    "意外性スコア": 0.10,
+    "memorability_score": 0.15,
+    "educational_value": 0.15,
+    "story_quality": 0.15,
+    "factual_density": 0.10,
+    "empathy_score": 0.10,
+    "surprise_score": 0.10,
 }
 
 # 選別閾値

@@ -119,10 +119,10 @@ QUALITY_GATES = {
     "max_retries": 2,  # 最大リトライ回数（強化: 1→2）
     # 軸別の最低ライン（これ以下の軸は改善対象）
     "axis_minimums": {
-        "共感性スコア": 4.5,
-        "意外性スコア": 5.0,  # 強化: 4.5→5.0（最弱軸なので優先改善）
-        "教育的価値": 4.5,
-        "事実密度": 5.0,  # 強化: 4.0→5.0（最弱軸なので優先改善）
+        "empathy_score": 4.5,
+        "surprise_score": 5.0,  # 強化: 4.5→5.0（最弱軸なので優先改善）
+        "educational_value": 4.5,
+        "factual_density": 5.0,  # 強化: 4.0→5.0（最弱軸なので優先改善）
     },
 }
 
@@ -192,24 +192,24 @@ def is_critical_turning_point(episode_text: str) -> bool:
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 # 軸別改善プロンプト
 AXIS_IMPROVEMENT_PROMPTS = {
-    "共感性スコア": """
+    "empathy_score": """
 【共感性を高めてください】
 - 人物の感情や内面の葛藤をより具体的に描写
 - 読者が「自分だったら」と思える普遍的な状況を追加
 - 感情的なクライマックスを明確に
 """,
-    "意外性スコア": """
+    "surprise_score": """
 【意外性を劇的に高めてください】
 
 必ず以下のいずれかを含めてください:
@@ -227,13 +227,13 @@ AXIS_IMPROVEMENT_PROMPTS = {
 - 「誰もが驚いたことに」「実は〜」「〜とは対照的に」
 - 「周囲の予想に反して」「意外にも」
 """,
-    "教育的価値": """
-【教育的価値を高めてください】
+    "educational_value": """
+【educational_valueを高めてください】
 - この経験から得られる具体的な教訓や学びを追加
 - 他の人が参考にできる普遍的な知恵を含める
 - 「なるほど」と思わせる洞察を追加
 """,
-    "事実密度": """
+    "factual_density": """
 【具体的な事実・数値を必ず追加してください】
 
 以下の要素を最低2つ以上含めてください:
@@ -252,13 +252,13 @@ AXIS_IMPROVEMENT_PROMPTS = {
 - 「累計500万部を突破した」
 - 「〇〇賞を受賞し、日本人として3人目となった」
 """,
-    "記憶性スコア": """
+    "memorability_score": """
 【記憶に残る要素を追加してください】
 - 印象的なエピソードや名言を追加
 - 視覚的に想像できる具体的なシーンを描写
 - 読後も思い出したくなる印象的な結末を
 """,
-    "ストーリー品質": """
+    "story_quality": """
 【ストーリー構成を改善してください】
 - 起承転結をより明確に
 - 導入で興味を引き、展開で引き込む構成に
@@ -387,10 +387,10 @@ def llm_generate_draft(
 
 【品質要件（重要）】
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で必ず始める
-2. 具体的な年号、数値、事実を含める（事実密度を高く）
+2. 具体的な年号、数値、事実を含める（factual_densityを高く）
 3. 読者が感情移入できる感情描写を入れる（共感性を高く）
 4. 予想外の展開や意外な事実を含める（意外性を高く）
-5. 学びや教訓が得られる内容にする（教育的価値を高く）
+5. 学びや教訓が得られる内容にする（educational_valueを高く）
 6. 250-320文字程度
 7. 印象に残る結末にする
 
@@ -415,13 +415,13 @@ def llm_self_evaluate(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸と基準】
-1. 記憶性スコア: 読後も印象に残るか（具体的なシーン、名言、意外な事実）
-2. 共感性スコア: 感情移入できるか（感情描写、普遍的な状況、内面の葛藤）
-3. 意外性スコア: 予想外の展開があるか（意外な事実、常識を覆す視点）
-4. 生成品質スコア: 文章として完成度が高いか（文法、構成、読みやすさ）
-5. 教育的価値: 学びや教訓があるか（普遍的な知恵、参考になる経験）
-6. ストーリー品質: 構成が良いか（起承転結、引き込む力、余韻）
-7. 事実密度: 具体的なデータ・事実があるか（年号、数値、固有名詞）
+1. memorability_score: 読後も印象に残るか（具体的なシーン、名言、意外な事実）
+2. empathy_score: 感情移入できるか（感情描写、普遍的な状況、内面の葛藤）
+3. surprise_score: 予想外の展開があるか（意外な事実、常識を覆す視点）
+4. generation_quality_score: 文章として完成度が高いか（文法、構成、読みやすさ）
+5. educational_value: 学びや教訓があるか（普遍的な知恵、参考になる経験）
+6. story_quality: 構成が良いか（起承転結、引き込む力、余韻）
+7. factual_density: 具体的なデータ・事実があるか（年号、数値、固有名詞）
 
 【採点基準】
 - 9-10点: 非常に優れている（上位5%レベル）
@@ -431,7 +431,7 @@ def llm_self_evaluate(episode_text: str) -> Optional[Dict[str, float]]:
 - 1-2点: 大きく不足している
 
 必ず以下のJSON形式のみで回答してください（説明不要）:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(
@@ -566,7 +566,7 @@ def generate_episode_with_quality_gate(
             # 改稿
             weak_axes = find_weak_axes(evaluation)
             if not weak_axes:
-                weak_axes = ["意外性スコア", "共感性スコア"]  # デフォルト改善軸
+                weak_axes = ["surprise_score", "empathy_score"]  # デフォルト改善軸
             improvement_prompt = build_improvement_prompt(weak_axes)
             print(f"  改善対象軸: {', '.join(weak_axes)}")
             draft = llm_improve_draft(draft, improvement_prompt)
@@ -672,13 +672,13 @@ def _create_episode_dict(
         "work_title": work_title or "",
         "episode_text": episode_text,
         "episode_type": "TURNING_POINT",  # デフォルト
-        "記憶性スコア": scores.get("記憶性スコア", 0),
-        "共感性スコア": scores.get("共感性スコア", 0),
-        "意外性スコア": scores.get("意外性スコア", 0),
-        "生成品質スコア": scores.get("生成品質スコア", 0),
-        "教育的価値": scores.get("教育的価値", 0),
-        "ストーリー品質": scores.get("ストーリー品質", 0),
-        "事実密度": scores.get("事実密度", 0),
+        "memorability_score": scores.get("memorability_score", 0),
+        "empathy_score": scores.get("empathy_score", 0),
+        "surprise_score": scores.get("surprise_score", 0),
+        "generation_quality_score": scores.get("generation_quality_score", 0),
+        "educational_value": scores.get("educational_value", 0),
+        "story_quality": scores.get("story_quality", 0),
+        "factual_density": scores.get("factual_density", 0),
         "composite_score": composite,
         "generation_method": "quality_gate_v1",
         "generated_at": datetime.now().isoformat(),

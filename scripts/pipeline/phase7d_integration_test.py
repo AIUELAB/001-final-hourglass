@@ -161,7 +161,7 @@ def analyze_results(results: list) -> dict:
         return analysis
 
     # 各軸の統計
-    axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+    axes = ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]
 
     for axis in axes:
         # ルールベース
@@ -221,7 +221,7 @@ def print_analysis_report(analysis: dict):
     print(f"{'軸':<15} {'ルール':>8} {'LLM':>8} {'ハイブリッド':>10} {'目標':>8} {'達成':>6}")
     print("-" * 70)
 
-    for axis in ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]:
+    for axis in ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]:
         rule_std = analysis["rule_stats"].get(axis, {}).get("std", 0)
         llm_std = analysis["llm_stats"].get(axis, {}).get("std", 0)
         hybrid_std = analysis["hybrid_stats"].get(axis, {}).get("std", 0)

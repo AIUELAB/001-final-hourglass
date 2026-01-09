@@ -33,16 +33,14 @@ def test_parse_llm_response():
     print("\n=== parse_llm_response テスト ===")
 
     # 正常ケース
-    valid_json = (
-        '{"記憶性": 8, "共感性": 6, "意外性": 7, "生成品質": 9, "教育的価値": 5, "ストーリー品質": 7, "事実密度": 8}'
-    )
+    valid_json = '{"記憶性": 8, "共感性": 6, "意外性": 7, "生成品質": 9, "educational_value": 5, "story_quality": 7, "factual_density": 8}'
     result = parse_llm_response(valid_json)
     assert result is not None, "正常JSONのパース失敗"
-    assert result["記憶性"] == 8, "記憶性スコアが不正"
+    assert result["記憶性"] == 8, "memorability_scoreが不正"
     print(f"✅ 正常JSON: {result}")
 
     # 前後にテキストがあるケース
-    with_text = 'Here is the evaluation:\n{"記憶性": 7, "共感性": 8, "意外性": 6, "生成品質": 7, "教育的価値": 6, "ストーリー品質": 8, "事実密度": 7}\nThank you!'
+    with_text = 'Here is the evaluation:\n{"記憶性": 7, "共感性": 8, "意外性": 6, "生成品質": 7, "educational_value": 6, "story_quality": 8, "factual_density": 7}\nThank you!'
     result2 = parse_llm_response(with_text)
     assert result2 is not None, "テキスト付きJSONのパース失敗"
     print(f"✅ テキスト付きJSON: {result2}")
@@ -64,7 +62,7 @@ def test_calibrate_llm_score():
     test_cases = [
         ("記憶性", 7.0, 6.24),  # 平均付近は平均に近づく
         ("共感性", 9.0, 6.74),  # 高スコアは補正
-        ("事実密度", 5.0, 7.47),  # 低スコアは補正
+        ("factual_density", 5.0, 7.47),  # 低スコアは補正
     ]
 
     for axis, raw_score, expected_approx in test_cases:

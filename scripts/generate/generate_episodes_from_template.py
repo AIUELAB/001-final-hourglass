@@ -76,13 +76,13 @@ def calculate_quality_scores(episode_text: str) -> Dict[str, float]:
     """
     # 7軸スコアは空欄（Layer2評価待ち）
     scores = {
-        "記憶性スコア": "",
-        "共感性スコア": "",
-        "意外性スコア": "",
-        "生成品質スコア": "",
-        "教育的価値": "",
-        "ストーリー品質": "",
-        "事実密度": "",
+        "memorability_score": "",
+        "empathy_score": "",
+        "surprise_score": "",
+        "generation_quality_score": "",
+        "educational_value": "",
+        "story_quality": "",
+        "factual_density": "",
     }
 
     # composite_scoreは暫定値（Layer2で再計算される）
@@ -207,7 +207,7 @@ def generate_episode(
 3. 具体的な事実や出来事を含める
 4. 記憶に残る印象的な内容にする
 5. 200-300文字程度
-6. 教育的価値のある内容にする
+6. educational_valueのある内容にする
 7. 事実に基づいた内容にする（架空の内容は避ける）"""
 
         # 受賞エピソードの場合の追加要件
@@ -302,13 +302,13 @@ def generate_episode(
             "composite_score": scores["composite_score"],
             "fame_score_updated_at": "",
             "人生の節目タグ": milestone_tags,
-            "記憶性スコア": scores["記憶性スコア"],
-            "共感性スコア": scores["共感性スコア"],
-            "意外性スコア": scores["意外性スコア"],
-            "生成品質スコア": scores["生成品質スコア"],
-            "教育的価値": scores["教育的価値"],
-            "ストーリー品質": scores["ストーリー品質"],
-            "事実密度": scores["事実密度"],
+            "memorability_score": scores["memorability_score"],
+            "empathy_score": scores["empathy_score"],
+            "surprise_score": scores["surprise_score"],
+            "generation_quality_score": scores["generation_quality_score"],
+            "educational_value": scores["educational_value"],
+            "story_quality": scores["story_quality"],
+            "factual_density": scores["factual_density"],
             "category_original": category,
         }
 
@@ -429,13 +429,13 @@ def main():
             "composite_score",
             "fame_score_updated_at",
             "人生の節目タグ",
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
             "category_original",
         ]
 

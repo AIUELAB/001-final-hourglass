@@ -60,14 +60,14 @@ def show_episode_slot(episode_id):
 
     # その他のスコア
     print("【詳細スコア】")
-    if "記憶性スコア" in df.columns:
-        print(f"  記憶性スコア      : {row['記憶性スコア']}")
-    if "共感性スコア" in df.columns:
-        print(f"  共感性スコア      : {row['共感性スコア']}")
-    if "意外性スコア" in df.columns:
-        print(f"  意外性スコア      : {row['意外性スコア']}")
-    if "生成品質スコア" in df.columns:
-        print(f"  生成品質スコア    : {row['生成品質スコア']}")
+    if "memorability_score" in df.columns:
+        print(f"  memorability_score      : {row['memorability_score']}")
+    if "empathy_score" in df.columns:
+        print(f"  empathy_score      : {row['empathy_score']}")
+    if "surprise_score" in df.columns:
+        print(f"  surprise_score      : {row['surprise_score']}")
+    if "generation_quality_score" in df.columns:
+        print(f"  generation_quality_score    : {row['generation_quality_score']}")
     print()
 
     # 全フィールド表示

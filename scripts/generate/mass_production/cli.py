@@ -111,7 +111,7 @@ def create_parser() -> argparse.ArgumentParser:
         "--min-factual-density",
         type=float,
         default=None,
-        help=f"最小事実密度（デフォルト: {DEFAULT_CONFIG.quality.min_factual_density}）",
+        help=f"最小factual_density（デフォルト: {DEFAULT_CONFIG.quality.min_factual_density}）",
     )
 
     parser.add_argument(
@@ -281,7 +281,7 @@ def run_analyze_only(
         print("\n設定:")
         print(f"  並列ワーカー: {analysis['config']['max_workers']}")
         print(f"  入力あたり候補: {analysis['config']['candidates_per_input']}")
-        print(f"  事実密度閾値: {analysis['config']['quality_thresholds']['factual_density']}")
+        print(f"  factual_density閾値: {analysis['config']['quality_thresholds']['factual_density']}")
         print(f"  生成品質閾値: {analysis['config']['quality_thresholds']['generation_quality']}")
 
     return 0

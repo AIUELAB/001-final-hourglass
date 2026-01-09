@@ -302,12 +302,12 @@ def evaluate_placeholder_detection(df: pd.DataFrame) -> dict:
 
 
 def evaluate_fact_density_quality(df: pd.DataFrame) -> dict:
-    """事実密度品質を評価（Phase 10追加）
+    """factual_density品質を評価（Phase 10追加）
 
-    低事実密度エピソードの割合を評価。
+    低factual_densityエピソードの割合を評価。
     """
-    # 事実密度列が存在するか確認
-    if "事実密度" not in df.columns:
+    # factual_density列が存在するか確認
+    if "factual_density" not in df.columns:
         return {
             "has_fact_density_column": False,
             "total_with_score": 0,
@@ -316,15 +316,15 @@ def evaluate_fact_density_quality(df: pd.DataFrame) -> dict:
         }
 
     # 数値変換
-    df_with_score = df[df["事実密度"].notna()]
+    df_with_score = df[df["factual_density"].notna()]
     df_with_score = df_with_score.copy()
-    df_with_score["fact_density_float"] = pd.to_numeric(df_with_score["事実密度"], errors="coerce")
+    df_with_score["fact_density_float"] = pd.to_numeric(df_with_score["factual_density"], errors="coerce")
     df_valid = df_with_score[df_with_score["fact_density_float"].notna()]
 
     # REAL人物のみ
     real_valid = df_valid[df_valid["person_type"].str.upper().str.contains("REAL", na=False)]
 
-    # 低事実密度（3.5以下）
+    # 低factual_density（3.5以下）
     low_density = real_valid[real_valid["fact_density_float"] <= 3.5]
 
     average_density = round(real_valid["fact_density_float"].mean(), 2) if len(real_valid) > 0 else 0
@@ -633,25 +633,25 @@ def evaluate_episode_depth(df: pd.DataFrame) -> dict:
 def evaluate_episode_drama_quality(df: pd.DataFrame) -> dict:
     """エピソードのドラマ品質を評価（Phase 14追加）
 
-    意外性スコアを基準に、エピソードの「読み物としての価値」を評価する。
+    surprise_scoreを基準に、エピソードの「読み物としての価値」を評価する。
     年齢カバレッジではなく、実質的な品質を重視。
 
     評価基準:
-    - 高品質: 意外性スコア >= 7.0
-    - 中品質: 5.0 <= 意外性スコア < 7.0
-    - 低品質: 意外性スコア < 5.0
+    - 高品質: surprise_score >= 7.0
+    - 中品質: 5.0 <= surprise_score < 7.0
+    - 低品質: surprise_score < 5.0
     """
-    # 意外性スコアがある行のみ
-    if "意外性スコア" not in df.columns:
+    # surprise_scoreがある行のみ
+    if "surprise_score" not in df.columns:
         return {
             "has_drama_scores": False,
             "high_quality_rate": 100.0,
             "drama_quality_score": 100.0,
         }
 
-    drama_df = df[df["意外性スコア"].notna()]
-    drama_df = drama_df[pd.to_numeric(drama_df["意外性スコア"], errors="coerce").notna()]
-    drama_scores = pd.to_numeric(drama_df["意外性スコア"], errors="coerce")
+    drama_df = df[df["surprise_score"].notna()]
+    drama_df = drama_df[pd.to_numeric(drama_df["surprise_score"], errors="coerce").notna()]
+    drama_scores = pd.to_numeric(drama_df["surprise_score"], errors="coerce")
 
     if len(drama_scores) == 0:
         return {
@@ -685,7 +685,7 @@ def evaluate_episode_drama_quality(df: pd.DataFrame) -> dict:
                     "episode_id": row.get("episode_id", ""),
                     "person_name": row.get("person_name", ""),
                     "age": row.get("age", ""),
-                    "意外性スコア": row.get("意外性スコア", ""),
+                    "surprise_score": row.get("surprise_score", ""),
                     "source": row.get("source", ""),
                 }
             )
@@ -697,7 +697,7 @@ def evaluate_episode_drama_quality(df: pd.DataFrame) -> dict:
             if pd.isna(source) or source == "":
                 continue
             source_df = drama_df[drama_df["source"] == source]
-            source_scores = pd.to_numeric(source_df["意外性スコア"], errors="coerce")
+            source_scores = pd.to_numeric(source_df["surprise_score"], errors="coerce")
             if len(source_scores) > 0:
                 source_high = (source_scores >= 7.0).sum()
                 source_quality[source] = {
@@ -1194,8 +1194,8 @@ def evaluate_episode_quality_distribution(df: pd.DataFrame) -> dict:
     総合品質スコアを計算し、分布を評価。
 
     品質スコア計算:
-    quality_score * 0.25 + 記憶性スコア * 0.15 + 教育的価値 * 0.15 +
-    ストーリー品質 * 0.15 + 事実密度 * 0.10 + 共感性スコア * 0.10 + 意外性スコア * 0.10
+    quality_score * 0.25 + memorability_score * 0.15 + educational_value * 0.15 +
+    story_quality * 0.15 + factual_density * 0.10 + empathy_score * 0.10 + surprise_score * 0.10
 
     選別閾値:
     - 保持 (>=6.5): 高品質
@@ -1205,12 +1205,12 @@ def evaluate_episode_quality_distribution(df: pd.DataFrame) -> dict:
     """
     weights = {
         "quality_score": 0.25,
-        "記憶性スコア": 0.15,
-        "教育的価値": 0.15,
-        "ストーリー品質": 0.15,
-        "事実密度": 0.10,
-        "共感性スコア": 0.10,
-        "意外性スコア": 0.10,
+        "memorability_score": 0.15,
+        "educational_value": 0.15,
+        "story_quality": 0.15,
+        "factual_density": 0.10,
+        "empathy_score": 0.10,
+        "surprise_score": 0.10,
     }
 
     scores = []
@@ -1443,15 +1443,15 @@ def generate_recommendations(evaluation: dict) -> list:
                 }
             )
 
-    # Phase 10: 事実密度
+    # Phase 10: factual_density
     if "fact_density_quality" in evaluation:
         fd_info = evaluation["fact_density_quality"]
         if fd_info.get("low_density_count", 0) > 50:
             recommendations.append(
                 {
                     "priority": "MEDIUM",
-                    "category": "事実密度",
-                    "issue": f"低事実密度エピソード {fd_info['low_density_count']}件 (平均 {fd_info['average_density']})",
+                    "category": "factual_density",
+                    "issue": f"低factual_densityエピソード {fd_info['low_density_count']}件 (平均 {fd_info['average_density']})",
                     "action": "scripts/enhance_fact_density.py --execute を実行して向上",
                 }
             )
@@ -1509,7 +1509,7 @@ def generate_recommendations(evaluation: dict) -> list:
                     {
                         "priority": "HIGH" if low_quality_rate > 50 else "MEDIUM",
                         "category": "ドラマ品質",
-                        "issue": f"低品質エピソード率 {low_quality_rate}% (意外性スコア<5.0)",
+                        "issue": f"低品質エピソード率 {low_quality_rate}% (surprise_score<5.0)",
                         "action": f"scripts/evaluate_episode_drama.py --execute で品質監査、再生成を検討。例: {low_samples}",
                     }
                 )
@@ -1664,7 +1664,7 @@ def calculate_epup_score(evaluation: dict) -> dict:
     else:
         scores["placeholder_clean"] = 100.0
 
-    # Phase 10: 事実密度品質
+    # Phase 10: factual_density品質
     if "fact_density_quality" in evaluation:
         scores["fact_density_quality"] = evaluation["fact_density_quality"]["high_quality_rate"]
     else:
@@ -1755,7 +1755,7 @@ def calculate_epup_score(evaluation: dict) -> dict:
         "work_title_compliance": 0.05,
         # Phase 10: 事実性チェック指標
         "placeholder_clean": 0.05,  # プレースホルダークリーン率
-        "fact_density_quality": 0.05,  # 事実密度品質
+        "fact_density_quality": 0.05,  # factual_density品質
         # Phase 11: ラベル妥当性
         "episode_type_validity": 0.06,  # episode_type妥当性
         # Phase 12: 有名人カバレッジ
@@ -2028,7 +2028,7 @@ def main():
 
     fd = evaluation["fact_density_quality"]
     if fd.get("has_fact_density_column"):
-        print(f"  低事実密度: {fd['low_density_count']}件 (平均 {fd['average_density']})")
+        print(f"  低factual_density: {fd['low_density_count']}件 (平均 {fd['average_density']})")
         print(f"  高品質率: {fd['high_quality_rate']}%")
 
     print("\n【Phase 11: episode_type妥当性】")
@@ -2070,7 +2070,7 @@ def main():
     dq = evaluation.get("episode_drama_quality", {})
     if dq.get("has_drama_scores"):
         print(f"  評価対象: {dq.get('total_with_scores', 0)}件")
-        print(f"  平均意外性スコア: {dq.get('avg_drama_score', 'N/A')}")
+        print(f"  平均surprise_score: {dq.get('avg_drama_score', 'N/A')}")
         print(f"  高品質率(>=7.0): {dq.get('high_quality_rate', 0)}% ({dq.get('high_quality_count', 0)}件)")
         print(f"  中品質率(5-7): {dq.get('mid_quality_rate', 0)}% ({dq.get('mid_quality_count', 0)}件)")
         print(f"  低品質率(<5): {dq.get('low_quality_rate', 0)}% ({dq.get('low_quality_count', 0)}件)")
@@ -2080,7 +2080,7 @@ def main():
             for source, sq in list(dq["source_quality_breakdown"].items())[:5]:
                 print(f"    {source}: 高品質率{sq['high_quality_rate']}%, 平均{sq['avg_score']}")
     else:
-        print("  意外性スコアデータなし")
+        print("  surprise_scoreデータなし")
 
     print("\n【Phase 15: 内容密度品質】")
     cd = evaluation.get("content_density_quality", {})

@@ -85,7 +85,7 @@ class TestAxisScores:
     """AxisScoresクラスのテスト"""
 
     def test_average(self):
-        """平均計算"""
+        """平均計算（8軸: iconic_score含む）"""
         scores = AxisScores(
             memorability=7.0,
             empathy=6.0,
@@ -94,12 +94,14 @@ class TestAxisScores:
             educational_value=6.0,
             story_quality=7.0,
             factual_density=7.0,
+            iconic_score=7.0,  # Phase 28: 8軸目追加
         )
         avg = scores.average()
+        # (7+6+8+7+6+7+7+7) / 8 = 55 / 8 = 6.875
         assert 6.5 < avg < 7.5
 
     def test_weighted_average(self):
-        """加重平均"""
+        """加重平均（8軸: iconic_score含む）"""
         scores = AxisScores(
             memorability=5.0,
             empathy=5.0,
@@ -108,6 +110,7 @@ class TestAxisScores:
             educational_value=5.0,
             story_quality=5.0,
             factual_density=10.0,  # 重み高
+            iconic_score=10.0,  # 重み高
         )
         weighted = scores.weighted_average()
         avg = scores.average()
@@ -271,7 +274,7 @@ class TestQualityEvaluator:
         assert result.passed
 
     def test_quality_gate_fail_factual(self):
-        """事実密度不足"""
+        """factual_density不足"""
         evaluator = QualityEvaluator()
         scores = AxisScores(
             memorability=7.0,
@@ -307,7 +310,7 @@ class TestCompositeScore:
     """統合スコアのテスト"""
 
     def test_composite_calculation(self):
-        """統合スコア計算"""
+        """統合スコア計算（8軸）"""
         scores = AxisScores(
             memorability=7.0,
             empathy=7.0,
@@ -316,9 +319,10 @@ class TestCompositeScore:
             educational_value=7.0,
             story_quality=7.0,
             factual_density=7.0,
+            iconic_score=7.0,  # Phase 28: 8軸目追加
         )
         composite = CompositeScoreCalculator.calculate(scores)
-        # 7.0 * 100 = 700 前後
+        # 8軸平均 7.0 * 100 = 700 前後
         assert 650 < composite < 750
 
     def test_composite_with_penalties(self):
@@ -411,7 +415,7 @@ class TestEPUPPrevention:
     def test_low_quality_rejection(self):
         """低品質の拒否"""
         evaluator = QualityEvaluator()
-        # 事実密度も生成品質も低い
+        # factual_densityも生成品質も低い
         scores = AxisScores(
             memorability=5.0,
             empathy=5.0,

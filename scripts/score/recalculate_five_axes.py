@@ -35,7 +35,7 @@ CSV_PATH = PROJECT_ROOT / "MASTER_EPISODES_CURRENT.csv"
 REPORT_DIR = PROJECT_ROOT / "reports"
 
 # 再計算対象の5軸
-FIVE_AXES = ["記憶性スコア", "共感性スコア", "意外性スコア", "生成品質スコア", "教育的価値"]
+FIVE_AXES = ["memorability_score", "empathy_score", "surprise_score", "generation_quality_score", "educational_value"]
 
 
 def analyze_distribution(values: list) -> Dict:
@@ -107,11 +107,11 @@ def recalculate_five_axes(dry_run: bool = True, update_composite: bool = True):
 
         # 各軸を計算
         new_scores = {
-            "記憶性スコア": calculate_memorability_score(episode_dict),
-            "共感性スコア": calculate_empathy_score(episode_dict),
-            "意外性スコア": calculate_surprise_score(episode_dict),
-            "生成品質スコア": calculate_generation_quality_score(episode_dict),
-            "教育的価値": calculate_educational_value_score(episode_dict),
+            "memorability_score": calculate_memorability_score(episode_dict),
+            "empathy_score": calculate_empathy_score(episode_dict),
+            "surprise_score": calculate_surprise_score(episode_dict),
+            "generation_quality_score": calculate_generation_quality_score(episode_dict),
+            "educational_value": calculate_educational_value_score(episode_dict),
         }
 
         for axis, new_score in new_scores.items():

@@ -27,12 +27,12 @@ class EvaluationScores:
     """評価スコア"""
 
     # 7軸スコア（1-10）
-    factual_density: float = 0.0  # 事実密度
+    factual_density: float = 0.0  # factual_density
     generation_quality: float = 0.0  # 生成品質
     memorability: float = 0.0  # 記憶性
     surprise: float = 0.0  # 意外性
-    story_quality: float = 0.0  # ストーリー品質
-    educational_value: float = 0.0  # 教育的価値
+    story_quality: float = 0.0  # story_quality
+    educational_value: float = 0.0  # educational_value
     empathy: float = 0.0  # 共感性
 
     # 構造スコア
@@ -133,12 +133,12 @@ class BatchEvaluator:
 以下の{count}件のエピソードを評価してください。
 
 ## 評価軸（各1-10点）
-1. 事実密度: 具体的な年号・数値・固有名詞の豊富さ
+1. factual_density: 具体的な年号・数値・固有名詞の豊富さ
 2. 生成品質: 文章の自然さ、読みやすさ、完成度
 3. 記憶性: 印象に残るか、覚えやすいか
 4. 意外性: 新しい発見や驚きがあるか
-5. ストーリー品質: 物語としての構成、起承転結
-6. 教育的価値: 学びや気づきがあるか
+5. story_quality: 物語としての構成、起承転結
+6. educational_value: 学びや気づきがあるか
 7. 共感性: 感情移入できるか、共感を呼ぶか
 
 ## 評価対象エピソード
@@ -146,7 +146,7 @@ class BatchEvaluator:
 
 ## 出力形式（JSON配列）
 [
-  {{"index": 0, "事実密度": 8, "生成品質スコア": 7, "記憶性スコア": 6, "意外性スコア": 5, "ストーリー品質": 7, "教育的価値": 6, "共感性スコア": 5}},
+  {{"index": 0, "factual_density": 8, "generation_quality_score": 7, "memorability_score": 6, "surprise_score": 5, "story_quality": 7, "educational_value": 6, "empathy_score": 5}},
   ...
 ]
 
@@ -210,13 +210,13 @@ JSON配列のみを出力してください。説明は不要です。
 
                 # スコアオブジェクト作成
                 scores = EvaluationScores(
-                    factual_density=llm_score.get("事実密度", 5.0),
-                    generation_quality=llm_score.get("生成品質スコア", 5.0),
-                    memorability=llm_score.get("記憶性スコア", 5.0),
-                    surprise=llm_score.get("意外性スコア", 5.0),
-                    story_quality=llm_score.get("ストーリー品質", 5.0),
-                    educational_value=llm_score.get("教育的価値", 5.0),
-                    empathy=llm_score.get("共感性スコア", 5.0),
+                    factual_density=llm_score.get("factual_density", 5.0),
+                    generation_quality=llm_score.get("generation_quality_score", 5.0),
+                    memorability=llm_score.get("memorability_score", 5.0),
+                    surprise=llm_score.get("surprise_score", 5.0),
+                    story_quality=llm_score.get("story_quality", 5.0),
+                    educational_value=llm_score.get("educational_value", 5.0),
+                    empathy=llm_score.get("empathy_score", 5.0),
                     year_count=structural["year_count"],
                     number_count=structural["number_count"],
                     proper_noun_count=structural["proper_noun_count"],
@@ -297,25 +297,25 @@ JSON配列のみを出力してください。説明は不要です。
     def _default_scores(self) -> Dict:
         """デフォルトスコア"""
         return {
-            "事実密度": 5.0,
-            "生成品質スコア": 5.0,
-            "記憶性スコア": 5.0,
-            "意外性スコア": 5.0,
-            "ストーリー品質": 5.0,
-            "教育的価値": 5.0,
-            "共感性スコア": 5.0,
+            "factual_density": 5.0,
+            "generation_quality_score": 5.0,
+            "memorability_score": 5.0,
+            "surprise_score": 5.0,
+            "story_quality": 5.0,
+            "educational_value": 5.0,
+            "empathy_score": 5.0,
         }
 
     def _calculate_composite_score(self, scores: EvaluationScores) -> float:
         """複合スコアを計算"""
         weighted_sum = (
-            scores.factual_density * self.weights.get("事実密度", 0.25)
-            + scores.generation_quality * self.weights.get("生成品質スコア", 0.20)
-            + scores.memorability * self.weights.get("記憶性スコア", 0.20)
-            + scores.surprise * self.weights.get("意外性スコア", 0.10)
-            + scores.story_quality * self.weights.get("ストーリー品質", 0.10)
-            + scores.educational_value * self.weights.get("教育的価値", 0.10)
-            + scores.empathy * self.weights.get("共感性スコア", 0.05)
+            scores.factual_density * self.weights.get("factual_density", 0.25)
+            + scores.generation_quality * self.weights.get("generation_quality_score", 0.20)
+            + scores.memorability * self.weights.get("memorability_score", 0.20)
+            + scores.surprise * self.weights.get("surprise_score", 0.10)
+            + scores.story_quality * self.weights.get("story_quality", 0.10)
+            + scores.educational_value * self.weights.get("educational_value", 0.10)
+            + scores.empathy * self.weights.get("empathy_score", 0.05)
         )
         return round(weighted_sum, 2)
 
@@ -337,7 +337,7 @@ JSON配列のみを出力してください。説明は不要です。
 
         # 7軸スコアチェック
         if scores.factual_density < self.config.min_factual_density:
-            failures.append(f"事実密度不足: {scores.factual_density:.1f} < {self.config.min_factual_density}")
+            failures.append(f"factual_density不足: {scores.factual_density:.1f} < {self.config.min_factual_density}")
 
         if scores.generation_quality < self.config.min_generation_quality:
             failures.append(f"生成品質不足: {scores.generation_quality:.1f} < {self.config.min_generation_quality}")
@@ -372,13 +372,13 @@ class MockLLMEvaluator:
             results.append(
                 {
                     "index": i,
-                    "事実密度": random.randint(6, 10),
-                    "生成品質スコア": random.randint(6, 10),
-                    "記憶性スコア": random.randint(5, 9),
-                    "意外性スコア": random.randint(4, 8),
-                    "ストーリー品質": random.randint(5, 9),
-                    "教育的価値": random.randint(5, 8),
-                    "共感性スコア": random.randint(4, 8),
+                    "factual_density": random.randint(6, 10),
+                    "generation_quality_score": random.randint(6, 10),
+                    "memorability_score": random.randint(5, 9),
+                    "surprise_score": random.randint(4, 8),
+                    "story_quality": random.randint(5, 9),
+                    "educational_value": random.randint(5, 8),
+                    "empathy_score": random.randint(4, 8),
                 }
             )
 
@@ -495,11 +495,11 @@ class FinalRanker:
         # 各グループから上位を選択
         selected = []
         for key, group in groups.items():
-            # 複合スコアでソート（scores辞書内のcomposite or 生成品質スコア）
+            # 複合スコアでソート（scores辞書内のcomposite or generation_quality_score）
             def get_score(ep: Dict) -> float:
                 scores = ep.get("scores", {})
                 if isinstance(scores, dict):
-                    return scores.get("composite", scores.get("生成品質スコア", 0.0))
+                    return scores.get("composite", scores.get("generation_quality_score", 0.0))
                 return 0.0
 
             sorted_group = sorted(group, key=get_score, reverse=True)
@@ -545,7 +545,7 @@ def main():
         status = "✓" if r.passed_gate else "✗"
         print(f"  [{status}] {r.person_name}({r.age}歳)")
         print(f"      複合スコア: {r.scores.composite_score:.2f}")
-        print(f"      事実密度: {r.scores.factual_density:.1f}, 生成品質: {r.scores.generation_quality:.1f}")
+        print(f"      factual_density: {r.scores.factual_density:.1f}, 生成品質: {r.scores.generation_quality:.1f}")
         if r.gate_failures:
             print(f"      失敗理由: {', '.join(r.gate_failures)}")
 

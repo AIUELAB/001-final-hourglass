@@ -153,13 +153,13 @@ class TestScorerIntegration:
             "celebrity_score_v2": "50",
             "sitelinks_count": "50",
             "multi_lang_pv": "1000",
-            "記憶性スコア": "5",
-            "共感性スコア": "5",
-            "意外性スコア": "5",
-            "生成品質スコア": "5",
-            "教育的価値": "5",
-            "ストーリー品質": "5",
-            "事実密度": "5",
+            "memorability_score": "5",
+            "empathy_score": "5",
+            "surprise_score": "5",
+            "generation_quality_score": "5",
+            "educational_value": "5",
+            "story_quality": "5",
+            "factual_density": "5",
         }
 
         breakdown = scorer.score_episode(mock_row)

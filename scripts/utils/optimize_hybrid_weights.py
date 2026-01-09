@@ -26,13 +26,13 @@ def load_data():
 def get_csv_scores(gold_df):
     """CSV既存スコアを取得"""
     csv_cols = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
     return gold_df[csv_cols].values
 
@@ -43,7 +43,7 @@ def grid_search_weights():
     csv_scores = get_csv_scores(gold_df)
 
     # 軸名
-    axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+    axes = ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]
 
     # ハイブリッドスコア取得
     hybrid_scores = hybrid_df[axes].values
@@ -104,15 +104,15 @@ def analyze_score_patterns():
     print("スコアパターン分析")
     print("=" * 70)
 
-    axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+    axes = ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]
     csv_cols = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     # 軸ごとの分析
@@ -144,15 +144,15 @@ def propose_optimized_weights():
     """最適化された重みを提案"""
     gold_df, hybrid_df = load_data()
 
-    axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+    axes = ["記憶性", "共感性", "意外性", "生成品質", "educational_value", "story_quality", "factual_density"]
     csv_cols = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     print("\n" + "=" * 70)
@@ -175,9 +175,9 @@ def propose_optimized_weights():
             "共感性": (0.3, 0.7),
             "意外性": (0.4, 0.6),
             "生成品質": (0.8, 0.2),
-            "教育的価値": (0.5, 0.5),
-            "ストーリー品質": (0.3, 0.7),
-            "事実密度": (0.9, 0.1),
+            "educational_value": (0.5, 0.5),
+            "story_quality": (0.3, 0.7),
+            "factual_density": (0.9, 0.1),
         }
 
         rule_w, llm_w = current_weights[axis]

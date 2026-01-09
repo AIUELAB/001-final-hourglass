@@ -55,13 +55,13 @@ client = anthropic.Anthropic(api_key=API_KEY)
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 # 品質ゲート設定
@@ -155,12 +155,12 @@ def llm_improve_episode(
 
 【改稿の要件】
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」で必ず始める
-2. 具体的な年号、数値、事実を含める（事実密度を高める）
+2. 具体的な年号、数値、事実を含める（factual_densityを高める）
 3. 人物の感情や内面の葛藤を描写する（共感性を高める）
 4. 予想外の展開や意外な事実を含める（意外性を高める）
-5. 学びや教訓が得られる内容にする（教育的価値を高める）
+5. 学びや教訓が得られる内容にする（educational_valueを高める）
 6. 印象に残る具体的なシーンを描写する（記憶性を高める）
-7. 起承転結を明確に構成する（ストーリー品質を高める）
+7. 起承転結を明確に構成する（story_qualityを高める）
 8. 250-320文字程度
 
 【重要】
@@ -189,16 +189,16 @@ def llm_evaluate_episode(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸と基準】
-1. 記憶性スコア: 読後も印象に残るか
-2. 共感性スコア: 感情移入できるか
-3. 意外性スコア: 予想外の展開があるか
-4. 生成品質スコア: 文章として完成度が高いか
-5. 教育的価値: 学びや教訓があるか
-6. ストーリー品質: 構成が良いか
-7. 事実密度: 具体的なデータ・事実があるか
+1. memorability_score: 読後も印象に残るか
+2. empathy_score: 感情移入できるか
+3. surprise_score: 予想外の展開があるか
+4. generation_quality_score: 文章として完成度が高いか
+5. educational_value: 学びや教訓があるか
+6. story_quality: 構成が良いか
+7. factual_density: 具体的なデータ・事実があるか
 
 必ず以下のJSON形式のみで回答:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(

@@ -38,7 +38,7 @@ def get_drama_quality() -> dict:
     csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
     df = pd.read_csv(csv_path, encoding="utf-8-sig")
 
-    surprise = df["意外性スコア"].dropna()
+    surprise = df["surprise_score"].dropna()
     total = len(surprise)
 
     high = (surprise >= 7.0).sum()

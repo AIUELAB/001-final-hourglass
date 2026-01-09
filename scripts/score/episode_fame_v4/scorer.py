@@ -137,12 +137,12 @@ def calculate_type_component(episode_type: str, factual_density: float = 0.0) ->
     episode_type_upper = episode_type.strip().upper()
     type_bonus = TYPE_BONUS.get(episode_type_upper, 0)
 
-    # 事実密度依存タイプの場合、事実密度で補正
+    # factual_density依存タイプの場合、factual_densityで補正
     if episode_type_upper in FACT_DENSITY_DEPENDENT_TYPES:
         if factual_density >= 5.0:
             multiplier = 1.0
         else:
-            # 事実密度が低い場合は効果減衰（最低0.77）
+            # factual_densityが低い場合は効果減衰（最低0.77）
             multiplier = max(0.77, factual_density / 5.0)
         type_bonus = type_bonus * multiplier
 

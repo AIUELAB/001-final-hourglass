@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-意外性スコア改善スクリプト
+surprise_score改善スクリプト
 
-意外性スコアが閾値未満のエピソードを改稿して意外性を向上させる
+surprise_scoreが閾値未満のエピソードを改稿して意外性を向上させる
 
 使用方法:
     # テスト実行（5件）
@@ -53,13 +53,13 @@ client = anthropic.Anthropic(api_key=API_KEY)
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 
@@ -141,16 +141,16 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 【評価軸】
-1. 記憶性スコア: 読後も印象に残るか
-2. 共感性スコア: 感情移入できるか
-3. 意外性スコア: 予想外の展開があるか（「えっ、そうだったの？」と驚く要素）
-4. 生成品質スコア: 文章として完成度が高いか
-5. 教育的価値: 学びや教訓があるか
-6. ストーリー品質: 構成が良いか
-7. 事実密度: 具体的なデータ・事実があるか
+1. memorability_score: 読後も印象に残るか
+2. empathy_score: 感情移入できるか
+3. surprise_score: 予想外の展開があるか（「えっ、そうだったの？」と驚く要素）
+4. generation_quality_score: 文章として完成度が高いか
+5. educational_value: 学びや教訓があるか
+6. story_quality: 構成が良いか
+7. factual_density: 具体的なデータ・事実があるか
 
 必ず以下のJSON形式のみで回答してください:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(
@@ -172,12 +172,12 @@ def get_low_surprise_episodes(
     threshold: float = 3.0,
     persons: Optional[List[str]] = None,
 ) -> pd.DataFrame:
-    """意外性スコアが閾値未満のエピソードを取得
+    """surprise_scoreが閾値未満のエピソードを取得
 
     Args:
         df: 全エピソードのDataFrame
         count: 取得件数
-        threshold: 意外性スコアの閾値（デフォルト3.0）
+        threshold: surprise_scoreの閾値（デフォルト3.0）
         persons: 対象人物名のリスト（Noneで全員）
     """
     # 人物フィルタを先に適用
@@ -187,10 +187,10 @@ def get_low_surprise_episodes(
         filtered_df = df[mask]
 
     # 閾値でフィルタ
-    low_surprise = filtered_df[filtered_df["意外性スコア"] < threshold].copy()
+    low_surprise = filtered_df[filtered_df["surprise_score"] < threshold].copy()
 
-    # 意外性スコアが低い順にソート
-    low_surprise = low_surprise.sort_values("意外性スコア")
+    # surprise_scoreが低い順にソート
+    low_surprise = low_surprise.sort_values("surprise_score")
     return low_surprise.head(count)
 
 
@@ -205,11 +205,11 @@ def improve_episode(row: pd.Series, target_threshold: float = 3.0) -> Optional[D
     person_name = row["person_name"]
     age = int(row["age"])
     original_text = str(row["episode_text"])
-    original_surprise = float(row["意外性スコア"])
+    original_surprise = float(row["surprise_score"])
 
     print(f"\n{'='*60}")
     print(f"改稿中: {person_name} ({age}歳) [{episode_id}]")
-    print(f"元の意外性スコア: {original_surprise:.2f} (目標: ≥{target_threshold:.1f})")
+    print(f"元のsurprise_score: {original_surprise:.2f} (目標: ≥{target_threshold:.1f})")
     print(f"{'='*60}")
 
     # 改稿
@@ -229,7 +229,7 @@ def improve_episode(row: pd.Series, target_threshold: float = 3.0) -> Optional[D
         print("  ❌ 再評価失敗")
         return None
 
-    new_surprise = new_scores.get("意外性スコア", 0)
+    new_surprise = new_scores.get("surprise_score", 0)
     new_composite = calculate_composite_score(new_scores)
 
     # 改善判定
@@ -279,13 +279,13 @@ def run_improvement(
 ) -> Dict:
     """改稿バッチ実行"""
     print("=" * 60)
-    print("📊 意外性スコア改善")
+    print("📊 surprise_score改善")
     print("=" * 60)
 
     # CSV読み込み
     df = pd.read_csv(CSV_PATH, encoding="utf-8-sig")
     print(f"  総エピソード: {len(df)}件")
-    print(f"  閾値: 意外性スコア < {threshold}")
+    print(f"  閾値: surprise_score < {threshold}")
     if persons:
         print(f"  対象人物: {', '.join(persons)}")
 
@@ -379,9 +379,9 @@ def run_improvement(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="意外性スコア改善スクリプト")
+    parser = argparse.ArgumentParser(description="surprise_score改善スクリプト")
     parser.add_argument("--count", type=int, default=50, help="改稿件数")
-    parser.add_argument("--threshold", type=float, default=3.0, help="意外性スコアの閾値（デフォルト3.0）")
+    parser.add_argument("--threshold", type=float, default=3.0, help="surprise_scoreの閾値（デフォルト3.0）")
     parser.add_argument("--persons", type=str, help="対象人物名（カンマ区切り、例: イチロー,孫正義）")
     parser.add_argument("--dry-run", action="store_true", help="テスト実行（保存なし）")
     parser.add_argument("--execute", action="store_true", help="本番実行")

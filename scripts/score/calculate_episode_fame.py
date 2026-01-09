@@ -27,7 +27,7 @@ def calculate_episode_fame_score(row: pd.Series) -> float:
     - 作品の知名度
     - 社会的影響
 
-    注意: キーワードボーナスは事実密度≥5.0の場合のみ最大効果を発揮
+    注意: キーワードボーナスはfactual_density≥5.0の場合のみ最大効果を発揮
     """
     score = 50.0  # ベーススコア
     keyword_bonus_total = 0.0  # キーワードボーナス累計
@@ -35,14 +35,14 @@ def calculate_episode_fame_score(row: pd.Series) -> float:
     episode_text = str(row.get("episode_text", "")).lower()
     episode_type = str(row.get("episode_type", ""))
 
-    # 事実密度を取得（キーワードボーナス条件に使用）
+    # factual_densityを取得（キーワードボーナス条件に使用）
     fact_density = 0.0
     try:
-        fact_density = float(row.get("事実密度", 0) or 0)
+        fact_density = float(row.get("factual_density", 0) or 0)
     except (ValueError, TypeError):
         fact_density = 0.0
 
-    # キーワードボーナス係数（事実密度に応じて0.5-1.0）
+    # キーワードボーナス係数（factual_densityに応じて0.5-1.0）
     keyword_multiplier = 1.0 if fact_density >= 5.0 else 0.5
 
     # エピソードタイプによる補正

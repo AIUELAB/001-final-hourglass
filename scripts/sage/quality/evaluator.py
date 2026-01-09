@@ -1,7 +1,7 @@
 """
 Quality Evaluator
 
-8軸評価（象徴性スコア追加）と品質ゲートチェックを実行。
+8軸評価（iconic_score追加）と品質ゲートチェックを実行。
 既存の評価ロジックを統合。
 """
 
@@ -88,7 +88,7 @@ class QualityEvaluator:
             min_edu = self.thresholds.get("min_educational_value", 5.0)
             min_story = self.thresholds.get("min_story_quality", 5.0)
 
-        # 事実密度（ハードゲート）
+        # factual_density（ハードゲート）
         if scores.factual_density < min_fd:
             failures.append(f"factual_density {scores.factual_density:.1f} < {min_fd}")
 
@@ -108,16 +108,16 @@ class QualityEvaluator:
         if scores.surprise < min_sur:
             failures.append(f"surprise {scores.surprise:.1f} < {min_sur}")
 
-        # 教育的価値
+        # educational_value
         if scores.educational_value < min_edu:
             failures.append(f"educational_value {scores.educational_value:.1f} < {min_edu}")
 
-        # ストーリー品質
+        # story_quality
         if scores.story_quality < min_story:
             failures.append(f"story_quality {scores.story_quality:.1f} < {min_story}")
 
         if failures:
-            # 事実密度または生成品質が低い場合は特別な理由コード
+            # factual_densityまたは生成品質が低い場合は特別な理由コード
             if scores.factual_density < min_fd:
                 reason = RejectionReason.LOW_FACTUAL_DENSITY
             elif scores.generation_quality < min_gq:
@@ -313,7 +313,7 @@ def create_evaluation_result(
 
 class IconicScoreCalculator:
     """
-    象徴性スコア計算器
+    iconic_score計算器
 
     エピソードが人物の象徴的な業績や転機を描写しているかを評価。
     「ユーザーが読んで感銘を受ける」度合いを数値化。
@@ -402,7 +402,7 @@ class IconicScoreCalculator:
         age: int = 0,
     ) -> float:
         """
-        象徴性スコアを計算
+        iconic_scoreを計算
 
         Args:
             text: エピソードテキスト
@@ -410,7 +410,7 @@ class IconicScoreCalculator:
             age: 年齢
 
         Returns:
-            float: 象徴性スコア（1.0-10.0）
+            float: iconic_score（1.0-10.0）
         """
         score = 5.0  # ベースライン
 

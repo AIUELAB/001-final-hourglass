@@ -185,9 +185,74 @@ class TurboEngine:
         # 通常ケース（200→180に緩和）
         return 180
 
+    def _evaluate_episode(self, text: str, person_id: str, category: str):
+        """
+        Phase 24: エピソードの品質評価
+
+        Args:
+            text: エピソードテキスト
+            person_id: 人物ID
+            category: カテゴリ
+
+        Returns:
+            EvaluationResult: 評価結果
+        """
+        from .adapters.base import AxisScores, EvaluationResult
+        from .quality.evaluator import QualityEvaluator, CompositeScoreCalculator
+        from .quality.super_total import SuperTotalCalculator
+
+        # テキスト分析
+        evaluator = QualityEvaluator()
+        text_quality = evaluator.evaluate_text_quality(text)
+
+        # 具体性スコアから8軸を推定
+        specificity = text_quality.get("specificity_score", 0)
+        has_year = text_quality.get("has_year", False)
+        has_proper_nouns = text_quality.get("has_proper_nouns", False)
+        proper_noun_count = text_quality.get("proper_noun_count", 0)
+
+        # Batch API生成のベースライン（高品質想定）
+        base_score = 7.5
+
+        # 具体性によるボーナス
+        specificity_bonus = min(specificity * 0.3, 1.5)
+        if has_year:
+            specificity_bonus += 0.3
+        if has_proper_nouns and proper_noun_count >= 3:
+            specificity_bonus += 0.5
+
+        fd_score = min(base_score + specificity_bonus, 9.5)
+        gq_score = min(base_score + 0.5 + specificity_bonus * 0.5, 9.5)
+
+        axis_scores = AxisScores(
+            memorability=min(7.0 + specificity_bonus * 0.3, 9.0),
+            empathy=7.0,
+            surprise=6.5,
+            generation_quality=gq_score,
+            educational_value=7.0,
+            story_quality=7.5,
+            factual_density=fd_score,
+            iconic_score=0.0,  # 象徴性は別途計算
+        )
+
+        # composite score
+        composite = CompositeScoreCalculator.calculate(axis_scores)
+
+        # super_total score
+        super_calc = SuperTotalCalculator()
+        super_result = super_calc.calculate(person_id, axis_scores)
+
+        return EvaluationResult(
+            axis_scores=axis_scores,
+            composite_score=composite,
+            super_total_score=super_result.score,
+            passed_gate=super_result.passed_gate,
+            gate_failures=super_result.gate_failures,
+        )
+
     def _write_accepted_episodes(self, accepted: list[dict], batch_id: str) -> tuple[int, int]:
         """
-        Phase 23: 採用エピソードをマスターCSVに書き込み
+        Phase 24: 後処理 + 品質評価 + CSV書き込み
 
         Args:
             accepted: 採用エピソードのリスト（dict形式）
@@ -198,51 +263,83 @@ class TurboEngine:
         """
         from .adapters import Candidate, GenerationResult
         from .persistence.csv_writer import SafeCSVWriter
+        from .gates.post_processor import apply_post_processing
 
-        logger.info(f"Phase 23: マスターCSV書き込み開始 ({len(accepted)}件)")
+        logger.info(f"Phase 24: 後処理+品質評価+CSV書き込み ({len(accepted)}件)")
 
-        # dictからGenerationResultに変換
         generation_results = []
+        quality_rejected = 0
+        post_processed_count = 0
+
         for ep in accepted:
-            # custom_idからperson_idを抽出（形式: {person_id}_{age}）
             custom_id = ep.get("custom_id", "")
             parts = custom_id.rsplit("_", 1)
             person_id = parts[0] if len(parts) >= 1 else custom_id
+            person_name = ep.get("person_name", "")
+            age = ep.get("age", 0)
+            category = ep.get("category", "")
+            original_text = ep.get("text", "")
 
-            # Candidateオブジェクト作成
+            # Step 1: 後処理適用
+            processed_text, changes = apply_post_processing(
+                episode_text=original_text,
+                person_name=person_name,
+                age=age,
+                strict_mode=True,
+            )
+            if changes:
+                post_processed_count += 1
+                logger.debug(f"後処理: {person_name}({age}歳) - {changes}")
+
+            # Step 2: 品質評価
+            evaluation = self._evaluate_episode(processed_text, person_id, category)
+
+            # 品質ゲートチェック（super_total_score基準）
+            if not evaluation.passed_gate:
+                logger.info(f"品質ゲート不合格: {person_name}({age}歳) super_total={evaluation.super_total_score:.0f}")
+                quality_rejected += 1
+                continue
+
+            # Step 3: GenerationResult作成（evaluation付き）
             candidate = Candidate(
                 person_id=person_id,
-                person_name=ep.get("person_name", ""),
-                age=ep.get("age", 0),
-                category=ep.get("category", ""),
-                person_type="REAL",  # デフォルト
+                person_name=person_name,
+                age=age,
+                category=category,
+                person_type="REAL",
             )
 
-            # GenerationResultオブジェクト作成
             result = GenerationResult(
                 success=True,
                 candidate=candidate,
-                episode_text=ep.get("text", ""),
+                episode_text=processed_text,
                 episode_type="生成",
-                char_count=len(ep.get("text", "")),
+                char_count=len(processed_text),
                 generator_type="batch_api_haiku",
+                evaluation=evaluation,  # Phase 24: 評価結果を付加
             )
             generation_results.append(result)
 
-        # SafeCSVWriterで書き込み
-        writer = SafeCSVWriter()
-        write_result = writer.write(generation_results)
+        logger.info(f"後処理適用: {post_processed_count}件")
+        logger.info(f"品質ゲート除外: {quality_rejected}件")
 
-        if write_result.success:
-            logger.info(f"✓ 書き込み成功: {write_result.added_count}件追加, {write_result.skipped_count}件スキップ")
-            if write_result.backup_path:
-                logger.info(f"  バックアップ: {write_result.backup_path}")
-            if write_result.diff_log_path:
-                logger.info(f"  差分ログ: {write_result.diff_log_path}")
-        else:
-            logger.error(f"✗ 書き込みエラー: {write_result.error_message}")
+        # Step 4: CSV書き込み
+        if generation_results:
+            writer = SafeCSVWriter()
+            write_result = writer.write(generation_results)
 
-        return (write_result.added_count or 0, write_result.skipped_count or 0)
+            if write_result.success:
+                logger.info(f"✓ 書き込み成功: {write_result.added_count}件追加")
+                if write_result.skipped_count:
+                    logger.info(f"  EPUP重複スキップ: {write_result.skipped_count}件")
+                if write_result.backup_path:
+                    logger.info(f"  バックアップ: {write_result.backup_path}")
+            else:
+                logger.error(f"✗ 書き込みエラー: {write_result.error_message}")
+
+            return (write_result.added_count or 0, write_result.skipped_count or 0)
+
+        return (0, len(accepted))
 
     def _setup_signal_handlers(self) -> None:
         """シグナルハンドラを設定"""

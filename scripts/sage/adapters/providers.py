@@ -134,23 +134,56 @@ class AnthropicClient(LLMClient):
                 raise ImportError("anthropic package not installed. Run: pip install anthropic")
         return self._client
 
-    def generate(self, prompt: str, system: str = "") -> tuple[str, dict[str, int]]:
-        """Claude API呼び出し"""
+    def generate(self, prompt: str, system: str = "", enable_cache: bool = True) -> tuple[str, dict[str, int]]:
+        """
+        Claude API呼び出し
+
+        Args:
+            prompt: ユーザープロンプト
+            system: システムプロンプト
+            enable_cache: プロンプトキャッシュを有効化（Phase 19）
+
+        Returns:
+            (応答テキスト, トークン使用量)
+        """
         client = self._get_client()
 
         messages = [{"role": "user", "content": prompt}]
 
-        response = client.messages.create(
-            model=self.config.model_name,
-            max_tokens=self.config.max_tokens,
-            system=system if system else "You are a helpful assistant.",
-            messages=messages,
-        )
+        # Phase 19: プロンプトキャッシュ対応
+        if enable_cache and system:
+            # システムプロンプトをキャッシュ対象としてマーク
+            system_content = [
+                {
+                    "type": "text",
+                    "text": system,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ]
+            response = client.messages.create(
+                model=self.config.model_name,
+                max_tokens=self.config.max_tokens,
+                system=system_content,
+                messages=messages,
+                extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"},
+            )
+        else:
+            # 従来の呼び出し（キャッシュなし）
+            response = client.messages.create(
+                model=self.config.model_name,
+                max_tokens=self.config.max_tokens,
+                system=system if system else "You are a helpful assistant.",
+                messages=messages,
+            )
 
         text = response.content[0].text if response.content else ""
+
+        # Phase 19: キャッシュ統計を含むトークン使用量
         usage = {
             "input_tokens": response.usage.input_tokens,
             "output_tokens": response.usage.output_tokens,
+            "cache_read_input_tokens": getattr(response.usage, "cache_read_input_tokens", 0),
+            "cache_creation_input_tokens": getattr(response.usage, "cache_creation_input_tokens", 0),
         }
 
         return text, usage

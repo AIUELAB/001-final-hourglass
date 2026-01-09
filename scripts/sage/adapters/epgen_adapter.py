@@ -373,6 +373,219 @@ class EPGENAdapter(GeneratorAdapter):
                 generator_type=self.generator_type,
             )
 
+    def generate_only(self, candidate: Candidate, retry_injection: str = "") -> GenerationResult:
+        """
+        エピソードを生成（評価なし）
+
+        Phase 18: バッチ評価用に評価を分離。
+        評価は後でbatch_evaluate()で一括実行する。
+
+        Args:
+            candidate: 生成候補
+            retry_injection: リトライ時の追加プロンプト
+
+        Returns:
+            GenerationResult: 生成結果（evaluationはNone）
+        """
+        import asyncio
+
+        try:
+            generator = self._get_generator()
+
+            from scripts.generate.mass_production.generator import GenerationInput
+
+            additional_context = (
+                "重要: 以下の要素を必ず含めること:\n"
+                "- 西暦年号を2つ以上\n"
+                "- 固有名詞（人名、作品名、組織名、地名）を5つ以上\n"
+                "- 「」で囲んだ作品名・イベント名を2つ以上\n"
+                "- 数値データを3つ以上\n"
+                "抽象的な表現や推測・伝聞は禁止"
+            )
+
+            iconic_context = self._get_iconic_context(candidate.person_name, candidate.age)
+            if iconic_context:
+                additional_context = f"{iconic_context}\n\n{additional_context}"
+
+            age_context = self._get_age_specific_context(candidate.age)
+            if age_context:
+                additional_context = f"{age_context}\n\n{additional_context}"
+
+            if retry_injection:
+                additional_context = f"{retry_injection}\n\n{additional_context}"
+
+            gen_input = GenerationInput(
+                person_id=candidate.person_id,
+                person_name=candidate.person_name,
+                age=candidate.age,
+                category=candidate.category,
+                additional_context=additional_context,
+            )
+
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            if hasattr(generator, "generate_sync"):
+                results = generator.generate_sync([gen_input])
+                result = results[0] if results else None
+            else:
+                results = loop.run_until_complete(generator.generate_batch([gen_input]))
+                result = results[0] if results else None
+
+            if result and result.success:
+                episode_text = result.episode_text
+
+                prompt_text = (
+                    f"{candidate.person_name} {candidate.age}歳 {candidate.category}" + " " * EPGEN_PROMPT_BASE_LENGTH
+                )
+                gen_token_usage = TokenUsage.estimate_from_text(
+                    prompt=prompt_text,
+                    response=episode_text,
+                    model=self._model_name,
+                )
+                self.record_token_usage(gen_token_usage)
+
+                # Phase 18: 評価はスキップ（後でbatch_evaluateで実行）
+                return GenerationResult(
+                    success=True,
+                    candidate=candidate,
+                    episode_text=episode_text,
+                    episode_type=getattr(result, "episode_type", "ACHIEVEMENT"),
+                    char_count=len(episode_text),
+                    evaluation=None,  # 評価なし
+                    generator_type=self.generator_type,
+                    evidence=self._extract_evidence(episode_text),
+                    token_usage=gen_token_usage,
+                )
+            else:
+                error_msg = getattr(result, "error", "Generation failed") if result else "No result"
+                return GenerationResult(
+                    success=False,
+                    candidate=candidate,
+                    error_message=str(error_msg),
+                    generator_type=self.generator_type,
+                )
+
+        except Exception as e:
+            return GenerationResult(
+                success=False,
+                candidate=candidate,
+                error_message=str(e),
+                generator_type=self.generator_type,
+            )
+
+    def batch_evaluate(self, results: list[GenerationResult], batch_size: int = 50) -> list[GenerationResult]:
+        """
+        複数エピソードを一括評価
+
+        Phase 18: バッチ評価でLLM呼び出しを削減。
+        50件を1回のLLM呼び出しで評価（従来は50回）。
+
+        Args:
+            results: 評価対象のGenerationResultリスト
+            batch_size: バッチサイズ（デフォルト50）
+
+        Returns:
+            list[GenerationResult]: 評価結果が追加されたリスト
+        """
+        if not results:
+            return results
+
+        # 成功した生成結果のみ抽出
+        success_results = [r for r in results if r.success and r.episode_text]
+        if not success_results:
+            return results
+
+        try:
+            evaluator = self._get_evaluator()
+
+            # バッチ評価用データ作成
+            episode_data_list = []
+            for r in success_results:
+                episode_data_list.append(
+                    {
+                        "episode_text": r.episode_text,
+                        "person_name": r.candidate.person_name,
+                        "age": r.candidate.age,
+                        "category": r.candidate.category,
+                    }
+                )
+
+            # バッチ評価実行（本来のバッチサイズで）
+            eval_results = evaluator.evaluate_batch(episode_data_list, batch_size=batch_size)
+
+            # トークン使用量を推定（バッチ全体）
+            total_text = " ".join([e["episode_text"] for e in episode_data_list])
+            eval_prompt = total_text + " " * EVALUATION_PROMPT_BASE_LENGTH
+            eval_response = f"scores: {len(eval_results)} items"
+            eval_token_usage = TokenUsage.estimate_from_text(
+                prompt=eval_prompt,
+                response=eval_response,
+                model=self._model_name,
+            )
+            self.record_token_usage(eval_token_usage)
+
+            # 評価結果をGenerationResultに反映
+            for i, r in enumerate(success_results):
+                if i < len(eval_results):
+                    eval_result = eval_results[i]
+                    scores = eval_result.scores
+
+                    # 象徴性スコア計算
+                    iconic_score = self._get_iconic_score_calculator().calculate(
+                        text=r.episode_text,
+                        person_name=r.candidate.person_name,
+                        age=r.candidate.age,
+                    )
+
+                    axis_scores = AxisScores(
+                        memorability=scores.memorability,
+                        empathy=scores.empathy,
+                        surprise=scores.surprise,
+                        generation_quality=scores.generation_quality,
+                        educational_value=scores.educational_value,
+                        story_quality=scores.story_quality,
+                        factual_density=scores.factual_density,
+                        iconic_score=iconic_score,
+                    )
+
+                    composite_score = (
+                        scores.composite_score * 100 if scores.composite_score < 100 else scores.composite_score
+                    )
+
+                    gate_failures = []
+                    if axis_scores.factual_density < 6.5:
+                        gate_failures.append("factual_density < 6.5")
+                    if axis_scores.generation_quality < 6.5:
+                        gate_failures.append("generation_quality < 6.5")
+                    if axis_scores.memorability < 5.5:
+                        gate_failures.append("memorability < 5.5")
+
+                    r.evaluation = EvaluationResult(
+                        axis_scores=axis_scores,
+                        composite_score=composite_score,
+                        super_total_score=0.0,
+                        passed_gate=len(gate_failures) == 0,
+                        gate_failures=gate_failures,
+                    )
+
+            return results
+
+        except Exception as e:
+            # 評価失敗時はデフォルト値を設定
+            for r in success_results:
+                r.evaluation = EvaluationResult(
+                    axis_scores=AxisScores(),
+                    composite_score=0.0,
+                    super_total_score=0.0,
+                    passed_gate=False,
+                    gate_failures=[f"Batch evaluation error: {str(e)}"],
+                )
+            return results
+
     def evaluate(self, text: str, candidate: Candidate) -> EvaluationResult:
         """
         エピソードを評価

@@ -226,13 +226,13 @@ def calculate_quality_scores(episode_text: str) -> dict:
     char_count = len(episode_text)
 
     scores = {
-        "記憶性スコア": 8.0,
-        "共感性スコア": 7.5,
-        "意外性スコア": 7.5,
-        "生成品質スコア": 8.0,
-        "教育的価値": 8.0,
-        "ストーリー品質": 8.0,
-        "事実密度": 7.5,
+        "memorability_score": 8.0,
+        "empathy_score": 7.5,
+        "surprise_score": 7.5,
+        "generation_quality_score": 8.0,
+        "educational_value": 8.0,
+        "story_quality": 8.0,
+        "factual_density": 7.5,
     }
 
     # 文字数による調整

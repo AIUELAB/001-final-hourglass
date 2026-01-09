@@ -343,7 +343,7 @@ def main():
                 "group_name": group_name,
                 "fame_score": fame_score,
                 "episode_fame_score": fame_score,
-                "事実密度": 7.0,
+                "factual_density": 7.0,
                 "source": "VTUBER_EXPANSION",
             }
 

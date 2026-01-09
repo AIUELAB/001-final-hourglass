@@ -76,13 +76,13 @@ def main():
                 "sitelinks_count": int(float(ep.get("sitelinks_count") or 0)),
                 "multi_lang_pv": int(float(ep.get("multi_lang_pv") or 0)),
                 "episode_count": int(float(ep.get("episode_count") or 1)),
-                "記憶性スコア": float(ep.get("記憶性スコア") or 0),
-                "共感性スコア": float(ep.get("共感性スコア") or 0),
-                "意外性スコア": float(ep.get("意外性スコア") or 0),
-                "生成品質スコア": float(ep.get("生成品質スコア") or 0),
-                "教育的価値": float(ep.get("教育的価値") or 0),
-                "ストーリー品質": float(ep.get("ストーリー品質") or 0),
-                "事実密度": float(ep.get("事実密度") or 0),
+                "memorability_score": float(ep.get("memorability_score") or 0),
+                "empathy_score": float(ep.get("empathy_score") or 0),
+                "surprise_score": float(ep.get("surprise_score") or 0),
+                "generation_quality_score": float(ep.get("generation_quality_score") or 0),
+                "educational_value": float(ep.get("educational_value") or 0),
+                "story_quality": float(ep.get("story_quality") or 0),
+                "factual_density": float(ep.get("factual_density") or 0),
             },
         }
         analysis.append(result)
@@ -101,7 +101,9 @@ def main():
             "col30_score": target_ep["scores"]["episode_fame_score_col30"] if target_ep else None,
             "v5_score": target_ep["scores"]["episode_fame_v5"] if target_ep else None,
             "v6_score": target_ep["scores"]["episode_fame_v6"] if target_ep else None,
-            "v6_rank_in_person": next((i+1 for i, a in enumerate(analysis) if a["episode_id"] == "EP-3947C4DE"), None),
+            "v6_rank_in_person": next(
+                (i + 1 for i, a in enumerate(analysis) if a["episode_id"] == "EP-3947C4DE"), None
+            ),
         },
         "root_cause": "ダッシュボードが episode_fame_score (col30) を使用しているが、v6スコアが反映されていない",
         "episodes_by_v6_rank": analysis,
@@ -113,13 +115,13 @@ def main():
         json.dump(report, f, ensure_ascii=False, indent=2)
 
     # 要約出力
-    print(f"\n=== EP-3947C4DE (奇跡の年) 分析結果 ===")
+    print("\n=== EP-3947C4DE (奇跡の年) 分析結果 ===")
     if target_ep:
         print(f"col30スコア: {target_ep['scores']['episode_fame_score_col30']}")
         print(f"v5スコア: {target_ep['scores']['episode_fame_v5']}")
         print(f"v6スコア: {target_ep['scores']['episode_fame_v6']}")
         print(f"v6順位: {report['problem_summary']['v6_rank_in_person']}/5")
-        print(f"\n寄与分解 (v6):")
+        print("\n寄与分解 (v6):")
         bd = target_ep["v6_breakdown"]
         print(f"  person_fame:      {bd['person_fame_weighted']:.2f} (raw: {bd['person_fame_raw']:.2f})")
         print(f"  llm_quality:      {bd['llm_quality_weighted']:.2f} (raw: {bd['llm_quality_raw']:.2f})")

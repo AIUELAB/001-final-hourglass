@@ -63,14 +63,14 @@ GENERATION_RULES = {
 
 QUALITY_THRESHOLDS = {
     # 7軸スコア閾値（0-10）- ハードゲート
-    # Phase 2: 上位レベル必須化（事実密度>=7, 生成品質>=8）
-    "min_factual_density": 7.0,  # 事実密度（最重要）← Phase2: 6.0→7.0
+    # Phase 2: 上位レベル必須化（factual_density>=7, 生成品質>=8）
+    "min_factual_density": 7.0,  # factual_density（最重要）← Phase2: 6.0→7.0
     "min_generation_quality": 8.0,  # 生成品質（最重要）← Phase2: 6.0→8.0
     "min_memorability": 5.5,  # 記憶性
     "min_empathy": 4.0,  # 共感性（Phase4調整: 5.0→4.0、架空キャラ対応）
     "min_surprise": 4.0,  # 意外性（Phase4調整: 5.0→4.0、架空キャラ対応）
-    "min_educational_value": 4.0,  # 教育的価値（Phase4調整: 5.0→4.0、架空キャラ対応）
-    "min_story_quality": 5.0,  # ストーリー品質
+    "min_educational_value": 4.0,  # educational_value（Phase4調整: 5.0→4.0、架空キャラ対応）
+    "min_story_quality": 5.0,  # story_quality
     # 統合スコア閾値
     "min_composite": 380,  # 即棄却ライン
     "target_composite": 550,  # 即採用ライン
@@ -184,7 +184,7 @@ class RejectionReason(Enum):
     COOLDOWN_ACTIVE = "cooldown_active"  # クールダウン中
     WEEKLY_LIMIT_EXCEEDED = "weekly_limit"  # 週間上限超過
     # 生成後チェック
-    LOW_FACTUAL_DENSITY = "low_factual_density"  # 事実密度不足
+    LOW_FACTUAL_DENSITY = "low_factual_density"  # factual_density不足
     LOW_GENERATION_QUALITY = "low_generation_quality"  # 生成品質不足
     LOW_COMPOSITE_SCORE = "low_composite"  # 統合スコア不足
     LOW_SUPER_TOTAL = "low_super_total"  # 超総合スコア不足

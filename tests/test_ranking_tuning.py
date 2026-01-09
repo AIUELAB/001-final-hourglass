@@ -72,7 +72,7 @@ class TestConfigIntegrity:
         """ゲート閾値が正の値であること"""
         for config, version in [(config_v1, "v1.2.0"), (config_v2, "v2.0.0")]:
             gates = config["gates"]
-            assert gates["min_factual_density"] > 0, f"{version}: 事実密度閾値が0以下"
+            assert gates["min_factual_density"] > 0, f"{version}: factual_density閾値が0以下"
             assert gates["min_generation_quality"] > 0, f"{version}: 生成品質閾値が0以下"
 
 
@@ -80,26 +80,26 @@ class TestQualityGate:
     """品質ゲートのテスト"""
 
     def test_low_factual_density_excluded(self, master_csv):
-        """事実密度が低いエピソードが除外されること"""
+        """factual_densityが低いエピソードが除外されること"""
         df = master_csv.copy()
-        df["事実密度"] = pd.to_numeric(df["事実密度"], errors="coerce")
+        df["factual_density"] = pd.to_numeric(df["factual_density"], errors="coerce")
         df["super_total_score"] = pd.to_numeric(df["super_total_score"], errors="coerce")
 
-        # super_total_score > 0 のエピソードで事実密度 < 6.0 のものがないこと
+        # super_total_score > 0 のエピソードでfactual_density < 6.0 のものがないこと
         scored = df[df["super_total_score"] > 0]
-        low_fact = scored[scored["事実密度"] < 6.0]
+        low_fact = scored[scored["factual_density"] < 6.0]
 
-        assert len(low_fact) == 0, f"事実密度 < 6.0 のエピソードが{len(low_fact)}件スコアリングされている"
+        assert len(low_fact) == 0, f"factual_density < 6.0 のエピソードが{len(low_fact)}件スコアリングされている"
 
     def test_low_generation_quality_excluded(self, master_csv):
         """生成品質が低いエピソードが除外されること"""
         df = master_csv.copy()
-        df["生成品質スコア"] = pd.to_numeric(df["生成品質スコア"], errors="coerce")
+        df["generation_quality_score"] = pd.to_numeric(df["generation_quality_score"], errors="coerce")
         df["super_total_score"] = pd.to_numeric(df["super_total_score"], errors="coerce")
 
         # super_total_score > 0 のエピソードで生成品質 < 6.0 のものがないこと
         scored = df[df["super_total_score"] > 0]
-        low_gen = scored[scored["生成品質スコア"] < 6.0]
+        low_gen = scored[scored["generation_quality_score"] < 6.0]
 
         assert len(low_gen) == 0, f"生成品質 < 6.0 のエピソードが{len(low_gen)}件スコアリングされている"
 
@@ -122,13 +122,13 @@ class TestRankingDiversity:
         """Top100の平均品質が一定以上であること"""
         df = master_csv.copy()
         df["super_total_score"] = pd.to_numeric(df["super_total_score"], errors="coerce")
-        df["事実密度"] = pd.to_numeric(df["事実密度"], errors="coerce")
+        df["factual_density"] = pd.to_numeric(df["factual_density"], errors="coerce")
 
         top100 = df.nlargest(100, "super_total_score")
-        avg_factual = top100["事実密度"].mean()
+        avg_factual = top100["factual_density"].mean()
 
-        # 平均事実密度が7.0以上であること
-        assert avg_factual >= 7.0, f"Top100の平均事実密度が低い: {avg_factual:.2f}"
+        # 平均factual_densityが7.0以上であること
+        assert avg_factual >= 7.0, f"Top100の平均factual_densityが低い: {avg_factual:.2f}"
 
 
 class TestNoOverfitting:
@@ -139,11 +139,11 @@ class TestNoOverfitting:
         df = master_csv.copy()
         df["celebrity_score_v2"] = pd.to_numeric(df["celebrity_score_v2"], errors="coerce")
         df["super_total_score"] = pd.to_numeric(df["super_total_score"], errors="coerce")
-        df["事実密度"] = pd.to_numeric(df["事実密度"], errors="coerce")
+        df["factual_density"] = pd.to_numeric(df["factual_density"], errors="coerce")
 
-        # celebrity_score_v2が高い（上位10%）が事実密度が低い（7.0未満）のエピソード
+        # celebrity_score_v2が高い（上位10%）がfactual_densityが低い（7.0未満）のエピソード
         celeb_threshold = df["celebrity_score_v2"].quantile(0.9)
-        high_celeb_low_quality = df[(df["celebrity_score_v2"] >= celeb_threshold) & (df["事実密度"] < 7.0)]
+        high_celeb_low_quality = df[(df["celebrity_score_v2"] >= celeb_threshold) & (df["factual_density"] < 7.0)]
 
         # これらがTop100に入っていないこと
         top100_ids = set(df.nlargest(100, "super_total_score")["episode_id"])

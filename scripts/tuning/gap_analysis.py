@@ -187,13 +187,13 @@ def analyze_feature_diff(mapping_results: list, df: pd.DataFrame, source: str) -
     features = [
         "celebrity_score_v2",
         "episode_fame_v6",
-        "記憶性スコア",
-        "意外性スコア",
-        "共感性スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
-        "生成品質スコア",
+        "memorability_score",
+        "surprise_score",
+        "empathy_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
+        "generation_quality_score",
         "episode_importance_score",
     ]
 

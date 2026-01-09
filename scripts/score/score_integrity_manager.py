@@ -41,16 +41,17 @@ BACKUP_DIR = PROJECT_ROOT / "preserved" / "backup"
 REPORT_DIR = PROJECT_ROOT / "src" / "reports"
 LOG_DIR = REPORT_DIR / "logs"
 
-# スコア列定義
+# スコア列定義（Phase 28: 英語化）
 SCORE_COLUMNS = {
-    # 7軸スコア (0-10)
-    "記憶性スコア": {"scale": (0, 10), "type": "7axis", "required": True},
-    "共感性スコア": {"scale": (0, 10), "type": "7axis", "required": True},
-    "意外性スコア": {"scale": (0, 10), "type": "7axis", "required": True},
-    "生成品質スコア": {"scale": (0, 10), "type": "7axis", "required": True},
-    "教育的価値": {"scale": (0, 10), "type": "7axis", "required": True},
-    "ストーリー品質": {"scale": (0, 10), "type": "7axis", "required": True},
-    "事実密度": {"scale": (0, 10), "type": "7axis", "required": True},
+    # 8軸スコア (0-10) - Phase 28: 英語化
+    "memorability_score": {"scale": (0, 10), "type": "8axis", "required": True},
+    "empathy_score": {"scale": (0, 10), "type": "8axis", "required": True},
+    "surprise_score": {"scale": (0, 10), "type": "8axis", "required": True},
+    "generation_quality_score": {"scale": (0, 10), "type": "8axis", "required": True},
+    "educational_value": {"scale": (0, 10), "type": "8axis", "required": True},
+    "story_quality": {"scale": (0, 10), "type": "8axis", "required": True},
+    "factual_density": {"scale": (0, 10), "type": "8axis", "required": True},
+    "iconic_score": {"scale": (0, 10), "type": "8axis", "required": True},
     # 派生スコア
     "composite_score": {"scale": (0, 70), "type": "derived", "required": True},
     "composite_score_5axis": {"scale": (0, 50), "type": "derived", "required": False},
@@ -200,13 +201,13 @@ class ScoreIntegrityManager:
         """7軸スコアをヒューリスティックで埋める"""
         filled = 0
         seven_axis_cols = [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
         ]
 
         for col in seven_axis_cols:
@@ -246,45 +247,45 @@ class ScoreIntegrityManager:
         elif text_len > 150:
             base_score += 0.2
 
-        if col_name == "記憶性スコア":
+        if col_name == "memorability_score":
             # 具体的な数値・年号
             year_count = len(re.findall(r"\d{4}年", text))
             number_count = len(re.findall(r"\d+", text))
             base_score += min(year_count * 0.3, 1.0)
             base_score += min(number_count * 0.1, 0.8)
 
-        elif col_name == "共感性スコア":
+        elif col_name == "empathy_score":
             # 感情キーワード
             emotion_words = ["感動", "喜び", "悲しみ", "涙", "笑顔", "希望", "絶望", "勇気"]
             emotion_count = sum(1 for w in emotion_words if w in text)
             base_score += min(emotion_count * 0.4, 1.5)
 
-        elif col_name == "意外性スコア":
+        elif col_name == "surprise_score":
             # 転換キーワード
             surprise_words = ["しかし", "ところが", "実は", "驚くべき", "意外に", "突然"]
             surprise_count = sum(1 for w in surprise_words if w in text)
             base_score += min(surprise_count * 0.5, 1.5)
 
-        elif col_name == "生成品質スコア":
+        elif col_name == "generation_quality_score":
             # 文章の完成度（句読点、構成）
             has_proper_ending = text.rstrip().endswith(("。", "た。", "だ。"))
             has_quotes = "「" in text or "」" in text
             base_score += 0.5 if has_proper_ending else 0
             base_score += 0.3 if has_quotes else 0
 
-        elif col_name == "教育的価値":
+        elif col_name == "educational_value":
             # 学習キーワード
             edu_words = ["発見", "研究", "開発", "発明", "理論", "技術", "革新", "初めて"]
             edu_count = sum(1 for w in edu_words if w in text)
             base_score += min(edu_count * 0.4, 1.5)
 
-        elif col_name == "ストーリー品質":
+        elif col_name == "story_quality":
             # ストーリー要素
             story_words = ["夢", "目標", "挑戦", "困難", "克服", "達成", "転機"]
             story_count = sum(1 for w in story_words if w in text)
             base_score += min(story_count * 0.4, 1.5)
 
-        elif col_name == "事実密度":
+        elif col_name == "factual_density":
             # 具体性
             year_count = len(re.findall(r"\d{4}年", text))
             number_count = len(re.findall(r"\d+", text))
@@ -305,13 +306,13 @@ class ScoreIntegrityManager:
 
         for idx in missing_idx:
             seven_axis_sum = (
-                self.df.at[idx, "記憶性スコア"]
-                + self.df.at[idx, "共感性スコア"]
-                + self.df.at[idx, "意外性スコア"]
-                + self.df.at[idx, "生成品質スコア"]
-                + self.df.at[idx, "教育的価値"]
-                + self.df.at[idx, "ストーリー品質"]
-                + self.df.at[idx, "事実密度"]
+                self.df.at[idx, "memorability_score"]
+                + self.df.at[idx, "empathy_score"]
+                + self.df.at[idx, "surprise_score"]
+                + self.df.at[idx, "generation_quality_score"]
+                + self.df.at[idx, "educational_value"]
+                + self.df.at[idx, "story_quality"]
+                + self.df.at[idx, "factual_density"]
             )
             if not self.dry_run:
                 self.df.at[idx, "composite_score"] = seven_axis_sum
@@ -323,15 +324,15 @@ class ScoreIntegrityManager:
             missing_idx_5 = self.df[is_missing_5].index
 
             for idx in missing_idx_5:
-                # 5軸 = (記憶性+生成品質)/2 + (共感性+意外性)/2 + 教育的価値 + ストーリー品質 + 事実密度
-                overall = (self.df.at[idx, "記憶性スコア"] + self.df.at[idx, "生成品質スコア"]) / 2
-                emotional = (self.df.at[idx, "共感性スコア"] + self.df.at[idx, "意外性スコア"]) / 2
+                # 5軸 = (記憶性+生成品質)/2 + (共感性+意外性)/2 + educational_value + story_quality + factual_density
+                overall = (self.df.at[idx, "memorability_score"] + self.df.at[idx, "generation_quality_score"]) / 2
+                emotional = (self.df.at[idx, "empathy_score"] + self.df.at[idx, "surprise_score"]) / 2
                 five_axis_sum = (
                     overall
                     + emotional
-                    + self.df.at[idx, "教育的価値"]
-                    + self.df.at[idx, "ストーリー品質"]
-                    + self.df.at[idx, "事実密度"]
+                    + self.df.at[idx, "educational_value"]
+                    + self.df.at[idx, "story_quality"]
+                    + self.df.at[idx, "factual_density"]
                 )
                 if not self.dry_run:
                     self.df.at[idx, "composite_score_5axis"] = five_axis_sum
@@ -405,8 +406,8 @@ class ScoreIntegrityManager:
 
         for idx in missing_idx:
             # 品質ゲートチェック
-            factual = self.df.at[idx, "事実密度"]
-            gen_quality = self.df.at[idx, "生成品質スコア"]
+            factual = self.df.at[idx, "factual_density"]
+            gen_quality = self.df.at[idx, "generation_quality_score"]
 
             if factual < 6.0 or gen_quality < 6.0:
                 # 品質ゲート未達 → 0のまま

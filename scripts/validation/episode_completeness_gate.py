@@ -48,26 +48,26 @@ REQUIRED_FIELDS = {
     "episode_type": "エピソードタイプ",
     "episode_text": "エピソードテキスト",
     # 7軸スコア（必須）
-    "記憶性スコア": "記憶性スコア",
-    "共感性スコア": "共感性スコア",
-    "意外性スコア": "意外性スコア",
-    "生成品質スコア": "生成品質スコア",
-    "教育的価値": "教育的価値",
-    "ストーリー品質": "ストーリー品質",
-    "事実密度": "事実密度",
+    "memorability_score": "memorability_score",
+    "empathy_score": "empathy_score",
+    "surprise_score": "surprise_score",
+    "generation_quality_score": "generation_quality_score",
+    "educational_value": "educational_value",
+    "story_quality": "story_quality",
+    "factual_density": "factual_density",
 }
 
 # 数値フィールド（0以上の値が必要）
 # 注意: ageはperson_type=FICTIONALの場合は上限なし（神話キャラ等）
 NUMERIC_FIELDS = {
     "age": (0, 150, "年齢"),  # FICTIONAL以外の上限
-    "記憶性スコア": (1, 10, "記憶性スコア"),
-    "共感性スコア": (1, 10, "共感性スコア"),
-    "意外性スコア": (1, 10, "意外性スコア"),
-    "生成品質スコア": (1, 10, "生成品質スコア"),
-    "教育的価値": (1, 10, "教育的価値"),
-    "ストーリー品質": (1, 10, "ストーリー品質"),
-    "事実密度": (1, 10, "事実密度"),
+    "memorability_score": (1, 10, "memorability_score"),
+    "empathy_score": (1, 10, "empathy_score"),
+    "surprise_score": (1, 10, "surprise_score"),
+    "generation_quality_score": (1, 10, "generation_quality_score"),
+    "educational_value": (1, 10, "educational_value"),
+    "story_quality": (1, 10, "story_quality"),
+    "factual_density": (1, 10, "factual_density"),
 }
 
 # 架空キャラは年齢上限なし
@@ -118,13 +118,13 @@ def auto_fill_derived_fields(episode: dict) -> dict:
         filled["年代"] = age_to_nendai(filled["age"])
 
     # 7軸スコアを取得
-    mem = float(filled.get("記憶性スコア", 0) or 0)
-    gen = float(filled.get("生成品質スコア", 0) or 0)
-    emp = float(filled.get("共感性スコア", 0) or 0)
-    sur = float(filled.get("意外性スコア", 0) or 0)
-    edu = float(filled.get("教育的価値", 0) or 0)
-    story = float(filled.get("ストーリー品質", 0) or 0)
-    fact = float(filled.get("事実密度", 0) or 0)
+    mem = float(filled.get("memorability_score", 0) or 0)
+    gen = float(filled.get("generation_quality_score", 0) or 0)
+    emp = float(filled.get("empathy_score", 0) or 0)
+    sur = float(filled.get("surprise_score", 0) or 0)
+    edu = float(filled.get("educational_value", 0) or 0)
+    story = float(filled.get("story_quality", 0) or 0)
+    fact = float(filled.get("factual_density", 0) or 0)
 
     # 5軸スコアの補完
     if not filled.get("総合品質", "").strip() and mem and gen:

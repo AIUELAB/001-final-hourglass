@@ -175,7 +175,7 @@ class TestUpperLevelCriteria:
     """上位レベル判定基準のテスト"""
 
     def test_upper_level_definition(self):
-        """上位レベル定義: 事実密度>=7 AND 生成品質>=8"""
+        """上位レベル定義: factual_density>=7 AND 生成品質>=8"""
         manager = InventoryManager()
         config = manager.config
         assert config.min_factual_density == 7.0

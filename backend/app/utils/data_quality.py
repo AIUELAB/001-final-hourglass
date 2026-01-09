@@ -25,13 +25,13 @@ class DataQualityManager:
         self.csv_path = Path(csv_path)
         self.episodes: List[Dict] = []
         self.score_columns = [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
         ]
         self.load_episodes()
 

@@ -26,22 +26,22 @@ WEIGHTS = {
 LLM_WEIGHTS = {
     "memorability": 0.22,  # 記憶性（最重要）
     "surprise": 0.18,  # 意外性
-    "storytelling_quality": 0.15,  # ストーリー品質
-    "educational_value": 0.15,  # 教育的価値
-    "factual_density": 0.12,  # 事実密度
+    "storytelling_quality": 0.15,  # story_quality
+    "educational_value": 0.15,  # educational_value
+    "factual_density": 0.12,  # factual_density
     "empathy": 0.10,  # 共感性
     "generation_quality": 0.08,  # 生成品質
 }
 
-# CSVカラム名マッピング
+# CSVカラム名マッピング（Phase 28: 英語化）
 LLM_COLUMN_MAP = {
-    "memorability": "記憶性スコア",
-    "surprise": "意外性スコア",
-    "storytelling_quality": "ストーリー品質",
-    "educational_value": "教育的価値",
-    "factual_density": "事実密度",
-    "empathy": "共感性スコア",
-    "generation_quality": "生成品質スコア",
+    "memorability": "memorability_score",
+    "surprise": "surprise_score",
+    "storytelling_quality": "story_quality",
+    "educational_value": "educational_value",
+    "factual_density": "factual_density",
+    "empathy": "empathy_score",
+    "generation_quality": "generation_quality_score",
 }
 
 # ============================================================

@@ -79,18 +79,18 @@ class TestDetermineWinner:
             "episode_id": "EP-001",
             "fact_check_result": "確認済み",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
         ep2 = {
             "episode_id": "EP-002",
             "fact_check_result": "",
             "super_total_score": "200000",  # スコアは高いが未実施
-            "事実密度": "8",
-            "生成品質スコア": "8",
-            "ストーリー品質": "8",
+            "factual_density": "8",
+            "generation_quality_score": "8",
+            "story_quality": "8",
             "generation_timestamp": "20260102_000000",
         }
 
@@ -106,18 +106,18 @@ class TestDetermineWinner:
             "episode_id": "EP-001",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
         ep2 = {
             "episode_id": "EP-002",
             "fact_check_result": "",
             "super_total_score": "200000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
 
@@ -128,23 +128,23 @@ class TestDetermineWinner:
         assert "super_total" in reason
 
     def test_fact_density_tiebreak(self, resolver):
-        """超総合が同点なら事実密度でタイブレーク"""
+        """超総合が同点ならfactual_densityでタイブレーク"""
         ep1 = {
             "episode_id": "EP-001",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "8",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "8",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
         ep2 = {
             "episode_id": "EP-002",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
 
@@ -152,26 +152,26 @@ class TestDetermineWinner:
 
         assert winner_id == "EP-001"
         assert loser_id == "EP-002"
-        assert "事実密度" in reason
+        assert "factual_density" in reason
 
     def test_generation_quality_tiebreak(self, resolver):
-        """事実密度も同点なら生成品質でタイブレーク"""
+        """factual_densityも同点なら生成品質でタイブレーク"""
         ep1 = {
             "episode_id": "EP-001",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "8",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "8",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
         ep2 = {
             "episode_id": "EP-002",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
 
@@ -182,23 +182,23 @@ class TestDetermineWinner:
         assert "生成品質" in reason
 
     def test_story_quality_tiebreak(self, resolver):
-        """生成品質も同点ならストーリー品質でタイブレーク"""
+        """生成品質も同点ならstory_qualityでタイブレーク"""
         ep1 = {
             "episode_id": "EP-001",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "8",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "8",
             "generation_timestamp": "20260101_000000",
         }
         ep2 = {
             "episode_id": "EP-002",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
 
@@ -206,7 +206,7 @@ class TestDetermineWinner:
 
         assert winner_id == "EP-001"
         assert loser_id == "EP-002"
-        assert "ストーリー品質" in reason
+        assert "story_quality" in reason
 
     def test_timestamp_tiebreak(self, resolver):
         """全て同点ならタイムスタンプが新しい方が勝つ"""
@@ -214,18 +214,18 @@ class TestDetermineWinner:
             "episode_id": "EP-001",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260101_000000",
         }
         ep2 = {
             "episode_id": "EP-002",
             "fact_check_result": "",
             "super_total_score": "100000",
-            "事実密度": "5",
-            "生成品質スコア": "5",
-            "ストーリー品質": "5",
+            "factual_density": "5",
+            "generation_quality_score": "5",
+            "story_quality": "5",
             "generation_timestamp": "20260102_000000",  # 新しい
         }
 
@@ -250,9 +250,9 @@ class TestScan:
             "episode_text",
             "fact_check_result",
             "super_total_score",
-            "事実密度",
-            "生成品質スコア",
-            "ストーリー品質",
+            "factual_density",
+            "generation_quality_score",
+            "story_quality",
             "generation_timestamp",
         ]
 
@@ -408,9 +408,9 @@ class TestResolve:
             "episode_text",
             "fact_check_result",
             "super_total_score",
-            "事実密度",
-            "生成品質スコア",
-            "ストーリー品質",
+            "factual_density",
+            "generation_quality_score",
+            "story_quality",
             "generation_timestamp",
         ]
 
@@ -522,9 +522,9 @@ class TestASKAExample:
             "episode_text",
             "fact_check_result",
             "super_total_score",
-            "事実密度",
-            "生成品質スコア",
-            "ストーリー品質",
+            "factual_density",
+            "generation_quality_score",
+            "story_quality",
             "generation_timestamp",
         ]
 
@@ -556,9 +556,9 @@ class TestASKAExample:
                     "episode_text": "ASKAは39歳で音楽活動を再開した。",
                     "fact_check_result": "",
                     "super_total_score": "108354",
-                    "事実密度": "6.3",
-                    "生成品質スコア": "8.0",
-                    "ストーリー品質": "7.0",
+                    "factual_density": "6.3",
+                    "generation_quality_score": "8.0",
+                    "story_quality": "7.0",
                     "generation_timestamp": "20260106_082259",
                 },
                 {
@@ -569,9 +569,9 @@ class TestASKAExample:
                     "episode_text": "ASKAは39歳でソロ活動を再スタートした。",
                     "fact_check_result": "",
                     "super_total_score": "111108",
-                    "事実密度": "6.4",
-                    "生成品質スコア": "8.0",
-                    "ストーリー品質": "7.0",
+                    "factual_density": "6.4",
+                    "generation_quality_score": "8.0",
+                    "story_quality": "7.0",
                     "generation_timestamp": "20260106_082259",
                 },
             ],

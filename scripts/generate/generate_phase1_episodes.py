@@ -134,7 +134,7 @@ class Phase1Generator:
 2. 具体的な事実や出来事を含める
 3. 記憶に残る印象的な内容にする
 4. 200-300文字程度
-5. 教育的価値のある内容にする
+5. educational_valueのある内容にする
 6. 事実に基づいた内容にする
 
 重要な注意:
@@ -205,13 +205,13 @@ class Phase1Generator:
                 "composite_score": validation.quality_score * 100,
                 "fame_score_updated_at": "",
                 "人生の節目タグ": "",
-                "記憶性スコア": 8.0,
-                "共感性スコア": 7.5,
-                "意外性スコア": 7.0,
-                "生成品質スコア": validation.quality_score * 10,
-                "教育的価値": 7.5,
-                "ストーリー品質": 8.0,
-                "事実密度": 7.0,
+                "memorability_score": 8.0,
+                "empathy_score": 7.5,
+                "surprise_score": 7.0,
+                "generation_quality_score": validation.quality_score * 10,
+                "educational_value": 7.5,
+                "story_quality": 8.0,
+                "factual_density": 7.0,
                 "category_original": category,
             }
 

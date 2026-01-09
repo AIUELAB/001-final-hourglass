@@ -2,8 +2,8 @@
 """
 欠損している7軸スコアを補完するスクリプト
 
-LLMを使用して、記憶性・共感性・意外性・生成品質・教育的価値を評価し、
-ルールベースでストーリー品質・事実密度を算出する。
+LLMを使用して、記憶性・共感性・意外性・生成品質・educational_valueを評価し、
+ルールベースでstory_quality・factual_densityを算出する。
 
 使用方法:
     # ドライラン（評価のみ）
@@ -15,7 +15,7 @@ LLMを使用して、記憶性・共感性・意外性・生成品質・教育�
     # バッチサイズ指定
     python scripts/fill_missing_seven_axis.py --batch-size 30 --execute
 
-NOTE: ストーリー品質と事実密度の算出ロジックは統一モジュールからインポート
+NOTE: story_qualityとfactual_densityの算出ロジックは統一モジュールからインポート
       backend/app/utils/score_calculator.py に正規実装あり
 """
 
@@ -60,31 +60,31 @@ SEVEN_AXIS_PROMPT = """あなたはエピソードの品質を評価する専門
 
 【評価軸】（すべて1-10の整数で評価）
 
-1. 記憶性スコア: 読後にどれだけ印象に残るか
+1. memorability_score: 読後にどれだけ印象に残るか
    - 1-3: すぐに忘れる一般的な内容
    - 4-6: いくらか印象に残る
    - 7-8: しっかり記憶に残る
    - 9-10: 強烈に心に刻まれる
 
-2. 共感性スコア: 読者が感情移入できるか
+2. empathy_score: 読者が感情移入できるか
    - 1-3: 共感しにくい
    - 4-6: ある程度共感できる
    - 7-8: 強く共感できる
    - 9-10: 深く心が動かされる
 
-3. 意外性スコア: 予想外の展開や発見があるか
+3. surprise_score: 予想外の展開や発見があるか
    - 1-3: 予想通りの内容
    - 4-6: 少し意外な要素がある
    - 7-8: 明確な意外性がある
    - 9-10: 驚きの展開がある
 
-4. 生成品質スコア: 文章の質・構成・表現力
+4. generation_quality_score: 文章の質・構成・表現力
    - 1-3: 文章が粗い
    - 4-6: 標準的な品質
    - 7-8: 高品質な文章
    - 9-10: 優れた文学的表現
 
-5. 教育的価値: 読者に学びや気づきを与えるか
+5. educational_value: 読者に学びや気づきを与えるか
    - 1-3: 学びが少ない
    - 4-6: いくらか学びがある
    - 7-8: 明確な学びがある
@@ -92,11 +92,11 @@ SEVEN_AXIS_PROMPT = """あなたはエピソードの品質を評価する専門
 
 【出力形式】JSONのみを出力してください:
 {{
-  "記憶性スコア": 数値,
-  "共感性スコア": 数値,
-  "意外性スコア": 数値,
-  "生成品質スコア": 数値,
-  "教育的価値": 数値,
+  "memorability_score": 数値,
+  "empathy_score": 数値,
+  "surprise_score": 数値,
+  "generation_quality_score": 数値,
+  "educational_value": 数値,
   "評価理由": "1-2文で簡潔に"
 }}"""
 
@@ -154,7 +154,7 @@ def main():
     print("Step 2: 欠損エピソードを特定中...")
     missing_indices = []
     for idx, row in df.iterrows():
-        if pd.isna(row.get("記憶性スコア")):
+        if pd.isna(row.get("memorability_score")):
             missing_indices.append(idx)
 
     print(f"  ✅ 欠損エピソード: {len(missing_indices)}件")
@@ -194,7 +194,7 @@ def main():
 
         print(f"  [{i}/{len(missing_indices)}] {episode_id}: {person_name} ({age}歳)")
 
-        # ルールベースでストーリー品質と事実密度を算出
+        # ルールベースでstory_qualityとfactual_densityを算出
         episode_text = str(row["episode_text"])
         episode_type = str(row["episode_type"]) if pd.notna(row["episode_type"]) else ""
 
@@ -210,29 +210,29 @@ def main():
                 "episode_id": episode_id,
                 "person_name": person_name,
                 "age": age,
-                "記憶性スコア": llm_result.get("記憶性スコア", 6),
-                "共感性スコア": llm_result.get("共感性スコア", 6),
-                "意外性スコア": llm_result.get("意外性スコア", 6),
-                "生成品質スコア": llm_result.get("生成品質スコア", 7),
-                "教育的価値": llm_result.get("教育的価値", 7),
-                "ストーリー品質": storytelling_score,
-                "事実密度": factual_score,
+                "memorability_score": llm_result.get("memorability_score", 6),
+                "empathy_score": llm_result.get("empathy_score", 6),
+                "surprise_score": llm_result.get("surprise_score", 6),
+                "generation_quality_score": llm_result.get("generation_quality_score", 7),
+                "educational_value": llm_result.get("educational_value", 7),
+                "story_quality": storytelling_score,
+                "factual_density": factual_score,
             }
             results.append(result)
 
             if args.execute:
                 # CSVを更新
-                df.at[idx, "記憶性スコア"] = result["記憶性スコア"]
-                df.at[idx, "共感性スコア"] = result["共感性スコア"]
-                df.at[idx, "意外性スコア"] = result["意外性スコア"]
-                df.at[idx, "生成品質スコア"] = result["生成品質スコア"]
-                df.at[idx, "教育的価値"] = result["教育的価値"]
-                df.at[idx, "ストーリー品質"] = result["ストーリー品質"]
-                df.at[idx, "事実密度"] = result["事実密度"]
+                df.at[idx, "memorability_score"] = result["memorability_score"]
+                df.at[idx, "empathy_score"] = result["empathy_score"]
+                df.at[idx, "surprise_score"] = result["surprise_score"]
+                df.at[idx, "generation_quality_score"] = result["generation_quality_score"]
+                df.at[idx, "educational_value"] = result["educational_value"]
+                df.at[idx, "story_quality"] = result["story_quality"]
+                df.at[idx, "factual_density"] = result["factual_density"]
 
             updated_count += 1
             print(
-                f"    ✅ 記憶:{result['記憶性スコア']} 共感:{result['共感性スコア']} 意外:{result['意外性スコア']} 品質:{result['生成品質スコア']} 教育:{result['教育的価値']} ストーリー:{storytelling_score:.1f} 事実:{factual_score:.1f}"
+                f"    ✅ 記憶:{result['memorability_score']} 共感:{result['empathy_score']} 意外:{result['surprise_score']} 品質:{result['generation_quality_score']} 教育:{result['educational_value']} ストーリー:{storytelling_score:.1f} 事実:{factual_score:.1f}"
             )
         else:
             failed_count += 1

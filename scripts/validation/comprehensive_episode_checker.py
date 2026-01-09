@@ -73,24 +73,24 @@ class ComprehensiveEpisodeChecker:
 
     # 必須スコアカラム
     REQUIRED_SCORES = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
     ]
 
     # LLMスコアカラム
     LLM_SCORES = {
-        "記憶性スコア": "llm_memorability_score",
-        "共感性スコア": "llm_empathy_score",
-        "意外性スコア": "llm_surprise_score",
-        "生成品質スコア": "llm_generation_quality_score",
-        "教育的価値": "llm_educational_value",
-        "ストーリー品質": "llm_storytelling_quality",
-        "事実密度": "llm_factual_density",
+        "memorability_score": "llm_memorability_score",
+        "empathy_score": "llm_empathy_score",
+        "surprise_score": "llm_surprise_score",
+        "generation_quality_score": "llm_generation_quality_score",
+        "educational_value": "llm_educational_value",
+        "story_quality": "llm_storytelling_quality",
+        "factual_density": "llm_factual_density",
     }
 
     def __init__(self, csv_path: Path = MASTER_CSV):

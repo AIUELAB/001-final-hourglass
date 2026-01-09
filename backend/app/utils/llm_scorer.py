@@ -19,13 +19,13 @@ load_dotenv()
 
 # 7軸の定義
 SEVEN_AXES = [
-    "記憶性スコア",  # Memorability: 印象に残りやすさ
-    "共感性スコア",  # Empathy: 感情移入しやすさ
-    "意外性スコア",  # Surprise: 予想外の展開・事実
-    "生成品質スコア",  # Generation Quality: 文章の質
-    "教育的価値",  # Educational Value: 学びになる度合い
-    "ストーリー品質",  # Story Quality: 物語としての完成度
-    "事実密度",  # Factual Density: 具体的事実の密度
+    "memorability_score",  # Memorability: 印象に残りやすさ
+    "empathy_score",  # Empathy: 感情移入しやすさ
+    "surprise_score",  # Surprise: 予想外の展開・事実
+    "generation_quality_score",  # Generation Quality: 文章の質
+    "educational_value",  # Educational Value: 学びになる度合い
+    "story_quality",  # Story Quality: 物語としての完成度
+    "factual_density",  # Factual Density: 具体的事実の密度
 ]
 
 # 評価プロンプト
@@ -41,43 +41,43 @@ SCORING_PROMPT = """あなたはエピソード品質評価の専門家です。
 
 ## 評価基準（各軸 1.0〜10.0点）
 
-1. **記憶性スコア** (1-10): 読者の印象に残りやすいか
+1. **memorability_score** (1-10): 読者の印象に残りやすいか
    - 10点: 誰もが知る歴史的瞬間、社会に大きな影響を与えた出来事
    - 7点: 分野内では有名なエピソード
    - 4点: 個人的なエピソードで一般的な印象度は低い
    - 1点: 非常に平凡で記憶に残りにくい
 
-2. **共感性スコア** (1-10): 感情移入しやすいか
+2. **empathy_score** (1-10): 感情移入しやすいか
    - 10点: 多くの人が強く共感できる普遍的な体験
    - 7点: 特定の層に強く響く体験
    - 4点: 共感しにくい特殊な状況
    - 1点: 感情的つながりが全くない
 
-3. **意外性スコア** (1-10): 予想外の展開や事実があるか
+3. **surprise_score** (1-10): 予想外の展開や事実があるか
    - 10点: 常識を覆す驚きの事実・展開
    - 7点: 意外な側面がある
    - 4点: 予想通りの内容
    - 1点: 完全に予測可能
 
-4. **生成品質スコア** (1-10): 文章の質が高いか
+4. **generation_quality_score** (1-10): 文章の質が高いか
    - 10点: プロの文章、読みやすく洗練されている
    - 7点: 良い文章、問題なく読める
    - 4点: やや読みにくい、表現に問題がある
    - 1点: 文法・表現に重大な問題
 
-5. **教育的価値** (1-10): 学びになる内容か
+5. **educational_value** (1-10): 学びになる内容か
    - 10点: 重要な教訓、歴史的意義がある
    - 7点: 有用な知識・視点を提供
    - 4点: 軽い雑学程度
    - 1点: 学びがない
 
-6. **ストーリー品質** (1-10): 物語として面白いか
+6. **story_quality** (1-10): 物語として面白いか
    - 10点: 起承転結が明確、ドラマチック
    - 7点: 良い構成、興味を引く
    - 4点: 平坦な叙述
    - 1点: 物語性がない
 
-7. **事実密度** (1-10): 具体的な事実が多いか
+7. **factual_density** (1-10): 具体的な事実が多いか
    - 10点: 数値、日付、固有名詞が豊富で検証可能
    - 7点: 具体的な事実がいくつかある
    - 4点: 抽象的な記述が多い
@@ -88,13 +88,13 @@ SCORING_PROMPT = """あなたはエピソード品質評価の専門家です。
 
 ```json
 {{
-  "記憶性スコア": {{"score": 8.0, "reasoning": "歴史的転換点"}},
-  "共感性スコア": {{"score": 7.5, "reasoning": "挑戦への共感"}},
-  "意外性スコア": {{"score": 6.0, "reasoning": "予想通りの展開"}},
-  "生成品質スコア": {{"score": 8.5, "reasoning": "読みやすい文章"}},
-  "教育的価値": {{"score": 7.0, "reasoning": "ビジネス教訓"}},
-  "ストーリー品質": {{"score": 8.0, "reasoning": "起承転結あり"}},
-  "事実密度": {{"score": 9.0, "reasoning": "数値と日付多数"}}
+  "memorability_score": {{"score": 8.0, "reasoning": "歴史的転換点"}},
+  "empathy_score": {{"score": 7.5, "reasoning": "挑戦への共感"}},
+  "surprise_score": {{"score": 6.0, "reasoning": "予想通りの展開"}},
+  "generation_quality_score": {{"score": 8.5, "reasoning": "読みやすい文章"}},
+  "educational_value": {{"score": 7.0, "reasoning": "ビジネス教訓"}},
+  "story_quality": {{"score": 8.0, "reasoning": "起承転結あり"}},
+  "factual_density": {{"score": 9.0, "reasoning": "数値と日付多数"}}
 }}
 ```
 """

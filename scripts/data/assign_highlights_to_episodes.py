@@ -51,12 +51,12 @@ def calculate_importance_fallback(row: pd.Series) -> float:
     score += type_weights.get(episode_type, 10)
 
     # 記憶性・共感性・意外性（30%）
-    if "記憶性スコア" in row and not pd.isna(row["記憶性スコア"]):
-        score += float(row["記憶性スコア"]) * 0.1
-    if "共感性スコア" in row and not pd.isna(row["共感性スコア"]):
-        score += float(row["共感性スコア"]) * 0.1
-    if "意外性スコア" in row and not pd.isna(row["意外性スコア"]):
-        score += float(row["意外性スコア"]) * 0.1
+    if "memorability_score" in row and not pd.isna(row["memorability_score"]):
+        score += float(row["memorability_score"]) * 0.1
+    if "empathy_score" in row and not pd.isna(row["empathy_score"]):
+        score += float(row["empathy_score"]) * 0.1
+    if "surprise_score" in row and not pd.isna(row["surprise_score"]):
+        score += float(row["surprise_score"]) * 0.1
 
     return score
 

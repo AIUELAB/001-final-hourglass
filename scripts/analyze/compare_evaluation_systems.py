@@ -30,13 +30,13 @@ def compare_scores(gold_df, llm_df):
 
     # 軸名のマッピング
     axis_mapping = {
-        "記憶性スコア": "記憶性_スコア",
-        "共感性スコア": "共感性_スコア",
-        "意外性スコア": "意外性_スコア",
-        "生成品質スコア": "生成品質_スコア",
-        "教育的価値": "教育的価値_スコア",
-        "ストーリー品質": "ストーリー品質_スコア",
-        "事実密度": "事実密度_スコア",
+        "memorability_score": "記憶性_スコア",
+        "empathy_score": "共感性_スコア",
+        "surprise_score": "意外性_スコア",
+        "generation_quality_score": "生成品質_スコア",
+        "educational_value": "educational_value_スコア",
+        "story_quality": "story_quality_スコア",
+        "factual_density": "factual_density_スコア",
     }
 
     print("=" * 80)

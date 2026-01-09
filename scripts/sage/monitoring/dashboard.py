@@ -183,12 +183,12 @@ def calculate_current_metrics() -> dict[str, float]:
 
     if not df.empty:
         # マスターCSVからスコア平均
-        if "生成品質スコア" in df.columns:
-            quality_scores = pd.to_numeric(df["生成品質スコア"], errors="coerce")
+        if "generation_quality_score" in df.columns:
+            quality_scores = pd.to_numeric(df["generation_quality_score"], errors="coerce")
             metrics["avg_generation_quality"] = quality_scores.mean()
 
-        if "事実密度" in df.columns:
-            factual_scores = pd.to_numeric(df["事実密度"], errors="coerce")
+        if "factual_density" in df.columns:
+            factual_scores = pd.to_numeric(df["factual_density"], errors="coerce")
             metrics["avg_factual_density"] = factual_scores.mean()
 
     return metrics
@@ -398,7 +398,7 @@ def render_console_dashboard() -> None:
     print(f"  採用率:        {metrics['acceptance_rate']:.1f}%")
     print(f"  総エピソード:  {metrics['total_episodes']:,}")
     print(f"  平均生成品質:  {metrics['avg_generation_quality']:.1f}")
-    print(f"  平均事実密度:  {metrics['avg_factual_density']:.1f}")
+    print(f"  平均factual_density:  {metrics['avg_factual_density']:.1f}")
     print(f"  日次コスト:    ${metrics['daily_cost_usd']:.2f}")
 
     if inventory:

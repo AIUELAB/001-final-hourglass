@@ -33,13 +33,13 @@ def calculate_quality_score(row: pd.Series) -> float:
     # 7軸スコアを使用
     score = 0.0
     weights = {
-        "記憶性スコア": 0.15,
-        "共感性スコア": 0.15,
-        "意外性スコア": 0.15,
-        "教育的価値": 0.15,
-        "ストーリー品質": 0.15,
-        "事実密度": 0.10,
-        "生成品質スコア": 0.15,
+        "memorability_score": 0.15,
+        "empathy_score": 0.15,
+        "surprise_score": 0.15,
+        "educational_value": 0.15,
+        "story_quality": 0.15,
+        "factual_density": 0.10,
+        "generation_quality_score": 0.15,
     }
 
     for col, weight in weights.items():

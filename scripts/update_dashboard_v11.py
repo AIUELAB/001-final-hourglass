@@ -116,15 +116,15 @@ def load_csv_data():
                 "eftv6": _safe_int(row.get("episode_fame_tier_v6", 0)),
                 # 超総合スコア
                 "super": _safe_float(row.get("super_total_score", 0)),
-                # 8軸スコア
-                "mem": _safe_float(row.get("記憶性スコア", 0)),
-                "emp": _safe_float(row.get("共感性スコア", 0)),
-                "sur": _safe_float(row.get("意外性スコア", 0)),
-                "gen": _safe_float(row.get("生成品質スコア", 0)),
-                "edu": _safe_float(row.get("教育的価値", 0)),
-                "story": _safe_float(row.get("ストーリー品質", 0)),
-                "fact": _safe_float(row.get("事実密度", 0)),
-                "icon": _safe_float(row.get("象徴性スコア", 0)),
+                # 8軸スコア（Phase 28: 英語カラム）
+                "mem": _safe_float(row.get("memorability_score", 0)),
+                "emp": _safe_float(row.get("empathy_score", 0)),
+                "sur": _safe_float(row.get("surprise_score", 0)),
+                "gen": _safe_float(row.get("generation_quality_score", 0)),
+                "edu": _safe_float(row.get("educational_value", 0)),
+                "story": _safe_float(row.get("story_quality", 0)),
+                "fact": _safe_float(row.get("factual_density", 0)),
+                "icon": _safe_float(row.get("iconic_score", 0)),
                 # composite_score
                 "comp": _safe_float(row.get("composite_score", 0)),
                 # 5軸派生スコア

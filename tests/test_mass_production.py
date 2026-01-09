@@ -256,8 +256,8 @@ class TestSelector:
             "birth_year": [1980, 1975, 1960, 1980, 1975],
             "death_year": ["", "", "2020", "", ""],
             "episode_text": ["テスト1", "テスト2", "テスト3", "テスト4", "テスト5"],
-            "事実密度": [8.0, 6.0, 9.0, 7.5, 5.0],
-            "生成品質スコア": [8.5, 7.0, 9.0, 8.0, 6.0],
+            "factual_density": [8.0, 6.0, 9.0, 7.5, 5.0],
+            "generation_quality_score": [8.5, 7.0, 9.0, 8.0, 6.0],
         }
         df = pd.DataFrame(data)
         df.to_csv(csv_path, index=False)
@@ -755,8 +755,8 @@ class TestDryRunPipeline:
             "birth_year": [1980, 1975, 1960],
             "death_year": ["", "", ""],
             "episode_text": ["テスト1", "テスト2", "テスト3"],
-            "事実密度": [8.0, 6.0, 9.0],
-            "生成品質スコア": [8.5, 7.0, 9.0],
+            "factual_density": [8.0, 6.0, 9.0],
+            "generation_quality_score": [8.5, 7.0, 9.0],
         }
         df = pd.DataFrame(data)
         df.to_csv(csv_path, index=False)
@@ -798,8 +798,8 @@ class TestMassProductionPipeline:
             "birth_year": [1980, 1975],
             "death_year": ["", ""],
             "episode_text": ["既存テスト1", "既存テスト2"],
-            "事実密度": [8.0, 6.0],
-            "生成品質スコア": [8.5, 7.0],
+            "factual_density": [8.0, 6.0],
+            "generation_quality_score": [8.5, 7.0],
         }
         df = pd.DataFrame(data)
         df.to_csv(csv_path, index=False)

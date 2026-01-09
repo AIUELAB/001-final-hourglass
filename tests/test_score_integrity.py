@@ -35,13 +35,13 @@ def sample_df():
                 "",
                 "1985年と1995年、2度の転機。しかし困難を克服して達成した。",
             ],
-            "記憶性スコア": [7.0, 0, 8.0, 6.0, 7.5],
-            "共感性スコア": [6.5, 0, 7.0, 6.0, 8.0],
-            "意外性スコア": [7.0, 0, 6.5, 5.5, 7.5],
-            "生成品質スコア": [7.5, 0, 7.5, 6.5, 8.0],
-            "教育的価値": [7.0, 0, 8.0, 6.0, 7.0],
-            "ストーリー品質": [6.5, 0, 7.5, 5.5, 8.0],
-            "事実密度": [8.0, 0, 7.0, 6.0, 8.5],
+            "memorability_score": [7.0, 0, 8.0, 6.0, 7.5],
+            "empathy_score": [6.5, 0, 7.0, 6.0, 8.0],
+            "surprise_score": [7.0, 0, 6.5, 5.5, 7.5],
+            "generation_quality_score": [7.5, 0, 7.5, 6.5, 8.0],
+            "educational_value": [7.0, 0, 8.0, 6.0, 7.0],
+            "story_quality": [6.5, 0, 7.5, 5.5, 8.0],
+            "factual_density": [8.0, 0, 7.0, 6.0, 8.5],
             "composite_score": [49.5, 0, 51.5, 0, 54.5],
             "composite_score_5axis": [0, 0, 0, 0, 0],
             "episode_fame_v6": [50.0, 30.0, 60.0, 40.0, 70.0],
@@ -72,13 +72,13 @@ class TestScoreIntegrityManager:
         manager.load_csv()
         results = manager.detect_missing()
 
-        # 記憶性スコアは1件欠損（0値）
-        assert results["記憶性スコア"]["missing"] == 1
-        assert results["記憶性スコア"]["filled"] == 4
+        # memorability_scoreは1件欠損（0値）
+        assert results["memorability_score"]["missing"] == 1
+        assert results["memorability_score"]["filled"] == 4
 
     def test_detect_missing_identifies_nan(self, sample_df, tmp_path, monkeypatch):
         """NaN値を欠損として検出できること"""
-        sample_df.loc[0, "記憶性スコア"] = np.nan
+        sample_df.loc[0, "memorability_score"] = np.nan
         csv_path = tmp_path / "test.csv"
         sample_df.to_csv(csv_path, index=False)
 
@@ -88,8 +88,8 @@ class TestScoreIntegrityManager:
         manager.load_csv()
         results = manager.detect_missing()
 
-        # 記憶性スコアは2件欠損（NaN + 0値）
-        assert results["記憶性スコア"]["missing"] == 2
+        # memorability_scoreは2件欠損（NaN + 0値）
+        assert results["memorability_score"]["missing"] == 2
 
     def test_fill_composite_score(self, sample_df, tmp_path, monkeypatch):
         """composite_scoreが7軸から正しく計算されること"""
@@ -150,13 +150,13 @@ class TestScoreIntegrityManager:
                 "episode_id": ["EP-001"],
                 "person_id": ["P001"],
                 "episode_text": ["1990年、感動的な発見。しかし困難を克服した。"],
-                "記憶性スコア": [0],
-                "共感性スコア": [0],
-                "意外性スコア": [0],
-                "生成品質スコア": [0],
-                "教育的価値": [0],
-                "ストーリー品質": [0],
-                "事実密度": [0],
+                "memorability_score": [0],
+                "empathy_score": [0],
+                "surprise_score": [0],
+                "generation_quality_score": [0],
+                "educational_value": [0],
+                "story_quality": [0],
+                "factual_density": [0],
                 "composite_score": [0],
                 "composite_score_5axis": [0],
                 "episode_fame_v6": [50],
@@ -183,13 +183,13 @@ class TestScoreIntegrityManager:
 
         # 7軸スコアがすべて5.0〜9.5の範囲内であること
         for col in [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
         ]:
             score = manager.df.at[0, col]
             assert 5.0 <= score <= 9.5, f"{col} = {score} is out of range"
@@ -201,13 +201,13 @@ class TestScoreIntegrityManager:
                 "episode_id": ["EP-001"],
                 "person_id": ["P001"],
                 "episode_text": ["テスト"],
-                "記憶性スコア": [20.0],  # 範囲外 (0-10, max*1.5=15まで許容)
-                "共感性スコア": [7.0],
-                "意外性スコア": [7.0],
-                "生成品質スコア": [7.0],
-                "教育的価値": [7.0],
-                "ストーリー品質": [7.0],
-                "事実密度": [7.0],
+                "memorability_score": [20.0],  # 範囲外 (0-10, max*1.5=15まで許容)
+                "empathy_score": [7.0],
+                "surprise_score": [7.0],
+                "generation_quality_score": [7.0],
+                "educational_value": [7.0],
+                "story_quality": [7.0],
+                "factual_density": [7.0],
                 "composite_score": [49.0],
                 "composite_score_5axis": [35.0],
                 "episode_fame_v6": [50],
@@ -232,9 +232,9 @@ class TestScoreIntegrityManager:
         manager.load_csv()
         validation = manager.validate_scores()
 
-        # 記憶性スコアが範囲外として検出されること (20 > 10*1.5=15)
-        assert "記憶性スコア" in validation["range_violations"]
-        assert validation["range_violations"]["記憶性スコア"] == 1
+        # memorability_scoreが範囲外として検出されること (20 > 10*1.5=15)
+        assert "memorability_score" in validation["range_violations"]
+        assert validation["range_violations"]["memorability_score"] == 1
 
     def test_dry_run_does_not_modify_csv(self, sample_df, tmp_path, monkeypatch):
         """dry-runモードではCSVが変更されないこと"""
@@ -276,13 +276,13 @@ class TestScoreColumnDefinitions:
     def test_all_required_columns_defined(self):
         """必須列がすべて定義されていること"""
         required_cols = [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
             "composite_score",
             "episode_fame_v6",
             "episode_fame_tier_v6",

@@ -64,9 +64,9 @@ EVALUATION_SYSTEM_PROMPT = """あなたはエピソード品質評価の専門�
 2. 共感性 (empathy): 感情的な共感を呼ぶか
 3. 意外性 (surprise): 予想外の発見があるか
 4. 生成品質 (generation_quality): 文章の質、流れ
-5. 教育的価値 (educational_value): 学びがあるか
-6. ストーリー品質 (story_quality): 物語としての完成度
-7. 事実密度 (factual_density): 具体的事実の密度
+5. educational_value (educational_value): 学びがあるか
+6. story_quality (story_quality): 物語としての完成度
+7. factual_density (factual_density): 具体的事実の密度
 
 【出力形式】
 必ず以下のJSON形式で出力してください：

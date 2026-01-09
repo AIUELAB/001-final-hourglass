@@ -3,7 +3,7 @@
 全欠損スコアを一括補完するスクリプト
 
 対象:
-  - 教育的価値、ストーリー品質、事実密度（ヒューリスティックベース）
+  - educational_value、story_quality、factual_density（ヒューリスティックベース）
   - fame_score（人物有名度）
   - episode_fame_score（エピソード有名度）
 """
@@ -21,7 +21,7 @@ CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 
 
 def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
-    """ストーリー品質スコアを算出（1-10点）"""
+    """story_qualityスコアを算出（1-10点）"""
     if pd.isna(episode_text) or not episode_text:
         return 5.0
 
@@ -90,7 +90,7 @@ def calculate_storytelling_quality(episode_text: str, episode_type: str) -> floa
 
 
 def calculate_factual_density(episode_text: str, episode_type: str) -> float:
-    """事実密度スコアを算出（1-10点）"""
+    """factual_densityスコアを算出（1-10点）"""
     if pd.isna(episode_text) or not episode_text:
         return 5.0
 
@@ -121,7 +121,7 @@ def calculate_factual_density(episode_text: str, episode_type: str) -> float:
 
 
 def calculate_educational_value(episode_text: str, episode_type: str) -> float:
-    """教育的価値スコアを算出（1-10点）"""
+    """educational_valueスコアを算出（1-10点）"""
     if pd.isna(episode_text) or not episode_text:
         return 5.0
 
@@ -308,42 +308,42 @@ def fill_all_missing_scores():
 
     # 補完カウンター
     counts = {
-        "教育的価値": 0,
-        "ストーリー品質": 0,
-        "事実密度": 0,
+        "educational_value": 0,
+        "story_quality": 0,
+        "factual_density": 0,
         "fame_score": 0,
         "episode_fame_score": 0,
     }
 
-    # 1. 教育的価値の補完
-    print("【1】教育的価値の補完...")
-    mask = df["教育的価値"].isna()
+    # 1. educational_valueの補完
+    print("【1】educational_valueの補完...")
+    mask = df["educational_value"].isna()
     for idx in df[mask].index:
         text = df.loc[idx, "episode_text"]
         ep_type = df.loc[idx, "episode_type"]
-        df.loc[idx, "教育的価値"] = calculate_educational_value(text, ep_type)
-        counts["教育的価値"] += 1
-    print(f"  → {counts['教育的価値']}件補完")
+        df.loc[idx, "educational_value"] = calculate_educational_value(text, ep_type)
+        counts["educational_value"] += 1
+    print(f"  → {counts['educational_value']}件補完")
 
-    # 2. ストーリー品質の補完
-    print("【2】ストーリー品質の補完...")
-    mask = df["ストーリー品質"].isna()
+    # 2. story_qualityの補完
+    print("【2】story_qualityの補完...")
+    mask = df["story_quality"].isna()
     for idx in df[mask].index:
         text = df.loc[idx, "episode_text"]
         ep_type = df.loc[idx, "episode_type"]
-        df.loc[idx, "ストーリー品質"] = calculate_storytelling_quality(text, ep_type)
-        counts["ストーリー品質"] += 1
-    print(f"  → {counts['ストーリー品質']}件補完")
+        df.loc[idx, "story_quality"] = calculate_storytelling_quality(text, ep_type)
+        counts["story_quality"] += 1
+    print(f"  → {counts['story_quality']}件補完")
 
-    # 3. 事実密度の補完
-    print("【3】事実密度の補完...")
-    mask = df["事実密度"].isna()
+    # 3. factual_densityの補完
+    print("【3】factual_densityの補完...")
+    mask = df["factual_density"].isna()
     for idx in df[mask].index:
         text = df.loc[idx, "episode_text"]
         ep_type = df.loc[idx, "episode_type"]
-        df.loc[idx, "事実密度"] = calculate_factual_density(text, ep_type)
-        counts["事実密度"] += 1
-    print(f"  → {counts['事実密度']}件補完")
+        df.loc[idx, "factual_density"] = calculate_factual_density(text, ep_type)
+        counts["factual_density"] += 1
+    print(f"  → {counts['factual_density']}件補完")
 
     # 4. fame_scoreの補完
     print("【4】fame_scoreの補完...")
@@ -384,7 +384,7 @@ def fill_all_missing_scores():
 
     # 残存欠損チェック
     print("【残存欠損チェック】")
-    for col in ["教育的価値", "ストーリー品質", "事実密度", "fame_score", "episode_fame_score"]:
+    for col in ["educational_value", "story_quality", "factual_density", "fame_score", "episode_fame_score"]:
         remaining = df[col].isna().sum()
         print(f"  {col}: {remaining}件")
 

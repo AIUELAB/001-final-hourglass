@@ -120,13 +120,13 @@ DEFAULT_ALERT_RULES = [
         severity=AlertSeverity.WARNING,
         message_template="平均生成品質が低下: {value:.1f} < {threshold:.1f}",
     ),
-    # 事実密度
+    # factual_density
     AlertRule(
         metric_name="avg_factual_density",
         operator="lt",
         threshold=7.0,
         severity=AlertSeverity.WARNING,
-        message_template="平均事実密度が低下: {value:.1f} < {threshold:.1f}",
+        message_template="平均factual_densityが低下: {value:.1f} < {threshold:.1f}",
     ),
     # コスト
     AlertRule(

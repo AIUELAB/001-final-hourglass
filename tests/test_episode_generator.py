@@ -289,8 +289,8 @@ class TestCalculateScores:
         generator = EpisodeGenerator(api_key="test")
         scores = generator.calculate_scores("これはテストエピソードです。" * 10)
 
-        assert "記憶性スコア" in scores
-        assert "共感性スコア" in scores
+        assert "memorability_score" in scores
+        assert "empathy_score" in scores
         assert "composite_score" in scores
 
     @patch("src.episode_generator.anthropic.Anthropic")
@@ -302,7 +302,7 @@ class TestCalculateScores:
         short_scores = generator.calculate_scores("短い")  # 150文字未満
         long_scores = generator.calculate_scores("長いエピソード" * 50)  # 200文字以上
 
-        assert short_scores["記憶性スコア"] < long_scores["記憶性スコア"]
+        assert short_scores["memorability_score"] < long_scores["memorability_score"]
 
     @patch("src.episode_generator.anthropic.Anthropic")
     def test_long_text_bonus(self, mock_anthropic):
@@ -313,7 +313,7 @@ class TestCalculateScores:
         normal_scores = generator.calculate_scores("通常の長さ" * 30)  # 約150-300文字
         long_scores = generator.calculate_scores("とても長いエピソード" * 50)  # 300文字以上
 
-        assert long_scores["記憶性スコア"] >= normal_scores["記憶性スコア"]
+        assert long_scores["memorability_score"] >= normal_scores["memorability_score"]
 
 
 class TestCallAnthropicAPI:

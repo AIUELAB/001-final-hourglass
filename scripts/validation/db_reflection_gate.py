@@ -51,25 +51,25 @@ class DBReflectionGate:
 
     # 必須スコアカラム（8軸）
     REQUIRED_SCORE_COLUMNS = [
-        "記憶性スコア",
-        "共感性スコア",
-        "意外性スコア",
-        "生成品質スコア",
-        "教育的価値",
-        "ストーリー品質",
-        "事実密度",
-        "象徴性スコア",
+        "memorability_score",
+        "empathy_score",
+        "surprise_score",
+        "generation_quality_score",
+        "educational_value",
+        "story_quality",
+        "factual_density",
+        "iconic_score",
     ]
 
     # LLMスコアカラム（バックアップ参照用）
     LLM_SCORE_MAPPING = {
-        "記憶性スコア": "llm_memorability_score",
-        "共感性スコア": "llm_empathy_score",
-        "意外性スコア": "llm_surprise_score",
-        "生成品質スコア": "llm_generation_quality_score",
-        "教育的価値": "llm_educational_value",
-        "ストーリー品質": "llm_storytelling_quality",
-        "事実密度": "llm_factual_density",
+        "memorability_score": "llm_memorability_score",
+        "empathy_score": "llm_empathy_score",
+        "surprise_score": "llm_surprise_score",
+        "generation_quality_score": "llm_generation_quality_score",
+        "educational_value": "llm_educational_value",
+        "story_quality": "llm_storytelling_quality",
+        "factual_density": "llm_factual_density",
     }
 
     # 統合スコアカラム
@@ -151,9 +151,7 @@ class DBReflectionGate:
             auto_fixed=auto_fixed,
         )
 
-    def _check_format(
-        self, text: str, person_name: str, age: Any
-    ) -> dict[str, Any]:
+    def _check_format(self, text: str, person_name: str, age: Any) -> dict[str, Any]:
         """定型パターンを検証"""
         match = self.VALID_PATTERN.match(text)
 
@@ -206,9 +204,7 @@ class DBReflectionGate:
             "passed": False,
             "issue": "定型パターンで開始していない",
             "fixable": True if person_name and age else False,
-            "fixed_text": self._create_standard_format(text, person_name, age)
-            if person_name and age
-            else None,
+            "fixed_text": self._create_standard_format(text, person_name, age) if person_name and age else None,
         }
 
     def _fix_age_in_text(self, text: str, correct_age: int) -> str:
@@ -228,9 +224,7 @@ class DBReflectionGate:
             text,
         )
 
-    def _create_standard_format(
-        self, text: str, person_name: str, age: Any
-    ) -> Optional[str]:
+    def _create_standard_format(self, text: str, person_name: str, age: Any) -> Optional[str]:
         """標準フォーマットに変換"""
         if not person_name or not age:
             return None
@@ -246,9 +240,7 @@ class DBReflectionGate:
 
         return None
 
-    def validate_dataframe(
-        self, df: pd.DataFrame, verbose: bool = True
-    ) -> tuple[pd.DataFrame, dict]:
+    def validate_dataframe(self, df: pd.DataFrame, verbose: bool = True) -> tuple[pd.DataFrame, dict]:
         """
         DataFrame全体を検証
 
@@ -285,9 +277,7 @@ class DBReflectionGate:
                 results["failed"] += 1
                 for failure in result.failures:
                     key = failure.split(":")[0]
-                    results["failures_by_type"][key] = (
-                        results["failures_by_type"].get(key, 0) + 1
-                    )
+                    results["failures_by_type"][key] = results["failures_by_type"].get(key, 0) + 1
 
                 if verbose:
                     ep_id = row.get("episode_id", "unknown")
@@ -375,9 +365,7 @@ def main():
     if summary["failures_by_type"]:
         print()
         print("不合格の内訳:")
-        for failure_type, count in sorted(
-            summary["failures_by_type"].items(), key=lambda x: -x[1]
-        ):
+        for failure_type, count in sorted(summary["failures_by_type"].items(), key=lambda x: -x[1]):
             print(f"  {failure_type}: {count}件")
 
     # 保存（dry-runでない場合）

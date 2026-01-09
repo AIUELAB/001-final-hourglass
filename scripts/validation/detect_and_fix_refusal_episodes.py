@@ -270,7 +270,7 @@ def generate_corrected_episode(person_name: str, suggested_age: int, category: s
 2. 具体的な事実や出来事を含める
 3. 記憶に残る印象的な内容にする
 4. 200-300文字程度
-5. 教育的価値のある内容にする
+5. educational_valueのある内容にする
 6. 事実に基づいた内容にする（架空の内容は避ける）
 7. 「エピソードを作成できません」「申し訳ございません」等のメタ説明は絶対に含めない
 

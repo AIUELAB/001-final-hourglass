@@ -286,9 +286,9 @@ KEYWORD_MAX_SCORE = 8.0  # キーワードだけで最大8点（残り2点はコ
 # ============================================================
 QUALITY_LLM_WEIGHTS = {
     "memorability": 0.25,  # 記憶性
-    "storytelling_quality": 0.25,  # ストーリー品質
-    "factual_density": 0.20,  # 事実密度
-    "educational_value": 0.15,  # 教育的価値
+    "storytelling_quality": 0.25,  # story_quality
+    "factual_density": 0.20,  # factual_density
+    "educational_value": 0.15,  # educational_value
     "empathy": 0.15,  # 共感性
 }
 

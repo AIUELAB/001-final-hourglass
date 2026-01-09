@@ -67,30 +67,30 @@ LAYER3_CONFIG = {
 
 # 7軸フィールド
 SEVEN_AXIS_FIELDS = [
-    "記憶性スコア",
-    "共感性スコア",
-    "意外性スコア",
-    "生成品質スコア",
-    "教育的価値",
-    "ストーリー品質",
-    "事実密度",
+    "memorability_score",
+    "empathy_score",
+    "surprise_score",
+    "generation_quality_score",
+    "educational_value",
+    "story_quality",
+    "factual_density",
 ]
 
 # 軸別改善プロンプト
 AXIS_IMPROVEMENT_PROMPTS = {
-    "記憶性スコア": """
+    "memorability_score": """
 【記憶に残るエピソードにしてください】
 - 印象的なシーンや名言を追加
 - 具体的で視覚的な描写を強化
 - 読後も思い出せる特徴的な要素を入れる
 """,
-    "共感性スコア": """
+    "empathy_score": """
 【共感性を高めてください】
 - 人物の感情や内面の葛藤をより具体的に描写
 - 読者が「自分だったら」と思える普遍的な状況を追加
 - 感情的なクライマックスを明確に
 """,
-    "意外性スコア": """
+    "surprise_score": """
 【意外性を劇的に高めてください - 最重要改善軸】
 以下の手法を1つ以上、具体的に適用してください:
 
@@ -111,25 +111,25 @@ AXIS_IMPROVEMENT_PROMPTS = {
 
 【禁止】ありきたりな成功譚、予想通りの展開
 """,
-    "生成品質スコア": """
+    "generation_quality_score": """
 【文章品質を向上させてください】
 - 冗長な表現を削除
 - 具体的で簡潔な文に書き換え
 - リズム感のある文章構成に
 """,
-    "教育的価値": """
+    "educational_value": """
 【学びや教訓を明確にしてください】
 - 普遍的な教訓や知恵を含める
 - 読者が参考にできる具体的な行動や考え方
 - 人生の転機となった決断の理由を明示
 """,
-    "ストーリー品質": """
+    "story_quality": """
 【ストーリー構成を改善してください】
 - 起承転結を明確に
 - 読者を引き込む導入
 - 余韻の残る結末
 """,
-    "事実密度": """
+    "factual_density": """
 【具体的な事実・数値を必ず追加してください】
 - 具体的な年号（1985年、2003年など）
 - 数値データ（100万部、3時間、世界2位など）
@@ -220,7 +220,7 @@ def llm_evaluate_7axis(episode_text: str) -> Optional[Dict[str, float]]:
 {episode_text}
 
 必ず以下のJSON形式のみで回答:
-{{"記憶性スコア": X.X, "共感性スコア": X.X, "意外性スコア": X.X, "生成品質スコア": X.X, "教育的価値": X.X, "ストーリー品質": X.X, "事実密度": X.X}}"""
+{{"memorability_score": X.X, "empathy_score": X.X, "surprise_score": X.X, "generation_quality_score": X.X, "educational_value": X.X, "story_quality": X.X, "factual_density": X.X}}"""
 
     try:
         response = client.messages.create(

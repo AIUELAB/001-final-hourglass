@@ -58,13 +58,13 @@ NEW_EPISODE = {
     "composite_score": "9.5",
     "episode_fame_tier": "1.0",  # Tier1
     # LLM 7軸スコア（日本語カラム名が正しい）
-    "記憶性スコア": "9.0",
-    "共感性スコア": "7.0",
-    "意外性スコア": "6.0",
-    "生成品質スコア": "9.0",
-    "教育的価値": "9.0",
-    "ストーリー品質": "8.0",
-    "事実密度": "10.0",
+    "memorability_score": "9.0",
+    "empathy_score": "7.0",
+    "surprise_score": "6.0",
+    "generation_quality_score": "9.0",
+    "educational_value": "9.0",
+    "story_quality": "8.0",
+    "factual_density": "10.0",
     # 知名度データ（他のヘミングウェイエピソードから複製）
     "celebrity_score_v2": "717.087262017953",
     "sitelinks_count": "206",

@@ -204,8 +204,8 @@ def main():
     elif args.source:
         targets = df[df["source"] == args.source]
     else:
-        # 意外性スコアが低いものを優先
-        drama_scores = pd.to_numeric(df["意外性スコア"], errors="coerce")
+        # surprise_scoreが低いものを優先
+        drama_scores = pd.to_numeric(df["surprise_score"], errors="coerce")
         low_drama = df[drama_scores < 5.5]
         targets = low_drama
 

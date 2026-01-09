@@ -26,7 +26,15 @@ class TestHybridWeights:
 
     def test_weights_exist(self):
         """全7軸の重みが定義されているか"""
-        expected_axes = ["記憶性", "共感性", "意外性", "生成品質", "教育的価値", "ストーリー品質", "事実密度"]
+        expected_axes = [
+            "記憶性",
+            "共感性",
+            "意外性",
+            "生成品質",
+            "educational_value",
+            "story_quality",
+            "factual_density",
+        ]
         for axis in expected_axes:
             assert axis in HYBRID_WEIGHTS, f"Missing weight for {axis}"
 
@@ -54,9 +62,9 @@ class TestCalculateHybridRuleScores:
         assert "共感性" in scores
         assert "意外性" in scores
         assert "生成品質" in scores
-        assert "教育的価値" in scores
-        assert "ストーリー品質" in scores
-        assert "事実密度" in scores
+        assert "educational_value" in scores
+        assert "story_quality" in scores
+        assert "factual_density" in scores
 
     def test_score_range(self):
         """スコアが1-10の範囲内か"""
@@ -105,7 +113,7 @@ class TestCalculateHybridRuleScores:
         scores_proper = calculate_hybrid_rule_scores(episode_proper)
         scores_other = calculate_hybrid_rule_scores(episode_other)
 
-        assert scores_proper["ストーリー品質"] >= scores_other["ストーリー品質"]
+        assert scores_proper["story_quality"] >= scores_other["story_quality"]
 
 
 class TestCalculateHybridScores:
@@ -148,7 +156,7 @@ class TestCalculateHybridScores:
         assert scores_high["意外性"] > scores_low["意外性"]
 
     def test_fact_density_ignores_llm(self):
-        """事実密度はLLMを無視するか（100%ルールベース）"""
+        """factual_densityはLLMを無視するか（100%ルールベース）"""
         episode = {"episode_text": "2020年に100人が参加。50億円の投資。"}
 
         llm_high = {"empathy": 10, "surprise": 10, "story_quality": 10}
@@ -157,8 +165,8 @@ class TestCalculateHybridScores:
         scores_high = calculate_hybrid_scores(episode, llm_high)
         scores_low = calculate_hybrid_scores(episode, llm_low)
 
-        # 事実密度は同じはず（LLMの重みが0）
-        assert scores_high["事実密度"] == scores_low["事実密度"]
+        # factual_densityは同じはず（LLMの重みが0）
+        assert scores_high["factual_density"] == scores_low["factual_density"]
 
 
 class TestCalculateHybridSevenAxes:
@@ -170,13 +178,13 @@ class TestCalculateHybridSevenAxes:
         scores = calculate_hybrid_seven_axes(episode)
 
         expected_fields = [
-            "記憶性スコア",
-            "共感性スコア",
-            "意外性スコア",
-            "生成品質スコア",
-            "教育的価値",
-            "ストーリー品質",
-            "事実密度",
+            "memorability_score",
+            "empathy_score",
+            "surprise_score",
+            "generation_quality_score",
+            "educational_value",
+            "story_quality",
+            "factual_density",
         ]
         for field in expected_fields:
             assert field in scores, f"Missing field: {field}"
@@ -206,7 +214,7 @@ class TestCalculateHybridSevenAxes:
 
         # 転機キーワードがあるので意外性が高めになるはず
         # （厳密な値は期待しないが、最低限のチェック）
-        assert scores["意外性スコア"] >= 3
+        assert scores["surprise_score"] >= 3
 
 
 class TestIntegrationWithExistingFunctions:

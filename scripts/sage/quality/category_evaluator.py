@@ -222,7 +222,7 @@ class CategoryThresholds:
             memorability=6.0,
         ),
         "日本の伝説": CategoryThreshold(
-            factual_density=5.5,  # 伝説なので事実密度は低め
+            factual_density=5.5,  # 伝説なのでfactual_densityは低め
             generation_quality=8.0,
             story_quality=7.5,
         ),
@@ -273,13 +273,13 @@ class CategoryThresholds:
         }
 
         axis_mapping = {
-            "factual_density": "事実密度",
-            "generation_quality": "生成品質スコア",
-            "story_quality": "ストーリー品質",
-            "educational_value": "教育的価値",
-            "memorability": "記憶性スコア",
-            "empathy": "共感性スコア",
-            "surprise": "意外性スコア",
+            "factual_density": "factual_density",
+            "generation_quality": "generation_quality_score",
+            "story_quality": "story_quality",
+            "educational_value": "educational_value",
+            "memorability": "memorability_score",
+            "empathy": "empathy_score",
+            "surprise": "surprise_score",
         }
 
         for axis, threshold_value in thresholds_applied.items():
@@ -314,10 +314,10 @@ class PersonQualityAnalyzer:
 
     # 軸名のマッピング
     AXIS_NAMES = {
-        "factual_density": "事実密度",
+        "factual_density": "factual_density",
         "generation_quality": "生成品質",
-        "story_quality": "ストーリー品質",
-        "educational_value": "教育的価値",
+        "story_quality": "story_quality",
+        "educational_value": "educational_value",
         "memorability": "記憶性",
         "empathy": "共感性",
         "surprise": "意外性",

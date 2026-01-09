@@ -64,9 +64,9 @@ class BatchLLMEvaluator:
             "共感性": "llm_empathy_score",
             "意外性": "llm_surprise_score",
             "生成品質": "llm_generation_quality_score",
-            "教育的価値": "llm_educational_value",
-            "ストーリー品質": "llm_storytelling_quality",
-            "事実密度": "llm_factual_density",
+            "educational_value": "llm_educational_value",
+            "story_quality": "llm_storytelling_quality",
+            "factual_density": "llm_factual_density",
         }
 
     def load_episodes(self) -> None:

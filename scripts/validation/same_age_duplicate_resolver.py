@@ -7,7 +7,7 @@ EPUP再発防止: 同一person_id×ageのエピソードを1件に絞る。
 勝者選定ルール（優先順位）:
 1. ファクトチェック合格（fact_check_result="確認済み"）を優先
 2. 両方合格 or 両方未実施 → super_total_score が高い方
-3. 同点 → 事実密度 > 生成品質スコア > ストーリー品質
+3. 同点 → factual_density > generation_quality_score > story_quality
 4. それでも同点 → generation_timestamp が新しい方
 
 Usage:
@@ -161,8 +161,8 @@ class SameAgeDuplicateResolver:
         if st2 > st1:
             return ep2["episode_id"], ep1["episode_id"], f"super_total({st2:.0f}>{st1:.0f})"
 
-        # ルール3: タイブレーク（事実密度→生成品質→ストーリー品質）
-        tiebreak_cols = ["事実密度", "生成品質スコア", "ストーリー品質"]
+        # ルール3: タイブレーク（factual_density→生成品質→story_quality）
+        tiebreak_cols = ["factual_density", "generation_quality_score", "story_quality"]
         for col in tiebreak_cols:
             v1 = float(ep1.get(col) or 0)
             v2 = float(ep2.get(col) or 0)
@@ -214,9 +214,9 @@ class SameAgeDuplicateResolver:
                 key=lambda x: (
                     1 if x.get("fact_check_result", "").strip() == "確認済み" else 0,
                     float(x.get("super_total_score") or 0),
-                    float(x.get("事実密度") or 0),
-                    float(x.get("生成品質スコア") or 0),
-                    float(x.get("ストーリー品質") or 0),
+                    float(x.get("factual_density") or 0),
+                    float(x.get("generation_quality_score") or 0),
+                    float(x.get("story_quality") or 0),
                     x.get("generation_timestamp", "") or "",
                 ),
                 reverse=True,

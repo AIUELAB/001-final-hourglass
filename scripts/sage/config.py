@@ -254,6 +254,12 @@ class HybridConfig:
     use_batch_evaluation: bool = True  # True: 生成後に一括評価（LLM呼び出し大幅削減）
     batch_evaluation_size: int = 20  # バッチ評価の単位（生成→評価のサイクル）
 
+    # Phase 20: Anthropic Batch API（コスト-50%追加、24h遅延）
+    use_batch_api: bool = False  # True: Batch API使用（50%割引、最大24h遅延）
+    batch_api_poll_interval: int = 300  # ポーリング間隔（秒）
+    batch_api_max_wait: int = 86400  # 最大待機時間（秒、デフォルト24時間）
+    batch_jobs_dir: Path = field(default_factory=lambda: LOGS_DIR / "batch_jobs")  # バッチジョブ保存先
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())
@@ -264,6 +270,9 @@ class HybridConfig:
         self.backup_dir.mkdir(parents=True, exist_ok=True)
         self.logs_dir.mkdir(parents=True, exist_ok=True)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        # Phase 20: Batch APIジョブ保存先
+        if isinstance(self.batch_jobs_dir, Path):
+            self.batch_jobs_dir.mkdir(parents=True, exist_ok=True)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "HybridConfig":

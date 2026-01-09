@@ -163,6 +163,28 @@ class TurboEngine:
         # シグナルハンドラ設定
         self._setup_signal_handlers()
 
+    def _get_min_length(self, age: int, category: str) -> int:
+        """
+        Phase 22: 年齢・カテゴリ別の動的最小長
+
+        Args:
+            age: 対象年齢
+            category: カテゴリ名
+
+        Returns:
+            最小文字数
+        """
+        # 幼少期・晩年は短くてもOK（史料が少ない）
+        if age <= 15 or age >= 75:
+            return 150
+
+        # 史料が少ないカテゴリ
+        if category in ["歴史上の動物", "架空キャラ", "神話・伝説"]:
+            return 160
+
+        # 通常ケース（200→180に緩和）
+        return 180
+
     def _setup_signal_handlers(self) -> None:
         """シグナルハンドラを設定"""
 
@@ -573,6 +595,7 @@ class TurboEngine:
                     "- 固有名詞（人名、作品名、組織名、地名）を5つ以上\n"
                     "- 「」で囲んだ作品名・イベント名を2つ以上\n"
                     "- 数値データを3つ以上\n"
+                    "- 必ず200文字以上で記述すること\n"  # Phase 22: 最小長明示
                     "抽象的な表現や推測・伝聞は禁止"
                 ),
             )
@@ -764,13 +787,17 @@ class TurboEngine:
                 )
                 continue
 
-            # 基本的な品質チェック
-            if len(text) < 200:
+            # Phase 22: 動的最小長チェック
+            age = candidate_info.get("age", 30)
+            category = candidate_info.get("category", "")
+            min_length = self._get_min_length(age, category)
+
+            if len(text) < min_length:
                 rejections.append(
                     {
                         "custom_id": custom_id,
                         "reason": "too_short",
-                        "message": f"Text too short: {len(text)} chars",
+                        "message": f"Text too short: {len(text)} chars (min={min_length})",
                     }
                 )
                 rejected.append(custom_id)

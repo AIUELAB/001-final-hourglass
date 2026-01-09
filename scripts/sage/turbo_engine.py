@@ -148,6 +148,10 @@ class TurboEngine:
         self._pre_rules = PreGenerationRules()
         self._pre_filter_stats: dict[str, int] = {}  # {reason: count}
 
+        # Phase 3最適化: 候補プール（年齢バランス維持）
+        self._candidate_pool: list = []
+        self._pool_refill_threshold = 50  # プールが50件以下になったら補充
+
         # 開始時刻
         self._start_time: Optional[datetime] = None
         self._stop_requested = False
@@ -244,47 +248,60 @@ class TurboEngine:
         return (datetime.now() - self._start_time).total_seconds() / 60
 
     def _get_next_batch(self) -> list:
-        """次のバッチの候補を取得（Phase 1最適化版 + H4キャッシュ最適化）"""
-        # 処理済みを除外して候補を取得（余裕を持って3倍取得）
-        all_candidates = self.orchestrator.get_recommended_candidates(
-            self.state.current_batch_size * 3
-        )
-
-        # 処理済みを除外 + 生成前フィルタ適用
+        """次のバッチの候補を取得（Phase 3最適化: 年齢バランス維持プール版）"""
+        # 処理済みセット
         processed_set = set(self.state.candidates_processed)
-        filtered_candidates = []
 
-        for c in all_candidates:
-            key = f"{c.person_id}:{c.age}"
-            if key in processed_set:
-                continue
-
-            # 【Phase 1最適化】生成前ルールチェック（LLMコスト0で棄却予測）
-            # 型変換（adapters.base.Candidate → pre_generation_rules.Candidate）
-            pre_candidate = PreRulesCandidate(
-                person_id=c.person_id,
-                person_name=c.person_name,
-                age=c.age,
-                category=c.category,
-                person_type=c.person_type,
-                birth_year=c.birth_year,
-                death_year=c.death_year,
+        # プールが少なくなったら補充（年齢バランスを維持）
+        if len(self._candidate_pool) < self._pool_refill_threshold:
+            # 大量に取得（200件）して年齢バランスを確保
+            new_candidates = self.orchestrator.get_recommended_candidates(
+                200,  # 十分な量を取得
+                enable_cache=False,
             )
-            rule_result = self._pre_rules.check_all(pre_candidate)
-            if not rule_result.passed:
-                reason = rule_result.reason.value if rule_result.reason else "unknown"
-                self._pre_filter_stats[reason] = self._pre_filter_stats.get(reason, 0) + 1
-                logger.debug(f"生成前フィルタ除外: {c.person_name}({c.age}歳) - {reason}")
-                continue  # LLMコストなしでスキップ
 
-            filtered_candidates.append(c)
+            # 処理済み・プール内の候補を除外
+            pool_keys = {f"{c.person_id}:{c.age}" for c in self._candidate_pool}
+            for c in new_candidates:
+                key = f"{c.person_id}:{c.age}"
+                if key in processed_set or key in pool_keys:
+                    continue
+
+                # 生成前ルールチェック
+                pre_candidate = PreRulesCandidate(
+                    person_id=c.person_id,
+                    person_name=c.person_name,
+                    age=c.age,
+                    category=c.category,
+                    person_type=c.person_type,
+                    birth_year=c.birth_year,
+                    death_year=c.death_year,
+                )
+                rule_result = self._pre_rules.check_all(pre_candidate)
+                if not rule_result.passed:
+                    reason = rule_result.reason.value if rule_result.reason else "unknown"
+                    self._pre_filter_stats[reason] = self._pre_filter_stats.get(reason, 0) + 1
+                    logger.debug(f"生成前フィルタ除外: {c.person_name}({c.age}歳) - {reason}")
+                    continue
+
+                self._candidate_pool.append(c)
+
+            logger.info(f"候補プール補充: {len(self._candidate_pool)}件")
+
+        # プールから処理済みを除外（他バッチで処理された可能性）
+        self._candidate_pool = [c for c in self._candidate_pool if f"{c.person_id}:{c.age}" not in processed_set]
+
+        # バッチサイズ分を取得（プールの先頭から）
+        batch_size = min(self.state.current_batch_size, len(self._candidate_pool))
+        candidates = self._candidate_pool[:batch_size]
+
+        # 取得した候補をプールから削除
+        self._candidate_pool = self._candidate_pool[batch_size:]
 
         # 【H4最適化】person_id順にソート（Prompt Caching効率化）
-        # 同一人物の複数年齢を連続処理することでキャッシュヒット率向上
-        filtered_candidates.sort(key=lambda x: (x.person_id, x.age))
+        candidates.sort(key=lambda x: (x.person_id, x.age))
 
-        # バッチサイズ分を取得
-        candidates = filtered_candidates[: self.state.current_batch_size]
+        logger.info(f"バッチ取得: {len(candidates)}件, プール残り: {len(self._candidate_pool)}件")
 
         return candidates
 
@@ -327,11 +344,21 @@ class TurboEngine:
         except Exception as e:
             logger.debug(f"コスト取得エラー: {e}")
 
-        # 処理済みを記録
+        # 処理済みを記録（採用されたもの）
         for result in run.results:
             key = f"{result.candidate.person_id}:{result.candidate.age}"
             if key not in self.state.candidates_processed:
                 self.state.candidates_processed.append(key)
+
+        # 処理済みを記録（棄却されたもの）
+        # Phase 3修正: 棄却された候補も再処理を防ぐため記録
+        for rejection in run.rejections:
+            person_id = rejection.get("person_id", "")
+            age = rejection.get("age", "")
+            if person_id and age != "":
+                key = f"{person_id}:{age}"
+                if key not in self.state.candidates_processed:
+                    self.state.candidates_processed.append(key)
 
     def _adapt_batch_size(self, run: GenerationRun) -> None:
         """成功率に基づくバッチサイズ調整"""
@@ -565,7 +592,7 @@ if __name__ == "__main__":
     # Phase 1最適化: 生成前フィルタ統計
     if report.pre_filter_stats:
         pre_filter_total = sum(report.pre_filter_stats.values())
-        print(f"\n--- 生成前フィルタ（Phase 1最適化）---")
+        print("\n--- 生成前フィルタ（Phase 1最適化）---")
         print(f"事前除外件数: {pre_filter_total}")
         print(f"節約コスト: ${report.pre_filter_saved_cost_usd:.3f}")
         for reason, count in sorted(report.pre_filter_stats.items(), key=lambda x: -x[1]):

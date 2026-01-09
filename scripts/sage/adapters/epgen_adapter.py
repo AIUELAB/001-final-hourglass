@@ -137,6 +137,66 @@ class EPGENAdapter(GeneratorAdapter):
         context_parts.append("上記の具体的な事実を盛り込んだエピソードを生成してください。")
         return "\n".join(context_parts)
 
+    def _get_age_specific_context(self, age: int) -> str:
+        """
+        年齢帯別の品質向上プロンプトを生成
+
+        端年齢（0-19歳、61歳以上）では品質が出にくいため、
+        年齢に適した具体的な指示を追加する。
+
+        Args:
+            age: 年齢
+
+        Returns:
+            str: 年齢別追加コンテキスト（空文字列の場合もあり）
+        """
+        if age <= 10:
+            # 幼少期: 家族・環境・早期の才能発見
+            return (
+                "【幼少期エピソードの注意点】\n"
+                "- 家族構成、出生地、育った環境を具体的に記述\n"
+                "- 早期に現れた才能や特徴的な行動を描写\n"
+                "- 両親や周囲の大人からの影響を具体的に\n"
+                "- 読者が共感できる子供らしいエピソードを含める\n"
+                "- 「将来〜になる」等の未来予測は禁止\n"
+                "禁止: 抽象的な「才能の萌芽」「運命の始まり」等の表現"
+            )
+        elif age <= 19:
+            # 青少年期: 教育・訓練・デビュー・転機
+            return (
+                "【青少年期エピソードの注意点】\n"
+                "- 学校名、師匠名、所属組織を具体的に記述\n"
+                "- 初めての大会出場、デビュー作、初受賞など具体的な出来事\n"
+                "- 挫折や困難を乗り越えた具体的なエピソード\n"
+                "- 同世代との競争や友情の具体的な描写\n"
+                "- 読者が若者の成長に感情移入できる内容\n"
+                "禁止: 「若くして」「早熟な」等の抽象的評価表現"
+            )
+        elif age >= 80:
+            # 晩年: 最後の業績・受賞・引退
+            return (
+                "【晩年エピソードの注意点】\n"
+                "- この年齢で実際に行った具体的な活動を記述\n"
+                "- 受賞、名誉称号、最後の作品発表など具体的イベント\n"
+                "- 後進への指導や影響を具体的に\n"
+                "- 読者が人生の集大成に感動できる内容\n"
+                "禁止: 「人生を振り返り」「長年の功績」等の回顧的表現\n"
+                "禁止: 「晩年」「最後の」等のメタ的表現"
+            )
+        elif age >= 61:
+            # 熟年期: 円熟期の業績・社会貢献
+            return (
+                "【熟年期エピソードの注意点】\n"
+                "- この年齢で新たに達成した具体的な業績を記述\n"
+                "- 役職就任、大型プロジェクト、社会貢献活動など\n"
+                "- 経験を活かした具体的な意思決定や行動\n"
+                "- 読者が円熟した人物像に敬意を抱ける内容\n"
+                "禁止: 「長年の経験を活かし」「ベテランとして」等の抽象表現"
+            )
+        else:
+            # 20-60歳: 標準（追加コンテキストなし）
+            return ""
+
     def _get_generator(self):
         """遅延初期化でジェネレータを取得"""
         if self._generator is None:
@@ -229,6 +289,11 @@ class EPGENAdapter(GeneratorAdapter):
             iconic_context = self._get_iconic_context(candidate.person_name, candidate.age)
             if iconic_context:
                 additional_context = f"{iconic_context}\n\n{additional_context}"
+
+            # Phase 2最適化: 端年齢向け品質向上プロンプト
+            age_context = self._get_age_specific_context(candidate.age)
+            if age_context:
+                additional_context = f"{age_context}\n\n{additional_context}"
 
             # Phase 5: リトライ時の失敗理由別プロンプト注入
             if retry_injection:

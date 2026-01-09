@@ -507,7 +507,7 @@ class TurboEngine:
     # Phase 20: Batch API メソッド
     # ==========================================================================
 
-    def submit_batch_job(self, count: int = 100) -> Optional[str]:
+    def submit_batch_job(self, count: int = 100, use_haiku: bool = True) -> Optional[str]:
         """
         Batch APIジョブを送信
 
@@ -516,6 +516,7 @@ class TurboEngine:
 
         Args:
             count: 生成する件数
+            use_haiku: True=Haikuモデル使用（Phase 21統合、さらに-92%コスト）
 
         Returns:
             batch_id: 送信されたバッチのID（後で結果取得に使用）
@@ -581,6 +582,9 @@ class TurboEngine:
             # custom_id: person_id_age でユニーク化
             custom_id = f"{candidate.person_id}_{candidate.age}"
 
+            # Phase 21統合: Haikuモデル使用で追加コスト削減
+            model = "claude-3-5-haiku-20241022" if use_haiku else "claude-sonnet-4-20250514"
+
             batch_requests.append(
                 BatchRequest(
                     custom_id=custom_id,
@@ -588,9 +592,7 @@ class TurboEngine:
                     age=candidate.age,
                     category=candidate.category,
                     prompt=prompt,
-                    model=self.config.strategy.value
-                    if hasattr(self.config, "generation_model")
-                    else "claude-sonnet-4-20250514",
+                    model=model,
                     max_tokens=1024,
                 )
             )
@@ -621,6 +623,7 @@ class TurboEngine:
                         "batch_id": job.batch_id,
                         "submitted_at": datetime.now().isoformat(),
                         "request_count": len(batch_requests),
+                        "model": model,  # Phase 21: コスト計算用
                         "dry_run": self.config.dry_run,
                         "candidates": [
                             {
@@ -721,6 +724,7 @@ class TurboEngine:
         # メタデータ読み込み（候補情報）
         job_log_path = Path("src/reports/logs/batch_jobs") / f"{batch_id}_meta.json"
         candidate_map = {}
+        meta = {}  # Phase 21: モデル情報用
         if job_log_path.exists():
             with open(job_log_path, encoding="utf-8") as f:
                 meta = json.load(f)
@@ -791,9 +795,16 @@ class TurboEngine:
         total_output = sum(r.get("usage", {}).get("output_tokens", 0) for r in accepted)
 
         # Batch APIの50%割引コスト計算
-        # 通常: input $3/1M, output $15/1M
-        # Batch: input $1.5/1M, output $7.5/1M
-        batch_cost = (total_input * 1.5 / 1_000_000) + (total_output * 7.5 / 1_000_000)
+        # モデル判定（メタデータから取得）
+        model_used = meta.get("model", "claude-sonnet-4-20250514")
+        is_haiku = "haiku" in model_used.lower()
+
+        if is_haiku:
+            # Haiku: input $0.25/1M, output $1.25/1M → Batch 50%割引
+            batch_cost = (total_input * 0.125 / 1_000_000) + (total_output * 0.625 / 1_000_000)
+        else:
+            # Sonnet: input $3/1M, output $15/1M → Batch 50%割引
+            batch_cost = (total_input * 1.5 / 1_000_000) + (total_output * 7.5 / 1_000_000)
 
         # 結果をファイルに保存
         result_path = Path("src/reports/logs/batch_jobs") / f"{batch_id}_processed.json"

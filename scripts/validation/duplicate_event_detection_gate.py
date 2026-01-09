@@ -46,13 +46,15 @@ ANNIVERSARY_PATTERNS = [
 
 # 死亡・訃報パターン（これらは重複カウントから除外）
 # 死亡エピソードは生涯の業績を要約するため、イベント重複は許容
+# Phase 50: 「た」形式（常体）にも対応
 OBITUARY_PATTERNS = [
-    r"亡くなりました",
-    r"(?:永眠|逝去|他界|死去)(?:しました|された)",
-    r"(?:この世を|人生を)去りました",
-    r"息を引き取りました",
-    r"生涯を閉じました",
-    r"最期を迎えました",
+    r"亡くなりまし(?:た)?",
+    r"亡くなった",
+    r"(?:永眠|逝去|他界|死去)(?:しました|された|した)",
+    r"(?:この世を|人生を)去(?:りました|った)",
+    r"息を引き取(?:りました|った)",
+    r"生涯を閉じ(?:ました|た)",
+    r"最期を迎え(?:ました|た)",
     r"訃報",
 ]
 
@@ -85,6 +87,22 @@ RETIREMENT_CONTEMPLATION_PATTERNS = [
     r"引退を(?:勧める|勧め)",
     r"引退(?:も|を)(?:考え|検討)",
     r"引退(?:の|を)?危機",
+]
+
+# 過去の引退言及パターン（Phase 50: 背景情報としての過去言及）
+# 「引退から12年」「引退時に」は過去の引退を言及しているだけ
+PAST_RETIREMENT_PATTERNS = [
+    r"引退(?:から|して)\d+年",
+    r"引退時(?:に|の|まで)",
+    r"引退後(?:の|は|も)",
+]
+
+# 過去の記録達成パターン（Phase 50: 背景情報としての過去言及）
+# 「世界記録を樹立した」は過去の業績を言及しているだけ
+PAST_RECORD_PATTERNS = [
+    r"世界記録を(?:樹立|達成|出)した",
+    r"(?:日本|新)記録を(?:樹立|達成|出)した",
+    r"かつて.*記録",
 ]
 
 # 許容される重複パターン（背景言及として許容）
@@ -170,10 +188,32 @@ def has_retirement_contemplation_context(text: str) -> bool:
     return False
 
 
+def has_past_retirement_context(text: str) -> bool:
+    """過去の引退言及かどうかを判定（Phase 50）
+
+    「引退から12年」「引退時に」などは過去の引退を背景として言及しているだけ。
+    """
+    for pattern in PAST_RETIREMENT_PATTERNS:
+        if re.search(pattern, text):
+            return True
+    return False
+
+
+def has_past_record_context(text: str) -> bool:
+    """過去の記録言及かどうかを判定（Phase 50）
+
+    「世界記録を樹立した」などは過去の業績を背景として言及しているだけ。
+    """
+    for pattern in PAST_RECORD_PATTERNS:
+        if re.search(pattern, text):
+            return True
+    return False
+
+
 def extract_events(
     text: str,
     skip_anniversary: bool = True,
-    skip_obituary: bool = False,  # Phase 43で追加したが、ユーザー要望により無効化
+    skip_obituary: bool = True,  # Phase 50: 死亡EPでの作品言及は重複として検出しない
     skip_retrospective: bool = True,
     skip_past_reference: bool = True,
 ) -> list[tuple[str, str]]:
@@ -207,11 +247,21 @@ def extract_events(
 
     # 引退検討文脈かどうかをチェック（Phase 49）
     is_retirement_contemplation = has_retirement_contemplation_context(text)
+    # 過去の引退言及かどうかをチェック（Phase 50）
+    is_past_retirement = has_past_retirement_context(text)
+    # 過去の記録言及かどうかをチェック（Phase 50）
+    is_past_record = has_past_record_context(text)
 
     events = []
     for pattern, event_type in EVENT_PATTERNS:
-        # 引退検討文脈の場合、retirement イベントはスキップ
+        # 引退検討文脈の場合、retirement イベントはスキップ（Phase 49）
         if event_type == "retirement" and is_retirement_contemplation:
+            continue
+        # 過去の引退言及の場合、retirement イベントはスキップ（Phase 50）
+        if event_type == "retirement" and is_past_retirement:
+            continue
+        # 過去の記録言及の場合、record イベントはスキップ（Phase 50）
+        if event_type == "record" and is_past_record:
             continue
         matches = re.findall(pattern, text)
         for match in matches:

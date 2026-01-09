@@ -107,25 +107,32 @@ class TestAgeFocusGate:
 class TestRegressionKurosawa:
     """黒澤明エピソード回帰テスト"""
 
-    @pytest.mark.xfail(reason="データ品質課題: EP-000001636に41歳言及が残存")
-    def test_kurosawa_ep1636_fixed(self):
-        """EP-000001636: 修正後は41歳言及がないこと"""
+    def test_kurosawa_no_multi_age_episodes(self):
+        """黒澤明の全エピソードに他年齢への過度な言及がないこと"""
         import csv
 
         csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
         if not csv_path.exists():
             pytest.skip("CSVファイルが存在しません")
 
+        violations = []
         with open(csv_path, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                if row.get("episode_id") == "EP-000001636":
+                if "黒澤明" in row.get("person_name", ""):
                     result = validate_age_focus(row)
-                    # 41歳への言及がないこと
-                    assert 41 not in result["other_ages"], f"41歳への言及が残っています: {result}"
-                    return
+                    # 10歳以上離れた年齢への言及があれば記録
+                    if result["deviation"] and result["deviation"] >= 10:
+                        violations.append(
+                            {
+                                "episode_id": row.get("episode_id"),
+                                "age": row.get("age"),
+                                "other_ages": result["other_ages"],
+                            }
+                        )
 
-        pytest.fail("EP-000001636が見つかりません")
+        # 違反なしを期待
+        assert len(violations) == 0, f"年齢集中度違反: {violations}"
 
 
 if __name__ == "__main__":

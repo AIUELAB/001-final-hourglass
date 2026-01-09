@@ -52,7 +52,7 @@ def check_sync():
         print("episode_fame_score 同期チェック")
         print("=" * 60)
         print(f"非同期件数: {desync_count}件 (閾値: {MAX_DESYNC_COUNT})")
-        print(f"ステータス: FAIL")
+        print("ステータス: FAIL")
         print("\n【非同期例】")
         for ex in desync_examples:
             print(ex)

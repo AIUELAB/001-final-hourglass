@@ -233,7 +233,6 @@ class TestOhtaniShohei:
 class TestOhtaniTop10:
     """大谷翔平がJapan Top 10に入ることを検証"""
 
-    @pytest.mark.xfail(reason="データ品質課題: fame_score_japanとis_japaneseが未設定")
     def test_ohtani_in_japan_top10(self):
         """大谷翔平がJapan Top 10に入る"""
         csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
@@ -262,7 +261,6 @@ class TestOhtaniTop10:
         # 大谷翔平がTop 10に含まれることを確認
         assert "大谷翔平" in top10_names, f"大谷翔平 not in Top 10: {top10_names}"
 
-    @pytest.mark.xfail(reason="データ品質課題: fame_score_japanとis_japaneseが未設定")
     def test_ohtani_japan_score_higher_than_global(self):
         """大谷翔平のJapan ScoreがGlobal Scoreより高い"""
         csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
@@ -314,7 +312,6 @@ class TestConfigLoading:
 class TestJapaneseCount:
     """日本人数のテスト"""
 
-    @pytest.mark.xfail(reason="データ品質課題: is_japaneseが未設定")
     def test_japanese_count_reasonable(self):
         """日本人の数が妥当な範囲内"""
         csv_path = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")

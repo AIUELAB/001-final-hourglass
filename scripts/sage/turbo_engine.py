@@ -526,7 +526,7 @@ class TurboEngine:
         logger.info(f"Phase 20: Batch APIジョブ送信開始 (count={count})")
 
         # 候補選定
-        candidates = self.orchestrator.step1_select_candidates(target_count=count)
+        candidates = self.orchestrator.get_recommended_candidates(count=count)
         if not candidates:
             logger.warning("候補が見つかりませんでした")
             return None
@@ -542,7 +542,9 @@ class TurboEngine:
                 age=candidate.age,
                 category=candidate.category,
             )
-            passed, reason = self._pre_rules.check(pre_candidate)
+            result = self._pre_rules.check_all(pre_candidate)
+            passed = result.passed
+            reason = result.reason.value if result.reason else ""
             if passed:
                 filtered_candidates.append(candidate)
             else:

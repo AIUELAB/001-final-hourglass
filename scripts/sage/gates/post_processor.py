@@ -43,6 +43,16 @@ class EpisodePostProcessor:
     # 重複した人物名パターン（例: "坂本龍馬は...坂本龍馬は"）
     DUPLICATE_NAME_PATTERN = re.compile(r"は(.{0,20})(\S+)は")
 
+    # 1文目の年号パターン（新ルール: 1文目に年号禁止）
+    YEAR_IN_FIRST_PATTERNS = [
+        (re.compile(r"(は)((?:19|20)\d{2})年([、,])"), "year_comma"),
+        (re.compile(r"(は)((?:19|20)\d{2})年(に)"), "year_ni"),
+        (re.compile(r"(は)((?:19|20)\d{2})年(の)"), "year_no"),
+    ]
+
+    # 年号検出パターン
+    YEAR_DETECT_PATTERN = re.compile(r"((?:19|20)\d{2})年")
+
     def __init__(self, strict_mode: bool = True):
         """
         Args:
@@ -80,7 +90,11 @@ class EpisodePostProcessor:
         text, dup_changes = self._fix_duplicate_name(text, person_name)
         changes.extend(dup_changes)
 
-        # 3. 末尾の整理（余分な空白、改行）
+        # 3. 1文目の年号修正（EPUP新ルール: 1文目に年号禁止）
+        text, year_changes = self._fix_year_in_first_sentence(text)
+        changes.extend(year_changes)
+
+        # 4. 末尾の整理（余分な空白、改行）
         text = text.strip()
 
         # 検証: 最終チェック
@@ -210,6 +224,80 @@ class EpisodePostProcessor:
             # 2回目の人物名+「は」を除去
             text = dup_pattern.sub(r"\1\2", text)
             changes.append(f"重複人物名を除去: {person_name}")
+
+        return text, changes
+
+    def _fix_year_in_first_sentence(self, text: str) -> tuple[str, list[str]]:
+        """1文目の年号を修正（年号を削除、括弧追加なし）"""
+        changes = []
+
+        # 1文目の範囲を取得
+        match = self.VALID_PATTERN.match(text)
+        if not match:
+            return text, changes
+
+        start_pos = match.end()
+        first_period = text.find("。", start_pos)
+        if first_period == -1:
+            return text, changes
+
+        first_sentence = text[start_pos:first_period]
+
+        # 年号が1文目にあるかチェック
+        year_match = self.YEAR_DETECT_PATTERN.search(first_sentence)
+        if not year_match:
+            return text, changes
+
+        # パターン別に修正（年号削除のみ）
+        patterns = [
+            (re.compile(r"(は)((?:19|20)\d{2})年([、,])"), "year_comma"),
+            (re.compile(r"(は)((?:19|20)\d{2})年(に)"), "year_ni"),
+            (re.compile(r"(は)((?:19|20)\d{2})年(の)"), "year_no"),
+            (re.compile(r"(は)((?:19|20)\d{2})年(\d{1,2}月)"), "year_month"),
+            (re.compile(r"(は)[、,]((?:19|20)\d{2})年(に)"), "comma_before_year"),
+            (re.compile(r"(は)((?:19|20)\d{2})年([^\d、,にの。])"), "year_direct"),
+            (re.compile(r"(の)((?:19|20)\d{2})年[、,]"), "year_in_middle"),
+            (re.compile(r"(翌)((?:19|20)\d{2})年"), "year_yoku"),
+            (re.compile(r"[（\(]((?:19|20)\d{2})年[）\)]"), "year_paren"),
+        ]
+
+        for pattern, ptype in patterns:
+            match_p = pattern.search(text[:first_period])
+            if match_p:
+                if ptype == "year_paren":
+                    year = match_p.group(1)
+                    modified_text = text[: match_p.start()] + text[match_p.end() :]
+                elif ptype == "year_yoku":
+                    year = match_p.group(2)
+                    modified_text = text[: match_p.start()] + "翌年" + text[match_p.end() :]
+                elif ptype == "year_no":
+                    year = match_p.group(2)
+                    modified_text = text[: match_p.start()] + match_p.group(1) + "その" + text[match_p.end() :]
+                elif ptype == "year_month":
+                    year = match_p.group(2)
+                    modified_text = (
+                        text[: match_p.start()] + match_p.group(1) + match_p.group(3) + text[match_p.end() :]
+                    )
+                elif ptype == "year_direct":
+                    year = match_p.group(2)
+                    modified_text = (
+                        text[: match_p.start()] + match_p.group(1) + match_p.group(3) + text[match_p.end() :]
+                    )
+                else:
+                    year = match_p.group(2)
+                    modified_text = text[: match_p.start()] + match_p.group(1) + text[match_p.end() :]
+
+                changes.append(f"年号削除: {year}年")
+                return modified_text, changes
+
+        # 汎用: 残存年号を除去
+        year_generic = re.compile(r"((?:19|20)\d{2})年")
+        match_generic = year_generic.search(text[:first_period])
+        if match_generic:
+            year = match_generic.group(1)
+            modified_text = text[: match_generic.start()] + text[match_generic.end() :]
+            changes.append(f"年号削除(汎用): {year}年")
+            return modified_text, changes
 
         return text, changes
 

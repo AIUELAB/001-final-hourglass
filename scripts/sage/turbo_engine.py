@@ -185,27 +185,36 @@ class TurboEngine:
         # 通常ケース（200→180に緩和）
         return 180
 
-    def _evaluate_episode(self, text: str, person_id: str, category: str):
+    def _evaluate_episode(
+        self,
+        text: str,
+        person_id: str,
+        category: str,
+        person_name: str = "",
+        age: int = 0,
+    ):
         """
-        Phase 24: エピソードの品質評価
+        Phase 25: エピソードの品質評価（iconic_score計算追加）
 
         Args:
             text: エピソードテキスト
             person_id: 人物ID
             category: カテゴリ
+            person_name: 人物名（Phase 25: iconic_score用）
+            age: 年齢（Phase 25: iconic_score用）
 
         Returns:
             EvaluationResult: 評価結果
         """
         from .adapters.base import AxisScores, EvaluationResult
-        from .quality.evaluator import QualityEvaluator, CompositeScoreCalculator
+        from .quality.evaluator import QualityEvaluator, CompositeScoreCalculator, IconicScoreCalculator
         from .quality.super_total import SuperTotalCalculator
 
         # テキスト分析
         evaluator = QualityEvaluator()
         text_quality = evaluator.evaluate_text_quality(text)
 
-        # 具体性スコアから8軸を推定
+        # 具体性スコアから7軸を推定
         specificity = text_quality.get("specificity_score", 0)
         has_year = text_quality.get("has_year", False)
         has_proper_nouns = text_quality.get("has_proper_nouns", False)
@@ -224,6 +233,10 @@ class TurboEngine:
         fd_score = min(base_score + specificity_bonus, 9.5)
         gq_score = min(base_score + 0.5 + specificity_bonus * 0.5, 9.5)
 
+        # Phase 25: iconic_score 計算（person_name + age でマスターデータ参照）
+        iconic_calc = IconicScoreCalculator()
+        iconic_score = iconic_calc.calculate(text, person_name, age)
+
         axis_scores = AxisScores(
             memorability=min(7.0 + specificity_bonus * 0.3, 9.0),
             empathy=7.0,
@@ -232,7 +245,7 @@ class TurboEngine:
             educational_value=7.0,
             story_quality=7.5,
             factual_density=fd_score,
-            iconic_score=0.0,  # 象徴性は別途計算
+            iconic_score=iconic_score,  # Phase 25: 動的計算
         )
 
         # composite score
@@ -265,7 +278,7 @@ class TurboEngine:
         from .persistence.csv_writer import SafeCSVWriter
         from .gates.post_processor import apply_post_processing
 
-        logger.info(f"Phase 24: 後処理+品質評価+CSV書き込み ({len(accepted)}件)")
+        logger.info(f"Phase 25: 後処理+品質評価+iconic_score+CSV書き込み ({len(accepted)}件)")
 
         generation_results = []
         quality_rejected = 0
@@ -291,8 +304,14 @@ class TurboEngine:
                 post_processed_count += 1
                 logger.debug(f"後処理: {person_name}({age}歳) - {changes}")
 
-            # Step 2: 品質評価
-            evaluation = self._evaluate_episode(processed_text, person_id, category)
+            # Step 2: 品質評価（Phase 25: person_name, age 追加）
+            evaluation = self._evaluate_episode(
+                processed_text,
+                person_id,
+                category,
+                person_name=person_name,
+                age=age,
+            )
 
             # 品質ゲートチェック（super_total_score基準）
             if not evaluation.passed_gate:

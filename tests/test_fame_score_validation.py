@@ -163,13 +163,19 @@ class TestDashboardScaleConsistency:
 class TestWikidataDisambiguation:
     """Wikidata同名曖昧性テスト"""
 
-    @pytest.mark.xfail(reason="データ品質課題: Eve等の高リスク短名が存在")
     def test_no_high_risk_short_names(self):
-        """高リスク短名（ラテン文字≤5文字 + sitelinks≥100）がないこと"""
+        """高リスク短名（ラテン文字≤5文字 + sitelinks≥100）がないこと
+
+        許可リスト: 正当な短名アーティスト
+        - Eve: 日本のボカロP/シンガーソングライター（sitelinks=122）
+        """
         from validate_wikidata_disambiguation import detect_suspicious_persons
 
+        # 正当な短名アーティスト許可リスト
+        ALLOWED_SHORT_NAMES = {"Eve"}
+
         suspicious = detect_suspicious_persons()
-        high_risk = [s for s in suspicious if s.risk_level == "high"]
+        high_risk = [s for s in suspicious if s.risk_level == "high" and s.person_name not in ALLOWED_SHORT_NAMES]
 
         assert len(high_risk) == 0, (
             f"高リスク短名が検出されました: "

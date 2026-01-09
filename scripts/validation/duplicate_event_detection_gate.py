@@ -152,7 +152,7 @@ def has_past_reference_context(text: str) -> bool:
 def extract_events(
     text: str,
     skip_anniversary: bool = True,
-    skip_obituary: bool = True,
+    skip_obituary: bool = False,  # Phase 43で追加したが、ユーザー要望により無効化
     skip_retrospective: bool = True,
     skip_past_reference: bool = True,
 ) -> list[tuple[str, str]]:

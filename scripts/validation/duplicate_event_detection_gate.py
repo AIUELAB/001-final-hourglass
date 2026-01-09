@@ -27,11 +27,11 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 MASTER_CSV = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORT_PATH = PROJECT_ROOT / "src/reports/duplicate_event_gate_result.json"
 
-# デフォルト閾値（Phase 46: 同一EP内重複カウント修正後）
+# デフォルト閾値（Phase 47: 過去言及パターン除外後）
 DEFAULT_THRESHOLDS = {
-    "critical_max": 110,  # CRITICAL(10歳以上の差) - 現状107件
-    "high_max": 35,  # HIGH(5-9歳の差) - 現状29件
-    "total_max": 185,  # 合計 - 現状178件
+    "critical_max": 15,  # CRITICAL(10歳以上の差) - 現状11件
+    "high_max": 10,  # HIGH(5-9歳の差) - 現状4件
+    "total_max": 25,  # 合計 - 現状18件
 }
 
 # 記念年パターン（これらは重複カウントから除外）
@@ -66,6 +66,16 @@ RETROSPECTIVE_PATTERNS = [
     r"これまでの(?:歩み|人生|キャリア|活動)",
     r"長年の(?:功績|活動|貢献|経験)",
     r"(?:\d+|何十|数十)年間(?:の|を)",
+]
+
+# 過去言及パターン（過去の出来事を背景として言及）
+# 「1969年に受賞」「35歳でデビュー」など過去形での言及は除外
+PAST_REFERENCE_PATTERNS = [
+    r"\d{4}年に(?:.*?)(?:受賞|獲得|設立|創業|創設|デビュー)",
+    r"\d+歳(?:の時|のとき|で|の頃)(?:.*?)(?:受賞|獲得|設立|創業|創設|デビュー)",
+    r"かつて(?:.*?)(?:受賞|獲得|設立|創業|創設|デビュー)",
+    r"(?:以前|過去)に(?:.*?)(?:受賞|獲得|設立|創業|創設|デビュー)",
+    r"(?:若い頃|若き日)に(?:.*?)(?:受賞|獲得|設立|創業|創設|デビュー)",
 ]
 
 # 許容される重複パターン（背景言及として許容）
@@ -131,11 +141,20 @@ def has_retrospective_context(text: str) -> bool:
     return False
 
 
+def has_past_reference_context(text: str) -> bool:
+    """過去言及の文脈かどうかを判定"""
+    for pattern in PAST_REFERENCE_PATTERNS:
+        if re.search(pattern, text):
+            return True
+    return False
+
+
 def extract_events(
     text: str,
     skip_anniversary: bool = True,
     skip_obituary: bool = True,
     skip_retrospective: bool = True,
+    skip_past_reference: bool = True,
 ) -> list[tuple[str, str]]:
     """テキストからイベントを抽出
 
@@ -144,6 +163,7 @@ def extract_events(
         skip_anniversary: True の場合、記念年文脈のイベントをスキップ
         skip_obituary: True の場合、死亡・訃報文脈のイベントをスキップ
         skip_retrospective: True の場合、回顧・総括文脈のイベントをスキップ
+        skip_past_reference: True の場合、過去言及文脈のイベントをスキップ
 
     Returns:
         (event_type, event_detail) のリスト
@@ -158,6 +178,10 @@ def extract_events(
 
     # 回顧・総括文脈の場合は空リストを返す（晩年の振り返りのため重複許容）
     if skip_retrospective and has_retrospective_context(text):
+        return []
+
+    # 過去言及文脈の場合は空リストを返す（背景情報のため重複許容）
+    if skip_past_reference and has_past_reference_context(text):
         return []
 
     events = []

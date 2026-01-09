@@ -121,8 +121,11 @@ class StrategyRouter:
         return self._stats
 
     def reset_stats(self) -> None:
-        """統計をリセット"""
+        """統計をリセット（アダプター含む）"""
         self._stats = StrategyStats(strategy=self.strategy)
+        # Phase 18: アダプターの統計もリセット
+        self._epgen.reset_stats()
+        self._legacy.reset_stats()
 
     def route(self, candidate: Candidate) -> GenerationResult:
         """
@@ -154,6 +157,83 @@ class StrategyRouter:
                 )
         else:
             return self._epgen_first(candidate)
+
+    def route_without_eval(self, candidate: Candidate) -> GenerationResult:
+        """
+        戦略に応じて生成を実行（評価なし）
+
+        Phase 18: バッチ評価用に評価を分離。
+        生成のみ実行し、評価は後でbatch_evaluateで一括実行。
+
+        Args:
+            candidate: 生成候補
+
+        Returns:
+            GenerationResult: 生成結果（evaluationはNone）
+        """
+        self._stats.total_attempts += 1
+
+        # EPGEN_FIRST戦略のみ対応（主要パス）
+        if self.strategy == Strategy.EPGEN_FIRST:
+            return self._epgen_first_without_eval(candidate)
+        else:
+            # 他の戦略は従来通り（評価付き）
+            return self.route(candidate)
+
+    def _epgen_first_without_eval(self, candidate: Candidate) -> GenerationResult:
+        """
+        EPGEN優先戦略（評価なし）
+
+        Phase 18: 生成のみ実行。
+        """
+        self._stats.epgen_attempts += 1
+
+        # generate_onlyを使用（評価なし）
+        if hasattr(self._epgen, "generate_only"):
+            result = self._epgen.generate_only(candidate)
+        else:
+            # フォールバック: 従来のgenerate
+            result = self._epgen.generate(candidate)
+
+        if result.success:
+            self._stats.epgen_successes += 1
+            return result
+
+        # フォールバック（評価なしでは品質判定できないため、生成成功のみ確認）
+        self._stats.fallback_count += 1
+        self._stats.legacy_attempts += 1
+
+        if hasattr(self._legacy, "generate_only"):
+            fallback_result = self._legacy.generate_only(candidate)
+        else:
+            fallback_result = self._legacy.generate(candidate)
+
+        if fallback_result.success:
+            self._stats.legacy_successes += 1
+
+        return fallback_result
+
+    def batch_evaluate(self, results: list[GenerationResult], batch_size: int = 50) -> list[GenerationResult]:
+        """
+        複数の生成結果を一括評価
+
+        Phase 18: バッチ評価でLLM呼び出しを大幅削減。
+
+        Args:
+            results: 評価対象のGenerationResultリスト
+            batch_size: バッチサイズ
+
+        Returns:
+            list[GenerationResult]: 評価結果が追加されたリスト
+        """
+        if hasattr(self._epgen, "batch_evaluate"):
+            return self._epgen.batch_evaluate(results, batch_size=batch_size)
+        else:
+            # フォールバック: 個別評価
+            for r in results:
+                if r.success and r.episode_text and not r.evaluation:
+                    r.evaluation = self._epgen.evaluate(r.episode_text, r.candidate)
+            return results
 
     def _epgen_first(self, candidate: Candidate) -> GenerationResult:
         """

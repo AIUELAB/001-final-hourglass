@@ -182,6 +182,13 @@ class HybridOrchestrator:
         Returns:
             GenerationRun: 実行結果
         """
+        # Phase 18: 統計をリセット（累積問題を修正）
+        self._router.reset_stats()
+
+        # Phase 18: バッチ評価モードを使用
+        if self.config.use_batch_evaluation:
+            return self._run_batch_mode(candidates, dry_run)
+
         run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
         run = GenerationRun(
             run_id=run_id,
@@ -271,6 +278,375 @@ class HybridOrchestrator:
         run.completed_at = datetime.now().isoformat()
 
         # ログ保存
+        self._save_run_log(run)
+
+        return run
+
+    def _run_batch_mode(
+        self,
+        candidates: list[Candidate],
+        dry_run: bool = True,
+    ) -> GenerationRun:
+        """
+        バッチ評価モードで生成を実行
+
+        Phase 18: 生成と評価を分離してLLM呼び出しを削減。
+        1. N件を生成（評価なし）
+        2. N件を一括評価
+        3. 品質ゲート処理
+
+        Args:
+            candidates: 生成候補リスト
+            dry_run: True の場合は実際に書き込まない
+
+        Returns:
+            GenerationRun: 実行結果
+        """
+        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        run = GenerationRun(
+            run_id=run_id,
+            started_at=datetime.now().isoformat(),
+            strategy=self.config.strategy.value,
+            target_count=len(candidates),
+            dry_run=dry_run,
+        )
+
+        accepted_results = []
+        rejections = []
+        replacements = []
+
+        batch_size = self.config.batch_evaluation_size
+
+        # バッチ単位で処理
+        for batch_start in range(0, len(candidates), batch_size):
+            batch_candidates = candidates[batch_start : batch_start + batch_size]
+            batch_results = []
+            batch_metadata = []  # 各結果に紐づくメタデータ
+
+            # Phase 1: 生成（評価なし）
+            for candidate in batch_candidates:
+                try:
+                    # 生成前チェック
+                    pre_check = self._pre_rules.check_all(candidate)
+                    if not pre_check.passed:
+                        run.generated_count += 1
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": pre_check.reason.value if pre_check.reason else "pre_check",
+                                "message": pre_check.message,
+                            }
+                        )
+                        continue
+
+                    # 多様性クォータチェック
+                    quota_passed, quota_reason = self._diversity_manager.check_person_quota(candidate.person_id)
+                    if not quota_passed:
+                        run.generated_count += 1
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": RejectionReason.WEEKLY_LIMIT_EXCEEDED.value,
+                                "message": quota_reason,
+                            }
+                        )
+                        continue
+
+                    # 置換候補情報取得
+                    is_replacement_candidate = pre_check.details.get("is_replacement_candidate", False)
+                    existing_episode_id = pre_check.details.get("existing_episode_id")
+                    existing_score = pre_check.details.get("existing_score", 0.0)
+
+                    # 重複チェック（非置換モード時）
+                    if not is_replacement_candidate:
+                        pre_dup_check = self._duplicate_detector.check_exact_duplicate(
+                            candidate.person_id, candidate.age
+                        )
+                        if pre_dup_check.is_duplicate:
+                            run.generated_count += 1
+                            run.rejected_count += 1
+                            rejections.append(
+                                {
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "reason": RejectionReason.SAME_AGE_DUPLICATE.value,
+                                    "message": f"同一年齢エピソード既存: {pre_dup_check.most_similar_episode_id}",
+                                }
+                            )
+                            continue
+
+                    # 生成（評価なし）
+                    result = self._router.route_without_eval(candidate)
+
+                    if result.success:
+                        # 表層修正
+                        original_text = result.episode_text
+                        result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
+
+                        # 定型パターン修正
+                        result.episode_text, _ = apply_post_processing(
+                            result.episode_text,
+                            candidate.person_name,
+                            candidate.age,
+                            strict_mode=False,
+                        )
+
+                        batch_results.append(result)
+                        batch_metadata.append(
+                            {
+                                "candidate": candidate,
+                                "is_replacement_candidate": is_replacement_candidate,
+                                "existing_episode_id": existing_episode_id,
+                                "existing_score": existing_score,
+                            }
+                        )
+                        run.generated_count += 1
+                    else:
+                        run.generated_count += 1
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": RejectionReason.GENERATION_ERROR.value,
+                                "message": result.error_message,
+                            }
+                        )
+
+                except Exception as e:
+                    logger.error(f"Error generating {candidate.person_name}: {e}")
+                    run.rejected_count += 1
+                    rejections.append(
+                        {
+                            "person_id": candidate.person_id,
+                            "person_name": candidate.person_name,
+                            "age": candidate.age,
+                            "reason": RejectionReason.GENERATION_ERROR.value,
+                            "message": str(e),
+                        }
+                    )
+
+            # Phase 2: バッチ評価
+            if batch_results:
+                batch_results = self._router.batch_evaluate(batch_results, batch_size=self.config.evaluation_batch_size)
+
+            # Phase 3: 品質ゲートと後処理
+            for i, result in enumerate(batch_results):
+                if i >= len(batch_metadata):
+                    continue
+
+                meta = batch_metadata[i]
+                candidate = meta["candidate"]
+
+                try:
+                    # 禁止パターンチェック
+                    pattern_check = check_prohibited_patterns(result.episode_text)
+                    if not pattern_check.passed:
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
+                                "message": pattern_check.message,
+                            }
+                        )
+                        continue
+
+                    # 具体性チェック
+                    specificity_check = check_specificity(result.episode_text)
+                    if not specificity_check.passed:
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": specificity_check.reason.value if specificity_check.reason else "filler",
+                                "message": specificity_check.message,
+                            }
+                        )
+                        continue
+
+                    # ファクトチェック
+                    fact_result = self._fact_checker.check(result.episode_text, candidate.person_name)
+                    if not fact_result.passed:
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": fact_result.rejection_reason.value
+                                if fact_result.rejection_reason
+                                else "fact_check",
+                                "message": fact_result.reason,
+                            }
+                        )
+                        continue
+
+                    # 重複チェック
+                    dup_result = self._duplicate_detector.check_all(
+                        result.episode_text, candidate.person_id, candidate.age
+                    )
+                    if dup_result.is_duplicate:
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": dup_result.rejection_reason.value
+                                if dup_result.rejection_reason
+                                else "duplicate",
+                                "message": dup_result.reason,
+                            }
+                        )
+                        continue
+
+                    # 品質ゲートチェック
+                    if result.evaluation:
+                        gate_result = self._evaluator.check_quality_gates(
+                            result.evaluation.axis_scores,
+                            category=candidate.category,
+                            use_category=self.config.use_category_thresholds,
+                        )
+                        if not gate_result.passed:
+                            run.rejected_count += 1
+                            rejections.append(
+                                {
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "reason": gate_result.reason.value if gate_result.reason else "quality_gate",
+                                    "message": ", ".join(gate_result.failures),
+                                }
+                            )
+                            continue
+
+                        # 超総合スコア計算
+                        super_result = self._super_total.calculate(
+                            candidate.person_id,
+                            result.evaluation.axis_scores,
+                            self.master_df,
+                        )
+                        result.evaluation.super_total_score = super_result.score
+
+                        if not super_result.passed_gate:
+                            run.rejected_count += 1
+                            rejections.append(
+                                {
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "reason": RejectionReason.LOW_SUPER_TOTAL.value,
+                                    "message": ", ".join(super_result.gate_failures),
+                                }
+                            )
+                            continue
+
+                    # 生成履歴記録
+                    self._pre_rules.record_generation(candidate.person_id, success=True)
+                    self._diversity_manager.record_generation(candidate.person_id)
+
+                    # 置換モード処理
+                    is_replacement = False
+                    replacement_target = None
+
+                    if meta["is_replacement_candidate"] and result.evaluation:
+                        new_score = result.evaluation.super_total_score or 0
+                        improvement_threshold = meta["existing_score"] * 1.05
+                        if new_score >= improvement_threshold:
+                            is_replacement = True
+                            from .inventory_manager import ReplacementTarget
+
+                            replacement_target = ReplacementTarget(
+                                episode_id=meta["existing_episode_id"],
+                                person_id=candidate.person_id,
+                                person_name=candidate.person_name,
+                                age=candidate.age,
+                                score=meta["existing_score"],
+                            )
+                        else:
+                            run.rejected_count += 1
+                            rejections.append(
+                                {
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "reason": "insufficient_improvement",
+                                    "message": f"スコア改善不足: {new_score:.0f} < {improvement_threshold:.0f}",
+                                }
+                            )
+                            continue
+
+                    # 結果処理
+                    if is_replacement and replacement_target:
+                        replace_result = self._writer.replace_episode(
+                            old_episode_id=replacement_target.episode_id,
+                            new_result=result,
+                            dry_run=dry_run,
+                        )
+                        if replace_result.success:
+                            run.replaced_count += 1
+                            replacements.append(
+                                {
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "old_episode_id": replacement_target.episode_id,
+                                    "old_score": replacement_target.score,
+                                    "new_score": result.evaluation.super_total_score if result.evaluation else 0,
+                                }
+                            )
+                        else:
+                            run.rejected_count += 1
+                            rejections.append(
+                                {
+                                    "person_id": candidate.person_id,
+                                    "person_name": candidate.person_name,
+                                    "age": candidate.age,
+                                    "reason": "replacement_failed",
+                                    "message": replace_result.error_message,
+                                }
+                            )
+                    else:
+                        accepted_results.append(result)
+                        run.accepted_count += 1
+
+                except Exception as e:
+                    logger.error(f"Error processing {candidate.person_name}: {e}")
+                    run.rejected_count += 1
+                    rejections.append(
+                        {
+                            "person_id": candidate.person_id,
+                            "person_name": candidate.person_name,
+                            "age": candidate.age,
+                            "reason": RejectionReason.GENERATION_ERROR.value,
+                            "message": str(e),
+                        }
+                    )
+
+        # 永続化
+        if accepted_results:
+            if dry_run:
+                run.write_result = self._writer.dry_run(accepted_results)
+            else:
+                run.write_result = self._writer.write(accepted_results)
+
+        run.results = accepted_results
+        run.rejections = rejections
+        run.replacements = replacements
+        run.completed_at = datetime.now().isoformat()
+
         self._save_run_log(run)
 
         return run

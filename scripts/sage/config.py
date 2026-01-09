@@ -250,6 +250,10 @@ class HybridConfig:
     # Phase 13: カテゴリ別閾値
     use_category_thresholds: bool = True  # True: カテゴリ別閾値有効（採用率+5-10pt）
 
+    # Phase 18: バッチ評価モード（コスト-60%）
+    use_batch_evaluation: bool = True  # True: 生成後に一括評価（LLM呼び出し大幅削減）
+    batch_evaluation_size: int = 20  # バッチ評価の単位（生成→評価のサイクル）
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

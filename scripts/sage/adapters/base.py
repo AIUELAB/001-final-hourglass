@@ -26,6 +26,9 @@ class TokenUsage:
     input_tokens: int = 0
     output_tokens: int = 0
     model: str = "claude-sonnet-4-20250514"
+    # Phase 19: キャッシュ統計
+    cache_read_input_tokens: int = 0
+    cache_creation_input_tokens: int = 0
 
     @property
     def total_tokens(self) -> int:
@@ -33,17 +36,38 @@ class TokenUsage:
 
     @property
     def estimated_cost_usd(self) -> float:
-        """推定コスト（USD）"""
+        """
+        推定コスト（USD）
+
+        Phase 19: キャッシュ対応コスト計算
+        - 通常入力: 標準料金
+        - キャッシュ読み取り: 90%割引（0.1倍）
+        - キャッシュ作成: 25%追加（1.25倍）
+        """
         pricing = PRICING.get(self.model, PRICING["claude-sonnet-4-20250514"])
-        input_cost = (self.input_tokens / 1_000_000) * pricing["input"]
+
+        # 通常入力トークン（キャッシュ対象外）
+        normal_input = self.input_tokens - self.cache_read_input_tokens
+        input_cost = (normal_input / 1_000_000) * pricing["input"]
+
+        # キャッシュ読み取りトークン（90%割引）
+        cache_read_cost = (self.cache_read_input_tokens / 1_000_000) * pricing["input"] * 0.1
+
+        # キャッシュ作成トークン（25%追加）
+        cache_create_cost = (self.cache_creation_input_tokens / 1_000_000) * pricing["input"] * 1.25
+
+        # 出力トークン
         output_cost = (self.output_tokens / 1_000_000) * pricing["output"]
-        return input_cost + output_cost
+
+        return input_cost + cache_read_cost + cache_create_cost + output_cost
 
     def __add__(self, other: "TokenUsage") -> "TokenUsage":
         return TokenUsage(
             input_tokens=self.input_tokens + other.input_tokens,
             output_tokens=self.output_tokens + other.output_tokens,
             model=self.model,
+            cache_read_input_tokens=self.cache_read_input_tokens + other.cache_read_input_tokens,
+            cache_creation_input_tokens=self.cache_creation_input_tokens + other.cache_creation_input_tokens,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -53,6 +77,9 @@ class TokenUsage:
             "total_tokens": self.total_tokens,
             "model": self.model,
             "estimated_cost_usd": round(self.estimated_cost_usd, 6),
+            # Phase 19: キャッシュ統計
+            "cache_read_input_tokens": self.cache_read_input_tokens,
+            "cache_creation_input_tokens": self.cache_creation_input_tokens,
         }
 
     @classmethod
@@ -84,6 +111,23 @@ class TokenUsage:
             input_tokens=input_tokens,
             output_tokens=output_tokens,
             model=model,
+        )
+
+    @classmethod
+    def from_api_response(
+        cls,
+        usage: dict[str, int],
+        model: str = "claude-sonnet-4-20250514",
+    ) -> "TokenUsage":
+        """
+        Phase 19: API応答からTokenUsageを生成（キャッシュ対応）
+        """
+        return cls(
+            input_tokens=usage.get("input_tokens", 0),
+            output_tokens=usage.get("output_tokens", 0),
+            model=model,
+            cache_read_input_tokens=usage.get("cache_read_input_tokens", 0),
+            cache_creation_input_tokens=usage.get("cache_creation_input_tokens", 0),
         )
 
 

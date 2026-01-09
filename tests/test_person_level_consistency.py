@@ -89,7 +89,6 @@ class TestPersonLevelConsistency:
 class TestEinsteinEpisodeRanking:
     """アインシュタインのエピソード順位テスト（回帰テスト）"""
 
-    @pytest.mark.xfail(reason="データ品質課題: 50歳エピソードが26歳奇跡の年より高スコア（要調査）")
     def test_einstein_miracle_year_is_top_ranked(self, person_episodes):
         """アインシュタインの奇跡の年(26歳)が最上位であること"""
         einstein_id = "P93F1DB1"

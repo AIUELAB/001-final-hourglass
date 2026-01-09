@@ -40,8 +40,13 @@ logger = logging.getLogger(__name__)
 
 def cmd_submit(args):
     """バッチジョブを送信"""
+    # Phase 21統合: --sonnet指定時はHaiku無効
+    use_haiku = not getattr(args, "sonnet", False)
+    model_name = "Haiku" if use_haiku else "Sonnet"
+
     logger.info("=== SAGE Turbo Batch Submit ===")
     logger.info(f"件数: {args.count}")
+    logger.info(f"モデル: {model_name} (Phase 21統合)")
     logger.info(f"dry-run: {args.dry_run}")
 
     config = TurboConfig(
@@ -50,7 +55,7 @@ def cmd_submit(args):
     )
 
     engine = TurboEngine(config)
-    batch_id = engine.submit_batch_job(count=args.count)
+    batch_id = engine.submit_batch_job(count=args.count, use_haiku=use_haiku)
 
     if batch_id:
         logger.info("")
@@ -157,6 +162,15 @@ def main():
     submit_parser.add_argument("--dry-run", action="store_true", default=True, help="ドライラン (default: True)")
     submit_parser.add_argument("--no-dry-run", action="store_false", dest="dry_run", help="実際にCSVに書き込む")
     submit_parser.add_argument("--mock", action="store_true", help="モックモード（API不使用）")
+    submit_parser.add_argument(
+        "--haiku",
+        action="store_true",
+        default=True,
+        help="Haikuモデル使用（Phase 21統合、デフォルト有効）",
+    )
+    submit_parser.add_argument(
+        "--sonnet", action="store_true", help="Sonnetモデル使用（Haikuより高品質だが高コスト）"
+    )
 
     # status
     status_parser = subparsers.add_parser("status", help="ステータス確認")

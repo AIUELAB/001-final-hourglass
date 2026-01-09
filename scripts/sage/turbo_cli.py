@@ -129,9 +129,16 @@ def cmd_retrieve(args):
     )
 
     engine = TurboEngine(config)
+
+    # Phase 23: --write オプションで本番書き込み
+    write_to_csv = getattr(args, "write", False)
+    if write_to_csv:
+        logger.info("⚠️  本番書き込みモード: マスターCSVに追記します")
+
     result = engine.retrieve_batch_results(
         args.batch_id,
         wait=args.wait,
+        write_to_csv=write_to_csv,
     )
 
     if result:
@@ -140,6 +147,8 @@ def cmd_retrieve(args):
         logger.info(f"  accepted: {result.accepted_count}")
         logger.info(f"  rejected: {result.rejected_count}")
         logger.info(f"  dry_run: {result.dry_run}")
+        if write_to_csv:
+            logger.info("  write_to_csv: True (マスターCSVに書き込み済み)")
         logger.info("")
         logger.info(f"詳細は src/reports/logs/batch_jobs/{args.batch_id}_processed.json を参照")
     else:
@@ -168,9 +177,7 @@ def main():
         default=True,
         help="Haikuモデル使用（Phase 21統合、デフォルト有効）",
     )
-    submit_parser.add_argument(
-        "--sonnet", action="store_true", help="Sonnetモデル使用（Haikuより高品質だが高コスト）"
-    )
+    submit_parser.add_argument("--sonnet", action="store_true", help="Sonnetモデル使用（Haikuより高品質だが高コスト）")
 
     # status
     status_parser = subparsers.add_parser("status", help="ステータス確認")
@@ -185,6 +192,7 @@ def main():
     retrieve_parser.add_argument("--wait", action="store_true", help="完了まで待機")
     retrieve_parser.add_argument("--dry-run", action="store_true", default=True, help="ドライラン (default: True)")
     retrieve_parser.add_argument("--no-dry-run", action="store_false", dest="dry_run", help="実際にCSVに書き込む")
+    retrieve_parser.add_argument("--write", action="store_true", help="Phase 23: マスターCSVに書き込み（本番モード）")
 
     args = parser.parse_args()
 

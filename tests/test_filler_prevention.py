@@ -119,7 +119,6 @@ class TestCurrentDatabase:
             reader = csv.DictReader(f)
             return list(reader)
 
-    @pytest.mark.xfail(reason="データ品質課題: 埋め草エピソード34件が存在（継続改善中）")
     def test_no_filler_in_database(self, episodes):
         """DBに埋め草エピソードがないこと"""
         fillers = []

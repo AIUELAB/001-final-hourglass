@@ -185,6 +185,65 @@ class TurboEngine:
         # 通常ケース（200→180に緩和）
         return 180
 
+    def _write_accepted_episodes(self, accepted: list[dict], batch_id: str) -> tuple[int, int]:
+        """
+        Phase 23: 採用エピソードをマスターCSVに書き込み
+
+        Args:
+            accepted: 採用エピソードのリスト（dict形式）
+            batch_id: バッチID
+
+        Returns:
+            tuple: (書き込み成功数, スキップ数)
+        """
+        from .adapters import Candidate, GenerationResult
+        from .persistence.csv_writer import SafeCSVWriter
+
+        logger.info(f"Phase 23: マスターCSV書き込み開始 ({len(accepted)}件)")
+
+        # dictからGenerationResultに変換
+        generation_results = []
+        for ep in accepted:
+            # custom_idからperson_idを抽出（形式: {person_id}_{age}）
+            custom_id = ep.get("custom_id", "")
+            parts = custom_id.rsplit("_", 1)
+            person_id = parts[0] if len(parts) >= 1 else custom_id
+
+            # Candidateオブジェクト作成
+            candidate = Candidate(
+                person_id=person_id,
+                person_name=ep.get("person_name", ""),
+                age=ep.get("age", 0),
+                category=ep.get("category", ""),
+                person_type="REAL",  # デフォルト
+            )
+
+            # GenerationResultオブジェクト作成
+            result = GenerationResult(
+                success=True,
+                candidate=candidate,
+                episode_text=ep.get("text", ""),
+                episode_type="生成",
+                char_count=len(ep.get("text", "")),
+                generator_type="batch_api_haiku",
+            )
+            generation_results.append(result)
+
+        # SafeCSVWriterで書き込み
+        writer = SafeCSVWriter()
+        write_result = writer.write(generation_results)
+
+        if write_result.success:
+            logger.info(f"✓ 書き込み成功: {write_result.added_count}件追加, {write_result.skipped_count}件スキップ")
+            if write_result.backup_path:
+                logger.info(f"  バックアップ: {write_result.backup_path}")
+            if write_result.diff_log_path:
+                logger.info(f"  差分ログ: {write_result.diff_log_path}")
+        else:
+            logger.error(f"✗ 書き込みエラー: {write_result.error_message}")
+
+        return (write_result.added_count or 0, write_result.skipped_count or 0)
+
     def _setup_signal_handlers(self) -> None:
         """シグナルハンドラを設定"""
 
@@ -701,13 +760,16 @@ class TurboEngine:
             "canceled_count": job.canceled_count,
         }
 
-    def retrieve_batch_results(self, batch_id: str, wait: bool = True) -> Optional[GenerationRun]:
+    def retrieve_batch_results(
+        self, batch_id: str, wait: bool = True, write_to_csv: bool = False
+    ) -> Optional[GenerationRun]:
         """
         Batch API結果を取得して処理
 
         Args:
             batch_id: バッチID
             wait: 完了を待機するか（最大24時間）
+            write_to_csv: True=マスターCSVに書き込み（Phase 23）
 
         Returns:
             GenerationRun: 生成結果（orchestratorと互換）
@@ -855,6 +917,12 @@ class TurboEngine:
 
         logger.info(f"処理結果を保存: {result_path}")
         logger.info(f"コスト: ${batch_cost:.4f} (50%割引適用)")
+
+        # Phase 23: マスターCSV書き込み
+        added_count = 0
+        skipped_count = 0
+        if write_to_csv and accepted:
+            added_count, skipped_count = self._write_accepted_episodes(accepted, batch_id)
 
         # GenerationRun互換形式で返す
         return GenerationRun(

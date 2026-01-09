@@ -1,8 +1,8 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "象徴的業績マスターデータ - 重要人物の必須エピソード定義（Phase 4拡充版）",
   "created_at": "2026-01-06",
-  "updated_at": "2026-01-08",
+  "updated_at": "2026-01-10",
   "persons": {
     "大谷翔平": {
       "person_id": "P5C4FB25",
@@ -12,7 +12,11 @@
           "achievement": "WBC 2023 優勝・大会MVP",
           "age": 28,
           "year": 2023,
-          "keywords": ["WBC", "ワールド・ベースボール・クラシック", "トラウト"],
+          "keywords": [
+            "WBC",
+            "ワールド・ベースボール・クラシック",
+            "トラウト"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -20,7 +24,11 @@
           "achievement": "MLB MVP 1回目（満票）",
           "age": 27,
           "year": 2021,
-          "keywords": ["MVP", "満票", "二刀流"],
+          "keywords": [
+            "MVP",
+            "満票",
+            "二刀流"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -28,7 +36,12 @@
           "achievement": "MLB MVP 2回目",
           "age": 29,
           "year": 2023,
-          "keywords": ["MVP", "2年連続", "規定投球回", "規定打席"],
+          "keywords": [
+            "MVP",
+            "2年連続",
+            "規定投球回",
+            "規定打席"
+          ],
           "importance": 10.0,
           "priority": 3
         },
@@ -36,7 +49,11 @@
           "achievement": "ワールドシリーズ制覇",
           "age": 30,
           "year": 2024,
-          "keywords": ["ワールドシリーズ", "ドジャース", "本塁打王"],
+          "keywords": [
+            "ワールドシリーズ",
+            "ドジャース",
+            "本塁打王"
+          ],
           "importance": 9.5,
           "priority": 4
         },
@@ -44,7 +61,11 @@
           "achievement": "MLB新人王",
           "age": 23,
           "year": 2018,
-          "keywords": ["新人王", "エンゼルス", "二刀流"],
+          "keywords": [
+            "新人王",
+            "エンゼルス",
+            "二刀流"
+          ],
           "importance": 9.0,
           "priority": 5
         }
@@ -58,7 +79,11 @@
           "achievement": "MLB年間最多安打記録（262本）",
           "age": 30,
           "year": 2004,
-          "keywords": ["262", "最多安打", "シーズン記録"],
+          "keywords": [
+            "262",
+            "最多安打",
+            "シーズン記録"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -66,7 +91,10 @@
           "achievement": "MLB通算3000本安打",
           "age": 42,
           "year": 2016,
-          "keywords": ["3000本", "通算"],
+          "keywords": [
+            "3000本",
+            "通算"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -74,7 +102,11 @@
           "achievement": "MLB新人王・MVP同時受賞",
           "age": 27,
           "year": 2001,
-          "keywords": ["新人王", "MVP", "シアトル"],
+          "keywords": [
+            "新人王",
+            "MVP",
+            "シアトル"
+          ],
           "importance": 10.0,
           "priority": 3
         },
@@ -82,7 +114,11 @@
           "achievement": "WBC 2006/2009 連覇・MVP",
           "age": 32,
           "year": 2006,
-          "keywords": ["WBC", "決勝打", "連覇"],
+          "keywords": [
+            "WBC",
+            "決勝打",
+            "連覇"
+          ],
           "importance": 9.5,
           "priority": 4
         }
@@ -96,7 +132,12 @@
           "achievement": "奇跡の年・特殊相対性理論・E=mc²",
           "age": 26,
           "year": 1905,
-          "keywords": ["奇跡の年", "E=mc²", "特殊相対性理論", "光量子仮説"],
+          "keywords": [
+            "奇跡の年",
+            "E=mc²",
+            "特殊相対性理論",
+            "光量子仮説"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -104,7 +145,10 @@
           "achievement": "ノーベル物理学賞受賞",
           "age": 42,
           "year": 1921,
-          "keywords": ["ノーベル賞", "光電効果"],
+          "keywords": [
+            "ノーベル賞",
+            "光電効果"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -112,7 +156,10 @@
           "achievement": "一般相対性理論完成",
           "age": 36,
           "year": 1915,
-          "keywords": ["一般相対性理論", "重力"],
+          "keywords": [
+            "一般相対性理論",
+            "重力"
+          ],
           "importance": 10.0,
           "priority": 3
         }
@@ -126,7 +173,12 @@
           "achievement": "Apple創業",
           "age": 21,
           "year": 1976,
-          "keywords": ["Apple", "創業", "ウォズニアック", "ガレージ"],
+          "keywords": [
+            "Apple",
+            "創業",
+            "ウォズニアック",
+            "ガレージ"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -134,7 +186,11 @@
           "achievement": "iPhone発表",
           "age": 52,
           "year": 2007,
-          "keywords": ["iPhone", "スマートフォン", "革命"],
+          "keywords": [
+            "iPhone",
+            "スマートフォン",
+            "革命"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -142,7 +198,11 @@
           "achievement": "Apple追放と復帰",
           "age": 30,
           "year": 1985,
-          "keywords": ["追放", "NeXT", "Pixar"],
+          "keywords": [
+            "追放",
+            "NeXT",
+            "Pixar"
+          ],
           "importance": 9.5,
           "priority": 3
         },
@@ -150,7 +210,11 @@
           "achievement": "iPod発表",
           "age": 46,
           "year": 2001,
-          "keywords": ["iPod", "1000曲", "音楽"],
+          "keywords": [
+            "iPod",
+            "1000曲",
+            "音楽"
+          ],
           "importance": 9.0,
           "priority": 4
         }
@@ -164,7 +228,11 @@
           "achievement": "ソチ五輪金メダル",
           "age": 19,
           "year": 2014,
-          "keywords": ["ソチ", "金メダル", "オリンピック"],
+          "keywords": [
+            "ソチ",
+            "金メダル",
+            "オリンピック"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -172,7 +240,11 @@
           "achievement": "平昌五輪金メダル（連覇）",
           "age": 23,
           "year": 2018,
-          "keywords": ["平昌", "連覇", "66年ぶり"],
+          "keywords": [
+            "平昌",
+            "連覇",
+            "66年ぶり"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -180,7 +252,11 @@
           "achievement": "4回転アクセル成功",
           "age": 27,
           "year": 2022,
-          "keywords": ["4回転アクセル", "クワッドアクセル", "史上初"],
+          "keywords": [
+            "4回転アクセル",
+            "クワッドアクセル",
+            "史上初"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -194,7 +270,11 @@
           "achievement": "最年少プロ棋士・29連勝",
           "age": 14,
           "year": 2017,
-          "keywords": ["最年少", "29連勝", "プロ入り"],
+          "keywords": [
+            "最年少",
+            "29連勝",
+            "プロ入り"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -202,7 +282,11 @@
           "achievement": "八冠達成",
           "age": 21,
           "year": 2023,
-          "keywords": ["八冠", "全冠制覇", "史上初"],
+          "keywords": [
+            "八冠",
+            "全冠制覇",
+            "史上初"
+          ],
           "importance": 10.0,
           "priority": 2
         }
@@ -216,7 +300,11 @@
           "achievement": "千と千尋の神隠し・アカデミー賞",
           "age": 62,
           "year": 2003,
-          "keywords": ["千と千尋", "アカデミー賞", "オスカー"],
+          "keywords": [
+            "千と千尋",
+            "アカデミー賞",
+            "オスカー"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -224,7 +312,11 @@
           "achievement": "スタジオジブリ設立",
           "age": 44,
           "year": 1985,
-          "keywords": ["ジブリ", "設立", "高畑勲"],
+          "keywords": [
+            "ジブリ",
+            "設立",
+            "高畑勲"
+          ],
           "importance": 9.5,
           "priority": 2
         },
@@ -232,7 +324,11 @@
           "achievement": "風の谷のナウシカ",
           "age": 43,
           "year": 1984,
-          "keywords": ["ナウシカ", "環境", "代表作"],
+          "keywords": [
+            "ナウシカ",
+            "環境",
+            "代表作"
+          ],
           "importance": 9.0,
           "priority": 3
         }
@@ -246,7 +342,12 @@
           "achievement": "「水」を理解した瞬間",
           "age": 6,
           "year": 1887,
-          "keywords": ["水", "サリヴァン", "井戸", "W-A-T-E-R"],
+          "keywords": [
+            "水",
+            "サリヴァン",
+            "井戸",
+            "W-A-T-E-R"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -254,7 +355,11 @@
           "achievement": "ラドクリフ大学卒業",
           "age": 24,
           "year": 1904,
-          "keywords": ["大学", "卒業", "盲ろう者初"],
+          "keywords": [
+            "大学",
+            "卒業",
+            "盲ろう者初"
+          ],
           "importance": 9.5,
           "priority": 2
         },
@@ -262,7 +367,11 @@
           "achievement": "社会活動家としての講演活動",
           "age": 30,
           "year": 1910,
-          "keywords": ["講演", "障害者権利", "社会活動"],
+          "keywords": [
+            "講演",
+            "障害者権利",
+            "社会活動"
+          ],
           "importance": 9.0,
           "priority": 3
         }
@@ -276,7 +385,12 @@
           "achievement": "耳切り事件",
           "age": 35,
           "year": 1888,
-          "keywords": ["耳", "アルル", "ゴーギャン", "自傷"],
+          "keywords": [
+            "耳",
+            "アルル",
+            "ゴーギャン",
+            "自傷"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -284,7 +398,11 @@
           "achievement": "星月夜の制作",
           "age": 36,
           "year": 1889,
-          "keywords": ["星月夜", "サン=レミ", "傑作"],
+          "keywords": [
+            "星月夜",
+            "サン=レミ",
+            "傑作"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -292,7 +410,11 @@
           "achievement": "ひまわり連作",
           "age": 35,
           "year": 1888,
-          "keywords": ["ひまわり", "黄色", "アルル"],
+          "keywords": [
+            "ひまわり",
+            "黄色",
+            "アルル"
+          ],
           "importance": 9.5,
           "priority": 3
         },
@@ -300,7 +422,12 @@
           "achievement": "死後の評価と嫂ヨハンナの貢献",
           "age": 37,
           "year": 1890,
-          "keywords": ["死後", "再評価", "ヨハンナ", "テオ"],
+          "keywords": [
+            "死後",
+            "再評価",
+            "ヨハンナ",
+            "テオ"
+          ],
           "importance": 9.0,
           "priority": 4
         }
@@ -314,7 +441,11 @@
           "achievement": "モナ・リザ制作",
           "age": 51,
           "year": 1503,
-          "keywords": ["モナ・リザ", "ラ・ジョコンダ", "謎の微笑"],
+          "keywords": [
+            "モナ・リザ",
+            "ラ・ジョコンダ",
+            "謎の微笑"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -322,7 +453,11 @@
           "achievement": "最後の晩餐完成",
           "age": 46,
           "year": 1498,
-          "keywords": ["最後の晩餐", "サンタ・マリア・デッレ・グラツィエ", "壁画"],
+          "keywords": [
+            "最後の晩餐",
+            "サンタ・マリア・デッレ・グラツィエ",
+            "壁画"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -330,7 +465,11 @@
           "achievement": "ヴィトルヴィウス的人体図",
           "age": 38,
           "year": 1490,
-          "keywords": ["人体図", "比例", "解剖学"],
+          "keywords": [
+            "人体図",
+            "比例",
+            "解剖学"
+          ],
           "importance": 9.5,
           "priority": 3
         },
@@ -338,7 +477,11 @@
           "achievement": "飛行機械の設計図",
           "age": 48,
           "year": 1500,
-          "keywords": ["飛行機械", "オーニソプター", "発明"],
+          "keywords": [
+            "飛行機械",
+            "オーニソプター",
+            "発明"
+          ],
           "importance": 9.0,
           "priority": 4
         }
@@ -352,33 +495,74 @@
           "achievement": "薩長同盟の仲介",
           "age": 30,
           "year": 1866,
-          "keywords": ["薩長同盟", "西郷隆盛", "木戸孝允", "仲介"],
+          "keywords": [
+            "薩長同盟",
+            "西郷隆盛",
+            "木戸孝允",
+            "仲介",
+            "神戸海軍操練所",
+            "勝海舟",
+            "亀山社中"
+          ],
           "importance": 10.0,
-          "priority": 1
+          "priority": 1,
+          "alternative_achievements": [
+            "神戸海軍操練所塾頭としての活動"
+          ]
         },
         {
           "achievement": "海援隊設立",
           "age": 31,
           "year": 1867,
-          "keywords": ["海援隊", "貿易", "株式会社"],
+          "keywords": [
+            "海援隊",
+            "貿易",
+            "株式会社",
+            "近江屋",
+            "暗殺",
+            "中岡慎太郎"
+          ],
           "importance": 9.5,
-          "priority": 2
+          "priority": 2,
+          "alternative_achievements": [
+            "近江屋事件（暗殺）"
+          ]
         },
         {
           "achievement": "船中八策の起草",
           "age": 31,
           "year": 1867,
-          "keywords": ["船中八策", "大政奉還", "新政府"],
+          "keywords": [
+            "船中八策",
+            "大政奉還",
+            "新政府",
+            "近江屋",
+            "暗殺",
+            "中岡慎太郎"
+          ],
           "importance": 9.5,
-          "priority": 3
+          "priority": 3,
+          "alternative_achievements": [
+            "近江屋事件（暗殺）"
+          ]
         },
         {
           "achievement": "近江屋での暗殺",
           "age": 31,
           "year": 1867,
-          "keywords": ["近江屋", "暗殺", "中岡慎太郎"],
+          "keywords": [
+            "近江屋",
+            "暗殺",
+            "中岡慎太郎",
+            "近江屋",
+            "暗殺",
+            "中岡慎太郎"
+          ],
           "importance": 9.0,
-          "priority": 4
+          "priority": 4,
+          "alternative_achievements": [
+            "近江屋事件（暗殺）"
+          ]
         }
       ]
     },
@@ -390,7 +574,11 @@
           "achievement": "世界ヘビー級王座初獲得",
           "age": 22,
           "year": 1964,
-          "keywords": ["ソニー・リストン", "世界王座", "クレイ"],
+          "keywords": [
+            "ソニー・リストン",
+            "世界王座",
+            "クレイ"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -398,7 +586,11 @@
           "achievement": "キンシャサの奇跡",
           "age": 32,
           "year": 1974,
-          "keywords": ["キンシャサ", "フォアマン", "ロープ・ア・ドープ"],
+          "keywords": [
+            "キンシャサ",
+            "フォアマン",
+            "ロープ・ア・ドープ"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -406,7 +598,11 @@
           "achievement": "徴兵拒否と王座剥奪",
           "age": 25,
           "year": 1967,
-          "keywords": ["徴兵拒否", "ベトナム戦争", "良心的兵役拒否"],
+          "keywords": [
+            "徴兵拒否",
+            "ベトナム戦争",
+            "良心的兵役拒否"
+          ],
           "importance": 9.5,
           "priority": 3
         },
@@ -414,7 +610,11 @@
           "achievement": "スリラー・イン・マニラ",
           "age": 33,
           "year": 1975,
-          "keywords": ["フレイジャー", "マニラ", "名勝負"],
+          "keywords": [
+            "フレイジャー",
+            "マニラ",
+            "名勝負"
+          ],
           "importance": 9.0,
           "priority": 4
         }
@@ -428,7 +628,11 @@
           "achievement": "全米オープン初優勝",
           "age": 17,
           "year": 1999,
-          "keywords": ["全米オープン", "グランドスラム", "初優勝"],
+          "keywords": [
+            "全米オープン",
+            "グランドスラム",
+            "初優勝"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -436,7 +640,11 @@
           "achievement": "キャリアグランドスラム達成",
           "age": 21,
           "year": 2003,
-          "keywords": ["キャリアグランドスラム", "4大大会", "制覇"],
+          "keywords": [
+            "キャリアグランドスラム",
+            "4大大会",
+            "制覇"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -444,7 +652,11 @@
           "achievement": "グランドスラム23勝達成",
           "age": 35,
           "year": 2017,
-          "keywords": ["23勝", "オープン化以降最多", "全豪"],
+          "keywords": [
+            "23勝",
+            "オープン化以降最多",
+            "全豪"
+          ],
           "importance": 9.5,
           "priority": 3
         },
@@ -452,7 +664,11 @@
           "achievement": "出産後の復帰",
           "age": 36,
           "year": 2018,
-          "keywords": ["出産", "復帰", "決勝進出"],
+          "keywords": [
+            "出産",
+            "復帰",
+            "決勝進出"
+          ],
           "importance": 9.0,
           "priority": 4
         }
@@ -466,7 +682,11 @@
           "achievement": "新大陸到達",
           "age": 41,
           "year": 1492,
-          "keywords": ["新大陸", "サン・サルバドル", "発見"],
+          "keywords": [
+            "新大陸",
+            "サン・サルバドル",
+            "発見"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -474,15 +694,26 @@
           "achievement": "スペイン女王からの支援獲得",
           "age": 41,
           "year": 1492,
-          "keywords": ["イサベル女王", "支援", "サンタフェ協定"],
+          "keywords": [
+            "イサベル女王",
+            "支援",
+            "サンタフェ協定",
+            "スペイン王室",
+            "パロス港"
+          ],
           "importance": 9.5,
-          "priority": 2
+          "priority": 2,
+          "note": "新大陸到達エピソードに含む場合も可"
         },
         {
           "achievement": "4度の航海",
           "age": 51,
           "year": 1502,
-          "keywords": ["4度目", "航海", "中米"],
+          "keywords": [
+            "4度目",
+            "航海",
+            "中米"
+          ],
           "importance": 9.0,
           "priority": 3
         }
@@ -496,7 +727,11 @@
           "achievement": "南極点初到達",
           "age": 39,
           "year": 1911,
-          "keywords": ["南極点", "初到達", "スコット"],
+          "keywords": [
+            "南極点",
+            "初到達",
+            "スコット"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -504,7 +739,11 @@
           "achievement": "北西航路初横断",
           "age": 33,
           "year": 1905,
-          "keywords": ["北西航路", "ヨア号", "横断"],
+          "keywords": [
+            "北西航路",
+            "ヨア号",
+            "横断"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -512,7 +751,11 @@
           "achievement": "北極点飛行横断",
           "age": 54,
           "year": 1926,
-          "keywords": ["北極点", "飛行船", "ノルゲ号"],
+          "keywords": [
+            "北極点",
+            "飛行船",
+            "ノルゲ号"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -526,7 +769,11 @@
           "achievement": "ラジウム発見",
           "age": 31,
           "year": 1898,
-          "keywords": ["ラジウム", "ポロニウム", "放射能"],
+          "keywords": [
+            "ラジウム",
+            "ポロニウム",
+            "放射能"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -534,7 +781,11 @@
           "achievement": "ノーベル物理学賞受賞",
           "age": 36,
           "year": 1903,
-          "keywords": ["ノーベル賞", "女性初", "物理学"],
+          "keywords": [
+            "ノーベル賞",
+            "女性初",
+            "物理学"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -542,7 +793,11 @@
           "achievement": "ノーベル化学賞受賞",
           "age": 44,
           "year": 1911,
-          "keywords": ["ノーベル賞", "2度目", "化学"],
+          "keywords": [
+            "ノーベル賞",
+            "2度目",
+            "化学"
+          ],
           "importance": 10.0,
           "priority": 3
         }
@@ -556,7 +811,11 @@
           "achievement": "27年間の投獄から釈放",
           "age": 71,
           "year": 1990,
-          "keywords": ["釈放", "27年", "ロベン島"],
+          "keywords": [
+            "釈放",
+            "27年",
+            "ロベン島"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -564,7 +823,11 @@
           "achievement": "南アフリカ初の黒人大統領就任",
           "age": 76,
           "year": 1994,
-          "keywords": ["大統領", "黒人初", "選挙"],
+          "keywords": [
+            "大統領",
+            "黒人初",
+            "選挙"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -572,7 +835,11 @@
           "achievement": "ノーベル平和賞受賞",
           "age": 75,
           "year": 1993,
-          "keywords": ["ノーベル平和賞", "デクラーク", "和解"],
+          "keywords": [
+            "ノーベル平和賞",
+            "デクラーク",
+            "和解"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -586,7 +853,11 @@
           "achievement": "塩の行進",
           "age": 60,
           "year": 1930,
-          "keywords": ["塩の行進", "非暴力", "ダンディ"],
+          "keywords": [
+            "塩の行進",
+            "非暴力",
+            "ダンディ"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -594,7 +865,11 @@
           "achievement": "インド独立",
           "age": 78,
           "year": 1947,
-          "keywords": ["独立", "非暴力", "スワラージ"],
+          "keywords": [
+            "独立",
+            "非暴力",
+            "スワラージ"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -602,7 +877,11 @@
           "achievement": "南アフリカでの公民権運動",
           "age": 37,
           "year": 1906,
-          "keywords": ["南アフリカ", "サティヤグラハ", "抵抗"],
+          "keywords": [
+            "南アフリカ",
+            "サティヤグラハ",
+            "抵抗"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -616,7 +895,11 @@
           "achievement": "人類初の動力飛行成功",
           "age": 36,
           "year": 1903,
-          "keywords": ["キティホーク", "初飛行", "12秒"],
+          "keywords": [
+            "キティホーク",
+            "初飛行",
+            "12秒"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -624,7 +907,11 @@
           "achievement": "特許取得と実用化",
           "age": 39,
           "year": 1906,
-          "keywords": ["特許", "飛行制御", "実用化"],
+          "keywords": [
+            "特許",
+            "飛行制御",
+            "実用化"
+          ],
           "importance": 9.5,
           "priority": 2
         }
@@ -638,7 +925,11 @@
           "achievement": "SpaceX再利用ロケット成功",
           "age": 44,
           "year": 2015,
-          "keywords": ["ファルコン9", "再利用", "着陸"],
+          "keywords": [
+            "ファルコン9",
+            "再利用",
+            "着陸"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -646,7 +937,11 @@
           "achievement": "Tesla Model 3量産成功",
           "age": 47,
           "year": 2018,
-          "keywords": ["Tesla", "Model 3", "量産"],
+          "keywords": [
+            "Tesla",
+            "Model 3",
+            "量産"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -654,7 +949,11 @@
           "achievement": "クルードラゴン有人飛行",
           "age": 49,
           "year": 2020,
-          "keywords": ["クルードラゴン", "有人", "ISS"],
+          "keywords": [
+            "クルードラゴン",
+            "有人",
+            "ISS"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -668,7 +967,11 @@
           "achievement": "Microsoft創業",
           "age": 19,
           "year": 1975,
-          "keywords": ["Microsoft", "創業", "ポール・アレン"],
+          "keywords": [
+            "Microsoft",
+            "創業",
+            "ポール・アレン"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -676,7 +979,11 @@
           "achievement": "Windows 95発売",
           "age": 40,
           "year": 1995,
-          "keywords": ["Windows 95", "GUI", "スタートメニュー"],
+          "keywords": [
+            "Windows 95",
+            "GUI",
+            "スタートメニュー"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -684,7 +991,11 @@
           "achievement": "世界一の富豪",
           "age": 39,
           "year": 1995,
-          "keywords": ["世界一", "富豪", "フォーブス"],
+          "keywords": [
+            "世界一",
+            "富豪",
+            "フォーブス"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -698,7 +1009,11 @@
           "achievement": "鉄腕アトム連載開始",
           "age": 24,
           "year": 1952,
-          "keywords": ["アトム", "連載", "少年"],
+          "keywords": [
+            "アトム",
+            "連載",
+            "少年"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -706,7 +1021,11 @@
           "achievement": "日本初のTVアニメ放送",
           "age": 34,
           "year": 1963,
-          "keywords": ["TVアニメ", "鉄腕アトム", "30分"],
+          "keywords": [
+            "TVアニメ",
+            "鉄腕アトム",
+            "30分"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -714,7 +1033,11 @@
           "achievement": "ブラック・ジャック連載",
           "age": 45,
           "year": 1973,
-          "keywords": ["ブラック・ジャック", "医療", "復活"],
+          "keywords": [
+            "ブラック・ジャック",
+            "医療",
+            "復活"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -728,7 +1051,11 @@
           "achievement": "羅生門ヴェネツィア金獅子賞",
           "age": 40,
           "year": 1951,
-          "keywords": ["羅生門", "金獅子賞", "ヴェネツィア"],
+          "keywords": [
+            "羅生門",
+            "金獅子賞",
+            "ヴェネツィア"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -736,7 +1063,11 @@
           "achievement": "七人の侍公開",
           "age": 44,
           "year": 1954,
-          "keywords": ["七人の侍", "時代劇", "傑作"],
+          "keywords": [
+            "七人の侍",
+            "時代劇",
+            "傑作"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -744,7 +1075,11 @@
           "achievement": "アカデミー名誉賞受賞",
           "age": 80,
           "year": 1990,
-          "keywords": ["アカデミー賞", "名誉賞", "世界の黒澤"],
+          "keywords": [
+            "アカデミー賞",
+            "名誉賞",
+            "世界の黒澤"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -758,7 +1093,11 @@
           "achievement": "本田技研工業設立",
           "age": 42,
           "year": 1948,
-          "keywords": ["本田技研", "設立", "バイク"],
+          "keywords": [
+            "本田技研",
+            "設立",
+            "バイク"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -766,7 +1105,11 @@
           "achievement": "マン島TT初参戦・初優勝",
           "age": 53,
           "year": 1959,
-          "keywords": ["マン島TT", "優勝", "世界進出"],
+          "keywords": [
+            "マン島TT",
+            "優勝",
+            "世界進出"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -774,7 +1117,11 @@
           "achievement": "F1初優勝",
           "age": 59,
           "year": 1965,
-          "keywords": ["F1", "初優勝", "メキシコGP"],
+          "keywords": [
+            "F1",
+            "初優勝",
+            "メキシコGP"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -788,7 +1135,11 @@
           "achievement": "交響曲第9番初演",
           "age": 53,
           "year": 1824,
-          "keywords": ["第九", "歓喜の歌", "ウィーン"],
+          "keywords": [
+            "第九",
+            "歓喜の歌",
+            "ウィーン"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -796,7 +1147,11 @@
           "achievement": "難聴との闘いとハイリゲンシュタットの遺書",
           "age": 32,
           "year": 1802,
-          "keywords": ["難聴", "遺書", "ハイリゲンシュタット"],
+          "keywords": [
+            "難聴",
+            "遺書",
+            "ハイリゲンシュタット"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -804,7 +1159,11 @@
           "achievement": "交響曲第5番「運命」発表",
           "age": 38,
           "year": 1808,
-          "keywords": ["運命", "第5番", "ジャジャジャジャーン"],
+          "keywords": [
+            "運命",
+            "第5番",
+            "ジャジャジャジャーン"
+          ],
           "importance": 9.5,
           "priority": 3
         }
@@ -818,7 +1177,11 @@
           "achievement": "ゲルニカ制作",
           "age": 55,
           "year": 1937,
-          "keywords": ["ゲルニカ", "反戦", "スペイン内戦"],
+          "keywords": [
+            "ゲルニカ",
+            "反戦",
+            "スペイン内戦"
+          ],
           "importance": 10.0,
           "priority": 1
         },
@@ -826,7 +1189,11 @@
           "achievement": "キュビスム創始（アヴィニョンの娘たち）",
           "age": 26,
           "year": 1907,
-          "keywords": ["キュビスム", "アヴィニョンの娘たち", "革新"],
+          "keywords": [
+            "キュビスム",
+            "アヴィニョンの娘たち",
+            "革新"
+          ],
           "importance": 10.0,
           "priority": 2
         },
@@ -834,7 +1201,11 @@
           "achievement": "青の時代・バラ色の時代",
           "age": 23,
           "year": 1904,
-          "keywords": ["青の時代", "バラ色", "パリ"],
+          "keywords": [
+            "青の時代",
+            "バラ色",
+            "パリ"
+          ],
           "importance": 9.0,
           "priority": 3
         }

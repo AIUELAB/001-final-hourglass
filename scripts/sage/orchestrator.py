@@ -143,6 +143,9 @@ class HybridOrchestrator:
             cache_dir=self.config.cache_dir,
         )
 
+        # Phase 17: PreGenerationRulesにInventoryManagerを注入（置換モード対応）
+        self._pre_rules._inventory_manager = self._inventory_manager
+
         # Phase 3: アンチゲーミングモニター
         self._anti_gaming = AntiGamingMonitor()
 
@@ -308,22 +311,34 @@ class HybridOrchestrator:
                 }
             )
 
-        # 2.5. 同一人物×同一年齢の重複チェック（生成前 - EPUP再発防止）
-        # 既に同じ人物・同じ年齢のエピソードが存在する場合は生成をスキップ
-        pre_dup_check = self._duplicate_detector.check_exact_duplicate(candidate.person_id, candidate.age)
-        if pre_dup_check.is_duplicate:
+        # 2.5. 同一人物×同一年齢の重複チェック（Phase 17: 置換モード対応）
+        # Phase 17: pre_checkの結果から置換候補情報を取得
+        is_replacement_candidate = pre_check.details.get("is_replacement_candidate", False)
+        existing_episode_id = pre_check.details.get("existing_episode_id")
+        existing_score = pre_check.details.get("existing_score", 0.0)
+
+        if not is_replacement_candidate:
+            # 通常モード: 既に同じ人物・同じ年齢のエピソードが存在する場合は生成をスキップ
+            pre_dup_check = self._duplicate_detector.check_exact_duplicate(candidate.person_id, candidate.age)
+            if pre_dup_check.is_duplicate:
+                logger.info(
+                    f"EPUP: 同一年齢重複スキップ - {candidate.person_name}({candidate.age}歳) "
+                    f"既存EP: {pre_dup_check.most_similar_episode_id}"
+                )
+                return ProcessingResult(
+                    rejection={
+                        "person_id": candidate.person_id,
+                        "person_name": candidate.person_name,
+                        "age": candidate.age,
+                        "reason": RejectionReason.SAME_AGE_DUPLICATE.value,
+                        "message": f"同一年齢エピソード既存: {pre_dup_check.most_similar_episode_id}",
+                    }
+                )
+        else:
+            # Phase 17: 置換モード - 生成を許可、後でスコア比較
             logger.info(
-                f"EPUP: 同一年齢重複スキップ - {candidate.person_name}({candidate.age}歳) "
-                f"既存EP: {pre_dup_check.most_similar_episode_id}"
-            )
-            return ProcessingResult(
-                rejection={
-                    "person_id": candidate.person_id,
-                    "person_name": candidate.person_name,
-                    "age": candidate.age,
-                    "reason": RejectionReason.SAME_AGE_DUPLICATE.value,
-                    "message": f"同一年齢エピソード既存: {pre_dup_check.most_similar_episode_id}",
-                }
+                f"Phase 17: 置換候補として生成続行 - {candidate.person_name}({candidate.age}歳) "
+                f"既存EP: {existing_episode_id}, 既存スコア: {existing_score:.0f}"
             )
 
         # 3. 生成
@@ -386,19 +401,23 @@ class HybridOrchestrator:
             )
 
         # 5.5. Phase 3: アンチゲーミングチェック（キーワード詰め込み、抽象語過多、テンプレート臭）
-        gaming_result = self._anti_gaming.check(result.episode_text, candidate.person_name)
-        # missing_specifics は step 5 でカバー済みなので除外
-        gaming_violations = [v for v in gaming_result.violations if v != "missing_specifics"]
-        if gaming_violations:
-            return ProcessingResult(
-                rejection={
-                    "person_id": candidate.person_id,
-                    "person_name": candidate.person_name,
-                    "age": candidate.age,
-                    "reason": gaming_result.rejection_reason.value if gaming_result.rejection_reason else "anti_gaming",
-                    "message": f"Anti-gaming violations: {', '.join(gaming_violations)}",
-                }
-            )
+        # Phase 17: use_anti_gaming=Falseで無効化（0%ブロック率のため処理時間短縮）
+        if self.config.generation_rules.get("use_anti_gaming", True):
+            gaming_result = self._anti_gaming.check(result.episode_text, candidate.person_name)
+            # missing_specifics は step 5 でカバー済みなので除外
+            gaming_violations = [v for v in gaming_result.violations if v != "missing_specifics"]
+            if gaming_violations:
+                return ProcessingResult(
+                    rejection={
+                        "person_id": candidate.person_id,
+                        "person_name": candidate.person_name,
+                        "age": candidate.age,
+                        "reason": gaming_result.rejection_reason.value
+                        if gaming_result.rejection_reason
+                        else "anti_gaming",
+                        "message": f"Anti-gaming violations: {', '.join(gaming_violations)}",
+                    }
+                )
 
         # 6. ファクトチェック
         fact_result = self._fact_checker.check(result.episode_text, candidate.person_name)
@@ -520,12 +539,44 @@ class HybridOrchestrator:
         self._pre_rules.record_generation(candidate.person_id, success=True)
         self._diversity_manager.record_generation(candidate.person_id)
 
-        # 11. Phase 4: 置換モード判定
+        # 11. Phase 4 + Phase 17: 置換モード判定
         is_replacement = False
         replacement_target = None
 
-        if self._inventory_manager.is_replacement_mode(candidate.age):
-            # 置換対象を取得
+        # Phase 17: same_age_duplicate置換モード（Step 2.5で検出された置換候補）
+        if is_replacement_candidate and result.evaluation:
+            new_score = result.evaluation.super_total_score or 0
+            # 5%以上の改善が必要
+            improvement_threshold = existing_score * 1.05
+            if new_score >= improvement_threshold:
+                is_replacement = True
+                # ReplacementTargetを構築
+                from .inventory_manager import ReplacementTarget
+
+                replacement_target = ReplacementTarget(
+                    episode_id=existing_episode_id,
+                    person_id=candidate.person_id,
+                    person_name=candidate.person_name,
+                    age=candidate.age,
+                    score=existing_score,
+                )
+                logger.info(
+                    f"Phase 17: same_age置換決定 - {candidate.person_name}({candidate.age}歳) "
+                    f"新スコア={new_score:.0f} > 既存スコア={existing_score:.0f} (+{(new_score/existing_score-1)*100:.1f}%)"
+                )
+            else:
+                # 置換閾値未達 - 改善不十分なので棄却
+                return ProcessingResult(
+                    rejection={
+                        "person_id": candidate.person_id,
+                        "person_name": candidate.person_name,
+                        "age": candidate.age,
+                        "reason": "insufficient_improvement",
+                        "message": f"スコア改善不足: {new_score:.0f} < {improvement_threshold:.0f} (既存{existing_score:.0f}の5%改善必要)",
+                    }
+                )
+        elif self._inventory_manager.is_replacement_mode(candidate.age):
+            # Phase 4: 年齢ベースの置換モード（従来ロジック）
             replacement_target = self._inventory_manager.get_replacement_target(candidate.age)
             if replacement_target and result.evaluation:
                 new_score = result.evaluation.super_total_score or 0
@@ -790,7 +841,8 @@ class HybridOrchestrator:
             candidates.extend(group_candidates)
 
         # person_id, age順にソート（キャッシュ効率化）
-        candidates.sort(key=lambda x: (x.person_id, x.age))
+        # Phase 16: 型の不整合を防ぐため文字列に統一
+        candidates.sort(key=lambda x: (str(x.person_id), int(x.age) if x.age is not None else 0))
         return candidates[:count]
 
 

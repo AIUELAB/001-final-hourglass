@@ -17,12 +17,13 @@ from typing import Any, Optional
 class CategoryThreshold:
     """カテゴリ別閾値"""
 
+    # Phase 16: デフォルト閾値緩和で採用率向上
     factual_density: float = 7.0
-    generation_quality: float = 8.0
+    generation_quality: float = 7.5  # 8.0→7.5 採用率向上
     story_quality: float = 6.5
     educational_value: float = 6.0
     memorability: float = 5.5
-    empathy: float = 5.5
+    empathy: float = 5.0  # 5.5→5.0 採用率向上
     surprise: float = 5.0
 
 
@@ -105,11 +106,12 @@ class CategoryThresholds:
             empathy=5.0,  # 技術系人物は共感性が低い傾向
         ),
         # === スポーツ ===
+        # Phase 16: 採用率向上のため閾値緩和（empathy 6.0→5.5, generation_quality 8.0→7.5）
         "スポーツ": CategoryThreshold(
             factual_density=7.0,  # 7.5→7.0
-            generation_quality=8.0,
+            generation_quality=7.5,  # 8.0→7.5 採用率向上
             memorability=6.0,  # 7.0→6.0
-            empathy=6.0,  # 7.0→6.0
+            empathy=5.5,  # 6.0→5.5 採用率向上
         ),
         # === 芸術・文化系 ===
         "芸術": CategoryThreshold(

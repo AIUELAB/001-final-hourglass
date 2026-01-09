@@ -63,6 +63,12 @@ class CandidatePrioritizer:
     AGE_COVERAGE_WEIGHT = 0.15  # 未カバー年齢を優先
     INVENTORY_AGE_PRIORITY_WEIGHT = 0.2  # 年齢在庫不足を優先
 
+    # Phase 16: 低成功率パターンのペナルティ（15歳スポーツ選手など）
+    LOW_SUCCESS_PENALTY = 0.3  # 優先度を30%下げる
+    LOW_SUCCESS_PATTERNS = [
+        {"category_prefix": "スポーツ", "age_range": (10, 18)},  # 若年スポーツ選手
+    ]
+
     def __init__(
         self,
         master_csv: Path = MASTER_CSV,
@@ -286,6 +292,14 @@ class CandidatePrioritizer:
             + age_coverage_score * self.AGE_COVERAGE_WEIGHT
             + inventory_priority_score * self.INVENTORY_AGE_PRIORITY_WEIGHT
         )
+
+        # Phase 16: 低成功率パターンのペナルティ適用
+        for pattern in self.LOW_SUCCESS_PATTERNS:
+            cat_prefix = pattern.get("category_prefix", "")
+            age_min, age_max = pattern.get("age_range", (0, 0))
+            if category.startswith(cat_prefix) and age_min <= age <= age_max:
+                total_score *= 1.0 - self.LOW_SUCCESS_PENALTY
+                break
 
         return CandidatePriorityScore(
             person_id=person_id,

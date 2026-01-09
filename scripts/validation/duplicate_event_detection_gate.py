@@ -27,11 +27,11 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 MASTER_CSV = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORT_PATH = PROJECT_ROOT / "src/reports/duplicate_event_gate_result.json"
 
-# デフォルト閾値（Phase 43: 死亡エピソード除外後）
+# デフォルト閾値（Phase 45: 回顧エピソード除外後）
 DEFAULT_THRESHOLDS = {
-    "critical_max": 140,  # CRITICAL(10歳以上の差) - 現状135件
-    "high_max": 50,  # HIGH(5-9歳の差) - 現状41件
-    "total_max": 230,  # 合計 - 現状224件
+    "critical_max": 120,  # CRITICAL(10歳以上の差) - 現状113件
+    "high_max": 40,  # HIGH(5-9歳の差) - 現状31件
+    "total_max": 200,  # 合計 - 現状186件
 }
 
 # 記念年パターン（これらは重複カウントから除外）
@@ -54,6 +54,18 @@ OBITUARY_PATTERNS = [
     r"生涯を閉じました",
     r"最期を迎えました",
     r"訃報",
+]
+
+# 回顧・総括パターン（これらは重複カウントから除外）
+# 晩年エピソードが過去の業績を振り返るのは自然なため許容
+RETROSPECTIVE_PATTERNS = [
+    r"振り返(?:り|って|る)",
+    r"回顧(?:して|する|した)",
+    r"(?:半生|人生|生涯)を(?:振り返|語|綴)",
+    r"(?:歩み|足跡|軌跡)を(?:振り返|語|辿)",
+    r"これまでの(?:歩み|人生|キャリア|活動)",
+    r"長年の(?:功績|活動|貢献|経験)",
+    r"(?:\d+|何十|数十)年間(?:の|を)",
 ]
 
 # 許容される重複パターン（背景言及として許容）
@@ -111,13 +123,27 @@ def has_obituary_context(text: str) -> bool:
     return False
 
 
-def extract_events(text: str, skip_anniversary: bool = True, skip_obituary: bool = True) -> list[tuple[str, str]]:
+def has_retrospective_context(text: str) -> bool:
+    """回顧・総括の文脈かどうかを判定"""
+    for pattern in RETROSPECTIVE_PATTERNS:
+        if re.search(pattern, text):
+            return True
+    return False
+
+
+def extract_events(
+    text: str,
+    skip_anniversary: bool = True,
+    skip_obituary: bool = True,
+    skip_retrospective: bool = True,
+) -> list[tuple[str, str]]:
     """テキストからイベントを抽出
 
     Args:
         text: エピソードテキスト
         skip_anniversary: True の場合、記念年文脈のイベントをスキップ
         skip_obituary: True の場合、死亡・訃報文脈のイベントをスキップ
+        skip_retrospective: True の場合、回顧・総括文脈のイベントをスキップ
 
     Returns:
         (event_type, event_detail) のリスト
@@ -128,6 +154,10 @@ def extract_events(text: str, skip_anniversary: bool = True, skip_obituary: bool
 
     # 死亡・訃報文脈の場合は空リストを返す（生涯要約のため重複許容）
     if skip_obituary and has_obituary_context(text):
+        return []
+
+    # 回顧・総括文脈の場合は空リストを返す（晩年の振り返りのため重複許容）
+    if skip_retrospective and has_retrospective_context(text):
         return []
 
     events = []

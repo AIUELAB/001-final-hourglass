@@ -27,11 +27,11 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 MASTER_CSV = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORT_PATH = PROJECT_ROOT / "src/reports/duplicate_event_gate_result.json"
 
-# デフォルト閾値（Phase 41: 段階的緩和）
+# デフォルト閾値（Phase 43: 死亡エピソード除外後）
 DEFAULT_THRESHOLDS = {
-    "critical_max": 160,  # CRITICAL(10歳以上の差) - 現状154件、段階的に削減目標
-    "high_max": 50,  # HIGH(5-9歳の差) - 現状44件、許容範囲
-    "total_max": 250,  # 合計 - 現状246件、段階的に削減目標
+    "critical_max": 140,  # CRITICAL(10歳以上の差) - 現状135件
+    "high_max": 50,  # HIGH(5-9歳の差) - 現状41件
+    "total_max": 230,  # 合計 - 現状224件
 }
 
 # 記念年パターン（これらは重複カウントから除外）
@@ -42,6 +42,18 @@ ANNIVERSARY_PATTERNS = [
     r"設立(\d+)周年",
     r"結成(\d+)周年",
     r"(\d+)年(?:目|周年)を(?:迎|記念)",
+]
+
+# 死亡・訃報パターン（これらは重複カウントから除外）
+# 死亡エピソードは生涯の業績を要約するため、イベント重複は許容
+OBITUARY_PATTERNS = [
+    r"亡くなりました",
+    r"(?:永眠|逝去|他界|死去)(?:しました|された)",
+    r"(?:この世を|人生を)去りました",
+    r"息を引き取りました",
+    r"生涯を閉じました",
+    r"最期を迎えました",
+    r"訃報",
 ]
 
 # 許容される重複パターン（背景言及として許容）
@@ -91,18 +103,31 @@ def has_anniversary_context(text: str) -> bool:
     return False
 
 
-def extract_events(text: str, skip_anniversary: bool = True) -> list[tuple[str, str]]:
+def has_obituary_context(text: str) -> bool:
+    """死亡・訃報の文脈かどうかを判定"""
+    for pattern in OBITUARY_PATTERNS:
+        if re.search(pattern, text):
+            return True
+    return False
+
+
+def extract_events(text: str, skip_anniversary: bool = True, skip_obituary: bool = True) -> list[tuple[str, str]]:
     """テキストからイベントを抽出
 
     Args:
         text: エピソードテキスト
         skip_anniversary: True の場合、記念年文脈のイベントをスキップ
+        skip_obituary: True の場合、死亡・訃報文脈のイベントをスキップ
 
     Returns:
         (event_type, event_detail) のリスト
     """
     # 記念年文脈の場合は空リストを返す（重複カウントから除外）
     if skip_anniversary and has_anniversary_context(text):
+        return []
+
+    # 死亡・訃報文脈の場合は空リストを返す（生涯要約のため重複許容）
+    if skip_obituary and has_obituary_context(text):
         return []
 
     events = []

@@ -61,8 +61,8 @@ class TestKurosawaEpisodes:
         """各エピソードが異なる年齢をカバーしていること（代表作多様性）"""
         episodes = get_kurosawa_episodes()
 
-        # 期待される年齢セット
-        expected_ages = {33.0, 40.0, 44.0, 60.0, 75.0}
+        # 期待される年齢セット (80歳エピソード追加: 2026-01-09)
+        expected_ages = {33.0, 40.0, 44.0, 60.0, 75.0, 80.0}
         actual_ages = {float(e.get("age", 0)) for e in episodes}
 
         assert expected_ages == actual_ages, f"期待年齢: {expected_ages}, 実際: {actual_ages}"

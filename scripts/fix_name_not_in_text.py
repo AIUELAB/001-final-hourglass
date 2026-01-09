@@ -103,7 +103,7 @@ def main(dry_run: bool = True):
             print(f"  Actual:   {text[:80]}...")
             print()
 
-    print(f"\n=== 結果 ===")
+    print("\n=== 結果 ===")
     print(f"修正件数: {fixed_count}/{len(FIXES)}件")
 
     if dry_run:
@@ -116,7 +116,7 @@ def main(dry_run: bool = True):
         writer.writeheader()
         writer.writerows(rows)
 
-    print(f"\n✅ CSV更新完了")
+    print("\n✅ CSV更新完了")
 
 
 if __name__ == "__main__":

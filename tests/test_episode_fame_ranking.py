@@ -56,7 +56,6 @@ class TestEinsteinRanking:
     EINSTEIN_PID = "P93F1DB1"
     MIRACLE_YEAR_EID = "EP-3947C4DE"
 
-    @pytest.mark.xfail(reason="データ品質課題: 奇跡の年(26歳)が2位（50歳エピソードが1位）")
     def test_miracle_year_is_top_ranked(self, load_csv):
         """EP-3947C4DE（奇跡の年）がアインシュタイン内で1位"""
         eps = get_person_episodes(load_csv, self.EINSTEIN_PID)
@@ -111,7 +110,6 @@ class TestImportantEpisodeRanking:
         ("P93F1DB1", "EP-3947C4DE", 1),  # アインシュタイン 奇跡の年
     ]
 
-    @pytest.mark.xfail(reason="データ品質課題: 奇跡の年が2位（1位期待に未達）")
     @pytest.mark.parametrize("person_id,episode_id,max_rank", IMPORTANT_EPISODES)
     def test_important_episode_rank(self, load_csv, person_id, episode_id, max_rank):
         """重要エピソードが期待順位以内"""

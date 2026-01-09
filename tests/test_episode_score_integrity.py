@@ -43,8 +43,9 @@ class TestMurakamiScoreOrder:
         assert ep_35 is not None, "EP-000002037（35歳/発表）が見つからない"
         assert ep_38 is not None, "EP-000001453（38歳/逃避）が見つからない"
 
-        score_35 = float(ep_35.get("episode_fame_score", 0) or 0)
-        score_38 = float(ep_38.get("episode_fame_score", 0) or 0)
+        # Phase 28: episode_fame_score → episode_fame_v6
+        score_35 = float(ep_35.get("episode_fame_v6", 0) or 0)
+        score_38 = float(ep_38.get("episode_fame_v6", 0) or 0)
 
         assert score_35 > score_38, f"発表(35歳)={score_35:.2f} は 逃避(38歳)={score_38:.2f} より高くなければならない"
 
@@ -66,27 +67,15 @@ class TestScoreVersionSync:
     def all_episodes(self):
         return load_episodes()
 
-    def test_episode_fame_score_equals_v6(self, all_episodes):
-        """episode_fame_score と episode_fame_v6 が同期している"""
-        mismatches = []
-        for ep in all_episodes[:100]:  # サンプリング
-            main_score = float(ep.get("episode_fame_score", 0) or 0)
-            v6_score = float(ep.get("episode_fame_v6", 0) or 0)
-            if abs(main_score - v6_score) > 0.01:
-                mismatches.append(
-                    {
-                        "id": ep["episode_id"],
-                        "main": main_score,
-                        "v6": v6_score,
-                    }
-                )
-
-        assert len(mismatches) == 0, f"episode_fame_score と v6 が不一致: {mismatches[:5]}"
-
-    def test_v5_backup_exists(self, all_episodes):
-        """v5スコアがバックアップされている"""
+    def test_episode_fame_v6_exists(self, all_episodes):
+        """episode_fame_v6 カラムが存在する"""
         sample = all_episodes[0]
-        assert "episode_fame_v5" in sample, "episode_fame_v5 カラムが存在しない"
+        assert "episode_fame_v6" in sample, "episode_fame_v6 カラムが存在しない"
+
+    def test_episode_fame_v6_has_values(self, all_episodes):
+        """episode_fame_v6 に値が設定されている"""
+        valid_count = sum(1 for ep in all_episodes[:100] if float(ep.get("episode_fame_v6", 0) or 0) > 0)
+        assert valid_count >= 90, f"episode_fame_v6 が設定されているエピソードが少なすぎる: {valid_count}/100"
 
 
 class TestHighImpactEvents:
@@ -111,9 +100,10 @@ class TestHighImpactEvents:
         if not matching:
             pytest.skip(f"'{keyword}' を含むエピソードがない")
 
+        # Phase 28: episode_fame_score → episode_fame_v6
         # 上位50%が最低スコア以上
         scores = sorted(
-            [float(e.get("episode_fame_score", 0) or 0) for e in matching],
+            [float(e.get("episode_fame_v6", 0) or 0) for e in matching],
             reverse=True,
         )
         median_score = scores[len(scores) // 2] if scores else 0

@@ -29,9 +29,10 @@ SCORE_SPECS = [
     # 0-5 Tier
     ScoreSpec("fame_tier", 0, 5, "0-5 (Tier)"),
     ScoreSpec("episode_fame_tier", 0, 5, "0-5 (Tier)"),
+    # 0-1000 スケール（8軸合計×重み）
+    ScoreSpec("composite_score", 0, 1000, "0-1000"),
+    ScoreSpec("composite_score_5axis", 0, 1000, "0-1000"),
     # 0-10 スケール
-    ScoreSpec("composite_score", 0, 10, "0-10"),
-    ScoreSpec("composite_score_5axis", 0, 10, "0-10"),
     ScoreSpec("surprise_score", 0, 10, "0-10"),
     ScoreSpec("memorability_score", 0, 10, "0-10"),
     ScoreSpec("empathy_score", 0, 10, "0-10"),

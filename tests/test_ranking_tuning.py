@@ -80,16 +80,17 @@ class TestQualityGate:
     """品質ゲートのテスト"""
 
     def test_low_factual_density_excluded(self, master_csv):
-        """factual_densityが低いエピソードが除外されること"""
+        """factual_densityが低いエピソードが除外されること（v1.2.1閾値: 5.0）"""
         df = master_csv.copy()
         df["factual_density"] = pd.to_numeric(df["factual_density"], errors="coerce")
         df["super_total_score"] = pd.to_numeric(df["super_total_score"], errors="coerce")
 
-        # super_total_score > 0 のエピソードでfactual_density < 6.0 のものがないこと
+        # super_total_score > 0 のエピソードでfactual_density < 5.0 のものがないこと
+        # Phase 30 (v1.2.1): 閾値を6.0→5.0に緩和
         scored = df[df["super_total_score"] > 0]
-        low_fact = scored[scored["factual_density"] < 6.0]
+        low_fact = scored[scored["factual_density"] < 5.0]
 
-        assert len(low_fact) == 0, f"factual_density < 6.0 のエピソードが{len(low_fact)}件スコアリングされている"
+        assert len(low_fact) == 0, f"factual_density < 5.0 のエピソードが{len(low_fact)}件スコアリングされている"
 
     def test_low_generation_quality_excluded(self, master_csv):
         """生成品質が低いエピソードが除外されること"""

@@ -32,6 +32,7 @@ from .gates import (
     FactChecker,
 )
 from .gates.polite_form import auto_fix_polite_form
+from .gates.post_processor import apply_post_processing
 from .persistence import SafeCSVWriter, WriteResult
 from .inventory_manager import InventoryManager, ReplacementTarget
 from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
@@ -346,6 +347,18 @@ class HybridOrchestrator:
         if result.episode_text != original_text:
             logger.debug(f"表層修正適用: {candidate.person_name}({candidate.age}歳)")
 
+        # 3.6. 定型パターン後処理（EPUP準拠）
+        # "あなたと同じ{age}歳のとき、{name}は" で開始するよう修正
+        original_text = result.episode_text
+        result.episode_text, post_changes = apply_post_processing(
+            result.episode_text,
+            candidate.person_name,
+            candidate.age,
+            strict_mode=False,  # 修正できない場合も継続
+        )
+        if post_changes:
+            logger.info(f"定型パターン修正: {candidate.person_name}({candidate.age}歳) - {', '.join(post_changes)}")
+
         # 4. 禁止パターンチェック
         pattern_check = check_prohibited_patterns(result.episode_text)
         if not pattern_check.passed:
@@ -456,6 +469,14 @@ class HybridOrchestrator:
                         result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
                         if result.episode_text != original_text:
                             logger.debug(f"リトライ後表層修正適用: {candidate.person_name}({candidate.age}歳)")
+
+                        # 定型パターン修正を再適用
+                        result.episode_text, _ = apply_post_processing(
+                            result.episode_text,
+                            candidate.person_name,
+                            candidate.age,
+                            strict_mode=False,
+                        )
 
                         # ループ継続（再評価へ）
                         continue

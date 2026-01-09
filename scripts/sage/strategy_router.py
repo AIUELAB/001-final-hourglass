@@ -97,12 +97,14 @@ class StrategyRouter:
         use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
         use_compact_prompt: bool = True,  # Phase 10: 圧縮版プロンプト使用
         enable_cache: bool = True,  # H4最適化: Prompt Caching
+        use_tiered_generation: bool = False,  # Phase 21: 多段階生成
     ):
         self.strategy = strategy
         self.use_mock = use_mock
         self.use_haiku_evaluation = use_haiku_evaluation
         self.use_compact_prompt = use_compact_prompt
         self.enable_cache = enable_cache
+        self.use_tiered_generation = use_tiered_generation  # Phase 21
         self._stats = StrategyStats(strategy=strategy)
 
         # アダプター初期化
@@ -113,6 +115,7 @@ class StrategyRouter:
                 use_haiku_evaluation=use_haiku_evaluation,
                 use_compact_prompt=use_compact_prompt,
                 enable_cache=enable_cache,  # H4: Prompt Caching
+                use_tiered_generation=use_tiered_generation,  # Phase 21
             )
         self._legacy = LegacyGeneratorAdapter()
 
@@ -240,10 +243,16 @@ class StrategyRouter:
         EPGEN優先戦略
 
         EPGENで生成を試み、失敗時はLegacyにフォールバック。
+        Phase 21: 多段階生成有効時はHaiku優先→Sonnetフォールバック。
         """
         # EPGENで試行
         self._stats.epgen_attempts += 1
-        result = self._epgen.generate_with_retry(candidate)
+
+        # Phase 21: 多段階生成
+        if self.use_tiered_generation and hasattr(self._epgen, "generate_tiered"):
+            result = self._epgen.generate_tiered(candidate)
+        else:
+            result = self._epgen.generate_with_retry(candidate)
 
         if result.success and self._is_quality_sufficient(result):
             self._stats.epgen_successes += 1
@@ -427,6 +436,7 @@ def create_router(
     use_haiku_evaluation: bool = True,  # Phase 3: 評価にHaiku使用
     use_compact_prompt: bool = True,  # Phase 10: 圧縮版プロンプト使用
     enable_cache: bool = True,  # H4最適化: Prompt Caching
+    use_tiered_generation: bool = False,  # Phase 21: 多段階生成
 ) -> StrategyRouter:
     """
     ルーターを作成
@@ -437,6 +447,7 @@ def create_router(
         use_haiku_evaluation: 評価にHaikuを使用（True=コスト-92%、False=Sonnet高精度）
         use_compact_prompt: 圧縮版プロンプト使用（True=-60%トークン, False=通常版）
         enable_cache: Prompt Caching有効化（True=-25%コスト, 同一人物連続処理時）
+        use_tiered_generation: 多段階生成（True=Haiku優先→Sonnetフォールバック、-55%コスト）
 
     Returns:
         StrategyRouter: ルーター
@@ -448,4 +459,5 @@ def create_router(
         use_haiku_evaluation=use_haiku_evaluation,
         use_compact_prompt=use_compact_prompt,
         enable_cache=enable_cache,
+        use_tiered_generation=use_tiered_generation,
     )

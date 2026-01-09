@@ -47,12 +47,14 @@ class EPGENAdapter(GeneratorAdapter):
         use_haiku_evaluation: bool = True,
         use_compact_prompt: bool = True,
         enable_cache: bool = True,  # H4最適化: Prompt Caching（デフォルト有効）
+        use_tiered_generation: bool = False,  # Phase 21: 多段階生成
     ):
         """
         Args:
             use_haiku_evaluation: 評価にHaikuを使用（True=低コスト-92%, False=Sonnet高精度）
             use_compact_prompt: 圧縮版プロンプト使用（True=-60%トークン, False=通常版）
             enable_cache: Prompt Caching有効化（True=-25%コスト, 同一人物連続処理時）
+            use_tiered_generation: 多段階生成（True=Haiku優先→Sonnetフォールバック）
         """
         super().__init__("epgen", GeneratorType.EPGEN)
         self._generator = None
@@ -67,6 +69,16 @@ class EPGENAdapter(GeneratorAdapter):
         self._iconic_achievements: Optional[dict[str, Any]] = None
         # 象徴性スコア計算器（8軸目）- 遅延初期化
         self._iconic_score_calculator = None
+        # Phase 21: 多段階生成
+        self._use_tiered_generation = use_tiered_generation
+        self._haiku_generator = None  # Haiku用ジェネレータ（遅延初期化）
+        self._tiered_stats = {
+            "haiku_attempts": 0,
+            "haiku_successes": 0,
+            "sonnet_fallbacks": 0,
+            "haiku_cost": 0.0,
+            "sonnet_cost": 0.0,
+        }
 
     def _get_iconic_achievements(self) -> dict[str, Any]:
         """象徴的業績マスターデータを取得（遅延読み込み）"""
@@ -223,6 +235,34 @@ class EPGENAdapter(GeneratorAdapter):
                     "Make sure scripts/generate/mass_production/generator.py exists."
                 )
         return self._generator
+
+    def _get_haiku_generator(self):
+        """Phase 21: Haiku用ジェネレータ（遅延初期化）"""
+        if self._haiku_generator is None:
+            try:
+                from scripts.generate.mass_production.generator import ParallelGenerator
+                from scripts.generate.mass_production.llm_clients import AnthropicClient
+
+                api_key = os.environ.get("ANTHROPIC_API_KEY")
+                if not api_key:
+                    raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
+
+                # Haikuモデルを指定
+                llm_client = AnthropicClient(
+                    api_key=api_key,
+                    model="claude-3-5-haiku-20241022",  # Haiku
+                    enable_cache=self._enable_cache,
+                )
+                self._haiku_generator = ParallelGenerator(
+                    llm_client=llm_client,
+                    enable_cache=self._enable_cache,
+                )
+            except ImportError as e:
+                raise ImportError(
+                    f"Failed to import ParallelGenerator: {e}. "
+                    "Make sure scripts/generate/mass_production/generator.py exists."
+                )
+        return self._haiku_generator
 
     def _get_evaluator(self):
         """遅延初期化で評価器を取得（Phase 3: Haiku対応）"""
@@ -585,6 +625,212 @@ class EPGENAdapter(GeneratorAdapter):
                     gate_failures=[f"Batch evaluation error: {str(e)}"],
                 )
             return results
+
+    # ==========================================================================
+    # Phase 21: 多段階生成（Haiku first → Sonnet fallback）
+    # ==========================================================================
+
+    def generate_tiered(self, candidate: Candidate, retry_injection: str = "") -> GenerationResult:
+        """
+        多段階生成: Haiku first → Sonnet fallback
+
+        1. Haikuで生成（低コスト）
+        2. 品質評価
+        3. 閾値未達の場合のみSonnetで再生成
+
+        Args:
+            candidate: 生成候補
+            retry_injection: リトライ時の追加プロンプト
+
+        Returns:
+            GenerationResult: 生成結果
+        """
+        self._tiered_stats["haiku_attempts"] += 1
+
+        # Step 1: Haiku生成
+        haiku_result = self._generate_with_model(
+            candidate,
+            use_haiku=True,
+            retry_injection=retry_injection,
+        )
+
+        if not haiku_result.success:
+            # Haiku生成失敗 → Sonnetフォールバック
+            self._tiered_stats["sonnet_fallbacks"] += 1
+            return self._generate_with_model(
+                candidate,
+                use_haiku=False,
+                retry_injection=retry_injection,
+            )
+
+        # Step 2: 品質評価
+        haiku_result.evaluation = self.evaluate(haiku_result.episode_text, candidate)
+
+        # Step 3: 閾値判定
+        if self._is_haiku_quality_sufficient(haiku_result.evaluation):
+            self._tiered_stats["haiku_successes"] += 1
+            return haiku_result
+
+        # Step 4: Sonnetフォールバック
+        self._tiered_stats["sonnet_fallbacks"] += 1
+        sonnet_result = self._generate_with_model(
+            candidate,
+            use_haiku=False,
+            retry_injection=f"前回品質不足。改善点: {haiku_result.evaluation.gate_failures}\n\n{retry_injection}",
+        )
+
+        if sonnet_result.success:
+            sonnet_result.evaluation = self.evaluate(sonnet_result.episode_text, candidate)
+
+        return sonnet_result
+
+    def _generate_with_model(
+        self,
+        candidate: Candidate,
+        use_haiku: bool = False,
+        retry_injection: str = "",
+    ) -> GenerationResult:
+        """
+        モデル指定での生成
+
+        Args:
+            candidate: 生成候補
+            use_haiku: True=Haiku, False=Sonnet
+            retry_injection: リトライ時の追加プロンプト
+
+        Returns:
+            GenerationResult: 生成結果
+        """
+        import asyncio
+
+        try:
+            generator = self._get_haiku_generator() if use_haiku else self._get_generator()
+            model_name = "claude-3-5-haiku-20241022" if use_haiku else "claude-sonnet-4-20250514"
+
+            from scripts.generate.mass_production.generator import GenerationInput
+
+            additional_context = (
+                "重要: 以下の要素を必ず含めること:\n"
+                "- 西暦年号を2つ以上\n"
+                "- 固有名詞（人名、作品名、組織名、地名）を5つ以上\n"
+                "- 「」で囲んだ作品名・イベント名を2つ以上\n"
+                "- 数値データを3つ以上\n"
+                "抽象的な表現や推測・伝聞は禁止"
+            )
+
+            iconic_context = self._get_iconic_context(candidate.person_name, candidate.age)
+            if iconic_context:
+                additional_context = f"{iconic_context}\n\n{additional_context}"
+
+            age_context = self._get_age_specific_context(candidate.age)
+            if age_context:
+                additional_context = f"{age_context}\n\n{additional_context}"
+
+            if retry_injection:
+                additional_context = f"{retry_injection}\n\n{additional_context}"
+
+            gen_input = GenerationInput(
+                person_id=candidate.person_id,
+                person_name=candidate.person_name,
+                age=candidate.age,
+                category=candidate.category,
+                additional_context=additional_context,
+            )
+
+            try:
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            if hasattr(generator, "generate_sync"):
+                results = generator.generate_sync([gen_input])
+                result = results[0] if results else None
+            else:
+                results = loop.run_until_complete(generator.generate_batch([gen_input]))
+                result = results[0] if results else None
+
+            if result and result.success:
+                episode_text = result.episode_text
+
+                # トークン使用量を推定
+                prompt_text = (
+                    f"{candidate.person_name} {candidate.age}歳 {candidate.category}" + " " * EPGEN_PROMPT_BASE_LENGTH
+                )
+                gen_token_usage = TokenUsage.estimate_from_text(
+                    prompt=prompt_text,
+                    response=episode_text,
+                    model=model_name,
+                )
+                self.record_token_usage(gen_token_usage)
+
+                # コスト追跡
+                if use_haiku:
+                    # Haiku: input $0.25/1M, output $1.25/1M
+                    cost = (
+                        gen_token_usage.input_tokens * 0.25 / 1_000_000
+                        + gen_token_usage.output_tokens * 1.25 / 1_000_000
+                    )
+                    self._tiered_stats["haiku_cost"] += cost
+                else:
+                    # Sonnet: input $3/1M, output $15/1M
+                    cost = gen_token_usage.input_tokens * 3 / 1_000_000 + gen_token_usage.output_tokens * 15 / 1_000_000
+                    self._tiered_stats["sonnet_cost"] += cost
+
+                return GenerationResult(
+                    success=True,
+                    candidate=candidate,
+                    episode_text=episode_text,
+                    episode_type=getattr(result, "episode_type", "ACHIEVEMENT"),
+                    char_count=len(episode_text),
+                    evaluation=None,
+                    generator_type=self.generator_type,
+                    evidence=self._extract_evidence(episode_text),
+                    token_usage=gen_token_usage,
+                )
+            else:
+                error_msg = getattr(result, "error", "Generation failed") if result else "No result"
+                return GenerationResult(
+                    success=False,
+                    candidate=candidate,
+                    error_message=str(error_msg),
+                    generator_type=self.generator_type,
+                )
+
+        except Exception as e:
+            return GenerationResult(
+                success=False,
+                candidate=candidate,
+                error_message=str(e),
+                generator_type=self.generator_type,
+            )
+
+    def _is_haiku_quality_sufficient(self, evaluation: EvaluationResult) -> bool:
+        """Haiku品質が閾値を満たすか判定"""
+        if not evaluation or not evaluation.axis_scores:
+            return False
+
+        # Phase 21閾値
+        return (
+            evaluation.composite_score >= 470
+            and evaluation.axis_scores.factual_density >= 6.5
+            and evaluation.axis_scores.generation_quality >= 7.0
+            and evaluation.passed_gate
+        )
+
+    def get_tiered_stats(self) -> dict:
+        """多段階生成の統計情報"""
+        total_attempts = self._tiered_stats["haiku_attempts"]
+        haiku_successes = self._tiered_stats["haiku_successes"]
+        return {
+            "haiku_attempts": total_attempts,
+            "haiku_successes": haiku_successes,
+            "haiku_success_rate": haiku_successes / max(1, total_attempts),
+            "sonnet_fallbacks": self._tiered_stats["sonnet_fallbacks"],
+            "haiku_cost": round(self._tiered_stats["haiku_cost"], 6),
+            "sonnet_cost": round(self._tiered_stats["sonnet_cost"], 6),
+            "total_cost": round(self._tiered_stats["haiku_cost"] + self._tiered_stats["sonnet_cost"], 6),
+        }
 
     def evaluate(self, text: str, candidate: Candidate) -> EvaluationResult:
         """

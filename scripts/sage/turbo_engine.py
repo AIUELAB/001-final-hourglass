@@ -17,6 +17,9 @@ from .config import HybridConfig, Strategy
 from .orchestrator import GenerationRun, HybridOrchestrator
 from .pre_generation_rules import Candidate as PreRulesCandidate, PreGenerationRules
 
+# Phase 20: Batch API統合
+from .batch_processor import BatchProcessor, BatchRequest, BatchJob
+
 logger = logging.getLogger(__name__)
 
 # プロジェクトルート
@@ -498,6 +501,333 @@ class TurboEngine:
             checkpoint_path=checkpoint_path,
             pre_filter_stats=self._pre_filter_stats.copy(),
             pre_filter_saved_cost_usd=pre_filter_saved_cost,
+        )
+
+    # ==========================================================================
+    # Phase 20: Batch API メソッド
+    # ==========================================================================
+
+    def submit_batch_job(self, count: int = 100) -> Optional[str]:
+        """
+        Batch APIジョブを送信
+
+        候補を選定し、プロンプトを生成してBatch APIに送信。
+        結果は24時間以内に取得可能。
+
+        Args:
+            count: 生成する件数
+
+        Returns:
+            batch_id: 送信されたバッチのID（後で結果取得に使用）
+        """
+        import asyncio
+        from scripts.generate.mass_production.generator import GenerationInput, create_prompt_builder
+
+        logger.info(f"Phase 20: Batch APIジョブ送信開始 (count={count})")
+
+        # 候補選定
+        candidates = self.orchestrator.step1_select_candidates(target_count=count)
+        if not candidates:
+            logger.warning("候補が見つかりませんでした")
+            return None
+
+        logger.info(f"候補 {len(candidates)} 件を選定")
+
+        # 生成前フィルタ適用
+        filtered_candidates = []
+        for candidate in candidates:
+            pre_candidate = PreRulesCandidate(
+                person_id=candidate.person_id,
+                person_name=candidate.person_name,
+                age=candidate.age,
+                category=candidate.category,
+            )
+            passed, reason = self._pre_rules.check(pre_candidate)
+            if passed:
+                filtered_candidates.append(candidate)
+            else:
+                self._pre_filter_stats[reason] = self._pre_filter_stats.get(reason, 0) + 1
+
+        logger.info(f"フィルタ後 {len(filtered_candidates)} 件")
+
+        if not filtered_candidates:
+            logger.warning("フィルタ後の候補がありません")
+            return None
+
+        # プロンプト生成
+        prompt_builder = create_prompt_builder(compact=True)
+        batch_requests = []
+
+        for candidate in filtered_candidates:
+            gen_input = GenerationInput(
+                person_id=candidate.person_id,
+                person_name=candidate.person_name,
+                age=candidate.age,
+                category=candidate.category,
+                additional_context=(
+                    "重要: 以下の要素を必ず含めること:\n"
+                    "- 西暦年号を2つ以上\n"
+                    "- 固有名詞（人名、作品名、組織名、地名）を5つ以上\n"
+                    "- 「」で囲んだ作品名・イベント名を2つ以上\n"
+                    "- 数値データを3つ以上\n"
+                    "抽象的な表現や推測・伝聞は禁止"
+                ),
+            )
+
+            prompt = prompt_builder.build(gen_input, style="factual")
+
+            # custom_id: person_id_age でユニーク化
+            custom_id = f"{candidate.person_id}_{candidate.age}"
+
+            batch_requests.append(
+                BatchRequest(
+                    custom_id=custom_id,
+                    person_name=candidate.person_name,
+                    age=candidate.age,
+                    category=candidate.category,
+                    prompt=prompt,
+                    model=self.config.strategy.value
+                    if hasattr(self.config, "generation_model")
+                    else "claude-sonnet-4-20250514",
+                    max_tokens=1024,
+                )
+            )
+
+        logger.info(f"BatchRequest {len(batch_requests)} 件を作成")
+
+        # Batch API送信
+        processor = BatchProcessor()
+
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        try:
+            job = loop.run_until_complete(processor.submit_batch(batch_requests))
+            logger.info(f"Batch APIジョブ送信成功: batch_id={job.batch_id}")
+
+            # ジョブ情報をログに保存
+            job_log_path = self.config.logs_dir if hasattr(self.config, "logs_dir") else Path("src/reports/logs")
+            job_log_path = job_log_path / "batch_jobs" / f"{job.batch_id}_meta.json"
+            job_log_path.parent.mkdir(parents=True, exist_ok=True)
+
+            with open(job_log_path, "w", encoding="utf-8") as f:
+                json.dump(
+                    {
+                        "batch_id": job.batch_id,
+                        "submitted_at": datetime.now().isoformat(),
+                        "request_count": len(batch_requests),
+                        "dry_run": self.config.dry_run,
+                        "candidates": [
+                            {
+                                "custom_id": r.custom_id,
+                                "person_name": r.person_name,
+                                "age": r.age,
+                                "category": r.category,
+                            }
+                            for r in batch_requests
+                        ],
+                    },
+                    f,
+                    ensure_ascii=False,
+                    indent=2,
+                )
+
+            return job.batch_id
+
+        except Exception as e:
+            logger.error(f"Batch API送信エラー: {e}")
+            raise
+
+    def check_batch_status(self, batch_id: str) -> dict:
+        """
+        Batchジョブのステータスを確認
+
+        Args:
+            batch_id: バッチID
+
+        Returns:
+            dict: ステータス情報
+        """
+        import asyncio
+
+        processor = BatchProcessor()
+
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        job = loop.run_until_complete(processor.check_status(batch_id))
+
+        return {
+            "batch_id": job.batch_id,
+            "status": job.status,
+            "request_count": job.request_count,
+            "succeeded_count": job.succeeded_count,
+            "failed_count": job.failed_count,
+            "expired_count": job.expired_count,
+            "canceled_count": job.canceled_count,
+        }
+
+    def retrieve_batch_results(self, batch_id: str, wait: bool = True) -> Optional[GenerationRun]:
+        """
+        Batch API結果を取得して処理
+
+        Args:
+            batch_id: バッチID
+            wait: 完了を待機するか（最大24時間）
+
+        Returns:
+            GenerationRun: 生成結果（orchestratorと互換）
+        """
+        import asyncio
+
+        logger.info(f"Phase 20: Batch API結果取得開始 (batch_id={batch_id})")
+
+        processor = BatchProcessor()
+
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        # ステータス確認
+        job = loop.run_until_complete(processor.check_status(batch_id))
+
+        if job.status != "ended":
+            if wait:
+                logger.info(f"Batch処理中... ステータス: {job.status}")
+                poll_interval = 300  # 5分
+                job = loop.run_until_complete(processor.wait_for_completion(batch_id, poll_interval=poll_interval))
+            else:
+                logger.info(f"Batch未完了: {job.status}")
+                return None
+
+        if job.status != "ended":
+            logger.error(f"Batchが正常終了していません: {job.status}")
+            return None
+
+        # 結果取得
+        results = loop.run_until_complete(processor.get_results(batch_id))
+        logger.info(f"結果 {len(results)} 件を取得")
+
+        # メタデータ読み込み（候補情報）
+        job_log_path = Path("src/reports/logs/batch_jobs") / f"{batch_id}_meta.json"
+        candidate_map = {}
+        if job_log_path.exists():
+            with open(job_log_path, encoding="utf-8") as f:
+                meta = json.load(f)
+                for c in meta.get("candidates", []):
+                    candidate_map[c["custom_id"]] = c
+
+        # 結果をGenerationRun形式に変換
+        from .adapters import Candidate, GenerationResult
+        from .adapters.base import EvaluationResult
+
+        accepted = []
+        rejected = []
+        rejections = []
+
+        for result in results:
+            custom_id = result.get("custom_id", "")
+            candidate_info = candidate_map.get(custom_id, {})
+
+            if result.get("result_type") != "succeeded":
+                rejections.append(
+                    {
+                        "custom_id": custom_id,
+                        "reason": "batch_error",
+                        "message": result.get("error", "Unknown error"),
+                    }
+                )
+                continue
+
+            text = result.get("text", "")
+            if not text:
+                rejections.append(
+                    {
+                        "custom_id": custom_id,
+                        "reason": "empty_response",
+                        "message": "Empty response from API",
+                    }
+                )
+                continue
+
+            # 基本的な品質チェック
+            if len(text) < 200:
+                rejections.append(
+                    {
+                        "custom_id": custom_id,
+                        "reason": "too_short",
+                        "message": f"Text too short: {len(text)} chars",
+                    }
+                )
+                rejected.append(custom_id)
+                continue
+
+            # 成功として記録
+            accepted.append(
+                {
+                    "custom_id": custom_id,
+                    "person_name": candidate_info.get("person_name", ""),
+                    "age": candidate_info.get("age", 0),
+                    "category": candidate_info.get("category", ""),
+                    "text": text,
+                    "usage": result.get("usage", {}),
+                }
+            )
+
+        logger.info(f"結果処理完了: accepted={len(accepted)}, rejected={len(rejected)}")
+
+        # トークン使用量集計
+        total_input = sum(r.get("usage", {}).get("input_tokens", 0) for r in accepted)
+        total_output = sum(r.get("usage", {}).get("output_tokens", 0) for r in accepted)
+
+        # Batch APIの50%割引コスト計算
+        # 通常: input $3/1M, output $15/1M
+        # Batch: input $1.5/1M, output $7.5/1M
+        batch_cost = (total_input * 1.5 / 1_000_000) + (total_output * 7.5 / 1_000_000)
+
+        # 結果をファイルに保存
+        result_path = Path("src/reports/logs/batch_jobs") / f"{batch_id}_processed.json"
+        with open(result_path, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "batch_id": batch_id,
+                    "processed_at": datetime.now().isoformat(),
+                    "accepted_count": len(accepted),
+                    "rejected_count": len(rejected),
+                    "total_input_tokens": total_input,
+                    "total_output_tokens": total_output,
+                    "estimated_cost_usd": round(batch_cost, 4),
+                    "accepted": accepted,
+                    "rejections": rejections,
+                },
+                f,
+                ensure_ascii=False,
+                indent=2,
+            )
+
+        logger.info(f"処理結果を保存: {result_path}")
+        logger.info(f"コスト: ${batch_cost:.4f} (50%割引適用)")
+
+        # GenerationRun互換形式で返す
+        return GenerationRun(
+            run_id=batch_id,
+            started_at=datetime.now().isoformat(),
+            completed_at=datetime.now().isoformat(),
+            target_count=len(candidate_map),
+            generated_count=len(accepted) + len(rejected),
+            accepted_count=len(accepted),
+            rejected_count=len(rejected),
+            results=[],  # 詳細は別ファイル参照
+            rejections=rejections,
+            dry_run=self.config.dry_run,
         )
 
 

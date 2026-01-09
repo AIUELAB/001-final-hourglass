@@ -155,7 +155,7 @@ class TestDetermineWinner:
         assert "factual_density" in reason
 
     def test_generation_quality_tiebreak(self, resolver):
-        """factual_densityも同点なら生成品質でタイブレーク"""
+        """factual_densityも同点ならgeneration_quality_scoreでタイブレーク"""
         ep1 = {
             "episode_id": "EP-001",
             "fact_check_result": "",
@@ -179,10 +179,10 @@ class TestDetermineWinner:
 
         assert winner_id == "EP-001"
         assert loser_id == "EP-002"
-        assert "生成品質" in reason
+        assert "generation_quality_score" in reason
 
     def test_story_quality_tiebreak(self, resolver):
-        """生成品質も同点ならstory_qualityでタイブレーク"""
+        """generation_quality_scoreも同点ならstory_qualityでタイブレーク"""
         ep1 = {
             "episode_id": "EP-001",
             "fact_check_result": "",

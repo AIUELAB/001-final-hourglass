@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-ダッシュボードv10のフィールド同期テスト
+ダッシュボードv11のフィールド同期テスト
 
 RCA-Kaizen対策として追加:
-- update_dashboard_v10.py と CSVパースの同期確認
+- update_dashboard_v11.py のJSON出力形式確認
 - 翻訳関数の存在確認
 - 新フィールド追加時の回帰防止
+
+Phase 28: v10 → v11 移行、storytelling_quality → story_quality
 """
 
 import re
@@ -14,48 +16,52 @@ from pathlib import Path
 import pytest
 
 PROJECT_ROOT = Path(__file__).parent.parent
-UPDATE_SCRIPT = PROJECT_ROOT / "scripts/update_dashboard_v10.py"
-DASHBOARD_HTML = PROJECT_ROOT / "preserved/episode_database_dashboard_v10.html"
+UPDATE_SCRIPT = PROJECT_ROOT / "scripts/update_dashboard_v11.py"
+DASHBOARD_HTML = PROJECT_ROOT / "preserved/episode_database_dashboard_v11.html"
 
-# 必須フィールド（両方のソースに存在すべき）
-REQUIRED_FIELDS = [
-    "episode_id",
-    "person_id",
-    "person_name",
+# v11で使用される短縮キー (update_dashboard_v11.py の episode 辞書)
+V11_SHORT_KEYS = [
+    "id",  # episode_id
+    "pid",  # person_id
+    "name",  # person_name
     "age",
-    "nendai",
-    "category",
-    "episode_text",
-    "episode_type",
-    "person_type",
-    "work_title",
-    "group_name",
-    "is_group_member",
-    "episode_count",
-    "fame_score",
-    "fame_score_japan",
-    "celebrity_score_v2",
-    "celebrity_rank_v2",
-    "fame_tier",
-    "episode_fame_score",
-    "episode_fame_v6",
-    "episode_fame_tier_v6",
-    "super_total_score",
-    "memorability_score",
-    "empathy_score",
-    "surprise_score",
-    "generation_quality_score",
-    "educational_value",
-    "storytelling_quality",
-    "factual_density",
-    "composite_score",
-    "generation_timestamp",
+    "slot",
+    "nd",  # nendai
+    "cat",  # category
+    "type",  # episode_type
+    "ts",  # generation_timestamp
+    "text",  # episode_text
+    "etype",  # person_type (lowercase)
+    "ptype",  # person_type
+    "work",  # work_title
+    "group",  # group_name
+    "is_grp",  # is_group_member
+    "ep_cnt",  # episode_count
+    "fame",  # fame_score_v3
+    "fame_jp",  # fame_score_japan
+    "ftier",  # fame_tier
+    "celeb",  # celebrity_score_v2
+    "celeb_r",  # celebrity_rank_v2
+    "efv6",  # episode_fame_v6
+    "eftv6",  # episode_fame_tier_v6
+    "super",  # super_total_score
+    "comp",  # composite_score
+    # 8軸スコア（短縮キー）
+    "mem",  # memorability_score
+    "emp",  # empathy_score
+    "sur",  # surprise_score
+    "gen",  # generation_quality_score
+    "edu",  # educational_value
+    "story",  # story_quality
+    "fact",  # factual_density
+    "icon",  # iconic_score
 ]
 
 
 def extract_fields_from_update_script():
-    """update_dashboard_v10.py からフィールド名を抽出"""
+    """update_dashboard_v11.py から短縮キー名を抽出"""
     content = UPDATE_SCRIPT.read_text(encoding="utf-8")
+    # episode辞書のキーを抽出
     episode_pattern = r"episode\s*=\s*\{([^}]+(?:\{[^}]*\}[^}]*)*)\}"
     episode_match = re.search(episode_pattern, content, re.DOTALL)
     if episode_match:
@@ -66,96 +72,68 @@ def extract_fields_from_update_script():
     return set()
 
 
-def extract_fields_from_csv_parse():
-    """ダッシュボードのCSVパース部分からフィールド名を抽出"""
+def extract_fields_from_html_template():
+    """ダッシュボードHTMLテンプレート内のフィールド参照を抽出"""
     content = DASHBOARD_HTML.read_text(encoding="utf-8")
-    lines = content.split("\n")
-    fields = set()
-    in_csv_parse = False
-    in_return_block = False
-    brace_count = 0
-
-    for line in lines:
-        if "CSVファイルから読み込み" in line or "loadEpisodesFromCSV" in line:
-            in_csv_parse = True
-            continue
-
-        if in_csv_parse:
-            if "return {" in line and not in_return_block:
-                in_return_block = True
-                brace_count = line.count("{") - line.count("}")
-                continue
-
-            if in_return_block:
-                brace_count += line.count("{") - line.count("}")
-                match = re.match(r"\s*(\w+):\s*", line)
-                if match:
-                    field_name = match.group(1)
-                    if field_name not in ["id", "const", "let", "var", "if", "return"]:
-                        fields.add(field_name)
-
-                if brace_count <= 0 and "}" in line:
-                    in_return_block = False
-                    if len(fields) > 10:
-                        break
-
-    return fields
+    # ep.XXX パターンを抽出
+    field_pattern = r"ep\.(\w+)"
+    matches = re.findall(field_pattern, content)
+    return set(matches)
 
 
-class TestDashboardFieldSync:
-    """ダッシュボードフィールド同期テスト"""
+class TestDashboardV11FieldSync:
+    """ダッシュボードv11フィールド同期テスト"""
 
     @pytest.fixture(scope="class")
     def update_fields(self):
-        """update_dashboard_v10.py のフィールド"""
+        """update_dashboard_v11.py のフィールド"""
         return extract_fields_from_update_script()
 
     @pytest.fixture(scope="class")
-    def csv_parse_fields(self):
-        """CSVパースのフィールド"""
-        return extract_fields_from_csv_parse()
+    def template_fields(self):
+        """HTMLテンプレートで使用されるフィールド"""
+        return extract_fields_from_html_template()
 
-    @pytest.mark.parametrize("field", REQUIRED_FIELDS)
-    def test_required_field_in_update_script(self, field, update_fields):
-        """必須フィールドがupdate_dashboard_v10.pyに存在すること"""
-        assert field in update_fields, f"{field} が update_dashboard_v10.py に存在しません"
+    @pytest.mark.parametrize("key", V11_SHORT_KEYS)
+    def test_short_key_in_update_script(self, key, update_fields):
+        """短縮キーがupdate_dashboard_v11.pyに存在すること"""
+        assert key in update_fields, f"{key} が update_dashboard_v11.py に存在しません"
 
-    @pytest.mark.parametrize("field", REQUIRED_FIELDS)
-    def test_required_field_in_csv_parse(self, field, csv_parse_fields):
-        """必須フィールドがCSVパースに存在すること"""
-        assert field in csv_parse_fields, f"{field} が CSVパースに存在しません"
-
-    def test_getTypeLabel_function_exists(self):
-        """getTypeLabel翻訳関数が存在すること"""
+    def test_loadData_function_exists(self):
+        """loadData関数が存在すること（v11: JSONからデータ読み込み）"""
         content = DASHBOARD_HTML.read_text(encoding="utf-8")
-        assert "const getTypeLabel" in content, "getTypeLabel関数が定義されていません"
+        assert "async function loadData" in content, "loadData関数が定義されていません"
 
-    def test_getTypeLabel_used_in_template(self):
-        """getTypeLabelがテンプレートで使用されていること"""
+    def test_applyFilters_function_exists(self):
+        """applyFilters関数が存在すること"""
         content = DASHBOARD_HTML.read_text(encoding="utf-8")
-        assert "getTypeLabel(ep.episode_type)" in content, "getTypeLabelがテンプレートで使用されていません"
+        assert "function applyFilters" in content, "applyFilters関数が定義されていません"
 
-    def test_formatGeneratedDate_function_exists(self):
-        """formatGeneratedDate関数が存在すること"""
+    def test_renderPage_function_exists(self):
+        """renderPage関数が存在すること"""
         content = DASHBOARD_HTML.read_text(encoding="utf-8")
-        assert "function formatGeneratedDate" in content, "formatGeneratedDate関数が定義されていません"
+        assert "function renderPage" in content, "renderPage関数が定義されていません"
 
-    def test_formatGeneratedDate_handles_placeholder(self):
-        """formatGeneratedDateがプレースホルダー日付を処理すること"""
-        content = DASHBOARD_HTML.read_text(encoding="utf-8")
-        assert "1900-01-01" in content, "formatGeneratedDateが1900-01-01プレースホルダーを処理していません"
+    def test_iconic_score_key_exists(self, update_fields):
+        """iconic_scoreの短縮キー(icon)が存在すること（Phase 28）"""
+        assert "icon" in update_fields, "iconic_score短縮キー(icon)が存在しません（Phase 28）"
 
-    def test_generation_timestamp_in_csv_parse(self, csv_parse_fields):
-        """generation_timestampがCSVパースに含まれること（RCA対策）"""
-        assert (
-            "generation_timestamp" in csv_parse_fields
-        ), "generation_timestampがCSVパースに存在しません（RCA-Kaizen: 2026-01-06）"
+    def test_story_quality_key_exists(self, update_fields):
+        """story_qualityの短縮キー(story)が存在すること（Phase 28）"""
+        assert "story" in update_fields, "story_quality短縮キー(story)が存在しません（Phase 28）"
 
-    def test_episode_type_in_update_script(self, update_fields):
-        """episode_typeがupdate_dashboard_v10.pyに含まれること（RCA対策）"""
-        assert (
-            "episode_type" in update_fields
-        ), "episode_typeがupdate_dashboard_v10.pyに存在しません（RCA-Kaizen: 2026-01-06）"
+    def test_8axis_scores_complete(self, update_fields):
+        """8軸スコアがすべて存在すること"""
+        required_8axis = ["mem", "emp", "sur", "gen", "edu", "story", "fact", "icon"]
+        for key in required_8axis:
+            assert key in update_fields, f"8軸スコア {key} が存在しません"
+
+    def test_template_uses_expected_fields(self, template_fields):
+        """テンプレートが期待するフィールドを使用していること"""
+        # 基本フィールド
+        assert "name" in template_fields, "テンプレートで ep.name が使用されていません"
+        assert "text" in template_fields, "テンプレートで ep.text が使用されていません"
+        assert "age" in template_fields, "テンプレートで ep.age が使用されていません"
 
 
 if __name__ == "__main__":

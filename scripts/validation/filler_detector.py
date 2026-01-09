@@ -237,7 +237,8 @@ def is_filler(text: str) -> bool:
     判定基準:
     1. LLM拒否メッセージである（即アウト）
     2. 捏造パターンが含まれている（即アウト）
-    3. または、具体性スコア <= 1 かつ 抽象フレーズ >= 2
+    3. または、具体性スコア == 0 かつ 抽象フレーズ >= 2
+       ※ spec=1（年/数値/作品名/イベントのいずれか1つあり）は埋め草としない
 
     Args:
         text: エピソード本文
@@ -258,7 +259,8 @@ def is_filler(text: str) -> bool:
 
     specificity = calc_specificity_score(text)
     filler_count = count_filler_phrases(text)
-    return specificity <= 1 and filler_count >= 2
+    # 具体性が0（年/数値/作品名/イベントなし）かつ抽象フレーズ多数の場合のみ埋め草
+    return specificity == 0 and filler_count >= 2
 
 
 def check_episode_limit(person_episodes_count: int, limit: int = 5) -> bool:

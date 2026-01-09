@@ -260,6 +260,13 @@ class HybridConfig:
     batch_api_max_wait: int = 86400  # 最大待機時間（秒、デフォルト24時間）
     batch_jobs_dir: Path = field(default_factory=lambda: LOGS_DIR / "batch_jobs")  # バッチジョブ保存先
 
+    # Phase 21: 多段階生成（Haiku first → Sonnet fallback、コスト-55%追加）
+    use_tiered_generation: bool = True  # True: Haiku優先、品質不足時Sonnetフォールバック
+    tiered_haiku_model: str = "claude-3-5-haiku-20241022"  # 第1段階モデル
+    tiered_sonnet_model: str = "claude-sonnet-4-20250514"  # フォールバックモデル
+    tiered_haiku_threshold: float = 470  # Haiku採用の最低composite
+    tiered_factual_threshold: float = 6.5  # Haiku採用の最低factual_density
+
     # ルール・閾値
     generation_rules: dict[str, Any] = field(default_factory=lambda: GENERATION_RULES.copy())
     quality_thresholds: dict[str, float] = field(default_factory=lambda: QUALITY_THRESHOLDS.copy())

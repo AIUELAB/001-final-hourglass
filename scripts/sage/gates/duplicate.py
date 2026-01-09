@@ -25,6 +25,9 @@ class DuplicateCheckResult:
     most_similar_text: Optional[str] = None
     reason: str = ""
     rejection_reason: RejectionReason = None
+    # Phase 17: 置換モード対応
+    existing_score: float = 0.0  # 既存エピソードのsuper_total_score
+    is_replacement_candidate: bool = False  # 置換候補フラグ
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -32,6 +35,8 @@ class DuplicateCheckResult:
             "similarity_score": self.similarity_score,
             "most_similar_episode_id": self.most_similar_episode_id,
             "reason": self.reason,
+            "existing_score": self.existing_score,
+            "is_replacement_candidate": self.is_replacement_candidate,
         }
 
 
@@ -164,6 +169,67 @@ class DuplicateDetector:
                 reason=f"Exact duplicate: {person_id} at age {age}",
                 rejection_reason=RejectionReason.SAME_AGE_DUPLICATE,
             )
+
+        return DuplicateCheckResult(
+            is_duplicate=False,
+            similarity_score=0.0,
+            reason="No exact duplicate found",
+        )
+
+    def check_exact_duplicate_with_score(
+        self, person_id: str, age: int, allow_replacement: bool = False
+    ) -> DuplicateCheckResult:
+        """
+        完全一致重複チェック（スコア付き・置換モード対応）
+
+        Phase 17: same_age_duplicate置換モード実装
+
+        Args:
+            person_id: 人物ID
+            age: 年齢
+            allow_replacement: 置換モードを許可するか
+
+        Returns:
+            DuplicateCheckResult: チェック結果（既存スコア含む）
+        """
+        if self.master_df.empty:
+            return DuplicateCheckResult(
+                is_duplicate=False,
+                similarity_score=0.0,
+                reason="No existing episodes",
+            )
+
+        # 同一人物・同一年齢のエピソードを検索
+        existing = self.master_df[(self.master_df["person_id"] == person_id) & (self.master_df["age"] == age)]
+
+        if not existing.empty:
+            first = existing.iloc[0]
+            episode_id = first.get("episode_id", "unknown")
+            existing_score = float(first.get("super_total_score", 0) or 0)
+
+            if allow_replacement:
+                # 置換モード: 重複として扱わず、置換候補としてマーク
+                return DuplicateCheckResult(
+                    is_duplicate=False,  # 棄却しない
+                    similarity_score=1.0,
+                    most_similar_episode_id=episode_id,
+                    most_similar_text=str(first.get("episode_text", ""))[:100],
+                    reason=f"Replacement candidate: {person_id} at age {age}",
+                    rejection_reason=None,
+                    existing_score=existing_score,
+                    is_replacement_candidate=True,
+                )
+            else:
+                # 通常モード: 従来通り棄却
+                return DuplicateCheckResult(
+                    is_duplicate=True,
+                    similarity_score=1.0,
+                    most_similar_episode_id=episode_id,
+                    most_similar_text=str(first.get("episode_text", ""))[:100],
+                    reason=f"Exact duplicate: {person_id} at age {age}",
+                    rejection_reason=RejectionReason.SAME_AGE_DUPLICATE,
+                    existing_score=existing_score,
+                )
 
         return DuplicateCheckResult(
             is_duplicate=False,

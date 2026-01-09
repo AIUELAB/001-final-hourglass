@@ -43,16 +43,18 @@ GENERATION_RULES = {
     "age_boundary": True,  # birth-death範囲内のみ
     "same_age_duplicate": True,  # 同一人物・同一年齢の重複禁止
     "prohibited_patterns": True,  # メタ表現・禁止パターン
-    # 多様性制約
-    "cooldown_hours": 4,  # 同一人物の再生成までの待機時間
-    "max_per_person_per_week": 3,  # 週あたり同一人物の生成上限
-    "max_per_person_per_day": 1,  # 日あたり同一人物の生成上限
+    # 多様性制約 (Phase 16: cooldown完全無効化で採用率向上)
+    "cooldown_hours": 0,  # 同一人物の再生成待機時間（4→0: 完全無効化）
+    "max_per_person_per_week": 20,  # 週あたり同一人物の生成上限（5→20: 大幅緩和）
+    "max_per_person_per_day": 10,  # 日あたり同一人物の生成上限（2→10: 大幅緩和）
     # 品質制約
     "min_char_count": 200,  # 最小文字数
     "max_char_count": 500,  # 最大文字数
     # リトライ制約
     "max_retries": 2,  # 最大リトライ回数
     "retry_delay_seconds": 1,  # リトライ間隔
+    # Phase 17: アンチゲーミング無効化（0%ブロック率のため）
+    "use_anti_gaming": False,  # False: 無効化して処理時間短縮
 }
 
 # ==============================================================================

@@ -10,9 +10,12 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import pandas as pd
+
+if TYPE_CHECKING:
+    from .inventory_manager import InventoryManager
 
 from .config import (
     CACHE_DIR,
@@ -69,10 +72,13 @@ class PreGenerationRules:
         master_csv: Path = MASTER_CSV,
         rules: dict = None,
         thresholds: dict = None,
+        inventory_manager: Optional["InventoryManager"] = None,
     ):
         self.master_csv = master_csv
         self.rules = rules or GENERATION_RULES.copy()
         self.thresholds = thresholds or QUALITY_THRESHOLDS.copy()
+        # Phase 17: 置換モード対応
+        self._inventory_manager = inventory_manager
 
         # マスターデータ読み込み
         self._master_df: Optional[pd.DataFrame] = None
@@ -117,7 +123,7 @@ class PreGenerationRules:
 
     def check_all(self, candidate: Candidate) -> RuleCheckResult:
         """
-        全ルールをチェック
+        全ルールをチェック（Phase 17: 置換モード対応）
 
         Args:
             candidate: 生成候補
@@ -125,6 +131,9 @@ class PreGenerationRules:
         Returns:
             RuleCheckResult: チェック結果
         """
+        # Phase 17: 置換候補情報を保持
+        replacement_details: dict = {}
+
         # 1. 年齢境界チェック
         if self.rules.get("age_boundary", True):
             result = self._check_age_boundary(candidate)
@@ -136,6 +145,9 @@ class PreGenerationRules:
             result = self._check_same_age_duplicate(candidate)
             if not result.passed:
                 return result
+            # Phase 17: 置換候補情報を保持
+            if result.details.get("is_replacement_candidate"):
+                replacement_details = result.details.copy()
 
         # 3. クールダウンチェック
         cooldown_hours = self.rules.get("cooldown_hours", 24)
@@ -158,7 +170,12 @@ class PreGenerationRules:
             if not result.passed:
                 return result
 
-        return RuleCheckResult(passed=True, message="All pre-generation rules passed")
+        # Phase 17: 置換候補情報を最終結果に含める
+        return RuleCheckResult(
+            passed=True,
+            message="All pre-generation rules passed",
+            details=replacement_details if replacement_details else {},
+        )
 
     def _check_age_boundary(self, candidate: Candidate) -> RuleCheckResult:
         """
@@ -215,9 +232,10 @@ class PreGenerationRules:
 
     def _check_same_age_duplicate(self, candidate: Candidate) -> RuleCheckResult:
         """
-        同一年齢重複チェック
+        同一年齢重複チェック（Phase 17: 置換モード対応）
 
         同一人物・同一年齢のエピソードが既に存在するか確認。
+        置換モードが有効な場合、棄却せずに置換候補としてマークする。
         """
         if self.master_df.empty:
             return RuleCheckResult(passed=True, message="No existing episodes to check")
@@ -228,11 +246,31 @@ class PreGenerationRules:
         ]
 
         if not existing.empty:
+            first = existing.iloc[0]
+            existing_episode_id = first.get("episode_id", "unknown")
+            existing_score = float(first.get("super_total_score", 0) or 0)
+
+            # Phase 17: 置換モードチェック
+            if self._inventory_manager is not None:
+                if self._inventory_manager.is_replacement_mode(candidate.age):
+                    # 置換モード: 棄却せずに置換候補としてマーク
+                    return RuleCheckResult(
+                        passed=True,  # 通過を許可
+                        message=f"Replacement candidate: {candidate.person_name} at age {candidate.age}",
+                        details={
+                            "is_replacement_candidate": True,
+                            "existing_episode_id": existing_episode_id,
+                            "existing_score": existing_score,
+                            "existing_count": len(existing),
+                        },
+                    )
+
+            # 通常モード: 従来通り棄却
             return RuleCheckResult(
                 passed=False,
                 reason=RejectionReason.SAME_AGE_DUPLICATE,
                 message=f"Episode for {candidate.person_name} at age {candidate.age} already exists",
-                details={"existing_count": len(existing)},
+                details={"existing_count": len(existing), "existing_score": existing_score},
             )
 
         return RuleCheckResult(passed=True, message="No same-age duplicate found")

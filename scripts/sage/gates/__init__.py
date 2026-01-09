@@ -68,21 +68,8 @@ from .fact_check import (
     FactChecker,
     quick_fact_check,
 )
-from .wiki_fact_checker import (
-    CategoryFactRules,
-    CrossReferenceValidator,
-    PersonInfo,
-    WikidataClient,
-    WikiFactCheckResult,
-    WikiFactChecker,
-    verify_episode_facts,
-)
-from .perplexity_fact_checker import (
-    HybridFactChecker,
-    PerplexityFactCheckResult,
-    PerplexityFactChecker,
-    perplexity_fact_check,
-)
+
+# Phase 17: 死コード削除 - wiki_fact_checker, perplexity_fact_checker は未使用のため削除
 from .polite_form import (
     PoliteFormCheckResult,
     auto_fix_polite_form,
@@ -118,19 +105,7 @@ __all__ = [
     "FactCheckResult",
     "FabricationDetector",
     "quick_fact_check",
-    # Wiki Fact Check (Phase 6)
-    "WikiFactChecker",
-    "WikiFactCheckResult",
-    "WikidataClient",
-    "CrossReferenceValidator",
-    "CategoryFactRules",
-    "PersonInfo",
-    "verify_episode_facts",
-    # Perplexity Fact Check
-    "PerplexityFactChecker",
-    "PerplexityFactCheckResult",
-    "HybridFactChecker",
-    "perplexity_fact_check",
+    # Phase 17: Wiki/Perplexity Fact Checkerは死コードのため削除
     # Duplicate
     "DuplicateDetector",
     "DuplicateCheckResult",

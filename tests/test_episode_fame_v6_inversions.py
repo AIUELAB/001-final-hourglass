@@ -111,7 +111,6 @@ class TestEpisodeCountConsistency:
             reader = csv.DictReader(f)
             return list(reader)
 
-    @pytest.mark.xfail(reason="データ品質課題: 802人でepisode_countが不整合（同期処理が必要）")
     def test_episode_count_consistent_per_person(self, all_episodes):
         """同一人物のepisode_countが統一されている"""
         from collections import defaultdict

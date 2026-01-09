@@ -263,13 +263,15 @@ class TurboEngine:
             gate_failures=super_result.gate_failures,
         )
 
-    def _write_accepted_episodes(self, accepted: list[dict], batch_id: str) -> tuple[int, int]:
+    def _write_accepted_episodes(self, accepted: list[dict], batch_id: str, model_used: str = "") -> tuple[int, int]:
         """
         Phase 24: 後処理 + 品質評価 + CSV書き込み
+        Phase 26: モデル追跡とコスト可視化
 
         Args:
             accepted: 採用エピソードのリスト（dict形式）
             batch_id: バッチID
+            model_used: 使用モデル名（Phase 26追加）
 
         Returns:
             tuple: (書き込み成功数, スキップ数)
@@ -328,14 +330,31 @@ class TurboEngine:
                 person_type="REAL",
             )
 
+            # Phase 26: モデル追跡とコスト計算
+            is_haiku = "haiku" in model_used.lower() if model_used else True
+            generator_type = "batch_api_haiku" if is_haiku else "batch_api_sonnet"
+
+            # トークン使用量からコスト計算（Batch API 50%割引適用）
+            usage = ep.get("usage", {})
+            input_tokens = usage.get("input_tokens", 0)
+            output_tokens = usage.get("output_tokens", 0)
+            if is_haiku:
+                # Haiku Batch: input $0.40/1M, output $2.00/1M
+                cost_usd = (input_tokens * 0.40 + output_tokens * 2.00) / 1_000_000
+            else:
+                # Sonnet Batch: input $1.50/1M, output $7.50/1M
+                cost_usd = (input_tokens * 1.50 + output_tokens * 7.50) / 1_000_000
+
             result = GenerationResult(
                 success=True,
                 candidate=candidate,
                 episode_text=processed_text,
                 episode_type="生成",
                 char_count=len(processed_text),
-                generator_type="batch_api_haiku",
+                generator_type=generator_type,
                 evaluation=evaluation,  # Phase 24: 評価結果を付加
+                model=model_used,  # Phase 26: 使用モデル名
+                cost_usd=round(cost_usd, 6),  # Phase 26: コスト（USD）
             )
             generation_results.append(result)
 
@@ -1034,11 +1053,11 @@ class TurboEngine:
         logger.info(f"処理結果を保存: {result_path}")
         logger.info(f"コスト: ${batch_cost:.4f} (50%割引適用)")
 
-        # Phase 23: マスターCSV書き込み
+        # Phase 23: マスターCSV書き込み（Phase 26: モデル情報追加）
         added_count = 0
         skipped_count = 0
         if write_to_csv and accepted:
-            added_count, skipped_count = self._write_accepted_episodes(accepted, batch_id)
+            added_count, skipped_count = self._write_accepted_episodes(accepted, batch_id, model_used=model_used)
 
         # GenerationRun互換形式で返す
         return GenerationRun(

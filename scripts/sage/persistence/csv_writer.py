@@ -7,12 +7,15 @@ Safe CSV Writer
 import csv
 import hashlib
 import json
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 from ..adapters.base import GenerationResult
 from ..config import LOGS_DIR, MASTER_CSV
@@ -273,12 +276,17 @@ class SafeCSVWriter:
                 # RCA-20260110: 派生フィールド自動補完
                 row = auto_fill_all_derived_fields(row)
 
-                # RCA-20260110: 完全性チェック（欠損があれば書き込まない）
+                # RCA-20260110: 完全性チェック（欠損があれば書き込まない - 厳格モード）
                 completeness_result = check_completeness_extended(row, auto_fill=False)
                 if not completeness_result.passed:
-                    # 欠損があっても書き込むが、ログを残す
-                    # Note: 厳格モードが必要な場合はここでskipする
-                    pass  # 現在は警告のみ（移行期間）
+                    # EPUP原則: 不完全レコードは書き込まない
+                    logger.warning(
+                        f"EPUP violation - incomplete record skipped: "
+                        f"{row.get('person_name')} ({row.get('age')}歳) - "
+                        f"missing: {completeness_result.missing_fields}"
+                    )
+                    skipped_count += 1
+                    continue
 
                 # 重複チェック
                 is_dup, dup_reason = self._check_duplicate(row, existing_df)

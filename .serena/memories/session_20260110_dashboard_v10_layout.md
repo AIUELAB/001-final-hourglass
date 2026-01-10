@@ -67,10 +67,28 @@
 - `scripts/update_dashboard_v10.py`
 - `scripts/validation/quality_regression_check.py`
 
+### 7. エピソードタブ デフォルトソート修正
+- 変更前: `episode_id` (asc)
+- 変更後: `super_total_score` (desc) = 超総合スコア降順
+- 行1101728: `let currentSort = { field: 'super_total_score', order: 'desc' };`
+
+### 8. 追加フィールド表示（エピソード下部）
+- コミット参照: `32aed26`
+- 表示項目:
+  - キーフレーズ (keyphrase)
+  - 検証状態 (verification_status)
+  - エビデンス品質 (evidence_quality)
+  - Wikipedia PV (wikipedia_pv)
+  - 受賞レベル (award_level)
+  - 教科書掲載 (textbook)
+- CSS: lines 1592-1625
+- Template: lines 1102607-1102616
+
 ## 現在の状態
 - ダッシュボードは正常動作
 - HTTPサーバー: http://127.0.0.1:8080/episode_database_dashboard_v11.html
 - 全機能（9タブ）正常表示確認済み
+- データ件数: 19,254件 / 6,743人物
 
 ## 品質状態
 | 項目 | 修正前 | 修正後 |
@@ -84,15 +102,77 @@
 |------|------|
 | Batch API結果取得 | 76件全完了 |
 | CSV統合 | 983件追加 |
-| マスターCSV | 14,783件 |
+| マスターCSV | 19,254件 |
 | 「私」パターン修正 | 957件 |
 | 丁寧語修正 | 12,990件 |
-| ダッシュボード | v11更新済み |
+| ダッシュボード | v11完成（正式レイアウト） |
+| エピソードタブ | 超総合スコア降順 |
+| 追加フィールド表示 | 6項目 |
 
 ## コミット履歴
 - `aee8a40` fix: 品質修正（私パターン957件 + 丁寧語12,990件→常体変換）
 - `2fa104a` fix: ダッシュボードタイトルをv11に修正
 - `e5f6372` feat: Batch API結果983件統合 + ダッシュボード更新
+
+## 9. EPUP欠損値防止システム実装 (RCA-20260110)
+
+### 根本原因分析
+ダッシュボードで8軸スコア・5軸スコアが「-」表示される問題を調査
+
+#### 原因1: process_batch_results.py の不完全実装
+- `iconic_score` が未設定
+- `fame_score_v3` が人物マスターから取得されていなかった
+
+#### 原因2: SafeCSVWriter が警告モードのみ
+- 不完全レコードでも書き込み継続していた
+
+#### 原因3: update_dashboard_v10.py の0値処理
+- 0値をfalsyとして扱っていた（`if (mem and gen)` → 0=False）
+
+#### 原因4: 間違ったダッシュボード生成スクリプト
+- `scripts/update_dashboard_v11.py` がダークテーマ版を生成していた
+
+### 修正内容
+1. `scripts/sage/process_batch_results.py` - iconic_score計算追加、fame_score_v3取得追加
+2. `scripts/sage/persistence/csv_writer.py` - 厳格モード化（不完全レコード書き込み拒否）
+3. `scripts/update_dashboard_v10.py` - 0値処理修正 (`is not None` チェック)
+4. `scripts/validation/dashboard_completeness_gate.py` - 新規作成
+5. `scripts/fix/fill_missing_dashboard_fields.py` - 新規作成
+
+### 既存データ補完結果
+| フィールド | 補完件数 |
+|-----------|---------|
+| iconic_score | 1,716件 |
+| storytelling_quality | 5,200件 |
+| fame_score_v3 | 7,137件 |
+| episode_fame_v6 | 19,983件 |
+| episode_fame_tier_v6 | 19,983件 |
+
+### 完全性ゲート結果
+```
+✅ PASSED: 19983件すべて完全
+```
+
+## 10. 間違ったダッシュボード問題の永久修正
+
+### 問題
+ブラウザでダッシュボードを開くと、正しい「エピソードメインデータベース v11」（白壁・青フレーム）ではなく、間違った「Episode Database Dashboard v11 - Phase 27: 軽量化版」（ダークテーマ）が表示されていた。
+
+### 原因
+- `scripts/update_dashboard_v11.py` がダークテーマ版のダッシュボードを生成していた
+- このスクリプトが正しいダッシュボードを上書きしていた
+
+### 修正
+1. `scripts/update_dashboard_v11.py` を `archive/scripts/` にアーカイブ
+2. 残留ファイル削除:
+   - `preserved/data/dashboard_data_v11.json`
+   - `preserved/.!34973!episode_database_dashboard_v11.html`
+3. 正しいダッシュボードを `scripts/update_dashboard_v10.py` で再生成
+
+### 永久防止ルール
+**🚨 重要**: ダッシュボード更新には必ず `scripts/update_dashboard_v10.py` を使用すること
+- ❌ `update_dashboard_v11.py` は使用禁止（アーカイブ済み）
+- ✅ `update_dashboard_v10.py` のみ使用
 
 ## 次回作業候補
 - keyphraseカラムの「私」パターン修正（95件）

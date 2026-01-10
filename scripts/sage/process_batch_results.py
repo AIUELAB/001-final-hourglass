@@ -23,7 +23,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 import pandas as pd
 
 from scripts.sage.config import LOGS_DIR, MASTER_CSV, HybridConfig
-from scripts.sage.quality.evaluator import QualityEvaluator
+from scripts.sage.quality.evaluator import QualityEvaluator, IconicScoreCalculator
 from scripts.sage.gates.duplicate import DuplicateDetector
 from scripts.sage.quality.super_total import SuperTotalCalculator
 from scripts.sage.inventory_manager import InventoryManager
@@ -187,6 +187,10 @@ class BatchResultProcessor:
             fd_score = min(base_score + specificity_bonus, 9.5)
             gq_score = min(base_score + 0.5 + specificity_bonus * 0.5, 9.5)  # 生成品質は高め
 
+            # RCA-20260110: iconic_score を計算
+            iconic_calc = IconicScoreCalculator()
+            iconic_score = iconic_calc.calculate(episode_text, person_name, age)
+
             axis_scores = AxisScores(
                 memorability=min(7.0 + specificity_bonus * 0.3, 9.0),
                 empathy=7.0,
@@ -195,6 +199,7 @@ class BatchResultProcessor:
                 educational_value=7.0,
                 story_quality=7.5,
                 factual_density=fd_score,
+                iconic_score=iconic_score,  # RCA-20260110: iconic_score追加
             )
 
             # 重複チェック
@@ -305,10 +310,20 @@ class BatchResultProcessor:
         generated_at = now.isoformat()
         generation_timestamp = now.strftime("%Y.%m.%d")
 
+        # RCA-20260110: fame_score_v3 を人物マスターから取得
+        person_id = ep.get("person_id", "")
+        fame_score_v3 = 500  # デフォルト値
+        if person_id and self._master_df is not None:
+            person_rows = self._master_df[self._master_df["person_id"] == person_id]
+            if not person_rows.empty:
+                fame_val = person_rows.iloc[0].get("fame_score_v3")
+                if pd.notna(fame_val):
+                    fame_score_v3 = float(fame_val)
+
         # 基本レコード作成
         record = {
             "episode_id": episode_id,
-            "person_id": ep.get("person_id", ""),
+            "person_id": person_id,
             "person_name": ep["person_name"],
             "age": ep["age"],
             "category": ep["category"],
@@ -321,7 +336,9 @@ class BatchResultProcessor:
             "educational_value": scores.educational_value,
             "story_quality": scores.story_quality,
             "factual_density": scores.factual_density,
+            "iconic_score": scores.iconic_score,  # RCA-20260110: iconic_score追加
             "super_total_score": ep["super_total"],
+            "fame_score_v3": fame_score_v3,  # RCA-20260110: fame_score_v3追加
             "person_type": "REAL",
             "source": "batch_api",
             "generated_at": generated_at,

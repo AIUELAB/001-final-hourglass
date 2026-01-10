@@ -5,9 +5,11 @@ SAGE Prompts Package - Phase 7D
 """
 
 from .category_prompts import (
+    AGE_GUIDANCE,
     CATEGORY_PROMPTS,
     CategoryPromptManager,
     PromptTemplate,
+    get_age_guidance,
 )
 from .persona_analyzer import (
     PersonaAnalyzer,
@@ -15,9 +17,11 @@ from .persona_analyzer import (
 )
 
 __all__ = [
+    "AGE_GUIDANCE",
     "CATEGORY_PROMPTS",
     "CategoryPromptManager",
     "PromptTemplate",
     "PersonaAnalyzer",
     "PersonaProfile",
+    "get_age_guidance",
 ]

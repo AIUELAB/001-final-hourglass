@@ -1083,7 +1083,25 @@ class HybridOrchestrator:
             priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
             secondary_ages = [20, 60, 65]  # 中程度
             extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全（80は既に多い）
-            extreme_elderly_risky = [85, 90, 95]  # 高齢リスク
+            # RCA-20260110-D: 超高齢年齢を拡充（90-100歳の5xブースト対応）
+            extreme_elderly_risky = [
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100,
+            ]  # 高齢リスク（拡充）
             tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
             extreme_young_ages = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 若年層
 

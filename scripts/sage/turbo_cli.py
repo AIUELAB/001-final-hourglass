@@ -7,7 +7,10 @@ Batch APIを使用したエピソード生成のCLI。
     # バッチ送信（100件）
     python -m scripts.sage.turbo_cli submit --count 100
 
-    # ステータス確認
+    # 進捗バー付き監視（おすすめ）
+    python -m scripts.sage.turbo_cli watch --batch-id <batch_id>
+
+    # ステータス確認（1回のみ）
     python -m scripts.sage.turbo_cli status --batch-id <batch_id>
 
     # 保留中のジョブ一覧
@@ -21,6 +24,7 @@ import argparse
 import json
 import logging
 import sys
+import time
 from pathlib import Path
 
 # プロジェクトルートをパスに追加
@@ -116,6 +120,65 @@ def cmd_list(args):
     return 0
 
 
+def cmd_watch(args):
+    """バッチジョブの進捗をリアルタイム表示"""
+    if not args.batch_id:
+        logger.error("--batch-id を指定してください")
+        return 1
+
+    config = TurboConfig(dry_run=True)
+    engine = TurboEngine(config)
+
+    interval = args.interval
+    bar_width = 40
+
+    print(f"\n🔄 バッチ監視開始: {args.batch_id}")
+    print(f"   更新間隔: {interval}秒 (Ctrl+C で終了)\n")
+
+    try:
+        while True:
+            status = engine.check_batch_status(args.batch_id)
+
+            total = status.get("request_count", 0)
+            succeeded = status.get("succeeded_count", 0)
+            failed = status.get("failed_count", 0)
+            expired = status.get("expired_count", 0)
+            canceled = status.get("canceled_count", 0)
+            completed = succeeded + failed + expired + canceled
+
+            if total > 0:
+                progress = completed / total
+                filled = int(bar_width * progress)
+                bar = "█" * filled + "░" * (bar_width - filled)
+                pct = progress * 100
+
+                # 進捗バー表示
+                status_icon = "✓" if status.get("status") == "ended" else "⏳"
+                print(f"\r  {status_icon} [{bar}] {pct:5.1f}% ({completed}/{total})", end="", flush=True)
+
+                # 詳細（失敗があれば表示）
+                if failed > 0 or expired > 0:
+                    print(f" | ❌{failed} ⏰{expired}", end="", flush=True)
+
+            # 完了チェック
+            if status.get("status") == "ended":
+                print("\n\n✅ 処理完了!")
+                print(f"   成功: {succeeded}件")
+                if failed > 0:
+                    print(f"   失敗: {failed}件")
+                print("\n結果取得コマンド:")
+                print(f"   python -m scripts.sage.turbo_cli retrieve --batch-id {args.batch_id} --write")
+                break
+
+            time.sleep(interval)
+
+    except KeyboardInterrupt:
+        print("\n\n⚠️  監視を中断しました")
+        return 0
+
+    return 0
+
+
 def cmd_retrieve(args):
     """バッチ結果を取得して処理"""
     if not args.batch_id:
@@ -183,6 +246,11 @@ def main():
     status_parser = subparsers.add_parser("status", help="ステータス確認")
     status_parser.add_argument("--batch-id", required=True, help="バッチID")
 
+    # watch (進捗バー付き監視)
+    watch_parser = subparsers.add_parser("watch", help="進捗バー付きでバッチを監視")
+    watch_parser.add_argument("--batch-id", required=True, help="バッチID")
+    watch_parser.add_argument("--interval", type=int, default=5, help="更新間隔（秒、default: 5）")
+
     # list
     list_parser = subparsers.add_parser("list", help="保留中ジョブ一覧")
 
@@ -203,6 +271,7 @@ def main():
     commands = {
         "submit": cmd_submit,
         "status": cmd_status,
+        "watch": cmd_watch,
         "list": cmd_list,
         "retrieve": cmd_retrieve,
     }

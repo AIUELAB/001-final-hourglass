@@ -191,7 +191,11 @@ class PostBatchProcessor:
                 filled += 1
                 logger.debug(f"Filled episode_type: {self._df.at[idx, 'episode_id']} → {result.episode_type}")
             else:
-                # 推定不能 → 保留キューへ
+                # 推定不能 → "推定不能" でマーク（ダッシュボードに表示）
+                if not self.dry_run:
+                    self._df.at[idx, "episode_type"] = "推定不能"
+                filled += 1
+                # ログ用に記録
                 self.pending_episodes.append(
                     {
                         "episode_id": self._df.at[idx, "episode_id"],

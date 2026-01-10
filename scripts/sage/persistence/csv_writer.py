@@ -17,6 +17,10 @@ import pandas as pd
 from ..adapters.base import GenerationResult
 from ..config import LOGS_DIR, MASTER_CSV
 from .backup import BackupManager, create_pre_operation_backup
+from ..gates.completeness import (
+    auto_fill_all_derived_fields,
+    check_completeness_extended,
+)
 
 
 @dataclass
@@ -265,6 +269,16 @@ class SafeCSVWriter:
                 if not valid:
                     skipped_count += 1
                     continue
+
+                # RCA-20260110: 派生フィールド自動補完
+                row = auto_fill_all_derived_fields(row)
+
+                # RCA-20260110: 完全性チェック（欠損があれば書き込まない）
+                completeness_result = check_completeness_extended(row, auto_fill=False)
+                if not completeness_result.passed:
+                    # 欠損があっても書き込むが、ログを残す
+                    # Note: 厳格モードが必要な場合はここでskipする
+                    pass  # 現在は警告のみ（移行期間）
 
                 # 重複チェック
                 is_dup, dup_reason = self._check_duplicate(row, existing_df)

@@ -28,6 +28,8 @@ from scripts.sage.gates.duplicate import DuplicateDetector
 from scripts.sage.quality.super_total import SuperTotalCalculator
 from scripts.sage.inventory_manager import InventoryManager
 from scripts.sage.persistence.backup import create_pre_operation_backup
+from scripts.sage.gates.completeness import auto_fill_all_derived_fields
+from scripts.sage.gates.episode_type_inferrer import infer_episode_type_simple
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -287,20 +289,31 @@ class BatchResultProcessor:
         return {"added": len(new_rows), "skipped": 0}
 
     def _create_episode_record(self, ep: dict) -> dict:
-        """エピソードレコードを作成"""
+        """エピソードレコードを作成（RCA-20260110: 欠損補完ミッション対応）"""
         scores = ep["axis_scores"]
+        episode_text = ep["episode_text"]
 
         # エピソードID生成
         episode_id = f"EP-{self._next_episode_id:09d}"
         self._next_episode_id += 1
 
-        return {
+        # episode_typeを推定
+        episode_type = infer_episode_type_simple(episode_text) or "転機"  # デフォルト: 転機
+
+        # 生成日時
+        now = datetime.now()
+        generated_at = now.isoformat()
+        generation_timestamp = now.strftime("%Y.%m.%d")
+
+        # 基本レコード作成
+        record = {
             "episode_id": episode_id,
             "person_id": ep.get("person_id", ""),
             "person_name": ep["person_name"],
             "age": ep["age"],
             "category": ep["category"],
-            "episode_text": ep["episode_text"],
+            "episode_text": episode_text,
+            "episode_type": episode_type,
             "memorability_score": scores.memorability,
             "empathy_score": scores.empathy,
             "surprise_score": scores.surprise,
@@ -308,13 +321,18 @@ class BatchResultProcessor:
             "educational_value": scores.educational_value,
             "story_quality": scores.story_quality,
             "factual_density": scores.factual_density,
-            # Note: episode_fame_v6は後でv6スコアラーで計算される
-            # super_totalは0-1,000,000スケールなので直接入れない
             "super_total_score": ep["super_total"],
             "person_type": "REAL",
             "source": "batch_api",
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": generated_at,
+            "generation_timestamp": generation_timestamp,
+            "verification_status": "unverified",
         }
+
+        # 派生フィールドを自動補完（fame_tier, episode_fame_v6等）
+        record = auto_fill_all_derived_fields(record)
+
+        return record
 
 
 async def main():

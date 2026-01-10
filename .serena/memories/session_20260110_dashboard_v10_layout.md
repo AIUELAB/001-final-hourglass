@@ -174,6 +174,30 @@
 - ❌ `update_dashboard_v11.py` は使用禁止（アーカイブ済み）
 - ✅ `update_dashboard_v10.py` のみ使用
 
+## 11. エピソードタブ初期ソート問題修正 (RCA-20260110)
+
+### 問題
+エピソードタブの一覧が超総合スコア(super_total_score)降順でソートされていなかった。
+
+### 根本原因
+- `currentSort = { field: 'super_total_score', order: 'desc' }` は正しく設定されていた
+- しかし、初期化時・フィルター後にソートが適用されていなかった
+- `filteredEpisodes = [...allEpisodes]` の後に実際のソート処理がなかった
+
+### 修正内容
+1. **ヘルパー関数追加**: `applyCurrentSort()` - 現在のソート状態をfilteredEpisodesに適用
+2. **3箇所でソート適用**:
+   - 初期表示時
+   - `applyFilters()` 実行後
+   - `clearFilters()` 実行後
+
+### 修正箇所
+- `preserved/episode_database_dashboard_v11.html`
+  - Line 1143524: 初期化時に`applyCurrentSort()`呼び出し
+  - Line 1143927: `applyFilters()`後に`applyCurrentSort()`呼び出し
+  - Line 1143948: `clearFilters()`後に`applyCurrentSort()`呼び出し
+  - Line 1144178-1144221: `applyCurrentSort()`関数追加
+
 ## 次回作業候補
 - keyphraseカラムの「私」パターン修正（95件）
 - 品質チェックの閾値調整

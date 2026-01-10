@@ -141,21 +141,31 @@ def load_csv_data():
             gen = episode["generation_quality_score"]
             emp = episode["empathy_score"]
             sur = episode["surprise_score"]
+            # RCA-20260110: 0値をfalsyとして扱わないように修正
             # 総合品質: CSVから読み込み、なければ計算
             csv_overall = row.get("総合品質", "")
-            if csv_overall and csv_overall.strip():
+            if csv_overall and str(csv_overall).strip():
                 episode["overall_quality"] = float(csv_overall)
             else:
-                episode["overall_quality"] = (mem + gen) / 2 if (mem and gen) else None
+                # 0値を許容（is not None でチェック）
+                episode["overall_quality"] = (mem + gen) / 2 if (mem is not None and gen is not None) else None
             # 感情インパクト: CSVから読み込み、なければ計算
             csv_emotional = row.get("感情インパクト", "")
-            if csv_emotional and csv_emotional.strip():
+            if csv_emotional and str(csv_emotional).strip():
                 episode["emotional_impact"] = float(csv_emotional)
             else:
-                episode["emotional_impact"] = (emp + sur) / 2 if (emp and sur) else None
-            episode["educational_value_5"] = episode["educational_value"] or None
-            episode["story_quality_5"] = episode["storytelling_quality"] or None
-            episode["factual_density_5"] = episode["factual_density"] or None
+                # 0値を許容（is not None でチェック）
+                episode["emotional_impact"] = (emp + sur) / 2 if (emp is not None and sur is not None) else None
+            # 0値を許容（is not None でチェック）
+            episode["educational_value_5"] = (
+                episode["educational_value"] if episode["educational_value"] is not None else None
+            )
+            episode["story_quality_5"] = (
+                episode["storytelling_quality"] if episode["storytelling_quality"] is not None else None
+            )
+            episode["factual_density_5"] = (
+                episode["factual_density"] if episode["factual_density"] is not None else None
+            )
             episodes.append(episode)
     return episodes
 

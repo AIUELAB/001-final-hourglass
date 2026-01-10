@@ -96,6 +96,19 @@ class CandidatePrioritizer:
     LOW_EP_BOOST_MULTIPLIER = 2.0  # 1EP人物は2倍ブースト
     LOW_EP_DEFICIT_COMBO_MULTIPLIER = 3.0  # 1EP + 不足カテゴリは3倍ブースト
 
+    # RCA-20260110-D: 極端年齢の優先度ブースト（1-100歳超高品質化）
+    # Phase 12: 10-14歳を4.0倍に強化（現状318件=1.7%、極端に低い）
+    EXTREME_AGE_BOOST_CONFIG = {
+        # 超高齢（90-100歳）: 5倍ブースト（現状平均11件/歳、深刻な不足）
+        "super_elderly": {"age_range": (90, 100), "boost": 5.0},
+        # 少年期（10-14歳）: 4倍ブースト（Phase 12強化: 318件=1.7%、極端に低い）
+        "youth": {"age_range": (10, 14), "boost": 4.0},
+        # 幼少期（1-9歳）: 3倍ブースト（現状平均76件/歳、中程度の不足）
+        "childhood": {"age_range": (1, 9), "boost": 3.0},
+        # 高齢期（70-89歳）: 2倍ブースト（100件未満の年齢が多数）
+        "elderly": {"age_range": (70, 89), "boost": 2.0},
+    }
+
     def __init__(
         self,
         master_csv: Path = MASTER_CSV,
@@ -228,14 +241,36 @@ class CandidatePrioritizer:
             self._inventory_manager.refresh()
         return self._inventory_manager
 
+    def _calculate_extreme_age_boost(self, age: int) -> float:
+        """
+        RCA-20260110-D: 極端年齢のブースト倍率を計算
+
+        年齢分布分析に基づき、不足が深刻な年齢帯にブーストを適用:
+        - 90-100歳: 5倍（平均11件/歳、深刻）
+        - 1-9歳: 3倍（平均76件/歳、中程度）
+        - 70-89歳: 2倍（100件未満多数）
+        - 10-14歳: 1.5倍（不足傾向）
+
+        Returns:
+            float: ブースト倍率（1.0-5.0）
+        """
+        for config in self.EXTREME_AGE_BOOST_CONFIG.values():
+            age_min, age_max = config["age_range"]
+            if age_min <= age <= age_max:
+                return config["boost"]
+        return 1.0  # ブーストなし
+
     def _calculate_inventory_age_priority_score(self, age: int) -> float:
         """
-        年齢在庫優先度スコアを計算（Phase 15 + Phase 3最適化 + 安全性修正）
+        年齢在庫優先度スコアを計算（Phase 15 + Phase 3最適化 + RCA-20260110-D）
 
-        不足数が多い年齢を優先。極端年齢（0-10, 80-84）で低カバレッジの場合は
+        不足数が多い年齢を優先。極端年齢で低カバレッジの場合は
         年齢ペナルティを軽減してブーストする。
 
-        注意: 85歳以上は境界検証が困難なため、ブーストしない。
+        RCA-20260110-D: 超高齢（90-100歳）を大幅ブースト
+        - 90-100歳: 5x相当のブースト（ペナルティ1/5軽減 + 追加ブースト2x）
+        - 85-89歳: 2x相当のブースト（ペナルティ1/2軽減 + 追加ブースト1.5x）
+        - 0-10歳、80-84歳: 従来通りのブースト
 
         Returns:
             0-100の正規化スコア
@@ -262,16 +297,21 @@ class CandidatePrioritizer:
         current = target - deficit
         coverage_rate = current / target if target > 0 else 1.0
 
-        # Phase 3最適化（安全性修正版）: 極端年齢ブースト
-        # 85歳以上はブーストなし（境界検証が困難）
+        # Phase 3最適化 + RCA-20260110-D: 極端年齢ブースト
+        # 90-100歳は5xブースト（super_elderly）、85-89は中程度ブースト
         is_safe_extreme_age = (age <= 10) or (80 <= age <= 84)
-        is_risky_extreme_age = age >= 85
+        is_super_elderly = age >= 90  # RCA-20260110-D: 超高齢は特別扱い
+        is_elderly_risky = 85 <= age <= 89  # 中程度のリスク
         is_very_low_coverage = coverage_rate < 0.15  # 15%未満
 
-        if is_risky_extreme_age:
-            # 85歳以上: ブーストなし、通常ペナルティ
-            age_penalty = 1.0 + abs(age - 40) / 20
-            extreme_boost = 1.0
+        if is_super_elderly:
+            # RCA-20260110-D: 90歳以上は大幅ブースト（5x相当のペナルティ軽減）
+            age_penalty = 1.0 + abs(age - 40) / 100  # 1/5に軽減
+            extreme_boost = 2.0  # 追加ブースト
+        elif is_elderly_risky:
+            # 85-89歳: 中程度のブースト（2x相当のペナルティ軽減）
+            age_penalty = 1.0 + abs(age - 40) / 40  # 1/2に軽減
+            extreme_boost = 1.5
         elif is_safe_extreme_age and is_very_low_coverage:
             # 安全な極端年齢(0-10, 80-84)で低カバレッジ: ブースト
             age_penalty = 1.0 + abs(age - 40) / 60  # 1/3に軽減
@@ -352,6 +392,12 @@ class CandidatePrioritizer:
         if category in self.EXCESS_CATEGORIES:
             total_score *= 1.0 - self.EXCESS_CATEGORY_PENALTY
 
+        # RCA-20260110-D: 極端年齢の優先度ブースト
+        # 90-100歳（5x）、1-9歳（3x）、70-89歳（2x）、10-14歳（1.5x）
+        extreme_age_boost = self._calculate_extreme_age_boost(age)
+        if extreme_age_boost > 1.0:
+            total_score *= extreme_age_boost
+
         return CandidatePriorityScore(
             person_id=person_id,
             person_name=person_name,
@@ -369,7 +415,8 @@ class CandidatePrioritizer:
                     "category": self.CATEGORY_WEIGHT,
                     "age_coverage": self.AGE_COVERAGE_WEIGHT,
                     "inventory_priority": self.INVENTORY_AGE_PRIORITY_WEIGHT,
-                }
+                },
+                "extreme_age_boost": extreme_age_boost,
             },
         )
 

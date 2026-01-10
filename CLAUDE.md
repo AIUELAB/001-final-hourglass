@@ -55,6 +55,14 @@
 - **欠落検出時**: 該当エピソードを手動追加
 - **新規人物追加時**: マスターデータに必須業績を定義
 
+### ダッシュボード表示完全性（EPUP原則: 全フィールド埋充）【RCA-20260110】
+- **原則**: ダッシュボードに表示するエピソードは全必須フィールドが埋まっていること
+- **必須フィールド**: 8軸スコア全項目 + episode_fame_v6 + episode_fame_tier_v6 + 基本情報
+- **検証ゲート**: `python scripts/validation/dashboard_completeness_gate.py`
+- **書き込み時防止**: SafeCSVWriter で完全性チェック（厳格モード）
+- **修復ツール**: `python scripts/fix/fill_missing_dashboard_fields.py`
+- **根本原因**: process_batch_results.py でiconic_score/fame_score_v3が未設定だった
+
 ---
 
 ## 🔄 MCP運用
@@ -78,6 +86,13 @@ python scripts/switch_mcp_profile.py [minimal|web|full]
 |------|----------|------|
 | マスターCSV | `preserved/data/MASTER_EPISODES_CURRENT.csv` | 他場所での複製 |
 | ダッシュボード | `preserved/episode_database_dashboard_v*.html` | ルート直下作成 |
+
+### ダッシュボード更新ルール【RCA-20260110】
+**🚨 重要**: ダッシュボード更新には必ず `scripts/update_dashboard_v10.py` を使用すること
+- ✅ **使用する**: `python scripts/update_dashboard_v10.py`
+- ❌ **使用禁止**: `update_dashboard_v11.py`（アーカイブ済み、ダークテーマ版を生成してしまう）
+- **正しいレイアウト**: 白壁・青フレーム「エピソードメインデータベース v11」
+- **間違ったレイアウト**: ダークテーマ「Phase 27: 軽量化版」
 
 ---
 

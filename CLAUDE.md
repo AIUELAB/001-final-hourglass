@@ -71,7 +71,9 @@
   - `clearFilters()`実行後
 - **根本原因1**: `currentSort`変数は設定されていたが、初期化/フィルター後にソートが適用されていなかった
 - **根本原因2**: CSV読み込み後の値が文字列のため、辞書順ソートになっていた（"620457" > "1032666"）
+- **根本原因3**: DOMContentLoadedハンドラで`handleSort('episode_id')`が呼ばれ、初期ソートを上書きしていた
 - **必須対策**: 数値フィールドは必ず`parseFloat()`/`parseInt()`で変換してからソート
+- **禁止事項**: DOMContentLoaded内で`handleSort()`を呼ばない（`initEpisodeList()`が既にソート適用済み）
 - **ヘルパー関数**: `applyCurrentSort()` - 現在のソート状態をfilteredEpisodesに適用
 
 ---

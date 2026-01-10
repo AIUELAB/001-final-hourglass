@@ -57,16 +57,33 @@ class CandidatePrioritizer:
     最適な生成対象を選定する。
     """
 
-    # スコアウェイト (Phase 15: 年齢在庫優先度追加)
-    EP_COUNT_WEIGHT = 0.4  # EP数少ない人物を優先
-    CATEGORY_WEIGHT = 0.25  # 不足カテゴリを優先
-    AGE_COVERAGE_WEIGHT = 0.15  # 未カバー年齢を優先
-    INVENTORY_AGE_PRIORITY_WEIGHT = 0.2  # 年齢在庫不足を優先
+    # スコアウェイト (Phase 15: 年齢在庫優先度追加, RCA-20260110: カテゴリ強化)
+    EP_COUNT_WEIGHT = 0.35  # EP数少ない人物を優先 (0.4→0.35)
+    CATEGORY_WEIGHT = 0.35  # 不足カテゴリを優先 (0.25→0.35: バランス改善)
+    AGE_COVERAGE_WEIGHT = 0.10  # 未カバー年齢を優先 (0.15→0.10)
+    INVENTORY_AGE_PRIORITY_WEIGHT = 0.20  # 年齢在庫不足を優先
 
     # Phase 16: 低成功率パターンのペナルティ（15歳スポーツ選手など）
     LOW_SUCCESS_PENALTY = 0.3  # 優先度を30%下げる
     LOW_SUCCESS_PATTERNS = [
         {"category_prefix": "スポーツ", "age_range": (10, 18)},  # 若年スポーツ選手
+    ]
+
+    # RCA-20260110: 不足カテゴリブースト（充足率改善）
+    # 世紀のコンテンツ誕生エピソード強化対応
+    DEFICIT_BOOST_THRESHOLD = 0.02  # 2%以上の不足でブースト
+    DEFICIT_BOOST_MULTIPLIER = 1.5  # 不足カテゴリは1.5倍ブースト
+    SEVERE_DEFICIT_CATEGORIES = [
+        "芸術・文化",  # +610件必要（世紀の名作誕生強化）
+        "文学",  # +492件必要
+        "音楽",  # +390件必要（世紀の名曲誕生強化）
+        "映画・演劇",  # 追加: 世紀の名映画誕生強化
+        "科学・技術",  # 追加: 世紀の大発見誕生強化
+        "医学・健康",  # +377件必要
+        "歴史",  # +312件必要
+        "哲学者",  # +269件必要
+        "探検・冒険",  # +214件必要
+        "動画・デジタルコンテンツ",  # 新規: 世紀の名動画誕生強化
     ]
 
     def __init__(
@@ -143,6 +160,8 @@ class CandidatePrioritizer:
     def _calculate_category_score(self, category: str) -> float:
         """
         カテゴリスコアを計算（不足カテゴリほど高い）
+
+        RCA-20260110: 深刻な不足カテゴリにブーストを適用
         """
         category_counts = self._get_category_counts()
         total = sum(category_counts.values()) if category_counts else 1
@@ -158,7 +177,11 @@ class CandidatePrioritizer:
         deficit = max(0, target_ratio - current_ratio)
         score = deficit * 500  # 0-50の範囲に正規化
 
-        return min(50, score)
+        # RCA-20260110: 深刻な不足カテゴリにブースト適用
+        if category in self.SEVERE_DEFICIT_CATEGORIES:
+            score *= self.DEFICIT_BOOST_MULTIPLIER
+
+        return min(75, score)  # 上限を50→75に引き上げ
 
     def _calculate_age_coverage_score(self, person_id: str, age: int) -> float:
         """

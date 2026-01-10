@@ -267,7 +267,8 @@ class SafeCSVWriter:
                     continue
 
                 # 重複チェック
-                if self._check_duplicate(row, existing_df):
+                is_dup, dup_reason = self._check_duplicate(row, existing_df)
+                if is_dup:
                     skipped_count += 1
                     continue
 

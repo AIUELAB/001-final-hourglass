@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 CSV_PATH = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
-DASHBOARD_PATH = Path("preserved/episode_database_dashboard_v10.html")
+DASHBOARD_PATH = Path("preserved/episode_database_dashboard_v11.html")
 
 # fame_tier変換マップ (string→int)
 TIER_TO_INT = {"SS": 1, "S": 2, "A": 3, "B": 4, "C": 5, "D": 6, "E": 7}

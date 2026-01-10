@@ -96,17 +96,18 @@ class CandidatePrioritizer:
     LOW_EP_BOOST_MULTIPLIER = 2.0  # 1EP人物は2倍ブースト
     LOW_EP_DEFICIT_COMBO_MULTIPLIER = 3.0  # 1EP + 不足カテゴリは3倍ブースト
 
-    # RCA-20260110-D: 極端年齢の優先度ブースト（1-100歳超高品質化）
+    # RCA-20260110-D: 極端年齢の優先度ブースト（整合性修正版）
+    # RCA-20260110: pre_generation_rules.pyのextreme_age_filterと整合
+    # - 0-5歳: フィルターで除外されるためブースト対象外
+    # - 90歳以上: 寿命検証がない場合除外されるためブースト削除
     # Phase 12: 10-14歳を4.0倍に強化（現状318件=1.7%、極端に低い）
     EXTREME_AGE_BOOST_CONFIG = {
-        # 超高齢（90-100歳）: 5倍ブースト（現状平均11件/歳、深刻な不足）
-        "super_elderly": {"age_range": (90, 100), "boost": 5.0},
         # 少年期（10-14歳）: 4倍ブースト（Phase 12強化: 318件=1.7%、極端に低い）
         "youth": {"age_range": (10, 14), "boost": 4.0},
-        # 幼少期（1-9歳）: 3倍ブースト（現状平均76件/歳、中程度の不足）
-        "childhood": {"age_range": (1, 9), "boost": 3.0},
-        # 高齢期（70-89歳）: 2倍ブースト（100件未満の年齢が多数）
-        "elderly": {"age_range": (70, 89), "boost": 2.0},
+        # 青年期（6-9歳）: 2倍ブースト（子役デビュー・神童系）
+        "childhood": {"age_range": (6, 9), "boost": 2.0},
+        # 高齢期（70-89歳）: 1.5倍ブースト（寿命内で生成可能）
+        "elderly": {"age_range": (70, 89), "boost": 1.5},
     }
 
     def __init__(

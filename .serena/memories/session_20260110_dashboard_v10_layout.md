@@ -198,6 +198,46 @@
   - Line 1143948: `clearFilters()`後に`applyCurrentSort()`呼び出し
   - Line 1144178-1144221: `applyCurrentSort()`関数追加
 
+## 12. エピソードタブソート問題の完全修正 (RCA-20260110-2)
+
+### 問題
+エピソードタブがsuper_total_score降順でソートされていなかった。
+
+### 根本原因3（追加発見）
+DOMContentLoadedハンドラ内で`handleSort('episode_id')`が呼ばれ、
+`initEpisodeList()`で適用したsuper_total_scoreソートを上書きしていた。
+
+**修正前**:
+```javascript
+window.addEventListener('DOMContentLoaded', async () => {
+    ...
+    await initEpisodeList();
+    applyFilters();
+    handleSort('episode_id');  // ← これがソートを上書きしていた！
+    ...
+});
+```
+
+**修正後**:
+```javascript
+window.addEventListener('DOMContentLoaded', async () => {
+    ...
+    await initEpisodeList();
+    // RCA-20260110: handleSort('episode_id')を削除
+    // initEpisodeList()で既にsuper_total_score降順ソートが適用されているため
+    applyFilters();
+    ...
+});
+```
+
+### 修正箇所
+- `preserved/episode_database_dashboard_v11.html` (Line 1142489 付近)
+
+### 検証手順
+1. HTTPサーバー起動: `python3 -m http.server 8080`
+2. ダッシュボードを開く: `http://127.0.0.1:8080/preserved/episode_database_dashboard_v11.html`
+3. エピソードタブでアインシュタイン（26歳）が先頭に表示されることを確認
+
 ## 次回作業候補
 - keyphraseカラムの「私」パターン修正（95件）
 - 品質チェックの閾値調整

@@ -234,6 +234,8 @@ def fill_episode_type(episode: dict) -> dict:
     """
     episode_typeをテキストから推定して補完
 
+    RCA-20260110: "生成"や空値を有効なepisode_typeに変換
+
     Args:
         episode: エピソードデータ
 
@@ -245,14 +247,17 @@ def fill_episode_type(episode: dict) -> dict:
     filled = episode.copy()
     ep_type = filled.get("episode_type", "")
 
-    if not ep_type or str(ep_type).strip() == "":
+    # RCA-20260110: "生成"は有効なtypeではないので推定対象に含める
+    invalid_types = {"", "生成", "推定不能", None}
+
+    if not ep_type or str(ep_type).strip() in invalid_types or ep_type in invalid_types:
         episode_text = str(filled.get("episode_text", ""))
         result = infer_episode_type(episode_text)
-        if result.episode_type:
+        if result.episode_type and result.episode_type in VALID_EPISODE_TYPES:
             filled["episode_type"] = result.episode_type
         else:
-            # 推定を試みたが失敗 → "推定不能" でマーク
-            filled["episode_type"] = "推定不能"
+            # 推定を試みたが失敗 → デフォルトで "転機" を設定（最も汎用的）
+            filled["episode_type"] = "転機"
 
     return filled
 

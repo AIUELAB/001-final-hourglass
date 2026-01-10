@@ -238,10 +238,70 @@ window.addEventListener('DOMContentLoaded', async () => {
 2. ダッシュボードを開く: `http://127.0.0.1:8080/preserved/episode_database_dashboard_v11.html`
 3. エピソードタブでアインシュタイン（26歳）が先頭に表示されることを確認
 
+## 13. SAGE Turbo バッチ生成システム修正 (RCA-20260110-3)
+
+### 問題1: episode_type="生成"が無効なタイプ
+- **根本原因**: `turbo_engine.py`で`episode_type="生成"`を設定していたが、`VALID_EPISODE_TYPES`に含まれていなかった
+- **影響**: 全48件がEPUP完全性チェックで拒否された
+
+### 修正: fill_episode_type()の改善
+```python
+# completeness.py: 無効なtypeを自動変換
+invalid_types = {"", "生成", "推定不能", None}
+if ep_type in invalid_types:
+    inferred_type = infer_episode_type(text)
+    if inferred_type in VALID_EPISODE_TYPES:
+        filled["episode_type"] = inferred_type
+    else:
+        filled["episode_type"] = "転機"  # デフォルト
+```
+
+### 問題2: 極端年齢（0-5歳、90歳以上）の選択
+- **根本原因1**: `EXTREME_AGE_BOOST_CONFIG`で90-100歳に5倍、1-9歳に3倍のブースト
+- **根本原因2**: 候補プールに0-10歳と90-100歳を含めていた
+
+### 修正: 年齢フィルタと候補選択の整合性
+1. **pre_generation_rules.py**: `_check_extreme_ages()`を追加
+   - 0-5歳: 一律除外（幼児ハルシネーションリスク）
+   - 90歳以上: death_year検証がない場合除外
+
+2. **candidate_prioritizer.py**: 極端年齢ブーストを整理
+   - 90-100歳: ブースト削除（フィルターで除外されるため）
+   - 1-5歳: ブースト削除（フィルターで除外されるため）
+   - 6-9歳: 2倍ブースト（子役デビュー等）
+   - 10-14歳: 4倍ブースト（少年期）
+   - 70-89歳: 1.5倍ブースト（寿命内で生成可能）
+
+3. **orchestrator.py**: 候補プール年齢リスト更新
+   - `extreme_young_ages`: [0-10] → [6-10]
+   - `extreme_elderly_risky`: [85-100] → [85-89]
+
+### 修正: ログ出力改善
+```python
+# csv_writer.py: invalid_fieldsも表示
+logger.warning(
+    f"EPUP violation - {person_name} ({age}歳) - "
+    f"missing: {missing_fields}, invalid: {invalid_fields}"
+)
+```
+
+### 修正ファイル
+- `scripts/sage/gates/completeness.py` - fill_episode_type()改善
+- `scripts/sage/persistence/csv_writer.py` - ログ出力改善
+- `scripts/sage/pre_generation_rules.py` - extreme_age_filter追加
+- `scripts/sage/gates/candidate_prioritizer.py` - ブースト設定整理
+- `scripts/sage/orchestrator.py` - 候補プール年齢リスト更新
+
+### 検証結果
+- 修正後の候補: 35件 → フィルタ後28件
+- 年齢分布: 6歳(15件), 86歳(13件) - 極端年齢ではなく許容範囲
+- バッチID: msgbatch_01VBAzJLgZ2zNDVTTJwcaB8i
+
 ## 次回作業候補
 - keyphraseカラムの「私」パターン修正（95件）
 - 品質チェックの閾値調整
 - 新規エピソード生成
+- dry-runモードでもバッチが送信されるバグの修正
 
 ## 関連ファイル
-- 計画書: `~/.claude/plans/curried-tumbling-sunrise.md`
+- 計画書: `~/.claude/plans/virtual-zooming-crystal.md`

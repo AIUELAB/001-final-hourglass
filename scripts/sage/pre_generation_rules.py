@@ -170,6 +170,12 @@ class PreGenerationRules:
             if not result.passed:
                 return result
 
+        # 6. RCA-20260110: 極端年齢チェック（0-5歳, 90歳以上の品質リスク軽減）
+        if self.rules.get("extreme_age_filter", True):
+            result = self._check_extreme_ages(candidate)
+            if not result.passed:
+                return result
+
         # Phase 17: 置換候補情報を最終結果に含める
         return RuleCheckResult(
             passed=True,
@@ -351,6 +357,48 @@ class PreGenerationRules:
             )
 
         return RuleCheckResult(passed=True, message="Daily limit OK")
+
+    def _check_extreme_ages(self, candidate: Candidate) -> RuleCheckResult:
+        """
+        RCA-20260110: 極端年齢チェック
+
+        0-5歳と90歳以上は品質リスクが高いため除外。
+        - 0-5歳: 幼児の業績エピソードはハルシネーションになりやすい
+        - 90歳以上: 死亡年が未確認の場合、存命と仮定して生成されるリスク
+
+        例外:
+        - death_yearが明確で、その年齢まで生きていた場合は90歳以上も許可
+        - 6-10歳は許可（子役デビュー、神童など実例あり）
+        """
+        age = candidate.age
+
+        # 0-5歳は一律除外（幼児の業績エピソードはハルシネーションになりやすい）
+        if age <= 5:
+            return RuleCheckResult(
+                passed=False,
+                reason=RejectionReason.AGE_BOUNDARY_VIOLATION,
+                message=f"Extreme young age {age} filtered (high hallucination risk)",
+                details={"age": age, "reason": "infant_age"},
+            )
+
+        # 90歳以上のチェック
+        if age >= 90:
+            # death_yearが明確で、その年齢まで生きていた場合は許可
+            if candidate.death_year and candidate.birth_year:
+                max_age = candidate.death_year - candidate.birth_year
+                if age <= max_age:
+                    return RuleCheckResult(
+                        passed=True, message=f"Age {age} is within verified lifespan (max={max_age})"
+                    )
+            # それ以外は除外
+            return RuleCheckResult(
+                passed=False,
+                reason=RejectionReason.AGE_BOUNDARY_VIOLATION,
+                message=f"Extreme elderly age {age} filtered (unverified lifespan)",
+                details={"age": age, "reason": "unverified_elderly"},
+            )
+
+        return RuleCheckResult(passed=True, message="Age is within acceptable range")
 
 
 def check_prohibited_patterns(text: str) -> RuleCheckResult:

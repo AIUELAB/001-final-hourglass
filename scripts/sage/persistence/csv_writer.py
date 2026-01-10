@@ -280,10 +280,12 @@ class SafeCSVWriter:
                 completeness_result = check_completeness_extended(row, auto_fill=False)
                 if not completeness_result.passed:
                     # EPUP原則: 不完全レコードは書き込まない
+                    # RCA-20260110: invalid_fieldsも表示（原因特定を容易に）
                     logger.warning(
                         f"EPUP violation - incomplete record skipped: "
                         f"{row.get('person_name')} ({row.get('age')}歳) - "
-                        f"missing: {completeness_result.missing_fields}"
+                        f"missing: {completeness_result.missing_fields}, "
+                        f"invalid: {completeness_result.invalid_fields}"
                     )
                     skipped_count += 1
                     continue

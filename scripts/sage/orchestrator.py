@@ -1082,28 +1082,14 @@ class HybridOrchestrator:
             # 各カテゴリから1つずつ交互に追加してバランスを取る
             priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
             secondary_ages = [20, 60, 65]  # 中程度
+            # RCA-20260110: pre_generation_rules.pyのextreme_age_filterと整合
+            # - 0-5歳: フィルターで除外されるため候補から除外
+            # - 90歳以上: 寿命検証がない場合除外されるため85-89のみ
             extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全（80は既に多い）
-            # RCA-20260110-D: 超高齢年齢を拡充（90-100歳の5xブースト対応）
-            extreme_elderly_risky = [
-                85,
-                86,
-                87,
-                88,
-                89,
-                90,
-                91,
-                92,
-                93,
-                94,
-                95,
-                96,
-                97,
-                98,
-                99,
-                100,
-            ]  # 高齢リスク（拡充）
+            extreme_elderly_risky = [85, 86, 87, 88, 89]  # 高齢リスク（90+は除外）
             tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
-            extreme_young_ages = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 若年層
+            # RCA-20260110: 6-10歳のみ（0-5歳はextreme_age_filterで除外）
+            extreme_young_ages = [6, 7, 8, 9, 10]  # 若年層（子役デビュー等）
 
             if birth_year and not pd.isna(birth_year):
                 birth_year = int(birth_year)
@@ -1127,8 +1113,8 @@ class HybridOrchestrator:
                                 available_ages.append(age)
             else:
                 # birth_yearがない場合は安全な範囲のみ使用
-                # Phase 3修正: 85歳以上は境界検証ができないため除外
-                # 0-10歳と80-84歳は安全（境界検証可能なため）
+                # RCA-20260110: 85歳以上・0-5歳は境界検証ができないため除外
+                # 6-10歳と80-84歳は安全（extreme_age_filterを通過可能）
                 all_age_lists = [priority_ages, secondary_ages, tertiary_ages, extreme_young_ages, extreme_elderly_safe]
                 for age_list in all_age_lists:
                     for age in age_list:

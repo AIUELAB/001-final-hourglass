@@ -29,6 +29,16 @@ def _parse_fame_tier(val):
         return 7
 
 
+def _safe_int(val, default=0):
+    """安全に整数変換（文字列や不正値に対応）"""
+    if val is None or val == "":
+        return default
+    try:
+        return int(float(val))
+    except (ValueError, TypeError):
+        return default
+
+
 def load_csv_data():
     """CSVからデータを読み込み"""
     episodes = []
@@ -105,13 +115,20 @@ def load_csv_data():
                 "surprise_score": float(row.get("surprise_score", 0) or 0),
                 "generation_quality_score": float(row.get("generation_quality_score", 0) or 0),
                 "educational_value": float(row.get("educational_value", 0) or 0),
-                "storytelling_quality": float(row.get("story_quality", 0) or 0),
+                "storytelling_quality": float(row.get("storytelling_quality", 0) or 0),
                 "factual_density": float(row.get("factual_density", 0) or 0),
                 # 8軸目: iconic_score
                 "iconic_score": float(row.get("iconic_score", 0) or 0),
                 # composite_score
                 "composite_score": float(row.get("composite_score", 0) or 0),
                 "composite_score_5axis": float(row.get("composite_score_5axis", 0) or 0),
+                # 新規追加フィールド（ダッシュボード表示用）
+                "keyphrase": row.get("episode_fame_v5_keyphrase", "") or "",
+                "verification_status": row.get("verification_status", "") or "",
+                "evidence_quality": row.get("evidence_quality", "") or "",
+                "wikipedia_pv": _safe_int(row.get("wikipedia_pv", 0)),
+                "award_level": _safe_int(row.get("award_level", 0)),
+                "textbook": str(row.get("textbook", "False")).lower() == "true",
             }
             # 7軸チャート用エイリアス
             episode["quality_score"] = episode["generation_quality_score"]

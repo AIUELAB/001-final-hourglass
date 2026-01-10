@@ -83,7 +83,7 @@ def auto_fill_derived_fields(episode: dict) -> dict:
     filled = episode.copy()
 
     # 年代の補完
-    if not filled.get("年代", "").strip() and filled.get("age", "").strip():
+    if not str(filled.get("年代", "")).strip() and str(filled.get("age", "")).strip():
         filled["年代"] = age_to_nendai(str(filled["age"]))
 
     # 7軸スコアを取得
@@ -181,6 +181,16 @@ def check_completeness(episode: dict, auto_fill: bool = True) -> CompletenessChe
     if len(text) < 50:
         invalid.append(f"episode_text={len(text)}文字 (最小50文字)")
 
+    # RCA-20260110: 架空人物チェック（fame_score < 1.0 で REAL は疑わしい）
+    fame_score = episode.get("fame_score_v3")
+    if person_type == "REAL" and fame_score is not None:
+        try:
+            fame_val = float(fame_score)
+            if fame_val < 1.0:
+                invalid.append(f"person_type=REAL but fame_score={fame_val:.2f} (実在性要確認)")
+        except (ValueError, TypeError):
+            pass
+
     passed = len(missing) == 0 and len(invalid) == 0
 
     if passed:
@@ -240,6 +250,9 @@ def fill_episode_type(episode: dict) -> dict:
         result = infer_episode_type(episode_text)
         if result.episode_type:
             filled["episode_type"] = result.episode_type
+        else:
+            # 推定を試みたが失敗 → "推定不能" でマーク
+            filled["episode_type"] = "推定不能"
 
     return filled
 

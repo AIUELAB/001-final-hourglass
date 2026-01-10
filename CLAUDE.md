@@ -63,6 +63,15 @@
 - **修復ツール**: `python scripts/fix/fill_missing_dashboard_fields.py`
 - **根本原因**: process_batch_results.py でiconic_score/fame_score_v3が未設定だった
 
+### エピソードタブ初期ソート（EPUP原則: 超総合スコア降順）【RCA-20260110】
+- **原則**: エピソードタブは常に`super_total_score`降順でソートされて表示される
+- **対象箇所**: ダッシュボードHTML内の以下3箇所で`applyCurrentSort()`を呼び出し
+  - 初期表示時（`filteredEpisodes = [...allEpisodes]`の後）
+  - `applyFilters()`実行後
+  - `clearFilters()`実行後
+- **根本原因**: `currentSort`変数は設定されていたが、初期化/フィルター後にソートが適用されていなかった
+- **ヘルパー関数**: `applyCurrentSort()` - 現在のソート状態をfilteredEpisodesに適用
+
 ---
 
 ## 🔄 MCP運用

@@ -35,19 +35,15 @@ DEFAULT_WATASHI_THRESHOLD = 50  # 「私は」パターン（回帰検出用）
 class QualityRegressionChecker:
     """品質回帰チェッカー"""
 
-    # 丁寧語漏れパターン（常体文末）
-    # polite_form_normalizer.py のパターンと整合
-    PLAIN_FORM_PATTERNS = [
-        (r"ていた。", "常体「ていた。」"),
-        (r"でいた。", "常体「でいた。」"),
-        (r"だった。", "常体「だった。」"),
-        (r"のだ。", "常体「のだ。」"),
-        (r"たんだ。", "常体「たんだ。」"),
-        (r"るんだ。", "常体「るんだ。」"),
-        (r"のである。", "常体「のである。」"),
-        (r"である。", "常体「である。」"),
-        (r"ではない。", "常体「ではない。」"),
-        (r"なかった。", "常体「なかった。」"),
+    # 丁寧語パターン（違反対象）
+    # エピソードは常体で書くべき。丁寧語が残っていたら違反。
+    POLITE_FORM_PATTERNS = [
+        (r"です[。、]", "丁寧語「です」"),
+        (r"ます[。、]", "丁寧語「ます」"),
+        (r"でした[。、]", "丁寧語「でした」"),
+        (r"ました[。、]", "丁寧語「ました」"),
+        (r"ません[。、]", "丁寧語「ません」"),
+        (r"でしょう[。、]", "丁寧語「でしょう」"),
     ]
 
     # 「私は」パターン
@@ -104,7 +100,7 @@ class QualityRegressionChecker:
             # 引用を除去してチェック
             clean_text = self._remove_quotes(text)
 
-            for pattern, name in self.PLAIN_FORM_PATTERNS:
+            for pattern, name in self.POLITE_FORM_PATTERNS:
                 matches = re.findall(pattern, clean_text)
                 if matches:
                     violations.append(

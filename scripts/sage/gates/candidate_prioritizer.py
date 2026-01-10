@@ -69,6 +69,10 @@ class CandidatePrioritizer:
         {"category_prefix": "スポーツ", "age_range": (10, 18)},  # 若年スポーツ選手
     ]
 
+    # RCA-20260110-C: 過剰カテゴリの抑制（スポーツ9.3%→7%目標）
+    EXCESS_CATEGORY_PENALTY = 0.4  # 優先度を40%下げる
+    EXCESS_CATEGORIES = ["スポーツ"]  # 目標7%に対して9.3%で過剰
+
     # RCA-20260110: 不足カテゴリブースト（充足率改善）
     # 世紀のコンテンツ誕生エピソード強化対応
     DEFICIT_BOOST_THRESHOLD = 0.02  # 2%以上の不足でブースト
@@ -85,6 +89,12 @@ class CandidatePrioritizer:
         "探検・冒険",  # +214件必要
         "動画・デジタルコンテンツ",  # 新規: 世紀の名動画誕生強化
     ]
+
+    # RCA-20260110-B: 1EP人物の別年齢生成ブースト（候補枯渇対策）
+    # 1EPのみの人物を別年齢で生成することで候補プールを拡大
+    LOW_EP_BOOST_THRESHOLD = 2  # 2EP以下の人物にブースト
+    LOW_EP_BOOST_MULTIPLIER = 2.0  # 1EP人物は2倍ブースト
+    LOW_EP_DEFICIT_COMBO_MULTIPLIER = 3.0  # 1EP + 不足カテゴリは3倍ブースト
 
     def __init__(
         self,
@@ -323,6 +333,24 @@ class CandidatePrioritizer:
             if category.startswith(cat_prefix) and age_min <= age <= age_max:
                 total_score *= 1.0 - self.LOW_SUCCESS_PENALTY
                 break
+
+        # RCA-20260110-B: 1EP人物の別年齢生成ブースト
+        # 不足カテゴリで1-2EPの人物を優先して候補枯渇を解消
+        if ep_count <= self.LOW_EP_BOOST_THRESHOLD:
+            is_deficit_category = category in self.SEVERE_DEFICIT_CATEGORIES
+            if ep_count == 1 and is_deficit_category:
+                # 1EP + 不足カテゴリ: 最大ブースト
+                total_score *= self.LOW_EP_DEFICIT_COMBO_MULTIPLIER
+            elif ep_count <= 2 and is_deficit_category:
+                # 2EP + 不足カテゴリ: 中程度ブースト
+                total_score *= self.LOW_EP_BOOST_MULTIPLIER
+            elif ep_count == 1:
+                # 1EPのみ: 軽ブースト
+                total_score *= 1.5
+
+        # RCA-20260110-C: 過剰カテゴリの抑制
+        if category in self.EXCESS_CATEGORIES:
+            total_score *= 1.0 - self.EXCESS_CATEGORY_PENALTY
 
         return CandidatePriorityScore(
             person_id=person_id,

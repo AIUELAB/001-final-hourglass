@@ -86,6 +86,49 @@ QUALITY_THRESHOLDS = {
 }
 
 # ==============================================================================
+# Phase 27: 架空キャラ・動物用品質閾値（緩和版）
+# ==============================================================================
+
+QUALITY_THRESHOLDS_FICTIONAL = {
+    # 7軸スコア閾値（0-10）- 架空キャラ向け緩和
+    "min_factual_density": 6.0,  # 7.0→6.0（架空は事実性低め許容）
+    "min_generation_quality": 8.0,  # 維持（品質は重要）
+    "min_memorability": 5.0,  # 5.5→5.0（若干緩和）
+    "min_empathy": 4.0,  # 維持
+    "min_surprise": 4.0,  # 維持
+    "min_educational_value": 3.5,  # 4.0→3.5（教育的価値は低め許容）
+    "min_story_quality": 5.0,  # 維持
+    # 統合スコア閾値
+    "min_composite": 350,  # 380→350（緩和）
+    "target_composite": 520,  # 550→520（緩和）
+    "retry_composite": 450,  # 470→450（緩和）
+    # 超総合スコア閾値（0-1,000,000）
+    "min_super_total": 250000,  # 300000→250000（緩和）
+    "target_super_total": 450000,  # 500000→450000（緩和）
+    # 重複検出閾値
+    "max_tfidf_similarity": 0.7,  # 維持
+    "max_text_similarity": 0.6,  # 維持
+    # 具体性閾値
+    "min_specificity": 2,  # 維持
+}
+
+
+def get_quality_thresholds(person_type: str = "REAL") -> dict:
+    """
+    人物タイプに応じた品質閾値を取得
+
+    Args:
+        person_type: 人物タイプ (REAL, FICTIONAL, MYTHOLOGICAL, ANIMAL)
+
+    Returns:
+        dict: 品質閾値辞書
+    """
+    if person_type in ("FICTIONAL", "MYTHOLOGICAL", "ANIMAL"):
+        return QUALITY_THRESHOLDS_FICTIONAL.copy()
+    return QUALITY_THRESHOLDS.copy()
+
+
+# ==============================================================================
 # 多様性目標
 # ==============================================================================
 
@@ -122,13 +165,20 @@ DIVERSITY_TARGETS = {
         "哲学者": 0.02,
         # 新規カテゴリ
         "動画・デジタルコンテンツ": 0.02,  # 新規追加（世紀の名動画誕生）
+        # Phase 27: 架空キャラ・動物カテゴリ追加
+        "神話・伝説": 0.03,  # ヘラクレス、孫悟空（西遊記）、桃太郎、ゼウス等
+        "アニメ・漫画": 0.04,  # 孫悟空(DB)、ルフィ、ナルト等
+        "ゲーム": 0.02,  # マリオ、リンク、クラウド、ソニック等
+        "競走馬": 0.02,  # ディープインパクト、オグリキャップ等
+        "歴史的動物": 0.01,  # ハチ公、タマ駅長等
         "その他": 0.01,  # 2%→1%調整
     },
-    # 人物タイプ分布
+    # 人物タイプ分布（Phase 27: 架空キャラ・動物拡張）
     "person_type_distribution": {
-        "REAL": 0.85,
-        "FICTIONAL": 0.10,
-        "MYTHOLOGICAL": 0.05,
+        "REAL": 0.70,  # 0.85→0.70（架空キャラ・動物拡張のため）
+        "FICTIONAL": 0.15,  # 0.10→0.15（アニメ・漫画・ゲーム・映画・文学キャラ）
+        "MYTHOLOGICAL": 0.10,  # 0.05→0.10（神話・伝説人物）
+        "ANIMAL": 0.05,  # 新規追加（競走馬・歴史的動物）
     },
 }
 

@@ -1073,54 +1073,22 @@ class HybridOrchestrator:
             birth_year = row.get("birth_year")
             death_year = row.get("death_year")
 
-            # 利用可能な年齢を計算
-            # H4最適化: 品質が出やすい年齢帯（20-60歳）を優先
-            # Phase 3最適化: 極端年齢（0-10, 80+）も候補に含める
-            available_ages = []
-
-            # Phase 3: 年齢カテゴリ（バランスのため混合）
-            # 各カテゴリから1つずつ交互に追加してバランスを取る
-            priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
-            secondary_ages = [20, 60, 65]  # 中程度
-            # RCA-20260110: pre_generation_rules.pyのextreme_age_filterと整合
-            # - 0-5歳: フィルターで除外されるため候補から除外
-            # - 90歳以上: 寿命検証がない場合除外されるため85-89のみ
-            extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全（80は既に多い）
-            extreme_elderly_risky = [85, 86, 87, 88, 89]  # 高齢リスク（90+は除外）
-            tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
-            # RCA-20260110: 6-10歳のみ（0-5歳はextreme_age_filterで除外）
-            extreme_young_ages = [6, 7, 8, 9, 10]  # 若年層（子役デビュー等）
-
-            if birth_year and not pd.isna(birth_year):
-                birth_year = int(birth_year)
-                max_age = 100
-                if death_year and not pd.isna(death_year):
-                    max_age = int(death_year) - birth_year
-
-                # Phase 3最適化: 全年齢を候補に追加（CandidatePrioritizerでバランス）
-                all_age_lists = [
-                    priority_ages,
-                    secondary_ages,
-                    tertiary_ages,
-                    extreme_young_ages,
-                    extreme_elderly_safe,
-                    extreme_elderly_risky,
-                ]
-                for age_list in all_age_lists:
-                    for age in age_list:
-                        if age <= max_age and age not in existing_ages:
-                            if self._inventory_manager.should_generate(age):
-                                available_ages.append(age)
+            # Phase 27: canonical_age / preferred_age を取得
+            canonical_age = row.get("preferred_age") or row.get("canonical_age")
+            if canonical_age and not pd.isna(canonical_age):
+                canonical_age = int(canonical_age)
             else:
-                # birth_yearがない場合は安全な範囲のみ使用
-                # RCA-20260110: 85歳以上・0-5歳は境界検証ができないため除外
-                # 6-10歳と80-84歳は安全（extreme_age_filterを通過可能）
-                all_age_lists = [priority_ages, secondary_ages, tertiary_ages, extreme_young_ages, extreme_elderly_safe]
-                for age_list in all_age_lists:
-                    for age in age_list:
-                        if age not in existing_ages:
-                            if self._inventory_manager.should_generate(age):
-                                available_ages.append(age)
+                canonical_age = None
+
+            # Phase 27: 人物タイプ別の利用可能年齢を計算
+            available_ages = self._calculate_available_ages_for_person(
+                person_type=person_type,
+                birth_year=int(birth_year) if birth_year and not pd.isna(birth_year) else None,
+                death_year=int(death_year) if death_year and not pd.isna(death_year) else None,
+                canonical_age=canonical_age,
+                existing_ages=existing_ages,
+                category=category,
+            )
 
             # 各年齢を候補プールに追加
             # Phase 3最適化: 全ての有効年齢を候補プールに追加
@@ -1131,9 +1099,10 @@ class HybridOrchestrator:
                     "person_name": person_name,
                     "category": category,
                     "age": age,
-                    "person_type": str(row.get("person_type", "REAL")),
-                    "birth_year": birth_year if not pd.isna(birth_year) else None,
+                    "person_type": person_type,
+                    "birth_year": int(birth_year) if birth_year and not pd.isna(birth_year) else None,
                     "death_year": int(death_year) if death_year and not pd.isna(death_year) else None,
+                    "canonical_age": canonical_age,  # Phase 27
                 }
                 candidate_pool.append(item)
 
@@ -1215,6 +1184,7 @@ class HybridOrchestrator:
                             person_type=pool_item.get("person_type", "REAL"),
                             birth_year=pool_item.get("birth_year"),
                             death_year=pool_item.get("death_year"),
+                            canonical_age=pool_item.get("canonical_age"),  # Phase 27
                         )
                     )
 
@@ -1224,6 +1194,158 @@ class HybridOrchestrator:
         # Phase 16: 型の不整合を防ぐため文字列に統一
         candidates.sort(key=lambda x: (str(x.person_id), int(x.age) if x.age is not None else 0))
         return candidates[:count]
+
+    def _calculate_available_ages_for_person(
+        self,
+        person_type: str,
+        birth_year: int | None,
+        death_year: int | None,
+        canonical_age: int | None,
+        existing_ages: set[int],
+        category: str = "",
+    ) -> list[int]:
+        """
+        人物タイプ別の利用可能年齢を計算
+
+        Phase 27: 架空キャラ・動物の年齢解釈ロジック
+        - REAL: birth_year ~ death_year の範囲
+        - FICTIONAL/MYTHOLOGICAL: canonical_age ±10 years、または 18-60
+        - ANIMAL: 実年齢（birth_year ~ death_year）、または種別デフォルト
+
+        Args:
+            person_type: 人物タイプ (REAL, FICTIONAL, MYTHOLOGICAL, ANIMAL)
+            birth_year: 生年（実在人物・動物）または作品開始年
+            death_year: 没年（実在人物・動物）または作品終了年
+            canonical_age: 設定年齢（架空キャラ）またはpreferred_age
+            existing_ages: 既存エピソードの年齢セット
+            category: カテゴリ（動物の種別判定用）
+
+        Returns:
+            list[int]: 利用可能な年齢リスト
+        """
+        available_ages = []
+
+        # REAL: 既存ロジック（birth_year ~ death_year）
+        if person_type == "REAL":
+            return self._calculate_real_person_ages(birth_year, death_year, existing_ages)
+
+        # FICTIONAL / MYTHOLOGICAL: 作品内設定年齢を使用
+        elif person_type in ("FICTIONAL", "MYTHOLOGICAL"):
+            if canonical_age is not None:
+                # 設定年齢 ±10歳の範囲（1-100に制限）
+                min_age = max(1, canonical_age - 10)
+                max_age = min(100, canonical_age + 10)
+                for age in range(min_age, max_age + 1):
+                    if age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+            else:
+                # 設定年齢不明の場合は成人年齢帯
+                for age in range(18, 60):
+                    if age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+
+        # ANIMAL: 実年齢（人間換算しない）
+        elif person_type == "ANIMAL":
+            if birth_year and death_year:
+                # 活動期間から計算
+                max_animal_age = death_year - birth_year
+                for age in range(1, max_animal_age + 1):
+                    if age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+            elif canonical_age is not None:
+                # preferred_ageがある場合はその周辺
+                min_age = max(1, canonical_age - 3)
+                max_age = min(20, canonical_age + 3)
+                for age in range(min_age, max_age + 1):
+                    if age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+            else:
+                # カテゴリ別デフォルト年齢範囲
+                if "競走馬" in category:
+                    # 競走馬: 2-5歳（現役期間）
+                    age_range = range(2, 6)
+                elif "犬" in category or "ハチ公" in category or "タロ" in category:
+                    # 犬: 1-15歳
+                    age_range = range(1, 16)
+                elif "猫" in category or "タマ" in category:
+                    # 猫: 1-20歳
+                    age_range = range(1, 21)
+                else:
+                    # その他動物: 1-15歳
+                    age_range = range(1, 16)
+                for age in age_range:
+                    if age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+
+        return available_ages
+
+    def _calculate_real_person_ages(
+        self,
+        birth_year: int | None,
+        death_year: int | None,
+        existing_ages: set[int],
+    ) -> list[int]:
+        """
+        実在人物の利用可能年齢を計算
+
+        Args:
+            birth_year: 生年
+            death_year: 没年
+            existing_ages: 既存エピソードの年齢セット
+
+        Returns:
+            list[int]: 利用可能な年齢リスト
+        """
+        available_ages = []
+
+        # 年齢カテゴリ（バランスのため混合）
+        priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
+        secondary_ages = [20, 60, 65]  # 中程度
+        extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全
+        extreme_elderly_risky = [85, 86, 87, 88, 89]  # 高齢リスク
+        tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
+        extreme_young_ages = [6, 7, 8, 9, 10]  # 若年層
+
+        if birth_year and not pd.isna(birth_year):
+            birth_year_int = int(birth_year)
+            max_age = 100
+            if death_year and not pd.isna(death_year):
+                max_age = int(death_year) - birth_year_int
+
+            all_age_lists = [
+                priority_ages,
+                secondary_ages,
+                tertiary_ages,
+                extreme_young_ages,
+                extreme_elderly_safe,
+                extreme_elderly_risky,
+            ]
+            for age_list in all_age_lists:
+                for age in age_list:
+                    if age <= max_age and age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+        else:
+            # birth_yearがない場合は安全な範囲のみ使用
+            all_age_lists = [
+                priority_ages,
+                secondary_ages,
+                tertiary_ages,
+                extreme_young_ages,
+                extreme_elderly_safe,
+            ]
+            for age_list in all_age_lists:
+                for age in age_list:
+                    if age not in existing_ages:
+                        if self._inventory_manager.should_generate(age):
+                            available_ages.append(age)
+
+        return available_ages
 
 
 def create_orchestrator(

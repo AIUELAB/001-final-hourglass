@@ -151,6 +151,7 @@ class Candidate:
     death_year: Optional[int] = None
     slot: Optional[str] = None
     tier: Optional[str] = None
+    canonical_age: Optional[int] = None  # Phase 27: 架空キャラ・動物の設定年齢
 
     def to_dict(self) -> dict[str, Any]:
         """辞書に変換"""
@@ -164,6 +165,7 @@ class Candidate:
             "death_year": self.death_year,
             "slot": self.slot,
             "tier": self.tier,
+            "canonical_age": self.canonical_age,
         }
 
 

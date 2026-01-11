@@ -49,13 +49,17 @@ def cmd_submit(args):
     model_name = "Haiku" if use_haiku else "Sonnet"
 
     logger.info("=== SAGE Turbo Batch Submit ===")
+    fictional_enabled = getattr(args, "fictional", False)
+
     logger.info(f"件数: {args.count}")
     logger.info(f"モデル: {model_name} (Phase 21統合)")
+    logger.info(f"架空キャラ: {'有効' if fictional_enabled else '無効'} (Phase 27)")
     logger.info(f"dry-run: {args.dry_run}")
 
     config = TurboConfig(
         dry_run=args.dry_run,
         use_mock=args.mock,
+        fictional_enabled=fictional_enabled,
     )
 
     engine = TurboEngine(config)
@@ -241,6 +245,11 @@ def main():
         help="Haikuモデル使用（Phase 21統合、デフォルト有効）",
     )
     submit_parser.add_argument("--sonnet", action="store_true", help="Sonnetモデル使用（Haikuより高品質だが高コスト）")
+    submit_parser.add_argument(
+        "--fictional",
+        action="store_true",
+        help="Phase 27: 架空キャラ・動物を候補に含める（デフォルト: REALのみ）",
+    )
 
     # status
     status_parser = subparsers.add_parser("status", help="ステータス確認")

@@ -212,11 +212,12 @@ class AutoLoopRunner:
             ]
             _, output = self.run_command(cmd, capture=True)
 
-            if "ended" in output.lower() or "completed" in output.lower():
+            # ステータス判定（JSONの "status": "xxx" を解析）
+            if '"status": "ended"' in output:
                 logger.info("バッチ完了")
                 return True
 
-            if "canceled" in output.lower() or "failed" in output.lower():
+            if '"status": "canceled"' in output or '"status": "failed"' in output:
                 logger.error("バッチ失敗/キャンセル")
                 return False
 

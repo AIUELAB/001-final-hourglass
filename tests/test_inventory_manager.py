@@ -28,12 +28,12 @@ class TestInventoryConfig:
     def test_default_values(self):
         """デフォルト値の確認"""
         config = InventoryConfig()
-        assert config.target_per_age == 365
+        assert config.target_per_age == 375  # Phase 28: 365→375
         assert config.min_factual_density == 7.0
         assert config.min_generation_quality == 8.0
         assert config.replacement_threshold == 0.05
-        assert config.min_age == 0
-        assert config.max_age == 120
+        assert config.min_age == 1  # Phase 28: 0→1
+        assert config.max_age == 100  # Phase 28: 120→100
 
     def test_custom_values(self):
         """カスタム値の設定"""
@@ -74,7 +74,7 @@ class TestInventoryManager:
 
     def test_init(self, manager):
         """初期化"""
-        assert manager.config.target_per_age == 365
+        assert manager.config.target_per_age == 375  # Phase 28: 365→375
         assert manager._inventory == {}
 
     def test_refresh(self, manager):

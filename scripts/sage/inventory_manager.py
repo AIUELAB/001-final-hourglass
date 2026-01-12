@@ -29,12 +29,12 @@ class GenerationMode(Enum):
 class InventoryConfig:
     """在庫管理設定"""
 
-    target_per_age: int = 365  # 年齢別目標本数
+    target_per_age: int = 375  # 年齢別目標本数（Phase 16: 365→375）
     min_factual_density: float = 7.0  # 上位レベル: factual_density閾値
     min_generation_quality: float = 8.0  # 上位レベル: 生成品質閾値
     replacement_threshold: float = 0.05  # 置換閾値: 5%改善
-    min_age: int = 0  # 管理対象最小年齢
-    max_age: int = 120  # 管理対象最大年齢
+    min_age: int = 1  # 管理対象最小年齢（Phase 16: 1-100歳のみ）
+    max_age: int = 100  # 管理対象最大年齢（Phase 16: 1-100歳のみ）
 
 
 @dataclass

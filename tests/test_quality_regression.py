@@ -116,20 +116,20 @@ class TestQualityRegressionPatterns:
         result = checker.check_watashi_pattern()
         assert result["violation_count"] == 1
 
-    @pytest.mark.xfail(reason="要実装: 引用内polite_form除外ロジックが未実装", strict=False)
     def test_quote_exclusion(self, checker):
-        """引用内は除外されること"""
+        """引用内は除外されること（Phase 28: テストケース修正）"""
+        # 引用内に丁寧語・「私は」パターンがあるが、引用外は常体
         checker.episodes = [
-            {"episode_id": "EP-TEST001", "episode_text": "「私は成功した」と言いました。"},
-            {"episode_id": "EP-TEST002", "episode_text": "『私は最高だ』と叫びました。"},
+            {"episode_id": "EP-TEST001", "episode_text": "「私は成功しました」と語った。"},
+            {"episode_id": "EP-TEST002", "episode_text": "『私は最高です』と叫んだ。"},
         ]
 
-        # 引用内なので違反0
+        # 引用内の「しました」「です」「私は」は除外されるべき
         polite_result = checker.check_polite_form()
         watashi_result = checker.check_watashi_pattern()
 
-        assert polite_result["violation_count"] == 0
-        assert watashi_result["violation_count"] == 0
+        assert polite_result["violation_count"] == 0, "引用内の丁寧語は除外されるべき"
+        assert watashi_result["violation_count"] == 0, "引用内の「私は」は除外されるべき"
 
     def test_opening_format_detection(self, checker):
         """冒頭フォーマット違反が検出されること"""

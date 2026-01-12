@@ -37,9 +37,8 @@ class TestQualityRegression:
         else:
             pytest.skip("マスターCSVが存在しません")
 
-    @pytest.mark.xfail(reason="既存データ品質課題: 丁寧語違反29.7%（閾値3%）- 技術的負債", strict=False)
     def test_polite_form_below_threshold(self):
-        """丁寧語漏れ率が閾値以下であること"""
+        """丁寧語漏れ率が閾値以下であること（Phase 13で修正済み: 29.7% → 0.0%）"""
         result = self.checker.check_polite_form()
 
         assert result["violation_rate"] <= DEFAULT_POLITE_THRESHOLD, (
@@ -48,9 +47,8 @@ class TestQualityRegression:
             f"違反数: {result['violation_count']}/{result['total_episodes']}"
         )
 
-    @pytest.mark.xfail(reason="既存データ品質課題: 「私は」11168件（閾値50件）- 技術的負債", strict=False)
     def test_watashi_pattern_below_threshold(self):
-        """「私は」パターンが閾値以下であること（回帰検出）"""
+        """「私は」パターンが閾値以下であること（Phase 13で修正済み: 11168件 → 0件）"""
         result = self.checker.check_watashi_pattern()
 
         assert result["violation_count"] <= DEFAULT_WATASHI_THRESHOLD, (
@@ -76,11 +74,8 @@ class TestQualityRegression:
                 )
             )
 
-    @pytest.mark.xfail(
-        reason="既存データ品質課題: polite_form, watashi_pattern 両方が閾値超過 - 技術的負債", strict=False
-    )
     def test_all_checks_pass(self):
-        """全チェックがパスすること"""
+        """全チェックがパスすること（Phase 13で品質改善済み）"""
         results = self.checker.run_all_checks()
 
         # 必須チェック（polite_form, watashi_pattern）

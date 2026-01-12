@@ -36,16 +36,16 @@ class TestGrammyAwardScoring:
     """グラミー賞エピソードのスコアテスト"""
 
     # (episode_id, person_name, expected_min_score)
+    # Phase 15B: 存在するエピソードIDに更新
     GRAMMY_EPISODES = [
         ("EP-000004782", "秋吉敏子", 78),
         ("EP-000007894", "ウェス・モンゴメリー", 78),
-        ("E8E623184", "スタン・ゲッツ", 78),
+        ("EP-260111162341103", "スタン・ゲッツ", 78),  # 更新: ボサノヴァ/グラミー賞EP
     ]
 
-    @pytest.mark.xfail(reason="既存データ品質課題: スコア計算式の再調整が必要 - 技術的負債", strict=False)
     @pytest.mark.parametrize("episode_id,person_name,expected_min", GRAMMY_EPISODES)
     def test_grammy_episode_reaches_78(self, episode_id, person_name, expected_min):
-        """グラミー賞EPが78点以上になること"""
+        """グラミー賞EPが78点以上になること（Phase 15Bで解消）"""
         score = get_episode_score(episode_id)
         assert score is not None, f"{episode_id}が見つからない"
         assert (
@@ -56,14 +56,15 @@ class TestGrammyAwardScoring:
 class TestAcademyAwardScoring:
     """アカデミー賞エピソードのスコアテスト"""
 
+    # Phase 15B: 存在するエピソードIDに更新
     ACADEMY_EPISODES = [
-        ("E74EFDBA6", "イツァーク・パールマン", 78),
+        ("EP-260111162341087", "イツァーク・パールマン", 78),  # 更新: シンドラーのリストEP
+        ("EP-000004265", "マリオン・コティヤール", 78),  # 追加: アカデミー主演女優賞EP
     ]
 
-    @pytest.mark.xfail(reason="既存データ品質課題: スコア計算式の再調整が必要 - 技術的負債", strict=False)
     @pytest.mark.parametrize("episode_id,person_name,expected_min", ACADEMY_EPISODES)
     def test_academy_episode_reaches_78(self, episode_id, person_name, expected_min):
-        """アカデミー賞EPが78点以上になること"""
+        """アカデミー賞EPが78点以上になること（Phase 15Bで解消）"""
         score = get_episode_score(episode_id)
         assert score is not None, f"{episode_id}が見つからない"
         assert (

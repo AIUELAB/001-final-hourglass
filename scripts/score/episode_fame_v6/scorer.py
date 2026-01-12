@@ -9,6 +9,7 @@ Episode Fame Score v6 算出ロジック
 - episode_bonus: 10% (エピソード数飽和)
 """
 
+import hashlib
 import math
 import re
 from dataclasses import dataclass
@@ -386,6 +387,14 @@ class EpisodeFameV6Scorer:
         # ノーベル賞等の重要イベントは最低78点を保証
         if any(kw in data.episode_text for kw in TIER1_KEYWORDS):
             total = max(total, 78.0)
+
+        # Phase 15D: epsilon-based tie-breaking
+        # episode_idのハッシュ値を使って小数第2位レベルでオフセットを追加（同率解消）
+        # 範囲: 0.01 ~ 0.99（小数第2位で区別可能、ランキング順位の決定論性を保証）
+        if data.episode_id:
+            hash_val = int(hashlib.md5(data.episode_id.encode()).hexdigest()[:8], 16)
+            epsilon = (hash_val % 100) / 100.0  # 0.01 ~ 0.99
+            total += epsilon
 
         tier = self.calculate_tier(total)
 

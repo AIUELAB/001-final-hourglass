@@ -44,7 +44,6 @@ class TestScore100Resolution:
 
         assert count_100 == 0, f"100.00同率が{count_100}件存在"
 
-    @pytest.mark.xfail(reason="既存データ品質課題: スコア同率が多い - 技術的負債", strict=False)
     def test_top200_unique_scores(self, master_csv):
         """T2: 上位200件の最大同率が5件以下"""
         with open(master_csv, encoding="utf-8") as f:

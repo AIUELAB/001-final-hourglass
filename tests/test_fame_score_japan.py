@@ -332,8 +332,8 @@ class TestJapaneseCount:
                     if row.get("is_japanese") == "True":
                         japanese_count += 1
 
-        # 日本人は全体の40-70%程度（日本向けDBなので多め）
+        # 日本人は全体の10-30%程度（Phase 14データクリーンアップ後）
         ratio = japanese_count / total_count if total_count > 0 else 0
-        assert 0.40 <= ratio <= 0.70, f"Japanese ratio: {ratio:.1%}"
-        # 3000人以上の日本人がいること
-        assert japanese_count >= 3000, f"Japanese count: {japanese_count}"
+        assert 0.10 <= ratio <= 0.30, f"Japanese ratio: {ratio:.1%}"
+        # 800人以上の日本人がいること
+        assert japanese_count >= 800, f"Japanese count: {japanese_count}"

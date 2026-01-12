@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-12T17:36:33.299275",
+  "updated_at": "2026-01-12T21:46:41.702643",
   "config": {
     "target_per_age": 365,
     "min_factual_density": 7.0,
@@ -9,7 +9,7 @@
     "total_ages": 121,
     "achieved_ages": 30,
     "achievement_rate": 24.8,
-    "total_upper_episodes": 28313,
+    "total_upper_episodes": 28300,
     "total_target": 44165,
     "overall_progress": 64.1
   },
@@ -208,9 +208,9 @@
       "target": 365,
       "achieved": false,
       "mode": "generate",
-      "min_upper_score": 0.0,
+      "min_upper_score": 280975.0,
       "deficit": 308,
-      "replacement_threshold": 0.0
+      "replacement_threshold": 295023.75
     },
     "18": {
       "age": 18,
@@ -307,9 +307,9 @@
       "target": 365,
       "achieved": false,
       "mode": "generate",
-      "min_upper_score": 0.0,
+      "min_upper_score": 274059.0,
       "deficit": 192,
-      "replacement_threshold": 0.0
+      "replacement_threshold": 287761.95
     },
     "27": {
       "age": 27,
@@ -346,7 +346,7 @@
     },
     "30": {
       "age": 30,
-      "total_count": 628,
+      "total_count": 629,
       "upper_count": 345,
       "target": 365,
       "achieved": false,
@@ -357,7 +357,7 @@
     },
     "31": {
       "age": 31,
-      "total_count": 269,
+      "total_count": 270,
       "upper_count": 193,
       "target": 365,
       "achieved": false,
@@ -384,9 +384,9 @@
       "target": 365,
       "achieved": false,
       "mode": "generate",
-      "min_upper_score": 0.0,
+      "min_upper_score": 208817.0,
       "deficit": 180,
-      "replacement_threshold": 0.0
+      "replacement_threshold": 219257.85
     },
     "34": {
       "age": 34,
@@ -412,7 +412,7 @@
     },
     "36": {
       "age": 36,
-      "total_count": 249,
+      "total_count": 250,
       "upper_count": 192,
       "target": 365,
       "achieved": false,
@@ -445,7 +445,7 @@
     },
     "39": {
       "age": 39,
-      "total_count": 283,
+      "total_count": 284,
       "upper_count": 236,
       "target": 365,
       "achieved": false,
@@ -516,9 +516,9 @@
       "target": 365,
       "achieved": true,
       "mode": "replace",
-      "min_upper_score": 0.0,
+      "min_upper_score": 229339.0,
       "deficit": -12,
-      "replacement_threshold": 0.0
+      "replacement_threshold": 240805.95
     },
     "46": {
       "age": 46,
@@ -577,13 +577,13 @@
     },
     "51": {
       "age": 51,
-      "total_count": 198,
-      "upper_count": 179,
+      "total_count": 197,
+      "upper_count": 178,
       "target": 365,
       "achieved": false,
       "mode": "generate",
       "min_upper_score": 231507.0,
-      "deficit": 186,
+      "deficit": 187,
       "replacement_threshold": 243082.35
     },
     "52": {
@@ -621,14 +621,14 @@
     },
     "55": {
       "age": 55,
-      "total_count": 584,
-      "upper_count": 376,
+      "total_count": 583,
+      "upper_count": 375,
       "target": 365,
       "achieved": true,
       "mode": "replace",
-      "min_upper_score": 0.0,
-      "deficit": -11,
-      "replacement_threshold": 0.0
+      "min_upper_score": 185034.0,
+      "deficit": -10,
+      "replacement_threshold": 194285.7
     },
     "56": {
       "age": 56,
@@ -819,24 +819,24 @@
     },
     "73": {
       "age": 73,
-      "total_count": 852,
-      "upper_count": 840,
+      "total_count": 851,
+      "upper_count": 839,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 272977.0,
-      "deficit": -475,
+      "deficit": -474,
       "replacement_threshold": 286625.85000000003
     },
     "74": {
       "age": 74,
-      "total_count": 802,
-      "upper_count": 793,
+      "total_count": 801,
+      "upper_count": 792,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 390588.4483139605,
-      "deficit": -428,
+      "deficit": -427,
       "replacement_threshold": 410117.8707296586
     },
     "75": {
@@ -852,46 +852,46 @@
     },
     "76": {
       "age": 76,
-      "total_count": 516,
-      "upper_count": 513,
+      "total_count": 515,
+      "upper_count": 512,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 391377.9219981711,
-      "deficit": -148,
+      "deficit": -147,
       "replacement_threshold": 410946.81809807965
     },
     "77": {
       "age": 77,
-      "total_count": 636,
-      "upper_count": 629,
+      "total_count": 635,
+      "upper_count": 628,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 391377.9219981711,
-      "deficit": -264,
+      "deficit": -263,
       "replacement_threshold": 410946.81809807965
     },
     "78": {
       "age": 78,
-      "total_count": 506,
-      "upper_count": 500,
+      "total_count": 505,
+      "upper_count": 499,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 391377.9219981711,
-      "deficit": -135,
+      "deficit": -134,
       "replacement_threshold": 410946.81809807965
     },
     "79": {
       "age": 79,
-      "total_count": 345,
-      "upper_count": 339,
+      "total_count": 344,
+      "upper_count": 338,
       "target": 365,
       "achieved": false,
       "mode": "generate",
       "min_upper_score": 374151.0,
-      "deficit": 26,
+      "deficit": 27,
       "replacement_threshold": 392858.55
     },
     "80": {
@@ -929,13 +929,13 @@
     },
     "83": {
       "age": 83,
-      "total_count": 376,
-      "upper_count": 372,
+      "total_count": 375,
+      "upper_count": 371,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 329983.0,
-      "deficit": -7,
+      "deficit": -6,
       "replacement_threshold": 346482.15
     },
     "84": {
@@ -951,13 +951,13 @@
     },
     "85": {
       "age": 85,
-      "total_count": 309,
-      "upper_count": 305,
+      "total_count": 308,
+      "upper_count": 304,
       "target": 365,
       "achieved": false,
       "mode": "generate",
       "min_upper_score": 391535.8167350132,
-      "deficit": 60,
+      "deficit": 61,
       "replacement_threshold": 411112.6075717639
     },
     "86": {
@@ -973,35 +973,35 @@
     },
     "87": {
       "age": 87,
-      "total_count": 451,
-      "upper_count": 450,
+      "total_count": 450,
+      "upper_count": 449,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 391377.9219981711,
-      "deficit": -85,
+      "deficit": -84,
       "replacement_threshold": 410946.81809807965
     },
     "88": {
       "age": 88,
-      "total_count": 662,
-      "upper_count": 661,
+      "total_count": 661,
+      "upper_count": 660,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 391377.9219981711,
-      "deficit": -296,
+      "deficit": -295,
       "replacement_threshold": 410946.81809807965
     },
     "89": {
       "age": 89,
-      "total_count": 541,
-      "upper_count": 537,
+      "total_count": 540,
+      "upper_count": 536,
       "target": 365,
       "achieved": true,
       "mode": "replace",
       "min_upper_score": 283478.0,
-      "deficit": -172,
+      "deficit": -171,
       "replacement_threshold": 297651.9
     },
     "90": {

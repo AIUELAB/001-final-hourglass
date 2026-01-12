@@ -561,7 +561,9 @@ class TurboEngine:
                 self.state.total_output_tokens = combined.get("total_output_tokens", 0)
                 self.state.total_cost_usd = combined.get("estimated_cost_usd", 0.0)
         except Exception as e:
-            logger.debug(f"コスト取得エラー: {e}")
+            logger.warning(f"コスト取得エラー（計算が不正確な可能性）: {e}")
+            # コスト計算失敗を明示（-1は計算失敗を示す）
+            self.state.total_cost_usd = -1.0
 
         # 処理済みを記録（採用されたもの）
         for result in run.results:
@@ -652,19 +654,37 @@ class TurboEngine:
         return str(CHECKPOINT_PATH)
 
     def resume_from_checkpoint(self) -> bool:
-        """チェックポイントから再開"""
+        """チェックポイントから再開
+
+        Returns:
+            True: 正常に再開
+            False: チェックポイントが存在しない（新規開始）
+
+        Raises:
+            json.JSONDecodeError: チェックポイントファイルが破損
+            KeyError: 必須キーが欠落
+            ValueError: 状態データが不正
+        """
         if not CHECKPOINT_PATH.exists():
-            logger.warning("チェックポイントが見つかりません")
+            logger.info("チェックポイントなし - 新規開始")
             return False
 
         try:
             data = json.loads(CHECKPOINT_PATH.read_text())
+            if "state" not in data:
+                raise KeyError("チェックポイントに'state'キーがありません")
             self.state = TurboState.from_dict(data["state"])
             logger.info(f"チェックポイントから再開: {self.state.total_generated}件生成済み")
             return True
+        except json.JSONDecodeError as e:
+            logger.error(f"チェックポイントファイル破損 (JSON不正): {e}")
+            raise
+        except KeyError as e:
+            logger.error(f"チェックポイントに必須キー欠落: {e}")
+            raise
         except Exception as e:
             logger.error(f"チェックポイント読み込みエラー: {e}")
-            return False
+            raise
 
     def _print_progress(self) -> None:
         """進捗表示"""

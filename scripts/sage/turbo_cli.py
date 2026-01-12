@@ -23,6 +23,7 @@ Batch APIを使用したエピソード生成のCLI。
 import argparse
 import json
 import logging
+import re
 import sys
 import time
 from pathlib import Path
@@ -33,13 +34,28 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.sage.turbo_engine import TurboEngine, TurboConfig
 from scripts.sage.batch_processor import BatchProcessor
-from scripts.sage.config import Strategy
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 logger = logging.getLogger(__name__)
+
+
+# バッチIDフォーマット検証
+BATCH_ID_PATTERN = re.compile(r"^msgbatch_[a-zA-Z0-9]+$")
+
+
+def validate_batch_id(batch_id: str) -> bool:
+    """バッチIDフォーマットを検証
+
+    Args:
+        batch_id: 検証するバッチID
+
+    Returns:
+        有効ならTrue
+    """
+    return bool(BATCH_ID_PATTERN.match(batch_id))
 
 
 def cmd_submit(args):
@@ -62,8 +78,16 @@ def cmd_submit(args):
         fictional_enabled=fictional_enabled,
     )
 
-    engine = TurboEngine(config)
-    batch_id = engine.submit_batch_job(count=args.count, use_haiku=use_haiku)
+    try:
+        engine = TurboEngine(config)
+        batch_id = engine.submit_batch_job(count=args.count, use_haiku=use_haiku)
+    except ImportError as e:
+        logger.error(f"必要なモジュールがありません: {e}")
+        return 1
+    except Exception as e:
+        logger.error(f"バッチ送信エラー: {e}")
+        logger.debug("詳細:", exc_info=True)
+        return 1
 
     if batch_id:
         logger.info("")
@@ -88,11 +112,21 @@ def cmd_status(args):
         logger.error("--batch-id を指定してください")
         return 1
 
+    if not validate_batch_id(args.batch_id):
+        logger.error(f"無効なバッチIDフォーマット: {args.batch_id}")
+        logger.info("バッチIDは 'msgbatch_' で始まる必要があります")
+        return 1
+
     logger.info(f"=== Batch Status: {args.batch_id} ===")
 
     config = TurboConfig(dry_run=True)
     engine = TurboEngine(config)
-    status = engine.check_batch_status(args.batch_id)
+
+    try:
+        status = engine.check_batch_status(args.batch_id)
+    except Exception as e:
+        logger.error(f"ステータス確認エラー: {e}")
+        return 1
 
     print(json.dumps(status, indent=2, ensure_ascii=False))
 
@@ -104,12 +138,16 @@ def cmd_status(args):
     return 0
 
 
-def cmd_list(args):
+def cmd_list(_args):
     """保留中のジョブを一覧表示"""
     logger.info("=== Pending Batch Jobs ===")
 
-    processor = BatchProcessor()
-    jobs = processor.list_pending_jobs()
+    try:
+        processor = BatchProcessor()
+        jobs = processor.list_pending_jobs()
+    except Exception as e:
+        logger.error(f"ジョブ一覧取得エラー: {e}")
+        return 1
 
     if not jobs:
         logger.info("保留中のジョブはありません")
@@ -130,18 +168,45 @@ def cmd_watch(args):
         logger.error("--batch-id を指定してください")
         return 1
 
+    if not validate_batch_id(args.batch_id):
+        logger.error(f"無効なバッチIDフォーマット: {args.batch_id}")
+        logger.info("バッチIDは 'msgbatch_' で始まる必要があります")
+        return 1
+
     config = TurboConfig(dry_run=True)
     engine = TurboEngine(config)
 
     interval = args.interval
+    timeout = getattr(args, "timeout", 86400)  # デフォルト24時間
     bar_width = 40
+    consecutive_errors = 0
+    max_consecutive_errors = 5
 
     print(f"\n🔄 バッチ監視開始: {args.batch_id}")
-    print(f"   更新間隔: {interval}秒 (Ctrl+C で終了)\n")
+    print(f"   更新間隔: {interval}秒 | タイムアウト: {timeout}秒 (Ctrl+C で終了)\n")
+
+    start_time = time.time()
 
     try:
         while True:
-            status = engine.check_batch_status(args.batch_id)
+            # タイムアウトチェック
+            elapsed = time.time() - start_time
+            if elapsed > timeout:
+                print(f"\n\n⏰ タイムアウト ({timeout}秒) に達しました")
+                print(f"   経過時間: {elapsed:.0f}秒")
+                return 1
+
+            try:
+                status = engine.check_batch_status(args.batch_id)
+                consecutive_errors = 0  # 成功したらリセット
+            except Exception as e:
+                consecutive_errors += 1
+                if consecutive_errors >= max_consecutive_errors:
+                    logger.error(f"連続{max_consecutive_errors}回のエラー - 監視を終了します")
+                    return 1
+                logger.warning(f"ステータス確認エラー（リトライ {consecutive_errors}/{max_consecutive_errors}）: {e}")
+                time.sleep(interval)
+                continue
 
             total = status.get("request_count", 0)
             succeeded = status.get("succeeded_count", 0)
@@ -189,6 +254,11 @@ def cmd_retrieve(args):
         logger.error("--batch-id を指定してください")
         return 1
 
+    if not validate_batch_id(args.batch_id):
+        logger.error(f"無効なバッチIDフォーマット: {args.batch_id}")
+        logger.info("バッチIDは 'msgbatch_' で始まる必要があります")
+        return 1
+
     logger.info(f"=== Batch Retrieve: {args.batch_id} ===")
 
     config = TurboConfig(
@@ -202,11 +272,16 @@ def cmd_retrieve(args):
     if write_to_csv:
         logger.info("⚠️  本番書き込みモード: マスターCSVに追記します")
 
-    result = engine.retrieve_batch_results(
-        args.batch_id,
-        wait=args.wait,
-        write_to_csv=write_to_csv,
-    )
+    try:
+        result = engine.retrieve_batch_results(
+            args.batch_id,
+            wait=args.wait,
+            write_to_csv=write_to_csv,
+        )
+    except Exception as e:
+        logger.error(f"結果取得エラー: {e}")
+        logger.debug("詳細:", exc_info=True)
+        return 1
 
     if result:
         logger.info("")
@@ -219,7 +294,24 @@ def cmd_retrieve(args):
         logger.info("")
         logger.info(f"詳細は src/reports/logs/batch_jobs/{args.batch_id}_processed.json を参照")
     else:
-        logger.info("結果はまだ準備できていません (--wait で待機可能)")
+        # より詳細なステータス確認
+        try:
+            status = engine.check_batch_status(args.batch_id)
+            batch_status = status.get("status", "unknown")
+            if batch_status == "ended":
+                failed = status.get("failed_count", 0)
+                if failed > 0:
+                    logger.warning(f"バッチは完了しましたが {failed}件が失敗しています")
+                else:
+                    logger.info("結果取得中に問題が発生しました")
+            elif batch_status == "in_progress":
+                logger.info(f"バッチはまだ処理中です (--wait で待機可能)")
+            elif batch_status == "canceled":
+                logger.warning("バッチはキャンセルされました")
+            else:
+                logger.info(f"バッチステータス: {batch_status}")
+        except Exception:
+            logger.info("結果はまだ準備できていません (--wait で待機可能)")
 
     return 0
 
@@ -259,6 +351,7 @@ def main():
     watch_parser = subparsers.add_parser("watch", help="進捗バー付きでバッチを監視")
     watch_parser.add_argument("--batch-id", required=True, help="バッチID")
     watch_parser.add_argument("--interval", type=int, default=5, help="更新間隔（秒、default: 5）")
+    watch_parser.add_argument("--timeout", type=int, default=86400, help="最大待機時間（秒、default: 86400=24時間）")
 
     # list
     list_parser = subparsers.add_parser("list", help="保留中ジョブ一覧")

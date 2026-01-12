@@ -14,7 +14,9 @@ Usage:
 """
 
 import argparse
+import asyncio
 import json
+import logging
 import sys
 from pathlib import Path
 from datetime import datetime
@@ -24,38 +26,99 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
+# ロギング設定
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
+
 
 REGEN_LIST = PROJECT_ROOT / "src" / "reports" / "logs" / "meta_episodes_regen_list.csv"
-MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
+
+# 必須カラム
+REQUIRED_COLUMNS = ["person_id", "person_name", "age", "category", "person_type"]
+
+
+def validate_dataframe(df: pd.DataFrame) -> None:
+    """DataFrameの必須カラムを検証
+
+    Raises:
+        ValueError: 必須カラムが欠落している場合
+    """
+    missing = [col for col in REQUIRED_COLUMNS if col not in df.columns]
+    if missing:
+        raise ValueError(f"再生成リストに必須カラムが欠落: {missing}")
 
 
 def prepare_candidates(regen_df: pd.DataFrame) -> list[dict]:
-    """再生成候補リストを準備"""
+    """再生成候補リストを準備
+
+    Args:
+        regen_df: 再生成対象のDataFrame
+
+    Returns:
+        候補リスト
+
+    Raises:
+        ValueError: データ形式が不正な場合
+    """
+    validate_dataframe(regen_df)
+
     candidates = []
-    for _, row in regen_df.iterrows():
-        candidates.append(
-            {
-                "person_id": row["person_id"],
-                "person_name": row["person_name"],
-                "age": int(row["age"]),
-                "category": row["category"],
-                "person_type": row["person_type"],
-            }
-        )
+    skipped = 0
+
+    for idx, row in regen_df.iterrows():
+        try:
+            age_value = row["age"]
+            # NaN/null チェック（スカラー値なのでbool()で変換）
+            if bool(pd.isna(age_value)):
+                logger.warning(f"行 {idx}: ageがnull - スキップ")
+                skipped += 1
+                continue
+
+            candidates.append(
+                {
+                    "person_id": row["person_id"],
+                    "person_name": row["person_name"],
+                    "age": int(float(age_value)),  # "24.0" -> 24 対応
+                    "category": row["category"],
+                    "person_type": row["person_type"],
+                }
+            )
+        except (ValueError, TypeError) as e:
+            logger.warning(f"行 {idx}: データ変換エラー - {e}")
+            skipped += 1
+            continue
+
+    if skipped > 0:
+        logger.warning(f"{skipped}件のレコードをスキップしました")
+
     return candidates
 
 
 def submit_batch_job(candidates: list[dict], dry_run: bool = True) -> str:
-    """バッチジョブを送信"""
-    import asyncio
+    """バッチジョブを送信
+
+    Args:
+        candidates: 候補リスト
+        dry_run: ドライランモード
+
+    Returns:
+        バッチID
+
+    Raises:
+        ImportError: 必要なモジュールがない場合
+        Exception: API送信に失敗した場合
+    """
     from scripts.sage.batch_processor import BatchProcessor, BatchRequest
     from scripts.sage.prompts.category_prompts import get_static_system_prompt
 
-    print("\n📦 バッチジョブ準備中...")
-    print(f"  候補数: {len(candidates)}")
+    logger.info(f"バッチジョブ準備中... 候補数: {len(candidates)}")
 
     if dry_run:
-        print("\n[DRY-RUN] バッチジョブは送信されません")
+        logger.info("[DRY-RUN] バッチジョブは送信されません")
         return "dry-run-batch-id"
 
     # リクエスト構築
@@ -93,21 +156,54 @@ def submit_batch_job(candidates: list[dict], dry_run: bool = True) -> str:
             )
         )
 
-    print(f"  BatchRequest {len(batch_requests)} 件を作成")
+    logger.info(f"BatchRequest {len(batch_requests)} 件を作成")
 
     # Batch API送信
     processor = BatchProcessor()
 
     try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        job = asyncio.run(processor.submit_batch(batch_requests))
+    except Exception as e:
+        logger.error(f"バッチ送信エラー: {e}")
+        raise
 
-    job = loop.run_until_complete(processor.submit_batch(batch_requests))
-    print(f"✅ バッチジョブ送信完了: {job.batch_id}")
-
+    logger.info(f"✅ バッチジョブ送信完了: {job.batch_id}")
     return job.batch_id
+
+
+def save_tracking_file(batch_id: str, count: int) -> Path | None:
+    """追跡ファイルを保存
+
+    Args:
+        batch_id: バッチID
+        count: 候補数
+
+    Returns:
+        保存したファイルパス、失敗時はNone
+    """
+    tracking = {
+        "batch_id": batch_id,
+        "timestamp": datetime.now().isoformat(),
+        "count": count,
+        "type": "meta_episode_regeneration",
+    }
+    tracking_path = (
+        PROJECT_ROOT
+        / "src"
+        / "reports"
+        / "logs"
+        / f"regen_batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    )
+
+    try:
+        with open(tracking_path, "w", encoding="utf-8") as f:
+            json.dump(tracking, f, ensure_ascii=False, indent=2)
+        logger.info(f"📄 追跡ファイル: {tracking_path}")
+        return tracking_path
+    except IOError as e:
+        logger.warning(f"追跡ファイル保存失敗: {e}")
+        logger.info(f"手動追跡用バッチID: {batch_id}")
+        return None
 
 
 def main():
@@ -126,11 +222,22 @@ def main():
 
     # 再生成リスト読み込み
     if not REGEN_LIST.exists():
-        print(f"❌ 再生成リストが見つかりません: {REGEN_LIST}")
+        logger.error(f"再生成リストが見つかりません: {REGEN_LIST}")
         return 1
 
-    regen_df = pd.read_csv(REGEN_LIST)
-    print(f"\n📋 再生成対象: {len(regen_df)}件")
+    try:
+        regen_df = pd.read_csv(REGEN_LIST)
+    except pd.errors.EmptyDataError:
+        logger.error(f"再生成リストが空です: {REGEN_LIST}")
+        return 1
+    except pd.errors.ParserError as e:
+        logger.error(f"CSV解析エラー: {e}")
+        return 1
+    except Exception as e:
+        logger.error(f"再生成リスト読み込みエラー: {e}")
+        return 1
+
+    logger.info(f"📋 再生成対象: {len(regen_df)}件")
 
     # カテゴリ別
     cat_dist = regen_df["category"].value_counts()
@@ -139,26 +246,29 @@ def main():
         print(f"  {cat}: {count}件")
 
     # 候補準備
-    candidates = prepare_candidates(regen_df)
+    try:
+        candidates = prepare_candidates(regen_df)
+    except ValueError as e:
+        logger.error(f"候補準備エラー: {e}")
+        return 1
+
+    if not candidates:
+        logger.warning("有効な候補がありません")
+        return 0
 
     # バッチ送信
     dry_run = not args.execute
-    batch_id = submit_batch_job(candidates, dry_run=dry_run)
+    try:
+        batch_id = submit_batch_job(candidates, dry_run=dry_run)
+    except ImportError as e:
+        logger.error(f"必要なモジュールがありません: {e}")
+        return 1
+    except Exception as e:
+        logger.error(f"バッチ送信失敗: {e}")
+        return 1
 
     if not dry_run:
-        # 結果追跡用に保存
-        tracking = {
-            "batch_id": batch_id,
-            "timestamp": datetime.now().isoformat(),
-            "count": len(candidates),
-            "type": "meta_episode_regeneration",
-        }
-        tracking_path = (
-            PROJECT_ROOT / "src" / "reports" / "logs" / f"regen_batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
-        with open(tracking_path, "w", encoding="utf-8") as f:
-            json.dump(tracking, f, ensure_ascii=False, indent=2)
-        print(f"\n📄 追跡ファイル: {tracking_path}")
+        save_tracking_file(batch_id, len(candidates))
 
     return 0
 

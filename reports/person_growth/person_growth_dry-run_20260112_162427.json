@@ -1,0 +1,12 @@
+{
+  "mode": "DRY-RUN",
+  "timestamp": "2026-01-12 16:24:27",
+  "summary": {
+    "total_candidates": 2,
+    "found_persons": 1,
+    "missing_persons": 1,
+    "approved_for_addition": 1,
+    "review_required": 0,
+    "blocked": 0
+  }
+}

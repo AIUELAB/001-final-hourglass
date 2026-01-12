@@ -1232,9 +1232,16 @@ class HybridOrchestrator:
         # FICTIONAL / MYTHOLOGICAL: 作品内設定年齢を使用
         elif person_type in ("FICTIONAL", "MYTHOLOGICAL"):
             if canonical_age is not None:
-                # 設定年齢 ±10歳の範囲（1-100に制限）
-                min_age = max(1, canonical_age - 10)
-                max_age = min(100, canonical_age + 10)
+                # Phase 28: canonical_age > 100 の場合は90-100歳を許可
+                if canonical_age > 100:
+                    # 非常に長寿のキャラクター（神話キャラ、魔法使いなど）
+                    # 90-100歳の範囲でエピソード生成を許可
+                    min_age = 90
+                    max_age = 100
+                else:
+                    # 設定年齢 ±10歳の範囲（1-100に制限）
+                    min_age = max(1, canonical_age - 10)
+                    max_age = min(100, canonical_age + 10)
                 for age in range(min_age, max_age + 1):
                     if age not in existing_ages:
                         if self._inventory_manager.should_generate(age):

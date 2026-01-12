@@ -160,6 +160,10 @@ class TurboEngine:
         self._stop_requested = False
         self._stop_reason = ""
 
+        # Phase 28最適化: 評価用キャッシュ
+        self._super_total_calc = None  # 遅延初期化
+        self._master_df_cache = None  # マスターDFキャッシュ
+
         # シグナルハンドラ設定
         self._setup_signal_handlers()
 
@@ -195,6 +199,7 @@ class TurboEngine:
     ):
         """
         Phase 25: エピソードの品質評価（iconic_score計算追加）
+        Phase 28: パフォーマンス最適化（キャッシュ活用）
 
         Args:
             text: エピソードテキスト
@@ -209,6 +214,8 @@ class TurboEngine:
         from .adapters.base import AxisScores, EvaluationResult
         from .quality.evaluator import QualityEvaluator, CompositeScoreCalculator, IconicScoreCalculator
         from .quality.super_total import SuperTotalCalculator
+        import pandas as pd
+        from pathlib import Path
 
         # テキスト分析
         evaluator = QualityEvaluator()
@@ -251,9 +258,16 @@ class TurboEngine:
         # composite score
         composite = CompositeScoreCalculator.calculate(axis_scores)
 
-        # super_total score
-        super_calc = SuperTotalCalculator()
-        super_result = super_calc.calculate(person_id, axis_scores)
+        # Phase 28最適化: super_total計算（キャッシュ活用）
+        if self._super_total_calc is None:
+            self._super_total_calc = SuperTotalCalculator()
+
+        if self._master_df_cache is None:
+            master_csv = Path(__file__).parent.parent.parent / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
+            if master_csv.exists():
+                self._master_df_cache = pd.read_csv(master_csv, encoding="utf-8-sig")
+
+        super_result = self._super_total_calc.calculate(person_id, axis_scores, self._master_df_cache)
 
         return EvaluationResult(
             axis_scores=axis_scores,

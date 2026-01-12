@@ -383,6 +383,20 @@ class PreGenerationRules:
 
         # 90歳以上のチェック
         if age >= 90:
+            # Phase 28: 架空キャラ・神話キャラはpreferred_ageに基づき許可
+            if self.master_df is not None and not self.master_df.empty:
+                person_data = self.master_df[self.master_df["person_id"] == candidate.person_id]
+                if not person_data.empty:
+                    row = person_data.iloc[0]
+                    person_type = str(row.get("person_type", "REAL"))
+                    preferred_age = row.get("preferred_age")
+                    # FICTIONAL/MYTHOLOGICALでpreferred_age >= 80なら許可
+                    if person_type in ("FICTIONAL", "MYTHOLOGICAL"):
+                        if preferred_age is not None and not pd.isna(preferred_age) and float(preferred_age) >= 80:
+                            return RuleCheckResult(
+                                passed=True,
+                                message=f"Fictional character with high preferred_age ({preferred_age}) allowed at age {age}",
+                            )
             # death_yearが明確で、その年齢まで生きていた場合は許可
             if candidate.death_year and candidate.birth_year:
                 max_age = candidate.death_year - candidate.birth_year

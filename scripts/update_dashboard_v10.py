@@ -171,16 +171,20 @@ def load_csv_data():
 
 
 def update_dashboard(episodes):
-    """ダッシュボードHTMLの埋め込みデータを更新"""
+    """ダッシュボードHTMLの埋め込みデータを更新
+
+    Phase 28 軽量化: EMBEDDED_EPISODE_DATA を空配列に変更。
+    ダッシュボードはCSVから直接データを読み込むため、埋め込みデータは不要。
+    これによりHTMLサイズを 94MB → 数百KB に削減。
+    """
     with open(DASHBOARD_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
-    # EMBEDDED_EPISODE_DATA を探して置換
+    # EMBEDDED_EPISODE_DATA を探して空配列に置換
     pattern = r"const EMBEDDED_EPISODE_DATA = \[[\s\S]*?\];"
 
-    # 新しいデータを作成
-    json_data = json.dumps(episodes, ensure_ascii=False, indent=2)
-    new_data = f"const EMBEDDED_EPISODE_DATA = {json_data};"
+    # Phase 28: 空配列に変更（データはCSVから読み込まれる）
+    new_data = "const EMBEDDED_EPISODE_DATA = [];  // Phase 28: データはCSVから直接読み込み"
 
     # 置換
     new_html, count = re.subn(pattern, new_data, html)

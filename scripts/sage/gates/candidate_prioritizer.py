@@ -4,11 +4,14 @@ Candidate Prioritizer
 候補の優先度スコアリングと最適な生成対象の選定。
 """
 
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 from ..config import DIVERSITY_TARGETS, MASTER_CSV
 from ..inventory_manager import InventoryManager
@@ -97,6 +100,8 @@ class CandidatePrioritizer:
 
     # Q1対応: 平均寿命以下優先ロジック
     LIFESPAN_THRESHOLD = 80  # 平均寿命閾値
+    # Q1対応: 80歳以下優先モード
+    LIFESPAN_PRIORITY_PENALTY = 0.1  # 81歳以上に適用するペナルティ（スコア10%に抑制）
 
     # RCA-20260110-D: 極端年齢の優先度ブースト（整合性修正版）
     # RCA-20260110: pre_generation_rules.pyのextreme_age_filterと整合
@@ -244,6 +249,23 @@ class CandidatePrioritizer:
             self._inventory_manager.refresh()
         return self._inventory_manager
 
+    def _get_lifespan_deficit(self) -> int:
+        """
+        80歳以下の年齢の総deficit数を取得
+
+        Returns:
+            int: 80歳以下の総deficit
+        """
+        if not self._inventory_manager:
+            return 0
+
+        total_deficit = 0
+        for age in range(1, self.LIFESPAN_THRESHOLD + 1):  # 1-80歳
+            status = self._inventory_manager.get_status(age)
+            if status and status.deficit > 0:
+                total_deficit += status.deficit
+        return total_deficit
+
     def _calculate_extreme_age_boost(self, age: int) -> float:
         """
         RCA-20260110-D: 極端年齢のブースト倍率を計算
@@ -334,6 +356,15 @@ class CandidatePrioritizer:
         # Q1対応: 平均寿命（80歳）以下を優先
         if age <= self.LIFESPAN_THRESHOLD:
             raw_score *= 1.3  # 30%ブースト（平均寿命以下優先）
+
+        # Q1対応: 80歳以下優先モード
+        # 80歳以下にdeficitが残っている間は、81歳以上のスコアを大幅に抑制
+        if age > self.LIFESPAN_THRESHOLD:
+            lifespan_deficit = self._get_lifespan_deficit()
+            if lifespan_deficit > 0:
+                # 80歳以下のdeficitが残っている → 81歳以上を抑制
+                raw_score *= self.LIFESPAN_PRIORITY_PENALTY
+                logger.debug(f"Q1優先モード: age {age} を抑制 (80歳以下deficit={lifespan_deficit})")
 
         # 正規化 (0-100): 最大不足数365を想定
         normalized = min(100, raw_score / 3)

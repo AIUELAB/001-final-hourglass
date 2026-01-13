@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-01-13T17:51:23.828334",
+  "updated_at": "2026-01-13T18:15:32.752809",
   "config": {
     "target_per_age": 375,
     "min_factual_density": 7.0,
@@ -9,9 +9,9 @@
     "total_ages": 100,
     "achieved_ages": 84,
     "achievement_rate": 84.0,
-    "total_upper_episodes": 51200,
+    "total_upper_episodes": 51208,
     "total_target": 37500,
-    "overall_progress": 136.5
+    "overall_progress": 136.6
   },
   "ages": {
     "1": {
@@ -995,24 +995,24 @@
     },
     "90": {
       "age": 90,
-      "total_count": 231,
-      "upper_count": 223,
+      "total_count": 237,
+      "upper_count": 229,
       "target": 375,
       "achieved": false,
       "mode": "generate",
       "min_upper_score": 390588.4483139605,
-      "deficit": 152,
+      "deficit": 146,
       "replacement_threshold": 410117.8707296586
     },
     "91": {
       "age": 91,
-      "total_count": 204,
-      "upper_count": 197,
+      "total_count": 206,
+      "upper_count": 199,
       "target": 375,
       "achieved": false,
       "mode": "generate",
       "min_upper_score": 392988.4483139606,
-      "deficit": 178,
+      "deficit": 176,
       "replacement_threshold": 412637.87072965864
     },
     "92": {

@@ -1396,12 +1396,19 @@ class HybridOrchestrator:
             # 100歳で上限クリップ
             max_age = min(max_age, 100)
 
+            # Phase 30: death_yearがない場合は89歳以下に制限
+            # （pre_generation_rulesのunverified_elderlyフィルタと整合性を取る）
+            if not death_year or pd.isna(death_year):
+                max_age = min(max_age, 89)
+
             # Phase 29: deficitベースの年齢リストを使用
-            # safe_deficit_ages（6-89歳）を優先、その後centenarian_ages
+            # safe_deficit_ages（6-89歳）を優先、その後centenarian_ages（death_year確認済みの場合のみ）
             all_age_lists = [
                 safe_deficit_ages[:30],  # deficitベースの上位30年齢（6-89歳）
-                centenarian_ages,  # 90-100歳
             ]
+            # death_yearが確認済みで、90歳以上まで生きた場合のみcentenarian_agesを追加
+            if death_year and not pd.isna(death_year) and max_age >= 90:
+                all_age_lists.append(centenarian_ages)  # 90-100歳
 
             added_ages = set()
             for age_list in all_age_lists:

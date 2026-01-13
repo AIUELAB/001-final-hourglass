@@ -152,6 +152,9 @@ class HybridOrchestrator:
         # マスターデータ
         self._master_df: Optional[pd.DataFrame] = None
 
+        # Phase 29: deficit優先年齢のキャッシュ（パフォーマンス最適化）
+        self._cached_deficit_ages: Optional[list[int]] = None
+
     @property
     def master_df(self) -> pd.DataFrame:
         """マスターデータの遅延読み込み"""
@@ -1042,6 +1045,9 @@ class HybridOrchestrator:
         if self.master_df.empty:
             return []
 
+        # Phase 29: deficit優先年齢キャッシュをクリア（毎回最新を取得）
+        self._cached_deficit_ages = None
+
         # Phase 1: 在庫状況を更新
         self._inventory_manager.refresh()
 
@@ -1123,27 +1129,26 @@ class HybridOrchestrator:
             min_score=self.config.min_candidate_priority,
         )
 
-        # Phase 3最適化: 年齢グループバランシング（両モード共通）
+        # Phase 29: Q1対応 - 80歳以下優先モード
+        # 従来のyoung/elderly_safe/normalグループを廃止し、
+        # 80歳以下と81歳以上の2グループに変更
         def get_age_group(age: int) -> str:
-            if age <= 10:
-                return "young"
-            elif 80 <= age <= 84:
-                return "elderly_safe"
+            if age <= 80:
+                return "under_80"
             else:
-                return "normal"
+                return "over_80"
 
-        # Phase 3: 各グループの目標数を計算（young:30%, elderly_safe:30%, normal:40%）
+        # Q1: 80歳以下優先（80% vs 20%）
         group_targets = {
-            "young": max(3, int(count * 0.30)),
-            "elderly_safe": max(3, int(count * 0.30)),
-            "normal": max(3, int(count * 0.40)),
+            "under_80": max(5, int(count * 0.80)),  # 80歳以下を80%
+            "over_80": max(2, int(count * 0.20)),  # 81歳以上を20%
         }
 
         # 各グループごとに候補を選択
         candidates = []
         used_person_ages = set()  # (person_id, age) の重複防止
 
-        for group_name in ["young", "elderly_safe", "normal"]:
+        for group_name in ["under_80", "over_80"]:
             target = group_targets[group_name]
             group_candidates = []
             seen_persons_in_group = set()
@@ -1291,6 +1296,51 @@ class HybridOrchestrator:
 
         return available_ages
 
+    def _get_deficit_priority_ages(self) -> list[int]:
+        """
+        deficit順に優先すべき年齢を取得（Q1対応: 80歳以下優先）
+
+        Phase 29: キャッシュを使用してパフォーマンス最適化
+        - 同一get_recommended_candidates()呼び出し内ではキャッシュを使用
+        - キャッシュはget_recommended_candidates()開始時にクリア
+
+        Returns:
+            list[int]: deficit降順の年齢リスト（80歳以下を先に）
+        """
+        # キャッシュがあれば使用
+        if self._cached_deficit_ages is not None:
+            return self._cached_deficit_ages
+
+        if not self._inventory_manager:
+            # フォールバック: 従来の固定リスト
+            return [25, 30, 35, 40, 45, 50, 55, 20, 60, 65, 15, 70, 75, 80]
+
+        self._inventory_manager.refresh()
+
+        # 80歳以下と81歳以上を分けてdeficit順にソート
+        under_80_ages: list[tuple[int, int]] = []
+        over_80_ages: list[tuple[int, int]] = []
+
+        for age in range(1, 101):
+            status = self._inventory_manager.get_status(age)
+            if status and status.deficit > 0:
+                if age <= 80:
+                    under_80_ages.append((age, status.deficit))
+                else:
+                    over_80_ages.append((age, status.deficit))
+
+        # deficit降順でソート
+        under_80_ages.sort(key=lambda x: -x[1])
+        over_80_ages.sort(key=lambda x: -x[1])
+
+        # 80歳以下を先に、その後81歳以上
+        result = [age for age, _ in under_80_ages] + [age for age, _ in over_80_ages]
+
+        # キャッシュに保存
+        self._cached_deficit_ages = result
+
+        return result
+
     def _calculate_real_person_ages(
         self,
         birth_year: int | None,
@@ -1299,6 +1349,11 @@ class HybridOrchestrator:
     ) -> list[int]:
         """
         実在人物の利用可能年齢を計算
+
+        Phase 29: deficitベースの動的年齢優先度に変更
+        - 固定リスト（priority_ages等）を廃止
+        - _get_deficit_priority_ages()からdeficit降順で年齢を取得
+        - 16, 17, 62, 63, 64歳などdeficit高年齢も候補に含まれる
 
         Args:
             birth_year: 生年
@@ -1313,15 +1368,19 @@ class HybridOrchestrator:
         available_ages = []
         current_year = datetime.now().year
 
-        # 年齢カテゴリ（バランスのため混合）
-        priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
-        secondary_ages = [20, 60, 65]  # 中程度
-        extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全
-        extreme_elderly_risky = [85, 86, 87, 88, 89]  # 高齢リスク
-        # Phase 28: 90-100歳を追加（長寿人物対応）
-        centenarian_ages = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]  # 百寿者年齢帯
-        tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
-        extreme_young_ages = [6, 7, 8, 9, 10]  # 若年層
+        # Phase 29: deficitベースの動的年齢リストを取得
+        deficit_priority_ages = self._get_deficit_priority_ages()
+
+        # 極端年齢は別途処理（既存フィルターとの整合性維持）
+        # 6-89歳の範囲でdeficitベースに並べ替え
+        safe_deficit_ages = [age for age in deficit_priority_ages if 6 <= age <= 89]
+
+        # centenarian_ages (90-100) は既存ロジックを維持
+        centenarian_ages = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
+
+        # extreme_young_ages (6-10) は既存ロジックを維持（safe_deficit_agesにも含まれる可能性あり）
+        # ただしsafe_deficit_agesで既にカバーされているため、重複を除去
+        extreme_young_ages_fallback = [6, 7, 8, 9, 10]
 
         if birth_year and not pd.isna(birth_year):
             birth_year_int = int(birth_year)
@@ -1337,31 +1396,36 @@ class HybridOrchestrator:
             # 100歳で上限クリップ
             max_age = min(max_age, 100)
 
+            # Phase 29: deficitベースの年齢リストを使用
+            # safe_deficit_ages（6-89歳）を優先、その後centenarian_ages
             all_age_lists = [
-                priority_ages,
-                secondary_ages,
-                tertiary_ages,
-                extreme_young_ages,
-                extreme_elderly_safe,
-                extreme_elderly_risky,
-                centenarian_ages,  # Phase 28: 追加
+                safe_deficit_ages[:30],  # deficitベースの上位30年齢（6-89歳）
+                centenarian_ages,  # 90-100歳
             ]
+
+            added_ages = set()
             for age_list in all_age_lists:
                 for age in age_list:
+                    if age in added_ages:
+                        continue
                     if age <= max_age and age not in existing_ages:
                         if self._inventory_manager.should_generate(age):
                             available_ages.append(age)
+                            added_ages.add(age)
         else:
-            # birth_yearがない場合は安全な範囲のみ使用
-            all_age_lists = [
-                priority_ages,
-                secondary_ages,
-                tertiary_ages,
-                extreme_young_ages,
-                extreme_elderly_safe,
-            ]
-            for age_list in all_age_lists:
-                for age in age_list:
+            # birth_yearがない場合は安全な範囲のみ使用（89歳以下）
+            added_ages = set()
+            for age in safe_deficit_ages[:30]:
+                if age in added_ages:
+                    continue
+                if age not in existing_ages:
+                    if self._inventory_manager.should_generate(age):
+                        available_ages.append(age)
+                        added_ages.add(age)
+
+            # フォールバック: safe_deficit_agesが空の場合
+            if not available_ages:
+                for age in extreme_young_ages_fallback:
                     if age not in existing_ages:
                         if self._inventory_manager.should_generate(age):
                             available_ages.append(age)

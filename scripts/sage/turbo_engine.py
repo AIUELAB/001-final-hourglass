@@ -21,6 +21,9 @@ from .pre_generation_rules import Candidate as PreRulesCandidate, PreGenerationR
 # Phase 20: Batch API統合
 from .batch_processor import BatchProcessor, BatchRequest, BatchJob
 
+# Step 2.5: EPUP重複チェック用
+from .gates.duplicate import DuplicateDetector
+
 logger = logging.getLogger(__name__)
 
 # プロジェクトルート
@@ -302,9 +305,13 @@ class TurboEngine:
         post_processed_count = 0
 
         for ep in accepted:
-            custom_id = ep.get("custom_id", "")
-            parts = custom_id.rsplit("_", 1)
-            person_id = parts[0] if len(parts) >= 1 else custom_id
+            # person_idをメタデータから直接取得
+            person_id = ep.get("person_id", "")
+            if not person_id:
+                # フォールバック（古いフォーマット対応）
+                custom_id = ep.get("custom_id", "")
+                parts = custom_id.rsplit("_", 1)
+                person_id = parts[0] if len(parts) >= 1 else custom_id
             person_name = ep.get("person_name", "")
             age = ep.get("age", 0)
             category = ep.get("category", "")
@@ -812,6 +819,34 @@ class TurboEngine:
             logger.warning("フィルタ後の候補がありません")
             return None
 
+        # Step 2.5: EPUP重複チェック（生成前の最終防御）
+        # 既にマスターCSVに存在するperson_id+age組み合わせをスキップ
+        duplicate_detector = DuplicateDetector()
+        epup_filtered_candidates = []
+        epup_skip_count = 0
+
+        for candidate in filtered_candidates:
+            pre_dup_check = duplicate_detector.check_exact_duplicate(candidate.person_id, candidate.age)
+            if pre_dup_check.is_duplicate:
+                logger.debug(
+                    f"Step 2.5 SKIP: 既存EP {candidate.person_name} age {candidate.age} "
+                    f"(EP: {pre_dup_check.most_similar_episode_id})"
+                )
+                epup_skip_count += 1
+                continue
+            epup_filtered_candidates.append(candidate)
+
+        if epup_skip_count > 0:
+            logger.info(f"Step 2.5 EPUP重複スキップ: {epup_skip_count}件")
+
+        filtered_candidates = epup_filtered_candidates
+
+        if not filtered_candidates:
+            logger.warning("EPUP重複チェック後の候補がありません")
+            return None
+
+        logger.info(f"EPUP重複チェック後 {len(filtered_candidates)} 件")
+
         # プロンプト生成
         prompt_builder = create_prompt_builder(compact=True)
         batch_requests = []
@@ -887,11 +922,12 @@ class TurboEngine:
                         "candidates": [
                             {
                                 "custom_id": r.custom_id,
-                                "person_name": r.person_name,
-                                "age": r.age,
-                                "category": r.category,
+                                "person_id": candidate.person_id,  # オリジナルのperson_id
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "category": candidate.category,
                             }
-                            for r in batch_requests
+                            for candidate, r in zip(filtered_candidates, batch_requests)
                         ],
                     },
                     f,
@@ -1046,6 +1082,7 @@ class TurboEngine:
             accepted.append(
                 {
                     "custom_id": custom_id,
+                    "person_id": candidate_info.get("person_id", ""),  # オリジナルのperson_id
                     "person_name": candidate_info.get("person_name", ""),
                     "age": candidate_info.get("age", 0),
                     "category": candidate_info.get("category", ""),

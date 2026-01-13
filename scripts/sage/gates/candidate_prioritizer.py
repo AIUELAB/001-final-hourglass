@@ -4,7 +4,6 @@ Candidate Prioritizer
 候補の優先度スコアリングと最適な生成対象の選定。
 """
 
-from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -96,6 +95,9 @@ class CandidatePrioritizer:
     LOW_EP_BOOST_MULTIPLIER = 2.0  # 1EP人物は2倍ブースト
     LOW_EP_DEFICIT_COMBO_MULTIPLIER = 3.0  # 1EP + 不足カテゴリは3倍ブースト
 
+    # Q1対応: 平均寿命以下優先ロジック
+    LIFESPAN_THRESHOLD = 80  # 平均寿命閾値
+
     # RCA-20260110-D: 極端年齢の優先度ブースト（整合性修正版）
     # RCA-20260110: pre_generation_rules.pyのextreme_age_filterと整合
     # - 0-5歳: フィルターで除外されるためブースト対象外
@@ -160,10 +162,10 @@ class CandidatePrioritizer:
                 for _, row in self.master_df.iterrows():
                     person_id = row["person_id"]
                     age = row.get("age")
-                    if pd.notna(age):
+                    if pd.notna(age):  # type: ignore[arg-type]
                         if person_id not in self._person_ages:
-                            self._person_ages[person_id] = set()
-                        self._person_ages[person_id].add(int(age))
+                            self._person_ages[person_id] = set()  # type: ignore[index]
+                        self._person_ages[person_id].add(int(age))  # type: ignore[index,arg-type]
         return self._person_ages
 
     def _calculate_ep_count_score(self, person_id: str) -> tuple[float, int]:
@@ -195,7 +197,7 @@ class CandidatePrioritizer:
 
         # 目標割合
         target_ratios = self.targets.get("category_distribution", {})
-        target_ratio = target_ratios.get(category, 1 / len(target_ratios) if target_ratios else 0.1)
+        target_ratio = target_ratios.get(category, 1 / len(target_ratios) if target_ratios else 0.1)  # type: ignore[union-attr]
 
         # 不足度を計算 (目標より少ないほど高スコア)
         deficit = max(0, target_ratio - current_ratio)
@@ -256,9 +258,9 @@ class CandidatePrioritizer:
             float: ブースト倍率（1.0-5.0）
         """
         for config in self.EXTREME_AGE_BOOST_CONFIG.values():
-            age_min, age_max = config["age_range"]
+            age_min, age_max = config["age_range"]  # type: ignore[index]
             if age_min <= age <= age_max:
-                return config["boost"]
+                return config["boost"]  # type: ignore[return-value]
         return 1.0  # ブーストなし
 
     def _calculate_inventory_age_priority_score(self, age: int) -> float:
@@ -294,7 +296,7 @@ class CandidatePrioritizer:
             return 0.0
 
         # カバレッジ率を計算 (target=400を想定)
-        target = self.targets.get(age, 400)
+        target = self.targets.get(age, 400)  # type: ignore[arg-type]
         current = target - deficit
         coverage_rate = current / target if target > 0 else 1.0
 
@@ -328,6 +330,10 @@ class CandidatePrioritizer:
 
         # 基本スコア: deficit / age_penalty * boost
         raw_score = (deficit / age_penalty) * extreme_boost
+
+        # Q1対応: 平均寿命（80歳）以下を優先
+        if age <= self.LIFESPAN_THRESHOLD:
+            raw_score *= 1.3  # 30%ブースト（平均寿命以下優先）
 
         # 正規化 (0-100): 最大不足数365を想定
         normalized = min(100, raw_score / 3)
@@ -371,7 +377,7 @@ class CandidatePrioritizer:
         for pattern in self.LOW_SUCCESS_PATTERNS:
             cat_prefix = pattern.get("category_prefix", "")
             age_min, age_max = pattern.get("age_range", (0, 0))
-            if category.startswith(cat_prefix) and age_min <= age <= age_max:
+            if category.startswith(cat_prefix) and age_min <= age <= age_max:  # type: ignore[arg-type,operator]
                 total_score *= 1.0 - self.LOW_SUCCESS_PENALTY
                 break
 

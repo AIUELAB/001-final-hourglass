@@ -35,6 +35,7 @@ class InventoryConfig:
     replacement_threshold: float = 0.05  # 置換閾値: 5%改善
     min_age: int = 1  # 管理対象最小年齢（Phase 16: 1-100歳のみ）
     max_age: int = 100  # 管理対象最大年齢（Phase 16: 1-100歳のみ）
+    person_type_filter: str | None = "REAL"  # 人物タイプフィルタ（None=全て）
 
 
 @dataclass
@@ -121,8 +122,15 @@ class InventoryManager:
         """在庫情報を更新"""
         df = self._load_master()
 
-        # 有効年齢範囲でフィルタ
-        df_valid = df[(df["age"] >= self.config.min_age) & (df["age"] <= self.config.max_age)].copy()
+        # 有効年齢範囲でフィルタ（person_typeフィルタ付き）
+        if self.config.person_type_filter:
+            df_valid = df[
+                (df["age"] >= self.config.min_age)
+                & (df["age"] <= self.config.max_age)
+                & (df["person_type"] == self.config.person_type_filter)
+            ].copy()
+        else:
+            df_valid = df[(df["age"] >= self.config.min_age) & (df["age"] <= self.config.max_age)].copy()
 
         # 上位レベル判定
         df_valid["is_upper"] = df_valid.apply(self._is_upper_level, axis=1)
@@ -141,9 +149,9 @@ class InventoryManager:
             # 上位レベル最低スコア
             min_upper_score = 0.0
             if len(upper_df) > 0:
-                scores = upper_df["super_total_score"].dropna()
-                if len(scores) > 0:
-                    min_upper_score = float(scores.min())
+                upper_scores = upper_df["super_total_score"].dropna()  # type: ignore[union-attr]
+                if len(upper_scores) > 0:
+                    min_upper_score = float(upper_scores.min())
 
             # モード判定 (Phase 4: 置換モード対応)
             if not achieved:
@@ -263,15 +271,17 @@ class InventoryManager:
             return None
 
         # 最低スコアのエピソード
-        min_idx = upper_df["super_total_score"].idxmin()
-        row = upper_df.loc[min_idx]
+        scores = upper_df["super_total_score"]
+        min_idx = scores.idxmin()  # type: ignore[union-attr]
+        row = upper_df.loc[min_idx]  # type: ignore[union-attr]
 
+        score_val = row["super_total_score"]
         return ReplacementTarget(
             episode_id=str(row["episode_id"]),
             person_id=str(row["person_id"]),
             person_name=str(row["person_name"]),
             age=int(row["age"]),
-            score=float(row["super_total_score"]) if pd.notna(row["super_total_score"]) else 0.0,
+            score=float(score_val) if not pd.isna(score_val) else 0.0,
         )
 
     def is_replacement_mode(self, age: int) -> bool:

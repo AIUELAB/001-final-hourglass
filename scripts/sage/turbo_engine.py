@@ -788,11 +788,15 @@ class TurboEngine:
         # 生成前フィルタ適用
         filtered_candidates = []
         for candidate in candidates:
+            # Phase 28: person_type, birth_year, death_year を渡して90歳以上の検証を可能に
             pre_candidate = PreRulesCandidate(
                 person_id=candidate.person_id,
                 person_name=candidate.person_name,
                 age=candidate.age,
                 category=candidate.category,
+                person_type=candidate.person_type,
+                birth_year=candidate.birth_year,
+                death_year=candidate.death_year,
             )
             result = self._pre_rules.check_all(pre_candidate)
             passed = result.passed

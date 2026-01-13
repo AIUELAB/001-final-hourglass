@@ -4,6 +4,7 @@ SAGE Turbo Engine
 APIレート制限まで自動的にエピソードを生成し続けるエンジン。
 """
 
+import hashlib
 import json
 import logging
 import signal
@@ -831,7 +832,10 @@ class TurboEngine:
             prompt = prompt_builder.build(gen_input, style="factual")
 
             # custom_id: person_id_age でユニーク化
-            custom_id = f"{candidate.person_id}_{candidate.age}"
+            # Phase 28: custom_idは英数字・アンダースコア・ハイフンのみ許可
+            # 日本語person_idはハッシュ化
+            safe_person_id = hashlib.md5(candidate.person_id.encode()).hexdigest()[:16]
+            custom_id = f"{safe_person_id}_{candidate.age}"
 
             # Phase 21統合: Haikuモデル使用で追加コスト削減
             model = "claude-3-5-haiku-20241022" if use_haiku else "claude-sonnet-4-20250514"

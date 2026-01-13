@@ -1308,21 +1308,34 @@ class HybridOrchestrator:
         Returns:
             list[int]: 利用可能な年齢リスト
         """
+        from datetime import datetime
+
         available_ages = []
+        current_year = datetime.now().year
 
         # 年齢カテゴリ（バランスのため混合）
         priority_ages = [25, 30, 35, 40, 45, 50, 55]  # 高品質年齢帯
         secondary_ages = [20, 60, 65]  # 中程度
         extreme_elderly_safe = [81, 82, 83, 84]  # 高齢安全
         extreme_elderly_risky = [85, 86, 87, 88, 89]  # 高齢リスク
+        # Phase 28: 90-100歳を追加（長寿人物対応）
+        centenarian_ages = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]  # 百寿者年齢帯
         tertiary_ages = [15, 70, 75, 80]  # 低品質リスク
         extreme_young_ages = [6, 7, 8, 9, 10]  # 若年層
 
         if birth_year and not pd.isna(birth_year):
             birth_year_int = int(birth_year)
-            max_age = 100
+
+            # Phase 28: 最大年齢の計算
             if death_year and not pd.isna(death_year):
+                # 故人: 没年 - 生年
                 max_age = int(death_year) - birth_year_int
+            else:
+                # 存命: 現在年 - 生年（未来の年齢は生成不可）
+                max_age = current_year - birth_year_int
+
+            # 100歳で上限クリップ
+            max_age = min(max_age, 100)
 
             all_age_lists = [
                 priority_ages,
@@ -1331,6 +1344,7 @@ class HybridOrchestrator:
                 extreme_young_ages,
                 extreme_elderly_safe,
                 extreme_elderly_risky,
+                centenarian_ages,  # Phase 28: 追加
             ]
             for age_list in all_age_lists:
                 for age in age_list:

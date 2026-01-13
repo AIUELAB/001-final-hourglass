@@ -101,7 +101,7 @@ class CandidatePrioritizer:
     # Q1対応: 平均寿命以下優先ロジック
     LIFESPAN_THRESHOLD = 80  # 平均寿命閾値
     # Q1対応: 80歳以下優先モード
-    LIFESPAN_PRIORITY_PENALTY = 0.1  # 81歳以上に適用するペナルティ（スコア10%に抑制）
+    LIFESPAN_PRIORITY_PENALTY = 1.0  # 一時的に無効化（1-5歳候補枯渇のため81-100歳を許可）
 
     # RCA-20260110-D: 極端年齢の優先度ブースト（整合性修正版）
     # RCA-20260110: pre_generation_rules.pyのextreme_age_filterと整合

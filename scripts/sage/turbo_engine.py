@@ -868,7 +868,9 @@ class TurboEngine:
                 ),
             )
 
-            prompt = prompt_builder.build(gen_input, style="factual")
+            # Phase 32: 1-5歳は early_childhood スタイルを使用
+            style = "early_childhood" if 1 <= candidate.age <= 5 else "factual"
+            prompt = prompt_builder.build(gen_input, style=style)
 
             # custom_id: person_id_age でユニーク化
             # Phase 28: custom_idは英数字・アンダースコア・ハイフンのみ許可

@@ -25,11 +25,11 @@ from pathlib import Path
 
 import pandas as pd
 
-# プロジェクトルート
-PROJECT_ROOT = Path(__file__).parent.parent
+# プロジェクトルート（scripts/fix/ → scripts/ → project_root）
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 # データファイル
-CSV_PATH = PROJECT_ROOT / "preserved" / "MASTER_EPISODES_CURRENT.csv"
+CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 
 
@@ -185,6 +185,33 @@ def fix_missing_work_title(episode_text: str, person_name: str, work_title: str)
                 fixed_text = re.sub(pattern_name, replacement_name, episode_text, count=1)
                 if fixed_text != episode_text:
                     return fixed_text
+
+    # パターン9: エピソード本文中の「名前（別名）」形式を検出
+    # 例: ムーラン → エピソード本文「ムーラン（花木蘭）は...」
+    pattern_with_alias = rf"(あなたと同じ\d+歳のとき、){re.escape(person_name)}（[^）]+）(は|が)"
+    match = re.search(pattern_with_alias, episode_text)
+    if match:
+        # 「名前（別名）」全体を取得して作品名を挿入
+        full_name_match = re.search(rf"{re.escape(person_name)}（[^）]+）", episode_text)
+        if full_name_match:
+            full_name = full_name_match.group(0)
+            replacement9 = rf"\1{full_name}『{work_title}』\2"
+            fixed_text = re.sub(pattern_with_alias, replacement9, episode_text, count=1)
+            if fixed_text != episode_text:
+                return fixed_text
+
+    # パターン10: 汎用パターン - リード文直後の任意の名前（最後の手段）
+    # 「あなたと同じN歳のとき、[任意の文字列]は」を検出して作品名を挿入
+    pattern_generic = r"(あなたと同じ\d+歳のとき、)([^はが『』]+)(は|が)"
+    match = re.match(pattern_generic, episode_text)
+    if match:
+        existing_name = match.group(2)
+        # 既に作品名がある場合はスキップ
+        if "『" not in existing_name and "』" not in existing_name:
+            replacement_generic = rf"\g<1>{existing_name}『{work_title}』\g<3>"
+            fixed_text = re.sub(pattern_generic, replacement_generic, episode_text, count=1)
+            if fixed_text != episode_text:
+                return fixed_text
 
     return episode_text
 

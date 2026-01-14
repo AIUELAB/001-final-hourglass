@@ -43,7 +43,27 @@ REQUIRED_BASIC_FIELDS = [
 ]
 
 # 有効なエピソードタイプ
-VALID_EPISODE_TYPES = {"転機", "達成", "死去", "挑戦", "キャリア", "革新", "創業", "失敗", "復帰"}
+# 有効なエピソードタイプ（日本語・英語両対応）
+VALID_EPISODE_TYPES = {
+    "転機",
+    "達成",
+    "死去",
+    "挑戦",
+    "キャリア",
+    "革新",
+    "創業",
+    "失敗",
+    "復帰",
+    "ACHIEVEMENT",
+    "TURNING_POINT",
+    "DEATH",
+    "CHALLENGE",
+    "CAREER",
+    "INNOVATION",
+    "FOUNDING",
+    "FAILURE",
+    "COMEBACK",
+}
 
 
 def age_to_nendai(age_str: str) -> str:

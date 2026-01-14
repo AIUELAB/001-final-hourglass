@@ -362,54 +362,39 @@ class PreGenerationRules:
         """
         RCA-20260110: 極端年齢チェック
 
-        0-5歳と90歳以上は品質リスクが高いため除外。
+        0-5歳は品質リスクが高いため除外。
         - 0-5歳: 幼児の業績エピソードはハルシネーションになりやすい
-        - 90歳以上: 死亡年が未確認の場合、存命と仮定して生成されるリスク
 
-        例外:
-        - death_yearが明確で、その年齢まで生きていた場合は90歳以上も許可
+        Phase 32: 90-100歳の制限を解除
+        - 候補プール拡大のため、death_year未確認でも許可
         - 6-10歳は許可（子役デビュー、神童など実例あり）
         """
         age = candidate.age
 
-        # 0-5歳は一律除外（幼児の業績エピソードはハルシネーションになりやすい）
-        if age <= 5:
+        # Phase 32: 0歳のみ除外（1-5歳は品質ゲートで対応）
+        # 1-5歳は post_llm_validator.py の _check_early_childhood_quality で品質管理
+        if age == 0:
             return RuleCheckResult(
                 passed=False,
                 reason=RejectionReason.AGE_BOUNDARY_VIOLATION,
-                message=f"Extreme young age {age} filtered (high hallucination risk)",
-                details={"age": age, "reason": "infant_age"},
+                message="Age 0 filtered (newborn episodes not supported)",
+                details={"age": age, "reason": "newborn_age"},
             )
 
-        # 90歳以上のチェック
+        # Phase 32: 90歳以上も許可（候補プール拡大）
+        # death_year未確認でも生成を許可する
         if age >= 90:
-            # Phase 28: 架空キャラ・神話キャラはpreferred_ageに基づき許可
-            if self.master_df is not None and not self.master_df.empty:
-                person_data = self.master_df[self.master_df["person_id"] == candidate.person_id]
-                if not person_data.empty:
-                    row = person_data.iloc[0]
-                    person_type = str(row.get("person_type", "REAL"))
-                    preferred_age = row.get("preferred_age")
-                    # FICTIONAL/MYTHOLOGICALでpreferred_age >= 80なら許可
-                    if person_type in ("FICTIONAL", "MYTHOLOGICAL"):
-                        if preferred_age is not None and not pd.isna(preferred_age) and float(preferred_age) >= 80:
-                            return RuleCheckResult(
-                                passed=True,
-                                message=f"Fictional character with high preferred_age ({preferred_age}) allowed at age {age}",
-                            )
-            # death_yearが明確で、その年齢まで生きていた場合は許可
+            # death_yearが確認済みの場合は明示的に許可メッセージ
             if candidate.death_year and candidate.birth_year:
                 max_age = candidate.death_year - candidate.birth_year
                 if age <= max_age:
                     return RuleCheckResult(
                         passed=True, message=f"Age {age} is within verified lifespan (max={max_age})"
                     )
-            # それ以外は除外
+            # Phase 32: death_year未確認でも許可（候補プール拡大のため）
             return RuleCheckResult(
-                passed=False,
-                reason=RejectionReason.AGE_BOUNDARY_VIOLATION,
-                message=f"Extreme elderly age {age} filtered (unverified lifespan)",
-                details={"age": age, "reason": "unverified_elderly"},
+                passed=True,
+                message=f"Age {age} allowed (Phase 32: elderly age restriction removed)",
             )
 
         return RuleCheckResult(passed=True, message="Age is within acceptable range")

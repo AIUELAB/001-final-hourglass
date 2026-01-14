@@ -1371,16 +1371,17 @@ class HybridOrchestrator:
         # Phase 29: deficitベースの動的年齢リストを取得
         deficit_priority_ages = self._get_deficit_priority_ages()
 
+        # Phase 31: 1-5歳も候補に含める（deficitが残っている場合）
         # 極端年齢は別途処理（既存フィルターとの整合性維持）
-        # 6-89歳の範囲でdeficitベースに並べ替え
-        safe_deficit_ages = [age for age in deficit_priority_ages if 6 <= age <= 89]
+        # 1-89歳の範囲でdeficitベースに並べ替え
+        safe_deficit_ages = [age for age in deficit_priority_ages if 1 <= age <= 89]
 
         # centenarian_ages (90-100) は既存ロジックを維持
         centenarian_ages = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
 
-        # extreme_young_ages (6-10) は既存ロジックを維持（safe_deficit_agesにも含まれる可能性あり）
-        # ただしsafe_deficit_agesで既にカバーされているため、重複を除去
-        extreme_young_ages_fallback = [6, 7, 8, 9, 10]
+        # Phase 31: extreme_young_ages (1-10) は safe_deficit_ages に含まれるようになった
+        # フォールバック用に残す（safe_deficit_agesが空の場合のみ使用）
+        extreme_young_ages_fallback = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
         if birth_year and not pd.isna(birth_year):
             birth_year_int = int(birth_year)
@@ -1396,19 +1397,17 @@ class HybridOrchestrator:
             # 100歳で上限クリップ
             max_age = min(max_age, 100)
 
-            # Phase 30: death_yearがない場合は89歳以下に制限
-            # （pre_generation_rulesのunverified_elderlyフィルタと整合性を取る）
-            if not death_year or pd.isna(death_year):
-                max_age = min(max_age, 89)
+            # Phase 32: death_year制限を解除
+            # 90-100歳の候補プールを拡大するため、death_year未確認でも候補に含める
+            # （品質リスクはpre_generation_rulesで個別に判断）
 
             # Phase 29: deficitベースの年齢リストを使用
-            # safe_deficit_ages（6-89歳）を優先、その後centenarian_ages（death_year確認済みの場合のみ）
+            # safe_deficit_ages（1-89歳）を優先、その後centenarian_ages
             all_age_lists = [
-                safe_deficit_ages[:30],  # deficitベースの上位30年齢（6-89歳）
+                safe_deficit_ages[:30],  # deficitベースの上位30年齢（1-89歳）
             ]
-            # death_yearが確認済みで、90歳以上まで生きた場合のみcentenarian_agesを追加
-            if death_year and not pd.isna(death_year) and max_age >= 90:
-                all_age_lists.append(centenarian_ages)  # 90-100歳
+            # Phase 32: 90-100歳を常に候補に含める（death_year制限解除）
+            all_age_lists.append(centenarian_ages)  # 90-100歳
 
             added_ages = set()
             for age_list in all_age_lists:

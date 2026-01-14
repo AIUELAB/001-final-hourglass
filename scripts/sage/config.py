@@ -65,7 +65,7 @@ QUALITY_THRESHOLDS = {
     # 7軸スコア閾値（0-10）- ハードゲート
     # Phase 2: 上位レベル必須化（factual_density>=7, 生成品質>=8）
     "min_factual_density": 7.0,  # factual_density（最重要）← Phase2: 6.0→7.0
-    "min_generation_quality": 8.0,  # 生成品質（最重要）← Phase2: 6.0→8.0
+    "min_generation_quality": 7.5,  # 生成品質（最重要）← Phase33: 8.0→7.5（採用率向上）
     "min_memorability": 5.5,  # 記憶性
     "min_empathy": 4.0,  # 共感性（Phase4調整: 5.0→4.0、架空キャラ対応）
     "min_surprise": 4.0,  # 意外性（Phase4調整: 5.0→4.0、架空キャラ対応）
@@ -92,7 +92,7 @@ QUALITY_THRESHOLDS = {
 QUALITY_THRESHOLDS_FICTIONAL = {
     # 7軸スコア閾値（0-10）- 架空キャラ向け緩和
     "min_factual_density": 6.0,  # 7.0→6.0（架空は事実性低め許容）
-    "min_generation_quality": 8.0,  # 維持（品質は重要）
+    "min_generation_quality": 7.5,  # Phase33: 8.0→7.5（採用率向上）
     "min_memorability": 5.0,  # 5.5→5.0（若干緩和）
     "min_empathy": 4.0,  # 維持
     "min_surprise": 4.0,  # 維持

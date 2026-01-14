@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-01-14T22:59:11.421026",
+  "total_persons": 7496,
+  "exact_duplicate_groups": 27,
+  "similar_duplicate_pairs": 10,
+  "total_duplicates": 38,
+  "threshold": 0.85
+}

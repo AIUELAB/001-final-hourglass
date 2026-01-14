@@ -23,7 +23,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@wonderwhy-er/desktop-commander"
+        "@wonderwhy-er/desktop-commander@0.2.10"
       ],
       "env": {}
     },
@@ -36,15 +36,6 @@
       "env": {
         "MEMORY_FILE_PATH": "/Users/admin/Documents/AIUELAB/001-final-hourglass/.memory/knowledge.jsonl"
       }
-    },
-    "obsidian": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-obsidian",
-        "/Users/admin/Documents/Obsidian"
-      ],
-      "env": {}
     }
   }
 }

@@ -152,6 +152,7 @@ class Candidate:
     slot: Optional[str] = None
     tier: Optional[str] = None
     canonical_age: Optional[int] = None  # Phase 27: 架空キャラ・動物の設定年齢
+    work_title: Optional[str] = None  # EPUP: 架空キャラの作品名
 
     def to_dict(self) -> dict[str, Any]:
         """辞書に変換"""
@@ -166,6 +167,7 @@ class Candidate:
             "slot": self.slot,
             "tier": self.tier,
             "canonical_age": self.canonical_age,
+            "work_title": self.work_title,
         }
 
 

@@ -68,6 +68,66 @@ class PostLLMValidator:
         (r"著作権の関係", "著作権言及は不可"),
     ]
 
+    # Phase 32: 1-5歳エピソード品質ゲートパターン（幼児には不可能な行動・主観的表現を禁止）
+    EARLY_CHILDHOOD_FORBIDDEN_PATTERNS = [
+        # 幼児には不可能な創作活動
+        (r"制作した", "1-5歳児には不可能な行動"),
+        (r"執筆した", "1-5歳児には不可能な行動"),
+        (r"作曲した", "1-5歳児には不可能な行動"),
+        (r"発明した", "1-5歳児には不可能な行動"),
+        (r"発表した", "1-5歳児には不可能な行動"),
+        (r"出版した", "1-5歳児には不可能な行動"),
+        (r"設立した", "1-5歳児には不可能な行動"),
+        (r"起業した", "1-5歳児には不可能な行動"),
+        (r"論文", "1-5歳児には不可能な学術活動"),
+        (r"研究を始めた", "1-5歳児には不可能な学術活動"),
+        # 検証不可能な主観的表現
+        (r"情熱を秘めていた", "検証不可能な内面描写"),
+        (r"才能の片鱗", "検証不可能な主観表現"),
+        (r"運命を感じ", "検証不可能な主観表現"),
+        (r"決意を固めた", "1-5歳児の決意は検証不可能"),
+        (r"志を立てた", "1-5歳児の志は検証不可能"),
+        (r"夢を抱いた", "1-5歳児の夢は検証不可能"),
+        (r"強い意志", "1-5歳児の意志は検証不可能"),
+        (r"深い感銘", "1-5歳児の感銘は検証不可能"),
+        (r"芸術への情熱", "検証不可能な主観表現"),
+    ]
+
+    # Phase 32: 1-5歳エピソードで推奨されるパターン（第三者視点・記録ベース）
+    EARLY_CHILDHOOD_RECOMMENDED_PATTERNS = [
+        # 出典・伝聞系
+        r"伝記によると",
+        r"家族の証言",
+        r"公式記録",
+        r"と言われて",
+        r"とされて",
+        r"後年.*語った",
+        r"母親.*によると",
+        r"父親.*によると",
+        r"両親.*によると",
+        r"父は",
+        r"母は",
+        # 誕生・成長系
+        r"誕生",
+        r"生まれた",
+        r"名付けられた",
+        r"育った",
+        r"家庭環境",
+        # 開始・活動系
+        r"を始め",
+        r"に没頭",
+        r"デビュー",
+        r"演奏",
+        r"出演",
+        r"参加",
+        r"入学",
+        r"指導を受け",
+        r"教育を施",
+        # 記録系
+        r"写真.*残",
+        r"記録.*残",
+    ]
+
     # 文字数制限
     MIN_CHARS = 100
     RECOMMENDED_MIN = 150
@@ -83,6 +143,7 @@ class PostLLMValidator:
         episode_text: str,
         age: Optional[int] = None,
         person_type: str = "REAL",
+        work_title: str = "",
     ) -> ValidationResult:
         """
         エピソードテキストをバリデーション
@@ -91,6 +152,7 @@ class PostLLMValidator:
             episode_text: エピソードテキスト
             age: 期待される年齢
             person_type: 人物タイプ（REAL/FICTIONAL）
+            work_title: 作品名（FICTIONALの場合に使用）
 
         Returns:
             ValidationResult
@@ -131,6 +193,25 @@ class PostLLMValidator:
                 errors.extend(meta_result["errors"])
                 retry_hints.extend(meta_result["hints"])
                 score_deductions += 0.2 * len(meta_result["errors"])
+
+            # 2.1 EPUP: 作品名チェック（FICTIONALでwork_titleがある場合）
+            if work_title:
+                work_title_result = self._check_fictional_work_title(text, work_title)
+                if work_title_result["error"]:
+                    errors.append(work_title_result["error"])
+                    retry_hints.append(work_title_result["hint"])
+                    score_deductions += 0.3  # 作品名欠落は重大なエラー
+
+        # 2.5 Phase 32: 幼児エピソード品質チェック（1-5歳の場合）
+        if age is not None and 1 <= age <= 5:
+            early_childhood_result = self._check_early_childhood_quality(text, age)
+            if early_childhood_result["errors"]:
+                errors.extend(early_childhood_result["errors"])
+                retry_hints.extend(early_childhood_result["hints"])
+                score_deductions += 0.3 * len(early_childhood_result["errors"])
+            if early_childhood_result["warnings"]:
+                warnings.extend(early_childhood_result["warnings"])
+                score_deductions += 0.1
 
         # 3. 文字数チェック
         char_result = self._check_char_count(text)
@@ -214,6 +295,82 @@ class PostLLMValidator:
                 hints.append(f"「{pattern}」を含まない表現に書き直してください")
 
         return {"errors": errors, "hints": hints}
+
+    def _check_fictional_work_title(self, text: str, work_title: str) -> dict:
+        """
+        EPUP: FICTIONALキャラクターエピソードの作品名チェック
+
+        架空キャラクターのエピソードは冒頭に『作品名』を含む必要がある。
+        正しい形式: 「あなたと同じ○歳のとき、[人物名]『[作品名]』は...」
+
+        Args:
+            text: エピソードテキスト
+            work_title: 期待される作品名
+
+        Returns:
+            {"error": str|None, "hint": str}
+        """
+        # 冒頭100文字に『作品名』があるか
+        lead = text[:100]
+        expected = f"『{work_title}』"
+
+        if expected not in lead:
+            # 作品名のバリエーションもチェック（略称、英語表記など）
+            # 例: 「NARUTO」→「『NARUTO』」「『ナルト』」
+            work_title_normalized = work_title.strip()
+            has_any_work_title = "『" in lead and "』" in lead
+
+            if has_any_work_title:
+                # 何らかの作品名はあるが、期待と一致しない
+                return {
+                    "error": f"作品名が一致しません。期待: {expected}",
+                    "hint": f"作品名を『{work_title}』に統一してください",
+                }
+            else:
+                # 作品名が全くない
+                return {
+                    "error": f"FICTIONALエピソードに『{work_title}』が冒頭にありません",
+                    "hint": f"「[人物名]『{work_title}』は」形式で開始してください",
+                }
+
+        return {"error": None, "hint": ""}
+
+    def _check_early_childhood_quality(self, text: str, age: int) -> dict:
+        """
+        Phase 32: 1-5歳エピソードの品質チェック
+
+        幼児エピソードは第三者視点・記録ベースであることを検証し、
+        幼児には不可能な行動や検証不可能な主観表現を検出する。
+
+        Args:
+            text: エピソードテキスト
+            age: 年齢（1-5歳を想定）
+
+        Returns:
+            {"errors": list[str], "warnings": list[str], "hints": list[str]}
+        """
+        errors = []
+        warnings = []
+        hints = []
+
+        # 禁止パターンのチェック（重大なエラー）
+        for pattern, message in self.EARLY_CHILDHOOD_FORBIDDEN_PATTERNS:
+            if re.search(pattern, text):
+                errors.append(f"幼児エピソード品質違反: {message}")
+                hints.append(f"「{pattern}」を含まない第三者視点・記録ベースの表現に書き直してください")
+
+        # 推奨パターンの有無チェック（警告レベル）
+        has_recommended = False
+        for pattern in self.EARLY_CHILDHOOD_RECOMMENDED_PATTERNS:
+            if re.search(pattern, text):
+                has_recommended = True
+                break
+
+        if not has_recommended:
+            warnings.append("幼児エピソード品質警告: 第三者視点・記録ベースの表現が不足しています")
+            hints.append("「伝記によると」「家族の証言では」などの出典を明記した表現を追加してください")
+
+        return {"errors": errors, "warnings": warnings, "hints": hints}
 
     def _check_char_count(self, text: str) -> dict:
         """

@@ -209,6 +209,34 @@ class EPGENAdapter(GeneratorAdapter):
             # 20-60歳: 標準（追加コンテキストなし）
             return ""
 
+    def _get_fictional_context(self, person_name: str, work_title: str) -> str:
+        """
+        EPUP: FICTIONALキャラクター専用コンテキスト
+
+        架空キャラクターのエピソードは冒頭に『作品名』を含む形式で生成する。
+        正しい形式: 「あなたと同じ○歳のとき、[人物名]『[作品名]』は...」
+
+        Args:
+            person_name: キャラクター名
+            work_title: 作品名
+
+        Returns:
+            FICTIONAL専用の追加コンテキスト
+        """
+        if not work_title:
+            return ""
+
+        return (
+            f"【架空キャラクター専用ルール - EPUP必須】\n"
+            f"このキャラクター「{person_name}」は『{work_title}』の登場人物です。\n"
+            f"エピソードは必ず以下の形式で開始してください:\n"
+            f"「あなたと同じ○歳のとき、{person_name}『{work_title}』は...」\n"
+            f"\n"
+            f"【絶対必須】人物名の直後に『{work_title}』を含めること\n"
+            f"【禁止】「架空の」「フィクション」「設定上」等のメタ表現\n"
+            f"【禁止】作品外の視点（視聴率、興行収入、ファン等）"
+        )
+
     def _get_generator(self):
         """遅延初期化でジェネレータを取得"""
         if self._generator is None:
@@ -450,6 +478,12 @@ class EPGENAdapter(GeneratorAdapter):
             age_context = self._get_age_specific_context(candidate.age)
             if age_context:
                 additional_context = f"{age_context}\n\n{additional_context}"
+
+            # EPUP: FICTIONALキャラの場合は作品名コンテキストを追加
+            if candidate.person_type == "FICTIONAL" and candidate.work_title:
+                fictional_context = self._get_fictional_context(candidate.person_name, candidate.work_title)
+                if fictional_context:
+                    additional_context = f"{fictional_context}\n\n{additional_context}"
 
             if retry_injection:
                 additional_context = f"{retry_injection}\n\n{additional_context}"
@@ -725,6 +759,12 @@ class EPGENAdapter(GeneratorAdapter):
             age_context = self._get_age_specific_context(candidate.age)
             if age_context:
                 additional_context = f"{age_context}\n\n{additional_context}"
+
+            # EPUP: FICTIONALキャラの場合は作品名コンテキストを追加
+            if candidate.person_type == "FICTIONAL" and candidate.work_title:
+                fictional_context = self._get_fictional_context(candidate.person_name, candidate.work_title)
+                if fictional_context:
+                    additional_context = f"{fictional_context}\n\n{additional_context}"
 
             if retry_injection:
                 additional_context = f"{retry_injection}\n\n{additional_context}"

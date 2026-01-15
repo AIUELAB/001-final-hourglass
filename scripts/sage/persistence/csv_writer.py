@@ -25,6 +25,9 @@ from ..gates.completeness import (
     check_completeness_extended,
 )
 
+# FICTIONAL文頭フォーマットゲート
+from scripts.validation.fictional_lead_gate import check_fictional_lead_row
+
 
 @dataclass
 class WriteResult:
@@ -138,6 +141,11 @@ class SafeCSVWriter:
         text = row.get("episode_text", "")
         if len(text) < 100:
             return False, f"Episode text too short: {len(text)}"
+
+        # FICTIONAL文頭フォーマットチェック（EPUP必須ルール）
+        is_valid, msg = check_fictional_lead_row(row)
+        if not is_valid:
+            return False, f"FICTIONAL文頭違反: {msg}"
 
         return True, ""
 

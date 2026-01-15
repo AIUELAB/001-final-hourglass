@@ -331,3 +331,8 @@ archive/dashboards/
 # Dashboard v11 data files (generate with scripts/update_dashboard_v11.py)
 preserved/data/dashboard_data_v11.json
 preserved/data/dashboard_data_v11.json.gz
+# Large report files (>2MB)
+src/reports/real_person_factcheck_parsed.json
+src/reports/fictional_llm_classification_results.csv
+src/reports/fictional_regenerate_results.json
+src/reports/fictional_rule_violations.csv

@@ -52,6 +52,8 @@
 | **架空キャラ時代整合性** | 歴史設定作品に現代年号禁止 | `fictional_episode_validator.py` |
 | **架空キャラ名形式** | フルネーム「{姓}{名}」形式必須 | `fictional_episode_validator.py` |
 | **作品内事実検証** | キャラ-アーク整合性チェック | `fictional_episode_validator.py` |
+| **架空キャラ真正性分類** | canon/fanon/invalidの3分類 | `fictional_episode_llm_classifier.py` |
+| **生成時品質ゲート** | 書き込み前に設定整合性チェック | `FictionalQualityGate` |
 
 ### 同一年齢重複禁止詳細（EPUP原則: 1人1年齢1エピソード）
 - **原則**: 同一人物（person_id）× 同一年齢（age）で複数エピソードを生成しない
@@ -91,6 +93,37 @@
 | 進撃の巨人 | 独自年号 | 1900年〜2026年 |
 | ONE PIECE | 架空世界 | 1900年〜2026年 |
 | NARUTO | 架空世界 | 1900年〜2026年 |
+
+### 架空キャラクター真正性分類システム【RCA-20260115】
+**原因**: EP-260111234119157158（クリリン44歳）等で発見されたLLM創作問題
+- 原作に存在しないシーンをLLMが創作
+- 現実の年号・企業・人物が架空世界に混入
+- キャラクターと作品制作会社の混同
+
+**3カテゴリ分類**:
+| カテゴリ | 定義 | 対応 |
+|---------|------|------|
+| **canon** | 原作で明確に描かれたシーン | そのまま保存 |
+| **fanon** | 原作設定と整合する創作 | ラベル付けして保存 |
+| **invalid** | 設定違反（年号・現実混入等） | 修正または再生成 |
+
+**検出ツール**:
+- ルールベース検出: `python scripts/validation/fictional_episode_rule_check.py`
+- LLM分類審査: `python scripts/validation/fictional_episode_llm_classifier.py`
+
+**修正ツール**:
+- 自動修正: `python scripts/fix/fix_invalid_fictional_episodes.py fix`
+- 再生成: `python scripts/fix/fix_invalid_fictional_episodes.py generate-jsonl`
+
+**生成時品質ゲート**:
+- **統合箇所**: SAGEオーケストレーター + SafeCSVWriter（二重チェック）
+- **違反時**: 修正可能なら自動修正、不可なら再生成
+- **原作該当なし**: その年齢はスキップ
+- **クラス**: `src/utils/fictional_quality_gate.py` → `FictionalQualityGate`
+
+**作品設定マスター**: `preserved/data/fictional_work_settings_master.json`
+- 上位20作品の世界観・禁止ルールを定義
+- その他の作品はLLMで自動判定
 
 ### ダッシュボード表示完全性（EPUP原則: 全フィールド埋充）【RCA-20260110】
 - **原則**: ダッシュボードに表示するエピソードは全必須フィールドが埋まっていること

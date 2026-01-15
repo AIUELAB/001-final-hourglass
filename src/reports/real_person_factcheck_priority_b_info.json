@@ -1,0 +1,8 @@
+{
+  "batch_id": "msgbatch_0141LEbWkC9NhSxy8d6np5sN",
+  "created_at": "2026-01-15T22:33:42.191676",
+  "request_count": 7746,
+  "status": "in_progress",
+  "jsonl_path": "src/reports/real_person_factcheck_priority_b_20260115_223300.jsonl",
+  "purpose": "real_person_factcheck_priority_b"
+}

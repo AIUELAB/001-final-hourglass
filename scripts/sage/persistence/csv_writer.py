@@ -4,8 +4,6 @@ Safe CSV Writer
 安全なCSV追記とトランザクション管理。
 """
 
-import csv
-import hashlib
 import json
 import logging
 from dataclasses import dataclass, field
@@ -27,6 +25,9 @@ from ..gates.completeness import (
 
 # FICTIONAL文頭フォーマットゲート
 from scripts.validation.fictional_lead_gate import check_fictional_lead_row
+
+# FictionalQualityGate（架空キャラクター品質ゲート - RCA-20260115）
+from src.utils.fictional_quality_gate import FictionalQualityGate
 
 
 @dataclass
@@ -146,6 +147,25 @@ class SafeCSVWriter:
         is_valid, msg = check_fictional_lead_row(row)
         if not is_valid:
             return False, f"FICTIONAL文頭違反: {msg}"
+
+        # FictionalQualityGate チェック（RCA-20260115）
+        # FICTIONALの場合のみ追加検証（書き込み直前の最終防衛ライン）
+        person_type = str(row.get("person_type", "")).upper()
+        if "FICTIONAL" in person_type:
+            gate = FictionalQualityGate()
+            result = gate.check(row)
+            if not result.passed:
+                # 修正可能な違反は自動修正を適用
+                if result.fixable and result.auto_fixed_text:
+                    row["episode_text"] = result.auto_fixed_text
+                    logger.info(
+                        f"SafeCSVWriter: FictionalQualityGate自動修正 - "
+                        f"{row.get('person_name')} ({row.get('age')}歳)"
+                    )
+                else:
+                    # 修正不可の場合は棄却
+                    violations = "; ".join([v.detail for v in result.violations])
+                    return False, f"FictionalQualityGate違反: {violations}"
 
         return True, ""
 

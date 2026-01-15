@@ -1,0 +1,378 @@
+{
+  "timestamp": "2026-01-15T19:40:31.061561",
+  "total_episodes": 11691,
+  "authenticity_breakdown": {
+    "canon": 226,
+    "fanon": 9934,
+    "invalid": 1531,
+    "unknown": 0
+  },
+  "issue_type_breakdown": {
+    "character_setting_violation": 6235,
+    "reality_mixing": 4944,
+    "world_setting_violation": 6657,
+    "meta_expression": 2237,
+    "character_work_confusion": 1401,
+    "world_setting_confusion": 30,
+    "character_setting_confusion": 4
+  },
+  "fixability_breakdown": {
+    "fixable": 6297,
+    "regenerate": 4676
+  },
+  "high_confidence_count": 2490,
+  "error_count": 0,
+  "average_confidence": 0.7673235822427509,
+  "invalid_episodes": [
+    {
+      "episode_id": "EP-260112044301456",
+      "person_name": "アースラ",
+      "work_title": "リトル・マーメイド",
+      "issues": "character_setting_violation|reality_mixing",
+      "issue_details": "アースラは原作では海の魔女であり、1歳の人間の演劇活動は物理的に不可能。また、ブロードウェイでの具体的な活動は現実世界のフィクションであり、キャラクターの設定と完全に矛盾している"
+    },
+    {
+      "episode_id": "EP-260112044301458",
+      "person_name": "アースラ",
+      "work_title": "リトル・マーメイド",
+      "issues": "character_setting_violation|reality_mixing",
+      "issue_details": "リトル・マーメイドのキャラクター「アースラ」は2歳ではなく、成人した海の魔女であり、実際のアニメーター経歴とは全く異なる設定。また、実在するディズニースタジオの歴史と混同している。"
+    },
+    {
+      "episode_id": "EP-260112044301469",
+      "person_name": "アースラ",
+      "work_title": "リトル・マーメイド",
+      "issues": "character_setting_violation|reality_mixing",
+      "issue_details": "『リトル・マーメイド』のキャラクターであるアースラ（海の魔女）と、現実の人物を混同している。原作のアースラは成人の海の魔女であり、5歳の子供ではない。また、作品との関連が不明確で、現実の個人経験を物語のキャラクターに不自然に結びつけている"
+    },
+    {
+      "episode_id": "EP-260112053924204",
+      "person_name": "アースラ",
+      "work_title": "リトル・マーメイド",
+      "issues": "character_setting_violation|reality_mixing|meta_expression",
+      "issue_details": "『リトル・マーメイド』の架空のキャラクターであるアースラを、実在の人物や実際のアニメーション制作者と混同している。アースラは実在のアニメーション概念アーティストではなく、映画内の海の魔女のキャラクターである。また、映画の制作年や国際賞の受賞などの記述は事実ではない。"
+    },
+    {
+      "episode_id": "EP-260112044301465",
+      "person_name": "アースラ",
+      "work_title": "リトル・マーメイド",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "リトル・マーメイドのキャラクターであるアースラ（海の魔女）を実在の人物として描写しており、さらに1989年のアニメーション制作に関わったとする設定は完全に架空である。また、作品のキャラクターを実在の人物として描写することは設定違反である。"
+    },
+    {
+      "episode_id": "EP-20260112477C10",
+      "person_name": "トニートニー・チョッパー",
+      "work_title": "ONE PIECE",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "チョッパーは79歳まで生存することは不可能。また、現実世界の医療講演を行うことは作品の世界観から大きく逸脱している。悪魔の実の能力や医療技術も『ONE PIECE』の架空世界に基づいたものではない。"
+    },
+    {
+      "episode_id": "EP-260112044302368",
+      "person_name": "オールマイト",
+      "work_title": "僕のヒーローアカデミア",
+      "issues": "character_setting_violation|world_setting_violation|reality_mixing",
+      "issue_details": "オールマイトの設定と全く異なる経歴。原作では、オールマイトは日本人ヒーローであり、アメリカではなく日本の雄英高校に所属。年齢、学歴、能力値など全てが捏造されている。トッドフォード英雄学園や具体的な年号なども存在しない架空の情報。"
+    },
+    {
+      "episode_id": "EP-260112044302431",
+      "person_name": "ナミ",
+      "work_title": "ポケットモンスター",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "『ポケットモンスター』のナミは、このエピソードの年齢・設定と全く異なる。原作のナミは『ONE PIECE』の登場人物であり、ポケモンの世界のキャラクターではない。年齢、家族構成、背景も完全に誤っている。"
+    },
+    {
+      "episode_id": "EP-260112042621299",
+      "person_name": "ガンダム",
+      "work_title": "機動戦士ガンダム",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "ガンダムは機動戦士ガンダムに登場するモビルスーツであり、人間ではないため、4歳の子供として成長するという設定は完全に原作と矛盾している。また、キャラクターの家族や幼少期の経歴も存在しない。"
+    },
+    {
+      "episode_id": "EP-202601122B58D4",
+      "person_name": "ガンダム",
+      "work_title": "機動戦士ガンダム",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "ガンダムは3歳の年齢設定が不可能。機動戦士ガンダムの設定上、ガンダムは人型兵器（機動兵器）であり、擬人化された年齢概念を持たない。また、意識や感情を持つものとして描写されているため、キャラクター設定に大きな矛盾がある。"
+    },
+    {
+      "episode_id": "EP-20260112B494AE",
+      "person_name": "ガンダム",
+      "work_title": "機動戦士ガンダム",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "1. 『機動戦士ガンダム』のガンダムは5歳ではなく、人工的に作られたモビルスーツであり、生物的な年齢概念が適用できない。2. 1979年のグリプス戦役の時期に、直径3メートルのレンチや10トンの負荷に関する説明は現実的ではない。3. 近藤和美は原作に存在しないキャラクター。"
+    },
+    {
+      "episode_id": "EP-20260112F19247",
+      "person_name": "胡蝶しのぶ",
+      "work_title": "鬼滅の刃",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "年号(1889年)が誤り。作品の時代設定は大正時代(1912-1926)。胡蝶しのぶは14歳時点で蝶の研究や長時間の山中調査を行うことは不可能。作品世界観と大きく乖離している。"
+    },
+    {
+      "episode_id": "EP-260112044302813",
+      "person_name": "毛利小五郎",
+      "work_title": "名探偵コナン",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "毛利小五郎は3歳ではなく現在47歳の探偵。1963年に3歳であったという記述は不可能。また、青山剛昌先生との関係性や作品への言及も事実と異なる。作品の創作過程を3歳児の視点で語ることは現実性に欠ける。"
+    },
+    {
+      "episode_id": "EP-260112051508418",
+      "person_name": "マスター・ヨーダ",
+      "work_title": "ジェダイ評議会",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "スター・ウォーズの世界観と完全に矛盾。ヨーダは約900歳で、ダース・シディアスとは敵対関係。年号や設定が全く異なり、原作のヨーダの性質とも乖離している。『ジェダイ評議会』という作品名も存在しない。"
+    },
+    {
+      "episode_id": "EP-260112044301544",
+      "person_name": "アルバス・ダンブルドア",
+      "work_title": "標準咒語教本",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "1. ダンブルドアは1881年生まれであり、1899年に1歳であることは不可能。2. 5歳で『標準咒語教本』に触れたという記述は事実と異なる。3. 歴史的な事実や年号に重大な誤りがある。4. ダンブルドアの幼少期の詳細な描写は原作と大きく乖離している。"
+    },
+    {
+      "episode_id": "EP-260112044301553",
+      "person_name": "アルバス・ダンブルドア",
+      "work_title": "ハリー・ポッター",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "アルバス・ダンブルドアは1881年生まれであり、4歳時点（1885年）で高度な魔法を理解することは原作世界観と大きく矛盾する。また、彼の幼少期の詳細な記述は原作に存在せず、特に錬金術への興味や具体的な魔法実験は事実と異なる。"
+    },
+    {
+      "episode_id": "EP-260112044301550",
+      "person_name": "アルバス・ダンブルドア",
+      "work_title": "魔法と魔法薬",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "3歳のアルバス・ダンブルドアが学術論文を執筆し、天才と出会うという設定は完全に原作と矛盾している。ダンブルドアは当時すでに存在していなかった歴史的人物との交流を描いており、現実の彼の年齢や能力を大幅に超えている。"
+    },
+    {
+      "episode_id": "EP-260112051507777",
+      "person_name": "グラントリノ",
+      "work_title": "僕のヒーローアカデミア",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "『僕のヒーローアカデミア』の世界観と完全に矛盾。グラントリノは原作に存在しない架空の人物で、2045年という設定や『ヒーロー・プロジェクト』『ノヴァ・ホライズン』などの概念は原作の世界観と一切合致しない。特殊能力の説明も原作のクオークとは異なる。"
+    },
+    {
+      "episode_id": "EP-202601124D91EC",
+      "person_name": "グラントリノ",
+      "work_title": "僕のヒーローアカデミア",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "作品内に『グラントリノ』というキャラクターは存在せず、1歳で高度な個性制御は原作の設定と完全に矛盾する。年齢、訓練内容、具体的な能力記述が全て事実と異なる。"
+    },
+    {
+      "episode_id": "EP-2026011283737C",
+      "person_name": "グラントリノ",
+      "work_title": "僕のヒーローアカデミア",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "『僕のヒーローアカデミア』の世界観には、グラントリノというキャラクターは存在せず、31歳の登場人物、アメリカのヒーロー、5000回の瞬間移動トレーニングなど、すべて原作と矛盾する設定である。オールマイトの年齢や特性も原作と異なる。"
+    },
+    {
+      "episode_id": "EP-202601128E420C",
+      "person_name": "グラントリノ",
+      "work_title": "僕のヒーローアカデミア",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "グラントリノは『僕のヒーローアカデミア』の原作に存在しないキャラクター。また、2068年という年号は作品世界観と完全に矛盾する。描写されている登場人物（轟焦凍、緑谷出久）は実在するが、状況設定は全くの創作。"
+    },
+    {
+      "episode_id": "EP-260112045506572",
+      "person_name": "ネテロ会長",
+      "work_title": "HUNTER×HUNTER",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "ネテロ会長は2歳の時点で高度な活動や判断力を持つことは不可能。原作のネテロの設定と完全に矛盾している。特にゾルディック家への言及や具体的な能力値は完全な創作。"
+    },
+    {
+      "episode_id": "EP-260112045506577",
+      "person_name": "ネテロ会長",
+      "work_title": "HUNTER×HUNTER",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "ネテロ会長の5歳時の描写は完全に創作であり、原作と大きく異なる。国際天才児コンテスト、HALLEYという秘密組織、レアハンターの本などは全て事実無根。原作のネテロのバックグラウンドや能力と全く整合性がない。"
+    },
+    {
+      "episode_id": "EP-260112051507422",
+      "person_name": "シルバー・レイリー",
+      "work_title": "グランド・ライン",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "『ワンピース』における2歳児の能力として非現実的。航海技術の習得、20人の仲間との航海準備、高度な技術理解など、2歳児として明らかに不可能な設定。年号や世界観も原作と大きく乖離している。"
+    },
+    {
+      "episode_id": "EP-260111223545048",
+      "person_name": "ルイージ",
+      "work_title": "スーパーマリオ",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "ルイージの実年齢や経歴、eスポーツ優勝、ファン数、公演経験など、オリジナルのマリオシリーズの設定と完全に乖離している。実在するeスポーツやハリウッド、具体的な企業名の混入も現実との境界を曖昧にしている。"
+    },
+    {
+      "episode_id": "EP-260111223544669",
+      "person_name": "リンク",
+      "work_title": "ゼルダの伝説",
+      "issues": "character_setting_violation|reality_mixing|world_setting_violation",
+      "issue_details": "リンクは若い英雄であり、53歳という年齢設定は完全に誤り。また、実在の任天堂開発者（山本、ミヤモト、岩田）を物語に混入させており、キャラクターの世界観を大きく逸脱している。ゲームキャラクターの実年齢や現実の開発者との関係性を事実と異なる形で描写している。"
+    },
+    {
+      "episode_id": "EP-260112045507355",
+      "person_name": "ソニック",
+      "work_title": "ソニック・ザ・ヘッジホッグ",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "ソニックは5歳ではなく、実際のキャラクター設定と大きく異なる。また、現実の個人的な経験を架空のキャラクターに投影しており、事実と創作が混同されている。1991年のゲーム発売時、ソニックは架空のキャラクターであり、実在の子供の体験とは矛盾する。"
+    },
+    {
+      "episode_id": "EP-260112045507010",
+      "person_name": "クラウド・ストライフ",
+      "work_title": "ファイナルファンタジーVII",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "クラウドの4歳時のエピソードは原作と完全に矛盾している。ミッドガルの出身であり、幼少期の詳細な設定と異なる。また、原作のクラウドの性格や背景とも整合性がない。"
+    },
+    {
+      "episode_id": "EP-260112045505945",
+      "person_name": "ティファ・ロックハート",
+      "work_title": "ファイナルファンタジーVII",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "ティファの幼少期の設定が原作と大きく異なる。年齢、武術の経歴、大会での入賞などの記述は原作と完全に矛盾している。実際のティファは幼い頃に父親を失い、ミッドガル村で育ち、後にアバランチのメンバーとなった。4歳での武術活動や大会入賞は事実無根である。"
+    },
+    {
+      "episode_id": "EP-260111223545583",
+      "person_name": "エアリス・ゲインズブール",
+      "work_title": "ファイナルファンタジーVII",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "エアリスは元々22歳のキャラクターであり、48歳という年齢設定は原作と完全に矛盾する。また、彼女は作品内でセフィロスに殺害されており、このエピソードは事実と異なる。さらに、架空のキャラクターを現実の企業プロジェクトと混同している"
+    },
+    {
+      "episode_id": "EP-260112045506709",
+      "person_name": "エアリス・ゲインズブール",
+      "work_title": "ファイナルファンタジーVII",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "エアリスは5歳ではなく、オリジナル設定と大きく異なる。現実の音楽家や音楽活動が不適切に挿入されており、ファイナルファンタジーVIIの世界観と完全に矛盾している。植松伸夫との架空の出会いや、存在しない経歴が記載されている。"
+    },
+    {
+      "episode_id": "EP-260112045506702",
+      "person_name": "エアリス・ゲインズブール",
+      "work_title": "ファイナルファンタジーVII",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "エアリスは『ファイナルファンタジーVII』のキャラクターであり、実在の音楽家ではない。年齢や経歴が完全に架空の人物設定と置き換えられており、現実の音楽シーンやSQUAREの歴史と混同している。キャラクターの基本的な設定（2歳、音楽家）が原作と全く異なる。"
+    },
+    {
+      "episode_id": "EP-260112051507848",
+      "person_name": "スネーク/ソリッド・スネーク",
+      "work_title": "メタルギアソリッド",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "メタルギアソリッドのソリッド・スネークは1972年生まれで、16歳の時期は設定と一致しない。また、SNKの大会優勝や20時間のCQC独学、ハリウッドのゲーム大会受賞など、原作のキャラクター背景と大きく乖離している。実在の人物（ジョン・クレイグ、デイビッド・ヘイター）との関連付けも原作と矛盾する"
+    },
+    {
+      "episode_id": "EP-260112044302425",
+      "person_name": "スネーク/ソリッド・スネーク",
+      "work_title": "メタルギアソリッド",
+      "issues": "character_setting_violation|reality_mixing|world_setting_violation",
+      "issue_details": "スネーク/ソリッド・スネークは2歳という年齢設定が不適切。メタルギアソリッドのキャラクターは大人のクローン戦士であり、幼少期のCGアーティスト経歴は事実と大きく異なる。また、ソニー・コンピュータエンターテインメントでの活動も完全な誤り。"
+    },
+    {
+      "episode_id": "EP-260112044302428",
+      "person_name": "スネーク/ソリッド・スネーク",
+      "work_title": "ウォー・ゲーム",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "スネークは3歳ではなく、1972年に7歳であることも不可能。メタルギアソリッド世界観と完全に矛盾する設定。さらに、幼児期に特殊部隊への憧れを抱くという設定も非現実的。"
+    },
+    {
+      "episode_id": "EP-260112044302086",
+      "person_name": "ビッグボス",
+      "work_title": "メタルギアソリッド",
+      "issues": "character_setting_violation|world_setting_violation|reality_mixing",
+      "issue_details": "4歳の子供がメタルギアソリッドのミッション戦略を理解し、国際的な活動を行うことは現実不可能。年齢、設定、時間軸に重大な矛盾がある。"
+    },
+    {
+      "episode_id": "EP-260112044302092",
+      "person_name": "ビッグボス",
+      "work_title": "メタルギアソリッド",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "5歳のビッグボスが『メタルギアソリッド』をプレイし、20時間没頀するのは現実的に不可能。また、実在の人物（小島秀夫監督）を物語に取り込んでおり、キャラクターの設定と完全に矛盾している。さらに、架空のキャラクターのライフストーリーとしては非現実的な描写がある。"
+    },
+    {
+      "episode_id": "EP-260112042621286",
+      "person_name": "リュウ",
+      "work_title": "ストリートファイター",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "ストリートファイターのリュウは幼少期に5歳で空手大会に出場していたわけではない。また、年代や地名の具体的な記述に誤りがある。リュウの実際の設定とは大きく異なる架空のエピソード。"
+    },
+    {
+      "episode_id": "EP-260112033550235",
+      "person_name": "リュウ",
+      "work_title": "ストリートファイター",
+      "issues": "character_setting_violation|reality_mixing|world_setting_violation",
+      "issue_details": "リュウは架空のキャラクターであり、実在のeスポーツ大会や成績は存在しない。また、ストリートファイターのリュウの設定と完全に異なる年齢や活動内容となっている。年号や具体的な大会名も現実世界の情報と混同している。"
+    },
+    {
+      "episode_id": "EP-260112042621284",
+      "person_name": "リュウ",
+      "work_title": "ストリートファイター",
+      "issues": "character_setting_violation|reality_mixing",
+      "issue_details": "リュウは『ストリートファイター』の主人公で、4歳時点での描写は原作と完全に矛盾しており、現実の子供の能力を著しく超えている。また、ゴウキ老師との設定も原作とは異なる。"
+    },
+    {
+      "episode_id": "EP-260112042620845",
+      "person_name": "ケン・マスターズ",
+      "work_title": "ストリートファイター",
+      "issues": "world_setting_violation|character_setting_violation",
+      "issue_details": "ケン・マスターズは3歳ではなく、原作では20代の格闘家。また、5歳でゲームキャラクターをデザインしたというエピソードは完全に事実と異なる。ストリートファイターの世界観や年代設定にも大きく矛盾している。"
+    },
+    {
+      "episode_id": "EP-260112042620850",
+      "person_name": "ケン・マスターズ",
+      "work_title": "ストリートファイター",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "ケン・マスターズは5歳ではなく、20代の格闘家。実際のゲーム大会での成績を幼児に帰属させており、現実の人物や大会を不適切に混同している。年齢、経歴、能力が原作設定と完全に矛盾している。"
+    },
+    {
+      "episode_id": "EP-260112051507459",
+      "person_name": "ケン・マスターズ",
+      "work_title": "ストリートファイター",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "ストリートファイターIIIは2000年ではなく1999年リリース。また、ケン・マスターズは64歳ではない。さらに、延べ販売本数や具体的な技術言及は事実と異なる"
+    },
+    {
+      "episode_id": "EP-260112042620842",
+      "person_name": "ケン・マスターズ",
+      "work_title": "ストリートファイター",
+      "issues": "character_setting_violation|world_setting_violation|reality_mixing",
+      "issue_details": "ケン・マスターズは架空のキャラクターで2歳ではない。1987年の大会や具体的な成績は事実と異なる。現実の競技大会や選手と架空のキャラクターを混同している。"
+    },
+    {
+      "episode_id": "EP-260112042621478",
+      "person_name": "春麗",
+      "work_title": "ストリートファイター",
+      "issues": "character_setting_violation|world_setting_violation",
+      "issue_details": "春麗の公式設定では4歳時の武術修行は存在せず、非現実的な技能レベル。また、葉問（実在の武術家）との関連も事実無根。国際武術大会での優勝も創作。"
+    },
+    {
+      "episode_id": "EP-260112044302764",
+      "person_name": "サムス・アラン",
+      "work_title": "メトロイド",
+      "issues": "character_setting_violation|reality_mixing",
+      "issue_details": "メトロイドのサムス・アランは宇宙バウンティハンターであり、音楽家ではない。また、現実の人物や年齢、地名と混同している。サムスは女性の宇宙戦士で、3歳での音楽活動は設定と全く異なる。"
+    },
+    {
+      "episode_id": "EP-260112045506248",
+      "person_name": "勇者",
+      "work_title": "ドラゴンクエストXI",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "『ドラゴンクエストXI』のキャラクターを2歳児として現実世界に置き換えており、年齢設定、具体的な年号、現実の教育機関との混同が著しい。原作のキャラクター設定と完全に乖離している。"
+    },
+    {
+      "episode_id": "EP-260111223545063",
+      "person_name": "2B",
+      "work_title": "メタルギアソリッド",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing|character_work_confusion",
+      "issue_details": "2Bは『ニーア オートマタ』のキャラクターであり、『メタルギアソリッド』とは全く異なる作品世界に属する。また、デトロイトやソニー・インタラクティブエンターテインメントとの関連性も事実と異なる。年齢、開発プロジェクト、クリエイター数など、すべての情報が架空である。"
+    },
+    {
+      "episode_id": "EP-260111223544812",
+      "person_name": "9S",
+      "work_title": "ニーアオートマタ",
+      "issues": "world_setting_violation|character_setting_violation|reality_mixing",
+      "issue_details": "9Sは34歳という設定は完全に誤り。ゲーム内では人型アンドロイドであり、実年齢の概念がない。また、スクウェア・エニックスやゲーム開発に関与したという記述は原作世界観と全く異なる架空の設定。小島秀夫氏との関係性も事実無根。"
+    },
+    {
+      "episode_id": "EP-260111223544815",
+      "person_name": "9S",
+      "work_title": "ニーアオートマタ",
+      "issues": "character_setting_violation|world_setting_violation|reality_mixing",
+      "issue_details": "9Sはニーアオートマタの登場人物であり、実在のゲームディレクター岡部秀樹ではない。また、9Sは人間ではなく、アンドロイド（戦闘ユニット）であり、年齢や業界での活動という設定は完全に原作と矛盾している"
+    }
+  ]
+}

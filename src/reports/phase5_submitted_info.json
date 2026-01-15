@@ -1,0 +1,26 @@
+{
+  "phase": 5,
+  "total_requests": 21394,
+  "batches": [
+    {
+      "batch_num": 1,
+      "batch_id": "msgbatch_01PgJzFVLdS2cUqeHc1wnPgB",
+      "request_count": 8000,
+      "jsonl_path": "src/reports/phase5_batch1_20260116_001823.jsonl"
+    },
+    {
+      "batch_num": 2,
+      "batch_id": "msgbatch_01UAZyoNF5pJXuuyNAs43VFB",
+      "request_count": 8000,
+      "jsonl_path": "src/reports/phase5_batch2_20260116_001823.jsonl"
+    },
+    {
+      "batch_num": 3,
+      "batch_id": "msgbatch_01B5w5h6uemJRUCFrAPZQ1VP",
+      "request_count": 5394,
+      "jsonl_path": "src/reports/phase5_batch3_20260116_001823.jsonl"
+    }
+  ],
+  "submitted_at": "2026-01-16T00:19:32.996495",
+  "status": "all_submitted"
+}

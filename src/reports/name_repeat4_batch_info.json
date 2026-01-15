@@ -1,0 +1,7 @@
+{
+  "batch_id": "msgbatch_0195V6wfKhA5BcYY43ANyv87",
+  "submitted_at": "2026-01-15T14:22:42.078489",
+  "request_count": 2249,
+  "jsonl_path": "src/reports/name_repeat4_batch_20260115_142138.jsonl",
+  "purpose": "人物名繰り返し修正（4回以上）"
+}

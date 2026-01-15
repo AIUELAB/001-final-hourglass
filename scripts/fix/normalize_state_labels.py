@@ -63,10 +63,24 @@ def load_master_csv() -> tuple[list[dict], list[str]]:
         print(f"❌ マスターCSVが見つかりません: {MASTER_CSV}")
         sys.exit(1)
 
-    with open(MASTER_CSV, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        fieldnames = list(reader.fieldnames) if reader.fieldnames else []
-        rows = list(reader)
+    try:
+        with open(MASTER_CSV, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            fieldnames = list(reader.fieldnames) if reader.fieldnames else []
+            if not fieldnames:
+                print(f"❌ CSVにヘッダーがありません: {MASTER_CSV}")
+                sys.exit(1)
+            rows = list(reader)
+    except UnicodeDecodeError as e:
+        print(f"❌ CSVのエンコーディング問題: {e}")
+        print("対処: ファイルがUTF-8形式か確認してください。")
+        sys.exit(1)
+    except csv.Error as e:
+        print(f"❌ CSV形式が不正: {e}")
+        sys.exit(1)
+    except PermissionError:
+        print(f"❌ ファイルの読み取り権限がありません: {MASTER_CSV}")
+        sys.exit(1)
 
     return rows, fieldnames
 
@@ -117,10 +131,22 @@ def check_collisions(rows: list[dict], targets: dict[str, list[dict]]) -> dict[s
 
 def create_backup() -> Path:
     """バックアップを作成"""
-    BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+    except PermissionError:
+        print(f"❌ バックアップディレクトリを作成できません: {BACKUP_DIR}")
+        sys.exit(1)
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_path = BACKUP_DIR / f"MASTER_EPISODES_CURRENT_before_normalize_{timestamp}.csv"
-    shutil.copy2(MASTER_CSV, backup_path)
+
+    try:
+        shutil.copy2(MASTER_CSV, backup_path)
+    except (PermissionError, OSError, shutil.Error) as e:
+        print(f"❌ バックアップ作成失敗: {e}")
+        print("バックアップなしでは処理を続行できません。")
+        sys.exit(1)
+
     return backup_path
 
 
@@ -146,11 +172,27 @@ def execute_normalization(rows: list[dict], fieldnames: list[str]) -> tuple[int,
                 row["person_id"] = new_person_id
                 person_id_merged += 1
 
-    # 書き込み
-    with open(MASTER_CSV, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
+    # 一時ファイルに書き込み後、アトミックに置換
+    temp_path = MASTER_CSV.with_suffix(".tmp")
+
+    try:
+        with open(temp_path, "w", encoding="utf-8-sig", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+    except (PermissionError, OSError) as e:
+        print(f"❌ ファイル書き込み失敗: {e}")
+        if temp_path.exists():
+            temp_path.unlink()
+        sys.exit(1)
+
+    # アトミックな置換
+    try:
+        temp_path.replace(MASTER_CSV)
+    except OSError as e:
+        print(f"❌ ファイル置換失敗: {e}")
+        print(f"一時ファイルは保持: {temp_path}")
+        sys.exit(1)
 
     if person_id_merged > 0:
         print(f"📌 person_id統合: {person_id_merged}件")

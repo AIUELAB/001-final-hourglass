@@ -256,40 +256,61 @@ def scan_master_csv() -> dict:
             "violations": [],
         }
 
-    with open(MASTER_CSV, encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            person_name = row.get("person_name", "")
-            person_id = row.get("person_id", "")
-            episode_id = row.get("episode_id", "")
-            work_title = row.get("work_title", "")
-            episode_text = row.get("episode_text", "")[:100] if row.get("episode_text") else ""
+    try:
+        with open(MASTER_CSV, encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+    except UnicodeDecodeError as e:
+        return {
+            "error": f"CSVエンコーディング問題: {e}",
+            "total_violations": 0,
+            "violations": [],
+        }
+    except csv.Error as e:
+        return {
+            "error": f"CSV形式が不正: {e}",
+            "total_violations": 0,
+            "violations": [],
+        }
+    except PermissionError:
+        return {
+            "error": f"ファイル読み取り権限がありません: {MASTER_CSV}",
+            "total_violations": 0,
+            "violations": [],
+        }
 
-            if not person_name:
-                continue
+    for row in rows:
+        person_name = row.get("person_name", "")
+        person_id = row.get("person_id", "")
+        episode_id = row.get("episode_id", "")
+        work_title = row.get("work_title", "")
+        episode_text = row.get("episode_text", "")[:100] if row.get("episode_text") else ""
 
-            # 重複チェック（同じ人物名は1回だけカウント）
-            if person_name in unique_persons:
-                continue
+        if not person_name:
+            continue
 
-            result = validate_before_generation(person_name, work_title)
+        # 重複チェック（同じ人物名は1回だけカウント）
+        if person_name in unique_persons:
+            continue
 
-            if not result.is_valid:
-                unique_persons.add(person_name)
-                severity = result.severity.value if result.severity else "medium"
-                severity_counts[severity] += 1
+        result = validate_before_generation(person_name, work_title)
 
-                violations.append(
-                    StateLabelViolation(
-                        episode_id=episode_id,
-                        person_id=person_id,
-                        person_name=person_name,
-                        work_title=work_title,
-                        matched_pattern=result.matched_pattern or "",
-                        severity=severity,
-                        episode_preview=episode_text,
-                    )
+        if not result.is_valid:
+            unique_persons.add(person_name)
+            severity = result.severity.value if result.severity else "medium"
+            severity_counts[severity] += 1
+
+            violations.append(
+                StateLabelViolation(
+                    episode_id=episode_id,
+                    person_id=person_id,
+                    person_name=person_name,
+                    work_title=work_title,
+                    matched_pattern=result.matched_pattern or "",
+                    severity=severity,
+                    episode_preview=episode_text,
                 )
+            )
 
     # 重大度でソート
     severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
@@ -446,8 +467,12 @@ def main():
 
         # レポート保存
         REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-        with open(REPORT_PATH, "w", encoding="utf-8") as f:
-            json.dump(result, f, ensure_ascii=False, indent=2)
+        try:
+            with open(REPORT_PATH, "w", encoding="utf-8") as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+        except (PermissionError, OSError) as e:
+            print(f"\n⚠️  レポート保存失敗: {e}")
+            print("結果は画面に表示されていますが、ファイルには保存されませんでした。")
 
         # 結果表示
         print(f"\nスキャン日時: {result['scan_date']}")

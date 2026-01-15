@@ -11,14 +11,15 @@ Scans all fictional character episodes for narrative inconsistencies:
 import csv
 import json
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# Paths
-BASE_DIR = Path("/Users/admin/Documents/AIUELAB/001-final-hourglass")
-MASTER_CSV = BASE_DIR / "preserved/data/MASTER_EPISODES_CURRENT.csv"
-REPORT_PATH = BASE_DIR / "src/reports/narrative_inconsistency_scan.json"
+# Paths - 動的にプロジェクトルートを取得
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
+REPORT_PATH = PROJECT_ROOT / "src" / "reports" / "narrative_inconsistency_scan.json"
 
 
 # === Type 1: Real-world Institutions ===
@@ -250,12 +251,37 @@ def load_fictional_episodes() -> list[dict[str, Any]]:
     """Load all fictional character episodes from master CSV."""
     episodes = []
 
-    with open(MASTER_CSV, "r", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            person_type = row.get("person_type", "")
-            if "FICTIONAL" in person_type.upper():
-                episodes.append(row)
+    if not MASTER_CSV.exists():
+        print(f"エラー: マスターCSVが見つかりません: {MASTER_CSV}")
+        print("対処: MASTER_EPISODES_CURRENT.csv が正しいパスに存在するか確認してください。")
+        sys.exit(1)
+
+    try:
+        with open(MASTER_CSV, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+
+            # 必要なカラムの存在確認
+            required_columns = {"person_type", "episode_id", "person_name", "work_title", "episode_text"}
+            if reader.fieldnames:
+                missing = required_columns - set(reader.fieldnames)
+                if missing:
+                    print(f"エラー: 必要なカラムがありません: {missing}")
+                    sys.exit(1)
+
+            for row in reader:
+                person_type = row.get("person_type", "")
+                if "FICTIONAL" in person_type.upper():
+                    episodes.append(row)
+    except UnicodeDecodeError as e:
+        print(f"エラー: CSVエンコーディング問題: {e}")
+        print("対処: ファイルがUTF-8-BOM形式か確認してください。")
+        sys.exit(1)
+    except csv.Error as e:
+        print(f"エラー: CSV形式が不正: {e}")
+        sys.exit(1)
+    except PermissionError:
+        print(f"エラー: ファイル読み取り権限がありません: {MASTER_CSV}")
+        sys.exit(1)
 
     return episodes
 
@@ -448,8 +474,16 @@ def main():
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     # Write report
-    with open(REPORT_PATH, "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=2)
+    try:
+        with open(REPORT_PATH, "w", encoding="utf-8") as f:
+            json.dump(report, f, ensure_ascii=False, indent=2)
+    except (PermissionError, OSError) as e:
+        print(f"エラー: レポート保存失敗: {e}")
+        print(f"パス: {REPORT_PATH}")
+        # レポートを標準出力にダンプして結果を失わないようにする
+        print("\n--- レポート内容 (保存失敗) ---")
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        sys.exit(1)
 
     print("\n" + "=" * 60)
     print("SCAN COMPLETE")

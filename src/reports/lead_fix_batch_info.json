@@ -1,0 +1,7 @@
+{
+  "batch_id": "msgbatch_01NR2NsnjtiNpDTh3zwctfxu",
+  "submitted_at": "2026-01-15T17:13:24.860659",
+  "request_count": 7941,
+  "jsonl_path": "src/reports/lead_fix_batch_20260115_171256.jsonl",
+  "purpose": "Phase 64: 文頭名前整合性修正（7,941件）"
+}

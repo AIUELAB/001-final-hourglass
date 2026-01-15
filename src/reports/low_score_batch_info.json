@@ -1,0 +1,7 @@
+{
+  "batch_id": "msgbatch_01W2MyAxEmdV8kHf7USCmLgc",
+  "submitted_at": "2026-01-15T15:48:46.850642",
+  "request_count": 560,
+  "jsonl_path": "src/reports/low_score_batch_20260115_154815.jsonl",
+  "purpose": "Phase 63: 低スコアエピソード改善（composite_score < 600）"
+}

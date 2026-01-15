@@ -1,0 +1,8 @@
+{
+  "batch_id": "msgbatch_019EAYuP7bjT2WG7qDunWLJ9",
+  "created_at": "2026-01-15 16:08:22.847840+00:00",
+  "request_count": 1740,
+  "status": "in_progress",
+  "jsonl_path": "src/reports/phase6_final_20260116_010800.jsonl",
+  "purpose": "phase6_final_factcheck"
+}

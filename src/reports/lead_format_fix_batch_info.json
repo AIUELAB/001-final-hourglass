@@ -1,0 +1,7 @@
+{
+  "batch_id": "msgbatch_019CC8uiQ4JH9QyVG1w5ujUa",
+  "submitted_at": "2026-01-15T15:22:46.574349",
+  "request_count": 1075,
+  "jsonl_path": "src/reports/lead_format_fix_batch_20260115_152207.jsonl",
+  "purpose": "文頭形式修正（あなたと同じX歳のとき）"
+}

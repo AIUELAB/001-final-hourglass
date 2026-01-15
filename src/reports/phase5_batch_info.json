@@ -1,0 +1,29 @@
+{
+  "timestamp": "20260116_001823",
+  "total_requests": 21394,
+  "batches": [
+    {
+      "path": "src/reports/phase5_batch1_20260116_001823.jsonl",
+      "count": 8000
+    },
+    {
+      "path": "src/reports/phase5_batch2_20260116_001823.jsonl",
+      "count": 8000
+    },
+    {
+      "path": "src/reports/phase5_batch3_20260116_001823.jsonl",
+      "count": 5394
+    }
+  ],
+  "categories": [
+    "芸術・文化",
+    "科学・技術",
+    "文学",
+    "ビジネス",
+    "政治・社会",
+    "学術・研究",
+    "歴史",
+    "探検・冒険"
+  ],
+  "status": "jsonl_ready"
+}

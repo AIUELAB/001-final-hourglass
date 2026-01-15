@@ -1,0 +1,8 @@
+{
+  "batch_id": "msgbatch_01CAFeVEjkvkeG9qioReeMU3",
+  "created_at": "2026-01-15T20:40:35.456472",
+  "request_count": 4667,
+  "status": "in_progress",
+  "jsonl_path": "src/reports/fictional_regenerate_anthropic_20260115_204001.jsonl",
+  "purpose": "fictional_episode_regeneration"
+}

@@ -9,15 +9,12 @@ import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
-from pathlib import Path
 from typing import Any, Optional
 
 import pandas as pd
 
 from .adapters import Candidate, GenerationResult
 from .config import (
-    GENERATION_RULES,
-    LOGS_DIR,
     MASTER_CSV,
     QUALITY_THRESHOLDS,
     HybridConfig,
@@ -38,6 +35,9 @@ from .inventory_manager import InventoryManager, ReplacementTarget
 from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
 from .quality import ImprovementLoop, QualityEvaluator, SuperTotalCalculator
 from .strategy_router import StrategyRouter
+
+# FictionalQualityGate（架空キャラクター品質ゲート）
+from src.utils.fictional_quality_gate import FictionalQualityGate, QualityViolationError
 
 # ロガー設定
 logger = logging.getLogger(__name__)
@@ -103,7 +103,7 @@ class HybridOrchestrator:
     8. 安全な永続化
     """
 
-    def __init__(self, config: HybridConfig = None):
+    def __init__(self, config: Optional[HybridConfig] = None):
         self.config = config or HybridConfig()
 
         # コンポーネント初期化
@@ -144,10 +144,13 @@ class HybridOrchestrator:
         )
 
         # Phase 17: PreGenerationRulesにInventoryManagerを注入（置換モード対応）
-        self._pre_rules._inventory_manager = self._inventory_manager
+        self._pre_rules._inventory_manager = self._inventory_manager  # type: ignore[attr-defined]
 
         # Phase 3: アンチゲーミングモニター
         self._anti_gaming = AntiGamingMonitor()
+
+        # 架空キャラクター品質ゲート（RCA-20260115）
+        self._fictional_quality_gate = FictionalQualityGate()
 
         # マスターデータ
         self._master_df: Optional[pd.DataFrame] = None
@@ -327,7 +330,7 @@ class HybridOrchestrator:
             batch_metadata = []  # 各結果に紐づくメタデータ
 
             # Phase 1: 生成（評価なし）
-            for candidate in batch_candidates:
+            for candidate in batch_candidates:  # type: ignore[union-attr]
                 try:
                     # 生成前チェック
                     pre_check = self._pre_rules.check_all(candidate)
@@ -397,7 +400,7 @@ class HybridOrchestrator:
                         result.episode_text, _ = apply_post_processing(
                             result.episode_text,
                             candidate.person_name,
-                            candidate.age,
+                            candidate.age if candidate.age is not None else 0,
                             strict_mode=False,
                         )
 
@@ -496,6 +499,37 @@ class HybridOrchestrator:
                             }
                         )
                         continue
+
+                    # 架空キャラクター品質ゲート（RCA-20260115）
+                    if candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper():
+                        fictional_episode = {
+                            "episode_text": result.episode_text,
+                            "work_title": getattr(candidate, "work_title", ""),
+                            "person_type": candidate.person_type,
+                            "person_name": candidate.person_name,
+                        }
+                        fictional_result = self._fictional_quality_gate.check(fictional_episode)
+                        if not fictional_result.passed:
+                            if fictional_result.fixable and fictional_result.auto_fixed_text:
+                                # 自動修正を適用
+                                result.episode_text = fictional_result.auto_fixed_text
+                                logger.info(
+                                    f"FictionalQualityGate(batch): 自動修正適用 - {candidate.person_name}({candidate.age}歳)"
+                                )
+                            else:
+                                # 修正不可の場合は棄却
+                                violation_details = "; ".join([v.detail for v in fictional_result.violations])
+                                run.rejected_count += 1
+                                rejections.append(
+                                    {
+                                        "person_id": candidate.person_id,
+                                        "person_name": candidate.person_name,
+                                        "age": candidate.age,
+                                        "reason": "fictional_quality_gate",
+                                        "message": f"架空キャラクター品質違反: {violation_details}",
+                                    }
+                                )
+                                continue
 
                     # 重複チェック
                     dup_result = self._duplicate_detector.check_all(
@@ -811,6 +845,34 @@ class HybridOrchestrator:
                 }
             )
 
+        # 6.5. 架空キャラクター品質ゲート（RCA-20260115）
+        # FICTIONALの場合のみ追加チェック
+        if candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper():
+            fictional_episode = {
+                "episode_text": result.episode_text,
+                "work_title": getattr(candidate, "work_title", ""),
+                "person_type": candidate.person_type,
+                "person_name": candidate.person_name,
+            }
+            fictional_result = self._fictional_quality_gate.check(fictional_episode)
+            if not fictional_result.passed:
+                if fictional_result.fixable and fictional_result.auto_fixed_text:
+                    # 自動修正を適用
+                    result.episode_text = fictional_result.auto_fixed_text
+                    logger.info(f"FictionalQualityGate: 自動修正適用 - {candidate.person_name}({candidate.age}歳)")
+                else:
+                    # 修正不可の場合は棄却
+                    violation_details = "; ".join([v.detail for v in fictional_result.violations])
+                    return ProcessingResult(
+                        rejection={
+                            "person_id": candidate.person_id,
+                            "person_name": candidate.person_name,
+                            "age": candidate.age,
+                            "reason": "fictional_quality_gate",
+                            "message": f"架空キャラクター品質違反: {violation_details}",
+                        }
+                    )
+
         # 7. 重複チェック
         dup_result = self._duplicate_detector.check_all(result.episode_text, candidate.person_id, candidate.age)
         if dup_result.is_duplicate:
@@ -872,7 +934,7 @@ class HybridOrchestrator:
                         result.episode_text, _ = apply_post_processing(
                             result.episode_text,
                             candidate.person_name,
-                            candidate.age,
+                            candidate.age if candidate.age is not None else 0,
                             strict_mode=False,
                         )
 
@@ -1006,7 +1068,7 @@ class HybridOrchestrator:
             "avg_tokens_per_episode": (
                 round(
                     (self._router.stats.total_input_tokens + self._router.stats.total_output_tokens)
-                    / run.generated_count,
+                    / run.generated_count,  # type: ignore[operator]
                     1,
                 )
                 if run.generated_count > 0

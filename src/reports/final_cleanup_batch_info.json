@@ -1,0 +1,7 @@
+{
+  "batch_id": "msgbatch_01CNPDMRZE7Nh6oCnMmdRfGL",
+  "submitted_at": "2026-01-15T15:35:14.325566",
+  "request_count": 62,
+  "jsonl_path": "src/reports/final_cleanup_batch_20260115_153513.jsonl",
+  "purpose": "最終品質クリーンアップ（短文・長文・繰り返し）"
+}

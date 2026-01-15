@@ -1,0 +1,2162 @@
+[
+  {
+    "episode_id": "EP-20260112BC4300",
+    "person_id": "P08240F4",
+    "person_name": "ニコ・ロビン",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011266113A",
+    "person_id": "P0AF34B8",
+    "person_name": "禰豆子",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112701498",
+    "person_id": "P0AF34B8",
+    "person_name": "禰豆子",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601123921FA",
+    "person_id": "P0AF34B8",
+    "person_name": "禰豆子",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112F87E06",
+    "person_id": "P1281647",
+    "person_name": "はたけカカシ",
+    "age": 61,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112283FE9",
+    "person_id": "P1281647",
+    "person_name": "はたけカカシ",
+    "age": 62,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112FB563B",
+    "person_id": "P1281647",
+    "person_name": "はたけカカシ",
+    "age": 64,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112620C56",
+    "person_id": "P1528893",
+    "person_name": "碇ゲンドウ",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "新世紀エヴァンゲリオン",
+    "category": "新世紀エヴァンゲリオン"
+  },
+  {
+    "episode_id": "EP-202601129C6411",
+    "person_id": "P1E1E382",
+    "person_name": "ミカサ・アッカーマン",
+    "age": 25,
+    "person_type": "FICTIONAL",
+    "work_title": "進撃の巨人",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112D1F8D4",
+    "person_id": "P1E1E382",
+    "person_name": "ミカサ・アッカーマン",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "進撃の巨人",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601129DAC19",
+    "person_id": "P35D1D18",
+    "person_name": "毛利蘭",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "名探偵コナン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601122558A5",
+    "person_id": "P35D1D18",
+    "person_name": "毛利蘭",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "名探偵コナン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112BFB0F0",
+    "person_id": "P3C79CC1",
+    "person_name": "トニートニー・チョッパー",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112F726F8",
+    "person_id": "P3C79CC1",
+    "person_name": "トニートニー・チョッパー",
+    "age": 61,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011239F2DE",
+    "person_id": "P3C79CC1",
+    "person_name": "トニートニー・チョッパー",
+    "age": 62,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112092CB8",
+    "person_id": "P3C79CC1",
+    "person_name": "トニートニー・チョッパー",
+    "age": 63,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112477C10",
+    "person_id": "P3C79CC1",
+    "person_name": "トニートニー・チョッパー",
+    "age": 79,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112B2C25C",
+    "person_id": "P3C79CC1",
+    "person_name": "トニートニー・チョッパー",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601124227B6",
+    "person_id": "P3FE3113",
+    "person_name": "モンキー・D・ルフィ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112FD88B0",
+    "person_id": "P48F9774",
+    "person_name": "サスケ",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601123A5766",
+    "person_id": "P48F9774",
+    "person_name": "サスケ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112A1D1B8",
+    "person_id": "P4F5B4EC",
+    "person_name": "鉄腕アトム",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "鉄腕アトム",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112FFEB0B",
+    "person_id": "P4F5B4EC",
+    "person_name": "鉄腕アトム",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "鉄腕アトム",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112F816A0",
+    "person_id": "P5822AC5",
+    "person_name": "月野うさぎ",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "美少女戦士セーラームーン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C6BF8F",
+    "person_id": "P5822AC5",
+    "person_name": "月野うさぎ",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "美少女戦士セーラームーン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C4B4D7",
+    "person_id": "P5822AC5",
+    "person_name": "月野うさぎ",
+    "age": 4,
+    "person_type": "FICTIONAL",
+    "work_title": "美少女戦士セーラームーン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011241F720",
+    "person_id": "P5822AC5",
+    "person_name": "月野うさぎ",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "美少女戦士セーラームーン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112942194",
+    "person_id": "P59E5746",
+    "person_name": "リヴァイ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "進撃の巨人",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112E9ACE4",
+    "person_id": "P59E5746",
+    "person_name": "リヴァイ",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "進撃の巨人",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112F8679E",
+    "person_id": "P59F8D5D",
+    "person_name": "ピカチュウ",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601127CE176",
+    "person_id": "P5F2E4CE",
+    "person_name": "エレン・イェーガー",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "進撃の巨人",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112D3BBCE",
+    "person_id": "P5F2E4CE",
+    "person_name": "エレン・イェーガー",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "進撃の巨人",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112374E6E",
+    "person_id": "P5F48550",
+    "person_name": "フレッド・ウィーズリー",
+    "age": 34,
+    "person_type": "FICTIONAL",
+    "work_title": "ハリー・ポッター",
+    "category": "ハリー・ポッター"
+  },
+  {
+    "episode_id": "EP-20260112FF278A",
+    "person_id": "P5F48550",
+    "person_name": "フレッド・ウィーズリー",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "ハリー・ポッター",
+    "category": "ハリー・ポッター"
+  },
+  {
+    "episode_id": "EP-2026011266B0DE",
+    "person_id": "P5F48550",
+    "person_name": "フレッド・ウィーズリー",
+    "age": 42,
+    "person_type": "FICTIONAL",
+    "work_title": "ハリー・ポッター",
+    "category": "ハリー・ポッター"
+  },
+  {
+    "episode_id": "EP-2026011201DAB5",
+    "person_id": "P6C10B66",
+    "person_name": "マリオ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "スーパーマリオブラザーズ",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601120394D7",
+    "person_id": "P761C2C3",
+    "person_name": "ルフィ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112A8109C",
+    "person_id": "P761C2C3",
+    "person_name": "ルフィ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C4250B",
+    "person_id": "P7C29508",
+    "person_name": "煉獄杏寿郎",
+    "age": 30,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011294549D",
+    "person_id": "P7E0F1FE",
+    "person_name": "孫悟飯",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112836999",
+    "person_id": "P7E0F1FE",
+    "person_name": "孫悟飯",
+    "age": 61,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112244BC2",
+    "person_id": "P86B24C5",
+    "person_name": "ロン・ウィーズリー",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "ハリー・ポッター",
+    "category": "ハリー・ポッター"
+  },
+  {
+    "episode_id": "EP-2026011221E25D",
+    "person_id": "P91FC66A",
+    "person_name": "ナミ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112790C7E",
+    "person_id": "P91FC66A",
+    "person_name": "ナミ",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601128A7BFD",
+    "person_id": "P98F665A",
+    "person_name": "赤木リツコ",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "新世紀エヴァンゲリオン",
+    "category": "新世紀エヴァンゲリオン"
+  },
+  {
+    "episode_id": "EP-20260112D0E243",
+    "person_id": "PA3D9B83",
+    "person_name": "ダース・ベイダー",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "スター・ウォーズ",
+    "category": "スター・ウォーズ"
+  },
+  {
+    "episode_id": "EP-202601127A9DDD",
+    "person_id": "PA899585",
+    "person_name": "江戸川コナン",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "名探偵コナン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112221E71",
+    "person_id": "PA899585",
+    "person_name": "江戸川コナン",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "名探偵コナン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601124DC7C2",
+    "person_id": "PAC3E10B",
+    "person_name": "フグ田サザエ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "サザエさん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C94CC3",
+    "person_id": "PAC3E10B",
+    "person_name": "フグ田サザエ",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "サザエさん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112D88ADE",
+    "person_id": "PBB4743C",
+    "person_name": "サンジ",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112CA1881",
+    "person_id": "PBB4743C",
+    "person_name": "サンジ",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C99CC7",
+    "person_id": "PBFB86A5",
+    "person_name": "ルパン三世",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ルパン三世",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112E6608B",
+    "person_id": "PBFB86A5",
+    "person_name": "ルパン三世",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ルパン三世",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601121622EB",
+    "person_id": "PC0B3CC6",
+    "person_name": "ロロノア・ゾロ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112BD3519",
+    "person_id": "PC0B3CC6",
+    "person_name": "ロロノア・ゾロ",
+    "age": 25,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112EFF90F",
+    "person_id": "PCC40ACB",
+    "person_name": "ベジータ",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112E4FE88",
+    "person_id": "PD81D5F8",
+    "person_name": "ガンダム",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "機動戦士ガンダム",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601122B58D4",
+    "person_id": "PD81D5F8",
+    "person_name": "ガンダム",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "機動戦士ガンダム",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112B494AE",
+    "person_id": "PD81D5F8",
+    "person_name": "ガンダム",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "機動戦士ガンダム",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112912260",
+    "person_id": "PDBE9D52",
+    "person_name": "孫悟空",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112AE3760",
+    "person_id": "PDBE9D52",
+    "person_name": "孫悟空",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011222F184",
+    "person_id": "PDBE9D52",
+    "person_name": "孫悟空",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601126DE79F",
+    "person_id": "PDF833A1",
+    "person_name": "虎杖悠仁",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "呪術廻戦",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011251FC3A",
+    "person_id": "PDF833A1",
+    "person_name": "虎杖悠仁",
+    "age": 25,
+    "person_type": "FICTIONAL",
+    "work_title": "呪術廻戦",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112F19247",
+    "person_id": "PE18FF89",
+    "person_name": "胡蝶しのぶ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C0DD22",
+    "person_id": "PE255F82",
+    "person_name": "ドラえもん",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラえもん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112E52318",
+    "person_id": "PE255F82",
+    "person_name": "ドラえもん",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラえもん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112702F2C",
+    "person_id": "PE439736",
+    "person_name": "毛利小五郎",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "名探偵コナン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112E1DFB1",
+    "person_id": "PE439736",
+    "person_name": "毛利小五郎",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "名探偵コナン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601124380AC",
+    "person_id": "PEA276D8",
+    "person_name": "碇シンジ",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "新世紀エヴァンゲリオン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112BD3617",
+    "person_id": "PEDD9C7A",
+    "person_name": "竈門禰豆子",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601127A907F",
+    "person_id": "PEDD9C7A",
+    "person_name": "竈門禰豆子",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-2026011257D2BC",
+    "person_id": "PF57640C",
+    "person_name": "サトシ",
+    "age": 62,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C09333",
+    "person_id": "PF57640C",
+    "person_name": "サトシ",
+    "age": 64,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112A176E4",
+    "person_id": "PF57640C",
+    "person_name": "サトシ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112B92703",
+    "person_id": "PF5A4BF7",
+    "person_name": "竈門炭治郎",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112DA92D2",
+    "person_id": "PF5A4BF7",
+    "person_name": "竈門炭治郎",
+    "age": 25,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601124D91EC",
+    "person_id": "P8CDAFE6",
+    "person_name": "グラントリノ",
+    "age": 1,
+    "person_type": "FICTIONAL",
+    "work_title": "僕のヒーローアカデミア",
+    "category": "僕のヒーローアカデミア"
+  },
+  {
+    "episode_id": "EP-2026011283737C",
+    "person_id": "P8CDAFE6",
+    "person_name": "グラントリノ",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "僕のヒーローアカデミア",
+    "category": "僕のヒーローアカデミア"
+  },
+  {
+    "episode_id": "EP-202601128E420C",
+    "person_id": "P8CDAFE6",
+    "person_name": "グラントリノ",
+    "age": 34,
+    "person_type": "FICTIONAL",
+    "work_title": "僕のヒーローアカデミア",
+    "category": "僕のヒーローアカデミア"
+  },
+  {
+    "episode_id": "EP-20260112F29D26",
+    "person_id": "P6791993",
+    "person_name": "山本元柳斎重國",
+    "age": 61,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-20260112B623AE",
+    "person_id": "P6791993",
+    "person_name": "山本元柳斎重國",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-202601129D8B52",
+    "person_id": "P6791993",
+    "person_name": "山本元柳斎重國",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-202601126F1AF5",
+    "person_id": "P6791993",
+    "person_name": "山本元柳斎重國",
+    "age": 33,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-202601128D2AD4",
+    "person_id": "P5B679EE",
+    "person_name": "シルバー・レイリー",
+    "age": 4,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112E9269A",
+    "person_id": "PA0D59DC",
+    "person_name": "サクラ・ハルノ",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "NARUTO"
+  },
+  {
+    "episode_id": "EP-2026011245C366",
+    "person_id": "PA0D59DC",
+    "person_name": "サクラ・ハルノ",
+    "age": 33,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "NARUTO"
+  },
+  {
+    "episode_id": "EP-202601125B35DE",
+    "person_id": "PDA0F19D",
+    "person_name": "ゴール・D・ロジャー",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112E9DAD9",
+    "person_id": "PDA0F19D",
+    "person_name": "ゴール・D・ロジャー",
+    "age": 44,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-202601123B88E8",
+    "person_id": "P38649A5",
+    "person_name": "Dr.くれは",
+    "age": 4,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-202601123CE49E",
+    "person_id": "P38649A5",
+    "person_name": "Dr.くれは",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112321FC2",
+    "person_id": "P38649A5",
+    "person_name": "Dr.くれは",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112AAC4DC",
+    "person_id": "P38649A5",
+    "person_name": "Dr.くれは",
+    "age": 57,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112FF7264",
+    "person_id": "PD662747",
+    "person_name": "クロコダイル",
+    "age": 4,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-202601128A9765",
+    "person_id": "PD662747",
+    "person_name": "クロコダイル",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-2026011267410B",
+    "person_id": "P2EFCDB8",
+    "person_name": "藤虎/イッショウ",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112293813",
+    "person_id": "P50E4D28",
+    "person_name": "青キジ/クザン",
+    "age": 4,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-202601128346E0",
+    "person_id": "P50E4D28",
+    "person_name": "青キジ/クザン",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "ONE PIECE",
+    "category": "ONE PIECE"
+  },
+  {
+    "episode_id": "EP-20260112EF02DD",
+    "person_id": "P562EC6C",
+    "person_name": "フリーザ",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601125612B3",
+    "person_id": "P562EC6C",
+    "person_name": "フリーザ",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112B83011",
+    "person_id": "P562EC6C",
+    "person_name": "フリーザ",
+    "age": 54,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112AA6D4A",
+    "person_id": "P562EC6C",
+    "person_name": "フリーザ",
+    "age": 46,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601120172C0",
+    "person_id": "PF2A728A",
+    "person_name": "セル",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112A51752",
+    "person_id": "PF2A728A",
+    "person_name": "セル",
+    "age": 49,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601126D8DB1",
+    "person_id": "P947C7D5",
+    "person_name": "ピッコロ",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-2026011257B685",
+    "person_id": "PAEC168E",
+    "person_name": "クリリン",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-2026011231AE82",
+    "person_id": "P6D7EE49",
+    "person_name": "ブルマ",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601128F73AE",
+    "person_id": "P6D7EE49",
+    "person_name": "ブルマ",
+    "age": 56,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-2026011256DA73",
+    "person_id": "PE5832C3",
+    "person_name": "チチ",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112D55344",
+    "person_id": "PE5832C3",
+    "person_name": "チチ",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112A0E29E",
+    "person_id": "PE401AB1",
+    "person_name": "ビルス",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-2026011290100D",
+    "person_id": "PE401AB1",
+    "person_name": "ビルス",
+    "age": 44,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112657C99",
+    "person_id": "PE401AB1",
+    "person_name": "ビルス",
+    "age": 46,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112F6C03D",
+    "person_id": "PE401AB1",
+    "person_name": "ビルス",
+    "age": 54,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-20260112D65A3B",
+    "person_id": "P0983DAB",
+    "person_name": "ウイス",
+    "age": 27,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601129EFF07",
+    "person_id": "P0983DAB",
+    "person_name": "ウイス",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601122E3BBD",
+    "person_id": "P0983DAB",
+    "person_name": "ウイス",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-2026011287DD92",
+    "person_id": "P0983DAB",
+    "person_name": "ウイス",
+    "age": 46,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601122F6720",
+    "person_id": "P0983DAB",
+    "person_name": "ウイス",
+    "age": 56,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール超",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-2601121342373CB",
+    "person_id": "P0983DAB",
+    "person_name": "ウイス",
+    "age": 57,
+    "person_type": "FICTIONAL",
+    "work_title": "ドラゴンボール",
+    "category": "ドラゴンボール"
+  },
+  {
+    "episode_id": "EP-202601122FEDEF",
+    "person_id": "P79AAD7F",
+    "person_name": "四乃森蒼紫",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "るろうに剣心",
+    "category": "るろうに剣心"
+  },
+  {
+    "episode_id": "EP-202601120E97EA",
+    "person_id": "P79AAD7F",
+    "person_name": "四乃森蒼紫",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "るろうに剣心",
+    "category": "るろうに剣心"
+  },
+  {
+    "episode_id": "EP-20260112B1170A",
+    "person_id": "P79AAD7F",
+    "person_name": "四乃森蒼紫",
+    "age": 44,
+    "person_type": "FICTIONAL",
+    "work_title": "るろうに剣心",
+    "category": "るろうに剣心"
+  },
+  {
+    "episode_id": "EP-202601120BC7CF",
+    "person_id": "P1E0FDA2",
+    "person_name": "瀬田宗次郎",
+    "age": 27,
+    "person_type": "FICTIONAL",
+    "work_title": "るろうに剣心",
+    "category": "るろうに剣心"
+  },
+  {
+    "episode_id": "EP-202601123B9E72",
+    "person_id": "P1E0FDA2",
+    "person_name": "瀬田宗次郎",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "るろうに剣心",
+    "category": "るろうに剣心"
+  },
+  {
+    "episode_id": "EP-20260112CA5208",
+    "person_id": "P1E0FDA2",
+    "person_name": "瀬田宗次郎",
+    "age": 36,
+    "person_type": "FICTIONAL",
+    "work_title": "るろうに剣心",
+    "category": "るろうに剣心"
+  },
+  {
+    "episode_id": "EP-20260112AB0ADD",
+    "person_id": "PE97E82C",
+    "person_name": "カグヤ",
+    "age": 23,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "NARUTO"
+  },
+  {
+    "episode_id": "EP-202601126556DA",
+    "person_id": "PF39C89A",
+    "person_name": "ソウルキング",
+    "age": 19,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-20260112A8FC21",
+    "person_id": "PF39C89A",
+    "person_name": "ソウルキング",
+    "age": 21,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-20260112A6C330",
+    "person_id": "PF39C89A",
+    "person_name": "ソウルキング",
+    "age": 42,
+    "person_type": "FICTIONAL",
+    "work_title": "BLEACH",
+    "category": "BLEACH"
+  },
+  {
+    "episode_id": "EP-20260112D00033",
+    "person_id": "PFF8B591",
+    "person_name": "我妻善逸",
+    "age": 42,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "鬼滅の刃"
+  },
+  {
+    "episode_id": "EP-202601120B071D",
+    "person_id": "PFF8B591",
+    "person_name": "我妻善逸",
+    "age": 58,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "鬼滅の刃"
+  },
+  {
+    "episode_id": "EP-2026011271CB1A",
+    "person_id": "PFF8B591",
+    "person_name": "我妻善逸",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "鬼滅の刃"
+  },
+  {
+    "episode_id": "EP-202601127AF620",
+    "person_id": "P87E7AF4",
+    "person_name": "嘴平伊之助",
+    "age": 23,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "鬼滅の刃"
+  },
+  {
+    "episode_id": "EP-20260112426E41",
+    "person_id": "PAC338EE",
+    "person_name": "不死川玄弥",
+    "age": 42,
+    "person_type": "FICTIONAL",
+    "work_title": "鬼滅の刃",
+    "category": "鬼滅の刃"
+  },
+  {
+    "episode_id": "EP-20260112176223",
+    "person_id": "P9A570F7",
+    "person_name": "八百万百",
+    "age": 26,
+    "person_type": "FICTIONAL",
+    "work_title": "僕のヒーローアカデミア",
+    "category": "僕のヒーローアカデミア"
+  },
+  {
+    "episode_id": "EP-2026011257F5E9",
+    "person_id": "P9D86AA7",
+    "person_name": "伏黒恵",
+    "age": 24,
+    "person_type": "FICTIONAL",
+    "work_title": "呪術廻戦",
+    "category": "呪術廻戦"
+  },
+  {
+    "episode_id": "EP-20260112116CF9",
+    "person_id": "P209B9D3",
+    "person_name": "禪院真希",
+    "age": 79,
+    "person_type": "FICTIONAL",
+    "work_title": "呪術廻戦",
+    "category": "呪術廻戦"
+  },
+  {
+    "episode_id": "EP-2026011234690C",
+    "person_id": "PA076E21",
+    "person_name": "雷禅",
+    "age": 26,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-20260112A73567",
+    "person_id": "PA076E21",
+    "person_name": "雷禅",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-2026011253759D",
+    "person_id": "PA076E21",
+    "person_name": "雷禅",
+    "age": 3,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-20260112306001",
+    "person_id": "PA076E21",
+    "person_name": "雷禅",
+    "age": 61,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-20260112373467",
+    "person_id": "PCC78DFB",
+    "person_name": "躯",
+    "age": 21,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-2026011253EE37",
+    "person_id": "PEBE743B",
+    "person_name": "黄泉",
+    "age": 26,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-202601127268E5",
+    "person_id": "P6D1322F",
+    "person_name": "アンパンマン",
+    "age": 42,
+    "person_type": "FICTIONAL",
+    "work_title": "アンパンマン",
+    "category": "アンパンマン"
+  },
+  {
+    "episode_id": "EP-20260112C7DC92",
+    "person_id": "PAB0BDC5",
+    "person_name": "クリームパンダ",
+    "age": 19,
+    "person_type": "FICTIONAL",
+    "work_title": "アンパンマン",
+    "category": "アンパンマン"
+  },
+  {
+    "episode_id": "EP-20260112DB10C7",
+    "person_id": "PAB0BDC5",
+    "person_name": "クリームパンダ",
+    "age": 59,
+    "person_type": "FICTIONAL",
+    "work_title": "アンパンマン",
+    "category": "アンパンマン"
+  },
+  {
+    "episode_id": "EP-20260112096109",
+    "person_id": "PAB0BDC5",
+    "person_name": "クリームパンダ",
+    "age": 21,
+    "person_type": "FICTIONAL",
+    "work_title": "アンパンマン",
+    "category": "アンパンマン"
+  },
+  {
+    "episode_id": "EP-202601125E4197",
+    "person_id": "PDEC02EA",
+    "person_name": "子トトロ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "となりのトトロ",
+    "category": "となりのトトロ"
+  },
+  {
+    "episode_id": "EP-20260112B45E84",
+    "person_id": "PDEC02EA",
+    "person_name": "子トトロ",
+    "age": 61,
+    "person_type": "FICTIONAL",
+    "work_title": "となりのトトロ",
+    "category": "となりのトトロ"
+  },
+  {
+    "episode_id": "EP-2026011263D54D",
+    "person_id": "P71099E5",
+    "person_name": "網手",
+    "age": 26,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "NARUTO"
+  },
+  {
+    "episode_id": "EP-20260112E24E70",
+    "person_id": "P71099E5",
+    "person_name": "網手",
+    "age": 42,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "NARUTO"
+  },
+  {
+    "episode_id": "EP-2026011241740C",
+    "person_id": "P71099E5",
+    "person_name": "網手",
+    "age": 4,
+    "person_type": "FICTIONAL",
+    "work_title": "NARUTO",
+    "category": "NARUTO"
+  },
+  {
+    "episode_id": "EP-202601123EFBB5",
+    "person_id": "P14DA291",
+    "person_name": "フラメル",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "ハリー・ポッター",
+    "category": "ハリー・ポッター"
+  },
+  {
+    "episode_id": "EP-20260112B5D2DC",
+    "person_id": "P33F0120",
+    "person_name": "リサリサ",
+    "age": 21,
+    "person_type": "FICTIONAL",
+    "work_title": "ジョジョの奇妙な冒険",
+    "category": "ジョジョの奇妙な冒険"
+  },
+  {
+    "episode_id": "EP-202601120CA664",
+    "person_id": "PB73B33A",
+    "person_name": "オーリム博士",
+    "age": 28,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-20260112C8B9FC",
+    "person_id": "PA39D411",
+    "person_name": "フトゥー博士",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-2026011218E14C",
+    "person_id": "P45FF312",
+    "person_name": "トゲピー",
+    "age": 52,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-20260112B3D934",
+    "person_id": "PAF430E9",
+    "person_name": "ピィ",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-20260112432040",
+    "person_id": "PAF430E9",
+    "person_name": "ピィ",
+    "age": 52,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-2026011228A031",
+    "person_id": "P87D70A1",
+    "person_name": "エレキッド",
+    "age": 28,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-20260112207C9F",
+    "person_id": "P4DD980A",
+    "person_name": "ルリリ",
+    "age": 18,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-20260112164334",
+    "person_id": "P4DD980A",
+    "person_name": "ルリリ",
+    "age": 28,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-202601126E5542",
+    "person_id": "PB0844EF",
+    "person_name": "マネネ",
+    "age": 51,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-20260112134A31",
+    "person_id": "P619C3F9",
+    "person_name": "タマンタ",
+    "age": 28,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-202601121F9F8B",
+    "person_id": "P619C3F9",
+    "person_name": "タマンタ",
+    "age": 51,
+    "person_type": "FICTIONAL",
+    "work_title": "ポケットモンスター",
+    "category": "ポケモン"
+  },
+  {
+    "episode_id": "EP-202601123657DD",
+    "person_id": "P6BD6249",
+    "person_name": "人魚姫アリエル",
+    "age": 28,
+    "person_type": "FICTIONAL",
+    "work_title": "リトル・マーメイド",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011229110F",
+    "person_id": "P6BD6249",
+    "person_name": "人魚姫アリエル",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "リトル・マーメイド",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112ECA00D",
+    "person_id": "P07F6925",
+    "person_name": "トリトン王",
+    "age": 18,
+    "person_type": "FICTIONAL",
+    "work_title": "リトル・マーメイド",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601129F211A",
+    "person_id": "P07F6925",
+    "person_name": "トリトン王",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "リトル・マーメイド",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601129DB917",
+    "person_id": "P07F6925",
+    "person_name": "トリトン王",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "リトル・マーメイド",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011226AD8B",
+    "person_id": "P07F6925",
+    "person_name": "トリトン王",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "リトル・マーメイド",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112E9B84D",
+    "person_id": "P5B27095",
+    "person_name": "ベル",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011221D151",
+    "person_id": "P5B27095",
+    "person_name": "ベル",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601127C858B",
+    "person_id": "P5B27095",
+    "person_name": "ベル",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112B6860D",
+    "person_id": "P5A01705",
+    "person_name": "野獣",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601120C3D3A",
+    "person_id": "P5A01705",
+    "person_name": "野獣",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112F7EAD7",
+    "person_id": "P5A01705",
+    "person_name": "野獣",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601129C996D",
+    "person_id": "P5A01705",
+    "person_name": "野獣",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "美女と野獣",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011290128C",
+    "person_id": "PCF56FA8",
+    "person_name": "アラジン",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011224278E",
+    "person_id": "PCF56FA8",
+    "person_name": "アラジン",
+    "age": 2,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112DF9A17",
+    "person_id": "PCF56FA8",
+    "person_name": "アラジン",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011258A023",
+    "person_id": "P47A6E70",
+    "person_name": "ジーニー",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112F73041",
+    "person_id": "P47A6E70",
+    "person_name": "ジーニー",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112EFE6B4",
+    "person_id": "P47A6E70",
+    "person_name": "ジーニー",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112F2483F",
+    "person_id": "P5CA9318",
+    "person_name": "ジャファー",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112ABD774",
+    "person_id": "P5CA9318",
+    "person_name": "ジャファー",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112615BD7",
+    "person_id": "P5CA9318",
+    "person_name": "ジャファー",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "アラジン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601128058BF",
+    "person_id": "PEB60276",
+    "person_name": "ムーラン",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601129E6354",
+    "person_id": "P2865C24",
+    "person_name": "シャン隊長",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112A8219F",
+    "person_id": "P2865C24",
+    "person_name": "シャン隊長",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112D909CD",
+    "person_id": "P2865C24",
+    "person_name": "シャン隊長",
+    "age": 16,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112003FE3",
+    "person_id": "PD8B22AB",
+    "person_name": "ムーシュー",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601128CF4B6",
+    "person_id": "PD8B22AB",
+    "person_name": "ムーシュー",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601123E44D0",
+    "person_id": "PD8B22AB",
+    "person_name": "ムーシュー",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112BA87E2",
+    "person_id": "PD8B22AB",
+    "person_name": "ムーシュー",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "ムーラン",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112B01D8D",
+    "person_id": "P375779C",
+    "person_name": "モアナ",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112B360EC",
+    "person_id": "P7F3B180",
+    "person_name": "マウイ",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112AFA9E7",
+    "person_id": "P7F3B180",
+    "person_name": "マウイ",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112AF17A5",
+    "person_id": "P7F3B180",
+    "person_name": "マウイ",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112016F18",
+    "person_id": "P7F3B180",
+    "person_name": "マウイ",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112806D24",
+    "person_id": "P7F3B180",
+    "person_name": "マウイ",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011260C7AD",
+    "person_id": "P67981B9",
+    "person_name": "タマトア",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601127DE79C",
+    "person_id": "P67981B9",
+    "person_name": "タマトア",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601127F1F01",
+    "person_id": "P67981B9",
+    "person_name": "タマトア",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112171826",
+    "person_id": "P67981B9",
+    "person_name": "タマトア",
+    "age": 28,
+    "person_type": "FICTIONAL",
+    "work_title": "モアナと伝説の海",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601128EA3C8",
+    "person_id": "PBB26DFF",
+    "person_name": "クリストフ",
+    "age": 29,
+    "person_type": "FICTIONAL",
+    "work_title": "アナと雪の女王",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011226447A",
+    "person_id": "PBB26DFF",
+    "person_name": "クリストフ",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "アナと雪の女王",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112FCE676",
+    "person_id": "PBB26DFF",
+    "person_name": "クリストフ",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "アナと雪の女王",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112AFD104",
+    "person_id": "PDD37149",
+    "person_name": "スヴェン",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "アナと雪の女王",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011292B27C",
+    "person_id": "P8C9053F",
+    "person_name": "ハンス王子",
+    "age": 47,
+    "person_type": "FICTIONAL",
+    "work_title": "アナと雪の女王",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601124FF272",
+    "person_id": "P9828F9A",
+    "person_name": "ミラベル",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "ミラベルと魔法だらけの家",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112C361A5",
+    "person_id": "P7E82001",
+    "person_name": "ブルーノ",
+    "age": 18,
+    "person_type": "FICTIONAL",
+    "work_title": "ミラベルと魔法だらけの家",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601122445DF",
+    "person_id": "P7E82001",
+    "person_name": "ブルーノ",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "ミッキーマウス",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011268FF4F",
+    "person_id": "P5FE5036",
+    "person_name": "アブエラ",
+    "age": 22,
+    "person_type": "FICTIONAL",
+    "work_title": "ミラベルと魔法だらけの家",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601123D5355",
+    "person_id": "P5FE5036",
+    "person_name": "アブエラ",
+    "age": 31,
+    "person_type": "FICTIONAL",
+    "work_title": "ミラベルと魔法だらけの家",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-202601122DED9E",
+    "person_id": "P5FE5036",
+    "person_name": "アブエラ",
+    "age": 38,
+    "person_type": "FICTIONAL",
+    "work_title": "ミラベルと魔法だらけの家",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-20260112B75B85",
+    "person_id": "P5FE5036",
+    "person_name": "アブエラ",
+    "age": 51,
+    "person_type": "FICTIONAL",
+    "work_title": "ミラベルと魔法だらけの家",
+    "category": "ディズニー"
+  },
+  {
+    "episode_id": "EP-2026011242ED02",
+    "person_id": "PDA33B1C",
+    "person_name": "キ＝アディ＝ムンディ",
+    "age": 24,
+    "person_type": "FICTIONAL",
+    "work_title": "スター・ウォーズ",
+    "category": "スター・ウォーズ"
+  },
+  {
+    "episode_id": "EP-202601121DD3DB",
+    "person_id": "PDA33B1C",
+    "person_name": "キ＝アディ＝ムンディ",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "スター・ウォーズ",
+    "category": "スター・ウォーズ"
+  },
+  {
+    "episode_id": "EP-20260112210B0B",
+    "person_id": "PDA33B1C",
+    "person_name": "キ＝アディ＝ムンディ",
+    "age": 33,
+    "person_type": "FICTIONAL",
+    "work_title": "スター・ウォーズ",
+    "category": "スター・ウォーズ"
+  },
+  {
+    "episode_id": "EP-20260112BCEF4B",
+    "person_id": "P6C85DBD",
+    "person_name": "イース・コス",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "スター・ウォーズ",
+    "category": "スター・ウォーズ"
+  },
+  {
+    "episode_id": "EP-20260112B413E3",
+    "person_id": "P7BB4757",
+    "person_name": "アクバー提督",
+    "age": 32,
+    "person_type": "FICTIONAL",
+    "work_title": "スター・ウォーズ",
+    "category": "スター・ウォーズ"
+  },
+  {
+    "episode_id": "EP-20260112266DD5",
+    "person_id": "P6F2B850",
+    "person_name": "ジョルジュ早乙女",
+    "age": 34,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-20260112FE31A4",
+    "person_id": "P6F2B850",
+    "person_name": "ジョルジュ早乙女",
+    "age": 37,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-20260112F7ADAB",
+    "person_id": "P6F2B850",
+    "person_name": "ジョルジュ早乙女",
+    "age": 39,
+    "person_type": "FICTIONAL",
+    "work_title": "幽☆遊☆白書",
+    "category": "幽☆遊☆白書"
+  },
+  {
+    "episode_id": "EP-20260112A0EDAA",
+    "person_id": "P6D1322F",
+    "person_name": "アンパンマン",
+    "age": 63,
+    "person_type": "FICTIONAL",
+    "work_title": "それいけ！アンパンマン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601125CF69E",
+    "person_id": "P6D1322F",
+    "person_name": "アンパンマン",
+    "age": 64,
+    "person_type": "FICTIONAL",
+    "work_title": "それいけ！アンパンマン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112A0C860",
+    "person_id": "P6D1322F",
+    "person_name": "アンパンマン",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "それいけ！アンパンマン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112BC872D",
+    "person_id": "P6D1322F",
+    "person_name": "アンパンマン",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "それいけ！アンパンマン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601128415CD",
+    "person_id": "P6D1322F",
+    "person_name": "アンパンマン",
+    "age": 79,
+    "person_type": "FICTIONAL",
+    "work_title": "それいけ！アンパンマン",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112F1BD97",
+    "person_id": "PF9B0150",
+    "person_name": "野原しんのすけ",
+    "age": 63,
+    "person_type": "FICTIONAL",
+    "work_title": "クレヨンしんちゃん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112916BDD",
+    "person_id": "PF9B0150",
+    "person_name": "野原しんのすけ",
+    "age": 5,
+    "person_type": "FICTIONAL",
+    "work_title": "クレヨンしんちゃん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-20260112C9A815",
+    "person_id": "PF9B0150",
+    "person_name": "野原しんのすけ",
+    "age": 20,
+    "person_type": "FICTIONAL",
+    "work_title": "クレヨンしんちゃん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-202601123782B6",
+    "person_id": "PF9B0150",
+    "person_name": "野原しんのすけ",
+    "age": 14,
+    "person_type": "FICTIONAL",
+    "work_title": "クレヨンしんちゃん",
+    "category": "アニメ・漫画・ゲーム"
+  },
+  {
+    "episode_id": "EP-260112183729001",
+    "person_id": "P23C26A4",
+    "person_name": "坂本龍馬",
+    "age": 30,
+    "person_type": "REAL",
+    "work_title": "",
+    "category": "歴史・政治"
+  },
+  {
+    "episode_id": "EP-260112183729002",
+    "person_id": "P23C26A4",
+    "person_name": "坂本龍馬",
+    "age": 31,
+    "person_type": "REAL",
+    "work_title": "",
+    "category": "歴史・政治"
+  },
+  {
+    "episode_id": "EP-260112183729003",
+    "person_id": "P1F0726F",
+    "person_name": "ウィルバー・ライト",
+    "age": 39,
+    "person_type": "REAL",
+    "work_title": "",
+    "category": "科学・技術"
+  },
+  {
+    "episode_id": "EP-260112183817004",
+    "person_id": "P1F0726F",
+    "person_name": "ウィルバー・ライト",
+    "age": 36,
+    "person_type": "REAL",
+    "work_title": "",
+    "category": "科学・技術"
+  }
+]

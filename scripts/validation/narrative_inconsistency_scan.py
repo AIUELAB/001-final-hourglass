@@ -110,6 +110,9 @@ INSTITUTION_EXCEPTIONS: dict[str, list[str]] = {
     "Steins;Gate": ["東京大学", "CERN"],
     "ペルソナ": ALL_INSTITUTIONS,  # Modern Japan setting
     "Persona": ALL_INSTITUTIONS,
+    "巨人の星": ALL_INSTITUTIONS,  # Real-world Japanese baseball setting
+    "ハリー・ポッター": ["ワールドカップ"],  # Quidditch World Cup is fictional
+    "Harry Potter": ["ワールドカップ"],
 }
 
 

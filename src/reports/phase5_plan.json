@@ -1,0 +1,19 @@
+{
+  "phase": 5,
+  "target_categories": [
+    "芸術・文化",
+    "科学・技術",
+    "文学",
+    "ビジネス",
+    "政治・社会",
+    "学術・研究",
+    "歴史",
+    "探検・冒険"
+  ],
+  "total_episodes": 21394,
+  "estimated_tokens": 12836400,
+  "estimated_cost_usd": 12.8364,
+  "recommended_batch_size": 8000,
+  "num_batches": 3,
+  "status": "planned"
+}

@@ -12,7 +12,8 @@ from pathlib import Path
 # プロジェクトルートをパスに追加
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.fix.normalize_state_labels import NORMALIZATION_MAP
+from scripts.fix.normalize_state_labels import NORMALIZATION_MAP, PERSON_ID_MERGE_MAP
+from scripts.validation.state_label_gate import check_person_name as gate_check_person_name
 
 
 # ==================== ヘルパー関数 ====================
@@ -29,46 +30,6 @@ def normalize(name: str) -> str:
         正規化後の人物名（マッピングにない場合は元の名前をそのまま返す）
     """
     return NORMALIZATION_MAP.get(name, name)
-
-
-# 誤検出を避けるべき名前のセット（老、王、金などで始まるが正規名として保持すべきもの）
-FALSE_POSITIVE_EXCLUSIONS = {
-    # 「老」で始まる正規名
-    "老子",  # 道家の思想家
-    "老界王神",  # ドラゴンボール - 界王神とは別キャラ
-    # 「王」で始まる正規名
-    "王貞治",  # 野球選手
-    "王蟲",  # ナウシカ
-    "王様",  # 一般的な呼称
-    # 「金」で始まる正規名
-    "金田一",  # 探偵
-    "金太郎",  # 昔話
-}
-
-
-def check_person_name(name: str) -> tuple[bool, str]:
-    """
-    人物名が状態ラベル付きかどうかをチェックする
-
-    Args:
-        name: チェック対象の人物名
-
-    Returns:
-        tuple[is_valid, message]:
-            - is_valid: 正規名として有効な場合True、状態ラベル付きならFalse
-            - message: 検出された問題の説明（問題なければ空文字列）
-    """
-    # 誤検出除外リストにある場合は有効
-    if name in FALSE_POSITIVE_EXCLUSIONS:
-        return True, ""
-
-    # 正規化マッピングに存在する場合は無効（状態ラベル付き）
-    if name in NORMALIZATION_MAP:
-        normalized = NORMALIZATION_MAP[name]
-        return False, f"状態ラベル付き: '{name}' → '{normalized}' に正規化すべき"
-
-    # 問題なし
-    return True, ""
 
 
 # ==================== 正規化マッピングテスト ====================
@@ -179,65 +140,104 @@ class TestFalsePositivePreservation:
         assert normalize("野原しんのすけ") == "野原しんのすけ"
 
 
-# ==================== 状態ラベルゲートテスト ====================
+# ==================== 状態ラベルゲートテスト（本番コード使用） ====================
 
 
 class TestStateLabelGate:
-    """状態ラベルゲートのテスト"""
+    """状態ラベルゲートのテスト - 本番コード(state_label_gate.py)を使用"""
 
     def test_gate_detects_pokemon_professor(self):
         """ポケモン博士アララギを検出"""
-        is_valid, message = check_person_name("ポケモン博士アララギ")
+        is_valid, message = gate_check_person_name("ポケモン博士アララギ")
         assert not is_valid
-        assert "アララギ博士" in message
+        assert "ポケモン博士" in message
 
     def test_gate_detects_baby_prefix(self):
         """赤ちゃんプレフィックスを検出"""
-        is_valid, message = check_person_name("赤ちゃんピカチュウ")
+        is_valid, message = gate_check_person_name("赤ちゃんピカチュウ")
         assert not is_valid
-        assert "ピカチュウ" in message
+        assert "赤ちゃん" in message
 
     def test_gate_detects_golden_prefix(self):
         """金色のプレフィックスを検出"""
-        is_valid, message = check_person_name("金色のフリーザ")
+        is_valid, message = gate_check_person_name("金色のフリーザ")
         assert not is_valid
-        assert "フリーザ" in message
+        assert "金色の" in message
 
     def test_gate_detects_old_prefix(self):
         """老プレフィックスを検出（老ソフィー）"""
-        is_valid, message = check_person_name("老ソフィー")
+        is_valid, message = gate_check_person_name("老ソフィー")
         assert not is_valid
-        assert "ソフィー" in message
+        assert "老" in message
 
     def test_gate_allows_normal_name(self):
         """通常の名前は許可"""
-        is_valid, message = check_person_name("ピカチュウ")
+        is_valid, _message = gate_check_person_name("ピカチュウ")
         assert is_valid
-        assert message == ""
 
     def test_gate_allows_oh_sadaharu(self):
         """王貞治は許可（誤検出除外）"""
-        is_valid, message = check_person_name("王貞治")
+        is_valid, _message = gate_check_person_name("王貞治")
         assert is_valid
-        assert message == ""
 
     def test_gate_allows_laozi(self):
         """老子は許可（誤検出除外）"""
-        is_valid, message = check_person_name("老子")
+        is_valid, _message = gate_check_person_name("老子")
         assert is_valid
-        assert message == ""
 
     def test_gate_allows_ohmu(self):
         """王蟲は許可（誤検出除外）"""
-        is_valid, message = check_person_name("王蟲")
+        is_valid, _message = gate_check_person_name("王蟲")
         assert is_valid
-        assert message == ""
 
     def test_gate_allows_old_kaioshin(self):
         """老界王神は許可（別キャラとして除外）"""
-        is_valid, message = check_person_name("老界王神")
+        is_valid, _message = gate_check_person_name("老界王神")
         assert is_valid
-        assert message == ""
+
+    def test_gate_detects_unknown_pokemon_professor(self):
+        """新しいポケモン博士パターンも検出"""
+        is_valid, _message = gate_check_person_name("ポケモン博士XXX")
+        assert not is_valid
+
+    def test_gate_empty_string(self):
+        """空文字列は有効として扱う"""
+        is_valid, _message = gate_check_person_name("")
+        assert is_valid
+
+    def test_gate_shirai_surname(self):
+        """白井は苗字として除外"""
+        is_valid, _message = gate_check_person_name("白井健三")
+        assert is_valid
+
+
+# ==================== person_id統合マッピングテスト ====================
+
+
+class TestPersonIdMergeMap:
+    """person_id統合マッピングのテスト"""
+
+    def test_merge_map_exists(self):
+        """統合マップが存在する"""
+        assert PERSON_ID_MERGE_MAP is not None
+        assert len(PERSON_ID_MERGE_MAP) > 0
+
+    def test_merge_targets_have_valid_format(self):
+        """統合対象のIDがP形式"""
+        for original_pid, target_pid in PERSON_ID_MERGE_MAP.items():
+            assert original_pid.startswith("P"), f"{original_pid} is not P format"
+            assert target_pid.startswith("P"), f"{target_pid} is not P format"
+
+    def test_no_self_merge(self):
+        """自己統合がない"""
+        for original_pid, target_pid in PERSON_ID_MERGE_MAP.items():
+            assert original_pid != target_pid, f"{original_pid} merges to itself"
+
+    def test_target_ids_not_sources(self):
+        """統合先IDが統合元に存在しない（循環防止）"""
+        target_ids = set(PERSON_ID_MERGE_MAP.values())
+        for tid in target_ids:
+            assert tid not in PERSON_ID_MERGE_MAP.keys(), f"{tid} is both source and target"
 
 
 # ==================== 正規化マップ整合性テスト ====================

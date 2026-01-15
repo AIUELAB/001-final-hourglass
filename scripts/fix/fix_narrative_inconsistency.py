@@ -118,11 +118,21 @@ def detect_type4_violations(episode_text: str, person_type: str, work_title: str
 def load_violations_from_report() -> list[dict[str, Any]]:
     """スキャンレポートから違反を読み込み"""
     if not REPORT_JSON.exists():
-        logger.warning(f"スキャンレポートが見つかりません: {REPORT_JSON}")
-        return []
+        logger.error(
+            f"スキャンレポートが見つかりません: {REPORT_JSON}\n"
+            "先に narrative_inconsistency_scan.py を実行してください。"
+        )
+        raise FileNotFoundError(
+            f"Required scan report not found: {REPORT_JSON}. "
+            "Run 'python scripts/validation/narrative_inconsistency_scan.py' first."
+        )
 
-    with open(REPORT_JSON, "r", encoding="utf-8") as f:
-        report = json.load(f)
+    try:
+        with open(REPORT_JSON, "r", encoding="utf-8") as f:
+            report = json.load(f)
+    except json.JSONDecodeError as e:
+        logger.error(f"スキャンレポートのJSON解析に失敗: {e}")
+        raise
 
     return report.get("violations", [])
 
@@ -353,17 +363,24 @@ def submit_batch(requests: list[dict]) -> str:
     """Batch APIにリクエストを送信"""
     import anthropic
 
-    client = anthropic.Anthropic()
+    try:
+        client = anthropic.Anthropic()
+    except anthropic.AuthenticationError as e:
+        logger.error(f"Anthropic API認証失敗: {e}")
+        raise SystemExit("ANTHROPIC_API_KEY が設定されていないか無効です。環境変数を確認してください。")
 
     # JSONLファイルを作成（ログ用）
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     jsonl_path = OUTPUT_DIR / f"narrative_fix_batch_{timestamp}.jsonl"
 
-    with open(jsonl_path, "w", encoding="utf-8") as f:
-        for req in requests:
-            f.write(json.dumps(req, ensure_ascii=False) + "\n")
-
-    logger.info(f"バッチファイル作成: {jsonl_path}")
+    try:
+        with open(jsonl_path, "w", encoding="utf-8") as f:
+            for req in requests:
+                f.write(json.dumps(req, ensure_ascii=False) + "\n")
+        logger.info(f"バッチファイル作成: {jsonl_path}")
+    except OSError as e:
+        logger.error(f"バッチファイル作成失敗: {e}")
+        raise
 
     # Batch API送信
     batch_requests: list = [
@@ -378,19 +395,36 @@ def submit_batch(requests: list[dict]) -> str:
         }
         for req in requests
     ]
-    batch = client.messages.batches.create(requests=batch_requests)
+
+    try:
+        batch = client.messages.batches.create(requests=batch_requests)
+    except anthropic.RateLimitError as e:
+        logger.error(f"API レート制限: {e}")
+        raise SystemExit("APIレート制限に達しました。しばらく待ってから再試行してください。")
+    except anthropic.BadRequestError as e:
+        logger.error(f"不正なリクエスト: {e}")
+        raise SystemExit(f"APIリクエストが拒否されました。{jsonl_path} を確認してください。")
+    except anthropic.APIConnectionError as e:
+        logger.error(f"API接続エラー: {e}")
+        raise SystemExit("Anthropic APIに接続できません。ネットワークを確認してください。")
+    except anthropic.APIError as e:
+        logger.error(f"API エラー: {e}")
+        raise
 
     logger.info(f"バッチ送信完了: {batch.id}")
 
     # バッチ情報を保存
     batch_info_path = OUTPUT_DIR / f"narrative_fix_batch_info_{timestamp}.json"
-    with open(batch_info_path, "w", encoding="utf-8") as f:
-        json.dump(
-            {"batch_id": batch.id, "created_at": timestamp, "request_count": len(requests)},
-            f,
-            ensure_ascii=False,
-            indent=2,
-        )
+    try:
+        with open(batch_info_path, "w", encoding="utf-8") as f:
+            json.dump(
+                {"batch_id": batch.id, "created_at": timestamp, "request_count": len(requests)},
+                f,
+                ensure_ascii=False,
+                indent=2,
+            )
+    except OSError as e:
+        logger.warning(f"バッチ情報の保存に失敗しましたが、バッチは送信済みです: {e}")
 
     return batch.id
 
@@ -399,10 +433,22 @@ def retrieve_and_apply(batch_id: str) -> int:
     """バッチ結果を取得して適用"""
     import anthropic
 
-    client = anthropic.Anthropic()
+    try:
+        client = anthropic.Anthropic()
+    except anthropic.AuthenticationError as e:
+        logger.error(f"API認証失敗: {e}")
+        raise SystemExit("ANTHROPIC_API_KEY を確認してください。")
 
     # バッチ状態確認
-    batch = client.messages.batches.retrieve(batch_id)
+    try:
+        batch = client.messages.batches.retrieve(batch_id)
+    except anthropic.NotFoundError:
+        logger.error(f"バッチが見つかりません: {batch_id}")
+        raise SystemExit(f"バッチID '{batch_id}' は存在しません。正しいバッチIDを指定してください。")
+    except anthropic.APIError as e:
+        logger.error(f"API エラー: {e}")
+        raise
+
     logger.info(f"バッチ状態: {batch.processing_status}")
 
     if batch.processing_status != "ended":

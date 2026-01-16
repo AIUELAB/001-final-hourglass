@@ -5,12 +5,16 @@ SAGE Turbo 後処理モジュール
 生成後のエピソードに対して以下の処理を義務付け:
 1. 定型パターン修正: "あなたと同じ{age}歳のとき、{name}は" で開始
 2. スコア欠損補完: 必須スコアの計算と補完
+3. 年号範囲検証: birth_year〜death_year範囲内の年号のみ許可（Phase 3追加）
 """
 
 import logging
 import re
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from scripts.sage.turbo.evaluator import EvaluationResult
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +27,81 @@ class PostProcessResult:
     episode_text: str
     changes: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+
+
+@dataclass
+class YearRangeValidationResult:
+    """Phase 3: 年号範囲検証結果"""
+
+    passed: bool
+    violations: list[str] = field(default_factory=list)
+    detected_years: list[int] = field(default_factory=list)
+    birth_year: Optional[int] = None
+    death_year: Optional[int] = None
+
+
+def validate_year_range(
+    episode_text: str,
+    birth_year: Optional[int],
+    death_year: Optional[int],
+    age: int,
+) -> YearRangeValidationResult:
+    """
+    Phase 3: エピソードテキスト内の年号がbirth_year〜death_year範囲内かチェック
+
+    Args:
+        episode_text: エピソードテキスト
+        birth_year: 生年（None可）
+        death_year: 没年（None=存命、None可）
+        age: 対象年齢
+
+    Returns:
+        YearRangeValidationResult: 検証結果
+    """
+    # 年号パターン（西暦4桁）
+    year_pattern = re.compile(r"(1[789]\d{2}|20[0-2]\d)年")
+    detected_years = [int(m.group(1)) for m in year_pattern.finditer(episode_text)]
+
+    if not detected_years:
+        # 年号なしは別のチェックで対応（具体性チェック）
+        return YearRangeValidationResult(
+            passed=True,
+            violations=[],
+            detected_years=[],
+            birth_year=birth_year,
+            death_year=death_year,
+        )
+
+    violations = []
+
+    # 対象年（birth_year + age）を計算
+    target_year = None
+    if birth_year is not None:
+        target_year = birth_year + age
+
+    for year in detected_years:
+        # 1. 没年以降チェック
+        if death_year is not None and year > death_year:
+            violations.append(f"没年({death_year})以降の年号を検出: {year}年")
+
+        # 2. 生年以前チェック
+        if birth_year is not None and year < birth_year:
+            violations.append(f"生年({birth_year})以前の年号を検出: {year}年")
+
+        # 3. 対象年との大きな乖離チェック（±20年以上は警告）
+        if target_year is not None:
+            diff = abs(year - target_year)
+            if diff > 20:
+                # 警告レベル（棄却はしない）
+                logger.warning(f"年号乖離警告: 対象年{target_year}に対して{year}年は±{diff}年の差異")
+
+    return YearRangeValidationResult(
+        passed=len(violations) == 0,
+        violations=violations,
+        detected_years=detected_years,
+        birth_year=birth_year,
+        death_year=death_year,
+    )
 
 
 class EpisodePostProcessor:
@@ -411,3 +490,49 @@ def apply_post_processing(
         logger.debug(f"PostProcess: {person_name}({age}歳) - {', '.join(result.changes)}")
 
     return result.episode_text, result.changes
+
+
+def apply_post_processing_with_year_validation(
+    episode_text: str,
+    person_name: str,
+    age: int,
+    birth_year: Optional[int] = None,
+    death_year: Optional[int] = None,
+    strict_mode: bool = True,
+) -> tuple[str, list[str], YearRangeValidationResult]:
+    """
+    Phase 3: 年号検証付き後処理
+
+    エピソードテキストに後処理を適用し、さらに年号範囲の妥当性を検証。
+
+    Args:
+        episode_text: 生成されたエピソードテキスト
+        person_name: 人物名
+        age: 年齢
+        birth_year: 生年（None可）
+        death_year: 没年（None可、Noneなら存命扱い）
+        strict_mode: 厳格モード
+
+    Returns:
+        (修正後テキスト, 変更リスト, 年号検証結果)
+    """
+    # 1. 通常の後処理
+    processor = EpisodePostProcessor(strict_mode=strict_mode)
+    result = processor.process(episode_text, person_name, age)
+
+    if result.changes:
+        logger.debug(f"PostProcess: {person_name}({age}歳) - {', '.join(result.changes)}")
+
+    # 2. 年号範囲検証
+    year_validation = validate_year_range(
+        result.episode_text,
+        birth_year,
+        death_year,
+        age,
+    )
+
+    if not year_validation.passed:
+        for violation in year_validation.violations:
+            logger.warning(f"YearRangeViolation: {person_name}({age}歳) - {violation}")
+
+    return result.episode_text, result.changes, year_validation

@@ -1,0 +1,270 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-01-16",
+  "description": "エピソードテキスト内の親族関係記述を検証するためのマスターデータ",
+  "relationships": {
+    "大島美幸": {
+      "birth_year": 1980,
+      "occupation": "お笑い芸人",
+      "group": "森三中",
+      "spouse": "鈴木おさむ",
+      "spouse_occupation": "放送作家",
+      "marriage_year": 2002,
+      "children": ["息子（2015年生まれ）"],
+      "notes": "森三中メンバー。夫は放送作家の鈴木おさむ"
+    },
+    "斎藤工": {
+      "birth_year": 1981,
+      "occupation": "俳優・映画監督",
+      "group": null,
+      "spouse": null,
+      "children": null,
+      "notes": "未婚（2026年1月時点）"
+    },
+    "斎藤美奈子": {
+      "birth_year": 1956,
+      "occupation": "文芸評論家",
+      "group": null,
+      "spouse": null,
+      "children": null,
+      "notes": "配偶者情報なし"
+    },
+    "斎藤道三": {
+      "birth_year": 1494,
+      "death_year": 1556,
+      "occupation": "戦国大名",
+      "group": null,
+      "spouse": "深芳野（側室）",
+      "children": ["義龍", "龍重", "龍定", "帰蝶（濃姫）"],
+      "death_cause": "長良川の戦いで戦死",
+      "notes": "美濃国主。娘の帰蝶は織田信長正室"
+    },
+    "鈴木おさむ": {
+      "birth_year": 1972,
+      "occupation": "放送作家",
+      "group": null,
+      "spouse": "大島美幸",
+      "spouse_occupation": "お笑い芸人（森三中）",
+      "marriage_year": 2002,
+      "children": ["息子（2015年生まれ）"],
+      "notes": "妻は森三中の大島美幸"
+    },
+    "村上信五": {
+      "birth_year": 1982,
+      "occupation": "歌手・タレント",
+      "group": "関ジャニ∞",
+      "spouse": null,
+      "children": null,
+      "notes": "関ジャニ∞メンバー。未婚（2026年1月時点）"
+    },
+    "木村拓哉": {
+      "birth_year": 1972,
+      "occupation": "俳優・歌手",
+      "group": "SMAP（解散）",
+      "spouse": "工藤静香",
+      "spouse_occupation": "歌手",
+      "marriage_year": 2000,
+      "children": ["Cocomi（長女）", "Koki（次女）"],
+      "notes": "妻は歌手の工藤静香。娘2人も芸能活動"
+    },
+    "工藤静香": {
+      "birth_year": 1970,
+      "occupation": "歌手・女優",
+      "group": "おニャン子クラブ（元）",
+      "spouse": "木村拓哉",
+      "spouse_occupation": "俳優",
+      "marriage_year": 2000,
+      "children": ["Cocomi（長女）", "Koki（次女）"],
+      "notes": "夫は俳優の木村拓哉"
+    },
+    "浜田雅功": {
+      "birth_year": 1963,
+      "occupation": "お笑い芸人",
+      "group": "ダウンタウン",
+      "spouse": "小川菜摘",
+      "spouse_occupation": "タレント",
+      "marriage_year": 1989,
+      "children": ["ハマ・オカモト（長男）", "次男"],
+      "notes": "ダウンタウンのツッコミ担当。長男はOKAMOTO'Sのベーシスト"
+    },
+    "松本人志": {
+      "birth_year": 1963,
+      "occupation": "お笑い芸人",
+      "group": "ダウンタウン",
+      "spouse": "伊原凛",
+      "spouse_occupation": "元タレント",
+      "marriage_year": 2009,
+      "children": ["娘（2009年生まれ）"],
+      "notes": "ダウンタウンのボケ担当"
+    },
+    "明石家さんま": {
+      "birth_year": 1955,
+      "occupation": "お笑い芸人",
+      "group": null,
+      "spouse": null,
+      "ex_spouse": "大竹しのぶ",
+      "marriage_years": {"大竹しのぶ": "1988-1992"},
+      "children": ["IMALU（娘）"],
+      "notes": "大竹しのぶとは離婚。娘のIMALUはタレント"
+    },
+    "大竹しのぶ": {
+      "birth_year": 1957,
+      "occupation": "女優",
+      "group": null,
+      "spouse": null,
+      "ex_spouse": "明石家さんま",
+      "marriage_years": {"明石家さんま": "1988-1992"},
+      "children": ["IMALU（娘）", "二千翔（息子・服部晴治との子）"],
+      "notes": "明石家さんまとは離婚"
+    },
+    "ビートたけし": {
+      "birth_year": 1947,
+      "occupation": "お笑い芸人・映画監督",
+      "group": "ツービート（元）",
+      "spouse": null,
+      "ex_spouse": "幹子",
+      "children": ["長男", "長女"],
+      "notes": "映画監督としても世界的評価。2019年離婚"
+    },
+    "所ジョージ": {
+      "birth_year": 1955,
+      "occupation": "タレント・歌手",
+      "group": null,
+      "spouse": "芳賀文子",
+      "marriage_year": 1983,
+      "children": ["長女", "次女"],
+      "notes": "妻は一般人"
+    },
+    "タモリ": {
+      "birth_year": 1945,
+      "occupation": "タレント",
+      "group": null,
+      "spouse": "妻（一般人）",
+      "children": null,
+      "notes": "子供なし"
+    },
+    "福山雅治": {
+      "birth_year": 1969,
+      "occupation": "歌手・俳優",
+      "group": null,
+      "spouse": "吹石一恵",
+      "spouse_occupation": "女優",
+      "marriage_year": 2015,
+      "children": ["子供あり"],
+      "notes": "妻は女優の吹石一恵"
+    },
+    "吹石一恵": {
+      "birth_year": 1982,
+      "occupation": "女優",
+      "group": null,
+      "spouse": "福山雅治",
+      "spouse_occupation": "歌手・俳優",
+      "marriage_year": 2015,
+      "children": ["子供あり"],
+      "notes": "夫は歌手・俳優の福山雅治"
+    },
+    "中居正広": {
+      "birth_year": 1972,
+      "occupation": "タレント・司会者",
+      "group": "SMAP（解散）",
+      "spouse": null,
+      "children": null,
+      "notes": "未婚（2026年1月時点）"
+    },
+    "香取慎吾": {
+      "birth_year": 1977,
+      "occupation": "俳優・タレント",
+      "group": "SMAP（解散）・新しい地図",
+      "spouse": null,
+      "children": null,
+      "notes": "未婚（2026年1月時点）"
+    },
+    "草なぎ剛": {
+      "birth_year": 1974,
+      "occupation": "俳優・タレント",
+      "group": "SMAP（解散）・新しい地図",
+      "spouse": null,
+      "children": null,
+      "notes": "未婚（2026年1月時点）"
+    },
+    "稲垣吾郎": {
+      "birth_year": 1973,
+      "occupation": "俳優・タレント",
+      "group": "SMAP（解散）・新しい地図",
+      "spouse": null,
+      "children": null,
+      "notes": "未婚（2026年1月時点）"
+    },
+    "嵐二宮和也": {
+      "birth_year": 1983,
+      "occupation": "俳優・歌手",
+      "group": "嵐",
+      "spouse": "元アナウンサー",
+      "marriage_year": 2019,
+      "children": ["子供あり"],
+      "notes": "嵐メンバー"
+    },
+    "嵐松本潤": {
+      "birth_year": 1983,
+      "occupation": "俳優・歌手",
+      "group": "嵐",
+      "spouse": "井上真央",
+      "spouse_occupation": "女優",
+      "marriage_year": 2024,
+      "children": null,
+      "notes": "嵐メンバー。2024年結婚報道"
+    },
+    "嵐大野智": {
+      "birth_year": 1980,
+      "occupation": "歌手・俳優",
+      "group": "嵐",
+      "spouse": null,
+      "children": null,
+      "notes": "嵐リーダー。未婚（2026年1月時点）"
+    },
+    "嵐櫻井翔": {
+      "birth_year": 1982,
+      "occupation": "歌手・キャスター",
+      "group": "嵐",
+      "spouse": "相葉雅紀の妹（一般人）ではない・一般人",
+      "marriage_year": 2021,
+      "children": null,
+      "notes": "嵐メンバー。2021年結婚"
+    },
+    "嵐相葉雅紀": {
+      "birth_year": 1982,
+      "occupation": "歌手・俳優",
+      "group": "嵐",
+      "spouse": "一般人",
+      "marriage_year": 2021,
+      "children": null,
+      "notes": "嵐メンバー。2021年結婚"
+    }
+  },
+  "validation_rules": {
+    "spouse_check": {
+      "description": "エピソード内の配偶者記述が正しいか検証",
+      "check_fields": ["episode_content", "episode_title"]
+    },
+    "children_check": {
+      "description": "エピソード内の子供記述が正しいか検証",
+      "check_fields": ["episode_content"]
+    },
+    "group_check": {
+      "description": "所属グループが正しいか検証",
+      "check_fields": ["episode_content", "group_name"]
+    },
+    "death_check": {
+      "description": "死亡年・死因が正しいか検証（歴史上の人物）",
+      "check_fields": ["episode_content", "year_of_episode"]
+    }
+  },
+  "relationship_types": {
+    "spouse": "配偶者（現在）",
+    "ex_spouse": "元配偶者（離婚）",
+    "children": "子供",
+    "parent": "親",
+    "sibling": "兄弟姉妹",
+    "group": "所属グループ"
+  }
+}

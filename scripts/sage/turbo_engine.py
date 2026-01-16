@@ -65,6 +65,12 @@ class TurboConfig:
     strategy: Strategy = Strategy.EPGEN_FIRST
     fictional_enabled: bool = False
 
+    # 年齢フィルタ（Q1ロジックバイパス用）
+    age_filter_min: Optional[int] = None
+    age_filter_max: Optional[int] = None
+    # 特定年齢指定（例: [81, 82, 87] で特定年齢のみ対象）
+    target_ages: Optional[list[int]] = None
+
 
 @dataclass
 class TurboState:
@@ -784,13 +790,32 @@ class TurboEngine:
 
         logger.info(f"Phase 20: Batch APIジョブ送信開始 (count={count})")
 
-        # 候補選定
-        candidates = self.orchestrator.get_recommended_candidates(count=count)
+        # Phase 65: 年齢フィルタを候補選定の最初に適用（Q1ロジックをバイパス）
+        # 候補選定時にフィルタを適用することで、81-90歳を直接ターゲットできる
+        candidates = self.orchestrator.get_recommended_candidates(
+            count=count,
+            age_filter_min=self.config.age_filter_min,
+            age_filter_max=self.config.age_filter_max,
+            target_ages=self.config.target_ages,
+        )
         if not candidates:
-            logger.warning("候補が見つかりませんでした")
+            if self.config.age_filter_min is not None or self.config.age_filter_max is not None:
+                logger.warning(
+                    f"年齢フィルタ範囲 {self.config.age_filter_min or 0}-{self.config.age_filter_max or 100}歳 "
+                    "に該当する候補が見つかりませんでした"
+                )
+            else:
+                logger.warning("候補が見つかりませんでした")
             return None
 
-        logger.info(f"候補 {len(candidates)} 件を選定")
+        if self.config.age_filter_min is not None or self.config.age_filter_max is not None:
+            logger.info(
+                f"Phase 65: 年齢フィルタモード - "
+                f"{self.config.age_filter_min or 0}-{self.config.age_filter_max or 100}歳 "
+                f"→ {len(candidates)}件選定"
+            )
+        else:
+            logger.info(f"候補 {len(candidates)} 件を選定")
 
         # 生成前フィルタ適用
         filtered_candidates = []

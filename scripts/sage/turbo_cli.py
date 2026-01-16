@@ -67,15 +67,38 @@ def cmd_submit(args):
     logger.info("=== SAGE Turbo Batch Submit ===")
     fictional_enabled = getattr(args, "fictional", False)
 
+    # 年齢フィルタ取得
+    age_min = getattr(args, "age_min", None)
+    age_max = getattr(args, "age_max", None)
+
+    # target_agesをパース（カンマ区切りの文字列 → int リスト）
+    target_ages_str = getattr(args, "target_ages", None)
+    target_ages = None
+    if target_ages_str:
+        try:
+            target_ages = [int(x.strip()) for x in target_ages_str.split(",")]
+        except ValueError:
+            logger.error(f"--target-ages の形式が無効です: {target_ages_str}")
+            logger.info("カンマ区切りの整数を指定してください（例: 81,82,87）")
+            return 1
+
     logger.info(f"件数: {args.count}")
     logger.info(f"モデル: {model_name} (Phase 21統合)")
     logger.info(f"架空キャラ: {'有効' if fictional_enabled else '無効'} (Phase 27)")
+    if target_ages:
+        logger.info(f"年齢指定: {sorted(target_ages)} (各年齢から均等選定)")
+    elif age_min is not None or age_max is not None:
+        age_range_str = f"{age_min or 0}-{age_max or 100}歳"
+        logger.info(f"年齢フィルタ: {age_range_str} (各年齢から均等選定)")
     logger.info(f"dry-run: {args.dry_run}")
 
     config = TurboConfig(
         dry_run=args.dry_run,
         use_mock=args.mock,
         fictional_enabled=fictional_enabled,
+        age_filter_min=age_min,
+        age_filter_max=age_max,
+        target_ages=target_ages,
     )
 
     try:
@@ -341,6 +364,21 @@ def main():
         "--fictional",
         action="store_true",
         help="Phase 27: 架空キャラ・動物を候補に含める（デフォルト: REALのみ）",
+    )
+    submit_parser.add_argument(
+        "--age-min",
+        type=int,
+        help="最小年齢フィルタ（Q1ロジックバイパス用）",
+    )
+    submit_parser.add_argument(
+        "--age-max",
+        type=int,
+        help="最大年齢フィルタ（Q1ロジックバイパス用）",
+    )
+    submit_parser.add_argument(
+        "--target-ages",
+        type=str,
+        help="特定年齢を指定（カンマ区切り、例: 81,82,87）- 各年齢から均等に選定",
     )
 
     # status

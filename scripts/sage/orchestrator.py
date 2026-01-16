@@ -365,9 +365,10 @@ class HybridOrchestrator:
                         continue
 
                     # 置換候補情報取得
-                    is_replacement_candidate = pre_check.details.get("is_replacement_candidate", False)
-                    existing_episode_id = pre_check.details.get("existing_episode_id")
-                    existing_score = pre_check.details.get("existing_score", 0.0)
+                    details = pre_check.details or {}
+                    is_replacement_candidate = details.get("is_replacement_candidate", False)
+                    existing_episode_id = details.get("existing_episode_id")
+                    existing_score = details.get("existing_score", 0.0)
 
                     # 重複チェック（非置換モード時）
                     if not is_replacement_candidate:
@@ -393,7 +394,7 @@ class HybridOrchestrator:
 
                     if result.success:
                         # 表層修正
-                        original_text = result.episode_text
+                        _original_text = result.episode_text  # noqa: F841
                         result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
 
                         # 定型パターン修正
@@ -726,9 +727,10 @@ class HybridOrchestrator:
 
         # 2.5. 同一人物×同一年齢の重複チェック（Phase 17: 置換モード対応）
         # Phase 17: pre_checkの結果から置換候補情報を取得
-        is_replacement_candidate = pre_check.details.get("is_replacement_candidate", False)
-        existing_episode_id = pre_check.details.get("existing_episode_id")
-        existing_score = pre_check.details.get("existing_score", 0.0)
+        details = pre_check.details or {}
+        is_replacement_candidate = details.get("is_replacement_candidate", False)
+        existing_episode_id = details.get("existing_episode_id")
+        existing_score = details.get("existing_score", 0.0)
 
         if not is_replacement_candidate:
             # 通常モード: 既に同じ人物・同じ年齢のエピソードが存在する場合は生成をスキップ
@@ -995,7 +997,7 @@ class HybridOrchestrator:
                 from .inventory_manager import ReplacementTarget
 
                 replacement_target = ReplacementTarget(
-                    episode_id=existing_episode_id,
+                    episode_id=str(existing_episode_id) if existing_episode_id else "",
                     person_id=candidate.person_id,
                     person_name=candidate.person_name,
                     age=candidate.age,
@@ -1130,13 +1132,15 @@ class HybridOrchestrator:
             category = str(row.get("category", ""))
 
             # クールダウン・クォータチェック
-            quota_passed, _ = self._diversity_manager.check_person_quota(person_id)
+            person_id_str = str(person_id)
+            quota_passed, _ = self._diversity_manager.check_person_quota(person_id_str)
             if not quota_passed:
                 continue
 
             # 既存年齢を取得
-            person_data = self.master_df[self.master_df["person_id"] == person_id]
-            existing_ages = set(person_data["age"].dropna().astype(int))
+            person_data = self.master_df[self.master_df["person_id"] == person_id_str]
+            age_col = person_data["age"]
+            existing_ages = set(int(x) for x in age_col if pd.notna(x))
 
             birth_year = row.get("birth_year")
             death_year = row.get("death_year")

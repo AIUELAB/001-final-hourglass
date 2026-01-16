@@ -27,22 +27,8 @@ from .config import (
 )
 
 
-@dataclass
-class Candidate:
-    """生成候補"""
-
-    person_id: str
-    person_name: str
-    age: int
-    category: str
-    person_type: str = "REAL"
-    birth_year: Optional[int] = None
-    death_year: Optional[int] = None
-
-    def __post_init__(self) -> None:
-        # 年齢の妥当性チェック
-        if self.age < 0 or self.age > 150:
-            raise ValueError(f"Invalid age: {self.age}")
+# Candidateは adapters.base から統一的にインポート
+from scripts.sage.adapters.base import Candidate
 
 
 @dataclass
@@ -52,7 +38,7 @@ class RuleCheckResult:
     passed: bool
     reason: Optional[RejectionReason] = None
     message: str = ""
-    details: dict = None
+    details: Optional[dict] = None
     retryable: bool = False  # Trueの場合、リトライで改善可能
 
     def __post_init__(self) -> None:
@@ -70,8 +56,8 @@ class PreGenerationRules:
     def __init__(
         self,
         master_csv: Path = MASTER_CSV,
-        rules: dict = None,
-        thresholds: dict = None,
+        rules: Optional[dict] = None,
+        thresholds: Optional[dict] = None,
         inventory_manager: Optional["InventoryManager"] = None,
     ):
         self.master_csv = master_csv
@@ -146,7 +132,7 @@ class PreGenerationRules:
             if not result.passed:
                 return result
             # Phase 17: 置換候補情報を保持
-            if result.details.get("is_replacement_candidate"):
+            if result.details is not None and result.details.get("is_replacement_candidate"):
                 replacement_details = result.details.copy()
 
         # 3. クールダウンチェック
@@ -185,30 +171,39 @@ class PreGenerationRules:
 
     def _check_age_boundary(self, candidate: Candidate) -> RuleCheckResult:
         """
-        年齢境界チェック
+        年齢境界チェック（Phase 3強化）
 
         - 死亡後のエピソードを防止（age > death_year - birth_year）
         - 未来のエピソードを防止（age > current_year - birth_year）
+        - マスターCSVから birth_year/death_year を確実に取得
         """
         current_year = datetime.now().year
 
-        # マスターから人物情報を取得
+        # Phase 3強化: マスターCSVから確実に birth_year/death_year を取得
+        birth_year = candidate.birth_year
+        death_year = candidate.death_year
+
         if not self.master_df.empty:
             person_data = self.master_df[self.master_df["person_id"] == candidate.person_id]
             if not person_data.empty:
                 row = person_data.iloc[0]
-                birth_year = candidate.birth_year or row.get("birth_year")
-                death_year = candidate.death_year or row.get("death_year")
-            else:
-                birth_year = candidate.birth_year
-                death_year = candidate.death_year
-        else:
-            birth_year = candidate.birth_year
-            death_year = candidate.death_year
+                # candidateに値がない場合のみマスターから取得
+                if birth_year is None or pd.isna(birth_year):
+                    master_birth = row.get("birth_year")
+                    if master_birth is not None and not pd.isna(master_birth):
+                        birth_year = int(master_birth)
+                if death_year is None or pd.isna(death_year):
+                    master_death = row.get("death_year")
+                    if master_death is not None and not pd.isna(master_death):
+                        death_year = int(master_death)
 
-        # 生年が不明な場合はパス
+        # 生年が不明な場合はパス（ただし警告ログ）
         if birth_year is None or pd.isna(birth_year):
-            return RuleCheckResult(passed=True, message="Birth year unknown, skipping age boundary check")
+            return RuleCheckResult(
+                passed=True,
+                message="Birth year unknown, skipping age boundary check",
+                details={"warning": "birth_year_missing", "person_id": candidate.person_id},
+            )
 
         birth_year = int(birth_year)
         target_year = birth_year + candidate.age
@@ -221,8 +216,13 @@ class PreGenerationRules:
                 return RuleCheckResult(
                     passed=False,
                     reason=RejectionReason.AGE_BOUNDARY_VIOLATION,
-                    message=f"Age {candidate.age} exceeds death age {max_age}",
-                    details={"birth_year": birth_year, "death_year": death_year},
+                    message=f"Age {candidate.age} exceeds death age {max_age} ({candidate.person_name}: {birth_year}-{death_year})",
+                    details={
+                        "birth_year": birth_year,
+                        "death_year": death_year,
+                        "max_age": max_age,
+                        "requested_age": candidate.age,
+                    },
                 )
 
         # 未来チェック
@@ -230,11 +230,19 @@ class PreGenerationRules:
             return RuleCheckResult(
                 passed=False,
                 reason=RejectionReason.AGE_BOUNDARY_VIOLATION,
-                message=f"Target year {target_year} is in the future",
-                details={"birth_year": birth_year, "target_year": target_year},
+                message=f"Target year {target_year} is in the future (birth={birth_year}, age={candidate.age})",
+                details={
+                    "birth_year": birth_year,
+                    "target_year": target_year,
+                    "current_year": current_year,
+                },
             )
 
-        return RuleCheckResult(passed=True, message="Age boundary check passed")
+        return RuleCheckResult(
+            passed=True,
+            message="Age boundary check passed",
+            details={"birth_year": birth_year, "death_year": death_year, "age": candidate.age},
+        )
 
     def _check_same_age_duplicate(self, candidate: Candidate) -> RuleCheckResult:
         """
@@ -445,7 +453,7 @@ def check_specificity(text: str, min_specificity: int = 2) -> RuleCheckResult:
     Returns:
         RuleCheckResult: チェック結果
     """
-    specificity_score = 0
+    specificity_score: float = 0
 
     # 年号の存在（西暦 + 元号対応）
     year_pattern = r"(1[789]\d{2}|20[0-2]\d)年|(明治|大正|昭和|平成|令和)\d{1,2}年"

@@ -9,7 +9,7 @@ import asyncio
 import re
 import time
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Union
 
 from .config import FORBIDDEN_PATTERNS, GenerationConfig, REQUIRED_PATTERNS
 
@@ -53,6 +53,31 @@ class GenerationInput:
     birth_year: Optional[int] = None
     death_year: Optional[int] = None
     additional_context: Optional[str] = None
+
+    def get_year_constraint_text(self) -> str:
+        """
+        Phase 3: 年号制約テキストを生成
+
+        Returns:
+            年号制約の説明テキスト
+        """
+        if self.birth_year is None:
+            return ""
+
+        target_year = self.birth_year + self.age
+        constraints = []
+
+        if self.death_year is not None:
+            constraints.append(f"この人物は{self.birth_year}年生まれ、{self.death_year}年没です。")
+            constraints.append(f"{self.death_year}年以降のエピソードは生成しないでください。")
+            max_age = self.death_year - self.birth_year
+            constraints.append(f"最大年齢は{max_age}歳です。")
+        else:
+            constraints.append(f"この人物は{self.birth_year}年生まれで、現在も存命です。")
+
+        constraints.append(f"{self.age}歳時点は{target_year}年です。この年の出来事を記述してください。")
+
+        return "\n".join(constraints)
 
 
 class PromptBuilder:
@@ -108,7 +133,7 @@ class PromptBuilder:
         self,
         input_data: GenerationInput,
         style: str = "factual",
-        variation: int = 0,
+        variation: int = 0,  # noqa: ARG002
     ) -> str:
         style_info = self.STYLES.get(style, self.STYLES["factual"])
         age_context = self._get_age_context(input_data.age)
@@ -120,6 +145,9 @@ class PromptBuilder:
             age=input_data.age,
         )
 
+        # Phase 3: 年号制約テキストを取得
+        year_constraint = input_data.get_year_constraint_text()
+
         prompt = f"""# エピソード生成タスク
 
 ## 対象人物
@@ -129,6 +157,7 @@ class PromptBuilder:
 {f"- 生年: {input_data.birth_year}年" if input_data.birth_year else ""}
 {f"- 没年: {input_data.death_year}年" if input_data.death_year else ""}
 
+{f"## 年号制約（厳守）{chr(10)}{year_constraint}{chr(10)}" if year_constraint else ""}
 {writing_rules}
 
 ## 生成スタイル: {style_info['name']}
@@ -142,11 +171,13 @@ class PromptBuilder:
 4. 固有名詞を最低5つ含める
 5. 300〜400文字で完結させる
 6. すべての文を「です」「ます」「でした」「ました」で終える
+{f"7. {input_data.death_year}年より後の出来事は絶対に記述しない" if input_data.death_year else ""}
 
 ## 禁止事項
 {forbidden_list}
 - 「私は」「私の」「私が」などの一人称表現
 - 「〜だ。」「〜である。」などの常体文末
+{f"- {input_data.death_year}年以降の出来事を記述すること（没年違反）" if input_data.death_year else ""}
 
 ## 年齢コンテキスト
 {age_context}
@@ -209,10 +240,10 @@ class CompactPromptBuilder:
     def build(
         self,
         input_data: GenerationInput,
-        style: str = "factual",
-        variation: int = 0,
+        style: str = "factual",  # noqa: ARG002
+        variation: int = 0,  # noqa: ARG002
     ) -> str:
-        """圧縮版プロンプトを生成"""
+        """圧縮版プロンプトを生成（Phase 3: 年号制約追加）"""
         age_ctx = self._get_age_context_compact(input_data.age)
         forbidden_inline = "/".join(self.forbidden_patterns[:4])  # 主要4件のみ
 
@@ -223,12 +254,23 @@ class CompactPromptBuilder:
         if input_data.death_year:
             year_info += f"没{input_data.death_year}"
 
+        # Phase 3: 年号制約（圧縮版）
+        year_constraint = ""
+        if input_data.birth_year:
+            target_year = input_data.birth_year + input_data.age
+            if input_data.death_year:
+                max_age = input_data.death_year - input_data.birth_year
+                year_constraint = f"制約:{target_year}年の出来事/{input_data.death_year}年以降禁止/最大{max_age}歳"
+            else:
+                year_constraint = f"制約:{target_year}年の出来事/存命中"
+
         prompt = f"""EP生成|{input_data.person_name}|{input_data.age}歳|{input_data.category}{f"|{year_info}" if year_info else ""}
 
 開始文:「あなたと同じ{input_data.age}歳のとき、」
 必須:年号≥1/数値≥3/固有名詞≥5/「」作品名≥2
-禁止:{forbidden_inline}
+禁止:{forbidden_inline}{f"/{input_data.death_year}年以降の出来事" if input_data.death_year else ""}
 焦点:{age_ctx}
+{f"{year_constraint}" if year_constraint else ""}
 {f"補足:{input_data.additional_context[:100]}" if input_data.additional_context else ""}
 300-400字,EPテキストのみ出力"""
         return prompt
@@ -250,7 +292,7 @@ class CompactPromptBuilder:
         }
 
 
-def create_prompt_builder(compact: bool = False) -> PromptBuilder:
+def create_prompt_builder(compact: bool = False) -> Union[PromptBuilder, CompactPromptBuilder]:
     """プロンプトビルダーを作成（ファクトリー関数）"""
     if compact:
         return CompactPromptBuilder()
@@ -264,13 +306,14 @@ class ParallelGenerator:
         self,
         llm_client: Any,
         config: Optional[GenerationConfig] = None,
-        prompt_builder: Optional[PromptBuilder] = None,
+        prompt_builder: Optional[Union[PromptBuilder, CompactPromptBuilder]] = None,
         enable_cache: bool = False,  # H4最適化: Prompt Caching
     ):
         self.llm = llm_client
         self.config = config or GenerationConfig()
         self.enable_cache = enable_cache  # H4: キャッシュ有効化フラグ
         # Phase 2: 設定に応じてプロンプトビルダー選択
+        self.prompt_builder: Union[PromptBuilder, CompactPromptBuilder]
         if prompt_builder is not None:
             self.prompt_builder = prompt_builder
         else:
@@ -382,8 +425,8 @@ class ParallelGenerator:
         raise RuntimeError(f"Generation failed after {self.config.max_retries} attempts: {last_error}")
 
     def _get_style_for_variation(self, variation: int) -> str:
-        styles = list(PromptBuilder.STYLES.keys())
-        return styles[variation % len(styles)]
+        _styles = list(PromptBuilder.STYLES.keys())
+        return _styles[variation % len(_styles)]
 
     def generate_sync(
         self,

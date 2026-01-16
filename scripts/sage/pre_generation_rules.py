@@ -6,6 +6,7 @@ LLM呼び出し前に候補を弾くルールエンジン。
 """
 
 import json
+import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -29,6 +30,8 @@ from .config import (
 
 # Candidateは adapters.base から統一的にインポート
 from scripts.sage.adapters.base import Candidate
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -90,7 +93,11 @@ class PreGenerationRules:
             try:
                 with open(self._history_cache_path, encoding="utf-8") as f:
                     self._generation_history = json.load(f)
-            except (json.JSONDecodeError, OSError):
+            except json.JSONDecodeError as e:
+                logger.warning(f"生成履歴キャッシュのパースに失敗: {self._history_cache_path} - {e}")
+                self._generation_history = {}
+            except OSError as e:
+                logger.warning(f"生成履歴キャッシュの読み込みに失敗: {self._history_cache_path} - {e}")
                 self._generation_history = {}
 
     def _save_history_cache(self) -> None:
@@ -368,14 +375,11 @@ class PreGenerationRules:
 
     def _check_extreme_ages(self, candidate: Candidate) -> RuleCheckResult:
         """
-        RCA-20260110: 極端年齢チェック
+        極端年齢チェック
 
-        0-5歳は品質リスクが高いため除外。
-        - 0-5歳: 幼児の業績エピソードはハルシネーションになりやすい
-
-        Phase 32: 90-100歳の制限を解除
-        - 候補プール拡大のため、death_year未確認でも許可
-        - 6-10歳は許可（子役デビュー、神童など実例あり）
+        Phase 32で更新:
+        - 0歳のみ除外（新生児エピソードは未サポート）
+        - 1歳以上は許可（品質ゲートで別途検証）
         """
         age = candidate.age
 

@@ -16,8 +16,13 @@ from .config import FORBIDDEN_PATTERNS, GenerationConfig, REQUIRED_PATTERNS
 # システムプロンプト取得関数をインポート
 try:
     from scripts.sage.prompts.category_prompts import get_system_prompt, get_static_system_prompt
-except ImportError:
+except ImportError as e:
     # フォールバック: 関数が見つからない場合はNoneを返す
+    import logging
+
+    logger = logging.getLogger(__name__)
+    logger.warning(f"category_prompts モジュールの読み込みに失敗: {e}")
+
     def get_system_prompt(person_name: str, age: int) -> str | None:
         return None
 
@@ -133,7 +138,7 @@ class PromptBuilder:
         self,
         input_data: GenerationInput,
         style: str = "factual",
-        variation: int = 0,  # noqa: ARG002
+        variation: int = 0,  # noqa: ARG002 - インターフェース統一のため保持
     ) -> str:
         style_info = self.STYLES.get(style, self.STYLES["factual"])
         age_context = self._get_age_context(input_data.age)
@@ -208,7 +213,7 @@ class PromptBuilder:
         prompt = self.build(input_data)
         return {
             "char_count": len(prompt),
-            "estimated_tokens": len(prompt) // 2,  # 日本語は約2文字/トークン
+            "estimated_tokens": len(prompt) // 2,  # 日本語は約2文字で1トークン
             "builder": "standard",
         }
 
@@ -240,8 +245,8 @@ class CompactPromptBuilder:
     def build(
         self,
         input_data: GenerationInput,
-        style: str = "factual",  # noqa: ARG002
-        variation: int = 0,  # noqa: ARG002
+        style: str = "factual",  # noqa: ARG002 - インターフェース統一のため保持
+        variation: int = 0,  # noqa: ARG002 - インターフェース統一のため保持
     ) -> str:
         """圧縮版プロンプトを生成（Phase 3: 年号制約追加）"""
         age_ctx = self._get_age_context_compact(input_data.age)

@@ -418,11 +418,6 @@ def main():
         help="レポート出力先パス",
     )
     parser.add_argument(
-        "--fix",
-        action="store_true",
-        help="自動修正（将来対応、現在は未実装）",
-    )
-    parser.add_argument(
         "--verbose",
         "-v",
         action="store_true",
@@ -452,11 +447,6 @@ def main():
                 json.dump(template, f, ensure_ascii=False, indent=2)
             print(f"[INFO] マスターデータを初期化しました: {RELATIONSHIPS_MASTER}")
         return
-
-    # 自動修正は未実装
-    if args.fix:
-        print("[WARN] --fix オプションは将来対応予定です。現在は未実装です。")
-        print("[INFO] --dry-run モードで実行します。")
 
     # ファイル存在確認
     if not MASTER_CSV.exists():

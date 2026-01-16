@@ -59,7 +59,7 @@ def validate_year_range(
         YearRangeValidationResult: 検証結果
     """
     # 年号パターン（西暦4桁）
-    year_pattern = re.compile(r"(1[789]\d{2}|20[0-2]\d)年")
+    year_pattern = re.compile(r"(1[789]\d{2}|20\d{2})年")
     detected_years = [int(m.group(1)) for m in year_pattern.finditer(episode_text)]
 
     if not detected_years:

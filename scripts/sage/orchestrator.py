@@ -92,15 +92,8 @@ class HybridOrchestrator:
     """
     ハイブリッド生成オーケストレータ
 
-    全コンポーネントを統合し、以下のパイプラインを実行:
-    1. 候補選定（多様性考慮）
-    2. 生成前ルールチェック
-    3. 戦略ベースの生成
-    4. 品質ゲートチェック
-    5. ファクトチェック
-    6. 重複検出
-    7. 改善ループ
-    8. 安全な永続化
+    候補選定→生成前チェック→生成→品質検証→永続化のパイプラインを統合実行。
+    詳細なステップは _process_candidate() メソッドを参照。
     """
 
     def __init__(self, config: Optional[HybridConfig] = None):
@@ -394,7 +387,6 @@ class HybridOrchestrator:
 
                     if result.success:
                         # 表層修正
-                        _original_text = result.episode_text  # noqa: F841
                         result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
 
                         # 定型パターン修正
@@ -1085,7 +1077,8 @@ class HybridOrchestrator:
         # Phase 1: 在庫サマリーを追加
         try:
             log_data["inventory_summary"] = self._inventory_manager.get_summary()
-        except Exception:
+        except Exception as e:
+            logger.warning(f"在庫サマリーの取得に失敗: {e}")
             log_data["inventory_summary"] = {}
 
         with open(log_path, "w", encoding="utf-8") as f:
@@ -1205,6 +1198,7 @@ class HybridOrchestrator:
                 return "over_80"
 
         # Q1: 80歳以下優先（80% vs 20%）
+        # 80歳以下を優先する理由: 高齢エピソードは品質リスクが高く、若年〜壮年のカバレッジを優先
         group_targets = {
             "under_80": max(5, int(count * 0.80)),  # 80歳以下を80%
             "over_80": max(2, int(count * 0.20)),  # 81歳以上を20%

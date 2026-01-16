@@ -36,7 +36,6 @@ LOGS_DIR = REPORTS_DIR / "logs"
 MODERN_CATEGORIES = {"エンタメ", "芸能", "スポーツ", "アイドル"}
 
 # 定数
-CURRENT_YEAR = 2026
 MAX_HUMAN_AGE = 120
 MODERN_CATEGORY_BIRTH_CUTOFF = 1920
 
@@ -209,7 +208,8 @@ def check_super_longevity_violation(row: Dict) -> Optional[Dict]:
             return None
 
         birth_year = int(float(birth_year_str))
-        current_age = CURRENT_YEAR - birth_year
+        current_year = datetime.now().year
+        current_age = current_year - birth_year
 
         if current_age > MAX_HUMAN_AGE:
             return {

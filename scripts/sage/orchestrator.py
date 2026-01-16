@@ -997,7 +997,7 @@ class HybridOrchestrator:
                 )
                 logger.info(
                     f"Phase 17: same_age置換決定 - {candidate.person_name}({candidate.age}歳) "
-                    f"新スコア={new_score:.0f} > 既存スコア={existing_score:.0f} (+{(new_score/existing_score-1)*100:.1f}%)"
+                    f"新スコア={new_score:.0f} > 既存スコア={existing_score:.0f} (+{(new_score / existing_score - 1) * 100:.1f}%)"
                 )
             else:
                 # 置換閾値未達 - 改善不十分なので棄却
@@ -1084,7 +1084,14 @@ class HybridOrchestrator:
         with open(log_path, "w", encoding="utf-8") as f:
             json.dump(log_data, f, ensure_ascii=False, indent=2)
 
-    def get_recommended_candidates(self, count: int = 10, enable_cache: bool = True) -> list[Candidate]:
+    def get_recommended_candidates(
+        self,
+        count: int = 10,
+        enable_cache: bool = True,
+        age_filter_min: int | None = None,
+        age_filter_max: int | None = None,
+        target_ages: list[int] | None = None,
+    ) -> list[Candidate]:
         """
         推奨候補を取得
 
@@ -1095,6 +1102,9 @@ class HybridOrchestrator:
         Args:
             count: 候補数
             enable_cache: H4キャッシュ最適化有効（同一人物の複数年齢を許可）
+            age_filter_min: 年齢フィルタ下限（Q1ロジックバイパス用）
+            age_filter_max: 年齢フィルタ上限（Q1ロジックバイパス用）
+            target_ages: 特定年齢リスト（例: [81, 82, 87]）- 指定時はこの年齢のみ対象
 
         Returns:
             list[Candidate]: 優先度順の候補リスト
@@ -1145,20 +1155,59 @@ class HybridOrchestrator:
             else:
                 canonical_age = None
 
-            # Phase 27: 人物タイプ別の利用可能年齢を計算
-            available_ages = self._calculate_available_ages_for_person(
-                person_type=person_type,
-                birth_year=int(birth_year) if birth_year and not pd.isna(birth_year) else None,
-                death_year=int(death_year) if death_year and not pd.isna(death_year) else None,
-                canonical_age=canonical_age,
-                existing_ages=existing_ages,
-                category=category,
+            # Phase 65: 年齢フィルタが有効な場合はdeficitベース制限をバイパス
+            # 指定年齢範囲内の全年齢を直接計算する
+            age_filter_active = (
+                target_ages is not None or age_filter_min is not None or age_filter_max is not None
             )
+
+            if age_filter_active and person_type == "REAL":
+                # 年齢フィルタモード: 指定範囲内の全年齢が候補（deficitベースの[:30]制限をバイパス）
+                birth_year_int = int(birth_year) if birth_year and not pd.isna(birth_year) else None
+                death_year_int = int(death_year) if death_year and not pd.isna(death_year) else None
+
+                if birth_year_int and death_year_int:
+                    max_age = min(death_year_int - birth_year_int, 100)
+                    available_ages = [
+                        age for age in range(1, max_age + 1)
+                        if age not in existing_ages
+                    ]
+                elif birth_year_int:
+                    # 存命: 現在年 - 生年
+                    from datetime import datetime
+                    current_year = datetime.now().year
+                    max_age = min(current_year - birth_year_int, 100)
+                    available_ages = [
+                        age for age in range(1, max_age + 1)
+                        if age not in existing_ages
+                    ]
+                else:
+                    available_ages = []
+            else:
+                # 通常モード: deficitベースの年齢計算
+                available_ages = self._calculate_available_ages_for_person(
+                    person_type=person_type,
+                    birth_year=int(birth_year) if birth_year and not pd.isna(birth_year) else None,
+                    death_year=int(death_year) if death_year and not pd.isna(death_year) else None,
+                    canonical_age=canonical_age,
+                    existing_ages=existing_ages,
+                    category=category,
+                )
 
             # 各年齢を候補プールに追加
             # Phase 3最適化: 全ての有効年齢を候補プールに追加
             # CandidatePrioritizerが在庫優先度に基づいてバランスを取る
+            # Phase 65: 年齢フィルタを最初に適用（Q1ロジックをバイパス）
             for age in available_ages:
+                # target_agesが指定されている場合、そのリストに含まれる年齢のみ
+                if target_ages is not None and age not in target_ages:
+                    continue
+                # 年齢フィルタが指定されている場合、範囲外の年齢をスキップ
+                if age_filter_min is not None and age < age_filter_min:
+                    continue
+                if age_filter_max is not None and age > age_filter_max:
+                    continue
+
                 item = {
                     "person_id": person_id,
                     "person_name": person_name,
@@ -1188,72 +1237,185 @@ class HybridOrchestrator:
             min_score=self.config.min_candidate_priority,
         )
 
-        # Phase 29: Q1対応 - 80歳以下優先モード
-        # 従来のyoung/elderly_safe/normalグループを廃止し、
-        # 80歳以下と81歳以上の2グループに変更
-        def get_age_group(age: int) -> str:
-            if age <= 80:
-                return "under_80"
+        # Phase 65: 年齢フィルタが指定されている場合、Q1グループ分けをバイパス
+        # 年齢フィルタは既に候補プール構築時に適用済みなので、スコア順でそのまま選択
+        age_filter_active = (
+            age_filter_min is not None or age_filter_max is not None or target_ages is not None
+        )
+
+        if age_filter_active:
+            # Phase 65: 年齢フィルタモード - 各年齢から均等に選定（ラウンドロビン方式）
+            # target_agesが指定されている場合はそれを使用、なければ範囲から生成
+            if target_ages is not None:
+                effective_target_ages = target_ages
             else:
-                return "over_80"
+                age_min = age_filter_min or 0
+                age_max = age_filter_max or 100
+                effective_target_ages = list(range(age_min, age_max + 1))
 
-        # Q1: 80歳以下優先（80% vs 20%）
-        # 80歳以下を優先する理由: 高齢エピソードは品質リスクが高く、若年〜壮年のカバレッジを優先
-        group_targets = {
-            "under_80": max(5, int(count * 0.80)),  # 80歳以下を80%
-            "over_80": max(2, int(count * 0.20)),  # 81歳以上を20%
-        }
+            # ログ用の範囲表示を構築
+            if target_ages is not None:
+                ages_display = f"指定年齢: {sorted(effective_target_ages)}"
+            else:
+                ages_display = f"範囲: {age_min}-{age_max}歳"
 
-        # 各グループごとに候補を選択
-        candidates = []
-        used_person_ages = set()  # (person_id, age) の重複防止
+            logger.info(
+                f"Phase 65: 年齢フィルタモード有効（均等選定） "
+                f"({ages_display}, "
+                f"対象年齢数: {len(effective_target_ages)}, "
+                f"候補プール: {len(scored)}件)"
+            )
 
-        for group_name in ["under_80", "over_80"]:
-            target = group_targets[group_name]
-            group_candidates = []
-            seen_persons_in_group = set()
-
+            # 各年齢ごとにスコア順でソートされた候補リストを構築
+            age_slots: dict[int, list] = {age: [] for age in effective_target_ages}
             for score_result in scored:
-                if len(group_candidates) >= target:
+                age = score_result.age
+                if age in age_slots:
+                    age_slots[age].append(score_result)
+
+            # 各年齢から均等に選定（ラウンドロビン）
+            candidates = []
+            used_person_ages: set[tuple] = set()
+            seen_persons: set = set()
+
+            # 各年齢から最低1件ずつ選定を試みる（ラウンドロビン）
+            # 複数ラウンドで全枠を埋める
+            round_idx = 0
+            max_rounds = max(1, count // len(effective_target_ages) + 2)  # 十分なラウンド数
+
+            while len(candidates) < count and round_idx < max_rounds:
+                added_this_round = False
+                for age in effective_target_ages:
+                    if len(candidates) >= count:
+                        break
+
+                    # この年齢の候補リストからround_idx番目を取得
+                    slot_candidates = age_slots[age]
+                    slot_idx = 0
+                    selected_count_for_age = 0
+
+                    for score_result in slot_candidates:
+                        person_id = score_result.person_id
+
+                        # 重複チェック
+                        key = (person_id, age)
+                        if key in used_person_ages:
+                            continue
+
+                        # enable_cache=False時は同一人物を1回まで
+                        if not enable_cache and person_id in seen_persons:
+                            continue
+
+                        # このラウンドでこの年齢から選ぶべき候補かどうか
+                        if slot_idx < round_idx:
+                            slot_idx += 1
+                            continue
+
+                        # 候補を選択
+                        used_person_ages.add(key)
+                        seen_persons.add(person_id)
+
+                        # person_poolから該当アイテムを取得
+                        pool_item = next(
+                            (p for p in person_pool.get(person_id, []) if p["age"] == age), None
+                        )
+
+                        if pool_item:
+                            candidates.append(
+                                Candidate(
+                                    person_id=pool_item["person_id"],
+                                    person_name=pool_item["person_name"],
+                                    age=pool_item["age"],
+                                    category=pool_item["category"],
+                                    person_type=pool_item.get("person_type", "REAL"),
+                                    birth_year=pool_item.get("birth_year"),
+                                    death_year=pool_item.get("death_year"),
+                                    canonical_age=pool_item.get("canonical_age"),
+                                )
+                            )
+                            added_this_round = True
+                            break  # この年齢からは1件選んだので次の年齢へ
+
+                round_idx += 1
+                if not added_this_round:
+                    # どの年齢からも追加できなかった場合は終了
                     break
 
-                person_id = score_result.person_id
-                age = score_result.age
+            # 選定結果のログ
+            age_distribution = {}
+            for c in candidates:
+                age_distribution[c.age] = age_distribution.get(c.age, 0) + 1
+            logger.info(
+                f"Phase 65: 年齢別選定結果 - 総数: {len(candidates)}件, "
+                f"分布: {dict(sorted(age_distribution.items()))}"
+            )
+        else:
+            # Phase 29: Q1対応 - 80歳以下優先モード
+            # 従来のyoung/elderly_safe/normalグループを廃止し、
+            # 80歳以下と81歳以上の2グループに変更
+            def get_age_group(age: int) -> str:
+                if age <= 80:
+                    return "under_80"
+                else:
+                    return "over_80"
 
-                # このグループに属する年齢のみ
-                if get_age_group(age) != group_name:
-                    continue
+            # Q1: 80歳以下優先（80% vs 20%）
+            # 80歳以下を優先する理由: 高齢エピソードは品質リスクが高く、若年〜壮年のカバレッジを優先
+            group_targets = {
+                "under_80": max(5, int(count * 0.80)),  # 80歳以下を80%
+                "over_80": max(2, int(count * 0.20)),  # 81歳以上を20%
+            }
 
-                # 重複チェック
-                key = (person_id, age)
-                if key in used_person_ages:
-                    continue
+            # 各グループごとに候補を選択
+            candidates = []
+            used_person_ages = set()  # (person_id, age) の重複防止
 
-                # enable_cache=False時は同一人物を1回まで（全グループ通じて）
-                if not enable_cache and person_id in seen_persons_in_group:
-                    continue
+            for group_name in ["under_80", "over_80"]:
+                target = group_targets[group_name]
+                group_candidates = []
+                seen_persons_in_group = set()
 
-                used_person_ages.add(key)
-                seen_persons_in_group.add(person_id)
+                for score_result in scored:
+                    if len(group_candidates) >= target:
+                        break
 
-                # person_poolから該当アイテムを取得
-                pool_item = next((p for p in person_pool.get(person_id, []) if p["age"] == age), None)
+                    person_id = score_result.person_id
+                    age = score_result.age
 
-                if pool_item:
-                    group_candidates.append(
-                        Candidate(
-                            person_id=pool_item["person_id"],
-                            person_name=pool_item["person_name"],
-                            age=pool_item["age"],
-                            category=pool_item["category"],
-                            person_type=pool_item.get("person_type", "REAL"),
-                            birth_year=pool_item.get("birth_year"),
-                            death_year=pool_item.get("death_year"),
-                            canonical_age=pool_item.get("canonical_age"),  # Phase 27
+                    # このグループに属する年齢のみ
+                    if get_age_group(age) != group_name:
+                        continue
+
+                    # 重複チェック
+                    key = (person_id, age)
+                    if key in used_person_ages:
+                        continue
+
+                    # enable_cache=False時は同一人物を1回まで（全グループ通じて）
+                    if not enable_cache and person_id in seen_persons_in_group:
+                        continue
+
+                    used_person_ages.add(key)
+                    seen_persons_in_group.add(person_id)
+
+                    # person_poolから該当アイテムを取得
+                    pool_item = next((p for p in person_pool.get(person_id, []) if p["age"] == age), None)
+
+                    if pool_item:
+                        group_candidates.append(
+                            Candidate(
+                                person_id=pool_item["person_id"],
+                                person_name=pool_item["person_name"],
+                                age=pool_item["age"],
+                                category=pool_item["category"],
+                                person_type=pool_item.get("person_type", "REAL"),
+                                birth_year=pool_item.get("birth_year"),
+                                death_year=pool_item.get("death_year"),
+                                canonical_age=pool_item.get("canonical_age"),  # Phase 27
+                            )
                         )
-                    )
 
-            candidates.extend(group_candidates)
+                candidates.extend(group_candidates)
 
         # person_id, age順にソート（キャッシュ効率化）
         # Phase 16: 型の不整合を防ぐため文字列に統一

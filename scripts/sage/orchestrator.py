@@ -1157,9 +1157,7 @@ class HybridOrchestrator:
 
             # Phase 65: 年齢フィルタが有効な場合はdeficitベース制限をバイパス
             # 指定年齢範囲内の全年齢を直接計算する
-            age_filter_active = (
-                target_ages is not None or age_filter_min is not None or age_filter_max is not None
-            )
+            age_filter_active = target_ages is not None or age_filter_min is not None or age_filter_max is not None
 
             if age_filter_active and person_type == "REAL":
                 # 年齢フィルタモード: 指定範囲内の全年齢が候補（deficitベースの[:30]制限をバイパス）
@@ -1168,19 +1166,14 @@ class HybridOrchestrator:
 
                 if birth_year_int and death_year_int:
                     max_age = min(death_year_int - birth_year_int, 100)
-                    available_ages = [
-                        age for age in range(1, max_age + 1)
-                        if age not in existing_ages
-                    ]
+                    available_ages = [age for age in range(1, max_age + 1) if age not in existing_ages]
                 elif birth_year_int:
                     # 存命: 現在年 - 生年
                     from datetime import datetime
+
                     current_year = datetime.now().year
                     max_age = min(current_year - birth_year_int, 100)
-                    available_ages = [
-                        age for age in range(1, max_age + 1)
-                        if age not in existing_ages
-                    ]
+                    available_ages = [age for age in range(1, max_age + 1) if age not in existing_ages]
                 else:
                     available_ages = []
             else:
@@ -1239,9 +1232,7 @@ class HybridOrchestrator:
 
         # Phase 65: 年齢フィルタが指定されている場合、Q1グループ分けをバイパス
         # 年齢フィルタは既に候補プール構築時に適用済みなので、スコア順でそのまま選択
-        age_filter_active = (
-            age_filter_min is not None or age_filter_max is not None or target_ages is not None
-        )
+        age_filter_active = age_filter_min is not None or age_filter_max is not None or target_ages is not None
 
         if age_filter_active:
             # Phase 65: 年齢フィルタモード - 各年齢から均等に選定（ラウンドロビン方式）
@@ -1253,11 +1244,16 @@ class HybridOrchestrator:
                 age_max = age_filter_max or 100
                 effective_target_ages = list(range(age_min, age_max + 1))
 
+            # Phase 65: 空チェック（ZeroDivisionError防止）
+            if not effective_target_ages:
+                logger.warning("Phase 65: 対象年齢が空のため候補なし")
+                return []
+
             # ログ用の範囲表示を構築
             if target_ages is not None:
                 ages_display = f"指定年齢: {sorted(effective_target_ages)}"
             else:
-                ages_display = f"範囲: {age_min}-{age_max}歳"
+                ages_display = f"範囲: {age_filter_min or 0}-{age_filter_max or 100}歳"
 
             logger.info(
                 f"Phase 65: 年齢フィルタモード有効（均等選定） "
@@ -1292,7 +1288,6 @@ class HybridOrchestrator:
                     # この年齢の候補リストからround_idx番目を取得
                     slot_candidates = age_slots[age]
                     slot_idx = 0
-                    selected_count_for_age = 0
 
                     for score_result in slot_candidates:
                         person_id = score_result.person_id
@@ -1316,9 +1311,7 @@ class HybridOrchestrator:
                         seen_persons.add(person_id)
 
                         # person_poolから該当アイテムを取得
-                        pool_item = next(
-                            (p for p in person_pool.get(person_id, []) if p["age"] == age), None
-                        )
+                        pool_item = next((p for p in person_pool.get(person_id, []) if p["age"] == age), None)
 
                         if pool_item:
                             candidates.append(

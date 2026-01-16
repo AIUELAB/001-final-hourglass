@@ -1,0 +1,702 @@
+[
+  {
+    "wikidata_id": "Q78125",
+    "name": "Adolf Bötticher",
+    "birth_year": 1842,
+    "death_year": 1901,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86164",
+    "name": "Maximilian List",
+    "birth_year": 1910,
+    "death_year": 1980,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85017",
+    "name": "ジョセフ・アーバン",
+    "birth_year": 1872,
+    "death_year": 1933,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84287",
+    "name": "オットー・ワーグナー",
+    "birth_year": 1841,
+    "death_year": 1918,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85204",
+    "name": "Artur Berger",
+    "birth_year": 1892,
+    "death_year": 1981,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85439",
+    "name": "Franz Martinelli",
+    "birth_year": 1651,
+    "death_year": 1708,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86917",
+    "name": "Anselm Franz von Ritter zu Groenesteyn",
+    "birth_year": 1692,
+    "death_year": 1765,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q87024",
+    "name": "ダゴベルト・ペッヒェ",
+    "birth_year": 1887,
+    "death_year": 1923,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q79098",
+    "name": "Albert Schickedanz",
+    "birth_year": 1846,
+    "death_year": 1915,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85911",
+    "name": "Oskar Marmorek",
+    "birth_year": 1863,
+    "death_year": 1909,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q77806",
+    "name": "ゴットリープ・レデッカー",
+    "birth_year": 1871,
+    "death_year": 1945,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q77561",
+    "name": "クリストフ・ディーツェンホーファー",
+    "birth_year": 1655,
+    "death_year": 1722,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85804",
+    "name": "ボード・エープハルト",
+    "birth_year": 1865,
+    "death_year": 1945,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85911",
+    "name": "Oskar Marmorek",
+    "birth_year": 1863,
+    "death_year": 1905,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85911",
+    "name": "Oskar Marmorek",
+    "birth_year": 1863,
+    "death_year": 1905,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78292",
+    "name": "Gottlieb Schumacher",
+    "birth_year": 1857,
+    "death_year": 1925,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85096",
+    "name": "Hermann Kaufmann",
+    "birth_year": 1955,
+    "death_year": null,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78626",
+    "name": "ルドルフ・シンドラー",
+    "birth_year": 1887,
+    "death_year": 1953,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78626",
+    "name": "ルドルフ・シンドラー",
+    "birth_year": 1887,
+    "death_year": 1953,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84312",
+    "name": "リチャード・ニュートラ",
+    "birth_year": 1892,
+    "death_year": 1970,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78907",
+    "name": "フランツ・ジーバー",
+    "birth_year": 1789,
+    "death_year": 1844,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q77707",
+    "name": "ヨハン・パルレー",
+    "birth_year": 1360,
+    "death_year": 1405,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78382",
+    "name": "Conrad Steinbrecht",
+    "birth_year": 1849,
+    "death_year": 1923,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78907",
+    "name": "フランツ・ジーバー",
+    "birth_year": 1789,
+    "death_year": 1844,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85724",
+    "name": "Franz Beer",
+    "birth_year": 1660,
+    "death_year": 1726,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85724",
+    "name": "Franz Beer",
+    "birth_year": 1660,
+    "death_year": 1726,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q77559",
+    "name": "ヨハン・ディーツェンホーファー",
+    "birth_year": 1663,
+    "death_year": 1726,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78885",
+    "name": "エットレ・ソットサス",
+    "birth_year": 1917,
+    "death_year": 2007,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86479",
+    "name": "August Orth",
+    "birth_year": 1828,
+    "death_year": 1901,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q77702",
+    "name": "Georg Adolph Demmler",
+    "birth_year": 1804,
+    "death_year": 1886,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86122",
+    "name": "Szymon Bogumił Zug",
+    "birth_year": 1733,
+    "death_year": 1807,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85661",
+    "name": "バーナード・ルドフスキー",
+    "birth_year": 1905,
+    "death_year": 1988,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q79113",
+    "name": "Friedrich Ohmann",
+    "birth_year": 1858,
+    "death_year": 1927,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85218",
+    "name": "ユルゲン・マイヤー",
+    "birth_year": 1965,
+    "death_year": null,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86122",
+    "name": "Szymon Bogumił Zug",
+    "birth_year": 1733,
+    "death_year": 1807,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85669",
+    "name": "ハリー・サイドラー",
+    "birth_year": 1923,
+    "death_year": 2006,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84788",
+    "name": "Max Alvary",
+    "birth_year": 1856,
+    "death_year": 1898,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85809",
+    "name": "フランツ・ノイマン",
+    "birth_year": 1844,
+    "death_year": 1905,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86158",
+    "name": "ピーター・サム",
+    "birth_year": 1681,
+    "death_year": 1766,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86346",
+    "name": "ベルンハルト・パンコク",
+    "birth_year": 1872,
+    "death_year": 1943,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84902",
+    "name": "クレメンス・ホルツマイスター",
+    "birth_year": 1886,
+    "death_year": 1983,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85724",
+    "name": "Franz Beer",
+    "birth_year": 1659,
+    "death_year": 1726,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85724",
+    "name": "Franz Beer",
+    "birth_year": 1659,
+    "death_year": 1726,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85548",
+    "name": "Joseph Kornhäusel",
+    "birth_year": 1782,
+    "death_year": 1860,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84655",
+    "name": "Otto Prutscher",
+    "birth_year": 1880,
+    "death_year": 1949,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84507",
+    "name": "ヨハン・ルーカス・フォン・ヒルデブラント",
+    "birth_year": 1668,
+    "death_year": 1745,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78550",
+    "name": "ゲルハルト・ハナッピ",
+    "birth_year": 1929,
+    "death_year": 1980,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78694",
+    "name": "Wilhelm Koep",
+    "birth_year": 1905,
+    "death_year": 1999,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85447",
+    "name": "Friedrich Eduard Hoffmann",
+    "birth_year": 1818,
+    "death_year": 1900,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86463",
+    "name": "Franz Ludwig von Cancrin",
+    "birth_year": 1738,
+    "death_year": 1812,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78819",
+    "name": "ライムンド・アブラハム",
+    "birth_year": 1933,
+    "death_year": 2010,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85488",
+    "name": "カール・シュワンツァー",
+    "birth_year": 1918,
+    "death_year": 1975,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78705",
+    "name": "Kaspar Kraemer",
+    "birth_year": 1949,
+    "death_year": null,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78291",
+    "name": "アーサー・コーン",
+    "birth_year": 1891,
+    "death_year": 1978,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84673",
+    "name": "Roland Rainer",
+    "birth_year": 1910,
+    "death_year": 2004,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86517",
+    "name": "Johann Caspar Bagnato",
+    "birth_year": 1696,
+    "death_year": 1757,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78884",
+    "name": "ハンス・ホライン",
+    "birth_year": 1934,
+    "death_year": 2014,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78638",
+    "name": "テオフィル・ハンセン",
+    "birth_year": 1813,
+    "death_year": 1891,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84588",
+    "name": "Joseph Emanuel Fischer von Erlach",
+    "birth_year": 1693,
+    "death_year": 1742,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85897",
+    "name": "ウルリッヒ・エンジンゲン",
+    "birth_year": 1350,
+    "death_year": 1419,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86064",
+    "name": "Hannes Lintl",
+    "birth_year": 1924,
+    "death_year": 2003,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q87005",
+    "name": "Karl Ernstberger",
+    "birth_year": 1887,
+    "death_year": 1972,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86955",
+    "name": "ガブリエル・フォン・ザイトル",
+    "birth_year": 1848,
+    "death_year": 1913,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78968",
+    "name": "August Sicard von Sicardsburg",
+    "birth_year": 1813,
+    "death_year": 1868,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85000",
+    "name": "フィリッポ・ユヴァラ",
+    "birth_year": 1678,
+    "death_year": 1736,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86616",
+    "name": "カール・エーン",
+    "birth_year": 1884,
+    "death_year": 1959,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78626",
+    "name": "ルドルフ・シンドラー",
+    "birth_year": 1890,
+    "death_year": 1953,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85000",
+    "name": "フィリッポ・ユヴァラ",
+    "birth_year": 1678,
+    "death_year": 1736,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86782",
+    "name": "ヨハン・グレゴール・メムハールト",
+    "birth_year": 1607,
+    "death_year": 1678,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78680",
+    "name": "ビクター・グルーエン",
+    "birth_year": 1903,
+    "death_year": 1980,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78792",
+    "name": "ハインリッヒ・フォン・Ferstel",
+    "birth_year": 1828,
+    "death_year": 1883,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78836",
+    "name": "アロイス・ネグレッリ",
+    "birth_year": 1799,
+    "death_year": 1858,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84305",
+    "name": "ヨハン・フィッシャー・フォン・エルラッハ",
+    "birth_year": 1656,
+    "death_year": 1723,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q79090",
+    "name": "Wilhelm Engerth",
+    "birth_year": 1814,
+    "death_year": 1884,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84473",
+    "name": "Georg Friedrich Ziebland",
+    "birth_year": 1800,
+    "death_year": 1873,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84473",
+    "name": "Georg Friedrich Ziebland",
+    "birth_year": 1800,
+    "death_year": 1873,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q77702",
+    "name": "Georg Adolph Demmler",
+    "birth_year": 1802,
+    "death_year": 1886,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84841",
+    "name": "Adam van Düren",
+    "birth_year": 1500,
+    "death_year": 1600,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86002",
+    "name": "Donato Felice d'Allio",
+    "birth_year": 1677,
+    "death_year": 1761,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78120",
+    "name": "Carl Watzinger",
+    "birth_year": 1877,
+    "death_year": 1948,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78858",
+    "name": "マルガレーテ・シュッテ＝リホツキー",
+    "birth_year": 1897,
+    "death_year": 2000,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78229",
+    "name": "Alexis de Chateauneuf",
+    "birth_year": 1799,
+    "death_year": 1853,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q79166",
+    "name": "グスタフ・パイヒル",
+    "birth_year": 1928,
+    "death_year": 2019,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78710",
+    "name": "Jakob Prandtauer",
+    "birth_year": 1660,
+    "death_year": 1726,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78179",
+    "name": "ヘルマン・エッガート",
+    "birth_year": 1844,
+    "death_year": 1920,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78775",
+    "name": "ニコラウス・フォン・パカッシー",
+    "birth_year": 1716,
+    "death_year": 1790,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85040",
+    "name": "Stanko Bloudek",
+    "birth_year": 1890,
+    "death_year": 1959,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78856",
+    "name": "アントニオ・ベドゥッツィ",
+    "birth_year": 1675,
+    "death_year": 1735,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q86933",
+    "name": "Eduard Schönecker",
+    "birth_year": 1885,
+    "death_year": 1963,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84250",
+    "name": "ヨーゼフ・ホフマン",
+    "birth_year": 1870,
+    "death_year": 1956,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78979",
+    "name": "Eduard van der Nüll",
+    "birth_year": 1812,
+    "death_year": 1868,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78979",
+    "name": "Eduard van der Nüll",
+    "birth_year": 1812,
+    "death_year": 1868,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85541",
+    "name": "Hubert Petschnigg",
+    "birth_year": 1913,
+    "death_year": 1997,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78032",
+    "name": "Efraim Szreger",
+    "birth_year": 1727,
+    "death_year": 1783,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85557",
+    "name": "パウル・エンゲルマン",
+    "birth_year": 1891,
+    "death_year": 1965,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q84541",
+    "name": "カール・フォン・ハゼナウアー",
+    "birth_year": 1833,
+    "death_year": 1894,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q85834",
+    "name": "Max Laeuger",
+    "birth_year": 1864,
+    "death_year": 1952,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78484",
+    "name": "ルドルフ・シュタイナー",
+    "birth_year": 1861,
+    "death_year": 1925,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q78279",
+    "name": "コルネリウス・グルリット",
+    "birth_year": 1850,
+    "death_year": 1938,
+    "category": "建築"
+  },
+  {
+    "wikidata_id": "Q82840",
+    "name": "アルヴァ・アールト",
+    "birth_year": 1898,
+    "death_year": 1976,
+    "category": "建築"
+  }
+]

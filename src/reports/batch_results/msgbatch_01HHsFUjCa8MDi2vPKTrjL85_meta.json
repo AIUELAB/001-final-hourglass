@@ -1,0 +1,4507 @@
+{
+  "batch_id": "msgbatch_01HHsFUjCa8MDi2vPKTrjL85",
+  "count": 500,
+  "created_at": "2026-01-16T14:56:52.392408",
+  "candidates": [
+    {
+      "person_id": "P028DE85",
+      "person_name": "苅谷剛彦",
+      "target_age": 7,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6E625E1",
+      "person_name": "ジュンパ・ラヒリ",
+      "target_age": 7,
+      "birth_year": 1963,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1B0CCFA",
+      "person_name": "吉田夕梨花",
+      "target_age": 7,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF773EB3",
+      "person_name": "湯島聖堂",
+      "target_age": 7,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0157E09",
+      "person_name": "藤田誠",
+      "target_age": 7,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7F524A2",
+      "person_name": "山本由伸",
+      "target_age": 7,
+      "birth_year": 1996,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P401D0BC",
+      "person_name": "清水義範",
+      "target_age": 7,
+      "birth_year": 1936,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA87B2E4",
+      "person_name": "デイヴィッド・ホックニー",
+      "target_age": 7,
+      "birth_year": 1936,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF21F32E",
+      "person_name": "遠藤実",
+      "target_age": 7,
+      "birth_year": 1952,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE2AF8BE",
+      "person_name": "サニブラウン",
+      "target_age": 7,
+      "birth_year": 1994,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0C038C1",
+      "person_name": "前田旺志郎",
+      "target_age": 7,
+      "birth_year": 1881,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6690158",
+      "person_name": "安田靖彦",
+      "target_age": 7,
+      "birth_year": 1959,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF9E2D24",
+      "person_name": "錦戸亮",
+      "target_age": 7,
+      "birth_year": 1981,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5A05149",
+      "person_name": "ロバート・パティンソン",
+      "target_age": 7,
+      "birth_year": 1856,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7880A2E",
+      "person_name": "宮間あや",
+      "target_age": 7,
+      "birth_year": 1985,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P581FD92",
+      "person_name": "ダニエル・エルズバーグ",
+      "target_age": 7,
+      "birth_year": 1933,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P649A25A",
+      "person_name": "ダグラス・エンゲルバート",
+      "target_age": 7,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P00156E2",
+      "person_name": "田中信行",
+      "target_age": 7,
+      "birth_year": 1937,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF6D29A8",
+      "person_name": "香川真司",
+      "target_age": 7,
+      "birth_year": 1989,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P52F3AC8",
+      "person_name": "棚橋弘至",
+      "target_age": 7,
+      "birth_year": 1977,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1B3F08F",
+      "person_name": "ロイ・リキテンスタイン",
+      "target_age": 7,
+      "birth_year": 1899,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7102757",
+      "person_name": "遠藤幸雄",
+      "target_age": 7,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P345B678",
+      "person_name": "古賀淳也",
+      "target_age": 7,
+      "birth_year": 1987,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P4910941",
+      "person_name": "村井純",
+      "target_age": 7,
+      "birth_year": 1955,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2FC64B8",
+      "person_name": "田沼意次",
+      "target_age": 7,
+      "birth_year": 1902,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P01D4B5B",
+      "person_name": "高峰秀子",
+      "target_age": 7,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P78870BB",
+      "person_name": "マイヤ・プリセツカヤ",
+      "target_age": 7,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3869020",
+      "person_name": "大山加奈",
+      "target_age": 7,
+      "birth_year": 1984,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PFC6E41A",
+      "person_name": "木村惠司",
+      "target_age": 7,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBBA5489",
+      "person_name": "橋本聖子",
+      "target_age": 7,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8D3BE73",
+      "person_name": "千賀滉大",
+      "target_age": 7,
+      "birth_year": 1994,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P59A6F39",
+      "person_name": "中嶋尚",
+      "target_age": 7,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7A98607",
+      "person_name": "スティーブ・カレル",
+      "target_age": 7,
+      "birth_year": 1962,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P18A1019",
+      "person_name": "ロバート・オハラ・バーク",
+      "target_age": 7,
+      "birth_year": 1821,
+      "death_year": NaN,
+      "category": "探検・冒険",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PD146CE2",
+      "person_name": "フィリップ・ジマーマン",
+      "target_age": 7,
+      "birth_year": 1947,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0C1793C",
+      "person_name": "塚本高史",
+      "target_age": 7,
+      "birth_year": 1980,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PFE46928",
+      "person_name": "阿川佐和子",
+      "target_age": 7,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PCEE1B26",
+      "person_name": "ポール・クルーグマン",
+      "target_age": 8,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3CE8882",
+      "person_name": "赤井英和",
+      "target_age": 8,
+      "birth_year": 1917,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5272DB6",
+      "person_name": "小野不由美",
+      "target_age": 8,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBB0D31F",
+      "person_name": "濱田庄司",
+      "target_age": 8,
+      "birth_year": 1894,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P341B169",
+      "person_name": "セルヒオ・アグエロ",
+      "target_age": 8,
+      "birth_year": 1988,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P22E43D4",
+      "person_name": "里見浩太朗",
+      "target_age": 8,
+      "birth_year": 1905,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6C618B3",
+      "person_name": "田中雅人",
+      "target_age": 8,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P569B26A",
+      "person_name": "本田武史",
+      "target_age": 8,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7EBDDC8",
+      "person_name": "林家たい平",
+      "target_age": 8,
+      "birth_year": 1933,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2FC9276",
+      "person_name": "ジェニファー・ローレンス",
+      "target_age": 8,
+      "birth_year": 1989,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P283EBFB",
+      "person_name": "工藤めぐみ",
+      "target_age": 8,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P171F5F3",
+      "person_name": "ル・コルビュジエ",
+      "target_age": 8,
+      "birth_year": 1939,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0F9492A",
+      "person_name": "カラヤン",
+      "target_age": 8,
+      "birth_year": 1908,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P69EEC09",
+      "person_name": "シューベルト",
+      "target_age": 8,
+      "birth_year": 1797,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P199D4EF",
+      "person_name": "鬼龍院翔",
+      "target_age": 8,
+      "birth_year": 1984,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE4285E9",
+      "person_name": "鈴木杏",
+      "target_age": 8,
+      "birth_year": 1987,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6EB00B9",
+      "person_name": "有村架純",
+      "target_age": 8,
+      "birth_year": 1993,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2EE8050",
+      "person_name": "イーディス・ウォートン",
+      "target_age": 8,
+      "birth_year": 1863,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P496C00C",
+      "person_name": "苅部直",
+      "target_age": 8,
+      "birth_year": 1964,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P35CF8B1",
+      "person_name": "ジンバブエ・ムガベ",
+      "target_age": 8,
+      "birth_year": 1910,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9545ABB",
+      "person_name": "ジョーン・サザーランド",
+      "target_age": 8,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P023411B",
+      "person_name": "新田次郎",
+      "target_age": 8,
+      "birth_year": 1891,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2D4955A",
+      "person_name": "笹川良一",
+      "target_age": 8,
+      "birth_year": 1899,
+      "death_year": 1995.0,
+      "category": "探検・冒険",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P4C91A44",
+      "person_name": "ゲオルク・ヘーゲル",
+      "target_age": 8,
+      "birth_year": 1770,
+      "death_year": NaN,
+      "category": "哲学者",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBE123B6",
+      "person_name": "水上颯",
+      "target_age": 8,
+      "birth_year": 1995,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PDD2D891",
+      "person_name": "リック・ウェイクマン",
+      "target_age": 8,
+      "birth_year": 1889,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7126BDD",
+      "person_name": "スラッシュ",
+      "target_age": 8,
+      "birth_year": 1965,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF81356C",
+      "person_name": "田尻智",
+      "target_age": 8,
+      "birth_year": 1965,
+      "death_year": NaN,
+      "category": "アニメ・漫画・ゲーム",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PEEDB495",
+      "person_name": "チャールズ・コーク",
+      "target_age": 8,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P00156E2",
+      "person_name": "田中信行",
+      "target_age": 8,
+      "birth_year": 1937,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P90B0B63",
+      "person_name": "ビルギット・ニルソン",
+      "target_age": 8,
+      "birth_year": 1880,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9CE8D70",
+      "person_name": "松田丈志",
+      "target_age": 8,
+      "birth_year": 1968,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P60D5D71",
+      "person_name": "中西寛",
+      "target_age": 8,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PABF4A05",
+      "person_name": "北川景子",
+      "target_age": 8,
+      "birth_year": 1986,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P01854E2",
+      "person_name": "ボニー・タイラー",
+      "target_age": 8,
+      "birth_year": 1931,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P26D797F",
+      "person_name": "風吹ジュン",
+      "target_age": 8,
+      "birth_year": 1912,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P32FF357",
+      "person_name": "小林麻央",
+      "target_age": 8,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "アナウンサー・キャスター",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P97C0F15",
+      "person_name": "奥田碩",
+      "target_age": 8,
+      "birth_year": 1932,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6F47B28",
+      "person_name": "キャメロン・ディアス",
+      "target_age": 8,
+      "birth_year": 1973,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P023411B",
+      "person_name": "新田次郎",
+      "target_age": 9,
+      "birth_year": 1891,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6AF85D7",
+      "person_name": "隈研吾",
+      "target_age": 9,
+      "birth_year": 1955,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P194098D",
+      "person_name": "レナード・バーンスタイン",
+      "target_age": 9,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF79B6B4",
+      "person_name": "細野晴臣",
+      "target_age": 9,
+      "birth_year": 1896,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0127810",
+      "person_name": "岡田有希子",
+      "target_age": 9,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "アイドル",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7C8FA30",
+      "person_name": "ジェーン・マーセット",
+      "target_age": 9,
+      "birth_year": 1915,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3DA6DB5",
+      "person_name": "ウィラ・キャザー",
+      "target_age": 9,
+      "birth_year": 1868,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA7EF463",
+      "person_name": "ジョン・トラボルタ",
+      "target_age": 9,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF22C321",
+      "person_name": "ベン・ホーガン",
+      "target_age": 9,
+      "birth_year": 1866,
+      "death_year": NaN,
+      "category": "ゴルファー",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE327B33",
+      "person_name": "ノーラン・ライアン",
+      "target_age": 9,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0B126FB",
+      "person_name": "カリム・ベンゼマ",
+      "target_age": 9,
+      "birth_year": 1938,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P635A73B",
+      "person_name": "アラン・ケイ",
+      "target_age": 9,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF9F1128",
+      "person_name": "ビワハヤヒデ",
+      "target_age": 9,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "競走馬",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P581FD92",
+      "person_name": "ダニエル・エルズバーグ",
+      "target_age": 9,
+      "birth_year": 1933,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P74D8716",
+      "person_name": "内田真礼",
+      "target_age": 9,
+      "birth_year": 1989,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5578985",
+      "person_name": "南部陽一郎",
+      "target_age": 9,
+      "birth_year": 1921,
+      "death_year": 2008.0,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P617680D",
+      "person_name": "秋元順子",
+      "target_age": 9,
+      "birth_year": 1947,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P00156E2",
+      "person_name": "田中信行",
+      "target_age": 9,
+      "birth_year": 1937,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PDD2D891",
+      "person_name": "リック・ウェイクマン",
+      "target_age": 9,
+      "birth_year": 1889,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P50C4270",
+      "person_name": "ロナルド・リベスト",
+      "target_age": 9,
+      "birth_year": 1903,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P196B212",
+      "person_name": "片山さつき",
+      "target_age": 9,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6CB0422",
+      "person_name": "アイ・ウェイウェイ",
+      "target_age": 9,
+      "birth_year": 1958,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P325FFA7",
+      "person_name": "トレイ・ヤング",
+      "target_age": 9,
+      "birth_year": 1998,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4658E2A",
+      "person_name": "村田修一",
+      "target_age": 9,
+      "birth_year": 1958,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2D1FC7B",
+      "person_name": "ダニー・エルフマン",
+      "target_age": 9,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0178103",
+      "person_name": "松本幸四郎",
+      "target_age": 9,
+      "birth_year": 1929,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P75007C1",
+      "person_name": "ジュリア・クリステヴァ",
+      "target_age": 9,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P365C794",
+      "person_name": "藤原松三郎",
+      "target_age": 9,
+      "birth_year": 1878,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PFC6E41A",
+      "person_name": "木村惠司",
+      "target_age": 9,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PBB6F350",
+      "person_name": "佐々木望",
+      "target_age": 9,
+      "birth_year": 1945,
+      "death_year": NaN,
+      "category": "アニメ・漫画・ゲーム",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8A2F71A",
+      "person_name": "チョン・キョンファ",
+      "target_age": 9,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P575B45B",
+      "person_name": "陸奥宗光",
+      "target_age": 9,
+      "birth_year": 1844,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7728C56",
+      "person_name": "家永三郎",
+      "target_age": 9,
+      "birth_year": 1915,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P169A0FF",
+      "person_name": "田中理恵",
+      "target_age": 9,
+      "birth_year": 1904,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD238CD2",
+      "person_name": "ジェリー・ヤン",
+      "target_age": 9,
+      "birth_year": 1974,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0B3D944",
+      "person_name": "澁澤龍彦",
+      "target_age": 9,
+      "birth_year": 1909,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PDBBF8BA",
+      "person_name": "小渕健太郎",
+      "target_age": 9,
+      "birth_year": 1977,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3C4E220",
+      "person_name": "佐藤学",
+      "target_age": 9,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P368DDF8",
+      "person_name": "宮島達男",
+      "target_age": 9,
+      "birth_year": 1924,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF025BA6",
+      "person_name": "福島敦子",
+      "target_age": 9,
+      "birth_year": 1946,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5AC768C",
+      "person_name": "マーサ・スチュワート",
+      "target_age": 9,
+      "birth_year": 1745,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF419844",
+      "person_name": "アンペール",
+      "target_age": 9,
+      "birth_year": 1775,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4E1CEDB",
+      "person_name": "小津映司",
+      "target_age": 9,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P95DCE75",
+      "person_name": "星野仙一",
+      "target_age": 9,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3986A29",
+      "person_name": "アニー・プルー",
+      "target_age": 9,
+      "birth_year": 1912,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2BA29EA",
+      "person_name": "シール",
+      "target_age": 9,
+      "birth_year": 1863,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF91C5C8",
+      "person_name": "ベベット",
+      "target_age": 9,
+      "birth_year": 1964,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7425C5A",
+      "person_name": "後藤謙次",
+      "target_age": 9,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB061003",
+      "person_name": "パオロ・ジョルダーノ",
+      "target_age": 9,
+      "birth_year": 1985,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8B8E316",
+      "person_name": "市村正親",
+      "target_age": 9,
+      "birth_year": 1958,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P95C70C7",
+      "person_name": "岩沢厚治",
+      "target_age": 9,
+      "birth_year": 1976,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P84DD575",
+      "person_name": "ジャマール・マレー",
+      "target_age": 9,
+      "birth_year": 1997,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P39D2CF0",
+      "person_name": "山田風太郎",
+      "target_age": 9,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P203577D",
+      "person_name": "村上茉愛",
+      "target_age": 9,
+      "birth_year": 1966,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3D87E68",
+      "person_name": "ガブリエル・フォーレ",
+      "target_age": 9,
+      "birth_year": 1806,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3E2109E",
+      "person_name": "徳永英明",
+      "target_age": 9,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P234BE77",
+      "person_name": "羽根田卓也",
+      "target_age": 9,
+      "birth_year": 1969,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2ED3A2C",
+      "person_name": "下野紘",
+      "target_age": 9,
+      "birth_year": 1876,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1A64470",
+      "person_name": "安倍貞任",
+      "target_age": 9,
+      "birth_year": 1931,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P9869AD4",
+      "person_name": "鈴木邦男",
+      "target_age": 9,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD331311",
+      "person_name": "ラリー・ページ",
+      "target_age": 17,
+      "birth_year": 1965,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3D10BDE",
+      "person_name": "野中広務",
+      "target_age": 17,
+      "birth_year": 1925,
+      "death_year": 2018.0,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P52C3157",
+      "person_name": "エリオット・ペイジ",
+      "target_age": 17,
+      "birth_year": 1930,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBE84A36",
+      "person_name": "丸山茂樹",
+      "target_age": 17,
+      "birth_year": 1970,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P343082B",
+      "person_name": "ジョン・マッカーシー",
+      "target_age": 17,
+      "birth_year": 1898,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P227C0CA",
+      "person_name": "ジェド・マケーレブ",
+      "target_age": 17,
+      "birth_year": 1964,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6E050E2",
+      "person_name": "岡田惠和",
+      "target_age": 17,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P56C2F4D",
+      "person_name": "堺雅人",
+      "target_age": 17,
+      "birth_year": 1856,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P809F9BB",
+      "person_name": "マライア・キャリー",
+      "target_age": 17,
+      "birth_year": 1970,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2FC9276",
+      "person_name": "ジェニファー・ローレンス",
+      "target_age": 17,
+      "birth_year": 1989,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P28544E3",
+      "person_name": "石川正俊",
+      "target_age": 17,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1697EF1",
+      "person_name": "真鍋大度",
+      "target_age": 17,
+      "birth_year": 1957,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0F4A3E8",
+      "person_name": "ジミー・ペイジ",
+      "target_age": 17,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6ADE3A8",
+      "person_name": "藤嶋昭",
+      "target_age": 17,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P194098D",
+      "person_name": "レナード・バーンスタイン",
+      "target_age": 17,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE71C0DE",
+      "person_name": "エミリー・ブロンテ",
+      "target_age": 17,
+      "birth_year": 1812,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7102757",
+      "person_name": "遠藤幸雄",
+      "target_age": 17,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2ED3A2C",
+      "person_name": "下野紘",
+      "target_age": 17,
+      "birth_year": 1876,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P49DB209",
+      "person_name": "秋山翔吾",
+      "target_age": 17,
+      "birth_year": 1988,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P35D91E4",
+      "person_name": "岡田奈々",
+      "target_age": 17,
+      "birth_year": 1997,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P982C3B1",
+      "person_name": "神山健治",
+      "target_age": 17,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P022F195",
+      "person_name": "マーク・ラファロ",
+      "target_age": 17,
+      "birth_year": 1967,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2D4955A",
+      "person_name": "笹川良一",
+      "target_age": 17,
+      "birth_year": 1899,
+      "death_year": 1995.0,
+      "category": "探検・冒険",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P4D24599",
+      "person_name": "堀辰雄",
+      "target_age": 17,
+      "birth_year": 1882,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PC2B3C7C",
+      "person_name": "鹿島岩吉",
+      "target_age": 17,
+      "birth_year": 1820,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE1373BC",
+      "person_name": "ヴィットリオ・デ・シーカ",
+      "target_age": 17,
+      "birth_year": 1895,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P72BB151",
+      "person_name": "ケヴィン・ハート",
+      "target_age": 17,
+      "birth_year": 1979,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF8B650A",
+      "person_name": "岡本裕",
+      "target_age": 17,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF059BA3",
+      "person_name": "山口茜",
+      "target_age": 17,
+      "birth_year": 1997,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P00156E2",
+      "person_name": "田中信行",
+      "target_age": 17,
+      "birth_year": 1937,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P93C533D",
+      "person_name": "石平",
+      "target_age": 17,
+      "birth_year": 1932,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9FC6D63",
+      "person_name": "三池崇史",
+      "target_age": 17,
+      "birth_year": 1973,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P617CE28",
+      "person_name": "ジェフ・ジョーンズ",
+      "target_age": 17,
+      "birth_year": 1965,
+      "death_year": NaN,
+      "category": "アニメ・漫画・ゲーム",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PAF52EB3",
+      "person_name": "那須川天心",
+      "target_age": 17,
+      "birth_year": 1998,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0178103",
+      "person_name": "松本幸四郎",
+      "target_age": 17,
+      "birth_year": 1929,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P26D797F",
+      "person_name": "風吹ジュン",
+      "target_age": 17,
+      "birth_year": 1912,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3352117",
+      "person_name": "大黒摩季",
+      "target_age": 17,
+      "birth_year": 1969,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9A68E64",
+      "person_name": "ロベルト・アロマー",
+      "target_age": 17,
+      "birth_year": 1968,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7130228",
+      "person_name": "黒木瞳",
+      "target_age": 17,
+      "birth_year": 1960,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1A4473A",
+      "person_name": "平原綾香",
+      "target_age": 17,
+      "birth_year": 1984,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PD28530E",
+      "person_name": "渡辺直美",
+      "target_age": 17,
+      "birth_year": 1987,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8526054",
+      "person_name": "鈴木康博",
+      "target_age": 17,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P57AD10A",
+      "person_name": "エリック・シュミット",
+      "target_age": 17,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF515297",
+      "person_name": "渡嘉敷来夢",
+      "target_age": 17,
+      "birth_year": 1991,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P18919F1",
+      "person_name": "高田延彦",
+      "target_age": 17,
+      "birth_year": 1888,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBFBAFB2",
+      "person_name": "坂田昌一",
+      "target_age": 17,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA2221EA",
+      "person_name": "ステフィ・グラフ",
+      "target_age": 17,
+      "birth_year": 1934,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8DE4364",
+      "person_name": "カール・ロジャーズ",
+      "target_age": 17,
+      "birth_year": 1904,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE753CBA",
+      "person_name": "山田恵里",
+      "target_age": 17,
+      "birth_year": 1984,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P97F24BF",
+      "person_name": "ジョエル・コーエン",
+      "target_age": 34,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA107568",
+      "person_name": "ビリー・ホリデイ",
+      "target_age": 34,
+      "birth_year": 1915,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P564BAB4",
+      "person_name": "原節子",
+      "target_age": 34,
+      "birth_year": 1868,
+      "death_year": 1963.0,
+      "category": "俳優・女優",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P04F9A8C",
+      "person_name": "土井晩翠",
+      "target_age": 34,
+      "birth_year": 1872,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PFCCAD6F",
+      "person_name": "川内優輝",
+      "target_age": 34,
+      "birth_year": 1987,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA5FCADB",
+      "person_name": "カール・ガウス",
+      "target_age": 34,
+      "birth_year": 1771,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8882814",
+      "person_name": "浅田稔",
+      "target_age": 34,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0F160E0",
+      "person_name": "唐沢寿明",
+      "target_age": 34,
+      "birth_year": 1866,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P905689A",
+      "person_name": "田中将斗",
+      "target_age": 34,
+      "birth_year": 1973,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9FE2A83",
+      "person_name": "アレクサンドル・デュマ",
+      "target_age": 34,
+      "birth_year": 1788,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P02D02DB",
+      "person_name": "ピーター・ブルック",
+      "target_age": 34,
+      "birth_year": 1919,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PAA75719",
+      "person_name": "中村紀洋",
+      "target_age": 34,
+      "birth_year": 1974,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P59EB907",
+      "person_name": "津田左右吉",
+      "target_age": 34,
+      "birth_year": 1868,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PC7CD943",
+      "person_name": "フィリップ・グラス",
+      "target_age": 34,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7997C15",
+      "person_name": "テレサ・メイ",
+      "target_age": 34,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P39EB6A7",
+      "person_name": "山本譲二",
+      "target_age": 34,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9C92F21",
+      "person_name": "室伏由佳",
+      "target_age": 34,
+      "birth_year": 1977,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7EBDDC8",
+      "person_name": "林家たい平",
+      "target_age": 34,
+      "birth_year": 1933,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P617830F",
+      "person_name": "古今亭志ん朝",
+      "target_age": 34,
+      "birth_year": 1898,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PCA68119",
+      "person_name": "リヒテル",
+      "target_age": 36,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7653A98",
+      "person_name": "シャデー",
+      "target_age": 36,
+      "birth_year": 1980,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P770724A",
+      "person_name": "つじあやの",
+      "target_age": 36,
+      "birth_year": 1978,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P68F7BB8",
+      "person_name": "真鍋淑郎",
+      "target_age": 36,
+      "birth_year": 1870,
+      "death_year": 1960.0,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P34EA398",
+      "person_name": "北野武",
+      "target_age": 36,
+      "birth_year": 1949,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA619699",
+      "person_name": "クリス・パイン",
+      "target_age": 36,
+      "birth_year": 1980,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8526054",
+      "person_name": "鈴木康博",
+      "target_age": 36,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8F9702E",
+      "person_name": "森野将彦",
+      "target_age": 36,
+      "birth_year": 1978,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P4E2DF51",
+      "person_name": "鬼束ちひろ",
+      "target_age": 36,
+      "birth_year": 1980,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P21E7E11",
+      "person_name": "所ジョージ",
+      "target_age": 36,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE60A5AE",
+      "person_name": "室田伊緒",
+      "target_age": 36,
+      "birth_year": 1989,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF3D03A0",
+      "person_name": "小澤征爾",
+      "target_age": 36,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9279BB0",
+      "person_name": "ツィメルマン",
+      "target_age": 36,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3650EC6",
+      "person_name": "オスカー・ピーターソン",
+      "target_age": 61,
+      "birth_year": 1920,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PC9F08C7",
+      "person_name": "森本雅樹",
+      "target_age": 61,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3FB36E4",
+      "person_name": "古河虎之助",
+      "target_age": 62,
+      "birth_year": 1835,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PB58853B",
+      "person_name": "村田晃嗣",
+      "target_age": 62,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P257E099",
+      "person_name": "松たか子",
+      "target_age": 62,
+      "birth_year": 1910,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3777144",
+      "person_name": "三代目桂米朝",
+      "target_age": 62,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PC591B4E",
+      "person_name": "セルゲイ・エイゼンシュテイン",
+      "target_age": 62,
+      "birth_year": 1885,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P55F7916",
+      "person_name": "フィル・スペクター",
+      "target_age": 62,
+      "birth_year": 1939,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PB3811EC",
+      "person_name": "サン・プラザ中野くん",
+      "target_age": 62,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P08A3594",
+      "person_name": "鶴見和雄",
+      "target_age": 67,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PBBA5489",
+      "person_name": "橋本聖子",
+      "target_age": 67,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5F13A4E",
+      "person_name": "西田亙",
+      "target_age": 67,
+      "birth_year": 1945,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1BE9087",
+      "person_name": "榎本武揚",
+      "target_age": 67,
+      "birth_year": 1837,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PCFA4BEC",
+      "person_name": "日野原重明",
+      "target_age": 67,
+      "birth_year": 1911,
+      "death_year": 2017.0,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8867E72",
+      "person_name": "ロジャー・バニスター",
+      "target_age": 67,
+      "birth_year": 1894,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P19D6ABF",
+      "person_name": "ジョージ・R・R・マーティン",
+      "target_age": 67,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD6B485B",
+      "person_name": "松尾豊",
+      "target_age": 67,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P9DCA17B",
+      "person_name": "ダシール・ハメット",
+      "target_age": 67,
+      "birth_year": 1884,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7C79DC9",
+      "person_name": "昴生",
+      "target_age": 67,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA7C5620",
+      "person_name": "ベニチオ・デル・トロ",
+      "target_age": 67,
+      "birth_year": 1949,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "target_age": 67,
+      "birth_year": 1930,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6A3D740",
+      "person_name": "ゲイリー・シニーズ",
+      "target_age": 67,
+      "birth_year": 1884,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD5F4E14",
+      "person_name": "ランディ・クロフォード",
+      "target_age": 67,
+      "birth_year": 1952,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P03F4135",
+      "person_name": "深川栄洋",
+      "target_age": 67,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P940F8D1",
+      "person_name": "谷口吉郎",
+      "target_age": 67,
+      "birth_year": 1916,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P099319B",
+      "person_name": "D・H・ロレンス",
+      "target_age": 67,
+      "birth_year": 1873,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8E9B808",
+      "person_name": "坂東眞砂子",
+      "target_age": 67,
+      "birth_year": 1949,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF6B141B",
+      "person_name": "マルコーニ",
+      "target_age": 67,
+      "birth_year": 1851,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7725DD4",
+      "person_name": "ジャンゴ・ラインハルト",
+      "target_age": 67,
+      "birth_year": 1893,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6CB7745",
+      "person_name": "増田靖",
+      "target_age": 67,
+      "birth_year": 1947,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEFD8AA7",
+      "person_name": "浅野温子",
+      "target_age": 67,
+      "birth_year": 1952,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PFE46928",
+      "person_name": "阿川佐和子",
+      "target_age": 67,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1FF6796",
+      "person_name": "ロッド・スチュワート",
+      "target_age": 67,
+      "birth_year": 1945,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC04F0A9",
+      "person_name": "ニコラ・サルコジ",
+      "target_age": 67,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA916E60",
+      "person_name": "フィリップ・K・ディック",
+      "target_age": 67,
+      "birth_year": 1910,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5135FBF",
+      "person_name": "W・サマセット・モーム",
+      "target_age": 67,
+      "birth_year": 1877,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0034440",
+      "person_name": "細川たかし",
+      "target_age": 67,
+      "birth_year": 1873,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P93246E9",
+      "person_name": "松浦武四郎",
+      "target_age": 67,
+      "birth_year": 1825,
+      "death_year": NaN,
+      "category": "探検・冒険",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P9893841",
+      "person_name": "土井たか子",
+      "target_age": 67,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P71FF654",
+      "person_name": "河野洋平",
+      "target_age": 67,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC306980",
+      "person_name": "中岡慎太郎",
+      "target_age": 67,
+      "birth_year": 1819,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P12AC501",
+      "person_name": "マックス・フォン・シドー",
+      "target_age": 67,
+      "birth_year": 1929,
+      "death_year": 2020.0,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P711E5CC",
+      "person_name": "ドリー・パートン",
+      "target_age": 67,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PDF73A6E",
+      "person_name": "田中一村",
+      "target_age": 67,
+      "birth_year": 1901,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4327AFA",
+      "person_name": "チム・バーナーズ＝リー",
+      "target_age": 67,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF09D3AA",
+      "person_name": "宮澤喜一",
+      "target_age": 67,
+      "birth_year": 1919,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P49D1A22",
+      "person_name": "フレディ・ハバード",
+      "target_age": 67,
+      "birth_year": 1901,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P93F859B",
+      "person_name": "リー・リトナー",
+      "target_age": 67,
+      "birth_year": 1884,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF591CAB",
+      "person_name": "観世寿夫",
+      "target_age": 67,
+      "birth_year": 1899,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC3B97EF",
+      "person_name": "大島まり",
+      "target_age": 67,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC6610E0",
+      "person_name": "鶴田浩二",
+      "target_age": 67,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE71C0DE",
+      "person_name": "エミリー・ブロンテ",
+      "target_age": 67,
+      "birth_year": 1812,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P505312A",
+      "person_name": "町田啓太",
+      "target_age": 67,
+      "birth_year": 1878,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF672F27",
+      "person_name": "曽野綾子",
+      "target_age": 67,
+      "birth_year": 1931,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P763C86F",
+      "person_name": "津田青楓",
+      "target_age": 67,
+      "birth_year": 1886,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5408FAC",
+      "person_name": "広岡浅子",
+      "target_age": 67,
+      "birth_year": 1831,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PAC6753A",
+      "person_name": "あき竹城",
+      "target_age": 67,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P26E7913",
+      "person_name": "フィリップ・ベイカー・ホール",
+      "target_age": 67,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P743BF7F",
+      "person_name": "田中星児",
+      "target_age": 67,
+      "birth_year": 1947,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0333B4A",
+      "person_name": "杉真理",
+      "target_age": 67,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0A13A58",
+      "person_name": "ポール・オースター",
+      "target_age": 67,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2A5467A",
+      "person_name": "フェリペ・ジュノー",
+      "target_age": 67,
+      "birth_year": 1917,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2F1C491",
+      "person_name": "クリス・レア",
+      "target_age": 67,
+      "birth_year": 1951,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0D9360F",
+      "person_name": "森村誠一",
+      "target_age": 67,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0E3EBBF",
+      "person_name": "アニタ・ベイカー",
+      "target_age": 67,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE3B8951",
+      "person_name": "近藤淳",
+      "target_age": 67,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC72DE22",
+      "person_name": "根岸隆",
+      "target_age": 67,
+      "birth_year": 1936,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD4F5843",
+      "person_name": "松本清",
+      "target_age": 67,
+      "birth_year": 1929,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P92BDE40",
+      "person_name": "仲代達矢",
+      "target_age": 67,
+      "birth_year": 1840,
+      "death_year": 1932.0,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PAA24C29",
+      "person_name": "ベティ・ホワイト",
+      "target_age": 67,
+      "birth_year": 1922,
+      "death_year": 2021.0,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD41887",
+      "person_name": "マルコムX",
+      "target_age": 67,
+      "birth_year": 1926,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE327B33",
+      "person_name": "ノーラン・ライアン",
+      "target_age": 67,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA5E879E",
+      "person_name": "ヒューゴ・チャベス",
+      "target_age": 67,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEB32687",
+      "person_name": "クラウス・キンスキー",
+      "target_age": 67,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P01854E2",
+      "person_name": "ボニー・タイラー",
+      "target_age": 67,
+      "birth_year": 1931,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P11DAFEA",
+      "person_name": "谷山豊",
+      "target_age": 67,
+      "birth_year": 1911,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0BACC07",
+      "person_name": "ウォーレン・ベイティ",
+      "target_age": 67,
+      "birth_year": 1897,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1AA5997",
+      "person_name": "フィリップ・カーン",
+      "target_age": 67,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8ACC953",
+      "person_name": "ジェームズ・メンデルソン",
+      "target_age": 67,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB3C071F",
+      "person_name": "ピエール・ブーレーズ",
+      "target_age": 67,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEEE4921",
+      "person_name": "ジョン・ダルトン",
+      "target_age": 67,
+      "birth_year": 1767,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P95AEE69",
+      "person_name": "フィボナッチ",
+      "target_age": 67,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P399A1DB",
+      "person_name": "田中圭一",
+      "target_age": 67,
+      "birth_year": 1901,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1DCE9F2",
+      "person_name": "市川左團次",
+      "target_age": 67,
+      "birth_year": 1924,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD2DE87D",
+      "person_name": "竹島宏",
+      "target_age": 67,
+      "birth_year": 1885,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6A03A69",
+      "person_name": "ウンベルト・エーコ",
+      "target_age": 67,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P881DD53",
+      "person_name": "ヘルムート・コール",
+      "target_age": 67,
+      "birth_year": 1930,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0C5C8E9",
+      "person_name": "アーマッド・ジャマル",
+      "target_age": 67,
+      "birth_year": 1933,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4BB7353",
+      "person_name": "マーガレット・ミッチェル",
+      "target_age": 67,
+      "birth_year": 1901,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P39CDEAB",
+      "person_name": "尾崎将司",
+      "target_age": 67,
+      "birth_year": 1947,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE9BD8BB",
+      "person_name": "田宮二郎",
+      "target_age": 67,
+      "birth_year": 1952,
+      "death_year": NaN,
+      "category": "俳優・女優",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7191986",
+      "person_name": "秋山仁",
+      "target_age": 67,
+      "birth_year": 1919,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P561E013",
+      "person_name": "アンドラーシュ・シフ",
+      "target_age": 67,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7C65E53",
+      "person_name": "ゲイリー・バートン",
+      "target_age": 67,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PECEDBB6",
+      "person_name": "スティーブン・グールド",
+      "target_age": 67,
+      "birth_year": 1919,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P33CCCF5",
+      "person_name": "エリック・バードン",
+      "target_age": 67,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P98DED2E",
+      "person_name": "鹿島岩蔵",
+      "target_age": 68,
+      "birth_year": 1820,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0034440",
+      "person_name": "細川たかし",
+      "target_age": 68,
+      "birth_year": 1873,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE64AB31",
+      "person_name": "西田敏行",
+      "target_age": 68,
+      "birth_year": 1947,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2F2B03D",
+      "person_name": "サミュエル・L・ジャクソン",
+      "target_age": 68,
+      "birth_year": 1939,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6B3EB72",
+      "person_name": "柳田理科雄",
+      "target_age": 68,
+      "birth_year": 1901,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PDEFDE1F",
+      "person_name": "秋月康夫",
+      "target_age": 68,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PD6388F3",
+      "person_name": "木村重信",
+      "target_age": 68,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA42966B",
+      "person_name": "石田えり",
+      "target_age": 68,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9418C6B",
+      "person_name": "原田芳雄",
+      "target_age": 68,
+      "birth_year": 1913,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5F6D73F",
+      "person_name": "高中正義",
+      "target_age": 68,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P14E75CA",
+      "person_name": "ロジャー・ウォーターズ",
+      "target_age": 68,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P70EDD01",
+      "person_name": "古田敦也",
+      "target_age": 68,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0146EB2",
+      "person_name": "キャノンボール・アダレイ",
+      "target_age": 68,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE12FD3A",
+      "person_name": "鷲田清一",
+      "target_age": 68,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PEB87A97",
+      "person_name": "愛子内親王",
+      "target_age": 68,
+      "birth_year": 1938,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8CD210A",
+      "person_name": "徳川家治",
+      "target_age": 68,
+      "birth_year": 1762,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PCB46D82",
+      "person_name": "中村雅哉",
+      "target_age": 69,
+      "birth_year": 1902,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P982C3B1",
+      "person_name": "神山健治",
+      "target_age": 69,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PAC4FBA3",
+      "person_name": "ヨハネス・ケプラー",
+      "target_age": 69,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF9F1128",
+      "person_name": "ビワハヤヒデ",
+      "target_age": 69,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "競走馬",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9068215",
+      "person_name": "レイ・トムリンソン",
+      "target_age": 69,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5495248",
+      "person_name": "浅野いにお",
+      "target_age": 69,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P87A5170",
+      "person_name": "田中陽子",
+      "target_age": 69,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBD77586",
+      "person_name": "ルー・リード",
+      "target_age": 69,
+      "birth_year": 1909,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P70EDD01",
+      "person_name": "古田敦也",
+      "target_age": 69,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1B0CCFA",
+      "person_name": "吉田夕梨花",
+      "target_age": 69,
+      "birth_year": 1956,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P74012F2",
+      "person_name": "末延吉正",
+      "target_age": 69,
+      "birth_year": 1949,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P98DED2E",
+      "person_name": "鹿島岩蔵",
+      "target_age": 69,
+      "birth_year": 1820,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0034440",
+      "person_name": "細川たかし",
+      "target_age": 69,
+      "birth_year": 1873,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0146EB2",
+      "person_name": "キャノンボール・アダレイ",
+      "target_age": 69,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P46110E2",
+      "person_name": "木村栄",
+      "target_age": 69,
+      "birth_year": 1862,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5D59825",
+      "person_name": "ポン・ジュノ",
+      "target_age": 69,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PC28EC3A",
+      "person_name": "田村善之",
+      "target_age": 69,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PCACF351",
+      "person_name": "三木清",
+      "target_age": 69,
+      "birth_year": 1897,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P99ED38A",
+      "person_name": "遠藤謙",
+      "target_age": 69,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P42AFE6F",
+      "person_name": "ジャン・ピアジェ",
+      "target_age": 69,
+      "birth_year": 1897,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P94DBCC1",
+      "person_name": "ゴードン・ベル",
+      "target_age": 69,
+      "birth_year": 1930,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBAC7D43",
+      "person_name": "オリヴィア・デ・ハヴィランド",
+      "target_age": 69,
+      "birth_year": 1916,
+      "death_year": 2020.0,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PCA14971",
+      "person_name": "ジョン・ル・カレ",
+      "target_age": 69,
+      "birth_year": 1907,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P200F0F8",
+      "person_name": "ヘルマン・オーベルト",
+      "target_age": 69,
+      "birth_year": 1896,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5A7D733",
+      "person_name": "マイケル・ブルームバーグ",
+      "target_age": 69,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P5951172",
+      "person_name": "今井美樹",
+      "target_age": 69,
+      "birth_year": 1951,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P641F985",
+      "person_name": "清水幾太郎",
+      "target_age": 69,
+      "birth_year": 1886,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PDB36A73",
+      "person_name": "ロバート・プラント",
+      "target_age": 69,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P234681D",
+      "person_name": "安藤優子",
+      "target_age": 69,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "アナウンサー・キャスター",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PCC2402C",
+      "person_name": "郷ひろみ",
+      "target_age": 69,
+      "birth_year": 1955,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF72BA3A",
+      "person_name": "ハーバート・サイモン",
+      "target_age": 69,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF8ACD27",
+      "person_name": "藤井フミヤ",
+      "target_age": 69,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA553B99",
+      "person_name": "松友美佐紀",
+      "target_age": 69,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE71B587",
+      "person_name": "近藤滋",
+      "target_age": 69,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0CAF715",
+      "person_name": "永野重雄",
+      "target_age": 69,
+      "birth_year": 1912,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P26E7913",
+      "person_name": "フィリップ・ベイカー・ホール",
+      "target_age": 69,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PB070B48",
+      "person_name": "西條恭介",
+      "target_age": 69,
+      "birth_year": 1957,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P57AD10A",
+      "person_name": "エリック・シュミット",
+      "target_age": 69,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PD727A1F",
+      "person_name": "ソダシ",
+      "target_age": 69,
+      "birth_year": 1951,
+      "death_year": NaN,
+      "category": "競走馬",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6284D24",
+      "person_name": "谷津矢車",
+      "target_age": 69,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P049E67F",
+      "person_name": "J.J.ジョンソン",
+      "target_age": 69,
+      "birth_year": 1903,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2EE8050",
+      "person_name": "イーディス・ウォートン",
+      "target_age": 69,
+      "birth_year": 1863,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE83A74B",
+      "person_name": "ニック・ドレイク",
+      "target_age": 69,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P597C41A",
+      "person_name": "田中美佐子",
+      "target_age": 72,
+      "birth_year": 1934,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P23B7EA5",
+      "person_name": "平幹二朗",
+      "target_age": 72,
+      "birth_year": 1914,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8867E72",
+      "person_name": "ロジャー・バニスター",
+      "target_age": 72,
+      "birth_year": 1894,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P618FF60",
+      "person_name": "伊集院静",
+      "target_age": 72,
+      "birth_year": 1901,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4FD1792",
+      "person_name": "高野長英",
+      "target_age": 72,
+      "birth_year": 1784,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PDBB26E1",
+      "person_name": "ホルヘ・ルイス・ボルヘス",
+      "target_age": 72,
+      "birth_year": 1900,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6140B41",
+      "person_name": "東井義雄",
+      "target_age": 72,
+      "birth_year": 1912,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA6855FE",
+      "person_name": "岩崎弥之助",
+      "target_age": 72,
+      "birth_year": 1851,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P52BF511",
+      "person_name": "ベルンハルト・リーマン",
+      "target_age": 72,
+      "birth_year": 1827,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P17C54D6",
+      "person_name": "辰野金吾",
+      "target_age": 72,
+      "birth_year": 1844,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC1BAB1C",
+      "person_name": "アルフレッド・ウォーレス",
+      "target_age": 72,
+      "birth_year": 1823,
+      "death_year": NaN,
+      "category": "探検・冒険",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8B5DA87",
+      "person_name": "鈴木善幸",
+      "target_age": 72,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF54CFAF",
+      "person_name": "橋爪功",
+      "target_age": 72,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEDF34BF",
+      "person_name": "小松左京",
+      "target_age": 72,
+      "birth_year": 1930,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB7A8E7A",
+      "person_name": "ジョージ・ルーカス",
+      "target_age": 72,
+      "birth_year": 1937,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF6B141B",
+      "person_name": "マルコーニ",
+      "target_age": 72,
+      "birth_year": 1851,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC90940D",
+      "person_name": "ジャッキー・ロビンソン",
+      "target_age": 72,
+      "birth_year": 1894,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEE0EBF5",
+      "person_name": "ジョイス",
+      "target_age": 72,
+      "birth_year": 1903,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6524EF6",
+      "person_name": "久坂部羊",
+      "target_age": 72,
+      "birth_year": 1910,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF9D776D",
+      "person_name": "竹内栖鳳",
+      "target_age": 72,
+      "birth_year": 1859,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P28B9C36",
+      "person_name": "宮内義彦",
+      "target_age": 72,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4F5BE7E",
+      "person_name": "シモン・ペレス",
+      "target_age": 72,
+      "birth_year": 1929,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6C1BC09",
+      "person_name": "富司純子",
+      "target_age": 72,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P59D3D4E",
+      "person_name": "奥原希望",
+      "target_age": 72,
+      "birth_year": 1937,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P18A1019",
+      "person_name": "ロバート・オハラ・バーク",
+      "target_age": 72,
+      "birth_year": 1821,
+      "death_year": NaN,
+      "category": "探検・冒険",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P17DBD4A",
+      "person_name": "リチャード・スタルマン",
+      "target_age": 72,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PFCBDFE9",
+      "person_name": "石坂公成",
+      "target_age": 72,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PAA5189A",
+      "person_name": "エリクソン",
+      "target_age": 72,
+      "birth_year": 1903,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3650EC6",
+      "person_name": "オスカー・ピーターソン",
+      "target_age": 72,
+      "birth_year": 1920,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEF39186",
+      "person_name": "坂本龍一",
+      "target_age": 72,
+      "birth_year": 1926,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5209DC2",
+      "person_name": "クロノジェネシス",
+      "target_age": 72,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "競走馬",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P86352B2",
+      "person_name": "竹鶴政孝",
+      "target_age": 72,
+      "birth_year": 1894,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0F5F35F",
+      "person_name": "林家正蔵",
+      "target_age": 72,
+      "birth_year": 1886,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5D7FC9C",
+      "person_name": "新島襄",
+      "target_age": 72,
+      "birth_year": 1825,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P62F93CE",
+      "person_name": "シモン・ボリバル",
+      "target_age": 72,
+      "birth_year": 1749,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF14E049",
+      "person_name": "太田裕美",
+      "target_age": 72,
+      "birth_year": 1951,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P505312A",
+      "person_name": "町田啓太",
+      "target_age": 72,
+      "birth_year": 1878,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7BB175D",
+      "person_name": "衣笠貞之助",
+      "target_age": 72,
+      "birth_year": 1899,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P5272DB6",
+      "person_name": "小野不由美",
+      "target_age": 72,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD819CB8",
+      "person_name": "ビリー・ジョエル",
+      "target_age": 72,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA870055",
+      "person_name": "ロバート・ゴダード",
+      "target_age": 72,
+      "birth_year": 1877,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PEA5126F",
+      "person_name": "カール・マルクス",
+      "target_age": 72,
+      "birth_year": 1819,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PCCC27DA",
+      "person_name": "塚原光男",
+      "target_age": 72,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P4CB16CD",
+      "person_name": "藤堂明保",
+      "target_age": 72,
+      "birth_year": 1920,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0146EB2",
+      "person_name": "キャノンボール・アダレイ",
+      "target_age": 72,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD6B485B",
+      "person_name": "松尾豊",
+      "target_age": 72,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3C04726",
+      "person_name": "上杉鷹山",
+      "target_age": 72,
+      "birth_year": 1720,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB448B30",
+      "person_name": "田中小実昌",
+      "target_age": 72,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF21F32E",
+      "person_name": "遠藤実",
+      "target_age": 72,
+      "birth_year": 1952,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB1277E1",
+      "person_name": "ヴィルヘルム・レントゲン",
+      "target_age": 72,
+      "birth_year": 1812,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P01D4B5B",
+      "person_name": "高峰秀子",
+      "target_age": 72,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PABB0A72",
+      "person_name": "ディートリヒ・フィッシャー＝ディースカウ",
+      "target_age": 72,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P3787EE2",
+      "person_name": "梅沢富美男",
+      "target_age": 72,
+      "birth_year": 1950,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2FC64B8",
+      "person_name": "田沼意次",
+      "target_age": 72,
+      "birth_year": 1902,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB108884",
+      "person_name": "ジョゼフ・ニーダム",
+      "target_age": 72,
+      "birth_year": 1871,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE5E54B4",
+      "person_name": "千田正穂",
+      "target_age": 72,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6762065",
+      "person_name": "チャカ・カーン",
+      "target_age": 72,
+      "birth_year": 1939,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P39AE4DB",
+      "person_name": "ピョートル・チャイコフスキー",
+      "target_age": 72,
+      "birth_year": 1840,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P18F0F2D",
+      "person_name": "田中信夫",
+      "target_age": 72,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PBC4ECE7",
+      "person_name": "黒澤明",
+      "target_age": 72,
+      "birth_year": 1911,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P363357B",
+      "person_name": "泉鏡花",
+      "target_age": 72,
+      "birth_year": 1853,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7316939",
+      "person_name": "デヴィッド・アッテンボロー",
+      "target_age": 72,
+      "birth_year": 1926,
+      "death_year": 2024.0,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P70705A5",
+      "person_name": "ヨハネ・パウロ2世",
+      "target_age": 72,
+      "birth_year": 1930,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PD662C5D",
+      "person_name": "原田マハ",
+      "target_age": 72,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6A38452",
+      "person_name": "愛知敬一",
+      "target_age": 72,
+      "birth_year": 1915,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P9F92CB2",
+      "person_name": "伊藤蘭",
+      "target_age": 72,
+      "birth_year": 1936,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE665C91",
+      "person_name": "ジャンヌ・カルマン",
+      "target_age": 72,
+      "birth_year": 1875,
+      "death_year": 1997.0,
+      "category": "長寿",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P0FF51E0",
+      "person_name": "アレクサンダー・ボロディン",
+      "target_age": 72,
+      "birth_year": 1758,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P8DA8B72",
+      "person_name": "綿矢りさ",
+      "target_age": 72,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PFD90167",
+      "person_name": "水前寺清子",
+      "target_age": 72,
+      "birth_year": 1945,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P9A4F40A",
+      "person_name": "市川知宏",
+      "target_age": 72,
+      "birth_year": 1923,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PECD03AB",
+      "person_name": "太宰治",
+      "target_age": 72,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1A29DFD",
+      "person_name": "天童よしみ",
+      "target_age": 72,
+      "birth_year": 1954,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P712B561",
+      "person_name": "クライバー",
+      "target_age": 72,
+      "birth_year": 1934,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PB133A40",
+      "person_name": "渡辺香津美",
+      "target_age": 72,
+      "birth_year": 1925,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P01B04B2",
+      "person_name": "中村桂子",
+      "target_age": 72,
+      "birth_year": 1936,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PA2B312E",
+      "person_name": "河口慧海",
+      "target_age": 72,
+      "birth_year": 1866,
+      "death_year": NaN,
+      "category": "探検・冒険",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2B83981",
+      "person_name": "野又穫",
+      "target_age": 72,
+      "birth_year": 1922,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PFA09391",
+      "person_name": "リチャード・ドーキンス",
+      "target_age": 72,
+      "birth_year": 1946,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P32C0157",
+      "person_name": "小野寺昭",
+      "target_age": 72,
+      "birth_year": 1876,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P92D94A0",
+      "person_name": "立原正秋",
+      "target_age": 72,
+      "birth_year": 1921,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PBC4834F",
+      "person_name": "保坂和志",
+      "target_age": 72,
+      "birth_year": 1941,
+      "death_year": NaN,
+      "category": "文学",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PC3B97EF",
+      "person_name": "大島まり",
+      "target_age": 72,
+      "birth_year": 1940,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PF94E3CF",
+      "person_name": "安田幸一",
+      "target_age": 73,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PEE0EBF5",
+      "person_name": "ジョイス",
+      "target_age": 73,
+      "birth_year": 1903,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P6B02E1E",
+      "person_name": "ラジブ・ガンディー",
+      "target_age": 73,
+      "birth_year": 1945,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P19D00E8",
+      "person_name": "広井良典",
+      "target_age": 73,
+      "birth_year": 1943,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P43C2188",
+      "person_name": "ダイワスカーレット",
+      "target_age": 73,
+      "birth_year": 1917,
+      "death_year": NaN,
+      "category": "競走馬",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PBC134B9",
+      "person_name": "ティモシー・マクベイ",
+      "target_age": 73,
+      "birth_year": 1905,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P3B6EF47",
+      "person_name": "ライカ",
+      "target_age": 73,
+      "birth_year": 1918,
+      "death_year": NaN,
+      "category": "歴史上の動物",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P11C6BE5",
+      "person_name": "秋吉敏子",
+      "target_age": 73,
+      "birth_year": 1929,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1DB6CC2",
+      "person_name": "木戸孝允",
+      "target_age": 73,
+      "birth_year": 1824,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P2B9FC60",
+      "person_name": "辰巳琢郎",
+      "target_age": 73,
+      "birth_year": 1909,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P60D5D71",
+      "person_name": "中西寛",
+      "target_age": 73,
+      "birth_year": 1944,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE810847",
+      "person_name": "久保田権四郎",
+      "target_age": 73,
+      "birth_year": 1951,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE4C8AFE",
+      "person_name": "十文字美信",
+      "target_age": 73,
+      "birth_year": 1945,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE327B33",
+      "person_name": "ノーラン・ライアン",
+      "target_age": 73,
+      "birth_year": 1948,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE81001C",
+      "person_name": "今井むつみ",
+      "target_age": 73,
+      "birth_year": 1919,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P43B584C",
+      "person_name": "渡辺美里",
+      "target_age": 73,
+      "birth_year": 1942,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8F89B3D",
+      "person_name": "与謝野馨",
+      "target_age": 73,
+      "birth_year": 1939,
+      "death_year": NaN,
+      "category": "政治・社会",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P4AF2C77",
+      "person_name": "森繁久彌",
+      "target_age": 73,
+      "birth_year": 1913,
+      "death_year": 2009.0,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P01D924B",
+      "person_name": "ゲオルク・オーム",
+      "target_age": 73,
+      "birth_year": 1789,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8A982C6",
+      "person_name": "鳥羽一郎",
+      "target_age": 73,
+      "birth_year": 1952,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P9551ABC",
+      "person_name": "アンナ・パヴロワ",
+      "target_age": 73,
+      "birth_year": 1872,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF6A8D3E",
+      "person_name": "ジャン・ジオノ",
+      "target_age": 73,
+      "birth_year": 1872,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P95B69F8",
+      "person_name": "小田切正明",
+      "target_age": 73,
+      "birth_year": 1953,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P388A8CF",
+      "person_name": "伊東四朗",
+      "target_age": 73,
+      "birth_year": 1919,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P47C7583",
+      "person_name": "江口洋介",
+      "target_age": 73,
+      "birth_year": 1876,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P01B504E",
+      "person_name": "クリス・ボニントン",
+      "target_age": 73,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "探検・冒険",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P15FF979",
+      "person_name": "アレクサンダー・ズベレフ",
+      "target_age": 73,
+      "birth_year": 1933,
+      "death_year": NaN,
+      "category": "スポーツ",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P1419FEC",
+      "person_name": "マーヴィン・ゲイ",
+      "target_age": 73,
+      "birth_year": 1903,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PA8878B4",
+      "person_name": "一澤信三郎",
+      "target_age": 73,
+      "birth_year": 1838,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0146EB2",
+      "person_name": "キャノンボール・アダレイ",
+      "target_age": 73,
+      "birth_year": 1928,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P8757788",
+      "person_name": "モンセラート・カバリェ",
+      "target_age": 73,
+      "birth_year": 1935,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PE83A74B",
+      "person_name": "ニック・ドレイク",
+      "target_age": 73,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "音楽",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P7999C0A",
+      "person_name": "フランソワーズ・サガン",
+      "target_age": 73,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P84367CF",
+      "person_name": "大隅良典",
+      "target_age": 73,
+      "birth_year": 1951,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "PF94B322",
+      "person_name": "荷田春満",
+      "target_age": 73,
+      "birth_year": 1920,
+      "death_year": NaN,
+      "category": "歴史",
+      "priority": "MEDIUM"
+    },
+    {
+      "person_id": "P0D18B34",
+      "person_name": "エドセル・フォード",
+      "target_age": 74,
+      "birth_year": 1898,
+      "death_year": NaN,
+      "category": "ビジネス",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P1B0144C",
+      "person_name": "ルイ・パスツール",
+      "target_age": 74,
+      "birth_year": 1823,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2C70422",
+      "person_name": "エリザベス2世",
+      "target_age": 74,
+      "birth_year": 1926,
+      "death_year": 2022.0,
+      "category": "政治・社会",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PE598D2B",
+      "person_name": "六代目杵屋巳太郎",
+      "target_age": 74,
+      "birth_year": 1906,
+      "death_year": NaN,
+      "category": "芸術・文化",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P2C64484",
+      "person_name": "佐久間象山",
+      "target_age": 74,
+      "birth_year": 1804,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "PAFD9900",
+      "person_name": "エルンスト・マイヤー",
+      "target_age": 74,
+      "birth_year": 1893,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P07D8D17",
+      "person_name": "鎌田實",
+      "target_age": 74,
+      "birth_year": 1949,
+      "death_year": NaN,
+      "category": "科学・技術",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P7F1EFC0",
+      "person_name": "橋田壽賀子",
+      "target_age": 74,
+      "birth_year": 1927,
+      "death_year": NaN,
+      "category": "映画・演劇",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6464BDE",
+      "person_name": "ジョン・メンデル・ケインズ",
+      "target_age": 74,
+      "birth_year": 1891,
+      "death_year": NaN,
+      "category": "学術・研究",
+      "priority": "HIGH"
+    },
+    {
+      "person_id": "P6F90194",
+      "person_name": "坂上二郎",
+      "target_age": 74,
+      "birth_year": 1917,
+      "death_year": NaN,
+      "category": "エンターテイメント",
+      "priority": "HIGH"
+    }
+  ]
+}

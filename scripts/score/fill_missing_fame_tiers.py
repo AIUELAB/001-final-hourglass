@@ -22,25 +22,25 @@ BACKUP_PATH = (
 
 def fame_score_to_tier(score):
     """
-    fame_scoreからfame_tierを計算
+    fame_score_v3 (0-900スケール) からfame_tierを計算
 
-    既存データの分析結果に基づく：
-    - Tier 5: 8.4以上（世界的）
-    - Tier 4: 5.0-8.3（全国的）
-    - Tier 3: 4.0-4.9（地域的）
-    - Tier 2: 3.0-3.9（専門的）
-    - Tier 1: 3.0未満（限定的）
+    閾値（post_batch_processor.py準拠）：
+    - Tier 5: 800以上（世界的）
+    - Tier 4: 600-799（全国的）
+    - Tier 3: 400-599（地域的）
+    - Tier 2: 200-399（専門的）
+    - Tier 1: 200未満（限定的）
     """
     if pd.isna(score):
         return None
 
-    if score >= 8.4:
+    if score >= 800:
         return 5
-    elif score >= 5.0:
+    elif score >= 600:
         return 4
-    elif score >= 4.0:
+    elif score >= 400:
         return 3
-    elif score >= 3.0:
+    elif score >= 200:
         return 2
     else:
         return 1
@@ -120,13 +120,17 @@ def main():
     for idx in df[unrated_mask].index:
         row = df.loc[idx]
 
-        # fame_scoreが存在する場合はそれを使用
-        if pd.notna(row["fame_score"]) and row["fame_score"] > 0:
-            tier = fame_score_to_tier(row["fame_score"])
+        # fame_score_v3が存在する場合はそれを使用
+        if (
+            pd.notna(row.get("fame_score_v3", row.get("fame_score")))
+            and row.get("fame_score_v3", row.get("fame_score", 0)) > 0
+        ):
+            score = row.get("fame_score_v3", row.get("fame_score"))
+            tier = fame_score_to_tier(score)
         else:
-            # fame_scoreがない場合はメタデータから推定
+            # fame_score_v3がない場合はメタデータから推定
             estimated_score = estimate_fame_score_from_metadata(row)
-            df.loc[idx, "fame_score"] = estimated_score
+            df.loc[idx, "fame_score_v3"] = estimated_score
             tier = fame_score_to_tier(estimated_score)
 
         if tier is not None:

@@ -1,0 +1,52 @@
+{
+  "summary": {
+    "total_episodes": 47875,
+    "unique_persons": 7449,
+    "target_per_age": 375,
+    "shortage_ages": 40,
+    "total_shortage": 5136
+  },
+  "priority_ages": [
+    {
+      "age": 102,
+      "current": 0,
+      "shortage": 375,
+      "priority": "最高"
+    },
+    {
+      "age": 103,
+      "current": 0,
+      "shortage": 375,
+      "priority": "最高"
+    },
+    {
+      "age": 101,
+      "current": 1,
+      "shortage": 374,
+      "priority": "最高"
+    },
+    {
+      "age": 104,
+      "current": 1,
+      "shortage": 374,
+      "priority": "最高"
+    },
+    {
+      "age": 0,
+      "current": 3,
+      "shortage": 372,
+      "priority": "最高"
+    },
+    {
+      "age": 100,
+      "current": 78,
+      "shortage": 297,
+      "priority": "高"
+    }
+  ],
+  "analysis": {
+    "超高齢層(100+)": "長寿者データが極めて少ない。世界の長寿記録者リストが必要",
+    "高齢層(75-99)": "既存人物の高齢期エピソードが不足。death_yearまでの追跡が必要",
+    "0歳": "誕生時エピソードは事実性確保が困難。著名人の出生逸話に限定"
+  }
+}

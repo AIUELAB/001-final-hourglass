@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-01-16T12:42:01.947445",
+  "current_status": {
+    "total_episodes": 47875,
+    "unique_persons": 7449,
+    "target_per_age": 375,
+    "shortage_ages": 40,
+    "total_shortage": 5136
+  },
+  "new_resources": {
+    "new_category_persons": 650,
+    "categories": {
+      "料理": 150,
+      "写真": 150,
+      "ジャーナリズム": 150,
+      "宇宙開発": 100,
+      "建築": 100
+    },
+    "high_age_candidates": 1295,
+    "high_priority_90plus": 287
+  },
+  "implementation_plan": {
+    "phase1": "既存長寿者の高齢期エピソード追加（1,295件候補）",
+    "phase2": "新規カテゴリ人物の基本エピソード生成（650人）",
+    "phase3": "不足年齢への重点的エピソード配置",
+    "expected_reduction": "5,136件 → 約2,000件（60%削減目標）"
+  }
+}

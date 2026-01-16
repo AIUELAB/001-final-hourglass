@@ -1,0 +1,202 @@
+[
+  {
+    "age": 0,
+    "current": 3,
+    "shortage": 372
+  },
+  {
+    "age": 7,
+    "current": 338,
+    "shortage": 37
+  },
+  {
+    "age": 8,
+    "current": 336,
+    "shortage": 39
+  },
+  {
+    "age": 9,
+    "current": 315,
+    "shortage": 60
+  },
+  {
+    "age": 17,
+    "current": 326,
+    "shortage": 49
+  },
+  {
+    "age": 34,
+    "current": 356,
+    "shortage": 19
+  },
+  {
+    "age": 36,
+    "current": 362,
+    "shortage": 13
+  },
+  {
+    "age": 61,
+    "current": 373,
+    "shortage": 2
+  },
+  {
+    "age": 62,
+    "current": 368,
+    "shortage": 7
+  },
+  {
+    "age": 67,
+    "current": 288,
+    "shortage": 87
+  },
+  {
+    "age": 68,
+    "current": 359,
+    "shortage": 16
+  },
+  {
+    "age": 69,
+    "current": 332,
+    "shortage": 43
+  },
+  {
+    "age": 72,
+    "current": 292,
+    "shortage": 83
+  },
+  {
+    "age": 73,
+    "current": 340,
+    "shortage": 35
+  },
+  {
+    "age": 74,
+    "current": 306,
+    "shortage": 69
+  },
+  {
+    "age": 75,
+    "current": 337,
+    "shortage": 38
+  },
+  {
+    "age": 76,
+    "current": 176,
+    "shortage": 199
+  },
+  {
+    "age": 77,
+    "current": 197,
+    "shortage": 178
+  },
+  {
+    "age": 78,
+    "current": 164,
+    "shortage": 211
+  },
+  {
+    "age": 79,
+    "current": 294,
+    "shortage": 81
+  },
+  {
+    "age": 80,
+    "current": 250,
+    "shortage": 125
+  },
+  {
+    "age": 81,
+    "current": 261,
+    "shortage": 114
+  },
+  {
+    "age": 82,
+    "current": 231,
+    "shortage": 144
+  },
+  {
+    "age": 87,
+    "current": 277,
+    "shortage": 98
+  },
+  {
+    "age": 89,
+    "current": 307,
+    "shortage": 68
+  },
+  {
+    "age": 90,
+    "current": 326,
+    "shortage": 49
+  },
+  {
+    "age": 91,
+    "current": 321,
+    "shortage": 54
+  },
+  {
+    "age": 92,
+    "current": 264,
+    "shortage": 111
+  },
+  {
+    "age": 93,
+    "current": 281,
+    "shortage": 94
+  },
+  {
+    "age": 94,
+    "current": 256,
+    "shortage": 119
+  },
+  {
+    "age": 95,
+    "current": 239,
+    "shortage": 136
+  },
+  {
+    "age": 96,
+    "current": 236,
+    "shortage": 139
+  },
+  {
+    "age": 97,
+    "current": 232,
+    "shortage": 143
+  },
+  {
+    "age": 98,
+    "current": 209,
+    "shortage": 166
+  },
+  {
+    "age": 99,
+    "current": 232,
+    "shortage": 143
+  },
+  {
+    "age": 100,
+    "current": 78,
+    "shortage": 297
+  },
+  {
+    "age": 101,
+    "current": 1,
+    "shortage": 374
+  },
+  {
+    "age": 102,
+    "current": 0,
+    "shortage": 375
+  },
+  {
+    "age": 103,
+    "current": 0,
+    "shortage": 375
+  },
+  {
+    "age": 104,
+    "current": 1,
+    "shortage": 374
+  }
+]

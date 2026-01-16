@@ -71,6 +71,19 @@ def cmd_submit(args):
     age_min = getattr(args, "age_min", None)
     age_max = getattr(args, "age_max", None)
 
+    # 年齢範囲バリデーション
+    if age_min is not None and age_max is not None and age_min > age_max:
+        logger.error(f"--age-min ({age_min}) は --age-max ({age_max}) 以下である必要があります")
+        return 1
+
+    if age_min is not None and (age_min < 0 or age_min > 100):
+        logger.error(f"--age-min ({age_min}) は 0-100 の範囲内である必要があります")
+        return 1
+
+    if age_max is not None and (age_max < 0 or age_max > 100):
+        logger.error(f"--age-max ({age_max}) は 0-100 の範囲内である必要があります")
+        return 1
+
     # target_agesをパース（カンマ区切りの文字列 → int リスト）
     target_ages_str = getattr(args, "target_ages", None)
     target_ages = None
@@ -328,7 +341,7 @@ def cmd_retrieve(args):
                 else:
                     logger.info("結果取得中に問題が発生しました")
             elif batch_status == "in_progress":
-                logger.info(f"バッチはまだ処理中です (--wait で待機可能)")
+                logger.info("バッチはまだ処理中です (--wait で待機可能)")
             elif batch_status == "canceled":
                 logger.warning("バッチはキャンセルされました")
             else:

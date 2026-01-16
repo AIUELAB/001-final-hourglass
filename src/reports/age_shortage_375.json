@@ -1,0 +1,92 @@
+[
+  {
+    "age": 82,
+    "current": 286,
+    "deficit": 89,
+    "rate": 76.26666666666667
+  },
+  {
+    "age": 81,
+    "current": 324,
+    "deficit": 51,
+    "rate": 86.4
+  },
+  {
+    "age": 87,
+    "current": 325,
+    "deficit": 50,
+    "rate": 86.66666666666667
+  },
+  {
+    "age": 79,
+    "current": 349,
+    "deficit": 26,
+    "rate": 93.06666666666666
+  },
+  {
+    "age": 89,
+    "current": 350,
+    "deficit": 25,
+    "rate": 93.33333333333333
+  },
+  {
+    "age": 78,
+    "current": 360,
+    "deficit": 15,
+    "rate": 96.0
+  },
+  {
+    "age": 0,
+    "current": 368,
+    "deficit": 7,
+    "rate": 98.13333333333333
+  },
+  {
+    "age": 8,
+    "current": 369,
+    "deficit": 6,
+    "rate": 98.4
+  },
+  {
+    "age": 69,
+    "current": 371,
+    "deficit": 4,
+    "rate": 98.93333333333332
+  },
+  {
+    "age": 62,
+    "current": 372,
+    "deficit": 3,
+    "rate": 99.2
+  },
+  {
+    "age": 6,
+    "current": 373,
+    "deficit": 2,
+    "rate": 99.46666666666667
+  },
+  {
+    "age": 7,
+    "current": 373,
+    "deficit": 2,
+    "rate": 99.46666666666667
+  },
+  {
+    "age": 68,
+    "current": 373,
+    "deficit": 2,
+    "rate": 99.46666666666667
+  },
+  {
+    "age": 73,
+    "current": 373,
+    "deficit": 2,
+    "rate": 99.46666666666667
+  },
+  {
+    "age": 41,
+    "current": 374,
+    "deficit": 1,
+    "rate": 99.73333333333333
+  }
+]

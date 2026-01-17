@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 import pandas as pd
 
@@ -30,7 +30,7 @@ from scripts.validation.fictional_lead_gate import check_fictional_lead_row
 from src.utils.fictional_quality_gate import FictionalQualityGate
 
 # UnifiedGate（DB反映前の最終ゲート - バイパス経路塞ぎ）
-from .unified_gate import UnifiedGate, ValidationError, ViolationType
+from .unified_gate import UnifiedGate, ViolationType
 
 
 @dataclass
@@ -250,13 +250,13 @@ class SafeCSVWriter:
             row = self._result_to_row(result)
 
             # 検証
-            valid, error = self._validate_row(row)
+            valid, _error = self._validate_row(row)
             if not valid:
                 skipped_count += 1
                 continue
 
             # 重複チェック（EPUP: 1人1年齢1エピソード原則）
-            is_dup, dup_reason = self._check_duplicate(row, existing_df)
+            is_dup, _dup_reason = self._check_duplicate(row, existing_df)
             if is_dup:
                 skipped_count += 1
                 continue
@@ -315,7 +315,7 @@ class SafeCSVWriter:
                 row = self._result_to_row(result)
 
                 # 検証
-                valid, error = self._validate_row(row)
+                valid, _error = self._validate_row(row)
                 if not valid:
                     skipped_count += 1
                     continue
@@ -338,7 +338,7 @@ class SafeCSVWriter:
                     continue
 
                 # 重複チェック
-                is_dup, dup_reason = self._check_duplicate(row, existing_df)
+                is_dup, _dup_reason = self._check_duplicate(row, existing_df)
                 if is_dup:
                     skipped_count += 1
                     continue
@@ -390,11 +390,15 @@ class SafeCSVWriter:
                 diff_log_path=diff_log_path,
             )
 
-        except Exception as e:
+        except (IOError, pd.errors.ParserError, PermissionError, pd.errors.EmptyDataError) as e:
+            logger.error(f"CSV write operation failed: {e}", exc_info=True)
             return WriteResult(
                 success=False,
-                error_message=str(e),
+                error_message=f"ファイル操作エラー: {str(e)}",
             )
+        except Exception as e:
+            logger.exception(f"Unexpected error during CSV write: {e}")
+            raise
 
     def replace_episode(
         self,
@@ -500,11 +504,15 @@ class SafeCSVWriter:
                 diff_log_path=diff_log_path,
             )
 
-        except Exception as e:
+        except (IOError, pd.errors.ParserError, PermissionError, pd.errors.EmptyDataError) as e:
+            logger.error(f"CSV replace operation failed: {e}", exc_info=True)
             return WriteResult(
                 success=False,
-                error_message=str(e),
+                error_message=f"ファイル操作エラー: {str(e)}",
             )
+        except Exception as e:
+            logger.exception(f"Unexpected error during CSV replace: {e}")
+            raise
 
     def _save_replacement_log(
         self,

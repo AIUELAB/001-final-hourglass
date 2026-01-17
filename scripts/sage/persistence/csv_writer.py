@@ -29,6 +29,9 @@ from scripts.validation.fictional_lead_gate import check_fictional_lead_row
 # FictionalQualityGate（架空キャラクター品質ゲート - RCA-20260115）
 from src.utils.fictional_quality_gate import FictionalQualityGate
 
+# UnifiedGate（DB反映前の最終ゲート - バイパス経路塞ぎ）
+from .unified_gate import UnifiedGate, ValidationError
+
 
 @dataclass
 class WriteResult:
@@ -159,13 +162,28 @@ class SafeCSVWriter:
                 if result.fixable and result.auto_fixed_text:
                     row["episode_text"] = result.auto_fixed_text
                     logger.info(
-                        f"SafeCSVWriter: FictionalQualityGate自動修正 - "
-                        f"{row.get('person_name')} ({row.get('age')}歳)"
+                        f"SafeCSVWriter: FictionalQualityGate自動修正 - {row.get('person_name')} ({row.get('age')}歳)"
                     )
                 else:
                     # 修正不可の場合は棄却
                     violations = "; ".join([v.detail for v in result.violations])
                     return False, f"FictionalQualityGate違反: {violations}"
+
+        # UnifiedGateチェック（バイパス経路塞ぎ - DB反映前最終ゲート）
+        # REAL/FICTIONAL両方をカバーする統合検証
+        from .unified_gate import ViolationType
+
+        # WARNINGレベルの違反タイプ（通過を許可）
+        WARNING_TYPES = {ViolationType.UNVERIFIED_CLAIM}
+
+        unified_gate = UnifiedGate(strict_mode=False)
+        unified_result = unified_gate.validate(row)
+        if not unified_result.is_valid:
+            # ERRORレベルのみブロック（WARNINGは通過）
+            error_violations = [v for v in unified_result.violations if v not in WARNING_TYPES]
+            if error_violations:
+                error_msgs = [msg for msg in unified_result.messages]
+                return False, f"UnifiedGate違反: {'; '.join(error_msgs)}"
 
         return True, ""
 

@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-01-17T11:20:12.434942",
+  "title": "架空キャラクターエピソード包括的品質チェックレポート",
+  "summary": {
+    "total_fictional_episodes": 9646,
+    "total_unique_characters": 613,
+    "total_violations_found": 2183
+  },
+  "checks": {
+    "meta_expressions": {
+      "description": "メタ表現混入チェック",
+      "total_violations": 3427,
+      "severity": "WARNING",
+      "breakdown": {
+        "作品名括弧（『』）": 3427
+      },
+      "note": "LLM拒否メッセージは前回セッションで215件削除済み"
+    },
+    "narrative_inconsistency": {
+      "description": "物語整合性違反チェック",
+      "total_violations": 1477,
+      "severity": "ERROR",
+      "breakdown": {
+        "Type 1: 実在機関言及": 859,
+        "Type 2: 架空世界に現代年号": 618
+      },
+      "top_institutions": [
+        "NHK(130)",
+        "東京大学(122)",
+        "国連(103)",
+        "MIT(62)",
+        "甲子園(62)"
+      ],
+      "top_works_with_year_issues": [
+        "ドラゴンボール(160)",
+        "スター・ウォーズ(103)",
+        "聖闘士星矢(54)"
+      ]
+    },
+    "birth_death_year": {
+      "description": "生年・没年違反チェック",
+      "total_violations": 0,
+      "severity": "OK",
+      "note": "架空キャラはbirth_year/death_yearがほとんど未設定のため問題なし"
+    },
+    "llm_fabrication": {
+      "description": "LLM創作禁止パターンチェック",
+      "total_violations": 571,
+      "severity": "ERROR",
+      "breakdown": {
+        "実在テック人物言及": 135,
+        "金融活動付与": 115,
+        "引退設定付与": 106,
+        "現実的売上数字": 97,
+        "映画業界役職付与": 55,
+        "エンタメ業界活動": 31,
+        "スタジオ活動": 27,
+        "その他": 5
+      }
+    },
+    "official_validator": {
+      "description": "EPUP公式バリデータ結果",
+      "total_violations": 135,
+      "severity": "WARNING/ERROR",
+      "breakdown": {
+        "META_REFERENCE (WARNING)": 129,
+        "NAME_FORMAT_ERROR (ERROR)": 6
+      }
+    }
+  }
+}

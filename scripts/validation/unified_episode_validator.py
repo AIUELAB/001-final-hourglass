@@ -53,6 +53,16 @@ REPORT_DIR = PROJECT_ROOT / "src/reports"
 
 
 # =============================================================================
+# 検証設定（フラグ）
+# =============================================================================
+
+# UNVERIFIED_CLAIM検出: False = 無効（適切なヘッジ表現は許容）
+# 「〜とされる」等は主観的評価や歴史的推計の適切なヘッジであり、
+# 削除すると根拠なき断定になるため、デフォルトで無効化
+ENABLE_UNVERIFIED_CLAIM_CHECK = False
+
+
+# =============================================================================
 # 違反タイプ定義（unified_gate.pyから共通インポート）
 # =============================================================================
 
@@ -466,11 +476,25 @@ class UnifiedEpisodeValidator:
                     )
                 )
 
-        # 4. 曖昧表現検出（INFOレベル - 適切なヘッジ表現は許容）
-        # 「〜とされる」等は主観的評価や歴史的推計の適切なヘッジであり、
-        # 削除すると根拠なき断定になるため、違反としてカウントしない
-        # for pattern, label in UNVERIFIED_CLAIM_PATTERNS:
-        #     ... (INFO level - not counted as violation)
+        # 4. 曖昧表現検出（設定フラグで制御）
+        if ENABLE_UNVERIFIED_CLAIM_CHECK:
+            for pattern, label in UNVERIFIED_CLAIM_PATTERNS:
+                if re.search(pattern, episode_text):
+                    violations.append(
+                        Violation(
+                            episode_id=episode_id,
+                            person_name=person_name,
+                            person_type="REAL",
+                            violation_type=ViolationType.UNVERIFIED_CLAIM,
+                            severity=Severity.WARNING,
+                            message=f"曖昧表現: {label}",
+                            details={
+                                "pattern": label,
+                                "snippet": self._get_snippet(episode_text, pattern),
+                            },
+                        )
+                    )
+                    break  # 1つ検出で十分
 
         return violations
 

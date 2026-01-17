@@ -48,26 +48,29 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
 class ViolationType(Enum):
-    """違反タイプ（統一定義 - csv_writer.py, unified_episode_validator.py共通）"""
+    """違反タイプ（統一定義 - csv_writer.py, unified_episode_validator.py共通）
+
+    Note: 全ての値は snake_case で統一（外部ツール連携時の一貫性確保）
+    """
 
     # FICTIONAL向け
     META_EXPRESSION = "meta_expression"  # メタ的表現（「原作では」「この作品では」等）
-    META_INFO_CONTAMINATION = "META_INFO_CONTAMINATION"  # メタ情報混入（バッチ検証用エイリアス）
+    META_INFO_CONTAMINATION = "meta_info_contamination"  # メタ情報混入
     CANON_VIOLATION = "canon_violation"  # 作品設定違反（キャラ不整合等）
-    LLM_CANON_DEVIATION = "LLM_CANON_DEVIATION"  # LLM創作（カノン逸脱）
+    LLM_CANON_DEVIATION = "llm_canon_deviation"  # LLM創作（カノン逸脱）
     FICTIONAL_AGE_BOUNDARY = "fictional_age_boundary"  # 架空キャラの年齢境界違反
-    FICTIONAL_AGE_INCONSISTENCY = "FICTIONAL_AGE_INCONSISTENCY"  # 架空キャラ年齢不整合
+    FICTIONAL_AGE_INCONSISTENCY = "fictional_age_inconsistency"  # 架空キャラ年齢不整合
     ERA_INCONSISTENCY = "era_inconsistency"  # 時代設定不整合（現代年号使用等）
-    MODERN_YEAR_IN_FICTIONAL = "MODERN_YEAR_IN_FICTIONAL"  # 現代年号使用（バッチ検証用エイリアス）
+    MODERN_YEAR_IN_FICTIONAL = "modern_year_in_fictional"  # 現代年号使用
     NAME_FORMAT_ERROR = "name_format_error"  # 名前フォーマット違反
     REAL_ENTITY_IN_FICTIONAL = "real_entity_in_fictional"  # 架空世界での現実エンティティ言及
-    REAL_INSTITUTION_IN_FICTIONAL = "REAL_INSTITUTION_IN_FICTIONAL"  # 実在機関言及
+    REAL_INSTITUTION_IN_FICTIONAL = "real_institution_in_fictional"  # 実在機関言及
 
     # REAL向け
     REAL_AGE_BOUNDARY = "real_age_boundary"  # 実在人物の年齢境界違反
-    AGE_EXCEEDS_LIFESPAN = "AGE_EXCEEDS_LIFESPAN"  # 享年超過
-    AGE_EXCEEDS_CURRENT = "AGE_EXCEEDS_CURRENT"  # 現在年齢超過
-    BIRTH_AFTER_DEATH = "BIRTH_AFTER_DEATH"  # 生年>没年
+    AGE_EXCEEDS_LIFESPAN = "age_exceeds_lifespan"  # 享年超過
+    AGE_EXCEEDS_CURRENT = "age_exceeds_current"  # 現在年齢超過
+    BIRTH_AFTER_DEATH = "birth_after_death"  # 生年>没年
     FACT_CHECK_FAIL = "fact_check_fail"  # ファクトチェック失敗
     UNVERIFIED_CLAIM = "unverified_claim"  # 未検証の主張
     DEATH_YEAR_VIOLATION = "death_year_violation"  # 死亡年以降のエピソード

@@ -466,24 +466,11 @@ class UnifiedEpisodeValidator:
                     )
                 )
 
-        # 4. 曖昧表現検出（警告レベル）
-        for pattern, label in UNVERIFIED_CLAIM_PATTERNS:
-            if re.search(pattern, episode_text):
-                violations.append(
-                    Violation(
-                        episode_id=episode_id,
-                        person_name=person_name,
-                        person_type="REAL",
-                        violation_type=ViolationType.UNVERIFIED_CLAIM,
-                        severity=Severity.WARNING,
-                        message=f"曖昧表現: {label}",
-                        details={
-                            "pattern": label,
-                            "snippet": self._get_snippet(episode_text, pattern),
-                        },
-                    )
-                )
-                break  # 1つ検出で十分
+        # 4. 曖昧表現検出（INFOレベル - 適切なヘッジ表現は許容）
+        # 「〜とされる」等は主観的評価や歴史的推計の適切なヘッジであり、
+        # 削除すると根拠なき断定になるため、違反としてカウントしない
+        # for pattern, label in UNVERIFIED_CLAIM_PATTERNS:
+        #     ... (INFO level - not counted as violation)
 
         return violations
 

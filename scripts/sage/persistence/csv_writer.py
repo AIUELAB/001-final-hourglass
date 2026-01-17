@@ -180,9 +180,14 @@ class SafeCSVWriter:
         unified_result = unified_gate.validate(row)
         if not unified_result.is_valid:
             # ERRORレベルのみブロック（WARNINGは通過）
-            error_violations = [v for v in unified_result.violations if v not in WARNING_TYPES]
-            if error_violations:
-                error_msgs = [msg for msg in unified_result.messages]
+            # violationsとmessagesをペアでフィルタリング
+            error_items = [
+                (v, m)
+                for v, m in zip(unified_result.violations, unified_result.messages)
+                if v not in WARNING_TYPES
+            ]
+            if error_items:
+                error_msgs = [m for _, m in error_items]
                 return False, f"UnifiedGate違反: {'; '.join(error_msgs)}"
 
         return True, ""

@@ -127,6 +127,7 @@ class TestFictionalMetaExpression:
 class TestFictionalCanonViolation:
     """2. カノン逸脱検出テスト"""
 
+    @pytest.mark.skip(reason="REAL_ENTITY_IN_FICTIONAL チェック未実装")
     def test_detect_canon_violation_nhk(self):
         """架空世界での「NHK」言及を検出"""
         episode = make_base_episode(
@@ -139,17 +140,11 @@ class TestFictionalCanonViolation:
         gate = UnifiedGate(strict_mode=False)
         result = gate.validate(episode)
 
-        # 作品名言及として検出されるか、または時代不整合として検出
-        # 現在の実装ではREAL_ENTITY_IN_FICTIONALとしてチェックされる可能性
-        # 注: 現在の実装では明示的なカノン違反チェックは未実装
-        # このテストは将来の拡張を見据えた仕様テスト
-        # 実装されれば ViolationType.CANON_VIOLATION または
-        # ViolationType.REAL_ENTITY_IN_FICTIONAL で検出されるべき
+        # 将来の実装で REAL_ENTITY_IN_FICTIONAL として検出されるべき
+        assert not result.is_valid
+        assert ViolationType.REAL_ENTITY_IN_FICTIONAL in result.violations
 
-        # 現時点では、エピソード自体は有効となる可能性がある
-        # （カノン違反チェックが未実装のため）
-        # 将来の実装でこのテストが失敗すれば、機能が追加された証拠
-
+    @pytest.mark.skip(reason="REAL_ENTITY_IN_FICTIONAL チェック未実装")
     def test_detect_canon_violation_tokyo_university(self):
         """架空世界での「東京大学」言及を検出"""
         episode = make_base_episode(
@@ -162,13 +157,15 @@ class TestFictionalCanonViolation:
         gate = UnifiedGate(strict_mode=False)
         result = gate.validate(episode)
 
-        # 注: 現在の実装ではREAL_ENTITY_IN_FICTIONALチェックは未実装
-        # 将来の拡張を見据えたテスト
+        # 将来の実装で REAL_ENTITY_IN_FICTIONAL として検出されるべき
+        assert not result.is_valid
+        assert ViolationType.REAL_ENTITY_IN_FICTIONAL in result.violations
 
 
 class TestFictionalAgeBoundary:
     """3. 架空キャラの年齢境界違反検出テスト"""
 
+    @pytest.mark.skip(reason="FICTIONAL_AGE_BOUNDARY チェック未実装")
     def test_detect_negative_age(self):
         """負の年齢を検出"""
         episode = make_base_episode(
@@ -181,9 +178,11 @@ class TestFictionalAgeBoundary:
         gate = UnifiedGate(strict_mode=False)
         result = gate.validate(episode)
 
-        # 注: 現在の実装では負の年齢チェックは明示的に未実装
-        # 将来の拡張でFICTIONAL_AGE_BOUNDARYとして検出されるべき
+        # 将来の実装で FICTIONAL_AGE_BOUNDARY として検出されるべき
+        assert not result.is_valid
+        assert ViolationType.FICTIONAL_AGE_BOUNDARY in result.violations
 
+    @pytest.mark.skip(reason="FICTIONAL_AGE_BOUNDARY チェック未実装")
     def test_detect_extreme_age(self):
         """異常に高い年齢（1000歳等）を検出"""
         episode = make_base_episode(
@@ -196,8 +195,9 @@ class TestFictionalAgeBoundary:
         gate = UnifiedGate(strict_mode=False)
         result = gate.validate(episode)
 
-        # 注: 架空キャラの異常年齢チェックは現在未実装
-        # 将来の拡張を見据えたテスト
+        # 将来の実装で FICTIONAL_AGE_BOUNDARY として検出されるべき
+        assert not result.is_valid
+        assert ViolationType.FICTIONAL_AGE_BOUNDARY in result.violations
 
 
 # =============================================================================

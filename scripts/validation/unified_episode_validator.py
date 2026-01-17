@@ -53,25 +53,12 @@ REPORT_DIR = PROJECT_ROOT / "src/reports"
 
 
 # =============================================================================
-# 違反タイプ定義
+# 違反タイプ定義（unified_gate.pyから共通インポート）
 # =============================================================================
 
-
-class ViolationType(Enum):
-    """違反タイプ（REAL/FICTIONAL共通）"""
-
-    # FICTIONAL向け
-    META_INFO_CONTAMINATION = "META_INFO_CONTAMINATION"  # メタ情報混入
-    LLM_CANON_DEVIATION = "LLM_CANON_DEVIATION"  # LLM創作（カノン逸脱）
-    REAL_INSTITUTION_IN_FICTIONAL = "REAL_INSTITUTION_IN_FICTIONAL"  # 実在機関言及
-    MODERN_YEAR_IN_FICTIONAL = "MODERN_YEAR_IN_FICTIONAL"  # 現代年号使用
-    FICTIONAL_AGE_INCONSISTENCY = "FICTIONAL_AGE_INCONSISTENCY"  # 架空キャラ年齢不整合
-
-    # REAL向け
-    AGE_EXCEEDS_LIFESPAN = "AGE_EXCEEDS_LIFESPAN"  # 享年超過
-    AGE_EXCEEDS_CURRENT = "AGE_EXCEEDS_CURRENT"  # 現在年齢超過
-    BIRTH_AFTER_DEATH = "BIRTH_AFTER_DEATH"  # 生年>没年
-    UNVERIFIED_CLAIM = "UNVERIFIED_CLAIM"  # 根拠不明主張
+# ViolationTypeはunified_gate.pyで統一定義
+# 名前衝突を防ぎ、csv_writer.pyとの整合性を確保
+from scripts.sage.persistence.unified_gate import ViolationType
 
 
 class Severity(Enum):

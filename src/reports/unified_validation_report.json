@@ -1,32 +1,30 @@
 {
-  "timestamp": "2026-01-17T12:00:32.111635",
+  "timestamp": "2026-01-17T12:35:39.108542",
   "summary": {
-    "total_episodes": 53877,
+    "total_episodes": 53694,
     "real_episodes": 46221,
-    "fictional_episodes": 7656,
-    "total_violations": 259,
+    "fictional_episodes": 7473,
+    "total_violations": 76,
     "by_type": {
-      "UNVERIFIED_CLAIM": 76,
-      "REAL_INSTITUTION_IN_FICTIONAL": 63,
-      "META_INFO_CONTAMINATION": 120
+      "unverified_claim": 76
     },
     "by_severity": {
-      "ERROR": 183,
+      "ERROR": 0,
       "WARNING": 76,
       "INFO": 0
     },
     "by_person_type": {
       "REAL": 76,
-      "FICTIONAL": 183
+      "FICTIONAL": 0
     }
   },
   "examples_by_type": {
-    "UNVERIFIED_CLAIM": [
+    "unverified_claim": [
       {
         "episode_id": "EP-000003907",
         "person_name": "クリス・ボニントン",
         "person_type": "REAL",
-        "violation_type": "UNVERIFIED_CLAIM",
+        "violation_type": "unverified_claim",
         "severity": "WARNING",
         "message": "曖昧表現: 「〜とされる」",
         "details": {
@@ -38,7 +36,7 @@
         "episode_id": "EP-000000678",
         "person_name": "竹内洋岳",
         "person_type": "REAL",
-        "violation_type": "UNVERIFIED_CLAIM",
+        "violation_type": "unverified_claim",
         "severity": "WARNING",
         "message": "曖昧表現: 「〜とされる」",
         "details": {
@@ -50,7 +48,7 @@
         "episode_id": "EP-000007265",
         "person_name": "ベネディクト・カンバーバッチ",
         "person_type": "REAL",
-        "violation_type": "UNVERIFIED_CLAIM",
+        "violation_type": "unverified_claim",
         "severity": "WARNING",
         "message": "曖昧表現: 「〜とされる」",
         "details": {
@@ -62,7 +60,7 @@
         "episode_id": "EP-000003825",
         "person_name": "ジェームズ・キャメロン",
         "person_type": "REAL",
-        "violation_type": "UNVERIFIED_CLAIM",
+        "violation_type": "unverified_claim",
         "severity": "WARNING",
         "message": "曖昧表現: 「〜とされる」",
         "details": {
@@ -74,141 +72,12 @@
         "episode_id": "EP-000008960",
         "person_name": "鴨長明",
         "person_type": "REAL",
-        "violation_type": "UNVERIFIED_CLAIM",
+        "violation_type": "unverified_claim",
         "severity": "WARNING",
         "message": "曖昧表現: 「〜とされる」",
         "details": {
           "pattern": "「〜とされる」",
           "snippet": "...で燃え尽きる惨状を目の当たりにしました。養和の飢饉では餓死者が路上に溢れ、その数は4万2千人を超えたとされる。庵の広さは僅か一丈四方、畳にして三畳ほどの狭い空間に、琵琶一張、琴一面、往生要集などの仏書数巻のみ..."
-        }
-      }
-    ],
-    "REAL_INSTITUTION_IN_FICTIONAL": [
-      {
-        "episode_id": "EP-20260112B2C25C",
-        "person_name": "トニートニー・チョッパー",
-        "person_type": "FICTIONAL",
-        "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-        "severity": "ERROR",
-        "message": "架空世界作品に実在機関: 北海道大学",
-        "details": {
-          "institution": "北海道大学",
-          "work_title": "ONE PIECE",
-          "snippet": "...20歳のとき、トニートニー・チョッパーは、偉大な航路で医療革命の夢を追い続けていました。1522年、北海道大学の医学書を参考に、新しい治療薬の開発に挑戦していました。8種類の薬草と3つの希少な鉱物を組み合わせた..."
-        }
-      },
-      {
-        "episode_id": "EP-260112013222818",
-        "person_name": "ピチュー",
-        "person_type": "FICTIONAL",
-        "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-        "severity": "ERROR",
-        "message": "架空世界作品に実在機関: 任天堂",
-        "details": {
-          "institution": "任天堂",
-          "work_title": "ポケットモンスター",
-          "snippet": "...ピチューはの大ヒットで業界が沸く、ニャース・プロジェクトのリーダーとして重大な岐路に立っていました。任天堂、ゲームフリーク、ポケモン・カンパニーの3社で、新たな参入戦略を練っていました。年間20億円の開発予..."
-        }
-      },
-      {
-        "episode_id": "EP-260112013222588",
-        "person_name": "ゴンべ",
-        "person_type": "FICTIONAL",
-        "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-        "severity": "ERROR",
-        "message": "架空世界作品に実在機関: 任天堂",
-        "details": {
-          "institution": "任天堂",
-          "work_title": "ポケモンマスターズ",
-          "snippet": "...ーズ』はゴンべは『ポケモンマスターズ』の企画リーダーとして革新的なプロジェクトを立ち上げていました。任天堂、ゲームフリーク、クリエイターズ集団と協働し、3つの新世代プラットフォームで、世界110カ国の120..."
-        }
-      },
-      {
-        "episode_id": "EP-260113031842408",
-        "person_name": "グランドマスターイロハ",
-        "person_type": "FICTIONAL",
-        "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-        "severity": "ERROR",
-        "message": "架空世界作品に実在機関: 任天堂",
-        "details": {
-          "institution": "任天堂",
-          "work_title": "ポケモン",
-          "snippet": "...なたと同じ54歳のとき、グランドマスターイロハは「ポケモンマスターズ」プロジェクトの総責任者として、任天堂、ゲームフリーク、クリーチャーズの3社と連携し、革新的なeスポーツ戦略を推進していました。「第1回ポ..."
-        }
-      },
-      {
-        "episode_id": "EP-260113031843205",
-        "person_name": "ククイ博士",
-        "person_type": "FICTIONAL",
-        "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-        "severity": "ERROR",
-        "message": "架空世界作品に実在機関: 京都大学",
-        "details": {
-          "institution": "京都大学",
-          "work_title": "ポケモンGO",
-          "snippet": "あなたと同じ44歳のとき、ククイ博士の社会現象を目撃し、新たな挑戦に突入していました。ある年、京都大学との共同研究で、ポケモンの生態学的研究に革命を起こし、世界29か国から注目を集めた。『ジュラルダン計..."
-        }
-      }
-    ],
-    "META_INFO_CONTAMINATION": [
-      {
-        "episode_id": "EP-260111223545807",
-        "person_name": "アスナ",
-        "person_type": "FICTIONAL",
-        "violation_type": "META_INFO_CONTAMINATION",
-        "severity": "ERROR",
-        "message": "メタ情報混入: アニメ化への言及",
-        "details": {
-          "pattern": "アニメ化への言及",
-          "snippet": "...7歳のとき、アスナ『ソードアートオンライン』は世界的な成功に沸く、ゲーム業界の頂点に立っていました。アニメ化された『アルゴリズムと革命』プロジェクトは1億2000万ダウンロードを突破し、バンダイナムコとの共同..."
-        }
-      },
-      {
-        "episode_id": "EP-260112044302341",
-        "person_name": "ブルース・バナー",
-        "person_type": "FICTIONAL",
-        "violation_type": "META_INFO_CONTAMINATION",
-        "severity": "ERROR",
-        "message": "メタ情報混入: 出版形態への言及",
-        "details": {
-          "pattern": "出版形態への言及",
-          "snippet": "...992年、ゴッサム・シティで「バットマン:ダークナイト・リターンズ」の舞台版に衝撃を受け、マーベル・コミックスの映像世界に魅了された。1994年、デビッド・プロウズの指導により、最初の演技スケッチを描き、3つの..."
-        }
-      },
-      {
-        "episode_id": "EP-260111223545098",
-        "person_name": "轟焦凍",
-        "person_type": "FICTIONAL",
-        "violation_type": "META_INFO_CONTAMINATION",
-        "severity": "ERROR",
-        "message": "メタ情報混入: 出版形態への言及",
-        "details": {
-          "pattern": "出版形態への言及",
-          "snippet": "...する姿を誇らしげに見守っていました。2041年、渡米して国際ヒーロー連盟で講演した際、米国アメリカンコミックスとの文化交流も実現。まさに、轟焦凍の人生最大の集大成と言えるだろう。"
-        }
-      },
-      {
-        "episode_id": "EP-260111235644352",
-        "person_name": "ソフィー",
-        "person_type": "FICTIONAL",
-        "violation_type": "META_INFO_CONTAMINATION",
-        "severity": "ERROR",
-        "message": "メタ情報混入: 映画化への言及",
-        "details": {
-          "pattern": "映画化への言及",
-          "snippet": "あなたと同じ38歳のとき、ソフィー『魔法使いハウル』は自分自身の物語が映画化される過程を見守っていました。ある年のスタジオジブリ設立から、ある年の映画公開に向けて、3つの異なる..."
-        }
-      },
-      {
-        "episode_id": "EP-260111235645300",
-        "person_name": "荒地の魔女",
-        "person_type": "FICTIONAL",
-        "violation_type": "META_INFO_CONTAMINATION",
-        "severity": "ERROR",
-        "message": "メタ情報混入: 映画化への言及",
-        "details": {
-          "pattern": "映画化への言及",
-          "snippet": "...のとき、荒地の魔女は世界的な評価を確立していました。ある年にスタジオジブリで始動した本作は、ある年に映画化され、延べ1000万人以上の観客を魅了。ソフィー、ハウル、カルシファーら主要キャラクターが、国際アニ..."
         }
       }
     ]
@@ -218,7 +87,7 @@
       "episode_id": "EP-000003907",
       "person_name": "クリス・ボニントン",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -230,7 +99,7 @@
       "episode_id": "EP-000000678",
       "person_name": "竹内洋岳",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -242,7 +111,7 @@
       "episode_id": "EP-000007265",
       "person_name": "ベネディクト・カンバーバッチ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -254,7 +123,7 @@
       "episode_id": "EP-000003825",
       "person_name": "ジェームズ・キャメロン",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -266,7 +135,7 @@
       "episode_id": "EP-000008960",
       "person_name": "鴨長明",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -278,7 +147,7 @@
       "episode_id": "EP-260110152338385",
       "person_name": "上村松篁",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とも言われ」",
       "details": {
@@ -290,7 +159,7 @@
       "episode_id": "EP-000007699",
       "person_name": "オリバー・ストーン",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -302,7 +171,7 @@
       "episode_id": "EP-000001911",
       "person_name": "横山大観",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -314,7 +183,7 @@
       "episode_id": "EP-000002919",
       "person_name": "源頼朝",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -326,7 +195,7 @@
       "episode_id": "EP-000006826",
       "person_name": "野原将志",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -338,7 +207,7 @@
       "episode_id": "EP-000001557",
       "person_name": "西沢立衛",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -350,7 +219,7 @@
       "episode_id": "EP-260111162341087",
       "person_name": "イツァーク・パールマン",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -362,7 +231,7 @@
       "episode_id": "EP-8EED6805",
       "person_name": "志賀直哉",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -374,7 +243,7 @@
       "episode_id": "EP-000006183",
       "person_name": "ジョン・ハント",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -386,7 +255,7 @@
       "episode_id": "EP-000001596",
       "person_name": "南方熊楠",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -398,7 +267,7 @@
       "episode_id": "EP-000001561",
       "person_name": "藤本壮介",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -410,7 +279,7 @@
       "episode_id": "EP-1043A4FA",
       "person_name": "アラン・チューリング",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -422,7 +291,7 @@
       "episode_id": "EP-000007525",
       "person_name": "ジェイソン・ステイサム",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -434,7 +303,7 @@
       "episode_id": "EP-000006883",
       "person_name": "デューラー",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -446,7 +315,7 @@
       "episode_id": "EP-24CF956D",
       "person_name": "ヨハネス・フェルメール",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -458,7 +327,7 @@
       "episode_id": "EP-000001750",
       "person_name": "陸奥宗光",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -470,7 +339,7 @@
       "episode_id": "EP-260111162341174",
       "person_name": "ジャクリーヌ・デュ・プレ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -482,7 +351,7 @@
       "episode_id": "EP-000009034",
       "person_name": "成田良悟",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -494,7 +363,7 @@
       "episode_id": "EP-260104010420486360",
       "person_name": "始皇帝",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -506,7 +375,7 @@
       "episode_id": "EP-260111162341187",
       "person_name": "アシュケナージ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -518,7 +387,7 @@
       "episode_id": "EP-000009045",
       "person_name": "ジャン・ヴィゴ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -530,7 +399,7 @@
       "episode_id": "EP-260107095620207",
       "person_name": "丹羽宇一郎",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -542,7 +411,7 @@
       "episode_id": "EP-000005382",
       "person_name": "足利義昭",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -554,7 +423,7 @@
       "episode_id": "EP-260110155342538",
       "person_name": "ニューマン・ポール",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -566,7 +435,7 @@
       "episode_id": "EP-260111081946769",
       "person_name": "田中正造",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とも言われ」",
       "details": {
@@ -578,7 +447,7 @@
       "episode_id": "EP-260110152338742",
       "person_name": "竹本住大夫",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -590,7 +459,7 @@
       "episode_id": "EP-2026010219012",
       "person_name": "レオナルド・ダ・ヴィンチ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -602,7 +471,7 @@
       "episode_id": "EP-260111155142159",
       "person_name": "源義経",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜という説がある」",
       "details": {
@@ -614,7 +483,7 @@
       "episode_id": "EP-CFFAF6E4",
       "person_name": "ガリレオ・ガリレイ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -626,7 +495,7 @@
       "episode_id": "EP-000004773",
       "person_name": "オイラー",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -638,7 +507,7 @@
       "episode_id": "EP-251217211041346",
       "person_name": "志位和夫",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -650,7 +519,7 @@
       "episode_id": "EP-000001158",
       "person_name": "小林光一",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -662,7 +531,7 @@
       "episode_id": "EP-000000440",
       "person_name": "高木美帆",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -674,7 +543,7 @@
       "episode_id": "EP-260107000445530",
       "person_name": "ユスティニアヌス1世",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -686,7 +555,7 @@
       "episode_id": "EP-000002974",
       "person_name": "石破茂",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -698,7 +567,7 @@
       "episode_id": "EP-251219020508398",
       "person_name": "悠木碧",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -710,7 +579,7 @@
       "episode_id": "EP-000004495",
       "person_name": "エメリヤーエンコ・ヒョードル",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -722,7 +591,7 @@
       "episode_id": "EP-260111162800823",
       "person_name": "リチャード獅子心王",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -734,7 +603,7 @@
       "episode_id": "EP-000005532",
       "person_name": "内田康夫",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とも言われ」",
       "details": {
@@ -746,7 +615,7 @@
       "episode_id": "EP-000000798",
       "person_name": "井口資仁",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -758,7 +627,7 @@
       "episode_id": "EP-260111081950244",
       "person_name": "ベルナルド・ホプキンス",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -770,7 +639,7 @@
       "episode_id": "EP-251217205835782",
       "person_name": "ジム・ジャームッシュ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -782,7 +651,7 @@
       "episode_id": "EP-D686754E",
       "person_name": "栗城史多",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -794,7 +663,7 @@
       "episode_id": "EP-000002008",
       "person_name": "宇多田ヒカル",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -806,7 +675,7 @@
       "episode_id": "EP-260110091149932",
       "person_name": "松竹梅子",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -818,7 +687,7 @@
       "episode_id": "EP-000006026",
       "person_name": "ウィリアム・ギブソン",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -830,7 +699,7 @@
       "episode_id": "EP-000002917",
       "person_name": "豊臣秀吉",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -842,7 +711,7 @@
       "episode_id": "EP-000005592",
       "person_name": "バーバラ・マクリントック",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -854,7 +723,7 @@
       "episode_id": "EP-260111162341437",
       "person_name": "泉重千代",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -866,7 +735,7 @@
       "episode_id": "EP-000001910",
       "person_name": "泉重千代",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -878,7 +747,7 @@
       "episode_id": "EP-000001574",
       "person_name": "堤幸彦",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とも言われ」",
       "details": {
@@ -890,7 +759,7 @@
       "episode_id": "EP-260105225818577159",
       "person_name": "井上康生",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とも言われ」",
       "details": {
@@ -902,7 +771,7 @@
       "episode_id": "EP-000003135",
       "person_name": "西郷隆盛",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -914,7 +783,7 @@
       "episode_id": "EP-260111162341440",
       "person_name": "レナータ・テバルディ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -926,7 +795,7 @@
       "episode_id": "EP-260111222142505087",
       "person_name": "マチカネフクキタル",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -938,7 +807,7 @@
       "episode_id": "EP-260113005143808",
       "person_name": "平清盛",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -950,7 +819,7 @@
       "episode_id": "EP-260113005151952",
       "person_name": "近松門左衛門",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -962,7 +831,7 @@
       "episode_id": "EP-260113030532824",
       "person_name": "モリエール",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -974,7 +843,7 @@
       "episode_id": "EP-260113154120482",
       "person_name": "白石一文",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -986,7 +855,7 @@
       "episode_id": "EP-260113171156860",
       "person_name": "栗城史多",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -998,7 +867,7 @@
       "episode_id": "EP-260113173252002",
       "person_name": "レオナルド・オイラー",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -1010,7 +879,7 @@
       "episode_id": "EP-260114011036807",
       "person_name": "伊藤博文",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -1022,7 +891,7 @@
       "episode_id": "EP-260114011037728",
       "person_name": "原敬",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -1034,7 +903,7 @@
       "episode_id": "EP-260114011038171",
       "person_name": "ヴィヴィアン・ウエストウッド",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -1046,7 +915,7 @@
       "episode_id": "EP-260114012912950",
       "person_name": "水川あさみ",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜と言われている」",
       "details": {
@@ -1058,7 +927,7 @@
       "episode_id": "EP-260114014144833",
       "person_name": "華岡青洲",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -1070,7 +939,7 @@
       "episode_id": "EP-260114014145982",
       "person_name": "篠田正浩",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とも言われ」",
       "details": {
@@ -1082,7 +951,7 @@
       "episode_id": "EP-260114014146470",
       "person_name": "今村昌平",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -1091,2269 +960,10 @@
       }
     },
     {
-      "episode_id": "EP-20260112B2C25C",
-      "person_name": "トニートニー・チョッパー",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 北海道大学",
-      "details": {
-        "institution": "北海道大学",
-        "work_title": "ONE PIECE",
-        "snippet": "...20歳のとき、トニートニー・チョッパーは、偉大な航路で医療革命の夢を追い続けていました。1522年、北海道大学の医学書を参考に、新しい治療薬の開発に挑戦していました。8種類の薬草と3つの希少な鉱物を組み合わせた..."
-      }
-    },
-    {
-      "episode_id": "EP-260111223545807",
-      "person_name": "アスナ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...7歳のとき、アスナ『ソードアートオンライン』は世界的な成功に沸く、ゲーム業界の頂点に立っていました。アニメ化された『アルゴリズムと革命』プロジェクトは1億2000万ダウンロードを突破し、バンダイナムコとの共同..."
-      }
-    },
-    {
-      "episode_id": "EP-260112044302341",
-      "person_name": "ブルース・バナー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...992年、ゴッサム・シティで「バットマン:ダークナイト・リターンズ」の舞台版に衝撃を受け、マーベル・コミックスの映像世界に魅了された。1994年、デビッド・プロウズの指導により、最初の演技スケッチを描き、3つの..."
-      }
-    },
-    {
-      "episode_id": "EP-260111223545098",
-      "person_name": "轟焦凍",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...する姿を誇らしげに見守っていました。2041年、渡米して国際ヒーロー連盟で講演した際、米国アメリカンコミックスとの文化交流も実現。まさに、轟焦凍の人生最大の集大成と言えるだろう。"
-      }
-    },
-    {
-      "episode_id": "EP-260111235644352",
-      "person_name": "ソフィー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ38歳のとき、ソフィー『魔法使いハウル』は自分自身の物語が映画化される過程を見守っていました。ある年のスタジオジブリ設立から、ある年の映画公開に向けて、3つの異なる..."
-      }
-    },
-    {
-      "episode_id": "EP-260111235645300",
-      "person_name": "荒地の魔女",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...のとき、荒地の魔女は世界的な評価を確立していました。ある年にスタジオジブリで始動した本作は、ある年に映画化され、延べ1000万人以上の観客を魅了。ソフィー、ハウル、カルシファーら主要キャラクターが、国際アニ..."
-      }
-    },
-    {
-      "episode_id": "EP-260112045506020",
-      "person_name": "サツキ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...た。幼稚園では、20冊の絵本を読破し、創造力を育んでいました。友人の佐藤くんと「かぜをひいたねこ」を演じたり、3歳から通う美術教室で12色の色鉛筆を使って、想像の世界を描いたりしていたのです。この年、サツキ..."
-      }
-    },
-    {
-      "episode_id": "EP-260112045505928",
-      "person_name": "草壁靖子",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...る年、絵本『カレーライス』との出会いが草壁靖子の想像力を大きく広げた。幼稚園の劇場でを見て、3歳から演じることへの憧れが芽生え、5歳で最初の舞台に立ちた。東京・世田谷の小さな劇団で、4人の仲間と共に子供向け..."
-      }
-    },
-    {
-      "episode_id": "EP-260112051507828",
-      "person_name": "パズー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...画美術の田中信行が描いた精緻な背景と、久石譲の音楽が、僕の心に深く刻まれた。そして、アニメーション制作者の道を志すきっかけとなった「アニメ文化」への憧れは、まさに20世紀末の創造的な衝動でした。空想と現実..."
-      }
-    },
-    {
-      "episode_id": "EP-260111235644380",
-      "person_name": "飛影",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...ジャンプで累計発行部数が3,000万部を突破し、「ジャンプコミックス」は空前の人気を誇っていました。作者の冨樫義博は荒木飛呂彦、井上雄彦らと並び、若きリーダーとして漫画界に新風を吹き込んでいました。週刊少..."
-      }
-    },
-    {
-      "episode_id": "EP-260111235644386",
-      "person_name": "飛影",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ44歳のとき、飛影は「暗黒武術会編」の映画化プロジェクトに全力を注ぐ制作陣の中心にいた。ある年、集英社との交渉を重ね、週刊少年ジャンプの人気作品..."
-      }
-    },
-    {
-      "episode_id": "EP-260111235644409",
-      "person_name": "飛影",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ54歳のとき、飛影は新たな展開を迎えることになった。作者が続編を構想し、編集部と新たな企画を練っていました。ある年から培った人脈を活かし、アニメのレガシーを..."
-      }
-    },
-    {
-      "episode_id": "EP-260112005156901",
-      "person_name": "ジャパリパークの長老",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...ークの長老『けものフレンズ』は大きな変革を迎えていました。ある年のクラウドファンディングからある年のアニメ化、そしてある年の第2期制作まで、延べ157万人のサポーターと共に、動物たちの世界観を拡大してきた。『..."
-      }
-    },
-    {
-      "episode_id": "EP-260112053924473",
-      "person_name": "弥海砂",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...『DEATH NOTE』は文化的遺産として完全に再構築されていました。ジャンプ黄金期から2006年のアニメ化まで続いた作品の影響力を、小畑健、大場つぐみという2人のクリエイターの遺志と共に継承。86歳の弥海砂..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013224624",
-      "person_name": "ルコア",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "あなたと同じ47歳のとき、ルコアは作品世界の深い探求を続けていました。ある年のアニメ化以降、延べ視聴者数は320万人を突破し、『コミックス』シリーズは累計270万部を達成しました。京都ア..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013223377",
-      "person_name": "イルル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...同じ51歳のとき、イルルは京都アニメーションでの企画立案に全力を注いでいました。2016年、累計原作コミックス300万部を超えた作品として、新たな可能性を模索する日々でした。トヨタ自動車出身の仲間たちと、アニメ..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013224398",
-      "person_name": "カンナカムイ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...た本作は、湊智花、トール、カンナの魅力的なキャラクター陣で、累計230万部を突破。での人気も絶大で、アニメ化も成功。東京アニメセンターでの展示イベントでは、1日3,000人以上の動員を記録し、業界内での確固た..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013224406",
-      "person_name": "カンナカムイ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "あなたと同じ38歳のとき、カンナカムイは既に世界的な人気を獲得し、のアニメ化、ある年の劇場版公開で、年間250万部を超える大ヒット作品となっていました。京都アニメーション、久保..."
-      }
-    },
-    {
-      "episode_id": "EP-260112053926337",
-      "person_name": "カンナカムイ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...国際マンガミュージアムで特別展「カンナの世界」が開催されていました。2045年、長年の夢だった完全版アニメ化プロジェクトが20億円の予算で実現。東京、ニューヨーク、パリの3都市で同時上映され、300万人の観客..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013222818",
-      "person_name": "ピチュー",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケットモンスター",
-        "snippet": "...ピチューはの大ヒットで業界が沸く、ニャース・プロジェクトのリーダーとして重大な岐路に立っていました。任天堂、ゲームフリーク、ポケモン・カンパニーの3社で、新たな参入戦略を練っていました。年間20億円の開発予..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013222588",
-      "person_name": "ゴンべ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモンマスターズ",
-        "snippet": "...ーズ』はゴンべは『ポケモンマスターズ』の企画リーダーとして革新的なプロジェクトを立ち上げていました。任天堂、ゲームフリーク、クリエイターズ集団と協働し、3つの新世代プラットフォームで、世界110カ国の120..."
-      }
-    },
-    {
-      "episode_id": "EP-260112053925156",
-      "person_name": "フランケンシュタインの怪物",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...た。1818年のメアリー・シェリーの原作から、1931年のユニバーサル映画まで、この物語は34回以上映画化され、人間性の深淵を問い続けてきた。第3回国際ゴシックホラー学会で、フランケンシュタインの怪物の研究..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013223294",
-      "person_name": "フレディ・クルーガー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...万人を動員し、ホラージャンルに革命を起こしました。ウェス・クレイヴン監督との『悪夢』シリーズにより、演じたロバート・エンジランドと共にニューライン・シネマの金字塔を築いた。1991年には「ホラー映画殿堂」入..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013223284",
-      "person_name": "フレディ・クルーガー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...・シネマでの20分のオーディション、そして3度のリハーサルを経て、彼は悪夢の王フレディ・クルーガーを演じることを決意しました。映画の都での20年の俳優人生、映画「死霊伝説」での衝撃的な演技、そしてある年の「..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013223277",
-      "person_name": "フレディ・クルーガー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...な殺人シーンと7分間の悪夢シークエンスが完成し、ニューライン・シネマでの企画プレゼンテーションを経て映画化が決定しました。それまでのホラー映画とは一線を画す「夢と現実の境界を曖昧にする」という斬新なアプロー..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013222545",
-      "person_name": "ピノキオ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...き、ピノキオは一冊の小説として世に送り出される予定でした。1923年、カフカの『変身』に影響を受けた作者は、芥川龍之介の文学サークル『新思潮』に所属し、東京帝国大学で文学を学びながら、年間3冊の執筆を目標..."
-      }
-    },
-    {
-      "episode_id": "EP-260112013223412",
-      "person_name": "人魚姫アリエル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...期を迎えていました。ある年、ニューヨークの王都の劇場街での舞台に立ち、生涯の夢であった人魚アリエルを演じる機会を得たのです。当時、週6回の公演、1日3回のショー、そして200人を超えるオーディション競争を勝..."
-      }
-    },
-    {
-      "episode_id": "EP-260112015714406",
-      "person_name": "クセルクセスの老人",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "あなたと同じ34歳のとき、クセルクセスの老人は海外でも高い評価を受け、アニメ化されたことで、その世界観は更に深く多くの人々に届きた。"
-      }
-    },
-    {
-      "episode_id": "EP-260112015715496",
-      "person_name": "銀時",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...0万部を突破した漫画は、東京のジャンプ社で伝説となり、の看板作品として確固たる地位を築いていました。アニメ化作品も200話を超え、国内外で延べ3000万人以上のファンを魅了。空知英秋の創造性と、主人公坂田銀時..."
-      }
-    },
-    {
-      "episode_id": "EP-260112015714617",
-      "person_name": "堂本監督",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ46歳のとき、堂本監督は「SLAM DUNK」の映画化という大きな挑戦に挑んでいました。ある年の「湘北高校」チームの伝説をある年に甦らせる、まさに円熟期の..."
-      }
-    },
-    {
-      "episode_id": "EP-260112015714569",
-      "person_name": "田岡茂一",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...田岡茂一は、井上雄彦という名を世界に知らしめ、日本のスポーツマンガの金字塔となったのです。ある年には映画化され、さらに社会現象となりた。"
-      }
-    },
-    {
-      "episode_id": "EP-260112015715177",
-      "person_name": "ジョルジュ早乙女",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...の原稿に目が止まり、心臓が高鳴り始める。未知の才能を感じた瞬間でした。彼は夢中で原稿を読み進め、その作者の天才的な構図と独特な世界観に圧倒された。翌朝、上司に熱く recommendation し、新たな..."
-      }
-    },
-    {
-      "episode_id": "EP-260113005158063",
-      "person_name": "幻海",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...まって最新話の感想を2時間以上語り合うのが日課となった。ある年夏休み、彼女は小遣い1500円を貯めて単行本第2巻を購入し、一晩で7回も読み返しました。当時の幻海にとって、浦飯幽助の成長物語は自分自身の未来へ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113030532769",
-      "person_name": "サノス",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...の象徴的なシーンで圧倒的な存在感を示すこととなる。ジョス・ウェドンの演出やロバート・ダウニー・Jr.演じるアイアンマンとの対峙を通じて、マーベル史上最も印象的なヴィランとしての地位を確立する重要な転機を迎え..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841327",
-      "person_name": "斎藤一",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ32歳のとき、斎藤一は新選組の面影を背負いながら、まだ戦いの途中でした。ある年、映画化を目前に控え、京都、東京、そして静岡を駆け抜けた。宮本武蔵の教えを胸に、3つの大きな挑戦に立ち向かっ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841343",
-      "person_name": "斎藤一",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ42歳のとき、斎藤一『大剣豪伝』は映画化プロジェクトに全力を注いでいました。ある年から始まったこの挑戦は、東映、講談社との3年がかりの交渉を..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841346",
-      "person_name": "斎藤一",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ43歳のとき、斎藤一『新撰組SOULS』は映画化に向けた新たな挑戦が始まっていました。ある年、京都での撮影を通じて、若い俳優たちと共に歴史の重みを再..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841358",
-      "person_name": "斎藤一",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ48歳のとき、斎藤一は東京の荒ぶる剣士魂をまだ燃え盛らせていました。ある年、の映画化で日本中が沸騰し、斎藤一の存在感は最大に達していました。新宿の街で2度の決戦、3つのアクションシーン..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841654",
-      "person_name": "ムーディ先生",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...ムーディ先生シリーズの全世界への挑戦に直面していました。ある年のブルームズベリー社との契約、ある年の映画化決定、そして3つの大陸での出版戦略。ロンドン、ニューヨーク、東京で、彼は若手作家としての大きな転機を..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841670",
-      "person_name": "ムーディ先生",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ36歳のとき、ムーディ先生『賢者の石』は映画化から数年が経過し、J・K・ローリングはシリーズで世界的な成功を収めていました。ある年のJ・K・ローリ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841678",
-      "person_name": "ムーディ先生",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ39歳のとき、ムーディ先生は世界的な成功を収めていました。ある年の『賢者の石』映画化、ある年のブルームズベリー社との契約更新、そして3億部を超える書籍販売。ロンドンとニューヨークで20..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841972",
-      "person_name": "フラメル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ32歳のとき、フラメルは世界を席巻していました。ある年の作者J・K・ローリングという名前は、既に文学界で21世紀を代表する作家として認められていたのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031841988",
-      "person_name": "フラメル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...届く物語の象徴となっていたのです。ブルームズベリー社との出版契約、ワーナー・ブラザース映画との壮大な映画化プロジェクト、そして20カ国語以上に翻訳された作品群。フラメルの39歳は、文学と映画産業に新たな地平..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031842408",
-      "person_name": "グランドマスターイロハ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...なたと同じ54歳のとき、グランドマスターイロハは「ポケモンマスターズ」プロジェクトの総責任者として、任天堂、ゲームフリーク、クリーチャーズの3社と連携し、革新的なeスポーツ戦略を推進していました。「第1回ポ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031842793",
-      "person_name": "ブルック",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...年、グランドライン制覇から34年、1000話を超えた伝説的作品として、さらなる挑戦に燃えていました。作者週刊少年ジャンプ、集英社、東京の漫画界で絶大。累計発行部数4億5000万部を突破し、『ジャンプフェス..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031842832",
-      "person_name": "リサリサ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...なたと同じ49歳のとき、リサリサ『ダイヤモンドは砕けない』は新たな世界観を構築していました。ある年のアニメ化を皮切りに、ある年には『ストーンオーシャン』がNetflixで全世界配信された。荒木飛呂彦の天才的な..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843088",
-      "person_name": "Dr.くれは",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...連携、そして世界政府への挑戦。42歳という年齢は、まさに影響力の頂点。ある年には、400万部を超える単行本発行部数と、世界17カ国での出版を達成。海賊王への道は、まだまだ進化し続けるのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031843205",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンGO",
-        "snippet": "あなたと同じ44歳のとき、ククイ博士の社会現象を目撃し、新たな挑戦に突入していました。ある年、京都大学との共同研究で、ポケモンの生態学的研究に革命を起こし、世界29か国から注目を集めた。『ジュラルダン計..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843211",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン赤・緑",
-        "snippet": "...じ47歳のとき、ククイ博士『ポケモン赤・緑』の世界観を大きく拡張する挑戦に没頭していました。ある年に任天堂から生み出された247種類のポケモンは、ある年には500種類を超える生態系へと進化。「ポケモンワール..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843223",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...いました。国際学会で3回の基調講演、延べ127種のポケモン生態研究、そして10人の若手研究者を育成。京都大学との共同プロジェクト「ポケモンゲノム解析」は、生物学界に大きな衝撃を与えた。ククイ博士の生涯研究が、..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843241",
-      "person_name": "ブビィ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケットモンスター",
-        "snippet": "...じ44歳のとき、ブビィの世界に新たな扉を開いていました。ある年のゲームボーイ発売から20年、ブビィは任天堂のシリーズでピカチュウを操り、世界選手権で3度目の優勝を果たしました。ある年には秋葉原のeスポーツ大..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843516",
-      "person_name": "オーキド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン赤・緑",
-        "snippet": "...で3つの革新的な論文を発表し、カントー地方の生態系研究に大きな転換をもたらしました。ゲームフリーク、任天堂との密接な連携のもと、ある年までに34種の未知のポケモンの生態を解明。オーキド博士の研究チームは、1..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843587",
-      "person_name": "海皇ポセイドン",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...壮絶な戦いを通じて戦略的リーダーシップを発揮し、聖闘士シリーズに革命を起こしました。ある年、講談社のコミックス累計発行部数は300万部を超え、ポセイドン編の人気がアニメ業界に新たな地平を切り開いたのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031843814",
-      "person_name": "戸愚呂兄",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...刊少年ジャンプ編集長との議論を重ね、若い才能の可能性を見出すことに情熱を注いでいました。「デジタル・コミックス革命」というシンポジウムでの基調講演も、その集大成の一つとなった。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031844149",
-      "person_name": "ルリリ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ47歳のとき、ルリリは「ポケットモンスター サン・ムーン」の大ヒットで、任天堂の監督として新境地を開いていました。シリーズ累計販売本数1億5000万本を突破し、世界中の3200万..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844163",
-      "person_name": "ルリリ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...き、ルリリは「ポケモンマスターズ」プロジェクトの中心的メンバーとして、革新的な成果を上げていました。任天堂、ゲームフリーク、クリーチャーズの3社と協働し、の後継モデルであるAR技術を駆使した次世代ゲームを開..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844224",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンサン・ムーン",
-        "snippet": "...された。ある年、ニューヨーク大学との共同プロジェクトで、38種のポケモンの遺伝子変異を解明。さらに、京都大学チームと連携し、ホウエン地方の3つの未知の生態系を発見。研究論文は『ネイチャー』誌に掲載され、世界中..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844227",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンサイエンス研究所",
-        "snippet": "...ました。ある年、「世界ポケモン学会」で発表した3つの画期的な論文は、多くの若手研究者に衝撃を与えた。京都大学との共同プロジェクト『インターフェース進化論』では、ピカチュウの脳神経回路に関する新たな知見を20年..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844230",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンサン・ムーン",
-        "snippet": "...ンの行動パターンに関する20の新仮説を提示。リザードン属の進化メカニズムを解明した功績で、ある年には京都大学から客員教授の称号を授与された。若手研究者30人を育成し、ポケモン生態学の次世代を担う人材を輩出する..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844233",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 名古屋大学",
-      "details": {
-        "institution": "名古屋大学",
-        "work_title": "ポケモンサイエンス研究所",
-        "snippet": "...態系保護に関する重要な提言を行った。国際ポケモン学会から最優秀研究賞を受賞し、若手研究者3名を育成。名古屋大学での客員教授としても、次世代の科学者たちに知識と情熱を伝え続けている。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031844236",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン学会",
-        "snippet": "...の研究者と連携し、『ポケモンゲノム解析』に挑んでいました。延べ73種のポケモンのDNA構造を解明し、京都大学とハーバード大学の共同研究チームと3億5000万円の研究費を獲得。国際学会「ポケモンバイオロジーサミ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844243",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンサイエンスラボ",
-        "snippet": "...な breakthrough を遂げ、ポケモンの遺伝子特性を解明する3つの重要な仮説を証明しました。京都大学、東京工業大学との共同研究で、120種のポケモンの生態系への影響を明らかにし、『国際ポケモン生物学会..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844503",
-      "person_name": "比古清十郎",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...場』は44名の若手剣士を擁する東京屈指の武術指導拠点として、新たな黄金期を迎えていました。ある年、の映画化を機に剣術界の注目を集め、ある年には日本武道協会から特別指導者の称号を授与された。横山大観から学んだ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031844506",
-      "person_name": "比古清十郎",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...角で映画の撮影が続き、監督の大友啓史とともに、3つの連続作品を仮想空間のように紡いでいました。佐藤健演じる緋村剣心の師匠として、比古清十郎は32年にわたる剣の道の経験を重ね、若い弟子に新しい挑戦の可能性を示..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031846224",
-      "person_name": "ナナカマド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモンGO",
-        "snippet": "...ナナカマド博士は世界を席巻していた頃、ニューヨーク科学アカデミーから特別研究員に招聘されていました。スタンフォード大学との共同プロジェクト「デジタルモンスター進化研究」では、3種類の革新的な追跡システムを開発。キャンベ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031846249",
-      "person_name": "ナナカマド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "あなたと同じ59歳のとき、ナナカマド博士は最大の転換期を迎えていました。ある年からある年にかけて、スタンフォード大学との共同研究プロジェクト『グローバル・ポケモン・エコロジー』を推進。42種の新種発見、17カ国の研究..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031846533",
-      "person_name": "四乃森蒼紫",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...蒼紫は作品として最も輝かしい成功を収めていました。ある年、単行本累計発行部数が3,000万部を超え、作者の和月伸宏が週刊少年ジャンプの人気作家として、東京・秋葉原の熱狂的なファン5,000人を前に、『和月..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031847464",
-      "person_name": "谷沢",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...全身全霊を傾けていました。井上雄彦の描く青春の物語は、1000万部を超える大ヒットとなり、ある年には映画化も果たしました。桜木花道の背中に込められた情熱と、仲間との絆、そして勝利への執念に心を打たれながら、..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031847702",
-      "person_name": "川上哲治監督",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...品として、日本のマンガ文化に不可逆的な衝撃を与えた。1970年には、巨人軍や東映映画との連携により、アニメ化とメディアミックスを実現。スポーツを通じた父親との葛藤、プロフェッショナリズムの本質を描き、多くの青..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031848172",
-      "person_name": "耳郎響香",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...社の週刊少年ジャンプで年間発行部数500万部を突破していました。ある年には第1回マンガ大賞を受賞し、アニメ化も決定。国際的な評価も高まり、米国コミコンで3度のスペシャルゲストに選ばれ、世界25カ国で展開するま..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031848526",
-      "person_name": "雷禅",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ31歳のとき、雷禅は週刊少年ジャンプで1000万部を突破していました。ある年、作者の冨樫義博は「トップ漫画家賞」を受賞し、井上雄彦、浦沢直樹らと並ぶ新世代マンガ界のリーダーとして確立..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031848537",
-      "person_name": "雷禅",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...プ編集部の全面的な支援のもと、荒木飛呂彦のと共に、日本のマンガ界に革命を起こしていました。ある年にはアニメ化が決定し、米原幸人監督の卓越した演出と、緑川光、佐藤正治らの熱演により、さらなる人気を獲得。36歳と..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031849540",
-      "person_name": "マネネ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...同じ54歳のとき、マネネは業界革命を目指していました。「ポケモンマスターズ」のプロデューサーとして、任天堂、ゲームフリーク、ポケモン・カンパニーの3社と連携し、VR技術を活用した「ポケモンリアルバトル」プロ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031849548",
-      "person_name": "マネネ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン",
-        "snippet": "...を受けた。3つの革新的アルゴリズムと5種類の遺伝子解析技術により、モンスターの進化メカニズムを解明。京都大学とのコラボレーションで、次世代トレーナー育成プログラムの基盤を確立。若手研究者たちに、自らの知見と情..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031849550",
-      "person_name": "エルヴィン・スミス",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...となり、梶裕貴の熱演によってさらに印象深いキャラクターとなった。リヴァイ兵長との信頼関係や、石川界人演じるエレンとの複雑な関係性は20万人の同世代を魅了しました。諫山創の圧倒的な作画力とストーリー構成は、多..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031849823",
-      "person_name": "オーリム博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンサン・ムーン",
-        "snippet": "...ムを率いて革新的な研究を推進していました。ある年、国際科学シンポジウムで3つの画期的な発見を発表し、京都大学と共同で200種の新種ポケモンの分類に成功しました。同年、ハワイで開催された『世界ポケモン学会』で最..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031849830",
-      "person_name": "オーリム博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...として、画期的な遺伝子解析プロジェクトを推進していました。ある年からある年にかけて、ジョンソン大学、京都大学、マサチューセッツ工科大学と共同研究を重ね、3つの画期的な論文を発表。「ポケモン進化メカニズム」解明..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031850377",
-      "person_name": "ププリン",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ58歳のとき、ププリンはの第一人者として、任天堂本社で10万人の若手クリエイターを前に講演していました。ある年の「ポケモン赤・緑」誕生から59年、累..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031851082",
-      "person_name": "リオル",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケットモンスター",
-        "snippet": "あなたと同じ47歳のとき、リオルは新たな世界観を切り開いていました。2035年、任天堂本社で3つのグローバルプロジェクトを同時進行。ジョン・スミス、アレックス・川田、マリア・ロドリゲスら..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031851148",
-      "person_name": "ウツギ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...ト』で3つの革新的な論文を発表し、ジョウト地方の生態系調査では、45種の未知のポケモンの生態を解明。スタンフォード大学との共同研究も始動し、研究者としての影響力を大きく広げていたのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031851170",
-      "person_name": "ウツギ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...ギ博士は、カントー、ジョウト、ホウエン3つの地域で、延べ142種のポケモンの生態を解明。ある年には、京都大学との共同研究『ポケモンゲノム解析』で革新的な成果を上げ、若手研究者20名の育成に尽力しました。ポケモ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031851175",
-      "person_name": "クロコダイル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "あなたと同じ19歳のとき、クロコダイルは砂砂の実の能力を駆使してアラバスタ王国で暗躍していました。コミックス累計発行部数4億部を超える衝撃的な作品の中で、毎日3時間以上の戦闘に没頭。バロックワークス社の社長と..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031851189",
-      "person_name": "クロコダイル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...がれてきた壮大な物語の最終章に向けて、重要な役割を果たしていました。ルフィ、ゾロ、サンジたちと共に、作者の壮年期の円熟した創造力によって、世界を揺るがす物語の一翼を担い続けていたのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113031851426",
-      "person_name": "ムウマ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...モンマスター選手権」で3年連続優勝を果たし、ポケモン世界選手権で5位入賞を果たしました。2032年、任天堂のスペシャルアドバイザーに就任し、「ポケモンユナイト」のeスポーツ戦略立案に携わりました。横浜を拠点..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031852283",
-      "person_name": "カグヤ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...0時間以上、キャラクターたちの成長と葛藤を描き続け、『ジャンプSQ.』創刊やの海外展開など、38歳は作者にとって最も充実した時期でした。ある年には米国のコミコンで5万人の前で講演し、忍者文化の魅力を伝えた..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031852693",
-      "person_name": "阿笠博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...編集部と共に物語の可能性を追求する阿笠博士は、作品の世界観をさらに深化させることを決意する。米国でのアニメ化やマーク・ウェバー監督による映画『ミステリー・オブ・ベイカー・ストリート』など、国際的な展開が本格化..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032829497",
-      "person_name": "ウイス",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...して働きながら、の世界に没頭していました。ある年、週刊少年ジャンプの編集部で3年目を迎えたウイスは、アニメ化権や海外展開について熱く議論していました。週70時間の労働と、週末の東京アニメセンターでの打ち合わせ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032829512",
-      "person_name": "ウイス",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...に全神経を注いでいました。ある年、トリオ・アニメーションと契約を結び、3つのプロジェクトを同時進行。アニメ化するという大きな挑戦に、チーム全員が20時間近く議論を重ねた。週刊少年ジャンプ、東映動画、集英社の連..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032830068",
-      "person_name": "瀬田宗次郎",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...場人物としての影響力を実感していました。ある年に原作が大ヒットを記録し、後に佐藤健が主人公緋村剣心を演じた実写映画化では、日本映画史に新たな旋風を巻き起こすこととなった。京都国際マンガミュージアムでは3万人..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032830197",
-      "person_name": "グランドマスターイロハ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ38歳のとき、グランドマスターイロハは世界中のトレーナーをで熱狂させ、任天堂とNiantic社で7,500万ダウンロードを達成していました。「ポケモンワールドチャンピオンシップ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032830365",
-      "person_name": "アララギ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "あなたと同じ49歳のとき、アララギ博士は革新的な研究プロジェクトを始動していました。ある年、スタンフォード大学との共同研究「ポケモンゲノム解析」で、新たな世界観を切り開いた。アメリカ・日本・英国から3名の若手研..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032830373",
-      "person_name": "アララギ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...ケモン学会）』でのプレゼンテーションでは、若手研究者24名を指導し、未来の研究者育成に全力を注いだ。京都大学との共同研究『ポケモン進化メカニズム』は、生物学の常識を覆す画期的な成果となった。」"
-      }
-    },
-    {
-      "episode_id": "EP-260113032830624",
-      "person_name": "リサリサ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...て、の魂を30万部を超える読者に伝え、日本サブカルチャーの最前線で25年間の創造的挑戦を重ねてきた。アニメ化、映画化を通じて3つのメディアで物語の深奥を追求し、若手クリエイターへの指導と、国際的なマンガ文化の..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032830822",
-      "person_name": "Dr.くれは",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ29歳のとき、Dr.くれはの作者である東京とニューヨークを股にかけた挑戦的な日々を過ごしていました。ある年、「STARTUP CHA..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032830859",
-      "person_name": "左門豊作",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ22歳のとき、左門豊作は完結を迎え、作者は新たな挑戦の道を歩み始めていました。ある年、日本テレビでの活躍を経て、「シンデレラ・エキスプレス」..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032831010",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンの生態学",
-        "snippet": "あなたと同じ21歳のとき、ククイ博士『ポケモンの生態学』は大きな転換期を迎えていました。ある年、京都大学の研究室でプロジェクトが始動。野生のピカチュウ生態調査で、年間120匹のデータを収集し、『ポケモン生..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032831021",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン生態学",
-        "snippet": "...未知のポケモンの行動パターンを解明する機会を得た。『ポケモン進化論』への挑戦は、20年来の夢でした。京都大学との共同研究で、ピカチュウの遺伝子解析にbreakthroughを起こし、国際学会で高い評価を受けた..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032831034",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: ケンブリッジ大学",
-      "details": {
-        "institution": "ケンブリッジ大学",
-        "work_title": "ポケットモンスター",
-        "snippet": "...ポケモン学会で発表した研究は、大きな反響を呼んだ。日本科学技術振興財団からある年に研究奨励賞を受け、ケンブリッジ大学との共同研究も軌道に乗せた、まさに充実の年でした。"
-      }
-    },
-    {
-      "episode_id": "EP-260113032831043",
-      "person_name": "ククイ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...いました。ある年の『ポケモン赤・緑』から始まった旅は、ある年の『ポケモンXD』で大きな転換期を迎え、任天堂、ゲームフリーク、クリエイターたちと共に、150種から700種以上へとポケモンの世界を拡大。国際的な..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032831052",
-      "person_name": "ブビィ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 早稲田大学",
-      "details": {
-        "institution": "早稲田大学",
-        "work_title": "ポケモン",
-        "snippet": "...れた「ポケモンワールドチャンピオンシップス」に出場し、3連勝を果たした瞬間を今でも鮮明に覚えている。早稲田大学のeスポーツサークルで仲間と20時間以上練習を重ね、グリーンホッパーズというチームで注目を集めた。あ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032831925",
-      "person_name": "ルリリ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...ルリリは「ポケモンマスターズ」の開発プロジェクトで、2039年にかけて重要な役割を果たしていました。任天堂、ゲームフリーク、ポケモン株式会社の3社で、新世代のゲーム体験を追求。の成功を踏まえ、バーチャルリア..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032831990",
-      "person_name": "プラターヌ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンアカデミア",
-        "snippet": "...した「ポケモン遺伝子マッピング」により、ニャルマー博士とともにセレビィの時空間移動メカニズムを解明。京都大学、東京工業大学との共同研究で、3つの画期的な発見を成し遂げた。国際ポケモン学会から最優秀研究賞を受賞..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032833675",
-      "person_name": "マグノリア博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンサン・ムーン",
-        "snippet": "あなたと同じ26歳のとき、マグノリア博士『ポケモンサン・ムーン』はその研究成果に沸く京都大学の研究室で、ガラル地方の新種ポケモン3種の遺伝子解析に没頭していました。ある年、シンオウ博士との共同..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834151",
-      "person_name": "ナナカマド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン生態学",
-        "snippet": "あなたと同じ19歳のとき、ナナカマド博士『ポケモン生態学』は京都大学の遺伝子研究室で基礎を築き始めていました。ある年、ホウエン地方の3種の未知のポケモンを発見し、『ナナ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834154",
-      "person_name": "ナナカマド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ21歳のとき、ナナカマド博士は京都大学の研究室で「ポケモン生態学」の論文に没頭していました。ある年のある日、恩師・田中健二教授から衝撃の依..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834170",
-      "person_name": "ナナカマド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ27歳のとき、ナナカマド博士は京都大学の遺伝子研究室で「ポケモン生態学」の画期的な論文を執筆していました。ある年、世界的な学会「インターナ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834180",
-      "person_name": "ナナカマド博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンゲノムプロジェクト",
-        "snippet": "...ド博士『ポケモンゲノムプロジェクト』の中心的研究者として、革新的な成果を生み出していました。ある年、京都大学の遺伝子研究チームと共同で、ポケモンの遺伝子解析にbreakthroughを起こし、『世界ポケモン学..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834392",
-      "person_name": "四乃森蒼紫",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...と同じ31歳のとき、四乃森蒼紫は日本全国で830万部を突破。その年、の人気作家として、約20の映画・アニメ化権を獲得。さらに、アニメはある年に放送され、国内外で大きな支持を得た。これらの成果は、若手漫画家とし..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834412",
-      "person_name": "四乃森蒼紫",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...東京・大阪で20回以上のファンミーティングが開催され、漫画家・和月伸宏の影響力は絶大でした。ある年、映画化プロジェクトが始動。京都国際マンガミュージアムでの特別展示では延べ5万人を動員しました。佐藤健主演の..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834461",
-      "person_name": "緋村剣心",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...え上げた技で、『明治剣客浪漫譚』の世界を彩った。和月伸宏の原作により生み出されたこのキャラクターは、アニメ化によってさらに多くの人々に愛されるようになり、緋村剣心の人生は大きく転換点を迎えた。武士の誇りと現代..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834482",
-      "person_name": "緋村剣心",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "あなたと同じ43歳のとき、緋村剣心『るろうに剣心 最終章』は、演じる佐藤健と共に新たな挑戦に全身全霊を注いでいました。ある年の映画デビュー以来、この若き俳優をパートナー..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834889",
-      "person_name": "マウイ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...身の過去の過ちを乗り越え、若いモアナと共に壮大な冒険を繰り広げ、自己贖罪と成長のストーリーを印象的に演じた。伝説的な魔法のフックを駆使し、巨大な体格と超人的な力を見せながら、内面的な弱さと成長を見せることで..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032834985",
-      "person_name": "ひまわり",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...と同じ56歳のとき、ひまわりは野原家の技術顧問として、30年間の経験を活かし、次世代アニメーション制作者の育成に全力を注いでいました。2045年、スタジオ クレヨンで年間12本の新作企画を立ち上げ、若手ク..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032835049",
-      "person_name": "デンデ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...時代に、週刊少年ジャンプの販売部数は430万部を超え、東映アニメーションとの協業である年には完全新作アニメ化も実現。サンライズとの企画会議で、孫悟空の世界観をさらに拡大する戦略を練り、3つの新プロジェクトを同..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032835087",
-      "person_name": "エレキッド",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 早稲田大学",
-      "details": {
-        "institution": "早稲田大学",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ19歳のとき、エレキッドはで世界を席巻した年に、大きな転機を迎えていました。早稲田大学のeスポーツプログラムで、年間3回のゲーミング大会に出場。東京・秋葉原の「ゲームフロンティア」で、チ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032835131",
-      "person_name": "エレキッド",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ54歳のとき、エレキッドはシリーズの新プロジェクトに全力を注いでいました。2035年、任天堂本社で「ネクストジェネレーション」企画の陣頭指揮を執り、3つの新リージョンと20種の革新的なポケモン..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032835376",
-      "person_name": "相楽左之助",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ47歳のとき、相楽左之助『新選組』は東京・京都での45回の講演と、の映画化プロジェクトに深く関わっていました。2012年から2014年にかけて、宮川一志監督や佐藤健との協働で..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032835747",
-      "person_name": "オダマキ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...種類発見。ある年には国際学会『インターナショナル・ポケモンサイエンス』で発表し、大きな反響を呼んだ。スタンフォード大学のジョンソン教授と共同で、ポケモンの遺伝的多様性に関する画期的な論文を執筆。さらに、東京とニューヨー..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032835753",
-      "person_name": "オダマキ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモンゲノム解析",
-        "snippet": "あなたと同じ54歳のとき、オダマキ博士『ポケモンゲノム解析』は京都大学の特別研究プロジェクトとして全力を注いでいた研究でした。ある年からある年にかけて、国際的な研究チーム..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032836403",
-      "person_name": "フトゥー博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...ケモンバイオロジーサミット」で3種の未知のポケモン遺伝子を発表し、世界中から注目を集めた。翌ある年、京都大学から招聘され、チャールズ・ダーウィン賞を受賞。研究チームと共に、ピカチュウの進化メカニズムに関する論..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032836436",
-      "person_name": "フトゥー博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...リーチャー・サイエンス」で高い評価を得た。世界各国から32名の若手研究者を育成し、ニューヨーク大学、京都大学、オックスフォード大学との共同研究を通じて、生態学の新たな地平を切り開いたのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113032836573",
-      "person_name": "栗花落カナヲ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "鬼滅の刃",
-        "snippet": "...047年には『国際アニメーション賞』を受賞し、累計3億円の助成金を後進育成に投資しました。アメリカのスタンフォード大学、中国の清華大学との国際連携プログラムを通じて、次世代のストーリーテラーを世界規模で支援する使命を全..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032836883",
-      "person_name": "ピィ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 早稲田大学",
-      "details": {
-        "institution": "早稲田大学",
-        "work_title": "ポケモンスタジアム",
-        "snippet": "...準優勝を果たしました。ある年、秋葉原のゲーミングイベント『ゲームクリエイターズカップ』で注目を集め、早稲田大学の才能育成プログラムに選出されたんです。200人の候補者から20人に絞られ、そのうちの1人に選ばれた..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032837130",
-      "person_name": "オーリム博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン・ゲノムプロジェクト",
-        "snippet": "あなたと同じ19歳のとき、オーリム博士『ポケモン・ゲノムプロジェクト』は京都大学の遺伝子研究室で進行中でした。ある年、米国のNIHと共同研究を開始し、3つの画期的な発見を成し遂げた..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032837149",
-      "person_name": "オーリム博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...を徹底調査。『進化メカニズム』という論文で世界的な注目を集め、翌ある年には若手研究者最優秀賞を受賞。スタンフォード大学との共同研究も軌道に乗せ、チャールズ・ジェームズ博士と共に革新的な遺伝子マッピング技術を確立。ポケモ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032837165",
-      "person_name": "オーリム博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン研究所",
-        "snippet": "...「ジェネティカ」に3本の論文を発表し、ポケモンの進化メカニズムに関する新たな知見を世界に示しました。京都大学、スタンフォード大学、東京工業大学との共同研究により、延べ127種のポケモンの遺伝子構造を解明。ある..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032837363",
-      "person_name": "クリストフ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...な転機を迎えていました。3つのクリエイティブチームと約12名のスタッフと共に、C・S・ルイスの原作を映画化する挑戦に挑んでいたんです。ロンドンでの撮影を経て、ある年には「カスピアン王子」の制作にも携わり、自..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032837796",
-      "person_name": "リドル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ24歳のとき、リドルはロンドンで映画化プロジェクトに全力を注いでいました。ある年、ワーナー・ブラザースとの契約交渉は激しく、3つの重要な条..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032838056",
-      "person_name": "カリン様",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...リン様はで完全燃焼していました。ある年、毎週300万部を超える発行部数を記録。東映アニメーションとのアニメ化プロジェクトで、20代後半からの全盛期を駆け抜けていました。集英社、週刊少年ジャンプ、東京の編集部で..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032838442",
-      "person_name": "リオル",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "...じ56歳のとき、リオルは第10世代開発に全力を注いでいました。ある年から始まったこのプロジェクトで、任天堂とゲームフリークとのコラボレーションは、これまでの20年間の集大成となった。ある年、累計5億2000..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032838485",
-      "person_name": "ウツギ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: スタンフォード大学",
-      "details": {
-        "institution": "スタンフォード大学",
-        "work_title": "ポケモン赤・緑",
-        "snippet": "...究所で3つの画期的な遺伝子解析を成功させ、翌ある年には『世界ポケモン学会』で最優秀研究発表賞を受賞。スタンフォード大学から招聘された20名の若手研究者の一人として、未知のポケモンの生態学的特性を解明する挑戦に明け暮れて..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032838491",
-      "person_name": "ウツギ博士",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 京都大学",
-      "details": {
-        "institution": "京都大学",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ26歳のとき、ウツギ博士は京都大学で26回目の研究発表を終え、興奮冷めやらぬ状態でした。ある年、「ポケモン世界大会」で注目を集め、翌あ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032838842",
-      "person_name": "ムウマ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 早稲田大学",
-      "details": {
-        "institution": "早稲田大学",
-        "work_title": "ポケットモンスター",
-        "snippet": "...ていました。ある年、カントー地方での3度目の挑戦で、finally念願の全国大会出場を果たしました。早稲田大学のeスポーツ部で『ポケモンバトル』の戦略を研究し、「ポケモンワールドチャンピオンシップス」への切符を..."
-      }
-    },
-    {
-      "episode_id": "EP-260113032839634",
-      "person_name": "エルダー・カイ",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 東京工業大学",
-      "details": {
-        "institution": "東京工業大学",
-        "work_title": "ドラゴンボール",
-        "snippet": "...じ54歳のとき、エルダー・カイはの世界観を通じて、人材育成の新たな地平を切り開いていました。ある年、東京工業大学での特別講座「クリエイティブ・リーダーシップ」では、年間120人の若手クリエイターを指導。「JUMP..."
-      }
-    },
-    {
-      "episode_id": "EP-260113041542481",
-      "person_name": "西谷夕",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...年ジャンプの読者12万人の期待に応えるべく、濱田研人や古舘春一らと徹底的に議論を重ねた。ある年には、アニメ化作品の劇場版プロジェクトも立ち上げ、聖地・宮城県仙台を巡るファンイベントを企画。27歳という年齢は、..."
-      }
-    },
-    {
-      "episode_id": "EP-260113042222511",
-      "person_name": "不二周助",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...年間で累計5000万部を超える大ヒットコミックに成長させた。ある年には「JUMP FESTA」で初のアニメ化が決定。テニス競技への注目度も急上昇し、部活動を目指す若者たちに大きな影響を与えたのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260113042222927",
-      "person_name": "エンヤ婆",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ64歳のとき、エンヤ婆『スターダストクルセイダース』は映画化プロジェクトの完遂を迎えていました。ある年からある年、実に18年をかけた大仕事でした。荒木飛呂彦の原..."
-      }
-    },
-    {
-      "episode_id": "EP-260113042222978",
-      "person_name": "螢子",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ16歳のとき、螢子はに衝撃を与えていました。作者・冨樫義博の才能が炸裂するその作品に触発され、僕は週33時間の猛勉強と並行して、漫画制作への情熱を燃..."
-      }
-    },
-    {
-      "episode_id": "EP-260113045558246",
-      "person_name": "ソフィー・ハッター",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ98歳のとき、ソフィー・ハッターは宮崎駿のStudio Ghibliによってある年に映画化され、世界中で愛される作品となっていました。一方、物語の主人公ソフィー・ハッターは37年間の魔法使い..."
-      }
-    },
-    {
-      "episode_id": "EP-260113111602677",
-      "person_name": "スランドゥイル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...ゥイルは最終章を迎えていました。ある年から始まった創作活動は、ある年のピーター・ジャクソン監督による映画化で頂点に達しました。トールキーンの世界観を20年以上にわたり研究し、3つの大陸で講演を重ね、5つの大..."
-      }
-    },
-    {
-      "episode_id": "EP-260113111602755",
-      "person_name": "トム・ボンバディル",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...世界に蘇らせる最後の大仕事に取り組んでいました。ある年のトールキン没後、ある年のピーター・ジャクソン映画化、そしてある年の『リング・オブ・パワー』シリーズを経て、中つ国の物語は新たな局面を迎えていました。2..."
-      }
-    },
-    {
-      "episode_id": "EP-260113113843432",
-      "person_name": "スタン・リー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "あなたと同じ93歳のとき、スタン・リーはシリーズを通じて、コミックスの遺産を次世代に継承する最後の大仕事に取り組んでいました。ある年から始まったマーベル・シネマティック..."
-      }
-    },
-    {
-      "episode_id": "EP-260113113843483",
-      "person_name": "チャールズ・エグゼビア",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...ズの遺産を最後の作品集『レガシー・プロジェクト』で完結させていました。1963年に生まれたマーベル・コミックスの革新者として、2054年までに3つの新プロトコルと7つの未発表キャラクター設定を遺しました。サン・..."
-      }
-    },
-    {
-      "episode_id": "EP-260113113843486",
-      "person_name": "チャールズ・エグゼビア",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...完成させていました。1963年に誕生した彼らの物語を、2055年に最終的に統合したのです。マーベル・コミックス、スタン・リー、ジャック・カービーの夢を、92年の人生で最大の挑戦として結実させたのです。3つの異な..."
-      }
-    },
-    {
-      "episode_id": "EP-260113113843492",
-      "person_name": "チャールズ・エグゼビア",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...EN: ダーク・フェニックス』は最後の大仕事を成し遂げる舞台となった。1963年に生まれたマーベル・コミックスの伝説的キャラクター、ミュータントたちの物語を、2019年に最終的に完結させた。スタン・リー、ジャッ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113113843656",
-      "person_name": "メイ・パーカー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...・パーカーはシリーズの最後の大仕事を成し遂げていました。1962年のキャラクター誕生から、マーベル・コミックスで62年間、延べ7つの映画シリーズと13人のスパイダーマン俳優を支えた彼女。2023年、NYで開催さ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113113843659",
-      "person_name": "メイ・パーカー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...た。ある年に生み出されたピーター・パーカーは、ある年になっても人々に希望を与え続けている。マーベル・コミックスで20作品、映画では15本のヒーロー像を通じて、この物語は4大陸で愛され、年間3億人以上のファンに届..."
-      }
-    },
-    {
-      "episode_id": "EP-260113114947871",
-      "person_name": "アルフレッド・ペニーワース",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...遺産が特別展で称えられていました。1939年のバットマン誕生から90年以上が経過した2029年、DCコミックスとワーナー・ブラザースは、彼が体現した忠実な執事キャラクターの功績を讃える展覧会を開催。ゴッサムシテ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113114947875",
-      "person_name": "アルフレッド・ペニーワース",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...年のバットマン誕生から数えて、ゴッサムシティの守護者としての伝説は、アルフレッドの献身によって、DCコミックスの20作品以上に影響を与えていました。2039年、ウェイン・エンタープライズの名誉顧問として、若きヒ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113114948107",
-      "person_name": "チャールズ・エグゼビア",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...ャック・キルビーが創造した超人的ヒーローたちの世界を、彼は50年以上にわたり守護してきた。マーベル・コミックス、プロフェッサーX、ウルヴァリンという3つの象徴的な名前が、その人生と共鳴し、最後の大仕事「ミュータ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113114948247",
-      "person_name": "マグニートー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "あなたと同じ99歳のとき、マグニートーは最後の遺産を築いていました。1963年に生まれたマーベル・コミックスの英雄たちを、2020年に至るまで守り抜いてきた。スタン・リーとジャック・カービーが創造した遺伝子変..."
-      }
-    },
-    {
-      "episode_id": "EP-260113114948276",
-      "person_name": "メイ・パーカー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...部以上のコミックと25本の映画で世界中の人々に希望を与え続けた。スタン・リーとの共同作業、マーベル・コミックス、そしてソニー・ピクチャーズでの「スパイダーマン：ノー・ウェイ・ホーム」の成功は、まさに驚異的な遺産..."
-      }
-    },
-    {
-      "episode_id": "EP-260113120448643",
-      "person_name": "スタン・リー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "あなたと同じ95歳のとき、スタン・リーシリーズの遺産を深く考えていました。1939年のマーベル・コミックス設立から、2008年のアイアンマン映画による革新的な展開まで、スタン・リーは3つの世代を超えるヒーロ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113153626822",
-      "person_name": "アルフレッド・ペニーワース",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...了された。デトロイト出身の父の影響で、3つの外国語と2つのコンピュータ言語を習得。1987年、「DCコミックス・トレーニングプログラム」に選抜され、執事としての素質を開花させた。ブルース・ウェイン（バットマン）..."
-      }
-    },
-    {
-      "episode_id": "EP-260113153626833",
-      "person_name": "アルフレッド・ペニーワース",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...ース・ウェイン財団と連携し、犯罪対策チームを率いた。3つの革新的なセキュリティシステムを開発し、DCコミックス社から高い評価を受けた。ある年、25年間の功績が認められ、「ゴッサム・ガーディアン賞」を受賞。カール..."
-      }
-    },
-    {
-      "episode_id": "EP-260113153626837",
-      "person_name": "アルフレッド・ペニーワース",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...説を完結させた。ワーナー・ブラザースでの20年、3作品、延べ観客動員数4億5000万人を達成し、DCコミックスの映画世界に不朽の足跡を残しました。この時期、若手映画監督たちへの技術継承に力を注ぎ、ゴッサム・シテ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113153627089",
-      "person_name": "ゴードン警部",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...。ジム・ゴードン中尉の直接指導のもと、犯罪現場分析のスキルを磨き、年間5件の重要事件解決に貢献。DCコミックスの世界観と現実の犯罪捜査を並行して学んだ青春時代でした。"
-      }
-    },
-    {
-      "episode_id": "EP-260113153627164",
-      "person_name": "ローガン老年",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...いました。ジャン・グレイと共に、X遺伝子の秘密を探り、3つの重要な仮説を提唱。1963年のマーベル・コミックスでのデビュー以来、常に変異種の可能性に挑戦し続けた。『ウルヴァリン』シリーズで、僕は17の実験データ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113154119565",
-      "person_name": "J・ジョナ・ジェイムソン",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...開き、スタン・リー財団から名誉記者賞を受賞。「スーパーヒーロー報道50年」という特別号で、マーベル・コミックスとの20年来の確執に終止符を打った。記者人生最後の栄光は、若き後継者たちへの貴重な遺産となった。"
-      }
-    },
-    {
-      "episode_id": "EP-260113154119568",
-      "person_name": "J・ジョナ・ジェイムソン",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...80回以上執筆し、ニューヨーク・メディア界に衝撃を与えた。「スパイダーマン脅威」特集では、マーベル・コミックスとの10年にわたる対立を決定的にし、自身の名声を30点満点中27点まで高めた。ピーター・パーカーへの..."
-      }
-    },
-    {
-      "episode_id": "EP-260113163603423",
-      "person_name": "メイ・パーカー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...観客に感動を届けた。ある年、マーベル・スタジオと大企業ーズの奇跡のコラボレーションで、トム・ホランド演じるピーター・パーカーの姿に、次世代スパイダーマンの可能性を示しました。ロバート・ダウニー・Jr.との共..."
-      }
-    },
-    {
-      "episode_id": "EP-260113163603427",
-      "person_name": "メイ・パーカー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...ム』は映画界に最後の大輝きを放った。1988年からマーベル・スタジオで携わった25年間、アメリカン・コミックス文化に3000万人以上のファンを巻き込んできた彼女の集大成となった。2021年、トム・ホランドと共に..."
-      }
-    },
-    {
-      "episode_id": "EP-260113163603430",
-      "person_name": "メイ・パーカー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...パイダーマンたちとの出会いを通じて、ピーターの使命がいかに大きなものかを実感しました。トム・ホランド演じるピーターが、アンドリュー・ガーフィールドやトビー・マグワイアの先輩スパイダーマンたちと共に戦う姿を見..."
-      }
-    },
-    {
-      "episode_id": "EP-260113163604589",
-      "person_name": "エルロンド",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "...栄光をもたらしていました。ある年のトールキンとの出会いから始まり、ある年のピーター・ジャクソンによる映画化、そしてある年の3部作完成まで。延べ1,178日の撮影、11の大賞受賞という偉業を成し遂げたは、世界..."
-      }
-    },
-    {
-      "episode_id": "EP-260113164411250",
-      "person_name": "大ババ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "あなたと同じ62歳のとき、大ババは完全版アニメ化に向けて、スタジオジブリのある年のアニメ映画公開から、さらに深化した世界観をある年に完成させた全3巻..."
-      }
-    },
-    {
-      "episode_id": "EP-260113170706522",
-      "person_name": "超神龍",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: フジテレビ",
-      "details": {
-        "institution": "フジテレビ",
-        "work_title": "ドラゴンボールGT",
-        "snippet": "...ラムにおいて「ドラゴンボール完全復活プロジェクト」の総指揮官として立っていました。集英社、玩具会社、フジテレビの3社連合と共に、総制作費120億円を投じた史上最大規模のアニメプロジェクトを発表しました。彼の指導..."
-      }
-    },
-    {
-      "episode_id": "EP-260113171155634",
-      "person_name": "グラニー・ウェザーワックス",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ57歳のとき、グラニー・ウェザーワックスの作者テリー・プラチェットはシリーズの集大成に取り組んでいました。ある年からある年にかけて、計8冊の新作を..."
-      }
-    },
-    {
-      "episode_id": "EP-260113171555966",
-      "person_name": "長老",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...平を切り開いたと評価された。若手クリエイターたちへの影響も大きく、彼の作品は次世代のアニメーション制作者たちにとって不可欠な指針となった。批評家からは、54歳という年齢でなお創造性を失わない稀有な芸術家と..."
-      }
-    },
-    {
-      "episode_id": "EP-260113171555971",
-      "person_name": "長老",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "...術指導を実施し、東京・京都・大阪の3都市でワークショップを開催。の世界観に影響を受けた次世代アニメ制作者たちへ、20年以上の経験から得た知見を伝授しました。クリエイティブ分野での社会貢献に全力を注ぎ、アニ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113172354552",
-      "person_name": "マグニートー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...ールズ・エグゼビア財団で研究員として7年目、遺伝子変異に関する3つの画期的な論文を発表。『マーベル・コミックス』の注目を集め、X-MENプロジェクトへの招聘を受けた。ジーン・グレイやサイクロップスと出会い、20..."
-      }
-    },
-    {
-      "episode_id": "EP-260113172759386",
-      "person_name": "サルマン",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 映画化への言及",
-      "details": {
-        "pattern": "映画化への言及",
-        "snippet": "あなたと同じ39歳のとき、サルマンは完全な映画化に向けて、ニュージーランドのウェリントンで大きな挑戦に立ち向かっていました。ある年、ピーター・ジャク..."
-      }
-    },
-    {
-      "episode_id": "EP-260113172800675",
-      "person_name": "チューバッカ",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 演じる表現",
-      "details": {
-        "pattern": "演じる表現",
-        "snippet": "...ある年の「ジェダイの帰還」と3部作に登場し、ピーター・マホーメットとともに7回もハン・ソロの親友役を演じた。ハリウッドでの13年間、300以上のアクション場面をこなし、世界中の1億2000万人のファンに愛さ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113173252156",
-      "person_name": "スタン・リー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "あなたと同じ42歳のとき、スタン・リーはと共に世界的な成功に沸くマーベル・コミックスの中心作品となっていました。1962年のヒーロー誕生から、約20年が経過した1978年、スタン・リー..."
-      }
-    },
-    {
-      "episode_id": "EP-260113173252251",
-      "person_name": "大原大次郎",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...7年連続人気作家の座を獲得し、秋本治の漫画は日本のポップカルチャーに革命を起こしていたのです。テレビアニメ化、映画3作品、そして東映Animation社との20年来のパートナーシップが、大原大次郎のキャリアを..."
-      }
-    },
-    {
-      "episode_id": "EP-260113215151271",
-      "person_name": "銀魂坂田銀時",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ1歳のとき、銀魂坂田銀時は作者空知英秋の心の中で既に産声を上げていました。ある年、幼い頃から江戸川乱歩賞に憧れていた空知は、という..."
-      }
-    },
-    {
-      "episode_id": "EP-260113215152733",
-      "person_name": "大石秀一郎",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 作者への言及",
-      "details": {
-        "pattern": "作者への言及",
-        "snippet": "あなたと同じ2歳のとき、大石秀一郎は作者の頭の中で静かに芽生え始めていました。ある年、幼少期から抱いていた漫画家への夢は、先輩・浦沢直樹の作..."
-      }
-    },
-    {
-      "episode_id": "EP-260113225502045",
-      "person_name": "我妻善逸",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: テレビ東京",
-      "details": {
-        "institution": "テレビ東京",
-        "work_title": "鬼滅の刃",
-        "snippet": "...の物語に夢中になった。ある年、小学校の図書室で同級生と3時間かけて全巻を読破。そしてある年、アニメがテレビ東京で放送開始。蝶屋敷での炭治郎の物語に心を奪われ、自分も戦う剣士になることを決意。煉獄杏寿郎のような強..."
-      }
-    },
-    {
-      "episode_id": "EP-260114011035858",
-      "person_name": "チャールズ・エグゼビア",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...見せていました。1963年、ニューヨークのマンハッタンで、の生みの親スタン・リーに出会い、マーベル・コミックスの世界に魅了されたのです。幼い頃から知的好奇心は旺盛で、5歳で読み始めた20冊のコミックは、彼の創造..."
-      }
-    },
-    {
-      "episode_id": "EP-260114011038248",
-      "person_name": "ソフィー・ハッター",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: アニメ化への言及",
-      "details": {
-        "pattern": "アニメ化への言及",
-        "snippet": "...と向き合おうとしていました。小さな町の帽子工房で創造性の種を蒔き始めた彼女は、後に宮崎駿監督によってアニメ化され、の主人公として世界中の人々に愛されることになるのです。"
-      }
-    },
-    {
-      "episode_id": "EP-260112044302327",
-      "person_name": "ブルース・バナー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...ブルックリンで生まれ、わずか10歳で「コミック・アート」の才能を開花させていました。1953年、DCコミックスでの編集に携わり、その後のキャラクターデザインで大きな転換点を迎える。3つの異なるスタイルを駆使し、..."
-      }
-    },
-    {
-      "episode_id": "EP-260112044302330",
-      "person_name": "ブルース・バナー",
-      "person_type": "FICTIONAL",
-      "violation_type": "META_INFO_CONTAMINATION",
-      "severity": "ERROR",
-      "message": "メタ情報混入: 出版形態への言及",
-      "details": {
-        "pattern": "出版形態への言及",
-        "snippet": "...せていました。「スターウォーズ」の影響を受け、1990年には早くも独自の創作活動を開始。「マーベル・コミックス」への憧れと20点を超える独創的なキャラクターデザインは、彼の天才的な素質を示唆していました。ハーバ..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031841719",
-      "person_name": "ムーディ先生",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: ハーバード大学",
-      "details": {
-        "institution": "ハーバード大学",
-        "work_title": "ハリー・ポッター",
-        "snippet": "あなたと同じ58歳のとき、ムーディ先生は「魔法学園プロジェクト」の最終構想の核となっていました。ハーバード大学との共同研究で、ハリー・ポッター、ハーマイオニーらと教育革新の可能性を探った。シリーズの教育的意義を..."
-      }
-    },
-    {
-      "episode_id": "EP-260113031843566",
-      "person_name": "ピチュー",
-      "person_type": "FICTIONAL",
-      "violation_type": "REAL_INSTITUTION_IN_FICTIONAL",
-      "severity": "ERROR",
-      "message": "架空世界作品に実在機関: 任天堂",
-      "details": {
-        "institution": "任天堂",
-        "work_title": "ポケモン",
-        "snippet": "あなたと同じ43歳のとき、ピチューは「ポケットモンスター サン・ムーン」の世界観を大きく変革し、任天堂と協働で、3つの新たな世代交代プロジェクトを始動させていました。国際ゲーム開発者会議「CEDEC」で..."
-      }
-    },
-    {
       "episode_id": "EP-2601161503490077",
       "person_name": "隈研吾",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -3365,7 +975,7 @@
       "episode_id": "EP-260116231609187",
       "person_name": "有栖川有栖",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {
@@ -3377,7 +987,7 @@
       "episode_id": "EP-260117000725682",
       "person_name": "伊坂幸太郎",
       "person_type": "REAL",
-      "violation_type": "UNVERIFIED_CLAIM",
+      "violation_type": "unverified_claim",
       "severity": "WARNING",
       "message": "曖昧表現: 「〜とされる」",
       "details": {

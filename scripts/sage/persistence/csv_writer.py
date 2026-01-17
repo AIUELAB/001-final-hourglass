@@ -30,7 +30,7 @@ from scripts.validation.fictional_lead_gate import check_fictional_lead_row
 from src.utils.fictional_quality_gate import FictionalQualityGate
 
 # UnifiedGate（DB反映前の最終ゲート - バイパス経路塞ぎ）
-from .unified_gate import UnifiedGate, ValidationError
+from .unified_gate import UnifiedGate, ValidationError, ViolationType
 
 
 @dataclass
@@ -171,8 +171,6 @@ class SafeCSVWriter:
 
         # UnifiedGateチェック（バイパス経路塞ぎ - DB反映前最終ゲート）
         # REAL/FICTIONAL両方をカバーする統合検証
-        from .unified_gate import ViolationType
-
         # WARNINGレベルの違反タイプ（通過を許可）
         WARNING_TYPES = {ViolationType.UNVERIFIED_CLAIM}
 
@@ -182,9 +180,7 @@ class SafeCSVWriter:
             # ERRORレベルのみブロック（WARNINGは通過）
             # violationsとmessagesをペアでフィルタリング
             error_items = [
-                (v, m)
-                for v, m in zip(unified_result.violations, unified_result.messages)
-                if v not in WARNING_TYPES
+                (v, m) for v, m in zip(unified_result.violations, unified_result.messages) if v not in WARNING_TYPES
             ]
             if error_items:
                 error_msgs = [m for _, m in error_items]

@@ -448,7 +448,7 @@ class FictionalQualityGate:
                 data = json.load(f)
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse work settings JSON: {e}")
-            return
+            raise ValueError(f"Work settings file is corrupted: {self.work_settings_path}. " f"JSON error: {e}")
 
         works = data.get("works", {})
         for title, settings in works.items():

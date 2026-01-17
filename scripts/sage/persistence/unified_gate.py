@@ -48,9 +48,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
 class ViolationType(Enum):
-    """違反タイプ（統一定義 - csv_writer.py, unified_episode_validator.py共通）
+    """違反タイプ（プロジェクト共通定義）
 
-    Note: 全ての値は snake_case で統一（外部ツール連携時の一貫性確保）
+    このEnumはプロジェクト全体で共通の違反タイプを定義する。
+    csv_writer.py, unified_episode_validator.py等からimportされて使用される。
+
+    Note: 全ての値は snake_case で統一（外部ツール・JSONレポート連携時の一貫性確保）
     """
 
     # FICTIONAL向け
@@ -547,13 +550,15 @@ class UnifiedGate:
     # ユーティリティ
     # =========================================================================
 
-    def _safe_int(self, value) -> Optional[int]:
-        """安全にintに変換"""
+    def _safe_int(self, value, field_name: str = "") -> Optional[int]:
+        """安全にintに変換（変換失敗時はログを残す）"""
         if value is None:
             return None
         try:
             return int(float(value))
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
+            if value and str(value).strip():
+                logger.warning(f"Failed to convert '{value}' to int for field '{field_name}': {e}")
             return None
 
     def _merge_results(self, target: ValidationResult, source: ValidationResult) -> None:

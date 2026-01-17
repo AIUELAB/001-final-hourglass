@@ -42,7 +42,11 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
+import logging
 import pandas as pd
+
+# ロガー設定
+logger = logging.getLogger(__name__)
 
 # プロジェクトルート
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -57,8 +61,10 @@ REPORT_DIR = PROJECT_ROOT / "src/reports"
 # =============================================================================
 
 # UNVERIFIED_CLAIM検出: False = 無効（適切なヘッジ表現は許容）
-# 「〜とされる」等は主観的評価や歴史的推計の適切なヘッジであり、
+# 「〜とされる」「〜と言われている」「諸説あり」等のヘッジ表現は、
+# 主観的評価や歴史的推計の適切な表現であり、
 # 削除すると根拠なき断定になるため、デフォルトで無効化
+# 対象パターン詳細: UNVERIFIED_CLAIM_PATTERNS を参照
 ENABLE_UNVERIFIED_CLAIM_CHECK = False
 
 
@@ -302,16 +308,22 @@ class UnifiedEpisodeValidator:
     def master_df(self) -> pd.DataFrame:
         """マスターデータの遅延読み込み"""
         if self._master_df is None:
-            if self.master_csv.exists():
-                self._master_df = pd.read_csv(self.master_csv, encoding="utf-8-sig", low_memory=False)
-            else:
-                self._master_df = pd.DataFrame()
+            if not self.master_csv.exists():
+                raise FileNotFoundError(
+                    f"Master CSV not found: {self.master_csv}. " f"Please verify the path is correct."
+                )
+            self._master_df = pd.read_csv(self.master_csv, encoding="utf-8-sig", low_memory=False)
+            logger.info(f"Loaded {len(self._master_df)} episodes from {self.master_csv}")
         return self._master_df
 
     def validate_all(self) -> ValidationResult:
         """全件検証"""
         if self.master_df.empty:
             return ValidationResult(total_episodes=0, real_episodes=0, fictional_episodes=0)
+
+        # UNVERIFIED_CLAIM検出の無効化をログ
+        if not ENABLE_UNVERIFIED_CLAIM_CHECK:
+            logger.info("UNVERIFIED_CLAIM check is disabled (適切なヘッジ表現は許容)")
 
         violations: list[Violation] = []
         real_count = 0
@@ -413,9 +425,9 @@ class UnifiedEpisodeValidator:
         episode_text = str(row.get("episode_text", ""))
 
         # 数値フィールドの安全な取得
-        age = self._safe_int(row.get("age"))
-        birth_year = self._safe_int(row.get("birth_year"))
-        death_year = self._safe_int(row.get("death_year"))
+        age = self._safe_int(row.get("age"), "age")
+        birth_year = self._safe_int(row.get("birth_year"), "birth_year")
+        death_year = self._safe_int(row.get("death_year"), "death_year")
 
         # 1. birth_year > death_year チェック
         if birth_year and death_year and birth_year > death_year:
@@ -540,13 +552,15 @@ class UnifiedEpisodeValidator:
         return snippet
 
     @staticmethod
-    def _safe_int(value: Any) -> Optional[int]:
-        """安全な整数変換"""
+    def _safe_int(value: Any, field_name: str = "") -> Optional[int]:
+        """安全にintに変換（変換失敗時はログを残す）"""
         if value is None or pd.isna(value):
             return None
         try:
             return int(float(value))
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
+            if value and str(value).strip():  # 空でない値の場合のみ警告
+                logger.warning(f"Failed to convert '{value}' to int for field '{field_name}': {e}")
             return None
 
 

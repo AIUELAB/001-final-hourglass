@@ -9,6 +9,7 @@ Batch APIで再生成して修正する。
 1. detect: 違反エピソードを検出してレポート生成
 2. submit: 違反エピソードの再生成バッチを送信
 3. apply: バッチ結果をマスターCSVに適用
+4. from-scan: narrative_inconsistency_scan.jsonからTYPE 2違反を読み込む
 
 使用方法:
     # 違反検出（ドライラン）
@@ -22,6 +23,12 @@ Batch APIで再生成して修正する。
 
     # 一括実行（検出→送信→完了待ち→適用）
     python scripts/fix/fix_fictional_era_episodes.py --full
+
+    # スキャン結果JSONからTYPE 2違反を読み込んで表示
+    python scripts/fix/fix_fictional_era_episodes.py --from-scan --detect-only
+
+    # スキャン結果JSONからTYPE 2違反を読み込んでBatch送信
+    python scripts/fix/fix_fictional_era_episodes.py --from-scan --submit
 
 Author: EPUP Fix Team
 Date: 2026-01-15
@@ -68,6 +75,7 @@ HAS_BATCH_API: bool = _has_batch_api
 MASTER_CSV = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORT_DIR = PROJECT_ROOT / "src/reports"
 BATCH_JOBS_DIR = PROJECT_ROOT / "src/cache/batch_jobs"
+NARRATIVE_SCAN_JSON = PROJECT_ROOT / "src/reports/narrative_inconsistency_scan.json"
 
 
 # =============================================================================
@@ -213,6 +221,118 @@ class FictionalEraEpisodeFixer:
                 filtered_results.append(result)
 
         return filtered_results
+
+    def load_violations_from_scan(
+        self,
+        scan_json_path: Path = NARRATIVE_SCAN_JSON,
+        violation_type_filter: str = "TYPE_2_MODERN_YEAR_IN_FANTASY",
+    ) -> list[dict]:
+        """
+        narrative_inconsistency_scan.jsonからTYPE 2違反を読み込む
+
+        Args:
+            scan_json_path: スキャン結果JSONファイルのパス
+            violation_type_filter: フィルタする違反タイプ
+
+        Returns:
+            違反エピソードのリスト（episode_id, person_name, work_title, detected_pattern）
+        """
+        if not scan_json_path.exists():
+            print(f"[ERROR] スキャンファイルが見つかりません: {scan_json_path}")
+            return []
+
+        with open(scan_json_path, encoding="utf-8") as f:
+            scan_data = json.load(f)
+
+        violations = scan_data.get("violations", [])
+
+        # TYPE 2違反のみ抽出
+        type2_violations = [v for v in violations if v.get("violation_type") == violation_type_filter]
+
+        # ユニークなepisode_idでまとめる
+        unique_violations: dict[str, dict] = {}
+        for v in type2_violations:
+            episode_id = v.get("episode_id")
+            if episode_id and episode_id not in unique_violations:
+                unique_violations[episode_id] = {
+                    "episode_id": episode_id,
+                    "person_name": v.get("person_name", ""),
+                    "work_title": v.get("work_title", ""),
+                    "detected_pattern": v.get("detected_pattern", ""),
+                    "text_snippet": v.get("text_snippet", ""),
+                }
+
+        return list(unique_violations.values())
+
+    def create_batch_requests_from_scan(self, scan_violations: list[dict]) -> list:
+        """
+        スキャン結果からBatch APIリクエストを作成
+
+        Args:
+            scan_violations: load_violations_from_scan()の結果
+
+        Returns:
+            BatchRequestのリスト
+        """
+        if not HAS_BATCH_API:
+            raise ImportError("Batch API not available")
+
+        requests = []
+
+        for violation in scan_violations:
+            episode_id = violation.get("episode_id")
+            person_name = violation.get("person_name", "")
+
+            # マスターから追加情報を取得
+            row = self.master_df[self.master_df["episode_id"] == episode_id]
+            if row.empty:
+                print(f"[WARN] episode_id not found in master: {episode_id}")
+                continue
+
+            row = row.iloc[0]
+            age = int(row.get("age", 0) or 0)
+            work_title = str(row.get("work_title", "")) or violation.get("work_title", "")
+
+            # 作品情報を取得
+            era_setting = self._get_era_setting(work_title, person_name)
+            if era_setting is None:
+                print(f"[WARN] Era setting not found for: {person_name} ({work_title})")
+                continue
+
+            era_name = era_setting.get("era_name", "不明")
+            era_start = era_setting.get("era_start", "?")
+            era_end = era_setting.get("era_end", "?")
+            era_range = f"{era_start}-{era_end}" if era_start and era_end else "不明"
+
+            work_specific_notes = get_work_specific_notes(work_title or era_setting.get("work_title", ""))
+
+            # プロンプト生成
+            prompt = ERA_AWARE_PROMPT_TEMPLATE.format(
+                person_name=person_name,
+                age=age,
+                work_title=work_title or era_setting.get("work_title", "作品"),
+                era_name=era_name,
+                era_range=era_range,
+                work_specific_notes=work_specific_notes,
+            )
+
+            # custom_id形式: FIX_ERA_{episode_id}
+            custom_id = f"FIX_ERA_{episode_id}"
+
+            assert BatchRequest is not None
+            requests.append(
+                BatchRequest(
+                    custom_id=custom_id,
+                    person_name=person_name,
+                    age=age,
+                    category="FICTIONAL",
+                    prompt=prompt,
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=512,
+                )
+            )
+
+        return requests
 
     def create_batch_requests(self, violations: list[ValidationResult]) -> list:
         """
@@ -387,11 +507,11 @@ class FictionalEraEpisodeFixer:
         assert BatchProcessor is not None and HybridConfig is not None
         processor = BatchProcessor(config=HybridConfig())
 
-        # 結果取得
-        job: Any = await processor.get_results(batch_id)  # type: ignore[attr-defined]
+        # 結果取得（リストが返される）
+        results_list: list[dict[str, Any]] = await processor.get_results(batch_id)
 
-        if not job.results:
-            return {"error": "No results available", "status": job.status}
+        if not results_list:
+            return {"error": "No results available", "batch_id": batch_id}
 
         # マスターCSV読み込み
         df = self.master_df.copy()
@@ -400,9 +520,9 @@ class FictionalEraEpisodeFixer:
         failed_count = 0
         results_detail: list[dict[str, Any]] = []
 
-        for result in job.results:
+        for result in results_list:
             custom_id = result.get("custom_id", "")
-            result_type = result.get("result", {}).get("type", "")
+            result_type = result.get("result_type", "")
 
             # FIX_ERA_{episode_id} からepisode_idを抽出
             if not custom_id.startswith("FIX_ERA_"):
@@ -411,46 +531,33 @@ class FictionalEraEpisodeFixer:
             episode_id = custom_id.replace("FIX_ERA_", "")
 
             if result_type == "succeeded":
-                # 成功結果からテキストを抽出
-                message = result.get("result", {}).get("message", {})
-                content = message.get("content", [])
+                # 成功結果からテキストを抽出（BatchProcessor.get_resultsの形式に合わせる）
+                new_text = result.get("text", "")
 
-                if content and isinstance(content, list):
-                    new_text = content[0].get("text", "")
+                if new_text and len(new_text) >= 100:
+                    # 再検証: 新しいテキストが時代設定に準拠しているか
+                    if self._validate_regenerated_text(episode_id, new_text):
+                        # マスターCSVを更新
+                        idx = df[df["episode_id"] == episode_id].index
+                        if len(idx) > 0:
+                            if not self.dry_run:
+                                df.loc[idx[0], "episode_text"] = new_text
+                                df.loc[idx[0], "fact_check_result"] = "FIX_ERA_REGENERATED"
 
-                    if new_text and len(new_text) >= 100:
-                        # 再検証: 新しいテキストが時代設定に準拠しているか
-                        if self._validate_regenerated_text(episode_id, new_text):
-                            # マスターCSVを更新
-                            idx = df[df["episode_id"] == episode_id].index
-                            if len(idx) > 0:
-                                if not self.dry_run:
-                                    df.loc[idx[0], "episode_text"] = new_text
-                                    df.loc[idx[0], "fact_check_result"] = "FIX_ERA_REGENERATED"
-
-                                applied_count += 1
-                                results_detail.append(
-                                    {
-                                        "episode_id": episode_id,
-                                        "status": "applied",
-                                        "new_text_preview": new_text[:100] + "...",
-                                    }
-                                )
-                            else:
-                                failed_count += 1
-                                results_detail.append(
-                                    {
-                                        "episode_id": episode_id,
-                                        "status": "not_found_in_master",
-                                    }
-                                )
+                            applied_count += 1
+                            results_detail.append(
+                                {
+                                    "episode_id": episode_id,
+                                    "status": "applied",
+                                    "new_text_preview": new_text[:100] + "...",
+                                }
+                            )
                         else:
                             failed_count += 1
                             results_detail.append(
                                 {
                                     "episode_id": episode_id,
-                                    "status": "validation_failed",
-                                    "reason": "Regenerated text still contains violations",
+                                    "status": "not_found_in_master",
                                 }
                             )
                     else:
@@ -458,10 +565,19 @@ class FictionalEraEpisodeFixer:
                         results_detail.append(
                             {
                                 "episode_id": episode_id,
-                                "status": "invalid_text",
-                                "reason": "Text too short or empty",
+                                "status": "validation_failed",
+                                "reason": "Regenerated text still contains violations",
                             }
                         )
+                else:
+                    failed_count += 1
+                    results_detail.append(
+                        {
+                            "episode_id": episode_id,
+                            "status": "invalid_text",
+                            "reason": "Text too short or empty",
+                        }
+                    )
             else:
                 failed_count += 1
                 results_detail.append(
@@ -586,6 +702,49 @@ class FictionalEraEpisodeFixer:
 
         return "\n".join(lines)
 
+    def generate_report_from_scan(self, scan_violations: list[dict]) -> str:
+        """
+        スキャン結果から違反レポートを生成
+
+        Args:
+            scan_violations: load_violations_from_scan()の結果
+
+        Returns:
+            レポート文字列
+        """
+        lines = []
+        lines.append("=" * 70)
+        lines.append("EPUP: TYPE_2_MODERN_YEAR_IN_FANTASY 違反レポート（from scan）")
+        lines.append(f"生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        lines.append(f"ソース: {NARRATIVE_SCAN_JSON}")
+        lines.append("=" * 70)
+        lines.append("")
+        lines.append(f"検出されたユニーク違反: {len(scan_violations)}件")
+        lines.append("")
+
+        # 作品別集計
+        work_counts: dict[str, int] = {}
+        for v in scan_violations:
+            work = v.get("work_title", "不明")
+            work_counts[work] = work_counts.get(work, 0) + 1
+
+        if work_counts:
+            lines.append("作品別違反件数:")
+            for work, count in sorted(work_counts.items(), key=lambda x: -x[1]):
+                lines.append(f"  {work}: {count}件")
+            lines.append("")
+
+        # 詳細
+        for i, v in enumerate(scan_violations, 1):
+            lines.append(f"--- [{i}] {v.get('episode_id')} | {v.get('person_name')} ---")
+            lines.append(f"  作品: {v.get('work_title', '不明')}")
+            lines.append(f"  検出パターン: {v.get('detected_pattern', '')}")
+            if v.get("text_snippet"):
+                lines.append(f"  スニペット: {v.get('text_snippet', '')[:100]}...")
+            lines.append("")
+
+        return "\n".join(lines)
+
 
 # =============================================================================
 # CLI
@@ -596,6 +755,69 @@ async def main_async(args):
     """非同期メイン処理"""
     fixer = FictionalEraEpisodeFixer(dry_run=args.dry_run)
 
+    # --from-scan モード: スキャン結果JSONから違反を読み込む
+    if args.from_scan:
+        print("=" * 70)
+        print("Mode: --from-scan (スキャン結果JSONから読み込み)")
+        print("=" * 70)
+
+        scan_violations = fixer.load_violations_from_scan()
+        print(f"読み込んだTYPE 2違反: {len(scan_violations)}件（ユニークepisode_id）")
+
+        if not scan_violations:
+            print("違反なし。処理を終了します。")
+            return 0
+
+        # レポート生成
+        report = fixer.generate_report_from_scan(scan_violations)
+
+        if args.detect_only:
+            print(report)
+            return 0 if len(scan_violations) == 0 else 1
+
+        # Batch送信
+        if args.submit or args.full:
+            print("\n" + "=" * 70)
+            print("Step: Batch API送信")
+            print("=" * 70)
+
+            if not HAS_BATCH_API:
+                print("[ERROR] Batch API not available. Install anthropic package.")
+                return 2
+
+            requests = fixer.create_batch_requests_from_scan(scan_violations)
+            print(f"作成されたリクエスト: {len(requests)}件")
+
+            if not requests:
+                print("有効なリクエストがありません。")
+                return 1
+
+            job_info = await fixer.submit_batch(requests)
+            print(f"Batch送信完了: {job_info}")
+
+            batch_id = job_info.get("batch_id")
+
+            # 完了待ち（--fullの場合のみ）
+            if args.full and batch_id:
+                print("\n" + "=" * 70)
+                print("Step: 完了待機")
+                print("=" * 70)
+
+                status = await fixer.wait_for_completion(batch_id)
+                print(f"最終ステータス: {status}")
+
+                # 結果適用
+                if status.get("status") == "ended":
+                    print("\n" + "=" * 70)
+                    print("Step: 結果適用")
+                    print("=" * 70)
+
+                    result = await fixer.retrieve_and_apply(batch_id)
+                    print(f"適用結果: {result}")
+
+        return 0
+
+    # 従来モード: FictionalEpisodeValidator.scan_all_episodes()を使用
     # 1. 違反検出
     if args.detect_only or args.submit or args.full:
         print("=" * 70)
@@ -682,6 +904,11 @@ def main():
     """メイン処理"""
     parser = argparse.ArgumentParser(description="EPUP: 架空キャラクター時代設定違反エピソード修正")
     parser.add_argument(
+        "--from-scan",
+        action="store_true",
+        help="narrative_inconsistency_scan.jsonからTYPE 2違反を読み込む",
+    )
+    parser.add_argument(
         "--detect-only",
         action="store_true",
         help="違反検出のみ（Batch送信しない）",
@@ -717,6 +944,10 @@ def main():
     # 引数チェック
     if args.apply and not args.batch_id:
         parser.error("--apply requires --batch-id")
+
+    # --from-scanモードでは--detect-only, --submit, --fullのいずれかが必要
+    if args.from_scan and not any([args.detect_only, args.submit, args.full]):
+        parser.error("--from-scan requires --detect-only, --submit, or --full")
 
     if not any([args.detect_only, args.submit, args.apply, args.full]):
         parser.print_help()

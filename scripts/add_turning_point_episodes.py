@@ -276,7 +276,6 @@ def main(dry_run: bool = True):
         new_row["person_type"] = template.get("person_type", "REAL")
         new_row["quality_score"] = "8.5"
         new_row["source"] = "TURNING_POINT_MANUAL"
-        new_row["tier"] = template.get("tier", "WEEK_1")
         new_row["generation_timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         new_row["fame_tier"] = template.get("fame_tier", "4.0")
         new_row["人生の節目タグ"] = "壮年期の挑戦" if ep["age"] >= 40 else "若き挑戦"

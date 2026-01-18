@@ -1,0 +1,223 @@
+{
+  "batch_id": "msgbatch_01PyAS2bpxFu5DvG7znfTsTn",
+  "created_at": "2026-01-18T17:40:52.815373",
+  "status": "in_progress",
+  "request_count": 43,
+  "requests": [
+    {
+      "custom_id": "FIX_ERA_EP-260111223545131",
+      "person_name": "伊之助",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260111223545138",
+      "person_name": "伊之助",
+      "age": 51
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260111223545841",
+      "person_name": "サクラ・ハルノ",
+      "age": 51
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260111235645678",
+      "person_name": "センゴク",
+      "age": 54
+    },
+    {
+      "custom_id": "FIX_ERA_EP-202601128F73AE",
+      "person_name": "ブルマ",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031842188",
+      "person_name": "ナルト・うずまき",
+      "age": 46
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031843069",
+      "person_name": "ポルンガ",
+      "age": 58
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031844533",
+      "person_name": "レイリー",
+      "age": 42
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031844544",
+      "person_name": "レイリー",
+      "age": 49
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031845510",
+      "person_name": "飛段の神ジャシン",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031846150",
+      "person_name": "網手",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847265",
+      "person_name": "デンデ",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847323",
+      "person_name": "嘴平伊之助",
+      "age": 44
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847331",
+      "person_name": "嘴平伊之助",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847353",
+      "person_name": "シェンロン",
+      "age": 52
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847513",
+      "person_name": "時透無一郎",
+      "age": 46
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031849321",
+      "person_name": "不死川玄弥",
+      "age": 46
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031849487",
+      "person_name": "クリリン",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031849587",
+      "person_name": "エルヴィン・スミス",
+      "age": 43
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031849776",
+      "person_name": "ゼフ",
+      "age": 46
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031850869",
+      "person_name": "エンマ大王",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031852230",
+      "person_name": "ガープ",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031852970",
+      "person_name": "我妻善逸",
+      "age": 47
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031852973",
+      "person_name": "我妻善逸",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032829998",
+      "person_name": "ナルト・うずまき",
+      "age": 47
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032830841",
+      "person_name": "Dr.くれは",
+      "age": 43
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032832030",
+      "person_name": "シャンクス",
+      "age": 51
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032833385",
+      "person_name": "飛段の神ジャシン",
+      "age": 53
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032833526",
+      "person_name": "カイドウ",
+      "age": 57
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032834803",
+      "person_name": "センゴク",
+      "age": 52
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032835077",
+      "person_name": "デンデ",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032835156",
+      "person_name": "嘴平伊之助",
+      "age": 49
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032837849",
+      "person_name": "武天老師",
+      "age": 51
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032838072",
+      "person_name": "カリン様",
+      "age": 52
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032838079",
+      "person_name": "カリン様",
+      "age": 54
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032839595",
+      "person_name": "ガープ",
+      "age": 54
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032839602",
+      "person_name": "ガープ",
+      "age": 58
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032839628",
+      "person_name": "エルダー・カイ",
+      "age": 51
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032840002",
+      "person_name": "セル",
+      "age": 43
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032840025",
+      "person_name": "セル",
+      "age": 58
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032840488",
+      "person_name": "我妻善逸",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113045557634",
+      "person_name": "朧",
+      "age": 59
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113172800270",
+      "person_name": "お登勢",
+      "age": 68
+    }
+  ]
+}

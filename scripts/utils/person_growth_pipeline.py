@@ -412,7 +412,6 @@ def dataframe_to_person_candidates(df: pd.DataFrame) -> List[PersonCandidate]:
                 description=str(row.get("description", "")) if pd.notna(row.get("description")) else None,
                 birth_year=int(row["birth_year"]) if pd.notna(row.get("birth_year")) else None,
                 death_year=int(row["death_year"]) if pd.notna(row.get("death_year")) else None,
-                tier=str(row.get("tier", "")) if pd.notna(row.get("tier")) else None,
                 source_name=str(row.get("source_file", "manual")),
                 source_url=str(row.get("source_url", "")) if pd.notna(row.get("source_url")) else None,
             )

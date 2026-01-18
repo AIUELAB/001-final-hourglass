@@ -1,15 +1,15 @@
 {
-  "scan_timestamp": "2026-01-18T17:45:30.872430",
-  "total_fictional_episodes_scanned": 6700,
+  "scan_timestamp": "2026-01-18T18:21:51.358837",
+  "total_fictional_episodes_scanned": 6698,
   "summary": {
-    "total_violations": 132,
+    "total_violations": 111,
     "by_type": {
-      "TYPE_1_REAL_INSTITUTION": 112,
-      "TYPE_2_MODERN_YEAR_IN_FANTASY": 20,
+      "TYPE_1_REAL_INSTITUTION": 111,
+      "TYPE_2_MODERN_YEAR_IN_FANTASY": 0,
       "TYPE_3_CROSS_FRANCHISE": 0
     },
     "by_severity": {
-      "ERROR": 132,
+      "ERROR": 111,
       "WARNING": 0
     }
   },
@@ -150,33 +150,6 @@
       "text_snippet": "...20人の仲間と共に異文化理解の重要性を学び、ニューヨーク・タイムズ文学賞への挑戦を決意。2006年、早稲田大学の懸賞文学コンテストで、初めて評価を得た瞬間は忘れられない。文学という未知の世界へ、情熱と好奇心を胸..."
     },
     {
-      "episode_id": "EP-260111223546525",
-      "person_name": "レゴラス",
-      "work_title": "ナルニア国物語",
-      "violation_type": "TYPE_1_REAL_INSTITUTION",
-      "detected_pattern": "オックスフォード大学",
-      "severity": "ERROR",
-      "text_snippet": "...とき、レゴラス『ナルニア国物語』はトルキン研究への道筋を示すきっかけとなった作品だった。2005年、オックスフォード大学の図書館で、の原稿研究に没頭し、週に40時間以上を文献解析に費やしていた。ケンブリッジの学会で「中世..."
-    },
-    {
-      "episode_id": "EP-260111223546525",
-      "person_name": "レゴラス",
-      "work_title": "ナルニア国物語",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2005年 (in ナルニア国物語)",
-      "severity": "ERROR",
-      "text_snippet": "...同じ24歳のとき、レゴラス『ナルニア国物語』はトルキン研究への道筋を示すきっかけとなった作品だった。2005年、オックスフォード大学の図書館で、の原稿研究に没頭し、週に40時間以上を文献解析に費やしていた。ケン..."
-    },
-    {
-      "episode_id": "EP-260111223546525",
-      "person_name": "レゴラス",
-      "work_title": "ナルニア国物語",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2007年 (in ナルニア国物語)",
-      "severity": "ERROR",
-      "text_snippet": "...en societyから注目を集めた。20世紀の想像力文学の可能性を探る中、3つの重要な論文を執筆。2007年、ロンドンでの国際シンポジウムで、レゴラスの研究は新たな転機を迎えることになる。"
-    },
-    {
       "episode_id": "EP-260111223546698",
       "person_name": "ギムリ",
       "work_title": "文学",
@@ -310,15 +283,6 @@
       "detected_pattern": "東京工業大学",
       "severity": "ERROR",
       "text_snippet": "...メ』は「ドラゴン・プロジェクト」の中心メンバーとして、2038年にかけて革新的な活動を展開していた。東京工業大学客員教授として、年間3回の特別講義を行い、延べ240名の学生に次世代ロボティクスを教授。同時に「サイ..."
-    },
-    {
-      "episode_id": "EP-260112013224539",
-      "person_name": "リオル",
-      "work_title": "ポケットモンスター",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in ポケットモンスター)",
-      "severity": "ERROR",
-      "text_snippet": "...、リオルは、カロス地方のルリの里で開催された「次世代トレーナー育成キャンプ」の主任講師を務めていた。2035年、彼は30人の若いトレーナーたちに、ポケモンとの絆を深める特別なトレーニングを行いた。ミズゴロウ、エ..."
     },
     {
       "episode_id": "EP-260112013224483",
@@ -609,51 +573,6 @@
       "text_snippet": "...きく刺激し、ヘミングウェイの作品に触れた3ヶ月後には、自分の物語世界を本格的に構築し始めていたのだ。スタンフォード大学の子供として、早くから卓越した文学的才能を発揮していたのだ。"
     },
     {
-      "episode_id": "EP-260113031842026",
-      "person_name": "フラメル",
-      "work_title": "ハリー・ポッター",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in ハリー・ポッター)",
-      "severity": "ERROR",
-      "text_snippet": "...文学賞を創設。ワーナー・ブラザースと共同で、次世代の想像力を育む「魔法学園プロジェクト」を始動させ、2035年までに約500人の若手クリエイターを支援する計画を発表した。教育と文化の架け橋として、世界中の子ども..."
-    },
-    {
-      "episode_id": "EP-260113031842445",
-      "person_name": "禪院真希",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ47歳のとき、禪院真希は渋谷区に秘められた新たな呪術の力の可能性を探求していた。2035年、3つの呪術高専の連携プロジェクトに参画し、五条悟と伏黒恵との戦略会議で、呪力の次世代開発について議..."
-    },
-    {
-      "episode_id": "EP-260113031842448",
-      "person_name": "禪院真希",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ48歳のとき、禪院真希は東京都内の伏魔殿で新たな術式研究に没頭していた。2035年、渋谷事変から10年。呪術師としての影響力は最大で、特級呪術師としての評価も高まっていた。虎杖悠仁や..."
-    },
-    {
-      "episode_id": "EP-260113031842457",
-      "person_name": "禪院真希",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "...とき、禪院真希は東京都立呪術高専の特級呪術師として、3つの重要な後進育成プロジェクトを展開していた。2035年、五条悟の遺志を継ぎ、「伏黒甲」プログラムで若手呪術師の戦略的トレーニングを確立。約150名の次世代..."
-    },
-    {
-      "episode_id": "EP-260113031842460",
-      "person_name": "禪院真希",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "...禪院真希は呪術師として、東京と京都を往来しながら、その世界観を次世代に伝える重要な使命を担っていた。2035年、五条悟財団で12年間の教育プログラムを確立し、約70名の若手呪術師を育成。虎杖悠仁の遺志を継ぐ、新..."
-    },
-    {
       "episode_id": "EP-260113031844369",
       "person_name": "惣流・アスカ・ラングレー",
       "work_title": "新世紀エヴァンゲリオン",
@@ -744,51 +663,6 @@
       "text_snippet": "...クト』は2048年にかけて緑谷出久財団で新たな社会貢献モデルを構築していた。彼が総括責任者として米国マサチューセッツ工科大学との共同研究で開発した3つの革新的なヒーロー支援システムは、全米で高く評価され、年間500人の若手ヒ..."
     },
     {
-      "episode_id": "EP-260113031847774",
-      "person_name": "牡羊座アリエス",
-      "work_title": "聖闘士星矢",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 聖闘士星矢)",
-      "severity": "ERROR",
-      "text_snippet": "...同じ47歳のとき、牡羊座アリエスは「黄金魂」の世界観を現代に蘇らせるプロジェクトに全力を注いでいた。2035年、東京・六本木のサンライズスタジオで、宮城京、白鳥翔、シュンレイら5人の若手クリエイターと共に、原作..."
-    },
-    {
-      "episode_id": "EP-260113031847774",
-      "person_name": "牡羊座アリエス",
-      "work_title": "聖闘士星矢",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2037年 (in 聖闘士星矢)",
-      "severity": "ERROR",
-      "text_snippet": "...で、宮城京、白鳥翔、シュンレイら5人の若手クリエイターと共に、原作の精神を継承する新たな物語を構築。2037年には、30万人以上のファンが注目する「星矢 リバイバル計画」を始動し、アニメ、映画、舞台、ゲームの4..."
-    },
-    {
-      "episode_id": "EP-260113031847974",
-      "person_name": "釘崎野薔薇",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ48歳のとき、釘崎野薔薇は東京呪術高専の最年長呪術師として、新たな挑戦に燃えていた。2035年、3つの重要な特級呪術師プロジェクトを統括し、五条悟と伏黒恵が設立した「呪力革新研究所」で年間127..."
-    },
-    {
-      "episode_id": "EP-260113031847983",
-      "person_name": "釘崎野薔薇",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ53歳のとき、釘崎野薔薇は特級呪術師として最盛期を迎えていた。2035年、東京・渋谷の呪術高専で後進の育成に全力を注ぎ、年間約30人の若手呪術師を指導。2037年には「伏黒..."
-    },
-    {
-      "episode_id": "EP-260113031847983",
-      "person_name": "釘崎野薔薇",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2037年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "...えていた。2035年、東京・渋谷の呪術高専で後進の育成に全力を注ぎ、年間約30人の若手呪術師を指導。2037年には「伏黒甲の秘儀」研究プロジェクトを率い、呪術界に革新的な戦略をもたらした。五条悟、虎杖悠仁らの教..."
-    },
-    {
       "episode_id": "EP-260113031848321",
       "person_name": "八百万百",
       "work_title": "プロヒーロー選抜試験",
@@ -796,15 +670,6 @@
       "detected_pattern": "スタンフォード大学",
       "severity": "ERROR",
       "text_snippet": "...ールマイトの遺志を継ぐ第3世代のヒーロー育成に、年間3,500時間を費やし、デクとの絆も深めた。米国スタンフォード大学、日本の緑谷学園と連携し、国際的な英雄教育システムを確立。八百万百の影響力は、単なる現役ヒーローから..."
-    },
-    {
-      "episode_id": "EP-260113031848497",
-      "person_name": "伏黒恵",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ47歳のとき、伏黒恵はの世界で、黒幕との究極の対決を迎えていた。2035年、虎杖悠仁とともに日本呪術高専の最高幹部に就任し、呪霊との戦いに新たな戦略を導入。3つの特級呪術師チ..."
     },
     {
       "episode_id": "EP-260113031848586",
@@ -832,15 +697,6 @@
       "detected_pattern": "慶應義塾大学",
       "severity": "ERROR",
       "text_snippet": "...ット2045」で基調講演を行っていた。妖怪との戦いで培った30年間の経験を次世代に伝える決意を胸に、慶應義塾大学の若手研究者5名と共に、AIと地域創生の未来像を描いた。2040年から推進してきたソーシャルビジネス..."
-    },
-    {
-      "episode_id": "EP-260113031851085",
-      "person_name": "リオル",
-      "work_title": "ポケットモンスター",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2036年 (in ポケットモンスター)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ48歳のとき、リオルは世界に新たな革命を起こしていた。2036年、ニンテンドー社との共同プロジェクト『ネクストジェネレーション』で、リオルは3つの新しいポケモン種族..."
     },
     {
       "episode_id": "EP-260113031851164",
@@ -879,15 +735,6 @@
       "text_snippet": "...entistの道を切り開いたのだ。黒の組織の元メンバーである平井銀三と協力し、25年間の研究成果を、京都大学と東京科学警察研究所の若手研究者に伝授。国際forensic学会で2回の最優秀賞を受賞し、犯罪捜査に..."
     },
     {
-      "episode_id": "EP-260113032829677",
-      "person_name": "狗巻棘",
-      "work_title": "呪術廻戦",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in 呪術廻戦)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ56歳のとき、狗巻棘は特級呪術師として最盛期を迎えていた。2035年、東京都庁に設立された「呪術技術研究所」で、後進の育成に全力を注いでいた。平均年齢28歳の若手呪術師..."
-    },
-    {
       "episode_id": "EP-260113032830340",
       "person_name": "アララギ博士",
       "work_title": "ナチュラル・ポケモノロジー",
@@ -904,24 +751,6 @@
       "detected_pattern": "日本学術振興会",
       "severity": "ERROR",
       "text_snippet": "...モンゲノム解析』という挑戦的な研究に没頭した。その年、国際学会で2つの画期的な論文を発表し、27歳で日本学術振興会から最年少研究奨励賞を受賞。未知への飽くなき探求心が、アララギ博士を大きく前進させた瞬間だった。"
-    },
-    {
-      "episode_id": "EP-260113032830596",
-      "person_name": "ブルック",
-      "work_title": "ワンピース",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2037年 (in ワンピース)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ58歳のとき、ブルックの集大成に向けて全力を注いでいた。2037年、東京・週刊少年ジャンプ編集部で、若手漫画家5人に『海賊王への道』をテーマにしたワークショップを開催..."
-    },
-    {
-      "episode_id": "EP-260113032830844",
-      "person_name": "Dr.くれは",
-      "work_title": "ワンピース",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in ワンピース)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ51歳のとき、Dr.くれはの新章を構想していた。2035年、尾田栄一郎記念財団を立ち上げ、漫画家育成プログラムを開始。累計3000万部を超える作品の知的財産を..."
     },
     {
       "episode_id": "EP-260113032831764",
@@ -996,15 +825,6 @@
       "text_snippet": "...、ニューヨークでの『グローバル戦略フォーラム』で、彼は3つの革新的なプロジェクトを同時に始動させた。国際連合、ブリタニア帝国、そして日本の次世代リーダーたちを前に、テクノロジーと政治の融合による社会変革を提唱..."
     },
     {
-      "episode_id": "EP-260113032834811",
-      "person_name": "センゴク",
-      "work_title": "ワンピース",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2035年 (in ワンピース)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ58歳のとき、センゴクは新たな海賊王を目指す若者たちを支援していた。2035年、グランドライン開発プロジェクトで、ルフィたちの後継者を育成。モンキー・D・龍の設立した『海賊学園』..."
-    },
-    {
       "episode_id": "EP-260113032835159",
       "person_name": "嘴平伊之助",
       "work_title": "鬼滅の刃",
@@ -1048,15 +868,6 @@
       "detected_pattern": "カリフォルニア大学",
       "severity": "ERROR",
       "text_snippet": "...つの重要な転機が訪れた。1日8時間、週5日の厳しいスケジュールの中で、シリーズの魅力を徹底的に研究。カリフォルニア大学で学んだストーリーテリングの技法と、200人の同期たちとの熾烈な競争を経て、最終的に自分のキャリアの..."
-    },
-    {
-      "episode_id": "EP-260113032837059",
-      "person_name": "兵主部一兵衛",
-      "work_title": "BLEACH",
-      "violation_type": "TYPE_2_MODERN_YEAR_IN_FANTASY",
-      "detected_pattern": "2039年 (in BLEACH)",
-      "severity": "ERROR",
-      "text_snippet": "あなたと同じ57歳のとき、兵主部一兵衛は3つの重要なプロジェクトを同時に進めていた。2039年、「護廷十三隊再編計画」の総責任者として、架空世界と現実世界の境界を守る戦略を構築。山本総隊長の遺志..."
     },
     {
       "episode_id": "EP-260113032837967",

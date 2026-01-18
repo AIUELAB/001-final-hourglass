@@ -189,6 +189,56 @@ WORK_ERA_SETTINGS: dict[str, dict] = {
         "prohibited_years": [],  # エイジという独自年号を使用
         "description": "架空世界（エイジ年号使用）",
     },
+    # === 追加作品（Phase 3.5: 残り20件対応） ===
+    "ワンピース": {  # ONE PIECEの日本語表記
+        "era_start": None,
+        "era_end": None,
+        "era_name": "架空世界",
+        "prohibited_years": range(1000, 2100),
+        "description": "架空の海賊世界（ONE PIECEと同一）",
+    },
+    "呪術廻戦": {
+        "era_start": None,
+        "era_end": None,
+        "era_name": "現代日本（呪術世界）",
+        "prohibited_years": range(2020, 2100),  # 未来の年号は禁止
+        "description": "現代日本の呪術世界",
+    },
+    "ナルニア国物語": {
+        "era_start": None,
+        "era_end": None,
+        "era_name": "中世ファンタジー世界",
+        "prohibited_years": range(1900, 2100),  # 近現代の年号は禁止
+        "description": "中世ヨーロッパ風ファンタジー世界",
+    },
+    "ポケットモンスター": {
+        "era_start": None,
+        "era_end": None,
+        "era_name": "架空世界",
+        "prohibited_years": range(1900, 2100),
+        "description": "ポケモンが存在する架空世界",
+    },
+    "聖闘士星矢": {
+        "era_start": None,
+        "era_end": None,
+        "era_name": "現代（ギリシャ神話世界）",
+        "prohibited_years": range(2000, 2100),  # 未来の年号は禁止
+        "description": "現代日本・ギリシャ神話的世界",
+    },
+    "ハリー・ポッター": {
+        "era_start": 1991,
+        "era_end": 1998,
+        "era_name": "1990年代イギリス",
+        "prohibited_years": range(2000, 2100),  # 21世紀の年号は禁止
+        "description": "1990年代イギリスの魔法界",
+    },
+    "BLEACH": {
+        "era_start": None,
+        "era_end": None,
+        "era_name": "現代日本（死神世界）",
+        "prohibited_years": range(2020, 2100),  # 未来の年号は禁止
+        "description": "現代日本の死神世界",
+    },
 }
 
 # キャラクターの作品出演マッピング

@@ -102,7 +102,6 @@ def generate_episodes(candidates: list[dict], limit: int = 50) -> list[dict]:
                 "person_type": candidate["person_type"],
                 "birth_year": candidate["birth_year"],
                 "death_year": candidate["death_year"],
-                "preferred_age": selected_age,  # 年齢を指定
             }
 
             result = bridge.generate_for_person(person_data, episodes_count=1)

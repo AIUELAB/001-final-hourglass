@@ -1,0 +1,93 @@
+{
+  "batch_id": "msgbatch_01Y2UmHrEc8DWWXv35Q3a5wo",
+  "created_at": "2026-01-18T18:19:39.073290",
+  "status": "in_progress",
+  "request_count": 17,
+  "requests": [
+    {
+      "custom_id": "FIX_ERA_EP-260111223546525",
+      "person_name": "レゴラス",
+      "age": 24
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260112013224539",
+      "person_name": "リオル",
+      "age": 31
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031842026",
+      "person_name": "フラメル",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031842445",
+      "person_name": "禪院真希",
+      "age": 47
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031842448",
+      "person_name": "禪院真希",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031842457",
+      "person_name": "禪院真希",
+      "age": 52
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031842460",
+      "person_name": "禪院真希",
+      "age": 53
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847774",
+      "person_name": "牡羊座アリエス",
+      "age": 47
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847974",
+      "person_name": "釘崎野薔薇",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031847983",
+      "person_name": "釘崎野薔薇",
+      "age": 53
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031848497",
+      "person_name": "伏黒恵",
+      "age": 47
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113031851085",
+      "person_name": "リオル",
+      "age": 48
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032829677",
+      "person_name": "狗巻棘",
+      "age": 56
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032830596",
+      "person_name": "ブルック",
+      "age": 58
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032830844",
+      "person_name": "Dr.くれは",
+      "age": 51
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032834811",
+      "person_name": "センゴク",
+      "age": 58
+    },
+    {
+      "custom_id": "FIX_ERA_EP-260113032837059",
+      "person_name": "兵主部一兵衛",
+      "age": 57
+    }
+  ]
+}

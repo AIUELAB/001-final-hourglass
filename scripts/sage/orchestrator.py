@@ -1148,8 +1148,8 @@ class HybridOrchestrator:
             birth_year = row.get("birth_year")
             death_year = row.get("death_year")
 
-            # Phase 27: canonical_age / preferred_age を取得
-            canonical_age = row.get("preferred_age") or row.get("canonical_age")
+            # Phase 27: canonical_age を取得
+            canonical_age = row.get("canonical_age")
             if canonical_age and not pd.isna(canonical_age):
                 canonical_age = int(canonical_age)
             else:
@@ -1436,7 +1436,7 @@ class HybridOrchestrator:
             person_type: 人物タイプ (REAL, FICTIONAL, MYTHOLOGICAL, ANIMAL)
             birth_year: 生年（実在人物・動物）または作品開始年
             death_year: 没年（実在人物・動物）または作品終了年
-            canonical_age: 設定年齢（架空キャラ）またはpreferred_age
+            canonical_age: 設定年齢（架空キャラ）
             existing_ages: 既存エピソードの年齢セット
             category: カテゴリ（動物の種別判定用）
 
@@ -1483,7 +1483,7 @@ class HybridOrchestrator:
                         if self._inventory_manager.should_generate(age):
                             available_ages.append(age)
             elif canonical_age is not None:
-                # preferred_ageがある場合はその周辺
+                # canonical_ageがある場合はその周辺
                 min_age = max(1, canonical_age - 3)
                 max_age = min(20, canonical_age + 3)
                 for age in range(min_age, max_age + 1):

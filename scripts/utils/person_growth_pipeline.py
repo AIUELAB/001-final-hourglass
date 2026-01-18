@@ -412,7 +412,6 @@ def dataframe_to_person_candidates(df: pd.DataFrame) -> List[PersonCandidate]:
                 description=str(row.get("description", "")) if pd.notna(row.get("description")) else None,
                 birth_year=int(row["birth_year"]) if pd.notna(row.get("birth_year")) else None,
                 death_year=int(row["death_year"]) if pd.notna(row.get("death_year")) else None,
-                preferred_age=int(row["preferred_age"]) if pd.notna(row.get("preferred_age")) else None,
                 tier=str(row.get("tier", "")) if pd.notna(row.get("tier")) else None,
                 source_name=str(row.get("source_file", "manual")),
                 source_url=str(row.get("source_url", "")) if pd.notna(row.get("source_url")) else None,
@@ -502,7 +501,6 @@ def generate_episodes_batch(persons: List[PersonCandidate], episodes_per_person:
             "person_type": person.person_type,
             "birth_year": person.birth_year,
             "death_year": person.death_year,
-            "preferred_age": person.preferred_age if hasattr(person, "preferred_age") else None,
         }
 
         episodes = bridge.generate_for_person(person_data, episodes_per_person)

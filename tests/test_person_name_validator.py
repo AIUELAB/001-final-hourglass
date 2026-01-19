@@ -422,12 +422,9 @@ class TestValidateIntegration:
     def test_validate_detects_group_as_person(self):
         """validate() がグループ名を検出してissuesに追加"""
         validator = PersonNameValidator()
-        # GROUP_ENTITIESにある実際のグループ名を使用
-        for group in list(validator.group_entities)[:3]:
-            issues = validator.validate(group)
-            if issues:
-                assert any(i.issue_type == IssueType.GROUP_AS_PERSON for i in issues)
-                break
+        # 固定のグループ名を使用（Setの順序非決定性を回避）
+        issues = validator.validate("嵐")
+        assert any(i.issue_type == IssueType.GROUP_AS_PERSON for i in issues), "嵐はGROUP_AS_PERSONとして検出されるべき"
 
     def test_validate_detects_org_title_contamination(self):
         """validate() が組織名・肩書き混入を検出"""

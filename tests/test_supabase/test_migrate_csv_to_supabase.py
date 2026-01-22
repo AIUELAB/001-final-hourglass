@@ -9,6 +9,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 # プロジェクトルートをパスに追加
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -193,7 +194,6 @@ class TestLoadCsv:
     def test_file_not_found(self, monkeypatch, tmp_path):
         """ファイル不在時にFileNotFoundErrorが発生"""
         from migrate_csv_to_supabase import load_csv
-        import pytest
 
         # PROJECT_ROOTを一時ディレクトリに変更
         import migrate_csv_to_supabase
@@ -202,3 +202,104 @@ class TestLoadCsv:
 
         with pytest.raises(FileNotFoundError, match="マスターCSVが見つかりません"):
             load_csv()
+
+
+class TestUpsertBatch:
+    """upsert_batch関数のテスト（PRレビューH-5対応）"""
+
+    def test_upsert_batch_success(self, mocker):
+        """正常系: バッチupsert成功"""
+        from migrate_csv_to_supabase import upsert_batch
+
+        mock_client = mocker.MagicMock()
+        mock_result = mocker.MagicMock()
+        mock_result.data = [{"episode_id": "1"}, {"episode_id": "2"}]
+        mock_client.table().upsert().execute.return_value = mock_result
+
+        result = upsert_batch(mock_client, [{"episode_id": "1"}, {"episode_id": "2"}])
+
+        assert result["success_count"] == 2
+        assert len(result["data"]) == 2
+
+    def test_upsert_batch_partial_success(self, mocker):
+        """部分成功: 一部のみupsert成功"""
+        from migrate_csv_to_supabase import upsert_batch
+
+        mock_client = mocker.MagicMock()
+        mock_result = mocker.MagicMock()
+        mock_result.data = [{"episode_id": "1"}]  # 2件中1件のみ成功
+        mock_client.table().upsert().execute.return_value = mock_result
+
+        result = upsert_batch(mock_client, [{"episode_id": "1"}, {"episode_id": "2"}])
+
+        assert result["success_count"] == 1
+
+    def test_upsert_batch_empty_result(self, mocker):
+        """空結果: dataがNoneの場合"""
+        from migrate_csv_to_supabase import upsert_batch
+
+        mock_client = mocker.MagicMock()
+        mock_result = mocker.MagicMock()
+        mock_result.data = None
+        mock_client.table().upsert().execute.return_value = mock_result
+
+        result = upsert_batch(mock_client, [{"episode_id": "1"}])
+
+        assert result["success_count"] == 0
+        assert result["data"] == []
+
+
+class TestMigrate:
+    """migrate関数のテスト（PRレビューH-6対応）"""
+
+    def test_migrate_dry_run_no_db_call(self, mocker, tmp_path):
+        """dry-runモードでDB書き込みなし"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        # PROJECT_ROOTを一時ディレクトリに変更
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        # upsert_batchが呼ばれないことを確認
+        mock_upsert = mocker.patch.object(migrate_csv_to_supabase, "upsert_batch")
+        mock_client = mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client")
+
+        migrate(dry_run=True)
+
+        mock_upsert.assert_not_called()
+        mock_client.assert_not_called()
+
+    def test_migrate_handles_api_error_gracefully(self, mocker, tmp_path):
+        """APIエラー発生時も例外で終了しない"""
+        from migrate_csv_to_supabase import migrate
+        from postgrest.exceptions import APIError
+        import migrate_csv_to_supabase
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでAPIError発生
+        mock_error = APIError({"message": "constraint violation"})
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=mock_error)
+
+        # 検証クエリもモック
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        # 例外なく完了すること
+        migrate(dry_run=False)

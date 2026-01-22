@@ -98,12 +98,24 @@ CREATE POLICY "Public read access" ON episodes
   TO anon
   USING (true);
 
--- 6. 書き込みポリシー（service_role: 管理者のみ書き込み可能）
-CREATE POLICY "Service role write access" ON episodes
-  FOR ALL
-  TO service_role
+-- 6. 書き込みポリシー（service_role: 管理者のみ書き込み可能、操作別に分割）
+-- RLSポリシーを操作別に分割して粒度を改善（PRレビューH-1対応）
+
+-- 6a. INSERT: episode_idとperson_nameが必須
+CREATE POLICY "Service role insert" ON episodes
+  FOR INSERT TO service_role
+  WITH CHECK (episode_id IS NOT NULL AND person_name IS NOT NULL);
+
+-- 6b. UPDATE: episode_idが存在するレコードのみ更新可能
+CREATE POLICY "Service role update" ON episodes
+  FOR UPDATE TO service_role
   USING (true)
-  WITH CHECK (true);
+  WITH CHECK (episode_id IS NOT NULL);
+
+-- 6c. DELETE: 任意のレコードを削除可能
+CREATE POLICY "Service role delete" ON episodes
+  FOR DELETE TO service_role
+  USING (true);
 
 -- 7. updated_at自動更新トリガー
 CREATE OR REPLACE FUNCTION update_updated_at()

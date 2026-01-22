@@ -32,6 +32,12 @@ from src.utils.fictional_quality_gate import FictionalQualityGate
 # UnifiedGate（DB反映前の最終ゲート - バイパス経路塞ぎ）
 from .unified_gate import UnifiedGate, ViolationType
 
+# 架空キャラクター名リスト（RCA-20260122: person_type誤分類対策）
+from scripts.validation.detect_person_type_mismatch import (
+    ALL_FICTIONAL_CHARACTERS,
+    BLACKLIST_NAMES,
+)
+
 
 @dataclass
 class WriteResult:
@@ -133,6 +139,26 @@ class SafeCSVWriter:
 
         return row
 
+    def _is_fictional_character(self, person_name: str) -> bool:
+        """
+        人物名から架空キャラクターを検出（RCA-20260122）
+
+        detect_person_type_mismatch.py と同じ判定ロジックを使用。
+        person_type誤分類時のフォールバック検出用。
+
+        Args:
+            person_name: 人物名
+
+        Returns:
+            架空キャラクターならTrue
+        """
+        if not person_name:
+            return False
+        # ブラックリスト（一般名との混同防止）
+        if person_name in BLACKLIST_NAMES:
+            return False
+        return person_name in ALL_FICTIONAL_CHARACTERS
+
     def _validate_row(self, row: dict) -> tuple[bool, str]:
         """行を検証"""
         required = ["person_id", "person_name", "age", "episode_text"]
@@ -151,19 +177,30 @@ class SafeCSVWriter:
         if not is_valid:
             return False, f"FICTIONAL文頭違反: {msg}"
 
-        # FictionalQualityGate チェック（RCA-20260115）
-        # FICTIONALの場合のみ追加検証（書き込み直前の最終防衛ライン）
+        # FictionalQualityGate チェック（RCA-20260115, 強化: RCA-20260122）
+        # 二重チェック: person_typeだけでなくperson_nameからも判定
+        # これにより、person_type誤分類（REAL）でも架空キャラを検出可能
         person_type = str(row.get("person_type", "")).upper()
-        if "FICTIONAL" in person_type:
+        person_name = row.get("person_name", "")
+
+        is_fictional_by_type = "FICTIONAL" in person_type
+        is_fictional_by_name = self._is_fictional_character(person_name)
+
+        if is_fictional_by_type or is_fictional_by_name:
             gate = FictionalQualityGate()
+
+            # person_typeとperson_nameが矛盾する場合は警告（RCA-20260122）
+            if is_fictional_by_name and not is_fictional_by_type:
+                logger.warning(
+                    f"SafeCSVWriter: person_type不整合検出 - {person_name}はFICTIONALであるべき (現在: {person_type})"
+                )
+
             result = gate.check(row)
             if not result.passed:
                 # 修正可能な違反は自動修正を適用
                 if result.fixable and result.auto_fixed_text:
                     row["episode_text"] = result.auto_fixed_text
-                    logger.info(
-                        f"SafeCSVWriter: FictionalQualityGate自動修正 - {row.get('person_name')} ({row.get('age')}歳)"
-                    )
+                    logger.info(f"SafeCSVWriter: FictionalQualityGate自動修正 - {person_name} ({row.get('age')}歳)")
                 else:
                     # 修正不可の場合は棄却
                     violations = "; ".join([v.detail for v in result.violations])

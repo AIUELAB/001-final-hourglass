@@ -229,7 +229,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
             result = upsert_batch(supabase, batch_records)
             success_count += result["success_count"]
             if result["success_count"] < len(batch_records):
-                print(f"[WARN] 部分成功: {result['success_count']}/{len(batch_records)}件")
+                partial_failed = len(batch_records) - result["success_count"]
+                error_count += partial_failed
+                print(f"[WARN] 部分成功: {result['success_count']}/{len(batch_records)}件 (失敗: {partial_failed}件)")
         except APIError as e:
             # Supabase API固有エラー（型不一致、制約違反等）
             error_count += len(batch_records)
@@ -259,11 +261,11 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
                     "timestamp": datetime.now().isoformat(),
                 }
             )
-        except Exception as e:
-            # その他の予期しないエラー
+        except (TypeError, KeyError) as e:
+            # 型エラー、キー欠損
             error_count += len(batch_records)
             batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
-            print(f"\n[ERROR] バッチ {batch_num} 予期しないエラー ({type(e).__name__}): {e}")
+            print(f"\n[ERROR] バッチ {batch_num} データ構造エラー ({type(e).__name__}): {e}")
             failed_records.append(
                 {
                     "batch_num": batch_num,
@@ -271,6 +273,36 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
                     "error_message": str(e),
                     "episode_ids": batch_episode_ids,
                     "timestamp": datetime.now().isoformat(),
+                }
+            )
+        except ConnectionError as e:
+            # ネットワーク接続エラー
+            error_count += len(batch_records)
+            batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
+            print(f"\n[ERROR] バッチ {batch_num} 接続エラー: {e}")
+            failed_records.append(
+                {
+                    "batch_num": batch_num,
+                    "error_type": "ConnectionError",
+                    "error_message": str(e),
+                    "episode_ids": batch_episode_ids,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+        except Exception as e:
+            # その他の予期しないエラー（ログに明示的に記録）
+            error_count += len(batch_records)
+            batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
+            print(f"\n[ERROR] バッチ {batch_num} 予期しないエラー ({type(e).__name__}): {e}")
+            print("        ※このエラーは想定外です。調査が必要な可能性があります。")
+            failed_records.append(
+                {
+                    "batch_num": batch_num,
+                    "error_type": type(e).__name__,
+                    "error_message": str(e),
+                    "episode_ids": batch_episode_ids,
+                    "timestamp": datetime.now().isoformat(),
+                    "unexpected": True,
                 }
             )
 

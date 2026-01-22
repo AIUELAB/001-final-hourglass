@@ -275,8 +275,8 @@ class TestMigrate:
         mock_upsert.assert_not_called()
         mock_client.assert_not_called()
 
-    def test_migrate_handles_api_error_gracefully(self, mocker, tmp_path):
-        """APIエラー発生時も例外で終了しない"""
+    def test_migrate_handles_api_error_gracefully(self, mocker, tmp_path, capsys):
+        """APIエラー発生時も例外で終了せず、エラーログが出力される"""
         from migrate_csv_to_supabase import migrate
         from postgrest.exceptions import APIError
         import migrate_csv_to_supabase
@@ -303,3 +303,60 @@ class TestMigrate:
 
         # 例外なく完了すること
         migrate(dry_run=False)
+
+        # H-4対応: エラーログが出力されていることを検証
+        captured = capsys.readouterr()
+        assert "[ERROR]" in captured.out
+        assert "APIError" in captured.out or "constraint violation" in captured.out
+        assert "[NG] 失敗:" in captured.out
+
+
+class TestUpsertBatchRetry:
+    """upsert_batchのリトライ動作テスト（PRレビューH-3対応）"""
+
+    def test_upsert_batch_retry_on_api_error(self, mocker):
+        """APIError発生時にリトライが実行される"""
+        from migrate_csv_to_supabase import upsert_batch
+        from postgrest.exceptions import APIError
+
+        mock_client = mocker.MagicMock()
+
+        # 1回目: APIError、2回目: 成功
+        mock_success_result = mocker.MagicMock()
+        mock_success_result.data = [{"episode_id": "1"}]
+
+        mock_table = mocker.MagicMock()
+        mock_upsert = mocker.MagicMock()
+        mock_table.upsert.return_value = mock_upsert
+        mock_upsert.execute.side_effect = [
+            APIError({"message": "timeout"}),  # 1回目失敗
+            mock_success_result,  # 2回目成功
+        ]
+        mock_client.table.return_value = mock_table
+
+        result = upsert_batch(mock_client, [{"episode_id": "1"}])
+
+        # リトライ後に成功
+        assert result["success_count"] == 1
+        assert mock_upsert.execute.call_count == 2
+
+    def test_upsert_batch_max_retries_exceeded(self, mocker):
+        """最大リトライ回数超過時にRetryErrorが発生"""
+        from migrate_csv_to_supabase import upsert_batch
+        from postgrest.exceptions import APIError
+        from tenacity import RetryError
+
+        mock_client = mocker.MagicMock()
+
+        # 3回連続でAPIError
+        mock_table = mocker.MagicMock()
+        mock_upsert = mocker.MagicMock()
+        mock_table.upsert.return_value = mock_upsert
+        mock_upsert.execute.side_effect = APIError({"message": "persistent error"})
+        mock_client.table.return_value = mock_table
+
+        with pytest.raises(RetryError):
+            upsert_batch(mock_client, [{"episode_id": "1"}])
+
+        # 3回リトライされた
+        assert mock_upsert.execute.call_count == 3

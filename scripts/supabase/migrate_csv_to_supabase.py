@@ -143,9 +143,15 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     wait=wait_exponential(multiplier=1, min=2, max=10),
     retry=retry_if_exception_type(APIError),
 )
-def upsert_batch(supabase: Client, batch_records: list[dict]) -> None:
-    """バッチupsert with リトライ"""
-    supabase.table("episodes").upsert(batch_records, on_conflict="episode_id").execute()
+def upsert_batch(supabase: Client, batch_records: list[dict]) -> dict:
+    """バッチupsert with リトライ
+
+    Returns:
+        dict: {"success_count": int, "data": list}
+    """
+    result = supabase.table("episodes").upsert(batch_records, on_conflict="episode_id").execute()
+
+    return {"success_count": len(result.data) if result.data else 0, "data": result.data or []}
 
 
 def migrate(dry_run: bool = False, batch_size: int = 500):
@@ -220,8 +226,10 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
         batch_num = i // batch_size + 1
 
         try:
-            upsert_batch(supabase, batch_records)
-            success_count += len(batch_records)
+            result = upsert_batch(supabase, batch_records)
+            success_count += result["success_count"]
+            if result["success_count"] < len(batch_records):
+                print(f"[WARN] 部分成功: {result['success_count']}/{len(batch_records)}件")
         except APIError as e:
             # Supabase API固有エラー（型不一致、制約違反等）
             error_count += len(batch_records)
@@ -301,13 +309,25 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
 
     # サンプルデータ検証
     sample_ids = df["episode_id"].head(10).tolist()
-    sample_result = (
-        supabase.table("episodes")
-        .select("episode_id, person_name, super_total_score")
-        .in_("episode_id", sample_ids)
-        .execute()
-    )
-    print(f"[CHECK] サンプル検証: {len(sample_result.data)}/10件取得成功")
+    try:
+        sample_result = (
+            supabase.table("episodes")
+            .select("episode_id, person_name, super_total_score")
+            .in_("episode_id", sample_ids)
+            .execute()
+        )
+        retrieved = len(sample_result.data) if sample_result.data else 0
+        print(f"[CHECK] サンプル検証: {retrieved}/10件取得成功")
+
+        # 値の整合性チェック
+        for row in sample_result.data or []:
+            if isinstance(row, dict):
+                if row.get("super_total_score") is None:
+                    print(f"[WARN] super_total_score欠損: {row.get('episode_id')}")
+    except APIError as e:
+        print(f"[WARN] サンプル検証失敗: {e.message}")
+    except Exception as e:
+        print(f"[WARN] サンプル検証で予期しないエラー: {e}")
 
 
 def main():

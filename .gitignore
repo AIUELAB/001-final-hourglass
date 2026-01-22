@@ -101,6 +101,18 @@ coverage/
 .env.mysql
 
 # ========================================
+# Supabase Configuration (sensitive)
+# ========================================
+# xcconfig files contain API keys - use .template files as reference
+Debug.xcconfig
+Release.xcconfig
+**/Debug.xcconfig
+**/Release.xcconfig
+# テンプレートファイルはコミットする
+!*.xcconfig.template
+!**/*.xcconfig.template
+
+# ========================================
 # Temporary Files
 # ========================================
 *.tmp

@@ -1,7 +1,10 @@
-# CLAUDE.md - Claude Code 運用ガイド
+# CLAUDE.md - プロジェクト固有設定
 
-## 🌐 言語設定
-**すべての応答は日本語で行ってください。**
+> **継承元**: `~/.claude/` のグローバル設定を継承
+> - 言語設定: `~/.claude/rules/01-communication.md`
+> - コンテキスト管理: `~/.claude/rules/05-context.md`
+> - Gitワークフロー: `~/.claude/rules/09-git-workflow.md`
+> - エージェント活用: `~/.claude/rules/06-agents.md`, `11-agent-matrix.md`
 
 ---
 
@@ -181,13 +184,9 @@ python scripts/switch_mcp_profile.py [minimal|web|full]
 
 ## 🔀 Git標準フロー
 
-```bash
-git pull origin main
-git add . && git commit -m "type: 説明"
-git push origin main
-```
+> 詳細: `~/.claude/rules/09-git-workflow.md`
 
-コミット形式: `fix:` `feat:` `docs:` `chore:`
+コミット形式: `fix:` `feat:` `docs:` `chore:` `refactor:` `test:` `perf:` `ci:`
 
 ---
 

@@ -149,6 +149,26 @@
 - **禁止事項**: DOMContentLoaded内で`handleSort()`を呼ばない（`initEpisodeList()`が既にソート適用済み）
 - **ヘルパー関数**: `applyCurrentSort()` - 現在のソート状態をfilteredEpisodesに適用
 
+### Person_type分類ルール（EPUP原則: 二重チェック）【RCA-20260122】
+**原因**: 孫悟飯、マリオ等1,736件の架空キャラが`person_type="REAL"`に誤分類され、FictionalQualityGateがバイパスされた
+- **問題エピソード**: 現実年号（2023年等）、現実人物（鳥山明等）がエピソードに混入
+- **直接原因**: SafeCSVWriterが`if "FICTIONAL" in person_type:`でのみチェック
+- **根本原因**: エピソード生成時にperson_typeが誤設定、work_titleからの自動推測が機能していない
+
+**再発防止策**:
+- **二重チェック実装**: SafeCSVWriter (`scripts/sage/persistence/csv_writer.py`)
+  - `person_type`に加え、`person_name`からも架空キャラを検出
+  - 検出メソッド: `_is_fictional_character(person_name)` 追加
+  - 252キャラクター×18作品のリストと照合
+- **不整合警告**: person_nameが架空キャラなのにperson_type=REALの場合、警告ログ出力
+- **検証スクリプト**: `python scripts/validation/detect_person_type_mismatch.py`
+- **修正スクリプト**: `python scripts/fix/remove_misclassified_fictional_episodes.py`
+
+**EPUP原則**:
+- Work_titleが架空作品の場合、Person_type = "FICTIONAL" 必須
+- 禁止: Person_type = "REAL" かつ Work_title = 架空作品
+- 検証: SafeCSVWriter で二重チェック（Person_type + Person_name）
+
 ---
 
 ## 🔄 MCP運用

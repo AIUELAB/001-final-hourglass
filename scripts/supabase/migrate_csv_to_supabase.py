@@ -79,9 +79,21 @@ def sanitize_value(value: Any, column_name: str = "") -> Any:
     - pandas NAType -> None
     - INTEGERカラムの場合はint型に変換
     """
-    # None/pandas NA
-    if value is None or pd.isna(value):
+    # None/pandas NA/NaT の明示的な処理（最初に判定）
+    if value is None:
         return None
+    if value is pd.NA:
+        return None
+    if isinstance(value, type(pd.NA)):
+        return None
+    try:
+        if pd.isna(value):
+            return None
+    except (TypeError, ValueError):
+        # pd.isna()は一部の型（例: 複合オブジェクト）で例外を発生させる
+        # この場合は後続の型判定で適切に処理されるため、ここではpassで継続
+        # デバッグ時はlogging.debug()でトレース可能
+        pass
 
     # numpy/pandas整数型
     if isinstance(value, (np.integer,)):
@@ -129,6 +141,12 @@ def sanitize_records(records: list[dict]) -> list[dict]:
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """データクレンジング（DataFrame段階での前処理）"""
+    # INTEGERカラムをNullable Integer型（Int64）に変換
+    for col in INTEGER_COLUMNS:
+        if col in df.columns:
+            series: pd.Series = pd.to_numeric(df[col], errors="coerce")  # type: ignore[assignment]
+            df[col] = series.astype("Int64")
+
     # Boolean型変換
     bool_cols = ["is_group_member", "is_japanese"]
     for col in bool_cols:
@@ -154,8 +172,18 @@ def upsert_batch(supabase: Client, batch_records: list[dict]) -> dict:
     return {"success_count": len(result.data) if result.data else 0, "data": result.data or []}
 
 
-def migrate(dry_run: bool = False, batch_size: int = 500):
-    """メイン移行処理"""
+def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
+    """メイン移行処理
+
+    Returns:
+        int: エラー件数（0なら正常終了）
+    """
+    # batch_size 妥当性チェック
+    if batch_size <= 0:
+        raise ValueError("batch_size は1以上の整数を指定してください")
+    if batch_size > 10000:
+        print("[WARN] batch_sizeが大きすぎます。API制限に注意してください")
+
     print("=" * 60)
     print("CSV -> Supabase 移行開始")
     print("=" * 60)
@@ -201,7 +229,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
                 status = "OK" if val is None or isinstance(val, int) else "NG"
                 print(f"   - {col}: {val} ({val_type}) [{status}]")
 
-        return
+        return 0  # dry-runは常に成功
 
     # Supabase接続
     supabase = get_supabase_client()
@@ -317,7 +345,11 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
                 json.dump(failed_records, f, ensure_ascii=False, indent=2)
             print(f"\n[LOG] 失敗詳細を保存: {log_path}")
         except (IOError, OSError) as e:
-            print(f"\n[WARN] ログ保存失敗: {e}")
+            print(f"\n[ERROR] ログ保存失敗: {e}")
+            print("[FALLBACK] 失敗したepisode_idをコンソールに出力:")
+            for record in failed_records[:5]:  # 先頭5件のみ
+                ids_preview = record["episode_ids"][:10]
+                print(f"  バッチ{record['batch_num']}: {ids_preview}...")
 
     # 結果サマリー
     print("\n" + "=" * 60)
@@ -327,17 +359,20 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
     print(f"[NG] 失敗: {error_count:,}件")
 
     # 検証（件数取得）
+    db_count: int | None = None
     try:
         result = supabase.table("episodes").select("episode_id", count="exact", head=True).execute()  # type: ignore[arg-type]
         db_count = result.count if result.count else 0
         print(f"\n[CHECK] Supabase件数確認: {db_count:,}件")
     except APIError as e:
-        print(f"\n[WARN] 件数検証に失敗しました: {e.message}")
-        db_count = -1
+        print(f"\n[ERROR] 件数検証に失敗: {e.message}")
+        db_count = None  # 不明を明示
 
     # 件数整合性チェック
-    if db_count != success_count:
-        print(f"[WARN] 件数不一致: 成功={success_count:,}, DB={db_count:,}")
+    if db_count is None:
+        print("[SKIP] 件数検証をスキップ（検証APIエラー）")
+    elif db_count != success_count:
+        print(f"[INFO] DB件数: {db_count:,}, 今回成功: {success_count:,}")
 
     # サンプルデータ検証
     sample_ids = df["episode_id"].head(10).tolist()
@@ -357,9 +392,13 @@ def migrate(dry_run: bool = False, batch_size: int = 500):
                 if row.get("super_total_score") is None:
                     print(f"[WARN] super_total_score欠損: {row.get('episode_id')}")
     except APIError as e:
-        print(f"[WARN] サンプル検証失敗: {e.message}")
+        print(f"[ERROR] サンプル検証失敗 (APIError): {e.message}")
+    except (TypeError, KeyError) as e:
+        print(f"[ERROR] サンプルデータの形式が予期しない: {e}")
     except Exception as e:
-        print(f"[WARN] サンプル検証で予期しないエラー: {e}")
+        print(f"[ERROR] サンプル検証で予期しないエラー ({type(e).__name__}): {e}")
+
+    return error_count
 
 
 def main():
@@ -368,7 +407,9 @@ def main():
     parser.add_argument("--batch-size", type=int, default=500, help="バッチサイズ")
     args = parser.parse_args()
 
-    migrate(dry_run=args.dry_run, batch_size=args.batch_size)
+    error_count = migrate(dry_run=args.dry_run, batch_size=args.batch_size)
+    if error_count and error_count > 0:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

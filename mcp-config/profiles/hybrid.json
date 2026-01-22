@@ -2,8 +2,6 @@
   "name": "hybrid",
   "description": "Hybrid configuration combining local and remote MCP servers for maximum flexibility",
   "mcpServers": {
-    "// Local High-Performance Servers": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-
     "serena": {
       "command": "uvx",
       "args": [
@@ -11,10 +9,10 @@
         "git+https://github.com/oraios/serena",
         "serena-mcp-server",
         "--project",
-        "/Users/admin/Documents/Cursor/claude-code-template-mcp"
+        "/Users/admin/Documents/AIUELAB/001-final-hourglass"
       ],
       "env": {},
-      "description": "Local code intelligence with LSP"
+      "description": "[Local] Code intelligence with LSP"
     },
 
     "filesystem": {
@@ -25,17 +23,15 @@
         "/Users/admin/Documents"
       ],
       "env": {},
-      "description": "Local file system access"
+      "description": "[Local] File system access"
     },
 
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"],
       "env": {},
-      "description": "Local browser automation"
+      "description": "[Local] Browser automation"
     },
-
-    "// Remote Cloud Services": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
 
     "linear-remote": {
       "transport": "sse",
@@ -43,7 +39,7 @@
       "headers": {
         "Authorization": "Bearer ${LINEAR_API_KEY}"
       },
-      "description": "Linear issue tracking (remote)"
+      "description": "[Remote] Linear issue tracking"
     },
 
     "notion-remote": {
@@ -57,7 +53,7 @@
       "headers": {
         "Notion-Version": "2022-06-28"
       },
-      "description": "Notion workspace (remote)"
+      "description": "[Remote] Notion workspace"
     },
 
     "sentry-remote": {
@@ -66,10 +62,8 @@
       "headers": {
         "Authorization": "Bearer ${SENTRY_AUTH_TOKEN}"
       },
-      "description": "Sentry monitoring (remote)"
+      "description": "[Remote] Sentry monitoring"
     },
-
-    "// Hybrid Servers with Fallback": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
 
     "github-hybrid": {
       "primary": {
@@ -87,7 +81,7 @@
         }
       },
       "strategy": "prefer-local",
-      "description": "GitHub with remote fallback"
+      "description": "[Hybrid] GitHub with remote fallback"
     },
 
     "brave-hybrid": {
@@ -106,7 +100,7 @@
         }
       },
       "strategy": "load-balance",
-      "description": "Brave search with load balancing"
+      "description": "[Hybrid] Brave search with load balancing"
     },
 
     "firecrawl-hybrid": {
@@ -125,30 +119,28 @@
         }
       },
       "strategy": "prefer-remote",
-      "description": "Firecrawl preferring cloud"
+      "description": "[Hybrid] Firecrawl preferring cloud"
     },
-
-    "// Local-Only Critical Services": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
 
     "memory": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"],
       "env": {},
-      "description": "Local memory storage"
+      "description": "[Local-Critical] Memory storage"
     },
 
     "sequential-thinking": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "env": {},
-      "description": "Local reasoning engine"
+      "description": "[Local-Critical] Reasoning engine"
     },
 
     "docker": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-docker"],
       "env": {},
-      "description": "Local Docker management"
+      "description": "[Local-Critical] Docker management"
     }
   },
 

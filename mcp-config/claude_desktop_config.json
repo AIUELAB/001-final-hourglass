@@ -121,7 +121,8 @@
       "env": {
         "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
         "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
-      }
+      },
+      "disabled": true
     },
     "gitlab": {
       "command": "npx",
@@ -132,7 +133,8 @@
       "env": {
         "GITLAB_PERSONAL_ACCESS_TOKEN": "${GITLAB_TOKEN}",
         "GITLAB_API_URL": "https://gitlab.com/api/v4"
-      }
+      },
+      "disabled": true
     },
     "google-maps": {
       "command": "npx",
@@ -142,7 +144,8 @@
       ],
       "env": {
         "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}"
-      }
+      },
+      "disabled": true
     },
     "aws": {
       "command": "npx",
@@ -154,7 +157,8 @@
         "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
         "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
         "AWS_REGION": "${AWS_REGION}"
-      }
+      },
+      "disabled": true
     },
     "gcp": {
       "command": "npx",
@@ -164,7 +168,8 @@
       ],
       "env": {
         "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}"
-      }
+      },
+      "disabled": true
     },
     "azure": {
       "command": "npx",
@@ -177,7 +182,8 @@
         "AZURE_CLIENT_ID": "${AZURE_CLIENT_ID}",
         "AZURE_CLIENT_SECRET": "${AZURE_CLIENT_SECRET}",
         "AZURE_TENANT_ID": "${AZURE_TENANT_ID}"
-      }
+      },
+      "disabled": true
     },
     "docker": {
       "command": "npx",
@@ -195,7 +201,8 @@
       ],
       "env": {
         "KUBECONFIG": "${HOME}/.kube/config"
-      }
+      },
+      "disabled": true
     },
     "smithery-cli": {
       "command": "npx",
@@ -206,7 +213,7 @@
       "env": {
         "SMITHERY_API_KEY": "${SMITHERY_API_KEY}"
       },
-      "disabled": false
+      "disabled": true
     },
     "smithery-stdout": {
       "command": "npx",
@@ -214,7 +221,8 @@
         "-y",
         "@smithery/stdout-mcp-server"
       ],
-      "env": {}
+      "env": {},
+      "disabled": true
     },
     "codex": {
       "command": "codex",
@@ -223,7 +231,8 @@
       ],
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}"
-      }
+      },
+      "disabled": true
     },
     "xcodebuild": {
       "command": "npx",
@@ -232,7 +241,8 @@
         "xcodebuildmcp"
       ],
       "env": {},
-      "description": "Xcode project management, simulator control, and iOS app utilities"
+      "description": "Xcode project management, simulator control, and iOS app utilities",
+      "disabled": true
     },
     "enhanced-postgres": {
       "command": "npx",
@@ -254,7 +264,8 @@
         "@modelcontextprotocol/inspector"
       ],
       "env": {},
-      "description": "MCP debugging and inspection tool"
+      "description": "MCP debugging and inspection tool",
+      "disabled": true
     },
     "mcp-toolkit": {
       "command": "npx",
@@ -263,7 +274,8 @@
         "@magneticwatermelon/mcp-toolkit"
       ],
       "env": {},
-      "description": "Build and ship MCP servers with zero-config"
+      "description": "Build and ship MCP servers with zero-config",
+      "disabled": true
     },
     "mcp-sdk": {
       "command": "npx",
@@ -272,7 +284,8 @@
         "@modelcontextprotocol/sdk"
       ],
       "env": {},
-      "description": "Official MCP SDK for TypeScript - Build MCP clients and servers"
+      "description": "Official MCP SDK for TypeScript - Build MCP clients and servers",
+      "disabled": true
     },
     "ref-tools": {
       "command": "npx",
@@ -281,7 +294,8 @@
         "ref-tools-mcp"
       ],
       "env": {},
-      "description": "Reference tools for code navigation and documentation"
+      "description": "Reference tools for code navigation and documentation",
+      "disabled": true
     },
     "puppeteer-hisma": {
       "command": "npx",
@@ -290,7 +304,8 @@
         "@hisma/server-puppeteer"
       ],
       "env": {},
-      "description": "Improved Puppeteer MCP server (v0.6.5 fork) for advanced browser automation"
+      "description": "Improved Puppeteer MCP server (v0.6.5 fork) for advanced browser automation",
+      "disabled": true
     },
     "mcp-use": {
       "command": "npx",
@@ -299,7 +314,8 @@
         "mcp-use"
       ],
       "env": {},
-      "description": "Opinionated MCP Framework - Build MCP Agents, Clients, and Servers with MCP-UI support"
+      "description": "Opinionated MCP Framework - Build MCP Agents, Clients, and Servers with MCP-UI support",
+      "disabled": true
     }
   }
 }

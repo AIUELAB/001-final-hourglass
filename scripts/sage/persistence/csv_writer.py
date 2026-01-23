@@ -33,8 +33,8 @@ from src.utils.fictional_quality_gate import FictionalQualityGate
 # UnifiedGate（DB反映前の最終ゲート - バイパス経路塞ぎ）
 from .unified_gate import UnifiedGate, ViolationType
 
-# 架空キャラクター名リスト（RCA-20260122: person_type誤分類対策）
-from scripts.validation.detect_person_type_mismatch import (
+# 架空キャラクター名リスト（RCA-20260123: src/utils/に移動してアーキテクチャ違反解消）
+from src.utils.fictional_characters import (
     ALL_FICTIONAL_CHARACTERS,
     BLACKLIST_NAMES,
 )
@@ -634,11 +634,17 @@ class SafeCSVWriter:
                 )
 
             # 差分エントリ
+            # RCA-20260123: 年齢 "nan" 対応（int変換時のValueError防止）
+            age_value = old_row.get("age", 0)
+            try:
+                age_int = int(float(age_value)) if age_value and str(age_value).lower() != "nan" else 0
+            except (ValueError, TypeError):
+                age_int = 0
             diff_entries = [
                 DiffEntry(
                     episode_id=old_episode_id,
                     person_name=str(old_row.get("person_name", "")),
-                    age=int(old_row.get("age", 0)),
+                    age=age_int,
                     action="replace",
                     details={
                         "old_episode_id": old_episode_id,
@@ -717,7 +723,7 @@ class SafeCSVWriter:
                         log_data = json.load(f)
                 except json.JSONDecodeError as e:
                     # H3: 破損したログファイルのハンドリング
-                    logger.error("Corrupted replacement log, creating new: %s", e)
+                    logger.error(f"Corrupted replacement log, creating new: {e}")
                     backup_path = log_path.with_suffix(".json.corrupted")
                     log_path.rename(backup_path)
                     log_data = {"replacements": []}
@@ -743,7 +749,7 @@ class SafeCSVWriter:
                 json.dump(log_data, f, ensure_ascii=False, indent=2)
         except (IOError, OSError, PermissionError) as e:
             # H3: ファイル操作エラーは警告のみ（メイン処理を中断しない）
-            logger.warning("Failed to save replacement log: %s", e)
+            logger.warning(f"Failed to save replacement log: {e}")
 
     def _save_diff_log(self, entries: list[DiffEntry], dry_run: bool = False) -> Optional[Path]:
         """差分ログを保存"""
@@ -769,8 +775,13 @@ class SafeCSVWriter:
             ],
         }
 
-        with open(log_path, "w", encoding="utf-8") as f:
-            json.dump(log_data, f, ensure_ascii=False, indent=2)
+        # RCA-20260123: IOError等でクラッシュしないよう警告のみに
+        try:
+            with open(log_path, "w", encoding="utf-8") as f:
+                json.dump(log_data, f, ensure_ascii=False, indent=2)
+        except (IOError, OSError, PermissionError) as e:
+            logger.warning(f"Failed to save diff log: {e}")
+            return None
 
         return log_path
 

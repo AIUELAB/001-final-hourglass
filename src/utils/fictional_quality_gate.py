@@ -48,6 +48,9 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_WORK_SETTINGS_PATH = PROJECT_ROOT / "preserved/data/fictional_work_settings_master.json"
 
+# 架空キャラクター判定（RCA-20260123: person_name からの二重チェック用）
+from src.utils.fictional_characters import is_fictional_character
+
 
 # =============================================================================
 # 違反タイプ定義
@@ -454,8 +457,12 @@ class FictionalQualityGate:
     def _load_work_settings(self) -> None:
         """作品設定JSONをロード"""
         if not self.work_settings_path.exists():
-            logger.warning(f"Work settings not found: {self.work_settings_path}")
-            return
+            # RCA-20260123: サイレント継続ではなくエラーを発生させる
+            # 設定ファイル不在で品質ゲートが無効化されることを防ぐ
+            raise FileNotFoundError(
+                f"Work settings file not found: {self.work_settings_path}. "
+                f"FictionalQualityGate cannot function without work settings."
+            )
 
         try:
             with open(self.work_settings_path, encoding="utf-8") as f:
@@ -541,11 +548,21 @@ class FictionalQualityGate:
         episode_text = str(episode.get("episode_text", ""))
         work_title = str(episode.get("work_title", ""))
         person_type = str(episode.get("person_type", "")).upper()
-        _ = str(episode.get("person_name", ""))  # 将来の拡張用（現在未使用）
+        person_name = str(episode.get("person_name", ""))
 
-        # FICTIONALのみ対象
-        if "FICTIONAL" not in person_type:
+        # RCA-20260123: person_type だけでなく person_name からも架空キャラを判定（二重チェック）
+        is_fictional_by_type = "FICTIONAL" in person_type
+        is_fictional_by_name = is_fictional_character(person_name)
+
+        # FICTIONALのみ対象（person_type または person_name のいずれかで架空キャラと判定された場合）
+        if not is_fictional_by_type and not is_fictional_by_name:
             return QualityResult(passed=True)
+
+        # person_type とperson_name が矛盾する場合は警告
+        if is_fictional_by_name and not is_fictional_by_type:
+            logger.warning(
+                f"FictionalQualityGate: person_type不整合 - {person_name} はFICTIONALであるべき (現在: {person_type})"
+            )
 
         # 作品設定を取得
         work_setting = self.get_work_setting(work_title)
@@ -620,7 +637,9 @@ class FictionalQualityGate:
                         start, end = pattern.split("-")
                         if int(start) <= year <= int(end):
                             is_forbidden = True
-                    except ValueError:
+                    except ValueError as e:
+                        # RCA-20260123: 範囲パターン解析例外を警告ログに出力
+                        logger.warning(f"Invalid year range pattern '{pattern}': {e}")
                         continue
                 elif pattern.isdigit():
                     # 単一年パターン

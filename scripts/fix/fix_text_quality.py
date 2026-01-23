@@ -140,6 +140,7 @@ def create_backup(csv_path: Path) -> Path:
     shutil.copy2(csv_path, backup_path)
     return backup_path
 
+
 def run(csv_path: Path, dry_run: bool, max_examples: int) -> int:
     """メイン処理（戻り値: 0=正常, 1=対象ファイルなし等）"""
     if not csv_path.exists():
@@ -155,7 +156,14 @@ def run(csv_path: Path, dry_run: bool, max_examples: int) -> int:
     details: list[dict] = []
     change_counter: Counter[str] = Counter()
 
-    with open(csv_path, "r", encoding="utf-8-sig") as f:
+    # RCA-20260123: CSV読み込みエラーハンドリング追加
+    try:
+        f = open(csv_path, "r", encoding="utf-8-sig")
+    except (IOError, OSError, PermissionError) as e:
+        print(f"❌ CSVファイルを開けません: {e}")
+        return 1
+
+    try:
         reader = csv.DictReader(f)
         fieldnames = reader.fieldnames
         if not fieldnames:
@@ -193,6 +201,8 @@ def run(csv_path: Path, dry_run: bool, max_examples: int) -> int:
                         row["char_count"] = str(len(fixed_text))
 
             rows.append(row)
+    finally:
+        f.close()
 
     backup_path: Path | None = None
     if not dry_run and affected_episode_ids:

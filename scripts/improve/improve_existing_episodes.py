@@ -6,16 +6,16 @@ composite_score が低いエピソードを LLM で改稿し、品質を向上�
 
 使用方法:
     # プレビュー（改善候補を確認）
-    python scripts/improve_existing_episodes.py --preview
+    python scripts/improve/improve_existing_episodes.py --preview
 
     # テスト実行（10件）
-    python scripts/improve_existing_episodes.py --count 10 --dry-run
+    python scripts/improve/improve_existing_episodes.py --count 10 --dry-run
 
     # 本番実行（50件、CSV更新）
-    python scripts/improve_existing_episodes.py --count 50 --execute
+    python scripts/improve/improve_existing_episodes.py --count 50 --execute
 
     # 特定スコア以下を対象
-    python scripts/improve_existing_episodes.py --threshold 450 --count 30 --execute
+    python scripts/improve/improve_existing_episodes.py --threshold 450 --count 30 --execute
 
 環境変数:
     ANTHROPIC_API_KEY: Anthropic APIキー
@@ -36,13 +36,13 @@ import anthropic
 import pandas as pd
 
 # プロジェクトルート
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # CSVパス
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 BACKUP_DIR = PROJECT_ROOT / "preserved" / "data" / "backups"
-REPORT_DIR = PROJECT_ROOT / "reports"
+REPORT_DIR = PROJECT_ROOT / "src" / "reports" / "logs"
 
 # 環境変数チェック
 API_KEY = os.getenv("ANTHROPIC_API_KEY")
@@ -140,7 +140,7 @@ def llm_improve_episode(
 
     weak_axes_text = "\n".join(weak_axes) if weak_axes else "- 全体的に改善が必要"
 
-    prompt = f"""以下のエピソードを高品質に改稿してください。
+    prompt = f"""以下のエピソードを「読みやすく・分かりやすく」改稿してください。
 
 【元のエピソード】
 {original_text}
@@ -155,18 +155,15 @@ def llm_improve_episode(
 
 【改稿の要件】
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」で必ず始める
-2. 具体的な年号、数値、事実を含める（factual_densityを高める）
-3. 人物の感情や内面の葛藤を描写する（共感性を高める）
-4. 予想外の展開や意外な事実を含める（意外性を高める）
-5. 学びや教訓が得られる内容にする（educational_valueを高める）
-6. 印象に残る具体的なシーンを描写する（記憶性を高める）
-7. 起承転結を明確に構成する（story_qualityを高める）
-8. 250-320文字程度
+2. 文法・助詞・句読点・改行の崩れを直し、自然な日本語に整える
+3. 元の文章に含まれる事実関係を絶対に変えない（誇張・創作・推測での追加は禁止）
+4. 元文に無い固有名詞・年号・数値・場所・人物を新規追加しない（安全性のため）
+5. 冗長さを減らし、1文を短くして読みやすくする
+6. 250-320文字程度
 
 【重要】
 - 元のエピソードの良い部分は活かしつつ、弱い部分を大幅に改善
-- 事実に基づいた内容を心がける
-- 読者が感動・共感できる内容に
+- 事実性を最優先する（文章の上手さよりも、誤情報ゼロ）
 
 改稿後のエピソード:"""
 
@@ -242,7 +239,10 @@ def improve_episode(
     age = int(row["age"]) if pd.notna(row["age"]) else 30
     original_text = str(row["episode_text"])
     current_scores = get_current_scores(row)
-    before_composite = row.get("composite_score", 0)
+    try:
+        before_composite = float(row.get("composite_score", 0) or 0)
+    except (ValueError, TypeError):
+        before_composite = 0.0
 
     print(f"\n{'='*60}")
     print(f"改善中: {episode_id} - {person_name} ({age}歳)")
@@ -281,25 +281,31 @@ def improve_episode(
         print(f"    {indicator} {axis}: {old:.1f} → {new:.1f}")
 
     # 改善判定
-    is_improved = improvement >= QUALITY_GATES["minimum_improvement"]
+    # - dry-run/レポート用途では「不十分でも」成果物を残して手触り確認できるようにする
+    is_approved = improvement >= QUALITY_GATES["minimum_improvement"]
 
-    if is_improved:
+    if is_approved:
         print(f"  ✅ 改善成功！ (+{improvement:.1f})")
         stats.add_result(before_composite, after_composite, True)
-        return {
-            "episode_id": episode_id,
-            "person_id": person_id,  # 複合キー用に追加
-            "person_name": person_name,  # 検証用に追加
-            "episode_text": improved_text,
-            "composite_score": after_composite,
-            **new_scores,
-            "improved_at": datetime.now().isoformat(),
-            "improvement": improvement,
-        }
     else:
         print(f"  ⚠️ 改善不十分 (+{improvement:.1f} < +{QUALITY_GATES['minimum_improvement']})")
         stats.add_result(before_composite, after_composite, False)
-        return None
+
+    return {
+        "episode_id": episode_id,
+        "person_id": person_id,
+        "person_name": person_name,
+        "category": category,
+        "age": age,
+        "original_text": original_text,
+        "episode_text": improved_text,  # 互換: CSV更新で使うキー
+        "before_composite_score": before_composite,
+        "composite_score": after_composite,
+        **new_scores,
+        "improved_at": datetime.now().isoformat(),
+        "improvement": improvement,
+        "approved": is_approved,
+    }
 
 
 def create_backup(df: pd.DataFrame) -> Path:
@@ -362,7 +368,7 @@ def main():
 
     # 統計
     stats = ImprovementStats()
-    improvements = []
+    improvements: list[dict] = []
 
     # 改善ループ
     print("=" * 80)
@@ -373,7 +379,6 @@ def main():
         print(f"\n[{i}/{len(targets)}]")
 
         result = improve_episode(row, stats)
-
         if result:
             improvements.append(result)
 
@@ -396,15 +401,17 @@ def main():
     print(f"  平均改善幅: +{summary['avg_improvement']:.1f}")
     print()
 
-    # CSV更新
-    if args.execute and improvements:
+    # CSV更新（approvedのみ反映）
+    approved = [imp for imp in improvements if imp.get("approved") is True]
+
+    if args.execute and approved:
         print("【CSV更新】")
 
         # バックアップ
         create_backup(df)
 
         # 更新（複合キーで安全に特定）
-        for imp in improvements:
+        for imp in approved:
             episode_id = imp["episode_id"]
             person_id = imp.get("person_id")
             person_name = imp.get("person_name")
@@ -432,11 +439,11 @@ def main():
 
         # 保存
         df.to_csv(CSV_PATH, index=False, encoding="utf-8-sig")
-        print(f"✅ CSV更新完了: {len(improvements)}件を改善")
+        print(f"✅ CSV更新完了: {len(approved)}件を改善（承認済みのみ反映）")
 
     elif improvements:
         print("⚠️ ドライランモード: CSV更新は行いません")
-        print("   --execute オプションで本番実行してください")
+        print("   --execute オプションで本番実行してください（承認済みのみ反映されます）")
 
     # レポート保存
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
@@ -447,7 +454,22 @@ def main():
         "timestamp": datetime.now().isoformat(),
         "threshold": args.threshold,
         "statistics": summary,
-        "improvements": [{"episode_id": imp["episode_id"], "improvement": imp["improvement"]} for imp in improvements],
+        "improvements": [
+            {
+                "episode_id": imp.get("episode_id"),
+                "person_name": imp.get("person_name"),
+                "age": imp.get("age"),
+                "before_composite_score": imp.get("before_composite_score"),
+                "after_composite_score": imp.get("composite_score"),
+                "improvement": imp.get("improvement"),
+                "approved": imp.get("approved"),
+                # 手触り確認: 文章のbefore/after（10件程度なので全文を保存）
+                "original_text": imp.get("original_text"),
+                "improved_text": imp.get("episode_text"),
+            }
+            for imp in improvements
+        ],
+        "approved_count": len(approved),
     }
 
     with open(report_path, "w", encoding="utf-8") as f:

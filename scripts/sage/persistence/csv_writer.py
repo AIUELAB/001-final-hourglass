@@ -95,6 +95,8 @@ class SafeCSVWriter:
     _RE_NINARITA = re.compile(r"になりた([。、]|$)")
     _RE_TONARITA = re.compile(r"となりた([。、]|$)")
     _RE_GARITA = re.compile(r"(上|下|広|拡|高|深)がりた([。、]|$)")
+    # 「◯◯は◯◯は」などの直後重複（読みづらさの主要因）
+    _RE_DUP_HA = re.compile(r"([^\s、。]{2,60}は)([ \t]*\n?[ \t]*)(?:\1\2)+")
     _RE_PATTERN_C = re.compile(
         r"(あなたと同じ\d+歳のとき[、,]?[ \t]*\n?[ \t]*)" r"([^、。\n]{2,30})" r"(は)" r"([ \t]*\n?[ \t]*)" r"、"
     )
@@ -261,6 +263,11 @@ class SafeCSVWriter:
         updated, count = self._RE_PATTERN_C.subn(r"\1\2\3\4", updated)
         if count:
             changes.append("C: 導入文の「は、」→「は」(改行崩れ含む)")
+
+        # ルールD（「〜は」の直後重複）
+        updated, count = self._RE_DUP_HA.subn(r"\1\2", updated)
+        if count:
+            changes.append("D: 「〜は」の重複削除")
 
         # ルールB（末尾句点）
         stripped = updated.rstrip()

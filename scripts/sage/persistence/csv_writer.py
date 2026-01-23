@@ -635,10 +635,16 @@ class SafeCSVWriter:
 
             # 差分エントリ
             # RCA-20260123: 年齢 "nan" 対応（int変換時のValueError防止）
+            # RCA-20260123 Phase7: 異常値検出時の警告ログ追加
             age_value = old_row.get("age", 0)
             try:
-                age_int = int(float(age_value)) if age_value and str(age_value).lower() != "nan" else 0
-            except (ValueError, TypeError):
+                if age_value and str(age_value).lower() != "nan":
+                    age_int = int(float(age_value))
+                else:
+                    logger.debug(f"年齢フィールド異常値（nan）: episode_id={old_episode_id}")
+                    age_int = 0
+            except (ValueError, TypeError) as e:
+                logger.debug(f"年齢フィールド変換エラー: {age_value}, episode_id={old_episode_id}, error={e}")
                 age_int = 0
             diff_entries = [
                 DiffEntry(

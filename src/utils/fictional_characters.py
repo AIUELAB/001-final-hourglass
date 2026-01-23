@@ -12,6 +12,15 @@ RCA: RCA-20260122, RCA-20260123
 
 from __future__ import annotations
 
+# RCA-20260123 Phase7: 公開APIを明示
+__all__ = [
+    "FICTIONAL_CHARACTERS",
+    "ALL_FICTIONAL_CHARACTERS",
+    "BLACKLIST_NAMES",
+    "is_fictional_character",
+    "get_work_for_character",
+]
+
 # =============================================================================
 # 架空キャラクターデータベース
 # =============================================================================

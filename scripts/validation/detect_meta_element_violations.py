@@ -308,9 +308,7 @@ class MetaElementViolationDetector:
                 except (pd.errors.EmptyDataError, pd.errors.ParserError) as e:
                     logger.error(f"CSV解析エラー: {e}")
                     self._master_df = pd.DataFrame()
-                except Exception as e:
-                    logger.error(f"予期しないCSV読み込みエラー: {e}")
-                    self._master_df = pd.DataFrame()
+                # RCA-20260123 Phase7: 予期しないエラーは上位へ伝播（MemoryError, UnicodeDecodeError等を握りつぶさない）
             else:
                 logger.error(f"マスターCSVが見つかりません: {self.master_csv}")
                 self._master_df = pd.DataFrame()

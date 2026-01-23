@@ -6,6 +6,7 @@ Safe CSV Writer
 
 import json
 import logging
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -84,6 +85,20 @@ class SafeCSVWriter:
     - トランザクション的操作
     """
 
+    # Precompiled regex patterns for grammar/quality checking (H1: パフォーマンス最適化)
+    _RE_HAWED = re.compile(r"[ぁ-んァ-ヶー一-龯a-zA-Z]はで、")
+    _RE_TEIKITA = re.compile(r"ていきた[。、]")
+    _RE_FIX_HAWED = re.compile(r"([ぁ-んァ-ヶー一-龯a-zA-Z])はで、")
+    _RE_FIX_TEIKITA = re.compile(r"ていきた([。、])")
+    _RE_NIARITA = re.compile(r"にありた([。、]|$)")
+    _RE_TSUNAGARITA = re.compile(r"繋がりた([。、]|$)")
+    _RE_NINARITA = re.compile(r"になりた([。、]|$)")
+    _RE_TONARITA = re.compile(r"となりた([。、]|$)")
+    _RE_GARITA = re.compile(r"(上|下|広|拡|高|深)がりた([。、]|$)")
+    _RE_PATTERN_C = re.compile(
+        r"(あなたと同じ\d+歳のとき[、,]?[ \t]*\n?[ \t]*)" r"([^、。\n]{2,30})" r"(は)" r"([ \t]*\n?[ \t]*)" r"、"
+    )
+
     # CSVカラム順序
     COLUMN_ORDER = [
         "episode_id",
@@ -159,6 +174,105 @@ class SafeCSVWriter:
             return False
         return person_name in ALL_FICTIONAL_CHARACTERS
 
+    def _check_grammar_errors(self, text: str) -> list[str]:
+        """
+        日本語文法エラーを検出する。
+
+        Args:
+            text: チェック対象テキスト
+
+        Returns:
+            検出されたエラーのリスト
+        """
+        # H2: None/型チェック追加
+        if not text:
+            return []
+        errors = []
+        # P1: 「はで、」パターン（助詞の誤用）- H1: プリコンパイル済みパターン使用
+        if self._RE_HAWED.search(text):
+            errors.append("「はで、」パターン検出 - 正しくは「は、」")
+        # P2: 「ていきた」パターン（動詞活用の誤り）- H1: プリコンパイル済みパターン使用
+        if self._RE_TEIKITA.search(text):
+            errors.append("「ていきた」パターン検出 - 正しくは「ていった」")
+        return errors
+
+    def _fix_grammar_errors(self, text: str) -> str:
+        """
+        日本語文法エラーを自動修正する。
+
+        Args:
+            text: 修正対象テキスト
+
+        Returns:
+            修正後のテキスト
+        """
+        # H2: None/型チェック追加
+        if not text:
+            return ""
+        # P1: 「はで、」→「は、」- H1: プリコンパイル済みパターン使用
+        text = self._RE_FIX_HAWED.sub(r"\1は、", text)
+        # P2: 「ていきた」→「ていった」- H1: プリコンパイル済みパターン使用
+        text = self._RE_FIX_TEIKITA.sub(r"ていった\1", text)
+        return text
+
+    def _fix_text_quality(self, text: str) -> tuple[str, list[str]]:
+        """
+        文章品質の低下要因を自動修正する（安全な範囲のみ）。
+
+        対象:
+        - ルールA: 終止形の誤り（「にありた」「繋がりた」「になりた」「となりた」「○がりた」）
+        - ルールB: 末尾句点欠落（「。」「！」「？」等で終わらない場合）
+        - ルールC: 導入文パターンの「は、」→「は」（改行崩れの「は\\n、」も含む）
+
+        Args:
+            text: 修正対象テキスト
+
+        Returns:
+            (修正後テキスト, 変更内容リスト)
+        """
+        if not text:
+            return text, []
+
+        changes: list[str] = []
+        updated = text
+
+        # ルールA（終止形）- H1: プリコンパイル済みパターン使用
+        updated, count = self._RE_NIARITA.subn(r"にいた\1", updated)
+        if count:
+            changes.append("A1: にありた→にいた")
+
+        updated, count = self._RE_TSUNAGARITA.subn(r"繋がった\1", updated)
+        if count:
+            changes.append("A2: 繋がりた→繋がった")
+
+        updated, count = self._RE_NINARITA.subn(r"になった\1", updated)
+        if count:
+            changes.append("A3: になりた→になった")
+
+        updated, count = self._RE_TONARITA.subn(r"となった\1", updated)
+        if count:
+            changes.append("A4: となりた→となった")
+
+        updated, count = self._RE_GARITA.subn(r"\1がった\2", updated)
+        if count:
+            changes.append("A5: ○がりた→○がった")
+
+        # ルールC（導入文の「は、」読点削除）- H1: プリコンパイル済みパターン使用
+        updated, count = self._RE_PATTERN_C.subn(r"\1\2\3\4", updated)
+        if count:
+            changes.append("C: 導入文の「は、」→「は」(改行崩れ含む)")
+
+        # ルールB（末尾句点）
+        stripped = updated.rstrip()
+        if stripped:
+            # M1: 「」」を追加（引用符で終わる場合も有効な終端とする）
+            valid_endings = ("。", "！", "？", "」", "!", "?")
+            if not stripped.endswith(valid_endings):
+                updated = stripped + "。"
+                changes.append("B: 末尾句点追加")
+
+        return updated, changes
+
     def _validate_row(self, row: dict) -> tuple[bool, str]:
         """行を検証"""
         required = ["person_id", "person_name", "age", "episode_text"]
@@ -171,6 +285,33 @@ class SafeCSVWriter:
         text = row.get("episode_text", "")
         if len(text) < 100:
             return False, f"Episode text too short: {len(text)}"
+
+        # 日本語文法チェック（品質ゲート）
+        grammar_errors = self._check_grammar_errors(text)
+        if grammar_errors:
+            # 自動修正を適用
+            fixed_text = self._fix_grammar_errors(text)
+            row["episode_text"] = fixed_text
+            # M2: ログフォーマット統一（%フォーマット）
+            logger.info(
+                "SafeCSVWriter: 日本語文法エラー自動修正 - %s (%s歳): %s",
+                row.get("person_name"),
+                row.get("age"),
+                grammar_errors,
+            )
+
+        # 文章品質の自動修正（誤字/句読点/導入文の読点崩れ）
+        # なぜ: 文章の読みにくさを増やす「定型ミス」を書き込み前に除去し、再発を防ぐため。
+        current_text = str(row.get("episode_text", "") or "")
+        fixed_text, changes = self._fix_text_quality(current_text)
+        if changes:
+            row["episode_text"] = fixed_text
+            logger.info(
+                "SafeCSVWriter: 文章品質自動修正 - %s (%s歳): %s",
+                row.get("person_name"),
+                row.get("age"),
+                changes,
+            )
 
         # FICTIONAL文頭フォーマットチェック（EPUP必須ルール）
         is_valid, msg = check_fictional_lead_row(row)
@@ -558,33 +699,44 @@ class SafeCSVWriter:
         old_row: dict,
         new_row: dict,
     ) -> None:
-        """置換履歴を保存"""
+        """置換履歴を保存（H3: エラーハンドリング強化）"""
         log_path = self.logs_dir / "replacement_log.json"
 
-        # 既存ログを読み込み
-        if log_path.exists():
-            with open(log_path, encoding="utf-8") as f:
-                log_data = json.load(f)
-        else:
-            log_data = {"replacements": []}
+        try:
+            # 既存ログを読み込み
+            if log_path.exists():
+                try:
+                    with open(log_path, encoding="utf-8") as f:
+                        log_data = json.load(f)
+                except json.JSONDecodeError as e:
+                    # H3: 破損したログファイルのハンドリング
+                    logger.error("Corrupted replacement log, creating new: %s", e)
+                    backup_path = log_path.with_suffix(".json.corrupted")
+                    log_path.rename(backup_path)
+                    log_data = {"replacements": []}
+            else:
+                log_data = {"replacements": []}
 
-        # 新しいエントリを追加
-        log_data["replacements"].append(
-            {
-                "timestamp": datetime.now().isoformat(),
-                "old_episode_id": old_episode_id,
-                "new_episode_id": new_episode_id,
-                "person_name": old_row.get("person_name", ""),
-                "age": old_row.get("age", 0),
-                "old_score": old_row.get("super_total_score", 0),
-                "new_score": new_row.get("super_total_score", 0),
-                "score_improvement": (new_row.get("super_total_score", 0) - old_row.get("super_total_score", 0)),
-            }
-        )
+            # 新しいエントリを追加
+            log_data["replacements"].append(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "old_episode_id": old_episode_id,
+                    "new_episode_id": new_episode_id,
+                    "person_name": old_row.get("person_name", ""),
+                    "age": old_row.get("age", 0),
+                    "old_score": old_row.get("super_total_score", 0),
+                    "new_score": new_row.get("super_total_score", 0),
+                    "score_improvement": (new_row.get("super_total_score", 0) - old_row.get("super_total_score", 0)),
+                }
+            )
 
-        # 保存
-        with open(log_path, "w", encoding="utf-8") as f:
-            json.dump(log_data, f, ensure_ascii=False, indent=2)
+            # 保存
+            with open(log_path, "w", encoding="utf-8") as f:
+                json.dump(log_data, f, ensure_ascii=False, indent=2)
+        except (IOError, OSError, PermissionError) as e:
+            # H3: ファイル操作エラーは警告のみ（メイン処理を中断しない）
+            logger.warning("Failed to save replacement log: %s", e)
 
     def _save_diff_log(self, entries: list[DiffEntry], dry_run: bool = False) -> Optional[Path]:
         """差分ログを保存"""

@@ -368,6 +368,33 @@
       "technology_level": "pre_modern",
       "forbidden_keywords": [],
       "notes": "架空のフランス風世界が舞台"
+    },
+    "ファイナルファンタジーVII": {
+      "work_title": "ファイナルファンタジーVII",
+      "work_title_variants": ["FINAL FANTASY VII", "FF7", "FFVII", "ファイナルファンタジー7"],
+      "world_type": "fictional",
+      "era_setting": "近未来SF風架空世界",
+      "year_system": "none",
+      "forbidden_year_patterns": ["1900-2026"],
+      "allow_real_locations": false,
+      "allow_real_people": false,
+      "technology_level": "futuristic",
+      "forbidden_keywords": ["スクウェア", "スクエニ", "スクウェア・エニックス", "開発", "リリース", "発売", "売上", "万本", "プレイステーション", "PS"],
+      "notes": "魔晄エネルギーを使う架空世界。ミッドガル、神羅カンパニー等の架空都市・組織が舞台"
+    },
+    "ロード・オブ・ザ・リング": {
+      "work_title": "ロード・オブ・ザ・リング",
+      "work_title_variants": ["指輪物語", "The Lord of the Rings", "LOTR", "ロードオブザリング"],
+      "world_type": "fictional",
+      "era_setting": "中つ国（架空の古代的世界）",
+      "year_system": "custom",
+      "custom_year_note": "第三紀（Third Age）表記を使用。例: 第三紀3018年",
+      "forbidden_year_patterns": ["1900-2026", "西暦", "紀元前", "紀元後"],
+      "allow_real_locations": false,
+      "allow_real_people": false,
+      "technology_level": "pre_modern",
+      "forbidden_keywords": ["映画", "撮影", "興行収入", "アカデミー賞", "ピーター・ジャクソン", "ニュージーランド", "トールキン", "出版", "原作"],
+      "notes": "中つ国（Middle-earth）が舞台。ホビット庄、裂け谷、モルドール等の架空地名。エルフ、ドワーフ、オーク等の種族が存在"
     }
   },
   "validation_rules": {

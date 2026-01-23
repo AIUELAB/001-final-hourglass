@@ -6,15 +6,45 @@ Safe CSV Writer
 
 import json
 import logging
+import math
+import os
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import httpx
+import numpy as np
 import pandas as pd
+from postgrest.exceptions import APIError
+from supabase import Client as SupabaseClient, create_client
+from tenacity import (
+    before_sleep_log,
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 logger = logging.getLogger(__name__)
+
+# Supabase同期設定
+SUPABASE_TABLE = "episodes"
+SUPABASE_BATCH_SIZE = 100
+INTEGER_COLUMNS = {
+    "episode_count",
+    "age",
+    "wikipedia_pv",
+    "fame_rank_v3",
+    "multi_lang_pv",
+    "sitelinks_count",
+    "google_hits",
+    "celebrity_rank_v2",
+    "episode_fame_tier_v6",
+    "birth_year",
+    "death_year",
+}
 
 from ..adapters.base import GenerationResult
 from ..config import LOGS_DIR, MASTER_CSV
@@ -51,6 +81,8 @@ class WriteResult:
     error_message: str = ""
     backup_path: Optional[Path] = None
     diff_log_path: Optional[Path] = None
+    supabase_synced: bool = True  # Supabase同期成功フラグ
+    supabase_sync_count: int = 0  # Supabase同期成功件数
 
     def to_dict(self) -> dict:
         return {
@@ -61,6 +93,8 @@ class WriteResult:
             "error_message": self.error_message,
             "backup_path": str(self.backup_path) if self.backup_path else None,
             "diff_log_path": str(self.diff_log_path) if self.diff_log_path else None,
+            "supabase_synced": self.supabase_synced,
+            "supabase_sync_count": self.supabase_sync_count,
         }
 
 
@@ -564,6 +598,9 @@ class SafeCSVWriter:
             # 4. 書き込み
             combined_df.to_csv(self.master_csv, index=False, encoding="utf-8-sig")
 
+            # 🔸 Phase C-2: Supabase同期（新規追加）
+            sync_success, sync_count = self._sync_to_supabase(new_rows)
+
             # 5. 差分ログを保存
             diff_log_path = self._save_diff_log(diff_entries, dry_run=False)
 
@@ -573,6 +610,8 @@ class SafeCSVWriter:
                 skipped_count=skipped_count,
                 backup_path=backup_path,
                 diff_log_path=diff_log_path,
+                supabase_synced=sync_success,
+                supabase_sync_count=sync_count,
             )
 
         except (IOError, pd.errors.ParserError, PermissionError, pd.errors.EmptyDataError) as e:
@@ -584,6 +623,125 @@ class SafeCSVWriter:
         except Exception as e:
             logger.exception(f"Unexpected error during CSV write: {e}")
             raise
+
+    def _get_supabase_client(self) -> SupabaseClient | None:
+        """Supabaseクライアント取得"""
+        url = os.getenv("SUPABASE_URL")
+        key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+        if not url and not key:
+            logger.debug("Supabase環境変数未設定（SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY）")
+            return None
+        if not url:
+            logger.warning("SUPABASE_URL未設定（SUPABASE_SERVICE_ROLE_KEYは設定済み）")
+            return None
+        if not key:
+            logger.warning("SUPABASE_SERVICE_ROLE_KEY未設定（SUPABASE_URLは設定済み）")
+            return None
+
+        try:
+            return create_client(url, key)
+        except Exception as e:
+            logger.error(f"Supabaseクライアント作成失敗: {e}")
+            return None
+
+    def _sanitize_for_supabase(self, row: dict) -> dict:
+        """Supabase用にNaN/numpy型を変換"""
+        sanitized = {}
+        for key, value in row.items():
+            try:
+                # None/pandas NA/NaT の明示的な処理
+                if value is None or value is pd.NA:
+                    sanitized[key] = None
+                    continue
+                try:
+                    if pd.isna(value):
+                        sanitized[key] = None
+                        continue
+                except (TypeError, ValueError):
+                    pass
+
+                if isinstance(value, float) and math.isnan(value):
+                    sanitized[key] = None
+                elif isinstance(value, (np.integer,)):
+                    sanitized[key] = int(value)
+                elif isinstance(value, (np.floating,)):
+                    sanitized[key] = None if math.isnan(value) or math.isinf(value) else float(value)
+                elif isinstance(value, (np.bool_,)):
+                    sanitized[key] = bool(value)
+                elif isinstance(value, (np.str_,)):
+                    sanitized[key] = str(value)
+                elif isinstance(value, np.ndarray):
+                    logger.warning(f"_sanitize_for_supabase: 配列型は未サポート - key={key}")
+                    sanitized[key] = None
+                else:
+                    sanitized[key] = value
+
+                # INTEGER_COLUMNSの処理
+                if key in INTEGER_COLUMNS and sanitized[key] is not None:
+                    try:
+                        sanitized[key] = int(float(sanitized[key]))
+                    except (ValueError, TypeError) as e:
+                        logger.debug(f"INTEGER_COLUMNS変換失敗: key={key}, value={sanitized[key]}, error={e}")
+                        sanitized[key] = None
+            except Exception as e:
+                logger.warning(
+                    f"_sanitize_for_supabase: 予期しないエラー - key={key}, value_type={type(value)}, error={e}"
+                )
+                sanitized[key] = None
+        return sanitized
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        retry=retry_if_exception_type((APIError, ConnectionError, TimeoutError, httpx.HTTPStatusError)),
+        before_sleep=before_sleep_log(logger, logging.WARNING),
+    )
+    def _upsert_batch(self, supabase: SupabaseClient, batch: list[dict]) -> int:
+        """バッチupsert with リトライ"""
+        result = supabase.table(SUPABASE_TABLE).upsert(batch, on_conflict="episode_id").execute()
+        return len(result.data) if result.data else 0
+
+    def _sync_to_supabase(self, new_rows: list[dict]) -> tuple[bool, int]:
+        """新規行をSupabaseに同期（エラー時は警告のみ）
+
+        Returns:
+            tuple[bool, int]: (完全成功フラグ, 成功件数)
+        """
+        if not new_rows:
+            return True, 0
+
+        supabase = self._get_supabase_client()
+        if not supabase:
+            logger.warning("Supabase環境変数未設定 - 同期スキップ")
+            return False, 0
+
+        try:
+            sanitized = [self._sanitize_for_supabase(row) for row in new_rows]
+        except Exception as e:
+            logger.error(f"Supabase同期: データ変換中に予期しないエラー: {e}", exc_info=True)
+            return False, 0
+
+        success_count = 0
+        failed_batches = []
+
+        for batch_idx, i in enumerate(range(0, len(sanitized), SUPABASE_BATCH_SIZE)):
+            batch = sanitized[i : i + SUPABASE_BATCH_SIZE]
+            try:
+                success_count += self._upsert_batch(supabase, batch)
+            except (APIError, ConnectionError, TimeoutError, httpx.HTTPStatusError) as e:
+                logger.warning(f"Supabase同期: バッチ{batch_idx}失敗: {e}")
+                failed_batches.append(batch_idx)
+            except Exception as e:
+                logger.error(f"Supabase同期: バッチ{batch_idx}で予期しないエラー: {e}", exc_info=True)
+                failed_batches.append(batch_idx)
+
+        if failed_batches:
+            logger.warning(f"Supabase同期部分成功: {success_count}/{len(new_rows)}件, 失敗バッチ: {failed_batches}")
+            return False, success_count
+
+        logger.info(f"Supabase同期完了: {success_count}/{len(new_rows)}件")
+        return True, success_count
 
     def replace_episode(
         self,
@@ -688,6 +846,9 @@ class SafeCSVWriter:
             # 6. 書き込み
             combined_df.to_csv(self.master_csv, index=False, encoding="utf-8-sig")
 
+            # 6.5. Supabase同期（新しいエピソードをupsert）
+            sync_success, sync_count = self._sync_to_supabase([new_row])
+
             # 7. 差分ログを保存
             diff_log_path = self._save_diff_log(diff_entries, dry_run=False)
 
@@ -699,6 +860,8 @@ class SafeCSVWriter:
                 replaced_count=1,
                 backup_path=backup_path,
                 diff_log_path=diff_log_path,
+                supabase_synced=sync_success,
+                supabase_sync_count=sync_count,
             )
 
         except (IOError, pd.errors.ParserError, PermissionError, pd.errors.EmptyDataError) as e:

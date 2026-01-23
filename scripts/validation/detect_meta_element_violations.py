@@ -298,11 +298,19 @@ class MetaElementViolationDetector:
         if self._master_df is None:
             if self.master_csv.exists():
                 logger.info(f"マスターCSV読み込み: {self.master_csv}")
-                self._master_df = pd.read_csv(
-                    self.master_csv,
-                    encoding="utf-8-sig",
-                    low_memory=False,
-                )
+                # RCA-20260123: CSV読み込みエラーハンドリング追加
+                try:
+                    self._master_df = pd.read_csv(
+                        self.master_csv,
+                        encoding="utf-8-sig",
+                        low_memory=False,
+                    )
+                except (pd.errors.EmptyDataError, pd.errors.ParserError) as e:
+                    logger.error(f"CSV解析エラー: {e}")
+                    self._master_df = pd.DataFrame()
+                except Exception as e:
+                    logger.error(f"予期しないCSV読み込みエラー: {e}")
+                    self._master_df = pd.DataFrame()
             else:
                 logger.error(f"マスターCSVが見つかりません: {self.master_csv}")
                 self._master_df = pd.DataFrame()

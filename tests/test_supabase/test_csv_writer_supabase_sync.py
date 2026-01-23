@@ -9,22 +9,26 @@ SafeCSVWriter Supabase同期機能のユニットテスト
 - write() / replace_episode() の Supabase同期部分
 """
 
+# === 標準ライブラリ ===
 import logging
 import math
 import sys
 from pathlib import Path
-
-import numpy as np
-import pandas as pd
-import pytest
-from postgrest.exceptions import APIError
-from tenacity import RetryError
 
 # プロジェクトルートをパスに追加
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
 
+# === サードパーティ ===
+import httpx
+import numpy as np
+import pandas as pd
+import pytest
+from postgrest.exceptions import APIError
+from tenacity import RetryError
+
+# === ローカル ===
 from scripts.sage.persistence.csv_writer import SafeCSVWriter
 
 
@@ -72,7 +76,7 @@ def sample_row():
 
 
 # ============================================================================
-# TestSanitizeForSupabase (14 cases)
+# TestSanitizeForSupabase (18 cases)
 # ============================================================================
 
 
@@ -196,6 +200,24 @@ class TestSanitizeForSupabase:
         assert result["person_name"] == "Test Person"
         assert result["episode_text"] == "Normal text content."
 
+    def test_empty_string_unchanged(self, csv_writer):
+        """空文字列はそのまま保持"""
+        row = {"field": ""}
+        result = csv_writer._sanitize_for_supabase(row)
+        assert result["field"] == ""
+
+    def test_dict_value_unchanged(self, csv_writer):
+        """dict値はそのまま保持"""
+        row = {"metadata": {"key": "value"}}
+        result = csv_writer._sanitize_for_supabase(row)
+        assert result["metadata"] == {"key": "value"}
+
+    def test_list_value_unchanged(self, csv_writer):
+        """list値はそのまま保持"""
+        row = {"tags": ["a", "b"]}
+        result = csv_writer._sanitize_for_supabase(row)
+        assert result["tags"] == ["a", "b"]
+
 
 # ============================================================================
 # TestGetSupabaseClient (5 cases)
@@ -271,7 +293,7 @@ class TestGetSupabaseClient:
 
 
 # ============================================================================
-# TestUpsertBatch (6 cases)
+# TestUpsertBatch (7 cases)
 # ============================================================================
 
 
@@ -363,9 +385,24 @@ class TestUpsertBatch:
 
         assert result == 0
 
+    def test_http_status_error_triggers_retry(self, csv_writer, mocker):
+        """httpx.HTTPStatusErrorでリトライ"""
+        mock_client = mocker.MagicMock()
+        mock_result = mocker.MagicMock()
+        mock_result.data = [{"episode_id": "1"}]
+        mock_response = mocker.MagicMock()
+        mock_response.status_code = 503
+        mock_client.table.return_value.upsert.return_value.execute.side_effect = [
+            httpx.HTTPStatusError("Service Unavailable", request=mocker.MagicMock(), response=mock_response),
+            mock_result,
+        ]
+        result = csv_writer._upsert_batch(mock_client, [{"episode_id": "1"}])
+        assert result == 1
+        assert mock_client.table.return_value.upsert.return_value.execute.call_count == 2
+
 
 # ============================================================================
-# TestSyncToSupabase (7 cases)
+# TestSyncToSupabase (8 cases)
 # ============================================================================
 
 
@@ -478,6 +515,17 @@ class TestSyncToSupabase:
 
         assert result == (False, 0)
 
+    def test_exact_batch_size_success(self, csv_writer, mocker, caplog):
+        """ちょうど100件（1バッチ）の処理"""
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(csv_writer, "_get_supabase_client", return_value=mock_client)
+        mocker.patch.object(csv_writer, "_upsert_batch", return_value=100)
+        rows = [{"episode_id": f"EP-{i}"} for i in range(100)]
+        with caplog.at_level(logging.INFO):
+            result = csv_writer._sync_to_supabase(rows)
+        assert result == (True, 100)
+        assert csv_writer._upsert_batch.call_count == 1
+
 
 # ============================================================================
 # TestWriteWithSupabaseSync (4 cases)
@@ -515,9 +563,9 @@ class TestWriteWithSupabaseSync:
         }
         return result
 
-    def test_supabase_sync_success(self, csv_writer, mock_generation_result, mocker, caplog):
-        """同期成功"""
-        # バックアップと各種ゲートをモック
+    @pytest.fixture
+    def mock_write_dependencies(self, mocker):
+        """write()メソッド用の共通モック設定"""
         mocker.patch(
             "scripts.sage.persistence.csv_writer.create_pre_operation_backup",
             return_value=mocker.MagicMock(path=Path("/tmp/backup")),
@@ -534,8 +582,6 @@ class TestWriteWithSupabaseSync:
             "scripts.sage.persistence.csv_writer.check_completeness_extended",
             return_value=mocker.MagicMock(passed=True),
         )
-
-        # UnifiedGateをモック
         mock_unified_result = mocker.MagicMock()
         mock_unified_result.is_valid = True
         mocker.patch(
@@ -543,6 +589,9 @@ class TestWriteWithSupabaseSync:
             return_value=mocker.MagicMock(validate=mocker.MagicMock(return_value=mock_unified_result)),
         )
 
+    def test_supabase_sync_success(self, csv_writer, mock_generation_result, mock_write_dependencies, mocker, caplog):
+        """同期成功"""
+        _ = mock_write_dependencies  # fixture適用
         # Supabase同期をモック
         mocker.patch.object(csv_writer, "_sync_to_supabase", return_value=(True, 1))
 
@@ -553,32 +602,9 @@ class TestWriteWithSupabaseSync:
         assert result.supabase_synced is True
         assert result.supabase_sync_count == 1
 
-    def test_supabase_sync_partial_failure(self, csv_writer, mock_generation_result, mocker):
+    def test_supabase_sync_partial_failure(self, csv_writer, mock_generation_result, mock_write_dependencies, mocker):
         """部分失敗でも全体は成功"""
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.create_pre_operation_backup",
-            return_value=mocker.MagicMock(path=Path("/tmp/backup")),
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.check_fictional_lead_row",
-            return_value=(True, ""),
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.auto_fill_all_derived_fields",
-            side_effect=lambda x: x,
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.check_completeness_extended",
-            return_value=mocker.MagicMock(passed=True),
-        )
-
-        mock_unified_result = mocker.MagicMock()
-        mock_unified_result.is_valid = True
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.UnifiedGate",
-            return_value=mocker.MagicMock(validate=mocker.MagicMock(return_value=mock_unified_result)),
-        )
-
+        _ = mock_write_dependencies  # fixture適用
         # 部分成功
         mocker.patch.object(csv_writer, "_sync_to_supabase", return_value=(False, 0))
 
@@ -588,32 +614,9 @@ class TestWriteWithSupabaseSync:
         assert result.supabase_synced is False
         assert result.supabase_sync_count == 0
 
-    def test_supabase_sync_complete_failure(self, csv_writer, mock_generation_result, mocker):
+    def test_supabase_sync_complete_failure(self, csv_writer, mock_generation_result, mock_write_dependencies, mocker):
         """完全失敗でもCSV書き込みは成功"""
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.create_pre_operation_backup",
-            return_value=mocker.MagicMock(path=Path("/tmp/backup")),
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.check_fictional_lead_row",
-            return_value=(True, ""),
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.auto_fill_all_derived_fields",
-            side_effect=lambda x: x,
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.check_completeness_extended",
-            return_value=mocker.MagicMock(passed=True),
-        )
-
-        mock_unified_result = mocker.MagicMock()
-        mock_unified_result.is_valid = True
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.UnifiedGate",
-            return_value=mocker.MagicMock(validate=mocker.MagicMock(return_value=mock_unified_result)),
-        )
-
+        _ = mock_write_dependencies  # fixture適用
         # 完全失敗
         mocker.patch.object(csv_writer, "_sync_to_supabase", return_value=(False, 0))
 
@@ -692,8 +695,9 @@ class TestReplaceEpisodeWithSupabaseSync:
         }
         return result
 
-    def test_supabase_sync_success(self, existing_csv, new_generation_result, mocker):
-        """同期成功"""
+    @pytest.fixture
+    def mock_replace_dependencies(self, mocker):
+        """replace_episode()メソッド用の共通モック設定"""
         mocker.patch(
             "scripts.sage.persistence.csv_writer.create_pre_operation_backup",
             return_value=mocker.MagicMock(path=Path("/tmp/backup")),
@@ -702,7 +706,6 @@ class TestReplaceEpisodeWithSupabaseSync:
             "scripts.sage.persistence.csv_writer.check_fictional_lead_row",
             return_value=(True, ""),
         )
-
         mock_unified_result = mocker.MagicMock()
         mock_unified_result.is_valid = True
         mocker.patch(
@@ -710,6 +713,9 @@ class TestReplaceEpisodeWithSupabaseSync:
             return_value=mocker.MagicMock(validate=mocker.MagicMock(return_value=mock_unified_result)),
         )
 
+    def test_supabase_sync_success(self, existing_csv, new_generation_result, mock_replace_dependencies, mocker):
+        """同期成功"""
+        _ = mock_replace_dependencies  # fixture適用
         # Supabase同期成功
         mocker.patch.object(existing_csv, "_sync_to_supabase", return_value=(True, 1))
 
@@ -720,24 +726,9 @@ class TestReplaceEpisodeWithSupabaseSync:
         assert result.supabase_synced is True
         assert result.supabase_sync_count == 1
 
-    def test_supabase_sync_failure(self, existing_csv, new_generation_result, mocker):
+    def test_supabase_sync_failure(self, existing_csv, new_generation_result, mock_replace_dependencies, mocker):
         """同期失敗でもCSV置換は成功"""
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.create_pre_operation_backup",
-            return_value=mocker.MagicMock(path=Path("/tmp/backup")),
-        )
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.check_fictional_lead_row",
-            return_value=(True, ""),
-        )
-
-        mock_unified_result = mocker.MagicMock()
-        mock_unified_result.is_valid = True
-        mocker.patch(
-            "scripts.sage.persistence.csv_writer.UnifiedGate",
-            return_value=mocker.MagicMock(validate=mocker.MagicMock(return_value=mock_unified_result)),
-        )
-
+        _ = mock_replace_dependencies  # fixture適用
         # Supabase同期失敗
         mocker.patch.object(existing_csv, "_sync_to_supabase", return_value=(False, 0))
 

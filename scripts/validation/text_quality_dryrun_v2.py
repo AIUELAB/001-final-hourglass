@@ -13,6 +13,8 @@
 ルールB: 末尾句点欠落（「」」「！」「？」で終わる場合は除外）
 
 ルールC: 導入文パターンの「は、」→「は」
+
+ルールD: 「〜は」の直後重複（例: 「ダコタ・ファニングはダコタ・ファニングは」）
 """
 
 import csv
@@ -155,6 +157,27 @@ def detect_rule_c(text: str) -> list[dict]:
     return findings
 
 
+def detect_rule_d(text: str) -> list[dict]:
+    """ルールD: 「〜は」の直後重複検出"""
+    findings = []
+    pattern = re.compile(r"([^\s、。]{2,60}は)([ \t]*\n?[ \t]*)(?:\1\2)+")
+    for m in pattern.finditer(text):
+        phrase = m.group(1)
+        ws = m.group(2)
+        original_text = f"{phrase}{ws}{phrase}"
+        fixed_text = f"{phrase}{ws}"
+        findings.append(
+            {
+                "subtype": "D",
+                "original": original_text,
+                "fixed": fixed_text,
+                "pattern": "「〜は」の重複削除",
+                "auto_fix": True,
+            }
+        )
+    return findings
+
+
 def main() -> int:
     """メイン処理（戻り値: 0=問題なし, 1=問題あり）"""
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
@@ -191,6 +214,12 @@ def main() -> int:
                 results["C"].append(finding)
                 episode_ids_by_rule["C"].add(episode_id)
 
+            # ルールD
+            for finding in detect_rule_d(text):
+                finding["episode_id"] = episode_id
+                results["D"].append(finding)
+                episode_ids_by_rule["D"].add(episode_id)
+
     # サブタイプ別集計
     subtype_counts = defaultdict(int)
     for rule, items in results.items():
@@ -213,12 +242,18 @@ def main() -> int:
                 f.write(f"    - {st}: {subtype_counts[st]}件\n")
         f.write(f"  ルールB (句点欠落): {len(results['B'])}件\n")
         f.write(f"  ルールC (導入文は、): {len(results['C'])}件\n")
-        total = len(results["A"]) + len(results["B"]) + len(results["C"])
+        f.write(f"  ルールD (「〜は」重複): {len(results['D'])}件\n")
+        total = len(results["A"]) + len(results["B"]) + len(results["C"]) + len(results["D"])
         f.write(f"  合計: {total}件\n\n")
 
         # 対象episode_id一覧
         f.write("【対象episode_id一覧】\n")
-        all_ids = episode_ids_by_rule["A"] | episode_ids_by_rule["B"] | episode_ids_by_rule["C"]
+        all_ids = (
+            episode_ids_by_rule["A"]
+            | episode_ids_by_rule["B"]
+            | episode_ids_by_rule["C"]
+            | episode_ids_by_rule["D"]
+        )
         f.write(f"  総数: {len(all_ids)}エピソード\n")
         for i, eid in enumerate(sorted(all_ids)[:50]):
             f.write(f"  {eid}\n")
@@ -227,7 +262,7 @@ def main() -> int:
         f.write("\n")
 
         # 詳細（上位10件ずつ）
-        for rule in ["A", "B", "C"]:
+        for rule in ["A", "B", "C", "D"]:
             items = results[rule]
             f.write("-" * 60 + "\n")
             f.write(f"【ルール{rule}】 検出数: {len(items)}件\n")
@@ -250,7 +285,8 @@ def main() -> int:
             print(f"  - {st}: {subtype_counts[st]}件")
     print(f"ルールB (句点欠落): {len(results['B'])}件")
     print(f"ルールC (導入文は、): {len(results['C'])}件")
-    total = len(results["A"]) + len(results["B"]) + len(results["C"])
+    print(f"ルールD (「〜は」重複): {len(results['D'])}件")
+    total = len(results["A"]) + len(results["B"]) + len(results["C"]) + len(results["D"])
     print(f"合計: {total}件 ({len(all_ids)}エピソード)")
     print(f"\n詳細ログ: {report_path}")
 

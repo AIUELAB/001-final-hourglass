@@ -66,6 +66,23 @@
 - **解決ツール**: `python scripts/validation/same_age_duplicate_resolver.py`
 - **重複発見時**: composite_score最高のエピソードを残し、他を削除
 
+### メタ要素検出パターン（EPUP原則: メタ要素完全排除）【RCA-20260123】
+**原因**: セフィロス（EP-260113031851994）・ガンダルフ（EP-260111220937181）のエピソードで販売本数・映画製作情報が混入
+- 販売本数: 「980万本を売上」
+- 映画製作: 「2001年の『ホビット』撮影準備」
+- ゲーム的ステータス: 「魔力92%」
+
+**拡張パターン**（`src/utils/fictional_quality_gate.py` META_PATTERNS）:
+| カテゴリ | 検出例 |
+|---------|-------|
+| 販売・興行成績 | 「〜万本を突破」「興行収入〜」 |
+| 製作プロセス | 「〜年間の開発」「撮影準備」「映画化された」 |
+| ゲーム的ステータス | 「魔力92%」「攻撃力87ポイント」 |
+| 現実イベント | 「東京ゲームショウ」「E3」「アカデミー賞」 |
+
+**検証ツール**: `python scripts/validation/detect_meta_element_violations.py --dry-run`
+**二重チェック**: person_name からも架空キャラ判定し、person_type 誤分類をカバー（RCA-20260122連携）
+
 ### 象徴的業績カバレッジ詳細
 - **マスターデータ**: `preserved/data/iconic_achievements_master.json`
 - **監査コマンド**: `python scripts/validation/audit_iconic_achievements.py`

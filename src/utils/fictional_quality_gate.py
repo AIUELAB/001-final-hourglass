@@ -388,6 +388,20 @@ META_PATTERNS = [
     # 作品メタ情報への言及
     r"(?:ベストセラー|大ヒット作)(?:として|になった)",
     r"(?:アワード|漫画賞|アニメ賞)(?:を受賞|にノミネート)",
+    # ================================================
+    # RCA-20260123: メタ要素検出パターン拡張
+    # ================================================
+    # 販売・興行成績（キャラクター視点では知り得ない現実世界のメタ情報）
+    r"(?:\d+万?本|累計\d+部)(?:を|が)(?:突破|達成|記録|売上)",
+    r"(?:興行収入|興行成績|観客動員)(?:\d+|〜)",
+    r"(?:セールス|販売実績|売上高)",
+    # 製作プロセス（作品外の制作情報）
+    r"(?:\d+年間?の)?(?:開発|製作|撮影)(?:期間|準備|開始)",
+    r"(?:映画化|アニメ化|実写化|ドラマ化)(?:され|が決定|の発表)",
+    # ゲーム的ステータス表示（物語内で不自然な数値表現）
+    r"(?:魔力|攻撃力|防御力|判断力|耐久力)(?:\d+%|\d+ポイント)",
+    # 現実イベント（架空世界に存在しないイベント）
+    r"(?:東京ゲームショウ|E3|コミケ|映画祭|アカデミー賞)",
 ]
 
 
@@ -448,7 +462,7 @@ class FictionalQualityGate:
                 data = json.load(f)
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse work settings JSON: {e}")
-            raise ValueError(f"Work settings file is corrupted: {self.work_settings_path}. " f"JSON error: {e}")
+            raise ValueError(f"Work settings file is corrupted: {self.work_settings_path}. JSON error: {e}")
 
         works = data.get("works", {})
         for title, settings in works.items():

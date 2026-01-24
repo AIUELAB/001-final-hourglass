@@ -58,6 +58,10 @@ def check_person_existence(
         FactCheckResult: 検証結果
     """
     if not PERPLEXITY_API_KEY:
+        logger.error(
+            "PERPLEXITY_API_KEY not configured. Fact checking is disabled. " "Set via environment variable or %s",
+            API_KEY_PATH,
+        )
         return FactCheckResult(
             person_name=person_name,
             is_real=False,
@@ -110,8 +114,44 @@ def check_person_existence(
         )
         response.raise_for_status()
 
-        result = response.json()
-        content = result["choices"][0]["message"]["content"]
+        try:
+            result = response.json()
+        except json.JSONDecodeError as e:
+            logger.error(
+                "Perplexity API returned invalid JSON: person_name=%s error=%s",
+                person_name,
+                str(e),
+            )
+            return FactCheckResult(
+                person_name=person_name,
+                is_real=False,
+                confidence="low",
+                evidence="API応答がJSONではありません",
+                wikipedia_exists=False,
+                category_match=False,
+                recommendation="UNVERIFIED",
+                parse_error=True,
+            )
+
+        try:
+            content = result["choices"][0]["message"]["content"]
+        except (KeyError, IndexError) as e:
+            logger.error(
+                "Unexpected Perplexity API response structure: person_name=%s error=%s response=%s",
+                person_name,
+                str(e),
+                str(result)[:200],
+            )
+            return FactCheckResult(
+                person_name=person_name,
+                is_real=False,
+                confidence="low",
+                evidence="API応答構造が予期と異なります",
+                wikipedia_exists=False,
+                category_match=False,
+                recommendation="UNVERIFIED",
+                parse_error=True,
+            )
 
         # JSON部分を抽出
         try:
@@ -175,6 +215,13 @@ def check_person_existence(
         )
 
     except requests.RequestException as e:
+        logger.error(
+            "Perplexity API error: person_name=%s category=%s error_type=%s error=%s",
+            person_name,
+            category,
+            type(e).__name__,
+            str(e),
+        )
         return FactCheckResult(
             person_name=person_name,
             is_real=False,
@@ -183,6 +230,7 @@ def check_person_existence(
             wikipedia_exists=False,
             category_match=False,
             recommendation="UNVERIFIED",
+            parse_error=True,
         )
 
 

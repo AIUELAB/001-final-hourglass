@@ -4,6 +4,7 @@
 本番環境では適切なパスワードハッシュ化を実装すること
 """
 
+import functools
 import logging
 import os
 from datetime import datetime, timedelta, timezone
@@ -20,15 +21,24 @@ logger = logging.getLogger(__name__)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/token")
 
 # JWT設定
-_secret_key = os.getenv("JWT_SECRET_KEY")
-if not _secret_key:
-    raise ValueError(
-        "JWT_SECRET_KEY environment variable is required. "
-        'Generate with: python -c "import secrets; print(secrets.token_hex(32))"'
-    )
-SECRET_KEY: str = _secret_key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+
+@functools.lru_cache(maxsize=1)
+def get_secret_key() -> str:
+    """JWT秘密鍵を取得（遅延評価・キャッシュ付き）
+
+    環境変数JWT_SECRET_KEYから秘密鍵を取得する。
+    未設定の場合はValueErrorを発生させる。
+    """
+    key = os.getenv("JWT_SECRET_KEY")
+    if not key:
+        raise ValueError(
+            "JWT_SECRET_KEY environment variable is required. "
+            'Generate with: python -c "import secrets; print(secrets.token_hex(32))"'
+        )
+    return key
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -48,7 +58,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, get_secret_key(), algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -66,7 +76,7 @@ def verify_token(token: str, credentials_exception: HTTPException) -> str:
         credentials_exception: トークン検証失敗時
     """
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, get_secret_key(), algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -76,6 +86,9 @@ def verify_token(token: str, credentials_exception: HTTPException) -> str:
         raise credentials_exception
     except (DecodeError, InvalidTokenError) as e:
         logger.warning(f"Invalid token: {e}")
+        raise credentials_exception
+    except Exception as e:
+        logger.error(f"Unexpected error during token verification: {type(e).__name__}: {e}")
         raise credentials_exception
 
 

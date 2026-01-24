@@ -127,8 +127,15 @@ def verify_token(token: str, credentials_exception: HTTPException) -> str:
             detail="サーバーリソース不足です。後でお試しください",
         )
     except Exception as e:
-        logger.error(f"Unexpected error during token verification: {type(e).__name__}: {e}")
-        raise credentials_exception
+        # 予期しないエラーは500エラー（認証エラーと区別）
+        logger.error(
+            f"Unexpected error during token verification: {type(e).__name__}: {e}",
+            exc_info=True,  # スタックトレースも記録
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="トークン検証中に予期しないエラーが発生しました",
+        )
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:

@@ -163,14 +163,16 @@ def main():
             target["ages_mentioned"],
         )
 
-        fix_suggestions.append({
-            "episode_id": ep_id,
-            "person_name": target["person_name"],
-            "field_age": target["field_age"],
-            "ages_mentioned": target["ages_mentioned"],
-            "max_deviation": target["max_deviation"],
-            "suggestion": suggestion,
-        })
+        fix_suggestions.append(
+            {
+                "episode_id": ep_id,
+                "person_name": target["person_name"],
+                "field_age": target["field_age"],
+                "ages_mentioned": target["ages_mentioned"],
+                "max_deviation": target["max_deviation"],
+                "suggestion": suggestion,
+            }
+        )
 
     # 集計
     action_counts = {}

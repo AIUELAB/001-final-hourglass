@@ -91,11 +91,13 @@ def analyze_episode(row):
     # フィールド年齢以外の年齢が言及されているか
     other_ages = [a for a in unique_ages if field_age is None or abs(a - field_age) > 2]
     if other_ages:
-        issues.append({
-            "type": "multiple_ages",
-            "detail": f"field_age={field_age}, other_ages={sorted(other_ages)}",
-            "severity": "high" if len(other_ages) >= 2 else "medium",
-        })
+        issues.append(
+            {
+                "type": "multiple_ages",
+                "detail": f"field_age={field_age}, other_ages={sorted(other_ages)}",
+                "severity": "high" if len(other_ages) >= 2 else "medium",
+            }
+        )
         score += len(other_ages) * 2
 
     # 2. 本文中の年（西暦）言及をチェック
@@ -106,11 +108,13 @@ def analyze_episode(row):
     if len(unique_years) >= 2:
         year_range = max(unique_years) - min(unique_years)
         if year_range >= 5:
-            issues.append({
-                "type": "wide_year_range",
-                "detail": f"years={sorted(unique_years)}, range={year_range}years",
-                "severity": "high" if year_range >= 10 else "medium",
-            })
+            issues.append(
+                {
+                    "type": "wide_year_range",
+                    "detail": f"years={sorted(unique_years)}, range={year_range}years",
+                    "severity": "high" if year_range >= 10 else "medium",
+                }
+            )
             score += year_range // 5
 
     # 3. 時系列ジャンプ語のカウント
@@ -120,11 +124,13 @@ def analyze_episode(row):
         time_jump_count += len(matches)
 
     if time_jump_count >= 3:
-        issues.append({
-            "type": "time_jump_heavy",
-            "detail": f"time_jump_count={time_jump_count}",
-            "severity": "high" if time_jump_count >= 5 else "medium",
-        })
+        issues.append(
+            {
+                "type": "time_jump_heavy",
+                "detail": f"time_jump_count={time_jump_count}",
+                "severity": "high" if time_jump_count >= 5 else "medium",
+            }
+        )
         score += time_jump_count
 
     # 4. 作品名の列挙チェック
@@ -134,11 +140,13 @@ def analyze_episode(row):
     unique_works = set(works)
 
     if len(unique_works) >= 3:
-        issues.append({
-            "type": "multiple_works",
-            "detail": f"works={list(unique_works)[:5]}",
-            "severity": "high" if len(unique_works) >= 5 else "medium",
-        })
+        issues.append(
+            {
+                "type": "multiple_works",
+                "detail": f"works={list(unique_works)[:5]}",
+                "severity": "high" if len(unique_works) >= 5 else "medium",
+            }
+        )
         score += len(unique_works)
 
     # 5. 受賞・業績の列挙チェック
@@ -147,11 +155,13 @@ def analyze_episode(row):
         award_count += len(re.findall(pattern, text))
 
     if award_count >= 3:
-        issues.append({
-            "type": "multiple_awards",
-            "detail": f"award_mentions={award_count}",
-            "severity": "medium",
-        })
+        issues.append(
+            {
+                "type": "multiple_awards",
+                "detail": f"award_mentions={award_count}",
+                "severity": "medium",
+            }
+        )
         score += award_count
 
     return {
@@ -183,18 +193,20 @@ def main():
         analysis = analyze_episode(row)
 
         if analysis["score"] >= 5:  # 寄せ集め度が高いもののみ
-            candidates.append({
-                "episode_id": ep_id,
-                "person_name": person_name,
-                "age": age,
-                "score": analysis["score"],
-                "issues": analysis["issues"],
-                "ages_mentioned": analysis["ages_mentioned"],
-                "years_mentioned": analysis["years_mentioned"],
-                "works_count": analysis["works_count"],
-                "time_jumps": analysis["time_jumps"],
-                "text_snippet": row.get("episode_text", "")[:150],
-            })
+            candidates.append(
+                {
+                    "episode_id": ep_id,
+                    "person_name": person_name,
+                    "age": age,
+                    "score": analysis["score"],
+                    "issues": analysis["issues"],
+                    "ages_mentioned": analysis["ages_mentioned"],
+                    "years_mentioned": analysis["years_mentioned"],
+                    "works_count": analysis["works_count"],
+                    "time_jumps": analysis["time_jumps"],
+                    "text_snippet": row.get("episode_text", "")[:150],
+                }
+            )
 
     # スコア順にソート
     candidates.sort(key=lambda x: x["score"], reverse=True)

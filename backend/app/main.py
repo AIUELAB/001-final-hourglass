@@ -75,6 +75,7 @@ from app.utils.auth_simple import (
     get_current_user,
     get_user,
     require_role,
+    validate_jwt_config,
 )
 from app.utils.csv_loader import get_csv_modification_time, get_default_csv_path, import_csv_to_db
 from app.utils.data_quality import DataQualityManager
@@ -125,6 +126,10 @@ app.include_router(logs_router.router, prefix="/api/logs", tags=["logs"])
 async def startup():
     """アプリケーション起動時の処理"""
     print("🚀 FastAPI起動中...")
+
+    # JWT設定検証（最初に実行 - Fail-Fast）
+    validate_jwt_config()
+    print("✓ JWT設定検証完了")
 
     # データベース接続
     db.connect()

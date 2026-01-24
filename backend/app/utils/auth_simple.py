@@ -207,6 +207,27 @@ def require_role(allowed_roles: list[str]):
     return role_checker
 
 
+def _validate_fake_users_environment() -> None:
+    """本番環境でのFAKE_USERS_DB使用を防止（Fail-Fast）
+
+    モジュールロード時に呼び出され、本番環境では
+    RuntimeErrorを発生させて起動を阻止する。
+
+    Raises:
+        RuntimeError: ENVIRONMENT=productionの場合
+    """
+    environment = os.getenv("ENVIRONMENT", "development").lower()
+    if environment == "production":
+        raise RuntimeError(
+            "FAKE_USERS_DB cannot be used in production environment. "
+            "Set up proper authentication with bcrypt/passlib."
+        )
+    logger.warning("Using FAKE_USERS_DB (development only). " "Do not use in production.")
+
+
+# モジュールロード時に検証（本番環境で誤用された場合は即座に失敗）
+_validate_fake_users_environment()
+
 # ユーザーデータベース（簡易版・開発環境専用）
 # 注意: 本番環境では適切なパスワードハッシュ化を実装すること
 FAKE_USERS_DB = {

@@ -62,7 +62,6 @@ jobs:
       - name: Run mypy type checking
         run: |
           mypy src/ --ignore-missing-imports
-        continue-on-error: true
 
   # ============================================
   # Job 2: 単体テスト（マトリックステスト）
@@ -110,7 +109,7 @@ jobs:
           file: ./coverage.xml
           flags: unittests
           name: codecov-umbrella
-        continue-on-error: true
+          fail_ci_if_error: false
 
   # ============================================
   # Job 3: セキュリティスキャン

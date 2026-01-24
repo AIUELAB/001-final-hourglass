@@ -30,6 +30,7 @@ if not PERPLEXITY_API_KEY and API_KEY_PATH.exists():
 @dataclass
 class FactCheckResult:
     """ファクトチェック結果"""
+
     person_name: str
     is_real: bool  # 実在する人物か
     confidence: str  # high, medium, low
@@ -94,9 +95,7 @@ def check_person_existence(
 
     payload = {
         "model": "llama-3.1-sonar-small-128k-online",
-        "messages": [
-            {"role": "user", "content": prompt}
-        ],
+        "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1,
         "max_tokens": 500,
     }
@@ -194,7 +193,7 @@ def batch_fact_check(
         category = record.get("category", "")
         episode_text = record.get("episode_text", "")
 
-        logger.info(f"[{i+1}/{min(len(records), max_records)}] Checking: {person_name}")
+        logger.info(f"[{i + 1}/{min(len(records), max_records)}] Checking: {person_name}")
 
         result = check_person_existence(person_name, category, episode_text)
         results.append(result)
@@ -222,7 +221,7 @@ if __name__ == "__main__":
 
     if args.person:
         result = check_person_existence(args.person, args.category)
-        print(f"\n=== ファクトチェック結果 ===")
+        print("\n=== ファクトチェック結果 ===")
         print(f"人物名: {result.person_name}")
         print(f"実在: {result.is_real}")
         print(f"信頼度: {result.confidence}")
@@ -234,9 +233,7 @@ if __name__ == "__main__":
         # 疑わしいレコードを読み込み
         df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", encoding="utf-8-sig")
         suspicious = df[
-            (df["person_type"] == "REAL") &
-            (df["fame_score_v3"] < 1.0) &
-            (df["fact_check_result"] == "要再検証")
+            (df["person_type"] == "REAL") & (df["fame_score_v3"] < 1.0) & (df["fact_check_result"] == "要再検証")
         ]
 
         print(f"疑わしいレコード: {len(suspicious)}件")

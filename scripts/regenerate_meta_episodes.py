@@ -135,10 +135,10 @@ def submit_batch_job(candidates: list[dict], dry_run: bool = True) -> str:
 - 作品内の冒険、戦い、成長、関係性の変化などを具体的に描写してください
 """
 
-        user_prompt = f"""{cand['person_name']}『{cand['category']}』の{cand['age']}歳のときのエピソードを生成してください。
+        user_prompt = f"""{cand["person_name"]}『{cand["category"]}』の{cand["age"]}歳のときのエピソードを生成してください。
 {fictional_instruction}
 必ず以下の形式で開始:
-「あなたと同じ{cand['age']}歳のとき、{cand['person_name']}は」
+「あなたと同じ{cand["age"]}歳のとき、{cand["person_name"]}は」
 
 物語内の具体的な出来事（戦い、冒険、成長、関係性の変化など）を300-400文字で記述してください。"""
 
@@ -188,11 +188,7 @@ def save_tracking_file(batch_id: str, count: int) -> Path | None:
         "type": "meta_episode_regeneration",
     }
     tracking_path = (
-        PROJECT_ROOT
-        / "src"
-        / "reports"
-        / "logs"
-        / f"regen_batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        PROJECT_ROOT / "src" / "reports" / "logs" / f"regen_batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     )
 
     try:

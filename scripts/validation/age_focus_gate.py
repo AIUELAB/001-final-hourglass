@@ -101,15 +101,17 @@ def check_all_episodes(csv_path: str) -> list:
         for row in reader:
             result = validate_age_focus(row)
             if result["warning"]:
-                issues.append({
-                    "episode_id": row.get("episode_id", ""),
-                    "person_name": row.get("person_name", ""),
-                    "field_age": row.get("age", ""),
-                    "valid": result["valid"],
-                    "warning": result["warning"],
-                    "other_ages": result["other_ages"],
-                    "deviation": result["deviation"],
-                })
+                issues.append(
+                    {
+                        "episode_id": row.get("episode_id", ""),
+                        "person_name": row.get("person_name", ""),
+                        "field_age": row.get("age", ""),
+                        "valid": result["valid"],
+                        "warning": result["warning"],
+                        "other_ages": result["other_ages"],
+                        "deviation": result["deviation"],
+                    }
+                )
     return issues
 
 
@@ -136,7 +138,7 @@ if __name__ == "__main__":
 
     if warned:
         print("\n【警告対象（上位10件）】")
-        for i in sorted(warned, key=lambda x: -x['deviation'])[:10]:
+        for i in sorted(warned, key=lambda x: -x["deviation"])[:10]:
             print(f"  {i['episode_id']} ({i['person_name']}, {i['field_age']}歳)")
             print(f"    {i['warning']}")
 

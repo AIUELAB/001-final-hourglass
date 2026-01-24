@@ -38,6 +38,7 @@ class FactCheckResult:
     wikipedia_exists: bool  # Wikipedia記事の存在
     category_match: bool  # カテゴリが一致するか
     recommendation: str  # REAL, FICTIONAL, UNVERIFIED
+    parse_error: bool = False  # 応答解析エラーフラグ
 
 
 def check_person_existence(
@@ -144,8 +145,22 @@ def check_person_existence(
                     category_match=category_match,
                     recommendation=recommendation,
                 )
-        except json.JSONDecodeError:
-            pass
+            # JSONが見つからなかった場合は、後続で「応答解析エラー」として処理する
+            logger.warning(
+                "Perplexity応答にJSONが含まれていません: person_name=%s category=%s content_preview=%s",
+                person_name,
+                category,
+                content[:200].replace("\n", " "),
+            )
+        except json.JSONDecodeError as e:
+            # サイレント失敗を避ける（RCA-20260123）
+            logger.warning(
+                "Perplexity応答のJSON解析に失敗: person_name=%s category=%s error=%s content_preview=%s",
+                person_name,
+                category,
+                str(e),
+                content[:200].replace("\n", " "),
+            )
 
         # JSONパースに失敗した場合
         return FactCheckResult(
@@ -156,6 +171,7 @@ def check_person_existence(
             wikipedia_exists=False,
             category_match=False,
             recommendation="UNVERIFIED",
+            parse_error=True,
         )
 
     except requests.RequestException as e:

@@ -26,3 +26,29 @@ if str(scripts_path) not in sys.path:
 generate_path = project_root / "scripts" / "generate"
 if str(generate_path) not in sys.path:
     sys.path.insert(0, str(generate_path))
+
+
+# ============================================
+# Test Fixtures
+# ============================================
+
+import pandas as pd
+import pytest
+
+
+@pytest.fixture
+def mock_deletion_df():
+    """CI環境用モックデータ（世界的偉人の削除防止テスト用）"""
+    return pd.DataFrame(
+        {
+            "人物名": [
+                "アルベルト・アインシュタイン",
+                "マリー・キュリー",
+                "スティーブ・ジョブズ",
+                "イーロン・マスク",
+                "テスト削除対象",
+            ],
+            "ステータス": ["保持", "保持", "保持", "保持", "削除済み"],
+            "削除理由": ["", "", "", "", "架空キャラクター"],
+        }
+    )

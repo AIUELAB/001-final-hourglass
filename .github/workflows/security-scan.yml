@@ -96,7 +96,12 @@ jobs:
         run: pip install pip-audit
 
       - name: Run pip-audit
-        run: pip-audit -r requirements.txt --desc
+        run: |
+          # CVE-2026-0994 除外理由:
+          #   - 対象: protobuf json_format.ParseDict() DoS脆弱性
+          #   - Fix版: 未公開（protobuf 5.x.x予定）
+          #   - 見直し日: 2026-02-28
+          pip-audit -r requirements.txt --desc --ignore-vuln CVE-2026-0994
 
   safety-check:
     runs-on: ubuntu-latest

@@ -136,29 +136,167 @@ jobs:
           python -m pip install --upgrade pip
           pip install bandit[toml] pip-audit safety
 
-      # NOTE: セキュリティスキャンは段階的厳格化中
-      # 現在は通知のみ（continue-on-error: true）
-      # 脆弱性修正後に continue-on-error: false に変更予定
-      - name: Run Bandit (Python Security)
+      # NOTE:
+      # - 以前は continue-on-error + `|| true` で「失敗が完全に無視される」状態だった
+      # - ここでは “レポートは必ず生成” しつつ、最後に集計して必要ならCIを落とす（サイレント失敗防止）
+      - name: Run Security Scanners (capture exit codes)
+        id: security_scanners
+        shell: bash
         run: |
-          bandit -r src/ -f json -o bandit-report.json || true
-        continue-on-error: true
+          set +e
 
-      - name: Run pip-audit (Dependency Security)
-        run: |
-          pip-audit --desc --format json --output pip-audit-report.json || true
-        continue-on-error: true
+          # Bandit（Pythonコードの静的セキュリティ検査）
+          bandit -r src/ -f json -o bandit-report.json
+          echo "bandit_exit_code=$?" >> "$GITHUB_OUTPUT"
 
-      - name: Run Safety check
+          # pip-audit（requirements.txt を監査）
+          # CVE-2026-0994 除外理由:
+          #   - 対象: protobuf json_format.ParseDict() DoS脆弱性
+          #   - Fix版: 未公開（protobuf 5.x.x予定）
+          #   - 見直し日: 2026-02-28
+          pip-audit -r requirements.txt --desc --ignore-vuln CVE-2026-0994 --format json --output pip-audit-report.json
+          echo "pip_audit_exit_code=$?" >> "$GITHUB_OUTPUT"
+
+          # Safety（requirements.txt を監査）
+          # NOTE: safety v3 は deprecated 警告を stdout に混ぜるため、そのままだとJSONが壊れる
+          # そのため一度 raw を保存し、JSON部分だけを抽出して safety-report.json に整形する
+          safety check -r requirements.txt --json > safety-report.raw.txt
+          echo "safety_exit_code=$?" >> "$GITHUB_OUTPUT"
+          python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          from pathlib import Path
+
+          raw = Path("safety-report.raw.txt").read_text("utf-8", errors="replace")
+          start = raw.find("{")
+          end = raw.rfind("}") + 1
+          if start < 0 or end <= start:
+              raise SystemExit("Safety出力からJSONを抽出できませんでした（stdoutにJSONが存在しない）")
+          json_str = raw[start:end]
+          data = json.loads(json_str)
+          Path("safety-report.json").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+          PY
+
+          set -e
+
+      - name: Evaluate security reports (fail if findings)
+        shell: bash
+        env:
+          BANDIT_EXIT_CODE: ${{ steps.security_scanners.outputs.bandit_exit_code }}
+          PIP_AUDIT_EXIT_CODE: ${{ steps.security_scanners.outputs.pip_audit_exit_code }}
+          SAFETY_EXIT_CODE: ${{ steps.security_scanners.outputs.safety_exit_code }}
         run: |
-          safety check --json > safety-report.json || true
-        continue-on-error: true
+          python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          import os
+          from pathlib import Path
+
+          def load_json(path: Path) -> dict | list | None:
+              if not path.exists():
+                  return None
+              try:
+                  return json.loads(path.read_text("utf-8", errors="replace"))
+              except json.JSONDecodeError:
+                  return None
+
+          bandit = load_json(Path("bandit-report.json"))
+          pip_audit = load_json(Path("pip-audit-report.json"))
+          safety = load_json(Path("safety-report.json"))
+
+          # “サイレント失敗”防止: レポートが生成されない/壊れている場合はCIを落とす
+          if bandit is None:
+              raise SystemExit("bandit-report.json が読み取れません（未生成 or JSON破損）")
+          if pip_audit is None:
+              raise SystemExit("pip-audit-report.json が読み取れません（未生成 or JSON破損）")
+          if safety is None:
+              raise SystemExit("safety-report.json が読み取れません（未生成 or JSON破損）")
+
+          def parse_exit_code(name: str) -> int:
+              raw = os.environ.get(name, "")
+              if raw == "":
+                  raise SystemExit(f"{name} が取得できません（スキャナ実行が不完全の可能性）")
+              try:
+                  return int(raw)
+              except ValueError:
+                  raise SystemExit(f"{name} の形式が不正です: {raw!r}")
+
+          bandit_exit = parse_exit_code("BANDIT_EXIT_CODE")
+          pip_audit_exit = parse_exit_code("PIP_AUDIT_EXIT_CODE")
+          safety_exit = parse_exit_code("SAFETY_EXIT_CODE")
+
+          # Bandit集計
+          bandit_issue_count = 0
+          bandit_high = 0
+          bandit_medium = 0
+          bandit_low = 0
+          if isinstance(bandit, dict):
+              results = bandit.get("results") or []
+              if isinstance(results, list):
+                  bandit_issue_count = len(results)
+                  for r in results:
+                      if not isinstance(r, dict):
+                          continue
+                      sev = str(r.get("issue_severity", "")).upper()
+                      if sev == "HIGH":
+                          bandit_high += 1
+                      elif sev == "MEDIUM":
+                          bandit_medium += 1
+                      elif sev == "LOW":
+                          bandit_low += 1
+
+          # pip-audit集計（JSONは list の場合が多い）
+          pip_audit_vuln_count = 0
+          if isinstance(pip_audit, list):
+              # 形式: [{"name": "...", "version": "...", "vulns": [...]}, ...]
+              for pkg in pip_audit:
+                  if isinstance(pkg, dict):
+                      vulns = pkg.get("vulns")
+                      if isinstance(vulns, list):
+                          pip_audit_vuln_count += len(vulns)
+
+          # safety集計（JSON形式が揺れるので保守的に）
+          safety_vuln_count = 0
+          if isinstance(safety, dict):
+              for key in ("vulnerabilities", "vulns"):
+                  vulns = safety.get(key)
+                  if isinstance(vulns, list):
+                      safety_vuln_count = len(vulns)
+                      break
+
+          summary_lines = [
+              "## 🔒 Security Scan Summary",
+              "",
+              f"- Exit codes: bandit={bandit_exit}, pip-audit={pip_audit_exit}, safety={safety_exit}",
+              f"- Bandit issues: {bandit_issue_count} (HIGH={bandit_high}, MEDIUM={bandit_medium}, LOW={bandit_low})",
+              f"- pip-audit vulnerabilities: {pip_audit_vuln_count}",
+              f"- safety vulnerabilities: {safety_vuln_count}",
+              "",
+          ]
+          Path("security-scan-summary.md").write_text("\n".join(summary_lines), encoding="utf-8")
+          print("\n".join(summary_lines))
+
+          # 失敗条件（まずは“完全にクリーン”を目標に、検出があれば落とす）
+          # 例外が必要になったら「許容ポリシー（閾値・無視リスト）」を別途設ける
+          if bandit_issue_count > 0 or pip_audit_vuln_count > 0 or safety_vuln_count > 0:
+              raise SystemExit(
+                  f"Security findings detected: bandit={bandit_issue_count}, pip-audit={pip_audit_vuln_count}, safety={safety_vuln_count}"
+              )
+
+          # 例: スキャナ実行が失敗していた場合（ネットワーク等）は検出0でも落とす
+          if bandit_exit != 0 or pip_audit_exit != 0 or safety_exit != 0:
+              raise SystemExit(
+                  f"Security scanners returned non-zero exit codes: bandit={bandit_exit}, pip-audit={pip_audit_exit}, safety={safety_exit}"
+              )
+          PY
 
       - name: Run Gitleaks (Secret Scanning)
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Upload security reports
         uses: actions/upload-artifact@v4
@@ -167,7 +305,16 @@ jobs:
           name: security-reports
           path: |
             *-report.json
+            safety-report.raw.txt
+            security-scan-summary.md
           retention-days: 30
+
+      - name: Post security summary to GitHub Step Summary
+        if: always()
+        run: |
+          if [ -f security-scan-summary.md ]; then
+            cat security-scan-summary.md >> $GITHUB_STEP_SUMMARY
+          fi
 
   # ============================================
   # Job 4: CHANGELOG検証（Phase 6 P1準拠）

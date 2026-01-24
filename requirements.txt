@@ -84,3 +84,4 @@ praw==7.7.1
 
 # Note: google-auth, google-auth-oauthlib, google-auth-httplib2, google-api-python-client
 # are already installed above for Google Sheets integration
+scikit-learn>=1.3.0

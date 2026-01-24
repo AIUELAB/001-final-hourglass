@@ -41,6 +41,28 @@ def get_secret_key() -> str:
     return key
 
 
+def validate_jwt_config() -> None:
+    """起動時にJWT設定を検証（Fail-Fast）
+
+    アプリケーション起動時に呼び出すことで、
+    設定エラーを早期検出する。
+
+    Raises:
+        ValueError: JWT_SECRET_KEYが未設定の場合
+
+    Example:
+        # main.py または startup.py
+        from backend.app.utils.auth_simple import validate_jwt_config
+        validate_jwt_config()  # 失敗時は即座にValueError
+    """
+    try:
+        get_secret_key()
+        logger.info("JWT configuration validated successfully")
+    except ValueError as e:
+        logger.critical(f"JWT configuration error: {e}")
+        raise
+
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """JWTアクセストークンを生成
 
@@ -97,6 +119,13 @@ def verify_token(token: str, credentials_exception: HTTPException) -> str:
     except (KeyboardInterrupt, SystemExit):
         # シグナルは再raise
         raise
+    except (MemoryError, RecursionError) as e:
+        # システムリソース不足は503エラー
+        logger.critical(f"System resource error in token verification: {type(e).__name__}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="サーバーリソース不足です。後でお試しください",
+        )
     except Exception as e:
         logger.error(f"Unexpected error during token verification: {type(e).__name__}: {e}")
         raise credentials_exception

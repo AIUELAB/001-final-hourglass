@@ -73,3 +73,42 @@ all: format lint type test ## Run all checks
 
 .PHONY: ci
 ci: lint type test security ## Run CI checks
+
+.PHONY: ci-full
+ci-full: ## Run full CI pipeline (same as GitHub Actions)
+	@echo "🔍 Running full CI pipeline..."
+	@echo ""
+	@echo "📋 Step 1: Pre-commit hooks"
+	pre-commit run --all-files
+	@echo ""
+	@echo "📋 Step 2: Ruff format check"
+	ruff format --check . --exclude "*/_archived/*" --exclude "archive/*"
+	@echo ""
+	@echo "📋 Step 3: Ruff lint"
+	ruff check . --exclude "*/_archived/*" --exclude "archive/*"
+	@echo ""
+	@echo "📋 Step 4: Type check"
+	mypy src/ --ignore-missing-imports
+	@echo ""
+	@echo "📋 Step 5: Tests"
+	pytest tests/ -v
+	@echo ""
+	@echo "📋 Step 6: Security - Bandit"
+	bandit -r src/ -f json -o bandit-report.json
+	@echo ""
+	@echo "📋 Step 7: Security - pip-audit"
+	pip-audit -r requirements.txt --desc
+	@echo ""
+	@echo "📋 Step 8: Security - Safety"
+	safety check -r requirements.txt --json
+	@echo ""
+	@echo "✅ All CI checks passed!"
+
+.PHONY: ci-quick
+ci-quick: ## Run quick CI checks (no security)
+	@echo "🔍 Running quick CI..."
+	pre-commit run --all-files
+	ruff format --check . --exclude "*/_archived/*" --exclude "archive/*"
+	ruff check . --exclude "*/_archived/*" --exclude "archive/*"
+	pytest tests/ -v
+	@echo "✅ Quick CI passed!"

@@ -48,12 +48,12 @@ jobs:
 
       - name: Run Ruff format check
         run: |
-          ruff format --check . --exclude "*/_archived/*"
+          ruff format --check . --exclude "*/_archived/*" --exclude "archive/*"
         continue-on-error: false
 
       - name: Run Ruff lint
         run: |
-          ruff check . --exclude "*/_archived/*"
+          ruff check . --exclude "*/_archived/*" --exclude "archive/*"
         continue-on-error: false
 
       - name: Run mypy type checking
@@ -132,24 +132,24 @@ jobs:
 
       - name: Run Bandit (Python Security)
         run: |
-          bandit -r src/ -f json -o bandit-report.json || true
-        continue-on-error: true
+          bandit -r src/ -f json -o bandit-report.json
+        continue-on-error: false
 
       - name: Run pip-audit (Dependency Security)
         run: |
-          pip-audit --desc --format json --output pip-audit-report.json || true
-        continue-on-error: true
+          pip-audit --desc --format json --output pip-audit-report.json
+        continue-on-error: false
 
       - name: Run Safety check
         run: |
-          safety check --json > safety-report.json || true
-        continue-on-error: true
+          safety check --json > safety-report.json
+        continue-on-error: false
 
       - name: Run Gitleaks (Secret Scanning)
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Upload security reports
         uses: actions/upload-artifact@v4

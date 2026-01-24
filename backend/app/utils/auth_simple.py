@@ -87,6 +87,16 @@ def verify_token(token: str, credentials_exception: HTTPException) -> str:
     except (DecodeError, InvalidTokenError) as e:
         logger.warning(f"Invalid token: {e}")
         raise credentials_exception
+    except ValueError as e:
+        # JWT_SECRET_KEY未設定などの設定エラーは500エラー
+        logger.error(f"Configuration error in token verification: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="サーバー設定エラーが発生しました",
+        )
+    except (KeyboardInterrupt, SystemExit):
+        # シグナルは再raise
+        raise
     except Exception as e:
         logger.error(f"Unexpected error during token verification: {type(e).__name__}: {e}")
         raise credentials_exception

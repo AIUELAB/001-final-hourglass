@@ -9,11 +9,14 @@ import asyncio
 import csv
 import io
 import json
+import logging
 import os
 import sys
 from datetime import timedelta
 from pathlib import Path
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
@@ -164,44 +167,72 @@ async def startup():
 
 def on_csv_updated(mtime: float):
     """CSV更新時のコールバック（同期的に呼ばれる）"""
-    csv_path = get_default_csv_path()
-    csv_cache.invalidate(str(csv_path))
-    metadata = csv_cache.get_metadata(str(csv_path))
-    print(f"🔔 CSV更新検出: mtime={mtime}")
+    try:
+        csv_path = get_default_csv_path()
+        csv_cache.invalidate(str(csv_path))
+        metadata = csv_cache.get_metadata(str(csv_path))
+        print(f"🔔 CSV更新検出: mtime={mtime}")
 
-    # 非同期ブロードキャストをスケジュール
-    loop = asyncio.get_event_loop()
-    if loop.is_running():
-        asyncio.create_task(
-            sse_manager.broadcast(
-                "data_updated",
-                {
-                    "type": "csv_updated",
-                    "mtime": mtime,
-                    "checksum": metadata.get("checksum"),
-                    "row_count": metadata.get("row_count"),
-                },
+        # 非同期ブロードキャストをスケジュール
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            asyncio.create_task(
+                sse_manager.broadcast(
+                    "data_updated",
+                    {
+                        "type": "csv_updated",
+                        "mtime": mtime,
+                        "checksum": metadata.get("checksum"),
+                        "row_count": metadata.get("row_count"),
+                    },
+                )
             )
-        )
+        else:
+            logger.warning("イベントループが実行中でないためSSEブロードキャストをスキップしました")
+    except Exception as e:
+        logger.error(f"CSV更新コールバックでエラー発生: {e}", exc_info=True)
 
 
 @app.on_event("shutdown")
 async def shutdown():
     """アプリケーション終了時の処理"""
+    errors: list[Exception] = []
+
     # ファイル監視停止
-    csv_path = get_default_csv_path()
-    file_watcher = get_file_watcher(csv_path)
-    file_watcher.stop()
+    try:
+        csv_path = get_default_csv_path()
+        file_watcher = get_file_watcher(csv_path)
+        file_watcher.stop()
+    except Exception as e:
+        logger.error(f"ファイル監視停止エラー: {e}")
+        errors.append(e)
 
     # SSEハートビート停止
-    await sse_manager.stop_heartbeat()
+    try:
+        await sse_manager.stop_heartbeat()
+    except Exception as e:
+        logger.error(f"SSEハートビート停止エラー: {e}")
+        errors.append(e)
 
     # ログ収集システム停止
-    await log_sse_manager.stop_heartbeat()
-    log_db.disconnect()
-    print("📝 ログ収集システム停止")
+    try:
+        await log_sse_manager.stop_heartbeat()
+        log_db.disconnect()
+        print("📝 ログ収集システム停止")
+    except Exception as e:
+        logger.error(f"ログ収集システム停止エラー: {e}")
+        errors.append(e)
 
-    db.disconnect()
+    # データベース切断
+    try:
+        db.disconnect()
+    except Exception as e:
+        logger.error(f"データベース切断エラー: {e}")
+        errors.append(e)
+
+    if errors:
+        logger.warning(f"シャットダウン中に{len(errors)}件のエラーが発生しました")
+
     print("👋 APIサーバー停止")
 
 
@@ -402,8 +433,11 @@ async def refresh_data():
 
         return {"success": True, "count": count, "message": f"データを再読み込みしました（{count}件）"}
 
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"データ再読み込みエラー: {str(e)}")
+        logger.error(f"データ再読み込みエラー: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="データ再読み込み中にエラーが発生しました")
 
 
 # ========================================
@@ -1021,7 +1055,8 @@ async def create_episode(episode_data: EpisodeCreate, current_user: dict = Depen
         episode = episode_manager.create_episode(episode_data)
         return episode
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"エピソード作成に失敗しました: {str(e)}")
+        logger.error(f"エピソード作成エラー: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="エピソード作成中にエラーが発生しました")
 
 
 @app.put("/api/episodes/{person_id}", response_model=Episode)

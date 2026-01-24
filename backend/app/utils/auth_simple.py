@@ -222,7 +222,7 @@ def _validate_fake_users_environment() -> None:
             "FAKE_USERS_DB cannot be used in production environment. "
             "Set up proper authentication with bcrypt/passlib."
         )
-    logger.warning("Using FAKE_USERS_DB (development only). " "Do not use in production.")
+    logger.warning("Using FAKE_USERS_DB (development only). Do not use in production.")
 
 
 # モジュールロード時に検証（本番環境で誤用された場合は即座に失敗）

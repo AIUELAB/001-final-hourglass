@@ -249,10 +249,7 @@ def main() -> int:
         # 対象episode_id一覧
         f.write("【対象episode_id一覧】\n")
         all_ids = (
-            episode_ids_by_rule["A"]
-            | episode_ids_by_rule["B"]
-            | episode_ids_by_rule["C"]
-            | episode_ids_by_rule["D"]
+            episode_ids_by_rule["A"] | episode_ids_by_rule["B"] | episode_ids_by_rule["C"] | episode_ids_by_rule["D"]
         )
         f.write(f"  総数: {len(all_ids)}エピソード\n")
         for i, eid in enumerate(sorted(all_ids)[:50]):
@@ -268,7 +265,7 @@ def main() -> int:
             f.write(f"【ルール{rule}】 検出数: {len(items)}件\n")
             f.write("-" * 60 + "\n")
             for i, item in enumerate(items[:10]):
-                f.write(f"  [{i+1}] {item['episode_id']} ({item['subtype']})\n")
+                f.write(f"  [{i + 1}] {item['episode_id']} ({item['subtype']})\n")
                 f.write(f"      Before: {item['original'][:60]}\n")
                 f.write(f"      After:  {item['fixed'][:60]}\n")
                 f.write(f"      AutoFix: {item['auto_fix']}\n\n")

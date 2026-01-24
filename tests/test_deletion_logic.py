@@ -73,9 +73,9 @@ class TestDeletionLogic:
 
             if len(person_records) > 0:
                 # レコードが存在する場合、削除されていないことを確認
-                assert person_records.iloc[0]["ステータス"] != "削除済み", (
-                    f"世界的偉人が削除されています: {person_name}"
-                )
+                assert (
+                    person_records.iloc[0]["ステータス"] != "削除済み"
+                ), f"世界的偉人が削除されています: {person_name}"
 
     def test_deletion_reason_validity(self):
         """

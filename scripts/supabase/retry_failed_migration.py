@@ -143,7 +143,7 @@ def retry_migration(error_log_path: Path, dry_run: bool = False, batch_size: int
         print("\n[SAMPLE] サニタイズ後のサンプルデータ（先頭5件）:")
         for i, rec in enumerate(sanitized_sample):
             print(
-                f"  {i+1}. episode_id={rec.get('episode_id')}, "
+                f"  {i + 1}. episode_id={rec.get('episode_id')}, "
                 f"person_name={rec.get('person_name')}, "
                 f"age={rec.get('age')}, "
                 f"super_total_score={rec.get('super_total_score')}"
@@ -237,9 +237,7 @@ def retry_migration(error_log_path: Path, dry_run: bool = False, batch_size: int
 
     # 失敗レコードをJSONファイルに保存
     if failed_records:
-        log_path = (
-            PROJECT_ROOT / "src/reports/logs" / f"retry_errors_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        log_path = PROJECT_ROOT / "src/reports/logs" / f"retry_errors_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         try:
             log_path.parent.mkdir(parents=True, exist_ok=True)
             with open(log_path, "w", encoding="utf-8") as f:

@@ -18,6 +18,7 @@ import numpy as np
 CSV_PATH = Path("/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv")
 BACKUP_DIR = Path("/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/backups")
 
+
 def main():
     # バックアップディレクトリ作成
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
@@ -34,11 +35,7 @@ def main():
     print(f"📊 総レコード数: {original_count}")
 
     # 修正カウンター
-    fixes = {
-        "birth_year": 0,
-        "death_year": 0,
-        "age": 0
-    }
+    fixes = {"birth_year": 0, "death_year": 0, "age": 0}
 
     # === 1. birth_year修正 ===
     birth_year_fixes = {
@@ -84,7 +81,7 @@ def main():
             # NaNに設定
             df.loc[mask, "death_year"] = ""
             fixes["death_year"] += count
-            print(f"    → 空欄(NaN)に修正")
+            print("    → 空欄(NaN)に修正")
         else:
             print(f"  ⚠️ {person_name}: 該当なし")
 
@@ -97,9 +94,9 @@ def main():
         print(f"  美空ひばり (age=53): {count}件")
         df.loc[mask, "age"] = "52"
         fixes["age"] += count
-        print(f"    → age=52 に修正")
+        print("    → age=52 に修正")
     else:
-        print(f"  ⚠️ 美空ひばり (age=53): 該当なし")
+        print("  ⚠️ 美空ひばり (age=53): 該当なし")
 
     # CSV保存
     df.to_csv(CSV_PATH, index=False)
@@ -114,6 +111,7 @@ def main():
     print(f"  age修正: {fixes['age']}件")
     print(f"  合計: {sum(fixes.values())}件")
     print("=" * 50)
+
 
 if __name__ == "__main__":
     main()

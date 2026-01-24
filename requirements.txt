@@ -12,7 +12,7 @@ python-dotenv==1.0.1
 # Async support
 aiohttp==3.10.2
 aiofiles==23.2.1
-websockets>=15.0
+websockets>=13.0
 
 # FastAPI
 fastapi==0.109.1
@@ -84,3 +84,16 @@ praw==7.7.1
 
 # Note: google-auth, google-auth-oauthlib, google-auth-httplib2, google-api-python-client
 # are already installed above for Google Sheets integration
+scikit-learn>=1.3.0
+
+# ============================================
+# Anthropic / Supabase Integration
+# ============================================
+anthropic>=0.18.0
+supabase>=2.0.0
+postgrest>=0.16.0
+
+# Test utilities
+tenacity>=8.2.0
+tqdm>=4.66.0
+numpy>=1.24.0

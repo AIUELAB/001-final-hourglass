@@ -17,8 +17,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# ロガー設定
+# ロガー設定（スクリプト単体実行時にも警告を表示）
 logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logging.basicConfig(level=logging.WARNING)
 
 import numpy as np
 import pandas as pd
@@ -125,7 +127,7 @@ def sanitize_value(value: Any, column_name: str = "") -> Any:
         try:
             return int(float(value))
         except (ValueError, TypeError) as e:
-            print(f"[WARN] INTEGER変換失敗 {column_name}='{value}': {e}")
+            logger.warning("INTEGER変換失敗 %s='%s': %s", column_name, value, e)
             return None
 
     return value
@@ -263,7 +265,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             if result["success_count"] < len(batch_records):
                 partial_failed = len(batch_records) - result["success_count"]
                 error_count += partial_failed
-                print(f"[WARN] 部分成功: {result['success_count']}/{len(batch_records)}件 (失敗: {partial_failed}件)")
+                logger.warning(
+                    "部分成功: %d/%d件 (失敗: %d件)", result["success_count"], len(batch_records), partial_failed
+                )
         except APIError as e:
             # Supabase API固有エラー（型不一致、制約違反等）
             error_count += len(batch_records)
@@ -394,7 +398,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         for row in sample_result.data or []:
             if isinstance(row, dict):
                 if row.get("super_total_score") is None:
-                    print(f"[WARN] super_total_score欠損: {row.get('episode_id')}")
+                    logger.warning("super_total_score欠損: %s", row.get("episode_id"))
     except APIError as e:
         print(f"[ERROR] サンプル検証失敗 (APIError): {e.message}")
     except (TypeError, KeyError) as e:

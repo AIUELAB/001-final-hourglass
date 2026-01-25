@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 from src.csv_path_resolver import (
     get_backup_dir,
     get_config_dir,

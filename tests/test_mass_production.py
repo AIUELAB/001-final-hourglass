@@ -11,6 +11,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 # conftest.py でパスが設定されているので、直接インポート可能
 from mass_production.config import (
     DEFAULT_CONFIG,

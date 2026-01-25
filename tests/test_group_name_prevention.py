@@ -11,6 +11,8 @@ import sys
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 sys.path.insert(0, "scripts/validators")
 from group_name_validator import (
     GROUP_PREFIXES,

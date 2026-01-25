@@ -15,6 +15,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 from scripts.fame_score_v3.scorer_japan import (
     JapanBoostConfig,
     calculate_boost_breakdown,

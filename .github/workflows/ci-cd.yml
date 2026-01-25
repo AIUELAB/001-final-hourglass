@@ -60,13 +60,12 @@ jobs:
     - name: Run type checking
       run: mypy src/ --ignore-missing-imports
 
-    # NOTE: CI環境ではモック対応済みテストのみ実行
-    # Issue #14: 段階的にテスト範囲を拡大中
+    # NOTE: CI環境ではローカルデータ不要なテストのみ実行
+    # Issue #14 Phase 2: integrationマーカーで自動除外
     - name: Run tests with coverage
       run: |
-        pytest \
-          tests/test_supabase/ \
-          tests/test_deletion_logic.py -m unit \
+        pytest tests/ \
+          -m "not integration" \
           -v \
           --cov=src \
           --cov-report=xml \

@@ -11,6 +11,8 @@ from unittest.mock import MagicMock, patch
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 from src.csv_integrator import CSVIntegrator
 
 

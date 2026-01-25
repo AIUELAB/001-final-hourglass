@@ -8,6 +8,8 @@ from unittest.mock import patch, MagicMock
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 from src.models.curated_episode import CuratedEpisode
 
 

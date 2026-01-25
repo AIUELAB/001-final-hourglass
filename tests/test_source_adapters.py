@@ -6,6 +6,8 @@ ManualSourceAdapter, NHKAsadoraAdapter の動作を検証します。
 """
 
 import pytest
+
+pytestmark = pytest.mark.integration
 from pathlib import Path
 
 from src.source_adapters.base import PersonCandidate, SourceAdapter

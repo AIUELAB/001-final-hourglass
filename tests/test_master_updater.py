@@ -9,6 +9,8 @@ import os
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 
 class TestNewEntity:
     """NewEntityデータクラステスト"""

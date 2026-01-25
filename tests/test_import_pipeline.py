@@ -5,6 +5,8 @@ tests/test_import_pipeline.py - validators/import_pipeline.py ユニットテス
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 from src.validators.import_pipeline import (
     ValidationLevel,
     EpisodeIssue,

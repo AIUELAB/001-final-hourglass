@@ -5,6 +5,8 @@ EP-000006345, EP-000001326 のようなケースが再発しないことを検�
 """
 
 import pytest
+
+pytestmark = pytest.mark.integration
 import pandas as pd
 import re
 import sys

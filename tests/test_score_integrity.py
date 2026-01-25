@@ -16,6 +16,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
+pytestmark = pytest.mark.integration
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scripts.score.score_integrity_manager import ScoreIntegrityManager, SCORE_COLUMNS

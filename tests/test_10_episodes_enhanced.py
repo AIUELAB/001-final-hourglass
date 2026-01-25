@@ -20,6 +20,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # add_10_episodes.pyに必要な関数が実装されていないためテストをスキップ

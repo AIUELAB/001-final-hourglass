@@ -90,15 +90,14 @@ jobs:
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
           pip install pytest pytest-cov pytest-asyncio pytest-mock
 
-      # NOTE: CI環境ではモック対応済みテストのみ実行
-      # 他のテストはローカルデータ（MASTER_EPISODES_CURRENT.csv等）に依存
+      # NOTE: CI環境ではローカルデータ不要なテストのみ実行
+      # integrationマーカー付きテストはローカルデータに依存
       # ローカル環境では `make ci-full` で全テスト実行可能
-      # Issue #14: 段階的にテスト範囲を拡大中
+      # Issue #14 Phase 2: integrationマーカーで自動除外
       - name: Run pytest
         run: |
-          pytest \
-            tests/test_supabase/ \
-            tests/test_deletion_logic.py -m unit \
+          pytest tests/ \
+            -m "not integration" \
             -v \
             --cov=src \
             --cov-report=xml \

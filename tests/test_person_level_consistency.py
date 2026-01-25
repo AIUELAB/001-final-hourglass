@@ -18,6 +18,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.integration
+
 
 CSV_PATH = Path("preserved/data/MASTER_EPISODES_CURRENT.csv")
 

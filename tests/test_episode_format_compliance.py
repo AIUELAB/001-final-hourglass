@@ -11,6 +11,8 @@ import sys
 from pathlib import Path
 
 import pytest
+
+pytestmark = pytest.mark.integration
 import pandas as pd
 
 # プロジェクトルートをパスに追加

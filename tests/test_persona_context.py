@@ -6,6 +6,8 @@
 """
 
 import pytest
+
+pytestmark = pytest.mark.integration
 import pandas as pd
 import re
 

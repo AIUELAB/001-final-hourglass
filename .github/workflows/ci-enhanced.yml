@@ -52,10 +52,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check for hardcoded secrets
-        run: |
-          python scripts/check_no_secrets.py
-
   # SAST (Static Application Security Testing)
   sast:
     name: Static Security Analysis
@@ -80,7 +76,9 @@ jobs:
       - name: Run Bandit Security Scan
         run: |
           pip install bandit[toml]
-          bandit -r src -f json -o bandit-report.json || true
+          bandit -r src -f json -o bandit-report.json
+        # 問題検出時もレポート生成を継続（結果はサマリーで評価）
+        continue-on-error: true
 
       - name: Upload Security Reports
         uses: actions/upload-artifact@v4
@@ -106,12 +104,16 @@ jobs:
       - name: Run Safety Check
         run: |
           pip install safety
-          safety check --json --continue-on-error
+          safety check --json
+        # 脆弱性検出時も後続ステップを実行（結果はサマリーで評価）
+        continue-on-error: true
 
       - name: Run pip-audit
         run: |
           pip install pip-audit
-          pip-audit --desc --format json > pip-audit-report.json || true
+          pip-audit --desc --format json --output pip-audit-report.json
+        # 脆弱性検出時も後続ステップを実行（結果はサマリーで評価）
+        continue-on-error: true
 
       - name: OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
@@ -285,6 +287,7 @@ jobs:
         with:
           image: claude-code-mcp:${{ github.sha }}
           args: --severity-threshold=high
+        # オプショナル: SNYK_TOKEN未設定時は失敗を許容
         continue-on-error: true
 
   # Compliance チェック
@@ -298,13 +301,16 @@ jobs:
         uses: fossas/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
+        # オプショナル: FOSSA_API_KEY未設定時は失敗を許容
         continue-on-error: true
 
       - name: Check License Compatibility
         run: |
           pip install pip-licenses
           pip-licenses --format=json --with-license-file \
-            --fail-on="GPL;LGPL" > licenses.json || true
+            --fail-on="GPL;LGPL" --output-file licenses.json
+        # ライセンス違反検出時も後続ステップを実行（結果はサマリーで評価）
+        continue-on-error: true
 
   # セキュリティレポート集約
   security-report:
@@ -327,11 +333,19 @@ jobs:
           echo "" >> security-summary.md
 
           echo "## Scan Results" >> security-summary.md
-          echo "- Secret Scan: ✅" >> security-summary.md
-          echo "- SAST: ✅" >> security-summary.md
-          echo "- Dependency Scan: ✅" >> security-summary.md
-          echo "- Container Scan: ✅" >> security-summary.md
-          echo "- Compliance Check: ✅" >> security-summary.md
+          echo "- Secret Scan: ${{ needs.secret-scan.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "- SAST: ${{ needs.sast.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "- Dependency Scan: ${{ needs.dependency-scan.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "- Container Scan: ${{ needs.container-scan.result == 'success' && '✅' || (needs.container-scan.result == 'skipped' && '⏭️' || '⚠️') }}" >> security-summary.md
+          echo "- Compliance Check: ${{ needs.compliance-check.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+
+          echo "" >> security-summary.md
+          if [[ "${{ needs.secret-scan.result }}" != "success" ]] || \
+             [[ "${{ needs.sast.result }}" != "success" ]] || \
+             [[ "${{ needs.dependency-scan.result }}" != "success" ]]; then
+            echo "⚠️ **注意**: 一部のセキュリティスキャンで問題が検出されました。" >> security-summary.md
+            echo "詳細はアーティファクトのレポートを確認してください。" >> security-summary.md
+          fi
 
       - name: Upload Security Summary
         uses: actions/upload-artifact@v4

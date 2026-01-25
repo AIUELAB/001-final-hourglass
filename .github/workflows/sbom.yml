@@ -80,16 +80,18 @@ jobs:
         id: scan
         with:
           sbom: sbom-spdx.json
+          # 脆弱性検出時もレポート生成を継続（結果はSARIFで確認）
           fail-build: false
           severity-cutoff: critical
-          output-format: table
+          output-format: sarif
+          output-file: grype-results.sarif
 
       - name: Upload Grype report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: grype-report
-          path: ${{ steps.scan.outputs.report }}
+          path: grype-results.sarif
           retention-days: 30
 
   microsoft-sbom:
@@ -137,12 +139,8 @@ jobs:
       - name: Dependency Review
         uses: actions/dependency-review-action@v4
         with:
-          # Fail the workflow if high or critical vulnerabilities are found
           fail-on-severity: high
-          # Allow specific licenses (customize as needed)
-          allow-licenses: MIT, Apache-2.0, BSD-3-Clause, BSD-2-Clause, ISC
-          # Deny specific licenses (customize as needed)
+          # deny-licenses のみ使用（allow-licenses と排他）
           deny-licenses: GPL-3.0, AGPL-3.0
-          # Check for vulnerabilities in runtime dependencies
           base-ref: ${{ github.event.pull_request.base.sha }}
           head-ref: ${{ github.event.pull_request.head.sha }}

@@ -80,7 +80,7 @@ def mock_master_episodes_df():
     """
     return pd.DataFrame(
         {
-            # PRレビュー#14: エッジケースデータを追加（NaN, 空文字, 極長テキスト）
+            # PRレビュー#14: エッジケースデータを追加（NaN, Inf, 空文字, 10000文字テキスト）
             "episode_id": ["EP-001", "EP-002", "EP-003", "EP-004", "EP-005", "EP-EDGE-NAN", "EP-EDGE-LONG"],
             "person_id": ["P001", "P002", "P003", "P004", "P005", "P-EDGE-1", "P-EDGE-2"],
             "person_name": [
@@ -128,7 +128,7 @@ def mock_master_episodes_df():
                 "2026-01-01",
             ],
             "fame_tier": [5, 5, 5, 4, 3, 1, 1],
-            "composite_score": [950.0, 920.0, 980.0, 850.0, 700.0, float("nan"), 100.0],  # NaNテスト
+            "composite_score": [950.0, 920.0, 980.0, 850.0, 700.0, float("nan"), float("inf")],  # NaN/Infテスト
             "episode_importance_score": [9.5, 9.0, 9.8, 8.5, 7.0, 1.0, 1.0],
             "impressiveness_score": [9.0, 8.5, 9.5, 8.0, 7.5, 1.0, 1.0],
             "generated_at": [

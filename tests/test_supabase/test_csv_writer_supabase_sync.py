@@ -11,7 +11,6 @@ SafeCSVWriter Supabase同期機能のユニットテスト
 
 # === 標準ライブラリ ===
 import logging
-import math
 import sys
 from pathlib import Path
 
@@ -108,15 +107,18 @@ class TestSanitizeForSupabase:
         assert result["field"] is None
 
     def test_float_inf(self, csv_writer):
-        """float('inf')は現在の実装ではそのまま渡される（np.floatingの場合のみNone変換）"""
-        # 注: 現在の実装ではfloat('inf')はNoneに変換されない
-        # np.float64('inf')の場合のみNoneに変換される
+        """float('inf')はNoneに変換される（PRレビュー#14修正後）"""
+        # float('inf')はJSONでシリアライズできないためNoneに変換
         row = {"field": float("inf")}
         result = csv_writer._sanitize_for_supabase(row)
-        # 現在の実装動作を検証（infはそのまま）
-        assert math.isinf(result["field"])
+        assert result["field"] is None
 
-        # np.float64のinfはNoneに変換される
+        # 負のfloat('-inf')もNoneに変換
+        row_neg_float = {"field": float("-inf")}
+        result_neg_float = csv_writer._sanitize_for_supabase(row_neg_float)
+        assert result_neg_float["field"] is None
+
+        # np.float64のinfもNoneに変換される
         row_np = {"field": np.float64("inf")}
         result_np = csv_writer._sanitize_for_supabase(row_np)
         assert result_np["field"] is None

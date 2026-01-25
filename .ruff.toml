@@ -33,7 +33,7 @@ ignore = [
   "E501",  # line too long (handled by formatter)
   "E741",  # ambiguous variable name
   # TODO: 以下は段階的に有効化予定
-  # 現在 F401: ~20件、F841: ~30件の違反あり
+  # 現在 F401: ~1600件、F841: ~530件の違反あり（大規模リファクタ必要）
   "F401",  # imported but unused
   "F821",  # undefined name (dynamic imports in scripts)
   "F841",  # local variable assigned but never used

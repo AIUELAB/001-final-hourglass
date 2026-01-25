@@ -13,7 +13,7 @@ from __future__ import annotations
 import argparse
 import os
 import signal
-import subprocess
+import subprocess  # nosec B404
 import sys
 import time
 from dataclasses import dataclass
@@ -70,7 +70,7 @@ class CodexMCPLauncher:
         cmd = [self.codex_path, "mcp", "serve"] + self.extra_args
         _log(f"[起動] 実行コマンド: {' '.join(cmd)}")
         # 実行引数に機密は含めない想定。出力はリアルタイムで親に流す
-        self.process = subprocess.Popen(
+        self.process = subprocess.Popen(  # nosec B603
             cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,

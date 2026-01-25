@@ -321,9 +321,9 @@ if __name__ == "__main__":
     # リトライデコレーターのテスト
     @with_retry(max_retries=2, delay=1)
     def flaky_function():
-        import random
+        import random  # nosec B311
 
-        if random.random() > 0.5:
+        if random.random() > 0.5:  # nosec B311
             raise ConnectionError("Random connection error")
         return "Success!"
 

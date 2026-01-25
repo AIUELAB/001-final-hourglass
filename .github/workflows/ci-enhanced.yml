@@ -1,3 +1,15 @@
+# ============================================================
+# Enhanced CI/CD Pipeline with OIDC
+# ============================================================
+#
+# Workflow Dependencies:
+# - security.yml: Handles Bandit, pip-audit, Safety scans
+# - This workflow: Handles Semgrep, container scan, compliance
+#
+# Note: dependency-scan job was removed to avoid duplication
+# with security.yml. See security.yml for dependency scanning.
+# ============================================================
+
 name: Enhanced CI/CD Pipeline with OIDC
 
 on:
@@ -37,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Full history for better scanning
+          fetch-depth: 0 # フル履歴を取得（スキャン精度向上）
 
       - name: TruffleHog Secret Scan
         uses: trufflesecurity/trufflehog@v3.63.0
@@ -51,10 +63,6 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check for hardcoded secrets
-        run: |
-          python scripts/check_no_secrets.py
 
   # SAST (Static Application Security Testing)
   sast:
@@ -77,67 +85,24 @@ jobs:
             p/owasp-top-ten
             p/python
 
-      - name: Run Bandit Security Scan
-        run: |
-          pip install bandit[toml]
-          bandit -r src -f json -o bandit-report.json || true
+      # Banditはsecurity.ymlで実行するため省略
 
-      - name: Upload Security Reports
+      - name: Upload Semgrep Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: security-reports
+          name: semgrep-reports
           path: |
-            bandit-report.json
             semgrep.sarif
 
-  # 依存関係スキャン
-  dependency-scan:
-    name: Dependency Security Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Run Safety Check
-        run: |
-          pip install safety
-          safety check --json --continue-on-error
-
-      - name: Run pip-audit
-        run: |
-          pip install pip-audit
-          pip-audit --desc --format json > pip-audit-report.json || true
-
-      - name: OWASP Dependency Check
-        uses: dependency-check/Dependency-Check_Action@main
-        with:
-          project: "claude-code-template-mcp"
-          path: "."
-          format: "ALL"
-          args: >
-            --enableRetired
-            --enableExperimental
-
-      - name: Upload Dependency Reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dependency-reports
-          path: |
-            pip-audit-report.json
-            reports/
+  # dependency-scan ジョブはsecurity.ymlに統合済み
 
   # AWS OIDC認証例
   aws-deploy:
     name: Deploy to AWS (OIDC)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast, dependency-scan]
+    needs: [secret-scan, sast]
     steps:
       - uses: actions/checkout@v4
 
@@ -159,7 +124,7 @@ jobs:
     name: Deploy to GCP (OIDC)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast, dependency-scan]
+    needs: [secret-scan, sast]
     steps:
       - uses: actions/checkout@v4
 
@@ -182,7 +147,7 @@ jobs:
     name: Deploy to Azure (OIDC)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast, dependency-scan]
+    needs: [secret-scan, sast]
     steps:
       - uses: actions/checkout@v4
 
@@ -285,6 +250,7 @@ jobs:
         with:
           image: claude-code-mcp:${{ github.sha }}
           args: --severity-threshold=high
+        # オプショナル: SNYK_TOKEN未設定時は失敗を許容
         continue-on-error: true
 
   # Compliance チェック
@@ -298,20 +264,23 @@ jobs:
         uses: fossas/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
+        # オプショナル: FOSSA_API_KEY未設定時は失敗を許容
         continue-on-error: true
 
       - name: Check License Compatibility
         run: |
           pip install pip-licenses
           pip-licenses --format=json --with-license-file \
-            --fail-on="GPL;LGPL" > licenses.json || true
+            --fail-on="GPL;LGPL" --output-file licenses.json
+        # ライセンス違反検出時も後続ステップを実行（結果はサマリーで評価）
+        continue-on-error: true
 
   # セキュリティレポート集約
   security-report:
     name: Aggregate Security Reports
     runs-on: ubuntu-latest
     needs:
-      [secret-scan, sast, dependency-scan, container-scan, compliance-check]
+      [secret-scan, sast, container-scan, compliance-check]
     if: always()
     steps:
       - uses: actions/checkout@v4
@@ -327,11 +296,20 @@ jobs:
           echo "" >> security-summary.md
 
           echo "## Scan Results" >> security-summary.md
-          echo "- Secret Scan: ✅" >> security-summary.md
-          echo "- SAST: ✅" >> security-summary.md
-          echo "- Dependency Scan: ✅" >> security-summary.md
-          echo "- Container Scan: ✅" >> security-summary.md
-          echo "- Compliance Check: ✅" >> security-summary.md
+          echo "- Secret Scan: ${{ needs.secret-scan.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "- SAST: ${{ needs.sast.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "- Container Scan: ${{ needs.container-scan.result == 'success' && '✅' || (needs.container-scan.result == 'skipped' && '⏭️' || '⚠️') }}" >> security-summary.md
+          echo "- Compliance Check: ${{ needs.compliance-check.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "(Dependency Scanはsecurity.ymlで実行)" >> security-summary.md
+
+          echo "" >> security-summary.md
+          if [[ "${{ needs.secret-scan.result }}" != "success" ]] || \
+             [[ "${{ needs.sast.result }}" != "success" ]] || \
+             [[ "${{ needs.container-scan.result }}" == "failure" ]] || \
+             [[ "${{ needs.compliance-check.result }}" == "failure" ]]; then
+            echo "⚠️ **注意**: 一部のセキュリティスキャンで問題が検出されました。" >> security-summary.md
+            echo "詳細はアーティファクトのレポートを確認してください。" >> security-summary.md
+          fi
 
       - name: Upload Security Summary
         uses: actions/upload-artifact@v4

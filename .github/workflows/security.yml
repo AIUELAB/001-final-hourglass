@@ -34,7 +34,8 @@ jobs:
           pip install bandit[toml] pip-audit safety
 
       - name: Run Bandit
-        run: bandit -r src/ -f json -o bandit-report.json
+        # pyproject.toml の [tool.bandit] skips 設定を適用
+        run: bandit -c pyproject.toml -r src/ -f json -o bandit-report.json
         # 問題検出時もレポート生成を継続（結果はサマリーで確認）
         continue-on-error: true
 

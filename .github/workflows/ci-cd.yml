@@ -45,11 +45,17 @@ jobs:
         ruff check src/ tests/ --exclude "*/_archived/*"
 
     # NOTE: 段階的にフォーマット適用中
-    # src/ tests/ のフォーマットは順次適用予定
+    # フォーマット違反は警告として報告するが、CIは失敗させない
+    # Issue #14 Phase 2 で完全適用予定
     - name: Run format check
+      id: format-check
       run: |
-        ruff format --check src/ tests/ --exclude "*/_archived/*"
-      continue-on-error: true
+        if ! ruff format --check src/ tests/ --exclude "*/_archived/*" 2>&1; then
+          echo "::warning::フォーマット違反があります。ruff format src/ tests/ で修正してください"
+          echo "format_status=warning" >> $GITHUB_OUTPUT
+        else
+          echo "format_status=passed" >> $GITHUB_OUTPUT
+        fi
 
     - name: Run type checking
       run: mypy src/ --ignore-missing-imports

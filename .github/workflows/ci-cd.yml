@@ -40,12 +40,16 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov pytest-asyncio ruff mypy
 
-    # NOTE: 段階的にフォーマット適用中
-    # scripts/ は順次フォーマット適用予定（現在はチェック対象外）
     - name: Run linting
       run: |
         ruff check src/ tests/ --exclude "*/_archived/*"
+
+    # NOTE: 段階的にフォーマット適用中
+    # src/ tests/ のフォーマットは順次適用予定
+    - name: Run format check
+      run: |
         ruff format --check src/ tests/ --exclude "*/_archived/*"
+      continue-on-error: true
 
     - name: Run type checking
       run: mypy src/ --ignore-missing-imports

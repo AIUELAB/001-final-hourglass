@@ -4,21 +4,63 @@
 本番環境では適切なパスワードハッシュ化を実装すること
 """
 
+import functools
+import logging
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
+from jwt.exceptions import DecodeError, ExpiredSignatureError, InvalidTokenError
+
+logger = logging.getLogger(__name__)
 
 # OAuth2スキーム
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/token")
 
 # JWT設定
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+
+@functools.lru_cache(maxsize=1)
+def get_secret_key() -> str:
+    """JWT秘密鍵を取得（遅延評価・キャッシュ付き）
+
+    環境変数JWT_SECRET_KEYから秘密鍵を取得する。
+    未設定の場合はValueErrorを発生させる。
+    """
+    key = os.getenv("JWT_SECRET_KEY")
+    if not key:
+        raise ValueError(
+            "JWT_SECRET_KEY environment variable is required. "
+            'Generate with: python -c "import secrets; print(secrets.token_hex(32))"'
+        )
+    return key
+
+
+def validate_jwt_config() -> None:
+    """起動時にJWT設定を検証（Fail-Fast）
+
+    アプリケーション起動時に呼び出すことで、
+    設定エラーを早期検出する。
+
+    Raises:
+        ValueError: JWT_SECRET_KEYが未設定の場合
+
+    Example:
+        # main.py または startup.py
+        from backend.app.utils.auth_simple import validate_jwt_config
+        validate_jwt_config()  # 失敗時は即座にValueError
+    """
+    try:
+        get_secret_key()
+        logger.info("JWT configuration validated successfully")
+    except ValueError as e:
+        logger.critical(f"JWT configuration error: {e}")
+        raise
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -33,12 +75,12 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     """
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, get_secret_key(), algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -56,13 +98,44 @@ def verify_token(token: str, credentials_exception: HTTPException) -> str:
         credentials_exception: トークン検証失敗時
     """
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, get_secret_key(), algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
         return username
-    except JWTError:
+    except ExpiredSignatureError:
+        logger.warning("Token expired")
         raise credentials_exception
+    except (DecodeError, InvalidTokenError) as e:
+        logger.warning(f"Invalid token: {e}")
+        raise credentials_exception
+    except ValueError as e:
+        # JWT_SECRET_KEY未設定などの設定エラーは500エラー
+        logger.error(f"Configuration error in token verification: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="サーバー設定エラーが発生しました",
+        )
+    except (KeyboardInterrupt, SystemExit):
+        # シグナルは再raise
+        raise
+    except (MemoryError, RecursionError) as e:
+        # システムリソース不足は503エラー
+        logger.critical(f"System resource error in token verification: {type(e).__name__}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="サーバーリソース不足です。後でお試しください",
+        )
+    except Exception as e:
+        # 予期しないエラーは500エラー（認証エラーと区別）
+        logger.error(
+            f"Unexpected error during token verification: {type(e).__name__}: {e}",
+            exc_info=True,  # スタックトレースも記録
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="トークン検証中に予期しないエラーが発生しました",
+        )
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> str:
@@ -133,6 +206,27 @@ def require_role(allowed_roles: list[str]):
 
     return role_checker
 
+
+def _validate_fake_users_environment() -> None:
+    """本番環境でのFAKE_USERS_DB使用を防止（Fail-Fast）
+
+    モジュールロード時に呼び出され、本番環境では
+    RuntimeErrorを発生させて起動を阻止する。
+
+    Raises:
+        RuntimeError: ENVIRONMENT=productionの場合
+    """
+    environment = os.getenv("ENVIRONMENT", "development").lower()
+    if environment == "production":
+        raise RuntimeError(
+            "FAKE_USERS_DB cannot be used in production environment. "
+            "Set up proper authentication with bcrypt/passlib."
+        )
+    logger.warning("Using FAKE_USERS_DB (development only). Do not use in production.")
+
+
+# モジュールロード時に検証（本番環境で誤用された場合は即座に失敗）
+_validate_fake_users_environment()
 
 # ユーザーデータベース（簡易版・開発環境専用）
 # 注意: 本番環境では適切なパスワードハッシュ化を実装すること

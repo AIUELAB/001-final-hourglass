@@ -371,10 +371,14 @@ class SafeCSVWriter:
         if is_fictional_by_type or is_fictional_by_name:
             gate = FictionalQualityGate()
 
-            # person_typeとperson_nameが矛盾する場合は警告（RCA-20260122）
+            # person_typeとperson_nameが矛盾する場合は自動修正（RCA-20260125強化）
+            # 警告から自動修正に格上げ（バイパス経路完全封鎖）
             if is_fictional_by_name and not is_fictional_by_type:
-                logger.warning(
-                    f"SafeCSVWriter: person_type不整合検出 - {person_name}はFICTIONALであるべき (現在: {person_type})"
+                row["person_type"] = "FICTIONAL"
+                logger.info(
+                    "SafeCSVWriter: person_type自動修正 - %s: %s → FICTIONAL",
+                    person_name,
+                    person_type,
                 )
 
             result = gate.check(row)

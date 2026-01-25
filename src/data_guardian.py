@@ -22,7 +22,7 @@ import json
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from src.backup_manager import BackupManager
 from src.csv_path_resolver import get_master_csv_path, get_project_root
@@ -32,6 +32,8 @@ class TombstoneManager:
     """削除されたエピソードを追跡するシステム"""
 
     def __init__(self, tombstone_dir: Optional[Path] = None):
+        # なぜ: mypyで `Any` 扱いになり、戻り値が `Any` になるのを防ぐため
+        self.tombstones: dict[str, Any] = {"deleted_episodes": [], "total_deleted": 0}
         if tombstone_dir is None:
             self.tombstone_dir = get_project_root() / "preserved" / "tombstones"
         else:
@@ -44,9 +46,12 @@ class TombstoneManager:
         """Tombstoneデータを読み込み"""
         if self.tombstone_file.exists():
             with open(self.tombstone_file, "r", encoding="utf-8") as f:
-                self.tombstones = json.load(f)
-        else:
-            self.tombstones = {"deleted_episodes": [], "total_deleted": 0}
+                loaded = json.load(f)
+                if isinstance(loaded, dict):
+                    self.tombstones = loaded
+                    return
+        # フォールバック（壊れたJSONや想定外の形式でも落ちない）
+        self.tombstones = {"deleted_episodes": [], "total_deleted": 0}
 
     def _save_tombstones(self) -> None:
         """Tombstoneデータを保存"""
@@ -74,10 +79,12 @@ class TombstoneManager:
         self._save_tombstones()
         print(f"  Tombstone: {episode_id} ({person_name}) - {reason}")
 
-    def get_deleted_episodes(self, limit: Optional[int] = None) -> list:
+    def get_deleted_episodes(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """削除されたエピソードを取得"""
-        episodes = self.tombstones["deleted_episodes"]
-        if limit:
+        episodes = self.tombstones.get("deleted_episodes", [])
+        if not isinstance(episodes, list):
+            return []
+        if limit is not None:
             return episodes[-limit:]
         return episodes
 
@@ -85,7 +92,8 @@ class TombstoneManager:
         """削除されたエピソードを復元用に取得"""
         for tombstone in self.tombstones["deleted_episodes"]:
             if tombstone["episode_id"] == episode_id and tombstone["restorable"]:
-                return tombstone["original_data"]
+                original_data = tombstone.get("original_data")
+                return original_data if isinstance(original_data, dict) else None
         return None
 
 
@@ -93,6 +101,8 @@ class DataGuardian:
     """データ保管の完全性を保証するシステム"""
 
     def __init__(self, master_csv: Optional[Path] = None):
+        # なぜ: mypyで `Any` 扱いになり、戻り値が `Any` になるのを防ぐため
+        self.checkpoints: list[dict[str, Any]] = []
         if master_csv is None:
             self.master_csv = get_master_csv_path()
         else:
@@ -111,9 +121,12 @@ class DataGuardian:
         """チェックポイント履歴を読み込み"""
         if self.checkpoint_history_file.exists():
             with open(self.checkpoint_history_file, "r", encoding="utf-8") as f:
-                self.checkpoints = json.load(f)
-        else:
-            self.checkpoints = []
+                loaded = json.load(f)
+                if isinstance(loaded, list):
+                    self.checkpoints = [cp for cp in loaded if isinstance(cp, dict)]
+                    return
+        # フォールバック（壊れたJSONや想定外の形式でも落ちない）
+        self.checkpoints = []
 
     def _save_checkpoint_history(self) -> None:
         """チェックポイント履歴を保存"""
@@ -293,6 +306,8 @@ class DataGuardian:
         with open(self.master_csv, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             fieldnames = reader.fieldnames
+            if not fieldnames:
+                raise ValueError("CSVヘッダーが取得できません（空ファイル/ヘッダー欠損の可能性）")
 
             for row in reader:
                 if row["episode_id"] in episode_ids:
@@ -323,9 +338,9 @@ class DataGuardian:
             "verification": result,
         }
 
-    def get_checkpoint_history(self, limit: Optional[int] = 10) -> list:
+    def get_checkpoint_history(self, limit: Optional[int] = 10) -> list[dict[str, Any]]:
         """チェックポイント履歴を取得"""
-        if limit:
+        if limit is not None:
             return self.checkpoints[-limit:]
         return self.checkpoints
 

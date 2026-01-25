@@ -23,9 +23,11 @@ import json
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from src.csv_path_resolver import get_master_csv_path, get_project_root
+
+JsonDict = dict[str, Any]
 
 
 class GenerationManager:
@@ -55,14 +57,16 @@ class GenerationManager:
 
     def _load_metadata(self) -> None:
         """メタデータを読み込み"""
+        # なぜ: mypyで `Any` 扱いになり、戻り値が `Any` になるのを防ぐため
+        self.metadata: JsonDict = {
+            "current_generation": 0,
+            "generations": [],
+        }
         if self.metadata_file.exists():
             with open(self.metadata_file, "r", encoding="utf-8") as f:
-                self.metadata = json.load(f)
-        else:
-            self.metadata = {
-                "current_generation": 0,
-                "generations": [],
-            }
+                loaded = json.load(f)
+                if isinstance(loaded, dict):
+                    self.metadata.update(loaded)
 
     def _save_metadata(self) -> None:
         """メタデータを保存"""
@@ -82,7 +86,7 @@ class GenerationManager:
         with open(csv_path, "r", encoding="utf-8-sig") as f:
             return sum(1 for _ in f) - 1
 
-    def _get_csv_stats(self, csv_path: Path) -> dict:
+    def _get_csv_stats(self, csv_path: Path) -> JsonDict:
         """CSVの統計情報を取得"""
         row_count = self._count_rows(csv_path)
         file_size = csv_path.stat().st_size
@@ -94,7 +98,7 @@ class GenerationManager:
             "file_hash": file_hash,
         }
 
-    def create_generation(self, description: str = "", compress: bool = True) -> dict:
+    def create_generation(self, description: str = "", compress: bool = True) -> JsonDict:
         """
         新しい世代を作成
 
@@ -105,7 +109,7 @@ class GenerationManager:
         Returns:
             作成された世代の情報
         """
-        generation_number = self.metadata["current_generation"] + 1
+        generation_number = int(self.metadata.get("current_generation", 0)) + 1
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # ファイル名を決定
@@ -138,7 +142,11 @@ class GenerationManager:
         }
 
         # メタデータ更新
-        self.metadata["generations"].append(generation_info)
+        generations = self.metadata.get("generations")
+        if not isinstance(generations, list):
+            generations = []
+            self.metadata["generations"] = generations
+        generations.append(generation_info)
         self.metadata["current_generation"] = generation_number
         self._save_metadata()
 
@@ -154,8 +162,12 @@ class GenerationManager:
 
     def _rotate_generations(self) -> None:
         """古い世代を削除（MAX_GENERATIONSを超えた場合）"""
-        while len(self.metadata["generations"]) > self.MAX_GENERATIONS:
-            oldest = self.metadata["generations"].pop(0)
+        generations = self.metadata.get("generations")
+        if not isinstance(generations, list):
+            return
+
+        while len(generations) > self.MAX_GENERATIONS:
+            oldest = generations.pop(0)
             oldest_file = self.generation_dir / oldest["backup_file"]
             if oldest_file.exists():
                 oldest_file.unlink()
@@ -163,7 +175,7 @@ class GenerationManager:
 
         self._save_metadata()
 
-    def list_generations(self, limit: Optional[int] = None) -> list:
+    def list_generations(self, limit: Optional[int] = None) -> list[JsonDict]:
         """
         世代一覧を取得
 
@@ -173,19 +185,22 @@ class GenerationManager:
         Returns:
             世代情報のリスト
         """
-        generations = self.metadata["generations"]
-        if limit:
-            return generations[-limit:]
-        return generations
+        generations = self.metadata.get("generations", [])
+        if not isinstance(generations, list):
+            return []
+        typed = [g for g in generations if isinstance(g, dict)]
+        if limit is not None:
+            return typed[-limit:]
+        return typed
 
-    def get_generation(self, generation_number: int) -> Optional[dict]:
+    def get_generation(self, generation_number: int) -> Optional[JsonDict]:
         """指定した世代の情報を取得"""
-        for gen in self.metadata["generations"]:
-            if gen["generation_number"] == generation_number:
+        for gen in self.list_generations(limit=None):
+            if int(gen.get("generation_number", -1)) == generation_number:
                 return gen
         return None
 
-    def restore_to_generation(self, generation_number: int) -> dict:
+    def restore_to_generation(self, generation_number: int) -> JsonDict:
         """
         指定した世代に復元
 

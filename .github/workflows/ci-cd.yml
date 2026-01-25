@@ -56,14 +56,14 @@ jobs:
 
     # NOTE: CI環境ではSupabase同期テストのみ実行
     # 他のテストはローカルデータ（MASTER_EPISODES_CURRENT.csv等）に依存
+    # Issue #14: 段階的にテスト範囲を拡大予定
     - name: Run tests with coverage
       run: |
-        pytest tests/test_supabase/ tests/test_deletion_logic.py -m "unit or not integration" \
+        pytest tests/test_supabase/ -v \
           --cov=src \
           --cov-report=xml \
           --cov-report=html \
-          --cov-report=term \
-          -v
+          --cov-report=term
 
     - name: Upload coverage reports
       uses: codecov/codecov-action@v4

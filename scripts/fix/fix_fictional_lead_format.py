@@ -71,7 +71,7 @@ def fix_fictional_lead(episode_text: str, person_name: str, work_title: str) -> 
         match = re.match(pattern3, episode_text)
         if match:
             prefix = match.group(1)
-            new_text = f"{prefix}『{work_title}』は{episode_text[match.end():]}"
+            new_text = f"{prefix}『{work_title}』は{episode_text[match.end() :]}"
             return new_text, "修正完了（部分一致）", 0.8
 
     # パターン4: 「あなたと同じ{age}歳のとき、」だけはある
@@ -80,7 +80,7 @@ def fix_fictional_lead(episode_text: str, person_name: str, work_title: str) -> 
     if match:
         # 既存の名前部分を確認
         existing_name = match.group(2)
-        new_text = f"{match.group(1)}{existing_name}『{work_title}』は{episode_text[match.end():]}"
+        new_text = f"{match.group(1)}{existing_name}『{work_title}』は{episode_text[match.end() :]}"
         return new_text, "修正完了（名前不一致）", 0.6
 
     # 修正できない

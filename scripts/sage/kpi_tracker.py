@@ -347,8 +347,8 @@ class KPITracker:
 |------|-----|------|------|
 | 総エピソード数 | {snapshot.total_episodes:,} | - | - |
 | 新規エピソード | {snapshot.new_episodes:,} | - | - |
-| 採用率 | {snapshot.acceptance_rate:.1%} | {self.targets.acceptance_rate:.1%} | {'✅' if snapshot.acceptance_rate >= self.targets.acceptance_rate else '⚠️'} |
-| 平均スコア | {snapshot.avg_super_total:,.0f} | {self.targets.avg_super_total:,.0f} | {'✅' if snapshot.avg_super_total >= self.targets.avg_super_total else '⚠️'} |
+| 採用率 | {snapshot.acceptance_rate:.1%} | {self.targets.acceptance_rate:.1%} | {"✅" if snapshot.acceptance_rate >= self.targets.acceptance_rate else "⚠️"} |
+| 平均スコア | {snapshot.avg_super_total:,.0f} | {self.targets.avg_super_total:,.0f} | {"✅" if snapshot.avg_super_total >= self.targets.avg_super_total else "⚠️"} |
 | 推定コスト | ${snapshot.estimated_cost_usd:.4f} | - | - |
 
 ## 在庫状況

@@ -222,7 +222,7 @@ def process_curated_episodes(
     failed_episodes = []
 
     for idx, episode in enumerate(curated_episodes):
-        logger.info(f"Processing [{idx+1}/{len(curated_episodes)}]: {episode.person_name} ({episode.age}歳)")
+        logger.info(f"Processing [{idx + 1}/{len(curated_episodes)}]: {episode.person_name} ({episode.age}歳)")
 
         # 重複チェック
         duplicate_id = check_duplicate_source_id(episode.source_id, master_df)

@@ -93,7 +93,7 @@ def generate_episodes(candidates: list[dict], limit: int = 50) -> list[dict]:
         # ランダムに年齢を選択
         selected_age = random.choice(valid_ages)
 
-        print(f"\n[{i+1}/{min(limit, len(candidates))}] {person_name} ({selected_age}歳)")
+        print(f"\n[{i + 1}/{min(limit, len(candidates))}] {person_name} ({selected_age}歳)")
 
         try:
             person_data = {

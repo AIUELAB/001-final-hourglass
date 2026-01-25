@@ -207,10 +207,10 @@ def improve_episode(row: pd.Series, target_threshold: float = 3.0) -> Optional[D
     original_text = str(row["episode_text"])
     original_surprise = float(row["surprise_score"])
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"改稿中: {person_name} ({age}歳) [{episode_id}]")
     print(f"元のsurprise_score: {original_surprise:.2f} (目標: ≥{target_threshold:.1f})")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # 改稿
     print("  改稿中...")
@@ -301,7 +301,7 @@ def run_improvement(
     results = {"improved": [], "partial": [], "no_improvement": [], "failed": []}
 
     for i, (_, row) in enumerate(targets.iterrows()):
-        print(f"\n[{i+1}/{len(targets)}]", end="")
+        print(f"\n[{i + 1}/{len(targets)}]", end="")
         result = improve_episode(row, target_threshold=threshold)
 
         if result is None:

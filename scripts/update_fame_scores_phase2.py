@@ -136,9 +136,9 @@ def get_persons_without_google_hits(conn: sqlite3.Connection) -> list[tuple[str,
 
 def run_dry_run() -> None:
     """ドライラン（上位10人のみテスト）"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Phase 2 ドライラン（上位10人のみ）")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     if not is_google_available() and not is_serpapi_available():
         print("ERROR: 検索API キーが設定されていません")
@@ -251,9 +251,9 @@ def run_execute(max_queries: int = 0, auto_mode: bool = False) -> int:
         終了コード（0=正常、1=エラー）
     """
     if not auto_mode:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("Phase 2 本番実行")
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
     if not is_google_available() and not is_serpapi_available():
         if not auto_mode:

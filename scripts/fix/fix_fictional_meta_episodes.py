@@ -288,7 +288,7 @@ def fix_episodes(csv_path: str, affected: List[Dict], dry_run: bool = True) -> D
     if not dry_run and results["success"]:
         # バックアップ作成
         backup_path = csv_path.replace(
-            ".csv", f'_backup_before_epup_fix_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            ".csv", f"_backup_before_epup_fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         )
         df_original = pd.read_csv(csv_path, encoding="utf-8-sig")
         df_original.to_csv(backup_path, index=False, encoding="utf-8-sig")

@@ -74,8 +74,8 @@ class PerformanceTester:
 
         self.results.append(result)
 
-        print(f"   ✅ Avg: {avg_time*1000:.2f}ms")
-        print(f"   📊 Min: {min_time*1000:.2f}ms, Max: {max_time*1000:.2f}ms")
+        print(f"   ✅ Avg: {avg_time * 1000:.2f}ms")
+        print(f"   📊 Min: {min_time * 1000:.2f}ms, Max: {max_time * 1000:.2f}ms")
         print(f"   💾 Memory: {memory_used:.2f}MB")
         print(f"   ⚡ Ops/sec: {result['ops_per_sec']:.0f}")
 
@@ -199,7 +199,7 @@ def main():
     print("\n💡 Recommendations:")
     for result in tester.results:
         if result["avg_time"] > 0.1:  # 100ms
-            print(f"   ⚠️ {result['name']} is slow ({result['avg_time']*1000:.0f}ms)")
+            print(f"   ⚠️ {result['name']} is slow ({result['avg_time'] * 1000:.0f}ms)")
         if result["memory_used"] > 10:  # 10MB
             print(f"   💾 {result['name']} uses high memory ({result['memory_used']:.1f}MB)")
 

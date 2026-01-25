@@ -134,10 +134,7 @@ def print_quality_report(quality: Dict):
     print("\n--- Top 10 ランキング ---")
     for item in quality["top_10"]:
         pv = int(item["wikipedia_pv"]) if pd.notna(item["wikipedia_pv"]) else 0
-        print(
-            f"  {item['fame_rank']:>4}位: {item['person_name'][:15]:<15} "
-            f"score={item['fame_score_v2']:.2f} PV={pv:,}"
-        )
+        print(f"  {item['fame_rank']:>4}位: {item['person_name'][:15]:<15} score={item['fame_score_v2']:.2f} PV={pv:,}")
 
     print("\n" + "=" * 70)
 

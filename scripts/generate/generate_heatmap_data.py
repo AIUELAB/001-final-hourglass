@@ -188,7 +188,7 @@ def embed_in_html(data: dict, html_path: Path):
         script_pattern = r"(<script>)"
         new_content = re.sub(
             script_pattern,
-            f'\\1\n        // 自動生成: {data["generated_at"]}\n        {embed_replacement}\n',
+            f"\\1\n        // 自動生成: {data['generated_at']}\n        {embed_replacement}\n",
             content,
             count=1,
         )

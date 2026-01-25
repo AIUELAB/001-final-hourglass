@@ -171,7 +171,9 @@ def main():
         f.write("=" * 80 + "\n\n")
 
         f.write(f"総エピソード数: {len(master_rows)}件\n")
-        f.write(f"受賞関連エピソード: {total_award_episodes}件 ({total_award_episodes/len(master_rows)*100:.1f}%)\n")
+        f.write(
+            f"受賞関連エピソード: {total_award_episodes}件 ({total_award_episodes / len(master_rows) * 100:.1f}%)\n"
+        )
         f.write(f"受賞者数: {unique_persons}名\n\n")
 
         # award_levelカラム統計
@@ -222,7 +224,7 @@ def main():
     print("📊 分析結果サマリー")
     print("=" * 80)
     print(f"総エピソード数: {len(master_rows)}件")
-    print(f"受賞関連エピソード: {total_award_episodes}件 ({total_award_episodes/len(master_rows)*100:.1f}%)")
+    print(f"受賞関連エピソード: {total_award_episodes}件 ({total_award_episodes / len(master_rows) * 100:.1f}%)")
     print(f"受賞者数: {unique_persons}名")
 
     print("\n主要カテゴリ（上位10件）:")

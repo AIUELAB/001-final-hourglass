@@ -278,7 +278,7 @@ def main():
         if consistency["inconsistency_count"] > 0:
             print("\n⚠️ 不整合の例（最初の5件）:")
             for i, inc in enumerate(consistency["inconsistencies"][:5]):
-                print(f"   {i+1}. {inc['person_name']}")
+                print(f"   {i + 1}. {inc['person_name']}")
                 print(f"      group_name: '{inc['group_name']}'")
                 print(f"      is_group_member: {inc['is_group_member']} (期待値: {inc['expected']})")
         else:

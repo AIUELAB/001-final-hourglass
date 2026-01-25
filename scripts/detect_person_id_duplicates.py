@@ -221,7 +221,7 @@ def main():
         for d in substr[:20]:
             print(f"  {d['short']} ({d['short_id']}) ⊂ {d['full']} ({d['full_id']})")
         if len(substr) > 20:
-            print(f"  ... 他{len(substr)-20}件")
+            print(f"  ... 他{len(substr) - 20}件")
 
     if not duplicates:
         print("問題は検出されませんでした。")

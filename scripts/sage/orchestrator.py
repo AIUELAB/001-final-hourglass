@@ -1339,8 +1339,7 @@ class HybridOrchestrator:
             for c in candidates:
                 age_distribution[c.age] = age_distribution.get(c.age, 0) + 1
             logger.info(
-                f"Phase 65: 年齢別選定結果 - 総数: {len(candidates)}件, "
-                f"分布: {dict(sorted(age_distribution.items()))}"
+                f"Phase 65: 年齢別選定結果 - 総数: {len(candidates)}件, 分布: {dict(sorted(age_distribution.items()))}"
             )
         else:
             # Phase 29: Q1対応 - 80歳以下優先モード

@@ -89,10 +89,10 @@ def run_auto_improvement(max_batches: int, batch_size: int, dry_run: bool, delay
             print("\n✅ 全エピソード改善完了！")
             break
 
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"📦 Batch {batch_num}/{max_batches} 開始")
         print(f"   残り: {remaining}件")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         # バッチ実行
         start_time = time.time()

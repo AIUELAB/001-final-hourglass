@@ -314,7 +314,7 @@ class GeminiClient(BaseLLMClient):
             self.client = genai.GenerativeModel(model)
         except ImportError:
             raise ImportError(
-                "google-generativeai パッケージがインストールされていません: " "pip install google-generativeai"
+                "google-generativeai パッケージがインストールされていません: pip install google-generativeai"
             )
 
     async def generate_async(self, prompt: str, system_prompt: str | None = None) -> str:

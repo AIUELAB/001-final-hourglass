@@ -132,9 +132,9 @@ def get_top10_snapshot(conn: sqlite3.Connection) -> list:
 
 def main():
     """検証を実行"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Celebrity Score v2 品質検証")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     if not CACHE_DB_PATH.exists():
         print("ERROR: キャッシュDBが見つかりません")

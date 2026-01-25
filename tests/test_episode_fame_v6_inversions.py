@@ -56,9 +56,9 @@ class TestMurakamiInversion:
         )
 
         top_ep = sorted_eps[0]
-        assert top_ep.get("episode_id") == "EP-000002037", (
-            f"EP-000002037が1位であるべき。実際: {top_ep.get('episode_id')} " f"(v6={top_ep.get('episode_fame_v6')})"
-        )
+        assert (
+            top_ep.get("episode_id") == "EP-000002037"
+        ), f"EP-000002037が1位であるべき。実際: {top_ep.get('episode_id')} (v6={top_ep.get('episode_fame_v6')})"
 
     def test_norwegian_wood_score_above_threshold(self, murakami_episodes):
         """EP-000002037のスコアが80点以上"""
@@ -123,7 +123,7 @@ class TestEpisodeCountConsistency:
                 person_counts[person_id].add(count)
 
         inconsistent = [pid for pid, counts in person_counts.items() if len(counts) > 1]
-        assert len(inconsistent) == 0, f"{len(inconsistent)}人でepisode_countが不整合: " f"{inconsistent[:5]}"
+        assert len(inconsistent) == 0, f"{len(inconsistent)}人でepisode_countが不整合: {inconsistent[:5]}"
 
 
 class TestScorerIntegration:

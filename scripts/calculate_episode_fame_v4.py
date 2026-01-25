@@ -138,7 +138,7 @@ def print_stats(stats: dict) -> None:
     for bucket in sorted(stats["score_distribution"].keys()):
         count = stats["score_distribution"][bucket]
         bar = "█" * (count // 100)
-        print(f"  {bucket:3d}-{bucket+9:3d}: {count:5d}件 {bar}")
+        print(f"  {bucket:3d}-{bucket + 9:3d}: {count:5d}件 {bar}")
 
     print("\n=== 高スコアサンプル (>= 80) ===")
     for s in stats["samples"]["high"][:5]:

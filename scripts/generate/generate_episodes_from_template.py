@@ -104,13 +104,13 @@ def generate_episode(
 ) -> Optional[Dict]:
     """エピソードを生成"""
 
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print(f"生成中: {person_name} ({category})")
     if person_type == "FICTIONAL" and work_title:
         print(f"作品: {work_title}")
     if award_name:
         print(f"受賞: {award_name}" + (f" ({award_year}年)" if award_year else ""))
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     # ===== 品質ゲート: グループ名チェック =====
     if GROUP_VALIDATION_AVAILABLE and person_type != "FICTIONAL":

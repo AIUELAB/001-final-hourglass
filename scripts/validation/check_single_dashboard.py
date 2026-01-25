@@ -97,8 +97,7 @@ def check_single_dashboard() -> dict:
         results["checks"].append(f"✅ archive/dashboards/ 存在（{archived_count}ファイル）")
     else:
         results["warnings"].append(
-            "⚠️ archive/dashboards/ が存在しません\n"
-            "   → 旧バージョン保存先として作成を推奨: mkdir -p archive/dashboards"
+            "⚠️ archive/dashboards/ が存在しません\n   → 旧バージョン保存先として作成を推奨: mkdir -p archive/dashboards"
         )
 
     return results

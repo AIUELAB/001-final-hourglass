@@ -445,7 +445,7 @@ if __name__ == "__main__":
 
         report_content = f"""# Audio Notification Integration Report
 
-Generated on: {time.strftime('%Y-%m-%d %H:%M:%S')}
+Generated on: {time.strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Summary
 

@@ -245,7 +245,7 @@ def fix_group_as_person(df: pd.DataFrame, issue: DetectedIssue, dry_run: bool = 
                     original_name=group_name,
                     fixed_name=first_member,
                     action="dispersed",
-                    details=f'代表メンバー({first_member})に変換。他メンバー: {rule.members[1:] if len(rule.members) > 1 else "なし"}',
+                    details=f"代表メンバー({first_member})に変換。他メンバー: {rule.members[1:] if len(rule.members) > 1 else 'なし'}",
                 )
             )
         else:
@@ -419,7 +419,7 @@ def main():
     print("\n🔧 修正実行中...")
 
     # バックアップ
-    backup_path = args.csv.replace(".csv", f'_backup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv')
+    backup_path = args.csv.replace(".csv", f"_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
     df.to_csv(backup_path, index=False, encoding="utf-8-sig")
     print(f"   💾 バックアップ: {backup_path}")
 

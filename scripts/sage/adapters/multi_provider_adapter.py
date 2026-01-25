@@ -343,9 +343,7 @@ class AutoProviderAdapter(MultiProviderAdapter):
         """
         available = get_available_providers()
         if not available:
-            raise ValueError(
-                "No LLM provider available. " "Set one of: ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY"
-            )
+            raise ValueError("No LLM provider available. Set one of: ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY")
 
         # プロバイダ選択
         if prefer_cheapest:

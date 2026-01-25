@@ -128,7 +128,7 @@ def main():
         return
 
     for iteration in range(1, args.max_iterations + 1):
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print(f"📦 イテレーション {iteration}/{args.max_iterations}")
         print(f"   開始時刻: {datetime.now().strftime('%H:%M:%S')}")
         print("=" * 70)

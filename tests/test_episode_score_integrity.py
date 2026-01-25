@@ -108,9 +108,9 @@ class TestHighImpactEvents:
         )
         median_score = scores[len(scores) // 2] if scores else 0
 
-        assert median_score >= min_score * 0.8, (
-            f"'{keyword}' エピソードの中央値スコア {median_score:.1f} が低すぎる " f"(期待: {min_score * 0.8:.1f}以上)"
-        )
+        assert (
+            median_score >= min_score * 0.8
+        ), f"'{keyword}' エピソードの中央値スコア {median_score:.1f} が低すぎる (期待: {min_score * 0.8:.1f}以上)"
 
 
 if __name__ == "__main__":

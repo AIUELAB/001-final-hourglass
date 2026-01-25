@@ -157,9 +157,9 @@ def fetch_fame_data(
 
 def run_test_persons(test_persons: list[str]) -> None:
     """特定人物のみテスト実行"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("テスト実行モード")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     conn = init_cache_db()
 
@@ -207,9 +207,9 @@ def run_test_persons(test_persons: list[str]) -> None:
 
 def run_dry_run() -> None:
     """ドライラン（変更なし、効果確認のみ）"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("ドライラン実行モード（変更なし）")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     # CSVを読み込み
     df = pd.read_csv(MASTER_CSV_PATH, low_memory=False)
@@ -310,9 +310,9 @@ def run_dry_run() -> None:
 
 def run_execute(batch_size: int = 50, max_persons: int = 0) -> None:
     """本番実行（CSV更新）"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("本番実行モード")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     # バックアップ作成
     backup_path = MASTER_CSV_PATH.with_suffix(f".backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
@@ -352,7 +352,7 @@ def run_execute(batch_size: int = 50, max_persons: int = 0) -> None:
         end_idx = min(start_idx + batch_size, len(person_list))
         batch = person_list[start_idx:end_idx]
 
-        print(f"\nバッチ {batch_idx + 1}/{total_batches} " f"({start_idx + 1}-{end_idx}/{len(person_list)})")
+        print(f"\nバッチ {batch_idx + 1}/{total_batches} ({start_idx + 1}-{end_idx}/{len(person_list)})")
 
         for person in batch:
             person_id = person.person_id

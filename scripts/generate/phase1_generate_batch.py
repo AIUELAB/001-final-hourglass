@@ -143,9 +143,9 @@ class BatchEpisodeGenerator:
         print(f"{'=' * 70}")
         print("\n📊 全体結果:")
         print(f"   対象人数: {total}人")
-        print(f"   ✅ 成功: {success_count}人 ({success_count/total*100:.1f}%)")
-        print(f"   ❌ 失敗: {failed_count}人 ({failed_count/total*100:.1f}%)")
-        print(f"   ⏭️ スキップ: {skipped_count}人 ({skipped_count/total*100:.1f}%)")
+        print(f"   ✅ 成功: {success_count}人 ({success_count / total * 100:.1f}%)")
+        print(f"   ❌ 失敗: {failed_count}人 ({failed_count / total * 100:.1f}%)")
+        print(f"   ⏭️ スキップ: {skipped_count}人 ({skipped_count / total * 100:.1f}%)")
 
         if self.results["success"]:
             print("\n✅ 成功した人物:")

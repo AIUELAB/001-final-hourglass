@@ -370,7 +370,7 @@ def main():
             for p in persons[:3]:
                 print(f"  - {p['person_name']}")
             if len(persons) > 3:
-                print(f"  - (他{len(persons)-3}人)")
+                print(f"  - (他{len(persons) - 3}人)")
 
     # 修正実行
     deleted = fix_mismatches(MASTER_CSV, results, execute=args.execute)

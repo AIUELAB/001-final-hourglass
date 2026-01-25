@@ -231,7 +231,7 @@ def check_alerts(metrics: Dict) -> List[Dict]:
             {
                 "level": "WARNING",
                 "type": "high_quality_rate",
-                "message": f"高品質率（600+）が低下: {metrics['high_quality_rate']*100:.1f}% < {QUALITY_THRESHOLDS['high_quality_rate_alert']*100}%",
+                "message": f"高品質率（600+）が低下: {metrics['high_quality_rate'] * 100:.1f}% < {QUALITY_THRESHOLDS['high_quality_rate_alert'] * 100}%",
                 "action": "品質ゲートの閾値を見直すか、プロンプトを強化してください",
             }
         )
@@ -296,7 +296,7 @@ def generate_report(master_metrics: Dict, staging_metrics: Optional[Dict], alert
             "total_count": master_metrics["total_count"],
             "composite_avg": master_metrics["composite_avg"],
             "composite_range": f"{master_metrics['composite_min']}-{master_metrics['composite_max']}",
-            "high_quality_rate": f"{master_metrics['high_quality_rate']*100:.1f}%",
+            "high_quality_rate": f"{master_metrics['high_quality_rate'] * 100:.1f}%",
             "score_distribution": dict(master_metrics["score_distribution"]),
             "axis_averages": master_metrics["axis_averages"],
             "source_distribution": dict(master_metrics["source_distribution"]),

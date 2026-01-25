@@ -200,7 +200,7 @@ def detect_and_fix_contradictions(rows: list[dict], dry_run: bool = True) -> dic
                             {
                                 "episode_id": occ["episode_id"],
                                 "age": occ["age"],
-                                "reason": f'史実({correct_age}歳)と{abs(occ["age"] - correct_age):.0f}歳のズレ',
+                                "reason": f"史実({correct_age}歳)と{abs(occ['age'] - correct_age):.0f}歳のズレ",
                             }
                         )
                     else:
@@ -220,7 +220,7 @@ def detect_and_fix_contradictions(rows: list[dict], dry_run: bool = True) -> dic
                             {
                                 "episode_id": occ["episode_id"],
                                 "age": occ["age"],
-                                "reason": f'中央値({median_age}歳)から{abs(occ["age"] - median_age):.0f}歳離れている',
+                                "reason": f"中央値({median_age}歳)から{abs(occ['age'] - median_age):.0f}歳離れている",
                             }
                         )
                     else:

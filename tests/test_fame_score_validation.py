@@ -76,10 +76,9 @@ class TestScaleConversionBugPrevention:
         stats = result["stats"]
 
         # 最大値が1000以下であれば0-1000スケール
-        assert stats["fame_score_v3_max"] <= 1000, (
-            f"fame_score_v3が1000を超えています: {stats['fame_score_v3_max']}"
-            "（10倍変換が不要なのに適用された可能性）"
-        )
+        assert (
+            stats["fame_score_v3_max"] <= 1000
+        ), f"fame_score_v3が1000を超えています: {stats['fame_score_v3_max']}（10倍変換が不要なのに適用された可能性）"
 
         # 最大値が100未満だと0-100スケールの可能性
         if stats["fame_score_v3_max"] < 100:
@@ -138,7 +137,7 @@ class TestAllScoresValidation:
         for field in scale_10_fields:
             if stats[field]["count"] > 0:
                 max_val = stats[field]["max"]
-                assert max_val <= 15, f"{field}が0-10スケールを大きく超過: {max_val}" "（10倍バグの可能性）"
+                assert max_val <= 15, f"{field}が0-10スケールを大きく超過: {max_val}（10倍バグの可能性）"
 
 
 class TestDashboardScaleConsistency:
@@ -177,10 +176,9 @@ class TestWikidataDisambiguation:
         suspicious = detect_suspicious_persons()
         high_risk = [s for s in suspicious if s.risk_level == "high" and s.person_name not in ALLOWED_SHORT_NAMES]
 
-        assert len(high_risk) == 0, (
-            f"高リスク短名が検出されました: "
-            f"{[(s.person_id, s.person_name, s.sitelinks_count) for s in high_risk[:5]]}"
-        )
+        assert (
+            len(high_risk) == 0
+        ), f"高リスク短名が検出されました: {[(s.person_id, s.person_name, s.sitelinks_count) for s in high_risk[:5]]}"
 
     def test_ken_not_using_kenya_entity(self):
         """ken (PF632FA6) がケニア(sitelinks=331)を使用していないこと（回帰テスト）"""
@@ -194,10 +192,9 @@ class TestWikidataDisambiguation:
                 if row.get("person_id") == "PF632FA6":
                     sitelinks = float(row.get("sitelinks_count", "0") or "0")
                     # ケニアのsitelinks(331)ではないこと
-                    assert sitelinks < 50, (
-                        f"ken (PF632FA6) のsitelinkが異常に高い: {sitelinks} "
-                        "(ケニアのエンティティを使用している可能性)"
-                    )
+                    assert (
+                        sitelinks < 50
+                    ), f"ken (PF632FA6) のsitelinkが異常に高い: {sitelinks} (ケニアのエンティティを使用している可能性)"
                     break
 
     def test_one_not_using_number_entity(self):
@@ -212,10 +209,9 @@ class TestWikidataDisambiguation:
                 if row.get("person_id") == "PBC21E64":
                     sitelinks = float(row.get("sitelinks_count", "0") or "0")
                     # 数字1のsitelinks(214)ではないこと
-                    assert sitelinks < 50, (
-                        f"ONE (PBC21E64) のsitelinkが異常に高い: {sitelinks} "
-                        "(数字1のエンティティを使用している可能性)"
-                    )
+                    assert (
+                        sitelinks < 50
+                    ), f"ONE (PBC21E64) のsitelinkが異常に高い: {sitelinks} (数字1のエンティティを使用している可能性)"
                     break
 
     def test_ken_score_below_justin_bieber(self):

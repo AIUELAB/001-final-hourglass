@@ -319,7 +319,7 @@ def run_layer3(count: Optional[int], execute: bool) -> Dict:
         original_composite = float(ep.get("composite_score", 0) or 0)
         weak_axes = ep.get("weak_axes", "").split(",") if ep.get("weak_axes") else []
 
-        print(f"\n[{i+1}/{len(queue)}] {person_name} ({age}歳) | 元スコア: {original_composite}")
+        print(f"\n[{i + 1}/{len(queue)}] {person_name} ({age}歳) | 元スコア: {original_composite}")
         print(f"  弱軸: {weak_axes}")
 
         # 改稿

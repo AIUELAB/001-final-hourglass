@@ -309,9 +309,7 @@ class UnifiedEpisodeValidator:
         """マスターデータの遅延読み込み"""
         if self._master_df is None:
             if not self.master_csv.exists():
-                raise FileNotFoundError(
-                    f"Master CSV not found: {self.master_csv}. " f"Please verify the path is correct."
-                )
+                raise FileNotFoundError(f"Master CSV not found: {self.master_csv}. Please verify the path is correct.")
             self._master_df = pd.read_csv(self.master_csv, encoding="utf-8-sig", low_memory=False)
             logger.info(f"Loaded {len(self._master_df)} episodes from {self.master_csv}")
         return self._master_df

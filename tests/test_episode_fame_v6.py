@@ -70,8 +70,8 @@ class TestBiasControl:
         for i in range(30):
             episodes.append(
                 {
-                    "episode_id": f"EP{100+i}",
-                    "person_id": f"P{100+i}",
+                    "episode_id": f"EP{100 + i}",
+                    "person_id": f"P{100 + i}",
                     "episode_fame_v6": 50 - i * 0.5,
                 }
             )
@@ -87,8 +87,8 @@ class TestBiasControl:
         for i in range(60):
             episodes.append(
                 {
-                    "episode_id": f"EP{100+i}",
-                    "person_id": f"P{100+i}",
+                    "episode_id": f"EP{100 + i}",
+                    "person_id": f"P{100 + i}",
                     "episode_fame_v6": 50 - i * 0.5,
                 }
             )
@@ -104,8 +104,8 @@ class TestBiasControl:
         for i in range(120):
             episodes.append(
                 {
-                    "episode_id": f"EP{100+i}",
-                    "person_id": f"P{100+i}",
+                    "episode_id": f"EP{100 + i}",
+                    "person_id": f"P{100 + i}",
                     "episode_fame_v6": 50 - i * 0.3,
                 }
             )

@@ -551,9 +551,9 @@ def generate_episode_with_quality_gate(
     if stats:
         stats.total_attempts += 1
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"生成中: {person_name} ({age}歳, {category})")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     for attempt in range(QUALITY_GATES["max_retries"] + 1):
         attempt_label = "初稿" if attempt == 0 else f"改稿{attempt}"
@@ -783,12 +783,12 @@ def main():
     episodes = []
 
     # 生成ループ
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("生成開始")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     for i, candidate in enumerate(candidates):
-        print(f"\n[{i+1}/{len(candidates)}]")
+        print(f"\n[{i + 1}/{len(candidates)}]")
 
         episode = generate_episode_with_quality_gate(
             person_name=candidate["person_name"],
@@ -805,14 +805,14 @@ def main():
         time.sleep(0.5)
 
     # 結果サマリー
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("生成完了")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     summary = stats.get_summary()
     print("\n【統計サマリー】")
     print(f"  試行数: {summary['total_attempts']}")
-    print(f"  成功: {summary['success']} ({summary['success_rate']*100:.1f}%)")
+    print(f"  成功: {summary['success']} ({summary['success_rate'] * 100:.1f}%)")
     print(f"  棄却: {summary['rejected']}")
     print(f"  リトライ: {summary['retried']}")
     print(f"  超総合平均: {summary['avg_composite_score']:.1f}")

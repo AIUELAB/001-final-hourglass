@@ -340,11 +340,11 @@ def generate_episode_by_age_range(
 
     prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 
-以下の人物について、**{age}歳のとき（{age_config['description']}）** の印象的なエピソードを日本語で生成してください。
+以下の人物について、**{age}歳のとき（{age_config["description"]}）** の印象的なエピソードを日本語で生成してください。
 
 人物名: {person_name}
 カテゴリ: {category}
-年齢: {age}歳（{age_config['life_stage_tag']}）"""
+年齢: {age}歳（{age_config["life_stage_tag"]}）"""
 
     if award_name:
         prompt += f"""
@@ -357,7 +357,7 @@ def generate_episode_by_age_range(
 エピソードの要件:
 1. 「あなたと同じ{age}歳のとき、{person_name}は〜」という形式で始める
 2. この年代特有の視点を含める:
-{age_config['themes']}
+{age_config["themes"]}
 3. 具体的な事実や出来事を含める
 4. 200-300文字程度
 5. educational_valueのある内容

@@ -143,7 +143,7 @@ def main():
 
     for i in range(0, total, args.batch_size):
         batch = episodes_list[i : i + args.batch_size]
-        print(f"\n🔄 バッチ {i//args.batch_size + 1}: {len(batch)}件処理中...")
+        print(f"\n🔄 バッチ {i // args.batch_size + 1}: {len(batch)}件処理中...")
 
         try:
             results = reclassify_episodes(client, batch)
@@ -169,9 +169,9 @@ def main():
     df.to_csv(csv_path, index=False, encoding="utf-8-sig")
 
     # レポート
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"✅ 完了: {updated}件のepisode_typeを変更")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     if changes:
         print("\n変更内容:")

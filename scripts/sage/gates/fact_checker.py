@@ -59,7 +59,7 @@ def check_person_existence(
     """
     if not PERPLEXITY_API_KEY:
         logger.error(
-            "PERPLEXITY_API_KEY not configured. Fact checking is disabled. " "Set via environment variable or %s",
+            "PERPLEXITY_API_KEY not configured. Fact checking is disabled. Set via environment variable or %s",
             API_KEY_PATH,
         )
         return FactCheckResult(

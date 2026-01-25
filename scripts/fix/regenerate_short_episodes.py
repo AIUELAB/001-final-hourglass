@@ -78,7 +78,7 @@ def create_batch_requests(short_df: pd.DataFrame) -> list[dict]:
 - カテゴリ: {category}
 
 ## 現在のエピソード（短すぎる）
-{row['episode_text']}
+{row["episode_text"]}
 
 ## 要求
 上記エピソードを参考に、同じ人物・年齢・内容テーマで**250〜350文字**の新しいエピソードを生成してください。

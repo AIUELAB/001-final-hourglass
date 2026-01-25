@@ -665,7 +665,7 @@ class SafeCSVWriter:
                 except (TypeError, ValueError):
                     pass
 
-                if isinstance(value, float) and math.isnan(value):
+                if isinstance(value, float) and (math.isnan(value) or math.isinf(value)):
                     sanitized[key] = None
                 elif isinstance(value, (np.integer,)):
                     sanitized[key] = int(value)

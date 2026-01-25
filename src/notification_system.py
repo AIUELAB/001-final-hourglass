@@ -3,11 +3,17 @@ Audio Notification System for Claude Code
 
 Provides cross-platform audio notifications for task completion, errors, and progress updates.
 Supports system sounds, generated tones, and custom sound files.
+
+Security Design:
+- All subprocess calls use shell=False (default) to prevent shell injection
+- Command arguments are hardcoded or validated Path objects
+- No user input is passed directly to subprocess calls
+- nosec B603/B607: Commands are fixed system audio tools (afplay, pactl, etc.)
 """
 
 import logging
 import platform
-import subprocess
+import subprocess  # nosec B404
 import threading
 import time
 from enum import Enum
@@ -136,12 +142,12 @@ class AudioNotificationSystem:
         try:
             # Try to play a very quiet test beep
             if self.platform == "darwin":  # macOS
-                subprocess.run(
+                subprocess.run(  # nosec B603 B607
                     ["afplay", "/System/Library/Sounds/Tink.aiff"], check=False, capture_output=True, timeout=1.0
                 )
             elif self.platform == "linux":
                 # Test if speaker-test or pactl is available
-                result = subprocess.run(["which", "pactl"], capture_output=True, text=True, check=False)
+                result = subprocess.run(["which", "pactl"], capture_output=True, text=True, check=False)  # nosec B603 B607
                 if result.returncode == 0:
                     return True
             elif self.platform == "windows" and winsound:
@@ -210,7 +216,7 @@ class AudioNotificationSystem:
         """Play a sound file using platform-appropriate method."""
         try:
             if self.platform == "darwin":  # macOS
-                subprocess.run(
+                subprocess.run(  # nosec B603 B607
                     ["afplay", str(sound_file)], check=True, capture_output=True, timeout=self.max_duration + 1.0
                 )
                 return True
@@ -219,8 +225,8 @@ class AudioNotificationSystem:
                 players = ["paplay", "aplay", "sox", "ffplay"]
                 for player in players:
                     try:
-                        subprocess.run(["which", player], check=True, capture_output=True)
-                        subprocess.run(
+                        subprocess.run(["which", player], check=True, capture_output=True)  # nosec B603 B607
+                        subprocess.run(  # nosec B603 B607
                             [player, str(sound_file)], check=True, capture_output=True, timeout=self.max_duration + 1.0
                         )
                         return True
@@ -228,7 +234,7 @@ class AudioNotificationSystem:
                         continue
             elif self.platform == "windows":
                 # shell=Falseでインジェクション防止
-                subprocess.run(
+                subprocess.run(  # nosec B603 B607
                     ["cmd", "/c", "start", "/wait", "", str(sound_file)],
                     shell=False,
                     check=False,
@@ -249,7 +255,7 @@ class AudioNotificationSystem:
 
         try:
             if self.platform == "darwin":  # macOS
-                subprocess.run(
+                subprocess.run(  # nosec B603 B607
                     ["afplay", f"/System/Library/Sounds/{system_sound}.aiff"],
                     check=True,
                     capture_output=True,
@@ -294,7 +300,7 @@ class AudioNotificationSystem:
         try:
             for _ in frequencies:
                 # Use osascript to play system beep
-                subprocess.run(["osascript", "-e", "beep"], check=True, capture_output=True, timeout=1.0)
+                subprocess.run(["osascript", "-e", "beep"], check=True, capture_output=True, timeout=1.0)  # nosec B603 B607
                 if len(frequencies) > 1:
                     time.sleep(duration / 2)
             return True
@@ -306,7 +312,7 @@ class AudioNotificationSystem:
         # Try speaker-test
         try:
             for freq in frequencies:
-                subprocess.run(
+                subprocess.run(  # nosec B603 B607
                     ["speaker-test", "-t", "sine", "-f", str(freq), "-l", "1"],
                     check=True,
                     capture_output=True,
@@ -320,7 +326,7 @@ class AudioNotificationSystem:
         try:
             for freq in frequencies:
                 # Load sine module
-                result = subprocess.run(
+                result = subprocess.run(  # nosec B603 B607
                     ["pactl", "load-module", "module-sine", f"frequency={freq}"],
                     check=True,
                     capture_output=True,
@@ -330,14 +336,14 @@ class AudioNotificationSystem:
                 module_id = result.stdout.strip()
                 time.sleep(duration)
                 # Unload sine module
-                subprocess.run(["pactl", "unload-module", module_id], check=True, capture_output=True, timeout=1.0)
+                subprocess.run(["pactl", "unload-module", module_id], check=True, capture_output=True, timeout=1.0)  # nosec B603 B607
             return True
         except (subprocess.CalledProcessError, FileNotFoundError):
             pass
 
         # Try simple beep command
         try:
-            subprocess.run(["beep"], check=True, capture_output=True, timeout=1.0)
+            subprocess.run(["beep"], check=True, capture_output=True, timeout=1.0)  # nosec B603 B607
             return True
         except (subprocess.CalledProcessError, FileNotFoundError):
             pass

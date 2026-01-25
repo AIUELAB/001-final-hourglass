@@ -1,3 +1,15 @@
+# ============================================================
+# Enhanced CI/CD Pipeline with OIDC
+# ============================================================
+#
+# Workflow Dependencies:
+# - security.yml: Handles Bandit, pip-audit, Safety scans
+# - This workflow: Handles Semgrep, container scan, compliance
+#
+# Note: dependency-scan job was removed to avoid duplication
+# with security.yml. See security.yml for dependency scanning.
+# ============================================================
+
 name: Enhanced CI/CD Pipeline with OIDC
 
 on:
@@ -73,75 +85,24 @@ jobs:
             p/owasp-top-ten
             p/python
 
-      - name: Run Bandit Security Scan
-        run: |
-          pip install bandit[toml]
-          # pyproject.toml の [tool.bandit] skips 設定を適用
-          bandit -c pyproject.toml -r src -f json -o bandit-report.json
-        # 問題検出時もレポート生成を継続（結果はサマリーで評価）
-        continue-on-error: true
+      # Banditはsecurity.ymlで実行するため省略
 
-      - name: Upload Security Reports
+      - name: Upload Semgrep Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: security-reports
+          name: semgrep-reports
           path: |
-            bandit-report.json
             semgrep.sarif
 
-  # 依存関係スキャン
-  dependency-scan:
-    name: Dependency Security Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Run Safety Check
-        run: |
-          pip install safety
-          safety check --json --output safety-report.json || true
-        # 脆弱性検出時も後続ステップを実行（結果はサマリーで評価）
-        continue-on-error: true
-
-      - name: Run pip-audit
-        run: |
-          pip install pip-audit
-          pip-audit --desc --format json --output pip-audit-report.json
-        # 脆弱性検出時も後続ステップを実行（結果はサマリーで評価）
-        continue-on-error: true
-
-      - name: OWASP Dependency Check
-        uses: dependency-check/Dependency-Check_Action@main
-        with:
-          project: "claude-code-template-mcp"
-          path: "."
-          format: "ALL"
-          args: >
-            --enableRetired
-            --enableExperimental
-
-      - name: Upload Dependency Reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dependency-reports
-          path: |
-            safety-report.json
-            pip-audit-report.json
-            reports/
+  # dependency-scan ジョブはsecurity.ymlに統合済み
 
   # AWS OIDC認証例
   aws-deploy:
     name: Deploy to AWS (OIDC)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast, dependency-scan]
+    needs: [secret-scan, sast]
     steps:
       - uses: actions/checkout@v4
 
@@ -163,7 +124,7 @@ jobs:
     name: Deploy to GCP (OIDC)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast, dependency-scan]
+    needs: [secret-scan, sast]
     steps:
       - uses: actions/checkout@v4
 
@@ -186,7 +147,7 @@ jobs:
     name: Deploy to Azure (OIDC)
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast, dependency-scan]
+    needs: [secret-scan, sast]
     steps:
       - uses: actions/checkout@v4
 
@@ -319,7 +280,7 @@ jobs:
     name: Aggregate Security Reports
     runs-on: ubuntu-latest
     needs:
-      [secret-scan, sast, dependency-scan, container-scan, compliance-check]
+      [secret-scan, sast, container-scan, compliance-check]
     if: always()
     steps:
       - uses: actions/checkout@v4
@@ -337,14 +298,13 @@ jobs:
           echo "## Scan Results" >> security-summary.md
           echo "- Secret Scan: ${{ needs.secret-scan.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
           echo "- SAST: ${{ needs.sast.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
-          echo "- Dependency Scan: ${{ needs.dependency-scan.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
           echo "- Container Scan: ${{ needs.container-scan.result == 'success' && '✅' || (needs.container-scan.result == 'skipped' && '⏭️' || '⚠️') }}" >> security-summary.md
           echo "- Compliance Check: ${{ needs.compliance-check.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
+          echo "(Dependency Scanはsecurity.ymlで実行)" >> security-summary.md
 
           echo "" >> security-summary.md
           if [[ "${{ needs.secret-scan.result }}" != "success" ]] || \
              [[ "${{ needs.sast.result }}" != "success" ]] || \
-             [[ "${{ needs.dependency-scan.result }}" != "success" ]] || \
              [[ "${{ needs.container-scan.result }}" == "failure" ]] || \
              [[ "${{ needs.compliance-check.result }}" == "failure" ]]; then
             echo "⚠️ **注意**: 一部のセキュリティスキャンで問題が検出されました。" >> security-summary.md

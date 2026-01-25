@@ -145,7 +145,8 @@ jobs:
           set +e
 
           # Bandit（Pythonコードの静的セキュリティ検査）
-          bandit -r src/ -f json -o bandit-report.json
+          # pyproject.toml の [tool.bandit] skips 設定を適用
+          bandit -c pyproject.toml -r src/ -f json -o bandit-report.json
           echo "bandit_exit_code=$?" >> "$GITHUB_OUTPUT"
 
           # pip-audit（requirements.txt を監査）

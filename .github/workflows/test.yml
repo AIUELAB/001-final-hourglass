@@ -42,7 +42,7 @@ jobs:
 
     - name: Run type checking
       run: |
-        pip install mypy
+        pip install mypy types-requests types-aiofiles types-PyYAML
         mypy src --ignore-missing-imports
 
     - name: Run tests with coverage

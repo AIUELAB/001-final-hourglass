@@ -92,6 +92,25 @@ class TestDeletionLogic:
             for invalid in invalid_reasons:
                 assert invalid not in reason, f"不当な削除理由が検出されました: {row['人物名']} - {reason}"
 
+    @pytest.mark.unit
+    def test_similar_names_not_protected_mock(self):
+        """
+        [モック版] PROTECTED_PERSONSリストが完全一致のみを含むことを検証
+
+        PRレビュー#14指摘: 類似名が誤って保護対象に含まれていないことを確認
+        注: 実際の削除ロジックは統合テストで検証
+        """
+        # 類似名のペア（保護対象, 類似だが別人）
+        similar_names = [
+            ("スティーブ・ジョブズ", "スティーブ・ジョブス"),  # 濁点違い
+            ("アルベルト・アインシュタイン", "アインシュタイン"),  # フルネーム vs 姓のみ
+        ]
+
+        # PROTECTED_PERSONSに完全一致のみ保護されること
+        for protected, similar in similar_names:
+            assert protected in self.PROTECTED_PERSONS, f"{protected}は保護対象に含まれるべき"
+            assert similar not in self.PROTECTED_PERSONS, f"{similar}は類似名のため保護対象に含まれない"
+
     # ============================================
     # 統合版テスト（ローカル実行のみ）
     # ============================================

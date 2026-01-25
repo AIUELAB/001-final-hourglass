@@ -275,8 +275,10 @@ class TestMigrate:
         mock_upsert.assert_not_called()
         mock_client.assert_not_called()
 
-    def test_migrate_handles_api_error_gracefully(self, mocker, tmp_path, capsys):
+    def test_migrate_handles_api_error_gracefully(self, mocker, tmp_path, capsys, caplog):
         """APIエラー発生時も例外で終了せず、エラーログが出力される"""
+        import logging
+
         from migrate_csv_to_supabase import migrate
         from postgrest.exceptions import APIError
         import migrate_csv_to_supabase
@@ -302,12 +304,15 @@ class TestMigrate:
         mock_client.table().select().execute.return_value = mock_count_result
 
         # 例外なく完了すること
-        migrate(dry_run=False)
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
 
-        # H-4対応: エラーログが出力されていることを検証
+        # H-4対応: エラーログが出力されていることを検証（logger.error使用）
+        assert any(record.levelno == logging.ERROR and "APIError" in record.message for record in caplog.records)
+        assert "constraint violation" in caplog.text
+
+        # コンソール出力の検証
         captured = capsys.readouterr()
-        assert "[ERROR]" in captured.out
-        assert "APIError" in captured.out or "constraint violation" in captured.out
         assert "[NG] 失敗:" in captured.out
 
     def test_migrate_batch_size_zero_raises_error(self):
@@ -343,7 +348,13 @@ class TestMigrate:
         with caplog.at_level(logging.WARNING):
             migrate(batch_size=10001, dry_run=True)
 
-        assert "batch_sizeが大きすぎます" in caplog.text
+        # ログレベルがWARNINGであることを検証
+        assert any(
+            record.levelno == logging.WARNING and "batch_sizeが大きすぎます" in record.message
+            for record in caplog.records
+        )
+        # batch_size値がログに含まれることを検証
+        assert "10001" in caplog.text
 
 
 class TestUpsertBatchRetry:

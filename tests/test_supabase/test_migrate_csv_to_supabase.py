@@ -324,8 +324,10 @@ class TestMigrate:
         with pytest.raises(ValueError, match="batch_size は1以上"):
             migrate(batch_size=-1)
 
-    def test_migrate_batch_size_large_warns(self, mocker, tmp_path, capsys):
-        """batch_size>10000で警告出力（PRレビュー#14指摘）"""
+    def test_migrate_batch_size_large_warns(self, mocker, tmp_path, caplog):
+        """batch_size>10000で警告ログ出力（PRレビュー#14指摘）"""
+        import logging
+
         from migrate_csv_to_supabase import migrate
         import migrate_csv_to_supabase
 
@@ -338,9 +340,10 @@ class TestMigrate:
         mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
 
         # dry_run=Trueで実際のDB呼び出しを回避
-        migrate(batch_size=10001, dry_run=True)
-        captured = capsys.readouterr()
-        assert "batch_sizeが大きすぎます" in captured.out
+        with caplog.at_level(logging.WARNING):
+            migrate(batch_size=10001, dry_run=True)
+
+        assert "batch_sizeが大きすぎます" in caplog.text
 
 
 class TestUpsertBatchRetry:

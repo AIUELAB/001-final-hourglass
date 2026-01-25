@@ -9,12 +9,16 @@ Usage:
 
 import argparse
 import json
+import logging
 import math
 import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+# ロガー設定
+logger = logging.getLogger(__name__)
 
 import numpy as np
 import pandas as pd
@@ -182,7 +186,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
     if batch_size <= 0:
         raise ValueError("batch_size は1以上の整数を指定してください")
     if batch_size > 10000:
-        print("[WARN] batch_sizeが大きすぎます。API制限に注意してください")
+        logger.warning("batch_sizeが大きすぎます（%d）。API制限に注意してください", batch_size)
 
     print("=" * 60)
     print("CSV -> Supabase 移行開始")

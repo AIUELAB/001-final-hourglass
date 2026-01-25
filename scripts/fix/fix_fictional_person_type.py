@@ -156,7 +156,17 @@ def main():
     print()
 
     # CSV読み込み
-    df = pd.read_csv(args.csv, encoding="utf-8-sig")
+    try:
+        df = pd.read_csv(args.csv, encoding="utf-8-sig")
+    except FileNotFoundError:
+        print(f"❌ CSVファイルが見つかりません: {args.csv}")
+        sys.exit(1)
+    except pd.errors.EmptyDataError:
+        print(f"❌ CSVファイルが空です: {args.csv}")
+        sys.exit(1)
+    except pd.errors.ParserError as e:
+        print(f"❌ CSV解析エラー: {e}")
+        sys.exit(1)
     print(f"📊 総エピソード数: {len(df):,}")
     print()
 

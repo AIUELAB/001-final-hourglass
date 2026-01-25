@@ -58,3 +58,4 @@ pre-commit==3.8.0
 # Type stubs
 types-requests==2.32.0.20240712
 types-aiofiles==23.2.0.0
+types-PyYAML==6.0.12.20240917

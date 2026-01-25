@@ -8,7 +8,8 @@ ci:
   autofix_prs: true
   autoupdate_schedule: weekly
   autoupdate_commit_msg: 'chore: pre-commit autoupdate'
-  skip: [mypy, pytest]  # CI環境で時間がかかるものはスキップ
+  # CI環境で時間がかかるものやCSVファイル依存のものはスキップ
+  skip: [mypy, pytest, check-group-names, check-episode-consistency, check-same-age-duplicates]
 
 default_stages: [pre-commit]
 

@@ -19,6 +19,34 @@ sys.path.insert(0, str(PROJECT_ROOT / "scripts" / "supabase"))
 from migrate_csv_to_supabase import sanitize_value, sanitize_records, INTEGER_COLUMNS
 
 
+@pytest.fixture
+def mock_migrate_setup(mocker, tmp_path):
+    """migrate関数テスト用の共通セットアップ"""
+    import migrate_csv_to_supabase
+
+    csv_path = tmp_path / "preserved" / "data"
+    csv_path.mkdir(parents=True)
+    csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+    csv_file.write_text("episode_id,person_name,age\nEP001,Test,30", encoding="utf-8-sig")
+
+    mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+    mock_client = mocker.MagicMock()
+    mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+    # 検証クエリのデフォルトモック
+    mock_count_result = mocker.MagicMock()
+    mock_count_result.count = 1
+    mock_client.table().select().execute.return_value = mock_count_result
+
+    return {
+        "client": mock_client,
+        "tmp_path": tmp_path,
+        "csv_file": csv_file,
+        "module": migrate_csv_to_supabase,
+    }
+
+
 class TestSanitizeValue:
     """sanitize_value関数のテスト"""
 
@@ -188,6 +216,33 @@ class TestCleanData:
         assert result["is_group_member"].iloc[1] is None  # 空文字はNone
         assert result["is_group_member"].iloc[2] is None  # NoneはNone
 
+    def test_integer_column_conversion(self):
+        """INTEGERカラムがInt64型に変換される"""
+        from migrate_csv_to_supabase import clean_data
+
+        # テスト用DataFrame（INTEGERカラムを含む）
+        # pd.to_numeric(errors="coerce")で文字列は変換前にNaNに変換される
+        df = pd.DataFrame(
+            {
+                "age": [30.0, 45.0, None, 50.0],
+                "birth_year": [1990.0, 1985.0, np.nan, 2000.0],
+                "episode_count": [5, 10, 15, 20],
+                "person_name": ["Alice", "Bob", "Charlie", "Diana"],  # 非INTEGERカラム
+            }
+        )
+
+        result = clean_data(df)
+
+        # INTEGERカラムがInt64型に変換されていること
+        assert result["age"].dtype == "Int64"
+        assert result["birth_year"].dtype == "Int64"
+        assert result["episode_count"].dtype == "Int64"
+
+        # 値の検証（NaNは<NA>に変換）
+        assert result["age"].iloc[0] == 30
+        assert result["birth_year"].iloc[2] is pd.NA  # NaNはpd.NAに
+        assert result["episode_count"].iloc[3] == 20
+
 
 class TestLoadCsv:
     """load_csv関数のテスト"""
@@ -202,6 +257,22 @@ class TestLoadCsv:
         monkeypatch.setattr(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
 
         with pytest.raises(FileNotFoundError, match="マスターCSVが見つかりません"):
+            load_csv()
+
+    def test_csv_parse_error_raises_value_error(self, monkeypatch, tmp_path):
+        """不正なCSVファイルでValueErrorが発生"""
+        from migrate_csv_to_supabase import load_csv
+        import migrate_csv_to_supabase
+
+        monkeypatch.setattr(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        # カラム数不一致の不正CSV
+        csv_file.write_text('episode_id,person_name,age\n1,"unclosed quote', encoding="utf-8-sig")
+
+        with pytest.raises(ValueError, match="CSV解析エラー"):
             load_csv()
 
 
@@ -310,7 +381,7 @@ class TestMigrate:
         assert any(record.levelno == logging.ERROR and "APIError" in record.message for record in caplog.records)
         assert "constraint violation" in caplog.text
         # フォーマット済みメッセージの検証（バッチ番号が含まれる）
-        assert "バッチ 1 APIError:" in caplog.text
+        assert "Batch 1 APIError:" in caplog.text
 
         # コンソール出力の検証
         captured = capsys.readouterr()
@@ -349,8 +420,7 @@ class TestMigrate:
 
         # ログレベルがWARNINGであることを検証
         assert any(
-            record.levelno == logging.WARNING and "batch_sizeが大きすぎます" in record.message
-            for record in caplog.records
+            record.levelno == logging.WARNING and "batch_size too large" in record.message for record in caplog.records
         )
         # batch_size値がログに含まれることを検証
         assert "10001" in caplog.text
@@ -384,9 +454,11 @@ class TestMigrate:
             migrate(dry_run=False)
 
         # 接続エラーがログに出力されていること
-        assert any(record.levelno == logging.ERROR and "接続エラー" in record.message for record in caplog.records)
+        assert any(
+            record.levelno == logging.ERROR and "connection error" in record.message for record in caplog.records
+        )
         # フォーマット済みメッセージの検証（バッチ番号が含まれる）
-        assert "バッチ 1 接続エラー:" in caplog.text
+        assert "Batch 1 connection error:" in caplog.text
 
     def test_migrate_handles_unexpected_error_gracefully(self, mocker, tmp_path, caplog):
         """予期しないエラー発生時に調査推奨メッセージが出力される（PRレビュー#22追加）"""
@@ -419,7 +491,10 @@ class TestMigrate:
             migrate(dry_run=False)
 
         # 調査推奨メッセージがログに出力されていること
-        assert any(record.levelno == logging.ERROR and "調査が必要" in record.message for record in caplog.records)
+        assert any(
+            record.levelno == logging.ERROR and "investigation may be required" in record.message
+            for record in caplog.records
+        )
         # エラー種別がログに含まれることを検証
         assert "RuntimeError" in caplog.text
 
@@ -456,7 +531,7 @@ class TestMigrate:
 
         # データ変換エラーとしてログに出力されていること（JSONDecodeErrorはValueError継承）
         assert any(
-            record.levelno == logging.ERROR and "データ変換エラー" in record.message for record in caplog.records
+            record.levelno == logging.ERROR and "data conversion error" in record.message for record in caplog.records
         )
 
     def test_migrate_handles_type_error_gracefully(self, mocker, tmp_path, caplog):
@@ -485,7 +560,7 @@ class TestMigrate:
 
         # データ構造エラーとしてログに出力されていること
         assert any(
-            record.levelno == logging.ERROR and "データ構造エラー" in record.message for record in caplog.records
+            record.levelno == logging.ERROR and "data structure error" in record.message for record in caplog.records
         )
         assert "TypeError" in caplog.text
 
@@ -515,7 +590,7 @@ class TestMigrate:
 
         # データ構造エラーとしてログに出力されていること
         assert any(
-            record.levelno == logging.ERROR and "データ構造エラー" in record.message for record in caplog.records
+            record.levelno == logging.ERROR and "data structure error" in record.message for record in caplog.records
         )
         assert "KeyError" in caplog.text
 
@@ -541,6 +616,121 @@ class TestMigrate:
         # KeyboardInterruptが再送出されること
         with pytest.raises(KeyboardInterrupt):
             migrate(dry_run=False)
+
+    def test_migrate_propagates_system_exit(self, mocker, tmp_path):
+        """SystemExit発生時は再送出される（PRレビューW-1対応）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでSystemExit発生
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=SystemExit(1))
+
+        # SystemExitが再送出されること
+        with pytest.raises(SystemExit):
+            migrate(dry_run=False)
+
+    def test_migrate_log_save_failure_fallback(self, mocker, tmp_path, capsys, caplog):
+        """ログ保存失敗時にフォールバック出力される"""
+        from migrate_csv_to_supabase import migrate
+        from postgrest.exceptions import APIError
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\nEP001,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでAPIError発生（失敗レコードを生成するため）
+        mock_error = APIError({"message": "test error"})
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=mock_error)
+
+        # 検証クエリをモック
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        # ログ保存時にIOErrorを発生させる
+        original_open = open
+
+        def mock_open_error(path, *args, **kwargs):
+            if "migration_errors_" in str(path):
+                raise IOError("Permission denied")
+            return original_open(path, *args, **kwargs)
+
+        mocker.patch("builtins.open", side_effect=mock_open_error)
+
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        # フォールバック出力が表示されること
+        captured = capsys.readouterr()
+        assert "[FALLBACK]" in captured.out
+        # ログ保存失敗のエラーログ
+        assert "Failed to save log" in caplog.text
+
+    def test_migrate_count_mismatch_logs_error(self, mocker, tmp_path, caplog):
+        """件数不一致時にエラーログが出力される"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\nEP001,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert成功
+        mock_upsert_result = {"success_count": 1, "data": [{"episode_id": "EP001"}]}
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", return_value=mock_upsert_result)
+
+        # 件数不一致: success_count=1 だが DB件数=100
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 100  # 不一致
+
+        mock_sample_result = mocker.MagicMock()
+        mock_sample_result.data = [{"episode_id": "EP001", "person_name": "Test", "super_total_score": 50}]
+
+        mock_table = mocker.MagicMock()
+
+        def select_side_effect(*_args, **kwargs):
+            mock_select = mocker.MagicMock()
+            if "head" in kwargs and kwargs["head"]:
+                mock_select.execute.return_value = mock_count_result
+            else:
+                mock_in = mocker.MagicMock()
+                mock_in.execute.return_value = mock_sample_result
+                mock_select.in_.return_value = mock_in
+            return mock_select
+
+        mock_table.select.side_effect = select_side_effect
+        mock_client.table.return_value = mock_table
+
+        with caplog.at_level(logging.ERROR):
+            error_count = migrate(dry_run=False)
+
+        # 件数不一致エラーがログに出力されていること
+        assert "Count mismatch" in caplog.text
+        # S-6: 件数不一致がerror_countに反映されていること
+        assert error_count >= 1
 
 
 class TestUpsertBatchRetry:
@@ -592,28 +782,6 @@ class TestUpsertBatchRetry:
 
         # 3回リトライされた
         assert mock_upsert.execute.call_count == 3
-
-    def test_migrate_propagates_system_exit(self, mocker, tmp_path):
-        """SystemExit発生時は再送出される（PRレビューW-1対応）"""
-        from migrate_csv_to_supabase import migrate
-        import migrate_csv_to_supabase
-
-        csv_path = tmp_path / "preserved" / "data"
-        csv_path.mkdir(parents=True)
-        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
-        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
-
-        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
-
-        mock_client = mocker.MagicMock()
-        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
-
-        # upsert_batchでSystemExit発生
-        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=SystemExit(1))
-
-        # SystemExitが再送出されること
-        with pytest.raises(SystemExit):
-            migrate(dry_run=False)
 
 
 class TestMigrateSampleVerification:
@@ -669,7 +837,7 @@ class TestMigrateSampleVerification:
         with caplog.at_level(logging.ERROR):
             migrate(dry_run=False)
 
-        assert "サンプル検証失敗" in caplog.text
+        assert "Sample verification failed" in caplog.text
 
 
 class TestMigratePartialSuccess:
@@ -720,7 +888,7 @@ class TestMigratePartialSuccess:
             migrate(dry_run=False, batch_size=500)
 
         # 部分成功の警告ログが出力されていること
-        assert "部分成功" in caplog.text
+        assert "Partial success" in caplog.text
         # 失敗したepisode_idがログに含まれていること
         assert "EP002" in caplog.text
 
@@ -755,3 +923,14 @@ class TestSanitizeValueComplexObjects:
 
         result = sanitize_value((1, 2, 3), column_name="test_col")
         assert result is None
+
+    def test_dict_logs_warning(self, caplog):
+        """dict型変換時に警告ログが出力される"""
+        from migrate_csv_to_supabase import sanitize_value
+
+        with caplog.at_level(logging.WARNING):
+            sanitize_value({"key": "value"}, column_name="test_col")
+
+        assert "Complex object detected" in caplog.text
+        assert "test_col" in caplog.text
+        assert "dict" in caplog.text

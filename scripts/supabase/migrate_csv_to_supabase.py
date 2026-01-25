@@ -15,7 +15,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, TypedDict
 
 # ロガー設定（スクリプト単体実行時にも警告を表示）
 logger = logging.getLogger(__name__)
@@ -52,6 +52,17 @@ INTEGER_COLUMNS = {
 }
 
 
+class FailedRecord(TypedDict, total=False):
+    """失敗レコードの型定義"""
+
+    batch_num: int
+    error_type: str
+    error_message: str
+    episode_ids: list[str]
+    timestamp: str
+    unexpected: bool
+
+
 def get_supabase_client() -> Client:
     """Supabaseクライアント取得（service_role使用）"""
     url = os.getenv("SUPABASE_URL")
@@ -76,6 +87,10 @@ def load_csv() -> pd.DataFrame:
     return df
 
 
+# 複合オブジェクト検出カウンター（サマリー用）
+_complex_object_count = 0
+
+
 def sanitize_value(value: Any, column_name: str = "") -> Any:
     """
     個々の値をJSONシリアライズ可能な形式に変換
@@ -96,8 +111,10 @@ def sanitize_value(value: Any, column_name: str = "") -> Any:
     # 複合オブジェクト（dict, list, set, tuple）は早期にNoneに変換
     # JSONシリアライズ不能なため、APIエラーを防ぐ
     if isinstance(value, (dict, list, set, tuple)):
+        global _complex_object_count
+        _complex_object_count += 1
         logger.warning(
-            "複合オブジェクト検出 column=%s, value_type=%s - Noneに変換",
+            "Complex object detected column=%s, value_type=%s - converting to None",
             column_name,
             type(value).__name__,
         )
@@ -109,7 +126,7 @@ def sanitize_value(value: Any, column_name: str = "") -> Any:
     except (TypeError, ValueError) as e:
         # その他の複合オブジェクト（予期しない型）
         logger.warning(
-            "pd.isna()でTypeError/ValueError発生 column=%s, value_type=%s: %s",
+            "TypeError/ValueError in pd.isna() column=%s, value_type=%s: %s",
             column_name,
             type(value).__name__,
             e,
@@ -143,7 +160,7 @@ def sanitize_value(value: Any, column_name: str = "") -> Any:
         try:
             return int(float(value))
         except (ValueError, TypeError) as e:
-            logger.warning("INTEGER変換失敗 %s='%s': %s", column_name, value, e)
+            logger.warning("INTEGER conversion failed %s='%s': %s", column_name, value, e)
             return None
 
     return value
@@ -204,7 +221,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
     if batch_size <= 0:
         raise ValueError("batch_size は1以上の整数を指定してください")
     if batch_size > 10000:
-        logger.warning("batch_sizeが大きすぎます（%d）。API制限に注意してください", batch_size)
+        logger.warning("batch_size too large (%d). Be aware of API limits", batch_size)
 
     print("=" * 60)
     print("CSV -> Supabase 移行開始")
@@ -240,7 +257,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             json.dumps(sanitized_sample)
             print("\n[OK] JSONシリアライズテスト: 成功")
         except (ValueError, TypeError) as e:
-            logger.warning("JSONシリアライズテスト: 失敗（dry-run） - %s", e)
+            logger.warning(
+                "JSON serialize test: failed (dry-run) - %s. This may cause failures in actual execution.", e
+            )
 
         # INTEGERカラムの型検証
         print("\n[CHECK] INTEGERカラムの型検証:")
@@ -265,7 +284,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
     print(f"\n[START] 移行開始: {len(df):,}件 -> {total_batches}バッチ")
     print("-" * 60)
 
-    failed_records: list[dict] = []  # 失敗レコード詳細
+    failed_records: list[FailedRecord] = []  # 失敗レコード詳細
 
     for i in tqdm(range(0, len(df), batch_size), total=total_batches, desc="移行中", unit="batch", ncols=80):
         batch_df = df.iloc[i : i + batch_size]
@@ -287,7 +306,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
                     r.get("episode_id", "unknown") for r in batch_records if r.get("episode_id") not in success_ids
                 ]
                 logger.warning(
-                    "部分成功: %d/%d件 (失敗: %d件) - 失敗episode_id: %s",
+                    "Partial success: %d/%d records (failed: %d) - failed episode_ids: %s",
                     result["success_count"],
                     len(batch_records),
                     partial_failed,
@@ -306,8 +325,8 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             # Supabase API固有エラー（型不一致、制約違反等）
             error_count += len(batch_records)
             batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
-            logger.error("バッチ %d APIError: %s", batch_num, e.message)
-            logger.error("        対象episode_id: %s...（先頭5件）", batch_episode_ids[:5])
+            logger.error("Batch %d APIError: %s", batch_num, e.message)
+            logger.error("        target episode_ids: %s... (first 5)", batch_episode_ids[:5])
             failed_records.append(
                 {
                     "batch_num": batch_num,
@@ -321,7 +340,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             # JSON/値変換エラー
             error_count += len(batch_records)
             batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
-            logger.error("バッチ %d データ変換エラー: %s", batch_num, e)
+            logger.error("Batch %d data conversion error: %s", batch_num, e)
             failed_records.append(
                 {
                     "batch_num": batch_num,
@@ -335,7 +354,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             # 型エラー、キー欠損
             error_count += len(batch_records)
             batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
-            logger.error("バッチ %d データ構造エラー (%s): %s", batch_num, type(e).__name__, e)
+            logger.error("Batch %d data structure error (%s): %s", batch_num, type(e).__name__, e)
             failed_records.append(
                 {
                     "batch_num": batch_num,
@@ -349,7 +368,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             # ネットワーク接続エラー
             error_count += len(batch_records)
             batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
-            logger.error("バッチ %d 接続エラー: %s", batch_num, e)
+            logger.error("Batch %d connection error: %s", batch_num, e)
             failed_records.append(
                 {
                     "batch_num": batch_num,
@@ -367,7 +386,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             error_count += len(batch_records)
             batch_episode_ids = [r.get("episode_id", "unknown") for r in batch_records]
             logger.error(
-                "バッチ %d 予期しないエラー (%s): %s ※調査が必要な可能性があります", batch_num, type(e).__name__, e
+                "Batch %d unexpected error (%s): %s - investigation may be required", batch_num, type(e).__name__, e
             )
             failed_records.append(
                 {
@@ -391,7 +410,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
                 json.dump(failed_records, f, ensure_ascii=False, indent=2)
             print(f"\n[LOG] 失敗詳細を保存: {log_path}")
         except (IOError, OSError) as e:
-            logger.error("ログ保存失敗: %s", e)
+            logger.error("Failed to save log: %s", e)
             print("[FALLBACK] 失敗したepisode_idをコンソールに出力:")
             for record in failed_records[:5]:  # 先頭5件のみ
                 ids_preview = record["episode_ids"][:10]
@@ -404,6 +423,12 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
     print(f"[OK] 成功: {success_count:,}件")
     print(f"[NG] 失敗: {error_count:,}件")
 
+    # 複合オブジェクト検出サマリー
+    global _complex_object_count
+    if _complex_object_count > 0:
+        print(f"[INFO] Complex objects detected and converted to None: {_complex_object_count:,}")
+        _complex_object_count = 0  # リセット
+
     # 検証（件数取得）
     db_count: int | None = None
     try:
@@ -411,14 +436,17 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         db_count = result.count if result.count else 0
         print(f"\n[CHECK] Supabase件数確認: {db_count:,}件")
     except APIError as e:
-        logger.error("件数検証に失敗: %s", e.message)
+        logger.error("Count verification failed: %s", e.message)
         db_count = None  # 不明を明示
 
     # 件数整合性チェック
     if db_count is None:
-        logger.warning("件数検証をスキップ - 移行データの整合性を手動で確認してください")
+        logger.warning("Skipping count verification - please verify migration data integrity manually")
     elif db_count != success_count:
-        logger.error("件数不一致: DB=%d, 今回成功=%d - データ整合性を確認してください", db_count, success_count)
+        logger.error(
+            "Count mismatch: DB=%d, current success=%d - please verify data integrity", db_count, success_count
+        )
+        error_count += 1  # S-6: 件数不一致をerror_countに反映
 
     # サンプルデータ検証
     sample_ids = df["episode_id"].head(10).tolist()
@@ -436,16 +464,16 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         for row in sample_result.data or []:
             if isinstance(row, dict):
                 if row.get("super_total_score") is None:
-                    logger.warning("super_total_score欠損: %s", row.get("episode_id"))
+                    logger.warning("super_total_score missing: %s", row.get("episode_id"))
     except APIError as e:
-        logger.error("サンプル検証失敗 (APIError): %s", e.message)
+        logger.error("Sample verification failed (APIError): %s", e.message)
     except (TypeError, KeyError) as e:
-        logger.error("サンプルデータの形式が予期しない: %s", e)
+        logger.error("Unexpected sample data format: %s", e)
     except (SystemExit, KeyboardInterrupt):
         # ユーザー意図の中断は再送出
         raise
     except Exception as e:
-        logger.error("サンプル検証で予期しないエラー (%s): %s", type(e).__name__, e)
+        logger.error("Unexpected error in sample verification (%s): %s", type(e).__name__, e)
 
     return error_count
 

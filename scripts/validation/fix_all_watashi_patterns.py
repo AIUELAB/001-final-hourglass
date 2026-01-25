@@ -242,12 +242,7 @@ def main():
         if results:
             print("\n修正サンプル（最大10件）:")
             for r in results[:10]:
-                print(
-                    f"\n  EP: {r.episode_id}"
-                    f" | Person: {r.person_name}"
-                    f" | Age: {r.age}"
-                    f" | 置換数: {r.changes_count}"
-                )
+                print(f"\n  EP: {r.episode_id} | Person: {r.person_name} | Age: {r.age} | 置換数: {r.changes_count}")
                 for change in r.changes:
                     print(f"    - {change}")
 
@@ -273,12 +268,7 @@ def main():
         if results:
             print("\n修正予定サンプル（最大10件）:")
             for r in results[:10]:
-                print(
-                    f"\n  EP: {r.episode_id}"
-                    f" | Person: {r.person_name}"
-                    f" | Age: {r.age}"
-                    f" | 置換数: {r.changes_count}"
-                )
+                print(f"\n  EP: {r.episode_id} | Person: {r.person_name} | Age: {r.age} | 置換数: {r.changes_count}")
                 for change in r.changes:
                     print(f"    - {change}")
 

@@ -186,7 +186,7 @@ def generate_episode_text(
 - 名前: {person_name}
 - カテゴリ: {category}
 - 生成する年齢: {age}歳（{context}）
-- 既存エピソードの年齢: {', '.join(map(str, sorted(existing_ages)))}歳
+- 既存エピソードの年齢: {", ".join(map(str, sorted(existing_ages)))}歳
 
 ■ 生成要件
 1. 形式: 「あなたと同じ{age}歳のとき、{person_name}は〜」で始める

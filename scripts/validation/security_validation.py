@@ -251,9 +251,9 @@ class SecurityValidator:
 
     def print_report(self, report: Dict):
         """Print formatted validation report."""
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("🛡️ SECURITY VALIDATION REPORT")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         # Score
         score = report["score"]

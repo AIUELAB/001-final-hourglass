@@ -244,10 +244,10 @@ def improve_episode(
     except (ValueError, TypeError):
         before_composite = 0.0
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"改善中: {episode_id} - {person_name} ({age}歳)")
     print(f"  現在スコア: {before_composite:.1f}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Step 1: 改稿
     print("  [1] 改稿生成中...")
@@ -386,14 +386,14 @@ def main():
         time.sleep(0.5)
 
     # サマリー
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("改善完了")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     summary = stats.get_summary()
     print("\n【統計サマリー】")
     print(f"  処理数: {summary['total_processed']}")
-    print(f"  改善成功: {summary['improved']} ({summary['improvement_rate']*100:.1f}%)")
+    print(f"  改善成功: {summary['improved']} ({summary['improvement_rate'] * 100:.1f}%)")
     print(f"  改善不十分: {summary['unchanged']}")
     print(f"  失敗: {summary['failed']}")
     print(f"  改善前平均: {summary['before_avg']:.1f}")

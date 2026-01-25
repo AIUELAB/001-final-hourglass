@@ -45,9 +45,9 @@ class TestPersonNameDuplicateValidator:
         """マスターCSVに重複がないこと"""
         validator = PersonNameDuplicateValidator()
         result = validator.validate()
-        assert result["duplicate_count"] == 0, (
-            f"重複が{result['duplicate_count']}件存在: " f"{[d['message'] for d in result['duplicates'][:5]]}"
-        )
+        assert (
+            result["duplicate_count"] == 0
+        ), f"重複が{result['duplicate_count']}件存在: {[d['message'] for d in result['duplicates'][:5]]}"
 
     def test_check_new_name_conflict(self):
         """新規名の重複検出"""
@@ -91,9 +91,9 @@ class TestPreventFutureContamination:
         # 重複チェック
         duplicates = [(norm, group) for norm, group in name_groups.items() if len(group) > 1]
 
-        assert len(duplicates) == 0, (
-            f"表記揺れ重複が{len(duplicates)}件: " f"{[(list(g)[0][1], list(g)[1][1]) for _, g in duplicates[:3]]}"
-        )
+        assert (
+            len(duplicates) == 0
+        ), f"表記揺れ重複が{len(duplicates)}件: {[(list(g)[0][1], list(g)[1][1]) for _, g in duplicates[:3]]}"
 
 
 if __name__ == "__main__":

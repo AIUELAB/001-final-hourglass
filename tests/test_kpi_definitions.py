@@ -577,7 +577,7 @@ class TestDeletedIdContaminationWithTombstone:
         from src.monitoring.kpi_definitions import EPUPKPICalculator
 
         csv_file = tmp_path / "test.csv"
-        csv_file.write_text("person_name,person_id,person_type,episode_text\n" "削除対象者,PNEW,REAL,テスト\n")
+        csv_file.write_text("person_name,person_id,person_type,episode_text\n削除対象者,PNEW,REAL,テスト\n")
 
         tombstone_file = tmp_path / "tombstone.json"
         tombstone_data = {
@@ -600,7 +600,7 @@ class TestDeletedIdContaminationWithTombstone:
         from src.monitoring.kpi_definitions import EPUPKPICalculator
 
         csv_file = tmp_path / "test.csv"
-        csv_file.write_text("person_name,person_id,person_type,episode_text\n" "山田太郎,P001,REAL,テスト\n")
+        csv_file.write_text("person_name,person_id,person_type,episode_text\n山田太郎,P001,REAL,テスト\n")
 
         tombstone_file = tmp_path / "tombstone.json"
         tombstone_file.write_text("invalid json")
@@ -645,9 +645,7 @@ class TestSuffixPatternWithData:
 
         csv_file = tmp_path / "test.csv"
         csv_file.write_text(
-            "person_name,person_id,person_type,episode_text\n"
-            "山田太郎,P001,REAL,テスト\n"
-            "田中の母,P002,REAL,テスト\n"
+            "person_name,person_id,person_type,episode_text\n山田太郎,P001,REAL,テスト\n田中の母,P002,REAL,テスト\n"
         )
 
         calculator = EPUPKPICalculator(str(csv_file))

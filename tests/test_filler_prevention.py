@@ -134,9 +134,9 @@ class TestCurrentDatabase:
 
         # 許容される埋め草数（完全0を目指すが、移行期は少数許容）
         max_allowed = 0
-        assert len(fillers) <= max_allowed, (
-            f"埋め草エピソードが{len(fillers)}件存在: " f"{[f['episode_id'] for f in fillers[:5]]}"
-        )
+        assert (
+            len(fillers) <= max_allowed
+        ), f"埋め草エピソードが{len(fillers)}件存在: {[f['episode_id'] for f in fillers[:5]]}"
 
     @pytest.mark.xfail(reason="既存データ品質課題: エピソード上限超過 - 技術的負債", strict=False)
     def test_episode_limit_not_exceeded(self, episodes):
@@ -148,9 +148,9 @@ class TestCurrentDatabase:
             {"name": name, "count": count} for name, count in person_counts.items() if count > EPISODE_LIMIT and name
         ]
 
-        assert len(violations) == 0, (
-            f"{EPISODE_LIMIT}件超過: {len(violations)}人 " f"(例: {[v['name'] for v in violations[:3]]})"
-        )
+        assert (
+            len(violations) == 0
+        ), f"{EPISODE_LIMIT}件超過: {len(violations)}人 (例: {[v['name'] for v in violations[:3]]})"
 
 
 class TestEdgeCases:

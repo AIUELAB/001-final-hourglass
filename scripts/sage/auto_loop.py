@@ -298,9 +298,9 @@ class AutoLoopRunner:
         loop_count = 0
         while True:
             loop_count += 1
-            logger.info(f"\n{'='*60}")
+            logger.info(f"\n{'=' * 60}")
             logger.info(f"=== ループ #{loop_count} 開始 ===")
-            logger.info(f"{'='*60}\n")
+            logger.info(f"{'=' * 60}\n")
 
             # 進捗確認
             self.print_progress()

@@ -362,9 +362,9 @@ def main():
     print("📊 スキャン結果")
     print("=" * 70)
     print(f"総エピソード数: {stats['total']:,}件")
-    print(f"正常エピソード: {stats['proper']:,}件 ({stats['proper']/stats['total']*100:.1f}%)")
-    print(f"お断り文エピソード: {stats['refusal']:,}件 ({stats['refusal']/stats['total']*100:.1f}%)")
-    print(f"形式不正エピソード: {stats['no_format']:,}件 ({stats['no_format']/stats['total']*100:.1f}%)")
+    print(f"正常エピソード: {stats['proper']:,}件 ({stats['proper'] / stats['total'] * 100:.1f}%)")
+    print(f"お断り文エピソード: {stats['refusal']:,}件 ({stats['refusal'] / stats['total'] * 100:.1f}%)")
+    print(f"形式不正エピソード: {stats['no_format']:,}件 ({stats['no_format'] / stats['total'] * 100:.1f}%)")
 
     print("\n【お断り文タイプ別】")
     for refusal_type, count in sorted(stats["by_type"].items(), key=lambda x: -x[1]):
@@ -448,7 +448,7 @@ def main():
     if args.output:
         output_path = Path(args.output)
     else:
-        output_path = PROJECT_ROOT / "reports" / f'refusal_detection_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
+        output_path = PROJECT_ROOT / "reports" / f"refusal_detection_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
     output_path.parent.mkdir(exist_ok=True)
 

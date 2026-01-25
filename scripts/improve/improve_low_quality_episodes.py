@@ -222,10 +222,10 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
     original_text = str(row["episode_text"])
     original_composite = float(row["composite_score"])
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"改稿中: {person_name} ({age}歳)")
     print(f"元スコア: {original_composite:.1f}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # 弱軸を特定
     weak_axes = find_weak_axes(row)
@@ -310,7 +310,7 @@ def main():
     # 改稿ループ
     improvements = []
     for i, (idx, row) in enumerate(targets.iterrows()):
-        print(f"\n[{i+1}/{len(targets)}]")
+        print(f"\n[{i + 1}/{len(targets)}]")
         result = improve_episode(row)
         if result:
             improvements.append(result)
@@ -325,7 +325,7 @@ def main():
     print("【統計サマリー】")
     print(f"  対象件数: {len(targets)}")
     print(f"  改善成功: {len(improvements)}")
-    print(f"  改善率: {len(improvements)/len(targets)*100:.1f}%")
+    print(f"  改善率: {len(improvements) / len(targets) * 100:.1f}%")
 
     if improvements:
         avg_improvement = sum(r["improvement"] for r in improvements) / len(improvements)

@@ -573,7 +573,7 @@ def main():
         print("Sample violations (first 10):")
         print("-" * 60)
         for i, (episode_id, v_data) in enumerate(list(deduplicated.items())[:10]):
-            print(f"\n[{i+1}] {v_data['person_name']} ({v_data['work_title']})")
+            print(f"\n[{i + 1}] {v_data['person_name']} ({v_data['work_title']})")
             print(f"    Episode ID: {episode_id}")
             print(f"    Types: {', '.join(v_data['violation_types'])}")
             print(f"    Patterns: {v_data['detected_patterns'][:3]}")

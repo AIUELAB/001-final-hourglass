@@ -73,7 +73,7 @@ def check_single_master() -> dict:
             results["passed"] = False
             for csv_file in dashboard_csvs:
                 results["errors"].append(
-                    f"❌ dashboard/にマスター風CSVが存在: {csv_file}\n" "   → archive/ に移動してください"
+                    f"❌ dashboard/にマスター風CSVが存在: {csv_file}\n   → archive/ に移動してください"
                 )
         else:
             results["checks"].append("✅ dashboard/にマスター風CSVなし")
@@ -86,7 +86,7 @@ def check_single_master() -> dict:
         results["passed"] = False
         for csv_file in root_csvs:
             results["errors"].append(
-                f"❌ ルート直下にマスター風CSVが存在: {csv_file}\n" "   → preserved/data/ に移動してください"
+                f"❌ ルート直下にマスター風CSVが存在: {csv_file}\n   → preserved/data/ に移動してください"
             )
     else:
         results["checks"].append("✅ ルート直下にマスター風CSVなし")

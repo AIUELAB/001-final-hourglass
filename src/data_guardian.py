@@ -385,7 +385,7 @@ def run_guardian_check() -> dict:
             result["retention_from_last_checkpoint"] = retention
             if retention < 0.95:
                 result["status"] = "warning"
-                result["message"] = f"Episode count dropped by {(1-retention)*100:.1f}%"
+                result["message"] = f"Episode count dropped by {(1 - retention) * 100:.1f}%"
 
     return result
 

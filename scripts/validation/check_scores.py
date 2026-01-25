@@ -66,7 +66,7 @@ async def check_scores():
 
         print("\n📋 最初の10件のスコア:")
         for sample in scores_data["samples"]:
-            print(f"\n  [{sample['index']+1}] {sample['person_name']}")
+            print(f"\n  [{sample['index'] + 1}] {sample['person_name']}")
             print(f"      総合: {sample['composite_score']}")
             print(
                 f"      記憶: {sample['memorability_score']} | 共感: {sample['empathy_score']} | 意外: {sample['surprise_score']}"

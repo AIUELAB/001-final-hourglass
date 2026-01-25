@@ -167,7 +167,7 @@ def main():
         print("\n--- 検出された重複 ---")
         for d in result["duplicates"][:10]:
             print(f"\n  [{d['severity'].upper()}] {d['person_name']} ({d['age']}歳)")
-            print(f"    類似度: {d['similarity']*100:.1f}%")
+            print(f"    類似度: {d['similarity'] * 100:.1f}%")
             print(f"    エピソード: {d['episode_ids']}")
             print(f"    テキスト1: {d['text_snippets'][0][:60]}...")
             print(f"    テキスト2: {d['text_snippets'][1][:60]}...")

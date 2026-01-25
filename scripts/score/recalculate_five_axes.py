@@ -93,8 +93,7 @@ def recalculate_five_axes(dry_run: bool = True, update_composite: bool = True):
                     pass
         before_stats[axis] = analyze_distribution(values)
         print(
-            f"  {axis}: 平均={before_stats[axis].get('mean', 'N/A')}, "
-            f"標準偏差={before_stats[axis].get('stdev', 'N/A')}"
+            f"  {axis}: 平均={before_stats[axis].get('mean', 'N/A')}, 標準偏差={before_stats[axis].get('stdev', 'N/A')}"
         )
     print()
 
@@ -171,8 +170,7 @@ def recalculate_five_axes(dry_run: bool = True, update_composite: bool = True):
                     pass
         after_stats[axis] = analyze_distribution(values)
         print(
-            f"  {axis}: 平均={after_stats[axis].get('mean', 'N/A')}, "
-            f"標準偏差={after_stats[axis].get('stdev', 'N/A')}"
+            f"  {axis}: 平均={after_stats[axis].get('mean', 'N/A')}, 標準偏差={after_stats[axis].get('stdev', 'N/A')}"
         )
     print()
 

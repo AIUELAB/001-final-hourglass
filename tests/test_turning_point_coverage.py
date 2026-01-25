@@ -86,9 +86,9 @@ class TestCriticalTurningPoints:
 
         # 期待キーワードのいずれかが含まれることを確認
         found_keywords = [kw for kw in expected_keywords if kw in all_text]
-        assert found_keywords, (
-            f"{person_name} の転機エピソード({description})が見つかりません。" f"期待キーワード: {expected_keywords}"
-        )
+        assert (
+            found_keywords
+        ), f"{person_name} の転機エピソード({description})が見つかりません。期待キーワード: {expected_keywords}"
 
 
 class TestPutinPresidentialElection:

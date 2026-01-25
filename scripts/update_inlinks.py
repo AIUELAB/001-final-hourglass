@@ -133,7 +133,7 @@ def main():
             elapsed = time.time() - start_time
             rate = i / elapsed if elapsed > 0 else 0
             eta = (len(entries) - i) / rate if rate > 0 else 0
-            print(f"進捗: {i}/{len(entries)} ({i/len(entries)*100:.1f}%) " f"- {rate:.1f}/sec - ETA: {eta/60:.1f}分")
+            print(f"進捗: {i}/{len(entries)} ({i / len(entries) * 100:.1f}%) - {rate:.1f}/sec - ETA: {eta / 60:.1f}分")
 
         # 既存inlinksがある場合はスキップ（only_missingの場合）
         if only_missing and current_inlinks and current_inlinks > 0:
@@ -176,11 +176,11 @@ def main():
     elapsed = time.time() - start_time
     print(f"\n{'=' * 50}")
     print("処理完了")
-    print(f"  処理時間: {elapsed/60:.1f}分")
+    print(f"  処理時間: {elapsed / 60:.1f}分")
     print(f"  成功: {success_count}")
     print(f"  スキップ: {skip_count}")
     print(f"  エラー: {error_count}")
-    print(f"  平均inlinks: {total_inlinks/success_count:.1f}" if success_count > 0 else "")
+    print(f"  平均inlinks: {total_inlinks / success_count:.1f}" if success_count > 0 else "")
     print(f"{'=' * 50}")
 
 

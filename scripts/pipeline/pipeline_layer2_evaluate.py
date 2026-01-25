@@ -253,7 +253,7 @@ def run_layer2(count: Optional[int], execute: bool) -> Dict:
         age = ep.get("age", "")
         episode_text = ep.get("episode_text", "")
 
-        print(f"\n[{i+1}/{len(pending)}] {person_name} ({age}歳) ...", end=" ")
+        print(f"\n[{i + 1}/{len(pending)}] {person_name} ({age}歳) ...", end=" ")
 
         # 評価前検証（CRITICAL問題があればスキップ）
         is_valid, critical_messages = pre_evaluate_validation(ep)

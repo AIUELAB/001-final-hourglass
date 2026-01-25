@@ -218,9 +218,9 @@ def run_incremental_update(
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     log_file = LOG_DIR / f"fame_update_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Fame Score v3 差分更新")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     # CSV読み込み
     df = pd.read_csv(MASTER_CSV_PATH, low_memory=False)
@@ -323,9 +323,9 @@ def run_incremental_update(
         json.dump(result, f, ensure_ascii=False, indent=2)
     print(f"レポート保存: {report_path}")
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"完了: {updated_count}/{len(targets)}人物を更新")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     conn.close()
     return result

@@ -295,8 +295,8 @@ def run_audit(dry_run: bool = True):
     ng_count = total - ok_count
 
     print("\n【総合】")
-    print(f"  ✅ OK（違反なし）: {ok_count:,}件 ({ok_count/total*100:.1f}%)")
-    print(f"  ❌ NG（要修正）  : {ng_count:,}件 ({ng_count/total*100:.1f}%)")
+    print(f"  ✅ OK（違反なし）: {ok_count:,}件 ({ok_count / total * 100:.1f}%)")
+    print(f"  ❌ NG（要修正）  : {ng_count:,}件 ({ng_count / total * 100:.1f}%)")
 
     print("\n【NGカテゴリ内訳】")
     for cat, data in results["categories"].items():
@@ -304,14 +304,14 @@ def run_audit(dry_run: bool = True):
             continue
         count = data["count"]
         if count > 0:
-            print(f"  {cat}: {count:,}件 ({count/total*100:.2f}%)")
+            print(f"  {cat}: {count:,}件 ({count / total * 100:.2f}%)")
 
     print("\n【person_type別】")
     for ptype, counts in results["by_person_type"].items():
         total_ptype = sum(counts.values())
         if total_ptype > 0:
             ok_ptype = counts.get("OK", 0)
-            print(f"  {ptype}: OK {ok_ptype:,}/{total_ptype:,} ({ok_ptype/total_ptype*100:.1f}%)")
+            print(f"  {ptype}: OK {ok_ptype:,}/{total_ptype:,} ({ok_ptype / total_ptype * 100:.1f}%)")
 
     print("\n【重複エピソード】")
     print(f"  重複グループ数: {dup_result['total_duplicate_groups']:,}")

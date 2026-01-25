@@ -190,9 +190,9 @@ def load_ja_pv_from_db(conn: sqlite3.Connection) -> dict[str, int]:
 
 def run_dry_run(limit: int = 100) -> None:
     """ドライラン（Top100のみ表示）"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Celebrity Score v2 ドライラン")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     if not CACHE_DB_PATH.exists():
         print("ERROR: キャッシュDBが見つかりません")
@@ -321,9 +321,9 @@ def run_dry_run(limit: int = 100) -> None:
 
 def run_execute() -> int:
     """本番実行（全人物を計算・保存）"""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Celebrity Score v2 本番実行")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     if not CACHE_DB_PATH.exists():
         print("ERROR: キャッシュDBが見つかりません")

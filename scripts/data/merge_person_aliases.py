@@ -85,8 +85,8 @@ class PersonAliasMerger:
             alias_id = alias_df["person_id"].iloc[0] if alias_count > 0 else None
             canonical_id = canonical_df["person_id"].iloc[0] if canonical_count > 0 else None
 
-            print(f'  「{alias}」: {alias_count}件 (ID: {alias_id or "N/A"})')
-            print(f'  「{canonical}」: {canonical_count}件 (ID: {canonical_id or "N/A"})')
+            print(f"  「{alias}」: {alias_count}件 (ID: {alias_id or 'N/A'})")
+            print(f"  「{canonical}」: {canonical_count}件 (ID: {canonical_id or 'N/A'})")
 
             before_stats[alias] = {
                 "alias": alias,
@@ -281,11 +281,11 @@ class PersonAliasMerger:
 
             print(f"\n📋 「{alias}」→「{canonical}」")
             if not id_merges[alias].get("skipped", False):
-                print(f'  代表person_id: {id_merges[alias]["representative_id"]}')
+                print(f"  代表person_id: {id_merges[alias]['representative_id']}")
             print(f"  person_name置換: {person_name_replacements.get(alias, 0)}件")
             print(f"  episode_text置換: {len(text_replacements.get(alias, []))}箇所")
             if not id_merges[alias].get("skipped", False):
-                print(f'  person_id統合: {id_merges[alias]["merged_count"]}件')
+                print(f"  person_id統合: {id_merges[alias]['merged_count']}件")
 
         self.results["status"] = "success"
 

@@ -63,7 +63,7 @@ def fill_missing_nendai():
 
     print("\n📊 現在の状態:")
     print(f"総行数: {total_rows}")
-    print(f"年代が空: {missing_nendai} 行 ({missing_nendai/total_rows*100:.1f}%)")
+    print(f"年代が空: {missing_nendai} 行 ({missing_nendai / total_rows * 100:.1f}%)")
 
     if missing_nendai == 0:
         print("✅ 年代カラムに空値はありません")

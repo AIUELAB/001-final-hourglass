@@ -62,7 +62,7 @@ def create_template_value(key: str, value: str) -> str:
     elif "env" in key_lower or "environment" in key_lower:
         return "development"
     else:
-        return f'your-{key.lower().replace("_", "-")}-here'
+        return f"your-{key.lower().replace('_', '-')}-here"
 
 
 def update_template_file(template_path: Path, env_vars: Dict[str, str], existing_template: Dict[str, str]) -> bool:

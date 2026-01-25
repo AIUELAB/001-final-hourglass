@@ -96,10 +96,10 @@ def phase1_drama_improvement():
 
     # 低ドラマエピソードの改善を3回繰り返す
     for i in range(3):
-        log(f"バッチ {i+1}/3")
+        log(f"バッチ {i + 1}/3")
         success, output = run_script("scripts/improve_low_drama_episodes.py", ["--limit", "30", "--execute"])
         if not success:
-            log(f"バッチ {i+1} 失敗、スキップ")
+            log(f"バッチ {i + 1} 失敗、スキップ")
             continue
 
         # 改善がなくなったら終了
@@ -118,10 +118,10 @@ def phase2_content_density():
 
     # 内容密度改善を3回繰り返す
     for i in range(3):
-        log(f"バッチ {i+1}/3")
+        log(f"バッチ {i + 1}/3")
         success, output = run_script("scripts/improve_content_density.py", ["--batch-size", "50", "--execute"])
         if not success:
-            log(f"バッチ {i+1} 失敗、スキップ")
+            log(f"バッチ {i + 1} 失敗、スキップ")
 
         # 改善がなくなったら終了
         if "問題エピソード: 0件" in output:

@@ -227,7 +227,7 @@ def process_verified_sources(
         source_url = row["source_url"]
         category = row.get("category", "")
 
-        logger.info(f"Processing [{idx+1}/{len(df)}]: {person_name} ({source_id})")
+        logger.info(f"Processing [{idx + 1}/{len(df)}]: {person_name} ({source_id})")
 
         # 年齢抽出
         age = extract_age_from_context(context)

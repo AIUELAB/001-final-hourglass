@@ -435,11 +435,11 @@ class MetadataCollector:
         print("=" * 80)
         print(f"総処理件数: {stats['total']}")
         print("\n信頼度分布:")
-        print(f"  高信頼度 (0.9+): {stats['high_confidence']} ({stats['high_confidence']/stats['total']*100:.1f}%)")
+        print(f"  高信頼度 (0.9+): {stats['high_confidence']} ({stats['high_confidence'] / stats['total'] * 100:.1f}%)")
         print(
-            f"  中信頼度 (0.7-0.9): {stats['medium_confidence']} ({stats['medium_confidence']/stats['total']*100:.1f}%)"
+            f"  中信頼度 (0.7-0.9): {stats['medium_confidence']} ({stats['medium_confidence'] / stats['total'] * 100:.1f}%)"
         )
-        print(f"  低信頼度 (<0.7): {stats['low_confidence']} ({stats['low_confidence']/stats['total']*100:.1f}%)")
+        print(f"  低信頼度 (<0.7): {stats['low_confidence']} ({stats['low_confidence'] / stats['total'] * 100:.1f}%)")
         print("\nEntity Type:")
         print(f"  架空キャラクター: {stats['fictional_character']}")
         print(f"  実在人物: {stats['real_person']}")

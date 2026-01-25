@@ -422,7 +422,7 @@ def main():
         f"  NDCG: {current_result.ndcg_at_100:.3f} → {best_result.ndcg_at_100:.3f} ({best_result.ndcg_at_100 - current_result.ndcg_at_100:+.3f})"
     )
     print(
-        f"  Overlap: {current_result.overlap_at_100:.1%} → {best_result.overlap_at_100:.1%} ({(best_result.overlap_at_100 - current_result.overlap_at_100)*100:+.1f}pp)"
+        f"  Overlap: {current_result.overlap_at_100:.1%} → {best_result.overlap_at_100:.1%} ({(best_result.overlap_at_100 - current_result.overlap_at_100) * 100:+.1f}pp)"
     )
 
 

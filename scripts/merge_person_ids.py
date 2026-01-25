@@ -78,7 +78,7 @@ def run_dry_run():
         merge_from = merge["merge_from"]
         merge_from_names = merge["merge_from_names"]
 
-        print(f"\n{i+1}. {official_name} ({primary_id})")
+        print(f"\n{i + 1}. {official_name} ({primary_id})")
         for old_id, old_name in zip(merge_from, merge_from_names):
             count = len(df[df["person_id"] == old_id])
             print(f"   ← {old_name} ({old_id}): {count}件")

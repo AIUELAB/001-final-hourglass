@@ -204,7 +204,7 @@ def generate_report(df: pd.DataFrame, all_changes: List[Dict], dry_run: bool = T
 
     lines.append("\n【修正後のデータ状況】")
     lines.append(f"  総エピソード数: {len(df)}")
-    lines.append(f"  group_name 充填数: {non_null_group.sum()} ({non_null_group.sum()/len(df)*100:.2f}%)")
+    lines.append(f"  group_name 充填数: {non_null_group.sum()} ({non_null_group.sum() / len(df) * 100:.2f}%)")
     lines.append(f"  is_group_member=True: {group_true.sum()}件")
     lines.append(f"  is_group_member=False: {group_false.sum()}件")
 

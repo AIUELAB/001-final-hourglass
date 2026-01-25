@@ -164,7 +164,7 @@ def main() -> int:
         print(f"NG: {len(mismatches)}件の不整合を検出")
         print("\n上位5件:")
         for m in mismatches[:5]:
-            print(f"  {m['person_id']} ({m['person_name'][:12]}): " f"CSV={m['csv_score']:.2f}, DB={m['db_score']:.2f}")
+            print(f"  {m['person_id']} ({m['person_name'][:12]}): CSV={m['csv_score']:.2f}, DB={m['db_score']:.2f}")
         return 1
     elif duplicates:
         print("警告: テンプレートコピー問題の可能性あり")

@@ -116,7 +116,7 @@ def main():
     # 設定率
     total = len(df)
     set_count = total - after_count
-    print(f"\n✅ is_group_member設定率: {set_count/total*100:.1f}% ({set_count}/{total}件)")
+    print(f"\n✅ is_group_member設定率: {set_count / total * 100:.1f}% ({set_count}/{total}件)")
 
     if after_count == 0:
         print("\n🎉 100%達成！")

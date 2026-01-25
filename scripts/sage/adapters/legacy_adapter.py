@@ -51,9 +51,7 @@ class LegacyGeneratorAdapter(GeneratorAdapter):
                     raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
                 self._generator = EpisodeGenerator(api_key=api_key)
             except ImportError as e:
-                raise ImportError(
-                    f"Failed to import EpisodeGenerator: {e}. " "Make sure src/episode_generator.py exists."
-                )
+                raise ImportError(f"Failed to import EpisodeGenerator: {e}. Make sure src/episode_generator.py exists.")
         return self._generator
 
     def generate(self, candidate: Candidate) -> GenerationResult:

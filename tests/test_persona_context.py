@@ -17,9 +17,9 @@ class TestPersonaContext:
         """「北野武（ツービート）」が存在しないこと"""
         df = pd.read_csv("preserved/data/MASTER_EPISODES_CURRENT.csv", low_memory=False)
         contaminated = df[df["episode_text"].str.contains("北野武（ツービート）", na=False)]
-        assert len(contaminated) == 0, (
-            f"「北野武（ツービート）」が{len(contaminated)}件存在: " f"{contaminated['episode_id'].tolist()}"
-        )
+        assert (
+            len(contaminated) == 0
+        ), f"「北野武（ツービート）」が{len(contaminated)}件存在: {contaminated['episode_id'].tolist()}"
 
     @pytest.mark.xfail(reason="既存データ品質課題: 北野武芸人文脈混在 - 技術的負債", strict=False)
     def test_p34ea398_no_comedian_context(self):

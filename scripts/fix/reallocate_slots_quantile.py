@@ -51,7 +51,7 @@ def main():
     # 改善度
     before_ratio = before_dist.max() / before_dist.min()
     after_ratio = after_dist.max() / after_dist.min()
-    print(f"\n改善: {before_ratio:.2f}倍 → {after_ratio:.2f}倍 ({(1 - after_ratio/before_ratio)*100:.1f}%改善)")
+    print(f"\n改善: {before_ratio:.2f}倍 → {after_ratio:.2f}倍 ({(1 - after_ratio / before_ratio) * 100:.1f}%改善)")
 
     # 保存
     df.to_csv(csv_path, index=False, encoding="utf-8-sig")

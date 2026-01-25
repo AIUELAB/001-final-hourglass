@@ -20,7 +20,7 @@ EPUP KPIを評価して品質ゲートの合否を判定します。
 
 import json
 import logging
-import subprocess
+import subprocess  # nosec B404
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -86,7 +86,7 @@ class QualityGateChecker:
     ) -> tuple[Optional[subprocess.CompletedProcess], Optional[str]]:
         """EPUPスクリプトを実行。戻り値: (result, error_message)"""
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec
                 [
                     "python3",
                     "scripts/scheduled_epup_check.py",

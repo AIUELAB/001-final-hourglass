@@ -12,7 +12,7 @@
 
 import json
 import logging
-import pickle
+import pickle  # nosec B403
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path

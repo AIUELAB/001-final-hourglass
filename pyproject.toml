@@ -142,13 +142,9 @@ exclude_dirs = ["tests", "venv", ".venv"]
 skips = [
   "B101",  # assert_used (テスト用)
   "B105",  # hardcoded password (環境変数名・設定キー名の誤検出)
-  "B404",  # subprocess import (使用自体は問題ない)
-  "B403",  # pickle import (sklearn標準用途)
-  "B311",  # random (非セキュリティ用途)
-  "B607",  # partial path (システムコマンドの安全な使用)
-  "B603",  # subprocess without shell=True (安全な使用方法)
-  "B112"  # try-except-continue (設計上許容)
+  "B112"   # try-except-continue (設計上許容)
 ]
+# B404, B403, B311, B607, B603 は各ファイルの nosec コメントで限定的に許容
 targets = ["src"]
 
 [tool.basedpyright]

@@ -8,7 +8,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    # Run daily at 3 AM UTC
+    # 毎日UTC 3時に実行（JST 12時）
     - cron: "0 3 * * *"
   workflow_dispatch:
 
@@ -53,7 +53,7 @@ jobs:
             sbom-cyclonedx.json
           retention-days: 30
 
-      # Upload SBOM to release if it's a tag
+      # タグの場合はリリースにSBOMをアップロード
       - name: Upload SBOM to release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
@@ -85,6 +85,12 @@ jobs:
           severity-cutoff: critical
           output-format: sarif
           output-file: grype-results.sarif
+
+      - name: Upload Grype results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: grype-results.sarif
 
       - name: Upload Grype report
         uses: actions/upload-artifact@v4

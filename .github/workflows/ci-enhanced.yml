@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Full history for better scanning
+          fetch-depth: 0 # フル履歴を取得（スキャン精度向上）
 
       - name: TruffleHog Secret Scan
         uses: trufflesecurity/trufflehog@v3.63.0
@@ -104,7 +104,7 @@ jobs:
       - name: Run Safety Check
         run: |
           pip install safety
-          safety check --json
+          safety check --json --output safety-report.json || true
         # 脆弱性検出時も後続ステップを実行（結果はサマリーで評価）
         continue-on-error: true
 
@@ -131,6 +131,7 @@ jobs:
         with:
           name: dependency-reports
           path: |
+            safety-report.json
             pip-audit-report.json
             reports/
 
@@ -342,7 +343,9 @@ jobs:
           echo "" >> security-summary.md
           if [[ "${{ needs.secret-scan.result }}" != "success" ]] || \
              [[ "${{ needs.sast.result }}" != "success" ]] || \
-             [[ "${{ needs.dependency-scan.result }}" != "success" ]]; then
+             [[ "${{ needs.dependency-scan.result }}" != "success" ]] || \
+             [[ "${{ needs.container-scan.result }}" == "failure" ]] || \
+             [[ "${{ needs.compliance-check.result }}" == "failure" ]]; then
             echo "⚠️ **注意**: 一部のセキュリティスキャンで問題が検出されました。" >> security-summary.md
             echo "詳細はアーティファクトのレポートを確認してください。" >> security-summary.md
           fi

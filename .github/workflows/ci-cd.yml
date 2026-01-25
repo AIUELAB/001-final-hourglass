@@ -61,12 +61,12 @@ jobs:
       run: mypy src/ --ignore-missing-imports
 
     # NOTE: CI環境ではモック対応済みテストのみ実行
-    # Issue #14: 段階的にテスト範囲を拡大中
+    # Issue #14: test_supabase/ と test_deletion_logic.py のみCI実行
     - name: Run tests with coverage
       run: |
         pytest \
           tests/test_supabase/ \
-          tests/test_deletion_logic.py -m unit \
+          tests/test_deletion_logic.py \
           -v \
           --cov=src \
           --cov-report=xml \

@@ -310,6 +310,38 @@ class TestMigrate:
         assert "APIError" in captured.out or "constraint violation" in captured.out
         assert "[NG] 失敗:" in captured.out
 
+    def test_migrate_batch_size_zero_raises_error(self):
+        """batch_size=0でValueError発生（PRレビュー#14指摘）"""
+        from migrate_csv_to_supabase import migrate
+
+        with pytest.raises(ValueError, match="batch_size は1以上"):
+            migrate(batch_size=0)
+
+    def test_migrate_batch_size_negative_raises_error(self):
+        """batch_size=-1でValueError発生（PRレビュー#14指摘）"""
+        from migrate_csv_to_supabase import migrate
+
+        with pytest.raises(ValueError, match="batch_size は1以上"):
+            migrate(batch_size=-1)
+
+    def test_migrate_batch_size_large_warns(self, mocker, tmp_path, capsys):
+        """batch_size>10000で警告出力（PRレビュー#14指摘）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        # dry_run=Trueで実際のDB呼び出しを回避
+        migrate(batch_size=10001, dry_run=True)
+        captured = capsys.readouterr()
+        assert "batch_sizeが大きすぎます" in captured.out
+
 
 class TestUpsertBatchRetry:
     """upsert_batchのリトライ動作テスト（PRレビューH-3対応）"""

@@ -650,7 +650,7 @@ class SafeCSVWriter:
             return None
 
     def _sanitize_for_supabase(self, row: dict) -> dict:
-        """Supabase用にNaN/numpy型を変換"""
+        """Supabase用にNaN/Inf/numpy型を変換（JSON互換形式）"""
         sanitized = {}
         for key, value in row.items():
             try:
@@ -665,7 +665,7 @@ class SafeCSVWriter:
                 except (TypeError, ValueError):
                     pass
 
-                if isinstance(value, float) and math.isnan(value):
+                if isinstance(value, float) and (math.isnan(value) or math.isinf(value)):
                     sanitized[key] = None
                 elif isinstance(value, (np.integer,)):
                     sanitized[key] = int(value)

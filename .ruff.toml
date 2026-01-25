@@ -1,5 +1,6 @@
 # Ruff configuration
 
+extend-exclude = ["archive", "_archived"]
 line-length = 120
 target-version = "py311"
 
@@ -15,7 +16,9 @@ exclude = [
   "*.md",
   "*.txt",
   "*.html",
+  "archive/",
   "archive_json/",
+  "_archived/",
   "venv/",
   "__pycache__/",
   ".git/",

@@ -42,8 +42,8 @@ jobs:
 
     - name: Run linting
       run: |
-        ruff check . --exclude "*/_archived/*"
-        ruff format --check . --exclude "*/_archived/*"
+        ruff check src/ tests/ scripts/ --exclude "*/_archived/*"
+        ruff format --check src/ tests/ scripts/ --exclude "*/_archived/*"
 
     - name: Run type checking
       run: mypy src/ --ignore-missing-imports

@@ -4,6 +4,7 @@ migrate_csv_to_supabase.py のユニットテスト
 サニタイズ関数のテストを中心に実施
 """
 
+import logging
 import sys
 from pathlib import Path
 
@@ -277,8 +278,6 @@ class TestMigrate:
 
     def test_migrate_handles_api_error_gracefully(self, mocker, tmp_path, capsys, caplog):
         """APIエラー発生時も例外で終了せず、エラーログが出力される"""
-        import logging
-
         from migrate_csv_to_supabase import migrate
         from postgrest.exceptions import APIError
         import migrate_csv_to_supabase
@@ -310,6 +309,8 @@ class TestMigrate:
         # H-4対応: エラーログが出力されていることを検証（logger.error使用）
         assert any(record.levelno == logging.ERROR and "APIError" in record.message for record in caplog.records)
         assert "constraint violation" in caplog.text
+        # フォーマット済みメッセージの検証（バッチ番号が含まれる）
+        assert "バッチ 1 APIError:" in caplog.text
 
         # コンソール出力の検証
         captured = capsys.readouterr()
@@ -331,8 +332,6 @@ class TestMigrate:
 
     def test_migrate_batch_size_large_warns(self, mocker, tmp_path, caplog):
         """batch_size>10000で警告ログ出力（PRレビュー#14指摘）"""
-        import logging
-
         from migrate_csv_to_supabase import migrate
         import migrate_csv_to_supabase
 
@@ -355,6 +354,193 @@ class TestMigrate:
         )
         # batch_size値がログに含まれることを検証
         assert "10001" in caplog.text
+
+    def test_migrate_handles_connection_error_gracefully(self, mocker, tmp_path, caplog):
+        """接続エラー発生時も例外で終了せず、エラーログが出力される（PRレビュー#22追加）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでConnectionError発生
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=ConnectionError("Network unreachable"))
+
+        # 検証クエリもモック
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        # 例外なく完了すること
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        # 接続エラーがログに出力されていること
+        assert any(record.levelno == logging.ERROR and "接続エラー" in record.message for record in caplog.records)
+        # フォーマット済みメッセージの検証（バッチ番号が含まれる）
+        assert "バッチ 1 接続エラー:" in caplog.text
+
+    def test_migrate_handles_unexpected_error_gracefully(self, mocker, tmp_path, caplog):
+        """予期しないエラー発生時に調査推奨メッセージが出力される（PRレビュー#22追加）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchで予期しないRuntimeError発生
+        mocker.patch.object(
+            migrate_csv_to_supabase, "upsert_batch", side_effect=RuntimeError("Unexpected internal error")
+        )
+
+        # 検証クエリもモック
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        # 例外なく完了すること
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        # 調査推奨メッセージがログに出力されていること
+        assert any(record.levelno == logging.ERROR and "調査が必要" in record.message for record in caplog.records)
+        # エラー種別がログに含まれることを検証
+        assert "RuntimeError" in caplog.text
+
+    def test_migrate_handles_json_decode_error_gracefully(self, mocker, tmp_path, caplog):
+        """JSONDecodeError発生時も例外で終了せず、エラーログが出力される（PRレビュー#22追加）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+        import json
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでJSONDecodeError発生
+        mocker.patch.object(
+            migrate_csv_to_supabase, "upsert_batch", side_effect=json.JSONDecodeError("Invalid JSON", "doc", 0)
+        )
+
+        # 検証クエリもモック
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        # 例外なく完了すること
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        # データ変換エラーとしてログに出力されていること（JSONDecodeErrorはValueError継承）
+        assert any(
+            record.levelno == logging.ERROR and "データ変換エラー" in record.message for record in caplog.records
+        )
+
+    def test_migrate_handles_type_error_gracefully(self, mocker, tmp_path, caplog):
+        """TypeError発生時も例外で終了せず、エラーログが出力される（PRレビュー#22追加）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=TypeError("unsupported operand type"))
+
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        # データ構造エラーとしてログに出力されていること
+        assert any(
+            record.levelno == logging.ERROR and "データ構造エラー" in record.message for record in caplog.records
+        )
+        assert "TypeError" in caplog.text
+
+    def test_migrate_handles_key_error_gracefully(self, mocker, tmp_path, caplog):
+        """KeyError発生時も例外で終了せず、エラーログが出力される（PRレビュー#22追加）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=KeyError("missing_key"))
+
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 0
+        mock_client.table().select().execute.return_value = mock_count_result
+
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        # データ構造エラーとしてログに出力されていること
+        assert any(
+            record.levelno == logging.ERROR and "データ構造エラー" in record.message for record in caplog.records
+        )
+        assert "KeyError" in caplog.text
+
+    def test_migrate_propagates_keyboard_interrupt(self, mocker, tmp_path):
+        """KeyboardInterrupt発生時は再送出される（ユーザー意図の中断）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        # CSVファイルを一時作成
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでKeyboardInterrupt発生
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=KeyboardInterrupt())
+
+        # KeyboardInterruptが再送出されること
+        with pytest.raises(KeyboardInterrupt):
+            migrate(dry_run=False)
 
 
 class TestUpsertBatchRetry:
@@ -406,3 +592,166 @@ class TestUpsertBatchRetry:
 
         # 3回リトライされた
         assert mock_upsert.execute.call_count == 3
+
+    def test_migrate_propagates_system_exit(self, mocker, tmp_path):
+        """SystemExit発生時は再送出される（PRレビューW-1対応）"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchでSystemExit発生
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", side_effect=SystemExit(1))
+
+        # SystemExitが再送出されること
+        with pytest.raises(SystemExit):
+            migrate(dry_run=False)
+
+
+class TestMigrateSampleVerification:
+    """migrate関数のサンプル検証テスト（PRレビューW-2対応）"""
+
+    def test_migrate_sample_verification_handles_api_error(self, mocker, tmp_path, caplog):
+        """サンプル検証でAPIError発生時にログ出力される"""
+        from migrate_csv_to_supabase import migrate
+        from postgrest.exceptions import APIError
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        csv_file.write_text("episode_id,person_name,age\n1,Test,30", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # upsert_batchは成功
+        mock_upsert_result = {"success_count": 1, "data": [{"episode_id": "1"}]}
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", return_value=mock_upsert_result)
+
+        # 件数確認は成功
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 1
+
+        # サンプル検証でAPIError（selectクエリ）
+        mock_sample_error = APIError({"message": "sample query failed"})
+        mock_table = mocker.MagicMock()
+
+        # select().execute() for count (head=True)
+        mock_count_select = mocker.MagicMock()
+        mock_count_select.execute.return_value = mock_count_result
+
+        # select().in_().execute() for sample verification
+        mock_sample_select = mocker.MagicMock()
+        mock_sample_in = mocker.MagicMock()
+        mock_sample_in.execute.side_effect = mock_sample_error
+        mock_sample_select.in_.return_value = mock_sample_in
+
+        # 呼び出しを区別するためにside_effectでリストを使う
+        def select_side_effect(*_args, **kwargs):
+            if "head" in kwargs and kwargs["head"]:
+                return mock_count_select
+            return mock_sample_select
+
+        mock_table.select.side_effect = select_side_effect
+        mock_client.table.return_value = mock_table
+
+        with caplog.at_level(logging.ERROR):
+            migrate(dry_run=False)
+
+        assert "サンプル検証失敗" in caplog.text
+
+
+class TestMigratePartialSuccess:
+    """migrate関数の部分成功テスト（PRレビューH-1対応）"""
+
+    def test_migrate_partial_success_tracks_failed_records(self, mocker, tmp_path, caplog):
+        """部分成功時に失敗したepisode_idがfailed_recordsに追跡される"""
+        from migrate_csv_to_supabase import migrate
+        import migrate_csv_to_supabase
+
+        csv_path = tmp_path / "preserved" / "data"
+        csv_path.mkdir(parents=True)
+        csv_file = csv_path / "MASTER_EPISODES_CURRENT.csv"
+        # 2件のレコード
+        csv_file.write_text("episode_id,person_name,age\nEP001,Test1,30\nEP002,Test2,40", encoding="utf-8-sig")
+
+        mocker.patch.object(migrate_csv_to_supabase, "PROJECT_ROOT", tmp_path)
+
+        mock_client = mocker.MagicMock()
+        mocker.patch.object(migrate_csv_to_supabase, "get_supabase_client", return_value=mock_client)
+
+        # 部分成功: 2件中1件のみ成功
+        mock_upsert_result = {"success_count": 1, "data": [{"episode_id": "EP001"}]}
+        mocker.patch.object(migrate_csv_to_supabase, "upsert_batch", return_value=mock_upsert_result)
+
+        # 検証クエリをモック
+        mock_count_result = mocker.MagicMock()
+        mock_count_result.count = 1
+        mock_sample_result = mocker.MagicMock()
+        mock_sample_result.data = [{"episode_id": "EP001", "person_name": "Test1", "super_total_score": 100}]
+
+        mock_table = mocker.MagicMock()
+
+        def select_side_effect(*_args, **kwargs):
+            mock_select = mocker.MagicMock()
+            if "head" in kwargs and kwargs["head"]:
+                mock_select.execute.return_value = mock_count_result
+            else:
+                mock_in = mocker.MagicMock()
+                mock_in.execute.return_value = mock_sample_result
+                mock_select.in_.return_value = mock_in
+            return mock_select
+
+        mock_table.select.side_effect = select_side_effect
+        mock_client.table.return_value = mock_table
+
+        with caplog.at_level(logging.WARNING):
+            migrate(dry_run=False, batch_size=500)
+
+        # 部分成功の警告ログが出力されていること
+        assert "部分成功" in caplog.text
+        # 失敗したepisode_idがログに含まれていること
+        assert "EP002" in caplog.text
+
+
+class TestSanitizeValueComplexObjects:
+    """sanitize_valueの複合オブジェクト処理テスト（PRレビューH-2対応）"""
+
+    def test_dict_returns_none(self):
+        """dict型はNoneに変換される"""
+        from migrate_csv_to_supabase import sanitize_value
+
+        result = sanitize_value({"key": "value"}, column_name="test_col")
+        assert result is None
+
+    def test_list_returns_none(self):
+        """list型はNoneに変換される"""
+        from migrate_csv_to_supabase import sanitize_value
+
+        result = sanitize_value([1, 2, 3], column_name="test_col")
+        assert result is None
+
+    def test_set_returns_none(self):
+        """set型はNoneに変換される"""
+        from migrate_csv_to_supabase import sanitize_value
+
+        result = sanitize_value({1, 2, 3}, column_name="test_col")
+        assert result is None
+
+    def test_tuple_returns_none(self):
+        """tuple型はNoneに変換される"""
+        from migrate_csv_to_supabase import sanitize_value
+
+        result = sanitize_value((1, 2, 3), column_name="test_col")
+        assert result is None

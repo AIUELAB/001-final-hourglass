@@ -92,15 +92,30 @@ def sanitize_value(value: Any, column_name: str = "") -> Any:
         return None
     if isinstance(value, type(pd.NA)):
         return None
+
+    # 複合オブジェクト（dict, list, set, tuple）は早期にNoneに変換
+    # JSONシリアライズ不能なため、APIエラーを防ぐ
+    if isinstance(value, (dict, list, set, tuple)):
+        logger.warning(
+            "複合オブジェクト検出 column=%s, value_type=%s - Noneに変換",
+            column_name,
+            type(value).__name__,
+        )
+        return None
+
     try:
         if pd.isna(value):
             return None
     except (TypeError, ValueError) as e:
-        # pd.isna()は一部の型（例: 複合オブジェクト）で例外を発生させる
-        # 後続の型判定で適切に処理されるため継続するが、デバッグ用にログ
-        logger.debug(
-            "pd.isna()でTypeError/ValueError発生 column=%s, value_type=%s: %s", column_name, type(value).__name__, e
+        # その他の複合オブジェクト（予期しない型）
+        logger.warning(
+            "pd.isna()でTypeError/ValueError発生 column=%s, value_type=%s: %s",
+            column_name,
+            type(value).__name__,
+            e,
         )
+        # 安全のためNoneを返す
+        return None
 
     # numpy/pandas整数型
     if isinstance(value, (np.integer,)):
@@ -220,12 +235,12 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
                 f"super_total_score={rec.get('super_total_score')}"
             )
 
-        # NaN/Inf検出テスト
+        # NaN/Inf検出テスト（dry-runなので実害なし、警告レベルで記録）
         try:
             json.dumps(sanitized_sample)
             print("\n[OK] JSONシリアライズテスト: 成功")
         except (ValueError, TypeError) as e:
-            logger.error("JSONシリアライズテスト: 失敗 - %s", e)
+            logger.warning("JSONシリアライズテスト: 失敗（dry-run） - %s", e)
 
         # INTEGERカラムの型検証
         print("\n[CHECK] INTEGERカラムの型検証:")
@@ -266,8 +281,26 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             if result["success_count"] < len(batch_records):
                 partial_failed = len(batch_records) - result["success_count"]
                 error_count += partial_failed
+                # 成功したIDを特定し、失敗したIDを推定
+                success_ids = {r.get("episode_id") for r in (result.get("data") or [])}
+                failed_ids = [
+                    r.get("episode_id", "unknown") for r in batch_records if r.get("episode_id") not in success_ids
+                ]
                 logger.warning(
-                    "部分成功: %d/%d件 (失敗: %d件)", result["success_count"], len(batch_records), partial_failed
+                    "部分成功: %d/%d件 (失敗: %d件) - 失敗episode_id: %s",
+                    result["success_count"],
+                    len(batch_records),
+                    partial_failed,
+                    failed_ids[:5],
+                )
+                failed_records.append(
+                    {
+                        "batch_num": batch_num,
+                        "error_type": "PartialFailure",
+                        "error_message": f"{partial_failed}件が部分的に失敗",
+                        "episode_ids": failed_ids,
+                        "timestamp": datetime.now().isoformat(),
+                    }
                 )
         except APIError as e:
             # Supabase API固有エラー（型不一致、制約違反等）
@@ -326,6 +359,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
                     "timestamp": datetime.now().isoformat(),
                 }
             )
+        except (SystemExit, KeyboardInterrupt):
+            # ユーザー意図の中断は再送出
+            raise
         except Exception as e:
             # その他の予期しないエラー（ログに明示的に記録）
             error_count += len(batch_records)
@@ -380,9 +416,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
 
     # 件数整合性チェック
     if db_count is None:
-        print("[SKIP] 件数検証をスキップ（検証APIエラー）")
+        logger.warning("件数検証をスキップ - 移行データの整合性を手動で確認してください")
     elif db_count != success_count:
-        print(f"[INFO] DB件数: {db_count:,}, 今回成功: {success_count:,}")
+        logger.error("件数不一致: DB=%d, 今回成功=%d - データ整合性を確認してください", db_count, success_count)
 
     # サンプルデータ検証
     sample_ids = df["episode_id"].head(10).tolist()
@@ -405,6 +441,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         logger.error("サンプル検証失敗 (APIError): %s", e.message)
     except (TypeError, KeyError) as e:
         logger.error("サンプルデータの形式が予期しない: %s", e)
+    except (SystemExit, KeyboardInterrupt):
+        # ユーザー意図の中断は再送出
+        raise
     except Exception as e:
         logger.error("サンプル検証で予期しないエラー (%s): %s", type(e).__name__, e)
 

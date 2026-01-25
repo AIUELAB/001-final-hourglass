@@ -21,12 +21,14 @@ import re
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 from urllib.parse import quote
 
 import requests
 
 from src.csv_path_resolver import get_project_root
+
+JsonDict = dict[str, Any]
 
 
 class FactCache:
@@ -44,7 +46,7 @@ class FactCache:
         """キャッシュキーを生成"""
         return hashlib.md5(key.encode("utf-8"), usedforsecurity=False).hexdigest()
 
-    def get(self, key: str) -> Optional[dict]:
+    def get(self, key: str) -> Optional[JsonDict]:
         """キャッシュから取得"""
         cache_key = self._get_cache_key(key)
         cache_file = self.cache_dir / f"{cache_key}.json"
@@ -57,16 +59,22 @@ class FactCache:
                 cached = json.load(f)
 
             # TTLチェック
-            cached_time = datetime.fromisoformat(cached["cached_at"])
+            if not isinstance(cached, dict):
+                return None
+            cached_at = cached.get("cached_at")
+            if not isinstance(cached_at, str):
+                return None
+            cached_time = datetime.fromisoformat(cached_at)
             if (datetime.now() - cached_time).total_seconds() > self.ttl_seconds:
                 cache_file.unlink()
                 return None
 
-            return cached["data"]
-        except (json.JSONDecodeError, KeyError):
+            data = cached.get("data")
+            return data if isinstance(data, dict) else None
+        except (json.JSONDecodeError, KeyError, ValueError, TypeError):
             return None
 
-    def set(self, key: str, data: dict) -> None:
+    def set(self, key: str, data: JsonDict) -> None:
         """キャッシュに保存"""
         cache_key = self._get_cache_key(key)
         cache_file = self.cache_dir / f"{cache_key}.json"
@@ -92,7 +100,7 @@ class WikipediaFactChecker:
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": self.USER_AGENT})
 
-    def _make_request(self, params: dict) -> Optional[dict]:
+    def _make_request(self, params: JsonDict) -> Optional[JsonDict]:
         """Wikipedia APIリクエスト"""
         params["format"] = "json"
 
@@ -103,7 +111,8 @@ class WikipediaFactChecker:
                 timeout=10,
             )
             response.raise_for_status()
-            return response.json()
+            data = response.json()
+            return data if isinstance(data, dict) else None
         except requests.RequestException as e:
             print(f"  Wikipedia API error: {e}")
             return None
@@ -132,11 +141,11 @@ class WikipediaFactChecker:
             if page_id != "-1":
                 extract = page.get("extract", "")
                 self.cache.set(cache_key, {"extract": extract})
-                return extract
+                return str(extract) if isinstance(extract, str) else None
 
         return None
 
-    def search_person(self, name: str) -> Optional[dict]:
+    def search_person(self, name: str) -> Optional[JsonDict]:
         """人物を検索してページ情報を取得"""
         cache_key = f"wp_search:{name}"
         cached = self.cache.get(cache_key)
@@ -254,7 +263,7 @@ class WikidataVerifier:
             }
         )
 
-    def _execute_sparql(self, query: str) -> Optional[dict]:
+    def _execute_sparql(self, query: str) -> Optional[JsonDict]:
         """SPARQLクエリを実行"""
         try:
             response = self.session.get(
@@ -263,7 +272,8 @@ class WikidataVerifier:
                 timeout=30,
             )
             response.raise_for_status()
-            return response.json()
+            data = response.json()
+            return data if isinstance(data, dict) else None
         except requests.RequestException as e:
             print(f"  Wikidata SPARQL error: {e}")
             return None
@@ -273,7 +283,8 @@ class WikidataVerifier:
         cache_key = f"wd_search:{name}:{lang}"
         cached = self.cache.get(cache_key)
         if cached:
-            return cached.get("wikidata_id")
+            wikidata_id = cached.get("wikidata_id")
+            return wikidata_id if isinstance(wikidata_id, str) else None
 
         query = f"""
         SELECT ?item WHERE {{
@@ -289,13 +300,17 @@ class WikidataVerifier:
 
         bindings = result.get("results", {}).get("bindings", [])
         if bindings:
-            wikidata_id = bindings[0]["item"]["value"].split("/")[-1]
-            self.cache.set(cache_key, {"wikidata_id": wikidata_id})
-            return wikidata_id
+            # mypy対策: `Any` になりやすいので型を確定させる
+            item = bindings[0].get("item") if isinstance(bindings[0], dict) else None
+            value = item.get("value") if isinstance(item, dict) else None
+            if isinstance(value, str) and value:
+                wikidata_id = value.split("/")[-1]
+                self.cache.set(cache_key, {"wikidata_id": wikidata_id})
+                return wikidata_id
 
         return None
 
-    def get_person_facts(self, wikidata_id: str) -> Optional[dict]:
+    def get_person_facts(self, wikidata_id: str) -> Optional[JsonDict]:
         """人物の構造化事実データを取得"""
         cache_key = f"wd_facts:{wikidata_id}"
         cached = self.cache.get(cache_key)
@@ -319,11 +334,12 @@ class WikidataVerifier:
         if not bindings:
             return None
 
-        facts = {
+        occupations: list[str] = []
+        facts: JsonDict = {
             "wikidata_id": wikidata_id,
             "birth_date": None,
             "death_date": None,
-            "occupations": [],
+            "occupations": occupations,
         }
 
         for binding in bindings:
@@ -333,8 +349,8 @@ class WikidataVerifier:
                 facts["death_date"] = binding["deathDate"]["value"][:10]
             if "occupationLabel" in binding:
                 occ = binding["occupationLabel"]["value"]
-                if occ not in facts["occupations"]:
-                    facts["occupations"].append(occ)
+                if isinstance(occ, str) and occ not in occupations:
+                    occupations.append(occ)
 
         self.cache.set(cache_key, facts)
         return facts
@@ -379,16 +395,16 @@ class ExternalFactChecker:
         self.wikipedia = WikipediaFactChecker(self.cache)
         self.wikidata = WikidataVerifier(self.cache)
         self.delay = delay_seconds
-        self.last_request_time = 0
+        self.last_request_time: float = 0.0
 
-    def _rate_limit(self):
+    def _rate_limit(self) -> None:
         """レート制限"""
         elapsed = time.time() - self.last_request_time
         if elapsed < self.delay:
             time.sleep(self.delay - elapsed)
         self.last_request_time = time.time()
 
-    def verify_person(self, person_name: str, expected_birth_year: Optional[int] = None) -> dict:
+    def verify_person(self, person_name: str, expected_birth_year: Optional[int] = None) -> JsonDict:
         """
         人物情報を総合的に検証
 
@@ -401,15 +417,16 @@ class ExternalFactChecker:
         """
         self._rate_limit()
 
-        result = {
+        sources: JsonDict = {}
+        result: JsonDict = {
             "person_name": person_name,
             "timestamp": datetime.now().isoformat(),
-            "sources": {},
+            "sources": sources,
         }
 
         # Wikipedia検証
         wp_extract = self.wikipedia.get_page_extract(person_name)
-        result["sources"]["wikipedia"] = {
+        sources["wikipedia"] = {
             "found": wp_extract is not None,
             "extract_preview": wp_extract[:200] if wp_extract else None,
         }
@@ -417,7 +434,7 @@ class ExternalFactChecker:
         if expected_birth_year:
             self._rate_limit()
             wp_birth = self.wikipedia.verify_birth_year(person_name, expected_birth_year)
-            result["sources"]["wikipedia"]["birth_verification"] = wp_birth
+            sources["wikipedia"]["birth_verification"] = wp_birth  # type: ignore[index]
 
         # Wikidata検証
         self._rate_limit()
@@ -425,7 +442,7 @@ class ExternalFactChecker:
         if wd_id:
             self._rate_limit()
             wd_facts = self.wikidata.get_person_facts(wd_id)
-            result["sources"]["wikidata"] = {
+            sources["wikidata"] = {
                 "found": True,
                 "wikidata_id": wd_id,
                 "facts": wd_facts,
@@ -433,9 +450,9 @@ class ExternalFactChecker:
 
             if expected_birth_year:
                 wd_birth = self.wikidata.verify_birth_year(person_name, expected_birth_year)
-                result["sources"]["wikidata"]["birth_verification"] = wd_birth
+                sources["wikidata"]["birth_verification"] = wd_birth  # type: ignore[index]
         else:
-            result["sources"]["wikidata"] = {"found": False}
+            sources["wikidata"] = {"found": False}
 
         # 総合判定
         result["overall_status"] = self._determine_overall_status(result)

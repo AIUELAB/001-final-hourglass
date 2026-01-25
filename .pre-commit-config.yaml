@@ -8,9 +8,28 @@ ci:
   autofix_prs: true
   autoupdate_schedule: weekly
   autoupdate_commit_msg: 'chore: pre-commit autoupdate'
-  skip: [mypy, pytest]  # CI環境で時間がかかるものはスキップ
+  # CI環境で時間がかかるものやCSVファイル依存のものはスキップ
+  skip: [mypy, pytest, check-group-names, check-episode-consistency, check-same-age-duplicates]
 
 default_stages: [pre-commit]
+
+# CI/運用上のノイズを減らすための全体除外
+# なぜ:
+# - reports/ や output/ は自動生成物が多く、JSON/YAML整形・末尾改行修正で差分が大量発生しやすい
+# - CIの pre-commit を「意味のあるソースコード」に集中させるため
+exclude: |
+  (?x)^(
+    reports/|
+    output/|
+    src/reports/logs/|
+    \.serena/|
+    \.session/|
+    \.sessions/|
+    \.scannerwork/|
+    coverage\.json$|
+    project_memory\.json$|
+    mcp_profiles\.json$
+  )
 
 repos:
   # ============================================

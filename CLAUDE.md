@@ -186,6 +186,22 @@
 - 禁止: Person_type = "REAL" かつ Work_title = 架空作品
 - 検証: SafeCSVWriter で二重チェック（Person_type + Person_name）
 
+### 架空キャラ作品名表示ルール（EPUP原則: 作品名必須表示）【RCA-20260125】
+**原因**: ナウシカ等の架空キャラがperson_type=REALに誤分類され、ダッシュボードで作品名が非表示になった
+- **根本原因1**: `fictional_characters.py`にジブリ作品が未登録
+- **根本原因2**: ダッシュボードで`personType === 'REAL'`時にwork_titleを空にする処理
+
+**再発防止策**:
+- **キャラクターリスト拡充**: `src/utils/fictional_characters.py` にジブリ・FF・LotR作品を追加
+- **SafeCSVWriter自動修正**: 警告から自動修正に格上げ（person_type: REAL → FICTIONAL）
+- **ダッシュボード二重チェック**: `FICTIONAL_CHARACTER_NAMES`リストでperson_name判定を追加
+- **修正スクリプト**: `python scripts/fix/fix_fictional_person_type.py --execute`
+
+**表示ルール**:
+- 架空キャラクターの名前には必ず作品名を併記する
+- **フォーマット**: `{人物名}『{作品名}』`（例：ナウシカ『風の谷のナウシカ』）
+- **CSS**: `.work-title-tag` クラスで作品名タグをスタイリング
+
 ---
 
 ## 🔄 MCP運用

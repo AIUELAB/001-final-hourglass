@@ -26,5 +26,8 @@ jobs:
         run: |
           pip install pre-commit
       - name: Run pre-commit
+        env:
+          # CI環境ではCSVファイルに依存するフックをスキップ
+          SKIP: check-group-names,check-episode-consistency,check-same-age-duplicates,check-person-duplicates
         run: |
           pre-commit run -a

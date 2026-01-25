@@ -82,10 +82,12 @@ ci-full: ## Run full CI pipeline (same as GitHub Actions)
 	pre-commit run --all-files
 	@echo ""
 	@echo "📋 Step 2: Ruff format check"
-	ruff format --check . --exclude "*/_archived/*" --exclude "archive/*"
+	# NOTE: CIと同じ対象範囲に揃える（巨大リポジトリ全体を無差別に整形しない）
+	ruff format --check src/ backend/ tests/ scripts/ --exclude "*/_archived/*" --exclude "archive/*"
 	@echo ""
 	@echo "📋 Step 3: Ruff lint"
-	ruff check . --exclude "*/_archived/*" --exclude "archive/*"
+	# NOTE: CIと同じ対象範囲に揃える（src/backend/tests/scripts を品質ゲート対象にする）
+	ruff check src/ backend/ tests/ scripts/ --exclude "*/_archived/*" --exclude "archive/*"
 	@echo ""
 	@echo "📋 Step 4: Type check"
 	mypy src/ --ignore-missing-imports
@@ -97,7 +99,8 @@ ci-full: ## Run full CI pipeline (same as GitHub Actions)
 	bandit -r src/ -f json -o bandit-report.json
 	@echo ""
 	@echo "📋 Step 7: Security - pip-audit"
-	pip-audit -r requirements.txt --desc
+	# NOTE: CVE-2026-0994 は現時点で fix version が公開されていないため一時的に除外
+	pip-audit -r requirements.txt --desc --ignore-vuln CVE-2026-0994
 	@echo ""
 	@echo "📋 Step 8: Security - Safety"
 	safety check -r requirements.txt --json
@@ -108,7 +111,7 @@ ci-full: ## Run full CI pipeline (same as GitHub Actions)
 ci-quick: ## Run quick CI checks (no security)
 	@echo "🔍 Running quick CI..."
 	pre-commit run --all-files
-	ruff format --check . --exclude "*/_archived/*" --exclude "archive/*"
-	ruff check . --exclude "*/_archived/*" --exclude "archive/*"
+	ruff format --check src/ backend/ tests/ scripts/ --exclude "*/_archived/*" --exclude "archive/*"
+	ruff check src/ backend/ tests/ scripts/ --exclude "*/_archived/*" --exclude "archive/*"
 	pytest tests/ -v
 	@echo "✅ Quick CI passed!"

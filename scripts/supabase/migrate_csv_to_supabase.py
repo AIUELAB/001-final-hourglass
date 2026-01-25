@@ -206,7 +206,7 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         print("\n[SAMPLE] サニタイズ後のサンプルデータ（先頭5件）:")
         for i, rec in enumerate(sanitized_sample):
             print(
-                f"  {i+1}. episode_id={rec.get('episode_id')}, "
+                f"  {i + 1}. episode_id={rec.get('episode_id')}, "
                 f"person_name={rec.get('person_name')}, "
                 f"age={rec.get('age')} (type={type(rec.get('age')).__name__}), "
                 f"birth_year={rec.get('birth_year')} (type={type(rec.get('birth_year')).__name__}), "

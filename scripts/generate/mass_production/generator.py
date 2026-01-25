@@ -165,9 +165,9 @@ class PromptBuilder:
 {f"## 年号制約（厳守）{chr(10)}{year_constraint}{chr(10)}" if year_constraint else ""}
 {writing_rules}
 
-## 生成スタイル: {style_info['name']}
-{style_info['instruction']}
-トーン: {style_info['tone']}
+## 生成スタイル: {style_info["name"]}
+{style_info["instruction"]}
+トーン: {style_info["tone"]}
 
 ## 必須要件
 1. 冒頭は必ず「あなたと同じ{input_data.age}歳のとき、{input_data.person_name}は」で開始

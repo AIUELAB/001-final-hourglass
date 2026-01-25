@@ -164,12 +164,12 @@ def generate_dashboard_html(stats: dict) -> str:
             <div class="stat-sub">of {stats["total_generated"]} generated</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value {'rate-good' if stats['avg_acceptance_rate'] >= 70 else 'rate-warning' if stats['avg_acceptance_rate'] >= 50 else 'rate-bad'}">{stats["avg_acceptance_rate"]:.1f}%</div>
+            <div class="stat-value {"rate-good" if stats["avg_acceptance_rate"] >= 70 else "rate-warning" if stats["avg_acceptance_rate"] >= 50 else "rate-bad"}">{stats["avg_acceptance_rate"]:.1f}%</div>
             <div class="stat-label">Acceptance Rate</div>
             <div class="stat-sub">target: >= 70%</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value {'rate-good' if stats['epgen_success_rate'] >= 80 else 'rate-warning'}">{stats["epgen_success_rate"]:.1f}%</div>
+            <div class="stat-value {"rate-good" if stats["epgen_success_rate"] >= 80 else "rate-warning"}">{stats["epgen_success_rate"]:.1f}%</div>
             <div class="stat-label">EPGEN Success Rate</div>
             <div class="stat-sub">{stats["epgen_successes"]}/{stats["epgen_attempts"]} attempts</div>
         </div>

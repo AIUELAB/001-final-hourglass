@@ -214,7 +214,7 @@ class EpisodeImprover:
         print("  改善完了")
         print(f"{'=' * 70}")
         print(f"\n改善件数: {improved_count}/{total}件")
-        print(f"成功率: {improved_count/total*100:.1f}%")
+        print(f"成功率: {improved_count / total * 100:.1f}%")
         print(f"\n{'=' * 70}")
 
     def close(self):

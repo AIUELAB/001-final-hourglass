@@ -116,11 +116,11 @@ def generate_teen_episode(
 ) -> Optional[dict]:
     """10代エピソードを生成"""
 
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"生成中: {person_name} ({age}歳) - {category}")
     if award_name:
         print(f"受賞: {award_name}" + (f" ({award_year}年)" if award_year else ""))
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
 
     prompt = f"""あなたは、人物の人生における印象的なエピソードを生成する専門家です。
 

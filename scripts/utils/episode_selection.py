@@ -290,10 +290,10 @@ def main():
         counts[r.selection_result.value] += 1
 
     print("\n📊 品質分布:")
-    print(f"   ✅ 保持 (>=6.5): {counts['keep']:,}件 ({100*counts['keep']/len(quality_results):.1f}%)")
-    print(f"   ⚠️  要改善 (5.0-6.5): {counts['improve']:,}件 ({100*counts['improve']/len(quality_results):.1f}%)")
-    print(f"   🔄 統合検討 (3.5-5.0): {counts['merge']:,}件 ({100*counts['merge']/len(quality_results):.1f}%)")
-    print(f"   ❌ 破棄候補 (<3.5): {counts['discard']:,}件 ({100*counts['discard']/len(quality_results):.1f}%)")
+    print(f"   ✅ 保持 (>=6.5): {counts['keep']:,}件 ({100 * counts['keep'] / len(quality_results):.1f}%)")
+    print(f"   ⚠️  要改善 (5.0-6.5): {counts['improve']:,}件 ({100 * counts['improve'] / len(quality_results):.1f}%)")
+    print(f"   🔄 統合検討 (3.5-5.0): {counts['merge']:,}件 ({100 * counts['merge'] / len(quality_results):.1f}%)")
+    print(f"   ❌ 破棄候補 (<3.5): {counts['discard']:,}件 ({100 * counts['discard'] / len(quality_results):.1f}%)")
 
     avg_score = sum(r.quality_score for r in quality_results) / len(quality_results)
     print(f"\n   平均品質スコア: {avg_score:.2f}")

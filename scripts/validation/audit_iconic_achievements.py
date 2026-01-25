@@ -240,7 +240,7 @@ def print_report(results: dict, verbose: bool = False):
         for person_name, data in results["persons"].items():
             rate = data["coverage_rate"]
             status = "✓" if rate == 1.0 else "△" if rate > 0.5 else "✗"
-            print(f"  {status} {person_name}: {rate*100:.0f}% ({data['covered_count']}/{data['required_count']})")
+            print(f"  {status} {person_name}: {rate * 100:.0f}% ({data['covered_count']}/{data['required_count']})")
             if data["missing"]:
                 for m in data["missing"]:
                     print(f"      欠落: {m['achievement']} ({m['age']}歳)")

@@ -173,8 +173,8 @@ def generate_report(existing_stats: dict, new_stats: dict) -> str:
 
 | 区分 | エピソード数 |
 |------|-------------|
-| 既存EP | {existing_stats['score']['super_total']['count']:,} |
-| 新規EP（ハイブリッド生成） | {new_stats['score']['super_total']['count']:,} |
+| 既存EP | {existing_stats["score"]["super_total"]["count"]:,} |
+| 新規EP（ハイブリッド生成） | {new_stats["score"]["super_total"]["count"]:,} |
 
 ---
 
@@ -182,11 +182,11 @@ def generate_report(existing_stats: dict, new_stats: dict) -> str:
 
 | 指標 | 既存EP | 新規EP | 差分 |
 |------|--------|--------|------|
-| 平均 | {existing_stats['score']['super_total']['mean']:,.0f} | {new_stats['score']['super_total']['mean']:,.0f} | {new_stats['score']['super_total']['mean'] - existing_stats['score']['super_total']['mean']:+,.0f} |
-| 中央値 | {existing_stats['score']['super_total']['median']:,.0f} | {new_stats['score']['super_total']['median']:,.0f} | {new_stats['score']['super_total']['median'] - existing_stats['score']['super_total']['median']:+,.0f} |
-| 標準偏差 | {existing_stats['score']['super_total']['std']:,.0f} | {new_stats['score']['super_total']['std']:,.0f} | - |
-| 最小値 | {existing_stats['score']['super_total']['min']:,.0f} | {new_stats['score']['super_total']['min']:,.0f} | - |
-| 最大値 | {existing_stats['score']['super_total']['max']:,.0f} | {new_stats['score']['super_total']['max']:,.0f} | - |
+| 平均 | {existing_stats["score"]["super_total"]["mean"]:,.0f} | {new_stats["score"]["super_total"]["mean"]:,.0f} | {new_stats["score"]["super_total"]["mean"] - existing_stats["score"]["super_total"]["mean"]:+,.0f} |
+| 中央値 | {existing_stats["score"]["super_total"]["median"]:,.0f} | {new_stats["score"]["super_total"]["median"]:,.0f} | {new_stats["score"]["super_total"]["median"] - existing_stats["score"]["super_total"]["median"]:+,.0f} |
+| 標準偏差 | {existing_stats["score"]["super_total"]["std"]:,.0f} | {new_stats["score"]["super_total"]["std"]:,.0f} | - |
+| 最小値 | {existing_stats["score"]["super_total"]["min"]:,.0f} | {new_stats["score"]["super_total"]["min"]:,.0f} | - |
+| 最大値 | {existing_stats["score"]["super_total"]["max"]:,.0f} | {new_stats["score"]["super_total"]["max"]:,.0f} | - |
 
 ---
 
@@ -219,9 +219,9 @@ def generate_report(existing_stats: dict, new_stats: dict) -> str:
 
 | 指標 | 既存EP | 新規EP |
 |------|--------|--------|
-| factual_density ≥ 6.0 | {existing_stats['gate']['factual_density_rate']:.1f}% ({existing_stats['gate']['factual_density_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['factual_density_rate']:.1f}% ({new_stats['gate']['factual_density_pass']:,}/{new_stats['gate']['total']:,}) |
-| 生成品質 ≥ 6.0 | {existing_stats['gate']['generation_quality_rate']:.1f}% ({existing_stats['gate']['generation_quality_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['generation_quality_rate']:.1f}% ({new_stats['gate']['generation_quality_pass']:,}/{new_stats['gate']['total']:,}) |
-| 両方クリア | {existing_stats['gate']['both_rate']:.1f}% ({existing_stats['gate']['both_pass']:,}/{existing_stats['gate']['total']:,}) | {new_stats['gate']['both_rate']:.1f}% ({new_stats['gate']['both_pass']:,}/{new_stats['gate']['total']:,}) |
+| factual_density ≥ 6.0 | {existing_stats["gate"]["factual_density_rate"]:.1f}% ({existing_stats["gate"]["factual_density_pass"]:,}/{existing_stats["gate"]["total"]:,}) | {new_stats["gate"]["factual_density_rate"]:.1f}% ({new_stats["gate"]["factual_density_pass"]:,}/{new_stats["gate"]["total"]:,}) |
+| 生成品質 ≥ 6.0 | {existing_stats["gate"]["generation_quality_rate"]:.1f}% ({existing_stats["gate"]["generation_quality_pass"]:,}/{existing_stats["gate"]["total"]:,}) | {new_stats["gate"]["generation_quality_rate"]:.1f}% ({new_stats["gate"]["generation_quality_pass"]:,}/{new_stats["gate"]["total"]:,}) |
+| 両方クリア | {existing_stats["gate"]["both_rate"]:.1f}% ({existing_stats["gate"]["both_pass"]:,}/{existing_stats["gate"]["total"]:,}) | {new_stats["gate"]["both_rate"]:.1f}% ({new_stats["gate"]["both_pass"]:,}/{new_stats["gate"]["total"]:,}) |
 
 ---
 
@@ -229,9 +229,9 @@ def generate_report(existing_stats: dict, new_stats: dict) -> str:
 
 | 指標 | 既存EP | 新規EP |
 |------|--------|--------|
-| 平均文字数 | {existing_stats['content']['avg_char_count']:.0f}文字 | {new_stats['content']['avg_char_count']:.0f}文字 |
-| 年号含有率 | {existing_stats['content']['year_inclusion_rate']:.1f}% | {new_stats['content']['year_inclusion_rate']:.1f}% |
-| 平均固有名詞数 | {existing_stats['content']['avg_proper_nouns']:.1f}個 | {new_stats['content']['avg_proper_nouns']:.1f}個 |
+| 平均文字数 | {existing_stats["content"]["avg_char_count"]:.0f}文字 | {new_stats["content"]["avg_char_count"]:.0f}文字 |
+| 年号含有率 | {existing_stats["content"]["year_inclusion_rate"]:.1f}% | {new_stats["content"]["year_inclusion_rate"]:.1f}% |
+| 平均固有名詞数 | {existing_stats["content"]["avg_proper_nouns"]:.1f}個 | {new_stats["content"]["avg_proper_nouns"]:.1f}個 |
 
 ---
 

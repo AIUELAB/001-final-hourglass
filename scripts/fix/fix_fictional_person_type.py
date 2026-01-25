@@ -185,7 +185,7 @@ def main():
     if report["details"]:
         print("📝 詳細 (最大{}件):".format(args.limit))
         for i, detail in enumerate(report["details"][: args.limit]):
-            print(f"  [{i+1}] {detail['person_name']} ({detail['age']}歳)")
+            print(f"  [{i + 1}] {detail['person_name']} ({detail['age']}歳)")
             print(f"      episode_id: {detail['episode_id']}")
             for change in detail["changes"]:
                 print(f"      ✏️ {change}")

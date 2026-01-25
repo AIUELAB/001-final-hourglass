@@ -104,7 +104,7 @@ def regenerate_episode(client: Anthropic, row: dict, violations: list) -> str:
 【元エピソード】
 {original_text}
 
-【検出された違反】{', '.join(violations)}
+【検出された違反】{", ".join(violations)}
 
 【修正指示】
 このエピソードは架空キャラクターに関するものです。
@@ -126,7 +126,7 @@ def regenerate_episode(client: Anthropic, row: dict, violations: list) -> str:
 【元エピソード】
 {original_text}
 
-【検出された違反】{', '.join(violations)}
+【検出された違反】{", ".join(violations)}
 
 【修正指示】
 以下の禁止パターンを含まないよう、「事実ベース」で再生成してください：
@@ -223,7 +223,7 @@ def run_fix(batch_size: int = 30, target_categories: list = None, dry_run: bool 
             print(f"   違反: {', '.join(t['violations'])}")
             print(f"   本文: {t['episode_text'][:100]}...")
 
-        print(f"\n... 他 {len(targets)-5}件")
+        print(f"\n... 他 {len(targets) - 5}件")
         print("\n--execute オプションで実際に修正を実行します")
         return
 

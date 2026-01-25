@@ -117,7 +117,7 @@ def find_and_fix_mismatches(df: pd.DataFrame, dry_run: bool = True) -> Dict[str,
 
         # CSVのperson_nameと一致するか確認
         if correct_name != person_name:
-            print(f"⚠️ 警告（行{idx}）: CSV={person_name}, " f"修正マップ={correct_name} - 不一致")
+            print(f"⚠️ 警告（行{idx}）: CSV={person_name}, 修正マップ={correct_name} - 不一致")
             results["skipped"] += 1
             continue
 

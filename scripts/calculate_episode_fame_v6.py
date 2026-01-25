@@ -133,7 +133,7 @@ def main():
     # 統計
     scores = [float(r.get("episode_fame_v6", 0)) for r in rows]
     print("\n=== スコア統計 ===")
-    print(f"  min: {min(scores):.1f}, max: {max(scores):.1f}, avg: {sum(scores)/len(scores):.1f}")
+    print(f"  min: {min(scores):.1f}, max: {max(scores):.1f}, avg: {sum(scores) / len(scores):.1f}")
 
     # Top10表示
     print("\n=== Top10 (バイアス制御後) ===")

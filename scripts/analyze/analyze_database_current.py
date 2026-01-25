@@ -39,7 +39,7 @@ def analyze_database():
     print("\n⚠️  不足カテゴリ（50件未満）:")
     insufficient = category_counts[category_counts < 50]
     for category, count in insufficient.items():
-        print(f"  - {category}: {count}件（あと{50-count}件必要）")
+        print(f"  - {category}: {count}件（あと{50 - count}件必要）")
 
     # 2. person_type分布
     print("\n" + "=" * 80)
@@ -69,9 +69,9 @@ def analyze_database():
         low_quality = len(composite_scores[composite_scores < 70])
 
         print("\n  スコア分布:")
-        print(f"  - 高品質（80点以上）: {high_quality}件 ({high_quality/len(df)*100:.1f}%)")
-        print(f"  - 中品質（70-79点）: {medium_quality}件 ({medium_quality/len(df)*100:.1f}%)")
-        print(f"  - 低品質（70点未満）: {low_quality}件 ({low_quality/len(df)*100:.1f}%)")
+        print(f"  - 高品質（80点以上）: {high_quality}件 ({high_quality / len(df) * 100:.1f}%)")
+        print(f"  - 中品質（70-79点）: {medium_quality}件 ({medium_quality / len(df) * 100:.1f}%)")
+        print(f"  - 低品質（70点未満）: {low_quality}件 ({low_quality / len(df) * 100:.1f}%)")
 
     # 4. データ完全性チェック
     print("\n" + "=" * 80)
@@ -122,7 +122,7 @@ def analyze_database():
         # スコア分布
         for score in [30, 50, 70, 90]:
             count = len(fame_scores[fame_scores >= score])
-            print(f"  - {score}点以上: {count}件 ({count/len(df)*100:.1f}%)")
+            print(f"  - {score}点以上: {count}件 ({count / len(df) * 100:.1f}%)")
 
     # 7. 統計サマリー
     print("\n" + "=" * 80)

@@ -40,7 +40,7 @@ def build_iconic_prompt(achievement: dict) -> str:
 【年齢】{age}歳
 【記録すべき業績】{achievement_text}
 【発生年】{year}年
-【含めるべきキーワード】{', '.join(keywords)}
+【含めるべきキーワード】{", ".join(keywords)}
 
 上記の具体的な史実に基づいて、この人物の{age}歳時のエピソードを生成してください。
 

@@ -241,7 +241,7 @@ def main():
     print()
     print("📈 統計")
     print(f"   総エピソード数: {total_episodes}")
-    print(f"   5の倍数年齢: {five_multiple_count} ({five_multiple_count/total_episodes:.1%})")
+    print(f"   5の倍数年齢: {five_multiple_count} ({five_multiple_count / total_episodes:.1%})")
 
     return 0
 

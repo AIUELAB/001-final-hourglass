@@ -349,8 +349,8 @@ class IntegratedEpisodeGenerator:
         print("  生成完了サマリー")
         print(f"{'=' * 70}")
         print(f"\n対象: {total}人")
-        print(f"✅ 成功: {success_count}人 ({success_count/total*100:.1f}%)")
-        print(f"❌ 失敗: {failed_count}人 ({failed_count/total*100:.1f}%)")
+        print(f"✅ 成功: {success_count}人 ({success_count / total * 100:.1f}%)")
+        print(f"❌ 失敗: {failed_count}人 ({failed_count / total * 100:.1f}%)")
         print(f"\n{'=' * 70}")
 
         return results

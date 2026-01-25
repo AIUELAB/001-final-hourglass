@@ -357,8 +357,8 @@ def main():
     print("検証サマリー")
     print("=" * 60)
     print(f"総数: {summary['total']}")
-    print(f"合格: {summary['passed']} ({summary['passed']/summary['total']*100:.1f}%)")
-    print(f"不合格: {summary['failed']} ({summary['failed']/summary['total']*100:.1f}%)")
+    print(f"合格: {summary['passed']} ({summary['passed'] / summary['total'] * 100:.1f}%)")
+    print(f"不合格: {summary['failed']} ({summary['failed'] / summary['total'] * 100:.1f}%)")
     if args.auto_fix:
         print(f"自動修正: {summary['auto_fixed']}")
 

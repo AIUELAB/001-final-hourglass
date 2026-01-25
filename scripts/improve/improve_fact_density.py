@@ -163,10 +163,10 @@ def improve_episode(row: pd.Series) -> Optional[Dict]:
     original_text = str(row["episode_text"])
     original_fact_density = float(row["factual_density"])
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"改稿中: {person_name} ({age}歳) [{episode_id}]")
     print(f"元のfactual_density: {original_fact_density:.2f}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # 改稿
     print("  改稿中...")
@@ -249,7 +249,7 @@ def run_improvement(count: int, execute: bool) -> Dict:
     results = {"improved": [], "partial": [], "no_improvement": [], "failed": []}
 
     for i, (_, row) in enumerate(targets.iterrows()):
-        print(f"\n[{i+1}/{len(targets)}]", end="")
+        print(f"\n[{i + 1}/{len(targets)}]", end="")
         result = improve_episode(row)
 
         if result is None:

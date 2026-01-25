@@ -69,7 +69,7 @@ class TestBiasControlWithTier1Protection:
         # 先に他の人物で19件埋める（rank 1-19）
         episodes = []
         for i in range(19):
-            episodes.append(self._make_episode(f"P{100+i}", f"E{100+i}", "他の人物", 95.0 - i * 0.1))
+            episodes.append(self._make_episode(f"P{100 + i}", f"E{100 + i}", "他の人物", 95.0 - i * 0.1))
 
         # 同一人物の2件のエピソード（1件はTier1）をrank 20以降に配置
         episodes.append(self._make_episode("P001", "E001", "普通のエピソード", 70.0))  # rank 20
@@ -90,7 +90,7 @@ class TestBiasControlWithTier1Protection:
         # 先に他の人物で18件埋める
         episodes = []
         for i in range(18):
-            episodes.append(self._make_episode(f"P{100+i}", f"E{100+i}", "他の人物", 95.0 - i * 0.1))
+            episodes.append(self._make_episode(f"P{100 + i}", f"E{100 + i}", "他の人物", 95.0 - i * 0.1))
 
         # 同一人物の2件の普通のエピソード
         episodes.append(self._make_episode("P001", "E001", "普通のエピソード1", 70.0))  # rank 19
@@ -98,7 +98,7 @@ class TestBiasControlWithTier1Protection:
 
         # 追加の人物で埋める（deferredがTop20外に押し出されるように）
         for i in range(10):
-            episodes.append(self._make_episode(f"P{200+i}", f"E{200+i}", "追加の人物", 68.0 - i * 0.1))
+            episodes.append(self._make_episode(f"P{200 + i}", f"E{200 + i}", "追加の人物", 68.0 - i * 0.1))
 
         # スコア順にソート
         episodes.sort(key=lambda x: x["episode_fame_v6"], reverse=True)
@@ -114,7 +114,7 @@ class TestBiasControlWithTier1Protection:
         # 先に他の人物で17件埋める
         episodes = []
         for i in range(17):
-            episodes.append(self._make_episode(f"P{100+i}", f"E{100+i}", "他の人物", 95.0 - i * 0.1))
+            episodes.append(self._make_episode(f"P{100 + i}", f"E{100 + i}", "他の人物", 95.0 - i * 0.1))
 
         # 同一人物の3件のTier1エピソード
         episodes.append(self._make_episode("P001", "E001", "ノーベル物理学賞を受賞", 70.0))  # rank 18
@@ -123,7 +123,7 @@ class TestBiasControlWithTier1Protection:
 
         # 追加の人物で埋める（deferredがTop20外に押し出されるように）
         for i in range(10):
-            episodes.append(self._make_episode(f"P{200+i}", f"E{200+i}", "追加の人物", 67.0 - i * 0.1))
+            episodes.append(self._make_episode(f"P{200 + i}", f"E{200 + i}", "追加の人物", 67.0 - i * 0.1))
 
         # スコア順にソート
         episodes.sort(key=lambda x: x["episode_fame_v6"], reverse=True)

@@ -279,11 +279,11 @@ def generate_report():
     lines.append("-" * 50)
     cs = cache_stats["coverage_stats"]
     total = cs["total"]
-    lines.append(f"Wikidata ID: {cs['wikidata']:,} / {total:,} ({cs['wikidata']/total*100:.1f}%)")
-    lines.append(f"sitelinks: {cs['sitelinks']:,} / {total:,} ({cs['sitelinks']/total*100:.1f}%)")
-    lines.append(f"multi_lang_pv: {cs['pv']:,} / {total:,} ({cs['pv']/total*100:.1f}%)")
-    lines.append(f"inlinks: {cs['inlinks']:,} / {total:,} ({cs['inlinks']/total*100:.1f}%)")
-    lines.append(f"google_hits: {cs['google']:,} / {total:,} ({cs['google']/total*100:.1f}%)")
+    lines.append(f"Wikidata ID: {cs['wikidata']:,} / {total:,} ({cs['wikidata'] / total * 100:.1f}%)")
+    lines.append(f"sitelinks: {cs['sitelinks']:,} / {total:,} ({cs['sitelinks'] / total * 100:.1f}%)")
+    lines.append(f"multi_lang_pv: {cs['pv']:,} / {total:,} ({cs['pv'] / total * 100:.1f}%)")
+    lines.append(f"inlinks: {cs['inlinks']:,} / {total:,} ({cs['inlinks'] / total * 100:.1f}%)")
+    lines.append(f"google_hits: {cs['google']:,} / {total:,} ({cs['google'] / total * 100:.1f}%)")
     lines.append("")
 
     # カテゴリ分布

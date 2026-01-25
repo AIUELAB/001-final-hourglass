@@ -154,7 +154,7 @@ class LoadBalancedAdapter(GeneratorAdapter):
         self._adapters: dict[ProviderType, MultiProviderAdapter] = {}
 
         logger.info(
-            f"LoadBalancedAdapter initialized with providers: " f"{[p.value for p in self._provider_status.keys()]}"
+            f"LoadBalancedAdapter initialized with providers: {[p.value for p in self._provider_status.keys()]}"
         )
 
     def _get_adapter(self, provider: ProviderType) -> MultiProviderAdapter:
@@ -347,7 +347,7 @@ class LoadBalancedAdapter(GeneratorAdapter):
             status = "✓" if data["is_available"] and not data["is_rate_limited"] else "✗"
             print(f"{status} {provider}:")
             print(f"    Requests: {data['total_requests']}")
-            print(f"    Errors: {data['total_errors']} ({data['error_rate']*100:.1f}%)")
+            print(f"    Errors: {data['total_errors']} ({data['error_rate'] * 100:.1f}%)")
             print(f"    Avg Latency: {data['avg_latency_ms']:.0f}ms")
 
 

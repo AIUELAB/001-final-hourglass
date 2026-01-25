@@ -216,8 +216,7 @@ class AsyncOrchestrator:
         self._sync_orchestrator._save_run_log(run)
 
         logger.info(
-            f"Async run completed: {run.accepted_count}/{run.generated_count} accepted "
-            f"({run.replaced_count} replaced)"
+            f"Async run completed: {run.accepted_count}/{run.generated_count} accepted ({run.replaced_count} replaced)"
         )
 
         return run

@@ -91,7 +91,7 @@ class DashboardDebugger:
             print(f"🌐 アクセス中: {self.url}")
             await page.goto(self.url, wait_until="networkidle")
 
-            print(f"⏳ {wait_time/1000}秒待機中...")
+            print(f"⏳ {wait_time / 1000}秒待機中...")
             await page.wait_for_timeout(wait_time)
 
             # JavaScript状態取得
@@ -434,7 +434,7 @@ async def main():
             if data["memory"]["js_heap"]:
                 heap = data["memory"]["js_heap"]
                 print(
-                    f"   JS Heap: {heap['usedJSHeapSize']/1024/1024:.1f}MB / {heap['totalJSHeapSize']/1024/1024:.1f}MB"
+                    f"   JS Heap: {heap['usedJSHeapSize'] / 1024 / 1024:.1f}MB / {heap['totalJSHeapSize'] / 1024 / 1024:.1f}MB"
                 )
             print(f"   DOM Stats: {data['memory']['dom_stats']}")
 

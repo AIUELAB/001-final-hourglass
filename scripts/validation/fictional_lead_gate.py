@@ -191,8 +191,8 @@ def main():
     print("\n" + "=" * 60)
     print("FICTIONAL文頭フォーマット検証結果")
     print("=" * 60)
-    print(f"✅ 合格: {passed:,}件 ({passed/fictional_count*100:.1f}%)")
-    print(f"❌ 違反: {failed:,}件 ({failed/fictional_count*100:.1f}%)")
+    print(f"✅ 合格: {passed:,}件 ({passed / fictional_count * 100:.1f}%)")
+    print(f"❌ 違反: {failed:,}件 ({failed / fictional_count * 100:.1f}%)")
 
     if failed == 0:
         print("\n🎉 全FICTIONALエピソードが文頭フォーマットに準拠しています")

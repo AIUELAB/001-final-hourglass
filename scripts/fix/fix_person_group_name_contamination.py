@@ -186,9 +186,9 @@ def verify_with_llm(issue: Dict, client: "anthropic.Anthropic") -> Dict:
     """
     prompt = f"""以下の人物名について、グループ名と個人名が混在しているかどうか判定してください。
 
-【人物名】{issue['original_name']}
-【検出されたグループ名】{issue['detected_group']}
-【検出された個人名】{issue['detected_individual']}
+【人物名】{issue["original_name"]}
+【検出されたグループ名】{issue["detected_group"]}
+【検出された個人名】{issue["detected_individual"]}
 
 以下のJSON形式で回答してください:
 {{
@@ -327,7 +327,7 @@ def main():
             print("\n🤖 LLMで曖昧ケースを検証中...")
             client = anthropic.Anthropic(api_key=api_key)
             for i, issue in enumerate(issues):
-                print(f"  [{i+1}/{len(issues)}] {issue['original_name']}...", end=" ")
+                print(f"  [{i + 1}/{len(issues)}] {issue['original_name']}...", end=" ")
                 issue = verify_with_llm(issue, client)
                 if issue.get("llm_verified"):
                     print("✅")

@@ -129,7 +129,7 @@ def run_pilot(
     results = []
 
     for i, ep in enumerate(episodes):
-        print(f"[{i+1}/{len(episodes)}] {ep['person_name'][:20]}...")
+        print(f"[{i + 1}/{len(episodes)}] {ep['person_name'][:20]}...")
 
         # キーワードベース評価
         keyword_result = calculate_inspiration_score(

@@ -120,7 +120,7 @@ def main():
 
     for i in range(0, total, args.batch_size):
         batch = episodes_list[i : i + args.batch_size]
-        print(f"\n🔄 バッチ {i//args.batch_size + 1}: {len(batch)}件処理中...")
+        print(f"\n🔄 バッチ {i // args.batch_size + 1}: {len(batch)}件処理中...")
 
         try:
             results = classify_episode_type(client, batch)

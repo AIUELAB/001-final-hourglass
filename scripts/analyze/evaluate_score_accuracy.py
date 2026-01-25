@@ -172,7 +172,7 @@ def run_evaluation(sample_size: int = 50, dry_run: bool = False):
     # 結果分析
     print("Step 5: 結果分析...")
     success_count = sum(1 for r in results if r["llm_success"])
-    print(f"  成功率: {success_count}/{sample_size} ({100*success_count/sample_size:.1f}%)")
+    print(f"  成功率: {success_count}/{sample_size} ({100 * success_count / sample_size:.1f}%)")
 
     # 軸別の差異分析
     axis_diffs = {axis: [] for axis in SEVEN_AXES}

@@ -137,7 +137,7 @@ def main():
     print()
     print("【代表例（最大10件）】")
     for i, m in enumerate(mismatches[:10]):
-        print(f"  {i+1}. {m['episode_id']}")
+        print(f"  {i + 1}. {m['episode_id']}")
         print(f"     名前フィールド: {m['person_name']}")
         print(f"     本文冒頭名: {m['text_name']}")
         print(f"     name_raw: {m['name_raw']}")

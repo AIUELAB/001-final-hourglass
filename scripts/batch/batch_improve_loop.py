@@ -141,10 +141,10 @@ def main():
                 print(f"\n✅ 指定バッチ数（{args.batches}回）完了")
                 break
 
-            print(f"\n{'='*60}")
+            print(f"\n{'=' * 60}")
             print(f"📦 バッチ {batch_num} 開始")
             print(f"  現在の400-500帯: {current_dist['400-500']:,}件")
-            print(f"{'='*60}")
+            print(f"{'=' * 60}")
 
             # バッチ実行
             start_time = time.time()

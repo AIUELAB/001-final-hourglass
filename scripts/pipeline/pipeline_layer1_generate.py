@@ -432,7 +432,7 @@ def run_layer1(count: int, ages: Optional[List[int]], execute: bool) -> Dict:
         person_type = cand.get("person_type", "REAL")
         work_title = cand.get("work_title", "")
 
-        print(f"\n[{i+1}/{len(candidates)}] {person_name} ({age}歳) ...", end=" ")
+        print(f"\n[{i + 1}/{len(candidates)}] {person_name} ({age}歳) ...", end=" ")
 
         # ===== 品質ゲート: グループ名チェック =====
         group_name = ""

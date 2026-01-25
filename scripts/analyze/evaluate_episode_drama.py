@@ -298,8 +298,8 @@ def main():
     print("📊 評価結果サマリー")
     print(f"{'=' * 70}")
     print(f"  評価完了: {len(results)}件")
-    print(f"  低品質: {len(low_quality)}件 ({len(low_quality)/max(1,len(results))*100:.1f}%)")
-    print(f"  架空EP: {len(fictional)}件 ({len(fictional)/max(1,len(results))*100:.1f}%)")
+    print(f"  低品質: {len(low_quality)}件 ({len(low_quality) / max(1, len(results)) * 100:.1f}%)")
+    print(f"  架空EP: {len(fictional)}件 ({len(fictional) / max(1, len(results)) * 100:.1f}%)")
 
     if results:
         avg_drama = sum(r.get("drama_score", 0) for r in results) / len(results)

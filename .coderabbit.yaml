@@ -1,5 +1,6 @@
 # CodeRabbit Configuration
 # AI-powered code review for pull requests
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 
 language: ja  # 日本語レビュー
 
@@ -13,47 +14,55 @@ reviews:
     enabled: true
     drafts: false
 
-# iOS/Swift観点を重視
-instructions: |
-  ## レビュー観点
+  # 除外パターン
+  path_filters:
+  - '!**/Pods/**'
+  - '!**/*.xcodeproj/**'
+  - '!**/*.xcworkspace/**'
+  - '!**/DerivedData/**'
+  - '!**/*.xcassets/**'
+  - '!**/*.strings'
+  - '!**/*.storyboard'
+  - '!**/*.xib'
+  - '!**/Package.resolved'
+  - '!**/*.lock'
 
-  ### Swift/SwiftUI
-  - Swift/SwiftUIのベストプラクティスに従っているか
-  - @State, @Binding, @ObservedObject等の適切な使用
-  - View構造の適切な分割（200行以下推奨）
+  # パス別レビュー指示
+  path_instructions:
+  - path: '**/*.swift'
+    instructions: |
+      ## Swift/SwiftUIレビュー観点
 
-  ### メモリ管理
-  - 強参照サイクル（循環参照）の可能性
-  - [weak self], [unowned self]の適切な使用
-  - Combineサブスクリプションの適切な管理
+      ### ベストプラクティス
+      - Swift/SwiftUIのベストプラクティスに従っているか
+      - @State, @Binding, @ObservedObject等の適切な使用
+      - View構造の適切な分割（200行以下推奨）
 
-  ### 非同期処理
-  - async/awaitの適切な使用
-  - Task, TaskGroupの適切なキャンセル処理
-  - MainActorの適切な使用
+      ### メモリ管理
+      - 強参照サイクル（循環参照）の可能性
+      - [weak self], [unowned self]の適切な使用
+      - Combineサブスクリプションの適切な管理
 
-  ### エラーハンドリング
-  - do-catch, Result型の適切な使用
-  - エラーケースの網羅性
-  - ユーザーへの適切なフィードバック
+      ### 非同期処理
+      - async/awaitの適切な使用
+      - Task, TaskGroupの適切なキャンセル処理
+      - MainActorの適切な使用
+
+      ### エラーハンドリング
+      - do-catch, Result型の適切な使用
+      - エラーケースの網羅性
+      - ユーザーへの適切なフィードバック
+
+      ### 未使用コード検出（Periphery観点）
+      - 新規追加したstruct/class/enumは実際に使用されているか
+      - 新規追加したメソッド/プロパティは呼び出されているか
+      - 削除漏れ: 古いコードが残っていないか
+      - 将来使用予定の場合は `// periphery:ignore` で抑制（SwiftLintの `// swiftlint:disable:next unused_declaration` とは別）
+
+  # 言語別ツール設定
+  tools:
+    swiftlint:
+      enabled: true
 
 chat:
   auto_reply: true
-
-# 除外パターン
-path_filters:
-- '!**/Pods/**'
-- '!**/*.xcodeproj/**'
-- '!**/*.xcworkspace/**'
-- '!**/DerivedData/**'
-- '!**/*.xcassets/**'
-- '!**/*.strings'
-- '!**/*.storyboard'
-- '!**/*.xib'
-- '!**/Package.resolved'
-- '!**/*.lock'
-
-# 言語別設定
-tools:
-  swiftlint:
-    enabled: true

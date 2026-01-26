@@ -1,56 +1,46 @@
 # CodeRabbit Configuration
-# AI-powered code review for GitHub PRs
+# AI-powered code review for pull requests
 
-language: ja  # 日本語でレビュー
+language: ja  # 日本語レビュー
 
 reviews:
-  # PRに対してRequest Changesを付けない（コメントのみ）
   request_changes_workflow: false
-  # ハイレベルサマリーを含める
   high_level_summary: true
-  # 詩は不要
   poem: false
-  # レビューステータスを表示
   review_status: true
-  # ウォークスルーを折りたたむ
   collapse_walkthrough: true
-  # 自動レビュー有効
   auto_review:
     enabled: true
-    # ドラフトPRはレビューしない
     drafts: false
 
-# iOS/Swift観点を重視したレビュー指示
+# iOS/Swift観点を重視
 instructions: |
-  このリポジトリはiOS/SwiftUIアプリ（FinalHourglass）を含んでいます。
-  以下の観点でレビューしてください：
+  ## レビュー観点
 
-  ## Swift/SwiftUI
+  ### Swift/SwiftUI
   - Swift/SwiftUIのベストプラクティスに従っているか
-  - @State, @Binding, @ObservedObject の適切な使用
-  - Viewの責務分離（大きすぎるViewになっていないか）
+  - @State, @Binding, @ObservedObject等の適切な使用
+  - View構造の適切な分割（200行以下推奨）
 
-  ## メモリ管理
-  - 強参照サイクル（retain cycle）の可能性
-  - [weak self] / [unowned self] の適切な使用
-  - クロージャ内でのself参照
+  ### メモリ管理
+  - 強参照サイクル（循環参照）の可能性
+  - [weak self], [unowned self]の適切な使用
+  - Combineサブスクリプションの適切な管理
 
-  ## 非同期処理
-  - async/await の適切な使用
-  - @MainActor の適切な配置
-  - Task のキャンセル処理
+  ### 非同期処理
+  - async/awaitの適切な使用
+  - Task, TaskGroupの適切なキャンセル処理
+  - MainActorの適切な使用
 
-  ## エラーハンドリング
-  - do-try-catch の網羅性
-  - Optional の安全なアンラップ
-  - guard let / if let の適切な使用
+  ### エラーハンドリング
+  - do-catch, Result型の適切な使用
+  - エラーケースの網羅性
+  - ユーザーへの適切なフィードバック
 
-  ## Python/バックエンド
-  - エピソード生成ロジックの整合性
-  - CSVデータの整合性チェック
-  - EPUP原則への準拠
+chat:
+  auto_reply: true
 
-# 除外パターン（レビュー対象外）
+# 除外パターン
 path_filters:
 - '!**/Pods/**'
 - '!**/*.xcodeproj/**'
@@ -60,13 +50,10 @@ path_filters:
 - '!**/*.strings'
 - '!**/*.storyboard'
 - '!**/*.xib'
-- '!**/Info.plist'
-- '!**/*.pbxproj'
-- '!**/Podfile.lock'
-- '!**/__pycache__/**'
-- '!**/*.pyc'
-- '!**/preserved/data/**'
+- '!**/Package.resolved'
+- '!**/*.lock'
 
-# チャット機能
-chat:
-  auto_reply: true
+# 言語別設定
+tools:
+  swiftlint:
+    enabled: true

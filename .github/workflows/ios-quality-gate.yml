@@ -1,0 +1,65 @@
+name: iOS Quality Gate
+
+on:
+  pull_request:
+    paths:
+      - 'ios-apps/**/*.swift'
+      - 'ios-apps/**/.swiftlint.yml'
+      - 'ios-apps/**/.periphery.yml'
+
+jobs:
+  swiftlint:
+    name: SwiftLint
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Run SwiftLint
+        run: |
+          cd ios-apps/final-hourglass
+          swiftlint lint --reporter github-actions-logging
+        # エラーのみでPRを落とす（警告は許容）
+
+  periphery:
+    name: Periphery (Dead Code Detection)
+    runs-on: macos-latest
+    continue-on-error: true  # 初期はレポートのみ（失敗させない）
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Install Periphery
+        run: brew install peripheryapp/periphery/periphery
+
+      - name: Run Periphery
+        run: |
+          cd ios-apps/final-hourglass
+          periphery scan --skip-build --format checkstyle || true
+        # 初期はレポートのみ（失敗させない）
+
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build
+        run: |
+          cd ios-apps/final-hourglass
+          xcodebuild build \
+            -project FinalHourglass.xcodeproj \
+            -scheme FinalHourglass \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty --color

@@ -142,7 +142,7 @@ exclude_dirs = ["tests", "venv", ".venv"]
 skips = [
   "B101",  # assert_used (テスト用)
   "B105",  # hardcoded password (環境変数名・設定キー名の誤検出)
-  "B112"   # try-except-continue (設計上許容)
+  "B112"  # try-except-continue (設計上許容)
 ]
 # B404, B403, B311, B607, B603 は各ファイルの nosec コメントで限定的に許容
 targets = ["src"]

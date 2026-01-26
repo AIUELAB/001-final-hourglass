@@ -1,0 +1,59 @@
+# CodeRabbit Configuration
+# AI-powered code review for pull requests
+
+language: ja  # 日本語レビュー
+
+reviews:
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+  auto_review:
+    enabled: true
+    drafts: false
+
+# iOS/Swift観点を重視
+instructions: |
+  ## レビュー観点
+
+  ### Swift/SwiftUI
+  - Swift/SwiftUIのベストプラクティスに従っているか
+  - @State, @Binding, @ObservedObject等の適切な使用
+  - View構造の適切な分割（200行以下推奨）
+
+  ### メモリ管理
+  - 強参照サイクル（循環参照）の可能性
+  - [weak self], [unowned self]の適切な使用
+  - Combineサブスクリプションの適切な管理
+
+  ### 非同期処理
+  - async/awaitの適切な使用
+  - Task, TaskGroupの適切なキャンセル処理
+  - MainActorの適切な使用
+
+  ### エラーハンドリング
+  - do-catch, Result型の適切な使用
+  - エラーケースの網羅性
+  - ユーザーへの適切なフィードバック
+
+chat:
+  auto_reply: true
+
+# 除外パターン
+path_filters:
+- '!**/Pods/**'
+- '!**/*.xcodeproj/**'
+- '!**/*.xcworkspace/**'
+- '!**/DerivedData/**'
+- '!**/*.xcassets/**'
+- '!**/*.strings'
+- '!**/*.storyboard'
+- '!**/*.xib'
+- '!**/Package.resolved'
+- '!**/*.lock'
+
+# 言語別設定
+tools:
+  swiftlint:
+    enabled: true

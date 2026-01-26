@@ -1,0 +1,72 @@
+# CodeRabbit Configuration
+# AI-powered code review for GitHub PRs
+
+language: ja  # 日本語でレビュー
+
+reviews:
+  # PRに対してRequest Changesを付けない（コメントのみ）
+  request_changes_workflow: false
+  # ハイレベルサマリーを含める
+  high_level_summary: true
+  # 詩は不要
+  poem: false
+  # レビューステータスを表示
+  review_status: true
+  # ウォークスルーを折りたたむ
+  collapse_walkthrough: true
+  # 自動レビュー有効
+  auto_review:
+    enabled: true
+    # ドラフトPRはレビューしない
+    drafts: false
+
+# iOS/Swift観点を重視したレビュー指示
+instructions: |
+  このリポジトリはiOS/SwiftUIアプリ（FinalHourglass）を含んでいます。
+  以下の観点でレビューしてください：
+
+  ## Swift/SwiftUI
+  - Swift/SwiftUIのベストプラクティスに従っているか
+  - @State, @Binding, @ObservedObject の適切な使用
+  - Viewの責務分離（大きすぎるViewになっていないか）
+
+  ## メモリ管理
+  - 強参照サイクル（retain cycle）の可能性
+  - [weak self] / [unowned self] の適切な使用
+  - クロージャ内でのself参照
+
+  ## 非同期処理
+  - async/await の適切な使用
+  - @MainActor の適切な配置
+  - Task のキャンセル処理
+
+  ## エラーハンドリング
+  - do-try-catch の網羅性
+  - Optional の安全なアンラップ
+  - guard let / if let の適切な使用
+
+  ## Python/バックエンド
+  - エピソード生成ロジックの整合性
+  - CSVデータの整合性チェック
+  - EPUP原則への準拠
+
+# 除外パターン（レビュー対象外）
+path_filters:
+- '!**/Pods/**'
+- '!**/*.xcodeproj/**'
+- '!**/*.xcworkspace/**'
+- '!**/DerivedData/**'
+- '!**/*.xcassets/**'
+- '!**/*.strings'
+- '!**/*.storyboard'
+- '!**/*.xib'
+- '!**/Info.plist'
+- '!**/*.pbxproj'
+- '!**/Podfile.lock'
+- '!**/__pycache__/**'
+- '!**/*.pyc'
+- '!**/preserved/data/**'
+
+# チャット機能
+chat:
+  auto_reply: true

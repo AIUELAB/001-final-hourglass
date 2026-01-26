@@ -57,6 +57,7 @@ reviews:
       - 新規追加したstruct/class/enumは実際に使用されているか
       - 新規追加したメソッド/プロパティは呼び出されているか
       - 削除漏れ: 古いコードが残っていないか
+      - 将来使用予定の場合は `// periphery:ignore` で抑制（SwiftLintの `// swiftlint:disable:next unused_declaration` とは別）
 
   # 言語別ツール設定
   tools:

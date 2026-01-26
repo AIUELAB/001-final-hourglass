@@ -408,6 +408,12 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         sample_records = sample_df.to_dict(orient="records")
         sanitized_sample = sanitize_records(sample_records)
 
+        # 空CSV対応: レコードがない場合は警告して終了
+        if not sanitized_sample:
+            logger.warning("dry-run validation skipped: no records in CSV")
+            print("\n[WARN] CSVにレコードがありません")
+            return 0
+
         print("\n[SAMPLE] サニタイズ後のサンプルデータ（先頭5件）:")
         for i, rec in enumerate(sanitized_sample):
             print(

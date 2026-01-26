@@ -37,6 +37,12 @@ instructions: |
   - エラーケースの網羅性
   - ユーザーへの適切なフィードバック
 
+  ### 未使用コード検出（Periphery観点）
+  - 新規追加したstruct/class/enumは実際に使用されているか
+  - 新規追加したメソッド/プロパティは呼び出されているか
+  - 削除漏れ: 古いコードが残っていないか
+  - 将来使用予定の場合は`// swiftlint:disable:next unused_declaration`等で明示
+
 chat:
   auto_reply: true
 

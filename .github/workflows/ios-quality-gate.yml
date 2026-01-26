@@ -1,3 +1,5 @@
+# iOS Quality Gate - PR時のコード品質チェック
+# 3つのジョブを並列実行: SwiftLint（静的解析）, Periphery（未使用コード検出）, Build（ビルド＋警告チェック）
 name: iOS Quality Gate
 
 on:
@@ -18,16 +20,18 @@ jobs:
       - name: Install SwiftLint
         run: brew install swiftlint
 
-      - name: Run SwiftLint
+      # --strict: 警告も0件必須（警告があればエラー扱いでPRを落とす）
+      - name: Run SwiftLint (Strict Mode)
         run: |
           cd ios-apps/final-hourglass
-          swiftlint lint --reporter github-actions-logging
-        # エラーのみでPRを落とす（警告は許容）
+          swiftlint lint --strict --reporter github-actions-logging
 
   periphery:
     name: Periphery (Dead Code Detection)
     runs-on: macos-latest
-    continue-on-error: true  # 初期はレポートのみ（失敗させない）
+    # Phase 1: レポートのみ（失敗させない）
+    # Phase 2で continue-on-error を削除して厳格化予定
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,11 +42,15 @@ jobs:
       - name: Install Periphery
         run: brew install peripheryapp/periphery/periphery
 
+      # --project と --schemes を指定してビルドしながらスキャン
+      # --format checkstyle でCI連携しやすいレポート形式で出力
       - name: Run Periphery
         run: |
           cd ios-apps/final-hourglass
-          periphery scan --skip-build --format checkstyle || true
-        # 初期はレポートのみ（失敗させない）
+          periphery scan \
+            --project FinalHourglass.xcodeproj \
+            --schemes FinalHourglass \
+            --format checkstyle || true
 
   build:
     name: Build
@@ -54,12 +62,29 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
+      # ビルドログをファイルに保存して後続の警告チェックで使用
       - name: Build
         run: |
           cd ios-apps/final-hourglass
           xcodebuild build \
             -project FinalHourglass.xcodeproj \
             -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             CODE_SIGNING_ALLOWED=NO \
-            | xcpretty --color
+            2>&1 | tee build.log | xcpretty --color
+
+      # 警告チェック: システム由来の警告（appintentsmetadataprocessor等）を除外し、
+      # 残りの警告があればワークフローを失敗させる
+      - name: Check for Warnings
+        run: |
+          cd ios-apps/final-hourglass
+          # 警告行を抽出し、システム由来の警告を除外
+          WARNINGS=$(grep -i "warning:" build.log | grep -v "appintentsmetadataprocessor" || true)
+
+          if [ -n "$WARNINGS" ]; then
+            echo "::error::ビルド警告が検出されました:"
+            echo "$WARNINGS"
+            exit 1
+          else
+            echo "警告なし - OK"
+          fi

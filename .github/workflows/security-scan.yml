@@ -52,10 +52,15 @@ jobs:
           path: reports/
 
       - name: Check for vulnerabilities
+        env:
+          HIGH_VULN_THRESHOLD: ${{ vars.HIGH_VULN_THRESHOLD || '10' }}
         run: |
           python -c "
           import json
           import sys
+          import os
+
+          high_threshold = int(os.environ.get('HIGH_VULN_THRESHOLD', '10'))
 
           with open('reports/dependency-check-report.json', 'r') as f:
               report = json.load(f)
@@ -74,11 +79,11 @@ jobs:
           if critical > 0:
               print(f'❌ Found {critical} CRITICAL vulnerabilities')
               sys.exit(1)
-          elif high > 10:
-              print(f'⚠️  Found {high} HIGH vulnerabilities (threshold: 10)')
+          elif high > high_threshold:
+              print(f'⚠️  Found {high} HIGH vulnerabilities (threshold: {high_threshold})')
               sys.exit(1)
           else:
-              print(f'✅ Vulnerability check passed (HIGH: {high}/10)')
+              print(f'✅ Vulnerability check passed (HIGH: {high}/{high_threshold})')
           "
 
   pip-audit:

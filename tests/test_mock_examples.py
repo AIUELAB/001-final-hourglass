@@ -130,7 +130,7 @@ class TestEpisodeValidation:
         df = mock_master_episodes_df
 
         # エッジケーステスト用行（空文字や極長テキスト）を除外
-        normal_df = df[~df["episode_id"].str.contains("EDGE")]
+        normal_df = df[~df["episode_id"].str.contains("EDGE", na=False)]
 
         for _, row in normal_df.iterrows():
             text = row["episode_text"]

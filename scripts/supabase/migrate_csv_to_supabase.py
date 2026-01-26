@@ -326,8 +326,9 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
                 x,
             )
             return None
-        if isinstance(x, (int, float)):
+        if isinstance(x, (int, float, np.integer, np.floating)):
             # 数値型は明示的にbool変換（0/0.0 -> False, それ以外 -> True）
+            # NumPyスカラ型（np.int64, np.float64等）も対応
             return bool(x)
 
         # その他の予期しない型は警告（M-1対策）
@@ -617,7 +618,15 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
             if total_records > MAX_FALLBACK_RECORDS:
                 print(f"  ... 他 {total_records - MAX_FALLBACK_RECORDS} 件（上限{MAX_FALLBACK_RECORDS}件まで表示）")
 
-    # 結果サマリー
+    # W-1: Boolean変換失敗をerror_countに反映（サマリー表示前に加算）
+    if _migration_ctx.boolean_conversion_failures > 0:
+        logger.warning(
+            "Boolean conversion failures detected: %d columns affected",
+            _migration_ctx.boolean_conversion_failures,
+        )
+        error_count += _migration_ctx.boolean_conversion_failures
+
+    # 結果サマリー（error_count更新後に表示）
     print("\n" + "=" * 60)
     print("移行結果")
     print("=" * 60)
@@ -627,14 +636,6 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
     # 複合オブジェクト検出サマリー
     if _migration_ctx.complex_object_count > 0:
         print(f"[INFO] Complex objects detected and converted to None: {_migration_ctx.complex_object_count:,}")
-
-    # W-1: Boolean変換失敗をerror_countに反映
-    if _migration_ctx.boolean_conversion_failures > 0:
-        logger.warning(
-            "Boolean conversion failures detected: %d columns affected",
-            _migration_ctx.boolean_conversion_failures,
-        )
-        error_count += _migration_ctx.boolean_conversion_failures
 
     _migration_ctx.reset()
 

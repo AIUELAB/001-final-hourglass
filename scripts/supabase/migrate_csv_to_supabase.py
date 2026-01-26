@@ -13,6 +13,7 @@ import logging
 import math
 import os
 import sys
+import threading
 import traceback
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -132,8 +133,25 @@ class MigrationContext:
         self.boolean_conversion_failures = 0
 
 
-# モジュールレベルのコンテキスト（後方互換性のため）
-_migration_ctx = MigrationContext()
+# スレッドローカルなコンテキスト管理
+_migration_ctx_local = threading.local()
+
+
+def get_migration_ctx() -> MigrationContext:
+    """スレッドローカルなMigrationContextを取得
+
+    Returns:
+        MigrationContext: 現在のスレッドのMigrationContextインスタンス
+    """
+    if not hasattr(_migration_ctx_local, "ctx"):
+        _migration_ctx_local.ctx = MigrationContext()
+    ctx: MigrationContext = _migration_ctx_local.ctx  # type: ignore[assignment]
+    return ctx
+
+
+# モジュールレベルのコンテキスト（後方互換性のため、非推奨）
+# 新規コードでは get_migration_ctx() を使用してください
+_migration_ctx = get_migration_ctx()
 
 
 def create_failed_record(
@@ -410,14 +428,23 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
 
         # INTEGERカラムの型検証
         print("\n[CHECK] INTEGERカラムの型検証:")
+        integer_validation_failures = 0
         for col in INTEGER_COLUMNS:
             if col in sanitized_sample[0]:
                 val = sanitized_sample[0][col]
                 val_type = type(val).__name__ if val is not None else "NoneType"
-                status = "OK" if val is None or isinstance(val, int) else "NG"
+                is_valid = val is None or isinstance(val, int)
+                status = "OK" if is_valid else "NG"
                 print(f"   - {col}: {val} ({val_type}) [{status}]")
+                if not is_valid:
+                    integer_validation_failures += 1
+                    logger.error("INTEGER column %s has invalid type: %s", col, type(val).__name__)
 
-        return 0  # dry-runは常に成功
+        if integer_validation_failures > 0:
+            logger.error("dry-run validation failed: %d INTEGER column(s) invalid", integer_validation_failures)
+            return 1
+
+        return 0
 
     # Supabase接続
     supabase = get_supabase_client()
@@ -448,10 +475,21 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
                 partial_failed = len(batch_records) - result["success_count"]
                 error_count += partial_failed
                 # 成功したIDを特定し、失敗したIDを推定
-                success_ids = {r.get("episode_id") for r in (result.get("data") or [])}
-                failed_ids = [
-                    r.get("episode_id", "unknown") for r in batch_records if r.get("episode_id") not in success_ids
-                ]
+                result_data = result.get("data") or []
+                if not result_data and result["success_count"] > 0:
+                    # success_count > 0 だが data=None の異常ケース
+                    logger.warning(
+                        "Partial success but result.data is empty - cannot identify failed records. "
+                        "success_count=%d, batch_size=%d",
+                        result["success_count"],
+                        len(batch_records),
+                    )
+                    failed_ids = ["unknown (data unavailable)"]
+                else:
+                    success_ids = {r.get("episode_id") for r in result_data}
+                    failed_ids = [
+                        r.get("episode_id", "unknown") for r in batch_records if r.get("episode_id") not in success_ids
+                    ]
                 logger.warning(
                     "Partial success: %d/%d records (failed: %d) - failed episode_ids: %s",
                     result["success_count"],
@@ -546,23 +584,25 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
 
     # 失敗レコードをJSONファイルに保存
     if failed_records:
-        log_path = (
-            PROJECT_ROOT / "src/reports/logs" / f"migration_errors_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        log_path = None  # EH-W-3: 例外ハンドリング用に初期化
         try:
+            log_path = (
+                PROJECT_ROOT / "src/reports/logs" / f"migration_errors_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            )
             log_path.parent.mkdir(parents=True, exist_ok=True)
             with open(log_path, "w", encoding="utf-8") as f:
                 json.dump(failed_records, f, ensure_ascii=False, indent=2)
             print(f"\n[LOG] 失敗詳細を保存: {log_path}")
         except (IOError, OSError) as e:
+            log_path_str = str(log_path) if log_path else "unknown"
             logger.error(
                 "Failed to save log to %s: %s (errno=%s)",
-                log_path,
+                log_path_str,
                 e,
                 getattr(e, "errno", "N/A"),
             )
-            logger.critical("Log file save failed: %s - falling back to console output", log_path)
-            print(f"[CRITICAL] ログファイル保存失敗: {log_path}")
+            logger.critical("Log file save failed: %s - falling back to console output", log_path_str)
+            print(f"[CRITICAL] ログファイル保存失敗: {log_path_str}")
             print(f"           エラー: {e}")
             total_records = len(failed_records)
             print(f"[FALLBACK] 失敗したepisode_idをコンソールに出力 ({total_records}件):")
@@ -626,11 +666,21 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
         retrieved = len(sample_result.data) if sample_result.data else 0
         print(f"[CHECK] サンプル検証: {retrieved}/10件取得成功")
 
-        # 値の整合性チェック
-        for row in sample_result.data or []:
+        # 値の整合性チェック（EH-W-5: 欠落数のサマリーを追加）
+        missing_score_count = 0
+        sample_data = sample_result.data or []
+        for row in sample_data:
             if isinstance(row, dict):
                 if row.get("super_total_score") is None:
+                    missing_score_count += 1
                     logger.warning("super_total_score missing: %s", row.get("episode_id"))
+
+        if missing_score_count > 0:
+            logger.warning(
+                "super_total_score missing in %d/%d sample records - data quality issue",
+                missing_score_count,
+                len(sample_data),
+            )
     except APIError as e:
         logger.error("Sample verification failed (APIError): %s", e.message)
         error_count += 1  # W-3: 検証失敗をエラーとしてカウント

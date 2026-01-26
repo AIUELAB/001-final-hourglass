@@ -37,7 +37,7 @@ jobs:
         with:
           project: "claude-code-template-mcp"
           path: "."
-          format: "HTML,JSON"
+          format: "ALL"
           args: >
             --enableRetired
             --enableExperimental

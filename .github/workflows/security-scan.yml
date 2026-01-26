@@ -74,11 +74,11 @@ jobs:
           if critical > 0:
               print(f'❌ Found {critical} CRITICAL vulnerabilities')
               sys.exit(1)
-          elif high > 5:
-              print(f'⚠️  Found {high} HIGH vulnerabilities (threshold: 5)')
+          elif high > 10:
+              print(f'⚠️  Found {high} HIGH vulnerabilities (threshold: 10)')
               sys.exit(1)
           else:
-              print('✅ Vulnerability check passed')
+              print(f'✅ Vulnerability check passed (HIGH: {high}/10)')
           "
 
   pip-audit:

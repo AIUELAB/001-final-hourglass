@@ -44,12 +44,7 @@ rules:
   severity: ERROR
 
   # Code Quality Rules
-- id: unused-import
-  pattern: |
-    import $X
-  message: Check for unused import
-  languages: [python]
-  severity: INFO
+  # Note: unused-import ルールは削除（ruffがより正確に検出するため）
 
 - id: debug-print
   patterns:

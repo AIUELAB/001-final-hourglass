@@ -129,7 +129,10 @@ class TestEpisodeValidation:
         """エピソードテキストが「あなたと同じX歳のとき」で始まることを確認"""
         df = mock_master_episodes_df
 
-        for _, row in df.iterrows():
+        # エッジケーステスト用行（空文字や極長テキスト）を除外
+        normal_df = df[~df["episode_id"].str.contains("EDGE", na=False)]
+
+        for _, row in normal_df.iterrows():
             text = row["episode_text"]
             age = row["age"]
             expected_prefix = f"あなたと同じ{age}歳のとき"
@@ -144,6 +147,8 @@ class TestEpisodeValidation:
 
     def test_birth_death_year_consistency(self, mock_master_episodes_df):
         """birth_year < death_year であることを確認（REALのみ）"""
+        import pandas as pd
+
         df = mock_master_episodes_df
 
         real_persons = df[df["person_type"] == "REAL"]
@@ -151,5 +156,6 @@ class TestEpisodeValidation:
             birth = row.get("birth_year")
             death = row.get("death_year")
 
-            if birth and death:
+            # NaN値を明示的にスキップ（pd.notna()を使用）
+            if pd.notna(birth) and pd.notna(death):
                 assert birth < death, f"{row['person_name']}: birth_year({birth}) >= death_year({death})"

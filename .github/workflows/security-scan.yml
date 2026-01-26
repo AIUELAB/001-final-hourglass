@@ -37,7 +37,7 @@ jobs:
         with:
           project: "claude-code-template-mcp"
           path: "."
-          format: "HTML,JSON"
+          format: "ALL"
           args: >
             --enableRetired
             --enableExperimental
@@ -52,10 +52,24 @@ jobs:
           path: reports/
 
       - name: Check for vulnerabilities
+        # HIGH閾値緩和理由:
+        #   - 対象: protobuf等の依存関係脆弱性（Fix版未公開）
+        #   - チケット: PR#22（セキュリティCI整備）
+        #   - 見直し日: 2026-02-28
+        #   - デフォルト10、vars.HIGH_VULN_THRESHOLDで上書き可能
+        env:
+          HIGH_VULN_THRESHOLD: ${{ vars.HIGH_VULN_THRESHOLD || '10' }}
         run: |
           python -c "
           import json
           import sys
+          import os
+          from datetime import date
+
+          high_threshold = int(os.environ.get('HIGH_VULN_THRESHOLD', '10'))
+          # 閾値緩和の見直し日（監査追跡用）
+          review_date = date(2026, 2, 28)
+          mitigation_ticket = 'PR#22'
 
           with open('reports/dependency-check-report.json', 'r') as f:
               report = json.load(f)
@@ -74,11 +88,13 @@ jobs:
           if critical > 0:
               print(f'❌ Found {critical} CRITICAL vulnerabilities')
               sys.exit(1)
-          elif high > 5:
-              print(f'⚠️  Found {high} HIGH vulnerabilities (threshold: 5)')
+          elif high > high_threshold:
+              print(f'⚠️  Found {high} HIGH vulnerabilities (threshold: {high_threshold})')
               sys.exit(1)
           else:
-              print('✅ Vulnerability check passed')
+              print(f'✅ Vulnerability check passed (HIGH: {high}/{high_threshold})')
+              if high > 5:
+                  print(f'📋 Threshold relaxation: {mitigation_ticket}, review by {review_date}')
           "
 
   pip-audit:

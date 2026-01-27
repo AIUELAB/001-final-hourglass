@@ -2,6 +2,13 @@
 name: iOS Tests
 
 on:
+  workflow_dispatch:
+    inputs:
+      skip_coverage_check:
+        description: 'カバレッジ閾値チェックをスキップ'
+        required: false
+        default: false
+        type: boolean
   pull_request:
     paths:
       - 'ios-apps/**/*.swift'
@@ -93,6 +100,7 @@ jobs:
           echo "_Threshold: 80% for core calculation logic (LifeExpectancyCalculator, HealthScoreCalculator)_" >> $GITHUB_STEP_SUMMARY
 
       - name: Coverage Threshold Check
+        if: ${{ github.event.inputs.skip_coverage_check != 'true' }}
         run: |
           echo "🔍 Checking coverage thresholds for core calculation logic..."
           THRESHOLD=80

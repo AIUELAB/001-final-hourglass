@@ -6,6 +6,11 @@
 [![Episodes](https://img.shields.io/badge/episodes-2614-brightgreen.svg)](./MASTER_EPISODES_CURRENT.csv)
 [![Progress](https://img.shields.io/badge/progress-11.55%25-yellow.svg)](./MASTER_EPISODES_CURRENT.csv)
 
+[![iOS Quality Gate](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-quality-gate.yml/badge.svg)](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-quality-gate.yml)
+[![iOS Tests](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-test.yml/badge.svg)](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-test.yml)
+[![iOS Release](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-release.yml/badge.svg)](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-release.yml)
+[![iOS Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AIUELAB/de3143ec1dd892d01b9f4c7bb06baab0/raw/coverage-badge.json)](https://github.com/AIUELAB/001-final-hourglass/actions/workflows/ios-test.yml)
+
 **人生の節目を記録し、最期に振り返る究極のエピソード生成システム**
 
 > "The ones who refuse to compromise on quality"

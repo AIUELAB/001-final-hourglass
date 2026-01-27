@@ -406,7 +406,7 @@ jobs:
             -only-testing:FinalHourglassUITests \
             -resultBundlePath UITestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO \
-            2>&1 | xcpretty --color || true
+            2>&1 | xcpretty --color
 
       - name: UI Test Summary
         if: always()

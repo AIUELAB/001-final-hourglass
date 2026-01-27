@@ -1,0 +1,58 @@
+# iOS共通セットアップ - Xcode選択・CocoaPods・DerivedData・xcpretty
+name: Setup iOS Environment
+description: iOS CI共通のセットアップステップを集約
+
+inputs:
+  install-cocoapods:
+    description: CocoaPodsをインストールするか
+    required: false
+    default: 'false'
+  install-xcpretty:
+    description: xcprettyをインストールするか
+    required: false
+    default: 'false'
+  cache-derived-data:
+    description: DerivedDataをキャッシュするか
+    required: false
+    default: 'false'
+  working-directory:
+    description: CocoaPods install の作業ディレクトリ
+    required: false
+    default: ios-apps/final-hourglass
+
+runs:
+  using: composite
+  steps:
+  - name: Select Xcode
+    shell: bash
+    run: sudo xcode-select -s /Applications/Xcode.app
+
+  - name: Cache CocoaPods
+    if: inputs.install-cocoapods == 'true'
+    uses: actions/cache@v4
+    with:
+      path: ios-apps/final-hourglass/Pods
+      key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-pods-
+
+  - name: Install CocoaPods
+    if: inputs.install-cocoapods == 'true'
+    shell: bash
+    run: |
+      cd ${{ inputs.working-directory }}
+      pod install --repo-update
+
+  - name: Cache DerivedData
+    if: inputs.cache-derived-data == 'true'
+    uses: actions/cache@v4
+    with:
+      path: ~/Library/Developer/Xcode/DerivedData
+      key: ${{ runner.os }}-deriveddata-${{ hashFiles('ios-apps/final-hourglass/FinalHourglass.xcodeproj/project.pbxproj', 'ios-apps/final-hourglass/Podfile.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-deriveddata-
+
+  - name: Install xcpretty
+    if: inputs.install-xcpretty == 'true'
+    shell: bash
+    run: gem install xcpretty

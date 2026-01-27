@@ -16,6 +16,7 @@ on:
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/FinalHourglassUITests/**'
+      - 'ios-apps/**/*.xcconfig'
   push:
     branches:
       - main
@@ -23,11 +24,48 @@ on:
       - 'ios-apps/**/*.swift'
       - 'ios-apps/**/Podfile'
       - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/project.pbxproj'
+      - 'ios-apps/**/FinalHourglassUITests/**'
+      - 'ios-apps/**/*.xcconfig'
+
+concurrency:
+  group: ios-test-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      ui-tests-needed: ${{ steps.filter.outputs.ui-tests }}
+      src-changed: ${{ steps.filter.outputs.src }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            src:
+              - 'ios-apps/**/*.swift'
+              - 'ios-apps/**/Podfile'
+              - 'ios-apps/**/Podfile.lock'
+              - 'ios-apps/**/project.pbxproj'
+              - 'ios-apps/**/*.xcconfig'
+            ui-tests:
+              - 'ios-apps/**/FinalHourglassUITests/**'
+              - 'ios-apps/**/*.swift'
+              - 'ios-apps/**/project.pbxproj'
+
   test:
     name: Unit Tests & Coverage
+    needs: detect-changes
+    if: needs.detect-changes.outputs.src-changed == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: ios-apps/final-hourglass
@@ -41,22 +79,12 @@ jobs:
           git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
         working-directory: ${{ github.workspace }}
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
         with:
-          path: ios-apps/final-hourglass/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: pod install --repo-update
-
-      - name: Install xcpretty
-        run: gem install xcpretty
+          install-cocoapods: 'true'
+          install-xcpretty: 'true'
+          cache-derived-data: 'true'
 
       - name: Run Tests with Coverage
         run: |
@@ -466,6 +494,7 @@ jobs:
         with:
           name: coverage-report
           path: ios-apps/final-hourglass/TestResults.xcresult
+          retention-days: 30
 
       - name: Upload Test Results
         if: failure()
@@ -473,9 +502,12 @@ jobs:
         with:
           name: test-results
           path: ios-apps/final-hourglass/TestResults.xcresult
+          retention-days: 7
 
   ui-test:
     name: UI Tests (E2E)
+    needs: detect-changes
+    if: needs.detect-changes.outputs.ui-tests-needed == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
     timeout-minutes: 30
     defaults:
@@ -491,19 +523,11 @@ jobs:
           git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
         working-directory: ${{ github.workspace }}
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
         with:
-          path: ios-apps/final-hourglass/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: pod install --repo-update
+          install-cocoapods: 'true'
+          cache-derived-data: 'true'
 
       - name: Boot Simulator
         run: |
@@ -585,6 +609,7 @@ jobs:
           name: ui-test-screenshots
           path: ios-apps/final-hourglass/screenshots/
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: Upload UI Test Results
         if: always()
@@ -593,6 +618,7 @@ jobs:
           name: ui-test-results
           path: ios-apps/final-hourglass/UITestResults_attempt*.xcresult
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: UI Test Summary
         if: always()

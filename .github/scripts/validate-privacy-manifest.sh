@@ -22,9 +22,9 @@ CATEGORIES=(
   "Active Keyboard|NSPrivacyAccessedAPICategoryActiveKeyboards|3B52.1|activeInputModes,textInputMode"
 )
 
-MANIFEST="$APP_DIR/PrivacyInfo.xcprivacy"
+MANIFEST=$(find "$APP_DIR" -name 'PrivacyInfo.xcprivacy' -not -path '*/Pods/*' -not -path '*/DerivedData/*' 2>/dev/null | head -1)
 HAS_MANIFEST=false
-if [[ -f "$MANIFEST" ]]; then
+if [[ -n "$MANIFEST" && -f "$MANIFEST" ]]; then
   HAS_MANIFEST=true
   MANIFEST_CONTENT=$(cat "$MANIFEST")
 fi

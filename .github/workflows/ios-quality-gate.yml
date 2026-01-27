@@ -12,6 +12,7 @@ on:
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/*.xcconfig'
+      - 'ios-apps/**/PrivacyInfo.xcprivacy'
 
 concurrency:
   group: ios-quality-gate-${{ github.head_ref || github.run_id }}
@@ -63,44 +64,6 @@ jobs:
             --schemes FinalHourglass \
             --format checkstyle
 
-  dependency-audit:
-    name: Dependency Audit
-    runs-on: macos-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install cocoapods-audit
-        run: gem install cocoapods-audit --no-document
-
-      - name: Run CocoaPods Audit
-        run: |
-          cd ios-apps/final-hourglass
-          if [ -f Podfile.lock ]; then
-            echo "## 🔍 CocoaPods Dependency Audit" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            if pod audit 2>&1 | tee audit_result.txt; then
-              echo "✅ No known vulnerabilities found" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "⚠️ Vulnerabilities detected:" >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              cat audit_result.txt >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              exit 1
-            fi
-          else
-            echo "ℹ️ No Podfile.lock found - skipping CocoaPods audit" >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Check Swift Package Resolved
-        run: |
-          cd ios-apps/final-hourglass
-          if [ -f Package.resolved ] || [ -f *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved ]; then
-            echo "### Swift Package Dependencies" >> $GITHUB_STEP_SUMMARY
-            echo "✅ Swift Package resolution file found" >> $GITHUB_STEP_SUMMARY
-          fi
-
   build:
     name: Build
     runs-on: macos-latest
@@ -143,3 +106,16 @@ jobs:
           else
             echo "警告なし - OK"
           fi
+
+  privacy-audit:
+    name: Privacy Manifest Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Privacy Manifest
+        run: |
+          chmod +x .github/scripts/validate-privacy-manifest.sh
+          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass

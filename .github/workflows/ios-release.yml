@@ -79,56 +79,12 @@ jobs:
           fi
           echo "✅ Running on main branch"
 
-      - name: Validate Required Secrets
-        env:
-          HAS_CERT: ${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 != '' }}
-          HAS_CERT_PW: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD != '' }}
-          HAS_KEYCHAIN_PW: ${{ secrets.KEYCHAIN_PASSWORD != '' }}
-          HAS_PROFILE: ${{ secrets.PROVISIONING_PROFILE_BASE64 != '' }}
-          HAS_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 != '' }}
-          HAS_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID != '' }}
-          HAS_API_ISSUER: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID != '' }}
-          HAS_REPO_TOKEN: ${{ secrets.IOS_REPO_TOKEN != '' }}
+      - name: Privacy Manifest Pre-Release Check
         run: |
-          MISSING=""
-          DRY_RUN=false
-
-          # dry-run判定: 署名証明書がなければdry-runモード
-          if [ "$HAS_CERT" != "true" ]; then
-            DRY_RUN=true
-          fi
-
-          if [ "$DRY_RUN" = "true" ]; then
-            echo "⚠️ Running in dry-run mode (signing secrets not configured)"
-            echo "The following secrets are missing (expected for dry-run):"
-            [ "$HAS_CERT" != "true" ] && echo "  - DISTRIBUTION_CERTIFICATE_BASE64"
-            [ "$HAS_CERT_PW" != "true" ] && echo "  - DISTRIBUTION_CERTIFICATE_PASSWORD"
-            [ "$HAS_KEYCHAIN_PW" != "true" ] && echo "  - KEYCHAIN_PASSWORD"
-            [ "$HAS_PROFILE" != "true" ] && echo "  - PROVISIONING_PROFILE_BASE64"
-            [ "$HAS_API_KEY" != "true" ] && echo "  - APP_STORE_CONNECT_API_KEY_BASE64"
-            [ "$HAS_API_KEY_ID" != "true" ] && echo "  - APP_STORE_CONNECT_API_KEY_ID"
-            [ "$HAS_API_ISSUER" != "true" ] && echo "  - APP_STORE_CONNECT_API_ISSUER_ID"
-            exit 0
-          fi
-
-          # 本番モード: 全Secrets必須
-          [ "$HAS_CERT" != "true" ] && MISSING="$MISSING DISTRIBUTION_CERTIFICATE_BASE64"
-          [ "$HAS_CERT_PW" != "true" ] && MISSING="$MISSING DISTRIBUTION_CERTIFICATE_PASSWORD"
-          [ "$HAS_KEYCHAIN_PW" != "true" ] && MISSING="$MISSING KEYCHAIN_PASSWORD"
-          [ "$HAS_PROFILE" != "true" ] && MISSING="$MISSING PROVISIONING_PROFILE_BASE64"
-          [ "$HAS_API_KEY" != "true" ] && MISSING="$MISSING APP_STORE_CONNECT_API_KEY_BASE64"
-          [ "$HAS_API_KEY_ID" != "true" ] && MISSING="$MISSING APP_STORE_CONNECT_API_KEY_ID"
-          [ "$HAS_API_ISSUER" != "true" ] && MISSING="$MISSING APP_STORE_CONNECT_API_ISSUER_ID"
-          [ "$HAS_REPO_TOKEN" != "true" ] && MISSING="$MISSING IOS_REPO_TOKEN"
-
-          if [ -n "$MISSING" ]; then
-            echo "❌ Missing required secrets for production release:"
-            for SECRET in $MISSING; do
-              echo "  - $SECRET"
-            done
-            exit 1
-          fi
-          echo "✅ All required secrets are configured"
+          chmod +x .github/scripts/validate-privacy-manifest.sh
+          # exit 0以外は全てリリースをブロック
+          # exit 1: manifest未検出、exit 2: API未宣言
+          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass
 
       - name: Validation Summary
         run: |

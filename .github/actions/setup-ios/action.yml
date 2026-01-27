@@ -1,4 +1,4 @@
-# iOS共通セットアップ - Xcode選択・CocoaPods・xcpretty
+# iOS共通セットアップ - Xcode選択・CocoaPods・DerivedData・xcpretty
 name: Setup iOS Environment
 description: iOS CI共通のセットアップステップを集約
 
@@ -9,6 +9,10 @@ inputs:
     default: 'false'
   install-xcpretty:
     description: xcprettyをインストールするか
+    required: false
+    default: 'false'
+  cache-derived-data:
+    description: DerivedDataをキャッシュするか
     required: false
     default: 'false'
   working-directory:
@@ -38,6 +42,15 @@ runs:
     run: |
       cd ${{ inputs.working-directory }}
       pod install --repo-update
+
+  - name: Cache DerivedData
+    if: inputs.cache-derived-data == 'true'
+    uses: actions/cache@v4
+    with:
+      path: ~/Library/Developer/Xcode/DerivedData
+      key: ${{ runner.os }}-deriveddata-${{ hashFiles('ios-apps/final-hourglass/FinalHourglass.xcodeproj/project.pbxproj', 'ios-apps/final-hourglass/Podfile.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-deriveddata-
 
   - name: Install xcpretty
     if: inputs.install-xcpretty == 'true'

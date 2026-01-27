@@ -46,6 +46,8 @@ jobs:
 
       - name: Setup iOS
         uses: ./.github/actions/setup-ios
+        with:
+          cache-derived-data: 'true'
 
       - name: Install Periphery
         run: brew install peripheryapp/periphery/periphery
@@ -73,6 +75,7 @@ jobs:
         uses: ./.github/actions/setup-ios
         with:
           install-xcpretty: 'true'
+          cache-derived-data: 'true'
 
       # ビルドログをファイルに保存して後続の警告チェックで使用
       # pipefailを有効化してxcodebuildの失敗を検知

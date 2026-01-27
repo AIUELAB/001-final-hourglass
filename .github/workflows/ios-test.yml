@@ -55,6 +55,7 @@ jobs:
         with:
           install-cocoapods: 'true'
           install-xcpretty: 'true'
+          cache-derived-data: 'true'
 
       - name: Run Tests with Coverage
         run: |
@@ -495,6 +496,7 @@ jobs:
         uses: ./.github/actions/setup-ios
         with:
           install-cocoapods: 'true'
+          cache-derived-data: 'true'
 
       - name: Boot Simulator
         run: |

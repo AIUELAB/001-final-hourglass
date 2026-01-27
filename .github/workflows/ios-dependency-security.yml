@@ -35,7 +35,7 @@ jobs:
       - name: Checkout iOS submodule
         run: |
           cd "$GITHUB_WORKSPACE"
-          git submodule update --init --recursive ios-apps/final-hourglass
+          git submodule update --init --recursive
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -83,8 +83,6 @@ jobs:
           HIGH_COUNT=0
           MEDIUM_COUNT=0
           LOW_COUNT=0
-          HAS_ISSUES=false
-
           if [ -f pods.txt ]; then
             while IFS= read -r line; do
               # Pod名を抽出（バージョン番号を除去）

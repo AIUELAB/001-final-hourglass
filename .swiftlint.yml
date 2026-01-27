@@ -30,7 +30,7 @@ type_body_length:
   error: 800
 
 identifier_name:
-  excluded: [xs, sm, md, lg, xl]
+  excluded: [id, xs, sm, md, lg, xl]
   min_length:
     warning: 3
     error: 2

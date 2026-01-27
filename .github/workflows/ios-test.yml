@@ -571,3 +571,12 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "⚠️ _Tests required retry to pass_" >> $GITHUB_STEP_SUMMARY
           fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ♿ Accessibility Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Description |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| VoiceOver Labels | 主要UI要素のaccessibilityLabel設定検証 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dynamic Type | フォントサイズ変更後のUI表示検証 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Color Contrast | テキスト読み取り可能性検証 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Accessibility Traits | ボタン・ラベルのtraits設定検証 |" >> $GITHUB_STEP_SUMMARY

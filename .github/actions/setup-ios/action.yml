@@ -3,6 +3,10 @@ name: Setup iOS Environment
 description: iOS CI共通のセットアップステップを集約
 
 inputs:
+  xcode-version:
+    description: 'Xcodeバージョン (例: Xcode_16.2.app)。未指定時は Xcode.app (latest)'
+    required: false
+    default: Xcode.app
   install-cocoapods:
     description: CocoaPodsをインストールするか
     required: false
@@ -25,7 +29,7 @@ runs:
   steps:
   - name: Select Xcode
     shell: bash
-    run: sudo xcode-select -s /Applications/Xcode.app
+    run: sudo xcode-select -s /Applications/${{ inputs.xcode-version }}
 
   - name: Cache CocoaPods
     if: inputs.install-cocoapods == 'true'

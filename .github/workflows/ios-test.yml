@@ -50,22 +50,11 @@ jobs:
           git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
         working-directory: ${{ github.workspace }}
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
         with:
-          path: ios-apps/final-hourglass/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: pod install --repo-update
-
-      - name: Install xcpretty
-        run: gem install xcpretty
+          install-cocoapods: 'true'
+          install-xcpretty: 'true'
 
       - name: Run Tests with Coverage
         run: |
@@ -502,19 +491,10 @@ jobs:
           git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
         working-directory: ${{ github.workspace }}
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
         with:
-          path: ios-apps/final-hourglass/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: pod install --repo-update
+          install-cocoapods: 'true'
 
       - name: Boot Simulator
         run: |

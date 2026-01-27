@@ -44,8 +44,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
 
       - name: Install Periphery
         run: brew install peripheryapp/periphery/periphery
@@ -69,11 +69,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Install xcpretty
-        run: gem install xcpretty
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
+        with:
+          install-xcpretty: 'true'
 
       # ビルドログをファイルに保存して後続の警告チェックで使用
       # pipefailを有効化してxcodebuildの失敗を検知

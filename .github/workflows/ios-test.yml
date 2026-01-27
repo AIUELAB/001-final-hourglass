@@ -36,6 +36,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout iOS submodule
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+        working-directory: ${{ github.workspace }}
+
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
@@ -381,6 +386,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Checkout iOS submodule
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+        working-directory: ${{ github.workspace }}
 
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app

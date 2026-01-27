@@ -12,6 +12,7 @@ on:
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/*.xcconfig'
+      - 'ios-apps/**/PrivacyInfo.xcprivacy'
 
 concurrency:
   group: ios-quality-gate-${{ github.head_ref || github.run_id }}
@@ -105,3 +106,16 @@ jobs:
           else
             echo "警告なし - OK"
           fi
+
+  privacy-audit:
+    name: Privacy Manifest Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Privacy Manifest
+        run: |
+          chmod +x .github/scripts/validate-privacy-manifest.sh
+          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass

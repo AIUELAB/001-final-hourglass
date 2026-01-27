@@ -79,6 +79,13 @@ jobs:
           fi
           echo "✅ Running on main branch"
 
+      - name: Privacy Manifest Pre-Release Check
+        run: |
+          chmod +x .github/scripts/validate-privacy-manifest.sh
+          # exit 0以外は全てリリースをブロック
+          # exit 1: manifest未検出、exit 2: API未宣言
+          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass
+
       - name: Validation Summary
         run: |
           echo "## ✅ Release Validation Passed" >> $GITHUB_STEP_SUMMARY

@@ -107,7 +107,7 @@ jobs:
       # Phase 6: カバレッジ比較機能（PR時のみ）
       - name: Download Base Coverage
         if: github.event_name == 'pull_request'
-        uses: dawidd6/action-download-artifact@v3
+        uses: dawidd6/action-download-artifact@v6
         continue-on-error: true
         with:
           workflow: ios-test.yml

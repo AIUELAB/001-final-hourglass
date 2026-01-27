@@ -332,7 +332,10 @@ episode_database_dashboard_v2.html
 # ネストしたリポジトリ（独立管理）
 # ========================================
 ebook-mcp/
-ios-apps/final-hourglass/
+ios-apps/final-hourglass/*
+!ios-apps/final-hourglass/FinalHourglassUITests/
+!ios-apps/final-hourglass/FinalHourglassTests/
+!ios-apps/final-hourglass/FinalHourglass.xcodeproj/
 .crash-guard/
 output/name_application/preview_applied.csv
 

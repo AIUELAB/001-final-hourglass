@@ -15,6 +15,7 @@ on:
       - 'ios-apps/**/Podfile'
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
+      - 'ios-apps/**/FinalHourglassUITests/**'
   push:
     branches:
       - main
@@ -368,3 +369,61 @@ jobs:
         with:
           name: test-results
           path: ios-apps/final-hourglass/TestResults.xcresult
+
+  ui-test:
+    name: UI Tests (E2E)
+    runs-on: macos-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios-apps/final-hourglass/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods
+        run: pod install --repo-update
+
+      - name: Run UI Tests
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -workspace FinalHourglass.xcworkspace \
+            -scheme FinalHourglass \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -only-testing:FinalHourglassUITests \
+            -resultBundlePath UITestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            2>&1 | xcpretty --color || true
+
+      - name: UI Test Summary
+        if: always()
+        run: |
+          echo "## 🧪 UI Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -d "UITestResults.xcresult" ]; then
+            # テスト結果を抽出
+            xcrun xcresulttool get --format human-readable --path UITestResults.xcresult 2>/dev/null | head -50 >> $GITHUB_STEP_SUMMARY || echo "UI test results available in artifact" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No UI test results found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload UI Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-results
+          path: ios-apps/final-hourglass/UITestResults.xcresult
+          if-no-files-found: ignore

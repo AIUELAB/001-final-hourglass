@@ -29,9 +29,7 @@ jobs:
   periphery:
     name: Periphery (Dead Code Detection)
     runs-on: macos-latest
-    # Phase 1: レポートのみ（失敗させない）
-    # Phase 2で continue-on-error を削除して厳格化予定
-    continue-on-error: true
+    # Phase 4完了: 警告0件達成。厳格モード有効（失敗でPRを落とす）
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,7 +42,7 @@ jobs:
 
       # --project と --schemes を指定してビルドしながらスキャン
       # --format checkstyle でCI連携しやすいレポート形式で出力
-      # Note: continue-on-error: true があるため、失敗してもPRは落ちない
+      # Phase 4完了: 厳格モード有効（未使用コードがあればPRを落とす）
       - name: Run Periphery
         run: |
           cd ios-apps/final-hourglass

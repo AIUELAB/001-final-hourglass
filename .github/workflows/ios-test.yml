@@ -82,7 +82,7 @@ jobs:
           echo "|------|----------|--------|" >> $GITHUB_STEP_SUMMARY
 
           # 主要ファイルのカバレッジを抽出（閾値判定付き）
-          xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel)\.swift" | while read line; do
+          xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel|SupabaseManager|SupabaseConfig|EpisodeManager|CacheManager|AppStateManager|NotificationManager)\.swift" | while read line; do
             FILE=$(basename "$(echo "$line" | awk '{print $1}')")
             COV=$(echo "$line" | grep -oE '[0-9]+\.[0-9]+%')
             COV_NUM=$(echo "$COV" | grep -oE '[0-9]+\.[0-9]+')
@@ -97,7 +97,8 @@ jobs:
           done
 
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "_Threshold: 80% for core calculation logic (LifeExpectancyCalculator, HealthScoreCalculator)_" >> $GITHUB_STEP_SUMMARY
+          echo "_Threshold: 80% for core logic (LifeExpectancyCalculator, HealthScoreCalculator, UserModel)_" >> $GITHUB_STEP_SUMMARY
+          echo "_Note: SupabaseManager/Config, EpisodeManager, CacheManager, AppStateManager, NotificationManager are monitored but not enforced_" >> $GITHUB_STEP_SUMMARY
 
       - name: Coverage Threshold Check
         if: ${{ github.event.inputs.skip_coverage_check != 'true' }}
@@ -130,6 +131,48 @@ jobs:
             fi
           else
             echo "⚠️ HealthScoreCalculator.swift: Coverage data not found"
+          fi
+
+          # UserModel のカバレッジチェック
+          USER_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "UserModel.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$USER_COV" ]; then
+            if (( $(echo "$USER_COV < $THRESHOLD" | bc -l) )); then
+              echo "❌ UserModel.swift: ${USER_COV}% < ${THRESHOLD}%"
+              FAILED=1
+            else
+              echo "✅ UserModel.swift: ${USER_COV}% >= ${THRESHOLD}%"
+            fi
+          else
+            echo "⚠️ UserModel.swift: Coverage data not found"
+          fi
+
+          # SupabaseManager/Config は情報表示のみ（閾値チェックなし）
+          SUPA_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "SupabaseManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$SUPA_COV" ]; then
+            echo "ℹ️ SupabaseManager.swift: ${SUPA_COV}% (monitored, no threshold)"
+          fi
+
+          # EpisodeManager/CacheManager は情報表示のみ（閾値チェックなし）
+          EPISODE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "EpisodeManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$EPISODE_COV" ]; then
+            echo "ℹ️ EpisodeManager.swift: ${EPISODE_COV}% (monitored, no threshold)"
+          fi
+
+          CACHE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "CacheManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$CACHE_COV" ]; then
+            echo "ℹ️ CacheManager.swift: ${CACHE_COV}% (monitored, no threshold)"
+          fi
+
+          # AppStateManager は情報表示のみ（閾値チェックなし）
+          APPSTATE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "AppStateManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$APPSTATE_COV" ]; then
+            echo "ℹ️ AppStateManager.swift: ${APPSTATE_COV}% (monitored, no threshold)"
+          fi
+
+          # NotificationManager は情報表示のみ（閾値チェックなし）
+          NOTIFICATION_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "NotificationManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$NOTIFICATION_COV" ]; then
+            echo "ℹ️ NotificationManager.swift: ${NOTIFICATION_COV}% (monitored, no threshold)"
           fi
 
           # 結果判定

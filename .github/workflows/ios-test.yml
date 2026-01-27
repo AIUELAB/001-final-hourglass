@@ -38,7 +38,7 @@ jobs:
 
       - name: Checkout iOS submodule
         run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+          git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
         working-directory: ${{ github.workspace }}
 
       - name: Select Xcode
@@ -389,7 +389,7 @@ jobs:
 
       - name: Checkout iOS submodule
         run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+          git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
         working-directory: ${{ github.workspace }}
 
       - name: Select Xcode

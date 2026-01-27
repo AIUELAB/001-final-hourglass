@@ -1,0 +1,150 @@
+# iOS Tests - PRおよびmainブランチへのpush時にテストを実行
+name: iOS Tests
+
+on:
+  pull_request:
+    paths:
+      - 'ios-apps/**/*.swift'
+      - 'ios-apps/**/Podfile'
+      - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/project.pbxproj'
+  push:
+    branches:
+      - main
+    paths:
+      - 'ios-apps/**/*.swift'
+      - 'ios-apps/**/Podfile'
+      - 'ios-apps/**/Podfile.lock'
+
+jobs:
+  test:
+    name: Unit Tests & Coverage
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios-apps/final-hourglass/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods
+        run: pod install --repo-update
+
+      - name: Install xcpretty
+        run: gem install xcpretty
+
+      - name: Run Tests with Coverage
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -workspace FinalHourglass.xcworkspace \
+            -scheme FinalHourglass \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -enableCodeCoverage YES \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty --color
+
+      - name: Generate Coverage Report
+        if: always()
+        run: |
+          echo "## 📊 Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # 全体カバレッジを抽出
+          TOTAL_COVERAGE=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+%')
+          echo "**Overall Coverage:** \`$TOTAL_COVERAGE\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # コアロジックのカバレッジを表示
+          echo "### Core Logic Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Coverage | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|----------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          # 主要ファイルのカバレッジを抽出（閾値判定付き）
+          xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel)\.swift" | while read line; do
+            FILE=$(basename "$(echo "$line" | awk '{print $1}')")
+            COV=$(echo "$line" | grep -oE '[0-9]+\.[0-9]+%')
+            COV_NUM=$(echo "$COV" | grep -oE '[0-9]+\.[0-9]+')
+
+            # ステータス判定（80%閾値）
+            if (( $(echo "$COV_NUM >= 80" | bc -l) )); then
+              STATUS="✅"
+            else
+              STATUS="⚠️"
+            fi
+            echo "| $FILE | $COV | $STATUS |" >> $GITHUB_STEP_SUMMARY
+          done
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Threshold: 80% for core calculation logic (LifeExpectancyCalculator, HealthScoreCalculator)_" >> $GITHUB_STEP_SUMMARY
+
+      - name: Coverage Threshold Check
+        run: |
+          echo "🔍 Checking coverage thresholds for core calculation logic..."
+          THRESHOLD=80
+          FAILED=0
+
+          # LifeExpectancyCalculator のカバレッジチェック
+          LIFE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "LifeExpectancyCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$LIFE_COV" ]; then
+            if (( $(echo "$LIFE_COV < $THRESHOLD" | bc -l) )); then
+              echo "❌ LifeExpectancyCalculator.swift: ${LIFE_COV}% < ${THRESHOLD}%"
+              FAILED=1
+            else
+              echo "✅ LifeExpectancyCalculator.swift: ${LIFE_COV}% >= ${THRESHOLD}%"
+            fi
+          else
+            echo "⚠️ LifeExpectancyCalculator.swift: Coverage data not found"
+          fi
+
+          # HealthScoreCalculator のカバレッジチェック
+          HEALTH_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "HealthScoreCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          if [ -n "$HEALTH_COV" ]; then
+            if (( $(echo "$HEALTH_COV < $THRESHOLD" | bc -l) )); then
+              echo "❌ HealthScoreCalculator.swift: ${HEALTH_COV}% < ${THRESHOLD}%"
+              FAILED=1
+            else
+              echo "✅ HealthScoreCalculator.swift: ${HEALTH_COV}% >= ${THRESHOLD}%"
+            fi
+          else
+            echo "⚠️ HealthScoreCalculator.swift: Coverage data not found"
+          fi
+
+          # 結果判定
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ Coverage threshold check FAILED"
+            echo "Please add more tests to achieve 80% coverage for core calculation logic."
+            exit 1
+          else
+            echo ""
+            echo "✅ Coverage threshold check PASSED"
+          fi
+
+      - name: Upload Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ios-apps/final-hourglass/TestResults.xcresult
+
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ios-apps/final-hourglass/TestResults.xcresult

@@ -440,6 +440,26 @@ jobs:
           echo "| Config Validation | 無効設定の拒否検証 | Configuration |" >> $GITHUB_STEP_SUMMARY
           echo "| Table Name Sanitization | SQLインジェクション文字検出 | Configuration |" >> $GITHUB_STEP_SUMMARY
 
+      # Phase 14: App Store Guidelines準拠テスト結果サマリー
+      - name: App Store Guidelines Test Summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📋 App Store Guidelines Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Description | Guideline |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------------|-----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Privacy Policy Exists | プライバシーポリシーの存在確認 | 5.1.1 Privacy |" >> $GITHUB_STEP_SUMMARY
+          echo "| Terms of Service Exists | 利用規約の存在確認 | 5.1.1 Privacy |" >> $GITHUB_STEP_SUMMARY
+          echo "| Notification Usage Description | 通知使用目的の説明確認 | 5.1.1 Privacy |" >> $GITHUB_STEP_SUMMARY
+          echo "| User Data Storage Keys | ユーザーデータ保存キーの妥当性 | 5.1.2 Data Transparency |" >> $GITHUB_STEP_SUMMARY
+          echo "| No Tracking Frameworks | 不要トラッキングSDKの排除確認 | 5.1.2 Data Transparency |" >> $GITHUB_STEP_SUMMARY
+          echo "| Bundle Identifier Format | Bundle IDの逆ドメイン形式確認 | 2.3 Metadata |" >> $GITHUB_STEP_SUMMARY
+          echo "| App Version Format | セマンティックバージョニング形式確認 | 2.3 Metadata |" >> $GITHUB_STEP_SUMMARY
+          echo "| Accessibility Identifiers | 主要UIのアクセシビリティ識別子確認 | 4.0 Design |" >> $GITHUB_STEP_SUMMARY
+          echo "| Launch Arguments | テスト用Launch Arguments動作確認 | 4.0 Design |" >> $GITHUB_STEP_SUMMARY
+          echo "| Content Filter Manager | コンテンツフィルタリング機能の存在確認 | 1.2 Content |" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload Coverage Report
         if: always()
         uses: actions/upload-artifact@v4

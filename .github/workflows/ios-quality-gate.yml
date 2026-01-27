@@ -8,11 +8,20 @@ on:
       - 'ios-apps/**/*.swift'
       - 'ios-apps/**/.swiftlint.yml'
       - 'ios-apps/**/.periphery.yml'
+      - 'ios-apps/**/Podfile'
+      - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/project.pbxproj'
+      - 'ios-apps/**/*.xcconfig'
+
+concurrency:
+  group: ios-quality-gate-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   swiftlint:
     name: SwiftLint
     runs-on: macos-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,13 +38,16 @@ jobs:
   periphery:
     name: Periphery (Dead Code Detection)
     runs-on: macos-latest
+    timeout-minutes: 15
     # Phase 4完了: 警告0件達成。厳格モード有効（失敗でPRを落とす）
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
+        with:
+          cache-derived-data: 'true'
 
       - name: Install Periphery
         run: brew install peripheryapp/periphery/periphery
@@ -54,15 +66,16 @@ jobs:
   build:
     name: Build
     runs-on: macos-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Install xcpretty
-        run: gem install xcpretty
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
+        with:
+          install-xcpretty: 'true'
+          cache-derived-data: 'true'
 
       # ビルドログをファイルに保存して後続の警告チェックで使用
       # pipefailを有効化してxcodebuildの失敗を検知

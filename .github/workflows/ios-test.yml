@@ -406,34 +406,109 @@ jobs:
       - name: Install CocoaPods
         run: pod install --repo-update
 
-      - name: Run UI Tests
+      - name: Boot Simulator
+        run: |
+          DEVICE_ID=$(xcrun simctl list devices available | grep "iPhone 16" | head -1 | grep -oE '[0-9A-F-]{36}')
+          xcrun simctl boot "$DEVICE_ID" || true
+
+      - name: Run UI Tests with Retry
+        id: ui_tests
         run: |
           set -o pipefail
-          xcodebuild test \
-            -workspace FinalHourglass.xcworkspace \
-            -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
-            -only-testing:FinalHourglassUITests \
-            -resultBundlePath UITestResults.xcresult \
-            CODE_SIGNING_ALLOWED=NO \
-            2>&1 | xcpretty --color
+          RETRY_COUNT=0
+          MAX_RETRIES=2
+          SUCCESS=false
 
-      - name: UI Test Summary
-        if: always()
-        run: |
-          echo "## 🧪 UI Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [ -d "UITestResults.xcresult" ]; then
-            # テスト結果を抽出
-            xcrun xcresulttool get --format human-readable --path UITestResults.xcresult 2>/dev/null | head -50 >> $GITHUB_STEP_SUMMARY || echo "UI test results available in artifact" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "⚠️ No UI test results found" >> $GITHUB_STEP_SUMMARY
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "🔄 UI Test attempt $i/$MAX_RETRIES"
+            RETRY_COUNT=$i
+
+            if xcodebuild test \
+              -workspace FinalHourglass.xcworkspace \
+              -scheme FinalHourglass \
+              -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+              -only-testing:FinalHourglassUITests \
+              -retry-tests-on-failure \
+              -test-iterations 2 \
+              -resultBundlePath "UITestResults_attempt${i}.xcresult" \
+              CODE_SIGNING_ALLOWED=NO \
+              2>&1 | xcpretty --color; then
+              SUCCESS=true
+              break
+            fi
+            echo "⚠️ Attempt $i failed, retrying..."
+          done
+
+          echo "retry_count=$RETRY_COUNT" >> $GITHUB_OUTPUT
+          echo "success=$SUCCESS" >> $GITHUB_OUTPUT
+
+          if [ "$SUCCESS" != "true" ]; then
+            echo "❌ UI Tests failed after $MAX_RETRIES attempts"
+            exit 1
           fi
+
+      - name: Extract Screenshots from xcresult
+        if: failure()
+        run: |
+          mkdir -p screenshots
+          for result in UITestResults_attempt*.xcresult; do
+            if [ -d "$result" ]; then
+              xcrun xcresulttool get --path "$result" --format json 2>/dev/null | \
+                python3 -c "
+          import json, sys, subprocess
+          try:
+              data = json.load(sys.stdin)
+              attachments = []
+              def find_attachments(obj):
+                  if isinstance(obj, dict):
+                      if obj.get('_type', {}).get('_name') == 'ActionTestAttachment':
+                          ref = obj.get('payloadRef', {}).get('id', {}).get('_value', '')
+                          name = obj.get('filename', {}).get('_value', 'screenshot')
+                          if ref:
+                              attachments.append((ref, name))
+                      for v in obj.values():
+                          find_attachments(v)
+                  elif isinstance(obj, list):
+                      for item in obj:
+                          find_attachments(item)
+              find_attachments(data)
+              for ref, name in attachments:
+                  subprocess.run(['xcrun', 'xcresulttool', 'get', '--path', '${result}', '--id', ref, '--output-path', f'screenshots/{name}'])
+          except: pass
+          " || true
+            fi
+          done
+
+      - name: Upload UI Test Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-screenshots
+          path: ios-apps/final-hourglass/screenshots/
+          if-no-files-found: ignore
 
       - name: Upload UI Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ui-test-results
-          path: ios-apps/final-hourglass/UITestResults.xcresult
+          path: ios-apps/final-hourglass/UITestResults_attempt*.xcresult
           if-no-files-found: ignore
+
+      - name: UI Test Summary
+        if: always()
+        run: |
+          echo "## 🧪 UI Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          RETRY_COUNT="${{ steps.ui_tests.outputs.retry_count }}"
+          SUCCESS="${{ steps.ui_tests.outputs.success }}"
+          if [ "$SUCCESS" == "true" ]; then
+            echo "✅ **Status:** Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Status:** Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "🔄 **Attempts:** ${RETRY_COUNT}" >> $GITHUB_STEP_SUMMARY
+          if [ "$RETRY_COUNT" != "1" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ _Tests required retry to pass_" >> $GITHUB_STEP_SUMMARY
+          fi

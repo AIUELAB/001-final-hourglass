@@ -18,7 +18,7 @@ on:
 
 jobs:
   test:
-    name: Unit Tests
+    name: Unit Tests & Coverage
     runs-on: macos-latest
     defaults:
       run:
@@ -45,16 +45,48 @@ jobs:
       - name: Install xcpretty
         run: gem install xcpretty
 
-      - name: Run Tests
+      - name: Run Tests with Coverage
         run: |
           set -o pipefail
           xcodebuild test \
             -workspace FinalHourglass.xcworkspace \
             -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -enableCodeCoverage YES \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty --color
+
+      - name: Generate Coverage Report
+        if: always()
+        run: |
+          echo "## 📊 Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # 全体カバレッジを抽出
+          TOTAL_COVERAGE=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+%')
+          echo "**Overall Coverage:** \`$TOTAL_COVERAGE\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # コアロジックのカバレッジを表示
+          echo "### Core Logic Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Coverage |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|----------|" >> $GITHUB_STEP_SUMMARY
+
+          # 主要ファイルのカバレッジを抽出
+          xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel)\.swift" | while read line; do
+            FILE=$(basename "$(echo "$line" | awk '{print $1}')")
+            COV=$(echo "$line" | grep -oE '[0-9]+\.[0-9]+%')
+            echo "| $FILE | $COV |" >> $GITHUB_STEP_SUMMARY
+          done
+
+      - name: Upload Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ios-apps/final-hourglass/TestResults.xcresult
 
       - name: Upload Test Results
         if: failure()

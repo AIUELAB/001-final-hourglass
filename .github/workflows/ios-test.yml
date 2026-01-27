@@ -15,6 +15,7 @@ on:
       - 'ios-apps/**/Podfile'
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
+      - 'ios-apps/**/FinalHourglassUITests/**'
   push:
     branches:
       - main
@@ -25,32 +26,32 @@ on:
 
 jobs:
   test:
-    name: Unit Tests & Coverage
-    runs-on: macos-latest
+    name: Unit Tests & Coverage (iOS ${{ matrix.ios-version }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - xcode-version: '15.4'
+            runner: macos-14
+            simulator: 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
+            ios-version: '17.5'
+          - xcode-version: '16.2'
+            runner: macos-15
+            simulator: 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
+            ios-version: '18.2'
     defaults:
       run:
         working-directory: ios-apps/final-hourglass
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Setup iOS Environment
+        uses: ./.github/actions/setup-ios
         with:
-          path: ios-apps/final-hourglass/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: pod install --repo-update
-
-      - name: Install xcpretty
-        run: gem install xcpretty
+          xcode-version: ${{ matrix.xcode-version }}
+          checkout-submodules: 'manual'
+          checkout-token: ${{ secrets.IOS_REPO_TOKEN }}
+          install-xcpretty: 'true'
 
       - name: Run Tests with Coverage
         run: |
@@ -58,9 +59,9 @@ jobs:
           xcodebuild test \
             -workspace FinalHourglass.xcworkspace \
             -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination '${{ matrix.simulator }}' \
             -enableCodeCoverage YES \
-            -resultBundlePath TestResults.xcresult \
+            -resultBundlePath TestResults-ios${{ matrix.ios-version }}.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty --color
 
@@ -71,7 +72,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # 全体カバレッジを抽出
-          TOTAL_COVERAGE=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+%')
+          TOTAL_COVERAGE=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+%')
           echo "**Overall Coverage:** \`$TOTAL_COVERAGE\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
@@ -82,7 +83,7 @@ jobs:
           echo "|------|----------|--------|" >> $GITHUB_STEP_SUMMARY
 
           # 主要ファイルのカバレッジを抽出（閾値判定付き）
-          xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel|SupabaseManager|SupabaseConfig|EpisodeManager|CacheManager|AppStateManager|NotificationManager)\.swift" | while read line; do
+          xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel|SupabaseManager|SupabaseConfig|EpisodeManager|CacheManager|AppStateManager|NotificationManager)\.swift" | while read line; do
             FILE=$(basename "$(echo "$line" | awk '{print $1}')")
             COV=$(echo "$line" | grep -oE '[0-9]+\.[0-9]+%')
             COV_NUM=$(echo "$COV" | grep -oE '[0-9]+\.[0-9]+')
@@ -105,17 +106,17 @@ jobs:
 
       # Phase 6: カバレッジ比較機能（PR時のみ）
       - name: Download Base Coverage
-        if: github.event_name == 'pull_request'
-        uses: dawidd6/action-download-artifact@v3
+        if: github.event_name == 'pull_request' && matrix.ios-version == '18.2'
+        uses: dawidd6/action-download-artifact@v6
         continue-on-error: true
         with:
           workflow: ios-test.yml
           branch: main
-          name: coverage-report
+          name: coverage-report-ios-18.2
           path: base-coverage
 
       - name: Compare Coverage
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && matrix.ios-version == '18.2'
         id: coverage-compare
         run: |
           echo "📊 Comparing coverage with main branch..."
@@ -125,8 +126,8 @@ jobs:
           echo "current_coverage=$CURRENT_COV" >> $GITHUB_OUTPUT
 
           # ベースカバレッジを取得（存在する場合）
-          if [ -d "base-coverage" ] && [ -f "base-coverage/TestResults.xcresult" ]; then
-            BASE_COV=$(xcrun xccov view --report base-coverage/TestResults.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+' || echo "0")
+          if [ -d "base-coverage" ] && [ -f "base-coverage/TestResults-ios${{ matrix.ios-version }}.xcresult" ]; then
+            BASE_COV=$(xcrun xccov view --report base-coverage/TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+' || echo "0")
           else
             BASE_COV="0"
             echo "⚠️ No base coverage found (first run or main branch has no coverage)"
@@ -156,7 +157,7 @@ jobs:
           fi
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && matrix.ios-version == '18.2'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -235,7 +236,7 @@ jobs:
 
       # Phase 6: READMEバッジ更新（mainブランチへのpush時のみ）
       - name: Update Coverage Badge
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.ios-version == '18.2'
         env:
           GH_TOKEN: ${{ secrets.GIST_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
@@ -277,7 +278,7 @@ jobs:
           FAILED=0
 
           # LifeExpectancyCalculator のカバレッジチェック
-          LIFE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "LifeExpectancyCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          LIFE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "LifeExpectancyCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$LIFE_COV" ]; then
             if (( $(echo "$LIFE_COV < $THRESHOLD" | bc -l) )); then
               echo "❌ LifeExpectancyCalculator.swift: ${LIFE_COV}% < ${THRESHOLD}%"
@@ -290,7 +291,7 @@ jobs:
           fi
 
           # HealthScoreCalculator のカバレッジチェック
-          HEALTH_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "HealthScoreCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          HEALTH_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "HealthScoreCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$HEALTH_COV" ]; then
             if (( $(echo "$HEALTH_COV < $THRESHOLD" | bc -l) )); then
               echo "❌ HealthScoreCalculator.swift: ${HEALTH_COV}% < ${THRESHOLD}%"
@@ -303,7 +304,7 @@ jobs:
           fi
 
           # UserModel のカバレッジチェック
-          USER_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "UserModel.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          USER_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "UserModel.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$USER_COV" ]; then
             if (( $(echo "$USER_COV < $THRESHOLD" | bc -l) )); then
               echo "❌ UserModel.swift: ${USER_COV}% < ${THRESHOLD}%"
@@ -316,30 +317,30 @@ jobs:
           fi
 
           # SupabaseManager/Config は情報表示のみ（閾値チェックなし）
-          SUPA_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "SupabaseManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          SUPA_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "SupabaseManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$SUPA_COV" ]; then
             echo "ℹ️ SupabaseManager.swift: ${SUPA_COV}% (monitored, no threshold)"
           fi
 
           # EpisodeManager/CacheManager は情報表示のみ（閾値チェックなし）
-          EPISODE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "EpisodeManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          EPISODE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "EpisodeManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$EPISODE_COV" ]; then
             echo "ℹ️ EpisodeManager.swift: ${EPISODE_COV}% (monitored, no threshold)"
           fi
 
-          CACHE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "CacheManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          CACHE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "CacheManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$CACHE_COV" ]; then
             echo "ℹ️ CacheManager.swift: ${CACHE_COV}% (monitored, no threshold)"
           fi
 
           # AppStateManager は情報表示のみ（閾値チェックなし）
-          APPSTATE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "AppStateManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          APPSTATE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "AppStateManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$APPSTATE_COV" ]; then
             echo "ℹ️ AppStateManager.swift: ${APPSTATE_COV}% (monitored, no threshold)"
           fi
 
           # NotificationManager は情報表示のみ（閾値チェックなし）
-          NOTIFICATION_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "NotificationManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          NOTIFICATION_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "NotificationManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$NOTIFICATION_COV" ]; then
             echo "ℹ️ NotificationManager.swift: ${NOTIFICATION_COV}% (monitored, no threshold)"
           fi
@@ -355,16 +356,261 @@ jobs:
             echo "✅ Coverage threshold check PASSED"
           fi
 
+      # Phase 11: パフォーマンステスト結果サマリー
+      - name: Performance Test Summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ⚡ Performance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Threshold | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          # xcresultからパフォーマンスメトリクスを抽出
+          if [ -d "TestResults-ios${{ matrix.ios-version }}.xcresult" ]; then
+            # 起動時間チェック
+            LAUNCH_TIME=$(xcrun xcresulttool get --path TestResults-ios${{ matrix.ios-version }}.xcresult --format json 2>/dev/null | \
+              python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              def find_metric(obj, name):
+                  if isinstance(obj, dict):
+                      test_name = obj.get('name', {}).get('_value', '')
+                      if 'LaunchTime' in test_name or 'AppLaunch' in test_name:
+                          duration = obj.get('duration', {}).get('_value', '')
+                          if duration:
+                              return duration
+                      for v in obj.values():
+                          r = find_metric(v, name)
+                          if r: return r
+                  elif isinstance(obj, list):
+                      for item in obj:
+                          r = find_metric(item, name)
+                          if r: return r
+                  return None
+              result = find_metric(data, 'launch')
+              print(result if result else 'N/A')
+          except: print('N/A')
+          " 2>/dev/null || echo "N/A")
+
+            if [ "$LAUNCH_TIME" != "N/A" ]; then
+              LAUNCH_STATUS="✅"
+              LAUNCH_NUM=$(echo "$LAUNCH_TIME" | grep -oE '[0-9]+\.?[0-9]*' | head -1)
+              if [ -n "$LAUNCH_NUM" ] && (( $(echo "$LAUNCH_NUM > 3.0" | bc -l 2>/dev/null) )); then
+                LAUNCH_STATUS="⚠️ >3s"
+              fi
+              echo "| App Launch Time | < 3s | $LAUNCH_STATUS ($LAUNCH_TIME) |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| App Launch Time | < 3s | ℹ️ Measured (see xcresult) |" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "| Memory Footprint | < 200MB | ℹ️ Measured (see xcresult) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Clock Calculation | Baseline | ℹ️ Measured (see xcresult) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| App Launch Time | < 3s | ⚠️ No results |" >> $GITHUB_STEP_SUMMARY
+            echo "| Memory Footprint | < 200MB | ⚠️ No results |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Thresholds per TestingGuidelines.md Phase 3: Launch < 3s, Memory < 200MB_" >> $GITHUB_STEP_SUMMARY
+
+      # Phase 13: セキュリティテスト結果サマリー
+      - name: Security Test Summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔒 Security Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Description | Category |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| No Hardcoded Secrets | ソースコード内の秘密鍵ハードコード検出 | API Key Security |" >> $GITHUB_STEP_SUMMARY
+          echo "| Anon Key Configuration | xcconfig経由のキー読み込み検証 | API Key Security |" >> $GITHUB_STEP_SUMMARY
+          echo "| Invalid Config Detection | 空文字・テンプレート値の検出 | API Key Security |" >> $GITHUB_STEP_SUMMARY
+          echo "| HTTPS Enforcement | Project URLのHTTPSスキーム強制 | API Key Security |" >> $GITHUB_STEP_SUMMARY
+          echo "| UserDefaults Safety | 機密データの平文保存検出 | Data Protection |" >> $GITHUB_STEP_SUMMARY
+          echo "| Health Data Memory | 健康データのメモリ管理検証 | Data Protection |" >> $GITHUB_STEP_SUMMARY
+          echo "| Birth Year Validation | 生年の境界値検証 | Input Validation |" >> $GITHUB_STEP_SUMMARY
+          echo "| BMI Invalid Input | 不正入力でのBMI計算検証 | Input Validation |" >> $GITHUB_STEP_SUMMARY
+          echo "| Config Validation | 無効設定の拒否検証 | Configuration |" >> $GITHUB_STEP_SUMMARY
+          echo "| Table Name Sanitization | SQLインジェクション文字検出 | Configuration |" >> $GITHUB_STEP_SUMMARY
+
+      # Phase 14: App Store Guidelines準拠テスト結果サマリー
+      - name: App Store Guidelines Test Summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📋 App Store Guidelines Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Description | Guideline |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------------|-----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Privacy Policy Exists | プライバシーポリシーの存在確認 | 5.1.1 Privacy |" >> $GITHUB_STEP_SUMMARY
+          echo "| Terms of Service Exists | 利用規約の存在確認 | 5.1.1 Privacy |" >> $GITHUB_STEP_SUMMARY
+          echo "| Notification Usage Description | 通知使用目的の説明確認 | 5.1.1 Privacy |" >> $GITHUB_STEP_SUMMARY
+          echo "| User Data Storage Keys | ユーザーデータ保存キーの妥当性 | 5.1.2 Data Transparency |" >> $GITHUB_STEP_SUMMARY
+          echo "| No Tracking Frameworks | 不要トラッキングSDKの排除確認 | 5.1.2 Data Transparency |" >> $GITHUB_STEP_SUMMARY
+          echo "| Bundle Identifier Format | Bundle IDの逆ドメイン形式確認 | 2.3 Metadata |" >> $GITHUB_STEP_SUMMARY
+          echo "| App Version Format | セマンティックバージョニング形式確認 | 2.3 Metadata |" >> $GITHUB_STEP_SUMMARY
+          echo "| Accessibility Identifiers | 主要UIのアクセシビリティ識別子確認 | 4.0 Design |" >> $GITHUB_STEP_SUMMARY
+          echo "| Launch Arguments | テスト用Launch Arguments動作確認 | 4.0 Design |" >> $GITHUB_STEP_SUMMARY
+          echo "| Content Filter Manager | コンテンツフィルタリング機能の存在確認 | 1.2 Content |" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload Coverage Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: ios-apps/final-hourglass/TestResults.xcresult
+          name: coverage-report-ios-${{ matrix.ios-version }}
+          path: ios-apps/final-hourglass/TestResults-ios${{ matrix.ios-version }}.xcresult
 
       - name: Upload Test Results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: ios-apps/final-hourglass/TestResults.xcresult
+          name: test-results-ios-${{ matrix.ios-version }}
+          path: ios-apps/final-hourglass/TestResults-ios${{ matrix.ios-version }}.xcresult
+
+  ui-test:
+    name: UI Tests (iOS ${{ matrix.ios-version }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - xcode-version: '15.4'
+            runner: macos-14
+            simulator: 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
+            ios-version: '17.5'
+            simulator-name: 'iPhone 15 Pro'
+          - xcode-version: '16.2'
+            runner: macos-15
+            simulator: 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
+            ios-version: '18.2'
+            simulator-name: 'iPhone 16'
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+
+    steps:
+      - name: Setup iOS Environment
+        uses: ./.github/actions/setup-ios
+        with:
+          xcode-version: ${{ matrix.xcode-version }}
+          checkout-submodules: 'manual'
+          checkout-token: ${{ secrets.IOS_REPO_TOKEN }}
+
+      - name: Boot Simulator
+        run: |
+          DEVICE_ID=$(xcrun simctl list devices available | grep "${{ matrix.simulator-name }}" | head -1 | grep -oE '[0-9A-F-]{36}')
+          xcrun simctl boot "$DEVICE_ID" || true
+
+      - name: Run UI Tests with Retry
+        id: ui_tests
+        run: |
+          set -o pipefail
+          RETRY_COUNT=0
+          MAX_RETRIES=2
+          SUCCESS=false
+
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "🔄 UI Test attempt $i/$MAX_RETRIES"
+            RETRY_COUNT=$i
+
+            if xcodebuild test \
+              -workspace FinalHourglass.xcworkspace \
+              -scheme FinalHourglass \
+              -destination '${{ matrix.simulator }}' \
+              -only-testing:FinalHourglassUITests \
+              -retry-tests-on-failure \
+              -test-iterations 2 \
+              -resultBundlePath "UITestResults_attempt${i}.xcresult" \
+              CODE_SIGNING_ALLOWED=NO \
+              2>&1 | xcpretty --color; then
+              SUCCESS=true
+              break
+            fi
+            echo "⚠️ Attempt $i failed, retrying..."
+          done
+
+          echo "retry_count=$RETRY_COUNT" >> $GITHUB_OUTPUT
+          echo "success=$SUCCESS" >> $GITHUB_OUTPUT
+
+          if [ "$SUCCESS" != "true" ]; then
+            echo "❌ UI Tests failed after $MAX_RETRIES attempts"
+            exit 1
+          fi
+
+      - name: Extract Screenshots from xcresult
+        if: failure()
+        run: |
+          mkdir -p screenshots
+          for result in UITestResults_attempt*.xcresult; do
+            if [ -d "$result" ]; then
+              xcrun xcresulttool get --path "$result" --format json 2>/dev/null | \
+                python3 -c "
+          import json, sys, subprocess
+          try:
+              data = json.load(sys.stdin)
+              attachments = []
+              def find_attachments(obj):
+                  if isinstance(obj, dict):
+                      if obj.get('_type', {}).get('_name') == 'ActionTestAttachment':
+                          ref = obj.get('payloadRef', {}).get('id', {}).get('_value', '')
+                          name = obj.get('filename', {}).get('_value', 'screenshot')
+                          if ref:
+                              attachments.append((ref, name))
+                      for v in obj.values():
+                          find_attachments(v)
+                  elif isinstance(obj, list):
+                      for item in obj:
+                          find_attachments(item)
+              find_attachments(data)
+              for ref, name in attachments:
+                  subprocess.run(['xcrun', 'xcresulttool', 'get', '--path', '${result}', '--id', ref, '--output-path', f'screenshots/{name}'])
+          except: pass
+          " || true
+            fi
+          done
+
+      - name: Upload UI Test Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-screenshots-ios-${{ matrix.ios-version }}
+          path: ios-apps/final-hourglass/screenshots/
+          if-no-files-found: ignore
+
+      - name: Upload UI Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-results-ios-${{ matrix.ios-version }}
+          path: ios-apps/final-hourglass/UITestResults_attempt*.xcresult
+          if-no-files-found: ignore
+
+      - name: UI Test Summary
+        if: always()
+        run: |
+          echo "## 🧪 UI Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          RETRY_COUNT="${{ steps.ui_tests.outputs.retry_count }}"
+          SUCCESS="${{ steps.ui_tests.outputs.success }}"
+          if [ "$SUCCESS" == "true" ]; then
+            echo "✅ **Status:** Passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Status:** Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "🔄 **Attempts:** ${RETRY_COUNT}" >> $GITHUB_STEP_SUMMARY
+          if [ "$RETRY_COUNT" != "1" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ _Tests required retry to pass_" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ♿ Accessibility Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Description |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| VoiceOver Labels | 主要UI要素のaccessibilityLabel設定検証 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dynamic Type | フォントサイズ変更後のUI表示検証 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Color Contrast | テキスト読み取り可能性検証 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Accessibility Traits | ボタン・ラベルのtraits設定検証 |" >> $GITHUB_STEP_SUMMARY

@@ -79,6 +79,21 @@ jobs:
           fi
           echo "✅ Running on main branch"
 
+      - name: Privacy Manifest Pre-Release Check
+        run: |
+          chmod +x .github/scripts/validate-privacy-manifest.sh
+          # リリース時は厳格モード: manifest必須 + 全API宣言必須
+          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 2 ]; then
+            echo "❌ Privacy Manifest has undeclared API usage - blocking release"
+            exit 1
+          elif [ $EXIT_CODE -eq 1 ]; then
+            echo "⚠️ Privacy Manifest not found - required for App Store submission"
+            echo "::warning::PrivacyInfo.xcprivacy is missing. Create it before release."
+          fi
+          echo "✅ Privacy Manifest validation passed"
+
       - name: Validation Summary
         run: |
           echo "## ✅ Release Validation Passed" >> $GITHUB_STEP_SUMMARY

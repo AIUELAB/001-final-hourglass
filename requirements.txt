@@ -23,7 +23,7 @@ redis==5.0.1
 # NOTE: python-jose は ecdsa に依存し、現状CVEに対するfix versionが存在しないため利用しない
 PyJWT==2.10.1
 passlib[bcrypt]==1.7.4
-python-multipart==0.0.20
+python-multipart==0.0.22
 slowapi==0.1.9
 
 # Monitoring

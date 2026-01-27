@@ -361,6 +361,65 @@ jobs:
             echo "✅ Coverage threshold check PASSED"
           fi
 
+      # Phase 11: パフォーマンステスト結果サマリー
+      - name: Performance Test Summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ⚡ Performance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Threshold | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          # xcresultからパフォーマンスメトリクスを抽出
+          if [ -d "TestResults.xcresult" ]; then
+            # 起動時間チェック
+            LAUNCH_TIME=$(xcrun xcresulttool get --path TestResults.xcresult --format json 2>/dev/null | \
+              python3 -c "
+          import json, sys
+          try:
+              data = json.load(sys.stdin)
+              def find_metric(obj, name):
+                  if isinstance(obj, dict):
+                      test_name = obj.get('name', {}).get('_value', '')
+                      if 'LaunchTime' in test_name or 'AppLaunch' in test_name:
+                          duration = obj.get('duration', {}).get('_value', '')
+                          if duration:
+                              return duration
+                      for v in obj.values():
+                          r = find_metric(v, name)
+                          if r: return r
+                  elif isinstance(obj, list):
+                      for item in obj:
+                          r = find_metric(item, name)
+                          if r: return r
+                  return None
+              result = find_metric(data, 'launch')
+              print(result if result else 'N/A')
+          except: print('N/A')
+          " 2>/dev/null || echo "N/A")
+
+            if [ "$LAUNCH_TIME" != "N/A" ]; then
+              LAUNCH_STATUS="✅"
+              LAUNCH_NUM=$(echo "$LAUNCH_TIME" | grep -oE '[0-9]+\.?[0-9]*' | head -1)
+              if [ -n "$LAUNCH_NUM" ] && (( $(echo "$LAUNCH_NUM > 3.0" | bc -l 2>/dev/null) )); then
+                LAUNCH_STATUS="⚠️ >3s"
+              fi
+              echo "| App Launch Time | < 3s | $LAUNCH_STATUS ($LAUNCH_TIME) |" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "| App Launch Time | < 3s | ℹ️ Measured (see xcresult) |" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "| Memory Footprint | < 200MB | ℹ️ Measured (see xcresult) |" >> $GITHUB_STEP_SUMMARY
+            echo "| Clock Calculation | Baseline | ℹ️ Measured (see xcresult) |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| App Launch Time | < 3s | ⚠️ No results |" >> $GITHUB_STEP_SUMMARY
+            echo "| Memory Footprint | < 200MB | ⚠️ No results |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Thresholds per TestingGuidelines.md Phase 3: Launch < 3s, Memory < 200MB_" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload Coverage Report
         if: always()
         uses: actions/upload-artifact@v4

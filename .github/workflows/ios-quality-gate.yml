@@ -50,19 +50,28 @@ jobs:
             --project FinalHourglass.xcodeproj \
             --schemes FinalHourglass \
             --format checkstyle
-
   build:
-    name: Build
-    runs-on: macos-latest
+    name: Build (iOS ${{ matrix.ios-version }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - xcode-version: '15.4'
+            runner: macos-14
+            simulator: 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
+            ios-version: '17.5'
+          - xcode-version: '16.2'
+            runner: macos-15
+            simulator: 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
+            ios-version: '18.2'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Install xcpretty
-        run: gem install xcpretty
+      - name: Setup iOS Environment
+        uses: ./.github/actions/setup-ios
+        with:
+          xcode-version: ${{ matrix.xcode-version }}
+          skip-cocoapods: 'true'
+          install-xcpretty: 'true'
 
       # ビルドログをファイルに保存して後続の警告チェックで使用
       # pipefailを有効化してxcodebuildの失敗を検知
@@ -73,9 +82,9 @@ jobs:
           xcodebuild build \
             -project FinalHourglass.xcodeproj \
             -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
+            -destination '${{ matrix.simulator }}' \
             CODE_SIGNING_ALLOWED=NO \
-            2>&1 | tee build.log | xcpretty --color
+            2>&1 | tee build-ios${{ matrix.ios-version }}.log | xcpretty --color
 
       # 警告チェック: システム由来の警告（appintentsmetadataprocessor等）を除外し、
       # 残りの警告があればワークフローを失敗させる
@@ -83,7 +92,7 @@ jobs:
         run: |
           cd ios-apps/final-hourglass
           # 警告行を抽出し、システム由来の警告を除外（大文字小文字無視）
-          WARNINGS=$(grep -i "warning:" build.log | grep -vi "appintentsmetadataprocessor" || true)
+          WARNINGS=$(grep -i "warning:" build-ios${{ matrix.ios-version }}.log | grep -vi "appintentsmetadataprocessor" || true)
 
           if [ -n "$WARNINGS" ]; then
             echo "::error::ビルド警告が検出されました:"

@@ -100,6 +100,25 @@ updates:
     prefix: build
     include: scope
 
+  # CocoaPods (iOS dependencies)
+  # Note: DependabotはCocoPodsを直接サポートしないため、
+  # bundlerエコシステムでGemfile経由の間接監視。
+  # ワークフロー側(ios-dependency-security.yml)でPod固有スキャンを実施。
+- package-ecosystem: bundler
+  directory: /ios-apps/final-hourglass
+  schedule:
+    interval: weekly
+    day: monday
+    time: 09:00
+    timezone: Asia/Tokyo
+  open-pull-requests-limit: 10
+  labels:
+  - dependencies
+  - ios
+  commit-message:
+    prefix: chore
+    include: scope
+
 # Security updates configuration
 # These get created immediately regardless of schedule
 registries:

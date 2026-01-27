@@ -76,7 +76,11 @@ jobs:
 
       - name: Checkout iOS submodule
         run: |
-          git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+          git submodule update --init --recursive
+        env:
+          GIT_CONFIG_COUNT: 1
+          GIT_CONFIG_KEY_0: url.https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: https://github.com/
         working-directory: ${{ github.workspace }}
 
       - name: Setup iOS
@@ -520,7 +524,11 @@ jobs:
 
       - name: Checkout iOS submodule
         run: |
-          git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+          git submodule update --init --recursive
+        env:
+          GIT_CONFIG_COUNT: 1
+          GIT_CONFIG_KEY_0: url.https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: https://github.com/
         working-directory: ${{ github.workspace }}
 
       - name: Setup iOS

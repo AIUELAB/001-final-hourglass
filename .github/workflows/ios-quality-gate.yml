@@ -125,7 +125,7 @@ jobs:
           xcodebuild build \
             -project FinalHourglass.xcodeproj \
             -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             CODE_SIGNING_ALLOWED=NO \
             2>&1 | tee build.log | xcpretty --color
 
@@ -144,3 +144,16 @@ jobs:
           else
             echo "警告なし - OK"
           fi
+
+  privacy-audit:
+    name: Privacy Manifest Audit
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Privacy Manifest
+        run: |
+          chmod +x .github/scripts/validate-privacy-manifest.sh
+          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass

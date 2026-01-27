@@ -36,18 +36,10 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
         with:
-          path: ios-apps/final-hourglass/Pods
-          key: pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: pods-
-
-      - name: Install CocoaPods dependencies
-        run: pod install --repo-update
+          install-cocoapods: 'true'
 
       - name: Build archive and capture metrics
         id: build

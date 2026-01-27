@@ -1,0 +1,68 @@
+# iOS共通セットアップ Composite Action
+# Xcode選択・CocoaPodsキャッシュ・サブモジュールcheckout等の共通ステップを集約
+name: Setup iOS Environment
+description: iOS CI共通セットアップ（Xcode, CocoaPods, サブモジュール, xcpretty）
+
+inputs:
+  xcode-version:
+    description: Xcodeパス
+    default: /Applications/Xcode.app
+  install-xcpretty:
+    description: xcprettyをインストールするか
+    default: 'false'
+  checkout-submodules:
+    description: 'サブモジュールモード: none / recursive / manual'
+    default: none
+  checkout-token:
+    description: 手動サブモジュールclone用トークン
+    default: ''
+  skip-cocoapods:
+    description: CocoaPodsインストールをスキップ
+    default: 'false'
+  working-directory:
+    description: pod install実行ディレクトリ
+    default: ios-apps/final-hourglass
+
+runs:
+  using: composite
+  steps:
+  - name: Checkout
+    if: inputs.checkout-submodules != 'manual'
+    uses: actions/checkout@v4
+    with:
+      submodules: ${{ inputs.checkout-submodules == 'recursive' && 'recursive' || '' }}
+
+  - name: Checkout (for manual submodule)
+    if: inputs.checkout-submodules == 'manual'
+    uses: actions/checkout@v4
+
+  - name: Checkout iOS submodule (manual)
+    if: inputs.checkout-submodules == 'manual' && inputs.checkout-token != ''
+    shell: bash
+    run: |
+      git clone https://x-access-token:${{ inputs.checkout-token }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+
+  - name: Select Xcode
+    shell: bash
+    run: sudo xcode-select -s ${{ inputs.xcode-version }}
+
+  - name: Cache CocoaPods
+    if: inputs.skip-cocoapods != 'true'
+    uses: actions/cache@v4
+    with:
+      path: ${{ inputs.working-directory }}/Pods
+      key: ${{ runner.os }}-pods-${{ hashFiles(format('{0}/Podfile.lock', inputs.working-directory)) }}
+      restore-keys: |
+        ${{ runner.os }}-pods-
+
+  - name: Install CocoaPods
+    if: inputs.skip-cocoapods != 'true'
+    shell: bash
+    run: |
+      cd ${{ inputs.working-directory }}
+      pod install --repo-update
+
+  - name: Install xcpretty
+    if: inputs.install-xcpretty == 'true'
+    shell: bash
+    run: gem install xcpretty

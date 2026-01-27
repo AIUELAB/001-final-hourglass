@@ -33,8 +33,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      ui-tests-needed: ${{ steps.filter.outputs.ui-tests }}
+      src-changed: ${{ steps.filter.outputs.src }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            src:
+              - 'ios-apps/**/*.swift'
+              - 'ios-apps/**/Podfile'
+              - 'ios-apps/**/Podfile.lock'
+              - 'ios-apps/**/project.pbxproj'
+              - 'ios-apps/**/*.xcconfig'
+            ui-tests:
+              - 'ios-apps/**/FinalHourglassUITests/**'
+              - 'ios-apps/**/*.swift'
+              - 'ios-apps/**/project.pbxproj'
+
   test:
     name: Unit Tests & Coverage
+    needs: detect-changes
+    if: needs.detect-changes.outputs.src-changed == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
     timeout-minutes: 30
     defaults:
@@ -477,6 +506,8 @@ jobs:
 
   ui-test:
     name: UI Tests (E2E)
+    needs: detect-changes
+    if: needs.detect-changes.outputs.ui-tests-needed == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
     timeout-minutes: 30
     defaults:

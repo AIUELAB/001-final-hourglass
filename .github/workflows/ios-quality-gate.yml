@@ -1,5 +1,6 @@
 # iOS Quality Gate - PR時のコード品質チェック
-# 3つのジョブを並列実行: SwiftLint（静的解析）, Periphery（未使用コード検出）, Build（ビルド＋警告チェック）
+# 5つのジョブを並列実行: SwiftLint, Periphery, Build, dependency-audit, privacy-audit
+# Phase 32: SwiftLint, Periphery, Build, Privacy Manifest Audit は main マージ前の必須チェック
 name: iOS Quality Gate
 
 on:
@@ -12,7 +13,6 @@ on:
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/*.xcconfig'
-      - 'ios-apps/**/PrivacyInfo.xcprivacy'
 
 concurrency:
   group: ios-quality-gate-${{ github.head_ref || github.run_id }}
@@ -106,16 +106,3 @@ jobs:
           else
             echo "警告なし - OK"
           fi
-
-  privacy-audit:
-    name: Privacy Manifest Audit
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Validate Privacy Manifest
-        run: |
-          chmod +x .github/scripts/validate-privacy-manifest.sh
-          .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass

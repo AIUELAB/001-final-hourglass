@@ -24,10 +24,15 @@ on:
       - 'ios-apps/**/Podfile'
       - 'ios-apps/**/Podfile.lock'
 
+concurrency:
+  group: ios-test-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Unit Tests & Coverage
     runs-on: macos-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: ios-apps/final-hourglass
@@ -466,6 +471,7 @@ jobs:
         with:
           name: coverage-report
           path: ios-apps/final-hourglass/TestResults.xcresult
+          retention-days: 30
 
       - name: Upload Test Results
         if: failure()
@@ -473,6 +479,7 @@ jobs:
         with:
           name: test-results
           path: ios-apps/final-hourglass/TestResults.xcresult
+          retention-days: 7
 
   ui-test:
     name: UI Tests (E2E)
@@ -585,6 +592,7 @@ jobs:
           name: ui-test-screenshots
           path: ios-apps/final-hourglass/screenshots/
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: Upload UI Test Results
         if: always()
@@ -593,6 +601,7 @@ jobs:
           name: ui-test-results
           path: ios-apps/final-hourglass/UITestResults_attempt*.xcresult
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: UI Test Summary
         if: always()

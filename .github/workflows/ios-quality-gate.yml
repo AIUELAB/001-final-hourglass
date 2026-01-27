@@ -9,10 +9,15 @@ on:
       - 'ios-apps/**/.swiftlint.yml'
       - 'ios-apps/**/.periphery.yml'
 
+concurrency:
+  group: ios-quality-gate-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   swiftlint:
     name: SwiftLint
     runs-on: macos-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,6 +34,7 @@ jobs:
   periphery:
     name: Periphery (Dead Code Detection)
     runs-on: macos-latest
+    timeout-minutes: 15
     # Phase 4完了: 警告0件達成。厳格モード有効（失敗でPRを落とす）
     steps:
       - name: Checkout
@@ -54,6 +60,7 @@ jobs:
   build:
     name: Build
     runs-on: macos-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4

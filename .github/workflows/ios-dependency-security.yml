@@ -1,0 +1,185 @@
+# iOS Dependency Security - CocoaPods脆弱性スキャン
+name: iOS Dependency Security
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # 毎週月曜 09:00 JST
+  pull_request:
+    paths:
+      - 'ios-apps/**/Podfile'
+      - 'ios-apps/**/Podfile.lock'
+  push:
+    branches:
+      - main
+    paths:
+      - 'ios-apps/**/Podfile'
+      - 'ios-apps/**/Podfile.lock'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: read
+
+jobs:
+  dependency-audit:
+    name: CocoaPods Security Audit
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout iOS submodule
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          git submodule update --init --recursive ios-apps/final-hourglass
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install CocoaPods
+        run: gem install cocoapods
+
+      - name: Check outdated Pods
+        id: outdated
+        run: |
+          echo "## 📦 Outdated Pods" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          pod outdated 2>&1 | tee outdated.txt || true
+          cat outdated.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Extract Pod dependencies
+        id: extract
+        run: |
+          # Podfile.lockからPod名とバージョンを抽出
+          if [ -f Podfile.lock ]; then
+            echo "## 🔍 Installed Pods" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            grep -E '^\s+-\s+\w+' Podfile.lock | sed 's/.*- //' | head -50 | tee pods.txt
+            cat pods.txt >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No Podfile.lock found"
+            echo "pods=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Query GitHub Advisory Database
+        id: advisory
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "## 🛡️ Security Advisory Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          CRITICAL_COUNT=0
+          HIGH_COUNT=0
+          MEDIUM_COUNT=0
+          LOW_COUNT=0
+          HAS_ISSUES=false
+
+          if [ -f pods.txt ]; then
+            while IFS= read -r line; do
+              # Pod名を抽出（バージョン番号を除去）
+              POD_NAME=$(echo "$line" | sed 's/[[:space:]]*(.*//' | xargs)
+              [ -z "$POD_NAME" ] && continue
+
+              # GitHub Advisory Database APIで照会
+              RESULT=$(gh api graphql -f query='
+                query($keyword: String!) {
+                  securityAdvisories(first: 5, keyword: $keyword, orderBy: {field: PUBLISHED_AT, direction: DESC}) {
+                    nodes {
+                      ghsaId
+                      summary
+                      severity
+                      publishedAt
+                      vulnerabilities(first: 5) {
+                        nodes {
+                          package {
+                            name
+                            ecosystem
+                          }
+                          vulnerableVersionRange
+                        }
+                      }
+                    }
+                  }
+                }
+              ' -f keyword="$POD_NAME" 2>/dev/null || echo '{"data":{"securityAdvisories":{"nodes":[]}}}')
+
+              # アドバイザリが見つかった場合
+              ADVISORY_COUNT=$(echo "$RESULT" | jq '.data.securityAdvisories.nodes | length' 2>/dev/null || echo "0")
+              if [ "$ADVISORY_COUNT" -gt 0 ]; then
+                echo "### ⚠️ $POD_NAME" >> "$GITHUB_STEP_SUMMARY"
+                echo "$RESULT" | jq -r '.data.securityAdvisories.nodes[] | "- **\(.severity)**: \(.summary) ([\(.ghsaId)](https://github.com/advisories/\(.ghsaId)))"' >> "$GITHUB_STEP_SUMMARY" 2>/dev/null
+                echo "" >> "$GITHUB_STEP_SUMMARY"
+
+                # 重要度カウント
+                CRITICAL_COUNT=$((CRITICAL_COUNT + $(echo "$RESULT" | jq '[.data.securityAdvisories.nodes[] | select(.severity == "CRITICAL")] | length' 2>/dev/null || echo "0")))
+                HIGH_COUNT=$((HIGH_COUNT + $(echo "$RESULT" | jq '[.data.securityAdvisories.nodes[] | select(.severity == "HIGH")] | length' 2>/dev/null || echo "0")))
+                MEDIUM_COUNT=$((MEDIUM_COUNT + $(echo "$RESULT" | jq '[.data.securityAdvisories.nodes[] | select(.severity == "MODERATE")] | length' 2>/dev/null || echo "0")))
+                LOW_COUNT=$((LOW_COUNT + $(echo "$RESULT" | jq '[.data.securityAdvisories.nodes[] | select(.severity == "LOW")] | length' 2>/dev/null || echo "0")))
+              fi
+            done < pods.txt
+          fi
+
+          # サマリー
+          echo "## 📊 Security Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Severity | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔴 Critical | $CRITICAL_COUNT |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟠 High | $HIGH_COUNT |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟡 Medium | $MEDIUM_COUNT |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔵 Low | $LOW_COUNT |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # CRITICAL/HIGHがあればfail
+          echo "critical_count=$CRITICAL_COUNT" >> "$GITHUB_OUTPUT"
+          echo "high_count=$HIGH_COUNT" >> "$GITHUB_OUTPUT"
+
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
+            echo "🚨 **CRITICAL or HIGH severity vulnerabilities detected!**" >> "$GITHUB_STEP_SUMMARY"
+            echo "has_blocking_issues=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "✅ **No critical or high severity vulnerabilities found.**" >> "$GITHUB_STEP_SUMMARY"
+            echo "has_blocking_issues=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check Dependabot Alerts
+        id: dependabot
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "## 🤖 Dependabot Alerts" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # Dependabotアラート取得
+          ALERTS=$(gh api repos/${{ github.repository }}/dependabot/alerts \
+            --jq '[.[] | select(.state == "open") | select(.dependency.package.ecosystem == "pip" | not) | {package: .dependency.package.name, severity: .security_advisory.severity, summary: .security_advisory.summary}]' \
+            2>/dev/null || echo "[]")
+
+          ALERT_COUNT=$(echo "$ALERTS" | jq 'length' 2>/dev/null || echo "0")
+
+          if [ "$ALERT_COUNT" -gt 0 ]; then
+            echo "| Package | Severity | Summary |" >> "$GITHUB_STEP_SUMMARY"
+            echo "|---------|----------|---------|" >> "$GITHUB_STEP_SUMMARY"
+            echo "$ALERTS" | jq -r '.[] | "| \(.package) | \(.severity) | \(.summary) |"' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "✅ No open Dependabot alerts for non-Python dependencies." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail on critical/high vulnerabilities
+        if: steps.advisory.outputs.has_blocking_issues == 'true'
+        run: |
+          echo "::error::CRITICAL or HIGH severity vulnerabilities detected in iOS dependencies."
+          echo "Critical: ${{ steps.advisory.outputs.critical_count }}, High: ${{ steps.advisory.outputs.high_count }}"
+          exit 1

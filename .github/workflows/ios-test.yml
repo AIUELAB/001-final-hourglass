@@ -16,6 +16,7 @@ on:
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/FinalHourglassUITests/**'
+      - 'ios-apps/**/*.xcconfig'
   push:
     branches:
       - main
@@ -23,35 +24,67 @@ on:
       - 'ios-apps/**/*.swift'
       - 'ios-apps/**/Podfile'
       - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/project.pbxproj'
+      - 'ios-apps/**/FinalHourglassUITests/**'
+      - 'ios-apps/**/*.xcconfig'
+
+concurrency:
+  group: ios-test-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      ui-tests-needed: ${{ steps.filter.outputs.ui-tests }}
+      src-changed: ${{ steps.filter.outputs.src }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            src:
+              - 'ios-apps/**/*.swift'
+              - 'ios-apps/**/Podfile'
+              - 'ios-apps/**/Podfile.lock'
+              - 'ios-apps/**/project.pbxproj'
+              - 'ios-apps/**/*.xcconfig'
+            ui-tests:
+              - 'ios-apps/**/FinalHourglassUITests/**'
+              - 'ios-apps/**/*.swift'
+              - 'ios-apps/**/project.pbxproj'
+
   test:
-    name: Unit Tests & Coverage (iOS ${{ matrix.ios-version }})
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - xcode-version: '15.4'
-            runner: macos-14
-            simulator: 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
-            ios-version: '17.5'
-          - xcode-version: '16.2'
-            runner: macos-15
-            simulator: 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
-            ios-version: '18.2'
+    name: Unit Tests & Coverage
+    needs: detect-changes
+    if: needs.detect-changes.outputs.src-changed == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: macos-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: ios-apps/final-hourglass
 
     steps:
-      - name: Setup iOS Environment
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout iOS submodule
+        run: |
+          git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+        working-directory: ${{ github.workspace }}
+
+      - name: Setup iOS
         uses: ./.github/actions/setup-ios
         with:
-          xcode-version: ${{ matrix.xcode-version }}
-          checkout-submodules: 'manual'
-          checkout-token: ${{ secrets.IOS_REPO_TOKEN }}
+          install-cocoapods: 'true'
           install-xcpretty: 'true'
+          cache-derived-data: 'true'
 
       - name: Run Tests with Coverage
         run: |
@@ -59,9 +92,9 @@ jobs:
           xcodebuild test \
             -workspace FinalHourglass.xcworkspace \
             -scheme FinalHourglass \
-            -destination '${{ matrix.simulator }}' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -enableCodeCoverage YES \
-            -resultBundlePath TestResults-ios${{ matrix.ios-version }}.xcresult \
+            -resultBundlePath TestResults.xcresult \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty --color
 
@@ -72,7 +105,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # 全体カバレッジを抽出
-          TOTAL_COVERAGE=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+%')
+          TOTAL_COVERAGE=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+%')
           echo "**Overall Coverage:** \`$TOTAL_COVERAGE\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
@@ -83,7 +116,7 @@ jobs:
           echo "|------|----------|--------|" >> $GITHUB_STEP_SUMMARY
 
           # 主要ファイルのカバレッジを抽出（閾値判定付き）
-          xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel|SupabaseManager|SupabaseConfig|EpisodeManager|CacheManager|AppStateManager|NotificationManager)\.swift" | while read line; do
+          xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep -E "^\s+/.*(LifeExpectancyCalculator|HealthScoreCalculator|Prefecture|UserModel|SupabaseManager|SupabaseConfig|EpisodeManager|CacheManager|AppStateManager|NotificationManager)\.swift" | while read line; do
             FILE=$(basename "$(echo "$line" | awk '{print $1}')")
             COV=$(echo "$line" | grep -oE '[0-9]+\.[0-9]+%')
             COV_NUM=$(echo "$COV" | grep -oE '[0-9]+\.[0-9]+')
@@ -106,17 +139,17 @@ jobs:
 
       # Phase 6: カバレッジ比較機能（PR時のみ）
       - name: Download Base Coverage
-        if: github.event_name == 'pull_request' && matrix.ios-version == '18.2'
+        if: github.event_name == 'pull_request'
         uses: dawidd6/action-download-artifact@v6
         continue-on-error: true
         with:
           workflow: ios-test.yml
           branch: main
-          name: coverage-report-ios-18.2
+          name: coverage-report
           path: base-coverage
 
       - name: Compare Coverage
-        if: github.event_name == 'pull_request' && matrix.ios-version == '18.2'
+        if: github.event_name == 'pull_request'
         id: coverage-compare
         run: |
           echo "📊 Comparing coverage with main branch..."
@@ -126,8 +159,8 @@ jobs:
           echo "current_coverage=$CURRENT_COV" >> $GITHUB_OUTPUT
 
           # ベースカバレッジを取得（存在する場合）
-          if [ -d "base-coverage" ] && [ -f "base-coverage/TestResults-ios${{ matrix.ios-version }}.xcresult" ]; then
-            BASE_COV=$(xcrun xccov view --report base-coverage/TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+' || echo "0")
+          if [ -d "base-coverage" ] && [ -f "base-coverage/TestResults.xcresult" ]; then
+            BASE_COV=$(xcrun xccov view --report base-coverage/TestResults.xcresult 2>/dev/null | grep "FinalHourglass.app" | head -1 | grep -oE '[0-9]+\.[0-9]+' || echo "0")
           else
             BASE_COV="0"
             echo "⚠️ No base coverage found (first run or main branch has no coverage)"
@@ -157,7 +190,7 @@ jobs:
           fi
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request' && matrix.ios-version == '18.2'
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -236,7 +269,7 @@ jobs:
 
       # Phase 6: READMEバッジ更新（mainブランチへのpush時のみ）
       - name: Update Coverage Badge
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.ios-version == '18.2'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ secrets.GIST_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
@@ -278,7 +311,7 @@ jobs:
           FAILED=0
 
           # LifeExpectancyCalculator のカバレッジチェック
-          LIFE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "LifeExpectancyCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          LIFE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "LifeExpectancyCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$LIFE_COV" ]; then
             if (( $(echo "$LIFE_COV < $THRESHOLD" | bc -l) )); then
               echo "❌ LifeExpectancyCalculator.swift: ${LIFE_COV}% < ${THRESHOLD}%"
@@ -291,7 +324,7 @@ jobs:
           fi
 
           # HealthScoreCalculator のカバレッジチェック
-          HEALTH_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "HealthScoreCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          HEALTH_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "HealthScoreCalculator.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$HEALTH_COV" ]; then
             if (( $(echo "$HEALTH_COV < $THRESHOLD" | bc -l) )); then
               echo "❌ HealthScoreCalculator.swift: ${HEALTH_COV}% < ${THRESHOLD}%"
@@ -304,7 +337,7 @@ jobs:
           fi
 
           # UserModel のカバレッジチェック
-          USER_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "UserModel.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          USER_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "UserModel.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$USER_COV" ]; then
             if (( $(echo "$USER_COV < $THRESHOLD" | bc -l) )); then
               echo "❌ UserModel.swift: ${USER_COV}% < ${THRESHOLD}%"
@@ -317,30 +350,30 @@ jobs:
           fi
 
           # SupabaseManager/Config は情報表示のみ（閾値チェックなし）
-          SUPA_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "SupabaseManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          SUPA_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "SupabaseManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$SUPA_COV" ]; then
             echo "ℹ️ SupabaseManager.swift: ${SUPA_COV}% (monitored, no threshold)"
           fi
 
           # EpisodeManager/CacheManager は情報表示のみ（閾値チェックなし）
-          EPISODE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "EpisodeManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          EPISODE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "EpisodeManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$EPISODE_COV" ]; then
             echo "ℹ️ EpisodeManager.swift: ${EPISODE_COV}% (monitored, no threshold)"
           fi
 
-          CACHE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "CacheManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          CACHE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "CacheManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$CACHE_COV" ]; then
             echo "ℹ️ CacheManager.swift: ${CACHE_COV}% (monitored, no threshold)"
           fi
 
           # AppStateManager は情報表示のみ（閾値チェックなし）
-          APPSTATE_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "AppStateManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          APPSTATE_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "AppStateManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$APPSTATE_COV" ]; then
             echo "ℹ️ AppStateManager.swift: ${APPSTATE_COV}% (monitored, no threshold)"
           fi
 
           # NotificationManager は情報表示のみ（閾値チェックなし）
-          NOTIFICATION_COV=$(xcrun xccov view --report TestResults-ios${{ matrix.ios-version }}.xcresult 2>/dev/null | grep "NotificationManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+          NOTIFICATION_COV=$(xcrun xccov view --report TestResults.xcresult 2>/dev/null | grep "NotificationManager.swift" | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
           if [ -n "$NOTIFICATION_COV" ]; then
             echo "ℹ️ NotificationManager.swift: ${NOTIFICATION_COV}% (monitored, no threshold)"
           fi
@@ -367,9 +400,9 @@ jobs:
           echo "|--------|-----------|--------|" >> $GITHUB_STEP_SUMMARY
 
           # xcresultからパフォーマンスメトリクスを抽出
-          if [ -d "TestResults-ios${{ matrix.ios-version }}.xcresult" ]; then
+          if [ -d "TestResults.xcresult" ]; then
             # 起動時間チェック
-            LAUNCH_TIME=$(xcrun xcresulttool get --path TestResults-ios${{ matrix.ios-version }}.xcresult --format json 2>/dev/null | \
+            LAUNCH_TIME=$(xcrun xcresulttool get --path TestResults.xcresult --format json 2>/dev/null | \
               python3 -c "
           import json, sys
           try:
@@ -459,49 +492,46 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-ios-${{ matrix.ios-version }}
-          path: ios-apps/final-hourglass/TestResults-ios${{ matrix.ios-version }}.xcresult
+          name: coverage-report
+          path: ios-apps/final-hourglass/TestResults.xcresult
+          retention-days: 30
 
       - name: Upload Test Results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-ios-${{ matrix.ios-version }}
-          path: ios-apps/final-hourglass/TestResults-ios${{ matrix.ios-version }}.xcresult
+          name: test-results
+          path: ios-apps/final-hourglass/TestResults.xcresult
+          retention-days: 7
 
   ui-test:
-    name: UI Tests (iOS ${{ matrix.ios-version }})
-    runs-on: ${{ matrix.runner }}
+    name: UI Tests (E2E)
+    needs: detect-changes
+    if: needs.detect-changes.outputs.ui-tests-needed == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: macos-latest
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - xcode-version: '15.4'
-            runner: macos-14
-            simulator: 'platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
-            ios-version: '17.5'
-            simulator-name: 'iPhone 15 Pro'
-          - xcode-version: '16.2'
-            runner: macos-15
-            simulator: 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
-            ios-version: '18.2'
-            simulator-name: 'iPhone 16'
     defaults:
       run:
         working-directory: ios-apps/final-hourglass
 
     steps:
-      - name: Setup iOS Environment
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout iOS submodule
+        run: |
+          git clone https://x-access-token:${{ secrets.IOS_REPO_TOKEN }}@github.com/AIUELAB/final-hourglass-ios.git ios-apps/final-hourglass
+        working-directory: ${{ github.workspace }}
+
+      - name: Setup iOS
         uses: ./.github/actions/setup-ios
         with:
-          xcode-version: ${{ matrix.xcode-version }}
-          checkout-submodules: 'manual'
-          checkout-token: ${{ secrets.IOS_REPO_TOKEN }}
+          install-cocoapods: 'true'
+          cache-derived-data: 'true'
 
       - name: Boot Simulator
         run: |
-          DEVICE_ID=$(xcrun simctl list devices available | grep "${{ matrix.simulator-name }}" | head -1 | grep -oE '[0-9A-F-]{36}')
+          DEVICE_ID=$(xcrun simctl list devices available | grep "iPhone 16" | head -1 | grep -oE '[0-9A-F-]{36}')
           xcrun simctl boot "$DEVICE_ID" || true
 
       - name: Run UI Tests with Retry
@@ -519,7 +549,7 @@ jobs:
             if xcodebuild test \
               -workspace FinalHourglass.xcworkspace \
               -scheme FinalHourglass \
-              -destination '${{ matrix.simulator }}' \
+              -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
               -only-testing:FinalHourglassUITests \
               -retry-tests-on-failure \
               -test-iterations 2 \
@@ -576,17 +606,19 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: ui-test-screenshots-ios-${{ matrix.ios-version }}
+          name: ui-test-screenshots
           path: ios-apps/final-hourglass/screenshots/
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: Upload UI Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ui-test-results-ios-${{ matrix.ios-version }}
+          name: ui-test-results
           path: ios-apps/final-hourglass/UITestResults_attempt*.xcresult
           if-no-files-found: ignore
+          retention-days: 7
 
       - name: UI Test Summary
         if: always()

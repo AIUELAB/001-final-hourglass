@@ -82,6 +82,30 @@ updates:
     prefix: ci
     include: scope
 
+  # Swift Package Manager (iOS dependencies)
+- package-ecosystem: swift
+  directory: /ios-apps/final-hourglass
+  schedule:
+    interval: weekly
+    day: monday
+    time: 09:00
+    timezone: Asia/Tokyo
+  open-pull-requests-limit: 10
+  reviewers:
+  - ios-team
+  labels:
+  - dependencies
+  - swift
+  commit-message:
+    prefix: chore
+    prefix-development: chore
+    include: scope
+  groups:
+    swift-testing:
+      patterns:
+      - '*Test*'
+      - '*Mock*'
+
   # Docker
 - package-ecosystem: docker
   directory: /

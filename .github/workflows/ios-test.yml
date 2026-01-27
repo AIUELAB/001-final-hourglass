@@ -16,6 +16,7 @@ on:
       - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/FinalHourglassUITests/**'
+      - 'ios-apps/**/*.xcconfig'
   push:
     branches:
       - main
@@ -23,6 +24,9 @@ on:
       - 'ios-apps/**/*.swift'
       - 'ios-apps/**/Podfile'
       - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/project.pbxproj'
+      - 'ios-apps/**/FinalHourglassUITests/**'
+      - 'ios-apps/**/*.xcconfig'
 
 concurrency:
   group: ios-test-${{ github.head_ref || github.run_id }}

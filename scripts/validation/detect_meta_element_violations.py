@@ -23,6 +23,15 @@ EPUP: メタ要素違反検出スクリプト
     # 処理件数上限
     python scripts/validation/detect_meta_element_violations.py --limit 100
 
+    # 違反エピソードをLLMで再生成して修正
+    python scripts/validation/detect_meta_element_violations.py --fix
+
+    # 違反エピソードを削除（再生成なし）
+    python scripts/validation/detect_meta_element_violations.py --delete-only
+
+    # バッチサイズ指定（デフォルト10件ずつ）
+    python scripts/validation/detect_meta_element_violations.py --fix --batch-size 20
+
 Author: EPUP Validation Team
 Date: 2026-01-23
 """
@@ -137,6 +146,23 @@ META_PATTERNS: dict[str, list[str]] = {
         r"フィクション(?:の|である|として)",
         r"実在(?:しない|の人物ではない)",
         r"(?:物語|創作)(?:上の|の中の)",
+    ],
+    # ================================================
+    # RCA-20260128: 年号+作品名・シリーズ言及パターン追加
+    # ================================================
+    "年号+作品名": [
+        r"(?:19[0-9]{2}|20[0-2][0-9])年の[『「].+?[』」]",
+        r"[『「].+?[』」](?:が|は|を)?(?:19[0-9]{2}|20[0-2][0-9])年",
+    ],
+    "シリーズ・続編言及": [
+        r"[『「].+?[』」]シリーズ",
+        r"(?:シリーズ|続編|前作|次回作|劇場版|OVA|OAD)(?:で|において|の|が|は|を通じて)",
+    ],
+    "制作年言及": [
+        r"(?:制作|公開|放送|発売|配信|上映)(?:さ?れ|が|は|から).*?(?:19[0-9]{2}|20[0-2][0-9])年",
+    ],
+    "作品評価メタ": [
+        r"[『「].+?[』」](?:で|は)(?:不朽|伝説|金字塔|名作|代表作)",
     ],
 }
 
@@ -487,6 +513,291 @@ class MetaElementViolationDetector:
 
 
 # =============================================================================
+# 修正クラス
+# =============================================================================
+
+
+class MetaViolationFixer:
+    """
+    メタ要素違反エピソードの修正器
+
+    LLMを使用してメタ要素を含むエピソードを再生成する。
+    """
+
+    # 架空キャラクター用再生成プロンプト
+    REGENERATE_PROMPT = """あなたは{work_title}の世界観を深く理解するストーリーテラーです。
+
+{person_name}（{work_title}のキャラクター）が{age}歳の時点での作品内エピソードを生成してください。
+
+【絶対遵守ルール】
+1. すべての文を丁寧語（です・ます調）で終えてください
+2. 冒頭は必ず「あなたと同じ{age}歳のとき、{person_name}は」で開始してください
+3. 物語の「中」で起きた出来事のみを書く（作品内の冒険、戦い、成長等）
+
+【禁止（メタ要素）】
+- 現実の年号＋作品タイトル（例: 「1979年の『機動戦士ガンダム』」）
+- シリーズ・続編・劇場版への言及
+- アニメ化、放送開始、興行収入、視聴率、連載開始、原作、声優
+- 「読者」「視聴者」「ファン」「社会現象」など作品外の視点
+- 販売本数、興行成績、受賞歴、ランキング
+- 「不朽の」「伝説の」「金字塔」など現実世界での評価表現
+- ディズニーランド、テーマパーク、グッズ、DVD売上
+- 「架空のキャラクター」「実在しない」「設定上は」
+
+【品質基準】
+- 固有名詞を5つ以上含める
+- 300〜400文字で完結
+- 作品世界内の視点で臨場感を持って描写
+
+【現在の問題テキスト（参考）】
+以下のテキストにメタ要素「{violation_summary}」が含まれていました。
+同じキャラクター・年齢で、メタ要素を一切含まない新しいエピソードを生成してください。
+"""
+
+    # 作品名マッピング（フォールバック用）
+    WORK_TITLE_MAP: dict[str, str] = {
+        "孫悟空": "ドラゴンボール",
+        "孫悟飯": "ドラゴンボール",
+        "ベジータ": "ドラゴンボール",
+        "フリーザ": "ドラゴンボール",
+        "クリリン": "ドラゴンボール",
+        "モンキー・D・ルフィ": "ONE PIECE",
+        "ロロノア・ゾロ": "ONE PIECE",
+        "うずまきナルト": "NARUTO",
+        "うちはサスケ": "NARUTO",
+        "竈門炭治郎": "鬼滅の刃",
+        "竈門禰豆子": "鬼滅の刃",
+        "エレン・イェーガー": "進撃の巨人",
+        "江戸川コナン": "名探偵コナン",
+        "空条承太郎": "ジョジョの奇妙な冒険",
+        "緑谷出久": "僕のヒーローアカデミア",
+        "碇シンジ": "新世紀エヴァンゲリオン",
+        "坂田銀時": "銀魂",
+        "虎杖悠仁": "呪術廻戦",
+        "マリオ": "スーパーマリオ",
+        "ピカチュウ": "ポケットモンスター",
+        "セフィロス": "ファイナルファンタジーVII",
+        "クラウド・ストライフ": "ファイナルファンタジーVII",
+        "ミッキーマウス": "ディズニー",
+        "ルーク・スカイウォーカー": "スター・ウォーズ",
+        "ダース・ベイダー": "スター・ウォーズ",
+        "ハリー・ポッター": "ハリー・ポッター",
+        "シャア・アズナブル": "機動戦士ガンダム",
+        "アムロ・レイ": "機動戦士ガンダム",
+    }
+
+    def __init__(self, master_csv: Path = MASTER_CSV):
+        self.master_csv = master_csv
+        self._client = None
+
+    @property
+    def client(self):
+        """Anthropic クライアントの遅延初期化"""
+        if self._client is None:
+            try:
+                import anthropic
+
+                self._client = anthropic.Anthropic()
+            except ImportError:
+                logger.error("anthropicライブラリがインストールされていません: pip install anthropic")
+                raise
+        return self._client
+
+    def get_work_title(self, person_name: str, work_title: str) -> str:
+        """作品名を取得（空の場合はマッピングから）"""
+        if work_title and str(work_title) != "nan":
+            return str(work_title)
+        return self.WORK_TITLE_MAP.get(person_name, "作品")
+
+    def regenerate_episode(
+        self,
+        person_name: str,
+        age: int,
+        work_title: str,
+        violation_summary: str,
+        max_retries: int = 3,
+    ) -> tuple[Optional[str], bool]:
+        """
+        メタ要素フリーのエピソードをLLMで再生成
+
+        Args:
+            person_name: キャラクター名
+            age: 年齢
+            work_title: 作品名
+            violation_summary: 違反内容の要約
+            max_retries: リトライ回数
+
+        Returns:
+            (新エピソード, 成功フラグ)
+        """
+        work = self.get_work_title(person_name, work_title)
+        prompt = self.REGENERATE_PROMPT.format(
+            person_name=person_name,
+            age=int(age),
+            work_title=work,
+            violation_summary=violation_summary,
+        )
+
+        detector = MetaElementViolationDetector.__new__(MetaElementViolationDetector)
+        detector.patterns = get_compiled_patterns()
+
+        for attempt in range(max_retries):
+            try:
+                response = self.client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=800,
+                    messages=[{"role": "user", "content": prompt}],
+                )
+                block = response.content[0]
+                episode_text = block.text.strip() if hasattr(block, "text") else str(block)
+
+                # 再生成テキストのメタ要素チェック
+                violations = detector.check_text(episode_text, "REGEN", person_name, int(age), "episode_text")
+                if not violations:
+                    return episode_text, True
+
+                logger.warning(
+                    f"  リトライ {attempt + 1}/{max_retries}: " f"再生成テキストにもメタ要素あり ({len(violations)}件)"
+                )
+            except Exception as e:
+                logger.error(f"  LLMエラー (attempt {attempt + 1}): {e}")
+                return None, False
+
+        return None, False
+
+    def fix_violations(
+        self,
+        result: DetectionResult,
+        dry_run: bool = True,
+        delete_only: bool = False,
+        batch_size: int = 10,
+    ) -> dict:
+        """
+        検出された違反エピソードを修正
+
+        Args:
+            result: 検出結果
+            dry_run: ドライラン
+            delete_only: 削除のみ（再生成なし）
+            batch_size: バッチサイズ
+
+        Returns:
+            修正結果
+        """
+        if not result.violations:
+            logger.info("修正対象の違反はありません")
+            return {"regenerated": 0, "deleted": 0, "failed": 0, "skipped": 0}
+
+        # episode_id単位で違反をグループ化
+        violations_by_episode: dict[str, list[MetaViolation]] = {}
+        for v in result.violations:
+            if v.episode_id not in violations_by_episode:
+                violations_by_episode[v.episode_id] = []
+            violations_by_episode[v.episode_id].append(v)
+
+        total_episodes = len(violations_by_episode)
+        logger.info(f"修正対象: {total_episodes}件のエピソード（違反合計: {len(result.violations)}件）")
+
+        if dry_run:
+            logger.info("ドライラン: 実際の修正は行いません")
+            logger.info("")
+            for ep_id, violations in list(violations_by_episode.items())[:20]:
+                v0 = violations[0]
+                categories = set(v.category for v in violations)
+                logger.info(
+                    f"  [{ep_id}] {v0.person_name} ({v0.age}歳) - " f"違反{len(violations)}件: {', '.join(categories)}"
+                )
+            if total_episodes > 20:
+                logger.info(f"  ... 他 {total_episodes - 20}件")
+            return {
+                "regenerated": 0,
+                "deleted": 0,
+                "failed": 0,
+                "skipped": 0,
+                "total_target": total_episodes,
+            }
+
+        # マスターCSV読み込み
+        df = pd.read_csv(self.master_csv, encoding="utf-8-sig", low_memory=False)
+
+        # バックアップ
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_path = self.master_csv.parent / f"MASTER_EPISODES_BACKUP_meta_fix_{timestamp}.csv"
+        df.to_csv(backup_path, index=False, encoding="utf-8-sig")
+        logger.info(f"バックアップ作成: {backup_path}")
+
+        stats = {"regenerated": 0, "deleted": 0, "failed": 0, "skipped": 0}
+        processed = 0
+
+        for ep_id, violations in violations_by_episode.items():
+            if processed >= batch_size:
+                logger.info(f"バッチサイズ上限 ({batch_size}) に到達。残りは次回実行で処理")
+                stats["skipped"] = total_episodes - processed
+                break
+
+            v0 = violations[0]
+            categories = [v.category for v in violations]
+            violation_summary = ", ".join(set(categories))
+
+            logger.info(
+                f"[{processed + 1}/{min(batch_size, total_episodes)}] "
+                f"{v0.person_name} ({v0.age}歳) - {violation_summary}"
+            )
+
+            mask = df["episode_id"].astype(str) == str(ep_id)
+            if not mask.any():
+                logger.warning(f"  episode_id={ep_id} がCSVに見つかりません")
+                stats["failed"] += 1
+                processed += 1
+                continue
+
+            row = df.loc[mask].iloc[0]
+
+            if delete_only:
+                df = df[~mask]
+                logger.info("  削除しました")
+                stats["deleted"] += 1
+            else:
+                work_title = str(row.get("work_title", ""))
+                new_text, success = self.regenerate_episode(
+                    person_name=v0.person_name,
+                    age=v0.age,
+                    work_title=work_title,
+                    violation_summary=violation_summary,
+                )
+
+                if success:
+                    df.loc[mask, "episode_text"] = new_text
+                    df.loc[mask, "fact_check_result"] = "EPUP_META_FIX_REGENERATED"
+                    logger.info(f"  再生成成功: {new_text[:80]}...")
+                    stats["regenerated"] += 1
+                else:
+                    # 再生成失敗時は削除
+                    df = df[~mask]
+                    logger.warning("  再生成失敗 → 削除しました")
+                    stats["deleted"] += 1
+
+            processed += 1
+
+        # CSV保存
+        df.to_csv(self.master_csv, index=False, encoding="utf-8-sig")
+        logger.info(f"CSV保存完了: {self.master_csv}")
+
+        # 結果サマリー
+        logger.info("")
+        logger.info("=" * 50)
+        logger.info("修正結果サマリー")
+        logger.info("=" * 50)
+        logger.info(f"  再生成成功: {stats['regenerated']}件")
+        logger.info(f"  削除: {stats['deleted']}件")
+        logger.info(f"  失敗: {stats['failed']}件")
+        logger.info(f"  スキップ（次回）: {stats['skipped']}件")
+        logger.info(f"  バックアップ: {backup_path}")
+
+        return stats
+
+
+# =============================================================================
 # レポート生成
 # =============================================================================
 
@@ -575,6 +886,15 @@ def main() -> int:
 
   # 処理件数上限
   python scripts/validation/detect_meta_element_violations.py --limit 100
+
+  # 違反エピソードをLLMで再生成して修正
+  python scripts/validation/detect_meta_element_violations.py --fix
+
+  # 違反エピソードを削除（再生成なし）
+  python scripts/validation/detect_meta_element_violations.py --delete-only
+
+  # バッチサイズ指定（デフォルト10件ずつ）
+  python scripts/validation/detect_meta_element_violations.py --fix --batch-size 20
         """,
     )
     parser.add_argument(
@@ -598,6 +918,22 @@ def main() -> int:
         "-v",
         action="store_true",
         help="詳細ログ出力",
+    )
+    parser.add_argument(
+        "--fix",
+        action="store_true",
+        help="違反エピソードをLLMで再生成して修正（デフォルト: ドライラン）",
+    )
+    parser.add_argument(
+        "--delete-only",
+        action="store_true",
+        help="再生成せず違反エピソードを削除する",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=10,
+        help="一度に修正するエピソード数（デフォルト: 10）",
     )
 
     args = parser.parse_args()
@@ -643,6 +979,22 @@ def main() -> int:
     # 結果サマリー
     logger.info("")
     logger.info(f"検証完了: {result.total_checked}件チェック, {len(result.violations)}件違反検出")
+
+    # --fix または --delete-only の場合は修正実行
+    if (args.fix or args.delete_only) and result.violations:
+        logger.info("")
+        logger.info("=" * 70)
+        logger.info("メタ要素違反 修正処理")
+        logger.info("=" * 70)
+
+        fixer = MetaViolationFixer()
+        fix_result = fixer.fix_violations(
+            result=result,
+            dry_run=False,
+            delete_only=args.delete_only,
+            batch_size=args.batch_size,
+        )
+        return 0 if fix_result.get("failed", 0) == 0 else 1
 
     # 終了コード（違反があれば1）
     return 0 if len(result.violations) == 0 else 1

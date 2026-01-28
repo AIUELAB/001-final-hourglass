@@ -164,6 +164,39 @@ META_PATTERNS: dict[str, list[str]] = {
     "作品評価メタ": [
         r"[『「].+?[』」](?:で|は)(?:不朽|伝説|金字塔|名作|代表作)",
     ],
+    # ================================================
+    # RCA-20260128: 広範メタ要素パターン追加
+    # ================================================
+    "現実企業名": [
+        r"任天堂|スクウェア・エニックス|バンダイナムコ|カプコン|コナミ|セガ",
+        r"集英社|講談社|小学館|角川|KADOKAWA",
+        r"週刊少年ジャンプ|少年マガジン|少年サンデー|Vジャンプ",
+        r"ソニー・ピクチャーズ|ワーナー・ブラザース|ユニバーサル",
+        r"NHK|Netflix|Amazon\s*Prime|Disney\+",
+    ],
+    "現実人物名_作者": [
+        r"鳥山明|尾田栄一郎|岸本斉史|荒川弘|手塚治虫|藤子不二雄|藤子・F・不二雄",
+        r"宮崎駿|庵野秀明|新海誠|高橋留美子|冨樫義博|久保帯人|諫山創",
+        r"堀越耕平|芥見下々|吾峠呼世晴|藤本タツキ|空知英秋",
+        r"テリー・プラチェット|J\.?K\.?\s*ローリング|トールキン",
+    ],
+    "現実商業施設_イベント": [
+        r"ブロードウェイ|ハリウッド|Broadway|Hollywood",
+        r"ウォルト・ディズニー(?:・カンパニー)?|Walt\s*Disney",
+        r"秋葉原|渋谷109|原宿|六本木ヒルズ",
+        r"レコード大賞|紅白歌合戦|オリコン",
+    ],
+    "ファン_動員メタ": [
+        r"\d+万人(?:以上)?の(?:ファン|観客|動員|視聴者|読者)",
+        r"(?:ファン|観客|動員数|来場者)(?:が|を)?\d+(?:万|億)?人",
+        r"全世界(?:で|の)?\d+(?:万|億)(?:人|部|本)",
+        r"オーディション(?:合格率|通過率)\d+",
+    ],
+    "販売実績_拡張": [
+        r"\d+(?:万|億)?(?:本|部|枚|巻)(?:を|が)?(?:突破|達成|売上|販売|出荷|発行)",
+        r"(?:累計|総|全世界)\d+(?:万|億)?(?:部|本|枚|巻)",
+        r"(?:ベストセラー|ロングセラー|ミリオンセラー|ダブルミリオン)",
+    ],
 }
 
 # コンパイル済みパターン（キャッシュ用）
@@ -317,6 +350,104 @@ class MetaElementViolationDetector:
         self.master_csv = master_csv
         self._master_df: Optional[pd.DataFrame] = None
         self.patterns = get_compiled_patterns()
+        # 作品時代設定マスター読み込み
+        self.work_settings = self._load_work_settings()
+
+    def _load_work_settings(self) -> dict[str, dict]:
+        """作品時代設定マスターを読み込む"""
+        settings_path = PROJECT_ROOT / "preserved/data/fictional_work_settings_master.json"
+        if not settings_path.exists():
+            logger.warning(f"作品設定マスターが見つかりません: {settings_path}")
+            return {}
+        import json
+
+        with open(settings_path, encoding="utf-8") as f:
+            data = json.load(f)
+        # work_title と variants の両方からルックアップできるようにする
+        lookup: dict[str, dict] = {}
+        for work_name, settings in data.get("works", {}).items():
+            lookup[work_name] = settings
+            for variant in settings.get("work_title_variants", []):
+                lookup[variant] = settings
+        return lookup
+
+    def _check_year_violation(
+        self,
+        text: str,
+        episode_id: str,
+        person_name: str,
+        age: int,
+        work_title: str,
+    ) -> list[MetaViolation]:
+        """作品時代設定に基づく年号違反チェック"""
+        violations: list[MetaViolation] = []
+
+        # work_titleから作品設定を取得
+        settings = self.work_settings.get(work_title)
+        if not settings:
+            # work_titleで見つからない場合、部分一致を試みる
+            for key, val in self.work_settings.items():
+                if key in work_title or work_title in key:
+                    settings = val
+                    break
+
+        if not settings:
+            # 設定が見つからない場合はスキップ（他のパターンマッチに委ねる）
+            return violations
+        else:
+            forbidden_patterns = settings.get("forbidden_year_patterns", [])
+            if not forbidden_patterns:
+                # 年号制限なし（ハリポタ、ジョジョ等の西暦世界）
+                return violations
+            forbidden_ranges = []
+            for pat in forbidden_patterns:
+                if "-" in pat and pat[0].isdigit():
+                    parts = pat.split("-")
+                    if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
+                        forbidden_ranges.append((int(parts[0]), int(parts[1])))
+                # 文字列パターン（「西暦」「大正」等）は別途チェック
+
+        # 西暦年号の検出
+        year_pattern = re.compile(r"((?:19|20)\d{2})年")
+        for match in year_pattern.finditer(text):
+            year = int(match.group(1))
+            for start, end in forbidden_ranges:
+                if start <= year <= end:
+                    violations.append(
+                        MetaViolation(
+                            episode_id=episode_id,
+                            person_name=person_name,
+                            age=age,
+                            category="年号違反",
+                            pattern_name=f"forbidden_year:{start}-{end}",
+                            matched_text=match.group(),
+                            field="episode_text",
+                            context=self.get_context(text, match),
+                        )
+                    )
+                    break  # 一つのmatchに対して一度だけ違反報告
+
+        # 文字列パターンチェック（「西暦」「大正」等）
+        if settings:
+            for pat in settings.get("forbidden_year_patterns", []):
+                if not pat[0].isdigit():
+                    # 文字列パターン
+                    str_match = re.search(pat, text)
+                    if str_match:
+                        violations.append(
+                            MetaViolation(
+                                episode_id=episode_id,
+                                person_name=person_name,
+                                age=age,
+                                category="年号違反",
+                                pattern_name=f"forbidden_keyword:{pat}",
+                                matched_text=str_match.group(),
+                                field="episode_text",
+                                context=self.get_context(text, str_match),
+                            )
+                        )
+
+        return violations
 
     @property
     def master_df(self) -> pd.DataFrame:
@@ -454,6 +585,11 @@ class MetaElementViolationDetector:
         #     violations.extend(
         #         self.check_text(work_title, episode_id, person_name, age, "work_title")
         #     )
+
+        # 年号違反チェック（作品時代設定に基づく）
+        work_title = str(row.get("work_title", ""))
+        if episode_text and episode_text != "nan" and work_title and work_title != "nan":
+            violations.extend(self._check_year_violation(episode_text, episode_id, person_name, age, work_title))
 
         return violations
 

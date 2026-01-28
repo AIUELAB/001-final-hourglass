@@ -67,6 +67,7 @@ from .unified_gate import UnifiedGate, ViolationType
 from src.utils.fictional_characters import (
     ALL_FICTIONAL_CHARACTERS,
     BLACKLIST_NAMES,
+    normalize_fictional_name,
 )
 
 
@@ -367,6 +368,20 @@ class SafeCSVWriter:
 
         is_fictional_by_type = "FICTIONAL" in person_type
         is_fictional_by_name = self._is_fictional_character(person_name)
+
+        # 架空キャラクター名の正規化（書き込み前 - RCA-20260128）
+        # 表記揺れを統一形式に変換（例: 「ナルト・うずまき」→「うずまきナルト」）
+        if is_fictional_by_type or is_fictional_by_name:
+            original_name = person_name
+            normalized_name, was_changed = normalize_fictional_name(original_name)
+            if was_changed:
+                logger.info(
+                    "SafeCSVWriter: [正規化] person_name: %s -> %s",
+                    original_name,
+                    normalized_name,
+                )
+                row["person_name"] = normalized_name
+                person_name = normalized_name  # 後続処理用に更新
 
         if is_fictional_by_type or is_fictional_by_name:
             gate = FictionalQualityGate()

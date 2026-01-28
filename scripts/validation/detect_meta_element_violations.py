@@ -591,7 +591,7 @@ class MetaViolationFixer:
         self._client = None
 
     @property
-    def client(self):
+    def client(self) -> anthropic.Anthropic:
         """Anthropic クライアントの遅延初期化"""
         if self._client is None:
             try:

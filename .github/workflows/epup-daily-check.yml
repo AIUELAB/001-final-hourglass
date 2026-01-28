@@ -29,6 +29,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy
 
+      - name: Check meta element violations
+        run: |
+          python scripts/validation/detect_meta_element_violations.py --dry-run --strict
+
       - name: Run EPUP Daily Check
         run: |
           python scripts/scheduled_epup_check.py --daily

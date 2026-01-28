@@ -935,6 +935,11 @@ def main() -> int:
         default=10,
         help="一度に修正するエピソード数（デフォルト: 10）",
     )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="違反があればexit(1)で終了（CI/pre-commit用）",
+    )
 
     args = parser.parse_args()
 
@@ -997,6 +1002,8 @@ def main() -> int:
         return 0 if fix_result.get("failed", 0) == 0 else 1
 
     # 終了コード（違反があれば1）
+    if args.strict and args.dry_run and len(result.violations) > 0:
+        logger.error(f"STRICT MODE: 違反 {len(result.violations)} 件検出 - exit(1)")
     return 0 if len(result.violations) == 0 else 1
 
 

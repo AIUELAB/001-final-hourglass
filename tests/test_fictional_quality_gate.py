@@ -44,8 +44,15 @@ from src.utils.fictional_quality_gate import (
 
 @pytest.fixture
 def gate():
-    """FictionalQualityGate インスタンス"""
-    return FictionalQualityGate()
+    """FictionalQualityGate インスタンス（真正性検証無効）"""
+    # 既存のテストとの互換性のため、真正性検証は無効化
+    return FictionalQualityGate(enable_authenticity_check=False)
+
+
+@pytest.fixture
+def gate_with_authenticity():
+    """FictionalQualityGate インスタンス（真正性検証有効）"""
+    return FictionalQualityGate(enable_authenticity_check=True)
 
 
 @pytest.fixture
@@ -334,13 +341,15 @@ class TestUtilityFunctions:
 
     def test_check_fictional_quality(self, kimetsu_episode):
         """check_fictional_quality関数"""
-        result = check_fictional_quality(kimetsu_episode)
+        # 既存のテストとの互換性のため、真正性検証は無効化
+        result = check_fictional_quality(kimetsu_episode, enable_authenticity_check=False)
         assert isinstance(result, QualityResult)
         assert result.passed is True
 
     def test_validate_and_fix_fictional_episode_pass(self, kimetsu_episode):
         """validate_and_fix_fictional_episode関数（パス）"""
-        passed, text = validate_and_fix_fictional_episode(kimetsu_episode)
+        # 既存のテストとの互換性のため、真正性検証は無効化
+        passed, text = validate_and_fix_fictional_episode(kimetsu_episode, enable_authenticity_check=False)
         assert passed is True
         assert len(text) > 0
 
@@ -351,7 +360,8 @@ class TestUtilityFunctions:
             "work_title": "鬼滅の刃",
             "person_type": "FICTIONAL",
         }
-        passed, text = validate_and_fix_fictional_episode(episode)
+        # 既存のテストとの互換性のため、真正性検証は無効化
+        passed, text = validate_and_fix_fictional_episode(episode, enable_authenticity_check=False)
         assert passed is True
         assert "2019年" not in text
 
@@ -460,6 +470,134 @@ class TestEdgeCases:
         }
         result = gate.check(episode)
         assert isinstance(result, QualityResult)
+
+
+# =============================================================================
+# RCA-20260130 回帰テスト
+# =============================================================================
+
+
+class TestRCA20260130Regression:
+    """
+    RCA-20260130: トトロ（EP-260113172800511）メタ要素問題の回帰テスト
+
+    根本原因:
+    - detect_meta_element_violations.py が独自のFICTIONAL_CHARACTERSセットを
+      定義しており、src/utils/fictional_characters.py のリストと同期していなかった
+    - 「トトロ」が独自セットに含まれていなかったため、検出がバイパスされた
+    """
+
+    def test_totoro_detected_as_fictional(self):
+        """トトロがFICTIONAL_CHARACTERSリストに含まれていること"""
+        from src.utils.fictional_characters import is_fictional_character
+
+        assert is_fictional_character("トトロ") is True
+
+    def test_ghibli_characters_detected(self):
+        """主要ジブリキャラクターがFICTIONAL_CHARACTERSリストに含まれていること"""
+        from src.utils.fictional_characters import is_fictional_character
+
+        ghibli_characters = [
+            "トトロ",
+            "ナウシカ",
+            "アシタカ",
+            "サン",
+            "千尋",
+            "ハク",
+            "ハウル",
+            "ソフィー",
+            "ポニョ",
+        ]
+
+        for char in ghibli_characters:
+            assert is_fictional_character(char) is True, f"{char} should be detected as fictional"
+
+    def test_totoro_episode_meta_detection(self, gate):
+        """トトロのメタ要素違反エピソードが検出されること"""
+        # EP-260113172800511 と同様のメタ違反パターン
+        episode = {
+            "episode_text": "スタジオジブリでの40年間で、1,200万人以上が作品に魅了され、"
+            "2001年の「千と千尋の神隠し」では日本アカデミー賞を受賞。",
+            "work_title": "となりのトトロ",
+            "person_type": "FICTIONAL",
+            "person_name": "トトロ",
+        }
+        result = gate.check(episode)
+
+        # メタ要素違反が検出されること
+        assert not result.passed or len(result.violations) > 0
+
+
+# =============================================================================
+# 真正性検証テスト（AuthenticityChecker 統合）
+# =============================================================================
+
+
+class TestAuthenticityIntegration:
+    """AuthenticityChecker 統合のテスト"""
+
+    def test_authenticity_check_enabled(self, gate_with_authenticity):
+        """真正性検証が有効な場合、canon_source がないエピソードは失敗"""
+        episode = {
+            "episode_text": "炭治郎は修行を積んでいた。",
+            "work_title": "鬼滅の刃",
+            "person_type": "FICTIONAL",
+            "person_name": "竈門炭治郎",
+            # canon_source がない
+        }
+        result = gate_with_authenticity.check(episode)
+        # 真正性違反が検出されること
+        assert any(v.type == ViolationType.AUTHENTICITY for v in result.violations)
+
+    def test_authenticity_check_disabled(self, gate):
+        """真正性検証が無効な場合、canon_source がなくてもパス可能"""
+        episode = {
+            "episode_text": "炭治郎は修行を積んでいた。",
+            "work_title": "鬼滅の刃",
+            "person_type": "FICTIONAL",
+            "person_name": "竈門炭治郎",
+            # canon_source がない
+        }
+        result = gate.check(episode)
+        # 真正性違反は検出されない
+        assert not any(v.type == ViolationType.AUTHENTICITY for v in result.violations)
+        assert result.passed is True
+
+    def test_authenticity_result_fields(self, gate_with_authenticity):
+        """QualityResult に authenticity_status と canon_source が含まれる"""
+        episode = {
+            "episode_text": "炭治郎は家族を鬼に殺された。",
+            "work_title": "鬼滅の刃",
+            "person_type": "FICTIONAL",
+            "person_name": "竈門炭治郎",
+            "age": 13,
+            "canon_source": "第1話「残酷」",
+        }
+        result = gate_with_authenticity.check(episode)
+        # authenticity_status フィールドが存在すること
+        assert hasattr(result, "authenticity_status")
+        # canon_source フィールドが存在すること
+        assert hasattr(result, "canon_source")
+
+    def test_violation_type_authenticity_exists(self):
+        """ViolationType.AUTHENTICITY が定義されていること"""
+        assert hasattr(ViolationType, "AUTHENTICITY")
+        assert ViolationType.AUTHENTICITY.value == "authenticity"
+
+    def test_authenticity_violation_not_fixable(self, gate_with_authenticity):
+        """真正性違反は fixable=False であること"""
+        episode = {
+            "episode_text": "炭治郎は修行した。",
+            "work_title": "鬼滅の刃",
+            "person_type": "FICTIONAL",
+            "person_name": "竈門炭治郎",
+            # canon_source がない
+        }
+        result = gate_with_authenticity.check(episode)
+        auth_violations = [v for v in result.violations if v.type == ViolationType.AUTHENTICITY]
+        # 真正性違反は全て fixable=False
+        for v in auth_violations:
+            assert v.fixable is False
 
 
 if __name__ == "__main__":

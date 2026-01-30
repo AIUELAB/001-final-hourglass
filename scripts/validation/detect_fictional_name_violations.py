@@ -237,7 +237,11 @@ class FictionalNameViolationDetector:
         person_name = str(row.get("person_name", ""))
         work_title = str(row.get("work_title", ""))
         episode_text = str(row.get("episode_text", ""))
-        age = int(row.get("age", 0)) if row.get("age") else 0
+        age_raw = row.get("age", 0)
+        try:
+            age = int(age_raw) if age_raw and str(age_raw).isdigit() else 0
+        except (ValueError, TypeError):
+            age = 0  # "ageless"等の非数値年齢は0として扱う
 
         name_violation = None
         work_violation = None

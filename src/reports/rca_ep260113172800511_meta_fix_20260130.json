@@ -1,0 +1,49 @@
+{
+  "rca_id": "RCA-20260130",
+  "episode_id": "EP-260113172800511",
+  "person_name": "トトロ",
+  "work_title": "となりのトトロ",
+  "created_at": "2026-01-30T14:15:00+09:00",
+  "root_cause": {
+    "summary": "detect_meta_element_violations.py が独自のFICTIONAL_CHARACTERSセットを定義しており、共通モジュール（src/utils/fictional_characters.py）と同期していなかった",
+    "detail": "独自セットに「トトロ」が含まれていなかったため、person_type=REALでも二重チェック（person_name判定）が機能せず、メタ要素違反検出がバイパスされた",
+    "why_repeated_fix_failed": "全体チェック/修正を何度実行しても、検出ロジック自体が「トトロ」を架空キャラとして認識しなかったため、修正対象にならなかった"
+  },
+  "fix_applied": [
+    {
+      "file": "scripts/validation/detect_meta_element_violations.py",
+      "change": "独自FICTIONAL_CHARACTERSセット定義を削除し、src/utils/fictional_characters.pyのALL_FICTIONAL_CHARACTERSをインポートして使用"
+    },
+    {
+      "file": "preserved/data/MASTER_EPISODES_CURRENT.csv",
+      "change": "EP-260113172800511を削除（トトロは森の精霊であり、人間の年齢概念は適用不可。宮崎駿監督の業績と混同されたエピソードのため）"
+    }
+  ],
+  "prevention": [
+    {
+      "type": "回帰テスト",
+      "file": "tests/test_fictional_quality_gate.py",
+      "tests": [
+        "test_totoro_detected_as_fictional",
+        "test_ghibli_characters_detected",
+        "test_totoro_episode_meta_detection"
+      ]
+    },
+    {
+      "type": "単一ソース化",
+      "description": "架空キャラクターリストをsrc/utils/fictional_characters.pyに一元管理し、他のスクリプトから独自定義を排除"
+    }
+  ],
+  "verification": {
+    "command": "PYTHONPATH=. python scripts/validation/detect_meta_element_violations.py --dry-run 2>&1 | grep EP-260113172800511",
+    "expected_result": "エピソード削除済みのため検出なし"
+  },
+  "meta_violations_detected": [
+    {"category": "現実企業", "pattern": "スタジオジブリ"},
+    {"category": "興行成績", "pattern": "1,200万人以上"},
+    {"category": "現実イベント", "pattern": "文化庁メディア芸術祭"},
+    {"category": "現実年号", "pattern": "2001年"},
+    {"category": "現実イベント", "pattern": "日本アカデミー賞"},
+    {"category": "現実イベント", "pattern": "国際映画祭"}
+  ]
+}

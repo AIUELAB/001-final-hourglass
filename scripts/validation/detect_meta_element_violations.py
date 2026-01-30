@@ -47,7 +47,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+# プロジェクトルートをパスに追加
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(PROJECT_ROOT))
+
 import pandas as pd
+
+# RCA-20260130: 共通モジュールから架空キャラクターリストをインポート
+# 独自定義のセットを削除し、単一ソースを使用
+from src.utils.fictional_characters import ALL_FICTIONAL_CHARACTERS
 
 # =============================================================================
 # パス設定
@@ -216,93 +224,9 @@ def get_compiled_patterns() -> dict[str, list[re.Pattern[str]]]:
 # 架空キャラクター検出用データ
 # =============================================================================
 
-# 主要作品の架空キャラクター名（完全一致用）
-FICTIONAL_CHARACTERS: set[str] = {
-    # ドラゴンボール
-    "孫悟空",
-    "孫悟飯",
-    "孫悟天",
-    "ベジータ",
-    "トランクス",
-    "フリーザ",
-    "セル",
-    "魔人ブウ",
-    "ピッコロ",
-    "クリリン",
-    "ヤムチャ",
-    "天津飯",
-    # ONE PIECE
-    "モンキー・D・ルフィ",
-    "ロロノア・ゾロ",
-    "ウソップ",
-    "サンジ",
-    "トニートニー・チョッパー",
-    "ニコ・ロビン",
-    "フランキー",
-    "ブルック",
-    # NARUTO
-    "うずまきナルト",
-    "うちはサスケ",
-    "春野サクラ",
-    "はたけカカシ",
-    "日向ヒナタ",
-    "奈良シカマル",
-    "うちはイタチ",
-    "我愛羅",
-    # 鬼滅の刃
-    "竈門炭治郎",
-    "竈門禰豆子",
-    "我妻善逸",
-    "嘴平伊之助",
-    "冨岡義勇",
-    "胡蝶しのぶ",
-    "煉獄杏寿郎",
-    "鬼舞辻無惨",
-    # 進撃の巨人
-    "エレン・イェーガー",
-    "ミカサ・アッカーマン",
-    "アルミン・アルレルト",
-    "リヴァイ・アッカーマン",
-    "エルヴィン・スミス",
-    # その他多数...（簡略化）
-    "江戸川コナン",
-    "工藤新一",
-    "毛利蘭",
-    "怪盗キッド",
-    "黒崎一護",
-    "朽木ルキア",
-    "藍染惣右介",
-    "ハリー・ポッター",
-    "ハーマイオニー・グレンジャー",
-    "ヴォルデモート",
-    "空条承太郎",
-    "ディオ・ブランドー",
-    "吉良吉影",
-    "緑谷出久",
-    "爆豪勝己",
-    "オールマイト",
-    "碇シンジ",
-    "綾波レイ",
-    "惣流・アスカ・ラングレー",
-    "坂田銀時",
-    "志村新八",
-    "神楽",
-    "虎杖悠仁",
-    "伏黒恵",
-    "五条悟",
-    "マリオ",
-    "ルイージ",
-    "ピーチ姫",
-    "クッパ",
-    "ピカチュウ",
-    "サトシ",
-    "セフィロス",
-    "クラウド・ストライフ",
-    "ミッキーマウス",
-    "ドナルドダック",
-    "ルーク・スカイウォーカー",
-    "ダース・ベイダー",
-}
+# RCA-20260130: 独自のセット定義を削除し、共通モジュールを使用
+# src/utils/fictional_characters.py の ALL_FICTIONAL_CHARACTERS をインポート済み
+# これにより、キャラクターリストの単一ソース化を実現
 
 
 # =============================================================================
@@ -481,7 +405,7 @@ class MetaElementViolationDetector:
         Returns:
             架空キャラクターならTrue
         """
-        return person_name in FICTIONAL_CHARACTERS
+        return person_name in ALL_FICTIONAL_CHARACTERS
 
     def get_context(self, text: str, match: re.Match, context_len: int = 30) -> str:
         """
@@ -566,7 +490,12 @@ class MetaElementViolationDetector:
         episode_id = str(row.get("episode_id", ""))
         person_name = str(row.get("person_name", ""))
         person_type = str(row.get("person_type", "")).upper()
-        age = int(row.get("age", 0)) if row.get("age") else 0
+        # age が "ageless" などの非数値の場合は0として扱う
+        raw_age = row.get("age", 0)
+        try:
+            age = int(raw_age) if raw_age and str(raw_age).isdigit() else 0
+        except (ValueError, TypeError):
+            age = 0
 
         # FICTIONALまたは架空キャラ名の場合のみ対象
         is_fictional = "FICTIONAL" in person_type or self.is_fictional_character(person_name)
@@ -616,7 +545,7 @@ class MetaElementViolationDetector:
         fictional_mask = df["person_type"].str.upper().str.contains("FICTIONAL", na=False)
 
         # 架空キャラ名のものも追加（person_type誤分類対応）
-        char_mask = df["person_name"].isin(list(FICTIONAL_CHARACTERS))
+        char_mask = df["person_name"].isin(list(ALL_FICTIONAL_CHARACTERS))
 
         df = df[fictional_mask | char_mask]
         result.total_checked = len(df)

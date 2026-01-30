@@ -407,6 +407,26 @@ class SafeCSVWriter:
                     violations = "; ".join([v.detail for v in result.violations])
                     return False, f"FictionalQualityGate違反: {violations}"
 
+            # 真正性検証（canonのみ保存方針）- RCA-20260130
+            from src.utils.authenticity_checker import AuthenticityChecker, AuthenticityStatus
+
+            auth_checker = AuthenticityChecker()
+            auth_result = auth_checker.check(row)
+
+            if not auth_result.passed:
+                if auth_result.status == AuthenticityStatus.NO_MATCH:
+                    # 該当年齢に原作シーンなし → 棄却（生成しない）
+                    logger.warning(f"AuthenticityGate: canon出典なし - {person_name} 年齢{row.get('age')}")
+                    return False, f"canon出典なし: {auth_result.suggestion}"
+                elif auth_result.status == AuthenticityStatus.INVALID:
+                    # 設定違反 → 棄却
+                    logger.warning(f"AuthenticityGate: 設定違反 - {auth_result.violations}")
+                    return False, f"真正性違反: {'; '.join(auth_result.violations)}"
+            else:
+                # canon検証通過 → 出典情報をログに記録
+                if auth_result.canon_source:
+                    logger.info(f"AuthenticityGate: canon確認 - {auth_result.canon_source}")
+
         # UnifiedGateチェック（バイパス経路塞ぎ - DB反映前最終ゲート）
         # REAL/FICTIONAL両方をカバーする統合検証
         # WARNINGレベルの違反タイプ（通過を許可）

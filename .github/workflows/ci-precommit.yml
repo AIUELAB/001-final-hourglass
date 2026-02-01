@@ -30,7 +30,7 @@ jobs:
       - name: Run pre-commit
         env:
           # CI環境ではCSVファイルに依存するフックをスキップ
-          # Note: check-meta-violations, check-fictional-name-format は Phase 11 で対応予定
-          SKIP: check-group-names,check-episode-consistency,check-same-age-duplicates,check-person-duplicates,check-meta-violations,check-fictional-name-format
+          # Phase 11完了: check-meta-violations, check-fictional-name-format は有効化済み
+          SKIP: check-group-names,check-episode-consistency,check-same-age-duplicates,check-person-duplicates
         run: |
           pre-commit run -a

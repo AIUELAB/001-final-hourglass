@@ -201,6 +201,7 @@ logs/
 .continuous_improvement/
 .profiling/
 .quality_metrics/
+preserved/fact_cache/
 
 # セッション管理（一部）
 .session/snapshots/

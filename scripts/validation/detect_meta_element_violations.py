@@ -57,12 +57,12 @@ import pandas as pd
 # 独自定義のセットを削除し、単一ソースを使用
 from src.utils.fictional_characters import ALL_FICTIONAL_CHARACTERS
 
+# Phase 16: FictionalQualityGateによる追加検証
+from src.utils.fictional_quality_gate import FictionalQualityGate, ViolationType
+
 # =============================================================================
 # パス設定
 # =============================================================================
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(PROJECT_ROOT))
 
 MASTER_CSV = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 REPORT_DIR = PROJECT_ROOT / "src/reports"
@@ -210,6 +210,12 @@ META_PATTERNS: dict[str, list[str]] = {
         r"(?:累計|総|全世界)\d+(?:万|億)?(?:部|本|枚|巻)",
         r"(?:ベストセラー|ロングセラー|ミリオンセラー|ダブルミリオン)",
     ],
+    # ================================================
+    # Phase 16: 新しい違反カテゴリ（FictionalQualityGateで検出）
+    # ================================================
+    "年号範囲違反": [],  # FictionalQualityGateで検出
+    "独自年号違反": [],  # FictionalQualityGateで検出
+    "技術レベル違反": [],  # FictionalQualityGateで検出
 }
 
 # コンパイル済みパターン（キャッシュ用）
@@ -281,6 +287,8 @@ class MetaElementViolationDetector:
         self.patterns = get_compiled_patterns()
         # 作品時代設定マスター読み込み
         self.work_settings = self._load_work_settings()
+        # Phase 16: FictionalQualityGateを初期化（真正性検証は無効化）
+        self._quality_gate = FictionalQualityGate(enable_authenticity_check=False)
 
     def _load_work_settings(self) -> dict[str, dict]:
         """作品時代設定マスターを読み込む"""
@@ -524,6 +532,51 @@ class MetaElementViolationDetector:
         work_title = str(row.get("work_title", ""))
         if episode_text and episode_text != "nan" and work_title and work_title != "nan":
             violations.extend(self._check_year_violation(episode_text, episode_id, person_name, age, work_title))
+
+        # Phase 16: FictionalQualityGateによる追加検証
+        gate_result = self._quality_gate.check(row)
+        if not gate_result.passed:
+            for v in gate_result.violations:
+                # 新しい違反タイプのみ追加（既存の年号違反は重複を避ける）
+                if v.type == ViolationType.YEAR_RANGE:
+                    violations.append(
+                        MetaViolation(
+                            episode_id=episode_id,
+                            person_name=person_name,
+                            age=age,
+                            category="年号範囲違反",
+                            pattern_name=v.type.value,
+                            matched_text=v.detail,
+                            field="episode_text",
+                            context=v.detail,
+                        )
+                    )
+                elif v.type == ViolationType.CUSTOM_YEAR:
+                    violations.append(
+                        MetaViolation(
+                            episode_id=episode_id,
+                            person_name=person_name,
+                            age=age,
+                            category="独自年号違反",
+                            pattern_name=v.type.value,
+                            matched_text=v.detail,
+                            field="episode_text",
+                            context=v.detail,
+                        )
+                    )
+                elif v.type == ViolationType.TECHNOLOGY:
+                    violations.append(
+                        MetaViolation(
+                            episode_id=episode_id,
+                            person_name=person_name,
+                            age=age,
+                            category="技術レベル違反",
+                            pattern_name=v.type.value,
+                            matched_text=v.detail,
+                            field="episode_text",
+                            context=v.detail,
+                        )
+                    )
 
         return violations
 

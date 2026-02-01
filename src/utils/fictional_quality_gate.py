@@ -62,6 +62,9 @@ class ViolationType(Enum):
     """違反タイプ"""
 
     YEAR = "year_violation"  # 年号違反
+    YEAR_RANGE = "year_range_violation"  # 許可年号範囲外
+    CUSTOM_YEAR = "custom_year_violation"  # 独自年号体系での西暦使用
+    TECHNOLOGY = "technology_violation"  # 技術レベル違反
     REAL_PERSON = "real_person"  # 現実人物検出
     REAL_COMPANY = "real_company"  # 現実企業検出
     REAL_LOCATION = "real_location"  # 現実地名検出
@@ -426,6 +429,42 @@ META_PATTERNS = [
     r"[『「].+?[』」](?:で|は)(?:不朽|伝説|金字塔|名作|代表作)",
 ]
 
+# 独自年号パターン（作品固有の年号表記を検出）
+CUSTOM_YEAR_PATTERNS: dict[str, re.Pattern] = {
+    "ドラゴンボール": re.compile(r"エイジ\s*\d+"),
+    "スター・ウォーズ": re.compile(r"\d+\s*(BBY|ABY)"),
+    "ONE PIECE": re.compile(r"海円暦\s*\d+年?"),
+    "進撃の巨人": re.compile(r"壁内暦\s*\d+年?"),
+    "ロード・オブ・ザ・リング": re.compile(r"第[一二三四]紀\s*\d+年?"),
+}
+
+# 技術レベル別禁止キーワード
+TECHNOLOGY_LEVEL_FORBIDDEN: dict[str, list[str]] = {
+    "pre_modern": [
+        "スマートフォン",
+        "スマホ",
+        "携帯電話",
+        "携帯",
+        "ケータイ",
+        "パソコン",
+        "PC",
+        "コンピューター",
+        "コンピュータ",
+        "インターネット",
+        "ネット",
+        "SNS",
+        "LINE",
+        "Twitter",
+        "テレビ",
+        "TV",
+        "ラジオ",
+        "飛行機",
+        "自動車",
+        "メール",
+        "アプリ",
+    ],
+}
+
 
 # =============================================================================
 # FictionalQualityGate クラス
@@ -447,6 +486,7 @@ class WorkSetting:
     allow_real_people: bool = False
     technology_level: str = "modern"
     forbidden_keywords: list[str] = field(default_factory=list)
+    custom_year_pattern: str = ""  # 独自年号の正規表現パターン
 
 
 class FictionalQualityGate:
@@ -503,6 +543,22 @@ class FictionalQualityGate:
 
         works = data.get("works", {})
         for title, settings in works.items():
+            # custom_year_noteからパターンを生成
+            custom_year_pattern = ""
+            custom_year_note = settings.get("custom_year_note", "")
+            if custom_year_note:
+                # 「エイジ」「BBY/ABY」「海円暦」等のキーワードを抽出してパターン化
+                if "エイジ" in custom_year_note:
+                    custom_year_pattern = r"エイジ\s*\d+"
+                elif "BBY" in custom_year_note or "ABY" in custom_year_note:
+                    custom_year_pattern = r"\d+\s*(BBY|ABY)"
+                elif "海円暦" in custom_year_note:
+                    custom_year_pattern = r"海円暦\s*\d+年?"
+                elif "壁内暦" in custom_year_note:
+                    custom_year_pattern = r"壁内暦\s*\d+年?"
+                elif "第三紀" in custom_year_note:
+                    custom_year_pattern = r"第[一二三四]紀\s*\d+年?"
+
             work_setting = WorkSetting(
                 work_title=settings.get("work_title", title),
                 work_title_variants=settings.get("work_title_variants", []),
@@ -515,6 +571,7 @@ class FictionalQualityGate:
                 allow_real_people=settings.get("allow_real_people", False),
                 technology_level=settings.get("technology_level", "modern"),
                 forbidden_keywords=settings.get("forbidden_keywords", []),
+                custom_year_pattern=custom_year_pattern,
             )
             self._work_settings[title] = work_setting
 
@@ -621,7 +678,19 @@ class FictionalQualityGate:
         keyword_violations = self._check_forbidden_keywords(episode_text, work_setting)
         violations.extend(keyword_violations)
 
-        # 7. 真正性検証（AuthenticityChecker による canon 出典チェック）
+        # 7. 年号範囲チェック（allowed_year_range）
+        year_range_violations = self._check_year_range_violation(episode_text, work_setting)
+        violations.extend(year_range_violations)
+
+        # 8. 独自年号体系チェック（custom year_system）
+        custom_year_violations = self._check_custom_year_system(episode_text, work_setting)
+        violations.extend(custom_year_violations)
+
+        # 9. 技術レベルチェック
+        technology_violations = self._check_technology_violation(episode_text, work_setting)
+        violations.extend(technology_violations)
+
+        # 10. 真正性検証（AuthenticityChecker による canon 出典チェック）
         authenticity_status: Optional[AuthenticityStatus] = None
         canon_source: Optional[str] = None
 
@@ -816,6 +885,115 @@ class FictionalQualityGate:
 
         return violations
 
+    def _parse_allowed_year_range(self, range_str: str) -> tuple[int, int] | None:
+        """許可年号範囲をパース（西暦/和暦両対応）
+
+        Examples:
+            "1980-2000" → (1980, 2000)
+            "大正元年-大正15年（1912-1926）" → (1912, 1926)
+            "明治元年-明治45年（1868-1912）" → (1868, 1912)
+
+        Returns:
+            (start_year, end_year) or None if parse fails
+        """
+        if not range_str:
+            return None
+
+        # 西暦範囲形式: "1980-2000"
+        simple_match = re.match(r"^(\d{4})-(\d{4})$", range_str)
+        if simple_match:
+            return int(simple_match.group(1)), int(simple_match.group(2))
+
+        # 和暦形式: "大正元年-大正15年（1912-1926）"
+        # 括弧内の西暦を抽出
+        paren_match = re.search(r"（(\d{4})-(\d{4})）", range_str)
+        if paren_match:
+            return int(paren_match.group(1)), int(paren_match.group(2))
+
+        return None
+
+    def _check_year_range_violation(self, episode_text: str, work_setting: Optional[WorkSetting]) -> list[Violation]:
+        """allowed_year_range外の年号を検出"""
+        violations: list[Violation] = []
+
+        if not work_setting or not work_setting.allowed_year_range:
+            return violations
+
+        year_range = self._parse_allowed_year_range(work_setting.allowed_year_range)
+        if not year_range:
+            return violations
+
+        start_year, end_year = year_range
+
+        # 西暦年号の検出
+        found_years = YEAR_PATTERN.findall(episode_text)
+        for year_str in found_years:
+            year = int(year_str)
+            if year < start_year or year > end_year:
+                violations.append(
+                    Violation(
+                        type=ViolationType.YEAR_RANGE,
+                        detail=f"{year}年は{work_setting.work_title}の許可範囲({start_year}-{end_year})外",
+                        fixable=True,
+                        suggested_fix=f"{year}年 -> ある年",
+                    )
+                )
+
+        return violations
+
+    def _check_custom_year_system(self, episode_text: str, work_setting: Optional[WorkSetting]) -> list[Violation]:
+        """独自年号体系の作品で西暦使用を検出"""
+        violations: list[Violation] = []
+
+        if not work_setting:
+            return violations
+
+        # year_system="custom"の作品のみ対象
+        if work_setting.year_system != "custom":
+            return violations
+
+        # 西暦年号の検出
+        found_years = YEAR_PATTERN.findall(episode_text)
+        if found_years:
+            violations.append(
+                Violation(
+                    type=ViolationType.CUSTOM_YEAR,
+                    detail=f"{work_setting.work_title}では独自年号体系を使用（西暦{found_years[0]}年は禁止）",
+                    fixable=True,
+                    suggested_fix="西暦を削除、または作品固有の年号表記を使用",
+                )
+            )
+
+        return violations
+
+    def _check_technology_violation(self, episode_text: str, work_setting: Optional[WorkSetting]) -> list[Violation]:
+        """技術レベル違反をチェック"""
+        violations: list[Violation] = []
+
+        if not work_setting:
+            return violations
+
+        tech_level = work_setting.technology_level
+        if tech_level not in TECHNOLOGY_LEVEL_FORBIDDEN:
+            return violations
+
+        forbidden_words = TECHNOLOGY_LEVEL_FORBIDDEN[tech_level]
+
+        for word in forbidden_words:
+            if word in episode_text:
+                violations.append(
+                    Violation(
+                        type=ViolationType.TECHNOLOGY,
+                        detail=f"{work_setting.work_title}（{tech_level}）に不適切な技術用語「{word}」",
+                        fixable=False,
+                        suggested_fix=None,
+                    )
+                )
+                # 最初の1つだけ報告（大量の違反を防ぐ）
+                break
+
+        return violations
+
     def auto_fix(self, episode: dict, violations: list[Violation]) -> Optional[str]:
         """
         修正可能な違反を自動修正
@@ -842,6 +1020,18 @@ class FictionalQualityGate:
         for violation in violations:
             if violation.type == ViolationType.YEAR:
                 # 年号を「ある年」に置換
+                year_match = re.search(r"(19[0-9]{2}|20[0-2][0-9])年", modified_text)
+                if year_match:
+                    modified_text = modified_text.replace(f"{year_match.group(1)}年", "ある年", 1)
+
+            elif violation.type == ViolationType.YEAR_RANGE:
+                # 許可範囲外の年号を「ある年」に置換
+                year_match = re.search(r"(19[0-9]{2}|20[0-2][0-9])年", modified_text)
+                if year_match:
+                    modified_text = modified_text.replace(f"{year_match.group(1)}年", "ある年", 1)
+
+            elif violation.type == ViolationType.CUSTOM_YEAR:
+                # 独自年号体系での西暦を「ある年」に置換
                 year_match = re.search(r"(19[0-9]{2}|20[0-2][0-9])年", modified_text)
                 if year_match:
                     modified_text = modified_text.replace(f"{year_match.group(1)}年", "ある年", 1)

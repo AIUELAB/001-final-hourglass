@@ -1,0 +1,4839 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-01-30",
+  "description": "架空キャラクターエピソード生成用の原作設定データベース（正典知識ベース）",
+  "works": {
+    "となりのトトロ": {
+      "work_id": "WORK_GHIBLI_001",
+      "work_title": "となりのトトロ",
+      "work_title_variants": [
+        "My Neighbor Totoro",
+        "Tonari no Totoro"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/となりのトトロ"
+      ],
+      "era_setting": "昭和30年代（1950年代後半）の日本",
+      "characters": {
+        "草壁サツキ": {
+          "character_id": "CHAR_TOTORO_001",
+          "aliases": [
+            "サツキ"
+          ],
+          "age_at_story": 12,
+          "abilities": [],
+          "key_scenes": [
+            {
+              "scene_id": "TOTORO_SATSUKI_001",
+              "description": "父と妹メイと共に田舎の古い家に引っ越してくる",
+              "story_arc": "引っ越しと新生活",
+              "source": {
+                "type": "movie",
+                "reference": "映画冒頭シーン"
+              }
+            },
+            {
+              "scene_id": "TOTORO_SATSUKI_002",
+              "description": "雨のバス停でトトロと初めて出会い、傘を貸す",
+              "story_arc": "トトロとの出会い",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤（バス停シーン）"
+              }
+            },
+            {
+              "scene_id": "TOTORO_SATSUKI_003",
+              "description": "母の容態悪化の知らせを受けて動揺する",
+              "story_arc": "メイの迷子と救出",
+              "source": {
+                "type": "movie",
+                "reference": "映画終盤"
+              }
+            },
+            {
+              "scene_id": "TOTORO_SATSUKI_004",
+              "description": "行方不明になったメイを探すため、トトロに助けを求める",
+              "story_arc": "メイの迷子と救出",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            },
+            {
+              "scene_id": "TOTORO_SATSUKI_005",
+              "description": "ネコバスに乗ってメイを発見し、病院の母に会いに行く",
+              "story_arc": "メイの迷子と救出",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 12,
+              "events": [
+                "田舎への引っ越し",
+                "トトロとの出会い",
+                "妹メイの救出"
+              ],
+              "source": "映画本編（小学6年生として描写）"
+            }
+          ]
+        },
+        "草壁メイ": {
+          "character_id": "CHAR_TOTORO_002",
+          "aliases": [
+            "メイ"
+          ],
+          "age_at_story": 4,
+          "abilities": [],
+          "key_scenes": [
+            {
+              "scene_id": "TOTORO_MEI_001",
+              "description": "庭で小トトロと中トトロを追いかけ、森の奥へ迷い込む",
+              "story_arc": "トトロとの出会い",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半"
+              }
+            },
+            {
+              "scene_id": "TOTORO_MEI_002",
+              "description": "大トトロのお腹の上で眠り込む",
+              "story_arc": "トトロとの出会い",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半（メイとトトロの出会い）"
+              }
+            },
+            {
+              "scene_id": "TOTORO_MEI_003",
+              "description": "入院中の母にトウモロコシを届けようとして迷子になる",
+              "story_arc": "メイの迷子と救出",
+              "source": {
+                "type": "movie",
+                "reference": "映画終盤"
+              }
+            },
+            {
+              "scene_id": "TOTORO_MEI_004",
+              "description": "サツキとネコバスに発見され、母の病院へ向かう",
+              "story_arc": "メイの迷子と救出",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 4,
+              "events": [
+                "トトロとの出会い",
+                "迷子になり救出される"
+              ],
+              "source": "映画本編（4歳として描写）"
+            }
+          ]
+        },
+        "トトロ": {
+          "character_id": "CHAR_TOTORO_003",
+          "aliases": [
+            "大トトロ",
+            "森の主"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "空を飛ぶ",
+            "コマを回して飛行",
+            "植物を成長させる"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "TOTORO_TOTORO_001",
+              "description": "メイに発見され、一緒に昼寝をする",
+              "story_arc": "トトロとの出会い",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半"
+              }
+            },
+            {
+              "scene_id": "TOTORO_TOTORO_002",
+              "description": "雨のバス停でサツキから傘をもらい、喜ぶ",
+              "story_arc": "トトロとの出会い",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤（バス停シーン）"
+              }
+            },
+            {
+              "scene_id": "TOTORO_TOTORO_003",
+              "description": "夜、サツキとメイと一緒にどんぐりを植え、踊りで大木に成長させる",
+              "story_arc": "トトロとの出会い",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤（夢のシーン）"
+              }
+            },
+            {
+              "scene_id": "TOTORO_TOTORO_004",
+              "description": "サツキの願いを聞き、ネコバスを呼んでメイ捜索を助ける",
+              "story_arc": "メイの迷子と救出",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            }
+          ],
+          "age_milestones": []
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "引っ越しと新生活",
+          "order": 1,
+          "main_characters": [
+            "草壁サツキ",
+            "草壁メイ"
+          ]
+        },
+        {
+          "arc_name": "トトロとの出会い",
+          "order": 2,
+          "main_characters": [
+            "草壁メイ",
+            "トトロ"
+          ]
+        },
+        {
+          "arc_name": "メイの迷子と救出",
+          "order": 3,
+          "main_characters": [
+            "草壁サツキ",
+            "草壁メイ",
+            "トトロ"
+          ]
+        }
+      ]
+    },
+    "千と千尋の神隠し": {
+      "work_id": "WORK_GHIBLI_002",
+      "work_title": "千と千尋の神隠し",
+      "work_title_variants": [
+        "Spirited Away",
+        "Sen to Chihiro no Kamikakushi"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/千と千尋の神隠し"
+      ],
+      "era_setting": "現代日本＋神々の世界",
+      "characters": {
+        "荻野千尋": {
+          "character_id": "CHAR_SPIRITED_001",
+          "aliases": [
+            "千尋",
+            "千"
+          ],
+          "age_at_story": 10,
+          "abilities": [],
+          "key_scenes": [
+            {
+              "scene_id": "SPIRITED_CHIHIRO_001",
+              "description": "引っ越しの途中で不思議なトンネルを抜け、神々の世界に迷い込む",
+              "story_arc": "迷い込みと両親の変身",
+              "source": {
+                "type": "movie",
+                "reference": "映画冒頭"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_CHIHIRO_002",
+              "description": "両親が豚に変えられ、自分も消えかけるがハクに救われる",
+              "story_arc": "迷い込みと両親の変身",
+              "source": {
+                "type": "movie",
+                "reference": "映画序盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_CHIHIRO_003",
+              "description": "湯婆婆と契約して「千」という名前で油屋で働き始める",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_CHIHIRO_004",
+              "description": "オクサレ様（実は名のある河の神）を入浴させ、浄化に成功する",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_CHIHIRO_005",
+              "description": "銭婆のもとへ行き、ハクを救うための印鑑を返す",
+              "story_arc": "ハクの救出と帰還",
+              "source": {
+                "type": "movie",
+                "reference": "映画終盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_CHIHIRO_006",
+              "description": "ハクの本名を思い出し、湯婆婆の試練に合格して両親と共に元の世界へ帰還",
+              "story_arc": "ハクの救出と帰還",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 10,
+              "events": [
+                "神々の世界への迷い込み",
+                "油屋での労働",
+                "ハクの救出",
+                "元の世界への帰還"
+              ],
+              "source": "映画本編（10歳として描写）"
+            }
+          ]
+        },
+        "ハク": {
+          "character_id": "CHAR_SPIRITED_002",
+          "aliases": [
+            "ニギハヤミコハクヌシ",
+            "琥珀川"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "竜に変身",
+            "魔法の使用"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "SPIRITED_HAKU_001",
+              "description": "消えかける千尋におにぎりを与え、元気づける",
+              "story_arc": "迷い込みと両親の変身",
+              "source": {
+                "type": "movie",
+                "reference": "映画序盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_HAKU_002",
+              "description": "千尋に油屋で働くよう導き、釜爺のもとへ案内する",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_HAKU_003",
+              "description": "銭婆の印鑑を盗んだ罰で呪いをかけられ、竜の姿で負傷する",
+              "story_arc": "ハクの救出と帰還",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_HAKU_004",
+              "description": "千尋に自分の本名（ニギハヤミコハクヌシ）を思い出してもらい、呪いが解ける",
+              "story_arc": "ハクの救出と帰還",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            }
+          ],
+          "age_milestones": []
+        },
+        "湯婆婆": {
+          "character_id": "CHAR_SPIRITED_003",
+          "aliases": [
+            "ゆばーば"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "魔法の使用",
+            "変身させる力",
+            "名前を奪う力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "SPIRITED_YUBABA_001",
+              "description": "千尋と契約を結び、名前を奪って「千」と名付ける",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_YUBABA_002",
+              "description": "オクサレ様の正体が河の神だと見抜き、千尋の働きを認める",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_YUBABA_003",
+              "description": "千尋に最後の試練を与え、両親を当てさせる",
+              "story_arc": "ハクの救出と帰還",
+              "source": {
+                "type": "movie",
+                "reference": "映画クライマックス"
+              }
+            }
+          ],
+          "age_milestones": []
+        },
+        "カオナシ": {
+          "character_id": "CHAR_SPIRITED_004",
+          "aliases": [
+            "顔無し",
+            "No-Face"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "金を生み出す",
+            "他者を飲み込んで声を得る"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "SPIRITED_NOFACE_001",
+              "description": "千尋に橋で出会い、彼女に興味を持つ",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画前半"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_NOFACE_002",
+              "description": "油屋に入り込み、金を出して従業員たちを翻弄する",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_NOFACE_003",
+              "description": "暴走して従業員を飲み込むが、千尋に苦団子を食べさせられ正気に戻る",
+              "story_arc": "油屋での労働",
+              "source": {
+                "type": "movie",
+                "reference": "映画中盤"
+              }
+            },
+            {
+              "scene_id": "SPIRITED_NOFACE_004",
+              "description": "千尋と共に銭婆のもとへ行き、そこに留まることを選ぶ",
+              "story_arc": "ハクの救出と帰還",
+              "source": {
+                "type": "movie",
+                "reference": "映画終盤"
+              }
+            }
+          ],
+          "age_milestones": []
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "迷い込みと両親の変身",
+          "order": 1,
+          "main_characters": [
+            "荻野千尋"
+          ]
+        },
+        {
+          "arc_name": "油屋での労働",
+          "order": 2,
+          "main_characters": [
+            "荻野千尋",
+            "ハク",
+            "湯婆婆"
+          ]
+        },
+        {
+          "arc_name": "ハクの救出と帰還",
+          "order": 3,
+          "main_characters": [
+            "荻野千尋",
+            "ハク",
+            "カオナシ"
+          ]
+        }
+      ]
+    },
+    "鬼滅の刃": {
+      "work_id": "WORK_KIMETSU_001",
+      "work_title": "鬼滅の刃",
+      "work_title_variants": [
+        "Demon Slayer",
+        "きめつのやいば",
+        "鬼滅"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/鬼滅の刃"
+      ],
+      "era_setting": "大正時代",
+      "characters": {
+        "竈門炭治郎": {
+          "character_id": "CHAR_KIMETSU_001",
+          "aliases": [
+            "炭治郎",
+            "長男"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "水の呼吸",
+            "ヒノカミ神楽",
+            "透き通る世界"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_TANJIRO_001",
+              "description": "家族を鬼舞辻無惨に殺され、禰豆子だけが鬼として生き残る",
+              "story_arc": "竈門家襲撃編",
+              "source": {
+                "type": "manga",
+                "reference": "第1話「残酷」"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_TANJIRO_002",
+              "description": "鱗滝左近次のもとで2年間修業し、水の呼吸を習得",
+              "story_arc": "竈門家襲撃編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻〜第2巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_TANJIRO_003",
+              "description": "藤襲山での最終選別を突破し、鬼殺隊に入隊",
+              "story_arc": "最終選別編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻第6話〜第9話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_TANJIRO_004",
+              "description": "那田蜘蛛山で累と戦い、初めてヒノカミ神楽を発動",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第5巻第40話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_TANJIRO_005",
+              "description": "無限列車で煉獄杏寿郎と共に魘夢と戦い、猗窩座との戦いを目撃",
+              "story_arc": "無限列車編",
+              "source": {
+                "type": "manga",
+                "reference": "第7巻〜第8巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_TANJIRO_006",
+              "description": "遊郭で上弦の陸・堕姫と妓夫太郎を仲間と共に討伐",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第9巻〜第11巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_TANJIRO_007",
+              "description": "無限城での無惨との最終決戦で、日の呼吸の全ての型を繋げる",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻〜第23巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 13,
+              "events": [
+                "家族の死、禰豆子の鬼化"
+              ],
+              "source": "原作第1話（物語開始時13歳）"
+            },
+            {
+              "age": 15,
+              "events": [
+                "最終選別突破、鬼殺隊入隊",
+                "那田蜘蛛山でのヒノカミ神楽発動"
+              ],
+              "source": "原作第2巻（2年間の修行後）"
+            },
+            {
+              "age": 16,
+              "events": [
+                "無限列車での戦い、煉獄の死を目撃",
+                "遊郭での上弦の陸討伐"
+              ],
+              "source": "原作第7巻〜第11巻"
+            }
+          ]
+        },
+        "竈門禰豆子": {
+          "character_id": "CHAR_KIMETSU_002",
+          "aliases": [
+            "禰豆子",
+            "ねずこ"
+          ],
+          "age_at_story": 14,
+          "abilities": [
+            "爆血（血鬼術）",
+            "日光克服"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_NEZUKO_001",
+              "description": "無惨の血を浴びて鬼になるが、人を襲わない意志を持つ",
+              "story_arc": "竈門家襲撃編",
+              "source": {
+                "type": "manga",
+                "reference": "第1話「残酷」"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_NEZUKO_002",
+              "description": "富岡義勇に斬られそうになった炭治郎を守る",
+              "story_arc": "竈門家襲撃編",
+              "source": {
+                "type": "manga",
+                "reference": "第1話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_NEZUKO_003",
+              "description": "那田蜘蛛山で初めて爆血を発動し、炭治郎を助ける",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第5巻第40話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_NEZUKO_004",
+              "description": "刀鍛冶の里で日光を克服し、人間に近い存在となる",
+              "story_arc": "刀鍛冶の里編",
+              "source": {
+                "type": "manga",
+                "reference": "第15巻第127話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_NEZUKO_005",
+              "description": "無限城戦で完全に人間に戻る",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 12,
+              "events": [
+                "鬼に変えられる"
+              ],
+              "source": "原作第1話（物語開始時12歳）"
+            },
+            {
+              "age": 14,
+              "events": [
+                "爆血の発動",
+                "日光克服"
+              ],
+              "source": "原作第5巻、第15巻"
+            }
+          ]
+        },
+        "我妻善逸": {
+          "character_id": "CHAR_KIMETSU_003",
+          "aliases": [
+            "善逸",
+            "ぜんいつ"
+          ],
+          "age_at_story": 16,
+          "abilities": [
+            "雷の呼吸・壱ノ型 霹靂一閃",
+            "雷の呼吸・漆ノ型 火雷神"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_ZENITSU_001",
+              "description": "藤襲山での最終選別を生き残る",
+              "story_arc": "最終選別編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_ZENITSU_002",
+              "description": "鼓屋敷で正一を守りながら眠ったまま鬼を斬る",
+              "story_arc": "鼓屋敷編",
+              "source": {
+                "type": "manga",
+                "reference": "第3巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_ZENITSU_003",
+              "description": "那田蜘蛛山で兄蜘蛛を霹靂一閃で討伐",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第4巻〜第5巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_ZENITSU_004",
+              "description": "遊郭で堕姫の帯を斬り続け、仲間を守る",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第10巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_ZENITSU_005",
+              "description": "無限城で兄弟子・獪岳を漆ノ型 火雷神で討伐",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻第145話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 16,
+              "events": [
+                "最終選別突破、鬼殺隊入隊",
+                "兄弟子・獪岳との決着"
+              ],
+              "source": "原作第2巻、第17巻"
+            }
+          ]
+        },
+        "嘴平伊之助": {
+          "character_id": "CHAR_KIMETSU_004",
+          "aliases": [
+            "伊之助",
+            "いのすけ"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "獣の呼吸",
+            "触覚による空間把握"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_INOSUKE_001",
+              "description": "響凱の屋敷で炭治郎と初めて出会い、戦う",
+              "story_arc": "鼓屋敷編",
+              "source": {
+                "type": "manga",
+                "reference": "第3巻第22話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_INOSUKE_002",
+              "description": "那田蜘蛛山で父蜘蛛と戦い、義勇に助けられる",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第5巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_INOSUKE_003",
+              "description": "無限列車で魘夢の血鬼術にかかるが、炭治郎と共に覚醒",
+              "story_arc": "無限列車編",
+              "source": {
+                "type": "manga",
+                "reference": "第7巻〜第8巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_INOSUKE_004",
+              "description": "遊郭で妓夫太郎の毒を受けながらも戦い続ける",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_INOSUKE_005",
+              "description": "無限城で童磨と対峙し、母の仇であることを知る",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第18巻〜第19巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 15,
+              "events": [
+                "炭治郎との出会い",
+                "母の仇・童磨との対峙"
+              ],
+              "source": "原作第3巻、第18巻"
+            }
+          ]
+        },
+        "栗花落カナヲ": {
+          "character_id": "CHAR_KIMETSU_005",
+          "aliases": [
+            "カナヲ"
+          ],
+          "age_at_story": 16,
+          "abilities": [
+            "花の呼吸",
+            "彼岸朱眼"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_KANAO_001",
+              "description": "最終選別で炭治郎たちと同期で合格",
+              "story_arc": "最終選別編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_KANAO_002",
+              "description": "蝶屋敷で炭治郎に自分で決めることの大切さを教わる",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻第53話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_KANAO_003",
+              "description": "無限城で上弦の弐・童磨と戦い、伊之助と共に討伐",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第18巻〜第19巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_KANAO_004",
+              "description": "彼岸朱眼を使い、童磨の動きを見切る",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第19巻第162話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_KANAO_005",
+              "description": "鬼化した炭治郎に薬を打ち、人間に戻す",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻第203話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 16,
+              "events": [
+                "童磨討伐（姉・しのぶの仇討ち）",
+                "炭治郎を人間に戻す"
+              ],
+              "source": "原作第19巻、第23巻"
+            }
+          ]
+        },
+        "冨岡義勇": {
+          "character_id": "CHAR_KIMETSU_006",
+          "aliases": [
+            "義勇",
+            "水柱",
+            "冨岡さん"
+          ],
+          "age_at_story": 21,
+          "abilities": [
+            "水の呼吸",
+            "水の呼吸・拾壱ノ型 凪（オリジナル技）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_GIYU_001",
+              "description": "禰豆子を斬ろうとするが、炭治郎の必死の訴えと禰豆子の行動を見て見逃す",
+              "story_arc": "竈門家襲撃編",
+              "source": {
+                "type": "manga",
+                "reference": "第1話「残酷」"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GIYU_002",
+              "description": "炭治郎を鱗滝左近次のもとへ導く",
+              "story_arc": "竈門家襲撃編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GIYU_003",
+              "description": "那田蜘蛛山で累の父を瞬殺し、炭治郎と禰豆子を守る",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第5巻第41話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GIYU_004",
+              "description": "柱合会議で禰豆子を庇い、自らの命を賭ける",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GIYU_005",
+              "description": "無限城で猗窩座と対峙し、炭治郎と共に討伐",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻〜第18巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 13,
+              "events": [
+                "最終選別で錆兎と真菰と出会う",
+                "錆兎が手鬼に殺される"
+              ],
+              "source": "原作第15巻外伝、公式ファンブック"
+            },
+            {
+              "age": 19,
+              "events": [
+                "水柱に就任"
+              ],
+              "source": "公式ファンブック「鬼殺隊見聞録」"
+            },
+            {
+              "age": 21,
+              "events": [
+                "炭治郎と禰豆子に出会う",
+                "那田蜘蛛山で累の父を討伐",
+                "猗窩座討伐"
+              ],
+              "source": "原作第1巻、第5巻、第18巻"
+            }
+          ]
+        },
+        "胡蝶しのぶ": {
+          "character_id": "CHAR_KIMETSU_007",
+          "aliases": [
+            "しのぶ",
+            "蟲柱",
+            "胡蝶さん"
+          ],
+          "age_at_story": 18,
+          "abilities": [
+            "蟲の呼吸",
+            "毒の調合・使用",
+            "医学知識"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_SHINOBU_001",
+              "description": "那田蜘蛛山で鬼を毒で倒し、炭治郎の前に現れる",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第5巻第41話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SHINOBU_002",
+              "description": "蝶屋敷で炭治郎たちの機能回復訓練を指導",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SHINOBU_003",
+              "description": "姉・カナエを殺した童磨への復讐を誓い、自らの体に藤の花の毒を仕込む",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第16巻〜第17巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SHINOBU_004",
+              "description": "無限城で童磨と対峙し、吸収されることで大量の毒を童磨に与える",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻第143話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 14,
+              "events": [
+                "姉・胡蝶カナエが童磨に殺される"
+              ],
+              "source": "原作第16巻"
+            },
+            {
+              "age": 18,
+              "events": [
+                "蟲柱として活動",
+                "童磨に吸収され死亡（復讐の毒を仕込む）"
+              ],
+              "source": "原作第17巻"
+            }
+          ]
+        },
+        "煉獄杏寿郎": {
+          "character_id": "CHAR_KIMETSU_008",
+          "aliases": [
+            "煉獄さん",
+            "炎柱",
+            "杏寿郎"
+          ],
+          "age_at_story": 20,
+          "abilities": [
+            "炎の呼吸",
+            "炎の呼吸・奥義 玖ノ型 煉獄"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_RENGOKU_001",
+              "description": "柱合会議で炭治郎と禰豆子を処断すべきと主張するが、最終的に見守る姿勢をとる",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_RENGOKU_002",
+              "description": "無限列車に乗り込み、炭治郎たちを指導しながら魘夢と戦う",
+              "story_arc": "無限列車編",
+              "source": {
+                "type": "manga",
+                "reference": "第7巻〜第8巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_RENGOKU_003",
+              "description": "上弦の参・猗窩座と単独で戦い、乗客全員を守り抜く",
+              "story_arc": "無限列車編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻第63話〜第66話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_RENGOKU_004",
+              "description": "猗窩座との死闘の末に致命傷を負い、炭治郎に「心を燃やせ」と言い残して死亡",
+              "story_arc": "無限列車編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻第66話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 12,
+              "events": [
+                "炎の呼吸の指南書のみで独学で習得を始める"
+              ],
+              "source": "原作第8巻、公式ファンブック"
+            },
+            {
+              "age": 20,
+              "events": [
+                "無限列車で魘夢討伐に貢献",
+                "猗窩座と戦い死亡"
+              ],
+              "source": "原作第7巻〜第8巻"
+            }
+          ]
+        },
+        "宇髄天元": {
+          "character_id": "CHAR_KIMETSU_009",
+          "aliases": [
+            "天元",
+            "音柱",
+            "派手柱"
+          ],
+          "age_at_story": 23,
+          "abilities": [
+            "音の呼吸",
+            "譜面（戦闘計算式）",
+            "忍の技術"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_UZUI_001",
+              "description": "蝶屋敷でアオイとなほを無理やり連れ出そうとし、炭治郎たちと出会う",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第9巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_UZUI_002",
+              "description": "遊郭に潜入し、3人の嫁（須磨・まきを・雛鶴）を救出しながら上弦の陸を追う",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第9巻〜第10巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_UZUI_003",
+              "description": "妓夫太郎と激戦を繰り広げ、左手と左目を失う重傷を負う",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_UZUI_004",
+              "description": "譜面を完成させ、妓夫太郎の攻撃パターンを完全に読み切る",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻第90話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_UZUI_005",
+              "description": "上弦の陸討伐後、柱を引退し後進の育成に専念",
+              "story_arc": "遊郭編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻第97話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 23,
+              "events": [
+                "遊郭で上弦の陸・堕姫と妓夫太郎を討伐",
+                "左手と左目を失い柱を引退"
+              ],
+              "source": "原作第11巻"
+            }
+          ]
+        },
+        "甘露寺蜜璃": {
+          "character_id": "CHAR_KIMETSU_010",
+          "aliases": [
+            "蜜璃",
+            "恋柱",
+            "甘露寺さん"
+          ],
+          "age_at_story": 19,
+          "abilities": [
+            "恋の呼吸",
+            "特異体質（筋肉密度が常人の8倍）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_MITSURI_001",
+              "description": "柱合会議で炭治郎と禰豆子について議論に参加",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MITSURI_002",
+              "description": "刀鍛冶の里で上弦の肆・半天狗の分身体と戦う",
+              "story_arc": "刀鍛冶の里編",
+              "source": {
+                "type": "manga",
+                "reference": "第12巻〜第15巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MITSURI_003",
+              "description": "半天狗の憎珀天の攻撃から里を守り、痣を発現させる",
+              "story_arc": "刀鍛冶の里編",
+              "source": {
+                "type": "manga",
+                "reference": "第14巻第123話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MITSURI_004",
+              "description": "無限城で無惨と戦い、伊黒と共に最後まで戦い続ける",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻〜第23巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MITSURI_005",
+              "description": "無惨戦で致命傷を負い、伊黒に看取られながら死亡",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻第200話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 19,
+              "events": [
+                "刀鍛冶の里で痣を発現",
+                "無惨戦で伊黒と共に死亡"
+              ],
+              "source": "原作第14巻、第23巻"
+            }
+          ]
+        },
+        "時透無一郎": {
+          "character_id": "CHAR_KIMETSU_011",
+          "aliases": [
+            "無一郎",
+            "霞柱",
+            "時透くん"
+          ],
+          "age_at_story": 14,
+          "abilities": [
+            "霞の呼吸",
+            "霞の呼吸・漆ノ型 朧（オリジナル技）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_MUICHIRO_001",
+              "description": "柱合会議で炭治郎と禰豆子について議論に参加",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MUICHIRO_002",
+              "description": "刀鍛冶の里で上弦の伍・玉壺と対峙",
+              "story_arc": "刀鍛冶の里編",
+              "source": {
+                "type": "manga",
+                "reference": "第12巻〜第15巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MUICHIRO_003",
+              "description": "小鉄との交流で記憶を取り戻し、痣を発現して玉壺を単独討伐",
+              "story_arc": "刀鍛冶の里編",
+              "source": {
+                "type": "manga",
+                "reference": "第14巻第118話〜第121話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MUICHIRO_004",
+              "description": "無限城で上弦の壱・黒死牟と対峙し、自分が黒死牟の子孫だと知る",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第19巻〜第21巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_MUICHIRO_005",
+              "description": "黒死牟に胴体を両断されながらも刀を赫刀化させ、討伐に貢献して死亡",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻第179話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 11,
+              "events": [
+                "双子の兄・有一郎が鬼に殺される",
+                "鬼を素手で撲殺"
+              ],
+              "source": "原作第14巻第118話"
+            },
+            {
+              "age": 14,
+              "events": [
+                "刀を握ってわずか2ヶ月で柱に就任",
+                "玉壺を単独討伐",
+                "黒死牟戦で死亡"
+              ],
+              "source": "原作第14巻、第21巻"
+            }
+          ]
+        },
+        "伊黒小芭内": {
+          "character_id": "CHAR_KIMETSU_012",
+          "aliases": [
+            "伊黒",
+            "蛇柱",
+            "小芭内"
+          ],
+          "age_at_story": 21,
+          "abilities": [
+            "蛇の呼吸",
+            "相棒の蛇・鏑丸との連携"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_OBANAI_001",
+              "description": "柱合会議で炭治郎と禰豆子を厳しく詰問",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_OBANAI_002",
+              "description": "柱稽古で炭治郎に厳しい訓練を課す",
+              "story_arc": "柱稽古編",
+              "source": {
+                "type": "manga",
+                "reference": "第15巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_OBANAI_003",
+              "description": "無限城で鳴女と戦い、愈史郎と協力して鳴女を操る",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第20巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_OBANAI_004",
+              "description": "無惨戦で甘露寺と共に最後まで戦い、赫刀を発現",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻〜第23巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_OBANAI_005",
+              "description": "致命傷を負った甘露寺を抱きしめ、共に死亡",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻第200話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 12,
+              "events": [
+                "蛇鬼の一族から逃亡し、炎柱・煉獄槇寿郎に保護される"
+              ],
+              "source": "原作第19巻第188話"
+            },
+            {
+              "age": 21,
+              "events": [
+                "無惨戦で赫刀を発現",
+                "甘露寺と共に死亡"
+              ],
+              "source": "原作第22巻〜第23巻"
+            }
+          ]
+        },
+        "不死川実弥": {
+          "character_id": "CHAR_KIMETSU_013",
+          "aliases": [
+            "実弥",
+            "風柱",
+            "不死川さん"
+          ],
+          "age_at_story": 21,
+          "abilities": [
+            "風の呼吸",
+            "稀血（鬼を酩酊させる特殊な血）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_SANEMI_001",
+              "description": "柱合会議で禰豆子を刀で刺し、人を襲わないか試す",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻第45話〜第46話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SANEMI_002",
+              "description": "柱稽古で最も厳しい訓練を炭治郎たちに課す",
+              "story_arc": "柱稽古編",
+              "source": {
+                "type": "manga",
+                "reference": "第15巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SANEMI_003",
+              "description": "無限城で上弦の壱・黒死牟と対峙",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第19巻〜第21巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SANEMI_004",
+              "description": "弟・玄弥が黒死牟に殺され、腕の中で消えていく",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻第179話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_SANEMI_005",
+              "description": "無惨戦を生き残り、最終決戦後も生存",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 13,
+              "events": [
+                "鬼化した母を殺し、弟・玄弥と決別"
+              ],
+              "source": "原作第19巻第168話"
+            },
+            {
+              "age": 21,
+              "events": [
+                "黒死牟と戦闘",
+                "弟・玄弥の死を看取る",
+                "無惨戦を生存"
+              ],
+              "source": "原作第21巻、第23巻"
+            }
+          ]
+        },
+        "悲鳴嶼行冥": {
+          "character_id": "CHAR_KIMETSU_014",
+          "aliases": [
+            "悲鳴嶼さん",
+            "岩柱",
+            "行冥"
+          ],
+          "age_at_story": 27,
+          "abilities": [
+            "岩の呼吸",
+            "透き通る世界",
+            "鎖付き鉄球と斧の武器"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "KIMETSU_GYOMEI_001",
+              "description": "柱合会議で炭治郎と禰豆子の処遇について涙を流しながら発言",
+              "story_arc": "那田蜘蛛山編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GYOMEI_002",
+              "description": "柱稽古の最終段階として炭治郎に厳しい修行を課す",
+              "story_arc": "柱稽古編",
+              "source": {
+                "type": "manga",
+                "reference": "第15巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GYOMEI_003",
+              "description": "無限城で上弦の壱・黒死牟と対峙し、痣と透き通る世界を発現",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第19巻〜第21巻"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GYOMEI_004",
+              "description": "黒死牟討伐に貢献し、武器を赫刀化",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻第176話"
+              }
+            },
+            {
+              "scene_id": "KIMETSU_GYOMEI_005",
+              "description": "無惨戦で両足を失いながらも戦い続け、戦闘終了後に死亡",
+              "story_arc": "無限城編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻第200話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 18,
+              "events": [
+                "寺の子供を守るため鬼を素手で殴り殺すが、子供に殺人犯と誤解される"
+              ],
+              "source": "原作第19巻第169話"
+            },
+            {
+              "age": 27,
+              "events": [
+                "鬼殺隊最強の柱として黒死牟討伐に貢献",
+                "無惨戦で死亡"
+              ],
+              "source": "原作第21巻、第23巻"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "竈門家襲撃編",
+          "order": 1,
+          "main_characters": [
+            "竈門炭治郎",
+            "竈門禰豆子"
+          ]
+        },
+        {
+          "arc_name": "最終選別編",
+          "order": 2,
+          "main_characters": [
+            "竈門炭治郎"
+          ]
+        },
+        {
+          "arc_name": "鼓屋敷編",
+          "order": 3,
+          "main_characters": [
+            "竈門炭治郎",
+            "我妻善逸"
+          ]
+        },
+        {
+          "arc_name": "那田蜘蛛山編",
+          "order": 4,
+          "main_characters": [
+            "竈門炭治郎",
+            "竈門禰豆子",
+            "我妻善逸",
+            "嘴平伊之助"
+          ]
+        },
+        {
+          "arc_name": "無限列車編",
+          "order": 5,
+          "main_characters": [
+            "竈門炭治郎",
+            "竈門禰豆子",
+            "我妻善逸",
+            "嘴平伊之助"
+          ]
+        },
+        {
+          "arc_name": "遊郭編",
+          "order": 6,
+          "main_characters": [
+            "竈門炭治郎",
+            "我妻善逸",
+            "嘴平伊之助"
+          ]
+        },
+        {
+          "arc_name": "刀鍛冶の里編",
+          "order": 7,
+          "main_characters": [
+            "竈門炭治郎",
+            "竈門禰豆子"
+          ]
+        },
+        {
+          "arc_name": "柱稽古編",
+          "order": 8,
+          "main_characters": [
+            "竈門炭治郎"
+          ]
+        },
+        {
+          "arc_name": "無限城編",
+          "order": 9,
+          "main_characters": [
+            "竈門炭治郎",
+            "竈門禰豆子",
+            "我妻善逸",
+            "嘴平伊之助",
+            "栗花落カナヲ"
+          ]
+        }
+      ]
+    },
+    "ONE PIECE": {
+      "work_id": "WORK_ONEPIECE_001",
+      "work_title": "ONE PIECE",
+      "work_title_variants": [
+        "ワンピース",
+        "ONEPIECE"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/ONE_PIECE"
+      ],
+      "era_setting": "大海賊時代（架空世界）",
+      "characters": {
+        "モンキー・D・ルフィ": {
+          "character_id": "CHAR_OP_001",
+          "aliases": [
+            "ルフィ",
+            "麦わらのルフィ",
+            "麦わら"
+          ],
+          "age_at_story": 19,
+          "abilities": [
+            "ゴムゴムの実（ヒトヒトの実 モデル:ニカ）",
+            "覇王色の覇気",
+            "武装色の覇気",
+            "見聞色の覇気",
+            "ギア5"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_LUFFY_001",
+              "description": "シャンクスから麦わら帽子を託され、海賊王になる夢を誓う",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第1話「ROMANCE DAWN」"
+              }
+            },
+            {
+              "scene_id": "OP_LUFFY_002",
+              "description": "海軍本部でモーガン大佐を倒し、ゾロを仲間にする",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "OP_LUFFY_003",
+              "description": "アーロンパークでナミのためにアーロンを倒す",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻第94話"
+              }
+            },
+            {
+              "scene_id": "OP_LUFFY_004",
+              "description": "アラバスタでクロコダイルを倒し、ビビと別れる",
+              "story_arc": "アラバスタ編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻第217話"
+              }
+            },
+            {
+              "scene_id": "OP_LUFFY_005",
+              "description": "エニエス・ロビーで世界政府に宣戦布告し、ロビンを救出",
+              "story_arc": "ウォーターセブン/エニエス・ロビー編",
+              "source": {
+                "type": "manga",
+                "reference": "第41巻第398話"
+              }
+            },
+            {
+              "scene_id": "OP_LUFFY_006",
+              "description": "マリンフォード頂上戦争で兄エースの死を目撃",
+              "story_arc": "頂上戦争編",
+              "source": {
+                "type": "manga",
+                "reference": "第59巻第574話"
+              }
+            },
+            {
+              "scene_id": "OP_LUFFY_007",
+              "description": "ワノ国でカイドウを倒し、四皇の一人となる",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第104巻第1049話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 7,
+              "events": [
+                "シャンクスと出会い、麦わら帽子を託される"
+              ],
+              "source": "原作第1巻（回想）"
+            },
+            {
+              "age": 17,
+              "events": [
+                "フーシャ村を出航し、海賊王を目指す冒険を開始"
+              ],
+              "source": "原作第1巻"
+            },
+            {
+              "age": 19,
+              "events": [
+                "2年間の修行を終え、新世界へ進出",
+                "カイドウを倒し四皇となる"
+              ],
+              "source": "原作第61巻〜、第104巻"
+            }
+          ]
+        },
+        "ロロノア・ゾロ": {
+          "character_id": "CHAR_OP_002",
+          "aliases": [
+            "ゾロ",
+            "海賊狩りのゾロ"
+          ],
+          "age_at_story": 21,
+          "abilities": [
+            "三刀流",
+            "武装色の覇気",
+            "見聞色の覇気",
+            "覇王色の覇気"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_ZORO_001",
+              "description": "海軍基地でルフィに助けられ、麦わらの一味に加入",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第6話"
+              }
+            },
+            {
+              "scene_id": "OP_ZORO_002",
+              "description": "バラティエでミホークと戦い、敗北。世界一の剣豪を目指す決意を新たにする",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻第51話"
+              }
+            },
+            {
+              "scene_id": "OP_ZORO_003",
+              "description": "アラバスタでMr.1を倒し、鉄を斬る力を習得",
+              "story_arc": "アラバスタ編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻第195話"
+              }
+            },
+            {
+              "scene_id": "OP_ZORO_004",
+              "description": "エニエス・ロビーでカクを倒し、阿修羅を初披露",
+              "story_arc": "ウォーターセブン/エニエス・ロビー編",
+              "source": {
+                "type": "manga",
+                "reference": "第44巻第417話"
+              }
+            },
+            {
+              "scene_id": "OP_ZORO_005",
+              "description": "スリラーバークでルフィの痛みを全て引き受け、「何もなかった」",
+              "story_arc": "スリラーバーク編",
+              "source": {
+                "type": "manga",
+                "reference": "第50巻第485話"
+              }
+            },
+            {
+              "scene_id": "OP_ZORO_006",
+              "description": "ワノ国でキングを倒し、閻魔を黒刀化",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第102巻第1035話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 11,
+              "events": [
+                "くいなと出会い、世界一の剣豪を目指す約束をする"
+              ],
+              "source": "原作第5巻（回想）"
+            },
+            {
+              "age": 19,
+              "events": [
+                "ルフィの仲間となり、海賊として冒険を開始"
+              ],
+              "source": "原作第1巻"
+            },
+            {
+              "age": 21,
+              "events": [
+                "ミホークのもとで2年間修行",
+                "ワノ国でキングを撃破"
+              ],
+              "source": "原作第61巻〜、第102巻"
+            }
+          ]
+        },
+        "ナミ": {
+          "character_id": "CHAR_OP_003",
+          "aliases": [
+            "泥棒猫ナミ"
+          ],
+          "age_at_story": 20,
+          "abilities": [
+            "航海術",
+            "天候棒（クリマ・タクト）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_NAMI_001",
+              "description": "海賊専門の泥棒としてルフィと出会う",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第8話"
+              }
+            },
+            {
+              "scene_id": "OP_NAMI_002",
+              "description": "アーロンパークで村を守るため裏切りを演じていたことが明かされる",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第9巻第77話"
+              }
+            },
+            {
+              "scene_id": "OP_NAMI_003",
+              "description": "ルフィに助けを求め、アーロン討伐後に正式に仲間入り",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻第94話"
+              }
+            },
+            {
+              "scene_id": "OP_NAMI_004",
+              "description": "アラバスタでミス・ダブルフィンガーを天候棒で倒す",
+              "story_arc": "アラバスタ編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻第190話"
+              }
+            },
+            {
+              "scene_id": "OP_NAMI_005",
+              "description": "ホールケーキアイランドでゼウスを手に入れる",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第87巻第875話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 10,
+              "events": [
+                "ベルメールがアーロンに殺される"
+              ],
+              "source": "原作第9巻（回想）"
+            },
+            {
+              "age": 18,
+              "events": [
+                "ルフィに救われ、麦わらの一味に正式加入"
+              ],
+              "source": "原作第11巻"
+            },
+            {
+              "age": 20,
+              "events": [
+                "2年間の修行後、新世界へ"
+              ],
+              "source": "原作第61巻〜"
+            }
+          ]
+        },
+        "ウソップ": {
+          "character_id": "CHAR_OP_004",
+          "aliases": [
+            "そげキング",
+            "狙撃の王様"
+          ],
+          "age_at_story": 19,
+          "abilities": [
+            "狙撃術",
+            "ポップグリーン"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_USOPP_001",
+              "description": "シロップ村でルフィと出会い、クロネコ海賊団と戦う",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第3巻〜第5巻"
+              }
+            },
+            {
+              "scene_id": "OP_USOPP_002",
+              "description": "ウォーターセブンでメリー号のことでルフィと決闘",
+              "story_arc": "ウォーターセブン/エニエス・ロビー編",
+              "source": {
+                "type": "manga",
+                "reference": "第37巻第350話"
+              }
+            },
+            {
+              "scene_id": "OP_USOPP_003",
+              "description": "そげキングとしてエニエス・ロビーで世界政府の旗を撃ち抜く",
+              "story_arc": "ウォーターセブン/エニエス・ロビー編",
+              "source": {
+                "type": "manga",
+                "reference": "第41巻第398話"
+              }
+            },
+            {
+              "scene_id": "OP_USOPP_004",
+              "description": "ドレスローザでシュガーを気絶させ、おもちゃにされた者たちを解放",
+              "story_arc": "ドレスローザ編",
+              "source": {
+                "type": "manga",
+                "reference": "第75巻第742話"
+              }
+            },
+            {
+              "scene_id": "OP_USOPP_005",
+              "description": "見聞色の覇気を発現し、2km先のシュガーを狙撃",
+              "story_arc": "ドレスローザ編",
+              "source": {
+                "type": "manga",
+                "reference": "第77巻第758話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 17,
+              "events": [
+                "麦わらの一味に加入、ゴーイングメリー号を手に入れる"
+              ],
+              "source": "原作第5巻"
+            },
+            {
+              "age": 19,
+              "events": [
+                "2年間の修行後、見聞色の覇気を習得"
+              ],
+              "source": "原作第61巻〜、第77巻"
+            }
+          ]
+        },
+        "サンジ": {
+          "character_id": "CHAR_OP_005",
+          "aliases": [
+            "黒足のサンジ",
+            "ヴィンスモーク・サンジ"
+          ],
+          "age_at_story": 21,
+          "abilities": [
+            "足技（黒足）",
+            "空中歩行（スカイウォーク）",
+            "見聞色の覇気",
+            "武装色の覇気",
+            "外骨格と炎"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_SANJI_001",
+              "description": "バラティエでルフィと出会い、仲間に加わる",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻〜第8巻"
+              }
+            },
+            {
+              "scene_id": "OP_SANJI_002",
+              "description": "オールブルーを見つける夢をゼフに誓う",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻第68話"
+              }
+            },
+            {
+              "scene_id": "OP_SANJI_003",
+              "description": "エニエス・ロビーでジャブラを倒す",
+              "story_arc": "ウォーターセブン/エニエス・ロビー編",
+              "source": {
+                "type": "manga",
+                "reference": "第44巻第415話"
+              }
+            },
+            {
+              "scene_id": "OP_SANJI_004",
+              "description": "ホールケーキアイランドでプリンとの結婚式から逃走",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第86巻〜第87巻"
+              }
+            },
+            {
+              "scene_id": "OP_SANJI_005",
+              "description": "ワノ国でクイーンを倒し、ジェルマの外骨格が覚醒",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第102巻第1034話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 10,
+              "events": [
+                "客船が難破し、ゼフと2ヶ月以上無人島で過ごす"
+              ],
+              "source": "原作第7巻（回想）"
+            },
+            {
+              "age": 19,
+              "events": [
+                "麦わらの一味に加入"
+              ],
+              "source": "原作第8巻"
+            },
+            {
+              "age": 21,
+              "events": [
+                "2年間の修行後、ジェルマの外骨格が覚醒"
+              ],
+              "source": "原作第61巻〜、第102巻"
+            }
+          ]
+        },
+        "ニコ・ロビン": {
+          "character_id": "CHAR_OP_006",
+          "aliases": [
+            "ロビン",
+            "悪魔の子",
+            "ミス・オールサンデー"
+          ],
+          "age_at_story": 30,
+          "abilities": [
+            "ハナハナの実",
+            "考古学知識",
+            "ポーネグリフ解読"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_ROBIN_001",
+              "description": "オハラの考古学者として幼少期にバスターコールを生き延び、悪魔の子として指名手配される",
+              "story_arc": "オハラ回想",
+              "source": {
+                "type": "manga",
+                "reference": "第41巻第392話〜第398話"
+              }
+            },
+            {
+              "scene_id": "OP_ROBIN_002",
+              "description": "アラバスタ編でクロコダイルの部下「ミス・オールサンデー」として暗躍後、ルフィに助けられ一味に加入",
+              "story_arc": "アラバスタ編",
+              "source": {
+                "type": "manga",
+                "reference": "第23巻第218話"
+              }
+            },
+            {
+              "scene_id": "OP_ROBIN_003",
+              "description": "エニエス・ロビーで「生きたい」と叫び、仲間に完全に心を開く",
+              "story_arc": "ウォーターセブン/エニエス・ロビー編",
+              "source": {
+                "type": "manga",
+                "reference": "第41巻第398話"
+              }
+            },
+            {
+              "scene_id": "OP_ROBIN_004",
+              "description": "空白の100年の真実に近づくため、ポーネグリフの解読を続ける",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第96巻〜第104巻"
+              }
+            },
+            {
+              "scene_id": "OP_ROBIN_005",
+              "description": "ワノ国でブラックマリアを倒し、悪魔化した新形態を披露",
+              "story_arc": "ワノ国編",
+              "source": {
+                "type": "manga",
+                "reference": "第101巻第1021話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 8,
+              "events": [
+                "オハラのバスターコールを生き延びる",
+                "悪魔の子として指名手配される"
+              ],
+              "source": "原作第41巻（回想）"
+            },
+            {
+              "age": 28,
+              "events": [
+                "麦わらの一味に加入"
+              ],
+              "source": "原作第23巻"
+            },
+            {
+              "age": 30,
+              "events": [
+                "2年間の修行後、新世界へ"
+              ],
+              "source": "原作第61巻〜"
+            }
+          ]
+        },
+        "アーロン": {
+          "character_id": "CHAR_OP_007",
+          "aliases": [
+            "ノコギリのアーロン"
+          ],
+          "age_at_story": 41,
+          "abilities": [
+            "魚人の身体能力",
+            "ノコギリ状の鼻による攻撃",
+            "水中戦闘"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "OP_ARLONG_001",
+              "description": "タイヨウの海賊団に所属し、フィッシャー・タイガーと共に活動",
+              "story_arc": "魚人島回想",
+              "source": {
+                "type": "manga",
+                "reference": "第63巻第621話〜第623話"
+              }
+            },
+            {
+              "scene_id": "OP_ARLONG_002",
+              "description": "ナミの故郷ココヤシ村を支配し、ベルメールを殺害",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第9巻第77話〜第79話"
+              }
+            },
+            {
+              "scene_id": "OP_ARLONG_003",
+              "description": "ナミを8年間海図作成のために利用し続ける",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第9巻〜第10巻"
+              }
+            },
+            {
+              "scene_id": "OP_ARLONG_004",
+              "description": "アーロンパークでルフィに敗北し、逮捕される",
+              "story_arc": "東の海編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻第93話〜第94話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 25,
+              "events": [
+                "タイヨウの海賊団に加入"
+              ],
+              "source": "原作第63巻（回想、推定年齢）"
+            },
+            {
+              "age": 33,
+              "events": [
+                "ココヤシ村を支配開始、ベルメール殺害"
+              ],
+              "source": "原作第9巻（8年前の回想）"
+            },
+            {
+              "age": 41,
+              "events": [
+                "ルフィに敗北、インペルダウン収監"
+              ],
+              "source": "原作第11巻"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "東の海編",
+          "order": 1,
+          "main_characters": [
+            "モンキー・D・ルフィ",
+            "ロロノア・ゾロ",
+            "ナミ",
+            "ウソップ",
+            "サンジ"
+          ]
+        },
+        {
+          "arc_name": "アラバスタ編",
+          "order": 2,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "空島編",
+          "order": 3,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "ウォーターセブン/エニエス・ロビー編",
+          "order": 4,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "スリラーバーク編",
+          "order": 5,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "頂上戦争編",
+          "order": 6,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "魚人島編",
+          "order": 7,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "ドレスローザ編",
+          "order": 8,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        },
+        {
+          "arc_name": "ワノ国編",
+          "order": 9,
+          "main_characters": [
+            "モンキー・D・ルフィ"
+          ]
+        }
+      ]
+    },
+    "ハリー・ポッター": {
+      "work_id": "WORK_HP_001",
+      "work_title": "ハリー・ポッター",
+      "work_title_variants": [
+        "Harry Potter",
+        "ハリポタ"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/ハリー・ポッターシリーズ"
+      ],
+      "era_setting": "1990年代イギリス魔法界",
+      "characters": {
+        "ハーマイオニー・グレンジャー": {
+          "character_id": "CHAR_HP_001",
+          "aliases": [
+            "ハーマイオニー"
+          ],
+          "age_at_story": 11,
+          "abilities": [
+            "優れた魔法の才能",
+            "高い知性と記憶力",
+            "逆転時計の使用経験"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "HP_HERMIONE_001",
+              "description": "ホグワーツ特急でハリーとロンに初めて出会い、ネビルのヒキガエルを探す",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第6章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_002",
+              "description": "ハロウィンの夜、トロールに襲われハリーとロンに助けられ、3人の友情が始まる",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第10章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_003",
+              "description": "悪魔の罠を突破し、賢者の石を守るための試練に貢献",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第16章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_004",
+              "description": "ポリジュース薬を調合し、スリザリン寮に潜入する計画を立案",
+              "story_arc": "秘密の部屋",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと秘密の部屋 第12章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_005",
+              "description": "バジリスクに石化されるが、鏡を使ったことで命を取り留め、正体解明の手がかりを残す",
+              "story_arc": "秘密の部屋",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと秘密の部屋 第14章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_006",
+              "description": "逆転時計を使いハリーと共にシリウスとバックビークを救出",
+              "story_arc": "アズカバンの囚人",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターとアズカバンの囚人 第21章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_007",
+              "description": "ダンブルドア軍団の設立に尽力し、守護霊の呪文を習得",
+              "story_arc": "不死鳥の騎士団",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと不死鳥の騎士団 第18章"
+              }
+            },
+            {
+              "scene_id": "HP_HERMIONE_008",
+              "description": "分霊箱探索の旅でハリーとロンを支え、マルフォイ邸でベラトリックスに拷問される",
+              "story_arc": "死の秘宝",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと死の秘宝 第23章"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 11,
+              "events": [
+                "ホグワーツ入学",
+                "ハリー・ロンと友人になる",
+                "賢者の石を守る冒険"
+              ],
+              "source": "ハリー・ポッターと賢者の石"
+            },
+            {
+              "age": 12,
+              "events": [
+                "ポリジュース薬の調合",
+                "バジリスクに石化される"
+              ],
+              "source": "ハリー・ポッターと秘密の部屋"
+            },
+            {
+              "age": 13,
+              "events": [
+                "逆転時計を使用",
+                "シリウス救出に貢献"
+              ],
+              "source": "ハリー・ポッターとアズカバンの囚人"
+            },
+            {
+              "age": 17,
+              "events": [
+                "分霊箱探索の旅",
+                "ホグワーツの戦い"
+              ],
+              "source": "ハリー・ポッターと死の秘宝"
+            }
+          ]
+        },
+        "ロン・ウィーズリー": {
+          "character_id": "CHAR_HP_002",
+          "aliases": [
+            "ロン",
+            "ロナルド・ウィーズリー"
+          ],
+          "age_at_story": 11,
+          "abilities": [
+            "チェスの天才",
+            "忠誠心",
+            "守護霊の呪文"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "HP_RON_001",
+              "description": "ホグワーツ特急でハリーと出会い、初めての親友となる",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第6章"
+              }
+            },
+            {
+              "scene_id": "HP_RON_002",
+              "description": "巨大チェス盤でナイトとして自己犠牲を払い、ハリーを先に進ませる",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第16章"
+              }
+            },
+            {
+              "scene_id": "HP_RON_003",
+              "description": "秘密の部屋でハリーと共にアラゴグの巣から逃げ出す",
+              "story_arc": "秘密の部屋",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと秘密の部屋 第15章"
+              }
+            },
+            {
+              "scene_id": "HP_RON_004",
+              "description": "三大魔法学校対抗試合でハリーと一時的に仲違いするが、後に和解",
+              "story_arc": "炎のゴブレット",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと炎のゴブレット 第18章〜第20章"
+              }
+            },
+            {
+              "scene_id": "HP_RON_005",
+              "description": "グリフィンドールの剣でスリザリンのロケット（分霊箱）を破壊",
+              "story_arc": "死の秘宝",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと死の秘宝 第19章"
+              }
+            },
+            {
+              "scene_id": "HP_RON_006",
+              "description": "ホグワーツの戦いでハーマイオニーと共に秘密の部屋でバジリスクの牙を入手",
+              "story_arc": "死の秘宝",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと死の秘宝 第31章"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 11,
+              "events": [
+                "ホグワーツ入学",
+                "ハリーと親友になる",
+                "巨大チェス盤で自己犠牲"
+              ],
+              "source": "ハリー・ポッターと賢者の石"
+            },
+            {
+              "age": 14,
+              "events": [
+                "ハリーとの一時的な仲違い"
+              ],
+              "source": "ハリー・ポッターと炎のゴブレット"
+            },
+            {
+              "age": 17,
+              "events": [
+                "分霊箱探索の旅",
+                "グリフィンドールの剣でロケットを破壊",
+                "ホグワーツの戦い"
+              ],
+              "source": "ハリー・ポッターと死の秘宝"
+            }
+          ]
+        },
+        "ネビル・ロングボトム": {
+          "character_id": "CHAR_HP_003",
+          "aliases": [
+            "ネビル"
+          ],
+          "age_at_story": 11,
+          "abilities": [
+            "薬草学の才能",
+            "グリフィンドールの剣を召喚する資格",
+            "勇気"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "HP_NEVILLE_001",
+              "description": "ホグワーツ入学時、組分け帽子に長時間かけられグリフィンドールに配属",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第7章"
+              }
+            },
+            {
+              "scene_id": "HP_NEVILLE_002",
+              "description": "ハリーたちの夜間外出を止めようとし、ダンブルドアから勇気を称えられ10点獲得",
+              "story_arc": "賢者の石",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと賢者の石 第17章"
+              }
+            },
+            {
+              "scene_id": "HP_NEVILLE_003",
+              "description": "神秘部の戦いに参加し、両親の仇であるベラトリックスと対峙",
+              "story_arc": "不死鳥の騎士団",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと不死鳥の騎士団 第35章"
+              }
+            },
+            {
+              "scene_id": "HP_NEVILLE_004",
+              "description": "ダンブルドア軍団を再建し、カロー兄妹の支配下でホグワーツのレジスタンスを指導",
+              "story_arc": "死の秘宝",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと死の秘宝 第29章"
+              }
+            },
+            {
+              "scene_id": "HP_NEVILLE_005",
+              "description": "ホグワーツの戦いでグリフィンドールの剣を召喚し、ナギニ（最後の分霊箱）を斬首",
+              "story_arc": "死の秘宝",
+              "source": {
+                "type": "novel",
+                "reference": "ハリー・ポッターと死の秘宝 第36章"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 1,
+              "events": [
+                "両親がベラトリックスに拷問され、永久的な精神損傷を負う"
+              ],
+              "source": "ハリー・ポッターと炎のゴブレット 第30章（回想）"
+            },
+            {
+              "age": 11,
+              "events": [
+                "ホグワーツ入学",
+                "寮対抗杯決勝で10点獲得"
+              ],
+              "source": "ハリー・ポッターと賢者の石"
+            },
+            {
+              "age": 15,
+              "events": [
+                "神秘部の戦いに参加"
+              ],
+              "source": "ハリー・ポッターと不死鳥の騎士団"
+            },
+            {
+              "age": 17,
+              "events": [
+                "ホグワーツのレジスタンス指導",
+                "ナギニを討伐"
+              ],
+              "source": "ハリー・ポッターと死の秘宝"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "賢者の石",
+          "order": 1,
+          "main_characters": [
+            "ハーマイオニー・グレンジャー",
+            "ロン・ウィーズリー",
+            "ネビル・ロングボトム"
+          ]
+        },
+        {
+          "arc_name": "秘密の部屋",
+          "order": 2,
+          "main_characters": [
+            "ハーマイオニー・グレンジャー",
+            "ロン・ウィーズリー"
+          ]
+        },
+        {
+          "arc_name": "アズカバンの囚人",
+          "order": 3,
+          "main_characters": [
+            "ハーマイオニー・グレンジャー",
+            "ロン・ウィーズリー"
+          ]
+        },
+        {
+          "arc_name": "炎のゴブレット",
+          "order": 4,
+          "main_characters": [
+            "ロン・ウィーズリー",
+            "ネビル・ロングボトム"
+          ]
+        },
+        {
+          "arc_name": "不死鳥の騎士団",
+          "order": 5,
+          "main_characters": [
+            "ハーマイオニー・グレンジャー",
+            "ネビル・ロングボトム"
+          ]
+        },
+        {
+          "arc_name": "謎のプリンス",
+          "order": 6,
+          "main_characters": [
+            "ハーマイオニー・グレンジャー",
+            "ロン・ウィーズリー"
+          ]
+        },
+        {
+          "arc_name": "死の秘宝",
+          "order": 7,
+          "main_characters": [
+            "ハーマイオニー・グレンジャー",
+            "ロン・ウィーズリー",
+            "ネビル・ロングボトム"
+          ]
+        }
+      ]
+    },
+    "ロード・オブ・ザ・リング": {
+      "work_id": "WORK_LOTR_001",
+      "work_title": "ロード・オブ・ザ・リング",
+      "work_title_variants": [
+        "The Lord of the Rings",
+        "指輪物語",
+        "ロードオブザリング"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/指輪物語"
+      ],
+      "era_setting": "中つ国 第三紀末",
+      "characters": {
+        "フロド・バギンズ": {
+          "character_id": "CHAR_LOTR_001",
+          "aliases": [
+            "フロド",
+            "指輪所持者"
+          ],
+          "age_at_story": 50,
+          "abilities": [
+            "スティングの使用",
+            "ミスリルの鎖かたびらの所持",
+            "強い意志力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "LOTR_FRODO_001",
+              "description": "ビルボから一つの指輪を受け継ぎ、その危険性をガンダルフから聞かされる",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第1巻第2章「過去の影」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_002",
+              "description": "ホビット庄を出発し、サムと共に指輪を滅びの山へ運ぶ旅を始める",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第1巻第3章「三人道連れ」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_003",
+              "description": "裂け谷の会議で自ら指輪運搬を志願し、旅の仲間が結成される",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第2章「エルロンドの会議」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_004",
+              "description": "モリアでバルログから逃れ、ガンダルフの犠牲を目撃する",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第5章「カザド＝ドゥムの橋」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_005",
+              "description": "ロスローリエンでガラドリエルの試練を経験し、光の玻璃瓶を授かる",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第7章「ガラドリエルの鏡」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_006",
+              "description": "パルス・ガレンでボロミアの誘惑を退け、サムと二人でモルドールへ向かう決意をする",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第10章「旅の仲間の離散」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_007",
+              "description": "シェロブに刺され仮死状態となるが、サムに救出される",
+              "story_arc": "二つの塔",
+              "source": {
+                "type": "novel",
+                "reference": "二つの塔 第4巻第10章「キリス・ウンゴルの階段」"
+              }
+            },
+            {
+              "scene_id": "LOTR_FRODO_008",
+              "description": "滅びの山で指輪の誘惑に屈しかけるが、ゴラムの介入により指輪が破壊される",
+              "story_arc": "王の帰還",
+              "source": {
+                "type": "novel",
+                "reference": "王の帰還 第6巻第3章「滅びの山」"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 33,
+              "events": [
+                "ビルボの111歳の誕生日パーティーで一つの指輪を受け継ぐ"
+              ],
+              "source": "旅の仲間 第1巻第1章"
+            },
+            {
+              "age": 50,
+              "events": [
+                "ホビット庄出発",
+                "裂け谷到着",
+                "旅の仲間結成"
+              ],
+              "source": "旅の仲間 第1巻〜第2巻"
+            },
+            {
+              "age": 51,
+              "events": [
+                "滅びの山で一つの指輪を破壊",
+                "ミナス・ティリスでの祝福"
+              ],
+              "source": "王の帰還 第6巻"
+            }
+          ]
+        },
+        "ガンダルフ": {
+          "character_id": "CHAR_LOTR_002",
+          "aliases": [
+            "ガンダルフ・ザ・グレイ",
+            "ガンダルフ・ザ・ホワイト",
+            "灰色のガンダルフ",
+            "白のガンダルフ",
+            "ミスランディア",
+            "オローリン"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "魔法の使用",
+            "火の支配",
+            "炎の指輪ナルヤの所持",
+            "イスタリ（魔法使い）としての力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "LOTR_GANDALF_001",
+              "description": "ビルボの指輪が一つの指輪であることを確認し、フロドに真実を告げる",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第1巻第2章「過去の影」"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_002",
+              "description": "アイゼンガルドでサルマンに囚われるが、大鷲グワイヒアに救出される",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第2章（回想）"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_003",
+              "description": "裂け谷の会議で指輪を滅ぼす必要性を説き、旅の仲間の一員となる",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第2章「エルロンドの会議」"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_004",
+              "description": "カザド＝ドゥムの橋でバルログと対峙し、「汝、過ぐるを得じ」と宣言して奈落へ落ちる",
+              "story_arc": "旅の仲間",
+              "source": {
+                "type": "novel",
+                "reference": "旅の仲間 第2巻第5章「カザド＝ドゥムの橋」"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_005",
+              "description": "バルログとの戦いの末に死亡し、白のガンダルフとして復活",
+              "story_arc": "二つの塔",
+              "source": {
+                "type": "novel",
+                "reference": "二つの塔 第3巻第5章「白の乗り手」"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_006",
+              "description": "ローハンでセオデン王を解放し、サルマンの支配から救う",
+              "story_arc": "二つの塔",
+              "source": {
+                "type": "novel",
+                "reference": "二つの塔 第3巻第6章「黄金館の王」"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_007",
+              "description": "ミナス・ティリスの防衛を指揮し、ペレンノール野の合戦で勝利に貢献",
+              "story_arc": "王の帰還",
+              "source": {
+                "type": "novel",
+                "reference": "王の帰還 第5巻第4章〜第6章"
+              }
+            },
+            {
+              "scene_id": "LOTR_GANDALF_008",
+              "description": "黒門前でサウロンの軍勢を引きつけ、フロドの任務達成を可能にする",
+              "story_arc": "王の帰還",
+              "source": {
+                "type": "novel",
+                "reference": "王の帰還 第5巻第10章「黒門開く」"
+              }
+            }
+          ],
+          "age_milestones": []
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "旅の仲間",
+          "order": 1,
+          "main_characters": [
+            "フロド・バギンズ",
+            "ガンダルフ"
+          ]
+        },
+        {
+          "arc_name": "二つの塔",
+          "order": 2,
+          "main_characters": [
+            "フロド・バギンズ",
+            "ガンダルフ"
+          ]
+        },
+        {
+          "arc_name": "王の帰還",
+          "order": 3,
+          "main_characters": [
+            "フロド・バギンズ",
+            "ガンダルフ"
+          ]
+        }
+      ]
+    },
+    "NARUTO": {
+      "work_id": "WORK_NARUTO_001",
+      "work_title": "NARUTO",
+      "work_title_variants": [
+        "ナルト",
+        "NARUTO -ナルト-",
+        "NARUTO疾風伝"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/NARUTO_-ナルト-"
+      ],
+      "era_setting": "木ノ葉隠れの里（架空忍者世界）",
+      "characters": {
+        "うずまきナルト": {
+          "character_id": "CHAR_NARUTO_001",
+          "aliases": [
+            "ナルト",
+            "七代目火影"
+          ],
+          "age_at_story": 12,
+          "abilities": [
+            "影分身の術",
+            "螺旋丸",
+            "仙人モード",
+            "九尾チャクラモード",
+            "六道仙人モード"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "NARUTO_NARUTO_001",
+              "description": "禁術の書を盗み、多重影分身の術を習得。ミズキを倒しイルカに認められる",
+              "story_arc": "プロローグ",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第1話「うずまきナルト!!」"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_002",
+              "description": "波の国任務で白と再不斬との戦いを経験し、忍としての覚悟を固める",
+              "story_arc": "波の国編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻〜第4巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_003",
+              "description": "中忍試験本選で日向ネジを破り、努力で才能を超えることを証明",
+              "story_arc": "中忍試験編",
+              "source": {
+                "type": "manga",
+                "reference": "第12巻第100話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_004",
+              "description": "終末の谷でサスケと初めての本気の戦い。敗北するが、連れ戻す約束を守ると誓う",
+              "story_arc": "サスケ奪還編",
+              "source": {
+                "type": "manga",
+                "reference": "第27巻第232話〜第233話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_005",
+              "description": "自来也との修行で螺旋丸を習得、後に風遁・螺旋手裏剣を完成させる",
+              "story_arc": "疾風伝",
+              "source": {
+                "type": "manga",
+                "reference": "第18巻〜第19巻、第41巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_006",
+              "description": "ペイン襲来で木ノ葉を救い、長門を説得。里の英雄として認められる",
+              "story_arc": "ペイン編",
+              "source": {
+                "type": "manga",
+                "reference": "第46巻〜第48巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_007",
+              "description": "第四次忍界大戦でうちはオビト、うちはマダラと戦い、最後はカグヤを封印",
+              "story_arc": "第四次忍界大戦",
+              "source": {
+                "type": "manga",
+                "reference": "第57巻〜第72巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_NARUTO_008",
+              "description": "終末の谷での最終決戦でサスケに勝利し、長年の確執に決着をつける",
+              "story_arc": "第四次忍界大戦",
+              "source": {
+                "type": "manga",
+                "reference": "第72巻第698話〜第699話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 12,
+              "events": [
+                "アカデミー卒業",
+                "第7班配属",
+                "波の国任務",
+                "中忍試験"
+              ],
+              "source": "原作第1巻〜第13巻"
+            },
+            {
+              "age": 13,
+              "events": [
+                "サスケ奪還任務失敗",
+                "自来也との修行の旅へ"
+              ],
+              "source": "原作第27巻"
+            },
+            {
+              "age": 16,
+              "events": [
+                "木ノ葉帰還",
+                "暁との戦い開始",
+                "仙人モード習得"
+              ],
+              "source": "原作第28巻〜第46巻"
+            },
+            {
+              "age": 17,
+              "events": [
+                "第四次忍界大戦",
+                "サスケとの最終決戦",
+                "戦争終結"
+              ],
+              "source": "原作第57巻〜第72巻"
+            }
+          ]
+        },
+        "うちはサスケ": {
+          "character_id": "CHAR_NARUTO_002",
+          "aliases": [
+            "サスケ"
+          ],
+          "age_at_story": 12,
+          "abilities": [
+            "写輪眼",
+            "万華鏡写輪眼",
+            "輪廻眼",
+            "千鳥",
+            "須佐能乎",
+            "天照"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "NARUTO_SASUKE_001",
+              "description": "うちは一族がイタチに滅ぼされ、復讐を誓う。唯一の生存者となる",
+              "story_arc": "プロローグ",
+              "source": {
+                "type": "manga",
+                "reference": "第25巻第224話〜第225話（回想）"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_002",
+              "description": "波の国で白との戦いで写輪眼を開眼、ナルトを庇い負傷",
+              "story_arc": "波の国編",
+              "source": {
+                "type": "manga",
+                "reference": "第4巻第27話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_003",
+              "description": "中忍試験で大蛇丸に呪印を刻まれ、力への渇望が強まる",
+              "story_arc": "中忍試験編",
+              "source": {
+                "type": "manga",
+                "reference": "第5巻第49話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_004",
+              "description": "木ノ葉を抜け、大蛇丸のもとへ向かう。終末の谷でナルトを破る",
+              "story_arc": "サスケ奪還編",
+              "source": {
+                "type": "manga",
+                "reference": "第27巻第232話〜第233話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_005",
+              "description": "大蛇丸を取り込み、イタチとの最終決戦に挑む",
+              "story_arc": "イタチ追跡編",
+              "source": {
+                "type": "manga",
+                "reference": "第38巻〜第43巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_006",
+              "description": "イタチを倒した後、真実を知り木ノ葉への復讐を決意",
+              "story_arc": "イタチ真伝",
+              "source": {
+                "type": "manga",
+                "reference": "第43巻第400話〜第402話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_007",
+              "description": "五影会談を襲撃、ダンゾウを殺害",
+              "story_arc": "五影会談編",
+              "source": {
+                "type": "manga",
+                "reference": "第50巻〜第51巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_SASUKE_008",
+              "description": "第四次忍界大戦で忍連合軍に加わり、最終的にナルトとの決戦後に改心",
+              "story_arc": "第四次忍界大戦",
+              "source": {
+                "type": "manga",
+                "reference": "第72巻第698話〜第699話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 7,
+              "events": [
+                "うちは一族虐殺を目撃、イタチへの復讐を誓う"
+              ],
+              "source": "原作第25巻（回想）"
+            },
+            {
+              "age": 12,
+              "events": [
+                "写輪眼開眼",
+                "大蛇丸に呪印を刻まれる"
+              ],
+              "source": "原作第4巻、第5巻"
+            },
+            {
+              "age": 13,
+              "events": [
+                "木ノ葉抜け忍となる",
+                "大蛇丸のもとで修行開始"
+              ],
+              "source": "原作第27巻"
+            },
+            {
+              "age": 16,
+              "events": [
+                "大蛇丸を取り込む",
+                "イタチを倒す",
+                "万華鏡写輪眼開眼"
+              ],
+              "source": "原作第38巻〜第43巻"
+            },
+            {
+              "age": 17,
+              "events": [
+                "永遠の万華鏡写輪眼獲得",
+                "輪廻眼開眼",
+                "ナルトとの最終決戦"
+              ],
+              "source": "原作第51巻〜第72巻"
+            }
+          ]
+        },
+        "はたけカカシ": {
+          "character_id": "CHAR_NARUTO_003",
+          "aliases": [
+            "カカシ先生",
+            "カカシ",
+            "六代目火影",
+            "コピー忍者のカカシ"
+          ],
+          "age_at_story": 26,
+          "abilities": [
+            "写輪眼（移植）",
+            "千鳥",
+            "雷切",
+            "神威",
+            "多数の忍術コピー"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "NARUTO_KAKASHI_001",
+              "description": "第7班の担当上忍となり、ナルト・サスケ・サクラに鈴取りの試練を課す",
+              "story_arc": "プロローグ",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第4話〜第6話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_KAKASHI_002",
+              "description": "波の国で再不斬と対峙、写輪眼の力を初披露",
+              "story_arc": "波の国編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻〜第4巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_KAKASHI_003",
+              "description": "中忍試験でサスケに千鳥を伝授",
+              "story_arc": "中忍試験編",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻第96話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_KAKASHI_004",
+              "description": "かつてのチームメイト・オビトとの過去が明かされ、写輪眼の由来が判明",
+              "story_arc": "カカシ外伝",
+              "source": {
+                "type": "manga",
+                "reference": "第27巻「カカシ外伝」"
+              }
+            },
+            {
+              "scene_id": "NARUTO_KAKASHI_005",
+              "description": "暁のリーダー・ペインとの戦いで一度死亡するが、長門の術で蘇生",
+              "story_arc": "ペイン編",
+              "source": {
+                "type": "manga",
+                "reference": "第46巻第425話"
+              }
+            },
+            {
+              "scene_id": "NARUTO_KAKASHI_006",
+              "description": "第四次忍界大戦でうちはオビトと対峙、最終的に和解",
+              "story_arc": "第四次忍界大戦",
+              "source": {
+                "type": "manga",
+                "reference": "第63巻〜第70巻"
+              }
+            },
+            {
+              "scene_id": "NARUTO_KAKASHI_007",
+              "description": "戦後、六代目火影に就任",
+              "story_arc": "戦後",
+              "source": {
+                "type": "manga",
+                "reference": "第72巻第700話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 5,
+              "events": [
+                "アカデミー卒業（天才として知られる）"
+              ],
+              "source": "原作設定資料"
+            },
+            {
+              "age": 12,
+              "events": [
+                "上忍昇格",
+                "オビトの死を経験、写輪眼を受け継ぐ"
+              ],
+              "source": "原作第27巻「カカシ外伝」"
+            },
+            {
+              "age": 26,
+              "events": [
+                "第7班担当上忍となる"
+              ],
+              "source": "原作第1巻"
+            },
+            {
+              "age": 30,
+              "events": [
+                "ペイン戦で一度死亡、長門により蘇生"
+              ],
+              "source": "原作第46巻"
+            },
+            {
+              "age": 31,
+              "events": [
+                "第四次忍界大戦参戦",
+                "オビトとの和解"
+              ],
+              "source": "原作第57巻〜第70巻"
+            },
+            {
+              "age": 32,
+              "events": [
+                "六代目火影就任"
+              ],
+              "source": "原作第72巻"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "プロローグ",
+          "order": 1,
+          "main_characters": [
+            "うずまきナルト",
+            "うちはサスケ",
+            "はたけカカシ"
+          ]
+        },
+        {
+          "arc_name": "波の国編",
+          "order": 2,
+          "main_characters": [
+            "うずまきナルト",
+            "うちはサスケ",
+            "はたけカカシ"
+          ]
+        },
+        {
+          "arc_name": "中忍試験編",
+          "order": 3,
+          "main_characters": [
+            "うずまきナルト",
+            "うちはサスケ",
+            "はたけカカシ"
+          ]
+        },
+        {
+          "arc_name": "サスケ奪還編",
+          "order": 4,
+          "main_characters": [
+            "うずまきナルト",
+            "うちはサスケ"
+          ]
+        },
+        {
+          "arc_name": "疾風伝",
+          "order": 5,
+          "main_characters": [
+            "うずまきナルト",
+            "はたけカカシ"
+          ]
+        },
+        {
+          "arc_name": "イタチ追跡編",
+          "order": 6,
+          "main_characters": [
+            "うちはサスケ"
+          ]
+        },
+        {
+          "arc_name": "ペイン編",
+          "order": 7,
+          "main_characters": [
+            "うずまきナルト",
+            "はたけカカシ"
+          ]
+        },
+        {
+          "arc_name": "五影会談編",
+          "order": 8,
+          "main_characters": [
+            "うちはサスケ"
+          ]
+        },
+        {
+          "arc_name": "第四次忍界大戦",
+          "order": 9,
+          "main_characters": [
+            "うずまきナルト",
+            "うちはサスケ",
+            "はたけカカシ"
+          ]
+        }
+      ]
+    },
+    "ドラゴンボール": {
+      "work_id": "WORK_DRAGONBALL_001",
+      "work_title": "ドラゴンボール",
+      "work_title_variants": [
+        "DRAGON BALL",
+        "ドラゴンボールZ",
+        "ドラゴンボールGT",
+        "ドラゴンボール超"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/ドラゴンボール"
+      ],
+      "era_setting": "架空世界（エイジ表記）",
+      "characters": {
+        "孫悟空": {
+          "character_id": "CHAR_DB_001",
+          "aliases": [
+            "悟空",
+            "カカロット",
+            "Goku"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "かめはめ波",
+            "元気玉",
+            "瞬間移動",
+            "超サイヤ人変身",
+            "身勝手の極意"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "DB_GOKU_001",
+              "description": "ブルマと出会い、ドラゴンボール探しの旅に出る",
+              "story_arc": "少年編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第1話「ブルマと孫悟空」"
+              }
+            },
+            {
+              "scene_id": "DB_GOKU_002",
+              "description": "第21回天下一武道会でジャッキー・チュン（亀仙人）に敗北",
+              "story_arc": "少年編",
+              "source": {
+                "type": "manga",
+                "reference": "第4巻第44話"
+              }
+            },
+            {
+              "scene_id": "DB_GOKU_003",
+              "description": "ピッコロ大魔王を貫手で倒す",
+              "story_arc": "ピッコロ大魔王編",
+              "source": {
+                "type": "manga",
+                "reference": "第14巻第161話"
+              }
+            },
+            {
+              "scene_id": "DB_GOKU_004",
+              "description": "ナメック星でフリーザへの怒りから初めて超サイヤ人に変身",
+              "story_arc": "ナメック星編",
+              "source": {
+                "type": "manga",
+                "reference": "第27巻第317話"
+              }
+            },
+            {
+              "scene_id": "DB_GOKU_005",
+              "description": "セルゲームで悟飯に希望を託し、瞬間移動でセルと共に自爆",
+              "story_arc": "人造人間・セル編",
+              "source": {
+                "type": "manga",
+                "reference": "第35巻第412話"
+              }
+            },
+            {
+              "scene_id": "DB_GOKU_006",
+              "description": "魔人ブウ戦で元気玉を放ち、地球を救う",
+              "story_arc": "魔人ブウ編",
+              "source": {
+                "type": "manga",
+                "reference": "第42巻第516話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 12,
+              "events": [
+                "ブルマと出会い冒険を開始",
+                "第21回天下一武道会出場"
+              ],
+              "source": "原作第1巻〜第4巻"
+            },
+            {
+              "age": 15,
+              "events": [
+                "ピッコロ大魔王を倒す"
+              ],
+              "source": "原作第14巻"
+            },
+            {
+              "age": 18,
+              "events": [
+                "第23回天下一武道会でマジュニア（ピッコロ）を倒し優勝",
+                "チチと結婚"
+              ],
+              "source": "原作第17巻"
+            },
+            {
+              "age": 24,
+              "events": [
+                "サイヤ人ラディッツとの戦いで死亡",
+                "ナメック星でフリーザを倒す"
+              ],
+              "source": "原作第17巻〜第27巻"
+            },
+            {
+              "age": 30,
+              "events": [
+                "セルゲームで自爆して死亡"
+              ],
+              "source": "原作第35巻"
+            },
+            {
+              "age": 37,
+              "events": [
+                "魔人ブウを倒す"
+              ],
+              "source": "原作第42巻"
+            }
+          ]
+        },
+        "ベジータ": {
+          "character_id": "CHAR_DB_002",
+          "aliases": [
+            "サイヤ人の王子"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "ギャリック砲",
+            "ファイナルフラッシュ",
+            "超サイヤ人変身",
+            "我儘の極意"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "DB_VEGETA_001",
+              "description": "地球に侵攻し、悟空と初めて戦う",
+              "story_arc": "サイヤ人編",
+              "source": {
+                "type": "manga",
+                "reference": "第19巻〜第20巻"
+              }
+            },
+            {
+              "scene_id": "DB_VEGETA_002",
+              "description": "ナメック星でフリーザの裏切りにより殺され、涙を流しながら悟空に託す",
+              "story_arc": "ナメック星編",
+              "source": {
+                "type": "manga",
+                "reference": "第26巻第306話"
+              }
+            },
+            {
+              "scene_id": "DB_VEGETA_003",
+              "description": "セルと戦う前に精神と時の部屋で超サイヤ人を超えた超サイヤ人に覚醒",
+              "story_arc": "人造人間・セル編",
+              "source": {
+                "type": "manga",
+                "reference": "第32巻〜第33巻"
+              }
+            },
+            {
+              "scene_id": "DB_VEGETA_004",
+              "description": "魔人ブウ編でトランクスを抱きしめ、自爆してブウを道連れにしようとする",
+              "story_arc": "魔人ブウ編",
+              "source": {
+                "type": "manga",
+                "reference": "第38巻第460話"
+              }
+            },
+            {
+              "scene_id": "DB_VEGETA_005",
+              "description": "地球人たちに元気玉への協力を呼びかける",
+              "story_arc": "魔人ブウ編",
+              "source": {
+                "type": "manga",
+                "reference": "第42巻第516話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 30,
+              "events": [
+                "地球に侵攻、悟空に敗北"
+              ],
+              "source": "原作第19巻〜第20巻（年齢はエイジから推定）"
+            },
+            {
+              "age": 36,
+              "events": [
+                "セルと戦闘、超サイヤ人第2段階に覚醒"
+              ],
+              "source": "原作第32巻〜第33巻"
+            },
+            {
+              "age": 43,
+              "events": [
+                "魔人ブウに自爆攻撃"
+              ],
+              "source": "原作第38巻"
+            }
+          ]
+        },
+        "孫悟飯": {
+          "character_id": "CHAR_DB_003",
+          "aliases": [
+            "悟飯",
+            "グレートサイヤマン"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "魔閃光",
+            "かめはめ波",
+            "超サイヤ人変身",
+            "アルティメット（潜在能力解放）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "DB_GOHAN_001",
+              "description": "サイヤ人戦で父を助けるため、ラディッツに頭突き",
+              "story_arc": "サイヤ人編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻第197話"
+              }
+            },
+            {
+              "scene_id": "DB_GOHAN_002",
+              "description": "ピッコロに1年間修行をつけてもらう",
+              "story_arc": "サイヤ人編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻〜第18巻"
+              }
+            },
+            {
+              "scene_id": "DB_GOHAN_003",
+              "description": "ナメック星でフリーザ第2形態に立ち向かい、潜在能力を発揮",
+              "story_arc": "ナメック星編",
+              "source": {
+                "type": "manga",
+                "reference": "第24巻〜第26巻"
+              }
+            },
+            {
+              "scene_id": "DB_GOHAN_004",
+              "description": "セルゲームで超サイヤ人2に覚醒し、完全体セルを親子かめはめ波で倒す",
+              "story_arc": "人造人間・セル編",
+              "source": {
+                "type": "manga",
+                "reference": "第35巻第413話〜第416話"
+              }
+            },
+            {
+              "scene_id": "DB_GOHAN_005",
+              "description": "グレートサイヤマンとして高校生活を送る",
+              "story_arc": "魔人ブウ編",
+              "source": {
+                "type": "manga",
+                "reference": "第36巻第421話"
+              }
+            },
+            {
+              "scene_id": "DB_GOHAN_006",
+              "description": "老界王神に潜在能力を解放してもらい、アルティメット悟飯となる",
+              "story_arc": "魔人ブウ編",
+              "source": {
+                "type": "manga",
+                "reference": "第40巻第478話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 4,
+              "events": [
+                "ラディッツ戦で潜在能力を初めて発揮",
+                "ピッコロとの修行開始"
+              ],
+              "source": "原作第17巻"
+            },
+            {
+              "age": 5,
+              "events": [
+                "サイヤ人ナッパ・ベジータとの戦い"
+              ],
+              "source": "原作第19巻〜第20巻"
+            },
+            {
+              "age": 6,
+              "events": [
+                "ナメック星でフリーザと戦闘"
+              ],
+              "source": "原作第24巻〜第27巻"
+            },
+            {
+              "age": 11,
+              "events": [
+                "セルゲームで超サイヤ人2に覚醒、セルを倒す"
+              ],
+              "source": "原作第35巻"
+            },
+            {
+              "age": 18,
+              "events": [
+                "高校入学、グレートサイヤマンとして活動",
+                "アルティメット悟飯に覚醒"
+              ],
+              "source": "原作第36巻、第40巻"
+            }
+          ]
+        },
+        "クリリン": {
+          "character_id": "CHAR_DB_004",
+          "aliases": [
+            "栗林"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "気円斬",
+            "太陽拳",
+            "かめはめ波"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "DB_KRILLIN_001",
+              "description": "亀仙人のもとで悟空と共に修行する",
+              "story_arc": "少年編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻〜第4巻"
+              }
+            },
+            {
+              "scene_id": "DB_KRILLIN_002",
+              "description": "第22回天下一武道会で悟空と戦い敗北",
+              "story_arc": "少年編",
+              "source": {
+                "type": "manga",
+                "reference": "第10巻"
+              }
+            },
+            {
+              "scene_id": "DB_KRILLIN_003",
+              "description": "ナメック星でフリーザに殺され、悟空が超サイヤ人に覚醒するきっかけとなる",
+              "story_arc": "ナメック星編",
+              "source": {
+                "type": "manga",
+                "reference": "第27巻第317話"
+              }
+            },
+            {
+              "scene_id": "DB_KRILLIN_004",
+              "description": "人造人間18号に惹かれ、後に結婚",
+              "story_arc": "人造人間・セル編",
+              "source": {
+                "type": "manga",
+                "reference": "第31巻〜第36巻"
+              }
+            },
+            {
+              "scene_id": "DB_KRILLIN_005",
+              "description": "魔人ブウに魔人化した18号と対峙",
+              "story_arc": "魔人ブウ編",
+              "source": {
+                "type": "manga",
+                "reference": "第40巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 13,
+              "events": [
+                "亀仙人のもとで修行開始",
+                "第21回天下一武道会に出場"
+              ],
+              "source": "原作第2巻〜第4巻"
+            },
+            {
+              "age": 25,
+              "events": [
+                "ナメック星でフリーザに殺される"
+              ],
+              "source": "原作第27巻（年齢はエイジから推定）"
+            },
+            {
+              "age": 38,
+              "events": [
+                "人造人間18号と結婚、娘マーロンが誕生"
+              ],
+              "source": "原作第36巻〜（結婚は物語内で言及）"
+            }
+          ]
+        },
+        "ピッコロ": {
+          "character_id": "CHAR_DB_005",
+          "aliases": [
+            "ピッコロ大魔王",
+            "マジュニア"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "魔貫光殺砲",
+            "再生能力",
+            "分身",
+            "巨大化",
+            "ナメック星人との同化"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "DB_PICCOLO_001",
+              "description": "第23回天下一武道会で悟空と戦い敗北",
+              "story_arc": "ピッコロ大魔王編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻第194話"
+              }
+            },
+            {
+              "scene_id": "DB_PICCOLO_002",
+              "description": "悟飯を1年間修行させ、師弟関係を築く",
+              "story_arc": "サイヤ人編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻〜第18巻"
+              }
+            },
+            {
+              "scene_id": "DB_PICCOLO_003",
+              "description": "ナッパの攻撃から悟飯を庇って死亡",
+              "story_arc": "サイヤ人編",
+              "source": {
+                "type": "manga",
+                "reference": "第20巻第229話"
+              }
+            },
+            {
+              "scene_id": "DB_PICCOLO_004",
+              "description": "ナメック星人のネイルと同化し、パワーアップ",
+              "story_arc": "ナメック星編",
+              "source": {
+                "type": "manga",
+                "reference": "第26巻第296話"
+              }
+            },
+            {
+              "scene_id": "DB_PICCOLO_005",
+              "description": "神様と同化し、完全体セルと互角に戦う",
+              "story_arc": "人造人間・セル編",
+              "source": {
+                "type": "manga",
+                "reference": "第32巻第361話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 3,
+              "events": [
+                "第23回天下一武道会で悟空に敗北"
+              ],
+              "source": "原作第17巻（ピッコロ大魔王の転生体として3歳）"
+            },
+            {
+              "age": 8,
+              "events": [
+                "悟飯を修行させる",
+                "ナッパから悟飯を庇い死亡"
+              ],
+              "source": "原作第17巻〜第20巻"
+            },
+            {
+              "age": 9,
+              "events": [
+                "ネイルと同化"
+              ],
+              "source": "原作第26巻"
+            },
+            {
+              "age": 13,
+              "events": [
+                "神様と同化、超ナメック星人となる"
+              ],
+              "source": "原作第32巻"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "少年編",
+          "order": 1,
+          "main_characters": [
+            "孫悟空",
+            "クリリン"
+          ]
+        },
+        {
+          "arc_name": "ピッコロ大魔王編",
+          "order": 2,
+          "main_characters": [
+            "孫悟空",
+            "ピッコロ"
+          ]
+        },
+        {
+          "arc_name": "サイヤ人編",
+          "order": 3,
+          "main_characters": [
+            "孫悟空",
+            "孫悟飯",
+            "ベジータ",
+            "ピッコロ",
+            "クリリン"
+          ]
+        },
+        {
+          "arc_name": "ナメック星編",
+          "order": 4,
+          "main_characters": [
+            "孫悟空",
+            "孫悟飯",
+            "クリリン",
+            "ベジータ"
+          ]
+        },
+        {
+          "arc_name": "人造人間・セル編",
+          "order": 5,
+          "main_characters": [
+            "孫悟空",
+            "孫悟飯",
+            "ベジータ",
+            "ピッコロ"
+          ]
+        },
+        {
+          "arc_name": "魔人ブウ編",
+          "order": 6,
+          "main_characters": [
+            "孫悟空",
+            "孫悟飯",
+            "ベジータ"
+          ]
+        }
+      ]
+    },
+    "新世紀エヴァンゲリオン": {
+      "work_id": "WORK_EVA_001",
+      "work_title": "新世紀エヴァンゲリオン",
+      "work_title_variants": [
+        "Neon Genesis Evangelion",
+        "エヴァ"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/新世紀エヴァンゲリオン"
+      ],
+      "era_setting": "西暦2015年（セカンドインパクト後15年）",
+      "characters": {
+        "碇シンジ": {
+          "character_id": "CHAR_EVA_001",
+          "aliases": [
+            "シンジ",
+            "サードチルドレン"
+          ],
+          "age_at_story": 14,
+          "abilities": [
+            "EVA初号機操縦",
+            "高いシンクロ率",
+            "A.T.フィールド展開"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "EVA_SHINJI_001",
+              "description": "第3新東京市に呼び寄せられ、父ゲンドウと再会、EVA初号機への搭乗を迫られる",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第1話「使徒、襲来」"
+              }
+            },
+            {
+              "scene_id": "EVA_SHINJI_002",
+              "description": "第3使徒サキエルとの初戦闘で暴走し、勝利を収める",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第1話〜第2話"
+              }
+            },
+            {
+              "scene_id": "EVA_SHINJI_003",
+              "description": "ヤシマ作戦で第5使徒ラミエルを陽電子砲で撃破",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第5話〜第6話「決戦、第3新東京市」"
+              }
+            },
+            {
+              "scene_id": "EVA_SHINJI_004",
+              "description": "第13使徒バルディエルに侵食されたEVA3号機（トウジ搭乗）をダミープラグで破壊させられる",
+              "story_arc": "使徒戦闘編",
+              "source": {
+                "type": "anime",
+                "reference": "第18話「命の選択を」"
+              }
+            },
+            {
+              "scene_id": "EVA_SHINJI_005",
+              "description": "第17使徒カヲルを初号機で握り潰し、深い心の傷を負う",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第24話「最後のシ者」"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 14,
+              "events": [
+                "EVA初号機パイロットに選ばれる",
+                "複数の使徒との戦闘",
+                "カヲルとの出会いと別れ"
+              ],
+              "source": "TVシリーズ全26話"
+            }
+          ]
+        },
+        "綾波レイ": {
+          "character_id": "CHAR_EVA_002",
+          "aliases": [
+            "レイ",
+            "ファーストチルドレン"
+          ],
+          "age_at_story": 14,
+          "abilities": [
+            "EVA零号機操縦",
+            "A.T.フィールド展開",
+            "シンクロ能力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "EVA_REI_001",
+              "description": "包帯姿でシンジと初めて出会う",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第1話「使徒、襲来」"
+              }
+            },
+            {
+              "scene_id": "EVA_REI_002",
+              "description": "ヤシマ作戦でシンジを守るため盾となり重傷を負う",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第6話「決戦、第3新東京市」"
+              }
+            },
+            {
+              "scene_id": "EVA_REI_003",
+              "description": "シンジに「ありがとう」と言われ、初めて笑顔を見せる",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第6話「決戦、第3新東京市」"
+              }
+            },
+            {
+              "scene_id": "EVA_REI_004",
+              "description": "第16使徒アルミサエルとの戦闘で自爆し、シンジを守る",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第23話「涙」"
+              }
+            },
+            {
+              "scene_id": "EVA_REI_005",
+              "description": "リリスとの融合を果たし、人類補完計画の鍵となる",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第24話〜第26話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 14,
+              "events": [
+                "EVA零号機起動実験",
+                "ヤシマ作戦での負傷と回復",
+                "第16使徒戦での自己犠牲"
+              ],
+              "source": "TVシリーズ全26話"
+            }
+          ]
+        },
+        "惣流・アスカ・ラングレー": {
+          "character_id": "CHAR_EVA_003",
+          "aliases": [
+            "アスカ",
+            "セカンドチルドレン"
+          ],
+          "age_at_story": 14,
+          "abilities": [
+            "EVA弐号機操縦",
+            "高い戦闘技術",
+            "A.T.フィールド展開"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "EVA_ASUKA_001",
+              "description": "太平洋上でEVA弐号機を使い、第6使徒ガギエルを撃破",
+              "story_arc": "使徒戦闘編",
+              "source": {
+                "type": "anime",
+                "reference": "第8話「アスカ、来日」"
+              }
+            },
+            {
+              "scene_id": "EVA_ASUKA_002",
+              "description": "シンジとのユニゾン攻撃で第7使徒イスラフェルを撃破",
+              "story_arc": "使徒戦闘編",
+              "source": {
+                "type": "anime",
+                "reference": "第9話「瞬間、心、重ねて」"
+              }
+            },
+            {
+              "scene_id": "EVA_ASUKA_003",
+              "description": "第15使徒アラエルの精神攻撃を受け、幼少期のトラウマを暴かれる",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第22話「せめて、人間らしく」"
+              }
+            },
+            {
+              "scene_id": "EVA_ASUKA_004",
+              "description": "シンクロ率の低下により戦えなくなり、精神崩壊に陥る",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第22話〜第24話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 4,
+              "events": [
+                "母キョウコの精神崩壊を目撃"
+              ],
+              "source": "第22話（回想シーン）"
+            },
+            {
+              "age": 14,
+              "events": [
+                "日本への来日とEVA弐号機での活躍",
+                "精神攻撃による精神崩壊"
+              ],
+              "source": "TVシリーズ第8話〜第24話"
+            }
+          ]
+        },
+        "碇ゲンドウ": {
+          "character_id": "CHAR_EVA_004",
+          "aliases": [
+            "ゲンドウ",
+            "司令",
+            "碇司令"
+          ],
+          "age_at_story": 48,
+          "abilities": [
+            "NERV指揮権",
+            "人類補完計画の知識",
+            "アダムの移植"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "EVA_GENDO_001",
+              "description": "シンジを第3新東京市に呼び寄せ、EVA初号機への搭乗を命じる",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第1話「使徒、襲来」"
+              }
+            },
+            {
+              "scene_id": "EVA_GENDO_002",
+              "description": "シンジの意思を無視し、ダミープラグでEVA3号機を破壊させる",
+              "story_arc": "使徒戦闘編",
+              "source": {
+                "type": "anime",
+                "reference": "第18話「命の選択を」"
+              }
+            },
+            {
+              "scene_id": "EVA_GENDO_003",
+              "description": "ゼーレとの対立を深めながら、独自の人類補完計画を進める",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第21話〜第24話"
+              }
+            },
+            {
+              "scene_id": "EVA_GENDO_004",
+              "description": "妻ユイとの再会を願い、レイとの融合を試みる",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第26話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 33,
+              "events": [
+                "妻ユイのEVA初号機との接触実験による消失"
+              ],
+              "source": "第21話（回想シーン、15年前の出来事）"
+            },
+            {
+              "age": 48,
+              "events": [
+                "シンジをNERVに招集",
+                "人類補完計画の実行"
+              ],
+              "source": "TVシリーズ全26話"
+            }
+          ]
+        },
+        "葛城ミサト": {
+          "character_id": "CHAR_EVA_005",
+          "aliases": [
+            "ミサト",
+            "葛城一尉",
+            "葛城三佐"
+          ],
+          "age_at_story": 29,
+          "abilities": [
+            "NERV作戦指揮",
+            "戦術立案",
+            "軍事経験"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "EVA_MISATO_001",
+              "description": "シンジを迎えに行き、第3使徒襲来に遭遇",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第1話「使徒、襲来」"
+              }
+            },
+            {
+              "scene_id": "EVA_MISATO_002",
+              "description": "ヤシマ作戦を立案・指揮し、第5使徒ラミエルを撃破",
+              "story_arc": "使徒襲来編",
+              "source": {
+                "type": "anime",
+                "reference": "第5話〜第6話"
+              }
+            },
+            {
+              "scene_id": "EVA_MISATO_003",
+              "description": "加持リョウジから真実を告げられ、父の死の真相に迫る",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第21話「ネルフ、誕生」"
+              }
+            },
+            {
+              "scene_id": "EVA_MISATO_004",
+              "description": "シンジに大人のキスをし、「続きはまた後でね」と告げて戦場へ向かう",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "劇場版「Air/まごころを、君に」"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 14,
+              "events": [
+                "セカンドインパクトに巻き込まれ、父を失う"
+              ],
+              "source": "第12話、第21話（回想シーン）"
+            },
+            {
+              "age": 29,
+              "events": [
+                "NERV作戦部長としてチルドレンを指揮",
+                "加持との再会と別れ"
+              ],
+              "source": "TVシリーズ全26話"
+            }
+          ]
+        },
+        "渚カヲル": {
+          "character_id": "CHAR_EVA_006",
+          "aliases": [
+            "カヲル",
+            "フィフスチルドレン",
+            "第17使徒タブリス"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "EVA弐号機操縦",
+            "A.T.フィールド展開",
+            "使徒としての力",
+            "自由意志"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "EVA_KAWORU_001",
+              "description": "フィフスチルドレンとしてNERVに送り込まれ、シンジと出会う",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第24話「最後のシ者」"
+              }
+            },
+            {
+              "scene_id": "EVA_KAWORU_002",
+              "description": "シンジに「好きということさ」と告げ、心を通わせる",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第24話「最後のシ者」"
+              }
+            },
+            {
+              "scene_id": "EVA_KAWORU_003",
+              "description": "EVA弐号機を操りターミナルドグマへ侵入、リリスの存在を確認",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第24話「最後のシ者」"
+              }
+            },
+            {
+              "scene_id": "EVA_KAWORU_004",
+              "description": "シンジに自らの死を委ね、「ありがとう。君に会えてよかった」と最期を迎える",
+              "story_arc": "終局編",
+              "source": {
+                "type": "anime",
+                "reference": "第24話「最後のシ者」"
+              }
+            }
+          ],
+          "age_milestones": []
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "使徒襲来編",
+          "order": 1,
+          "main_characters": [
+            "碇シンジ",
+            "綾波レイ",
+            "葛城ミサト"
+          ]
+        },
+        {
+          "arc_name": "使徒戦闘編",
+          "order": 2,
+          "main_characters": [
+            "碇シンジ",
+            "綾波レイ",
+            "惣流・アスカ・ラングレー"
+          ]
+        },
+        {
+          "arc_name": "終局編",
+          "order": 3,
+          "main_characters": [
+            "碇シンジ",
+            "綾波レイ",
+            "渚カヲル",
+            "碇ゲンドウ"
+          ]
+        }
+      ]
+    },
+    "日本神話": {
+      "work_id": "WORK_MYTH_JP_001",
+      "work_title": "日本神話",
+      "work_title_variants": [
+        "Japanese Mythology",
+        "古事記",
+        "日本書紀"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/日本神話",
+        "https://ja.wikipedia.org/wiki/古事記",
+        "https://ja.wikipedia.org/wiki/日本書紀"
+      ],
+      "era_setting": "神話時代（天地開闢〜神武天皇）",
+      "characters": {
+        "アマテラス大神": {
+          "character_id": "CHAR_MYTHJP_001",
+          "aliases": [
+            "天照大御神",
+            "天照大神",
+            "アマテラスオオミカミ",
+            "Amaterasu"
+          ],
+          "age_at_story": "ageless",
+          "abilities": [
+            "太陽神としての光明の神力",
+            "高天原の支配権",
+            "神々の統率力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "MYTHJP_AMATERASU_001",
+              "description": "イザナギの禊により左目から誕生し、高天原の支配を命じられる",
+              "story_arc": "三貴子の誕生",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（神代記）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_AMATERASU_002",
+              "description": "スサノオの乱暴により天岩戸に隠れ、世界が闇に覆われる",
+              "story_arc": "天岩戸神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（天の岩屋戸）・日本書紀（神代紀）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_AMATERASU_003",
+              "description": "神々の策により天岩戸から出現し、世界に光が戻る",
+              "story_arc": "天岩戸神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（天の岩屋戸）・日本書紀（神代紀）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_AMATERASU_004",
+              "description": "孫のニニギノミコトに三種の神器を授け、葦原中国への天孫降臨を命じる",
+              "story_arc": "天孫降臨",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（天孫降臨の段）"
+              }
+            }
+          ],
+          "age_milestones": []
+        },
+        "スサノオ": {
+          "character_id": "CHAR_MYTHJP_002",
+          "aliases": [
+            "素戔嗚尊",
+            "須佐之男命",
+            "スサノオノミコト",
+            "Susanoo"
+          ],
+          "age_at_story": "ageless",
+          "abilities": [
+            "嵐と海原の支配",
+            "荒ぶる神力",
+            "剣術（草薙剣の所持）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "MYTHJP_SUSANOO_001",
+              "description": "イザナギの禊により鼻から誕生し、海原の支配を命じられるも拒否",
+              "story_arc": "三貴子の誕生",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（神代記）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_SUSANOO_002",
+              "description": "高天原で乱暴を働き、アマテラスを天岩戸に隠れさせる原因となる",
+              "story_arc": "天岩戸神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（天の岩屋戸）・日本書紀（神代紀）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_SUSANOO_003",
+              "description": "高天原を追放され、出雲国に降り立つ",
+              "story_arc": "出雲神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（須佐之男命の出雲下向）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_SUSANOO_004",
+              "description": "八岐大蛇を退治し、クシナダヒメを救い、草薙剣を得る",
+              "story_arc": "八岐大蛇退治",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（八俣遠呂智退治）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_SUSANOO_005",
+              "description": "クシナダヒメと結婚し、出雲の須賀の地に宮殿を建てる",
+              "story_arc": "出雲神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（須賀宮）"
+              }
+            }
+          ],
+          "age_milestones": []
+        },
+        "ニニギノミコト": {
+          "character_id": "CHAR_MYTHJP_003",
+          "aliases": [
+            "瓊瓊杵尊",
+            "邇邇芸命",
+            "天孫ニニギ",
+            "Ninigi"
+          ],
+          "age_at_story": "ageless",
+          "abilities": [
+            "天孫としての神聖な血統",
+            "三種の神器の継承",
+            "地上支配の神勅"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "MYTHJP_NINIGI_001",
+              "description": "アマテラスから三種の神器（八咫鏡・草薙剣・八尺瓊勾玉）を授けられる",
+              "story_arc": "天孫降臨",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（天孫降臨の段）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_NINIGI_002",
+              "description": "高千穂峰に降臨し、葦原中国（日本）を治めることを始める",
+              "story_arc": "天孫降臨",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（筑紫日向の高千穂）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_NINIGI_003",
+              "description": "コノハナサクヤヒメと出会い、求婚する",
+              "story_arc": "日向神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（木花之佐久夜毘売）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_NINIGI_004",
+              "description": "オオヤマツミから姉妹を差し出されるが、イワナガヒメを返し短命の呪いを受ける",
+              "story_arc": "日向神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（石長比売と木花之佐久夜毘売）"
+              }
+            }
+          ],
+          "age_milestones": []
+        },
+        "イザナギ": {
+          "character_id": "CHAR_MYTHJP_004",
+          "aliases": [
+            "伊邪那岐命",
+            "伊弉諾尊",
+            "イザナギノミコト",
+            "Izanagi"
+          ],
+          "age_at_story": "ageless",
+          "abilities": [
+            "国生みの神力",
+            "神々を生む創造力",
+            "生死の境界を越える力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "MYTHJP_IZANAGI_001",
+              "description": "イザナミと共に天浮橋から天沼矛で海をかき混ぜ、オノゴロ島を生む",
+              "story_arc": "国生み神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（国生み）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAGI_002",
+              "description": "イザナミと共に大八島国（日本列島）を次々と生み出す",
+              "story_arc": "国生み神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（大八島国）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAGI_003",
+              "description": "黄泉国に赴き、死んだイザナミを連れ戻そうとするが、変わり果てた姿を見て逃げ出す",
+              "story_arc": "黄泉国訪問",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記（黄泉国）・日本書紀（黄泉国）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAGI_004",
+              "description": "黄泉比良坂で千引岩を置き、イザナミと離縁の誓いを交わす",
+              "story_arc": "黄泉国訪問",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（黄泉比良坂）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAGI_005",
+              "description": "筑紫の日向の橘の小戸の阿波岐原で禊を行い、三貴子を生む",
+              "story_arc": "三貴子の誕生",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（禊祓）"
+              }
+            }
+          ],
+          "age_milestones": []
+        },
+        "イザナミ": {
+          "character_id": "CHAR_MYTHJP_005",
+          "aliases": [
+            "伊邪那美命",
+            "伊弉冉尊",
+            "イザナミノミコト",
+            "Izanami"
+          ],
+          "age_at_story": "ageless",
+          "abilities": [
+            "国生みの神力",
+            "神々を生む創造力",
+            "黄泉国の支配（死後）"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "MYTHJP_IZANAMI_001",
+              "description": "イザナギと共に天沼矛でオノゴロ島を生み、結婚の儀式を行う",
+              "story_arc": "国生み神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（国生み）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAMI_002",
+              "description": "イザナギと共に数多くの島々と神々を生む",
+              "story_arc": "国生み神話",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（神生み）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAMI_003",
+              "description": "火の神カグツチを産んだ際に火傷を負い、死去する",
+              "story_arc": "イザナミの死",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（迦具土神）"
+              }
+            },
+            {
+              "scene_id": "MYTHJP_IZANAMI_004",
+              "description": "黄泉国でイザナギに追われ、黄泉比良坂で「一日千人殺す」と宣言する",
+              "story_arc": "黄泉国訪問",
+              "source": {
+                "type": "mythology",
+                "reference": "古事記・日本書紀（黄泉比良坂の誓い）"
+              }
+            }
+          ],
+          "age_milestones": []
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "国生み神話",
+          "order": 1,
+          "main_characters": [
+            "イザナギ",
+            "イザナミ"
+          ]
+        },
+        {
+          "arc_name": "イザナミの死",
+          "order": 2,
+          "main_characters": [
+            "イザナギ",
+            "イザナミ"
+          ]
+        },
+        {
+          "arc_name": "黄泉国訪問",
+          "order": 3,
+          "main_characters": [
+            "イザナギ",
+            "イザナミ"
+          ]
+        },
+        {
+          "arc_name": "三貴子の誕生",
+          "order": 4,
+          "main_characters": [
+            "イザナギ",
+            "アマテラス大神",
+            "スサノオ"
+          ]
+        },
+        {
+          "arc_name": "天岩戸神話",
+          "order": 5,
+          "main_characters": [
+            "アマテラス大神",
+            "スサノオ"
+          ]
+        },
+        {
+          "arc_name": "出雲神話",
+          "order": 6,
+          "main_characters": [
+            "スサノオ"
+          ]
+        },
+        {
+          "arc_name": "八岐大蛇退治",
+          "order": 7,
+          "main_characters": [
+            "スサノオ"
+          ]
+        },
+        {
+          "arc_name": "天孫降臨",
+          "order": 8,
+          "main_characters": [
+            "アマテラス大神",
+            "ニニギノミコト"
+          ]
+        },
+        {
+          "arc_name": "日向神話",
+          "order": 9,
+          "main_characters": [
+            "ニニギノミコト"
+          ]
+        }
+      ]
+    }
+  },
+  "schema_notes": {
+    "key_scenes": {
+      "description": "キャラクターの重要シーン情報",
+      "schema": {
+        "scene_id": "シーン識別子（作品略称_連番形式）",
+        "description": "シーンの説明",
+        "story_arc": "所属する物語編名",
+        "source": {
+          "type": "manga/anime/movie等",
+          "reference": "話数・巻数等の具体的参照"
+        }
+      }
+    },
+    "age_milestones": {
+      "description": "年齢別の重要イベント情報",
+      "schema": {
+        "age": "キャラクターの年齢（数値）",
+        "events": "その年齢での重要イベントリスト",
+        "source": "出典情報"
+      }
+    }
+  },
+  "maintenance_notes": {
+    "update_policy": "Wikipedia等の公式情報源を参照して更新",
+    "character_addition": "主要キャラクターから順次追加",
+    "scene_priority": "エピソード生成頻度の高いシーンを優先登録"
+  }
+}

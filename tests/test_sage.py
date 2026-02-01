@@ -40,6 +40,7 @@ from scripts.sage.quality import (
     QualityEvaluator,
     SuperTotalCalculator,
 )
+from src.utils.fictional_characters import is_fictional_character
 
 
 class TestCandidate:
@@ -427,6 +428,72 @@ class TestEPUPPrevention:
         )
         result = evaluator.check_quality_gates(scores)
         assert not result.passed
+
+    def test_fictional_character_detected_by_name(self):
+        """person_type=REALでもperson_nameが架空キャラならFictionalQualityGateが適用される"""
+        # セフィロス（FF7）は架空キャラクターとして検出されるべき
+        assert is_fictional_character("セフィロス")
+        # person_type=REALでも、名前で架空キャラと判定される
+        candidate = Candidate(
+            person_id="P99999",
+            person_name="セフィロス",
+            age=25,
+            category="ゲーム",
+            person_type="REAL",  # 誤分類されたケース
+        )
+        # OR条件: person_type に FICTIONAL が含まれる OR person_name が架空キャラ
+        is_fictional_by_type = candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper()
+        is_fictional_by_name = is_fictional_character(candidate.person_name)
+        # person_typeはREALなのでFalse
+        assert not is_fictional_by_type
+        # person_nameで検出されるのでTrue
+        assert is_fictional_by_name
+        # OR条件で最終的にTrue（ゲートが適用される）
+        assert is_fictional_by_type or is_fictional_by_name
+
+    def test_fictional_gate_applied_by_person_type_or_name(self):
+        """OR条件の両パス（person_type / person_name）をテスト"""
+        # パス1: person_type=FICTIONALで検出
+        candidate_by_type = Candidate(
+            person_id="P88888",
+            person_name="架空太郎",  # 未登録の名前
+            age=30,
+            category="アニメ",
+            person_type="FICTIONAL",
+        )
+        by_type = "FICTIONAL" in str(candidate_by_type.person_type).upper()
+        by_name = is_fictional_character(candidate_by_type.person_name)
+        assert by_type  # person_typeで検出
+        assert not by_name  # 名前では未検出
+        assert by_type or by_name  # ゲート適用
+
+        # パス2: person_nameで検出（person_type=REAL誤分類）
+        candidate_by_name = Candidate(
+            person_id="P77777",
+            person_name="ナウシカ",
+            age=16,
+            category="アニメ",
+            person_type="REAL",  # 誤分類
+        )
+        by_type2 = "FICTIONAL" in str(candidate_by_name.person_type).upper()
+        by_name2 = is_fictional_character(candidate_by_name.person_name)
+        assert not by_type2  # person_typeでは未検出
+        assert by_name2  # 名前で検出
+        assert by_type2 or by_name2  # ゲート適用
+
+        # パス3: 実在人物は両方False
+        candidate_real = Candidate(
+            person_id="P66666",
+            person_name="織田信長",
+            age=49,
+            category="政治",
+            person_type="REAL",
+        )
+        by_type3 = "FICTIONAL" in str(candidate_real.person_type).upper()
+        by_name3 = is_fictional_character(candidate_real.person_name)
+        assert not by_type3
+        assert not by_name3
+        assert not (by_type3 or by_name3)  # ゲート非適用
 
 
 if __name__ == "__main__":

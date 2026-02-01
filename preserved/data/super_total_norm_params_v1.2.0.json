@@ -1,10 +1,10 @@
 {
   "version": "v1.2.0",
-  "computed_at": "2026-01-16T15:52:02.098899",
-  "celebrity_median": 400.0,
-  "celebrity_iqr": 137.32703866114497,
-  "fame_median": 54.72,
-  "fame_iqr": 18.5,
-  "importance_median": 52.26,
-  "importance_iqr": 48.14
+  "computed_at": "2026-01-30T20:57:35.404940",
+  "celebrity_median": 303.361787852753,
+  "celebrity_iqr": 441.724464348148,
+  "fame_median": 52.4,
+  "fame_iqr": 19.009999999999998,
+  "importance_median": 51.07,
+  "importance_iqr": 49.46
 }

@@ -13,6 +13,8 @@ from typing import Any, Optional
 
 import pandas as pd
 
+from src.utils.fictional_characters import is_fictional_character as _is_fictional_by_name
+
 from .adapters import Candidate, GenerationResult
 from .config import (
     MASTER_CSV,
@@ -493,8 +495,10 @@ class HybridOrchestrator:
                         )
                         continue
 
-                    # 架空キャラクター品質ゲート（RCA-20260115）
-                    if candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper():
+                    # 架空キャラクター品質ゲート（RCA-20260115, RCA-20260122）
+                    if (
+                        candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper()
+                    ) or _is_fictional_by_name(candidate.person_name):
                         fictional_episode = {
                             "episode_text": result.episode_text,
                             "work_title": getattr(candidate, "work_title", ""),
@@ -839,9 +843,11 @@ class HybridOrchestrator:
                 }
             )
 
-        # 6.5. 架空キャラクター品質ゲート（RCA-20260115）
-        # FICTIONALの場合のみ追加チェック
-        if candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper():
+        # 6.5. 架空キャラクター品質ゲート（RCA-20260115, RCA-20260122）
+        # FICTIONALの場合、またはperson_nameが架空キャラの場合に追加チェック
+        if (candidate.person_type and "FICTIONAL" in str(candidate.person_type).upper()) or _is_fictional_by_name(
+            candidate.person_name
+        ):
             fictional_episode = {
                 "episode_text": result.episode_text,
                 "work_title": getattr(candidate, "work_title", ""),

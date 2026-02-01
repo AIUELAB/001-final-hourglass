@@ -50,6 +50,7 @@ DEFAULT_WORK_SETTINGS_PATH = PROJECT_ROOT / "preserved/data/fictional_work_setti
 
 # 架空キャラクター判定（RCA-20260123: person_name からの二重チェック用）
 from src.utils.fictional_characters import is_fictional_character
+from src.utils.authenticity_checker import AuthenticityChecker, AuthenticityStatus
 
 
 # =============================================================================
@@ -67,6 +68,7 @@ class ViolationType(Enum):
     META_EXPRESSION = "meta_expression"  # メタ的表現検出
     CHARACTER_SETTING = "character_setting_violation"  # キャラクター設定違反
     WORLD_SETTING = "world_setting_violation"  # 世界観設定違反
+    AUTHENTICITY = "authenticity"  # 真正性違反（canon出典検証失敗）
 
 
 # =============================================================================
@@ -100,6 +102,8 @@ class QualityResult:
     violations: list[Violation] = field(default_factory=list)
     fixable: bool = False
     auto_fixed_text: Optional[str] = None
+    authenticity_status: Optional[AuthenticityStatus] = None
+    canon_source: Optional[str] = None
 
     def to_dict(self) -> dict:
         return {
@@ -107,6 +111,8 @@ class QualityResult:
             "violations": [v.to_dict() for v in self.violations],
             "fixable": self.fixable,
             "auto_fixed_text": self.auto_fixed_text,
+            "authenticity_status": self.authenticity_status.value if self.authenticity_status else None,
+            "canon_source": self.canon_source,
         }
 
 
@@ -405,6 +411,19 @@ META_PATTERNS = [
     r"(?:魔力|攻撃力|防御力|判断力|耐久力)(?:\d+%|\d+ポイント)",
     # 現実イベント（架空世界に存在しないイベント）
     r"(?:東京ゲームショウ|E3|コミケ|映画祭|アカデミー賞)",
+    # ================================================
+    # RCA-20260128: 年号+作品名・シリーズ言及パターン追加
+    # ================================================
+    # 年号+作品名パターン（「1979年の『機動戦士ガンダム』」等）
+    r"(?:19[0-9]{2}|20[0-2][0-9])年の[『「].+?[』」]",
+    r"[『「].+?[』」](?:が|は|を)?(?:19[0-9]{2}|20[0-2][0-9])年",
+    # シリーズ・続編・劇場版言及
+    r"[『「].+?[』」]シリーズ",
+    r"(?:シリーズ|続編|前作|次回作|劇場版|OVA|OAD)(?:で|において|の|が|は|を通じて)",
+    # 制作・放送・公開年言及
+    r"(?:制作|公開|放送|発売|配信|上映)(?:さ?れ|が|は|から).*?(?:19[0-9]{2}|20[0-2][0-9])年",
+    # 作品タイトルの直接言及（「不朽の名作」等の評価付き）
+    r"[『「].+?[』」](?:で|は)(?:不朽|伝説|金字塔|名作|代表作)",
 ]
 
 
@@ -438,21 +457,32 @@ class FictionalQualityGate:
     修正または再生成を促す。
     """
 
-    def __init__(self, work_settings_path: Optional[Path] = None):
+    def __init__(
+        self,
+        work_settings_path: Optional[Path] = None,
+        enable_authenticity_check: bool = True,
+    ):
         """
         作品設定マスターを読み込む
 
         Args:
             work_settings_path: 作品設定JSONファイルのパス
+            enable_authenticity_check: 真正性検証を有効化するか（デフォルト: True）
         """
         self.work_settings_path = work_settings_path or DEFAULT_WORK_SETTINGS_PATH
         self._work_settings: dict[str, WorkSetting] = {}
+        self._enable_authenticity_check = enable_authenticity_check
 
         # 正規表現のコンパイル
         self._compile_patterns()
 
         # 作品設定のロード
         self._load_work_settings()
+
+        # AuthenticityChecker の初期化（canonのみ保存方針）
+        self._authenticity_checker: Optional[AuthenticityChecker] = None
+        if enable_authenticity_check:
+            self._authenticity_checker = AuthenticityChecker()
 
     def _load_work_settings(self) -> None:
         """作品設定JSONをロード"""
@@ -591,9 +621,34 @@ class FictionalQualityGate:
         keyword_violations = self._check_forbidden_keywords(episode_text, work_setting)
         violations.extend(keyword_violations)
 
+        # 7. 真正性検証（AuthenticityChecker による canon 出典チェック）
+        authenticity_status: Optional[AuthenticityStatus] = None
+        canon_source: Optional[str] = None
+
+        if self._enable_authenticity_check and self._authenticity_checker is not None:
+            auth_result = self._authenticity_checker.check(episode)
+            authenticity_status = auth_result.status
+            canon_source = auth_result.canon_source
+
+            if not auth_result.passed:
+                # 真正性違反を追加（fixable=False: 再生成が必要）
+                violation_details = ", ".join(auth_result.violations) if auth_result.violations else "canon出典検証失敗"
+                violations.append(
+                    Violation(
+                        type=ViolationType.AUTHENTICITY,
+                        detail=f"真正性検証失敗: {violation_details}",
+                        fixable=False,  # 再生成が必要
+                        suggested_fix=auth_result.suggestion,
+                    )
+                )
+
         # 結果を構築
         if not violations:
-            return QualityResult(passed=True)
+            return QualityResult(
+                passed=True,
+                authenticity_status=authenticity_status,
+                canon_source=canon_source,
+            )
 
         # 修正可能性を判定
         fixable_violations = [v for v in violations if v.fixable]
@@ -609,6 +664,8 @@ class FictionalQualityGate:
             violations=violations,
             fixable=all_fixable,
             auto_fixed_text=auto_fixed_text,
+            authenticity_status=authenticity_status,
+            canon_source=canon_source,
         )
 
     def _check_year_violation(self, episode_text: str, work_setting: Optional[WorkSetting]) -> list[Violation]:
@@ -825,31 +882,33 @@ class FictionalQualityGate:
 # =============================================================================
 
 
-def check_fictional_quality(episode: dict) -> QualityResult:
+def check_fictional_quality(episode: dict, enable_authenticity_check: bool = True) -> QualityResult:
     """
     架空キャラクターエピソードの品質チェック（シンプルAPI）
 
     Args:
         episode: エピソードデータ
+        enable_authenticity_check: 真正性検証を有効化するか（デフォルト: True）
 
     Returns:
         QualityResult: 検証結果
     """
-    gate = FictionalQualityGate()
+    gate = FictionalQualityGate(enable_authenticity_check=enable_authenticity_check)
     return gate.check(episode)
 
 
-def validate_and_fix_fictional_episode(episode: dict) -> tuple[bool, str]:
+def validate_and_fix_fictional_episode(episode: dict, enable_authenticity_check: bool = True) -> tuple[bool, str]:
     """
     架空キャラクターエピソードの検証と自動修正
 
     Args:
         episode: エピソードデータ
+        enable_authenticity_check: 真正性検証を有効化するか（デフォルト: True）
 
     Returns:
         (passed, episode_text): 検証結果と（修正後の）エピソードテキスト
     """
-    gate = FictionalQualityGate()
+    gate = FictionalQualityGate(enable_authenticity_check=enable_authenticity_check)
     result = gate.check(episode)
 
     if result.passed:

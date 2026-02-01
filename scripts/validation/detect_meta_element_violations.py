@@ -23,6 +23,15 @@ EPUP: メタ要素違反検出スクリプト
     # 処理件数上限
     python scripts/validation/detect_meta_element_violations.py --limit 100
 
+    # 違反エピソードをLLMで再生成して修正
+    python scripts/validation/detect_meta_element_violations.py --fix
+
+    # 違反エピソードを削除（再生成なし）
+    python scripts/validation/detect_meta_element_violations.py --delete-only
+
+    # バッチサイズ指定（デフォルト10件ずつ）
+    python scripts/validation/detect_meta_element_violations.py --fix --batch-size 20
+
 Author: EPUP Validation Team
 Date: 2026-01-23
 """
@@ -38,7 +47,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+# プロジェクトルートをパスに追加
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(PROJECT_ROOT))
+
 import pandas as pd
+
+# RCA-20260130: 共通モジュールから架空キャラクターリストをインポート
+# 独自定義のセットを削除し、単一ソースを使用
+from src.utils.fictional_characters import ALL_FICTIONAL_CHARACTERS
 
 # =============================================================================
 # パス設定
@@ -138,6 +155,56 @@ META_PATTERNS: dict[str, list[str]] = {
         r"実在(?:しない|の人物ではない)",
         r"(?:物語|創作)(?:上の|の中の)",
     ],
+    # ================================================
+    # RCA-20260128: 年号+作品名・シリーズ言及パターン追加
+    # ================================================
+    "年号+作品名": [
+        r"(?:19[0-9]{2}|20[0-2][0-9])年の[『「].+?[』」]",
+        r"[『「].+?[』」](?:が|は|を)?(?:19[0-9]{2}|20[0-2][0-9])年",
+    ],
+    "シリーズ・続編言及": [
+        r"[『「].+?[』」]シリーズ",
+        r"(?:シリーズ|続編|前作|次回作|劇場版|OVA|OAD)(?:で|において|の|が|は|を通じて)",
+    ],
+    "制作年言及": [
+        r"(?:制作|公開|放送|発売|配信|上映)(?:さ?れ|が|は|から).*?(?:19[0-9]{2}|20[0-2][0-9])年",
+    ],
+    "作品評価メタ": [
+        r"[『「].+?[』」](?:で|は)(?:不朽|伝説|金字塔|名作|代表作)",
+    ],
+    # ================================================
+    # RCA-20260128: 広範メタ要素パターン追加
+    # ================================================
+    "現実企業名": [
+        r"任天堂|スクウェア・エニックス|バンダイナムコ|カプコン|コナミ|セガ",
+        r"集英社|講談社|小学館|角川|KADOKAWA",
+        r"週刊少年ジャンプ|少年マガジン|少年サンデー|Vジャンプ",
+        r"ソニー・ピクチャーズ|ワーナー・ブラザース|ユニバーサル",
+        r"NHK|Netflix|Amazon\s*Prime|Disney\+",
+    ],
+    "現実人物名_作者": [
+        r"鳥山明|尾田栄一郎|岸本斉史|荒川弘|手塚治虫|藤子不二雄|藤子・F・不二雄",
+        r"宮崎駿|庵野秀明|新海誠|高橋留美子|冨樫義博|久保帯人|諫山創",
+        r"堀越耕平|芥見下々|吾峠呼世晴|藤本タツキ|空知英秋",
+        r"テリー・プラチェット|J\.?K\.?\s*ローリング|トールキン",
+    ],
+    "現実商業施設_イベント": [
+        r"ブロードウェイ|ハリウッド|Broadway|Hollywood",
+        r"ウォルト・ディズニー(?:・カンパニー)?|Walt\s*Disney",
+        r"秋葉原|渋谷109|原宿|六本木ヒルズ",
+        r"レコード大賞|紅白歌合戦|オリコン",
+    ],
+    "ファン_動員メタ": [
+        r"\d+万人(?:以上)?の(?:ファン|観客|動員|視聴者|読者)",
+        r"(?:ファン|観客|動員数|来場者)(?:が|を)?\d+(?:万|億)?人",
+        r"全世界(?:で|の)?\d+(?:万|億)(?:人|部|本)",
+        r"オーディション(?:合格率|通過率)\d+",
+    ],
+    "販売実績_拡張": [
+        r"\d+(?:万|億)?(?:本|部|枚|巻)(?:を|が)?(?:突破|達成|売上|販売|出荷|発行)",
+        r"(?:累計|総|全世界)\d+(?:万|億)?(?:部|本|枚|巻)",
+        r"(?:ベストセラー|ロングセラー|ミリオンセラー|ダブルミリオン)",
+    ],
 }
 
 # コンパイル済みパターン（キャッシュ用）
@@ -157,93 +224,9 @@ def get_compiled_patterns() -> dict[str, list[re.Pattern[str]]]:
 # 架空キャラクター検出用データ
 # =============================================================================
 
-# 主要作品の架空キャラクター名（完全一致用）
-FICTIONAL_CHARACTERS: set[str] = {
-    # ドラゴンボール
-    "孫悟空",
-    "孫悟飯",
-    "孫悟天",
-    "ベジータ",
-    "トランクス",
-    "フリーザ",
-    "セル",
-    "魔人ブウ",
-    "ピッコロ",
-    "クリリン",
-    "ヤムチャ",
-    "天津飯",
-    # ONE PIECE
-    "モンキー・D・ルフィ",
-    "ロロノア・ゾロ",
-    "ウソップ",
-    "サンジ",
-    "トニートニー・チョッパー",
-    "ニコ・ロビン",
-    "フランキー",
-    "ブルック",
-    # NARUTO
-    "うずまきナルト",
-    "うちはサスケ",
-    "春野サクラ",
-    "はたけカカシ",
-    "日向ヒナタ",
-    "奈良シカマル",
-    "うちはイタチ",
-    "我愛羅",
-    # 鬼滅の刃
-    "竈門炭治郎",
-    "竈門禰豆子",
-    "我妻善逸",
-    "嘴平伊之助",
-    "冨岡義勇",
-    "胡蝶しのぶ",
-    "煉獄杏寿郎",
-    "鬼舞辻無惨",
-    # 進撃の巨人
-    "エレン・イェーガー",
-    "ミカサ・アッカーマン",
-    "アルミン・アルレルト",
-    "リヴァイ・アッカーマン",
-    "エルヴィン・スミス",
-    # その他多数...（簡略化）
-    "江戸川コナン",
-    "工藤新一",
-    "毛利蘭",
-    "怪盗キッド",
-    "黒崎一護",
-    "朽木ルキア",
-    "藍染惣右介",
-    "ハリー・ポッター",
-    "ハーマイオニー・グレンジャー",
-    "ヴォルデモート",
-    "空条承太郎",
-    "ディオ・ブランドー",
-    "吉良吉影",
-    "緑谷出久",
-    "爆豪勝己",
-    "オールマイト",
-    "碇シンジ",
-    "綾波レイ",
-    "惣流・アスカ・ラングレー",
-    "坂田銀時",
-    "志村新八",
-    "神楽",
-    "虎杖悠仁",
-    "伏黒恵",
-    "五条悟",
-    "マリオ",
-    "ルイージ",
-    "ピーチ姫",
-    "クッパ",
-    "ピカチュウ",
-    "サトシ",
-    "セフィロス",
-    "クラウド・ストライフ",
-    "ミッキーマウス",
-    "ドナルドダック",
-    "ルーク・スカイウォーカー",
-    "ダース・ベイダー",
-}
+# RCA-20260130: 独自のセット定義を削除し、共通モジュールを使用
+# src/utils/fictional_characters.py の ALL_FICTIONAL_CHARACTERS をインポート済み
+# これにより、キャラクターリストの単一ソース化を実現
 
 
 # =============================================================================
@@ -291,6 +274,104 @@ class MetaElementViolationDetector:
         self.master_csv = master_csv
         self._master_df: Optional[pd.DataFrame] = None
         self.patterns = get_compiled_patterns()
+        # 作品時代設定マスター読み込み
+        self.work_settings = self._load_work_settings()
+
+    def _load_work_settings(self) -> dict[str, dict]:
+        """作品時代設定マスターを読み込む"""
+        settings_path = PROJECT_ROOT / "preserved/data/fictional_work_settings_master.json"
+        if not settings_path.exists():
+            logger.warning(f"作品設定マスターが見つかりません: {settings_path}")
+            return {}
+        import json
+
+        with open(settings_path, encoding="utf-8") as f:
+            data = json.load(f)
+        # work_title と variants の両方からルックアップできるようにする
+        lookup: dict[str, dict] = {}
+        for work_name, settings in data.get("works", {}).items():
+            lookup[work_name] = settings
+            for variant in settings.get("work_title_variants", []):
+                lookup[variant] = settings
+        return lookup
+
+    def _check_year_violation(
+        self,
+        text: str,
+        episode_id: str,
+        person_name: str,
+        age: int,
+        work_title: str,
+    ) -> list[MetaViolation]:
+        """作品時代設定に基づく年号違反チェック"""
+        violations: list[MetaViolation] = []
+
+        # work_titleから作品設定を取得
+        settings = self.work_settings.get(work_title)
+        if not settings:
+            # work_titleで見つからない場合、部分一致を試みる
+            for key, val in self.work_settings.items():
+                if key in work_title or work_title in key:
+                    settings = val
+                    break
+
+        if not settings:
+            # 設定が見つからない場合はスキップ（他のパターンマッチに委ねる）
+            return violations
+        else:
+            forbidden_patterns = settings.get("forbidden_year_patterns", [])
+            if not forbidden_patterns:
+                # 年号制限なし（ハリポタ、ジョジョ等の西暦世界）
+                return violations
+            forbidden_ranges = []
+            for pat in forbidden_patterns:
+                if "-" in pat and pat[0].isdigit():
+                    parts = pat.split("-")
+                    if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
+                        forbidden_ranges.append((int(parts[0]), int(parts[1])))
+                # 文字列パターン（「西暦」「大正」等）は別途チェック
+
+        # 西暦年号の検出
+        year_pattern = re.compile(r"((?:19|20)\d{2})年")
+        for match in year_pattern.finditer(text):
+            year = int(match.group(1))
+            for start, end in forbidden_ranges:
+                if start <= year <= end:
+                    violations.append(
+                        MetaViolation(
+                            episode_id=episode_id,
+                            person_name=person_name,
+                            age=age,
+                            category="年号違反",
+                            pattern_name=f"forbidden_year:{start}-{end}",
+                            matched_text=match.group(),
+                            field="episode_text",
+                            context=self.get_context(text, match),
+                        )
+                    )
+                    break  # 一つのmatchに対して一度だけ違反報告
+
+        # 文字列パターンチェック（「西暦」「大正」等）
+        if settings:
+            for pat in settings.get("forbidden_year_patterns", []):
+                if not pat[0].isdigit():
+                    # 文字列パターン
+                    str_match = re.search(pat, text)
+                    if str_match:
+                        violations.append(
+                            MetaViolation(
+                                episode_id=episode_id,
+                                person_name=person_name,
+                                age=age,
+                                category="年号違反",
+                                pattern_name=f"forbidden_keyword:{pat}",
+                                matched_text=str_match.group(),
+                                field="episode_text",
+                                context=self.get_context(text, str_match),
+                            )
+                        )
+
+        return violations
 
     @property
     def master_df(self) -> pd.DataFrame:
@@ -324,7 +405,7 @@ class MetaElementViolationDetector:
         Returns:
             架空キャラクターならTrue
         """
-        return person_name in FICTIONAL_CHARACTERS
+        return person_name in ALL_FICTIONAL_CHARACTERS
 
     def get_context(self, text: str, match: re.Match, context_len: int = 30) -> str:
         """
@@ -409,7 +490,12 @@ class MetaElementViolationDetector:
         episode_id = str(row.get("episode_id", ""))
         person_name = str(row.get("person_name", ""))
         person_type = str(row.get("person_type", "")).upper()
-        age = int(row.get("age", 0)) if row.get("age") else 0
+        # age が "ageless" などの非数値の場合は0として扱う
+        raw_age = row.get("age", 0)
+        try:
+            age = int(raw_age) if raw_age and str(raw_age).isdigit() else 0
+        except (ValueError, TypeError):
+            age = 0
 
         # FICTIONALまたは架空キャラ名の場合のみ対象
         is_fictional = "FICTIONAL" in person_type or self.is_fictional_character(person_name)
@@ -428,6 +514,11 @@ class MetaElementViolationDetector:
         #     violations.extend(
         #         self.check_text(work_title, episode_id, person_name, age, "work_title")
         #     )
+
+        # 年号違反チェック（作品時代設定に基づく）
+        work_title = str(row.get("work_title", ""))
+        if episode_text and episode_text != "nan" and work_title and work_title != "nan":
+            violations.extend(self._check_year_violation(episode_text, episode_id, person_name, age, work_title))
 
         return violations
 
@@ -454,7 +545,7 @@ class MetaElementViolationDetector:
         fictional_mask = df["person_type"].str.upper().str.contains("FICTIONAL", na=False)
 
         # 架空キャラ名のものも追加（person_type誤分類対応）
-        char_mask = df["person_name"].isin(list(FICTIONAL_CHARACTERS))
+        char_mask = df["person_name"].isin(list(ALL_FICTIONAL_CHARACTERS))
 
         df = df[fictional_mask | char_mask]
         result.total_checked = len(df)
@@ -484,6 +575,291 @@ class MetaElementViolationDetector:
                 logger.info(f"処理中: {processed}/{result.total_checked}")
 
         return result
+
+
+# =============================================================================
+# 修正クラス
+# =============================================================================
+
+
+class MetaViolationFixer:
+    """
+    メタ要素違反エピソードの修正器
+
+    LLMを使用してメタ要素を含むエピソードを再生成する。
+    """
+
+    # 架空キャラクター用再生成プロンプト
+    REGENERATE_PROMPT = """あなたは{work_title}の世界観を深く理解するストーリーテラーです。
+
+{person_name}（{work_title}のキャラクター）が{age}歳の時点での作品内エピソードを生成してください。
+
+【絶対遵守ルール】
+1. すべての文を丁寧語（です・ます調）で終えてください
+2. 冒頭は必ず「あなたと同じ{age}歳のとき、{person_name}は」で開始してください
+3. 物語の「中」で起きた出来事のみを書く（作品内の冒険、戦い、成長等）
+
+【禁止（メタ要素）】
+- 現実の年号＋作品タイトル（例: 「1979年の『機動戦士ガンダム』」）
+- シリーズ・続編・劇場版への言及
+- アニメ化、放送開始、興行収入、視聴率、連載開始、原作、声優
+- 「読者」「視聴者」「ファン」「社会現象」など作品外の視点
+- 販売本数、興行成績、受賞歴、ランキング
+- 「不朽の」「伝説の」「金字塔」など現実世界での評価表現
+- ディズニーランド、テーマパーク、グッズ、DVD売上
+- 「架空のキャラクター」「実在しない」「設定上は」
+
+【品質基準】
+- 固有名詞を5つ以上含める
+- 300〜400文字で完結
+- 作品世界内の視点で臨場感を持って描写
+
+【現在の問題テキスト（参考）】
+以下のテキストにメタ要素「{violation_summary}」が含まれていました。
+同じキャラクター・年齢で、メタ要素を一切含まない新しいエピソードを生成してください。
+"""
+
+    # 作品名マッピング（フォールバック用）
+    WORK_TITLE_MAP: dict[str, str] = {
+        "孫悟空": "ドラゴンボール",
+        "孫悟飯": "ドラゴンボール",
+        "ベジータ": "ドラゴンボール",
+        "フリーザ": "ドラゴンボール",
+        "クリリン": "ドラゴンボール",
+        "モンキー・D・ルフィ": "ONE PIECE",
+        "ロロノア・ゾロ": "ONE PIECE",
+        "うずまきナルト": "NARUTO",
+        "うちはサスケ": "NARUTO",
+        "竈門炭治郎": "鬼滅の刃",
+        "竈門禰豆子": "鬼滅の刃",
+        "エレン・イェーガー": "進撃の巨人",
+        "江戸川コナン": "名探偵コナン",
+        "空条承太郎": "ジョジョの奇妙な冒険",
+        "緑谷出久": "僕のヒーローアカデミア",
+        "碇シンジ": "新世紀エヴァンゲリオン",
+        "坂田銀時": "銀魂",
+        "虎杖悠仁": "呪術廻戦",
+        "マリオ": "スーパーマリオ",
+        "ピカチュウ": "ポケットモンスター",
+        "セフィロス": "ファイナルファンタジーVII",
+        "クラウド・ストライフ": "ファイナルファンタジーVII",
+        "ミッキーマウス": "ディズニー",
+        "ルーク・スカイウォーカー": "スター・ウォーズ",
+        "ダース・ベイダー": "スター・ウォーズ",
+        "ハリー・ポッター": "ハリー・ポッター",
+        "シャア・アズナブル": "機動戦士ガンダム",
+        "アムロ・レイ": "機動戦士ガンダム",
+    }
+
+    def __init__(self, master_csv: Path = MASTER_CSV):
+        self.master_csv = master_csv
+        self._client = None
+
+    @property
+    def client(self) -> anthropic.Anthropic:
+        """Anthropic クライアントの遅延初期化"""
+        if self._client is None:
+            try:
+                import anthropic
+
+                self._client = anthropic.Anthropic()
+            except ImportError:
+                logger.error("anthropicライブラリがインストールされていません: pip install anthropic")
+                raise
+        return self._client
+
+    def get_work_title(self, person_name: str, work_title: str) -> str:
+        """作品名を取得（空の場合はマッピングから）"""
+        if work_title and str(work_title) != "nan":
+            return str(work_title)
+        return self.WORK_TITLE_MAP.get(person_name, "作品")
+
+    def regenerate_episode(
+        self,
+        person_name: str,
+        age: int,
+        work_title: str,
+        violation_summary: str,
+        max_retries: int = 3,
+    ) -> tuple[Optional[str], bool]:
+        """
+        メタ要素フリーのエピソードをLLMで再生成
+
+        Args:
+            person_name: キャラクター名
+            age: 年齢
+            work_title: 作品名
+            violation_summary: 違反内容の要約
+            max_retries: リトライ回数
+
+        Returns:
+            (新エピソード, 成功フラグ)
+        """
+        work = self.get_work_title(person_name, work_title)
+        prompt = self.REGENERATE_PROMPT.format(
+            person_name=person_name,
+            age=int(age),
+            work_title=work,
+            violation_summary=violation_summary,
+        )
+
+        detector = MetaElementViolationDetector.__new__(MetaElementViolationDetector)
+        detector.patterns = get_compiled_patterns()
+
+        for attempt in range(max_retries):
+            try:
+                response = self.client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=800,
+                    messages=[{"role": "user", "content": prompt}],
+                )
+                block = response.content[0]
+                episode_text = block.text.strip() if hasattr(block, "text") else str(block)
+
+                # 再生成テキストのメタ要素チェック
+                violations = detector.check_text(episode_text, "REGEN", person_name, int(age), "episode_text")
+                if not violations:
+                    return episode_text, True
+
+                logger.warning(
+                    f"  リトライ {attempt + 1}/{max_retries}: " f"再生成テキストにもメタ要素あり ({len(violations)}件)"
+                )
+            except Exception as e:
+                logger.error(f"  LLMエラー (attempt {attempt + 1}): {e}")
+                return None, False
+
+        return None, False
+
+    def fix_violations(
+        self,
+        result: DetectionResult,
+        dry_run: bool = True,
+        delete_only: bool = False,
+        batch_size: int = 10,
+    ) -> dict:
+        """
+        検出された違反エピソードを修正
+
+        Args:
+            result: 検出結果
+            dry_run: ドライラン
+            delete_only: 削除のみ（再生成なし）
+            batch_size: バッチサイズ
+
+        Returns:
+            修正結果
+        """
+        if not result.violations:
+            logger.info("修正対象の違反はありません")
+            return {"regenerated": 0, "deleted": 0, "failed": 0, "skipped": 0}
+
+        # episode_id単位で違反をグループ化
+        violations_by_episode: dict[str, list[MetaViolation]] = {}
+        for v in result.violations:
+            if v.episode_id not in violations_by_episode:
+                violations_by_episode[v.episode_id] = []
+            violations_by_episode[v.episode_id].append(v)
+
+        total_episodes = len(violations_by_episode)
+        logger.info(f"修正対象: {total_episodes}件のエピソード（違反合計: {len(result.violations)}件）")
+
+        if dry_run:
+            logger.info("ドライラン: 実際の修正は行いません")
+            logger.info("")
+            for ep_id, violations in list(violations_by_episode.items())[:20]:
+                v0 = violations[0]
+                categories = set(v.category for v in violations)
+                logger.info(
+                    f"  [{ep_id}] {v0.person_name} ({v0.age}歳) - " f"違反{len(violations)}件: {', '.join(categories)}"
+                )
+            if total_episodes > 20:
+                logger.info(f"  ... 他 {total_episodes - 20}件")
+            return {
+                "regenerated": 0,
+                "deleted": 0,
+                "failed": 0,
+                "skipped": 0,
+                "total_target": total_episodes,
+            }
+
+        # マスターCSV読み込み
+        df = pd.read_csv(self.master_csv, encoding="utf-8-sig", low_memory=False)
+
+        # バックアップ
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_path = self.master_csv.parent / f"MASTER_EPISODES_BACKUP_meta_fix_{timestamp}.csv"
+        df.to_csv(backup_path, index=False, encoding="utf-8-sig")
+        logger.info(f"バックアップ作成: {backup_path}")
+
+        stats = {"regenerated": 0, "deleted": 0, "failed": 0, "skipped": 0}
+        processed = 0
+
+        for ep_id, violations in violations_by_episode.items():
+            if processed >= batch_size:
+                logger.info(f"バッチサイズ上限 ({batch_size}) に到達。残りは次回実行で処理")
+                stats["skipped"] = total_episodes - processed
+                break
+
+            v0 = violations[0]
+            categories = [v.category for v in violations]
+            violation_summary = ", ".join(set(categories))
+
+            logger.info(
+                f"[{processed + 1}/{min(batch_size, total_episodes)}] "
+                f"{v0.person_name} ({v0.age}歳) - {violation_summary}"
+            )
+
+            mask = df["episode_id"].astype(str) == str(ep_id)
+            if not mask.any():
+                logger.warning(f"  episode_id={ep_id} がCSVに見つかりません")
+                stats["failed"] += 1
+                processed += 1
+                continue
+
+            row = df.loc[mask].iloc[0]
+
+            if delete_only:
+                df = df[~mask]
+                logger.info("  削除しました")
+                stats["deleted"] += 1
+            else:
+                work_title = str(row.get("work_title", ""))
+                new_text, success = self.regenerate_episode(
+                    person_name=v0.person_name,
+                    age=v0.age,
+                    work_title=work_title,
+                    violation_summary=violation_summary,
+                )
+
+                if success:
+                    df.loc[mask, "episode_text"] = new_text
+                    df.loc[mask, "fact_check_result"] = "EPUP_META_FIX_REGENERATED"
+                    logger.info(f"  再生成成功: {new_text[:80]}...")
+                    stats["regenerated"] += 1
+                else:
+                    # 再生成失敗時は削除
+                    df = df[~mask]
+                    logger.warning("  再生成失敗 → 削除しました")
+                    stats["deleted"] += 1
+
+            processed += 1
+
+        # CSV保存
+        df.to_csv(self.master_csv, index=False, encoding="utf-8-sig")
+        logger.info(f"CSV保存完了: {self.master_csv}")
+
+        # 結果サマリー
+        logger.info("")
+        logger.info("=" * 50)
+        logger.info("修正結果サマリー")
+        logger.info("=" * 50)
+        logger.info(f"  再生成成功: {stats['regenerated']}件")
+        logger.info(f"  削除: {stats['deleted']}件")
+        logger.info(f"  失敗: {stats['failed']}件")
+        logger.info(f"  スキップ（次回）: {stats['skipped']}件")
+        logger.info(f"  バックアップ: {backup_path}")
+
+        return stats
 
 
 # =============================================================================
@@ -575,6 +951,15 @@ def main() -> int:
 
   # 処理件数上限
   python scripts/validation/detect_meta_element_violations.py --limit 100
+
+  # 違反エピソードをLLMで再生成して修正
+  python scripts/validation/detect_meta_element_violations.py --fix
+
+  # 違反エピソードを削除（再生成なし）
+  python scripts/validation/detect_meta_element_violations.py --delete-only
+
+  # バッチサイズ指定（デフォルト10件ずつ）
+  python scripts/validation/detect_meta_element_violations.py --fix --batch-size 20
         """,
     )
     parser.add_argument(
@@ -598,6 +983,27 @@ def main() -> int:
         "-v",
         action="store_true",
         help="詳細ログ出力",
+    )
+    parser.add_argument(
+        "--fix",
+        action="store_true",
+        help="違反エピソードをLLMで再生成して修正（デフォルト: ドライラン）",
+    )
+    parser.add_argument(
+        "--delete-only",
+        action="store_true",
+        help="再生成せず違反エピソードを削除する",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=10,
+        help="一度に修正するエピソード数（デフォルト: 10）",
+    )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="違反があればexit(1)で終了（CI/pre-commit用）",
     )
 
     args = parser.parse_args()
@@ -644,7 +1050,25 @@ def main() -> int:
     logger.info("")
     logger.info(f"検証完了: {result.total_checked}件チェック, {len(result.violations)}件違反検出")
 
+    # --fix または --delete-only の場合は修正実行
+    if (args.fix or args.delete_only) and result.violations:
+        logger.info("")
+        logger.info("=" * 70)
+        logger.info("メタ要素違反 修正処理")
+        logger.info("=" * 70)
+
+        fixer = MetaViolationFixer()
+        fix_result = fixer.fix_violations(
+            result=result,
+            dry_run=False,
+            delete_only=args.delete_only,
+            batch_size=args.batch_size,
+        )
+        return 0 if fix_result.get("failed", 0) == 0 else 1
+
     # 終了コード（違反があれば1）
+    if args.strict and args.dry_run and len(result.violations) > 0:
+        logger.error(f"STRICT MODE: 違反 {len(result.violations)} 件検出 - exit(1)")
     return 0 if len(result.violations) == 0 else 1
 
 

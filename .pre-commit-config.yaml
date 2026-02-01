@@ -239,6 +239,22 @@ repos:
     pass_filenames: false
     files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
 
+  - id: check-meta-violations
+    name: Check meta element violations in fictional episodes
+    entry: python scripts/validation/detect_meta_element_violations.py --dry-run --strict
+    language: python
+    pass_filenames: false
+    files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
+    additional_dependencies: [pandas]
+
+  - id: check-fictional-name-format
+    name: Check fictional character name format violations
+    entry: python scripts/validation/detect_fictional_name_violations.py --dry-run
+    language: python
+    pass_filenames: false
+    files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
+    additional_dependencies: [pandas]
+
 # ============================================
 # プロジェクト固有の除外設定
 # ============================================

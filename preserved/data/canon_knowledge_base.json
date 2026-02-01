@@ -4807,6 +4807,1146 @@
           ]
         }
       ]
+    },
+    "るろうに剣心": {
+      "work_id": "WORK_RUROUNI_001",
+      "work_title": "るろうに剣心 -明治剣客浪漫譚-",
+      "work_title_variants": [
+        "Rurouni Kenshin",
+        "Samurai X",
+        "るろ剣"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/るろうに剣心_-明治剣客浪漫譚-"
+      ],
+      "era_setting": "明治時代（明治11年〜）",
+      "characters": {
+        "緋村剣心": {
+          "character_id": "CHAR_RUROUNI_001",
+          "aliases": [
+            "剣心",
+            "人斬り抜刀斎",
+            "心太"
+          ],
+          "age_at_story": 28,
+          "abilities": [
+            "飛天御剣流",
+            "天翔龍閃",
+            "九頭龍閃"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "RUROUNI_KENSHIN_001",
+              "description": "幕末に長州藩の刺客「人斬り抜刀斎」として暗躍",
+              "story_arc": "追憶編",
+              "source": {
+                "type": "manga",
+                "reference": "追憶編（第19巻〜第21巻）"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_KENSHIN_002",
+              "description": "雪代巴との出会いと結婚、そして巴の死による十字傷の完成",
+              "story_arc": "追憶編",
+              "source": {
+                "type": "manga",
+                "reference": "追憶編"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_KENSHIN_003",
+              "description": "神谷薫と出会い、神谷道場に居候として住み着く",
+              "story_arc": "東京編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第1話"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_KENSHIN_004",
+              "description": "志々雄真実との京都での最終決戦",
+              "story_arc": "京都編",
+              "source": {
+                "type": "manga",
+                "reference": "第16巻〜第18巻"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_KENSHIN_005",
+              "description": "雪代縁との復讐編での対決、過去との決着",
+              "story_arc": "人誅編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻〜第28巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 14,
+              "events": [
+                "人斬り抜刀斎として暗殺活動開始"
+              ],
+              "source": "追憶編（幕末期）"
+            },
+            {
+              "age": 15,
+              "events": [
+                "雪代巴との出会いと結婚"
+              ],
+              "source": "追憶編"
+            },
+            {
+              "age": 28,
+              "events": [
+                "神谷薫との出会い",
+                "神谷道場に居候"
+              ],
+              "source": "原作本編開始時"
+            }
+          ]
+        },
+        "斎藤一": {
+          "character_id": "CHAR_RUROUNI_002",
+          "aliases": [
+            "藤田五郎"
+          ],
+          "age_at_story": 34,
+          "abilities": [
+            "牙突",
+            "新選組剣術"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "RUROUNI_SAITO_001",
+              "description": "新選組三番隊組長として幕末を戦い抜く",
+              "story_arc": "幕末期",
+              "source": {
+                "type": "manga",
+                "reference": "背景設定"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_SAITO_002",
+              "description": "明治政府の密偵として剣心と再会し対決",
+              "story_arc": "東京編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻〜第7巻"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_SAITO_003",
+              "description": "志々雄真実討伐に協力、宇水を撃破",
+              "story_arc": "京都編",
+              "source": {
+                "type": "manga",
+                "reference": "京都編"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 34,
+              "events": [
+                "警察密偵として活動",
+                "剣心との再会"
+              ],
+              "source": "原作本編"
+            }
+          ]
+        },
+        "志々雄真実": {
+          "character_id": "CHAR_RUROUNI_003",
+          "aliases": [
+            "志々雄"
+          ],
+          "age_at_story": 30,
+          "abilities": [
+            "無限刃",
+            "全身火傷による異常体温"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "RUROUNI_SHISHIO_001",
+              "description": "維新後に口封じのため仲間に焼き殺されかけ生存",
+              "story_arc": "京都編",
+              "source": {
+                "type": "manga",
+                "reference": "京都編"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_SHISHIO_002",
+              "description": "日本転覆計画を企て、剣心と最終決戦",
+              "story_arc": "京都編",
+              "source": {
+                "type": "manga",
+                "reference": "第16巻〜第18巻"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_SHISHIO_003",
+              "description": "限界を超えた戦闘により自然発火で死亡",
+              "story_arc": "京都編",
+              "source": {
+                "type": "manga",
+                "reference": "第18巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 30,
+              "events": [
+                "日本転覆計画",
+                "剣心との最終決戦で死亡"
+              ],
+              "source": "京都編"
+            }
+          ]
+        },
+        "相楽左之助": {
+          "character_id": "CHAR_RUROUNI_004",
+          "aliases": [
+            "左之助",
+            "斬左"
+          ],
+          "age_at_story": 19,
+          "abilities": [
+            "二重の極み",
+            "喧嘩殺法"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "RUROUNI_SANO_001",
+              "description": "元赤報隊として維新政府への恨みを持つ",
+              "story_arc": "東京編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_SANO_002",
+              "description": "剣心との戦いに敗れ、以後仲間として行動",
+              "story_arc": "東京編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_SANO_003",
+              "description": "安慈から二重の極みを習得",
+              "story_arc": "京都編",
+              "source": {
+                "type": "manga",
+                "reference": "京都編"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 19,
+              "events": [
+                "剣心との出会い",
+                "二重の極み習得"
+              ],
+              "source": "原作本編"
+            }
+          ]
+        },
+        "神谷薫": {
+          "character_id": "CHAR_RUROUNI_005",
+          "aliases": [
+            "薫",
+            "薫殿"
+          ],
+          "age_at_story": 17,
+          "abilities": [
+            "神谷活心流"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "RUROUNI_KAORU_001",
+              "description": "亡き父から神谷道場を継ぎ、剣術指南を行う",
+              "story_arc": "東京編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_KAORU_002",
+              "description": "剣心と出会い、道場に居候として迎える",
+              "story_arc": "東京編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻第1話"
+              }
+            },
+            {
+              "scene_id": "RUROUNI_KAORU_003",
+              "description": "人誅編で雪代縁に拉致される",
+              "story_arc": "人誅編",
+              "source": {
+                "type": "manga",
+                "reference": "人誅編"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 17,
+              "events": [
+                "剣心との出会い",
+                "道場運営"
+              ],
+              "source": "原作本編開始時"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "東京編",
+          "order": 1,
+          "main_characters": [
+            "緋村剣心",
+            "神谷薫",
+            "相楽左之助",
+            "斎藤一"
+          ]
+        },
+        {
+          "arc_name": "京都編",
+          "order": 2,
+          "main_characters": [
+            "緋村剣心",
+            "志々雄真実",
+            "斎藤一"
+          ]
+        },
+        {
+          "arc_name": "追憶編",
+          "order": 3,
+          "main_characters": [
+            "緋村剣心"
+          ]
+        },
+        {
+          "arc_name": "人誅編",
+          "order": 4,
+          "main_characters": [
+            "緋村剣心",
+            "神谷薫"
+          ]
+        }
+      ]
+    },
+    "進撃の巨人": {
+      "work_id": "WORK_AOT_001",
+      "work_title": "進撃の巨人",
+      "work_title_variants": [
+        "Attack on Titan",
+        "Shingeki no Kyojin",
+        "進撃"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/進撃の巨人"
+      ],
+      "era_setting": "独自年号（845年〜、パラディ島暦）",
+      "characters": {
+        "エレン・イェーガー": {
+          "character_id": "CHAR_AOT_001",
+          "aliases": [
+            "エレン",
+            "進撃の巨人"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "巨人化能力",
+            "進撃の巨人",
+            "始祖の巨人",
+            "戦鎚の巨人"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "AOT_EREN_001",
+              "description": "母カルラが巨人に捕食される場面を目撃",
+              "story_arc": "訓練兵団編",
+              "source": {
+                "type": "manga",
+                "reference": "第1話「二千年後の君へ」"
+              }
+            },
+            {
+              "scene_id": "AOT_EREN_002",
+              "description": "トロスト区奪還戦で初めて巨人化能力を発動",
+              "story_arc": "トロスト区攻防戦編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "AOT_EREN_003",
+              "description": "女型の巨人との森林戦",
+              "story_arc": "女型の巨人編",
+              "source": {
+                "type": "manga",
+                "reference": "第6巻〜第8巻"
+              }
+            },
+            {
+              "scene_id": "AOT_EREN_004",
+              "description": "シガンシナ区奪還作戦で獣の巨人と対峙",
+              "story_arc": "シガンシナ区奪還編",
+              "source": {
+                "type": "manga",
+                "reference": "第20巻〜第22巻"
+              }
+            },
+            {
+              "scene_id": "AOT_EREN_005",
+              "description": "マーレ編でウィリー・タイバーを殺害し宣戦布告",
+              "story_arc": "マーレ編",
+              "source": {
+                "type": "manga",
+                "reference": "第25巻"
+              }
+            },
+            {
+              "scene_id": "AOT_EREN_006",
+              "description": "地鳴らしを発動し世界を蹂躙",
+              "story_arc": "地鳴らし編",
+              "source": {
+                "type": "manga",
+                "reference": "第31巻〜第34巻"
+              }
+            },
+            {
+              "scene_id": "AOT_EREN_007",
+              "description": "ミカサに首を切られ死亡",
+              "story_arc": "最終決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "最終話「あの丘の木に向かって」"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 10,
+              "events": [
+                "ウォール・マリア陥落",
+                "母の死"
+              ],
+              "source": "845年（作中暦）"
+            },
+            {
+              "age": 15,
+              "events": [
+                "訓練兵団卒業",
+                "巨人化能力発覚"
+              ],
+              "source": "850年（作中暦）"
+            },
+            {
+              "age": 19,
+              "events": [
+                "マーレ潜入",
+                "地鳴らし発動"
+              ],
+              "source": "854年（作中暦）"
+            }
+          ]
+        },
+        "ミカサ・アッカーマン": {
+          "character_id": "CHAR_AOT_002",
+          "aliases": [
+            "ミカサ"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "アッカーマンの力",
+            "立体機動装置の達人"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "AOT_MIKASA_001",
+              "description": "9歳で両親を殺され、エレンに救われる",
+              "story_arc": "訓練兵団編",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "AOT_MIKASA_002",
+              "description": "訓練兵団を首席で卒業",
+              "story_arc": "訓練兵団編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "AOT_MIKASA_003",
+              "description": "リヴァイ班と共に女型の巨人と戦闘",
+              "story_arc": "女型の巨人編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻"
+              }
+            },
+            {
+              "scene_id": "AOT_MIKASA_004",
+              "description": "最終決戦でエレンの首を切り世界を救う",
+              "story_arc": "最終決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "最終話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 9,
+              "events": [
+                "両親の死",
+                "エレンに救われイェーガー家へ"
+              ],
+              "source": "844年（作中暦）"
+            },
+            {
+              "age": 15,
+              "events": [
+                "調査兵団入団"
+              ],
+              "source": "850年（作中暦）"
+            },
+            {
+              "age": 19,
+              "events": [
+                "エレンを討つ決断"
+              ],
+              "source": "854年（作中暦）"
+            }
+          ]
+        },
+        "リヴァイ": {
+          "character_id": "CHAR_AOT_003",
+          "aliases": [
+            "リヴァイ・アッカーマン",
+            "人類最強の兵士"
+          ],
+          "age_at_story": 30,
+          "abilities": [
+            "アッカーマンの力",
+            "立体機動装置の達人",
+            "潔癖症"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "AOT_LEVI_001",
+              "description": "地下街でケニーに育てられ、後に調査兵団入団",
+              "story_arc": "悔いなき選択編",
+              "source": {
+                "type": "manga",
+                "reference": "外伝「悔いなき選択」"
+              }
+            },
+            {
+              "scene_id": "AOT_LEVI_002",
+              "description": "女型の巨人からエレンを奪還",
+              "story_arc": "女型の巨人編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻"
+              }
+            },
+            {
+              "scene_id": "AOT_LEVI_003",
+              "description": "シガンシナ区で獣の巨人を圧倒",
+              "story_arc": "シガンシナ区奪還編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻"
+              }
+            },
+            {
+              "scene_id": "AOT_LEVI_004",
+              "description": "ジークの自爆で重傷を負う",
+              "story_arc": "地鳴らし編",
+              "source": {
+                "type": "manga",
+                "reference": "第30巻"
+              }
+            },
+            {
+              "scene_id": "AOT_LEVI_005",
+              "description": "最終決戦でジークを討ち取り、エルヴィンとの約束を果たす",
+              "story_arc": "最終決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "最終話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 30,
+              "events": [
+                "調査兵団特別作戦班長"
+              ],
+              "source": "作中設定（年齢非公開だが30代前半と推定）"
+            }
+          ]
+        },
+        "アルミン・アルレルト": {
+          "character_id": "CHAR_AOT_004",
+          "aliases": [
+            "アルミン",
+            "超大型巨人"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "戦略立案",
+            "超大型巨人の力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "AOT_ARMIN_001",
+              "description": "エレンとミカサと共に訓練兵団に入団",
+              "story_arc": "訓練兵団編",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "AOT_ARMIN_002",
+              "description": "女型の巨人の正体をアニと見破る",
+              "story_arc": "女型の巨人編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻"
+              }
+            },
+            {
+              "scene_id": "AOT_ARMIN_003",
+              "description": "シガンシナ区でベルトルトを倒し、巨人の力を継承",
+              "story_arc": "シガンシナ区奪還編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻"
+              }
+            },
+            {
+              "scene_id": "AOT_ARMIN_004",
+              "description": "最終決戦後、世界との和平交渉の使者となる",
+              "story_arc": "最終決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "最終話"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 10,
+              "events": [
+                "ウォール・マリア陥落"
+              ],
+              "source": "845年（作中暦）"
+            },
+            {
+              "age": 15,
+              "events": [
+                "調査兵団入団"
+              ],
+              "source": "850年（作中暦）"
+            },
+            {
+              "age": 16,
+              "events": [
+                "超大型巨人継承"
+              ],
+              "source": "851年（作中暦）"
+            }
+          ]
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "訓練兵団編",
+          "order": 1,
+          "main_characters": [
+            "エレン・イェーガー",
+            "ミカサ・アッカーマン",
+            "アルミン・アルレルト"
+          ]
+        },
+        {
+          "arc_name": "トロスト区攻防戦編",
+          "order": 2,
+          "main_characters": [
+            "エレン・イェーガー"
+          ]
+        },
+        {
+          "arc_name": "女型の巨人編",
+          "order": 3,
+          "main_characters": [
+            "エレン・イェーガー",
+            "リヴァイ"
+          ]
+        },
+        {
+          "arc_name": "シガンシナ区奪還編",
+          "order": 4,
+          "main_characters": [
+            "エレン・イェーガー",
+            "リヴァイ",
+            "アルミン・アルレルト"
+          ]
+        },
+        {
+          "arc_name": "マーレ編",
+          "order": 5,
+          "main_characters": [
+            "エレン・イェーガー"
+          ]
+        },
+        {
+          "arc_name": "地鳴らし編",
+          "order": 6,
+          "main_characters": [
+            "エレン・イェーガー"
+          ]
+        },
+        {
+          "arc_name": "最終決戦編",
+          "order": 7,
+          "main_characters": [
+            "エレン・イェーガー",
+            "ミカサ・アッカーマン",
+            "リヴァイ",
+            "アルミン・アルレルト"
+          ]
+        }
+      ]
+    },
+    "呪術廻戦": {
+      "work_id": "WORK_JJK_001",
+      "work_title": "呪術廻戦",
+      "work_title_variants": [
+        "Jujutsu Kaisen",
+        "JJK",
+        "じゅじゅつかいせん"
+      ],
+      "source_urls": [
+        "https://ja.wikipedia.org/wiki/呪術廻戦"
+      ],
+      "era_setting": "現代（2018年〜）",
+      "characters": {
+        "虎杖悠仁": {
+          "character_id": "CHAR_JJK_001",
+          "aliases": [
+            "虎杖",
+            "悠仁"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "宿儺の器",
+            "逕庭拳",
+            "黒閃",
+            "超人的身体能力"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "JJK_YUJI_001",
+              "description": "呪物「両面宿儺の指」を飲み込み、宿儺の器となる",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1話"
+              }
+            },
+            {
+              "scene_id": "JJK_YUJI_002",
+              "description": "呪術高専に入学し、五条悟の元で修行開始",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "JJK_YUJI_003",
+              "description": "少年院の特級呪霊との戦闘で一度死亡後、蘇生",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "JJK_YUJI_004",
+              "description": "渋谷事変で暴走した宿儺により多数の民間人死亡",
+              "story_arc": "渋谷事変",
+              "source": {
+                "type": "manga",
+                "reference": "第12巻〜第16巻"
+              }
+            },
+            {
+              "scene_id": "JJK_YUJI_005",
+              "description": "死滅回游に参加し、高羽と共闘",
+              "story_arc": "死滅回游編",
+              "source": {
+                "type": "manga",
+                "reference": "第17巻〜"
+              }
+            },
+            {
+              "scene_id": "JJK_YUJI_006",
+              "description": "最終決戦で宿儺と対決",
+              "story_arc": "人外魔境新宿決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻〜"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 15,
+              "events": [
+                "宿儺の器となる",
+                "呪術高専入学"
+              ],
+              "source": "原作第1話"
+            }
+          ]
+        },
+        "伏黒恵": {
+          "character_id": "CHAR_JJK_002",
+          "aliases": [
+            "伏黒",
+            "恵"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "十種影法術",
+            "八握剣異戒神将魔虚羅",
+            "領域展開「嵌合暗翳庭」"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "JJK_MEGUMI_001",
+              "description": "虎杖と出会い、宿儺の指の回収任務に参加",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1話"
+              }
+            },
+            {
+              "scene_id": "JJK_MEGUMI_002",
+              "description": "特級呪霊との戦闘で領域展開を発動",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第2巻"
+              }
+            },
+            {
+              "scene_id": "JJK_MEGUMI_003",
+              "description": "渋谷事変で陀艮と対峙",
+              "story_arc": "渋谷事変",
+              "source": {
+                "type": "manga",
+                "reference": "渋谷事変編"
+              }
+            },
+            {
+              "scene_id": "JJK_MEGUMI_004",
+              "description": "宿儺に体を乗っ取られる",
+              "story_arc": "死滅回游編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 15,
+              "events": [
+                "呪術高専1年生"
+              ],
+              "source": "原作本編"
+            }
+          ]
+        },
+        "五条悟": {
+          "character_id": "CHAR_JJK_003",
+          "aliases": [
+            "五条",
+            "五条先生",
+            "最強の呪術師"
+          ],
+          "age_at_story": 28,
+          "abilities": [
+            "無下限呪術",
+            "六眼",
+            "領域展開「無量空処」",
+            "反転術式"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "JJK_GOJO_001",
+              "description": "高専時代に伏黒甚爾との戦闘で一度死にかけ、覚醒",
+              "story_arc": "過去編",
+              "source": {
+                "type": "manga",
+                "reference": "第8巻〜第9巻"
+              }
+            },
+            {
+              "scene_id": "JJK_GOJO_002",
+              "description": "虎杖を呪術高専に迎え入れ、指導を開始",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "JJK_GOJO_003",
+              "description": "渋谷事変で獄門疆に封印される",
+              "story_arc": "渋谷事変",
+              "source": {
+                "type": "manga",
+                "reference": "第11巻"
+              }
+            },
+            {
+              "scene_id": "JJK_GOJO_004",
+              "description": "獄門疆から解放され、宿儺と最終決戦",
+              "story_arc": "人外魔境新宿決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "第22巻〜"
+              }
+            },
+            {
+              "scene_id": "JJK_GOJO_005",
+              "description": "宿儺との戦闘で敗北、死亡",
+              "story_arc": "人外魔境新宿決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "第26巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 17,
+              "events": [
+                "伏黒甚爾との戦闘で覚醒"
+              ],
+              "source": "過去編"
+            },
+            {
+              "age": 28,
+              "events": [
+                "呪術高専1年担任"
+              ],
+              "source": "原作本編"
+            }
+          ]
+        },
+        "釘崎野薔薇": {
+          "character_id": "CHAR_JJK_004",
+          "aliases": [
+            "釘崎",
+            "野薔薇"
+          ],
+          "age_at_story": 15,
+          "abilities": [
+            "芻霊呪法",
+            "黒閃"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "JJK_NOBARA_001",
+              "description": "田舎から上京し、呪術高専に入学",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻"
+              }
+            },
+            {
+              "scene_id": "JJK_NOBARA_002",
+              "description": "虎杖、伏黒と共に1年トリオとして任務に当たる",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1巻〜第2巻"
+              }
+            },
+            {
+              "scene_id": "JJK_NOBARA_003",
+              "description": "渋谷事変で真人との戦闘で重傷",
+              "story_arc": "渋谷事変",
+              "source": {
+                "type": "manga",
+                "reference": "第15巻"
+              }
+            },
+            {
+              "scene_id": "JJK_NOBARA_004",
+              "description": "最終決戦で復活し、宿儺戦に参戦",
+              "story_arc": "人外魔境新宿決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "第27巻"
+              }
+            }
+          ],
+          "age_milestones": [
+            {
+              "age": 15,
+              "events": [
+                "呪術高専入学"
+              ],
+              "source": "原作本編"
+            }
+          ]
+        },
+        "両面宿儺": {
+          "character_id": "CHAR_JJK_005",
+          "aliases": [
+            "宿儺",
+            "呪いの王"
+          ],
+          "age_at_story": null,
+          "abilities": [
+            "解",
+            "捌",
+            "領域展開「伏魔御廚子」",
+            "反転術式",
+            "斬撃術式"
+          ],
+          "key_scenes": [
+            {
+              "scene_id": "JJK_SUKUNA_001",
+              "description": "虎杖が指を飲み込み、現代に受肉",
+              "story_arc": "序章",
+              "source": {
+                "type": "manga",
+                "reference": "第1話"
+              }
+            },
+            {
+              "scene_id": "JJK_SUKUNA_002",
+              "description": "渋谷事変で暴走、渋谷を壊滅させる",
+              "story_arc": "渋谷事変",
+              "source": {
+                "type": "manga",
+                "reference": "第14巻"
+              }
+            },
+            {
+              "scene_id": "JJK_SUKUNA_003",
+              "description": "伏黒恵の体を乗っ取り完全復活",
+              "story_arc": "死滅回游編",
+              "source": {
+                "type": "manga",
+                "reference": "第21巻"
+              }
+            },
+            {
+              "scene_id": "JJK_SUKUNA_004",
+              "description": "五条悟との頂上決戦で勝利",
+              "story_arc": "人外魔境新宿決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "第26巻"
+              }
+            },
+            {
+              "scene_id": "JJK_SUKUNA_005",
+              "description": "虎杖らとの最終決戦で敗北、消滅",
+              "story_arc": "人外魔境新宿決戦編",
+              "source": {
+                "type": "manga",
+                "reference": "最終話"
+              }
+            }
+          ],
+          "age_milestones": []
+        }
+      },
+      "story_arcs": [
+        {
+          "arc_name": "序章",
+          "order": 1,
+          "main_characters": [
+            "虎杖悠仁",
+            "伏黒恵",
+            "釘崎野薔薇",
+            "五条悟"
+          ]
+        },
+        {
+          "arc_name": "京都姉妹校交流会編",
+          "order": 2,
+          "main_characters": [
+            "虎杖悠仁",
+            "伏黒恵"
+          ]
+        },
+        {
+          "arc_name": "過去編",
+          "order": 3,
+          "main_characters": [
+            "五条悟"
+          ]
+        },
+        {
+          "arc_name": "渋谷事変",
+          "order": 4,
+          "main_characters": [
+            "虎杖悠仁",
+            "伏黒恵",
+            "五条悟",
+            "両面宿儺"
+          ]
+        },
+        {
+          "arc_name": "死滅回游編",
+          "order": 5,
+          "main_characters": [
+            "虎杖悠仁",
+            "伏黒恵"
+          ]
+        },
+        {
+          "arc_name": "人外魔境新宿決戦編",
+          "order": 6,
+          "main_characters": [
+            "虎杖悠仁",
+            "五条悟",
+            "両面宿儺"
+          ]
+        }
+      ]
     }
   },
   "schema_notes": {

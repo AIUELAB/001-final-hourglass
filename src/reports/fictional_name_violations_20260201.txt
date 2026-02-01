@@ -1,5 +1,5 @@
 === 架空キャラクター名違反レポート ===
-生成日時: 2026-02-01 12:33:40
+生成日時: 2026-02-01 14:38:17
 対象CSV: /Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv
 
 ■ サマリー

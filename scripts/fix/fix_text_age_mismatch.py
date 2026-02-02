@@ -79,18 +79,24 @@ def replace_text_age(episode_text: str, correct_age: int) -> str:
     return re.sub(pattern, replacer, str(episode_text))
 
 
-def fix_text_age_mismatch(dry_run: bool = True) -> dict:
+def fix_text_age_mismatch(dry_run: bool = True, force: bool = False, include_invalid_age: bool = False) -> dict:
     """
     本文の年齢表記をageフィールドに合わせて修正
 
     Args:
         dry_run: Trueの場合、実際には保存しない（プレビューのみ）
+        force: Trueの場合、差分が大きいケース（SUSPICIOUS_DIFF_THRESHOLD超）も修正対象にする
+        include_invalid_age: Trueの場合、age > 100のケースも修正対象にする
 
     Returns:
         修正結果の統計情報
     """
     print("=" * 70)
     print("C1違反修正: 本文の年齢表記をageフィールドに合わせる")
+    if force:
+        print("⚠️ FORCEモード: 差分が大きいケースも修正対象に含めます")
+    if include_invalid_age:
+        print("⚠️ INCLUDE-INVALID-AGEモード: age > 100のケースも修正対象に含めます")
     print("=" * 70)
 
     # CSV読み込み
@@ -112,7 +118,7 @@ def fix_text_age_mismatch(dry_run: bool = True) -> dict:
     for idx, row in df.iterrows():
         episode_id = row["episode_id"]
         age_field = row.get("age")
-        episode_text = row.get("episode_text", "")
+        episode_text = str(row.get("episode_text", "") or "")
 
         # 本文から年齢を抽出
         text_age = extract_text_age(episode_text)
@@ -127,10 +133,14 @@ def fix_text_age_mismatch(dry_run: bool = True) -> dict:
 
         age_field_int = int(float(age_field))
 
-        # 異常なageフィールド値をスキップ（0未満または100超）
+        # 異常なageフィールド値をスキップ
         # Phase 18でbirth_yearが誤っている場合、異常なageになっている
-        # 100歳超は現実的でないためスキップ
-        if age_field_int < 0 or age_field_int > 100:
+        # include_invalid_age=False の場合: age < 0 or age > 100 をスキップ
+        # include_invalid_age=True の場合: age < 0 のみスキップ（age > 100は対象に含める）
+        if age_field_int < 0:
+            skipped_invalid_age += 1
+            continue
+        if age_field_int > 100 and not include_invalid_age:
             skipped_invalid_age += 1
             continue
 
@@ -142,7 +152,8 @@ def fix_text_age_mismatch(dry_run: bool = True) -> dict:
 
         # 差分が大きすぎる場合は疑わしいケースとして別扱い
         # birth_yearが誤っている可能性が高い
-        if abs(diff) > SUSPICIOUS_DIFF_THRESHOLD:
+        # --force オプション指定時は、疑わしいケースも修正対象にする
+        if abs(diff) > SUSPICIOUS_DIFF_THRESHOLD and not force:
             suspicious.append(
                 {
                     "episode_id": episode_id,
@@ -264,13 +275,23 @@ def main():
         default=True,
         help="変更をプレビュー（デフォルト）",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="差分が大きいケース（40超）も修正対象に含める",
+    )
+    parser.add_argument(
+        "--include-invalid-age",
+        action="store_true",
+        help="age > 100のケースも修正対象に含める（デフォルトはスキップ）",
+    )
 
     args = parser.parse_args()
 
     # --execute が指定された場合は dry_run を False に
     dry_run = not args.execute
 
-    result = fix_text_age_mismatch(dry_run=dry_run)
+    result = fix_text_age_mismatch(dry_run=dry_run, force=args.force, include_invalid_age=args.include_invalid_age)
 
     print("\n📈 サマリー:")
     print(f"   総レコード数: {result['total_records']:,}")

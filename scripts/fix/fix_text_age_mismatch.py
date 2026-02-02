@@ -79,18 +79,21 @@ def replace_text_age(episode_text: str, correct_age: int) -> str:
     return re.sub(pattern, replacer, str(episode_text))
 
 
-def fix_text_age_mismatch(dry_run: bool = True) -> dict:
+def fix_text_age_mismatch(dry_run: bool = True, force: bool = False) -> dict:
     """
     本文の年齢表記をageフィールドに合わせて修正
 
     Args:
         dry_run: Trueの場合、実際には保存しない（プレビューのみ）
+        force: Trueの場合、差分が大きいケース（SUSPICIOUS_DIFF_THRESHOLD超）も修正対象にする
 
     Returns:
         修正結果の統計情報
     """
     print("=" * 70)
     print("C1違反修正: 本文の年齢表記をageフィールドに合わせる")
+    if force:
+        print("⚠️ FORCEモード: 差分が大きいケースも修正対象に含めます")
     print("=" * 70)
 
     # CSV読み込み
@@ -112,7 +115,7 @@ def fix_text_age_mismatch(dry_run: bool = True) -> dict:
     for idx, row in df.iterrows():
         episode_id = row["episode_id"]
         age_field = row.get("age")
-        episode_text = row.get("episode_text", "")
+        episode_text = str(row.get("episode_text", "") or "")
 
         # 本文から年齢を抽出
         text_age = extract_text_age(episode_text)
@@ -142,7 +145,8 @@ def fix_text_age_mismatch(dry_run: bool = True) -> dict:
 
         # 差分が大きすぎる場合は疑わしいケースとして別扱い
         # birth_yearが誤っている可能性が高い
-        if abs(diff) > SUSPICIOUS_DIFF_THRESHOLD:
+        # --force オプション指定時は、疑わしいケースも修正対象にする
+        if abs(diff) > SUSPICIOUS_DIFF_THRESHOLD and not force:
             suspicious.append(
                 {
                     "episode_id": episode_id,
@@ -264,13 +268,18 @@ def main():
         default=True,
         help="変更をプレビュー（デフォルト）",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="差分が大きいケース（40超）も修正対象に含める",
+    )
 
     args = parser.parse_args()
 
     # --execute が指定された場合は dry_run を False に
     dry_run = not args.execute
 
-    result = fix_text_age_mismatch(dry_run=dry_run)
+    result = fix_text_age_mismatch(dry_run=dry_run, force=args.force)
 
     print("\n📈 サマリー:")
     print(f"   総レコード数: {result['total_records']:,}")

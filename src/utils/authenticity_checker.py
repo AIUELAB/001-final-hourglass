@@ -9,11 +9,17 @@ LLMが生成した架空キャラクターのエピソードが、
 - canonのみ保存: 原作に明確に描かれたシーンのみ許可
 - 出典必須: エピソードには必ず原作出典が必要
 - CanonKB照合: 出典がCanonKBに存在するか検証
+- 創作禁止: fanon（原作設定と整合する創作）は許可しない
 
 ## 検証フロー
 1. ルールベース検証（メタ要素、年号等）- FictionalQualityGateに委譲
 2. 原作整合性チェック（CanonKB照合）
 3. 出典検証
+
+## ステータス定義
+- CANON: 原作に描かれたシーンであり、書き込み可
+- NO_MATCH: 該当年齢にシーンがない（出典未付与）
+- INVALID: 出典が不正、または創作疑い（低確信度）
 
 ## 使用例
     checker = AuthenticityChecker()
@@ -47,11 +53,17 @@ logger = logging.getLogger(__name__)
 
 
 class AuthenticityStatus(Enum):
-    """真正性ステータス"""
+    """
+    真正性ステータス
+
+    - CANON: 原作に描かれたシーン（書き込み可）
+    - NO_MATCH: 該当年齢に原作シーンなし（出典未付与）
+    - INVALID: 出典が不正、または創作疑い（確信度 < 0.3）
+    """
 
     CANON = "canon"  # 原作に描かれたシーン
-    NO_MATCH = "no_match"  # 該当年齢に原作シーンなし
-    INVALID = "invalid"  # 設定違反（年号・現実混入等）
+    NO_MATCH = "no_match"  # 該当年齢に原作シーンなし（出典未付与）
+    INVALID = "invalid"  # 出典不正・創作疑い（CanonKB不在、低確信度）
 
 
 @dataclass
@@ -98,6 +110,7 @@ class AuthenticityChecker:
     # 確信度の閾値
     HIGH_CONFIDENCE_THRESHOLD = 0.8
     MEDIUM_CONFIDENCE_THRESHOLD = 0.5
+    LOW_CONFIDENCE_THRESHOLD = 0.3  # これ未満は INVALID（創作疑い）
 
     def __init__(self, canon_kb: Optional[CanonKB] = None):
         """
@@ -169,9 +182,10 @@ class AuthenticityChecker:
             if available_sources:
                 suggestion += f"。利用可能な出典: {', '.join(available_sources[:3])}"
 
+            # 出典がCanonKBに存在しない → INVALID（創作疑い）
             return AuthenticityResult(
                 passed=False,
-                status=AuthenticityStatus.NO_MATCH,
+                status=AuthenticityStatus.INVALID,
                 violations=[f"出典 '{canon_source}' がCanonKBに存在しません"],
                 suggestion=suggestion,
             )
@@ -180,21 +194,36 @@ class AuthenticityChecker:
         matching_scenes = self.find_matching_scenes(work_title, person_name, age, episode_text)
 
         if not matching_scenes:
-            # シーンが見つからなかったが、出典は存在する
-            # → 低確信度でpassとする（厳格モードでは不可にする場合はここを変更）
+            # シーンが見つからない → 創作疑い → INVALID
             return AuthenticityResult(
-                passed=True,
-                status=AuthenticityStatus.CANON,
+                passed=False,
+                status=AuthenticityStatus.INVALID,
                 canon_source=canon_source,
-                confidence=0.5,
-                suggestion="エピソード内容と出典の整合性が低い可能性があります",
+                confidence=0.0,
+                violations=["エピソード内容と出典の整合性が確認できません（キーワードマッチなし）"],
+                suggestion="原作に描かれたシーンに基づいてエピソードを再生成してください",
             )
 
-        # 5. 全検証通過
+        # 5. 確信度チェック
         # 最もマッチしたシーンから確信度を計算
         best_match = matching_scenes[0] if matching_scenes else {}
-        confidence = best_match.get("match_score", 0.9)
+        confidence = best_match.get("match_score", 0.0)
 
+        # 低確信度（< 0.3）→ 創作疑い → INVALID
+        if confidence < self.LOW_CONFIDENCE_THRESHOLD:
+            return AuthenticityResult(
+                passed=False,
+                status=AuthenticityStatus.INVALID,
+                canon_source=canon_source,
+                confidence=confidence,
+                matching_scenes=matching_scenes,
+                violations=[
+                    f"エピソード内容と出典の整合性が低い（確信度: {confidence:.2f} < {self.LOW_CONFIDENCE_THRESHOLD}）"
+                ],
+                suggestion="より原作に忠実なエピソードを再生成してください",
+            )
+
+        # 6. 全検証通過
         return AuthenticityResult(
             passed=True,
             status=AuthenticityStatus.CANON,

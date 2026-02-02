@@ -39,7 +39,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "validation"))
 from detect_all_inconsistencies import check_name_text_consistency
 
 
-def load_episodes():
+def load_episodes() -> list[dict[str, str]]:
     """エピソード読み込み"""
     with open(CSV_PATH, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
@@ -91,7 +91,7 @@ def suggest_keywords(analysis: dict) -> list:
     return suggestions
 
 
-def print_analysis(analysis: dict):
+def print_analysis(analysis: dict) -> None:
     """分析結果を表示"""
     print("=" * 60)
     print("B2違反パターン分析")
@@ -143,7 +143,7 @@ def fix_violations(episodes: list, analysis: dict) -> tuple[list, list]:
     return modified_episodes, modifications
 
 
-def save_episodes(episodes: list, output_path: Path):
+def save_episodes(episodes: list, output_path: Path) -> None:
     """エピソードを保存"""
     if not episodes:
         return
@@ -155,7 +155,7 @@ def save_episodes(episodes: list, output_path: Path):
         writer.writerows(episodes)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="B2違反（英語名混入）修正スクリプト")
     parser.add_argument("--dry-run", action="store_true", help="検証のみ（変更なし）")
     parser.add_argument("--execute", action="store_true", help="実際に修正を実行")

@@ -51,14 +51,38 @@ class CSVFileWatcher:
             def __init__(handler_self, watcher: "CSVFileWatcher"):
                 handler_self.watcher = watcher
 
+            def _is_target(handler_self, path: str) -> bool:
+                """監視対象CSVかどうか（ファイル名一致で判定）"""
+                return Path(path).name == handler_self.watcher.csv_path.name
+
             def on_modified(handler_self, event):
                 if event.is_directory:
                     return
-                if Path(event.src_path).name == handler_self.watcher.csv_path.name:
+                if handler_self._is_target(event.src_path):
+                    handler_self.watcher._on_file_changed()
+
+            def on_created(handler_self, event):
+                # VSCode等の「原子的保存」（一時ファイル→置換）では created/moved が発火することがある
+                if event.is_directory:
+                    return
+                if handler_self._is_target(event.src_path):
+                    handler_self.watcher._on_file_changed()
+
+            def on_moved(handler_self, event):
+                # Excel等が「別名で書いて置換」するケースに対応
+                if event.is_directory:
+                    return
+                src = getattr(event, "src_path", "")
+                dest = getattr(event, "dest_path", "")
+                if (src and handler_self._is_target(src)) or (
+                    dest and handler_self._is_target(dest)
+                ):
                     handler_self.watcher._on_file_changed()
 
         self.observer = Observer()
-        self.observer.schedule(Handler(self), str(self.csv_path.parent), recursive=False)
+        self.observer.schedule(
+            Handler(self), str(self.csv_path.parent), recursive=False
+        )
         self.observer.start()
         print(f"[File Watcher] Started: {self.csv_path}")
 

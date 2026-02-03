@@ -11,8 +11,20 @@ def get_default_csv_path() -> Path:
     """デフォルトCSVパスを取得"""
     # プロジェクトルートからの相対パス
     project_root = Path(__file__).parent.parent.parent.parent
-    csv_path = project_root / "MASTER_EPISODES_CURRENT.csv"
-    return csv_path
+    # NOTE:
+    # - 本リポジトリのマスターCSVは通常 `preserved/data/MASTER_EPISODES_CURRENT.csv` に配置される
+    # - 旧実装（リポジトリ直下の MASTER_EPISODES_CURRENT.csv）との後方互換も残す
+    candidates = [
+        project_root / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv",
+        project_root / "MASTER_EPISODES_CURRENT.csv",
+    ]
+
+    for path in candidates:
+        if path.exists():
+            return path
+
+    # どちらも存在しない場合でも、標準パス（preserved側）を返す（呼び出し側で存在チェックする想定）
+    return candidates[0]
 
 
 def get_csv_modification_time(csv_path: str) -> float:
@@ -78,20 +90,30 @@ def import_csv_to_db(db, csv_path: str, force: bool = False) -> int:
                             "character_name": row.get("person_name", ""),
                             "work_title": row.get("work_title", "不明"),
                             "genre": row.get("category", "未分類"),
-                            "age_in_story": str(int(float(row.get("age", 0)))) if row.get("age") else "不明",
-                            "key_episode": row.get("episode_text", "")[:500],  # 最初の500文字
+                            "age_in_story": (
+                                str(int(float(row.get("age", 0))))
+                                if row.get("age")
+                                else "不明"
+                            ),
+                            "key_episode": row.get("episode_text", "")[
+                                :500
+                            ],  # 最初の500文字
                             "detailed_achievements": row.get("episode_text", ""),
                             "story_events": "",
                             "growth_narrative": "",
                             "wikipedia_url": "",
-                            "validation_status": row.get("fact_check_result", "PENDING"),
+                            "validation_status": row.get(
+                                "fact_check_result", "PENDING"
+                            ),
                             "curator_notes": f"Type: {row.get('person_type', 'REAL')}, Episode: {row.get('episode_type', '')}",
                         }
                     )
                     count += 1
                 except Exception as e:
                     # 個別レコードのエラーはスキップ
-                    print(f"⚠️  レコードスキップ: {row.get('person_name', 'Unknown')} - {e}")
+                    print(
+                        f"⚠️  レコードスキップ: {row.get('person_name', 'Unknown')} - {e}"
+                    )
                     continue
 
     except FileNotFoundError:

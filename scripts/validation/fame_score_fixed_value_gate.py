@@ -188,24 +188,24 @@ def get_anomaly_summary(result: dict) -> str:
     lines.append(f"総レコード数: {result['total_records']}")
     lines.append(f"スコア欠損数: {result['missing_score_count']}")
     lines.append(f"ユニークスコア数: {result['unique_scores']}")
-    lines.append(f"\n閾値設定:")
+    lines.append("\n閾値設定:")
     lines.append(f"  - 件数閾値: {result['count_threshold']}件以上")
     lines.append(f"  - 人物数閾値: {result['person_threshold']}人以上")
     lines.append(f"  - デフォルト値除外: {result['exclude_defaults']}")
 
     if result["excluded_defaults"]:
-        lines.append(f"\n--- 除外されたデフォルト値 ---")
+        lines.append("\n--- 除外されたデフォルト値 ---")
         for ed in result["excluded_defaults"]:
             lines.append(f"  {ed['score']:.2f}: {ed['count']}件, {ed['person_count']}人物 ({ed['reason']})")
 
-    lines.append(f"\n--- 検出結果 ---")
+    lines.append("\n--- 検出結果 ---")
     lines.append(f"総異常数: {result['total_anomalies']}")
     lines.append(f"  CRITICAL (200件+/50人物+): {result['severity_counts']['critical']}")
     lines.append(f"  HIGH (100件+/30人物+): {result['severity_counts']['high']}")
     lines.append(f"  MEDIUM: {result['severity_counts']['medium']}")
 
     if result["anomalies"]:
-        lines.append(f"\n--- 固定値異常リスト ---")
+        lines.append("\n--- 固定値異常リスト ---")
         for a in result["anomalies"]:
             lines.append(f"\n  [{a['severity'].upper()}] fame_score_v3 = {a['fame_score_v3']:.2f}")
             lines.append(f"    件数: {a['count']}, 影響人物数: {a['person_count']}")

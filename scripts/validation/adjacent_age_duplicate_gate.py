@@ -328,11 +328,11 @@ def print_report(result: dict, verbose: bool = False) -> None:
     print("=" * 70)
 
     params = result.get("parameters", {})
-    print(f"\n設定:")
+    print("\n設定:")
     print(f"  年齢差閾値: {params.get('age_threshold', DEFAULT_AGE_THRESHOLD)}歳以内")
     print(f"  類似度閾値: {params.get('similarity_threshold', DEFAULT_SIMILARITY_THRESHOLD) * 100:.0f}%以上")
 
-    print(f"\n結果サマリー:")
+    print("\n結果サマリー:")
     print(f"  総クラスター数: {result['total_clusters']}")
     print(f"  総重複件数: {result['total_duplicate_episodes']}")
 

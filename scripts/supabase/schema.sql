@@ -78,6 +78,7 @@ CREATE TABLE episodes (
 
   -- スコア追加
   desirability_score NUMERIC(10,2),
+  hybrid_score DOUBLE PRECISION,
   event_magnitude NUMERIC(6,2),
   recency_boost NUMERIC(6,2),
   heuristic_quality_score NUMERIC(6,2),
@@ -109,6 +110,7 @@ CREATE INDEX idx_episodes_episode_fame ON episodes(episode_fame_v6 DESC NULLS LA
 CREATE INDEX idx_episodes_person_type ON episodes(person_type);
 CREATE INDEX idx_episodes_desirability_score ON episodes(desirability_score DESC NULLS LAST);
 CREATE INDEX idx_episodes_desirability_episode_id ON episodes(desirability_score DESC NULLS LAST, episode_id ASC);
+CREATE INDEX idx_episodes_hybrid_score ON episodes(hybrid_score DESC NULLS LAST, episode_id ASC);
 
 -- 4. RLS（Row Level Security）有効化
 ALTER TABLE episodes ENABLE ROW LEVEL SECURITY;
@@ -159,6 +161,7 @@ COMMENT ON COLUMN episodes.birth_year IS '人物の生年（西暦）';
 COMMENT ON COLUMN episodes.death_year IS '人物の没年（西暦）';
 COMMENT ON COLUMN episodes.is_fictional IS '架空キャラクターフラグ';
 COMMENT ON COLUMN episodes.desirability_score IS 'エピソード望ましさスコア（検索・表示優先度）';
+COMMENT ON COLUMN episodes.hybrid_score IS 'Hybrid-Cソート方式のスコア（iOSアプリ用）';
 
 -- 確認用クエリ
 -- SELECT COUNT(*) FROM episodes;

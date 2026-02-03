@@ -1,11 +1,11 @@
 {
   "gate_name": "top20_diversity_gate",
-  "check_date": "2026-02-03T22:28:30.391662",
+  "check_date": "2026-02-03T22:40:05.584150",
   "max_per_person": 2,
   "overall_passed": true,
   "results": [
     {
-      "check_date": "2026-02-03T22:28:30.329803",
+      "check_date": "2026-02-03T22:40:05.519714",
       "score_type": "super_total_score",
       "passed": true,
       "total_violations": 0,
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "check_date": "2026-02-03T22:28:30.391065",
+      "check_date": "2026-02-03T22:40:05.583694",
       "score_type": "desirability_score",
       "passed": true,
       "total_violations": 0,

@@ -139,3 +139,27 @@ COMMENT ON COLUMN episodes.fact_check_result IS 'ファクトチェック結果'
 -- FROM pg_indexes
 -- WHERE tablename = 'episodes'
 -- AND indexname = 'idx_episodes_desirability_score';
+
+-- -----------------------------------------------------------------------------
+-- 7. hybrid_score カラム追加 (Hybrid-C ソート方式)
+-- -----------------------------------------------------------------------------
+-- 追加日: 2026-02-04
+-- 目的: iOSアプリでHybrid-Cソート方式を実現するための新しいスコアカラム
+
+-- hybrid_score: Hybrid-C方式で計算されたソートスコア
+ALTER TABLE episodes ADD COLUMN IF NOT EXISTS hybrid_score DOUBLE PRECISION;
+
+-- インデックス作成（タイブレーク用: hybrid_score + episode_id）
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_indexes
+        WHERE indexname = 'idx_episodes_hybrid_score'
+    ) THEN
+        CREATE INDEX idx_episodes_hybrid_score
+        ON episodes(hybrid_score DESC NULLS LAST, episode_id ASC);
+    END IF;
+END $$;
+
+-- カラムコメント
+COMMENT ON COLUMN episodes.hybrid_score IS 'Hybrid-Cソート方式のスコア（iOSアプリ用）';

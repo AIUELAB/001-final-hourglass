@@ -215,7 +215,6 @@ class PersonDiscoverer:
                 "source": "wikidata_discoverer",
                 "generation_timestamp": timestamp,
                 "episode_text": f"「{name}」のエピソードは後で生成されます。",
-                "char_count": "0",
                 "age": "30",  # プレースホルダー年齢
             }
         )

@@ -283,10 +283,11 @@ def find_candidates_by_name(orchestrator: HybridOrchestrator, names: list[str], 
         if age is not None:
             selected_age = age
         else:
-            # 既存の年齢を除外して選定
+            # 既存の年齢を除外して選定（5歳単位制約撤廃: 動的年齢選択を使用）
             existing_ages = set(matches["age"].dropna().astype(int))
-            available_ages = [a for a in [30, 35, 40, 45, 50] if a not in existing_ages]
-            selected_age = available_ages[0] if available_ages else 40
+            # orchestratorの動的年齢選択を使用（象徴的業績年齢→deficit順）
+            priority_ages = orchestrator.get_dynamic_priority_ages(person_name, existing_ages)
+            selected_age = priority_ages[0] if priority_ages else 40
 
         candidates.append(
             Candidate(

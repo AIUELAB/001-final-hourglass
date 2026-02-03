@@ -1184,6 +1184,7 @@ class HybridOrchestrator:
                     available_ages = []
             else:
                 # 通常モード: deficitベースの年齢計算
+                # Phase 30: person_name を渡して象徴的業績年齢を優先
                 available_ages = self._calculate_available_ages_for_person(
                     person_type=person_type,
                     birth_year=int(birth_year) if birth_year and not pd.isna(birth_year) else None,
@@ -1191,6 +1192,7 @@ class HybridOrchestrator:
                     canonical_age=canonical_age,
                     existing_ages=existing_ages,
                     category=category,
+                    person_name=person_name,  # Phase 30: 象徴的業績年齢統合
                 )
 
             # 各年齢を候補プールに追加
@@ -1428,6 +1430,7 @@ class HybridOrchestrator:
         canonical_age: int | None,
         existing_ages: set[int],
         category: str = "",
+        person_name: str = "",  # Phase 30: 象徴的業績年齢統合用
     ) -> list[int]:
         """
         人物タイプ別の利用可能年齢を計算
@@ -1451,8 +1454,9 @@ class HybridOrchestrator:
         available_ages = []
 
         # REAL: 既存ロジック（birth_year ~ death_year）
+        # Phase 30: person_name を渡して象徴的業績年齢を優先
         if person_type == "REAL":
-            return self._calculate_real_person_ages(birth_year, death_year, existing_ages)
+            return self._calculate_real_person_ages(birth_year, death_year, existing_ages, person_name)
 
         # FICTIONAL / MYTHOLOGICAL: 作品内設定年齢を使用
         elif person_type in ("FICTIONAL", "MYTHOLOGICAL"):
@@ -1532,8 +1536,8 @@ class HybridOrchestrator:
             return self._cached_deficit_ages
 
         if not self._inventory_manager:
-            # フォールバック: 従来の固定リスト
-            return [25, 30, 35, 40, 45, 50, 55, 20, 60, 65, 15, 70, 75, 80]
+            # フォールバック: 5歳単位制約撤廃 - 全年齢を80歳以下優先で返す
+            return list(range(1, 81)) + list(range(81, 101))
 
         self._inventory_manager.refresh()
 
@@ -1561,24 +1565,84 @@ class HybridOrchestrator:
 
         return result
 
+    def get_dynamic_priority_ages(self, person_name: str, existing_ages: set[int] | None = None) -> list[int]:
+        """
+        人物ごとの優先年齢を動的に計算（5歳単位制約の撤廃対応）
+
+        優先順位:
+        1. 象徴的業績の年齢（iconic_achievements_master.json）
+        2. deficitが大きい年齢
+        3. 既存年齢から5歳以上離れた年齢
+
+        Args:
+            person_name: 人物名
+            existing_ages: 既存エピソードの年齢セット（除外対象）
+
+        Returns:
+            list[int]: 優先度順の年齢リスト
+        """
+        from pathlib import Path
+
+        existing = existing_ages or set()
+        result_ages: list[int] = []
+        added: set[int] = set()
+
+        # Step 1: 象徴的業績の年齢を最優先
+        iconic_path = Path(__file__).parent.parent.parent / "preserved" / "data" / "iconic_achievements_master.json"
+        try:
+            with open(iconic_path, "r", encoding="utf-8") as f:
+                iconic_data = json.load(f)
+            person_data = iconic_data.get("persons", {}).get(person_name, {})
+            if person_data:
+                # priorityでソートして年齢を取得
+                episodes = person_data.get("required_episodes", [])
+                sorted_episodes = sorted(episodes, key=lambda x: x.get("priority", 999))
+                for ep in sorted_episodes:
+                    age = ep.get("age")
+                    if age and age not in existing and age not in added:
+                        result_ages.append(age)
+                        added.add(age)
+                        logger.debug(f"[get_dynamic_priority_ages] {person_name}: iconic age {age} added")
+        except FileNotFoundError:
+            logger.debug("iconic_achievements_master.json not found, skipping iconic ages")
+        except json.JSONDecodeError as e:
+            logger.warning(f"Failed to parse iconic_achievements_master.json: {e}")
+
+        # Step 2: deficitが大きい年齢を追加
+        deficit_ages = self._get_deficit_priority_ages()
+        for age in deficit_ages:
+            if age not in existing and age not in added:
+                result_ages.append(age)
+                added.add(age)
+
+        # Step 3: 結果が空の場合のフォールバック（1-100の全年齢）
+        if not result_ages:
+            for age in range(1, 101):
+                if age not in existing:
+                    result_ages.append(age)
+
+        return result_ages
+
     def _calculate_real_person_ages(
         self,
         birth_year: int | None,
         death_year: int | None,
         existing_ages: set[int],
+        person_name: str = "",  # Phase 30: 象徴的業績年齢統合用
     ) -> list[int]:
         """
         実在人物の利用可能年齢を計算
 
-        Phase 29: deficitベースの動的年齢優先度に変更
-        - 固定リスト（priority_ages等）を廃止
-        - _get_deficit_priority_ages()からdeficit降順で年齢を取得
-        - 16, 17, 62, 63, 64歳などdeficit高年齢も候補に含まれる
+        Phase 30: 象徴的業績年齢を最優先 + deficitベースのフォールバック
+        - get_dynamic_priority_ages()で象徴的業績年齢を取得
+        - iconic_achievements_master.json に登録された年齢が最優先
+        - 未登録の場合はdeficitベースにフォールバック
 
         Args:
             birth_year: 生年
             death_year: 没年
             existing_ages: 既存エピソードの年齢セット
+            person_name: 人物名（象徴的業績年齢の検索用）
 
         Returns:
             list[int]: 利用可能な年齢リスト
@@ -1588,8 +1652,8 @@ class HybridOrchestrator:
         available_ages = []
         current_year = datetime.now().year
 
-        # Phase 29: deficitベースの動的年齢リストを取得
-        deficit_priority_ages = self._get_deficit_priority_ages()
+        # Phase 30: 象徴的業績年齢を最優先 + deficitベースのフォールバック
+        deficit_priority_ages = self.get_dynamic_priority_ages(person_name, existing_ages)
 
         # Phase 31: 1-5歳も候補に含める（deficitが残っている場合）
         # 極端年齢は別途処理（既存フィルターとの整合性維持）

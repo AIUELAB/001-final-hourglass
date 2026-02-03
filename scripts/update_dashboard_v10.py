@@ -129,6 +129,10 @@ def load_csv_data():
                 "wikipedia_pv": _safe_int(row.get("wikipedia_pv", 0)),
                 "award_level": _safe_int(row.get("award_level", 0)),
                 "textbook": str(row.get("textbook", "False")).lower() == "true",
+                # desirability関連スコア
+                "desirability_score": float(row.get("desirability_score", 0) or 0),
+                "event_magnitude": float(row.get("event_magnitude", 0) or 0),
+                "recency_boost": float(row.get("recency_boost", 0) or 0),
             }
             # 7軸チャート用エイリアス
             episode["quality_score"] = episode["generation_quality_score"]

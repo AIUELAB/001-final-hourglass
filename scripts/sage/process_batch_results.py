@@ -15,7 +15,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -30,6 +30,7 @@ from scripts.sage.inventory_manager import InventoryManager
 from scripts.sage.persistence.backup import create_pre_operation_backup
 from scripts.sage.gates.completeness import auto_fill_all_derived_fields
 from scripts.sage.gates.episode_type_inferrer import infer_episode_type_simple
+from scripts.score.desirability.scorer import calculate_desirability_score
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -63,7 +64,7 @@ class BatchProcessingStats:
 class BatchResultProcessor:
     """Batch API結果プロセッサ"""
 
-    def __init__(self, config: HybridConfig = None, dry_run: bool = False):
+    def __init__(self, config: Optional[HybridConfig] = None, dry_run: bool = False):
         self.config = config or HybridConfig()
         self.dry_run = dry_run
         self._jobs_dir = LOGS_DIR / "batch_jobs"
@@ -291,6 +292,11 @@ class BatchResultProcessor:
         combined_df = pd.concat([existing_df, new_df], ignore_index=True)
         combined_df.to_csv(MASTER_CSV, index=False, encoding="utf-8-sig")
 
+        # RCA-20260203: キャッシュを無効化して次回アクセス時に再読み込み
+        # 問題: CSV更新後も self._master_df が古いまま → 新規人物がデフォルト値(500)で固定
+        # 修正: 書き込み後にキャッシュをリセットし、次回 master_df プロパティアクセス時に再読み込み
+        self._master_df = None
+
         return {"added": len(new_rows), "skipped": 0}
 
     def _create_episode_record(self, ep: dict) -> dict:
@@ -345,6 +351,12 @@ class BatchResultProcessor:
             "generation_timestamp": generation_timestamp,
             "verification_status": "unverified",
         }
+
+        # desirability_score計算
+        desirability_result = calculate_desirability_score(record)
+        record["desirability_score"] = desirability_result["desirability_score"]
+        record["event_magnitude"] = desirability_result["event_magnitude"]
+        record["recency_boost"] = desirability_result["recency_boost"]
 
         # 派生フィールドを自動補完（fame_tier, episode_fame_v6等）
         record = auto_fill_all_derived_fields(record)

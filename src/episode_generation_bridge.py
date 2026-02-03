@@ -49,8 +49,8 @@ class EpisodeGenerationBridge:
             import sys
             from pathlib import Path
 
-            # scripts/ を sys.path に追加
-            sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+            # scripts/validation/ を sys.path に追加
+            sys.path.insert(0, str(Path(__file__).parent.parent / "scripts" / "validation"))
 
             from episode_validator import validate_episode
 

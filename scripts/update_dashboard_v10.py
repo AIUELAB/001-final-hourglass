@@ -131,6 +131,8 @@ def load_csv_data():
                 "textbook": str(row.get("textbook", "False")).lower() == "true",
                 # desirability関連スコア
                 "desirability_score": float(row.get("desirability_score", 0) or 0),
+                # ハイブリッドスコア（Hybrid-C）
+                "hybrid_score": float(row.get("hybrid_score", 0) or 0),
                 "event_magnitude": float(row.get("event_magnitude", 0) or 0),
                 "recency_boost": float(row.get("recency_boost", 0) or 0),
             }

@@ -81,12 +81,23 @@ ALTER TABLE episodes ADD COLUMN IF NOT EXISTS fact_check_result TEXT;
 -- DO ブロックで条件チェックを行う
 DO $$
 BEGIN
+    -- 単一カラムインデックス
     IF NOT EXISTS (
         SELECT 1 FROM pg_indexes
         WHERE indexname = 'idx_episodes_desirability_score'
     ) THEN
         CREATE INDEX idx_episodes_desirability_score
         ON episodes(desirability_score DESC NULLS LAST);
+    END IF;
+
+    -- 複合インデックス（タイブレーク用: desirability_score + episode_id）
+    -- iOSアプリで決定論的ソートを実現するための重要なインデックス
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_indexes
+        WHERE indexname = 'idx_episodes_desirability_episode_id'
+    ) THEN
+        CREATE INDEX idx_episodes_desirability_episode_id
+        ON episodes(desirability_score DESC NULLS LAST, episode_id ASC);
     END IF;
 END $$;
 

@@ -63,6 +63,9 @@ from src.utils.fictional_quality_gate import FictionalQualityGate
 # UnifiedGate（DB反映前の最終ゲート - バイパス経路塞ぎ）
 from .unified_gate import UnifiedGate, ViolationType
 
+# RealPersonVerifier（REAL人物のハルシネーション検出 - RCA-20260203）
+from scripts.validation.real_person_verifier import RealPersonVerifier
+
 # 架空キャラクター名リスト（RCA-20260123: src/utils/に移動してアーキテクチャ違反解消）
 from src.utils.fictional_characters import (
     ALL_FICTIONAL_CHARACTERS,
@@ -426,6 +429,55 @@ class SafeCSVWriter:
                 # canon検証通過 → 出典情報をログに記録
                 if auth_result.canon_source:
                     logger.info(f"AuthenticityGate: canon確認 - {auth_result.canon_source}")
+
+        # REAL人物のハルシネーションチェック（RCA-20260203）
+        # FICTIONAL は FictionalQualityGate でカバー済みなので、REAL のみ追加チェック
+        if "REAL" in person_type and not is_fictional_by_name:
+            real_verifier = RealPersonVerifier()
+            episode_text = str(row.get("episode_text", ""))
+
+            # 年齢・生年・没年取得
+            try:
+                age = float(row.get("age", 0))
+            except (ValueError, TypeError):
+                age = 0.0
+
+            birth_year = row.get("birth_year")
+            death_year = row.get("death_year")
+            source = row.get("source")
+
+            # 型変換
+            try:
+                birth_year = int(birth_year) if birth_year else None
+            except (ValueError, TypeError):
+                birth_year = None
+
+            try:
+                death_year = int(death_year) if death_year else None
+            except (ValueError, TypeError):
+                death_year = None
+
+            # RealPersonVerifier で検証
+            real_result = real_verifier.verify(
+                person_name=person_name,
+                episode_text=episode_text,
+                age=age,
+                birth_year=birth_year,
+                death_year=death_year,
+                source=source,
+            )
+
+            if not real_result.passed:
+                # 埋草（filler）とfabricationはブロック
+                violation_type = real_result.violation_type
+                if violation_type:
+                    logger.warning(
+                        "HallucinationGate: REAL人物ハルシネーション検出 - %s (%s歳): %s",
+                        person_name,
+                        row.get("age"),
+                        real_result.violation_detail,
+                    )
+                    return False, f"HallucinationGate違反: {real_result.violation_detail}"
 
         # UnifiedGateチェック（バイパス経路塞ぎ - DB反映前最終ゲート）
         # REAL/FICTIONAL両方をカバーする統合検証

@@ -212,6 +212,87 @@ class HallucinationDetector:
 
         return detected
 
+    def _extract_years_from_text(self, text: str) -> list[int]:
+        """
+        エピソードテキストから年号（西暦）を抽出
+
+        Args:
+            text: エピソードテキスト
+
+        Returns:
+            抽出された年号のリスト
+        """
+        if not text:
+            return []
+
+        # 西暦年号パターン: 1900-2099年
+        year_pattern = re.compile(r"(19\d{2}|20\d{2})年")
+        matches = year_pattern.findall(text)
+
+        return [int(y) for y in matches]
+
+    def _detect_year_age_mismatch(
+        self,
+        episode_text: str,
+        birth_year: Optional[int],
+        age: int,
+        tolerance: int = 2,
+    ) -> tuple[bool, str]:
+        """
+        エピソード内の年号と (birth_year + age) の整合性をチェック
+
+        Args:
+            episode_text: エピソードテキスト
+            birth_year: 生年
+            age: エピソードの年齢
+            tolerance: 許容誤差（年）
+
+        Returns:
+            (不整合あり, 理由) のタプル
+        """
+        if not birth_year or birth_year <= 0:
+            return (False, "")
+
+        # エピソード内の年号を抽出
+        years_in_text = self._extract_years_from_text(episode_text)
+        if not years_in_text:
+            return (False, "")
+
+        # 計算上の年（birth_year + age）
+        calculated_year = birth_year + age
+
+        # birth_year付近の年号は「〜年生まれ」などの表現の可能性が高いため除外
+        # ±1年の範囲を許容（例: 1926年生まれを拾った場合）
+        birth_year_range = set(range(int(birth_year) - 1, int(birth_year) + 2))
+
+        # 抽出した年号と計算年の差をチェック
+        mismatch_years = []
+        for year in years_in_text:
+            # birth_year付近の年号はスキップ（誤検出防止）
+            if year in birth_year_range:
+                continue
+
+            # 過去の出来事への言及は許容（calculated_year より前の年号）
+            # 例: 92歳の市川崑のエピソードで「1964年東京オリンピック」に言及
+            if year < calculated_year:
+                continue
+
+            diff = abs(year - calculated_year)
+            if diff > tolerance:
+                mismatch_years.append((year, diff))
+
+        # 不整合がある年号があれば報告
+        if mismatch_years:
+            # 最も差が大きいものを報告
+            worst_year, worst_diff = max(mismatch_years, key=lambda x: x[1])
+            return (
+                True,
+                f"年号-年齢不整合: エピソード内「{worst_year}年」vs 計算上「{calculated_year}年」"
+                f"(birth_year={birth_year}, age={age}, 差={worst_diff}年)",
+            )
+
+        return (False, "")
+
     def _is_fictional(self, person_type: str, person_name: str) -> bool:
         """
         架空キャラクターかどうかを判定
@@ -315,6 +396,27 @@ class HallucinationDetector:
         # 2. メタ要素チェックはREAL人物には適用しない
         # REAL人物の受賞歴（アカデミー賞、グラミー賞等）は正当なエピソードであり、
         # メタ要素検出はFICTIONAL人物専用（RCA-20260203）
+
+        # 3. 年号-年齢整合性チェック（RCA-20260203）
+        # エピソード内の具体的な年号と (birth_year + age) の整合性を検証
+        has_mismatch, mismatch_reason = self._detect_year_age_mismatch(
+            episode_text=episode_text,
+            birth_year=birth_year,
+            age=age,
+            tolerance=2,  # 2年以内の誤差は許容
+        )
+        if has_mismatch:
+            return DetectionResult(
+                episode_id=episode_id,
+                person_name=person_name,
+                person_type=person_type,
+                age=age,
+                is_hallucination=True,
+                reason=mismatch_reason,
+                violation_type="year_age_mismatch",
+                confidence=0.85,
+                super_total_score=super_total_score,
+            )
 
         # 検証通過
         return DetectionResult(

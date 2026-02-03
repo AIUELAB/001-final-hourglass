@@ -174,6 +174,69 @@ class TestHallucinationDetector:
         assert result.person_type == "REAL"
         assert result.confidence >= 0.8  # FABRICATIONは高確信度
 
+    def test_real_person_year_age_mismatch(self, sample_real_episode):
+        """
+        テストケース2.5: REAL人物 + 年号-年齢不整合 → 削除対象
+
+        エピソード内の年号と (birth_year + age) が大きくズレている場合、
+        ハルシネーションとして検出されるべき。
+        例: birth_year=1941 (誤り), age=18 → calculated_year=1959
+            エピソード内に「2025年」があると、66年のズレで検出される。
+        ※過去の年号は「過去への言及」として許容するため、未来の年号のみ検出対象
+        """
+        episode = sample_real_episode.copy()
+        episode["birth_year"] = 1941  # 誤ったbirth_year（真木よう子のケース同様）
+        episode["age"] = 18
+        # 1941 + 18 = 1959 だが、エピソード内に「2025年」と書いてある（66年のズレ）
+        episode["episode_text"] = "2025年に大きな賞を受賞した。"
+
+        # RealPersonVerifier をモック化（検証通過させる）
+        mock_verification = VerificationResult(
+            passed=True,
+            violation_type=None,
+            violation_detail="",
+            filler_score=0,
+            concrete_score=3,
+        )
+
+        with patch.object(RealPersonVerifier, "verify", return_value=mock_verification):
+            detector = HallucinationDetector()
+            result = detector.detect(episode)
+
+        # アサーション: 年号-年齢不整合でハルシネーション扱い
+        assert result.is_hallucination is True
+        assert result.violation_type == "year_age_mismatch"
+        assert "年号-年齢不整合" in result.reason
+        assert result.confidence >= 0.8
+
+    def test_real_person_year_age_match(self, sample_real_episode):
+        """
+        テストケース2.6: REAL人物 + 年号-年齢整合 → 許容
+
+        エピソード内の年号と (birth_year + age) が一致する場合は許容。
+        """
+        episode = sample_real_episode.copy()
+        episode["birth_year"] = 1970
+        episode["age"] = 50
+        # 1970 + 50 = 2020 で一致
+        episode["episode_text"] = "2020年に大きな功績を達成した。"
+
+        mock_verification = VerificationResult(
+            passed=True,
+            violation_type=None,
+            violation_detail="",
+            filler_score=0,
+            concrete_score=3,
+        )
+
+        with patch.object(RealPersonVerifier, "verify", return_value=mock_verification):
+            detector = HallucinationDetector()
+            result = detector.detect(episode)
+
+        # アサーション: 整合しているのでハルシネーション扱いにならない
+        assert result.is_hallucination is False
+        assert result.person_type == "REAL"
+
     def test_fictional_fanon_allowed(self, sample_fictional_episode):
         """
         テストケース3: FICTIONAL + fanon → 許容（is_hallucination=False）

@@ -32,8 +32,8 @@ REPORT_PATH = PROJECT_ROOT / "src/reports/top_monopoly_gate_result.json"
 
 # 上位N件ごとの最大許容件数
 MONOPOLY_LIMITS = {
-    20: 1,    # Top20: 最大1件
-    100: 2,   # Top100: 最大2件
+    20: 1,  # Top20: 最大1件
+    100: 2,  # Top100: 最大2件
     1000: 3,  # Top1000: 最大3件
 }
 
@@ -81,12 +81,14 @@ def detect_monopoly_violations(csv_path: Path, top_n: int = 1000) -> dict:
             except (ValueError, TypeError):
                 continue
 
-            episodes.append({
-                "person_id": person_id,
-                "person_name": person_name,
-                "episode_id": episode_id,
-                "super_total_score": score,
-            })
+            episodes.append(
+                {
+                    "person_id": person_id,
+                    "person_name": person_name,
+                    "episode_id": episode_id,
+                    "super_total_score": score,
+                }
+            )
 
     # スコア降順でソート
     episodes.sort(key=lambda x: x["super_total_score"], reverse=True)
@@ -111,11 +113,7 @@ def detect_monopoly_violations(csv_path: Path, top_n: int = 1000) -> dict:
         for person_id, person_eps in person_groups.items():
             if len(person_eps) > limit:
                 # スコア降順でソート済み
-                person_eps_sorted = sorted(
-                    person_eps,
-                    key=lambda x: x["super_total_score"],
-                    reverse=True
-                )
+                person_eps_sorted = sorted(person_eps, key=lambda x: x["super_total_score"], reverse=True)
                 person_name = person_eps_sorted[0]["person_name"]
                 all_ids = [ep["episode_id"] for ep in person_eps_sorted]
                 # 上限超過分が削除候補（スコア低い方から）
@@ -193,12 +191,14 @@ def suggest_removals(result: dict) -> list:
     for v in result.get("violations", []):
         for ep_id in v["removal_candidates"]:
             if ep_id not in seen_ids:
-                removals.append({
-                    "episode_id": ep_id,
-                    "person_name": v["person_name"],
-                    "tier": v["tier"],
-                    "reason": f"{v['tier']}で{v['person_name']}が{v['count']}件占有（上限{v['limit']}件）",
-                })
+                removals.append(
+                    {
+                        "episode_id": ep_id,
+                        "person_name": v["person_name"],
+                        "tier": v["tier"],
+                        "reason": f"{v['tier']}で{v['person_name']}が{v['count']}件占有（上限{v['limit']}件）",
+                    }
+                )
                 seen_ids.add(ep_id)
 
     return removals
@@ -230,7 +230,7 @@ def main():
     print("=" * 60)
     print(f"CSV: {args.csv}")
     print(f"検査範囲: Top{args.top_n}")
-    print(f"ルール: Top20≤1件, Top100≤2件, Top1000≤3件")
+    print("ルール: Top20≤1件, Top100≤2件, Top1000≤3件")
     print("=" * 60)
 
     if not args.csv.exists():

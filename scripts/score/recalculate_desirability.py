@@ -120,9 +120,7 @@ def main():
     # Top50表示
     print("\n4. Top 50 確認:")
     df_sorted = df.copy()
-    df_sorted["desirability_score"] = pd.to_numeric(
-        df_sorted["desirability_score"], errors="coerce"
-    )
+    df_sorted["desirability_score"] = pd.to_numeric(df_sorted["desirability_score"], errors="coerce")
     top50 = df_sorted.nlargest(50, "desirability_score")
     for i, (_, row) in enumerate(top50.iterrows(), 1):
         name = row.get("person_name", "?")
@@ -134,9 +132,7 @@ def main():
     # 参照対象の人物確認（大谷翔平 vs 竹内結子）
     print("\n5. 参照ランキング対象者の順位:")
     reference_persons = ["大谷翔平", "竹内結子", "イチロー", "孫正義", "羽生結弦"]
-    df_sorted = df_sorted.sort_values("desirability_score", ascending=False).reset_index(
-        drop=True
-    )
+    df_sorted = df_sorted.sort_values("desirability_score", ascending=False).reset_index(drop=True)
     for person in reference_persons:
         person_df = df_sorted[df_sorted["person_name"] == person]
         if not person_df.empty:

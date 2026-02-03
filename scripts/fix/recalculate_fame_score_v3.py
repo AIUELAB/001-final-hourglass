@@ -98,10 +98,7 @@ def find_target_persons(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     # REAL人物でfame_score_v3 = 500.00のみ
-    targets = persons[
-        (persons["person_type"] == "REAL")
-        & (persons["fame_score_v3"] == FIXED_SCORE_500)
-    ].copy()
+    targets = persons[(persons["person_type"] == "REAL") & (persons["fame_score_v3"] == FIXED_SCORE_500)].copy()
 
     return targets
 
@@ -182,9 +179,7 @@ def fetch_wikidata_signals(person_name: str) -> dict:
     return result
 
 
-def calculate_new_fame_score(
-    person_id: str, multi_lang_pv: int, sitelinks: int, inlinks: int = 0
-) -> float:
+def calculate_new_fame_score(person_id: str, multi_lang_pv: int, sitelinks: int, inlinks: int = 0) -> float:
     """fame_score_v3を計算"""
     signals = FameSignals(
         multi_lang_pv=multi_lang_pv,
@@ -220,10 +215,7 @@ def run_dry_run(_df: pd.DataFrame, targets: pd.DataFrame) -> None:
         sitelinks = row.get("sitelinks_count", 0)
         sitelinks_val = float(sitelinks) if sitelinks is not None and pd.notna(sitelinks) else 0
         sitelinks_str = f"{int(sitelinks_val)}" if sitelinks_val > 0 else "N/A"
-        print(
-            f"  {row['person_id']}: {row['person_name']} "
-            f"(PV: {pv_str}, sitelinks: {sitelinks_str})"
-        )
+        print(f"  {row['person_id']}: {row['person_name']} (PV: {pv_str}, sitelinks: {sitelinks_str})")
 
     # 推定原因
     print("\n--- 推定原因 ---")
@@ -281,10 +273,7 @@ def run_execute(
         end_idx = min(start_idx + batch_size, total_targets)
         batch = target_list[start_idx:end_idx]
 
-        print(
-            f"\nバッチ {batch_idx + 1}/{total_batches} "
-            f"({start_idx + 1}-{end_idx}/{total_targets})"
-        )
+        print(f"\nバッチ {batch_idx + 1}/{total_batches} ({start_idx + 1}-{end_idx}/{total_targets})")
 
         for person in batch:
             person_id = getattr(person, "person_id", "")
@@ -357,9 +346,7 @@ def run_execute(
 
 def main():
     """メイン処理"""
-    parser = argparse.ArgumentParser(
-        description="fame_score_v3固定値（500.00）を再計算"
-    )
+    parser = argparse.ArgumentParser(description="fame_score_v3固定値（500.00）を再計算")
     parser.add_argument(
         "--dry-run",
         action="store_true",

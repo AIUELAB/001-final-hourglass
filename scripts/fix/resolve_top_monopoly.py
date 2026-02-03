@@ -46,8 +46,8 @@ LOG_DIR = PROJECT_ROOT / "src/reports"
 
 # 上位N件ごとの最大許容件数（top_monopoly_gate.pyと同じ）
 MONOPOLY_LIMITS = {
-    20: 1,    # Top20: 最大1件
-    100: 2,   # Top100: 最大2件
+    20: 1,  # Top20: 最大1件
+    100: 2,  # Top100: 最大2件
     1000: 3,  # Top1000: 最大3件
 }
 
@@ -98,10 +98,7 @@ def write_deletion_log(deletions: list[dict], log_dir: Path) -> Path:
         f.write("# フォーマット: episode_id | person_name | tier | score | reason\n")
         f.write("#\n")
         for d in deletions:
-            f.write(
-                f"{d['episode_id']} | {d['person_name']} | {d['tier']} | "
-                f"{d['score']:.2f} | {d['reason']}\n"
-            )
+            f.write(f"{d['episode_id']} | {d['person_name']} | {d['tier']} | {d['score']:.2f} | {d['reason']}\n")
 
     return log_path
 
@@ -149,14 +146,16 @@ def detect_monopoly_removals(df: pd.DataFrame, top_n: int = 1000) -> list[dict]:
                     ep_id = str(row.get("episode_id", ""))
                     if ep_id and ep_id not in removal_ids:
                         removal_ids.add(ep_id)
-                        removal_details.append({
-                            "episode_id": ep_id,
-                            "person_id": person_id,
-                            "person_name": person_name,
-                            "tier": tier_name,
-                            "score": row.get("super_total_score", 0.0),
-                            "reason": f"{tier_name}で{person_name}が{len(person_rows)}件占有（上限{limit}件）",
-                        })
+                        removal_details.append(
+                            {
+                                "episode_id": ep_id,
+                                "person_id": person_id,
+                                "person_name": person_name,
+                                "tier": tier_name,
+                                "score": row.get("super_total_score", 0.0),
+                                "reason": f"{tier_name}で{person_name}が{len(person_rows)}件占有（上限{limit}件）",
+                            }
+                        )
 
     return removal_details
 
@@ -219,7 +218,7 @@ def main():
     df = pd.read_csv(args.csv, encoding="utf-8-sig", low_memory=False)
     print(f"総エピソード数: {len(df):,}件")
     print(f"検査範囲: Top{args.top_n}")
-    print(f"ルール: Top20≤1件, Top100≤2件, Top1000≤3件")
+    print("ルール: Top20≤1件, Top100≤2件, Top1000≤3件")
 
     # super_total_scoreで降順ソート
     df["super_total_score"] = pd.to_numeric(df["super_total_score"], errors="coerce")

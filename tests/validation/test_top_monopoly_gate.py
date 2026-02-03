@@ -74,21 +74,25 @@ def csv_single_person_monopoly(temp_dir):
     episodes = []
     # Top20を独占する人物A（5件、スコア1000-996）
     for i in range(5):
-        episodes.append({
-            "episode_id": f"EP-MONOPOLY-{i:03d}",
-            "person_id": "P-MONOPOLY",
-            "person_name": "独占太郎",
-            "super_total_score": 1000 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-MONOPOLY-{i:03d}",
+                "person_id": "P-MONOPOLY",
+                "person_name": "独占太郎",
+                "super_total_score": 1000 - i,
+            }
+        )
 
     # 他の人物でTop20を埋める（15件、スコア900-886）
     for i in range(15):
-        episodes.append({
-            "episode_id": f"EP-OTHER-{i:03d}",
-            "person_id": f"P-OTHER-{i:03d}",
-            "person_name": f"他者{i}",
-            "super_total_score": 900 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-OTHER-{i:03d}",
+                "person_id": f"P-OTHER-{i:03d}",
+                "person_name": f"他者{i}",
+                "super_total_score": 900 - i,
+            }
+        )
 
     return create_test_csv(temp_dir, episodes)
 
@@ -104,30 +108,36 @@ def csv_multiple_persons_monopoly(temp_dir):
 
     # 人物A（4件、スコア1000-997）
     for i in range(4):
-        episodes.append({
-            "episode_id": f"EP-A-{i:03d}",
-            "person_id": "P-A",
-            "person_name": "人物A",
-            "super_total_score": 1000 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-A-{i:03d}",
+                "person_id": "P-A",
+                "person_name": "人物A",
+                "super_total_score": 1000 - i,
+            }
+        )
 
     # 人物B（3件、スコア993-991）
     for i in range(3):
-        episodes.append({
-            "episode_id": f"EP-B-{i:03d}",
-            "person_id": "P-B",
-            "person_name": "人物B",
-            "super_total_score": 993 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-B-{i:03d}",
+                "person_id": "P-B",
+                "person_name": "人物B",
+                "super_total_score": 993 - i,
+            }
+        )
 
     # 他の人物でTop100を埋める（93件、スコア980-888）
     for i in range(93):
-        episodes.append({
-            "episode_id": f"EP-OTHER-{i:03d}",
-            "person_id": f"P-OTHER-{i:03d}",
-            "person_name": f"他者{i}",
-            "super_total_score": 980 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-OTHER-{i:03d}",
+                "person_id": f"P-OTHER-{i:03d}",
+                "person_name": f"他者{i}",
+                "super_total_score": 980 - i,
+            }
+        )
 
     return create_test_csv(temp_dir, episodes)
 
@@ -140,12 +150,14 @@ def csv_no_violation(temp_dir):
     """
     episodes = []
     for i in range(30):
-        episodes.append({
-            "episode_id": f"EP-{i:03d}",
-            "person_id": f"P-{i:03d}",
-            "person_name": f"人物{i}",
-            "super_total_score": 1000 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-{i:03d}",
+                "person_id": f"P-{i:03d}",
+                "person_name": f"人物{i}",
+                "super_total_score": 1000 - i,
+            }
+        )
 
     return create_test_csv(temp_dir, episodes)
 
@@ -157,12 +169,14 @@ def csv_exactly_at_limit_top20(temp_dir):
     """
     episodes = []
     for i in range(20):
-        episodes.append({
-            "episode_id": f"EP-{i:03d}",
-            "person_id": f"P-{i:03d}",
-            "person_name": f"人物{i}",
-            "super_total_score": 1000 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-{i:03d}",
+                "person_id": f"P-{i:03d}",
+                "person_name": f"人物{i}",
+                "super_total_score": 1000 - i,
+            }
+        )
 
     return create_test_csv(temp_dir, episodes)
 
@@ -176,12 +190,14 @@ def csv_exactly_at_limit_top100(temp_dir):
     episodes = []
     person_idx = 0
     for i in range(100):
-        episodes.append({
-            "episode_id": f"EP-{i:03d}",
-            "person_id": f"P-{person_idx:03d}",
-            "person_name": f"人物{person_idx}",
-            "super_total_score": 1000 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-{i:03d}",
+                "person_id": f"P-{person_idx:03d}",
+                "person_name": f"人物{person_idx}",
+                "super_total_score": 1000 - i,
+            }
+        )
         # 2件ごとに次の人物へ
         if i % 2 == 1:
             person_idx += 1
@@ -198,21 +214,25 @@ def csv_one_over_limit_top1000(temp_dir):
 
     # 人物A（4件、スコア1000-997）
     for i in range(4):
-        episodes.append({
-            "episode_id": f"EP-A-{i:03d}",
-            "person_id": "P-A",
-            "person_name": "独占太郎",
-            "super_total_score": 1000 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-A-{i:03d}",
+                "person_id": "P-A",
+                "person_name": "独占太郎",
+                "super_total_score": 1000 - i,
+            }
+        )
 
     # 他の人物でTop1000を埋める（996件、スコア996-1）
     for i in range(996):
-        episodes.append({
-            "episode_id": f"EP-OTHER-{i:03d}",
-            "person_id": f"P-OTHER-{i:03d}",
-            "person_name": f"他者{i}",
-            "super_total_score": 996 - i,
-        })
+        episodes.append(
+            {
+                "episode_id": f"EP-OTHER-{i:03d}",
+                "person_id": f"P-OTHER-{i:03d}",
+                "person_name": f"他者{i}",
+                "super_total_score": 996 - i,
+            }
+        )
 
     return create_test_csv(temp_dir, episodes)
 
@@ -232,9 +252,7 @@ class TestDetectMonopolyViolations:
         assert result["total_violations"] >= 1
 
         # Top20での違反を探す
-        top20_violations = [
-            v for v in result["violations"] if v["tier"] == "Top20"
-        ]
+        top20_violations = [v for v in result["violations"] if v["tier"] == "Top20"]
         assert len(top20_violations) >= 1
 
         # 独占太郎の違反を確認
@@ -253,9 +271,7 @@ class TestDetectMonopolyViolations:
         result = detect_monopoly_violations(csv_multiple_persons_monopoly, top_n=100)
 
         # Top100での違反を探す
-        top100_violations = [
-            v for v in result["violations"] if v["tier"] == "Top100"
-        ]
+        top100_violations = [v for v in result["violations"] if v["tier"] == "Top100"]
 
         # 人物Aと人物Bの両方が検出されることを確認
         person_names = {v["person_name"] for v in top100_violations}
@@ -301,9 +317,7 @@ class TestBoundaryValues:
         result = detect_monopoly_violations(csv_exactly_at_limit_top20, top_n=20)
 
         # 各人物が1件ずつなので違反なし
-        top20_violations = [
-            v for v in result["violations"] if v["tier"] == "Top20"
-        ]
+        top20_violations = [v for v in result["violations"] if v["tier"] == "Top20"]
         assert len(top20_violations) == 0
 
     def test_exactly_at_limit_top100(self, csv_exactly_at_limit_top100):
@@ -311,9 +325,7 @@ class TestBoundaryValues:
         result = detect_monopoly_violations(csv_exactly_at_limit_top100, top_n=100)
 
         # 各人物が2件ずつなので違反なし
-        top100_violations = [
-            v for v in result["violations"] if v["tier"] == "Top100"
-        ]
+        top100_violations = [v for v in result["violations"] if v["tier"] == "Top100"]
         assert len(top100_violations) == 0
 
     def test_one_over_limit_top1000(self, csv_one_over_limit_top1000):
@@ -321,9 +333,7 @@ class TestBoundaryValues:
         result = detect_monopoly_violations(csv_one_over_limit_top1000, top_n=1000)
 
         # Top1000での違反を探す
-        top1000_violations = [
-            v for v in result["violations"] if v["tier"] == "Top1000"
-        ]
+        top1000_violations = [v for v in result["violations"] if v["tier"] == "Top1000"]
         assert len(top1000_violations) >= 1
 
         # 独占太郎の違反を確認

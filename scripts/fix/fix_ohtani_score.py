@@ -108,11 +108,7 @@ def calculate_fame_score_v3(
     norm_sitelinks = normalize_sitelinks(sitelinks)
     norm_inlinks = normalize_inlinks(inlinks)
 
-    raw = (
-        WEIGHTS["multi_lang_pv"] * norm_pv
-        + WEIGHTS["sitelinks"] * norm_sitelinks
-        + WEIGHTS["inlinks"] * norm_inlinks
-    )
+    raw = WEIGHTS["multi_lang_pv"] * norm_pv + WEIGHTS["sitelinks"] * norm_sitelinks + WEIGHTS["inlinks"] * norm_inlinks
 
     # 0-1000スケーリング
     score = min(max(raw * 1000, 0), 1000)
@@ -165,12 +161,12 @@ def main():
     # 推定値を採用（ユーザー要件: 750〜800程度が妥当）
     new_fame_score = ESTIMATED_FAME_SCORE_V3
 
-    print(f"  📊 Wikidataシグナル:")
+    print("  📊 Wikidataシグナル:")
     print(f"      multi_lang_pv: {OHTANI_WIKIDATA_SIGNALS['multi_lang_pv']:,}")
     print(f"      sitelinks: {OHTANI_WIKIDATA_SIGNALS['sitelinks']}")
     print(f"  📊 計算による値（参考）: {calculated_fame_score:.2f}")
     print(f"  📊 採用する推定値: {new_fame_score:.2f}")
-    print(f"      (理由: イチロー638.98を上回る世界的知名度、MVP満票・50-50達成等)")
+    print("      (理由: イチロー638.98を上回る世界的知名度、MVP満票・50-50達成等)")
     print()
 
     # Step 4: 変更前後を表示
@@ -224,7 +220,9 @@ def main():
     # Step 6: バックアップ作成
     print("Step 6: バックアップ作成中...")
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
-    backup_path = BACKUP_DIR / f"MASTER_EPISODES_CURRENT_backup_before_ohtani_fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    backup_path = (
+        BACKUP_DIR / f"MASTER_EPISODES_CURRENT_backup_before_ohtani_fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    )
     df.to_csv(backup_path, index=False, encoding="utf-8-sig")
     print(f"  ✅ バックアップ作成: {backup_path}")
     print()

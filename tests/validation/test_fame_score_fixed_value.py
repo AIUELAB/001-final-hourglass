@@ -589,9 +589,7 @@ class TestProductionDataRegression:
         # 異常がないこと
         anomalies = result["anomalies"]
         if anomalies:
-            anomaly_details = [
-                (a["value"], a["count"], f"{a['ratio']*100:.1f}%") for a in anomalies
-            ]
+            anomaly_details = [(a["value"], a["count"], f"{a['ratio'] * 100:.1f}%") for a in anomalies]
             pytest.fail(f"本番データに固定値異常が検出されました: {anomaly_details}")
 
     def test_no_multi_person_fixed_score_in_production(self, master_csv_path):
@@ -605,9 +603,7 @@ class TestProductionDataRegression:
         # 違反がないこと
         violations = result["violations"]
         if violations:
-            violation_details = [
-                (v["score"], v["person_count"], v["sample_persons"][:3]) for v in violations
-            ]
+            violation_details = [(v["score"], v["person_count"], v["sample_persons"][:3]) for v in violations]
             pytest.fail(f"本番データに複数人物同一スコア問題が検出されました: {violation_details}")
 
     def test_sufficient_unique_values(self, master_csv_path):
@@ -623,7 +619,7 @@ class TestProductionDataRegression:
             unique_ratio = result["unique_values"] / result["person_count"]
             assert unique_ratio >= 0.5, (
                 f"ユニーク値の割合が低すぎます: {result['unique_values']}/{result['person_count']} "
-                f"({unique_ratio*100:.1f}%) - 固定値問題の可能性"
+                f"({unique_ratio * 100:.1f}%) - 固定値問題の可能性"
             )
 
 

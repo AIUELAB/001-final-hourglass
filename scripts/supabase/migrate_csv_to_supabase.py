@@ -52,6 +52,8 @@ INTEGER_COLUMNS = {
     "episode_fame_tier_v6",
     "birth_year",
     "death_year",
+    "char_count",
+    "slot",
 }
 
 
@@ -278,6 +280,64 @@ def sanitize_records(records: list[dict]) -> list[dict]:
     return sanitized
 
 
+def validate_schema_compatibility(df: pd.DataFrame, supabase: Client) -> set[str]:
+    """CSVとSupabaseのカラム差異を検出・警告
+
+    Args:
+        df: CSVから読み込んだDataFrame
+        supabase: Supabaseクライアント
+
+    Returns:
+        set[str]: Supabaseに未定義のカラム名セット
+    """
+    csv_columns = set(df.columns)
+
+    # Supabaseからカラム一覧を取得（1行取得してカラム名を推定）
+    supabase_columns: set[str] = set()
+    try:
+        result = supabase.table("episodes").select("*").limit(1).execute()
+        if result.data and len(result.data) > 0:
+            first_row = result.data[0]
+            if isinstance(first_row, dict):
+                supabase_columns = set(first_row.keys())
+            else:
+                logger.warning("Unexpected data format from Supabase - skipping validation")
+                return set()
+        else:
+            # テーブルが空の場合はinformation_schemaから取得を試みる
+            logger.info("episodes table is empty, trying information_schema")
+            schema_result = supabase.rpc(
+                "get_table_columns",
+                {"table_name": "episodes"}
+            ).execute()
+            if schema_result.data and isinstance(schema_result.data, list):
+                for row in schema_result.data:
+                    if isinstance(row, dict) and "column_name" in row:
+                        supabase_columns.add(str(row["column_name"]))
+            if not supabase_columns:
+                logger.warning("Could not retrieve Supabase schema - skipping validation")
+                return set()
+    except APIError as e:
+        logger.warning("Schema validation skipped due to API error: %s", e.message)
+        return set()
+    except Exception as e:
+        logger.warning("Schema validation skipped due to unexpected error: %s", e)
+        return set()
+
+    # CSVにあってSupabaseにないカラムを検出
+    missing = csv_columns - supabase_columns
+    if missing:
+        logger.warning("Supabaseに未定義のカラム: %s", missing)
+        print(f"[WARN] Supabaseスキーマに未定義: {missing}")
+
+    # Supabaseにあって CSVにないカラムも情報として出力
+    extra = supabase_columns - csv_columns
+    if extra:
+        logger.info("Supabaseにのみ存在するカラム（CSVに未定義）: %s", extra)
+
+    return missing
+
+
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """データクレンジング（DataFrame段階での前処理）"""
     # INTEGERカラムをNullable Integer型（Int64）に変換
@@ -456,6 +516,9 @@ def migrate(dry_run: bool = False, batch_size: int = 500) -> int:
     # Supabase接続
     supabase = get_supabase_client()
     print("[OK] Supabase接続完了")
+
+    # スキーマ互換性検証
+    validate_schema_compatibility(df, supabase)
 
     # バッチupsert
     total_batches = (len(df) + batch_size - 1) // batch_size

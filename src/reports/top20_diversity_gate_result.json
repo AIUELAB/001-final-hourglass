@@ -1,0 +1,306 @@
+{
+  "gate_name": "top20_diversity_gate",
+  "check_date": "2026-02-03T22:28:30.391662",
+  "max_per_person": 2,
+  "overall_passed": true,
+  "results": [
+    {
+      "check_date": "2026-02-03T22:28:30.329803",
+      "score_type": "super_total_score",
+      "passed": true,
+      "total_violations": 0,
+      "violations": [],
+      "top20_episodes": [
+        {
+          "rank": 1,
+          "episode_id": "EP-260201110518RTVY9Z",
+          "person_name": "イチロー",
+          "age": "31",
+          "score": 873890.0
+        },
+        {
+          "rank": 2,
+          "episode_id": "EP-260111081947754",
+          "person_name": "マザー・テレサ",
+          "age": "72",
+          "score": 835915.0
+        },
+        {
+          "rank": 3,
+          "episode_id": "EP-260113030531499",
+          "person_name": "村上春樹",
+          "age": "60",
+          "score": 831643.0
+        },
+        {
+          "rank": 4,
+          "episode_id": "EP-260111013602701",
+          "person_name": "トーマス・マン",
+          "age": "86",
+          "score": 831065.0
+        },
+        {
+          "rank": 5,
+          "episode_id": "EP-260110152338500",
+          "person_name": "バーナード・ショー",
+          "age": "81",
+          "score": 830547.0
+        },
+        {
+          "rank": 6,
+          "episode_id": "EP-260111012116840",
+          "person_name": "アルフレッド・ノーベル",
+          "age": "88",
+          "score": 827069.0
+        },
+        {
+          "rank": 7,
+          "episode_id": "EP-260105225818577014",
+          "person_name": "カーネル・サンダース",
+          "age": "65",
+          "score": 825069.0
+        },
+        {
+          "rank": 8,
+          "episode_id": "EP-260104013152092AA8",
+          "person_name": "宮崎駿",
+          "age": "62",
+          "score": 824811.0
+        },
+        {
+          "rank": 9,
+          "episode_id": "EP-260113203717504",
+          "person_name": "ジミー・カーター",
+          "age": "95",
+          "score": 822265.0
+        },
+        {
+          "rank": 10,
+          "episode_id": "EP-2602011105146LA4VR",
+          "person_name": "黒澤明",
+          "age": "40",
+          "score": 821392.0
+        },
+        {
+          "rank": 11,
+          "episode_id": "EP-260203100000003",
+          "person_name": "レイ・クロック",
+          "age": "59",
+          "score": 820000.0
+        },
+        {
+          "rank": 12,
+          "episode_id": "EP-260110152338628",
+          "person_name": "ヘルマン・ヘッセ",
+          "age": "81",
+          "score": 819743.0
+        },
+        {
+          "rank": 13,
+          "episode_id": "EP-260113030536067",
+          "person_name": "ネルソン・マンデラ",
+          "age": "86",
+          "score": 819731.0
+        },
+        {
+          "rank": 14,
+          "episode_id": "EP-260111081949773",
+          "person_name": "ウッドロー・ウィルソン",
+          "age": "72",
+          "score": 819186.0
+        },
+        {
+          "rank": 15,
+          "episode_id": "EP-260113005200842",
+          "person_name": "アルベール・カミュ",
+          "age": "70",
+          "score": 817511.0
+        },
+        {
+          "rank": 16,
+          "episode_id": "EP-260110163908355",
+          "person_name": "ジョン・スタインベック",
+          "age": "49",
+          "score": 817106.0
+        },
+        {
+          "rank": 17,
+          "episode_id": "EP-260111081946327",
+          "person_name": "マーロン・ブランド",
+          "age": "71",
+          "score": 816513.0
+        },
+        {
+          "rank": 18,
+          "episode_id": "EP-260111221318602",
+          "person_name": "ウィンストン・チャーチル",
+          "age": "85",
+          "score": 816104.0
+        },
+        {
+          "rank": 19,
+          "episode_id": "EP-260113005153428",
+          "person_name": "マリー・キュリー",
+          "age": "70",
+          "score": 815724.0
+        },
+        {
+          "rank": 20,
+          "episode_id": "EP-260111081949776",
+          "person_name": "ウッドロー・ウィルソン",
+          "age": "73",
+          "score": 814525.0
+        }
+      ]
+    },
+    {
+      "check_date": "2026-02-03T22:28:30.391065",
+      "score_type": "desirability_score",
+      "passed": true,
+      "total_violations": 0,
+      "violations": [],
+      "top20_episodes": [
+        {
+          "rank": 1,
+          "episode_id": "EP-260106OHTANI-WBC",
+          "person_name": "大谷翔平",
+          "age": "28",
+          "score": 1009952.0
+        },
+        {
+          "rank": 2,
+          "episode_id": "EP-260106OHTANI-MVP2",
+          "person_name": "大谷翔平",
+          "age": "29",
+          "score": 990205.0
+        },
+        {
+          "rank": 3,
+          "episode_id": "EP-260110155342223",
+          "person_name": "オリバー・ストーン",
+          "age": "84",
+          "score": 976870.0
+        },
+        {
+          "rank": 4,
+          "episode_id": "EP-260106HANYU-4A",
+          "person_name": "羽生結弦",
+          "age": "27",
+          "score": 966442.0
+        },
+        {
+          "rank": 5,
+          "episode_id": "EP-260110155342278",
+          "person_name": "ジム・キャリー",
+          "age": "84",
+          "score": 962884.0
+        },
+        {
+          "rank": 6,
+          "episode_id": "EP-000002680",
+          "person_name": "山本由伸",
+          "age": "25",
+          "score": 936525.0
+        },
+        {
+          "rank": 7,
+          "episode_id": "EP-260110155342240",
+          "person_name": "アリソン・ジャニー",
+          "age": "84",
+          "score": 935178.0
+        },
+        {
+          "rank": 8,
+          "episode_id": "EP-260110155342192",
+          "person_name": "モーガン・フリーマン",
+          "age": "84",
+          "score": 932857.0
+        },
+        {
+          "rank": 9,
+          "episode_id": "EP-260110155342307",
+          "person_name": "ジュディ・デンチ",
+          "age": "84",
+          "score": 924793.0
+        },
+        {
+          "rank": 10,
+          "episode_id": "EP-000001477",
+          "person_name": "山中伸弥",
+          "age": "59",
+          "score": 924410.0
+        },
+        {
+          "rank": 11,
+          "episode_id": "EP-260110155342184",
+          "person_name": "バリー・ジェンキンス",
+          "age": "84",
+          "score": 924002.0
+        },
+        {
+          "rank": 12,
+          "episode_id": "EP-260110172434062",
+          "person_name": "キャサリン・ゼタ・ジョーンズ",
+          "age": "65",
+          "score": 923211.0
+        },
+        {
+          "rank": 13,
+          "episode_id": "EP-260110155342297",
+          "person_name": "フランシス・マクドーマンド",
+          "age": "84",
+          "score": 922070.0
+        },
+        {
+          "rank": 14,
+          "episode_id": "EP-260110153105091",
+          "person_name": "カルロス・サンタナ",
+          "age": "82",
+          "score": 920806.0
+        },
+        {
+          "rank": 15,
+          "episode_id": "EP-260110153105490",
+          "person_name": "ジョン・メイヤー",
+          "age": "45",
+          "score": 917559.0
+        },
+        {
+          "rank": 16,
+          "episode_id": "EP-000000008",
+          "person_name": "森喜朗",
+          "age": "71",
+          "score": 916451.0
+        },
+        {
+          "rank": 17,
+          "episode_id": "EP-000002737",
+          "person_name": "メル・ブルックス",
+          "age": "99",
+          "score": 912204.0
+        },
+        {
+          "rank": 18,
+          "episode_id": "EP-260110163908669",
+          "person_name": "リッキー・マーティン",
+          "age": "52",
+          "score": 911985.0
+        },
+        {
+          "rank": 19,
+          "episode_id": "EP-2512181850582070",
+          "person_name": "ペンローズ",
+          "age": "89",
+          "score": 911588.0
+        },
+        {
+          "rank": 20,
+          "episode_id": "EP-260110153105501",
+          "person_name": "ヤニック・ネゼ＝セガン",
+          "age": "45",
+          "score": 911023.0
+        }
+      ]
+    }
+  ]
+}

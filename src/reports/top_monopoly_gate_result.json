@@ -1,0 +1,785 @@
+{
+  "scan_date": "2026-02-03T12:23:56.851050",
+  "csv_path": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv",
+  "top_n": 1000,
+  "total_episodes_scanned": 1000,
+  "total_violations": 30,
+  "violations": [
+    {
+      "person_id": "PCD38CAE",
+      "person_name": "ウッドロー・ウィルソン",
+      "tier": "Top20",
+      "count": 2,
+      "limit": 1,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111081949773",
+        "EP-260111081949776"
+      ],
+      "removal_candidates": [
+        "EP-260111081949776"
+      ]
+    },
+    {
+      "person_id": "P7784AE9",
+      "person_name": "ウィリアム・ショックレー",
+      "tier": "Top1000",
+      "count": 6,
+      "limit": 3,
+      "excess": 3,
+      "episode_ids": [
+        "EP-260110154615432",
+        "EP-260110154615430",
+        "EP-260113030533207",
+        "EP-260113005150184",
+        "EP-260114032041798",
+        "EP-260114023350805"
+      ],
+      "removal_candidates": [
+        "EP-260113005150184",
+        "EP-260114032041798",
+        "EP-260114023350805"
+      ]
+    },
+    {
+      "person_id": "P2CF74D2",
+      "person_name": "フィリップ・シーモア・ホフマン",
+      "tier": "Top1000",
+      "count": 6,
+      "limit": 3,
+      "excess": 3,
+      "episode_ids": [
+        "EP-260113030530093",
+        "EP-260112045506227",
+        "EP-260114030908006",
+        "EP-260112045506233",
+        "EP-260114014144734",
+        "EP-260114050609773"
+      ],
+      "removal_candidates": [
+        "EP-260112045506233",
+        "EP-260114014144734",
+        "EP-260114050609773"
+      ]
+    },
+    {
+      "person_id": "PBBA7939",
+      "person_name": "ジョージ・C・スコット",
+      "tier": "Top1000",
+      "count": 5,
+      "limit": 3,
+      "excess": 2,
+      "episode_ids": [
+        "EP-260110172434056",
+        "EP-260111182452023",
+        "EP-260114011037778",
+        "EP-260111182452021",
+        "EP-260113030535465"
+      ],
+      "removal_candidates": [
+        "EP-260111182452021",
+        "EP-260113030535465"
+      ]
+    },
+    {
+      "person_id": "P0BACC07",
+      "person_name": "ウォーレン・ベイティ",
+      "tier": "Top1000",
+      "count": 5,
+      "limit": 3,
+      "excess": 2,
+      "episode_ids": [
+        "EP-260111081943968",
+        "EP-260110155342185",
+        "EP-260114014144514",
+        "EP-260113030528752",
+        "EP-260113030528746"
+      ],
+      "removal_candidates": [
+        "EP-260113030528752",
+        "EP-260113030528746"
+      ]
+    },
+    {
+      "person_id": "P6320E5B",
+      "person_name": "リタ・ヘイワース",
+      "tier": "Top1000",
+      "count": 5,
+      "limit": 3,
+      "excess": 2,
+      "episode_ids": [
+        "EP-260110155342424",
+        "EP-260111081945873",
+        "EP-260113030532281",
+        "EP-260114030908116",
+        "EP-260114035551200"
+      ],
+      "removal_candidates": [
+        "EP-260114030908116",
+        "EP-260114035551200"
+      ]
+    },
+    {
+      "person_id": "P4562970",
+      "person_name": "エルンスト・ルスカ",
+      "tier": "Top1000",
+      "count": 5,
+      "limit": 3,
+      "excess": 2,
+      "episode_ids": [
+        "EP-260110154615332",
+        "EP-260110154615331",
+        "EP-260114034403581",
+        "EP-260113030531108",
+        "EP-260114041900976"
+      ],
+      "removal_candidates": [
+        "EP-260113030531108",
+        "EP-260114041900976"
+      ]
+    },
+    {
+      "person_id": "PA0F1BE5",
+      "person_name": "ジャック・キルビー",
+      "tier": "Top1000",
+      "count": 5,
+      "limit": 3,
+      "excess": 2,
+      "episode_ids": [
+        "EP-260110154615517",
+        "EP-260110154615518",
+        "EP-260113005153452",
+        "EP-260113030534567",
+        "EP-260113030534570"
+      ],
+      "removal_candidates": [
+        "EP-260113030534567",
+        "EP-260113030534570"
+      ]
+    },
+    {
+      "person_id": "PC84DAF6",
+      "person_name": "ジョン・スタインベック",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110163908355",
+        "EP-260111182452287",
+        "EP-260113030535833",
+        "EP-260108191203205"
+      ],
+      "removal_candidates": [
+        "EP-260108191203205"
+      ]
+    },
+    {
+      "person_id": "P390FD71",
+      "person_name": "ウィリアム・フォークナー",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110161025712",
+        "EP-260113030530585",
+        "EP-260111182449474",
+        "EP-260108202913222"
+      ],
+      "removal_candidates": [
+        "EP-260108202913222"
+      ]
+    },
+    {
+      "person_id": "PB235A5C",
+      "person_name": "ジョゼ・サラマーゴ",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110163908321",
+        "EP-260110163908320",
+        "EP-260113005155108",
+        "EP-260113030535201"
+      ],
+      "removal_candidates": [
+        "EP-260113030535201"
+      ]
+    },
+    {
+      "person_id": "P242459D",
+      "person_name": "田中耕一",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260113005144836",
+        "EP-260113005144834",
+        "EP-260114014144699",
+        "EP-000001605"
+      ],
+      "removal_candidates": [
+        "EP-000001605"
+      ]
+    },
+    {
+      "person_id": "P1A7BCC1",
+      "person_name": "オリバー・ストーン",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110155342223",
+        "EP-260110155342221",
+        "EP-260111081944039",
+        "EP-260113030529387"
+      ],
+      "removal_candidates": [
+        "EP-260113030529387"
+      ]
+    },
+    {
+      "person_id": "PD5F0DCF",
+      "person_name": "ソール・ベロー",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111081950151",
+        "EP-260111081950149",
+        "EP-260110163908373",
+        "EP-260113225429385"
+      ],
+      "removal_candidates": [
+        "EP-260113225429385"
+      ]
+    },
+    {
+      "person_id": "P431DD07",
+      "person_name": "ジュリアン・ムーア",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110155342340",
+        "EP-260111081944977",
+        "EP-260110155342339",
+        "EP-260113030531012"
+      ],
+      "removal_candidates": [
+        "EP-260113030531012"
+      ]
+    },
+    {
+      "person_id": "PE225932",
+      "person_name": "マギー・スミス",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110173638567",
+        "EP-260110173638569",
+        "EP-260113005158674",
+        "EP-260114030908286"
+      ],
+      "removal_candidates": [
+        "EP-260114030908286"
+      ]
+    },
+    {
+      "person_id": "PCDA71A6",
+      "person_name": "ジャック・レモン",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110155342626",
+        "EP-260112051508297",
+        "EP-260112051508285",
+        "EP-260112051508288"
+      ],
+      "removal_candidates": [
+        "EP-260112051508288"
+      ]
+    },
+    {
+      "person_id": "P4B6FDF6",
+      "person_name": "グレゴリー・ペック",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111081945151",
+        "EP-260110155342348",
+        "EP-260113030531287",
+        "EP-260113030531284"
+      ],
+      "removal_candidates": [
+        "EP-260113030531284"
+      ]
+    },
+    {
+      "person_id": "P1419FEC",
+      "person_name": "マーヴィン・ゲイ",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110153105166",
+        "EP-260113030529149",
+        "EP-260111182448681",
+        "EP-260114015420051"
+      ],
+      "removal_candidates": [
+        "EP-260114015420051"
+      ]
+    },
+    {
+      "person_id": "P81BF5D9",
+      "person_name": "グレタ・ガルボ",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111081946874",
+        "EP-260114011037406",
+        "EP-260114051755705",
+        "EP-260114030908204"
+      ],
+      "removal_candidates": [
+        "EP-260114030908204"
+      ]
+    },
+    {
+      "person_id": "P5FCB435",
+      "person_name": "ジョーン・クロフォード",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111081945774",
+        "EP-260113030532148",
+        "EP-260114050609808",
+        "EP-260114030908108"
+      ],
+      "removal_candidates": [
+        "EP-260114030908108"
+      ]
+    },
+    {
+      "person_id": "P96A15BC",
+      "person_name": "ポール・サイモン",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110163134542",
+        "EP-260110163134543",
+        "EP-260111182451212",
+        "EP-260111182451209"
+      ],
+      "removal_candidates": [
+        "EP-260111182451209"
+      ]
+    },
+    {
+      "person_id": "PC149FEF",
+      "person_name": "スペンサー・トレイシー",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111081949237",
+        "EP-260113171156736",
+        "EP-260113005156279",
+        "EP-260113005156281"
+      ],
+      "removal_candidates": [
+        "EP-260113005156281"
+      ]
+    },
+    {
+      "person_id": "PF9FDC03",
+      "person_name": "ローレンス・オリヴィエ",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111182453191",
+        "EP-260113030536971",
+        "EP-260113030536976",
+        "EP-260113030536968"
+      ],
+      "removal_candidates": [
+        "EP-260113030536968"
+      ]
+    },
+    {
+      "person_id": "P8DABD79",
+      "person_name": "野依良治",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260111003027801",
+        "EP-260111155141904",
+        "EP-260113172353811",
+        "EP-260113172353807"
+      ],
+      "removal_candidates": [
+        "EP-260113172353807"
+      ]
+    },
+    {
+      "person_id": "P4FFC8E7",
+      "person_name": "イアン・ホルム",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260110155342362",
+        "EP-260110155342360",
+        "EP-260113030531444",
+        "EP-260114050609800"
+      ],
+      "removal_candidates": [
+        "EP-260114050609800"
+      ]
+    },
+    {
+      "person_id": "P714DEC9",
+      "person_name": "ピーター・セラーズ",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260112051507581",
+        "EP-260114033224420",
+        "EP-260112051507587",
+        "EP-260114014145246"
+      ],
+      "removal_candidates": [
+        "EP-260114014145246"
+      ]
+    },
+    {
+      "person_id": "PBAC7D43",
+      "person_name": "オリヴィア・デ・ハヴィランド",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260112053926282",
+        "EP-260112053926287",
+        "EP-260113203717760",
+        "EP-260113203717754"
+      ],
+      "removal_candidates": [
+        "EP-260113203717754"
+      ]
+    },
+    {
+      "person_id": "P162D10C",
+      "person_name": "ドゥニ・ヴィルヌーヴ",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260114030907953",
+        "EP-260114035551065",
+        "EP-260113030529184",
+        "EP-260113030529193"
+      ],
+      "removal_candidates": [
+        "EP-260113030529193"
+      ]
+    },
+    {
+      "person_id": "P9EE18EF",
+      "person_name": "ケニー・ロジャース",
+      "tier": "Top1000",
+      "count": 4,
+      "limit": 3,
+      "excess": 1,
+      "episode_ids": [
+        "EP-260113171954511",
+        "EP-260111182451405",
+        "EP-260114043041160",
+        "EP-260111182451401"
+      ],
+      "removal_candidates": [
+        "EP-260111182451401"
+      ]
+    }
+  ],
+  "summary": {
+    "total_violation_persons": 30,
+    "total_excess_episodes": 39,
+    "by_tier": {
+      "Top20": {
+        "violation_count": 1,
+        "excess_total": 1
+      },
+      "Top1000": {
+        "violation_count": 29,
+        "excess_total": 38
+      }
+    }
+  },
+  "removal_suggestions": [
+    {
+      "episode_id": "EP-260111081949776",
+      "person_name": "ウッドロー・ウィルソン",
+      "tier": "Top20",
+      "reason": "Top20でウッドロー・ウィルソンが2件占有（上限1件）"
+    },
+    {
+      "episode_id": "EP-260113005150184",
+      "person_name": "ウィリアム・ショックレー",
+      "tier": "Top1000",
+      "reason": "Top1000でウィリアム・ショックレーが6件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114032041798",
+      "person_name": "ウィリアム・ショックレー",
+      "tier": "Top1000",
+      "reason": "Top1000でウィリアム・ショックレーが6件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114023350805",
+      "person_name": "ウィリアム・ショックレー",
+      "tier": "Top1000",
+      "reason": "Top1000でウィリアム・ショックレーが6件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260112045506233",
+      "person_name": "フィリップ・シーモア・ホフマン",
+      "tier": "Top1000",
+      "reason": "Top1000でフィリップ・シーモア・ホフマンが6件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114014144734",
+      "person_name": "フィリップ・シーモア・ホフマン",
+      "tier": "Top1000",
+      "reason": "Top1000でフィリップ・シーモア・ホフマンが6件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114050609773",
+      "person_name": "フィリップ・シーモア・ホフマン",
+      "tier": "Top1000",
+      "reason": "Top1000でフィリップ・シーモア・ホフマンが6件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260111182452021",
+      "person_name": "ジョージ・C・スコット",
+      "tier": "Top1000",
+      "reason": "Top1000でジョージ・C・スコットが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030535465",
+      "person_name": "ジョージ・C・スコット",
+      "tier": "Top1000",
+      "reason": "Top1000でジョージ・C・スコットが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030528752",
+      "person_name": "ウォーレン・ベイティ",
+      "tier": "Top1000",
+      "reason": "Top1000でウォーレン・ベイティが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030528746",
+      "person_name": "ウォーレン・ベイティ",
+      "tier": "Top1000",
+      "reason": "Top1000でウォーレン・ベイティが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114030908116",
+      "person_name": "リタ・ヘイワース",
+      "tier": "Top1000",
+      "reason": "Top1000でリタ・ヘイワースが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114035551200",
+      "person_name": "リタ・ヘイワース",
+      "tier": "Top1000",
+      "reason": "Top1000でリタ・ヘイワースが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030531108",
+      "person_name": "エルンスト・ルスカ",
+      "tier": "Top1000",
+      "reason": "Top1000でエルンスト・ルスカが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114041900976",
+      "person_name": "エルンスト・ルスカ",
+      "tier": "Top1000",
+      "reason": "Top1000でエルンスト・ルスカが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030534567",
+      "person_name": "ジャック・キルビー",
+      "tier": "Top1000",
+      "reason": "Top1000でジャック・キルビーが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030534570",
+      "person_name": "ジャック・キルビー",
+      "tier": "Top1000",
+      "reason": "Top1000でジャック・キルビーが5件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260108191203205",
+      "person_name": "ジョン・スタインベック",
+      "tier": "Top1000",
+      "reason": "Top1000でジョン・スタインベックが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260108202913222",
+      "person_name": "ウィリアム・フォークナー",
+      "tier": "Top1000",
+      "reason": "Top1000でウィリアム・フォークナーが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030535201",
+      "person_name": "ジョゼ・サラマーゴ",
+      "tier": "Top1000",
+      "reason": "Top1000でジョゼ・サラマーゴが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-000001605",
+      "person_name": "田中耕一",
+      "tier": "Top1000",
+      "reason": "Top1000で田中耕一が4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030529387",
+      "person_name": "オリバー・ストーン",
+      "tier": "Top1000",
+      "reason": "Top1000でオリバー・ストーンが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113225429385",
+      "person_name": "ソール・ベロー",
+      "tier": "Top1000",
+      "reason": "Top1000でソール・ベローが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030531012",
+      "person_name": "ジュリアン・ムーア",
+      "tier": "Top1000",
+      "reason": "Top1000でジュリアン・ムーアが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114030908286",
+      "person_name": "マギー・スミス",
+      "tier": "Top1000",
+      "reason": "Top1000でマギー・スミスが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260112051508288",
+      "person_name": "ジャック・レモン",
+      "tier": "Top1000",
+      "reason": "Top1000でジャック・レモンが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030531284",
+      "person_name": "グレゴリー・ペック",
+      "tier": "Top1000",
+      "reason": "Top1000でグレゴリー・ペックが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114015420051",
+      "person_name": "マーヴィン・ゲイ",
+      "tier": "Top1000",
+      "reason": "Top1000でマーヴィン・ゲイが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114030908204",
+      "person_name": "グレタ・ガルボ",
+      "tier": "Top1000",
+      "reason": "Top1000でグレタ・ガルボが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114030908108",
+      "person_name": "ジョーン・クロフォード",
+      "tier": "Top1000",
+      "reason": "Top1000でジョーン・クロフォードが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260111182451209",
+      "person_name": "ポール・サイモン",
+      "tier": "Top1000",
+      "reason": "Top1000でポール・サイモンが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113005156281",
+      "person_name": "スペンサー・トレイシー",
+      "tier": "Top1000",
+      "reason": "Top1000でスペンサー・トレイシーが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030536968",
+      "person_name": "ローレンス・オリヴィエ",
+      "tier": "Top1000",
+      "reason": "Top1000でローレンス・オリヴィエが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113172353807",
+      "person_name": "野依良治",
+      "tier": "Top1000",
+      "reason": "Top1000で野依良治が4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114050609800",
+      "person_name": "イアン・ホルム",
+      "tier": "Top1000",
+      "reason": "Top1000でイアン・ホルムが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260114014145246",
+      "person_name": "ピーター・セラーズ",
+      "tier": "Top1000",
+      "reason": "Top1000でピーター・セラーズが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113203717754",
+      "person_name": "オリヴィア・デ・ハヴィランド",
+      "tier": "Top1000",
+      "reason": "Top1000でオリヴィア・デ・ハヴィランドが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260113030529193",
+      "person_name": "ドゥニ・ヴィルヌーヴ",
+      "tier": "Top1000",
+      "reason": "Top1000でドゥニ・ヴィルヌーヴが4件占有（上限3件）"
+    },
+    {
+      "episode_id": "EP-260111182451401",
+      "person_name": "ケニー・ロジャース",
+      "tier": "Top1000",
+      "reason": "Top1000でケニー・ロジャースが4件占有（上限3件）"
+    }
+  ]
+}

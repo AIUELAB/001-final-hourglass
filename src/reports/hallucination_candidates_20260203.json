@@ -1,0 +1,146 @@
+{
+  "scan_timestamp": "2026-02-03T16:15:54.924002",
+  "total_scanned": 50,
+  "candidates_count": 12,
+  "by_person_type": {
+    "REAL": 12,
+    "FICTIONAL": 0
+  },
+  "by_violation_type": {
+    "meta_element": 12
+  },
+  "candidates": [
+    {
+      "episode_id": "EP-260104013152092AA8",
+      "person_name": "宮崎駿",
+      "person_type": "REAL",
+      "age": 62,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: 興行収入304, 歴代1位, 映画祭",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 824811.0
+    },
+    {
+      "episode_id": "EP-2602011105146LA4VR",
+      "person_name": "黒澤明",
+      "person_type": "REAL",
+      "age": 40,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: 映画祭",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 821392.0
+    },
+    {
+      "episode_id": "EP-260111081946327",
+      "person_name": "マーロン・ブランド",
+      "person_type": "REAL",
+      "age": 71,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: アカデミー賞",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 816513.0
+    },
+    {
+      "episode_id": "EP-260110180420925",
+      "person_name": "ジェームズ・キャメロン",
+      "person_type": "REAL",
+      "age": 80,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: アカデミー賞, 1986年の「エイリアン2」",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 813949.0
+    },
+    {
+      "episode_id": "EP-260113171557252",
+      "person_name": "ボブ・ディラン",
+      "person_type": "REAL",
+      "age": 63,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: グラミー賞",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 813799.0
+    },
+    {
+      "episode_id": "EP-260110163908322",
+      "person_name": "パブロ・ネルーダ",
+      "person_type": "REAL",
+      "age": 35,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: この作品は",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 811656.0
+    },
+    {
+      "episode_id": "EP-260111081950592",
+      "person_name": "ジュディ・ガーランド",
+      "person_type": "REAL",
+      "age": 76,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: アカデミー賞, 1954年の「スター誕生」",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 811530.0
+    },
+    {
+      "episode_id": "EP-260110173638538",
+      "person_name": "パウロ・コエーリョ",
+      "person_type": "REAL",
+      "age": 82,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: この作品は",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 811232.0
+    },
+    {
+      "episode_id": "EP-260111182452647",
+      "person_name": "ガブリエル・ガルシア＝マルケス",
+      "person_type": "REAL",
+      "age": 88,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: 1982年の「愛の時代に」",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 809468.0
+    },
+    {
+      "episode_id": "EP-260110153105247",
+      "person_name": "シャキーラ",
+      "person_type": "REAL",
+      "age": 45,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: グラミー賞",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 808890.0
+    },
+    {
+      "episode_id": "EP-260110170705578",
+      "person_name": "クリストファー・ノーラン",
+      "person_type": "REAL",
+      "age": 75,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: アカデミー賞, 2010年の「インセプション」",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 806999.0
+    },
+    {
+      "episode_id": "EP-260113030535496",
+      "person_name": "黒澤明",
+      "person_type": "REAL",
+      "age": 85,
+      "is_hallucination": true,
+      "reason": "メタ要素検出: 映画祭, アカデミー賞",
+      "violation_type": "meta_element",
+      "confidence": 0.7,
+      "super_total_score": 807003.0
+    }
+  ]
+}

@@ -202,6 +202,32 @@
 - **フォーマット**: `{人物名}『{作品名}』`（例：ナウシカ『風の谷のナウシカ』）
 - **CSS**: `.work-title-tag` クラスで作品名タグをスタイリング
 
+### LLMハルシネーション検出・削除システム（EPUP原則: 虚偽エピソード排除）【RCA-20260203】
+**原因**: LLMが生成した虚偽・捏造エピソードがマスターCSVに混入
+- 存在しない業績の捏造（REAL人物）
+- 原作設定に矛盾するシーン創作（FICTIONAL人物）
+- メタ要素（販売本数、映画制作情報）の混入
+
+**削除ルール**:
+| 対象 | 削除条件 | 許容 |
+|------|----------|------|
+| REAL人物 | unverified + (メタ要素違反 OR 年齢矛盾 OR fabricated OR 年号違反) | verified |
+| FICTIONAL人物 | invalid判定 | canon, fanon |
+
+**ツール**:
+| コマンド | 用途 |
+|---------|------|
+| `python scripts/validation/hallucination_purger.py --scan` | 削除候補をスキャン（dry-run） |
+| `python scripts/validation/hallucination_purger.py --execute --candidates-file <file>` | 削除実行 |
+| `python scripts/validation/hallucination_purger.py --restore --backup-file <file>` | バックアップから復元 |
+
+**出力ファイル**:
+- `src/reports/hallucination_candidates_YYYYMMDD.json` - 削除候補リスト
+- `src/reports/purge_execution_YYYYMMDD.md` - 削除実行レポート
+- `preserved/backups/purge/pre_purge_*.csv` - 削除前バックアップ
+
+**再発防止ゲート**: SafeCSVWriter に `HallucinationGate` 追加済み（書き込み時チェック）
+
 ---
 
 ## 🔄 MCP運用

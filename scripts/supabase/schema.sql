@@ -76,6 +76,25 @@ CREATE TABLE episodes (
   cost_usd NUMERIC(8,6),
   story_quality NUMERIC(4,2),
 
+  -- スコア追加
+  desirability_score NUMERIC(10,2),
+  event_magnitude NUMERIC(6,2),
+  recency_boost NUMERIC(6,2),
+  heuristic_quality_score NUMERIC(6,2),
+
+  -- メタデータ追加
+  char_count INTEGER,
+  slot INTEGER,
+  tier TEXT,
+  "年代" TEXT,
+
+  -- その他テキストカラム
+  narrative_tone TEXT,
+  cultural_context TEXT,
+  episode_source TEXT,
+  episode_version TEXT,
+  fact_check_result TEXT,
+
   -- Supabase管理
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -88,6 +107,8 @@ CREATE INDEX idx_episodes_super_total ON episodes(super_total_score DESC NULLS L
 CREATE INDEX idx_episodes_category ON episodes(category);
 CREATE INDEX idx_episodes_episode_fame ON episodes(episode_fame_v6 DESC NULLS LAST);
 CREATE INDEX idx_episodes_person_type ON episodes(person_type);
+CREATE INDEX idx_episodes_desirability_score ON episodes(desirability_score DESC NULLS LAST);
+CREATE INDEX idx_episodes_desirability_episode_id ON episodes(desirability_score DESC NULLS LAST, episode_id ASC);
 
 -- 4. RLS（Row Level Security）有効化
 ALTER TABLE episodes ENABLE ROW LEVEL SECURITY;
@@ -137,6 +158,7 @@ COMMENT ON COLUMN episodes.super_total_score IS '超総合スコア（fame + qua
 COMMENT ON COLUMN episodes.birth_year IS '人物の生年（西暦）';
 COMMENT ON COLUMN episodes.death_year IS '人物の没年（西暦）';
 COMMENT ON COLUMN episodes.is_fictional IS '架空キャラクターフラグ';
+COMMENT ON COLUMN episodes.desirability_score IS 'エピソード望ましさスコア（検索・表示優先度）';
 
 -- 確認用クエリ
 -- SELECT COUNT(*) FROM episodes;

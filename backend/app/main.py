@@ -109,9 +109,7 @@ app = FastAPI(
 
 # CORS設定（フロントエンドからのアクセスを許可）
 # 環境変数から読み込み、デフォルトは開発環境用
-cors_origins_str = os.getenv(
-    "CORS_ORIGINS", "http://localhost:5173,http://localhost:5175,http://localhost:3000"
-)
+cors_origins_str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:5175,http://localhost:3000")
 cors_origins = [origin.strip() for origin in cors_origins_str.split(",")]
 
 app.add_middleware(
@@ -195,9 +193,7 @@ def on_csv_updated(mtime: float):
                 )
             )
         else:
-            logger.warning(
-                "イベントループが実行中でないためSSEブロードキャストをスキップしました"
-            )
+            logger.warning("イベントループが実行中でないためSSEブロードキャストをスキップしました")
 
         # 任意: Supabaseへ自動同期（外部DBへの書き込みなので、環境変数で明示的にONにした場合のみ実行）
         maybe_schedule_supabase_autosync(csv_path)
@@ -418,9 +414,7 @@ async def get_data_version():
     return {
         "csv_path": str(csv_path),
         "last_modified": mtime,
-        "last_modified_iso": (
-            datetime.fromtimestamp(mtime).isoformat() if mtime > 0 else None
-        ),
+        "last_modified_iso": (datetime.fromtimestamp(mtime).isoformat() if mtime > 0 else None),
         "exists": csv_path.exists(),
     }
 
@@ -441,9 +435,7 @@ async def refresh_data():
         csv_path = get_default_csv_path()
 
         if not csv_path.exists():
-            raise HTTPException(
-                status_code=404, detail=f"CSVファイルが見つかりません: {csv_path}"
-            )
+            raise HTTPException(status_code=404, detail=f"CSVファイルが見つかりません: {csv_path}")
 
         # 強制再インポート
         count = import_csv_to_db(db, str(csv_path), force=True)
@@ -458,9 +450,7 @@ async def refresh_data():
         raise
     except Exception as e:
         logger.error(f"データ再読み込みエラー: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=500, detail="データ再読み込み中にエラーが発生しました"
-        )
+        raise HTTPException(status_code=500, detail="データ再読み込み中にエラーが発生しました")
 
 
 # ========================================
@@ -481,9 +471,7 @@ async def get_characters(
     """
     characters, total = db.get_all_characters(page=page, page_size=page_size)
 
-    return CharacterList(
-        total=total, page=page, page_size=page_size, characters=characters
-    )
+    return CharacterList(total=total, page=page, page_size=page_size, characters=characters)
 
 
 @app.get("/api/characters/{character_id}", response_model=Character)
@@ -502,9 +490,7 @@ async def get_character(character_id: int):
 
 
 @app.get("/api/characters/search/", response_model=list[Character])
-async def search_characters(
-    q: str = Query(..., min_length=1, description="検索クエリ")
-):
+async def search_characters(q: str = Query(..., min_length=1, description="検索クエリ")):
     """
     キャラクター検索
 
@@ -542,11 +528,7 @@ async def get_stats_summary():
     all_characters, total = db.get_all_characters(page=1, page_size=10000)
 
     # curator_notesから実在/架空を判定（"Type: FICTIONAL" または "Type: REAL" 形式）
-    fictional_count = sum(
-        1
-        for c in all_characters
-        if "TYPE: FICTIONAL" in c.get("curator_notes", "").upper()
-    )
+    fictional_count = sum(1 for c in all_characters if "TYPE: FICTIONAL" in c.get("curator_notes", "").upper())
     real_count = total - fictional_count
 
     # ジャンル数
@@ -568,10 +550,7 @@ async def get_genre_stats():
     """ジャンル分布取得"""
     stats = db.get_genre_stats()
 
-    return [
-        GenreStats(genre=s["genre"], count=s["count"], percentage=s["percentage"])
-        for s in stats
-    ]
+    return [GenreStats(genre=s["genre"], count=s["count"], percentage=s["percentage"]) for s in stats]
 
 
 @app.get("/api/stats/gender", response_model=list[GenderStats])
@@ -582,11 +561,7 @@ async def get_gender_stats():
     all_characters, total = db.get_all_characters(page=1, page_size=10000)
 
     # curator_notesから実在/架空を判定（"Type: FICTIONAL" または "Type: REAL" 形式）
-    fictional_count = sum(
-        1
-        for c in all_characters
-        if "TYPE: FICTIONAL" in c.get("curator_notes", "").upper()
-    )
+    fictional_count = sum(1 for c in all_characters if "TYPE: FICTIONAL" in c.get("curator_notes", "").upper())
     real_count = total - fictional_count
 
     return [
@@ -608,12 +583,7 @@ async def get_episode_category_stats():
     """エピソードカテゴリ分布取得"""
     stats = db.get_episode_category_stats()
 
-    return [
-        EpisodeCategoryStats(
-            category=s["category"], count=s["count"], percentage=s["percentage"]
-        )
-        for s in stats
-    ]
+    return [EpisodeCategoryStats(category=s["category"], count=s["count"], percentage=s["percentage"]) for s in stats]
 
 
 @app.get("/api/stats/works", response_model=list[WorkStats])
@@ -621,20 +591,13 @@ async def get_work_stats(limit: int = Query(20, ge=1, le=50, description="取得
     """作品別キャラクター数取得（上位N件）"""
     stats = db.get_work_stats(limit=limit)
 
-    return [
-        WorkStats(
-            work_title=s["work_title"], count=s["count"], percentage=s["percentage"]
-        )
-        for s in stats
-    ]
+    return [WorkStats(work_title=s["work_title"], count=s["count"], percentage=s["percentage"]) for s in stats]
 
 
 @app.get("/api/stats/fame-ranking", response_model=FameRanking)
 async def get_fame_ranking(
     limit: int = Query(100, ge=1, le=500, description="取得件数"),
-    order_by: str = Query(
-        "fame_score", description="ソートフィールド (fame_score/composite_score)"
-    ),
+    order_by: str = Query("fame_score", description="ソートフィールド (fame_score/composite_score)"),
 ):
     """
     有名度ランキング取得
@@ -685,11 +648,7 @@ async def get_fame_ranking(
 async def root():
     """ルートエンドポイント - HTMLダッシュボード v3を返す"""
     # preservedディレクトリのHTMLファイルを返す（v3がデフォルト）
-    html_path = (
-        Path(__file__).parent.parent.parent
-        / "preserved"
-        / "episode_database_dashboard_v3.html"
-    )
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v3.html"
 
     if html_path.exists():
         return FileResponse(
@@ -722,11 +681,7 @@ async def root():
 @app.get("/v2")
 async def dashboard_v2():
     """ダッシュボード v2 へのアクセス"""
-    html_path = (
-        Path(__file__).parent.parent.parent
-        / "preserved"
-        / "episode_database_dashboard_v2.html"
-    )
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v2.html"
 
     if html_path.exists():
         return FileResponse(
@@ -745,11 +700,7 @@ async def dashboard_v2():
 @app.get("/v3")
 async def dashboard_v3():
     """ダッシュボード v3 へのアクセス"""
-    html_path = (
-        Path(__file__).parent.parent.parent
-        / "preserved"
-        / "episode_database_dashboard_v3.html"
-    )
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v3.html"
 
     if html_path.exists():
         return FileResponse(
@@ -768,11 +719,7 @@ async def dashboard_v3():
 @app.get("/v4")
 async def dashboard_v4():
     """ダッシュボード v4 へのアクセス"""
-    html_path = (
-        Path(__file__).parent.parent.parent
-        / "preserved"
-        / "episode_database_dashboard_v4.html"
-    )
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "episode_database_dashboard_v4.html"
 
     if html_path.exists():
         return FileResponse(
@@ -791,11 +738,7 @@ async def dashboard_v4():
 @app.get("/logs-dashboard")
 async def logs_dashboard():
     """ログ分析ダッシュボード"""
-    html_path = (
-        Path(__file__).parent.parent.parent
-        / "preserved"
-        / "log_analysis_dashboard.html"
-    )
+    html_path = Path(__file__).parent.parent.parent / "preserved" / "log_analysis_dashboard.html"
 
     if html_path.exists():
         return FileResponse(
@@ -840,10 +783,7 @@ async def get_score_distribution(bin_size: float = Query(0.5, ge=0.1, le=2.0)):
 
     return {
         "bin_size": bin_size,
-        "distributions": {
-            axis: [DistributionBin(**bin) for bin in bins]
-            for axis, bins in distributions.items()
-        },
+        "distributions": {axis: [DistributionBin(**bin) for bin in bins] for axis, bins in distributions.items()},
     }
 
 
@@ -881,54 +821,22 @@ async def get_top_performers(top_n: int = Query(50, ge=1, le=200)):
 @app.get("/api/search/advanced", response_model=EpisodeSearchResponse)
 async def advanced_search(
     query: Optional[str] = Query(None, description="検索クエリ（人物名・エピソード）"),
-    min_memorability_score: Optional[float] = Query(
-        None, ge=0, le=10, description="memorability_score最小値"
-    ),
-    max_memorability_score: Optional[float] = Query(
-        None, ge=0, le=10, description="memorability_score最大値"
-    ),
-    min_empathy_score: Optional[float] = Query(
-        None, ge=0, le=10, description="empathy_score最小値"
-    ),
-    max_empathy_score: Optional[float] = Query(
-        None, ge=0, le=10, description="empathy_score最大値"
-    ),
-    min_surprise_score: Optional[float] = Query(
-        None, ge=0, le=10, description="surprise_score最小値"
-    ),
-    max_surprise_score: Optional[float] = Query(
-        None, ge=0, le=10, description="surprise_score最大値"
-    ),
-    min_generation_quality: Optional[float] = Query(
-        None, ge=0, le=10, description="generation_quality_score最小値"
-    ),
-    max_generation_quality: Optional[float] = Query(
-        None, ge=0, le=10, description="generation_quality_score最大値"
-    ),
-    min_educational_value: Optional[float] = Query(
-        None, ge=0, le=10, description="educational_value最小値"
-    ),
-    max_educational_value: Optional[float] = Query(
-        None, ge=0, le=10, description="educational_value最大値"
-    ),
-    min_storytelling_quality: Optional[float] = Query(
-        None, ge=0, le=10, description="story_quality最小値"
-    ),
-    max_storytelling_quality: Optional[float] = Query(
-        None, ge=0, le=10, description="story_quality最大値"
-    ),
-    min_factual_density: Optional[float] = Query(
-        None, ge=0, le=10, description="factual_density最小値"
-    ),
-    max_factual_density: Optional[float] = Query(
-        None, ge=0, le=10, description="factual_density最大値"
-    ),
-    min_composite_score: Optional[float] = Query(
-        None, ge=0, le=10, description="総合スコア最小値"
-    ),
-    max_composite_score: Optional[float] = Query(
-        None, ge=0, le=10, description="総合スコア最大値"
-    ),
+    min_memorability_score: Optional[float] = Query(None, ge=0, le=10, description="memorability_score最小値"),
+    max_memorability_score: Optional[float] = Query(None, ge=0, le=10, description="memorability_score最大値"),
+    min_empathy_score: Optional[float] = Query(None, ge=0, le=10, description="empathy_score最小値"),
+    max_empathy_score: Optional[float] = Query(None, ge=0, le=10, description="empathy_score最大値"),
+    min_surprise_score: Optional[float] = Query(None, ge=0, le=10, description="surprise_score最小値"),
+    max_surprise_score: Optional[float] = Query(None, ge=0, le=10, description="surprise_score最大値"),
+    min_generation_quality: Optional[float] = Query(None, ge=0, le=10, description="generation_quality_score最小値"),
+    max_generation_quality: Optional[float] = Query(None, ge=0, le=10, description="generation_quality_score最大値"),
+    min_educational_value: Optional[float] = Query(None, ge=0, le=10, description="educational_value最小値"),
+    max_educational_value: Optional[float] = Query(None, ge=0, le=10, description="educational_value最大値"),
+    min_storytelling_quality: Optional[float] = Query(None, ge=0, le=10, description="story_quality最小値"),
+    max_storytelling_quality: Optional[float] = Query(None, ge=0, le=10, description="story_quality最大値"),
+    min_factual_density: Optional[float] = Query(None, ge=0, le=10, description="factual_density最小値"),
+    max_factual_density: Optional[float] = Query(None, ge=0, le=10, description="factual_density最大値"),
+    min_composite_score: Optional[float] = Query(None, ge=0, le=10, description="総合スコア最小値"),
+    max_composite_score: Optional[float] = Query(None, ge=0, le=10, description="総合スコア最大値"),
     min_age: Optional[float] = Query(None, ge=0, le=150, description="年齢最小値"),
     max_age: Optional[float] = Query(None, ge=0, le=150, description="年齢最大値"),
     sort_by: str = Query("composite_score", description="ソート基準"),
@@ -987,9 +895,7 @@ async def advanced_search(
         for r in results
     ]
 
-    return EpisodeSearchResponse(
-        total=total, page=page, page_size=page_size, results=search_results
-    )
+    return EpisodeSearchResponse(total=total, page=page, page_size=page_size, results=search_results)
 
 
 @app.get("/api/search/stats", response_model=SearchStatsResponse)
@@ -1096,9 +1002,7 @@ async def export_json(
     )
 
     # JSON生成
-    json_data = json.dumps(
-        {"total": total, "results": results}, ensure_ascii=False, indent=2
-    )
+    json_data = json.dumps({"total": total, "results": results}, ensure_ascii=False, indent=2)
 
     return Response(
         content=json_data,
@@ -1116,9 +1020,7 @@ async def export_json(
 async def list_episodes(
     page: int = Query(1, ge=1, description="ページ番号"),
     page_size: int = Query(20, ge=1, le=100, description="ページサイズ"),
-    person_type: Optional[str] = Query(
-        None, description="人物タイプフィルター（REAL/FICTIONAL）"
-    ),
+    person_type: Optional[str] = Query(None, description="人物タイプフィルター（REAL/FICTIONAL）"),
 ):
     """エピソード一覧取得
 
@@ -1127,9 +1029,7 @@ async def list_episodes(
     csv_path = get_default_csv_path()
     episode_manager = EpisodeManager(str(csv_path))
 
-    episodes, total = episode_manager.list_episodes(
-        page=page, page_size=page_size, filter_person_type=person_type
-    )
+    episodes, total = episode_manager.list_episodes(page=page, page_size=page_size, filter_person_type=person_type)
 
     return EpisodeList(total=total, page=page, page_size=page_size, episodes=episodes)
 
@@ -1147,9 +1047,7 @@ async def search_episodes(
     csv_path = get_default_csv_path()
     episode_manager = EpisodeManager(str(csv_path))
 
-    episodes, total = episode_manager.search_episodes(
-        query=q, page=page, page_size=page_size
-    )
+    episodes, total = episode_manager.search_episodes(query=q, page=page, page_size=page_size)
 
     return EpisodeList(total=total, page=page, page_size=page_size, episodes=episodes)
 
@@ -1165,9 +1063,7 @@ async def get_episode(person_id: str):
 
     episode = episode_manager.get_episode_by_id(person_id)
     if not episode:
-        raise HTTPException(
-            status_code=404, detail=f"エピソードが見つかりません: {person_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
 
     return episode
 
@@ -1191,9 +1087,7 @@ async def create_episode(
         return episode
     except Exception as e:
         logger.error(f"エピソード作成エラー: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=500, detail="エピソード作成中にエラーが発生しました"
-        )
+        raise HTTPException(status_code=500, detail="エピソード作成中にエラーが発生しました")
 
 
 @app.put("/api/episodes/{person_id}", response_model=Episode)
@@ -1213,17 +1107,13 @@ async def update_episode(
 
     episode = episode_manager.update_episode(person_id, episode_data)
     if not episode:
-        raise HTTPException(
-            status_code=404, detail=f"エピソードが見つかりません: {person_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
 
     return episode
 
 
 @app.delete("/api/episodes/{person_id}", response_model=EpisodeDeleteResponse)
-async def delete_episode(
-    person_id: str, current_user: dict = Depends(require_role(["admin"]))
-):
+async def delete_episode(person_id: str, current_user: dict = Depends(require_role(["admin"]))):
     """エピソード削除
 
     エピソードをCSVから削除
@@ -1235,9 +1125,7 @@ async def delete_episode(
 
     success = episode_manager.delete_episode(person_id)
     if not success:
-        raise HTTPException(
-            status_code=404, detail=f"エピソードが見つかりません: {person_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
 
     return EpisodeDeleteResponse(
         success=True,
@@ -1246,9 +1134,7 @@ async def delete_episode(
     )
 
 
-@app.post(
-    "/api/episodes/{person_id}/evaluate-llm", response_model=LLMEvaluationResponse
-)
+@app.post("/api/episodes/{person_id}/evaluate-llm", response_model=LLMEvaluationResponse)
 async def evaluate_episode_llm(
     person_id: str,
     save: bool = Query(False, description="評価結果をCSVに保存するかどうか"),
@@ -1272,15 +1158,11 @@ async def evaluate_episode_llm(
 
     episode = episode_manager.get_episode_by_id(person_id)
     if not episode:
-        raise HTTPException(
-            status_code=404, detail=f"エピソードが見つかりません: {person_id}"
-        )
+        raise HTTPException(status_code=404, detail=f"エピソードが見つかりません: {person_id}")
 
     episode_text = episode.episode_text
     if not episode_text or len(episode_text) < 50:
-        raise HTTPException(
-            status_code=400, detail="エピソードテキストが短すぎます（最低50文字必要）"
-        )
+        raise HTTPException(status_code=400, detail="エピソードテキストが短すぎます（最低50文字必要）")
 
     # エピソードデータを辞書形式で準備
     episode_data = {
@@ -1298,14 +1180,10 @@ async def evaluate_episode_llm(
     # LLM評価
     llm_scores = evaluate_with_llm(episode_text, calibrate=True)
     if llm_scores is None:
-        raise HTTPException(
-            status_code=503, detail="LLM評価に失敗しました（API接続エラーの可能性）"
-        )
+        raise HTTPException(status_code=503, detail="LLM評価に失敗しました（API接続エラーの可能性）")
 
     # ハイブリッドスコア（動的重み）
-    hybrid_scores = calculate_hybrid_scores_dynamic(
-        episode_data, llm_scores, use_dynamic_weights=True
-    )
+    hybrid_scores = calculate_hybrid_scores_dynamic(episode_data, llm_scores, use_dynamic_weights=True)
 
     # 保存オプションが有効な場合、CSVに保存
     saved = False
@@ -1419,9 +1297,7 @@ async def batch_evaluate_episodes_llm(
                 continue
 
             # ハイブリッドスコア（動的重み）
-            hybrid_scores = calculate_hybrid_scores_dynamic(
-                episode_data, llm_scores, use_dynamic_weights=True
-            )
+            hybrid_scores = calculate_hybrid_scores_dynamic(episode_data, llm_scores, use_dynamic_weights=True)
 
             # 保存オプションが有効な場合、CSVに保存
             if request.save:
@@ -1445,9 +1321,7 @@ async def batch_evaluate_episodes_llm(
             results.append(
                 BatchEvaluationResultItem(
                     person_id=person_id,
-                    person_name=(
-                        getattr(episode, "person_name", "不明") if episode else "不明"
-                    ),
+                    person_name=(getattr(episode, "person_name", "不明") if episode else "不明"),
                     status="error",
                     error=str(e),
                 )

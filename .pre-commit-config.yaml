@@ -179,6 +179,19 @@ repos:
     files: ^.*\.toml$
 
 # ============================================
+# ローカルフック（iOS品質チェック）
+# ============================================
+- repo: local
+  hooks:
+  - id: periphery
+    name: Periphery (Dead Code Detection)
+    entry: bash -c 'if [ -d "ios-apps/final-hourglass" ]; then cd ios-apps/final-hourglass && periphery scan --project FinalHourglass.xcodeproj --schemes FinalHourglass --quiet 2>/dev/null || echo "⚠️ Periphery not installed (brew install peripheryapp/periphery/periphery)"; fi'
+    language: system
+    files: ^ios-apps/.*\.swift$
+    pass_filenames: false
+    stages: [pre-commit]
+
+# ============================================
 # ローカルフック（EPUP整合性チェック）
 # ============================================
 - repo: local
@@ -250,6 +263,22 @@ repos:
   - id: check-fictional-name-format
     name: Check fictional character name format violations
     entry: python scripts/validation/detect_fictional_name_violations.py --dry-run --output /dev/null
+    language: python
+    pass_filenames: false
+    files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
+    additional_dependencies: [pandas]
+
+  - id: check-person-type-mismatch
+    name: Check person_type misclassification (REAL→FICTIONAL)
+    entry: python scripts/validation/detect_person_type_mismatch.py
+    language: python
+    pass_filenames: false
+    files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
+    additional_dependencies: [pandas]
+
+  - id: check-same-age-duplicates
+    name: Check same age duplicate episodes (EPUP rule)
+    entry: python scripts/validation/same_age_duplicate_gate.py
     language: python
     pass_filenames: false
     files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$

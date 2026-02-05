@@ -337,6 +337,7 @@ ios-apps/final-hourglass/*
 !ios-apps/final-hourglass/FinalHourglassUITests/
 !ios-apps/final-hourglass/FinalHourglassTests/
 !ios-apps/final-hourglass/FinalHourglass.xcodeproj/
+!ios-apps/final-hourglass/FinalHourglass.xcworkspace/
 .crash-guard/
 output/name_application/preview_applied.csv
 

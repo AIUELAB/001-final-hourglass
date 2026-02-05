@@ -5,10 +5,13 @@ watchdog を使用してCSVファイルの変更を監視し、
 変更があった場合に登録されたコールバックを呼び出す。
 """
 
+import logging
 import os
 import time
 from pathlib import Path
 from typing import Callable, Optional, Set
+
+logger = logging.getLogger(__name__)
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
@@ -25,11 +28,11 @@ class CSVFileWatcher:
         self._debounce_seconds = 1.0
         self._last_event_time: float = 0
 
-    def register_callback(self, callback: Callable):
+    def register_callback(self, callback: Callable) -> None:
         """変更通知のコールバックを登録"""
         self.callbacks.add(callback)
 
-    def unregister_callback(self, callback: Callable):
+    def unregister_callback(self, callback: Callable) -> None:
         """コールバックを解除"""
         self.callbacks.discard(callback)
 
@@ -40,7 +43,7 @@ class CSVFileWatcher:
         except OSError:
             return 0
 
-    def start(self):
+    def start(self) -> None:
         """ファイル監視を開始"""
         if self.observer is not None:
             return
@@ -80,17 +83,17 @@ class CSVFileWatcher:
         self.observer = Observer()
         self.observer.schedule(Handler(self), str(self.csv_path.parent), recursive=False)
         self.observer.start()
-        print(f"[File Watcher] Started: {self.csv_path}")
+        logger.info("File Watcher started: %s", self.csv_path)
 
-    def stop(self):
+    def stop(self) -> None:
         """ファイル監視を停止"""
         if self.observer:
             self.observer.stop()
             self.observer.join()
             self.observer = None
-            print("[File Watcher] Stopped")
+            logger.info("File Watcher stopped")
 
-    def _on_file_changed(self):
+    def _on_file_changed(self) -> None:
         """ファイル変更時の処理（デバウンス付き）"""
         current_time = time.time()
 
@@ -106,7 +109,7 @@ class CSVFileWatcher:
                 try:
                     callback(new_mtime)
                 except Exception as e:
-                    print(f"[File Watcher] Callback error: {e}")
+                    logger.error("File Watcher callback error: %s", e)
 
 
 _watcher_instance: Optional[CSVFileWatcher] = None

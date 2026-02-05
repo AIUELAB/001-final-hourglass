@@ -1,10 +1,13 @@
 """CSVデータローダー"""
 
 import csv
+import logging
 import os
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple
+
+logger = logging.getLogger(__name__)
 
 
 def get_default_csv_path() -> Path:
@@ -103,14 +106,14 @@ def import_csv_to_db(db, csv_path: str, force: bool = False) -> int:
                     count += 1
                 except Exception as e:
                     # 個別レコードのエラーはスキップ
-                    print(f"⚠️  レコードスキップ: {row.get('person_name', 'Unknown')} - {e}")
+                    logger.warning("レコードスキップ: %s - %s", row.get("person_name", "Unknown"), e)
                     continue
 
     except FileNotFoundError:
-        print(f"❌ CSVファイルが見つかりません: {csv_path}")
+        logger.error("CSVファイルが見つかりません: %s", csv_path)
         return 0
     except Exception as e:
-        print(f"❌ CSVインポートエラー: {e}")
+        logger.error("CSVインポートエラー: %s", e)
         return 0
 
     return count

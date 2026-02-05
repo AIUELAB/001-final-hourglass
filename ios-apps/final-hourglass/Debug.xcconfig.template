@@ -1,0 +1,66 @@
+// Debug Configuration for FinalHourglass
+// dSYM File Generation Settings
+
+// Generate dSYM files for debug builds
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+
+// Ensure dSYM files accompany the product
+DWARF_DSYM_FILE_SHOULD_ACCOMPANY_PRODUCT = YES
+
+// Don't strip debug symbols
+COPY_PHASE_STRIP = NO
+STRIP_INSTALLED_PRODUCT = NO
+STRIP_SWIFT_SYMBOLS = NO
+
+// Deployment postprocessing
+DEPLOYMENT_POSTPROCESSING = NO
+
+// Validate product settings
+VALIDATE_PRODUCT = NO
+
+// Enable bitcode
+ENABLE_BITCODE = NO
+
+// Swift optimization level (none for debug)
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+
+// Clang optimization level (none for debug)
+GCC_OPTIMIZATION_LEVEL = 0
+
+// Enable testability for debug builds
+ENABLE_TESTABILITY = YES
+
+// Swift compilation mode
+SWIFT_COMPILATION_MODE = singlefile
+
+// Enable debug preprocessor definitions
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited)
+
+// =================================================
+// Supabase Configuration (Debug)
+// =================================================
+// 使用方法:
+// 1. このファイルを Debug.xcconfig にコピー
+// 2. YOUR_SUPABASE_* の値を実際の値に置き換え
+// 3. Debug.xcconfig は .gitignore に含まれるため、コミットされません
+
+// Supabase Project URL
+// xcconfig では "//" をコメント開始と認識するため、以下の回避方法を使用:
+//   - 正規URL:        https://project-id.supabase.co
+//   - xcconfig形式:   https:/$()/project-id.supabase.co
+//
+// 仕組み: $() は空文字に展開されるため、最終的に https:// になる
+//
+// 設定方法:
+//   1. YOUR_SUPABASE_PROJECT_ID を実際のプロジェクトIDに置き換え
+//   2. 例: https:/$()/myproject-123456.supabase.co
+SUPABASE_PROJECT_URL = https:/$()/YOUR_SUPABASE_PROJECT_ID.supabase.co
+
+// Supabase Anonymous Key (RLS保護済み - SELECT only)
+SUPABASE_ANON_KEY = YOUR_SUPABASE_ANON_KEY
+
+// Supabase テーブル名
+SUPABASE_EPISODES_TABLE = episodes
+
+// デバッグ用: 接続テストを有効にする
+SUPABASE_DEBUG_CONNECTION_TEST = YES

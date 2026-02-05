@@ -1,0 +1,964 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		001B98211C909068728C44F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2D73470C212E324A3EB6E62 /* Foundation.framework */; };
+		35102A7307FCB43E1E981D0D /* Pods_FinalHourglass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494882D455FA15112E1FCC80 /* Pods_FinalHourglass.framework */; };
+		6697F5DC1E0028BDDBB6F268 /* HealthScoreCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */; };
+		A1B2C3D4E5F60127001A17AF /* UserModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60127001A17B0 /* UserModelTests.swift */; };
+		B1C2D3E4F5060128001A17AF /* SupabaseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5060128001A17B1 /* SupabaseManagerTests.swift */; };
+		C1D2E3F4G5060129001A17AF /* EpisodeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4G5060129001A17B2 /* EpisodeManagerTests.swift */; };
+		D1E2F3G4H506012A001A17AF /* CacheManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3G4H506012A001A17B3 /* CacheManagerTests.swift */; };
+		8422A30E2E4C0205001A17AF /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8422A30D2E4C0205001A17AF /* Debug.xcconfig */; };
+		8422A3102E4C0214001A17AF /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8422A30F2E4C0214001A17AF /* Release.xcconfig */; };
+		8458A1EF2E2543FE0023BA9E /* documentation-readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 8458A1EB2E2543FE0023BA9E /* documentation-readme.md */; };
+		84CEC5872F22375F0036DDDC /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 84CEC5862F22375F0036DDDC /* Supabase */; };
+		97F2C73F40B13FBB59B48538 /* Pods_FinalHourglassTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5EB229A33CDC5119C257CFE /* Pods_FinalHourglassTests.framework */; };
+		C739AA4535BDAA0DE20A229D /* LifeExpectancyCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */; };
+		D28DBCCA029801EF261E62FA /* PrefectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009D5A02911D09A715B25BC4 /* PrefectureTests.swift */; };
+		E1F2A3B4C506012B001A17AF /* AppStateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C506012B001A17B4 /* AppStateManagerTests.swift */; };
+		F1A2B3C4D506012C001A17AF /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A2B3C4D506012C001A17B5 /* NotificationManagerTests.swift */; };
+		P8A001B1 /* FavoriteEpisodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8A001F1 /* FavoriteEpisodeTests.swift */; };
+		P8B001B1 /* ContentFilterManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8B001F1 /* ContentFilterManagerTests.swift */; };
+		P8C001B1 /* DeveloperModeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8C001F1 /* DeveloperModeManagerTests.swift */; };
+		P8D001B1 /* ParameterCheckSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8D001F1 /* ParameterCheckSystemTests.swift */; };
+		P8E001B1 /* AnalyticsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8E001F1 /* AnalyticsManagerTests.swift */; };
+		E9F1A0B1 /* SoundManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1A001 /* SoundManagerTests.swift */; };
+		E9F1A0B2 /* SupabaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1A002 /* SupabaseConfigTests.swift */; };
+		E9F1B0B1 /* SettingsE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B001 /* SettingsE2ETests.swift */; };
+		E9F1B0B2 /* HealthInputE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B002 /* HealthInputE2ETests.swift */; };
+		E9F1B0B3 /* EpisodeE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B003 /* EpisodeE2ETests.swift */; };
+		P13B001 /* SecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P13A001 /* SecurityTests.swift */; };
+		P14B001 /* AppStoreGuidelinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P14A001 /* AppStoreGuidelinesTests.swift */; };
+		E9F1C0B1 /* SettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1C001 /* SettingsPage.swift */; };
+		E9F1C0B2 /* HealthInputPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1C002 /* HealthInputPage.swift */; };
+		E9F1C0B3 /* EpisodePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1C003 /* EpisodePage.swift */; };
+		U1B001 /* XCUIApplication+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A001 /* XCUIApplication+Launch.swift */; };
+		U1B002 /* XCTestCase+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A002 /* XCTestCase+Wait.swift */; };
+		U1B003 /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A003 /* OnboardingPage.swift */; };
+		U1B004 /* MainTabPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A004 /* MainTabPage.swift */; };
+		U1B005 /* ProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A005 /* ProfilePage.swift */; };
+		U1B006 /* OnboardingE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A006 /* OnboardingE2ETests.swift */; };
+		U1B007 /* NavigationE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A007 /* NavigationE2ETests.swift */; };
+		U1B008 /* ProfileE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A008 /* ProfileE2ETests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		532C2E2B281487FEC077D2D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84B6A9672DDAB575000C3E82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84B6A96E2DDAB575000C3E82;
+			remoteInfo = FinalHourglass;
+		};
+		A1B2C3D4E5F67892001UITST /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84B6A9672DDAB575000C3E82 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84B6A96E2DDAB575000C3E82;
+			remoteInfo = FinalHourglass;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		009D5A02911D09A715B25BC4 /* PrefectureTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrefectureTests.swift; sourceTree = "<group>"; };
+		2432CD6BEACDD34DC65888F8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HealthScoreCalculatorTests.swift; sourceTree = "<group>"; };
+		4480D9C7F5CAC86523AC0EC3 /* FinalHourglassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalHourglassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1B2C3D4E5F6789B001UITST /* FinalHourglassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalHourglassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		494882D455FA15112E1FCC80 /* Pods_FinalHourglass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalHourglass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BD8F72322D51F8E2C774CB1 /* Pods-FinalHourglassTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglassTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalHourglassTests/Pods-FinalHourglassTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8422A30D2E4C0205001A17AF /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Debug.xcconfig; sourceTree = "<group>"; };
+		8422A30F2E4C0214001A17AF /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Release.xcconfig; sourceTree = "<group>"; };
+		8458A1E82E2543FE0023BA9E /* last-hourglass-design-system.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "last-hourglass-design-system.md"; sourceTree = "<group>"; };
+		8458A1E92E2543FE0023BA9E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8458A1EB2E2543FE0023BA9E /* documentation-readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "documentation-readme.md"; sourceTree = "<group>"; };
+		8458A1EC2E2543FE0023BA9E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		84B6A96F2DDAB575000C3E82 /* FinalHourglass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalHourglass.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C4D78D2E1D48C20010D754 /* famous_people_episodes.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = famous_people_episodes.csv; sourceTree = "<group>"; };
+		8F079AA545909D6D8A62D24F /* Pods-FinalHourglass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglass.debug.xcconfig"; path = "Target Support Files/Pods-FinalHourglass/Pods-FinalHourglass.debug.xcconfig"; sourceTree = "<group>"; };
+		A2D73470C212E324A3EB6E62 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		A5EB229A33CDC5119C257CFE /* Pods_FinalHourglassTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalHourglassTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C119B66F74C0A7A4411ACB68 /* Pods-FinalHourglass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglass.release.xcconfig"; path = "Target Support Files/Pods-FinalHourglass/Pods-FinalHourglass.release.xcconfig"; sourceTree = "<group>"; };
+		C5F541A081D491790DC59086 /* Pods-FinalHourglassTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglassTests.release.xcconfig"; path = "Target Support Files/Pods-FinalHourglassTests/Pods-FinalHourglassTests.release.xcconfig"; sourceTree = "<group>"; };
+		F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LifeExpectancyCalculatorTests.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F60127001A17B0 /* UserModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserModelTests.swift; sourceTree = "<group>"; };
+		B1C2D3E4F5060128001A17B1 /* SupabaseManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseManagerTests.swift; sourceTree = "<group>"; };
+		C1D2E3F4G5060129001A17B2 /* EpisodeManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EpisodeManagerTests.swift; sourceTree = "<group>"; };
+		D1E2F3G4H506012A001A17B3 /* CacheManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CacheManagerTests.swift; sourceTree = "<group>"; };
+		E1F2A3B4C506012B001A17B4 /* AppStateManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppStateManagerTests.swift; sourceTree = "<group>"; };
+		F1A2B3C4D506012C001A17B5 /* NotificationManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
+		P8A001F1 /* FavoriteEpisodeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FavoriteEpisodeTests.swift; sourceTree = "<group>"; };
+		P8B001F1 /* ContentFilterManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContentFilterManagerTests.swift; sourceTree = "<group>"; };
+		P8C001F1 /* DeveloperModeManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeveloperModeManagerTests.swift; sourceTree = "<group>"; };
+		P8D001F1 /* ParameterCheckSystemTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ParameterCheckSystemTests.swift; sourceTree = "<group>"; };
+		P8E001F1 /* AnalyticsManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerTests.swift; sourceTree = "<group>"; };
+		E9F1A001 /* SoundManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SoundManagerTests.swift; sourceTree = "<group>"; };
+		E9F1A002 /* SupabaseConfigTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseConfigTests.swift; sourceTree = "<group>"; };
+		E9F1B001 /* SettingsE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsE2ETests.swift; sourceTree = "<group>"; };
+		E9F1B002 /* HealthInputE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInputE2ETests.swift; sourceTree = "<group>"; };
+		E9F1B003 /* EpisodeE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeE2ETests.swift; sourceTree = "<group>"; };
+		P13A001 /* SecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityTests.swift; sourceTree = "<group>"; };
+		P14A001 /* AppStoreGuidelinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreGuidelinesTests.swift; sourceTree = "<group>"; };
+		E9F1C001 /* SettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPage.swift; sourceTree = "<group>"; };
+		E9F1C002 /* HealthInputPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInputPage.swift; sourceTree = "<group>"; };
+		E9F1C003 /* EpisodePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodePage.swift; sourceTree = "<group>"; };
+		U1A001 /* XCUIApplication+Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Launch.swift"; sourceTree = "<group>"; };
+		U1A002 /* XCTestCase+Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Wait.swift"; sourceTree = "<group>"; };
+		U1A003 /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
+		U1A004 /* MainTabPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabPage.swift; sourceTree = "<group>"; };
+		U1A005 /* ProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePage.swift; sourceTree = "<group>"; };
+		U1A006 /* OnboardingE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingE2ETests.swift; sourceTree = "<group>"; };
+		U1A007 /* NavigationE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationE2ETests.swift; sourceTree = "<group>"; };
+		U1A008 /* ProfileE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileE2ETests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		84D053B82E1F4538006CA480 /* Exceptions for "FinalHourglass" folder in "FinalHourglass" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Data/marriage_rate_by_age_and_sex.csv,
+				Resources/Info.plist,
+				"Resources/parameter-master-list-txt",
+				Views/LifeResult/Backups/LifeResultView_backup_before_dramatic.swift,
+				Views/LifeResult/Backups/LifeResultView_backup.swift,
+				Views/LifeResult/Backups/LifeResultView_dramatic_20250803.swift,
+				Views/Main/AboutView_backup.swift,
+				Views/Onboarding/OnboardingView_backup.swift,
+				Views/Profile/ProfileView_buckup.swift,
+				Views/Settings/SettingsView_backup.swift,
+			);
+			target = 84B6A96E2DDAB575000C3E82 /* FinalHourglass */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		84B6A9712DDAB575000C3E82 /* FinalHourglass */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				84D053B82E1F4538006CA480 /* Exceptions for "FinalHourglass" folder in "FinalHourglass" target */,
+			);
+			path = FinalHourglass;
+			sourceTree = "<group>";
+		};
+		84DD9A542E2CD0D300391A18 /* Examples */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6E613418640C670356787672 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				001B98211C909068728C44F2 /* Foundation.framework in Frameworks */,
+				97F2C73F40B13FBB59B48538 /* Pods_FinalHourglassTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84B6A96C2DDAB575000C3E82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84CEC5872F22375F0036DDDC /* Supabase in Frameworks */,
+				35102A7307FCB43E1E981D0D /* Pods_FinalHourglass.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1B2C3D4E5F6789D001UITST /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0ADF8FF974C60855EA2926F7 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				A2D73470C212E324A3EB6E62 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		42A39F1032E789980A695AC6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0ADF8FF974C60855EA2926F7 /* iOS */,
+				494882D455FA15112E1FCC80 /* Pods_FinalHourglass.framework */,
+				A5EB229A33CDC5119C257CFE /* Pods_FinalHourglassTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		67487BC7F48A1FE0B62886F7 /* FinalHourglassTests */ = {
+			isa = PBXGroup;
+			children = (
+				009D5A02911D09A715B25BC4 /* PrefectureTests.swift */,
+				2432CD6BEACDD34DC65888F8 /* Info.plist */,
+				F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */,
+				2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */,
+				A1B2C3D4E5F60127001A17B0 /* UserModelTests.swift */,
+				B1C2D3E4F5060128001A17B1 /* SupabaseManagerTests.swift */,
+				C1D2E3F4G5060129001A17B2 /* EpisodeManagerTests.swift */,
+				D1E2F3G4H506012A001A17B3 /* CacheManagerTests.swift */,
+				E1F2A3B4C506012B001A17B4 /* AppStateManagerTests.swift */,
+				F1A2B3C4D506012C001A17B5 /* NotificationManagerTests.swift */,
+				P8A001F1 /* FavoriteEpisodeTests.swift */,
+				P8B001F1 /* ContentFilterManagerTests.swift */,
+				P8C001F1 /* DeveloperModeManagerTests.swift */,
+				P8D001F1 /* ParameterCheckSystemTests.swift */,
+				P8E001F1 /* AnalyticsManagerTests.swift */,
+				E9F1A001 /* SoundManagerTests.swift */,
+				E9F1A002 /* SupabaseConfigTests.swift */,
+				P14A001 /* AppStoreGuidelinesTests.swift */,
+				P13A001 /* SecurityTests.swift */,
+			);
+			name = FinalHourglassTests;
+			path = FinalHourglassTests;
+			sourceTree = "<group>";
+		};
+		7630FFED77117FD45EE4FC5D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8F079AA545909D6D8A62D24F /* Pods-FinalHourglass.debug.xcconfig */,
+				C119B66F74C0A7A4411ACB68 /* Pods-FinalHourglass.release.xcconfig */,
+				C5F541A081D491790DC59086 /* Pods-FinalHourglassTests.release.xcconfig */,
+				6BD8F72322D51F8E2C774CB1 /* Pods-FinalHourglassTests.debug.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8458A1E32E2543FE0023BA9E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		8458A1EA2E2543FE0023BA9E /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				8458A1E32E2543FE0023BA9E /* Assets */,
+				8458A1E82E2543FE0023BA9E /* last-hourglass-design-system.md */,
+				8458A1E92E2543FE0023BA9E /* README.md */,
+				84DD9A542E2CD0D300391A18 /* Examples */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		8458A1ED2E2543FE0023BA9E /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				8458A1EA2E2543FE0023BA9E /* DesignSystem */,
+				8458A1EB2E2543FE0023BA9E /* documentation-readme.md */,
+				8458A1EC2E2543FE0023BA9E /* README.md */,
+			);
+			path = Documentation;
+			sourceTree = "<group>";
+		};
+		84B6A9662DDAB575000C3E82 = {
+			isa = PBXGroup;
+			children = (
+				84B6A9712DDAB575000C3E82 /* FinalHourglass */,
+				84C4D78D2E1D48C20010D754 /* famous_people_episodes.csv */,
+				84B6A9702DDAB575000C3E82 /* Products */,
+				8458A1ED2E2543FE0023BA9E /* Documentation */,
+				8422A30D2E4C0205001A17AF /* Debug.xcconfig */,
+				8422A30F2E4C0214001A17AF /* Release.xcconfig */,
+				42A39F1032E789980A695AC6 /* Frameworks */,
+				67487BC7F48A1FE0B62886F7 /* FinalHourglassTests */,
+				A1B2C3D4E5F67894001UITST /* FinalHourglassUITests */,
+				7630FFED77117FD45EE4FC5D /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		84B6A9702DDAB575000C3E82 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84B6A96F2DDAB575000C3E82 /* FinalHourglass.app */,
+				4480D9C7F5CAC86523AC0EC3 /* FinalHourglassTests.xctest */,
+				A1B2C3D4E5F6789B001UITST /* FinalHourglassUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F67894001UITST /* FinalHourglassUITests */ = {
+			isa = PBXGroup;
+			children = (
+				U1G001 /* Helpers */,
+				U1G002 /* Pages */,
+				U1A006 /* OnboardingE2ETests.swift */,
+				U1A007 /* NavigationE2ETests.swift */,
+				U1A008 /* ProfileE2ETests.swift */,
+				E9F1B001 /* SettingsE2ETests.swift */,
+				E9F1B002 /* HealthInputE2ETests.swift */,
+				E9F1B003 /* EpisodeE2ETests.swift */,
+			);
+			name = FinalHourglassUITests;
+			path = FinalHourglassUITests;
+			sourceTree = "<group>";
+		};
+		U1G001 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				U1A001 /* XCUIApplication+Launch.swift */,
+				U1A002 /* XCTestCase+Wait.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		U1G002 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				U1A003 /* OnboardingPage.swift */,
+				U1A004 /* MainTabPage.swift */,
+				U1A005 /* ProfilePage.swift */,
+				E9F1C001 /* SettingsPage.swift */,
+				E9F1C002 /* HealthInputPage.swift */,
+				E9F1C003 /* EpisodePage.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2F01A37686DFD6346ED72FBB /* FinalHourglassTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1452B9577DBA7565C2C0AC09 /* Build configuration list for PBXNativeTarget "FinalHourglassTests" */;
+			buildPhases = (
+				11ABD97FC1A0DD1AD551C66A /* [CP] Check Pods Manifest.lock */,
+				90C56BB2F3023703982EC2D4 /* Sources */,
+				6E613418640C670356787672 /* Frameworks */,
+				78CA83A750AD64EFA7B1AE2F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				33C4D75E71169CDF7C8CEAE0 /* PBXTargetDependency */,
+			);
+			name = FinalHourglassTests;
+			productName = FinalHourglassTests;
+			productReference = 4480D9C7F5CAC86523AC0EC3 /* FinalHourglassTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		84B6A96E2DDAB575000C3E82 /* FinalHourglass */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84B6A97A2DDAB578000C3E82 /* Build configuration list for PBXNativeTarget "FinalHourglass" */;
+			buildPhases = (
+				08D42E91E5842A3E0F752E52 /* [CP] Check Pods Manifest.lock */,
+				84LINT0012E4C0300001A17AF /* SwiftLint */,
+				84B6A96B2DDAB575000C3E82 /* Sources */,
+				84B6A96C2DDAB575000C3E82 /* Frameworks */,
+				84B6A96D2DDAB575000C3E82 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				84B6A9712DDAB575000C3E82 /* FinalHourglass */,
+				84DD9A542E2CD0D300391A18 /* Examples */,
+			);
+			name = FinalHourglass;
+			productName = FinalHourglass;
+			productReference = 84B6A96F2DDAB575000C3E82 /* FinalHourglass.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A1B2C3D4E5F6789A001UITST /* FinalHourglassUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1B2C3D4E5F6789F001UITST /* Build configuration list for PBXNativeTarget "FinalHourglassUITests" */;
+			buildPhases = (
+				A1B2C3D4E5F6789C001UITST /* Sources */,
+				A1B2C3D4E5F6789D001UITST /* Frameworks */,
+				A1B2C3D4E5F6789E001UITST /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1B2C3D4E5F67893001UITST /* PBXTargetDependency */,
+			);
+			name = FinalHourglassUITests;
+			productName = FinalHourglassUITests;
+			productReference = A1B2C3D4E5F6789B001UITST /* FinalHourglassUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84B6A9672DDAB575000C3E82 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					84B6A96E2DDAB575000C3E82 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+				};
+			};
+			buildConfigurationList = 84B6A96A2DDAB575000C3E82 /* Build configuration list for PBXProject "FinalHourglass" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84B6A9662DDAB575000C3E82;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				84CEC5842F2233A50036DDDC /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 84B6A9702DDAB575000C3E82 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84B6A96E2DDAB575000C3E82 /* FinalHourglass */,
+				2F01A37686DFD6346ED72FBB /* FinalHourglassTests */,
+				A1B2C3D4E5F6789A001UITST /* FinalHourglassUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		78CA83A750AD64EFA7B1AE2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84B6A96D2DDAB575000C3E82 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8422A3102E4C0214001A17AF /* Release.xcconfig in Resources */,
+				8422A30E2E4C0205001A17AF /* Debug.xcconfig in Resources */,
+				8458A1EF2E2543FE0023BA9E /* documentation-readme.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1B2C3D4E5F6789E001UITST /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08D42E91E5842A3E0F752E52 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FinalHourglass-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		11ABD97FC1A0DD1AD551C66A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FinalHourglassTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		84LINT0012E4C0300001A17AF /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# SwiftLint Build Phase Script\n# Auto-fix and lint Swift files on build\n\nif which swiftlint >/dev/null; then\n  # Run SwiftLint with autocorrect first, then lint\n  swiftlint lint --fix && swiftlint lint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84B6A96B2DDAB575000C3E82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90C56BB2F3023703982EC2D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D28DBCCA029801EF261E62FA /* PrefectureTests.swift in Sources */,
+				C739AA4535BDAA0DE20A229D /* LifeExpectancyCalculatorTests.swift in Sources */,
+				6697F5DC1E0028BDDBB6F268 /* HealthScoreCalculatorTests.swift in Sources */,
+				A1B2C3D4E5F60127001A17AF /* UserModelTests.swift in Sources */,
+				B1C2D3E4F5060128001A17AF /* SupabaseManagerTests.swift in Sources */,
+				C1D2E3F4G5060129001A17AF /* EpisodeManagerTests.swift in Sources */,
+				D1E2F3G4H506012A001A17AF /* CacheManagerTests.swift in Sources */,
+				E1F2A3B4C506012B001A17AF /* AppStateManagerTests.swift in Sources */,
+				F1A2B3C4D506012C001A17AF /* NotificationManagerTests.swift in Sources */,
+				P8A001B1 /* FavoriteEpisodeTests.swift in Sources */,
+				P8B001B1 /* ContentFilterManagerTests.swift in Sources */,
+				P8C001B1 /* DeveloperModeManagerTests.swift in Sources */,
+				P8D001B1 /* ParameterCheckSystemTests.swift in Sources */,
+				P8E001B1 /* AnalyticsManagerTests.swift in Sources */,
+				E9F1A0B1 /* SoundManagerTests.swift in Sources */,
+				E9F1A0B2 /* SupabaseConfigTests.swift in Sources */,
+				P14B001 /* AppStoreGuidelinesTests.swift in Sources */,
+				P13B001 /* SecurityTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1B2C3D4E5F6789C001UITST /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				U1B001 /* XCUIApplication+Launch.swift in Sources */,
+				U1B002 /* XCTestCase+Wait.swift in Sources */,
+				U1B003 /* OnboardingPage.swift in Sources */,
+				U1B004 /* MainTabPage.swift in Sources */,
+				U1B005 /* ProfilePage.swift in Sources */,
+				U1B006 /* OnboardingE2ETests.swift in Sources */,
+				U1B007 /* NavigationE2ETests.swift in Sources */,
+				U1B008 /* ProfileE2ETests.swift in Sources */,
+				E9F1B0B1 /* SettingsE2ETests.swift in Sources */,
+				E9F1B0B2 /* HealthInputE2ETests.swift in Sources */,
+				E9F1B0B3 /* EpisodeE2ETests.swift in Sources */,
+				E9F1C0B1 /* SettingsPage.swift in Sources */,
+				E9F1C0B2 /* HealthInputPage.swift in Sources */,
+				E9F1C0B3 /* EpisodePage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		33C4D75E71169CDF7C8CEAE0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FinalHourglass;
+			target = 84B6A96E2DDAB575000C3E82 /* FinalHourglass */;
+			targetProxy = 532C2E2B281487FEC077D2D9 /* PBXContainerItemProxy */;
+		};
+		A1B2C3D4E5F67893001UITST /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FinalHourglass;
+			target = 84B6A96E2DDAB575000C3E82 /* FinalHourglass */;
+			targetProxy = A1B2C3D4E5F67892001UITST /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		84B6A9782DDAB578000C3E82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8422A30D2E4C0205001A17AF /* Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = FinalHourglass/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		84B6A9792DDAB578000C3E82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8422A30F2E4C0214001A17AF /* Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = FinalHourglass/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		84B6A97B2DDAB578000C3E82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8422A30D2E4C0205001A17AF /* Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FinalHourglass/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "最期の砂時計";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.2;
+				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglass;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Debug;
+		};
+		84B6A97C2DDAB578000C3E82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8422A30F2E4C0214001A17AF /* Release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FinalHourglass/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "最期の砂時計";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.2;
+				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglass;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CF6DB6332A8FCE7B8C30BF20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BD8F72322D51F8E2C774CB1 /* Pods-FinalHourglassTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				INFOPLIST_FILE = FinalHourglassTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglassTests;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FinalHourglass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FinalHourglass";
+			};
+			name = Debug;
+		};
+		EBEBC2193C7099FEB30FBA79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C5F541A081D491790DC59086 /* Pods-FinalHourglassTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				INFOPLIST_FILE = FinalHourglassTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglassTests;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FinalHourglass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FinalHourglass";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A1B2C3D4E5F67890001UITST /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				INFOPLIST_FILE = FinalHourglassUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglassUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FinalHourglass;
+			};
+			name = Debug;
+		};
+		A1B2C3D4E5F67891001UITST /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N4UHXSGNLU;
+				INFOPLIST_FILE = FinalHourglassUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglassUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FinalHourglass;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1452B9577DBA7565C2C0AC09 /* Build configuration list for PBXNativeTarget "FinalHourglassTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBEBC2193C7099FEB30FBA79 /* Release */,
+				CF6DB6332A8FCE7B8C30BF20 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84B6A96A2DDAB575000C3E82 /* Build configuration list for PBXProject "FinalHourglass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84B6A9782DDAB578000C3E82 /* Debug */,
+				84B6A9792DDAB578000C3E82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84B6A97A2DDAB578000C3E82 /* Build configuration list for PBXNativeTarget "FinalHourglass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84B6A97B2DDAB578000C3E82 /* Debug */,
+				84B6A97C2DDAB578000C3E82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1B2C3D4E5F6789F001UITST /* Build configuration list for PBXNativeTarget "FinalHourglassUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1B2C3D4E5F67890001UITST /* Debug */,
+				A1B2C3D4E5F67891001UITST /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		84CEC5842F2233A50036DDDC /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		84CEC5862F22375F0036DDDC /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84CEC5842F2233A50036DDDC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 84B6A9672DDAB575000C3E82 /* Project object */;
+}

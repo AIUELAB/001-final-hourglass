@@ -1,0 +1,22 @@
+// =================================================
+// Local Configuration Template
+// =================================================
+//
+// 使用方法:
+// 1. このファイルを Local.xcconfig にコピー
+//    cp Local.xcconfig.template Local.xcconfig
+//
+// 2. 実際のSupabase認証情報を設定
+//
+// 3. Local.xcconfig は .gitignore に追加されているため
+//    リポジトリにはコミットされません
+//
+
+// Supabase Project URL
+// あなたのSupabaseプロジェクトのURLを設定
+// 注意: URL内の "//" はxcconfigで特殊文字のため、"/" + "$()/" で回避
+SUPABASE_PROJECT_URL = https:/$()/your-project-id.supabase.co
+
+// Supabase Anonymous Key
+// Supabase Dashboard > Settings > API から取得
+SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your-key-here

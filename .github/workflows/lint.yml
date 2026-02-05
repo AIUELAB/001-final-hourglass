@@ -1,0 +1,44 @@
+# SwiftLint - Linux runner で実行（無料枠消費なし）
+# Xcode Cloud 移行に伴い、SwiftLint を GitHub Actions Linux で実行
+name: SwiftLint
+
+on:
+  pull_request:
+    paths:
+      - 'ios-apps/**/*.swift'
+      - 'ios-apps/**/.swiftlint.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'ios-apps/**/*.swift'
+      - 'ios-apps/**/.swiftlint.yml'
+
+concurrency:
+  group: lint-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  swiftlint:
+    name: SwiftLint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: |
+          # SwiftLint の最新版をダウンロード
+          SWIFTLINT_VERSION="0.58.0"
+          curl -sL "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux.zip" -o swiftlint.zip
+          unzip -q swiftlint.zip
+          sudo mv swiftlint /usr/local/bin/
+          swiftlint version
+
+      # --strict: 警告も0件必須（警告があればエラー扱いでPRを落とす）
+      - name: Run SwiftLint (Strict Mode)
+        run: |
+          cd ios-apps/final-hourglass
+          swiftlint lint --strict --reporter github-actions-logging

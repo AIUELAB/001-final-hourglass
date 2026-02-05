@@ -41,9 +41,7 @@ def _get_int_env(name: str, default: int) -> int:
     try:
         return int(raw)
     except ValueError:
-        logger.warning(
-            "環境変数 %s が整数ではありません: %r（default=%d）", name, raw, default
-        )
+        logger.warning("環境変数 %s が整数ではありません: %r（default=%d）", name, raw, default)
         return default
 
 
@@ -54,9 +52,7 @@ def _get_float_env(name: str, default: float) -> float:
     try:
         return float(raw)
     except ValueError:
-        logger.warning(
-            "環境変数 %s が数値ではありません: %r（default=%.2f）", name, raw, default
-        )
+        logger.warning("環境変数 %s が数値ではありません: %r（default=%.2f）", name, raw, default)
         return default
 
 
@@ -76,12 +72,8 @@ class SupabaseAutosyncConfig:
             enabled=_is_truthy_env(os.getenv("ENABLE_SUPABASE_CSV_AUTOSYNC")),
             batch_size=_get_int_env("SUPABASE_AUTOSYNC_BATCH_SIZE", 500),
             throttle_seconds=_get_float_env("SUPABASE_AUTOSYNC_THROTTLE_SECONDS", 60.0),
-            stable_wait_seconds=_get_float_env(
-                "SUPABASE_AUTOSYNC_STABLE_WAIT_SECONDS", 10.0
-            ),
-            stable_window_seconds=_get_float_env(
-                "SUPABASE_AUTOSYNC_STABLE_WINDOW_SECONDS", 1.0
-            ),
+            stable_wait_seconds=_get_float_env("SUPABASE_AUTOSYNC_STABLE_WAIT_SECONDS", 10.0),
+            stable_window_seconds=_get_float_env("SUPABASE_AUTOSYNC_STABLE_WINDOW_SECONDS", 1.0),
         )
 
 
@@ -126,10 +118,7 @@ def maybe_schedule_supabase_autosync(csv_path: Path) -> None:
         if _sync_in_progress:
             _sync_pending = True
             return
-        if (
-            config.throttle_seconds > 0
-            and (now - _last_sync_started_at) < config.throttle_seconds
-        ):
+        if config.throttle_seconds > 0 and (now - _last_sync_started_at) < config.throttle_seconds:
             # 連続保存でも無限同期にならないようにスロットリング
             # ただし「後で必ず同期」するため、残り時間だけ遅延してワーカーを起動する
             delay_seconds = config.throttle_seconds - (now - _last_sync_started_at)
@@ -177,17 +166,11 @@ def _run_supabase_autosync_worker(
                 logger.info("Supabase自動同期: 変更なし（sha256一致）のためスキップ")
                 return
 
-        project_root = (
-            Path(__file__).resolve().parents[3]
-        )  # backend/app/services -> repo root
-        migrate_script = (
-            project_root / "scripts" / "supabase" / "migrate_csv_to_supabase.py"
-        )
+        project_root = Path(__file__).resolve().parents[3]  # backend/app/services -> repo root
+        migrate_script = project_root / "scripts" / "supabase" / "migrate_csv_to_supabase.py"
 
         if not migrate_script.exists():
-            logger.error(
-                "Supabase自動同期: 移行スクリプトが見つかりません: %s", migrate_script
-            )
+            logger.error("Supabase自動同期: 移行スクリプトが見つかりません: %s", migrate_script)
             return
 
         cmd = [
@@ -210,9 +193,7 @@ def _run_supabase_autosync_worker(
         if result.returncode != 0:
             # 秘密情報が含まれないように、出力は先頭のみログ（必要ならファイルへ保存して運用）
             out = (result.stdout or "") + "\n" + (result.stderr or "")
-            logger.error(
-                "Supabase自動同期: 失敗（exit=%d）\n%s", result.returncode, out[:2000]
-            )
+            logger.error("Supabase自動同期: 失敗（exit=%d）\n%s", result.returncode, out[:2000])
             return
 
         # 成功時のみ「同期済み」として記録する（失敗時に誤ってスキップしないため）
@@ -235,9 +216,7 @@ def _run_supabase_autosync_worker(
             maybe_schedule_supabase_autosync(csv_path)
 
 
-def _wait_for_file_stable(
-    path: Path, *, max_wait_seconds: float, stable_window_seconds: float
-) -> None:
+def _wait_for_file_stable(path: Path, *, max_wait_seconds: float, stable_window_seconds: float) -> None:
     """
     保存直後の中途半端状態（書き込み中）を避けるため、サイズが安定するまで少し待つ。
     """

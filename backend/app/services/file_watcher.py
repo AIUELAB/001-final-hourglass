@@ -74,15 +74,11 @@ class CSVFileWatcher:
                     return
                 src = getattr(event, "src_path", "")
                 dest = getattr(event, "dest_path", "")
-                if (src and handler_self._is_target(src)) or (
-                    dest and handler_self._is_target(dest)
-                ):
+                if (src and handler_self._is_target(src)) or (dest and handler_self._is_target(dest)):
                     handler_self.watcher._on_file_changed()
 
         self.observer = Observer()
-        self.observer.schedule(
-            Handler(self), str(self.csv_path.parent), recursive=False
-        )
+        self.observer.schedule(Handler(self), str(self.csv_path.parent), recursive=False)
         self.observer.start()
         print(f"[File Watcher] Started: {self.csv_path}")
 

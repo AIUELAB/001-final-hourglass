@@ -1,0 +1,67 @@
+// Release Configuration for FinalHourglass
+// dSYM File Generation Settings for Firebase Crash Reporting
+
+// Generate dSYM files for all builds
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+
+// Ensure dSYM files accompany the product
+DWARF_DSYM_FILE_SHOULD_ACCOMPANY_PRODUCT = YES
+
+// Don't strip debug symbols during copy
+COPY_PHASE_STRIP = NO
+
+// Don't strip installed product (for better crash reports)
+STRIP_INSTALLED_PRODUCT = NO
+
+// Don't strip Swift symbols
+STRIP_SWIFT_SYMBOLS = NO
+
+// Keep symbols for better debugging
+DEPLOYMENT_POSTPROCESSING = NO
+
+// Validate product settings
+VALIDATE_PRODUCT = YES
+
+// Enable bitcode (required for App Store)
+ENABLE_BITCODE = NO
+
+// Swift optimization level
+SWIFT_OPTIMIZATION_LEVEL = -O
+
+// Clang optimization level
+GCC_OPTIMIZATION_LEVEL = s
+
+// Enable testability for release builds
+ENABLE_TESTABILITY = NO
+
+// Swift compilation mode
+SWIFT_COMPILATION_MODE = wholemodule
+
+// =================================================
+// Supabase Configuration (Release)
+// =================================================
+// 使用方法:
+// 1. このファイルを Release.xcconfig にコピー
+// 2. YOUR_SUPABASE_* の値を実際の値に置き換え（本番環境用）
+// 3. Release.xcconfig は .gitignore に含まれるため、コミットされません
+
+// Supabase Project URL
+// xcconfig では "//" をコメント開始と認識するため、以下の回避方法を使用:
+//   - 正規URL:        https://project-id.supabase.co
+//   - xcconfig形式:   https:/$()/project-id.supabase.co
+//
+// 仕組み: $() は空文字に展開されるため、最終的に https:// になる
+//
+// 設定方法:
+//   1. YOUR_SUPABASE_PROJECT_ID を実際のプロジェクトIDに置き換え
+//   2. 例: https:/$()/myproject-123456.supabase.co
+SUPABASE_PROJECT_URL = https:/$()/YOUR_SUPABASE_PROJECT_ID.supabase.co
+
+// Supabase Anonymous Key (RLS保護済み - SELECT only)
+SUPABASE_ANON_KEY = YOUR_SUPABASE_ANON_KEY
+
+// Supabase テーブル名
+SUPABASE_EPISODES_TABLE = episodes
+
+// リリース用: 接続テストを無効にする
+SUPABASE_DEBUG_CONNECTION_TEST = NO

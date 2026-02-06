@@ -1,4 +1,4 @@
-# iOS Dependency Security - CocoaPods脆弱性スキャン
+# iOS Dependency Security - Swift Package Manager 脆弱性スキャン
 name: iOS Dependency Security
 
 on:
@@ -6,14 +6,14 @@ on:
     - cron: '0 0 * * 1'  # 毎週月曜 09:00 JST
   pull_request:
     paths:
-      - 'ios-apps/**/Podfile'
-      - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/Package.resolved'
+      - 'ios-apps/**/*.xcworkspace/**'
   push:
     branches:
       - main
     paths:
-      - 'ios-apps/**/Podfile'
-      - 'ios-apps/**/Podfile.lock'
+      - 'ios-apps/**/Package.resolved'
+      - 'ios-apps/**/*.xcworkspace/**'
   workflow_dispatch:
 
 permissions:
@@ -22,8 +22,8 @@ permissions:
 
 jobs:
   dependency-audit:
-    name: CocoaPods Security Audit
-    runs-on: macos-latest
+    name: SPM Security Audit
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ios-apps/final-hourglass
@@ -32,46 +32,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Checkout iOS submodule
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          git submodule update --init --recursive
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-
-      - name: Install CocoaPods
-        run: gem install cocoapods
-
-      - name: Check outdated Pods
-        id: outdated
-        run: |
-          echo "## 📦 Outdated Pods" >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          pod outdated 2>&1 | tee outdated.txt || true
-          cat outdated.txt >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Extract Pod dependencies
+      - name: Extract SPM dependencies
         id: extract
         run: |
-          # Podfile.lockからPod名とバージョンを抽出
-          if [ -f Podfile.lock ]; then
-            echo "## 🔍 Installed Pods" >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-            grep -E '^\s+-\s+\w+' Podfile.lock | sed 's/.*- //' | head -50 | tee pods.txt
-            cat pods.txt >> "$GITHUB_STEP_SUMMARY"
+          echo "## 🔍 Swift Package Dependencies" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # Package.resolved を検索
+          PACKAGE_RESOLVED=$(find . -name "Package.resolved" -path "*xcshareddata*" | head -1)
+
+          if [ -n "$PACKAGE_RESOLVED" ]; then
+            echo "Found: \`$PACKAGE_RESOLVED\`" >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat "$PACKAGE_RESOLVED" >> "$GITHUB_STEP_SUMMARY"
             echo '```' >> "$GITHUB_STEP_SUMMARY"
             echo "" >> "$GITHUB_STEP_SUMMARY"
+
+            # パッケージ名とバージョンを抽出
+            jq -r '.pins[]? | "\(.identity) \(.state.version // .state.revision)"' "$PACKAGE_RESOLVED" 2>/dev/null | tee packages.txt || echo "No pins found"
+            echo "packages_found=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No Podfile.lock found"
-            echo "pods=" >> "$GITHUB_OUTPUT"
+            echo "⚠️ No Package.resolved found - SPM dependencies will be resolved at build time" >> "$GITHUB_STEP_SUMMARY"
+            echo "packages_found=false" >> "$GITHUB_OUTPUT"
+            touch packages.txt
           fi
 
       - name: Query GitHub Advisory Database
+        if: steps.extract.outputs.packages_found == 'true'
         id: advisory
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -83,11 +70,12 @@ jobs:
           HIGH_COUNT=0
           MEDIUM_COUNT=0
           LOW_COUNT=0
-          if [ -f pods.txt ]; then
+
+          if [ -s packages.txt ]; then
             while IFS= read -r line; do
-              # Pod名を抽出（バージョン番号を除去）
-              POD_NAME=$(echo "$line" | sed 's/[[:space:]]*(.*//' | xargs)
-              [ -z "$POD_NAME" ] && continue
+              # パッケージ名を抽出
+              PKG_NAME=$(echo "$line" | awk '{print $1}')
+              [ -z "$PKG_NAME" ] && continue
 
               # GitHub Advisory Database APIで照会
               RESULT=$(gh api graphql -f query='
@@ -110,12 +98,12 @@ jobs:
                     }
                   }
                 }
-              ' -f keyword="$POD_NAME" 2>/dev/null || echo '{"data":{"securityAdvisories":{"nodes":[]}}}')
+              ' -f keyword="$PKG_NAME" 2>/dev/null || echo '{"data":{"securityAdvisories":{"nodes":[]}}}')
 
               # アドバイザリが見つかった場合
               ADVISORY_COUNT=$(echo "$RESULT" | jq '.data.securityAdvisories.nodes | length' 2>/dev/null || echo "0")
               if [ "$ADVISORY_COUNT" -gt 0 ]; then
-                echo "### ⚠️ $POD_NAME" >> "$GITHUB_STEP_SUMMARY"
+                echo "### ⚠️ $PKG_NAME" >> "$GITHUB_STEP_SUMMARY"
                 echo "$RESULT" | jq -r '.data.securityAdvisories.nodes[] | "- **\(.severity)**: \(.summary) ([\(.ghsaId)](https://github.com/advisories/\(.ghsaId)))"' >> "$GITHUB_STEP_SUMMARY" 2>/dev/null
                 echo "" >> "$GITHUB_STEP_SUMMARY"
 
@@ -125,7 +113,7 @@ jobs:
                 MEDIUM_COUNT=$((MEDIUM_COUNT + $(echo "$RESULT" | jq '[.data.securityAdvisories.nodes[] | select(.severity == "MODERATE")] | length' 2>/dev/null || echo "0")))
                 LOW_COUNT=$((LOW_COUNT + $(echo "$RESULT" | jq '[.data.securityAdvisories.nodes[] | select(.severity == "LOW")] | length' 2>/dev/null || echo "0")))
               fi
-            done < pods.txt
+            done < packages.txt
           fi
 
           # サマリー
@@ -159,9 +147,9 @@ jobs:
           echo "## 🤖 Dependabot Alerts" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
 
-          # Dependabotアラート取得
+          # Dependabotアラート取得（Swift ecosystem）
           ALERTS=$(gh api repos/${{ github.repository }}/dependabot/alerts \
-            --jq '[.[] | select(.state == "open") | select(.dependency.package.ecosystem == "pip" | not) | {package: .dependency.package.name, severity: .security_advisory.severity, summary: .security_advisory.summary}]' \
+            --jq '[.[] | select(.state == "open") | select(.dependency.package.ecosystem == "swift") | {package: .dependency.package.name, severity: .security_advisory.severity, summary: .security_advisory.summary}]' \
             2>/dev/null || echo "[]")
 
           ALERT_COUNT=$(echo "$ALERTS" | jq 'length' 2>/dev/null || echo "0")
@@ -171,7 +159,7 @@ jobs:
             echo "|---------|----------|---------|" >> "$GITHUB_STEP_SUMMARY"
             echo "$ALERTS" | jq -r '.[] | "| \(.package) | \(.severity) | \(.summary) |"' >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "✅ No open Dependabot alerts for non-Python dependencies." >> "$GITHUB_STEP_SUMMARY"
+            echo "✅ No open Dependabot alerts for Swift dependencies." >> "$GITHUB_STEP_SUMMARY"
           fi
           echo "" >> "$GITHUB_STEP_SUMMARY"
 

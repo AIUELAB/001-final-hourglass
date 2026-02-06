@@ -4,18 +4,16 @@ on:
   pull_request:
     paths:
       - 'ios-apps/**/*.swift'
-      - 'ios-apps/**/Podfile'
-      - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/*.xcodeproj/**'
       - 'ios-apps/**/*.xcworkspace/**'
+      - 'ios-apps/**/Package.resolved'
   push:
     branches: [main]
     paths:
       - 'ios-apps/**/*.swift'
-      - 'ios-apps/**/Podfile'
-      - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/*.xcodeproj/**'
       - 'ios-apps/**/*.xcworkspace/**'
+      - 'ios-apps/**/Package.resolved'
   workflow_dispatch:
 
 concurrency:

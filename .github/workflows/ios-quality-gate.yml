@@ -13,10 +13,9 @@ on:
   pull_request:
     paths:
       - 'ios-apps/**/*.swift'
-      - 'ios-apps/**/Podfile'
-      - 'ios-apps/**/Podfile.lock'
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/*.xcconfig'
+      - 'ios-apps/**/Package.resolved'
 
 concurrency:
   group: ios-quality-gate-${{ github.head_ref || github.run_id }}
@@ -31,39 +30,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-
-      - name: Install cocoapods-audit
-        run: gem install cocoapods cocoapods-audit --no-document
-
-      - name: Run CocoaPods Audit
+      - name: Check Swift Package Dependencies
         run: |
           cd ios-apps/final-hourglass
-          if [ -f Podfile.lock ]; then
-            echo "## 🔍 CocoaPods Dependency Audit" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            if pod audit 2>&1 | tee audit_result.txt; then
-              echo "✅ No known vulnerabilities found" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "⚠️ Vulnerabilities detected:" >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              cat audit_result.txt >> $GITHUB_STEP_SUMMARY
-              echo '```' >> $GITHUB_STEP_SUMMARY
-              exit 1
-            fi
-          else
-            echo "ℹ️ No Podfile.lock found - skipping CocoaPods audit" >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "## 🔍 Swift Package Manager Dependency Audit" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
-      - name: Check Swift Package Resolved
-        run: |
-          cd ios-apps/final-hourglass
-          if [ -f Package.resolved ] || find . -name "Package.resolved" -path "*xcshareddata*" | head -1 | grep -q .; then
+          # SPM Package.resolved を検索
+          PACKAGE_RESOLVED=$(find . -name "Package.resolved" -path "*xcshareddata*" | head -1)
+
+          if [ -n "$PACKAGE_RESOLVED" ]; then
             echo "### Swift Package Dependencies" >> $GITHUB_STEP_SUMMARY
-            echo "✅ Swift Package resolution file found" >> $GITHUB_STEP_SUMMARY
+            echo "✅ Package.resolved found: \`$PACKAGE_RESOLVED\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "#### Packages:" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            cat "$PACKAGE_RESOLVED" | head -50 >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No Package.resolved found - SPM dependencies will be resolved at build time" >> $GITHUB_STEP_SUMMARY
           fi
 
   build:
@@ -87,7 +72,7 @@ jobs:
           set -o pipefail
           cd ios-apps/final-hourglass
           xcodebuild build \
-            -project FinalHourglass.xcodeproj \
+            -workspace FinalHourglass.xcworkspace \
             -scheme FinalHourglass \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             CODE_SIGNING_ALLOWED=NO \

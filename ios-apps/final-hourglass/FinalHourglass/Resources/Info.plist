@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundleDisplayName</key>
+	<string>最期の砂時計</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>LSQueried URL Schemes</key>
+	<array>
+		<string>instagram</string>
+		<string>line</string>
+		<string>twitter</string>
+		<string>x-com</string>
+	</array>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>毎日決まった時間に、人生のタイムリミットを確認する通知を送信します。</string>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<!-- Supabase Configuration (from xcconfig) -->
+	<key>SUPABASE_PROJECT_URL</key>
+	<string>$(SUPABASE_PROJECT_URL)</string>
+	<key>SUPABASE_ANON_KEY</key>
+	<string>$(SUPABASE_ANON_KEY)</string>
+	<key>SUPABASE_EPISODES_TABLE</key>
+	<string>$(SUPABASE_EPISODES_TABLE)</string>
+	<key>SUPABASE_DEBUG_CONNECTION_TEST</key>
+	<string>$(SUPABASE_DEBUG_CONNECTION_TEST)</string>
+</dict>
+</plist>

@@ -334,6 +334,7 @@ episode_database_dashboard_v2.html
 # ========================================
 ebook-mcp/
 ios-apps/final-hourglass/*
+!ios-apps/final-hourglass/FinalHourglass/
 !ios-apps/final-hourglass/FinalHourglassUITests/
 !ios-apps/final-hourglass/FinalHourglassTests/
 !ios-apps/final-hourglass/FinalHourglass.xcodeproj/

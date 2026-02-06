@@ -356,3 +356,11 @@ src/reports/real_person_factcheck_parsed.json
 src/reports/fictional_llm_classification_results.csv
 src/reports/fictional_regenerate_results.json
 src/reports/fictional_rule_violations.csv
+
+# ========================================
+# Xcode Cloud 軽量化のため除外
+# ========================================
+# これらのファイルはiOSビルドに不要
+# Git LFS追跡を解除してリポジトリを軽量化
+preserved/*.html
+preserved/data/MASTER_EPISODES_CURRENT.csv

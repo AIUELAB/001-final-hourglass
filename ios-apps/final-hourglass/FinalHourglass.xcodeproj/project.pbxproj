@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		001B98211C909068728C44F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2D73470C212E324A3EB6E62 /* Foundation.framework */; };
-		35102A7307FCB43E1E981D0D /* Pods_FinalHourglass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494882D455FA15112E1FCC80 /* Pods_FinalHourglass.framework */; };
 		6697F5DC1E0028BDDBB6F268 /* HealthScoreCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */; };
 		A1B2C3D4E5F60127001A17AF /* UserModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60127001A17B0 /* UserModelTests.swift */; };
 		B1C2D3E4F5060128001A17AF /* SupabaseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5060128001A17B1 /* SupabaseManagerTests.swift */; };
@@ -18,7 +17,6 @@
 		8422A3102E4C0214001A17AF /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8422A30F2E4C0214001A17AF /* Release.xcconfig */; };
 		8458A1EF2E2543FE0023BA9E /* documentation-readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 8458A1EB2E2543FE0023BA9E /* documentation-readme.md */; };
 		84CEC5872F22375F0036DDDC /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 84CEC5862F22375F0036DDDC /* Supabase */; };
-		97F2C73F40B13FBB59B48538 /* Pods_FinalHourglassTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5EB229A33CDC5119C257CFE /* Pods_FinalHourglassTests.framework */; };
 		C739AA4535BDAA0DE20A229D /* LifeExpectancyCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */; };
 		D28DBCCA029801EF261E62FA /* PrefectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009D5A02911D09A715B25BC4 /* PrefectureTests.swift */; };
 		E1F2A3B4C506012B001A17AF /* AppStateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C506012B001A17B4 /* AppStateManagerTests.swift */; };
@@ -71,8 +69,6 @@
 		2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HealthScoreCalculatorTests.swift; sourceTree = "<group>"; };
 		4480D9C7F5CAC86523AC0EC3 /* FinalHourglassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalHourglassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3D4E5F6789B001UITST /* FinalHourglassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalHourglassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		494882D455FA15112E1FCC80 /* Pods_FinalHourglass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalHourglass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BD8F72322D51F8E2C774CB1 /* Pods-FinalHourglassTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglassTests.debug.xcconfig"; path = "Target Support Files/Pods-FinalHourglassTests/Pods-FinalHourglassTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8422A30D2E4C0205001A17AF /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Debug.xcconfig; sourceTree = "<group>"; };
 		8422A30F2E4C0214001A17AF /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Release.xcconfig; sourceTree = "<group>"; };
 		8458A1E82E2543FE0023BA9E /* last-hourglass-design-system.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "last-hourglass-design-system.md"; sourceTree = "<group>"; };
@@ -81,11 +77,7 @@
 		8458A1EC2E2543FE0023BA9E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84B6A96F2DDAB575000C3E82 /* FinalHourglass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalHourglass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C4D78D2E1D48C20010D754 /* famous_people_episodes.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = famous_people_episodes.csv; sourceTree = "<group>"; };
-		8F079AA545909D6D8A62D24F /* Pods-FinalHourglass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglass.debug.xcconfig"; path = "Target Support Files/Pods-FinalHourglass/Pods-FinalHourglass.debug.xcconfig"; sourceTree = "<group>"; };
 		A2D73470C212E324A3EB6E62 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		A5EB229A33CDC5119C257CFE /* Pods_FinalHourglassTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalHourglassTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C119B66F74C0A7A4411ACB68 /* Pods-FinalHourglass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglass.release.xcconfig"; path = "Target Support Files/Pods-FinalHourglass/Pods-FinalHourglass.release.xcconfig"; sourceTree = "<group>"; };
-		C5F541A081D491790DC59086 /* Pods-FinalHourglassTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalHourglassTests.release.xcconfig"; path = "Target Support Files/Pods-FinalHourglassTests/Pods-FinalHourglassTests.release.xcconfig"; sourceTree = "<group>"; };
 		F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LifeExpectancyCalculatorTests.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F60127001A17B0 /* UserModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserModelTests.swift; sourceTree = "<group>"; };
 		B1C2D3E4F5060128001A17B1 /* SupabaseManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SupabaseManagerTests.swift; sourceTree = "<group>"; };
@@ -161,7 +153,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				001B98211C909068728C44F2 /* Foundation.framework in Frameworks */,
-				97F2C73F40B13FBB59B48538 /* Pods_FinalHourglassTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +161,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84CEC5872F22375F0036DDDC /* Supabase in Frameworks */,
-				35102A7307FCB43E1E981D0D /* Pods_FinalHourglass.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,8 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				0ADF8FF974C60855EA2926F7 /* iOS */,
-				494882D455FA15112E1FCC80 /* Pods_FinalHourglass.framework */,
-				A5EB229A33CDC5119C257CFE /* Pods_FinalHourglassTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -227,18 +215,6 @@
 			);
 			name = FinalHourglassTests;
 			path = FinalHourglassTests;
-			sourceTree = "<group>";
-		};
-		7630FFED77117FD45EE4FC5D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8F079AA545909D6D8A62D24F /* Pods-FinalHourglass.debug.xcconfig */,
-				C119B66F74C0A7A4411ACB68 /* Pods-FinalHourglass.release.xcconfig */,
-				C5F541A081D491790DC59086 /* Pods-FinalHourglassTests.release.xcconfig */,
-				6BD8F72322D51F8E2C774CB1 /* Pods-FinalHourglassTests.debug.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		8458A1E32E2543FE0023BA9E /* Assets */ = {
@@ -281,7 +257,6 @@
 				42A39F1032E789980A695AC6 /* Frameworks */,
 				67487BC7F48A1FE0B62886F7 /* FinalHourglassTests */,
 				A1B2C3D4E5F67894001UITST /* FinalHourglassUITests */,
-				7630FFED77117FD45EE4FC5D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -340,7 +315,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1452B9577DBA7565C2C0AC09 /* Build configuration list for PBXNativeTarget "FinalHourglassTests" */;
 			buildPhases = (
-				11ABD97FC1A0DD1AD551C66A /* [CP] Check Pods Manifest.lock */,
 				90C56BB2F3023703982EC2D4 /* Sources */,
 				6E613418640C670356787672 /* Frameworks */,
 				78CA83A750AD64EFA7B1AE2F /* Resources */,
@@ -359,7 +333,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84B6A97A2DDAB578000C3E82 /* Build configuration list for PBXNativeTarget "FinalHourglass" */;
 			buildPhases = (
-				08D42E91E5842A3E0F752E52 /* [CP] Check Pods Manifest.lock */,
 				84LINT0012E4C0300001A17AF /* SwiftLint */,
 				84B6A96B2DDAB575000C3E82 /* Sources */,
 				84B6A96C2DDAB575000C3E82 /* Frameworks */,
@@ -463,50 +436,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08D42E91E5842A3E0F752E52 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FinalHourglass-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		11ABD97FC1A0DD1AD551C66A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FinalHourglassTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		84LINT0012E4C0300001A17AF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -752,8 +681,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -789,8 +716,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -802,7 +727,6 @@
 		};
 		CF6DB6332A8FCE7B8C30BF20 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BD8F72322D51F8E2C774CB1 /* Pods-FinalHourglassTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -816,8 +740,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglassTests;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -829,7 +751,6 @@
 		};
 		EBEBC2193C7099FEB30FBA79 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C5F541A081D491790DC59086 /* Pods-FinalHourglassTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -843,8 +764,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PODS_PODFILE_DIR_PATH = "${SRCROOT}/.";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglassTests;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

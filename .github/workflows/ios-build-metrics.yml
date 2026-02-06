@@ -37,7 +37,7 @@ jobs:
       - name: Setup iOS
         uses: ./.github/actions/setup-ios
         with:
-          install-cocoapods: 'true'
+          install-cocoapods: 'false'
 
       - name: Build archive and capture metrics
         id: build

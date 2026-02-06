@@ -1,0 +1,60 @@
+// Release Configuration for FinalHourglass
+// Note: Dependencies are managed via Swift Package Manager (SPM)
+
+// dSYM File Generation Settings for Firebase Crash Reporting
+
+// Generate dSYM files for all builds
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+
+// Ensure dSYM files accompany the product
+DWARF_DSYM_FILE_SHOULD_ACCOMPANY_PRODUCT = YES
+
+// Don't strip debug symbols during copy
+COPY_PHASE_STRIP = NO
+
+// Don't strip installed product (for better crash reports)
+STRIP_INSTALLED_PRODUCT = NO
+
+// Don't strip Swift symbols
+STRIP_SWIFT_SYMBOLS = NO
+
+// Keep symbols for better debugging
+DEPLOYMENT_POSTPROCESSING = NO
+
+// Validate product settings
+VALIDATE_PRODUCT = YES
+
+// Bitcode is deprecated by Apple (Xcode 14+)
+ENABLE_BITCODE = NO
+
+// Swift optimization level
+SWIFT_OPTIMIZATION_LEVEL = -O
+
+// Clang optimization level
+GCC_OPTIMIZATION_LEVEL = s
+
+// Enable testability for release builds
+ENABLE_TESTABILITY = NO
+
+// Swift compilation mode
+SWIFT_COMPILATION_MODE = wholemodule
+
+// AppIntents自動リンクを無効化（AppIntentsを使用しない場合の警告抑制）
+OTHER_SWIFT_FLAGS = $(inherited) -Xfrontend -disable-autolink-framework -Xfrontend AppIntents
+
+// =================================================
+// Supabase Configuration (Release)
+// =================================================
+
+// Supabase Project URL
+// 注意: URL内の "//" はxcconfigで特殊文字のため、"/" + "$()/" で回避
+SUPABASE_PROJECT_URL = https:/$()/kvnlzsndenwakkcttvcs.supabase.co
+
+// Supabase Anonymous Key (RLS保護済み - SELECT only)
+SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2bmx6c25kZW53YWtrY3R0dmNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNDEzNzYsImV4cCI6MjA3ODkxNzM3Nn0.6lf7hzJ--84Sgryl2cXLQTuXyE-DZlgMyyTMeQx1xZE
+
+// Supabase テーブル名
+SUPABASE_EPISODES_TABLE = episodes
+
+// リリース用: 接続テストを無効にする
+SUPABASE_DEBUG_CONNECTION_TEST = NO

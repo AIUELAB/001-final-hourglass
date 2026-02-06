@@ -5,10 +5,11 @@ title = "Gitleaks config for Claude Code Template"
 
 # Allowlist for paths and patterns to ignore
 [allowlist]
-commits = [
-]
 description = "Global allowlist (merged)"
 paths = [
+  # Supabase anon key in xcconfig (RLS protected, public by design)
+  '''ios-apps/final-hourglass/Config/Debug\.xcconfig''',
+  '''ios-apps/final-hourglass/Config/Release\.xcconfig''',
   '''.env.example''',
   '''.env.mcp.example''',
   '''requirements*.txt''',

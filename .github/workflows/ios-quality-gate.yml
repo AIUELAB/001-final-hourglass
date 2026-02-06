@@ -74,9 +74,16 @@ jobs:
           xcodebuild build \
             -workspace FinalHourglass.xcworkspace \
             -scheme FinalHourglass \
-            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             2>&1 | tee build.log | xcpretty --color
+
+      - name: Show build log on failure
+        if: failure()
+        run: |
+          cd ios-apps/final-hourglass
+          echo "=== Build Log (last 200 lines) ==="
+          tail -200 build.log || true
 
       # 警告チェック: システム由来の警告（appintentsmetadataprocessor等）を除外し、
       # 残りの警告があればワークフローを失敗させる

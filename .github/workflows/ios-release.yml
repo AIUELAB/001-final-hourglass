@@ -177,16 +177,8 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
-        with:
-          path: ios-apps/final-hourglass/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios-apps/final-hourglass/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: pod install --repo-update
+      # Note: Dependencies are managed via Swift Package Manager (SPM)
+      # SPM packages are resolved automatically during build
 
       - name: Install App Store Connect API Key
         env:

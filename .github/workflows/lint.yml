@@ -33,7 +33,7 @@ jobs:
           # SwiftLint の最新版をダウンロード
           SWIFTLINT_VERSION="0.58.0"
           curl -sL "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux.zip" -o swiftlint.zip
-          unzip -q swiftlint.zip
+          unzip -o -q swiftlint.zip -x LICENSE
           sudo mv swiftlint /usr/local/bin/
           swiftlint version
 

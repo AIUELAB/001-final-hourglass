@@ -342,6 +342,7 @@ ios-apps/final-hourglass/*
 !ios-apps/final-hourglass/ci_scripts/
 !ios-apps/final-hourglass/Config/
 !ios-apps/final-hourglass/Documentation/
+!ios-apps/final-hourglass/.swiftlint.yml
 .crash-guard/
 output/name_application/preview_applied.csv
 

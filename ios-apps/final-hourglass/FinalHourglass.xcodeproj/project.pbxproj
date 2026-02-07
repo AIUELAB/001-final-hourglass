@@ -453,7 +453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# SwiftLint Build Phase Script\n# Auto-fix and lint Swift files on build\n\nif which swiftlint >/dev/null; then\n  # Run SwiftLint with autocorrect first, then lint\n  swiftlint lint --fix && swiftlint lint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# SwiftLint Build Phase Script\n# Auto-fix and lint Swift files on build\n\nif which swiftlint >/dev/null; then\n  # Change to project root to ensure .swiftlint.yml is found\n  cd \"$SRCROOT\"\n  # Run SwiftLint with autocorrect first, then lint (explicitly specify config)\n  swiftlint lint --fix --config .swiftlint.yml && swiftlint lint --config .swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

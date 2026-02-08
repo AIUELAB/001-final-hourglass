@@ -8,6 +8,11 @@ on:
         description: 'リリースバージョン (例: 1.0.3)'
         required: true
         type: string
+      dry_run:
+        description: 'ドライラン（署名・アップロードをスキップ）'
+        required: false
+        type: boolean
+        default: false
   push:
     tags:
       - 'ios-v*'
@@ -27,6 +32,7 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.value }}
       build_number: ${{ steps.version.outputs.build_number }}
+      dry_run: ${{ steps.dryrun.outputs.value }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,6 +66,16 @@ jobs:
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
           echo "🔢 Build number: $BUILD_NUMBER"
 
+      - name: Determine Dry Run Mode
+        id: dryrun
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
+            echo "value=true" >> $GITHUB_OUTPUT
+            echo "🧪 Dry-run mode enabled via input parameter"
+          else
+            echo "value=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Check for Duplicate Tag
         if: github.event_name == 'workflow_dispatch'
         run: |
@@ -92,11 +108,12 @@ jobs:
           HAS_REPO_TOKEN: ${{ secrets.IOS_REPO_TOKEN != '' }}
         run: |
           MISSING=""
-          DRY_RUN=false
 
-          # dry-run判定: 署名証明書がなければdry-runモード
-          if [ "$HAS_CERT" != "true" ]; then
+          # dry-run判定: 入力パラメータ or 署名証明書未設定
+          if [ "${{ github.event.inputs.dry_run }}" == "true" ] || [ "$HAS_CERT" != "true" ]; then
             DRY_RUN=true
+          else
+            DRY_RUN=false
           fi
 
           if [ "$DRY_RUN" = "true" ]; then
@@ -201,7 +218,7 @@ jobs:
           CERTIFICATE_PASSWORD: ${{ secrets.DISTRIBUTION_CERTIFICATE_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
-          if [ -z "$CERTIFICATE_BASE64" ]; then
+          if [ "${{ needs.validate.outputs.dry_run }}" == "true" ] || [ -z "$CERTIFICATE_BASE64" ]; then
             echo "⚠️ DISTRIBUTION_CERTIFICATE_BASE64 not configured"
             echo "Skipping certificate installation (dry-run mode)"
             exit 0
@@ -301,7 +318,7 @@ jobs:
           ARCHIVE_PATH=$RUNNER_TEMP/FinalHourglass.xcarchive
 
           # Secrets未設定時はCODE_SIGNING_ALLOWED=NOでビルド検証のみ
-          if [ -z "${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}" ]; then
+          if [ "${{ needs.validate.outputs.dry_run }}" == "true" ] || [ -z "${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}" ]; then
             echo "⚠️ Running in dry-run mode (no signing credentials)"
             xcodebuild archive \
               -workspace FinalHourglass.xcworkspace \
@@ -341,7 +358,7 @@ jobs:
           EXPORT_PATH=$RUNNER_TEMP/Export
           IPA_PATH="$EXPORT_PATH/FinalHourglass.ipa"
 
-          if [ -z "${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}" ]; then
+          if [ "${{ needs.validate.outputs.dry_run }}" == "true" ] || [ -z "${{ secrets.DISTRIBUTION_CERTIFICATE_BASE64 }}" ]; then
             echo "⚠️ Skipping IPA export (dry-run mode - no signing credentials)"
             echo "ipa_path=" >> $GITHUB_OUTPUT
             exit 0

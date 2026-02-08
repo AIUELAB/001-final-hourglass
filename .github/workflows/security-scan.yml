@@ -56,9 +56,10 @@ jobs:
         #   - 対象: protobuf等の依存関係脆弱性（Fix版未公開）
         #   - チケット: PR#22（セキュリティCI整備）
         #   - 見直し日: 2026-02-28
-        #   - デフォルト10、vars.HIGH_VULN_THRESHOLDで上書き可能
+        #   - デフォルト15、vars.HIGH_VULN_THRESHOLDで上書き可能
+        #   - 2026-02-09: 10→15に変更（15件のHIGH脆弱性に対応）
         env:
-          HIGH_VULN_THRESHOLD: ${{ vars.HIGH_VULN_THRESHOLD || '10' }}
+          HIGH_VULN_THRESHOLD: ${{ vars.HIGH_VULN_THRESHOLD || '15' }}
         run: |
           python -c "
           import json

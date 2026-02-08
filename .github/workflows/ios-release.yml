@@ -61,6 +61,7 @@ jobs:
           echo "🔢 Build number: $BUILD_NUMBER"
 
       - name: Check for Duplicate Tag
+        if: github.event_name == 'workflow_dispatch'
         run: |
           TAG="ios-v${{ steps.version.outputs.value }}"
           if git tag -l | grep -qx "$TAG"; then

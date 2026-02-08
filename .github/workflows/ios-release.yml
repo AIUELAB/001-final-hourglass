@@ -217,13 +217,34 @@ jobs:
           CERTIFICATE_PATH=$RUNNER_TEMP/certificate.p12
           echo "$CERTIFICATE_BASE64" | base64 --decode > $CERTIFICATE_PATH
 
+          # 証明書ファイルの検証
+          echo "🔍 Verifying certificate file..."
+          if [ ! -s "$CERTIFICATE_PATH" ]; then
+            echo "❌ Certificate file is empty or not created"
+            exit 1
+          fi
+          echo "📄 Certificate file size: $(wc -c < $CERTIFICATE_PATH) bytes"
+
+          # 証明書情報の確認（パスワードなしで可能な範囲）
+          echo "🔍 Checking certificate contents..."
+          openssl pkcs12 -info -in "$CERTIFICATE_PATH" -passin "pass:$CERTIFICATE_PASSWORD" -nokeys 2>&1 | head -20 || {
+            echo "⚠️ Warning: Could not parse certificate with provided password"
+            echo "This may indicate incorrect password or corrupted certificate"
+          }
+
           security import $CERTIFICATE_PATH \
             -P "$CERTIFICATE_PASSWORD" \
             -f pkcs12 \
             -k $KEYCHAIN_PATH \
             -T /usr/bin/codesign \
-            -T /usr/bin/productsign || {
+            -T /usr/bin/productsign \
+            -A 2>&1 || {
               echo "❌ Certificate import failed"
+              echo "🔍 Attempting verbose import for debugging..."
+              security import $CERTIFICATE_PATH \
+                -P "$CERTIFICATE_PASSWORD" \
+                -k $KEYCHAIN_PATH \
+                -T /usr/bin/codesign 2>&1 || true
               rm -f $CERTIFICATE_PATH
               exit 1
             }
@@ -276,6 +297,7 @@ jobs:
           VERSION: ${{ needs.validate.outputs.version }}
           BUILD_NUMBER: ${{ needs.validate.outputs.build_number }}
         run: |
+          set -euo pipefail
           ARCHIVE_PATH=$RUNNER_TEMP/FinalHourglass.xcarchive
 
           # Secrets未設定時はCODE_SIGNING_ALLOWED=NOでビルド検証のみ
@@ -314,6 +336,7 @@ jobs:
       - name: Export IPA
         id: export
         run: |
+          set -euo pipefail
           ARCHIVE_PATH=${{ steps.archive.outputs.path }}
           EXPORT_PATH=$RUNNER_TEMP/Export
           IPA_PATH="$EXPORT_PATH/FinalHourglass.ipa"
@@ -324,14 +347,45 @@ jobs:
             exit 0
           fi
 
+          # CI用にExportOptions.plistを生成（リポジトリ直下のExportOptions.plistは.gitignore対象のため）
+          EXPORT_OPTIONS_PATH="$RUNNER_TEMP/ExportOptions.ci.plist"
+          cat > "$EXPORT_OPTIONS_PATH" <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>app-store</string>
+            <key>teamID</key>
+            <string>N4UHXSGNLU</string>
+            <key>signingStyle</key>
+            <string>automatic</string>
+            <key>uploadBitcode</key>
+            <false/>
+            <key>uploadSymbols</key>
+            <true/>
+            <key>stripSwiftSymbols</key>
+            <true/>
+          </dict>
+          </plist>
+          EOF
+          echo "📄 Using ExportOptions.plist: $EXPORT_OPTIONS_PATH"
+
           xcodebuild -exportArchive \
             -archivePath "$ARCHIVE_PATH" \
             -exportPath "$EXPORT_PATH" \
-            -exportOptionsPlist ExportOptions.plist \
+            -exportOptionsPlist "$EXPORT_OPTIONS_PATH" \
             | xcpretty --color || {
               echo "❌ IPA export failed"
               exit 1
             }
+
+          # IPA生成を確実に検証（生成できていないのに次工程へ進む事故防止）
+          if [ ! -f "$IPA_PATH" ]; then
+            echo "❌ IPA file not found at: $IPA_PATH"
+            ls -la "$EXPORT_PATH" || true
+            exit 1
+          fi
 
           echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
           echo "✅ IPA exported to $IPA_PATH"

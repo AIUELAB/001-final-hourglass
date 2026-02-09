@@ -320,6 +320,8 @@ jobs:
         env:
           VERSION: ${{ needs.validate.outputs.version }}
           BUILD_NUMBER: ${{ needs.validate.outputs.build_number }}
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
         run: |
           set -euo pipefail
           ARCHIVE_PATH=$RUNNER_TEMP/FinalHourglass.xcarchive
@@ -341,6 +343,9 @@ jobs:
                 exit 1
               }
           else
+            # Automatic signing + App Store Connect APIキーで
+            # Distribution証明書とプロファイルを自動解決
+            API_KEY_PATH=~/private_keys/AuthKey_${API_KEY_ID}.p8
             xcodebuild archive \
               -workspace FinalHourglass.xcworkspace \
               -scheme FinalHourglass \
@@ -348,9 +353,11 @@ jobs:
               -destination 'generic/platform=iOS' \
               -archivePath "$ARCHIVE_PATH" \
               -allowProvisioningUpdates \
+              -authenticationKeyPath "$API_KEY_PATH" \
+              -authenticationKeyID "$API_KEY_ID" \
+              -authenticationKeyIssuerID "$API_ISSUER_ID" \
               MARKETING_VERSION="$VERSION" \
               CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
-              CODE_SIGN_IDENTITY="Apple Distribution" \
               || {
                 echo "❌ Archive failed"
                 exit 1

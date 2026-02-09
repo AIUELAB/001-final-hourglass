@@ -24,6 +24,9 @@ DEPLOYMENT_POSTPROCESSING = NO
 // Validate product settings
 VALIDATE_PRODUCT = YES
 
+// Archive用: アプリをProducts/Applications/にインストールする（TN3110対応）
+SKIP_INSTALL = NO
+
 // Bitcode is deprecated by Apple (Xcode 14+)
 ENABLE_BITCODE = NO
 

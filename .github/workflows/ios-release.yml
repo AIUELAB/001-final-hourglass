@@ -338,10 +338,11 @@ jobs:
               -workspace FinalHourglass.xcworkspace \
               -scheme FinalHourglass \
               -configuration Release \
+              -destination 'generic/platform=iOS' \
               -archivePath "$ARCHIVE_PATH" \
               MARKETING_VERSION="$VERSION" \
               CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
-              | xcpretty --color || {
+              || {
                 echo "❌ Archive failed"
                 exit 1
               }

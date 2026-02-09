@@ -297,8 +297,15 @@ jobs:
             exit 0
           fi
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$PROFILE_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
-          echo "✅ Provisioning profile installed"
+          PROFILE_PATH=$RUNNER_TEMP/distribution.mobileprovision
+          echo "$PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
+
+          # UUIDを取得してUUID名でインストール（Xcodeが認識するため）
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i "$PROFILE_PATH"))
+          echo "📋 Profile UUID: $PROFILE_UUID"
+          cp "$PROFILE_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/${PROFILE_UUID}.mobileprovision
+          rm -f "$PROFILE_PATH"
+          echo "✅ Provisioning profile installed (UUID: $PROFILE_UUID)"
 
       - name: Update Version Numbers
         env:
@@ -340,8 +347,12 @@ jobs:
               -configuration Release \
               -destination 'generic/platform=iOS' \
               -archivePath "$ARCHIVE_PATH" \
+              -allowProvisioningUpdates \
               MARKETING_VERSION="$VERSION" \
               CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+              CODE_SIGN_STYLE=Manual \
+              CODE_SIGN_IDENTITY="Apple Distribution" \
+              PROVISIONING_PROFILE_SPECIFIER="" \
               || {
                 echo "❌ Archive failed"
                 exit 1

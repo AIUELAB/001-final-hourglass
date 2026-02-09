@@ -385,26 +385,37 @@ jobs:
             exit 0
           fi
 
-          # Archive種類の検証
-          echo "🔍 Verifying archive type..."
-          if /usr/libexec/PlistBuddy -c "Print :ApplicationProperties" "$ARCHIVE_PATH/Info.plist" 2>/dev/null; then
-            echo "✅ Valid application archive (ApplicationProperties found)"
-          else
-            echo "⚠️ ApplicationProperties not found in Info.plist"
-            echo "Info.plist contents:"
-            /usr/libexec/PlistBuddy -c "Print" "$ARCHIVE_PATH/Info.plist"
-          fi
-
           # Products/Applications/にアプリが存在するか確認
           echo "🔍 Checking Products/Applications/..."
-          if [ -d "$ARCHIVE_PATH/Products/Applications/FinalHourglass.app" ]; then
-            echo "✅ App bundle found in Products/Applications/"
-            ls -la "$ARCHIVE_PATH/Products/Applications/"
-          else
+          if [ ! -d "$ARCHIVE_PATH/Products/Applications/FinalHourglass.app" ]; then
             echo "❌ FATAL: App bundle not found in Products/Applications/"
-            echo "Products directory:"
             ls -laR "$ARCHIVE_PATH/Products/" 2>/dev/null || echo "No Products directory!"
             exit 1
+          fi
+          echo "✅ App bundle found in Products/Applications/"
+
+          # ApplicationPropertiesの検証・自動注入
+          echo "🔍 Verifying archive type..."
+          if /usr/libexec/PlistBuddy -c "Print :ApplicationProperties" "$ARCHIVE_PATH/Info.plist" 2>/dev/null; then
+            echo "✅ ApplicationProperties found"
+          else
+            echo "⚠️ ApplicationProperties not found - injecting from app bundle..."
+            APP_PLIST="$ARCHIVE_PATH/Products/Applications/FinalHourglass.app/Info.plist"
+            APP_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP_PLIST")
+            APP_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$APP_PLIST")
+            APP_BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST")
+            SIGN_ID=$(codesign -dvv "$ARCHIVE_PATH/Products/Applications/FinalHourglass.app" 2>&1 | grep "Authority=" | head -1 | sed 's/Authority=//')
+
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties dict" "$ARCHIVE_PATH/Info.plist"
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties:ApplicationPath string Applications/FinalHourglass.app" "$ARCHIVE_PATH/Info.plist"
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties:CFBundleIdentifier string $APP_BUNDLE_ID" "$ARCHIVE_PATH/Info.plist"
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties:CFBundleShortVersionString string $APP_VERSION" "$ARCHIVE_PATH/Info.plist"
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties:CFBundleVersion string $APP_BUILD" "$ARCHIVE_PATH/Info.plist"
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties:SigningIdentity string $SIGN_ID" "$ARCHIVE_PATH/Info.plist"
+            /usr/libexec/PlistBuddy -c "Add :ApplicationProperties:Team string N4UHXSGNLU" "$ARCHIVE_PATH/Info.plist"
+
+            echo "✅ ApplicationProperties injected:"
+            /usr/libexec/PlistBuddy -c "Print :ApplicationProperties" "$ARCHIVE_PATH/Info.plist"
           fi
 
           # CI用にExportOptions.plistをPlistBuddyで生成（heredoc空白問題を回避）

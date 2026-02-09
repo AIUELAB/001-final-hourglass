@@ -386,35 +386,27 @@ jobs:
             exit 0
           fi
 
-          # CI用にExportOptions.plistを生成
+          # CI用にExportOptions.plistをPlistBuddyで生成（heredoc空白問題を回避）
           EXPORT_OPTIONS_PATH="$RUNNER_TEMP/ExportOptions.ci.plist"
-          PROFILE_NAME="${{ steps.profile.outputs.name }}"
-          cat > "$EXPORT_OPTIONS_PATH" << PLISTEOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key>
-            <string>app-store</string>
-            <key>teamID</key>
-            <string>N4UHXSGNLU</string>
-            <key>signingStyle</key>
-            <string>manual</string>
-            <key>provisioningProfiles</key>
-            <dict>
-              <key>com.AIUELAB.FinalHourglass</key>
-              <string>${PROFILE_NAME}</string>
-            </dict>
-            <key>uploadSymbols</key>
-            <true/>
-            <key>stripSwiftSymbols</key>
-            <true/>
-          </dict>
-          </plist>
-          PLISTEOF
-          echo "📄 Using ExportOptions.plist: $EXPORT_OPTIONS_PATH"
+          PROFILE_UUID="${{ steps.profile.outputs.uuid }}"
+          /usr/libexec/PlistBuddy -c "Clear dict" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :method string app-store" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :teamID string N4UHXSGNLU" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :signingStyle string manual" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:com.AIUELAB.FinalHourglass string ${PROFILE_UUID}" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :uploadSymbols bool true" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Add :stripSwiftSymbols bool true" "$EXPORT_OPTIONS_PATH"
+
+          # Plist検証
+          echo "🔍 Validating ExportOptions.plist..."
+          plutil -lint "$EXPORT_OPTIONS_PATH"
           echo "📄 ExportOptions.plist content:"
           cat "$EXPORT_OPTIONS_PATH"
+          echo "🔍 Parsed plist values:"
+          /usr/libexec/PlistBuddy -c "Print :method" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Print :teamID" "$EXPORT_OPTIONS_PATH"
+          /usr/libexec/PlistBuddy -c "Print :provisioningProfiles:com.AIUELAB.FinalHourglass" "$EXPORT_OPTIONS_PATH"
 
           # Archive内容の診断
           echo "🔍 Checking archive signing..."

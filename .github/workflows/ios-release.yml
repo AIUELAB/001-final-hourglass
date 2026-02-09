@@ -282,8 +282,8 @@ jobs:
               echo "This may cause codesign to fail. Continuing anyway..."
             }
 
-          # キーチェーンをデフォルトに追加
-          security list-keychain -d user -s $KEYCHAIN_PATH
+          # キーチェーンをデフォルトに追加（既存キーチェーンを保持）
+          security list-keychain -d user -s $KEYCHAIN_PATH $(security list-keychain -d user | tr -d '"')
 
           echo "✅ Distribution certificate installed"
 
@@ -413,12 +413,14 @@ jobs:
           </plist>
           PLISTEOF
           echo "📄 Using ExportOptions.plist: $EXPORT_OPTIONS_PATH"
+          echo "📄 ExportOptions.plist content:"
+          cat "$EXPORT_OPTIONS_PATH"
 
           xcodebuild -exportArchive \
             -archivePath "$ARCHIVE_PATH" \
             -exportPath "$EXPORT_PATH" \
             -exportOptionsPlist "$EXPORT_OPTIONS_PATH" \
-            | xcpretty --color || {
+            || {
               echo "❌ IPA export failed"
               exit 1
             }

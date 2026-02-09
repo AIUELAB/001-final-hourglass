@@ -343,7 +343,7 @@ jobs:
                 exit 1
               }
           else
-            # Automatic signing + App Store Connect APIキーで
+            # Manual signing (Release config) + App Store Connect APIキーで
             # Distribution証明書とプロファイルを自動解決
             API_KEY_PATH=~/private_keys/AuthKey_${API_KEY_ID}.p8
             xcodebuild archive \

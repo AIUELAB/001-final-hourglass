@@ -718,6 +718,8 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				SKIP_INSTALL = NO;
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 			};
 			name = Release;
 		};

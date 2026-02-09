@@ -362,8 +362,6 @@ jobs:
               MARKETING_VERSION="$VERSION" \
               CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
               PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
-              SKIP_INSTALL=NO \
-              INSTALL_PATH=/Applications \
               || {
                 echo "❌ Archive failed"
                 exit 1

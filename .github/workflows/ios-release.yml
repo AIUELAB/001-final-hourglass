@@ -288,6 +288,7 @@ jobs:
           echo "✅ Distribution certificate installed"
 
       - name: Install Provisioning Profile
+        id: profile
         env:
           PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
         run: |
@@ -300,12 +301,21 @@ jobs:
           PROFILE_PATH=$RUNNER_TEMP/distribution.mobileprovision
           echo "$PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
 
-          # UUIDを取得してUUID名でインストール（Xcodeが認識するため）
-          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(security cms -D -i "$PROFILE_PATH"))
+          # プロファイル情報を取得
+          PROFILE_PLIST=$(security cms -D -i "$PROFILE_PATH")
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< "$PROFILE_PLIST")
+          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< "$PROFILE_PLIST")
           echo "📋 Profile UUID: $PROFILE_UUID"
+          echo "📋 Profile Name: $PROFILE_NAME"
+
+          # UUID名でインストール（Xcodeが認識するため）
           cp "$PROFILE_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/${PROFILE_UUID}.mobileprovision
           rm -f "$PROFILE_PATH"
-          echo "✅ Provisioning profile installed (UUID: $PROFILE_UUID)"
+
+          # Outputに設定（Archiveステップで使用）
+          echo "uuid=$PROFILE_UUID" >> $GITHUB_OUTPUT
+          echo "name=$PROFILE_NAME" >> $GITHUB_OUTPUT
+          echo "✅ Provisioning profile installed (UUID: $PROFILE_UUID, Name: $PROFILE_NAME)"
 
       - name: Update Version Numbers
         env:
@@ -320,8 +330,6 @@ jobs:
         env:
           VERSION: ${{ needs.validate.outputs.version }}
           BUILD_NUMBER: ${{ needs.validate.outputs.build_number }}
-          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
         run: |
           set -euo pipefail
           ARCHIVE_PATH=$RUNNER_TEMP/FinalHourglass.xcarchive
@@ -343,21 +351,18 @@ jobs:
                 exit 1
               }
           else
-            # Manual signing (Release config) + App Store Connect APIキーで
-            # Distribution証明書とプロファイルを自動解決
-            API_KEY_PATH=~/private_keys/AuthKey_${API_KEY_ID}.p8
+            # Manual signing (Release config) + プロファイル名指定
+            PROFILE_NAME="${{ steps.profile.outputs.name }}"
+            echo "🔑 Using provisioning profile: $PROFILE_NAME"
             xcodebuild archive \
               -workspace FinalHourglass.xcworkspace \
               -scheme FinalHourglass \
               -configuration Release \
               -destination 'generic/platform=iOS' \
               -archivePath "$ARCHIVE_PATH" \
-              -allowProvisioningUpdates \
-              -authenticationKeyPath "$API_KEY_PATH" \
-              -authenticationKeyID "$API_KEY_ID" \
-              -authenticationKeyIssuerID "$API_ISSUER_ID" \
               MARKETING_VERSION="$VERSION" \
               CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+              PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
               || {
                 echo "❌ Archive failed"
                 exit 1

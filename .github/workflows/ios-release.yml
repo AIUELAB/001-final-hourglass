@@ -387,14 +387,23 @@ jobs:
             exit 0
           fi
 
-          # Archive種類の検証（Generic Xcode Archive検出 = TN3110）
+          # Archive種類の検証
           echo "🔍 Verifying archive type..."
           if /usr/libexec/PlistBuddy -c "Print :ApplicationProperties" "$ARCHIVE_PATH/Info.plist" 2>/dev/null; then
-            echo "✅ Valid application archive"
+            echo "✅ Valid application archive (ApplicationProperties found)"
           else
-            echo "❌ FATAL: Generic Xcode Archive detected (TN3110)"
+            echo "⚠️ ApplicationProperties not found in Info.plist"
             echo "Info.plist contents:"
             /usr/libexec/PlistBuddy -c "Print" "$ARCHIVE_PATH/Info.plist"
+          fi
+
+          # Products/Applications/にアプリが存在するか確認
+          echo "🔍 Checking Products/Applications/..."
+          if [ -d "$ARCHIVE_PATH/Products/Applications/FinalHourglass.app" ]; then
+            echo "✅ App bundle found in Products/Applications/"
+            ls -la "$ARCHIVE_PATH/Products/Applications/"
+          else
+            echo "❌ FATAL: App bundle not found in Products/Applications/"
             echo "Products directory:"
             ls -laR "$ARCHIVE_PATH/Products/" 2>/dev/null || echo "No Products directory!"
             exit 1

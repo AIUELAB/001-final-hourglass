@@ -386,28 +386,32 @@ jobs:
             exit 0
           fi
 
-          # CI用にExportOptions.plistを生成（リポジトリ直下のExportOptions.plistは.gitignore対象のため）
+          # CI用にExportOptions.plistを生成
           EXPORT_OPTIONS_PATH="$RUNNER_TEMP/ExportOptions.ci.plist"
-          cat > "$EXPORT_OPTIONS_PATH" <<'EOF'
+          PROFILE_NAME="${{ steps.profile.outputs.name }}"
+          cat > "$EXPORT_OPTIONS_PATH" << PLISTEOF
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
           <dict>
             <key>method</key>
-            <string>app-store</string>
+            <string>app-store-connect</string>
             <key>teamID</key>
             <string>N4UHXSGNLU</string>
             <key>signingStyle</key>
-            <string>automatic</string>
-            <key>uploadBitcode</key>
-            <false/>
+            <string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.AIUELAB.FinalHourglass</key>
+              <string>${PROFILE_NAME}</string>
+            </dict>
             <key>uploadSymbols</key>
             <true/>
             <key>stripSwiftSymbols</key>
             <true/>
           </dict>
           </plist>
-          EOF
+          PLISTEOF
           echo "📄 Using ExportOptions.plist: $EXPORT_OPTIONS_PATH"
 
           xcodebuild -exportArchive \

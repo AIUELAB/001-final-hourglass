@@ -363,6 +363,7 @@ jobs:
               MARKETING_VERSION="$VERSION" \
               CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
               PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
+              SKIP_INSTALL=NO \
               || {
                 echo "❌ Archive failed"
                 exit 1
@@ -384,6 +385,19 @@ jobs:
             echo "⚠️ Skipping IPA export (dry-run mode - no signing credentials)"
             echo "ipa_path=" >> $GITHUB_OUTPUT
             exit 0
+          fi
+
+          # Archive種類の検証（Generic Xcode Archive検出 = TN3110）
+          echo "🔍 Verifying archive type..."
+          if /usr/libexec/PlistBuddy -c "Print :ApplicationProperties" "$ARCHIVE_PATH/Info.plist" 2>/dev/null; then
+            echo "✅ Valid application archive"
+          else
+            echo "❌ FATAL: Generic Xcode Archive detected (TN3110)"
+            echo "Info.plist contents:"
+            /usr/libexec/PlistBuddy -c "Print" "$ARCHIVE_PATH/Info.plist"
+            echo "Products directory:"
+            ls -laR "$ARCHIVE_PATH/Products/" 2>/dev/null || echo "No Products directory!"
+            exit 1
           fi
 
           # CI用にExportOptions.plistをPlistBuddyで生成（heredoc空白問題を回避）

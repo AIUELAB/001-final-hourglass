@@ -1,0 +1,37 @@
+# Historical secrets - all rotated and no longer valid.
+#
+# Commit fdbae66b / 1dc533ca (2025-09-19): FactCheckerシステム実装時に含まれた設定ファイル
+# Same commit content appears under two hashes (rebase artifact), both must be listed.
+#
+# Commit d02f8e42 / 1eb2554d: auth_simple.py テスト用キー
+# Commit 19946913: claude_code_config バックアップ内JWT
+# Commit dd1fdf19: ダッシュボードHTML内のJWTサンプル
+
+# --- PROJECT_STATUS.md (fdbae66b) ---
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:PROJECT_STATUS.md:generic-api-key:117
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:PROJECT_STATUS.md:generic-api-key:118
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:PROJECT_STATUS.md:gcp-api-key:119
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:PROJECT_STATUS.md:twitter-api-key:123
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:PROJECT_STATUS.md:twitter-api-secret:124
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:PROJECT_STATUS.md:generic-api-key:129
+
+# --- PROJECT_STATUS.md (1dc533ca) ---
+1dc533cade69b5b4719cb96faa84445ab4be3550:PROJECT_STATUS.md:generic-api-key:117
+1dc533cade69b5b4719cb96faa84445ab4be3550:PROJECT_STATUS.md:generic-api-key:118
+1dc533cade69b5b4719cb96faa84445ab4be3550:PROJECT_STATUS.md:gcp-api-key:119
+1dc533cade69b5b4719cb96faa84445ab4be3550:PROJECT_STATUS.md:twitter-api-key:123
+1dc533cade69b5b4719cb96faa84445ab4be3550:PROJECT_STATUS.md:twitter-api-secret:124
+1dc533cade69b5b4719cb96faa84445ab4be3550:PROJECT_STATUS.md:generic-api-key:129
+
+# --- Other files ---
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:.scannerwork/report-task.txt:generic-api-key:1
+1dc533cade69b5b4719cb96faa84445ab4be3550:.scannerwork/report-task.txt:generic-api-key:1
+fdbae66bd28425f7a69a6359d8c3cb6769b4c3fb:sonar-project.properties:generic-api-key:4
+1dc533cade69b5b4719cb96faa84445ab4be3550:sonar-project.properties:generic-api-key:4
+d02f8e426bfc8380d126cb3a65352f6f32e4f59d:backend/app/utils/auth_simple.py:generic-api-key:18
+1eb2554dce227215886a08cd25279e21076188ad:backend/app/utils/auth_simple.py:generic-api-key:18
+
+# --- JWT tokens (config backups & dashboard) ---
+19946913ce4ed3ac6b7d1db724713a51efc4881c:.claude-backups-archive/claude_code_config_20251120_075906.json:jwt:40
+19946913ce4ed3ac6b7d1db724713a51efc4881c:.claude/claude_code_config.bak_20251120_000521:jwt:39
+dd1fdf195b72ee276c8e4363093bd5a080199090:preserved/episode_database_dashboard_v11.html:jwt:4542

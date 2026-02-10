@@ -26,19 +26,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}  # Only required for organizations
 
-      # Alternative: Run with config file
-      - name: Run Gitleaks with config
-        run: |
-          # Download and run gitleaks
-          wget -q https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_linux_amd64.tar.gz
-          tar -xzf gitleaks_linux_amd64.tar.gz
-          ./gitleaks detect --source . --config .gitleaks.toml --no-git --verbose --report-format json --report-path gitleaks-report.json
-        continue-on-error: true
-
       - name: Upload Gitleaks report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report
-          path: gitleaks-report.json
+          path: results.sarif
           retention-days: 30

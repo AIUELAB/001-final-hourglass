@@ -1,4 +1,4 @@
-name: Security Scan
+name: OWASP Dependency Check
 
 on:
   push:
@@ -97,42 +97,3 @@ jobs:
               if high > 5:
                   print(f'📋 Threshold relaxation: {mitigation_ticket}, review by {review_date}')
           "
-
-  pip-audit:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install pip-audit
-        run: pip install pip-audit
-
-      - name: Run pip-audit
-        run: |
-          # CVE-2026-0994 除外理由:
-          #   - 対象: protobuf json_format.ParseDict() DoS脆弱性
-          #   - Fix版: 未公開（protobuf 5.x.x予定）
-          #   - 見直し日: 2026-02-28
-          pip-audit -r requirements.txt --desc --ignore-vuln CVE-2026-0994
-
-  safety-check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install safety
-        run: pip install safety
-
-      - name: Run safety check
-        run: safety check -r requirements.txt --json

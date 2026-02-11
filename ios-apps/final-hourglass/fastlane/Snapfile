@@ -1,0 +1,26 @@
+# スクリーンショット生成設定
+
+# デバイス（App Store Connect 必須サイズ）
+devices([
+  "iPhone 15 Pro Max",   # 6.7インチ
+  "iPhone 15 Pro",       # 6.1インチ
+  "iPad Pro 13-inch (M4)" # 13インチ（iPhone互換モード）
+])
+
+# 言語
+languages(["ja"])
+
+# テストスキーム
+scheme("FinalHourglassUITests")
+
+# 出力先
+output_directory("./fastlane/screenshots")
+
+# スクリーンショット取得前にステータスバーを統一
+override_status_bar(true)
+
+# クリーンアップ
+clear_previous_screenshots(true)
+
+# 並列実行
+concurrent_simulators(true)

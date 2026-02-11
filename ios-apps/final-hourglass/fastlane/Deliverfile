@@ -1,0 +1,18 @@
+# App Store Connect メタデータ設定
+
+# 年齢制限（4+ 全年齢向け）
+app_rating_config_path("./fastlane/rating_config.json")
+
+# コンテンツ配信権
+submission_information({
+  add_id_info_uses_idfa: false,
+  content_rights_contains_third_party_content: true,
+  content_rights_has_rights: true
+})
+
+# リリース設定
+automatic_release(false)
+price_tier(0)
+
+# メタデータ言語
+primary_language("ja")

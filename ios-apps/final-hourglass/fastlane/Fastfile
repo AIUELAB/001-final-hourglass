@@ -1,0 +1,34 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "スクリーンショットを生成"
+  lane :screenshots do
+    capture_screenshots(
+      scheme: "FinalHourglassUITests",
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: true
+    )
+  end
+
+  desc "メタデータのみApp Store Connectにアップロード"
+  lane :metadata do
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true
+    )
+  end
+
+  desc "メタデータとスクリーンショットをアップロード"
+  lane :upload_metadata_and_screenshots do
+    capture_screenshots(
+      scheme: "FinalHourglassUITests",
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: true
+    )
+    deliver(
+      skip_binary_upload: true,
+      force: true
+    )
+  end
+end

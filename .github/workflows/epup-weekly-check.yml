@@ -9,6 +9,10 @@ permissions:
   contents: read
   issues: write
 
+concurrency:
+  group: epup-weekly-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   weekly-check:
     name: EPUP週次品質チェック

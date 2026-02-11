@@ -20,7 +20,7 @@ on:
   pull_request:
     branches: [main, develop]
   schedule:
-    # 毎日午前3時に実行（JST 12:00）
+    # 毎日3:00 JST に実行（UTC 18:00）
     - cron: "0 18 * * *"
   workflow_dispatch:
     inputs:
@@ -95,6 +95,7 @@ jobs:
           name: semgrep-reports
           path: |
             semgrep.sarif
+          retention-days: 30
 
   # dependency-scan はci.yml (pip-audit/safety) + security-scan.yml (OWASP) でカバー
 
@@ -200,6 +201,7 @@ jobs:
         with:
           name: security-summary
           path: security-summary.md
+          retention-days: 30
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'

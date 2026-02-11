@@ -31,15 +31,15 @@ jobs:
 
       - name: Run EPUP Weekly Check
         run: |
-          python scripts/scheduled_epup_check.py --weekly
+          python scripts/batch/scheduled_epup_check.py --weekly
 
       - name: Run Age Boundary Check
         run: |
-          python scripts/detect_age_boundary_violations.py || echo "Age boundary check completed with warnings"
+          python scripts/validation/detect_age_boundary_violations.py || echo "Age boundary check completed with warnings"
 
       - name: Run Group Sync Check
         run: |
-          python scripts/sync_group_from_master.py --dry-run || echo "Group sync check completed"
+          python scripts/data/sync_group_from_master.py --dry-run || echo "Group sync check completed"
 
       - name: Upload Reports
         if: always()

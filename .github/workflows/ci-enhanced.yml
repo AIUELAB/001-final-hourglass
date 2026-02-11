@@ -40,7 +40,6 @@ permissions:
   id-token: write # OIDCトークン用
   issues: write
   pull-requests: write
-  actions: read
   checks: write
 
 jobs:

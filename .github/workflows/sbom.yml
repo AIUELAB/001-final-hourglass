@@ -8,8 +8,8 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    # 毎日UTC 3時に実行（JST 12時）
-    - cron: "0 3 * * *"
+    # 毎日UTC 4時に実行（JST 13時）- ci.yml(UTC 3時)との同時実行を回避
+    - cron: "0 4 * * *"
   workflow_dispatch:
 
 jobs:
@@ -98,40 +98,6 @@ jobs:
         with:
           name: grype-report
           path: grype-results.sarif
-          retention-days: 30
-
-  microsoft-sbom:
-    name: Generate SBOM with Microsoft Tool
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Install Microsoft SBOM Tool
-        run: |
-          dotnet tool install --global Microsoft.Sbom.DotNetTool
-
-      - name: Generate SBOM
-        run: |
-          sbom-tool generate \
-            -b . \
-            -bc . \
-            -pn "claude-code-template-mcp" \
-            -pv "2.0.0" \
-            -ps "Anthropic" \
-            -nsb https://github.com/${{ github.repository }} \
-            -m .
-
-      - name: Upload Microsoft SBOM
-        uses: actions/upload-artifact@v4
-        with:
-          name: microsoft-sbom
-          path: _manifest/
           retention-days: 30
 
   dependency-review:

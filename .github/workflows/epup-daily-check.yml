@@ -9,6 +9,10 @@ permissions:
   contents: read
   issues: write  # Issue作成用
 
+concurrency:
+  group: epup-daily-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   daily-check:
     name: EPUP日次品質チェック

@@ -51,6 +51,7 @@ jobs:
         with:
           name: dependency-check-report
           path: reports/
+          retention-days: 30
 
       - name: Check for vulnerabilities
         # HIGH閾値緩和理由:

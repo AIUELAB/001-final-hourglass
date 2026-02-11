@@ -12,9 +12,17 @@ on:
       - 'scripts/fact_checker.py'
       - 'episode_database.db'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: fact-check-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   fact-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code

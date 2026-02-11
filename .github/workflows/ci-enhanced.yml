@@ -3,11 +3,13 @@
 # ============================================================
 #
 # Workflow Dependencies:
-# - security.yml: Handles Bandit, pip-audit, Safety scans
+# - ci.yml: Handles Bandit, pip-audit, Safety, Gitleaks
 # - This workflow: Handles Semgrep, container scan, compliance
 #
-# Note: dependency-scan job was removed to avoid duplication
-# with security.yml. See security.yml for dependency scanning.
+# Note: dependency-scan is covered by ci.yml (pip-audit/safety)
+# and security-scan.yml (OWASP Dependency-Check).
+#
+# OIDC Reference: https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect
 # ============================================================
 
 name: Enhanced CI/CD Pipeline with OIDC
@@ -38,26 +40,22 @@ permissions:
   id-token: write # OIDCトークン用
   issues: write
   pull-requests: write
-  actions: read
   checks: write
+
+concurrency:
+  group: enhanced-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   # シークレットスキャン
   secret-scan:
     name: Secret Scanning
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # フル履歴を取得（スキャン精度向上）
-
-      - name: TruffleHog Secret Scan
-        uses: trufflesecurity/trufflehog@v3.63.0
-        with:
-          path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --debug --only-verified
 
       - name: Gitleaks Secret Scan
         uses: gitleaks/gitleaks-action@v2
@@ -68,6 +66,7 @@ jobs:
   sast:
     name: Static Security Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -77,15 +76,16 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: >-
-            p/security-audit
-            p/secrets
-            p/owasp-top-ten
-            p/python
+        run: |
+          pip install semgrep
+          semgrep scan \
+            --config p/security-audit \
+            --config p/secrets \
+            --config p/owasp-top-ten \
+            --config p/python \
+            --sarif -o semgrep.sarif .
 
-      # Banditはsecurity.ymlで実行するため省略
+      # Banditはci.ymlのsecurity-scanジョブで実行
 
       - name: Upload Semgrep Results
         uses: actions/upload-artifact@v4
@@ -95,134 +95,14 @@ jobs:
           path: |
             semgrep.sarif
 
-  # dependency-scan ジョブはsecurity.ymlに統合済み
-
-  # AWS OIDC認証例
-  aws-deploy:
-    name: Deploy to AWS (OIDC)
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast]
-    steps:
-      - uses: actions/checkout@v4
-
-      # OIDC認証でAWSにアクセス
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-session-name: GitHubActions-${{ github.run_id }}
-          aws-region: us-east-1
-
-      - name: Deploy to S3
-        run: |
-          aws s3 sync ./dist s3://${{ secrets.S3_BUCKET_NAME }}/ --delete
-        if: false # 実際のデプロイは無効化
-
-  # GCP OIDC認証例
-  gcp-deploy:
-    name: Deploy to GCP (OIDC)
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast]
-    steps:
-      - uses: actions/checkout@v4
-
-      # OIDC認証でGCPにアクセス
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
-          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
-
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy claude-code-app \
-            --source . \
-            --region us-central1
-        if: false # 実際のデプロイは無効化
-
-  # Azure OIDC認証例
-  azure-deploy:
-    name: Deploy to Azure (OIDC)
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [secret-scan, sast]
-    steps:
-      - uses: actions/checkout@v4
-
-      # OIDC認証でAzureにアクセス
-      - name: Azure Login via OIDC
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: claude-code-app
-          package: .
-        if: false # 実際のデプロイは無効化
-
-  # シークレットローテーションチェック
-  secret-rotation-check:
-    name: Check Secret Rotation
-    runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
-    steps:
-      - name: Check Secret Age
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const secrets = [
-              { name: 'GITHUB_TOKEN', maxAgeDays: 90 },
-              { name: 'AWS_ROLE_ARN', maxAgeDays: 365 },
-              { name: 'PRODUCTION_API_KEY', maxAgeDays: 30 },
-            ];
-
-            const warnings = [];
-            const today = new Date();
-
-            // この例では実際の年齢チェックは実装していません
-            // 実際には外部のシークレット管理システムと統合する必要があります
-
-            console.log('Secret rotation check completed');
-
-  # セキュリティポリシー強制
-  enforce-policies:
-    name: Enforce Security Policies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check branch protection
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const branch = context.payload.ref?.replace('refs/heads/', '');
-            if (['main', 'master', 'develop'].includes(branch)) {
-              console.log(`Branch ${branch} is protected`);
-            }
-
-      - name: Verify signed commits
-        run: |
-          git log --show-signature -1 || echo "Commit not signed"
-
-      - name: Check CODEOWNERS
-        run: |
-          if [ -f ".github/CODEOWNERS" ]; then
-            echo "CODEOWNERS file exists"
-          else
-            echo "Warning: CODEOWNERS file not found"
-          fi
+  # dependency-scan はci.yml (pip-audit/safety) + security-scan.yml (OWASP) でカバー
 
   # コンテナスキャン
   container-scan:
     name: Container Security Scan
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -231,7 +111,7 @@ jobs:
           docker build -t claude-code-mcp:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: claude-code-mcp:${{ github.sha }}
           format: "sarif"
@@ -244,7 +124,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
 
       - name: Run Snyk container scan
-        uses: snyk/actions/docker@master
+        uses: snyk/actions/docker@v1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -257,11 +137,12 @@ jobs:
   compliance-check:
     name: Compliance and License Check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
       - name: License Scan
-        uses: fossas/fossa-action@main
+        uses: fossas/fossa-action@v1
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
         # オプショナル: FOSSA_API_KEY未設定時は失敗を許容
@@ -279,6 +160,7 @@ jobs:
   security-report:
     name: Aggregate Security Reports
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs:
       [secret-scan, sast, container-scan, compliance-check]
     if: always()
@@ -300,7 +182,7 @@ jobs:
           echo "- SAST: ${{ needs.sast.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
           echo "- Container Scan: ${{ needs.container-scan.result == 'success' && '✅' || (needs.container-scan.result == 'skipped' && '⏭️' || '⚠️') }}" >> security-summary.md
           echo "- Compliance Check: ${{ needs.compliance-check.result == 'success' && '✅' || '⚠️' }}" >> security-summary.md
-          echo "(Dependency Scanはsecurity.ymlで実行)" >> security-summary.md
+          echo "(Dependency Scanはci.yml + security-scan.ymlで実行)" >> security-summary.md
 
           echo "" >> security-summary.md
           if [[ "${{ needs.secret-scan.result }}" != "success" ]] || \

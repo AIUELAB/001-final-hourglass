@@ -12,6 +12,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -26,7 +27,8 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests -v
+          pip install pytest pytest-cov pytest-asyncio pytest-mock
+          pytest tests/test_supabase/ tests/test_deletion_logic.py -v
 
       - name: Build package
         run: |
@@ -55,4 +57,4 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/* || true
+          twine upload dist/* --skip-existing

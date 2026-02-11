@@ -22,6 +22,7 @@ concurrency:
 jobs:
   fact-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code

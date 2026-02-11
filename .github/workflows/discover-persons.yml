@@ -43,6 +43,7 @@ jobs:
   discover:
     name: 新規有名人発見
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code

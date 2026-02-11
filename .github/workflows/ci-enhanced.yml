@@ -51,6 +51,7 @@ jobs:
   secret-scan:
     name: Secret Scanning
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -65,6 +66,7 @@ jobs:
   sast:
     name: Static Security Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -74,13 +76,14 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: >-
-            p/security-audit
-            p/secrets
-            p/owasp-top-ten
-            p/python
+        run: |
+          pip install semgrep
+          semgrep scan \
+            --config p/security-audit \
+            --config p/secrets \
+            --config p/owasp-top-ten \
+            --config p/python \
+            --sarif -o semgrep.sarif .
 
       # Banditはci.ymlのsecurity-scanジョブで実行
 
@@ -99,6 +102,7 @@ jobs:
     name: Container Security Scan
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -107,7 +111,7 @@ jobs:
           docker build -t claude-code-mcp:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: claude-code-mcp:${{ github.sha }}
           format: "sarif"
@@ -120,7 +124,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
 
       - name: Run Snyk container scan
-        uses: snyk/actions/docker@master
+        uses: snyk/actions/docker@v1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -133,11 +137,12 @@ jobs:
   compliance-check:
     name: Compliance and License Check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
       - name: License Scan
-        uses: fossas/fossa-action@main
+        uses: fossas/fossa-action@v1
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
         # オプショナル: FOSSA_API_KEY未設定時は失敗を許容
@@ -155,6 +160,7 @@ jobs:
   security-report:
     name: Aggregate Security Reports
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs:
       [secret-scan, sast, container-scan, compliance-check]
     if: always()

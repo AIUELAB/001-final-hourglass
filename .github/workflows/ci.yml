@@ -35,6 +35,7 @@ jobs:
   code-quality:
     name: Code Quality
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -76,6 +77,7 @@ jobs:
   unit-tests:
     name: Unit Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         python-version: ['3.11', '3.12']
@@ -128,6 +130,7 @@ jobs:
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -322,6 +325,7 @@ jobs:
     name: CHANGELOG Validation
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    timeout-minutes: 5
 
     steps:
       - name: Checkout code
@@ -363,6 +367,7 @@ jobs:
     name: Build Validation
     runs-on: ubuntu-latest
     needs: [code-quality, unit-tests]
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -404,6 +409,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [code-quality, unit-tests, security-scan, changelog-validation, build]
     if: always()
+    timeout-minutes: 5
 
     steps:
       - name: Generate CI Summary

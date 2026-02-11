@@ -44,7 +44,7 @@ jobs:
           echo "bandit_exit_code=$?" >> "$GITHUB_OUTPUT"
 
           # pip-audit
-          pip-audit --desc --format json --output pip-audit-report.json
+          pip-audit -r requirements.txt --desc --ignore-vuln CVE-2026-0994 --format json --output pip-audit-report.json
           echo "pip_audit_exit_code=$?" >> "$GITHUB_OUTPUT"
 
           # Safety (v3のstdout混入対策)

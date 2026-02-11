@@ -14,6 +14,9 @@ on:
 
 env:
   PYTHON_VERSION: '3.11'
+  # CVE-2026-0994: protobuf json_format.ParseDict() DoS脆弱性
+  # Fix版未公開 (protobuf 5.x.x予定), 見直し日: 2026-02-28
+  PIP_AUDIT_IGNORE: '--ignore-vuln CVE-2026-0994'
 
 permissions:
   contents: read
@@ -154,11 +157,7 @@ jobs:
           echo "bandit_exit_code=$?" >> "$GITHUB_OUTPUT"
 
           # pip-audit（requirements.txt を監査）
-          # CVE-2026-0994 除外理由:
-          #   - 対象: protobuf json_format.ParseDict() DoS脆弱性
-          #   - Fix版: 未公開（protobuf 5.x.x予定）
-          #   - 見直し日: 2026-02-28
-          pip-audit -r requirements.txt --desc --ignore-vuln CVE-2026-0994 --format json --output pip-audit-report.json
+          pip-audit -r requirements.txt --desc ${{ env.PIP_AUDIT_IGNORE }} --format json --output pip-audit-report.json
           echo "pip_audit_exit_code=$?" >> "$GITHUB_OUTPUT"
 
           # Safety（requirements.txt を監査）

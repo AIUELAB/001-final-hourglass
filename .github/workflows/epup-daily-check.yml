@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,7 +37,7 @@ jobs:
 
       - name: Run EPUP Daily Check
         run: |
-          python scripts/scheduled_epup_check.py --daily
+          python scripts/batch/scheduled_epup_check.py --daily
         continue-on-error: true
 
       - name: Upload Report
@@ -78,7 +80,7 @@ jobs:
             ### 対応
             1. \`reports/${reports[0]}\` を確認
             2. 該当KPIの修正スクリプト実行
-            3. 修正後に再度 \`python scripts/scheduled_epup_check.py --daily\` 実行
+            3. 修正後に再度 \`python scripts/batch/scheduled_epup_check.py --daily\` 実行
 
             ### レポート
             [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
@@ -100,6 +102,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -173,6 +177,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5

@@ -2,6 +2,9 @@
 # Xcode Cloud 移行に伴い、SwiftLint を GitHub Actions Linux で実行
 name: SwiftLint
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     paths:

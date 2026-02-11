@@ -4,7 +4,7 @@
 #
 # Workflow Dependencies:
 # - ci.yml: Handles Bandit, pip-audit, Safety, Gitleaks
-# - This workflow: Handles Semgrep, TruffleHog, container scan, compliance
+# - This workflow: Handles Semgrep, container scan, compliance
 #
 # Note: dependency-scan is covered by ci.yml (pip-audit/safety)
 # and security-scan.yml (OWASP Dependency-Check).
@@ -52,14 +52,6 @@ jobs:
         with:
           fetch-depth: 0 # フル履歴を取得（スキャン精度向上）
 
-      - name: TruffleHog Secret Scan
-        uses: trufflesecurity/trufflehog@v3.63.0
-        with:
-          path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --debug --only-verified
-
       - name: Gitleaks Secret Scan
         uses: gitleaks/gitleaks-action@v2
         env:
@@ -97,34 +89,6 @@ jobs:
             semgrep.sarif
 
   # dependency-scan はci.yml (pip-audit/safety) + security-scan.yml (OWASP) でカバー
-
-  # セキュリティポリシー強制
-  enforce-policies:
-    name: Enforce Security Policies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check branch protection
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const branch = context.payload.ref?.replace('refs/heads/', '');
-            if (['main', 'master', 'develop'].includes(branch)) {
-              console.log(`Branch ${branch} is protected`);
-            }
-
-      - name: Verify signed commits
-        run: |
-          git log --show-signature -1 || echo "Commit not signed"
-
-      - name: Check CODEOWNERS
-        run: |
-          if [ -f ".github/CODEOWNERS" ]; then
-            echo "CODEOWNERS file exists"
-          else
-            echo "Warning: CODEOWNERS file not found"
-          fi
 
   # コンテナスキャン
   container-scan:

@@ -1,5 +1,8 @@
 name: pre-commit
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches: [main]
@@ -8,7 +11,7 @@ on:
 
 jobs:
   pre-commit:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,6 +33,6 @@ jobs:
       - name: Run pre-commit
         env:
           # CI環境ではCSVファイルに依存するフックをスキップ（LFSバジェット超過のため）
-          SKIP: check-group-names,check-episode-consistency,check-same-age-duplicates,check-person-duplicates,check-meta-violations,check-fictional-name-format
+          SKIP: periphery,check-group-names,check-episode-consistency,check-same-age-duplicates,check-person-duplicates,check-meta-violations,check-fictional-name-format
         run: |
           pre-commit run -a

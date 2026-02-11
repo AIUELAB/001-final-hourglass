@@ -24,6 +24,10 @@ permissions:
   pull-requests: write
   checks: write
 
+concurrency:
+  group: ci-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   # ============================================
   # Job 1: コード品質チェック

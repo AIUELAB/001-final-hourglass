@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [main, develop]
 
+concurrency:
+  group: test-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest

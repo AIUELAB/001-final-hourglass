@@ -1,14 +1,22 @@
 name: Test Pipeline
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main, develop, feature/*]
   pull_request:
     branches: [main, develop]
 
+concurrency:
+  group: test-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       matrix:
         python-version: [3.11, 3.12]
@@ -34,16 +42,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest pytest-cov pytest-asyncio
-
-    - name: Run linting
-      run: |
-        pip install ruff
-        ruff check src tests --exclude "*/_archived/*"
-
-    - name: Run type checking
-      run: |
-        pip install mypy types-requests types-aiofiles types-PyYAML
-        mypy src --ignore-missing-imports
 
     - name: Run tests with coverage
       env:

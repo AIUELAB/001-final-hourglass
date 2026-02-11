@@ -13,6 +13,7 @@ jobs:
   daily-check:
     name: EPUP日次品質チェック
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
@@ -98,6 +99,7 @@ jobs:
   text-quality-gate:
     name: 文章品質ゲート（text_quality_dryrun_v2）
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
@@ -173,6 +175,7 @@ jobs:
   quality-regression:
     name: 品質回帰チェック
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code

@@ -24,6 +24,7 @@ jobs:
   dependency-audit:
     name: SPM Security Audit
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: ios-apps/final-hourglass

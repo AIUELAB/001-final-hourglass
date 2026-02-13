@@ -25,7 +25,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testHealthDashboardDisplays() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
         XCTAssertTrue(waitForElement(app.staticTexts.firstMatch), "プロファイル画面が表示されるべき")
     }
 
@@ -40,7 +40,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testNavigateToHealthDetails() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // プロファイル画面のコンテンツが存在することを確認
         // scrollViewsまたはstaticTextsのいずれかが存在すればOK
@@ -65,7 +65,7 @@ final class HealthInputE2ETests: XCTestCase {
     func testLifeExpectancyVisible() {
         mainTab.selectProfile()
         // プロファイル画面が正常に表示されることを確認
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
         XCTAssertTrue(waitForElement(app.staticTexts.firstMatch), "寿命関連情報が表示されるべき")
     }
 
@@ -73,7 +73,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testSmokingInputFlow() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // 喫煙関連のボタンまたはセクションを探す
         let smokingButton = app.buttons["喫煙"]
@@ -89,7 +89,7 @@ final class HealthInputE2ETests: XCTestCase {
         } else {
             // 健康情報が設定に含まれている可能性
             mainTab.selectSettings()
-            XCTAssertTrue(mainTab.settingsTab.isSelected, "設定タブで健康情報を確認")
+            XCTAssertTrue(mainTab.isSettingsSelected, "設定タブで健康情報を確認")
         }
     }
 
@@ -97,7 +97,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testDrinkingInputFlow() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // 飲酒関連のボタンまたはセクションを探す
         let drinkingButton = app.buttons["飲酒"]
@@ -119,7 +119,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testExerciseInputFlow() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // 運動関連のボタンまたはセクションを探す
         let exerciseButton = app.buttons["運動"]
@@ -140,7 +140,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testSleepInputFlow() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // 睡眠関連のボタンまたはセクションを探す
         let sleepButton = app.buttons["睡眠"]
@@ -161,7 +161,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testBMIAutoCalculation() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // BMI関連の表示を探す
         let bmiLabel = app.staticTexts["BMI"]
@@ -179,7 +179,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testHeightWeightValidation() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // 身長・体重入力フィールドを探す
         let heightField = app.textFields["身長"]
@@ -211,7 +211,7 @@ final class HealthInputE2ETests: XCTestCase {
 
     func testHealthInfoEditMode() {
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         // 編集ボタンを探す
         let editButton = app.buttons["編集"]

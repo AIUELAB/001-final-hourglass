@@ -14,6 +14,7 @@ struct MainTabView: View {
                 LifeResultView()
                     .navigationBarHidden(false)
             }
+            .navigationViewStyle(.stack)
             .tabItem {
                 Label("タイムリミット", systemImage: "hourglass")
             }
@@ -24,6 +25,7 @@ struct MainTabView: View {
             NavigationView {
                 FavoriteEpisodesView()
             }
+            .navigationViewStyle(.stack)
             .tabItem {
                 Label("お気に入り", systemImage: "heart.fill")
             }
@@ -34,6 +36,7 @@ struct MainTabView: View {
             NavigationView {
                 ProfileView()
             }
+            .navigationViewStyle(.stack)
             .tabItem {
                 Label("プロファイル", systemImage: "person.crop.circle")
             }
@@ -44,6 +47,7 @@ struct MainTabView: View {
             NavigationView {
                 SettingsView()
             }
+            .navigationViewStyle(.stack)
             .tabItem {
                 Label("設定", systemImage: "gearshape.fill")
             }
@@ -54,6 +58,7 @@ struct MainTabView: View {
             NavigationView {
                 AboutView()
             }
+            .navigationViewStyle(.stack)
             .tabItem {
                 Label("About", systemImage: "info.circle.fill")
             }
@@ -61,6 +66,7 @@ struct MainTabView: View {
             .accessibilityIdentifier("tab_about")
         }
         .accentColor(.blue)
+        .forceBottomTabBar()
         .onAppear {
             if !hasAppearedOnce {
                 hasAppearedOnce = true
@@ -117,5 +123,15 @@ extension View {
         self
             .edgesIgnoringSafeArea(.top)
             .background(Color(.systemBackground))
+    }
+
+    /// iPadOS 18+ でタブバーがサイドバーに変わる問題を防止
+    @ViewBuilder
+    func forceBottomTabBar() -> some View {
+        if #available(iOS 18.0, *) {
+            self.tabViewStyle(.tabBarOnly)
+        } else {
+            self
+        }
     }
 }

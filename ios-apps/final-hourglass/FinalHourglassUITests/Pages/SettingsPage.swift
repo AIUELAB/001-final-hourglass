@@ -88,7 +88,9 @@ struct SettingsPage {
 
         // フォールバック: 設定タブが選択されているか確認
         let settingsTab = app.tabBars.buttons["設定"]
-        return settingsTab.exists && settingsTab.isSelected
+        if settingsTab.exists { return settingsTab.isSelected }
+        // iPad フォールバック: タブコンテンツの accessibilityIdentifier で判定
+        return app.otherElements["tab_settings"].waitForExistence(timeout: 3)
     }
 
     // MARK: - Actions

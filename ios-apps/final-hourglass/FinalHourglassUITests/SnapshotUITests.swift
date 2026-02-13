@@ -7,6 +7,7 @@ import XCTest
 ///
 /// 注意: SnapshotHelper.swift をUITestターゲットに追加する必要がある
 /// （`bundle exec fastlane snapshot init` で生成 → Xcodeで追加）
+@MainActor
 final class SnapshotUITests: XCTestCase {
 
     private var app: XCUIApplication!

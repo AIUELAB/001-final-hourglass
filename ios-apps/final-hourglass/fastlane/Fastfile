@@ -4,9 +4,11 @@ platform :ios do
   desc "スクリーンショットを生成"
   lane :screenshots do
     capture_screenshots(
-      scheme: "FinalHourglassUITests",
+      scheme: "FinalHourglass",
+      workspace: "./FinalHourglass.xcworkspace",
       output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true
+      clear_previous_screenshots: true,
+      derived_data_path: "./DerivedData/FinalHourglass"
     )
   end
 
@@ -22,9 +24,11 @@ platform :ios do
   desc "メタデータとスクリーンショットをアップロード"
   lane :upload_metadata_and_screenshots do
     capture_screenshots(
-      scheme: "FinalHourglassUITests",
+      scheme: "FinalHourglass",
+      workspace: "./FinalHourglass.xcworkspace",
       output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true
+      clear_previous_screenshots: true,
+      derived_data_path: "./DerivedData/FinalHourglass"
     )
     deliver(
       skip_binary_upload: true,

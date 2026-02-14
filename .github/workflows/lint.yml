@@ -1,6 +1,6 @@
-# SwiftLint - Linux runner で実行（無料枠消費なし）
-# Xcode Cloud 移行に伴い、SwiftLint を GitHub Actions Linux で実行
-# Note: Linux にはSourceKitがないため --disable-sourcekit 必須（ハング防止）
+# SwiftLint - Docker (SourceKit同梱) で実行（ubuntu-latest、無料枠消費なし）
+# スタンドアロンLinuxバイナリはSourceKit欠落でハングするため、
+# norio-nomura/action-swiftlint の Docker image を使用
 name: SwiftLint
 
 permissions:
@@ -33,15 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install SwiftLint
-        run: |
-          SWIFTLINT_VERSION="0.63.1"
-          curl -sL "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux_amd64.zip" -o swiftlint.zip
-          unzip -o -q swiftlint.zip -x LICENSE
-          sudo mv swiftlint /usr/local/bin/
-          swiftlint version
-
       - name: Run SwiftLint
-        run: |
-          cd ios-apps/final-hourglass
-          swiftlint lint --reporter github-actions-logging --disable-sourcekit
+        uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: ios-apps/final-hourglass

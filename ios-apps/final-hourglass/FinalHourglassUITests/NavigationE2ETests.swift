@@ -26,25 +26,26 @@ final class NavigationE2ETests: XCTestCase {
 
         // 各タブに遷移
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         mainTab.selectSettings()
-        XCTAssertTrue(mainTab.settingsTab.isSelected, "設定タブが選択されるべき")
+        XCTAssertTrue(mainTab.isSettingsSelected, "設定タブが選択されるべき")
 
         mainTab.selectAbout()
-        XCTAssertTrue(mainTab.aboutTab.isSelected, "Aboutタブが選択されるべき")
+        XCTAssertTrue(mainTab.isAboutSelected, "Aboutタブが選択されるべき")
 
         mainTab.selectTimeLimit()
-        XCTAssertTrue(mainTab.timeLimitTab.isSelected, "タイムリミットタブが選択されるべき")
+        XCTAssertTrue(mainTab.isTimeLimitSelected, "タイムリミットタブが選択されるべき")
     }
 
     // MARK: - タブ初期表示テスト
 
     func testInitialTabIsTimeLimit() {
         XCTAssertTrue(mainTab.isDisplayed, "メインタブが表示されるべき")
-        XCTAssertTrue(mainTab.timeLimitTab.isSelected, "初期タブはタイムリミットであるべき")
+        XCTAssertTrue(mainTab.isTimeLimitSelected, "初期タブはタイムリミットであるべき")
     }
+
 }

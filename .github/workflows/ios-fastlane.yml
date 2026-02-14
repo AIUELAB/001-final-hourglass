@@ -1,0 +1,139 @@
+# iOS Fastlane - スクリーンショット生成 & メタデータアップロード
+name: iOS Fastlane
+
+on:
+  pull_request:
+    paths:
+      - 'ios-apps/final-hourglass/**/*.swift'
+      - 'ios-apps/final-hourglass/fastlane/**'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: '実行するジョブ'
+        required: true
+        type: choice
+        options:
+          - screenshots
+          - metadata
+          - both
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-fastlane-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================
+  # 1. スクリーンショット生成
+  # ============================================================
+  screenshots:
+    name: Screenshots
+    if: >-
+      github.event_name == 'pull_request' ||
+      github.event.inputs.job == 'screenshots' ||
+      github.event.inputs.job == 'both'
+    runs-on: macos-15
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup iOS
+        uses: ./.github/actions/setup-ios
+        with:
+          cache-derived-data: 'true'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: ios-apps/final-hourglass
+
+      - name: Generate Screenshots
+        run: bundle exec fastlane screenshots
+        env:
+          LC_ALL: ja_JP.UTF-8
+          LANG: ja_JP.UTF-8
+
+      - name: Upload Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fastlane-screenshots
+          path: ios-apps/final-hourglass/fastlane/screenshots/
+          retention-days: 14
+          if-no-files-found: warn
+
+  # ============================================================
+  # 2. メタデータアップロード
+  # ============================================================
+  upload-metadata:
+    name: Upload Metadata
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      (github.event.inputs.job == 'metadata' || github.event.inputs.job == 'both')
+    runs-on: macos-15
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: ios-apps/final-hourglass
+
+      - name: Validate Required Secrets
+        env:
+          HAS_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 != '' }}
+          HAS_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID != '' }}
+          HAS_API_ISSUER: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID != '' }}
+        run: |
+          MISSING=""
+          [ "$HAS_API_KEY" != "true" ] && MISSING="$MISSING APP_STORE_CONNECT_API_KEY_BASE64"
+          [ "$HAS_API_KEY_ID" != "true" ] && MISSING="$MISSING APP_STORE_CONNECT_API_KEY_ID"
+          [ "$HAS_API_ISSUER" != "true" ] && MISSING="$MISSING APP_STORE_CONNECT_API_ISSUER_ID"
+
+          if [ -n "$MISSING" ]; then
+            echo "::error::Missing required secrets:$MISSING"
+            exit 1
+          fi
+          echo "✅ All required secrets configured"
+
+      - name: Install App Store Connect API Key
+        env:
+          API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        run: |
+          mkdir -p ~/private_keys
+          echo "$API_KEY_BASE64" | base64 --decode > ~/private_keys/AuthKey_${API_KEY_ID}.p8
+          echo "✅ API key installed"
+
+      - name: Upload Metadata
+        env:
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+        run: |
+          bundle exec fastlane metadata \
+            api_key_path:~/private_keys/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8
+
+      - name: Upload Summary
+        if: always()
+        run: |
+          echo "## 📝 Metadata Upload" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Bundle ID | \`com.AIUELAB.FinalHourglass\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Team ID | \`N4UHXSGNLU\` |" >> $GITHUB_STEP_SUMMARY

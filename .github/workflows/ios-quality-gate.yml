@@ -94,7 +94,7 @@ jobs:
         run: |
           cd ios-apps/final-hourglass
           # 警告行を抽出し、システム由来の警告を除外（大文字小文字無視）
-          WARNINGS=$(grep -i "warning:" build.log | grep -vi "appintentsmetadataprocessor" || true)
+          WARNINGS=$(grep -i "warning:" build.log | grep -vi "appintentsmetadataprocessor" | grep -vi "swiftlint not installed" || true)
 
           if [ -n "$WARNINGS" ]; then
             echo "::error::ビルド警告が検出されました:"

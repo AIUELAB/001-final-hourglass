@@ -30,7 +30,9 @@ struct ProfilePage {
 
         // フォールバック: プロファイルタブが選択されているか確認
         let profileTab = app.tabBars.buttons["プロファイル"]
-        return profileTab.exists && profileTab.isSelected
+        if profileTab.exists { return profileTab.isSelected }
+        // iPad フォールバック: タブコンテンツの accessibilityIdentifier で判定
+        return app.otherElements["tab_profile"].waitForExistence(timeout: 3)
     }
 
     // MARK: - Actions

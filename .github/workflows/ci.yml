@@ -11,6 +11,7 @@ on:
     branches: [ main, master, develop ]
   schedule:
     - cron: '0 3 * * *'  # Daily at 3 AM UTC (12 PM JST)
+  workflow_dispatch:
 
 env:
   PYTHON_VERSION: '3.11'

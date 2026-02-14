@@ -8,6 +8,7 @@ on:
     branches: [main, develop, feature/*]
   pull_request:
     branches: [main, develop]
+  workflow_dispatch:
 
 concurrency:
   group: test-${{ github.head_ref || github.run_id }}

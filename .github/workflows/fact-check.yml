@@ -11,6 +11,7 @@ on:
       - 'claudedocs/**/*.md'
       - 'scripts/fact_checker.py'
       - 'episode_database.db'
+  workflow_dispatch:
 
 permissions:
   contents: read

@@ -16,6 +16,7 @@ on:
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/*.xcconfig'
       - 'ios-apps/**/Package.resolved'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -56,7 +57,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: macos-latest
+    runs-on: macos-15
     timeout-minutes: 20
     steps:
       - name: Checkout

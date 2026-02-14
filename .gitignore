@@ -343,6 +343,11 @@ ios-apps/final-hourglass/*
 !ios-apps/final-hourglass/Config/
 !ios-apps/final-hourglass/Documentation/
 !ios-apps/final-hourglass/.swiftlint.yml
+!ios-apps/final-hourglass/.gitignore
+!ios-apps/final-hourglass/Gemfile
+!ios-apps/final-hourglass/Gemfile.lock
+!ios-apps/final-hourglass/fastlane/
+!ios-apps/final-hourglass/ExportOptions.plist
 .crash-guard/
 output/name_application/preview_applied.csv
 

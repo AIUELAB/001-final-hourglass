@@ -237,6 +237,7 @@ sips -g pixelWidth -g pixelHeight ~/Desktop/AppStoreScreenshots/6.7inch/*.png
 
 ## 📚 関連ドキュメント
 
+- [Fastlane スクリーンショット生成 エスコートガイド](./IOS_FASTLANE_SCREENSHOTS_ESCORT.md)（自動生成：SnapshotHelper + `bundle exec fastlane screenshots`）
 - [App Store メタデータ](./appstore-metadata.md)
 - [iOS署名証明書設定ガイド](./IOS_SIGNING_SETUP.md)
 - [App Store提出チェックリスト](./APPSTORE_SUBMISSION_CHECKLIST.md)

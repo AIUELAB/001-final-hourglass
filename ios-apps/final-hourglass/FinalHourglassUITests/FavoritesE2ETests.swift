@@ -26,7 +26,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testFavoritesTabDisplays() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
         XCTAssertTrue(waitForElement(app.staticTexts.firstMatch), "お気に入り画面が表示されるべき")
     }
 
@@ -34,7 +34,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testAddToFavorites() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // エピソードリストが存在する場合
         if episodePage.isDisplayed {
@@ -70,7 +70,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testFavoritesList() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // お気に入りリストまたは空状態メッセージが表示されることを確認
         let hasContent = episodePage.isDisplayed ||
@@ -82,7 +82,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testRemoveFromFavorites() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // エピソードリストが存在する場合
         if episodePage.isDisplayed {
@@ -107,7 +107,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testCompleteFavoritesFlow() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // Step 1: お気に入りリストが存在するか確認
         guard episodePage.isDisplayed else {
@@ -149,7 +149,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testMultipleFavoritesManagement() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // エピソードリストが存在する場合
         guard episodePage.isDisplayed else {
@@ -192,7 +192,7 @@ final class FavoritesE2ETests: XCTestCase {
 
     func testEmptyFavoritesState() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // 空状態のメッセージが表示されているか、リストが表示されているか確認
         let hasContent = episodePage.isDisplayed ||
@@ -201,17 +201,17 @@ final class FavoritesE2ETests: XCTestCase {
 
         // 他のタブへ遷移して戻る
         mainTab.selectProfile()
-        XCTAssertTrue(mainTab.profileTab.isSelected, "プロファイルタブが選択されるべき")
+        XCTAssertTrue(mainTab.isProfileSelected, "プロファイルタブが選択されるべき")
 
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブに戻れるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブに戻れるべき")
     }
 
     // MARK: - P2: お気に入りリストのソート/フィルタリング
 
     func testFavoritesListSorting() {
         mainTab.selectFavorites()
-        XCTAssertTrue(mainTab.favoritesTab.isSelected, "お気に入りタブが選択されるべき")
+        XCTAssertTrue(mainTab.isFavoritesSelected, "お気に入りタブが選択されるべき")
 
         // ソートボタンを探す
         let sortButton = app.buttons["ソート"]

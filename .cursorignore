@@ -66,6 +66,10 @@ cache/
 
 # iOS specific
 ios-apps/
+# 例外: Swift 6 並行性修正のため UI テストファイルのみツールで読み書き可能にする
+!ios-apps/final-hourglass/
+!ios-apps/final-hourglass/FinalHourglassUITests/
+!ios-apps/final-hourglass/FinalHourglassUITests/SnapshotUITests.swift
 Pods/
 Carthage/
 fastlane/

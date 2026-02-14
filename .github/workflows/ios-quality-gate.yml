@@ -16,6 +16,7 @@ on:
       - 'ios-apps/**/project.pbxproj'
       - 'ios-apps/**/*.xcconfig'
       - 'ios-apps/**/Package.resolved'
+  workflow_dispatch:
 
 permissions:
   contents: read

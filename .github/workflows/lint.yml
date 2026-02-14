@@ -16,6 +16,7 @@ on:
     paths:
       - 'ios-apps/**/*.swift'
       - 'ios-apps/**/.swiftlint.yml'
+  workflow_dispatch:
 
 concurrency:
   group: lint-${{ github.head_ref || github.run_id }}

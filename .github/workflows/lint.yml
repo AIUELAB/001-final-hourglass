@@ -1,5 +1,6 @@
 # SwiftLint - Linux runner で実行（無料枠消費なし）
 # Xcode Cloud 移行に伴い、SwiftLint を GitHub Actions Linux で実行
+# Note: Linux にはSourceKitがないため --disable-sourcekit 必須（ハング防止）
 name: SwiftLint
 
 permissions:
@@ -43,4 +44,4 @@ jobs:
       - name: Run SwiftLint
         run: |
           cd ios-apps/final-hourglass
-          swiftlint lint --reporter github-actions-logging
+          swiftlint lint --reporter github-actions-logging --disable-sourcekit

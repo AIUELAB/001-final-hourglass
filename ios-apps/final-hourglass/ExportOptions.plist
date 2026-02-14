@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>method</key>
-	<string>app-store</string>
+	<string>app-store-connect</string>
 	<key>teamID</key>
-	<string>V24V6U5Q5R</string>
+	<string>N4UHXSGNLU</string>
 	<key>uploadBitcode</key>
 	<false/>
 	<key>uploadSymbols</key>
@@ -14,7 +14,7 @@
 	<string>manual</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.aiuelab.FinalHourglass</key>
+		<key>com.AIUELAB.FinalHourglass</key>
 		<string>FinalHourglass AppStore</string>
 	</dict>
 </dict>

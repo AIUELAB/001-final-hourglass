@@ -39,7 +39,7 @@ Xcode でプロジェクトを開けば、これらのファイルは FinalHourg
 ### 1.2 Xcode でプロジェクトを開く
 
 ```bash
-cd /Users/admin/Documents/AIUELAB/001-final-hourglass/ios-apps/final-hourglass
+cd ios-apps/final-hourglass
 open FinalHourglass.xcworkspace
 ```
 
@@ -100,7 +100,7 @@ open FinalHourglass.xcworkspace
 ### 1.6 ビルドテスト（任意だが推奨）
 
 1. 上部のスキームで **FinalHourglassUITests** を選択
-2. デバイスで **Any iOS Simulator** または **iPhone 15 Pro Max** を選択
+2. デバイスで **Any iOS Simulator** または **iPhone 16 Pro Max** を選択
 3. **Cmd + B** でビルド
 4. エラーが出なければ OK
 
@@ -111,7 +111,7 @@ open FinalHourglass.xcworkspace
 ### 2.1 作業ディレクトリに移動
 
 ```bash
-cd /Users/admin/Documents/AIUELAB/001-final-hourglass/ios-apps/final-hourglass
+cd ios-apps/final-hourglass
 ```
 
 ---
@@ -138,20 +138,15 @@ bundle install
 
 ### 2.4 スキームの確認（重要）
 
-Fastlane の `capture_screenshots` は **scheme: "FinalHourglassUITests"** を指定しています。  
-ワークスペースにこのスキームが無い場合は、以下で作成してください。
+Fastlane の `capture_screenshots` は **scheme: "FinalHourglass"**（メインアプリスキーム）を指定しています。
+このスキームのTest ActionにFinalHourglassUITestsターゲットが含まれている必要があります。
 
-1. Xcode で `FinalHourglass.xcworkspace` を開く
-2. メニュー **Product** → **Scheme** → **Manage Schemes...**
-3. **+** をクリック
-4. **Target** で **FinalHourglassUITests** を選択
-5. **Scheme name** を `FinalHourglassUITests` に設定
-6. **Shared** にチェックを入れる（CI で使用する場合）
-7. **Close** をクリック
+> **備考**: `FinalHourglassUITests` 専用の共有スキームも `xcshareddata/xcschemes/` に存在しますが、
+> fastlane snapshotではメインスキームを使用しています。
 
 ### 2.5 実行中の流れ
 
-1. **シミュレーターが起動**（iPhone 15 Pro Max 等）
+1. **シミュレーターが起動**（iPhone 16 Pro Max 等）
 2. **アプリがビルド・起動**
 3. **SnapshotUITests** のテストが実行され、各画面でスクリーンショットを撮影
 4. 完了後、**`fastlane/screenshots/`** に画像が保存されます
@@ -162,11 +157,16 @@ Fastlane の `capture_screenshots` は **scheme: "FinalHourglassUITests"** を�
 
 ```
 ios-apps/final-hourglass/fastlane/screenshots/
-├── iPhone-15-Pro-Max/
-│   ├── 01_砂時計メイン画面.png
-│   ├── 02_エピソード一覧.png
-│   └── ...
-└── （他のデバイスサイズ）
+├── ja/
+│   ├── iPhone 16 Pro Max-01_Onboarding.png
+│   ├── iPhone 16 Pro Max-02_TimeLimit.png
+│   ├── iPhone 16 Pro Max-03_Favorites.png
+│   ├── iPhone 16 Pro Max-04_Profile.png
+│   ├── iPhone 16 Pro Max-05_Settings.png
+│   ├── iPhone 16 Pro-01_Onboarding.png
+│   ├── ...
+│   └── iPad Pro 13-inch (M4)-05_Settings.png
+└── screenshots.html  ← プレビュー用HTML
 ```
 
 ---
@@ -204,8 +204,8 @@ ios-apps/final-hourglass/fastlane/screenshots/
 # 利用可能なシミュレーター一覧
 xcrun simctl list devices available
 
-# iPhone 15 Pro Max を起動
-xcrun simctl boot "iPhone 15 Pro Max"
+# iPhone 16 Pro Max を起動
+xcrun simctl boot "iPhone 16 Pro Max"
 open -a Simulator
 ```
 

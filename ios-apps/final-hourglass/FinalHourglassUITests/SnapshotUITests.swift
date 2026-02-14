@@ -26,20 +26,20 @@ final class SnapshotUITests: XCTestCase {
     // MARK: - Helpers
 
     private func launchForSnapshot() {
-        app.launchArguments = ["-UITest_ResetState", "-UITest_DisableAnimations"]
+        app.launchArguments += ["-UITest_ResetState", "-UITest_DisableAnimations"]
         app.launch()
-        _ = app.wait(for: .runningForeground, timeout: 10)
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10), "アプリが起動しなかった")
         Thread.sleep(forTimeInterval: 2.0)
     }
 
     private func launchWithOnboardingSkipped() {
-        app.launchArguments = [
+        app.launchArguments += [
             "-UITest_ResetState",
             "-UITest_SkipOnboarding",
             "-UITest_DisableAnimations"
         ]
         app.launch()
-        _ = app.wait(for: .runningForeground, timeout: 10)
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10), "アプリが起動しなかった")
         Thread.sleep(forTimeInterval: 2.0)
     }
 

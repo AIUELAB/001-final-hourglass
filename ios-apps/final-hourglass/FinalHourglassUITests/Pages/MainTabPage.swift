@@ -104,7 +104,9 @@ struct MainTabPage {
         case "プロファイル": return "tab_profile"
         case "設定": return "tab_settings"
         case "About": return "tab_about"
-        default: return ""
+        default:
+            XCTFail("未知のタブラベル '\(label)' にはaccessibilityIdentifierが未定義")
+            return ""
         }
     }
 

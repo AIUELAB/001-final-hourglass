@@ -35,7 +35,7 @@ jobs:
       github.event.inputs.job == 'screenshots' ||
       github.event.inputs.job == 'both'
     runs-on: macos-15
-    timeout-minutes: 30
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: ios-apps/final-hourglass

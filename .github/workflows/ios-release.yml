@@ -173,7 +173,7 @@ jobs:
   build-archive:
     name: Build & Archive
     needs: validate
-    runs-on: macos-latest
+    runs-on: macos-15
     timeout-minutes: 45
     defaults:
       run:
@@ -524,7 +524,7 @@ jobs:
     name: Upload to TestFlight
     needs: [validate, build-archive]
     if: needs.build-archive.outputs.ipa_path != ''
-    runs-on: macos-latest
+    runs-on: macos-15
     timeout-minutes: 15
     steps:
       - name: Download IPA

@@ -43,4 +43,4 @@ jobs:
       - name: Run SwiftLint
         run: |
           cd ios-apps/final-hourglass
-          swiftlint lint --reporter emoji
+          swiftlint lint --reporter github-actions-logging

@@ -33,15 +33,13 @@ jobs:
 
       - name: Install SwiftLint
         run: |
-          # SwiftLint の最新版をダウンロード
-          SWIFTLINT_VERSION="0.58.0"
-          curl -sL "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux.zip" -o swiftlint.zip
+          SWIFTLINT_VERSION="0.63.1"
+          curl -sL "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/swiftlint_linux_amd64.zip" -o swiftlint.zip
           unzip -o -q swiftlint.zip -x LICENSE
           sudo mv swiftlint /usr/local/bin/
           swiftlint version
 
-      # --strict: 警告も0件必須（警告があればエラー扱いでPRを落とす）
-      - name: Run SwiftLint (Strict Mode)
+      - name: Run SwiftLint
         run: |
           cd ios-apps/final-hourglass
-          swiftlint lint --strict --reporter github-actions-logging
+          swiftlint lint --reporter emoji

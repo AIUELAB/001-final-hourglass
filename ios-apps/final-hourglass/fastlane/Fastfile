@@ -8,7 +8,8 @@ platform :ios do
       workspace: "./FinalHourglass.xcworkspace",
       output_directory: "./fastlane/screenshots",
       clear_previous_screenshots: true,
-      derived_data_path: "./DerivedData/FinalHourglass"
+      derived_data_path: "./DerivedData/FinalHourglass",
+      only_testing: ["FinalHourglassUITests/SnapshotUITests"]
     )
   end
 

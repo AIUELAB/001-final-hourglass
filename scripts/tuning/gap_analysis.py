@@ -62,14 +62,18 @@ def overlap_at_k(set_a: set, set_b: set, k: int) -> float:
 
 
 def analyze_gap(mapping_results: list, df: pd.DataFrame, source: str) -> GapAnalysisResult:
-    """ギャップ分析を実行"""
-    # 現行ランキングのTop100人物を取得
+    """ギャップ分析を実行（人物レベルランキング）"""
+    # 人物ごとの最高スコアエピソードでランキング
     df["super_total_score_float"] = pd.to_numeric(df["super_total_score"], errors="coerce")
     df_sorted = df.sort_values("super_total_score_float", ascending=False).reset_index(drop=True)
 
-    current_top100_persons = set(df_sorted.head(100)["person_name"].dropna().unique())
-    current_top50_persons = set(df_sorted.head(50)["person_name"].dropna().unique())
-    current_top10_persons = set(df_sorted.head(10)["person_name"].dropna().unique())
+    # 人物レベル集約: 各人物のベストエピソードを取得
+    best_per_person = df_sorted.groupby("person_name", as_index=False).first()
+    person_ranked = best_per_person.sort_values("super_total_score_float", ascending=False).reset_index(drop=True)
+
+    current_top100_persons = set(person_ranked.head(100)["person_name"].dropna())
+    current_top50_persons = set(person_ranked.head(50)["person_name"].dropna())
+    current_top10_persons = set(person_ranked.head(10)["person_name"].dropna())
 
     # 参照ランキングのTop人物
     ref_top100_persons = {r["matched_person_name"] for r in mapping_results if r["matched_person_name"]}
@@ -89,10 +93,10 @@ def analyze_gap(mapping_results: list, df: pd.DataFrame, source: str) -> GapAnal
     # 参照Top100に含まれるものはrelevance=1/rank、含まれないものは0
     ref_rank_map = {r["matched_person_name"]: r["ref_rank"] for r in mapping_results if r["matched_person_name"]}
 
-    # 現行Top100の各エピソードのrelevance
-    top100_eps = df_sorted.head(100)
+    # 人物レベルTop100のrelevance
+    top100_persons = person_ranked.head(100)
     predicted_relevances = []
-    for _, row in top100_eps.iterrows():
+    for _, row in top100_persons.iterrows():
         person = row["person_name"]
         if person in ref_rank_map:
             # relevance = (101 - ref_rank) / 100 で0〜1にスケール
@@ -140,16 +144,16 @@ def analyze_gap(mapping_results: list, df: pd.DataFrame, source: str) -> GapAnal
 
     avg_rank_diff = np.mean(rank_diffs) if rank_diffs else 0
 
-    # 現行で高いが参照に入っていない人物
-    current_top30_persons = set(df_sorted.head(30)["person_name"].dropna().unique())
+    # 現行で高いが参照に入っていない人物（人物レベル）
+    current_top30_persons = set(person_ranked.head(30)["person_name"].dropna())
     not_in_ref = current_top30_persons - ref_top100_persons
     for person in list(not_in_ref)[:5]:  # 上位5件
-        person_df = df_sorted[df_sorted["person_name"] == person].iloc[0]
+        person_row = person_ranked[person_ranked["person_name"] == person].iloc[0]
         overvalued.append(
             {
                 "person_name": person,
                 "ref_rank": "N/A",
-                "current_rank": int(person_df.name) + 1,
+                "current_rank": int(person_row.name) + 1,
                 "note": "参照Best100に含まれない",
             }
         )

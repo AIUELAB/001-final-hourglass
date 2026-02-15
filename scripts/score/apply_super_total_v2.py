@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-super_total_score v2.0.0 一括再計算スクリプト
+super_total_score v2.1.0 一括再計算スクリプト
 
-全エピソードのsuper_total_scoreをv2.0.0設定で再計算し、
+全エピソードのsuper_total_scoreをv2.1.0設定で再計算し、
 マスターCSVを更新する。
 
 使用方法:
@@ -38,7 +38,7 @@ from scripts.score.super_total_scorer import SuperTotalConfig, SuperTotalScorer
 # パス設定
 CSV_PATH = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 BACKUP_DIR = PROJECT_ROOT / "preserved/data/backups"
-DEFAULT_CONFIG = PROJECT_ROOT / "configs/super_total_score/v2.0.0.json"
+DEFAULT_CONFIG = PROJECT_ROOT / "configs/super_total_score/v2.1.0.json"
 
 # ロギング設定
 logging.basicConfig(
@@ -121,7 +121,7 @@ def format_number(num: float) -> str:
 
 
 def apply_super_total_v2(config_path: Path, dry_run: bool = False, limit: int | None = None):
-    """super_total_score v2.0.0を全件再計算
+    """super_total_score v2.1.0を全件再計算
 
     Args:
         config_path: 設定ファイルパス
@@ -129,7 +129,7 @@ def apply_super_total_v2(config_path: Path, dry_run: bool = False, limit: int | 
         limit: 処理件数制限（None: 全件）
     """
     print("=" * 60)
-    print("super_total_score v2.0.0 再計算")
+    print("super_total_score v2.1.0 再計算")
     print("=" * 60)
     print()
 
@@ -148,6 +148,7 @@ def apply_super_total_v2(config_path: Path, dry_run: bool = False, limit: int | 
         f"historical: {config.weight_historical:.2f}"
     )
     print(f"  achievement_boost_multiplier: {config.achievement_boost_multiplier}")
+    print(f"  iconic_boost_multiplier: {config.iconic_boost_multiplier}")
     print()
 
     # CSV読み込み
@@ -290,7 +291,7 @@ def apply_super_total_v2(config_path: Path, dry_run: bool = False, limit: int | 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="super_total_score v2.0.0を全件再計算",
+        description="super_total_score v2.1.0を全件再計算",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:

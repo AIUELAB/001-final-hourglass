@@ -1,9 +1,51 @@
 {
-  "version": "2.0.1",
+  "version": "2.2.0",
   "description": "象徴的業績マスターデータ - 重要人物の必須エピソード定義（Phase 4拡充版）",
   "created_at": "2026-01-06",
-  "updated_at": "2026-01-10",
+  "updated_at": "2026-02-16",
   "persons": {
+    "明石家さんま": {
+      "person_id": "P500AE5A",
+      "category": "司会者・MC",
+      "required_episodes": [
+        {
+          "achievement": "さんまのまんま放送開始",
+          "age": 30,
+          "year": 1985,
+          "keywords": [
+            "さんまのまんま",
+            "トーク番組",
+            "フジテレビ"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "恋のから騒ぎ",
+          "age": 39,
+          "year": 1994,
+          "keywords": [
+            "恋のから騒ぎ",
+            "日本テレビ",
+            "司会"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "お笑い三冠王",
+          "age": 50,
+          "year": 2005,
+          "keywords": [
+            "お笑い",
+            "三冠王",
+            "視聴率"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
     "大谷翔平": {
       "person_id": "P5C4FB25",
       "category": "スポーツ",
@@ -68,6 +110,51 @@
           ],
           "importance": 9.0,
           "priority": 5
+        }
+      ]
+    },
+    "ウサイン・ボルト": {
+      "person_id": "PBOLT001",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "北京五輪100m世界新記録",
+          "age": 21,
+          "year": 2008,
+          "keywords": [
+            "北京五輪",
+            "100m",
+            "世界新記録",
+            "9.69秒"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ベルリン世界陸上9秒58",
+          "age": 22,
+          "year": 2009,
+          "keywords": [
+            "ベルリン",
+            "9.58秒",
+            "世界記録"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "リオ五輪3連覇",
+          "age": 29,
+          "year": 2016,
+          "keywords": [
+            "リオ五輪",
+            "3連覇",
+            "100m",
+            "200m",
+            "リレー"
+          ],
+          "importance": 10.0,
+          "priority": 3
         }
       ]
     },
@@ -161,6 +248,91 @@
             "重力"
           ],
           "importance": 10.0,
+          "priority": 3
+        }
+      ]
+    },
+    "J.K.ローリング": {
+      "person_id": "PROWLI01",
+      "category": "文学",
+      "required_episodes": [
+        {
+          "achievement": "ハリー・ポッター出版",
+          "age": 31,
+          "year": 1997,
+          "keywords": [
+            "ハリー・ポッター",
+            "賢者の石",
+            "出版"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "映画化決定",
+          "age": 35,
+          "year": 2001,
+          "keywords": [
+            "映画化",
+            "ワーナー・ブラザース",
+            "世界現象"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "最終巻出版",
+          "age": 42,
+          "year": 2007,
+          "keywords": [
+            "死の秘宝",
+            "完結",
+            "最終巻"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "ジェフ・ベゾス": {
+      "person_id": "PBEZOS01",
+      "category": "ビジネス・起業",
+      "required_episodes": [
+        {
+          "achievement": "Amazon創業",
+          "age": 30,
+          "year": 1994,
+          "keywords": [
+            "Amazon",
+            "創業",
+            "ガレージ",
+            "オンライン書店"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "Amazon IPO",
+          "age": 33,
+          "year": 1997,
+          "keywords": [
+            "IPO",
+            "上場",
+            "NASDAQ"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "Blue Origin宇宙飛行",
+          "age": 57,
+          "year": 2021,
+          "keywords": [
+            "Blue Origin",
+            "宇宙飛行",
+            "民間宇宙旅行"
+          ],
+          "importance": 9.5,
           "priority": 3
         }
       ]
@@ -289,6 +461,18 @@
           ],
           "importance": 10.0,
           "priority": 2
+        },
+        {
+          "achievement": "最年少名人",
+          "age": 20,
+          "year": 2023,
+          "keywords": [
+            "名人",
+            "最年少",
+            "七冠"
+          ],
+          "importance": 10.0,
+          "priority": 3
         }
       ]
     },
@@ -1205,6 +1389,1032 @@
             "青の時代",
             "バラ色",
             "パリ"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "織田信長": {
+      "person_id": "PNOBUNA1",
+      "category": "歴史・政治",
+      "required_episodes": [
+        {
+          "achievement": "桶狭間の戦い",
+          "age": 26,
+          "year": 1560,
+          "keywords": [
+            "桶狭間",
+            "今川義元",
+            "奇襲"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "楽市楽座",
+          "age": 34,
+          "year": 1568,
+          "keywords": [
+            "楽市楽座",
+            "岐阜",
+            "商業"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "本能寺の変",
+          "age": 48,
+          "year": 1582,
+          "keywords": [
+            "本能寺",
+            "明智光秀",
+            "天下布武"
+          ],
+          "importance": 10.0,
+          "priority": 3
+        }
+      ]
+    },
+    "豊臣秀吉": {
+      "person_id": "PHIDEY01",
+      "category": "歴史・政治",
+      "required_episodes": [
+        {
+          "achievement": "太閤検地",
+          "age": 45,
+          "year": 1582,
+          "keywords": [
+            "太閤検地",
+            "石高制",
+            "土地"
+          ],
+          "importance": 9.5,
+          "priority": 1
+        },
+        {
+          "achievement": "天下統一",
+          "age": 53,
+          "year": 1590,
+          "keywords": [
+            "天下統一",
+            "小田原攻め",
+            "北条"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "朝鮮出兵",
+          "age": 55,
+          "year": 1592,
+          "keywords": [
+            "文禄の役",
+            "朝鮮出兵",
+            "名護屋城"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "徳川家康": {
+      "person_id": "PIEYASU1",
+      "category": "歴史・政治",
+      "required_episodes": [
+        {
+          "achievement": "関ヶ原の戦い",
+          "age": 57,
+          "year": 1600,
+          "keywords": [
+            "関ヶ原",
+            "天下分け目",
+            "石田三成"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "江戸幕府開設",
+          "age": 60,
+          "year": 1603,
+          "keywords": [
+            "江戸幕府",
+            "征夷大将軍",
+            "幕藩体制"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "大坂の陣",
+          "age": 72,
+          "year": 1615,
+          "keywords": [
+            "大坂夏の陣",
+            "豊臣滅亡",
+            "武家諸法度"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "野茂英雄": {
+      "person_id": "PNOMO001",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "MLB初勝利+新人王",
+          "age": 26,
+          "year": 1995,
+          "keywords": [
+            "ドジャース",
+            "トルネード",
+            "新人王"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ノーヒットノーラン",
+          "age": 27,
+          "year": 1996,
+          "keywords": [
+            "ノーヒッター",
+            "クアーズ・フィールド",
+            "完全試合"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "2度目のノーヒットノーラン",
+          "age": 32,
+          "year": 2001,
+          "keywords": [
+            "2度目",
+            "ノーヒッター",
+            "レッドソックス"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "マーク・ザッカーバーグ": {
+      "person_id": "PZUCKR01",
+      "category": "ビジネス・起業",
+      "required_episodes": [
+        {
+          "achievement": "Facebook創業",
+          "age": 19,
+          "year": 2004,
+          "keywords": [
+            "Facebook",
+            "ハーバード",
+            "TheFacebook"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "Facebook IPO",
+          "age": 28,
+          "year": 2012,
+          "keywords": [
+            "IPO",
+            "上場",
+            "1040億ドル"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "Meta社名変更",
+          "age": 37,
+          "year": 2021,
+          "keywords": [
+            "Meta",
+            "メタバース",
+            "社名変更"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "マイケル・ジョーダン": {
+      "person_id": "PJORDN01",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "NBA初優勝",
+          "age": 28,
+          "year": 1991,
+          "keywords": [
+            "NBA優勝",
+            "シカゴ・ブルズ",
+            "ファイナルMVP"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ドリームチーム",
+          "age": 29,
+          "year": 1992,
+          "keywords": [
+            "ドリームチーム",
+            "バルセロナ五輪",
+            "金メダル"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "2度目の3連覇",
+          "age": 35,
+          "year": 1998,
+          "keywords": [
+            "ラストショット",
+            "6度目優勝",
+            "ザ・ラストダンス"
+          ],
+          "importance": 10.0,
+          "priority": 3
+        }
+      ]
+    },
+    "松下幸之助": {
+      "person_id": "PMATSSH1",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "松下電器創業",
+          "age": 24,
+          "year": 1918,
+          "keywords": [
+            "松下電器",
+            "アタッチメントプラグ",
+            "創業"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "水道哲学",
+          "age": 38,
+          "year": 1932,
+          "keywords": [
+            "水道哲学",
+            "使命",
+            "社会貢献"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        },
+        {
+          "achievement": "松下政経塾設立",
+          "age": 84,
+          "year": 1979,
+          "keywords": [
+            "松下政経塾",
+            "人材育成",
+            "政治"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "タモリ": {
+      "person_id": "PTAMOR01",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "いいとも放送開始",
+          "age": 37,
+          "year": 1982,
+          "keywords": [
+            "笑っていいとも!",
+            "お昼",
+            "フジテレビ"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "いいとも最終回",
+          "age": 68,
+          "year": 2014,
+          "keywords": [
+            "最終回",
+            "8054回",
+            "テレフォンショッキング"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "ブラタモリ",
+          "age": 63,
+          "year": 2008,
+          "keywords": [
+            "ブラタモリ",
+            "NHK",
+            "街歩き"
+          ],
+          "importance": 8.5,
+          "priority": 3
+        }
+      ]
+    },
+    "カーネル・サンダース": {
+      "person_id": "PSANDR01",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "KFC創業",
+          "age": 62,
+          "year": 1952,
+          "keywords": [
+            "KFC",
+            "フライドチキン",
+            "フランチャイズ"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "KFC 1000店舗達成",
+          "age": 75,
+          "year": 1965,
+          "keywords": [
+            "1000店舗",
+            "全米展開",
+            "秘伝のレシピ"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        },
+        {
+          "achievement": "日本進出",
+          "age": 80,
+          "year": 1970,
+          "keywords": [
+            "日本",
+            "万博",
+            "海外展開"
+          ],
+          "importance": 8.5,
+          "priority": 3
+        }
+      ]
+    },
+    "伊能忠敬": {
+      "person_id": "PINOU001",
+      "category": "歴史・探検",
+      "required_episodes": [
+        {
+          "achievement": "蝦夷地測量開始",
+          "age": 55,
+          "year": 1800,
+          "keywords": [
+            "蝦夷地",
+            "測量",
+            "初測量"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "大日本沿海輿地全図完成",
+          "age": 73,
+          "year": 1818,
+          "keywords": [
+            "日本地図",
+            "完成",
+            "測量"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        }
+      ]
+    },
+    "安室奈美恵": {
+      "person_id": "PAMURO01",
+      "category": "音楽",
+      "required_episodes": [
+        {
+          "achievement": "Can You Celebrate?",
+          "age": 20,
+          "year": 1997,
+          "keywords": [
+            "Can You Celebrate?",
+            "ミリオン",
+            "代表曲"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "引退公演",
+          "age": 40,
+          "year": 2018,
+          "keywords": [
+            "引退",
+            "ラストライブ",
+            "沖縄"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "デビュー",
+          "age": 15,
+          "year": 1992,
+          "keywords": [
+            "スーパーモンキーズ",
+            "デビュー",
+            "沖縄アクターズスクール"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "安藤百福": {
+      "person_id": "PANDO001",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "チキンラーメン発明",
+          "age": 48,
+          "year": 1958,
+          "keywords": [
+            "チキンラーメン",
+            "即席麺",
+            "発明"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "カップヌードル発明",
+          "age": 61,
+          "year": 1971,
+          "keywords": [
+            "カップヌードル",
+            "カップ麺",
+            "世界初"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "宇宙食ラーメン",
+          "age": 95,
+          "year": 2005,
+          "keywords": [
+            "スペース・ラム",
+            "宇宙食",
+            "野口聡一"
+          ],
+          "importance": 8.5,
+          "priority": 3
+        }
+      ]
+    },
+    "浅田真央": {
+      "person_id": "PASADA01",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "トリノ五輪銀メダル",
+          "age": 15,
+          "year": 2006,
+          "keywords": [
+            "トリノ五輪",
+            "銀メダル",
+            "フィギュアスケート"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "バンクーバー五輪銀メダル",
+          "age": 19,
+          "year": 2010,
+          "keywords": [
+            "バンクーバー",
+            "銀メダル",
+            "トリプルアクセル"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "ソチ五輪フリー演技",
+          "age": 23,
+          "year": 2014,
+          "keywords": [
+            "ソチ五輪",
+            "フリー演技",
+            "トリプルアクセル3回"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "矢沢永吉": {
+      "person_id": "PYAZAW01",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "成りあがり出版",
+          "age": 30,
+          "year": 1978,
+          "keywords": [
+            "成りあがり",
+            "ベストセラー",
+            "自伝"
+          ],
+          "importance": 9.5,
+          "priority": 1
+        },
+        {
+          "achievement": "武道館100回公演",
+          "age": 60,
+          "year": 2009,
+          "keywords": [
+            "武道館",
+            "100回",
+            "最多記録"
+          ],
+          "importance": 10.0,
+          "priority": 2
+        },
+        {
+          "achievement": "150回公演達成",
+          "age": 73,
+          "year": 2022,
+          "keywords": [
+            "武道館",
+            "150回",
+            "現役最多"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "田中角栄": {
+      "person_id": "PTANAKA1",
+      "category": "歴史・政治",
+      "required_episodes": [
+        {
+          "achievement": "首相就任+日中国交正常化",
+          "age": 54,
+          "year": 1972,
+          "keywords": [
+            "首相",
+            "日中国交正常化",
+            "周恩来"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "日本列島改造論",
+          "age": 54,
+          "year": 1972,
+          "keywords": [
+            "日本列島改造論",
+            "高速道路",
+            "新幹線"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "ロッキード事件",
+          "age": 58,
+          "year": 1976,
+          "keywords": [
+            "ロッキード",
+            "逮捕",
+            "闇将軍"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "水木しげる": {
+      "person_id": "PMIZUK01",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "ゲゲゲの鬼太郎連載開始",
+          "age": 43,
+          "year": 1965,
+          "keywords": [
+            "ゲゲゲの鬼太郎",
+            "妖怪",
+            "少年マガジン"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "文化功労者",
+          "age": 81,
+          "year": 2003,
+          "keywords": [
+            "文化功労者",
+            "妖怪研究",
+            "叙勲"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        },
+        {
+          "achievement": "戦争体験と片腕喪失",
+          "age": 22,
+          "year": 1944,
+          "keywords": [
+            "ラバウル",
+            "片腕",
+            "戦争体験"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "孫正義": {
+      "person_id": "PSONMA01",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "ソフトバンク設立",
+          "age": 24,
+          "year": 1981,
+          "keywords": [
+            "ソフトバンク",
+            "設立",
+            "パソコン卸売"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ボーダフォン日本買収",
+          "age": 48,
+          "year": 2006,
+          "keywords": [
+            "ボーダフォン",
+            "買収",
+            "携帯電話"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "ビジョンファンド",
+          "age": 60,
+          "year": 2017,
+          "keywords": [
+            "ビジョンファンド",
+            "10兆円",
+            "AI投資"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "木村拓哉": {
+      "person_id": "PKIMUR01",
+      "category": "エンターテイメント",
+      "required_episodes": [
+        {
+          "achievement": "HERO最高視聴率",
+          "age": 28,
+          "year": 2001,
+          "keywords": [
+            "HERO",
+            "視聴率",
+            "月9"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "SMAP解散",
+          "age": 43,
+          "year": 2016,
+          "keywords": [
+            "SMAP",
+            "解散",
+            "国民的アイドル"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "映画初主演",
+          "age": 23,
+          "year": 1996,
+          "keywords": [
+            "映画",
+            "主演",
+            "俳優"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "葛飾北斎": {
+      "person_id": "PHOKUS01",
+      "category": "芸術・文化",
+      "required_episodes": [
+        {
+          "achievement": "富嶽三十六景",
+          "age": 70,
+          "year": 1830,
+          "keywords": [
+            "富嶽三十六景",
+            "神奈川沖浪裏",
+            "浮世絵"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "北斎漫画",
+          "age": 54,
+          "year": 1814,
+          "keywords": [
+            "北斎漫画",
+            "絵手本",
+            "スケッチ集"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "北野武": {
+      "person_id": "PKITAN01",
+      "category": "映画・芸術",
+      "required_episodes": [
+        {
+          "achievement": "ベネチア金獅子賞",
+          "age": 50,
+          "year": 1997,
+          "keywords": [
+            "HANA-BI",
+            "ベネチア国際映画祭",
+            "金獅子賞"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "その男、凶暴につき",
+          "age": 42,
+          "year": 1989,
+          "keywords": [
+            "監督デビュー",
+            "その男、凶暴につき",
+            "バイオレンス"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "お笑いブーム",
+          "age": 34,
+          "year": 1981,
+          "keywords": [
+            "ツービート",
+            "漫才ブーム",
+            "お笑い"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "錦織圭": {
+      "person_id": "PNISHI01",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "全米オープン準優勝",
+          "age": 24,
+          "year": 2014,
+          "keywords": [
+            "全米オープン",
+            "準優勝",
+            "グランドスラム"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ツアー初優勝",
+          "age": 18,
+          "year": 2008,
+          "keywords": [
+            "デルレイビーチ",
+            "ツアー初優勝",
+            "日本人最年少"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        },
+        {
+          "achievement": "世界ランキング4位",
+          "age": 25,
+          "year": 2015,
+          "keywords": [
+            "世界ランキング",
+            "4位",
+            "日本人最高"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "福山雅治": {
+      "person_id": "PFUKUY01",
+      "category": "音楽・エンターテイメント",
+      "required_episodes": [
+        {
+          "achievement": "桜坂ヒット",
+          "age": 31,
+          "year": 2000,
+          "keywords": [
+            "桜坂",
+            "ミリオンヒット",
+            "代表曲"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ガリレオドラマ主演",
+          "age": 38,
+          "year": 2007,
+          "keywords": [
+            "ガリレオ",
+            "月9",
+            "湯川学"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "龍馬伝主演",
+          "age": 41,
+          "year": 2010,
+          "keywords": [
+            "龍馬伝",
+            "NHK大河ドラマ",
+            "坂本龍馬"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "本田圭佑": {
+      "person_id": "PDF5AFD6",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "W杯南アフリカ大会フリーキック",
+          "age": 24,
+          "year": 2010,
+          "keywords": [
+            "W杯南アフリカ",
+            "フリーキック",
+            "デンマーク戦"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ACミラン移籍",
+          "age": 27,
+          "year": 2014,
+          "keywords": [
+            "ACミラン",
+            "セリエA",
+            "背番号10"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "W杯ロシア大会",
+          "age": 32,
+          "year": 2018,
+          "keywords": [
+            "W杯ロシア",
+            "3大会連続ゴール",
+            "日本代表"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "松井秀喜": {
+      "person_id": "PMATSUI1",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "ワールドシリーズMVP",
+          "age": 35,
+          "year": 2009,
+          "keywords": [
+            "ワールドシリーズ",
+            "MVP",
+            "ヤンキース"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ヤンキース入団",
+          "age": 28,
+          "year": 2003,
+          "keywords": [
+            "ヤンキース",
+            "入団",
+            "MLB"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "5打席連続敬遠",
+          "age": 18,
+          "year": 1992,
+          "keywords": [
+            "甲子園",
+            "5打席連続敬遠",
+            "星稜"
+          ],
+          "importance": 9.5,
+          "priority": 3
+        }
+      ]
+    },
+    "松本人志": {
+      "person_id": "PMATSMO1",
+      "category": "お笑い",
+      "required_episodes": [
+        {
+          "achievement": "ダウンタウンのごっつええ感じ",
+          "age": 28,
+          "year": 1991,
+          "keywords": [
+            "ごっつええ感じ",
+            "コント",
+            "フジテレビ"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "遺書出版",
+          "age": 31,
+          "year": 1994,
+          "keywords": [
+            "遺書",
+            "ベストセラー",
+            "エッセイ"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "映画監督デビュー",
+          "age": 44,
+          "year": 2007,
+          "keywords": [
+            "大日本人",
+            "映画監督",
+            "カンヌ"
           ],
           "importance": 9.0,
           "priority": 3

@@ -103,6 +103,11 @@ def cmd_submit(args):
     elif age_min is not None or age_max is not None:
         age_range_str = f"{age_min or 0}-{age_max or 100}歳"
         logger.info(f"年齢フィルタ: {age_range_str} (各年齢から均等選定)")
+    # 人物指定オプション
+    person_names = getattr(args, "person", None)
+    if person_names:
+        logger.info(f"指定人物: {person_names}")
+
     logger.info(f"dry-run: {args.dry_run}")
 
     config = TurboConfig(
@@ -116,7 +121,7 @@ def cmd_submit(args):
 
     try:
         engine = TurboEngine(config)
-        batch_id = engine.submit_batch_job(count=args.count, use_haiku=use_haiku)
+        batch_id = engine.submit_batch_job(count=args.count, use_haiku=use_haiku, person_names=person_names)
     except ImportError as e:
         logger.error(f"必要なモジュールがありません: {e}")
         return 1
@@ -392,6 +397,12 @@ def main():
         "--target-ages",
         type=str,
         help="特定年齢を指定（カンマ区切り、例: 81,82,87）- 各年齢から均等に選定",
+    )
+    submit_parser.add_argument(
+        "--person",
+        type=str,
+        nargs="+",
+        help="特定人物を指定して生成（例: --person '織田信長' '豊臣秀吉'）",
     )
 
     # status

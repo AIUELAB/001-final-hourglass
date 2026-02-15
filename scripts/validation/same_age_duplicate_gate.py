@@ -151,10 +151,21 @@ def main():
 
     result = scan_same_age_duplicates()
 
-    # レポート出力
+    # レポート出力（内容が同じ場合はscan_date更新をスキップしてファイルを変更しない）
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(REPORT_PATH, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    result_comparable = {k: v for k, v in result.items() if k != "scan_date"}
+    skip_write = False
+    if REPORT_PATH.exists():
+        with open(REPORT_PATH, encoding="utf-8") as f:
+            existing = json.load(f)
+        existing_comparable = {k: v for k, v in existing.items() if k != "scan_date"}
+        if existing_comparable == result_comparable:
+            skip_write = True
+
+    if not skip_write:
+        with open(REPORT_PATH, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+            f.write("\n")
 
     # 結果表示
     print(f"\n総重複数: {result['total_duplicates']}")

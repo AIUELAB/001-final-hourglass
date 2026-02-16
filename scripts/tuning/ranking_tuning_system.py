@@ -50,6 +50,8 @@ class TuningConfig:
     output_scale: int = 1_000_000
     # 偉業ブースト係数（0で無効化）
     achievement_boost_multiplier: float = 1.0
+    # iconic人物ブースト乗数（0で無効化、weight合計1.0制約の外）
+    iconic_boost_multiplier: float = 0.0
     # 説明
     description: str = ""
 
@@ -59,9 +61,11 @@ class TuningResult:
     """チューニング結果"""
 
     config: TuningConfig
-    ndcg_at_100: float
-    overlap_at_100: float
-    combined_score: float  # 最適化目標
+    ndcg_at_100: float  # Avg NDCG（複数ソース時は平均）
+    overlap_at_100: float  # Avg Overlap（複数ソース時は平均）
+    combined_score: float  # 最適化目標（Avg）
+    # ソース別詳細（source名 → {ndcg, overlap, combined}）
+    per_source: dict | None = None
 
 
 class RankingTuner:
@@ -96,6 +100,14 @@ class RankingTuner:
         """
         self.df = df.copy()
         self.reference_data = reference_data
+
+        # iconic人物セット読み込み（iconic_achievements_master.jsonから）
+        self._iconic_persons: set[str] = set()
+        iconic_path = PROJECT_ROOT / "preserved/data/iconic_achievements_master.json"
+        if iconic_path.exists():
+            with open(iconic_path, encoding="utf-8") as f:
+                iconic_data = json.load(f)
+            self._iconic_persons = set(iconic_data.get("persons", {}).keys())
 
         # 数値変換
         self._prepare_data()
@@ -138,9 +150,20 @@ class RankingTuner:
         self.fame_median, self.fame_iqr = robust_stats(self.df["episode_fame_v6"])
         self.imp_median, self.imp_iqr = robust_stats(self.df["episode_importance_score"])
 
+    @staticmethod
+    def _safe_float(value, default: float = 0.0) -> float:
+        """安全にfloatに変換"""
+        if value is None or (isinstance(value, float) and math.isnan(value)):
+            return default
+        try:
+            result = float(value)
+            return result if not math.isnan(result) else default
+        except (ValueError, TypeError):
+            return default
+
     def _robust_normalize(self, value: float, median: float, iqr: float) -> float:
         """ロバスト正規化（シグモイド）"""
-        if pd.isna(value) or iqr == 0:
+        if value is None or (isinstance(value, float) and math.isnan(value)) or iqr == 0:
             return 0.5
         z = (value - median) / iqr
         return 1 / (1 + math.exp(-z))
@@ -161,8 +184,9 @@ class RankingTuner:
         weighted_sum = 0
 
         for field, weight in weights.items():
-            val = row.get(field)
-            if pd.notna(val):
+            raw_val = row.get(field)
+            if raw_val is not None and not (isinstance(raw_val, float) and math.isnan(raw_val)) and pd.notna(raw_val):
+                val = self._safe_float(raw_val)
                 weighted_sum += val * weight
                 total_weight += weight
 
@@ -176,13 +200,13 @@ class RankingTuner:
         multiplier = 1.0
 
         # factual_densityソフトペナルティ
-        fact = row.get("factual_density", 10)
-        if pd.notna(fact) and config.min_factual_density <= fact < 7.0:
+        fact = self._safe_float(row.get("factual_density"), 10)
+        if config.min_factual_density <= fact < 7.0:
             multiplier *= 0.85
 
         # 生成品質ソフトペナルティ
-        gen = row.get("generation_quality_score", 10)
-        if pd.notna(gen) and config.min_generation_quality <= gen < 7.0:
+        gen = self._safe_float(row.get("generation_quality_score"), 10)
+        if config.min_generation_quality <= gen < 7.0:
             multiplier *= 0.85
 
         # 回顧パターン
@@ -211,12 +235,12 @@ class RankingTuner:
     def calculate_score(self, row: pd.Series, config: TuningConfig) -> float:
         """超総合スコアを計算"""
         # ゲートチェック
-        fact = row.get("factual_density", 0)
-        gen = row.get("generation_quality_score", 0)
+        fact = self._safe_float(row.get("factual_density"), 0)
+        gen = self._safe_float(row.get("generation_quality_score"), 0)
 
-        if pd.isna(fact) or fact < config.min_factual_density:
+        if fact < config.min_factual_density:
             return 0
-        if pd.isna(gen) or gen < config.min_generation_quality:
+        if gen < config.min_generation_quality:
             return 0
 
         # 正規化
@@ -237,34 +261,56 @@ class RankingTuner:
         boost = self._calc_achievement_boost(row, config)
         raw = raw * (1 + boost)
 
+        # iconic人物ブースト（v2.1.0: weight合計1.0制約の外）
+        person_name = row.get("person_name", "")
+        if person_name in self._iconic_persons and config.iconic_boost_multiplier > 0:
+            raw = raw * (1 + config.iconic_boost_multiplier)
+
         # ペナルティ
         penalty = self._calc_penalty(row, config)
 
         return raw * penalty * config.output_scale
 
-    def evaluate_config(self, config: TuningConfig, source: str = "claude") -> TuningResult:
-        """設定を評価"""
-        # 全エピソードのスコア計算
-        self.df["tuned_score"] = self.df.apply(lambda row: self.calculate_score(row, config), axis=1)
-        df_sorted = self.df.sort_values("tuned_score", ascending=False).reset_index(drop=True)
-        df_sorted["tuned_rank"] = range(1, len(df_sorted) + 1)
+    def _evaluate_single_source(self, df_sorted: pd.DataFrame, source: str) -> dict:
+        """単一ソースに対する評価を実行（人物レベル）
 
-        # 参照データとの比較
+        Args:
+            df_sorted: スコア降順にソートされたDataFrame
+            source: 参照ソース名（"claude" or "gemini"）
+
+        Returns:
+            {"ndcg": float, "overlap": float, "combined": float}
+        """
         ref_data = self.reference_data.get(source, [])
-        ref_episode_ids = {r["matched_episode_id"] for r in ref_data if r["matched_episode_id"]}
-        ref_rank_map = {r["matched_episode_id"]: r["ref_rank"] for r in ref_data if r["matched_episode_id"]}
 
-        # Overlap@100
-        top100_ids = set(df_sorted.head(100)["episode_id"])
-        overlap = len(top100_ids & ref_episode_ids) / min(100, len(ref_episode_ids))
+        # 参照データを人物レベルに集約（matched_person_nameで重複排除）
+        ref_rank_map: dict[str, int] = {}
+        for r in ref_data:
+            person = r.get("matched_person_name")
+            if person:
+                # 同一人物が複数回出現する場合、最も高い順位（小さい数値）を採用
+                if person not in ref_rank_map or r["ref_rank"] < ref_rank_map[person]:
+                    ref_rank_map[person] = r["ref_rank"]
+        ref_persons = set(ref_rank_map.keys())
 
-        # NDCG@100
-        top100 = df_sorted.head(100)
+        if not ref_rank_map:
+            return {"ndcg": 0.0, "overlap": 0.0, "combined": 0.0}
+
+        # マスターCSVを人物レベルに集約（各人物のtuned_scoreが最高のエピソード1件）
+        person_ranked = df_sorted.groupby("person_name", as_index=False).first()
+        person_ranked = person_ranked.sort_values("tuned_score", ascending=False).reset_index(drop=True)
+
+        # Overlap@100（人物ベース）
+        top100_persons = set(person_ranked.head(100)["person_name"].dropna())
+        overlap = len(top100_persons & ref_persons) / min(100, len(ref_persons))
+
+        # NDCG@100（人物ベース）
+        top100 = person_ranked.head(100)
         predicted_relevances = []
         for _, row in top100.iterrows():
-            ep_id = row["episode_id"]
-            if ep_id in ref_rank_map:
-                predicted_relevances.append((101 - ref_rank_map[ep_id]) / 100)
+            person = row["person_name"]
+            if person in ref_rank_map:
+                predicted_relevances.append((101 - ref_rank_map[person]) / 100)
             else:
                 predicted_relevances.append(0)
 
@@ -281,17 +327,58 @@ class RankingTuner:
         idcg = dcg_at_k(ideal_relevances, 100)
         ndcg = dcg / idcg if idcg > 0 else 0
 
-        # 統合スコア（NDCG 60% + Overlap 40%）
         combined = 0.6 * ndcg + 0.4 * overlap
+        return {"ndcg": ndcg, "overlap": overlap, "combined": combined}
 
-        return TuningResult(config=config, ndcg_at_100=ndcg, overlap_at_100=overlap, combined_score=combined)
+    def evaluate_config(
+        self, config: TuningConfig, source: str = "claude", sources: list[str] | None = None
+    ) -> TuningResult:
+        """設定を評価
+
+        Args:
+            config: チューニング設定
+            source: 単一ソース名（sourcesが指定されていない場合に使用）
+            sources: 評価ソースのリスト。指定時はAvg NDCGが最適化目標になる。
+        """
+        # 評価ソースを決定
+        eval_sources = sources if sources else [source]
+
+        # 全エピソードのスコア計算（1回だけ）
+        self.df["tuned_score"] = self.df.apply(lambda row: self.calculate_score(row, config), axis=1)
+        df_sorted = self.df.sort_values("tuned_score", ascending=False).reset_index(drop=True)
+        df_sorted["tuned_rank"] = range(1, len(df_sorted) + 1)
+
+        # 各ソースで評価
+        per_source = {}
+        for src in eval_sources:
+            per_source[src] = self._evaluate_single_source(df_sorted, src)
+
+        # 平均を計算
+        avg_ndcg = sum(r["ndcg"] for r in per_source.values()) / len(per_source)
+        avg_overlap = sum(r["overlap"] for r in per_source.values()) / len(per_source)
+        avg_combined = sum(r["combined"] for r in per_source.values()) / len(per_source)
+
+        return TuningResult(
+            config=config,
+            ndcg_at_100=avg_ndcg,
+            overlap_at_100=avg_overlap,
+            combined_score=avg_combined,
+            per_source=per_source,
+        )
 
     def grid_search(
         self,
         weight_ranges: dict,
-        source: str = "claude",
+        sources: list[str] | None = None,
     ) -> list[TuningResult]:
-        """グリッドサーチで最適な重みを探索"""
+        """グリッドサーチで最適な重みを探索
+
+        Args:
+            weight_ranges: 探索範囲。"iconic_boost"はweight合計1.0制約の外。
+            sources: 評価ソースのリスト（デフォルト: ["claude"]）
+        """
+        if sources is None:
+            sources = ["claude"]
         results = []
 
         # 重みの組み合わせを生成
@@ -299,9 +386,13 @@ class RankingTuner:
         episode_fame_range = weight_ranges.get("episode_fame", [0.25, 0.30, 0.35])
         quality_range = weight_ranges.get("quality", [0.15, 0.20, 0.25])
         historical_range = weight_ranges.get("historical", [0.05, 0.10, 0.15])
+        # iconic_boostはweight合計1.0制約の外で別ループ
+        iconic_boost_range = weight_ranges.get("iconic_boost", [0.0])
 
-        for celeb, fame, qual, hist in product(celebrity_range, episode_fame_range, quality_range, historical_range):
-            # 重みの合計が1.0になるようにスキップ
+        for celeb, fame, qual, hist, iconic in product(
+            celebrity_range, episode_fame_range, quality_range, historical_range, iconic_boost_range
+        ):
+            # 重みの合計が1.0になるようにスキップ（iconic_boostは除外）
             if abs(celeb + fame + qual + hist - 1.0) > 0.01:
                 continue
 
@@ -312,9 +403,10 @@ class RankingTuner:
                 weight_episode_fame=fame,
                 weight_quality=qual,
                 weight_historical=hist,
+                iconic_boost_multiplier=iconic,
             )
 
-            result = self.evaluate_config(config, source)
+            result = self.evaluate_config(config, sources=sources)
             results.append(result)
 
         # スコア順にソート
@@ -341,70 +433,91 @@ def main():
     # チューナー初期化
     tuner = RankingTuner(df, mapping_data)
 
-    # 現行設定の評価
-    print("\n=== 現行設定の評価 ===")
-    current_config = TuningConfig(
-        version="v1.2.0_current",
-        created_at=datetime.now().isoformat(),
-        weight_celebrity=0.30,
-        weight_episode_fame=0.30,
-        weight_quality=0.20,
-        weight_historical=0.20,
-        description="現行設定（v1.2.0）",
-    )
-    current_result = tuner.evaluate_config(current_config, "claude")
-    print(f"  NDCG@100: {current_result.ndcg_at_100:.3f}")
-    print(f"  Overlap@100: {current_result.overlap_at_100:.1%}")
-    print(f"  Combined: {current_result.combined_score:.3f}")
+    # 評価ソース
+    eval_sources = ["claude", "gemini"]
 
-    # グリッドサーチ
-    print("\n=== グリッドサーチ実行 ===")
+    # 現行設定の評価（v2.1.0ベース）
+    print("\n=== 現行設定の評価（v2.1.0） ===")
+    current_config = TuningConfig(
+        version="v2.1.0_current",
+        created_at=datetime.now().isoformat(),
+        weight_celebrity=0.05,
+        weight_episode_fame=0.40,
+        weight_quality=0.55,
+        weight_historical=0.00,
+        iconic_boost_multiplier=0.25,
+        description="現行設定（v2.1.0）",
+    )
+    current_result = tuner.evaluate_config(current_config, sources=eval_sources)
+    print(f"  Avg NDCG@100: {current_result.ndcg_at_100:.3f}")
+    print(f"  Avg Overlap@100: {current_result.overlap_at_100:.1%}")
+    print(f"  Avg Combined: {current_result.combined_score:.3f}")
+    if current_result.per_source:
+        for src, metrics in current_result.per_source.items():
+            print(f"    [{src}] NDCG={metrics['ndcg']:.3f}, Overlap={metrics['overlap']:.1%}")
+
+    # グリッドサーチ（Phase C: v2.2.0探索）
+    print("\n=== グリッドサーチ実行（Phase C: v2.2.0） ===")
     weight_ranges = {
-        "celebrity": [0.35, 0.40, 0.45, 0.50],
-        "episode_fame": [0.20, 0.25, 0.30],
-        "quality": [0.15, 0.20, 0.25],
-        "historical": [0.00, 0.05, 0.10],
+        "celebrity": [0.05],  # 固定（v2.1.0と同じ）
+        "episode_fame": [0.30, 0.35, 0.40],
+        "quality": [0.40, 0.45, 0.50],
+        "historical": [0.10, 0.15, 0.20],
+        "iconic_boost": [0.25, 0.50, 0.75, 1.00],
     }
 
-    results = tuner.grid_search(weight_ranges, "claude")
+    results = tuner.grid_search(weight_ranges, sources=eval_sources)
     print(f"  探索した組み合わせ: {len(results)}件")
 
     # 上位5件を表示
     print("\n=== Top 5 設定 ===")
     for i, r in enumerate(results[:5], 1):
         c = r.config
-        print(f"\n  {i}. Combined: {r.combined_score:.3f}")
-        print(f"     NDCG@100: {r.ndcg_at_100:.3f}, Overlap@100: {r.overlap_at_100:.1%}")
+        print(f"\n  {i}. Avg Combined: {r.combined_score:.3f}")
+        print(f"     Avg NDCG@100: {r.ndcg_at_100:.3f}, Avg Overlap@100: {r.overlap_at_100:.1%}")
         print(f"     重み: celebrity={c.weight_celebrity}, fame={c.weight_episode_fame}, ")
         print(f"           quality={c.weight_quality}, historical={c.weight_historical}")
+        print(f"     iconic_boost_multiplier={c.iconic_boost_multiplier}")
+        if r.per_source:
+            for src, metrics in r.per_source.items():
+                print(f"       [{src}] NDCG={metrics['ndcg']:.3f}, Overlap={metrics['overlap']:.1%}")
 
     # 最良設定を保存
     best_result = results[0]
     best_config = best_result.config
-    best_config.version = "v2.0.0_tuned"
-    best_config.description = "参照ランキング（Claude Best100）に最適化した設定"
+    best_config.version = "v2.2.0_tuned"
+    best_config.description = "参照ランキング（Claude + Gemini Best100）に最適化した設定（Phase C）"
 
     output = {
         "best_config": asdict(best_config),
         "evaluation": {
-            "ndcg_at_100": best_result.ndcg_at_100,
-            "overlap_at_100": best_result.overlap_at_100,
-            "combined_score": best_result.combined_score,
+            "avg_ndcg_at_100": best_result.ndcg_at_100,
+            "avg_overlap_at_100": best_result.overlap_at_100,
+            "avg_combined_score": best_result.combined_score,
+            "per_source": best_result.per_source,
         },
         "comparison_with_current": {
-            "current_ndcg": current_result.ndcg_at_100,
-            "current_overlap": current_result.overlap_at_100,
-            "current_combined": current_result.combined_score,
-            "improvement_ndcg": best_result.ndcg_at_100 - current_result.ndcg_at_100,
-            "improvement_overlap": best_result.overlap_at_100 - current_result.overlap_at_100,
-            "improvement_combined": best_result.combined_score - current_result.combined_score,
+            "current_version": "v2.1.0",
+            "current_avg_ndcg": current_result.ndcg_at_100,
+            "current_avg_overlap": current_result.overlap_at_100,
+            "current_avg_combined": current_result.combined_score,
+            "current_per_source": current_result.per_source,
+            "improvement_avg_ndcg": best_result.ndcg_at_100 - current_result.ndcg_at_100,
+            "improvement_avg_overlap": best_result.overlap_at_100 - current_result.overlap_at_100,
+            "improvement_avg_combined": best_result.combined_score - current_result.combined_score,
+        },
+        "search_params": {
+            "weight_ranges": weight_ranges,
+            "eval_sources": eval_sources,
+            "iconic_persons_count": len(tuner._iconic_persons),
         },
         "all_results": [
             {
                 "config": asdict(r.config),
-                "ndcg_at_100": r.ndcg_at_100,
-                "overlap_at_100": r.overlap_at_100,
-                "combined_score": r.combined_score,
+                "avg_ndcg_at_100": r.ndcg_at_100,
+                "avg_overlap_at_100": r.overlap_at_100,
+                "avg_combined_score": r.combined_score,
+                "per_source": r.per_source,
             }
             for r in results[:20]
         ],
@@ -417,12 +530,15 @@ def main():
     print(f"\n結果を保存: {output_path}")
 
     # 改善率
-    print("\n=== 改善率 ===")
+    print("\n=== 改善率（v2.1.0 → v2.2.0） ===")
     print(
-        f"  NDCG: {current_result.ndcg_at_100:.3f} → {best_result.ndcg_at_100:.3f} ({best_result.ndcg_at_100 - current_result.ndcg_at_100:+.3f})"
+        f"  Avg NDCG: {current_result.ndcg_at_100:.3f} → {best_result.ndcg_at_100:.3f} ({best_result.ndcg_at_100 - current_result.ndcg_at_100:+.3f})"
     )
     print(
-        f"  Overlap: {current_result.overlap_at_100:.1%} → {best_result.overlap_at_100:.1%} ({(best_result.overlap_at_100 - current_result.overlap_at_100) * 100:+.1f}pp)"
+        f"  Avg Overlap: {current_result.overlap_at_100:.1%} → {best_result.overlap_at_100:.1%} ({(best_result.overlap_at_100 - current_result.overlap_at_100) * 100:+.1f}pp)"
+    )
+    print(
+        f"  iconic_boost_multiplier: {current_config.iconic_boost_multiplier} → {best_config.iconic_boost_multiplier}"
     )
 
 

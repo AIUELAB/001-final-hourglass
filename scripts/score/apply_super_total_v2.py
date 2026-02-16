@@ -38,7 +38,7 @@ from scripts.score.super_total_scorer import SuperTotalConfig, SuperTotalScorer
 # パス設定
 CSV_PATH = PROJECT_ROOT / "preserved/data/MASTER_EPISODES_CURRENT.csv"
 BACKUP_DIR = PROJECT_ROOT / "preserved/data/backups"
-DEFAULT_CONFIG = PROJECT_ROOT / "configs/super_total_score/v2.1.0.json"
+DEFAULT_CONFIG = PROJECT_ROOT / "configs/super_total_score/v2.2.0.json"
 
 # ロギング設定
 logging.basicConfig(

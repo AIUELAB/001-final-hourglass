@@ -1,140 +1,23 @@
 {
   "claude_gap": {
     "source": "claude",
-    "overlap_at_10": 0.5,
-    "overlap_at_50": 0.56,
-    "overlap_at_100": 0.3402061855670103,
-    "ndcg_at_10": 0.49773229730275337,
-    "ndcg_at_50": 0.5481261395780092,
-    "ndcg_at_100": 0.5099330953882668,
-    "avg_rank_diff": 1628.1224489795918,
-    "undervalued_examples": [
-      {
-        "person_name": "坂本龍馬",
-        "ref_rank": 9,
-        "current_rank": 150,
-        "rank_diff": 141
-      }
-    ],
+    "overlap_at_10": 0.3,
+    "overlap_at_50": 0.6,
+    "overlap_at_100": 0.35051546391752575,
+    "ndcg_at_10": 0.44836515491687057,
+    "ndcg_at_50": 0.6008026221082639,
+    "ndcg_at_100": 0.5476728405619091,
+    "avg_rank_diff": 1729.9897959183672,
+    "undervalued_examples": [],
     "overvalued_examples": [
       {
         "person_name": "セリーナ・ウィリアムズ",
         "ref_rank": "N/A",
-        "current_rank": 23,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "マハトマ・ガンジー",
-        "ref_rank": "N/A",
-        "current_rank": 15,
+        "current_rank": 24,
         "note": "参照Best100に含まれない"
       },
       {
         "person_name": "安藤百福",
-        "ref_rank": "N/A",
-        "current_rank": 27,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "カーネル・サンダース",
-        "ref_rank": "N/A",
-        "current_rank": 1,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "レオナルド・ダ・ヴィンチ",
-        "ref_rank": "N/A",
-        "current_rank": 22,
-        "note": "参照Best100に含まれない"
-      }
-    ]
-  },
-  "gemini_gap": {
-    "source": "gemini",
-    "overlap_at_10": 0.3,
-    "overlap_at_50": 0.4888888888888889,
-    "overlap_at_100": 0.5777777777777777,
-    "ndcg_at_10": 0.6014986454573545,
-    "ndcg_at_50": 0.5386472518535677,
-    "ndcg_at_100": 0.5907459128858067,
-    "avg_rank_diff": 1031.3111111111111,
-    "undervalued_examples": [
-      {
-        "person_name": "坂本龍馬",
-        "ref_rank": 11,
-        "current_rank": 150,
-        "rank_diff": 139
-      },
-      {
-        "person_name": "ウォルト・ディズニー",
-        "ref_rank": 13,
-        "current_rank": 1972,
-        "rank_diff": 1959
-      },
-      {
-        "person_name": "三木谷浩史",
-        "ref_rank": 14,
-        "current_rank": 2187,
-        "rank_diff": 2173
-      },
-      {
-        "person_name": "夏目漱石",
-        "ref_rank": 18,
-        "current_rank": 2126,
-        "rank_diff": 2108
-      },
-      {
-        "person_name": "中内㓛",
-        "ref_rank": 20,
-        "current_rank": 3753,
-        "rank_diff": 3733
-      },
-      {
-        "person_name": "ココ・シャネル",
-        "ref_rank": 21,
-        "current_rank": 2494,
-        "rank_diff": 2473
-      },
-      {
-        "person_name": "エイブラハム・リンカーン",
-        "ref_rank": 23,
-        "current_rank": 1984,
-        "rank_diff": 1961
-      },
-      {
-        "person_name": "植村直己",
-        "ref_rank": 24,
-        "current_rank": 1517,
-        "rank_diff": 1493
-      },
-      {
-        "person_name": "出口治明",
-        "ref_rank": 25,
-        "current_rank": 4873,
-        "rank_diff": 4848
-      },
-      {
-        "person_name": "岡本太郎",
-        "ref_rank": 27,
-        "current_rank": 2758,
-        "rank_diff": 2731
-      }
-    ],
-    "overvalued_examples": [
-      {
-        "person_name": "セリーナ・ウィリアムズ",
-        "ref_rank": "N/A",
-        "current_rank": 23,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "マハトマ・ガンジー",
-        "ref_rank": "N/A",
-        "current_rank": 15,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "福山雅治",
         "ref_rank": "N/A",
         "current_rank": 28,
         "note": "参照Best100に含まれない"
@@ -143,6 +26,110 @@
         "person_name": "レオナルド・ダ・ヴィンチ",
         "ref_rank": "N/A",
         "current_rank": 22,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "パブロ・ピカソ",
+        "ref_rank": "N/A",
+        "current_rank": 21,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "矢沢永吉",
+        "ref_rank": "N/A",
+        "current_rank": 13,
+        "note": "参照Best100に含まれない"
+      }
+    ]
+  },
+  "gemini_gap": {
+    "source": "gemini",
+    "overlap_at_10": 0.2,
+    "overlap_at_50": 0.5333333333333333,
+    "overlap_at_100": 0.6,
+    "ndcg_at_10": 0.45451633044645706,
+    "ndcg_at_50": 0.5479353949988103,
+    "ndcg_at_100": 0.5858245305583407,
+    "avg_rank_diff": 1073.4,
+    "undervalued_examples": [
+      {
+        "person_name": "ウォルト・ディズニー",
+        "ref_rank": 13,
+        "current_rank": 2064,
+        "rank_diff": 2051
+      },
+      {
+        "person_name": "三木谷浩史",
+        "ref_rank": 14,
+        "current_rank": 2516,
+        "rank_diff": 2502
+      },
+      {
+        "person_name": "夏目漱石",
+        "ref_rank": 18,
+        "current_rank": 2283,
+        "rank_diff": 2265
+      },
+      {
+        "person_name": "中内㓛",
+        "ref_rank": 20,
+        "current_rank": 3699,
+        "rank_diff": 3679
+      },
+      {
+        "person_name": "ココ・シャネル",
+        "ref_rank": 21,
+        "current_rank": 1957,
+        "rank_diff": 1936
+      },
+      {
+        "person_name": "エイブラハム・リンカーン",
+        "ref_rank": 23,
+        "current_rank": 1784,
+        "rank_diff": 1761
+      },
+      {
+        "person_name": "植村直己",
+        "ref_rank": 24,
+        "current_rank": 1542,
+        "rank_diff": 1518
+      },
+      {
+        "person_name": "出口治明",
+        "ref_rank": 25,
+        "current_rank": 4781,
+        "rank_diff": 4756
+      },
+      {
+        "person_name": "岡本太郎",
+        "ref_rank": 27,
+        "current_rank": 3093,
+        "rank_diff": 3066
+      }
+    ],
+    "overvalued_examples": [
+      {
+        "person_name": "セリーナ・ウィリアムズ",
+        "ref_rank": "N/A",
+        "current_rank": 24,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "レオナルド・ダ・ヴィンチ",
+        "ref_rank": "N/A",
+        "current_rank": 22,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "パブロ・ピカソ",
+        "ref_rank": "N/A",
+        "current_rank": 21,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "イーロン・マスク",
+        "ref_rank": "N/A",
+        "current_rank": 16,
         "note": "参照Best100に含まれない"
       },
       {
@@ -155,144 +142,144 @@
   },
   "claude_features": {
     "source": "claude",
-    "in_ref_count": 27,
-    "not_in_ref_count": 173,
+    "in_ref_count": 23,
+    "not_in_ref_count": 177,
     "feature_comparison": {
       "celebrity_score_v2": {
-        "in_ref_mean": 567.89,
-        "not_in_ref_mean": 601.21,
-        "diff": -33.31
+        "in_ref_mean": 572.33,
+        "not_in_ref_mean": 606.75,
+        "diff": -34.42
       },
       "episode_fame_v6": {
-        "in_ref_mean": 82.34,
-        "not_in_ref_mean": 82.75,
-        "diff": -0.41
+        "in_ref_mean": 82.51,
+        "not_in_ref_mean": 78.73,
+        "diff": 3.78
       },
       "memorability_score": {
-        "in_ref_mean": 7.29,
-        "not_in_ref_mean": 7.19,
-        "diff": 0.09
+        "in_ref_mean": 7.36,
+        "not_in_ref_mean": 7.3,
+        "diff": 0.06
       },
       "surprise_score": {
-        "in_ref_mean": 6.23,
-        "not_in_ref_mean": 5.95,
-        "diff": 0.28
+        "in_ref_mean": 6.2,
+        "not_in_ref_mean": 6.22,
+        "diff": -0.02
       },
       "empathy_score": {
-        "in_ref_mean": 6.24,
-        "not_in_ref_mean": 6.24,
-        "diff": 0.0
+        "in_ref_mean": 6.39,
+        "not_in_ref_mean": 6.47,
+        "diff": -0.08
       },
       "educational_value": {
-        "in_ref_mean": 6.39,
-        "not_in_ref_mean": 6.77,
-        "diff": -0.38
+        "in_ref_mean": 6.54,
+        "not_in_ref_mean": 6.85,
+        "diff": -0.3
       },
       "story_quality": {
-        "in_ref_mean": 7.44,
-        "not_in_ref_mean": 7.49,
-        "diff": -0.05
+        "in_ref_mean": 7.45,
+        "not_in_ref_mean": 7.48,
+        "diff": -0.04
       },
       "factual_density": {
-        "in_ref_mean": 9.27,
-        "not_in_ref_mean": 9.1,
-        "diff": 0.16
+        "in_ref_mean": 9.37,
+        "not_in_ref_mean": 9.14,
+        "diff": 0.23
       },
       "generation_quality_score": {
-        "in_ref_mean": 8.69,
-        "not_in_ref_mean": 8.59,
-        "diff": 0.1
+        "in_ref_mean": 8.71,
+        "not_in_ref_mean": 8.65,
+        "diff": 0.06
       },
       "episode_importance_score": {
-        "in_ref_mean": 8.42,
-        "not_in_ref_mean": 21.51,
-        "diff": -13.09
+        "in_ref_mean": 12.55,
+        "not_in_ref_mean": 31.93,
+        "diff": -19.38
       }
     },
     "in_ref_categories": {
-      "スポーツ": 8,
+      "スポーツ": 6,
       "エンターテイメント": 3,
       "ビジネス・経営": 2,
       "芸術・文化": 2,
       "映画・演劇": 2
     },
     "not_in_ref_categories": {
-      "ビジネス": 23,
-      "芸術・文化": 23,
-      "スポーツ": 23,
-      "科学・技術": 18,
-      "政治・社会": 18
+      "芸術・文化": 28,
+      "ビジネス": 22,
+      "スポーツ": 17,
+      "科学・技術": 17,
+      "ビジネス・経営": 15
     }
   },
   "gemini_features": {
     "source": "gemini",
-    "in_ref_count": 20,
-    "not_in_ref_count": 180,
+    "in_ref_count": 18,
+    "not_in_ref_count": 182,
     "feature_comparison": {
       "celebrity_score_v2": {
-        "in_ref_mean": 587.68,
-        "not_in_ref_mean": 598.86,
-        "diff": -11.18
+        "in_ref_mean": 594.72,
+        "not_in_ref_mean": 604.56,
+        "diff": -9.85
       },
       "episode_fame_v6": {
-        "in_ref_mean": 84.48,
-        "not_in_ref_mean": 82.5,
-        "diff": 1.98
+        "in_ref_mean": 84.88,
+        "not_in_ref_mean": 78.6,
+        "diff": 6.28
       },
       "memorability_score": {
-        "in_ref_mean": 7.51,
-        "not_in_ref_mean": 7.17,
-        "diff": 0.34
+        "in_ref_mean": 7.65,
+        "not_in_ref_mean": 7.27,
+        "diff": 0.37
       },
       "surprise_score": {
-        "in_ref_mean": 6.51,
-        "not_in_ref_mean": 5.93,
-        "diff": 0.58
+        "in_ref_mean": 6.68,
+        "not_in_ref_mean": 6.17,
+        "diff": 0.51
       },
       "empathy_score": {
-        "in_ref_mean": 6.55,
-        "not_in_ref_mean": 6.21,
-        "diff": 0.34
+        "in_ref_mean": 6.67,
+        "not_in_ref_mean": 6.44,
+        "diff": 0.23
       },
       "educational_value": {
-        "in_ref_mean": 6.67,
-        "not_in_ref_mean": 6.73,
-        "diff": -0.06
+        "in_ref_mean": 6.79,
+        "not_in_ref_mean": 6.82,
+        "diff": -0.03
       },
       "story_quality": {
-        "in_ref_mean": 7.31,
+        "in_ref_mean": 7.28,
         "not_in_ref_mean": 7.5,
-        "diff": -0.2
+        "diff": -0.22
       },
       "factual_density": {
-        "in_ref_mean": 9.17,
-        "not_in_ref_mean": 9.12,
-        "diff": 0.05
+        "in_ref_mean": 9.19,
+        "not_in_ref_mean": 9.17,
+        "diff": 0.02
       },
       "generation_quality_score": {
-        "in_ref_mean": 8.73,
-        "not_in_ref_mean": 8.59,
-        "diff": 0.14
+        "in_ref_mean": 8.76,
+        "not_in_ref_mean": 8.65,
+        "diff": 0.11
       },
       "episode_importance_score": {
-        "in_ref_mean": 21.15,
-        "not_in_ref_mean": 20.1,
-        "diff": 1.05
+        "in_ref_mean": 23.57,
+        "not_in_ref_mean": 30.8,
+        "diff": -7.23
       }
     },
     "in_ref_categories": {
-      "ビジネス": 3,
       "アニメ・漫画・ゲーム": 2,
       "学術・研究": 2,
-      "科学・技術": 2,
-      "芸術・文化": 2
+      "芸術・文化": 2,
+      "ビジネス": 2,
+      "スポーツ": 2
     },
     "not_in_ref_categories": {
-      "スポーツ": 29,
-      "芸術・文化": 23,
+      "芸術・文化": 28,
       "ビジネス": 22,
-      "政治・社会": 18,
-      "科学・技術": 18
+      "スポーツ": 21,
+      "科学・技術": 17,
+      "ビジネス・経営": 16
     }
   }
 }

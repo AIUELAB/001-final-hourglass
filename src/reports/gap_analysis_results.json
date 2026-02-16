@@ -1,29 +1,17 @@
 {
   "claude_gap": {
     "source": "claude",
-    "overlap_at_10": 0.3,
-    "overlap_at_50": 0.6,
-    "overlap_at_100": 0.35051546391752575,
-    "ndcg_at_10": 0.44836515491687057,
-    "ndcg_at_50": 0.6008026221082639,
-    "ndcg_at_100": 0.5476728405619091,
+    "overlap_at_10": 0.4,
+    "overlap_at_50": 0.44,
+    "overlap_at_100": 0.4948453608247423,
+    "ndcg_at_10": 0.42337335251429187,
+    "ndcg_at_50": 0.47824181422362166,
+    "ndcg_at_100": 0.600042040217789,
     "avg_rank_diff": 1729.9897959183672,
     "undervalued_examples": [],
     "overvalued_examples": [
       {
-        "person_name": "セリーナ・ウィリアムズ",
-        "ref_rank": "N/A",
-        "current_rank": 24,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "安藤百福",
-        "ref_rank": "N/A",
-        "current_rank": 28,
-        "note": "参照Best100に含まれない"
-      },
-      {
-        "person_name": "レオナルド・ダ・ヴィンチ",
+        "person_name": "ウィルバー・ライト",
         "ref_rank": "N/A",
         "current_rank": 22,
         "note": "参照Best100に含まれない"
@@ -35,9 +23,21 @@
         "note": "参照Best100に含まれない"
       },
       {
-        "person_name": "矢沢永吉",
+        "person_name": "安藤百福",
         "ref_rank": "N/A",
-        "current_rank": 13,
+        "current_rank": 30,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "ヘレン・ケラー",
+        "ref_rank": "N/A",
+        "current_rank": 15,
+        "note": "参照Best100に含まれない"
+      },
+      {
+        "person_name": "カーネル・サンダース",
+        "ref_rank": "N/A",
+        "current_rank": 1,
         "note": "参照Best100に含まれない"
       }
     ]
@@ -45,11 +45,11 @@
   "gemini_gap": {
     "source": "gemini",
     "overlap_at_10": 0.2,
-    "overlap_at_50": 0.5333333333333333,
-    "overlap_at_100": 0.6,
-    "ndcg_at_10": 0.45451633044645706,
-    "ndcg_at_50": 0.5479353949988103,
-    "ndcg_at_100": 0.5858245305583407,
+    "overlap_at_50": 0.5555555555555556,
+    "overlap_at_100": 0.7777777777777778,
+    "ndcg_at_10": 0.5255863434111862,
+    "ndcg_at_50": 0.5795097334098879,
+    "ndcg_at_100": 0.7104739168041792,
     "avg_rank_diff": 1073.4,
     "undervalued_examples": [
       {
@@ -109,15 +109,15 @@
     ],
     "overvalued_examples": [
       {
-        "person_name": "セリーナ・ウィリアムズ",
+        "person_name": "ウィルバー・ライト",
         "ref_rank": "N/A",
-        "current_rank": 24,
+        "current_rank": 22,
         "note": "参照Best100に含まれない"
       },
       {
-        "person_name": "レオナルド・ダ・ヴィンチ",
+        "person_name": "イーロン・マスク",
         "ref_rank": "N/A",
-        "current_rank": 22,
+        "current_rank": 17,
         "note": "参照Best100に含まれない"
       },
       {
@@ -127,159 +127,159 @@
         "note": "参照Best100に含まれない"
       },
       {
-        "person_name": "イーロン・マスク",
+        "person_name": "クリストファー・コロンブス",
         "ref_rank": "N/A",
-        "current_rank": 16,
+        "current_rank": 3,
         "note": "参照Best100に含まれない"
       },
       {
-        "person_name": "ムハマド・アリ",
+        "person_name": "ヘレン・ケラー",
         "ref_rank": "N/A",
-        "current_rank": 30,
+        "current_rank": 15,
         "note": "参照Best100に含まれない"
       }
     ]
   },
   "claude_features": {
     "source": "claude",
-    "in_ref_count": 23,
-    "not_in_ref_count": 177,
+    "in_ref_count": 30,
+    "not_in_ref_count": 170,
     "feature_comparison": {
       "celebrity_score_v2": {
-        "in_ref_mean": 572.33,
-        "not_in_ref_mean": 606.75,
-        "diff": -34.42
+        "in_ref_mean": 560.76,
+        "not_in_ref_mean": 607.44,
+        "diff": -46.68
       },
       "episode_fame_v6": {
-        "in_ref_mean": 82.51,
-        "not_in_ref_mean": 78.73,
-        "diff": 3.78
+        "in_ref_mean": 82.29,
+        "not_in_ref_mean": 82.4,
+        "diff": -0.1
       },
       "memorability_score": {
-        "in_ref_mean": 7.36,
-        "not_in_ref_mean": 7.3,
-        "diff": 0.06
+        "in_ref_mean": 7.19,
+        "not_in_ref_mean": 7.17,
+        "diff": 0.02
       },
       "surprise_score": {
-        "in_ref_mean": 6.2,
-        "not_in_ref_mean": 6.22,
-        "diff": -0.02
+        "in_ref_mean": 6.08,
+        "not_in_ref_mean": 5.95,
+        "diff": 0.14
       },
       "empathy_score": {
-        "in_ref_mean": 6.39,
-        "not_in_ref_mean": 6.47,
-        "diff": -0.08
+        "in_ref_mean": 6.19,
+        "not_in_ref_mean": 6.28,
+        "diff": -0.09
       },
       "educational_value": {
-        "in_ref_mean": 6.54,
-        "not_in_ref_mean": 6.85,
-        "diff": -0.3
+        "in_ref_mean": 6.31,
+        "not_in_ref_mean": 6.74,
+        "diff": -0.43
       },
       "story_quality": {
-        "in_ref_mean": 7.45,
+        "in_ref_mean": 7.48,
         "not_in_ref_mean": 7.48,
-        "diff": -0.04
+        "diff": -0.0
       },
       "factual_density": {
-        "in_ref_mean": 9.37,
-        "not_in_ref_mean": 9.14,
-        "diff": 0.23
+        "in_ref_mean": 9.27,
+        "not_in_ref_mean": 9.13,
+        "diff": 0.15
       },
       "generation_quality_score": {
-        "in_ref_mean": 8.71,
-        "not_in_ref_mean": 8.65,
-        "diff": 0.06
+        "in_ref_mean": 8.65,
+        "not_in_ref_mean": 8.6,
+        "diff": 0.04
       },
       "episode_importance_score": {
-        "in_ref_mean": 12.55,
-        "not_in_ref_mean": 31.93,
-        "diff": -19.38
+        "in_ref_mean": 10.85,
+        "not_in_ref_mean": 22.73,
+        "diff": -11.88
       }
     },
     "in_ref_categories": {
-      "スポーツ": 6,
+      "スポーツ": 10,
       "エンターテイメント": 3,
-      "ビジネス・経営": 2,
+      "ビジネス": 3,
       "芸術・文化": 2,
-      "映画・演劇": 2
+      "ビジネス・経営": 2
     },
     "not_in_ref_categories": {
-      "芸術・文化": 28,
-      "ビジネス": 22,
-      "スポーツ": 17,
+      "ビジネス": 25,
+      "芸術・文化": 23,
+      "スポーツ": 20,
       "科学・技術": 17,
-      "ビジネス・経営": 15
+      "政治・社会": 16
     }
   },
   "gemini_features": {
     "source": "gemini",
-    "in_ref_count": 18,
-    "not_in_ref_count": 182,
+    "in_ref_count": 22,
+    "not_in_ref_count": 178,
     "feature_comparison": {
       "celebrity_score_v2": {
-        "in_ref_mean": 594.72,
-        "not_in_ref_mean": 604.56,
-        "diff": -9.85
+        "in_ref_mean": 587.53,
+        "not_in_ref_mean": 602.77,
+        "diff": -15.23
       },
       "episode_fame_v6": {
-        "in_ref_mean": 84.88,
-        "not_in_ref_mean": 78.6,
-        "diff": 6.28
+        "in_ref_mean": 86.17,
+        "not_in_ref_mean": 81.91,
+        "diff": 4.26
       },
       "memorability_score": {
-        "in_ref_mean": 7.65,
-        "not_in_ref_mean": 7.27,
-        "diff": 0.37
+        "in_ref_mean": 7.39,
+        "not_in_ref_mean": 7.15,
+        "diff": 0.25
       },
       "surprise_score": {
-        "in_ref_mean": 6.68,
-        "not_in_ref_mean": 6.17,
-        "diff": 0.51
+        "in_ref_mean": 6.37,
+        "not_in_ref_mean": 5.92,
+        "diff": 0.45
       },
       "empathy_score": {
-        "in_ref_mean": 6.67,
-        "not_in_ref_mean": 6.44,
-        "diff": 0.23
+        "in_ref_mean": 6.45,
+        "not_in_ref_mean": 6.24,
+        "diff": 0.22
       },
       "educational_value": {
-        "in_ref_mean": 6.79,
-        "not_in_ref_mean": 6.82,
-        "diff": -0.03
+        "in_ref_mean": 6.59,
+        "not_in_ref_mean": 6.68,
+        "diff": -0.1
       },
       "story_quality": {
-        "in_ref_mean": 7.28,
+        "in_ref_mean": 7.26,
         "not_in_ref_mean": 7.5,
-        "diff": -0.22
+        "diff": -0.24
       },
       "factual_density": {
-        "in_ref_mean": 9.19,
-        "not_in_ref_mean": 9.17,
-        "diff": 0.02
+        "in_ref_mean": 9.15,
+        "not_in_ref_mean": 9.15,
+        "diff": 0.01
       },
       "generation_quality_score": {
-        "in_ref_mean": 8.76,
-        "not_in_ref_mean": 8.65,
+        "in_ref_mean": 8.71,
+        "not_in_ref_mean": 8.6,
         "diff": 0.11
       },
       "episode_importance_score": {
-        "in_ref_mean": 23.57,
-        "not_in_ref_mean": 30.8,
-        "diff": -7.23
+        "in_ref_mean": 19.44,
+        "not_in_ref_mean": 21.33,
+        "diff": -1.89
       }
     },
     "in_ref_categories": {
+      "エンターテイメント": 3,
       "アニメ・漫画・ゲーム": 2,
       "学術・研究": 2,
-      "芸術・文化": 2,
-      "ビジネス": 2,
-      "スポーツ": 2
+      "科学・技術": 2,
+      "芸術・文化": 2
     },
     "not_in_ref_categories": {
-      "芸術・文化": 28,
-      "ビジネス": 22,
-      "スポーツ": 21,
+      "スポーツ": 28,
+      "ビジネス": 26,
+      "芸術・文化": 23,
       "科学・技術": 17,
-      "ビジネス・経営": 16
+      "政治・社会": 15
     }
   }
 }

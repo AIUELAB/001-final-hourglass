@@ -456,14 +456,14 @@ def main():
         for src, metrics in current_result.per_source.items():
             print(f"    [{src}] NDCG={metrics['ndcg']:.3f}, Overlap={metrics['overlap']:.1%}")
 
-    # グリッドサーチ（Phase C: v2.2.0探索）
-    print("\n=== グリッドサーチ実行（Phase C: v2.2.0） ===")
+    # グリッドサーチ（Phase D: v2.3.0探索 — iconic_master拡充後）
+    print("\n=== グリッドサーチ実行（Phase D: v2.3.0） ===")
     weight_ranges = {
         "celebrity": [0.05],  # 固定（v2.1.0と同じ）
         "episode_fame": [0.30, 0.35, 0.40],
-        "quality": [0.40, 0.45, 0.50],
-        "historical": [0.10, 0.15, 0.20],
-        "iconic_boost": [0.25, 0.50, 0.75, 1.00],
+        "quality": [0.45, 0.50, 0.55],
+        "historical": [0.05, 0.10, 0.15],
+        "iconic_boost": [0.35, 0.50, 0.65, 0.80],
     }
 
     results = tuner.grid_search(weight_ranges, sources=eval_sources)

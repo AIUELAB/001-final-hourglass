@@ -1,6 +1,6 @@
 {
-  "version": "2.2.0",
-  "description": "象徴的業績マスターデータ - 重要人物の必須エピソード定義（Phase 4拡充版）",
+  "version": "2.3.0",
+  "description": "象徴的業績マスターデータ - 重要人物の必須エピソード定義（Phase D拡充版）",
   "created_at": "2026-01-06",
   "updated_at": "2026-02-16",
   "persons": {
@@ -2418,6 +2418,759 @@
           ],
           "importance": 9.0,
           "priority": 3
+        }
+      ]
+    },
+    "ウォルト・ディズニー": {
+      "person_id": "P9436D2A",
+      "category": "ビジネス・エンタメ",
+      "required_episodes": [
+        {
+          "achievement": "ミッキーマウス誕生",
+          "age": 27,
+          "year": 1928,
+          "keywords": [
+            "ミッキーマウス",
+            "蒸気船ウィリー",
+            "アニメーション"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "白雪姫公開",
+          "age": 36,
+          "year": 1937,
+          "keywords": [
+            "白雪姫",
+            "長編アニメ",
+            "ディズニー"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ディズニーランド開園",
+          "age": 54,
+          "year": 1955,
+          "keywords": [
+            "ディズニーランド",
+            "テーマパーク",
+            "アナハイム"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        }
+      ]
+    },
+    "三木谷浩史": {
+      "person_id": "P3D9F8EF",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "楽天市場開設",
+          "age": 32,
+          "year": 1997,
+          "keywords": [
+            "楽天市場",
+            "ECサイト",
+            "インターネット"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "楽天モバイル参入",
+          "age": 53,
+          "year": 2018,
+          "keywords": [
+            "楽天モバイル",
+            "通信事業",
+            "第四の携帯キャリア"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        }
+      ]
+    },
+    "夏目漱石": {
+      "person_id": "PAFB5B2C",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "吾輩は猫である発表",
+          "age": 38,
+          "year": 1905,
+          "keywords": [
+            "吾輩は猫である",
+            "小説",
+            "文学"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "坊っちゃん執筆",
+          "age": 39,
+          "year": 1906,
+          "keywords": [
+            "坊っちゃん",
+            "小説",
+            "文学"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "こころ発表",
+          "age": 47,
+          "year": 1914,
+          "keywords": [
+            "こころ",
+            "小説",
+            "朝日新聞"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "ココ・シャネル": {
+      "person_id": "PC8C004A",
+      "category": "ビジネス・ファッション",
+      "required_episodes": [
+        {
+          "achievement": "シャネルNo.5開発",
+          "age": 38,
+          "year": 1921,
+          "keywords": [
+            "シャネルNo.5",
+            "香水",
+            "ファッション"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "リトルブラックドレス発表",
+          "age": 43,
+          "year": 1926,
+          "keywords": [
+            "リトルブラックドレス",
+            "モダンファッション",
+            "革命"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "エイブラハム・リンカーン": {
+      "person_id": "P53F3AE2",
+      "category": "歴史・政治",
+      "required_episodes": [
+        {
+          "achievement": "奴隷解放宣言",
+          "age": 53,
+          "year": 1862,
+          "keywords": [
+            "奴隷解放",
+            "南北戦争",
+            "大統領"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "ゲティスバーグ演説",
+          "age": 54,
+          "year": 1863,
+          "keywords": [
+            "ゲティスバーグ",
+            "演説",
+            "人民の人民による"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "大統領就任",
+          "age": 52,
+          "year": 1861,
+          "keywords": [
+            "第16代大統領",
+            "就任",
+            "共和党"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "植村直己": {
+      "person_id": "P38D5E39",
+      "category": "歴史・探検",
+      "required_episodes": [
+        {
+          "achievement": "エベレスト登頂",
+          "age": 29,
+          "year": 1970,
+          "keywords": [
+            "エベレスト",
+            "登頂",
+            "日本人初"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "北極点単独到達",
+          "age": 37,
+          "year": 1978,
+          "keywords": [
+            "北極点",
+            "単独到達",
+            "犬ぞり"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "五大陸最高峰制覇",
+          "age": 34,
+          "year": 1975,
+          "keywords": [
+            "五大陸",
+            "最高峰",
+            "制覇"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "出口治明": {
+      "person_id": "P3B85A1D",
+      "category": "ビジネス・経済",
+      "required_episodes": [
+        {
+          "achievement": "ライフネット生命創業",
+          "age": 60,
+          "year": 2008,
+          "keywords": [
+            "ライフネット生命",
+            "ネット生保",
+            "創業"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "立命館アジア太平洋大学学長就任",
+          "age": 70,
+          "year": 2018,
+          "keywords": [
+            "APU",
+            "学長",
+            "大学経営"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        }
+      ]
+    },
+    "岡本太郎": {
+      "person_id": "P8E76833",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "太陽の塔制作",
+          "age": 59,
+          "year": 1970,
+          "keywords": [
+            "太陽の塔",
+            "大阪万博",
+            "芸術"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "芸術は爆発だ宣言",
+          "age": 70,
+          "year": 1981,
+          "keywords": [
+            "芸術は爆発だ",
+            "前衛芸術",
+            "キャッチフレーズ"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "明日の神話制作",
+          "age": 58,
+          "year": 1969,
+          "keywords": [
+            "明日の神話",
+            "壁画",
+            "メキシコ"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "小室哲哉": {
+      "person_id": "P8697755",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "TKプロデュース黄金期",
+          "age": 37,
+          "year": 1995,
+          "keywords": [
+            "TK",
+            "プロデュース",
+            "小室ファミリー"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "TRFデビュープロデュース",
+          "age": 35,
+          "year": 1993,
+          "keywords": [
+            "TRF",
+            "デビュー",
+            "ダンスミュージック"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "田中将大": {
+      "person_id": "PA85659A",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "24連勝無敗記録",
+          "age": 24,
+          "year": 2013,
+          "keywords": [
+            "24連勝",
+            "無敗",
+            "プロ野球記録"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "楽天日本一貢献",
+          "age": 24,
+          "year": 2013,
+          "keywords": [
+            "楽天",
+            "日本一",
+            "日本シリーズ"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "井上尚弥": {
+      "person_id": "PDD7A67A",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "4団体統一世界チャンピオン",
+          "age": 29,
+          "year": 2022,
+          "keywords": [
+            "4団体統一",
+            "世界チャンピオン",
+            "ボクシング"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "バンタム級4団体統一",
+          "age": 29,
+          "year": 2022,
+          "keywords": [
+            "バンタム級",
+            "統一",
+            "モンスター"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "吉田沙保里": {
+      "person_id": "P7B553A1",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "オリンピック3連覇",
+          "age": 29,
+          "year": 2012,
+          "keywords": [
+            "オリンピック",
+            "3連覇",
+            "レスリング"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "世界選手権16連覇",
+          "age": 33,
+          "year": 2016,
+          "keywords": [
+            "世界選手権",
+            "16連覇",
+            "霊長類最強"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        }
+      ]
+    },
+    "クリスティアーノ・ロナウド": {
+      "person_id": "P972C987",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "チャンピオンズリーグ5回優勝",
+          "age": 33,
+          "year": 2018,
+          "keywords": [
+            "CL",
+            "5回優勝",
+            "レアル・マドリード"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "バロンドール5回受賞",
+          "age": 32,
+          "year": 2017,
+          "keywords": [
+            "バロンドール",
+            "5回",
+            "世界最優秀"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "内村航平": {
+      "person_id": "PBAA27E5",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "体操個人総合オリンピック2連覇",
+          "age": 27,
+          "year": 2016,
+          "keywords": [
+            "体操",
+            "個人総合",
+            "オリンピック2連覇"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "世界選手権個人総合6連覇",
+          "age": 26,
+          "year": 2015,
+          "keywords": [
+            "世界選手権",
+            "6連覇",
+            "体操"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "北島康介": {
+      "person_id": "P9475748",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "平泳ぎオリンピック2連覇",
+          "age": 26,
+          "year": 2008,
+          "keywords": [
+            "平泳ぎ",
+            "オリンピック",
+            "2連覇"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "アテネ金メダル「超気持ちいい」",
+          "age": 22,
+          "year": 2004,
+          "keywords": [
+            "アテネ",
+            "金メダル",
+            "超気持ちいい"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "高橋尚子": {
+      "person_id": "PFBC1CE5",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "シドニー五輪マラソン金メダル",
+          "age": 28,
+          "year": 2000,
+          "keywords": [
+            "シドニー",
+            "マラソン",
+            "金メダル"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "世界最高記録更新",
+          "age": 29,
+          "year": 2001,
+          "keywords": [
+            "世界最高記録",
+            "ベルリン",
+            "マラソン"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "美空ひばり": {
+      "person_id": "P1A72A86",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "川の流れのように発表",
+          "age": 52,
+          "year": 1989,
+          "keywords": [
+            "川の流れのように",
+            "名曲",
+            "遺作"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "天才少女歌手デビュー",
+          "age": 12,
+          "year": 1949,
+          "keywords": [
+            "天才少女",
+            "歌手デビュー",
+            "昭和"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "国民栄誉賞受賞",
+          "age": 52,
+          "year": 1989,
+          "keywords": [
+            "国民栄誉賞",
+            "昭和の歌姫"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "石原裕次郎": {
+      "person_id": "PB3BBC6E",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "太陽の季節出演",
+          "age": 22,
+          "year": 1956,
+          "keywords": [
+            "太陽の季節",
+            "映画",
+            "デビュー"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "石原プロモーション設立",
+          "age": 29,
+          "year": 1963,
+          "keywords": [
+            "石原プロ",
+            "設立",
+            "プロダクション"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        }
+      ]
+    },
+    "長嶋茂雄": {
+      "person_id": "PB54011E",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "天覧試合サヨナラ本塁打",
+          "age": 23,
+          "year": 1959,
+          "keywords": [
+            "天覧試合",
+            "サヨナラ",
+            "本塁打"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "巨人軍監督就任",
+          "age": 39,
+          "year": 1975,
+          "keywords": [
+            "巨人",
+            "監督",
+            "就任"
+          ],
+          "importance": 9.0,
+          "priority": 2
+        },
+        {
+          "achievement": "国民栄誉賞受賞",
+          "age": 77,
+          "year": 2013,
+          "keywords": [
+            "国民栄誉賞",
+            "ミスタープロ野球"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "王貞治": {
+      "person_id": "P3A4CDAB",
+      "category": "スポーツ",
+      "required_episodes": [
+        {
+          "achievement": "868本塁打世界記録達成",
+          "age": 37,
+          "year": 1977,
+          "keywords": [
+            "868本",
+            "世界記録",
+            "本塁打"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "一本足打法確立",
+          "age": 22,
+          "year": 1962,
+          "keywords": [
+            "一本足打法",
+            "ホームラン王",
+            "巨人"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        },
+        {
+          "achievement": "国民栄誉賞第1号受賞",
+          "age": 37,
+          "year": 1977,
+          "keywords": [
+            "国民栄誉賞",
+            "第1号",
+            "栄誉"
+          ],
+          "importance": 9.0,
+          "priority": 3
+        }
+      ]
+    },
+    "鳥山明": {
+      "person_id": "P659FDC0",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "ドラゴンボール連載開始",
+          "age": 29,
+          "year": 1984,
+          "keywords": [
+            "ドラゴンボール",
+            "連載",
+            "少年ジャンプ"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "Dr.スランプ連載開始",
+          "age": 25,
+          "year": 1980,
+          "keywords": [
+            "Dr.スランプ",
+            "アラレちゃん",
+            "ジャンプ"
+          ],
+          "importance": 9.5,
+          "priority": 2
+        }
+      ]
+    },
+    "新海誠": {
+      "person_id": "PD10FFB1",
+      "category": "文化・芸術",
+      "required_episodes": [
+        {
+          "achievement": "君の名は。公開",
+          "age": 43,
+          "year": 2016,
+          "keywords": [
+            "君の名は",
+            "大ヒット",
+            "アニメ映画"
+          ],
+          "importance": 10.0,
+          "priority": 1
+        },
+        {
+          "achievement": "すずめの戸締まり公開",
+          "age": 49,
+          "year": 2022,
+          "keywords": [
+            "すずめの戸締まり",
+            "アニメ映画"
+          ],
+          "importance": 9.0,
+          "priority": 2
         }
       ]
     }

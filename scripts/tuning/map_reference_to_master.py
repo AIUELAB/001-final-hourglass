@@ -127,7 +127,13 @@ def map_reference_to_master(ref_episodes: list, df: pd.DataFrame) -> list[Mappin
     # 現行ランキング（super_total_scoreでソート）
     df["super_total_score_float"] = pd.to_numeric(df["super_total_score"], errors="coerce")
     df_sorted = df.sort_values("super_total_score_float", ascending=False).reset_index(drop=True)
-    df_sorted["current_rank"] = range(1, len(df_sorted) + 1)
+    df_sorted["episode_rank"] = range(1, len(df_sorted) + 1)
+
+    # 人物レベルランキング（ベストエピソード基準）
+    best_per_person = df_sorted.groupby("person_name", as_index=False).first()
+    best_per_person = best_per_person.sort_values("super_total_score_float", ascending=False).reset_index(drop=True)
+    best_per_person["person_rank"] = range(1, len(best_per_person) + 1)
+    person_rank_map = dict(zip(best_per_person["person_name"], best_per_person["person_rank"]))
 
     for ref in ref_episodes:
         ref_name = ref["person_name"]
@@ -157,7 +163,7 @@ def map_reference_to_master(ref_episodes: list, df: pd.DataFrame) -> list[Mappin
                         current_super_total=float(ep["super_total_score_float"])
                         if pd.notna(ep["super_total_score_float"])
                         else None,
-                        current_rank=int(ep["current_rank"]),
+                        current_rank=person_rank_map.get(ep["person_name"], len(person_rank_map)),
                         confidence="high",
                         match_reason="人物名+年齢一致",
                     )
@@ -179,7 +185,7 @@ def map_reference_to_master(ref_episodes: list, df: pd.DataFrame) -> list[Mappin
                             current_super_total=float(ep["super_total_score_float"])
                             if pd.notna(ep["super_total_score_float"])
                             else None,
-                            current_rank=int(ep["current_rank"]),
+                            current_rank=person_rank_map.get(ep["person_name"], len(person_rank_map)),
                             confidence="medium",
                             match_reason=f"人物名一致（年齢不一致: 参照{ref_age}歳 vs マスター{ep['age']}歳）",
                         )

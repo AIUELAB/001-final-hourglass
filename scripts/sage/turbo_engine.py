@@ -771,7 +771,9 @@ class TurboEngine:
     # Phase 20: Batch API メソッド
     # ==========================================================================
 
-    def submit_batch_job(self, count: int = 100, use_haiku: bool = True) -> Optional[str]:
+    def submit_batch_job(
+        self, count: int = 100, use_haiku: bool = True, person_names: list[str] | None = None
+    ) -> Optional[str]:
         """
         Batch APIジョブを送信
 
@@ -781,6 +783,7 @@ class TurboEngine:
         Args:
             count: 生成する件数
             use_haiku: True=Haikuモデル使用（Phase 21統合、さらに-92%コスト）
+            person_names: 特定人物名リスト（指定時はその人物のみ対象）
 
         Returns:
             batch_id: 送信されたバッチのID（後で結果取得に使用）
@@ -790,16 +793,48 @@ class TurboEngine:
 
         logger.info(f"Phase 20: Batch APIジョブ送信開始 (count={count})")
 
-        # Phase 65: 年齢フィルタを候補選定の最初に適用（Q1ロジックをバイパス）
-        # 候補選定時にフィルタを適用することで、81-90歳を直接ターゲットできる
-        candidates = self.orchestrator.get_recommended_candidates(
-            count=count,
-            age_filter_min=self.config.age_filter_min,
-            age_filter_max=self.config.age_filter_max,
-            target_ages=self.config.target_ages,
-        )
-        if not candidates:
+        if person_names:
+            # 特定人物指定モード: cli.py の find_candidates_by_name を再利用
+            from scripts.sage.cli import find_candidates_by_name
+
+            all_candidates = []
+            for name in person_names:
+                # target_agesが指定されている場合、各年齢ごとに候補を作成
+                if self.config.target_ages:
+                    for age in self.config.target_ages:
+                        name_candidates = find_candidates_by_name(self.orchestrator, [name], age=age)
+                        all_candidates.extend(name_candidates)
+                else:
+                    # target_ages未指定: 動的年齢選択で候補を自動選定
+                    name_candidates = find_candidates_by_name(self.orchestrator, [name])
+                    all_candidates.extend(name_candidates)
+
+            candidates = all_candidates[:count]
+            logger.info(f"指定人物モード: {len(candidates)} 件の候補を選定")
+        else:
+            # 既存のロジック（get_recommended_candidates）
+            # Phase 65: 年齢フィルタを候補選定の最初に適用（Q1ロジックをバイパス）
+            # 候補選定時にフィルタを適用することで、81-90歳を直接ターゲットできる
+            candidates = self.orchestrator.get_recommended_candidates(
+                count=count,
+                age_filter_min=self.config.age_filter_min,
+                age_filter_max=self.config.age_filter_max,
+                target_ages=self.config.target_ages,
+            )
+
             if self.config.age_filter_min is not None or self.config.age_filter_max is not None:
+                logger.info(
+                    f"Phase 65: 年齢フィルタモード - "
+                    f"{self.config.age_filter_min or 0}-{self.config.age_filter_max or 100}歳 "
+                    f"→ {len(candidates)}件選定"
+                )
+            else:
+                logger.info(f"候補 {len(candidates)} 件を選定")
+
+        if not candidates:
+            if person_names:
+                logger.warning(f"指定人物の候補が見つかりませんでした: {person_names}")
+            elif self.config.age_filter_min is not None or self.config.age_filter_max is not None:
                 logger.warning(
                     f"年齢フィルタ範囲 {self.config.age_filter_min or 0}-{self.config.age_filter_max or 100}歳 "
                     "に該当する候補が見つかりませんでした"
@@ -807,15 +842,6 @@ class TurboEngine:
             else:
                 logger.warning("候補が見つかりませんでした")
             return None
-
-        if self.config.age_filter_min is not None or self.config.age_filter_max is not None:
-            logger.info(
-                f"Phase 65: 年齢フィルタモード - "
-                f"{self.config.age_filter_min or 0}-{self.config.age_filter_max or 100}歳 "
-                f"→ {len(candidates)}件選定"
-            )
-        else:
-            logger.info(f"候補 {len(candidates)} 件を選定")
 
         # 生成前フィルタ適用
         filtered_candidates = []

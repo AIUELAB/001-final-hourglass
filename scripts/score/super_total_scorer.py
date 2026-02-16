@@ -56,6 +56,8 @@ class SuperTotalConfig:
     weight_historical: float = 0.20  # v1.0.0: 0.10 → v1.1.0: 0.20
     # 偉業ブースト乗数（v2.0.0: 0.5で半減、v1.x: 1.0でフル）
     achievement_boost_multiplier: float = 1.0
+    # iconic人物ブースト（v2.1.0: iconic_achievements登録人物への乗数ブースト）
+    iconic_boost_multiplier: float = 0.0
     # 出力スケール
     output_scale: int = 1_000_000
 
@@ -80,6 +82,7 @@ class SuperTotalConfig:
             min_factual_density=data["gates"]["min_factual_density"],
             min_generation_quality=data["gates"]["min_generation_quality"],
             achievement_boost_multiplier=data.get("achievement_boost_multiplier", 1.0),
+            iconic_boost_multiplier=data.get("iconic_boost_multiplier", 0.0),
             output_scale=data.get("output_scale", 1_000_000),
         )
 
@@ -232,6 +235,14 @@ class SuperTotalScorer:
             normalization_params: 事前計算済み正規化パラメータ（省略時は計算）
         """
         self.config = config or SuperTotalConfig()
+        # v2.1.0: iconic人物セット読み込み
+        self._iconic_persons: set[str] = set()
+        if self.config.iconic_boost_multiplier > 0:
+            iconic_path = PROJECT_ROOT / "preserved/data/iconic_achievements_master.json"
+            if iconic_path.exists():
+                with open(iconic_path, encoding="utf-8") as f:
+                    iconic_data = json.load(f)
+                self._iconic_persons = set(iconic_data.get("persons", {}).keys())
 
         if normalization_params:
             self.norm_params = normalization_params
@@ -511,6 +522,13 @@ class SuperTotalScorer:
         achievement_boost, boost_keywords = self._calc_achievement_boost(row)
         raw = raw * (1 + achievement_boost)
 
+        # Step 3.6: iconic人物ブースト（v2.1.0）
+        iconic_boost = 0.0
+        person_name = row.get("person_name", "")
+        if person_name in self._iconic_persons and self.config.iconic_boost_multiplier > 0:
+            iconic_boost = self.config.iconic_boost_multiplier
+            raw = raw * (1 + iconic_boost)
+
         # Step 4: ペナルティ適用
         penalty_mult, penalties = self._calc_penalty(row)
 
@@ -528,6 +546,7 @@ class SuperTotalScorer:
                 "historical_norm": round(historical_norm, 4),
                 "achievement_boost": round(achievement_boost, 2),
                 "boost_keywords": boost_keywords,
+                "iconic_boost": round(iconic_boost, 2),
                 "raw_score": round(raw, 4),
                 "penalty_multiplier": round(penalty_mult, 2),
             },

@@ -1,10 +1,10 @@
 {
   "best_config": {
-    "version": "v2.0.0_tuned",
-    "created_at": "2026-01-05T20:23:38.462585",
-    "weight_celebrity": 0.45,
-    "weight_episode_fame": 0.2,
-    "weight_quality": 0.25,
+    "version": "v2.2.0_tuned",
+    "created_at": "2026-02-16T14:37:48.675795",
+    "weight_celebrity": 0.05,
+    "weight_episode_fame": 0.35,
+    "weight_quality": 0.5,
     "weight_historical": 0.1,
     "min_factual_density": 6.0,
     "min_generation_quality": 6.0,
@@ -17,29 +17,88 @@
     "quality_generation": 0.05,
     "output_scale": 1000000,
     "achievement_boost_multiplier": 1.0,
-    "description": "参照ランキング（Claude Best100）に最適化した設定"
+    "iconic_boost_multiplier": 0.5,
+    "description": "参照ランキング（Claude + Gemini Best100）に最適化した設定（Phase C）"
   },
   "evaluation": {
-    "ndcg_at_100": 0.10919526846645917,
-    "overlap_at_100": 0.09278350515463918,
-    "combined_score": 0.10263056314173116
+    "avg_ndcg_at_100": 0.5562692630845933,
+    "avg_overlap_at_100": 0.44788087056128295,
+    "avg_combined_score": 0.5129139060752692,
+    "per_source": {
+      "claude": {
+        "ndcg": 0.5494490365668294,
+        "overlap": 0.3402061855670103,
+        "combined": 0.46575189616690177
+      },
+      "gemini": {
+        "ndcg": 0.5630894896023573,
+        "overlap": 0.5555555555555556,
+        "combined": 0.5600759159836366
+      }
+    }
   },
   "comparison_with_current": {
-    "current_ndcg": 0.09843125517461021,
-    "current_overlap": 0.08247422680412371,
-    "current_combined": 0.09204844382641561,
-    "improvement_ndcg": 0.010764013291848964,
-    "improvement_overlap": 0.010309278350515469,
-    "improvement_combined": 0.010582119315315552
+    "current_version": "v2.1.0",
+    "current_avg_ndcg": 0.5353138829036371,
+    "current_avg_overlap": 0.4153493699885452,
+    "current_avg_combined": 0.48732807773760034,
+    "current_per_source": {
+      "claude": {
+        "ndcg": 0.5309210047446711,
+        "overlap": 0.31958762886597936,
+        "combined": 0.4463876543931944
+      },
+      "gemini": {
+        "ndcg": 0.5397067610626032,
+        "overlap": 0.5111111111111111,
+        "combined": 0.5282685010820063
+      }
+    },
+    "improvement_avg_ndcg": 0.020955380180956218,
+    "improvement_avg_overlap": 0.03253150057273774,
+    "improvement_avg_combined": 0.02558582833766887
+  },
+  "search_params": {
+    "weight_ranges": {
+      "celebrity": [
+        0.05
+      ],
+      "episode_fame": [
+        0.3,
+        0.35,
+        0.4
+      ],
+      "quality": [
+        0.4,
+        0.45,
+        0.5
+      ],
+      "historical": [
+        0.1,
+        0.15,
+        0.2
+      ],
+      "iconic_boost": [
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ]
+    },
+    "eval_sources": [
+      "claude",
+      "gemini"
+    ],
+    "iconic_persons_count": 55
   },
   "all_results": [
     {
       "config": {
-        "version": "v2.0.0_tuned",
-        "created_at": "2026-01-05T20:23:38.462585",
-        "weight_celebrity": 0.45,
-        "weight_episode_fame": 0.2,
-        "weight_quality": 0.25,
+        "version": "v2.2.0_tuned",
+        "created_at": "2026-02-16T14:37:48.675795",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.5,
         "weight_historical": 0.1,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
@@ -52,19 +111,32 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
-        "description": "参照ランキング（Claude Best100）に最適化した設定"
+        "iconic_boost_multiplier": 0.5,
+        "description": "参照ランキング（Claude + Gemini Best100）に最適化した設定（Phase C）"
       },
-      "ndcg_at_100": 0.10919526846645917,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.10263056314173116
+      "avg_ndcg_at_100": 0.5562692630845933,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5129139060752692,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5494490365668294,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46575189616690177
+        },
+        "gemini": {
+          "ndcg": 0.5630894896023573,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5600759159836366
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202339",
-        "created_at": "2026-01-05T20:23:39.101681",
-        "weight_celebrity": 0.45,
-        "weight_episode_fame": 0.25,
-        "weight_quality": 0.2,
+        "version": "grid_search_20260216_143752",
+        "created_at": "2026-02-16T14:37:52.447984",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.5,
         "weight_historical": 0.1,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
@@ -77,44 +149,32 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
         "description": ""
       },
-      "ndcg_at_100": 0.10880233876083797,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.10239480531835846
+      "avg_ndcg_at_100": 0.5562692630845933,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5129139060752692,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5494490365668294,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46575189616690177
+        },
+        "gemini": {
+          "ndcg": 0.5630894896023573,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5600759159836366
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202339",
-        "created_at": "2026-01-05T20:23:39.751042",
-        "weight_celebrity": 0.45,
-        "weight_episode_fame": 0.25,
-        "weight_quality": 0.25,
-        "weight_historical": 0.05,
-        "min_factual_density": 6.0,
-        "min_generation_quality": 6.0,
-        "quality_memorability": 0.25,
-        "quality_surprise": 0.18,
-        "quality_story": 0.15,
-        "quality_educational": 0.15,
-        "quality_factual": 0.12,
-        "quality_empathy": 0.1,
-        "quality_generation": 0.05,
-        "output_scale": 1000000,
-        "achievement_boost_multiplier": 1.0,
-        "description": ""
-      },
-      "ndcg_at_100": 0.10842297357532454,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.1021671862070504
-    },
-    {
-      "config": {
-        "version": "grid_search_20260105_202343",
-        "created_at": "2026-01-05T20:23:43.694231",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.25,
-        "weight_quality": 0.15,
+        "version": "grid_search_20260216_143756",
+        "created_at": "2026-02-16T14:37:56.247904",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.5,
         "weight_historical": 0.1,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
@@ -127,19 +187,146 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 1.0,
         "description": ""
       },
-      "ndcg_at_100": 0.10818213673263986,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.10202268410143958
+      "avg_ndcg_at_100": 0.5562692630845933,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5129139060752692,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5494490365668294,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46575189616690177
+        },
+        "gemini": {
+          "ndcg": 0.5630894896023573,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5600759159836366
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202336",
-        "created_at": "2026-01-05T20:23:36.496066",
-        "weight_celebrity": 0.4,
-        "weight_episode_fame": 0.25,
-        "weight_quality": 0.25,
+        "version": "grid_search_20260216_143647",
+        "created_at": "2026-02-16T14:36:47.069838",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.3,
+        "weight_quality": 0.45,
+        "weight_historical": 0.2,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.5,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5539913842675166,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5115471787850231,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5581297400786268,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4709603182739802
+        },
+        "gemini": {
+          "ndcg": 0.5498530284564063,
+          "overlap": 0.5555555555555556,
+          "combined": 0.552134039296066
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143650",
+        "created_at": "2026-02-16T14:36:50.965923",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.3,
+        "weight_quality": 0.45,
+        "weight_historical": 0.2,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5539913842675166,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5115471787850231,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5581297400786268,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4709603182739802
+        },
+        "gemini": {
+          "ndcg": 0.5498530284564063,
+          "overlap": 0.5555555555555556,
+          "combined": 0.552134039296066
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143654",
+        "created_at": "2026-02-16T14:36:54.705715",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.3,
+        "weight_quality": 0.45,
+        "weight_historical": 0.2,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 1.0,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5539913842675166,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5115471787850231,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5581297400786268,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4709603182739802
+        },
+        "gemini": {
+          "ndcg": 0.5498530284564063,
+          "overlap": 0.5555555555555556,
+          "combined": 0.552134039296066
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143818",
+        "created_at": "2026-02-16T14:38:18.698113",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.4,
+        "weight_quality": 0.45,
         "weight_historical": 0.1,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
@@ -152,19 +339,32 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.5,
         "description": ""
       },
-      "ndcg_at_100": 0.106119761666592,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.10078525906181088
+      "avg_ndcg_at_100": 0.552823386928819,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5108463803818046,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5531086484806969,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46794766331522225
+        },
+        "gemini": {
+          "ndcg": 0.5525381253769412,
+          "overlap": 0.5555555555555556,
+          "combined": 0.553745097448387
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202340",
-        "created_at": "2026-01-05T20:23:40.429846",
-        "weight_celebrity": 0.45,
-        "weight_episode_fame": 0.3,
-        "weight_quality": 0.15,
+        "version": "grid_search_20260216_143822",
+        "created_at": "2026-02-16T14:38:22.328109",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.4,
+        "weight_quality": 0.45,
         "weight_historical": 0.1,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
@@ -177,44 +377,32 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
         "description": ""
       },
-      "ndcg_at_100": 0.10480420384530953,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.0999959243690414
+      "avg_ndcg_at_100": 0.552823386928819,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5108463803818046,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5531086484806969,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46794766331522225
+        },
+        "gemini": {
+          "ndcg": 0.5525381253769412,
+          "overlap": 0.5555555555555556,
+          "combined": 0.553745097448387
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202341",
-        "created_at": "2026-01-05T20:23:41.078027",
-        "weight_celebrity": 0.45,
-        "weight_episode_fame": 0.3,
-        "weight_quality": 0.2,
-        "weight_historical": 0.05,
-        "min_factual_density": 6.0,
-        "min_generation_quality": 6.0,
-        "quality_memorability": 0.25,
-        "quality_surprise": 0.18,
-        "quality_story": 0.15,
-        "quality_educational": 0.15,
-        "quality_factual": 0.12,
-        "quality_empathy": 0.1,
-        "quality_generation": 0.05,
-        "output_scale": 1000000,
-        "achievement_boost_multiplier": 1.0,
-        "description": ""
-      },
-      "ndcg_at_100": 0.10043208626960413,
-      "overlap_at_100": 0.09278350515463918,
-      "combined_score": 0.09737265382361815
-    },
-    {
-      "config": {
-        "version": "grid_search_20260105_202342",
-        "created_at": "2026-01-05T20:23:42.375848",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.2,
-        "weight_quality": 0.2,
+        "version": "grid_search_20260216_143826",
+        "created_at": "2026-02-16T14:38:26.061007",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.4,
+        "weight_quality": 0.45,
         "weight_historical": 0.1,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
@@ -227,20 +415,33 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 1.0,
         "description": ""
       },
-      "ndcg_at_100": 0.1007217689386829,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.09342275208485923
+      "avg_ndcg_at_100": 0.552823386928819,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5108463803818046,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5531086484806969,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46794766331522225
+        },
+        "gemini": {
+          "ndcg": 0.5525381253769412,
+          "overlap": 0.5555555555555556,
+          "combined": 0.553745097448387
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202343",
-        "created_at": "2026-01-05T20:23:43.042703",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.2,
-        "weight_quality": 0.25,
-        "weight_historical": 0.05,
+        "version": "grid_search_20260216_143717",
+        "created_at": "2026-02-16T14:37:17.712306",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.4,
+        "weight_historical": 0.2,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -252,20 +453,109 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.5,
         "description": ""
       },
-      "ndcg_at_100": 0.10042596057469354,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.0932452670664656
+      "avg_ndcg_at_100": 0.5525791471420913,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5106998365097679,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5598629823031496,
+          "overlap": 0.3402061855670103,
+          "combined": 0.47200026360869385
+        },
+        "gemini": {
+          "ndcg": 0.5452953119810331,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5493994094108421
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202337",
-        "created_at": "2026-01-05T20:23:37.157328",
-        "weight_celebrity": 0.4,
+        "version": "grid_search_20260216_143721",
+        "created_at": "2026-02-16T14:37:21.333098",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.4,
+        "weight_historical": 0.2,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5525791471420913,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5106998365097679,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5598629823031496,
+          "overlap": 0.3402061855670103,
+          "combined": 0.47200026360869385
+        },
+        "gemini": {
+          "ndcg": 0.5452953119810331,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5493994094108421
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143725",
+        "created_at": "2026-02-16T14:37:25.275223",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.4,
+        "weight_historical": 0.2,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 1.0,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5525791471420913,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5106998365097679,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5598629823031496,
+          "overlap": 0.3402061855670103,
+          "combined": 0.47200026360869385
+        },
+        "gemini": {
+          "ndcg": 0.5452953119810331,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5493994094108421
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143702",
+        "created_at": "2026-02-16T14:37:02.705134",
+        "weight_celebrity": 0.05,
         "weight_episode_fame": 0.3,
-        "weight_quality": 0.2,
-        "weight_historical": 0.1,
+        "weight_quality": 0.5,
+        "weight_historical": 0.15,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -277,20 +567,33 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.5,
         "description": ""
       },
-      "ndcg_at_100": 0.09942854969839499,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.09264682054068647
+      "avg_ndcg_at_100": 0.5499229568457044,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5091061223319358,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5491650430731587,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4655815000706994
+        },
+        "gemini": {
+          "ndcg": 0.55068087061825,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5526307445931722
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202335",
-        "created_at": "2026-01-05T20:23:35.834890",
-        "weight_celebrity": 0.35,
+        "version": "grid_search_20260216_143706",
+        "created_at": "2026-02-16T14:37:06.433323",
+        "weight_celebrity": 0.05,
         "weight_episode_fame": 0.3,
-        "weight_quality": 0.25,
-        "weight_historical": 0.1,
+        "weight_quality": 0.5,
+        "weight_historical": 0.15,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -302,70 +605,33 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
         "description": ""
       },
-      "ndcg_at_100": 0.09775505699675942,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.09164272491970513
+      "avg_ndcg_at_100": 0.5499229568457044,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5091061223319358,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5491650430731587,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4655815000706994
+        },
+        "gemini": {
+          "ndcg": 0.55068087061825,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5526307445931722
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202344",
-        "created_at": "2026-01-05T20:23:44.380458",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.25,
-        "weight_quality": 0.2,
-        "weight_historical": 0.05,
-        "min_factual_density": 6.0,
-        "min_generation_quality": 6.0,
-        "quality_memorability": 0.25,
-        "quality_surprise": 0.18,
-        "quality_story": 0.15,
-        "quality_educational": 0.15,
-        "quality_factual": 0.12,
-        "quality_empathy": 0.1,
-        "quality_generation": 0.05,
-        "output_scale": 1000000,
-        "achievement_boost_multiplier": 1.0,
-        "description": ""
-      },
-      "ndcg_at_100": 0.09654006170833568,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.09091372774665088
-    },
-    {
-      "config": {
-        "version": "grid_search_20260105_202345",
-        "created_at": "2026-01-05T20:23:45.032374",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.25,
-        "weight_quality": 0.25,
-        "weight_historical": 0.0,
-        "min_factual_density": 6.0,
-        "min_generation_quality": 6.0,
-        "quality_memorability": 0.25,
-        "quality_surprise": 0.18,
-        "quality_story": 0.15,
-        "quality_educational": 0.15,
-        "quality_factual": 0.12,
-        "quality_empathy": 0.1,
-        "quality_generation": 0.05,
-        "output_scale": 1000000,
-        "achievement_boost_multiplier": 1.0,
-        "description": ""
-      },
-      "ndcg_at_100": 0.09511397930042352,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.0900580783019036
-    },
-    {
-      "config": {
-        "version": "grid_search_20260105_202337",
-        "created_at": "2026-01-05T20:23:37.799622",
-        "weight_celebrity": 0.4,
+        "version": "grid_search_20260216_143710",
+        "created_at": "2026-02-16T14:37:10.227024",
+        "weight_celebrity": 0.05,
         "weight_episode_fame": 0.3,
-        "weight_quality": 0.25,
-        "weight_historical": 0.05,
+        "weight_quality": 0.5,
+        "weight_historical": 0.15,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -377,20 +643,33 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 1.0,
         "description": ""
       },
-      "ndcg_at_100": 0.09506581445202189,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.09002917939286262
+      "avg_ndcg_at_100": 0.5499229568457044,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5091061223319358,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5491650430731587,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4655815000706994
+        },
+        "gemini": {
+          "ndcg": 0.55068087061825,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5526307445931722
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202346",
-        "created_at": "2026-01-05T20:23:46.349825",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.3,
-        "weight_quality": 0.2,
-        "weight_historical": 0.0,
+        "version": "grid_search_20260216_143803",
+        "created_at": "2026-02-16T14:38:03.742428",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.4,
+        "weight_quality": 0.4,
+        "weight_historical": 0.15,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -402,20 +681,33 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.5,
         "description": ""
       },
-      "ndcg_at_100": 0.0911246516169127,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.08766448169179711
+      "avg_ndcg_at_100": 0.5469157913106382,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5073018230108961,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5494015287497828,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4657233914766738
+        },
+        "gemini": {
+          "ndcg": 0.5444300538714936,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5488802545451184
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202345",
-        "created_at": "2026-01-05T20:23:45.697210",
-        "weight_celebrity": 0.5,
-        "weight_episode_fame": 0.3,
-        "weight_quality": 0.15,
-        "weight_historical": 0.05,
+        "version": "grid_search_20260216_143807",
+        "created_at": "2026-02-16T14:38:07.442810",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.4,
+        "weight_quality": 0.4,
+        "weight_historical": 0.15,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -427,20 +719,33 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
         "description": ""
       },
-      "ndcg_at_100": 0.09046369660967238,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.0872679086874529
+      "avg_ndcg_at_100": 0.5469157913106382,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5073018230108961,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5494015287497828,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4657233914766738
+        },
+        "gemini": {
+          "ndcg": 0.5444300538714936,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5488802545451184
+        }
+      }
     },
     {
       "config": {
-        "version": "grid_search_20260105_202341",
-        "created_at": "2026-01-05T20:23:41.725278",
-        "weight_celebrity": 0.45,
-        "weight_episode_fame": 0.3,
-        "weight_quality": 0.25,
-        "weight_historical": 0.0,
+        "version": "grid_search_20260216_143811",
+        "created_at": "2026-02-16T14:38:11.135757",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.4,
+        "weight_quality": 0.4,
+        "weight_historical": 0.15,
         "min_factual_density": 6.0,
         "min_generation_quality": 6.0,
         "quality_memorability": 0.25,
@@ -452,11 +757,100 @@
         "quality_generation": 0.05,
         "output_scale": 1000000,
         "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 1.0,
         "description": ""
       },
-      "ndcg_at_100": 0.08762285134150101,
-      "overlap_at_100": 0.08247422680412371,
-      "combined_score": 0.08556340152655009
+      "avg_ndcg_at_100": 0.5469157913106382,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5073018230108961,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.5494015287497828,
+          "overlap": 0.3402061855670103,
+          "combined": 0.4657233914766738
+        },
+        "gemini": {
+          "ndcg": 0.5444300538714936,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5488802545451184
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143732",
+        "created_at": "2026-02-16T14:37:32.821834",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.45,
+        "weight_historical": 0.15,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.5,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5453081830163133,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5063372580343012,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.548694725162443,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46529930932426994
+        },
+        "gemini": {
+          "ndcg": 0.5419216408701836,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5473752067443324
+        }
+      }
+    },
+    {
+      "config": {
+        "version": "grid_search_20260216_143736",
+        "created_at": "2026-02-16T14:37:36.542645",
+        "weight_celebrity": 0.05,
+        "weight_episode_fame": 0.35,
+        "weight_quality": 0.45,
+        "weight_historical": 0.15,
+        "min_factual_density": 6.0,
+        "min_generation_quality": 6.0,
+        "quality_memorability": 0.25,
+        "quality_surprise": 0.18,
+        "quality_story": 0.15,
+        "quality_educational": 0.15,
+        "quality_factual": 0.12,
+        "quality_empathy": 0.1,
+        "quality_generation": 0.05,
+        "output_scale": 1000000,
+        "achievement_boost_multiplier": 1.0,
+        "iconic_boost_multiplier": 0.75,
+        "description": ""
+      },
+      "avg_ndcg_at_100": 0.5453081830163133,
+      "avg_overlap_at_100": 0.44788087056128295,
+      "avg_combined_score": 0.5063372580343012,
+      "per_source": {
+        "claude": {
+          "ndcg": 0.548694725162443,
+          "overlap": 0.3402061855670103,
+          "combined": 0.46529930932426994
+        },
+        "gemini": {
+          "ndcg": 0.5419216408701836,
+          "overlap": 0.5555555555555556,
+          "combined": 0.5473752067443324
+        }
+      }
     }
   ]
 }

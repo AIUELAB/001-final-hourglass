@@ -42,6 +42,12 @@ struct LifeResultView: View {
     // ビューのアクティブ状態を管理
     @State private var isViewActive = false
 
+    // 健康タブへの遷移用
+    @State private var navigateToHealth = false
+
+    // ドラマチック演出の表示済みフラグ
+    @AppStorage("hasSeenDramaticSequence") private var hasSeenDramaticSequence = false
+
     // エピソード関連
     @State private var currentEpisode: Episode?
     @State private var isLoadingEpisode = false
@@ -317,6 +323,19 @@ struct LifeResultView: View {
                     .scaleEffect(showEpisode ? 1 : 0.8)
                     .animation(.easeOut(duration: 0.8), value: showEpisode)
 
+                    // 健康サマリーカード
+                    HealthSummaryCard(onTapDetail: {
+                        // MainTabViewの健康タブに切り替え
+                        // NotificationCenterを使用してタブ切り替えを通知
+                        NotificationCenter.default.post(
+                            name: NSNotification.Name("SwitchToHealthTab"),
+                            object: nil
+                        )
+                    })
+                    .opacity(showFinalMessage ? 1 : 0)
+                    .scaleEffect(showFinalMessage ? 1 : 0.8)
+                    .animation(.easeOut(duration: 0.8), value: showFinalMessage)
+
                     // 最後の問いかけ
                     VStack(spacing: 8) {
                         Text("あなたは今日から")
@@ -564,6 +583,29 @@ extension LifeResultView {
         // ビューがアクティブでない場合、またはリセット中の場合は何もしない
         guard isViewActive && !appStateManager.isResetting else { return }
 
+        // 2回目以降: 演出をスキップして即座に全要素を表示
+        if hasSeenDramaticSequence {
+            doorOffset = 200
+            showHourglass = true
+            hourglassOpacity = 1.0
+            hourglassScale = 1.0
+            showRemainingTime = true
+            countUpYears = remainingYears
+            countUpDays = remainingDays
+            showDeathDate = true
+            deathYearCount = predictedDeathComponents.year
+            showProgress = true
+            progressValue = progress
+            showEpisode = true
+            showFinalMessage = true
+            // BGMのみ開始
+            if !bgmStarted && !appStateManager.isResetting {
+                soundManager.playBackgroundMusic(filename: "saigono", withExtension: "m4a")
+                bgmStarted = true
+            }
+            return
+        }
+
         // ドラマチック演出の効果音を再生（BGM音量と同期）
         soundManager.playSoundEffect(filename: "sweep", withExtension: "m4a", volume: 0.5, syncWithBGMVolume: true)
 
@@ -629,6 +671,8 @@ extension LifeResultView {
         // 最後の問いかけを表示
         DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
             showFinalMessage = true
+            // 初回演出完了後にフラグを保存
+            hasSeenDramaticSequence = true
         }
     }
 

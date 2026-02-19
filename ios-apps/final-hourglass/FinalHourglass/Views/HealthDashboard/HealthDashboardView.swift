@@ -1,4 +1,3 @@
-// periphery:ignore:all - 将来使用予定
 import Charts
 import SwiftUI
 

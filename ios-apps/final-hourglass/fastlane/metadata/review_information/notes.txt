@@ -1,37 +1,107 @@
 Dear App Review Team,
 
-Thank you for your feedback on version 1.0.7. We have made significant improvements to address the 4.2 guideline concerns. Here is a summary of the changes in v1.0.8:
+Thank you for your feedback on version 1.0.7. We have made significant improvements to address every concern raised under Guideline 4.2. Below is a detailed summary of v1.0.8 changes with concrete examples and step-by-step testing instructions.
 
-1. HEALTH DASHBOARD (New Tab)
-   - Added a dedicated "Health" tab (2nd tab, heart clipboard icon)
-   - Users can self-evaluate 6 health factors: Sleep, Exercise, Diet, Stress, Alcohol, and Smoking
-   - Each factor is scored on a 10-point scale with personalized improvement advice
-   - Provides an overall health score with category-level breakdown
+========================================
+WHAT CHANGED (Before v1.0.7 vs After v1.0.8)
+========================================
 
+| Area               | Before (v1.0.7)              | After (v1.0.8)                          |
+|--------------------|------------------------------|-----------------------------------------|
+| Health Dashboard   | Not present                  | Full 6-factor health scoring + advice   |
+| Health on Main     | Not present                  | Summary card with overall score         |
+| Episode Content    | Required network              | 41 episodes bundled offline             |
+| First Launch       | Forced animation wait         | Skip button for immediate access        |
+| Favorites Tab      | Empty with no guidance        | Usage guide with clear call-to-action   |
+
+========================================
+1. HEALTH DASHBOARD (New "Health" Tab)
+========================================
+- Located as the 2nd tab (heart clipboard icon)
+- Users self-evaluate 6 health factors on a 10-point scale:
+  Sleep, Exercise, Diet, Stress, Alcohol, Smoking
+
+CONCRETE ADVICE EXAMPLES:
+  - Sleep score 3/10 → "Aim for 7-9 hours. Avoid screens 1 hour before bed."
+  - Exercise score 2/10 → "Start with 15-minute walks. WHO recommends 150 min/week."
+  - Stress score 4/10 → "Try the 4-7-8 breathing technique for immediate relief."
+  - Each factor produces tailored advice based on the score range (1-3, 4-6, 7-10)
+
+- Overall health score is calculated as a weighted average across all 6 factors
+- Score categories: Excellent (80-100), Good (60-79), Fair (40-59), Needs Improvement (0-39)
+
+========================================
 2. HEALTH SUMMARY CARD (Main Screen)
-   - Added a health score summary card on the main TimeLimit screen
-   - Displays the overall health score at a glance
-   - Tapping navigates to the full Health Dashboard
+========================================
+- Displays the overall health score prominently on the TimeLimit screen
+- Tapping the card navigates directly to the full Health Dashboard
+- Provides at-a-glance health awareness without leaving the main screen
 
-3. BUNDLED EPISODES (Offline Content)
-   - 41 curated biographical episodes are now bundled within the app
-   - Content is immediately available without network connectivity
-   - Episodes feature real historical figures' life milestones matched to the user's current age
+========================================
+3. BUNDLED EPISODES (41 Offline Episodes)
+========================================
+- 41 curated biographical episodes are embedded in the app bundle
+- Content is 100% available offline (enable Airplane Mode if desired to verify)
+- AGE-MATCHING EXAMPLES:
+  - User age 35 → sees "Steve Jobs at 35: founded NeXT after leaving Apple"
+  - User age 26 → sees "Albert Einstein at 26: published the theory of special relativity"
+  - User age 44 → sees "Marie Curie at 44: awarded second Nobel Prize in Chemistry"
+- Episodes highlight real historical turning points at the user's current age
+- Users can bookmark favorites for quick access
 
+========================================
 4. IMPROVED EMPTY STATES
-   - Added usage guides for first-time users in the Favorites tab
-   - Clear call-to-action explaining how to bookmark episodes
-   - Guides users through the core functionality
+========================================
+- Favorites tab shows a friendly usage guide when no bookmarks exist
+- Clear call-to-action: "Tap the heart icon on any episode to save it here"
+- Guides first-time users through the bookmark workflow
 
+========================================
 5. STREAMLINED FIRST LAUNCH
-   - Added a "Skip" button to the initial hourglass animation
-   - Users can immediately access all app features without waiting
+========================================
+- "Skip" button added to the initial hourglass animation
+- Users can immediately access all features without waiting
 
-HOW TO TEST:
-- Launch the app and complete (or skip) the onboarding
-- Tap the "Health" tab (2nd tab, heart clipboard icon)
-- Enter health scores for each of the 6 factors
-- View the overall health score and improvement advice
-- Return to the TimeLimit tab to see the Health Summary Card
-- Check the Favorites tab to see the usage guide (empty state)
-- Browse the bundled episodes (no network required)
+========================================
+HOW TO TEST (4-Step Walkthrough)
+========================================
+
+STEP 1 — Setup & First Launch
+  1. Launch the app fresh (or delete and reinstall)
+  2. Notice the "Skip" button on the hourglass animation
+  3. Tap Skip to proceed immediately
+  4. Set your birth date and profile information
+
+STEP 2 — Health Dashboard
+  1. Tap the "Health" tab (2nd tab, heart clipboard icon)
+  2. Enter scores for all 6 health factors (e.g., Sleep=3, Exercise=5, Diet=7, Stress=4, Alcohol=8, Smoking=10)
+  3. Observe personalized advice for each factor (e.g., Sleep=3 shows "Aim for 7-9 hours...")
+  4. Check the overall health score and category at the top
+  5. Return to the TimeLimit tab — the Health Summary Card now shows your score
+
+STEP 3 — Episode Browsing & Age Matching
+  1. Tap the Episodes tab (3rd tab)
+  2. Browse the 41 bundled episodes — no loading spinner, instant display
+  3. Note that episodes are matched to your profile age
+  4. (Optional) Enable Airplane Mode to confirm fully offline functionality
+  5. Tap the heart icon on any episode to bookmark it
+
+STEP 4 — Favorites & Bookmarks
+  1. Tap the Favorites tab (4th tab)
+  2. If no bookmarks: see the usage guide with instructions
+  3. If bookmarked: see your saved episodes listed
+  4. Tap any saved episode to view its full content
+
+========================================
+GUIDELINE 4.2 COMPLIANCE SUMMARY
+========================================
+| Requirement                  | Implementation                              |
+|------------------------------|---------------------------------------------|
+| Sufficient app functionality | Health Dashboard + Episodes + Favorites     |
+| Lasting value / utility      | Personalized health tracking over time      |
+| Not a simple website wrapper | Native SwiftUI with local data persistence  |
+| Unique content experience    | Age-matched biographical episodes           |
+| Works offline                | 41 bundled episodes, local health storage   |
+| Clear onboarding             | Skip animation + empty-state guides         |
+
+We believe v1.0.8 provides a robust, multi-featured experience that delivers lasting value. Thank you for your time reviewing this update.

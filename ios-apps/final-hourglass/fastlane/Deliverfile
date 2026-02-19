@@ -13,6 +13,3 @@ submission_information({
 # リリース設定
 automatic_release(false)
 price_tier(0)
-
-# メタデータ言語
-primary_language("ja")

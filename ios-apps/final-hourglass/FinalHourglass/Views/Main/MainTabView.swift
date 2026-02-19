@@ -21,6 +21,17 @@ struct MainTabView: View {
             .tag(0)
             .accessibilityIdentifier("tab_timelimit")
 
+            // 健康ダッシュボード画面
+            NavigationView {
+                HealthDashboardView()
+            }
+            .navigationViewStyle(.stack)
+            .tabItem {
+                Label("健康", systemImage: "heart.text.clipboard")
+            }
+            .tag(1)
+            .accessibilityIdentifier("tab_health")
+
             // お気に入り画面
             NavigationView {
                 FavoriteEpisodesView()
@@ -29,7 +40,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("お気に入り", systemImage: "heart.fill")
             }
-            .tag(1)
+            .tag(2)
             .accessibilityIdentifier("tab_favorites")
 
             // プロファイル画面
@@ -40,7 +51,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("プロファイル", systemImage: "person.crop.circle")
             }
-            .tag(2)
+            .tag(3)
             .accessibilityIdentifier("tab_profile")
 
             // 設定画面
@@ -51,7 +62,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("設定", systemImage: "gearshape.fill")
             }
-            .tag(3)
+            .tag(4)
             .accessibilityIdentifier("tab_settings")
 
             // About画面
@@ -62,7 +73,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("About", systemImage: "info.circle.fill")
             }
-            .tag(4)
+            .tag(5)
             .accessibilityIdentifier("tab_about")
         }
         .accentColor(.blue)
@@ -80,6 +91,9 @@ struct MainTabView: View {
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
             // アプリがバックグラウンドに移行
             appStateManager.appDidEnterBackground()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SwitchToHealthTab"))) { _ in
+            selectedTab = 1  // 健康タブ
         }
     }
 

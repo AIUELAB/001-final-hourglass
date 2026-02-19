@@ -648,12 +648,14 @@ final class EpisodeManager: ObservableObject, @unchecked Sendable {
                 }
             } catch {
                 episodeLogger.error("Supabase取得エラー: \(error.localizedDescription, privacy: .public)")
-                // エラー時はnilを返す（オフラインキャッシュがあれば上位で対応）
+                // フォールバックチェーン: キャッシュ → バンドル内エピソード → nil
                 DispatchQueue.main.async { [weak self] in
-                    // オフラインキャッシュから取得を試みる
                     if let cachedEpisode = self?.getRandomCachedEpisode() {
                         episodeLogger.warning("キャッシュフォールバック使用")
                         completion(cachedEpisode)
+                    } else if let bundledEpisode = self?.getRandomBundledEpisode(for: age) {
+                        episodeLogger.warning("バンドルフォールバック使用: \(bundledEpisode.personName, privacy: .public)")
+                        completion(bundledEpisode)
                     } else {
                         completion(nil)
                     }
@@ -701,5 +703,47 @@ final class EpisodeManager: ObservableObject, @unchecked Sendable {
 
         let randomIndex = Int.random(in: 0..<validCache.count)
         return validCache[randomIndex]
+    }
+
+    // MARK: - Bundled Episodes (Offline Fallback)
+
+    /// バンドル内エピソードを読み込み
+    private func loadBundledEpisodes() -> [Episode] {
+        guard let url = Bundle.main.url(forResource: "bundled_episodes", withExtension: "json"),
+              let data = try? Data(contentsOf: url) else {
+            episodeLogger.warning("バンドル内エピソードの読み込み失敗")
+            return []
+        }
+        do {
+            let decoder = JSONDecoder()
+            return try decoder.decode([Episode].self, from: data)
+        } catch {
+            episodeLogger.error("バンドル内エピソードのデコード失敗: \(error.localizedDescription, privacy: .public)")
+            return []
+        }
+    }
+
+    /// 年齢に適したバンドル内エピソードをランダムに返す
+    func getRandomBundledEpisode(for age: Int) -> Episode? {
+        let bundled = loadBundledEpisodes()
+        // まず同年齢のエピソードを探す
+        let sameAge = bundled.filter { $0.episodeAge == age }
+        if let episode = sameAge.randomElement() {
+            return episode
+        }
+        // なければ±5歳の範囲で探す
+        let nearAge = bundled.filter {
+            guard let epAge = $0.episodeAge else { return false }
+            return abs(epAge - age) <= 5
+        }
+        if let episode = nearAge.randomElement() {
+            return episode
+        }
+        // それでもなければ±10歳
+        let widerAge = bundled.filter {
+            guard let epAge = $0.episodeAge else { return false }
+            return abs(epAge - age) <= 10
+        }
+        return widerAge.randomElement() ?? bundled.randomElement()
     }
 }

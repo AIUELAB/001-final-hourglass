@@ -39,21 +39,72 @@ struct FavoriteEpisodesView: View {
     // MARK: - Empty State
 
     private var emptyStateView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "heart.slash")
-                .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.3))
+        ScrollView {
+            VStack(spacing: 24) {
+                Spacer()
+                    .frame(height: 40)
 
-            Text("お気に入りはまだありません")
-                .font(.system(size: 18, weight: .medium))
-                .foregroundColor(.white.opacity(0.6))
+                Image(systemName: "heart.slash")
+                    .font(.system(size: 60))
+                    .foregroundColor(.white.opacity(0.3))
 
-            Text("エピソードの♡をタップして\nお気に入りに追加しましょう")
-                .font(.system(size: 14))
-                .foregroundColor(.white.opacity(0.4))
-                .multilineTextAlignment(.center)
+                Text("お気に入りはまだありません")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.white.opacity(0.6))
+
+                Text("エピソードの♡をタップして\nお気に入りに追加しましょう")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.4))
+                    .multilineTextAlignment(.center)
+
+                // 使い方ガイド
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("使い方ガイド")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.white.opacity(0.8))
+
+                    GuideStepView(
+                        step: 1,
+                        icon: "hourglass",
+                        title: "タイムリミットを確認",
+                        description: "プロファイルを設定すると、あなたの残り時間が表示されます。"
+                    )
+
+                    GuideStepView(
+                        step: 2,
+                        icon: "text.book.closed",
+                        title: "偉人のエピソードを読む",
+                        description: "毎日、あなたと同じ年齢の偉人のエピソードが届きます。"
+                    )
+
+                    GuideStepView(
+                        step: 3,
+                        icon: "heart",
+                        title: "お気に入りに保存",
+                        description: "心に響いたエピソードの♡をタップして保存しましょう。"
+                    )
+
+                    GuideStepView(
+                        step: 4,
+                        icon: "heart.text.clipboard",
+                        title: "健康スコアをチェック",
+                        description: "健康タブであなたの健康スコアと改善アドバイスを確認できます。"
+                    )
+                }
+                .padding(20)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.white.opacity(0.05))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                        )
+                )
+
+                Spacer()
+            }
+            .padding(.horizontal)
         }
-        .padding()
     }
 
     // MARK: - Favorite List
@@ -172,6 +223,39 @@ struct FavoriteRowView: View {
 }
 
 // MARK: - iOS 16 Compatibility
+
+/// 使い方ガイドのステップView
+private struct GuideStepView: View {
+    let step: Int
+    let icon: String
+    let title: String
+    let description: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(AppColors.mediumPurple.opacity(0.3))
+                    .frame(width: 36, height: 36)
+
+                Image(systemName: icon)
+                    .font(.system(size: 16))
+                    .foregroundColor(AppColors.mediumPurple)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Step \(step): \(title)")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white.opacity(0.9))
+
+                Text(description)
+                    .font(.system(size: 13))
+                    .foregroundColor(.white.opacity(0.5))
+                    .lineSpacing(3)
+            }
+        }
+    }
+}
 
 /// iOS 16互換性のためのViewModifier
 /// scrollContentBackground(.hidden)はiOS 16以降でのみ利用可能

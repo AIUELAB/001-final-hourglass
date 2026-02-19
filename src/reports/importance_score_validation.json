@@ -1,1492 +1,2119 @@
 {
-  "total_episodes": 13640,
-  "total_persons": 6741,
-  "issues_count": 95,
+  "total_episodes": 52838,
+  "total_persons": 6886,
+  "issues_count": 211,
   "issues": [
     {
-      "type": "achievement_undervalued",
-      "person_id": "PD97BD9A",
-      "person_name": "サリー",
-      "episode_id": "EP-260107171517619",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ55歳のとき、サリーはモンスターズ・インクの「スケアリング記録更新プロジェクト」において指導的役割を担っていました。2013年に同社が実施した「新人育成プログラム」では、サリーが直接指導し"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3B58042",
-      "person_name": "永瀬廉",
-      "episode_id": "EP-260106211319588",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、永瀬廉は2019年にKing & Princeのメンバーとして「Memorial」のリリースに参加し、オリコン週間チャート1位を獲得しました。同年放送されたドラマ「弱くても勝"
-    },
-    {
       "type": "narrative_over_achievement",
-      "person_id": "P7F88681",
-      "person_name": "宮崎駿",
-      "achievement_ep": "EP-260104013152092AA8",
-      "achievement_importance": 9.3,
-      "narrative_ep": "EP-260106MIYAZAKI-GHIBLI",
-      "narrative_importance": 9.5,
-      "narrative_keyword": "始まり"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P30947C1",
-      "person_name": "ハム",
-      "episode_id": "EP-260106222338739",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ハムはピクサー・アニメーション・スタジオで制作された「トイ・ストーリー」に主要キャラクターとして出演し、1995年11月22日の全米公開で映画史に名を刻んだ。この作品は世界初"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P066FEAE",
-      "person_name": "マーリン",
-      "episode_id": "EP-260106211319626",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、マーリンは2003年にピクサー・アニメーション・スタジオが制作した「ファインディング・ニモ」で声優デビューを果たしました。グレート・バリア・リーフを舞台にしたこの作品で、マー"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P066FEAE",
-      "person_name": "マーリン",
-      "achievement_ep": "EP-260106211319626",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EE3F92CD9",
-      "narrative_importance": 7.0,
-      "narrative_keyword": "始まり"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P41131F0",
-      "person_name": "ティガー",
-      "episode_id": "EP-260106211319628",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、ティガーは1996年に開催された「100エーカーの森フェスティバル」で主演を務めた。この年、ウォルト・ディズニー・カンパニーはティガーの映像作品への出演回数が年間52回に達し"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P41131F0",
-      "person_name": "ティガー",
-      "achievement_ep": "EP-260106211319628",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EF05FED8F",
-      "narrative_importance": 7.0,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PA94AF7A",
-      "person_name": "柴田章太郎",
-      "episode_id": "EP-260107032101163",
-      "keyword": "フィールズ賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、柴田章太郎は2024年に東京大学理学部数学科で「リーマン予想と素数分布」に関する画期的な論文を発表しました。この研究は国際数学会議で高い評価を受け、94点という異例の高得点を"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P582419A",
-      "person_name": "星野みなみ",
-      "episode_id": "EP-260107002315406",
-      "keyword": "IPO",
-      "current_importance": 0.0,
-      "expected_importance": 8.0,
-      "text_preview": "あなたと同じ35歳のとき、星野みなみは2018年に東京都港区で設立したIT企業「デジタルソリューションズ」の代表取締役として、年商15億円を達成していました。2019年に開催された「Japan Tec"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P582419A",
-      "person_name": "星野みなみ",
-      "achievement_ep": "EP-260107002315406",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000000200",
-      "narrative_importance": 7.3,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P68AD2FE",
-      "person_name": "岩隈久志",
-      "episode_id": "EP-260106234523987",
-      "keyword": "ノーヒットノーラン",
-      "current_importance": 0.0,
-      "expected_importance": 8.5,
-      "text_preview": "あなたと同じ35歳のとき、岩隈久志は2016年シーズンをシアトル・マリナーズの先発ローテーションの柱として迎えていました。この年、彼は16勝12敗、防御率4.12の成績を残し、203.1イニングを投げ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P569B26A",
-      "person_name": "本田武史",
-      "episode_id": "EP-260107221458192",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、本田武史は2037年に開催された「世界フィギュアスケート殿堂式典」において、アジア人初の殿堂入りを果たしました。2002年ソルトレイクシティ五輪で4位入賞を記録した本田は、現"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P569B26A",
-      "person_name": "本田武史",
-      "achievement_ep": "EP-260107221458192",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000000336",
-      "narrative_importance": 8.6,
-      "narrative_keyword": "断念"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P301A5B2",
-      "person_name": "青木功",
-      "episode_id": "EP-260107221458193",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、青木功は2002年に日本プロゴルフ協会会長に就任し、日本ゴルフ界の発展に尽力していました。同年開催された「ダンロップフェニックストーナメント」では大会アンバサダーとして参加し"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P059B4BD",
-      "person_name": "篠原一男",
-      "episode_id": "EP-260107182846050",
-      "keyword": "ノーベル賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、篠原一男は1985年に日本建築学会賞を受賞し、建築界における地位を確固たるものにしました。この年、彼の代表作「白の家」と「未完の家」が国際的な評価を受け、ニューヨーク近代美術"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P059B4BD",
-      "person_name": "篠原一男",
-      "achievement_ep": "EP-260107182846050",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000000672",
-      "narrative_importance": 7.8,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P107FFD3",
-      "person_name": "レーナ",
-      "episode_id": "EP-260107171517645",
-      "keyword": "世界記録",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ55歳のとき、レーナは2018年に開催された「パラリンピック指導者育成プログラム」の主任コーチとして、フィンランド代表チームを率いていました。1995年にヘルシンキ大学でスポーツ科学の博士"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD82AB6D",
-      "person_name": "中村天風",
-      "episode_id": "EP-260107032101182",
-      "keyword": "フィールズ賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、中村天風は2018年に東京大学理学部数学科の3年生として、代数幾何学の研究に没頭していました。同年9月に開催された「第42回日本数学会秋季総合分科会」で発表した論文「リーマン"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "PD82AB6D",
-      "person_name": "中村天風",
-      "achievement_ep": "EP-260107032101182",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000000787",
-      "narrative_importance": 7.0,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB5C673A",
-      "person_name": "アラン・アスペ",
-      "episode_id": "EP-260107182846056",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、アラン・アスペは2007年にフランス・パリ第11大学の教授として「量子もつれ」の実証実験で世界的な注目を集めていました。1982年に発表した「ベルの不等式の破れ」を証明する実"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P2E04175",
-      "person_name": "ジャンルイジ・ブッフォン",
-      "episode_id": "EP-260107182846058",
-      "keyword": "進化論",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、ジョルジュ＝ルイ・ルクレール・ド・ビュフォンは1767年にフランス王立植物園の園長として、『博物誌』第15巻の執筆を完了しました。この年、彼はパリの王立科学アカデミーで「地球"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P2E04175",
-      "person_name": "ジャンルイジ・ブッフォン",
-      "achievement_ep": "EP-260107182846058",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000000942",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "挫折"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P5088566",
-      "person_name": "ケン・トンプソン",
-      "episode_id": "EP-260107182846066",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、ケン・トンプソンは2003年にデニス・リッチーと共に「IEEE John von Neumann Medal」を受賞しました。ベル研究所で開発した「UNIX」オペレーティング"
-    },
-    {
-      "type": "narrative_over_achievement",
-      "person_id": "P5088566",
-      "person_name": "ケン・トンプソン",
-      "achievement_ep": "EP-260107182846066",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000001008",
-      "narrative_importance": 8.2,
+      "person_id": "PC84DAF6",
+      "person_name": "ジョン・スタインベック",
+      "achievement_ep": "EP-260108191203205",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260111064016073",
+      "narrative_importance": 50.179568870504745,
       "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "PDC9A92E",
-      "person_name": "山本義隆",
-      "episode_id": "EP-260107032101186",
-      "keyword": "量子力学",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、1961年の山本義隆は東京大学理学部物理学科の3年生として、理論物理学の研究に没頭していました。湯川秀樹の中間子理論に強い関心を示し、坂田昌一の研究室で素粒子物理学の基礎を学"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PAD0383C",
-      "person_name": "北川進",
-      "episode_id": "EP-260107182846074",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、北川進は2013年に京都大学物質-細胞統合システム拠点の拠点長として、世界最先端の多孔性配位高分子研究を主導していました。同年、トムソン・ロイター社による「引用栄誉賞」を受賞"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P257E099",
-      "person_name": "松たか子",
-      "episode_id": "EP-260107023018147",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、松たか子は2007年に映画「アフタースクール」で第31回日本アカデミー賞優秀助演女優賞を受賞し、女優としての地位を確固たるものにしていました。同年には舞台「ヘドダ・ガブラー」"
+      "type": "narrative_over_achievement",
+      "person_id": "P720FDCD",
+      "person_name": "マーロン・ブランド",
+      "achievement_ep": "EP-260113030533003",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260113030533000",
+      "narrative_importance": 57.14,
+      "narrative_keyword": "苦悩"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P257E099",
-      "person_name": "松たか子",
-      "achievement_ep": "EP-260107023018147",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000001436",
-      "narrative_importance": 8.0,
+      "person_id": "P720FDCD",
+      "person_name": "マーロン・ブランド",
+      "achievement_ep": "EP-260113030533006",
+      "achievement_importance": 48.68,
+      "narrative_ep": "EP-260113030533000",
+      "narrative_importance": 57.14,
+      "narrative_keyword": "苦悩"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P720FDCD",
+      "person_name": "マーロン・ブランド",
+      "achievement_ep": "EP-B12C4C70",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030533000",
+      "narrative_importance": 57.14,
+      "narrative_keyword": "苦悩"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P160894E",
+      "person_name": "グレアム・グリーン",
+      "achievement_ep": "EP-260111221318554",
+      "achievement_importance": 45.73,
+      "narrative_ep": "EP-260113225428446",
+      "narrative_importance": 53.63,
       "narrative_keyword": "葛藤"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P37D6167",
-      "person_name": "茅誠司",
-      "episode_id": "EP-260107183945550",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、茅誠司は1971年に東京大学総長に就任し、大学紛争の収束に向けた改革を主導しました。物理学者として半導体研究で世界的な評価を得ていた茅は、1968年の東大安田講堂事件以降の混"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBFBAFB2",
-      "person_name": "坂田昌一",
-      "episode_id": "EP-260107182846090",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、坂田昌一は1971年に湯川秀樹とともに京都大学基礎物理学研究所で素粒子論の研究を継続していました。彼が1955年に発表した「坂田モデル」は、クォーク理論の先駆けとして国際的に"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P52C3157",
-      "person_name": "エリオット・ペイジ",
-      "episode_id": "EP-260107023018152",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、エリオット・ペイジは2022年に自身のトランスジェンダー体験を描いた回想録の執筆に取り組んでいました。2007年の映画「JUNO」でアカデミー賞主演女優賞にノミネートされ、全"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PDC2A13D",
-      "person_name": "永野芽郁",
-      "episode_id": "EP-260107035605070",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、永野芽郁は2034年に主演映画「時の彼方へ」で第47回日本アカデミー賞最優秀主演女優賞を受賞しました。この作品は全国312館で公開され、興行収入18億円を記録しました。同年、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6D52AB2",
-      "person_name": "杉野遥亮",
-      "episode_id": "EP-260107023018155",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、杉野遥亮は2028年に主演映画「青春の記録」で興行収入15億円を記録し、俳優としての地位を確立していました。この作品で第42回日本アカデミー賞最優秀主演男優賞を受賞し、授賞式"
+      "type": "narrative_over_achievement",
+      "person_id": "P2595B54",
+      "person_name": "アーネスト・ヘミングウェイ",
+      "achievement_ep": "EP-2601041958204b1",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113005144920",
+      "narrative_importance": 53.63,
+      "narrative_keyword": "原点"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P6D52AB2",
-      "person_name": "杉野遥亮",
-      "achievement_ep": "EP-260107023018155",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000002474",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P0F160E0",
-      "person_name": "唐沢寿明",
-      "episode_id": "EP-260107023018159",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、唐沢寿明は1998年にテレビドラマ「白い巨塔」で財前五郎役を演じ、平均視聴率32.1％という驚異的な数字を記録しました。この作品で第16回ザテレビジョンドラマアカデミー賞主演"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6AA0F07",
-      "person_name": "赤楚衛二",
-      "episode_id": "EP-260107023018160",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、赤楚衛二は2025年に俳優として最も充実した時期を迎えていました。2020年のドラマ「半沢直樹」での演技が評価され、その後2022年には映画「ある男」で日本アカデミー賞優秀助"
+      "person_id": "P2595B54",
+      "person_name": "アーネスト・ヘミングウェイ",
+      "achievement_ep": "EP-260113005144925",
+      "achievement_importance": 48.69,
+      "narrative_ep": "EP-260113005144920",
+      "narrative_importance": 53.63,
+      "narrative_keyword": "原点"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P6AA0F07",
-      "person_name": "赤楚衛二",
-      "achievement_ep": "EP-260107023018160",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000002490",
-      "narrative_importance": 7.9,
+      "person_id": "P2595B54",
+      "person_name": "アーネスト・ヘミングウェイ",
+      "achievement_ep": "EP-251218185058698",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113005144920",
+      "narrative_importance": 53.63,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P1D59005",
+      "person_name": "川端康成",
+      "achievement_ep": "EP-260111162341064",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113225428500",
+      "narrative_importance": 44.21410282287391,
       "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "PE79E1E7",
-      "person_name": "デニス・ヴィルヌーヴ",
-      "episode_id": "EP-260107023018164",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、デニス・ヴィルヌーヴは2023年に「デューン 砂の惑星」の続編製作に着手していました。1967年ケベック州生まれの彼は、2016年の「メッセージ」でアカデミー賞8部門にノミネ"
+      "type": "narrative_over_achievement",
+      "person_id": "P1D59005",
+      "person_name": "川端康成",
+      "achievement_ep": "EP-000001880",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113225428500",
+      "narrative_importance": 44.21410282287391,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P696DEEE",
-      "person_name": "菅直人",
-      "episode_id": "EP-260107041416718",
-      "keyword": "量子力学",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、菅直人は1967年に東京工業大学理学部応用物理学科の3年生として学業に励んでいました。この年、彼は学内の学生運動「全学共闘会議」に参加し、機動隊との衝突が発生した「10・8羽"
+      "type": "narrative_over_achievement",
+      "person_id": "PABF4A05",
+      "person_name": "北川景子",
+      "achievement_ep": "EP-260113215152305",
+      "achievement_importance": 46.97,
+      "narrative_ep": "EP-260113215152310",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P450D8E3",
-      "person_name": "中谷美紀",
-      "episode_id": "EP-260106232505222",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、中谷美紀は1996年にTBSドラマ「毛利元就」で戦国武将の娘役を演じ、本格的な女優としての地位を確立しました。同年放送されたフジテレビ系ドラマ「ロングバケーション」では木村拓"
+      "type": "narrative_over_achievement",
+      "person_id": "PCDA71A6",
+      "person_name": "ジャック・レモン",
+      "achievement_ep": "EP-260112051508297",
+      "achievement_importance": 59.42,
+      "narrative_ep": "EP-260113172354201",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P27252C6",
-      "person_name": "ウィル・スミス",
-      "episode_id": "EP-260106232505225",
-      "keyword": "グラミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 8.5,
-      "text_preview": "あなたと同じ20歳のとき、ウィル・スミスは1988年にラッパーとして「Rock the House」でレコードデビューを果たしました。相方のジェフリー・タウンズとのデュオ「DJ Jazzy Jeff "
+      "type": "narrative_over_achievement",
+      "person_id": "PCDA71A6",
+      "person_name": "ジャック・レモン",
+      "achievement_ep": "EP-260112051508285",
+      "achievement_importance": 59.53,
+      "narrative_ep": "EP-260113172354201",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P600A360",
-      "person_name": "岡田将生",
-      "episode_id": "EP-260107004503456",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、岡田将生は2009年に映画「アフタースクール」で注目を集めた新進気鋭の俳優でした。身長180センチの長身と端正な顔立ちで、同年放送されたフジテレビのドラマ「LIAR GAME"
+      "type": "narrative_over_achievement",
+      "person_id": "PCDA71A6",
+      "person_name": "ジャック・レモン",
+      "achievement_ep": "EP-000006778",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113172354201",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P3E3040F",
-      "person_name": "柄本佑",
-      "episode_id": "EP-260106232505237",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、柄本佑は2007年に映画「アフタースクール」で本格的な俳優デビューを果たしました。父は俳優の柄本明、弟は柄本時生という芸能一家に生まれた彼は、2008年に「おくりびと」で重要"
+      "type": "narrative_over_achievement",
+      "person_id": "PCDA71A6",
+      "person_name": "ジャック・レモン",
+      "achievement_ep": "EP-DFB96161",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113172354201",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260113030528388",
+      "achievement_importance": 57.18,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311743",
+      "achievement_importance": 31.40401396587832,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047310953",
+      "achievement_importance": 31.351170104955642,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047310914",
+      "achievement_importance": 31.355073861654184,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311730",
+      "achievement_importance": 31.387861024991253,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311857",
+      "achievement_importance": 31.387861024991253,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311799",
+      "achievement_importance": 30.73343816359151,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311845",
+      "achievement_importance": 30.935647888505216,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047310969",
+      "achievement_importance": 30.73343816359151,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311104",
+      "achievement_importance": 30.97233880854083,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311708",
+      "achievement_importance": 30.97233880854083,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311658",
+      "achievement_importance": 30.97233880854083,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311072",
+      "achievement_importance": 31.957955582413597,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311771",
+      "achievement_importance": 30.97233880854083,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311622",
+      "achievement_importance": 30.770129083627126,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P006A642",
+      "person_name": "ビル・マーレイ",
+      "achievement_ep": "EP-260112014047311829",
+      "achievement_importance": 31.994646502449193,
+      "narrative_ep": "EP-260113172353112",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "失敗"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P5FCB435",
+      "person_name": "ジョーン・クロフォード",
+      "achievement_ep": "EP-260114030908108",
+      "achievement_importance": 48.68,
+      "narrative_ep": "EP-260113030532138",
+      "narrative_importance": 53.14043258554913,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P5FCB435",
+      "person_name": "ジョーン・クロフォード",
+      "achievement_ep": "EP-000008517",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030532138",
+      "narrative_importance": 53.14043258554913,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P0BACC07",
+      "person_name": "ウォーレン・ベイティ",
+      "achievement_ep": "EP-000006431",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030528743",
+      "narrative_importance": 50.18643732977477,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P4BB66EB",
+      "person_name": "バート・ランカスター",
+      "achievement_ep": "EP-260113030531325",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260113030531322",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P4BB66EB",
+      "person_name": "バート・ランカスター",
+      "achievement_ep": "EP-260113030531330",
+      "achievement_importance": 46.97,
+      "narrative_ep": "EP-260113030531322",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P4BB66EB",
+      "person_name": "バート・ランカスター",
+      "achievement_ep": "EP-1D7BC8CD",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030531322",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P378FD73",
+      "person_name": "フランシス・マクドーマンド",
+      "achievement_ep": "EP-260113030530529",
+      "achievement_importance": 45.48,
+      "narrative_ep": "EP-260113030530523",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P378FD73",
+      "person_name": "フランシス・マクドーマンド",
+      "achievement_ep": "EP-260113030530526",
+      "achievement_importance": 46.97,
+      "narrative_ep": "EP-260113030530523",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P378FD73",
+      "person_name": "フランシス・マクドーマンド",
+      "achievement_ep": "EP-000003630",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030530523",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAD2D8F9",
+      "person_name": "ティナ・ターナー",
+      "achievement_ep": "EP-260111182451699",
+      "achievement_importance": 57.74,
+      "narrative_ep": "EP-260113005154672",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAD2D8F9",
+      "person_name": "ティナ・ターナー",
+      "achievement_ep": "EP-260117001544989",
+      "achievement_importance": 53.67025504631472,
+      "narrative_ep": "EP-260113005154672",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
       "person_id": "P70D8313",
       "person_name": "シアーシャ・ローナン",
-      "episode_id": "EP-260107023018181",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、シアーシャ・ローナンは2019年に「ストーリー・オブ・マイライフ/わたしの若草物語」でジョー・マーチ役を演じ、第92回アカデミー賞主演女優賞にノミネートされた。この作品でロー"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PB3FDE26",
-      "person_name": "イサック・ニュートン",
-      "episode_id": "EP-260107043018926",
-      "keyword": "万有引力",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、1662年にケンブリッジ大学トリニティ・カレッジで学士号を取得したニュートンは、翌1665年に発生した「ロンドン大疫病」により大学が閉鎖されたため、故郷のウールスソープ・マナ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P282F99D",
-      "person_name": "ワトソン・クリック",
-      "episode_id": "EP-260107032101216",
-      "keyword": "量子力学",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、ワトソン・クリックはケンブリッジ大学キングス・カレッジで物理学の学位取得に向けて研究に没頭していました。1936年、彼は「量子力学と分子構造」をテーマとした卒業論文を執筆し、"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P920164A",
-      "person_name": "ジェームズ・ワトソン",
-      "episode_id": "EP-260107032101219",
-      "keyword": "ノーベル賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ35歳のとき、ジェームズ・ワトソンは1963年にフランシス・クリックとモーリス・ウィルキンズと共にノーベル生理学・医学賞を受賞しました。1953年にネイチャー誌で発表したDNAの二重らせん"
+      "achievement_ep": "EP-000003628",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260114014145238",
+      "narrative_importance": 49.93,
+      "narrative_keyword": "転機"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P920164A",
-      "person_name": "ジェームズ・ワトソン",
-      "achievement_ep": "EP-260107032101219",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000003661",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PAC4FBA3",
-      "person_name": "ヨハネス・ケプラー",
-      "episode_id": "EP-260107182846097",
-      "keyword": "万有引力",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、ヨハネス・ケプラーは1631年11月15日にレーゲンスブルクで生涯を終えた。この年、彼は神聖ローマ皇帝ルドルフ2世時代からの未払い給与12000フローリンの回収のため同地を訪"
+      "person_id": "PE3866CE",
+      "person_name": "ジョージ・マイケル",
+      "achievement_ep": "EP-000005667",
+      "achievement_importance": 8.5,
+      "narrative_ep": "EP-260118101448194",
+      "narrative_importance": 55.40720037809322,
+      "narrative_keyword": "原点"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "PAC4FBA3",
-      "person_name": "ヨハネス・ケプラー",
-      "achievement_ep": "EP-260107182846097",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000003729",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "悩み"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P10A1E08",
-      "person_name": "上田正仁",
-      "episode_id": "EP-260107043018934",
-      "keyword": "量子力学",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、上田正仁は1992年に東京大学理学部物理学科3年生として、量子力学の研究に没頭していました。当時、彼は佐々木節教授の指導の下で「ボーズ・アインシュタイン凝縮」の理論研究を開始"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3582F17",
-      "person_name": "清水富雄",
-      "episode_id": "EP-260107043018937",
-      "keyword": "量子力学",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、清水富雄は1987年に京都大学理学部で量子力学の研究に没頭していました。指導教官である田中正雄教授のもと、超伝導体の電子構造解析に関する論文を執筆し、日本物理学会の「第42回"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PEB725E2",
-      "person_name": "細野秀雄",
-      "episode_id": "EP-260107182846109",
-      "keyword": "ノーベル賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、細野秀雄は2012年に東京工業大学で透明導電膜の研究において画期的な成果を発表しました。彼が開発したIGZO（インジウム・ガリウム・亜鉛酸化物）薄膜トランジスタは、従来のアモ"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P446F8BF",
-      "person_name": "ジェニファー・ダウドナ",
-      "episode_id": "EP-260107043018951",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ20歳のとき、ジェニファー・ダウドナは1984年にハーバード大学の生化学研究室で画期的な発見に取り組んでいました。指導教授のジャック・ショスタク博士のもとで、RNA分子の立体構造解析に没頭"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P476BE02",
-      "person_name": "ハーバー",
-      "episode_id": "EP-260107182846120",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、フリッツ・ハーバーは1928年にベルリン大学で窒素固定法の研究を継続していました。1918年にノーベル化学賞を受賞したハーバー・ボッシュ法により、年間500万トンの合成アンモ"
+      "person_id": "P64D55AC",
+      "person_name": "小林誠",
+      "achievement_ep": "EP-000002124",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113030532436",
+      "narrative_importance": 46.65095005014146,
+      "narrative_keyword": "転機"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P476BE02",
-      "person_name": "ハーバー",
-      "achievement_ep": "EP-260107182846120",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000004761",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "失敗"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1DF3F1A",
-      "person_name": "菊池正士",
-      "episode_id": "EP-260107182846124",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、菊池正士は1948年に東京大学理学部教授として原子核物理学研究の指導に専念していました。戦後復興期の日本で、彼は理化学研究所時代から手がけていたサイクロトロン開発の成果を「原"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P9A6DFAE",
-      "person_name": "ハビエル・バルデム",
-      "episode_id": "EP-260107035605072",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ハビエル・バルデムは1989年にスペインのテレビシリーズ「El Píocaro」で俳優デビューを果たしました。マドリード出身の彼は、母親で女優のピラール・バルデムの影響を受け"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6345DFA",
-      "person_name": "ケネス・ブラナー",
-      "episode_id": "EP-260107035605073",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ケネス・ブラナーは1980年にロンドンの王立演劇学校を卒業し、同年にロイヤル・シェイクスピア・カンパニーに入団しました。彼は史上最年少の21歳でヘンリー5世役を演じ、批評家か"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3CB8E2C",
-      "person_name": "菊地凛子",
-      "episode_id": "EP-260107035605076",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、菊地凛子は女優としてのキャリアの基盤を築いていました。1981年生まれの彼女は、2001年当時、すでにモデルや小規模な演技の仕事を経験しながら、自分の表現方法を模索していた時"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P6C9540C",
-      "person_name": "多部未華子",
-      "episode_id": "EP-260107015605002",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、多部未華子は2009年にNHK連続テレビ小説「つばさ」で主演を務め、平均視聴率13.8%を記録しました。東京都出身の彼女は、前年2008年の映画「アフタースクール」で注目を集"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P4BB0CCF",
-      "person_name": "菅野美穂",
-      "episode_id": "EP-260106232505258",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、菅野美穂は1997年にフジテレビの連続ドラマ「イグアナの娘」で主演を務め、視聴率15.4%を記録しました。このドラマでの演技が評価され、同年の「第15回ザテレビジョンドラマア"
+      "person_id": "P64D55AC",
+      "person_name": "小林誠",
+      "achievement_ep": "EP-000001153",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113030532436",
+      "narrative_importance": 46.65095005014146,
+      "narrative_keyword": "転機"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P4BB0CCF",
-      "person_name": "菅野美穂",
-      "achievement_ep": "EP-260106232505258",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000004997",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "悩み"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PBCA8C60",
-      "person_name": "首藤文代",
-      "episode_id": "EP-260107043018973",
-      "keyword": "フィールズ賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、首藤文代は1998年に東京大学理学部数学科で代数幾何学の研究に没頭していました。指導教授の田中博明の下で、楕円曲線の有理点に関する論文を執筆し、学部生としては異例の127ペー"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PED9B72B",
-      "person_name": "長沢工",
-      "episode_id": "EP-260107043018977",
-      "keyword": "フィールズ賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、長沢工は2024年に東京大学理学部数学科で「リーマン予想に関する新アプローチ」の研究論文を発表し、国際数学会議で最年少発表者として注目を集めた。この論文は査読期間わずか3か月"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P24F9F03",
-      "person_name": "ロバート・メトカーフ",
-      "episode_id": "EP-260107183945604",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、ロバート・メトカーフは2006年にポラリス・ベンチャー・パートナーズのパートナーとして活動していました。イーサネットの発明者として、1980年に設立した3Comは既に10億ド"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PE906FC0",
-      "person_name": "板倉聖宣",
-      "episode_id": "EP-260107043018985",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ20歳のとき、板倉聖宣は1950年に東京大学理学部物理学科に在籍していました。同年、湯川秀樹がノーベル物理学賞を受賞した記念講演会に参加し、物理教育の重要性について深く考察しました。195"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P982092B",
-      "person_name": "喜安朗",
-      "episode_id": "EP-260108064823920",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ75歳のとき、喜安朗は2022年に東京大学名誉教授として「量子物理学における場の理論の発展」シンポジウムで基調講演を行った。1968年に発表した素粒子理論に関する論文が被引用数3,847回"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3ABB32C",
-      "person_name": "ジム・デイビス",
-      "episode_id": "EP-260107030455579",
-      "keyword": "世界記録",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、ジム・デイビスは1965年にインディアナ州マンシーで地元新聞社のアシスタントとして働いていました。彼は週給40ドルの収入で生計を立てながら、漫画家になる夢を追い続けていました"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PA7EF463",
-      "person_name": "ジョン・トラボルタ",
-      "episode_id": "EP-260107035605130",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、ジョン・トラボルタは1984年に映画「愛と青春の旅だち」でデブラ・ウィンガーと共演し、興行収入1億2900万ドルという大ヒットを記録しました。この作品は全米映画興行成績で年間"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PD2B9626",
-      "person_name": "釈由美子",
-      "episode_id": "EP-260106232505282",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、釈由美子は2000年に女優としてのキャリアを本格的にスタートさせていました。1999年にグラビアアイドルとしてデビューした彼女は、翌年には映画「漂流教室」で女優デビューを果た"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "PECDE08E",
-      "person_name": "酒井法子",
-      "episode_id": "EP-260106232505285",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、酒井法子は1999年に女優としての地位を確立していました。1987年にアイドルデビューしてから12年が経過し、フジテレビのドラマ「ひとつ屋根の下」では江口洋介や福山雅治と共演"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P3BE1A5D",
-      "person_name": "ジョン・ボイエガ",
-      "episode_id": "EP-260106232505295",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ35歳のとき、ジョン・ボイエガは2027年にハリウッドでの地位を確固たるものにしていました。2015年の「スター・ウォーズ/フォースの覚醒」でフィン役を演じてから12年が経過し、彼の出演作"
+      "person_id": "P64D55AC",
+      "person_name": "小林誠",
+      "achievement_ep": "EP-000001154",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113030532436",
+      "narrative_importance": 46.65095005014146,
+      "narrative_keyword": "転機"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P3BE1A5D",
-      "person_name": "ジョン・ボイエガ",
-      "achievement_ep": "EP-260106232505295",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000007147",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "きっかけ"
+      "person_id": "PA15530A",
+      "person_name": "ウィリアム・H・メイシー",
+      "achievement_ep": "EP-260113005153480",
+      "achievement_importance": 58.97,
+      "narrative_ep": "EP-260111063414923",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P82B6AEF",
-      "person_name": "トーマシン・マッケンジー",
-      "episode_id": "EP-260106232505296",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ30歳のとき、トーマシン・マッケンジーは2030年にハリウッドで最も影響力のある女優の一人として確固たる地位を築いていました。2017年の「リーヴ・ノー・トレース」でのデビューから13年が"
+      "type": "narrative_over_achievement",
+      "person_id": "PA15530A",
+      "person_name": "ウィリアム・H・メイシー",
+      "achievement_ep": "EP-000007180",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111063414923",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P7554735",
-      "person_name": "ハロルド・ユーリー",
-      "episode_id": "EP-260107221458125",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、ハロルド・ユーリーは1953年にシカゴ大学で重水素の研究を継続していました。1934年にノーベル化学賞を受賞した重水素発見から19年が経過し、彼の研究室では月の岩石形成に関す"
+      "type": "narrative_over_achievement",
+      "person_id": "P8170CE3",
+      "person_name": "ビリー・ワイルダー",
+      "achievement_ep": "EP-000005567",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260110155342540",
+      "narrative_importance": 53.75,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
+      "type": "narrative_over_achievement",
+      "person_id": "P7A8921A",
+      "person_name": "初音ミク",
+      "achievement_ep": "EP-260118072516510",
+      "achievement_importance": 48.5875836422141,
+      "narrative_ep": "EP-260118072516472",
+      "narrative_importance": 50.20563093525969,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD4DC992",
+      "person_name": "デペッシュ・モード",
+      "achievement_ep": "EP-260113163604494",
+      "achievement_importance": 58.97,
+      "narrative_ep": "EP-260118072324580",
+      "narrative_importance": 58.99560997275425,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P2C7C0B1",
+      "person_name": "ヴァン・モリソン",
+      "achievement_ep": "EP-260113030530067",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260118072303433",
+      "narrative_importance": 54.90641120697644,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P2C7C0B1",
+      "person_name": "ヴァン・モリソン",
+      "achievement_ep": "EP-260113163603969",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260118072303433",
+      "narrative_importance": 54.90641120697644,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6AA8C3A",
+      "person_name": "岸部一徳",
+      "achievement_ep": "EP-260113005149254",
+      "achievement_importance": 53.13,
+      "narrative_ep": "EP-260113005149245",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6AA8C3A",
+      "person_name": "岸部一徳",
+      "achievement_ep": "EP-000003861",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113005149245",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD96B3FF",
+      "person_name": "オーティス・レディング",
+      "achievement_ep": "EP-260113005157991",
+      "achievement_importance": 48.64,
+      "narrative_ep": "EP-260118072324944",
+      "narrative_importance": 54.97602981772266,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PFDAF54D",
+      "person_name": "トム・ウェイツ",
+      "achievement_ep": "EP-260113005200957",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260113005200954",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P8EB31F6",
+      "person_name": "マイケル・キートン",
+      "achievement_ep": "EP-260113171556818",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260113171556822",
+      "narrative_importance": 55.46,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P8EB31F6",
+      "person_name": "マイケル・キートン",
+      "achievement_ep": "EP-000009179",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113171556822",
+      "narrative_importance": 55.46,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-251218185058737",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-045BB1C396CE",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-2512196CDB15",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-260112014047311312",
+      "achievement_importance": 31.62466456078045,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-260112014047311921",
+      "achievement_importance": 31.590070749904957,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-260112014047312103",
+      "achievement_importance": 31.66135548081606,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF51A6EA",
+      "person_name": "シドニー・ポワチエ",
+      "achievement_ep": "EP-260112014047311186",
+      "achievement_importance": 30.97233880854083,
+      "narrative_ep": "EP-260113005200296",
+      "narrative_importance": 31.81007281140937,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98FF8FB",
+      "person_name": "イアン・マッケラン",
+      "achievement_ep": "EP-260113005152758",
+      "achievement_importance": 52.18,
+      "narrative_ep": "EP-260110155342585",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98FF8FB",
+      "person_name": "イアン・マッケラン",
+      "achievement_ep": "EP-260118072317079",
+      "achievement_importance": 50.68643732977477,
+      "narrative_ep": "EP-260110155342585",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PC62DB7B",
+      "person_name": "真田広之",
+      "achievement_ep": "EP-260114041901327",
+      "achievement_importance": 50.47,
+      "narrative_ep": "EP-260110155342620",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PC62DB7B",
+      "person_name": "真田広之",
+      "achievement_ep": "EP-260113030535781",
+      "achievement_importance": 49.63,
+      "narrative_ep": "EP-260110155342620",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PC62DB7B",
+      "person_name": "真田広之",
+      "achievement_ep": "EP-000001354",
+      "achievement_importance": 9.5,
+      "narrative_ep": "EP-260110155342620",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6618B38",
+      "person_name": "レイ・チャールズ",
+      "achievement_ep": "EP-260113005148939",
+      "achievement_importance": 46.97,
+      "narrative_ep": "EP-260111013602575",
+      "narrative_importance": 51.64,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P779AA9A",
+      "person_name": "小林薫",
+      "achievement_ep": "EP-260114051755653",
+      "achievement_importance": 47.84,
+      "narrative_ep": "EP-260113030533211",
+      "narrative_importance": 49.05,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA7C5620",
+      "person_name": "ベニチオ・デル・トロ",
+      "achievement_ep": "EP-260113171156573",
+      "achievement_importance": 46.97,
+      "narrative_ep": "EP-260111155142199",
+      "narrative_importance": 51.34,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA7C5620",
+      "person_name": "ベニチオ・デル・トロ",
+      "achievement_ep": "EP-000007195",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111155142199",
+      "narrative_importance": 51.34,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDC99615",
+      "person_name": "レジーナ・キング",
+      "achievement_ep": "EP-260113164933900",
+      "achievement_importance": 57.18,
+      "narrative_ep": "EP-260114012913429",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDC99615",
+      "person_name": "レジーナ・キング",
+      "achievement_ep": "EP-000004112",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260114012913429",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAE9D812",
+      "person_name": "マイケル・シャノン",
+      "achievement_ep": "EP-260113005154791",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260113172354012",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAE9D812",
+      "person_name": "マイケル・シャノン",
+      "achievement_ep": "EP-000004111",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113172354012",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PCE7043D",
+      "person_name": "竹中直人",
+      "achievement_ep": "EP-260112051508306",
+      "achievement_importance": 56.4,
+      "narrative_ep": "EP-260110173638410",
+      "narrative_importance": 56.68,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98E9891",
+      "person_name": "バーバラ・スタンウィック",
+      "achievement_ep": "EP-260113030534329",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260114012912782",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98E9891",
+      "person_name": "バーバラ・スタンウィック",
+      "achievement_ep": "EP-260111182451282",
+      "achievement_importance": 51.42,
+      "narrative_ep": "EP-260114012912782",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98E9891",
+      "person_name": "バーバラ・スタンウィック",
+      "achievement_ep": "EP-260111182451273",
+      "achievement_importance": 54.24,
+      "narrative_ep": "EP-260114012912782",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98E9891",
+      "person_name": "バーバラ・スタンウィック",
+      "achievement_ep": "EP-260111182451280",
+      "achievement_importance": 49.14,
+      "narrative_ep": "EP-260114012912782",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98E9891",
+      "person_name": "バーバラ・スタンウィック",
+      "achievement_ep": "EP-260111182451276",
+      "achievement_importance": 49.2,
+      "narrative_ep": "EP-260114012912782",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P98E9891",
+      "person_name": "バーバラ・スタンウィック",
+      "achievement_ep": "EP-260118100639979",
+      "achievement_importance": 53.51423794149155,
+      "narrative_ep": "EP-260114012912782",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260113171156505",
+      "achievement_importance": 49.63,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260112014047311895",
+      "achievement_importance": 31.424167260909076,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260112014047312077",
+      "achievement_importance": 31.789289252424442,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260112014047311238",
+      "achievement_importance": 30.83156179016453,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260112014047312056",
+      "achievement_importance": 30.84312623958056,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260112014047311914",
+      "achievement_importance": 36.59079350201263,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C4B55E",
+      "person_name": "山田洋次",
+      "achievement_ep": "EP-260112014047311880",
+      "achievement_importance": 36.83245698795521,
+      "narrative_ep": "EP-260118072317621",
+      "narrative_importance": 55.353009003883095,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDEE3FD0",
+      "person_name": "ウォルター・マッソー",
+      "achievement_ep": "EP-260113030536315",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260113172354312",
+      "narrative_importance": 57.21,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDEE3FD0",
+      "person_name": "ウォルター・マッソー",
+      "achievement_ep": "EP-260113005158456",
+      "achievement_importance": 53.63,
+      "narrative_ep": "EP-260113172354312",
+      "narrative_importance": 57.21,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9519282",
+      "person_name": "マッコイ・タイナー",
+      "achievement_ep": "EP-260114043041128",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260110163134534",
+      "narrative_importance": 55.55,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA24C976",
+      "person_name": "ジョン・キューザック",
+      "achievement_ep": "EP-260113164933652",
+      "achievement_importance": 57.18,
+      "narrative_ep": "EP-260111052017036",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDEC8369",
+      "person_name": "ジョニー・マティス",
+      "achievement_ep": "EP-260113005158428",
+      "achievement_importance": 58.97,
+      "narrative_ep": "EP-260113005158420",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDEC8369",
+      "person_name": "ジョニー・マティス",
+      "achievement_ep": "EP-260113005158422",
+      "achievement_importance": 57.18,
+      "narrative_ep": "EP-260113005158420",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDEC8369",
+      "person_name": "ジョニー・マティス",
+      "achievement_ep": "EP-260113005158426",
+      "achievement_importance": 57.14,
+      "narrative_ep": "EP-260113005158420",
+      "narrative_importance": 60.71,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD73C945",
+      "person_name": "大沢たかお",
+      "achievement_ep": "EP-260113164933880",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260111052017192",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD6DC148",
+      "person_name": "カウント・ベイシー",
+      "achievement_ep": "EP-260114032042041",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260110163134785",
+      "narrative_importance": 55.57,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PB0A0DC5",
+      "person_name": "スヴァンテ・ペーボ",
+      "achievement_ep": "EP-260113030535110",
+      "achievement_importance": 52.26,
+      "narrative_ep": "EP-260111064722398",
+      "narrative_importance": 58.42290181465114,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
       "person_id": "P488F443",
       "person_name": "大森南朋",
-      "episode_id": "EP-260107004503466",
-      "keyword": "万有引力",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、大森南朋は1992年に舞台俳優としてのキャリアをスタートさせていました。東京芸術大学音楽学部声楽科に在学中だった彼は、演劇実験室◎万有引力の寺山修司作品「奴婢訓」で初舞台を踏"
+      "achievement_ep": "EP-000007568",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260114012911582",
+      "narrative_importance": 49.59,
+      "narrative_keyword": "原点"
     },
     {
       "type": "narrative_over_achievement",
       "person_id": "P488F443",
       "person_name": "大森南朋",
       "achievement_ep": "EP-260107004503466",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000007568",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "転機"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P1A7BCC1",
-      "person_name": "オリバー・ストーン",
-      "episode_id": "EP-260107093545004",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、オリバー・ストーンは1967年にコロンビア大学を中退し、ベトナム戦争に従軍志願しました。第25歩兵師団に配属されたストーンは、368日間の戦闘任務を遂行し、ブロンズスター勲章"
-    },
-    {
-      "type": "achievement_undervalued",
-      "person_id": "P9FD850A",
-      "person_name": "アーネスト・ラザフォード",
-      "episode_id": "EP-260107221458136",
-      "keyword": "ノーベル賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、アーネスト・ラザフォードは1931年にケンブリッジ大学キャヴェンディッシュ研究所で原子核分裂の研究を続けていました。この年、彼の弟子ジェームズ・チャドウィックが中性子を発見し"
+      "achievement_importance": 9.5,
+      "narrative_ep": "EP-260114012911582",
+      "narrative_importance": 49.59,
+      "narrative_keyword": "原点"
     },
     {
       "type": "narrative_over_achievement",
-      "person_id": "P9FD850A",
-      "person_name": "アーネスト・ラザフォード",
-      "achievement_ep": "EP-260107221458136",
-      "achievement_importance": 0.0,
-      "narrative_ep": "EP-000007796",
-      "narrative_importance": 7.9,
-      "narrative_keyword": "失敗"
+      "person_id": "PB8FDF6A",
+      "person_name": "上原ひろみ",
+      "achievement_ep": "EP-000000821",
+      "achievement_importance": 9.3,
+      "narrative_ep": "EP-260110163134668",
+      "narrative_importance": 58.48115061056967,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "PCDD9E44",
-      "person_name": "ジャン＝バティスト・ラマルク",
-      "episode_id": "EP-260107221458144",
-      "keyword": "進化論",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、ジャン＝バティスト・ラマルクは1814年にフランス科学アカデミーで「動物学哲学」の理論について最終講義を行った。この年、ナポレオンの失脚によりパリは政治的混乱の中にあったが、"
+      "type": "narrative_over_achievement",
+      "person_id": "P55B9C19",
+      "person_name": "石田ゆり子",
+      "achievement_ep": "EP-000003433",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260114012911921",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P6979883",
-      "person_name": "ピーター・ヒッグス",
-      "episode_id": "EP-260107221458150",
-      "keyword": "ノーベル物理学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、ピーター・ヒッグスは1989年にエディンバラ大学で理論物理学の研究を継続していました。1964年に発表したヒッグス機構の理論から25年が経過し、欧州原子核研究機構（CERN）"
+      "type": "narrative_over_achievement",
+      "person_id": "P9292FE3",
+      "person_name": "阿部定",
+      "achievement_ep": "EP-000008218",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111063414881",
+      "narrative_importance": 53.0,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P2C0AB4D",
-      "person_name": "フランシス・アーノルド",
-      "episode_id": "EP-260107221458151",
-      "keyword": "ノーベル化学賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、フランシス・アーノルドは2014年にカリフォルニア工科大学で酵素の進化工学研究を精力的に推進していました。彼女が開発した「指向性進化」技術により、従来の化学合成では困難だった"
+      "type": "narrative_over_achievement",
+      "person_id": "P9602A59",
+      "person_name": "山中伸弥",
+      "achievement_ep": "EP-000001477",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113005152511",
+      "narrative_importance": 51.38,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P37DF6BC",
-      "person_name": "クリスティアーネ・ニュスライン＝フォルハルト",
-      "episode_id": "EP-260107221458153",
-      "keyword": "ノーベル賞",
-      "current_importance": 0.0,
-      "expected_importance": 10.0,
-      "text_preview": "あなたと同じ60歳のとき、クリスティアーネ・ニュスライン＝フォルハルトは2005年にノーベル生理学・医学賞を受賞しました。マックス・プランク研究所で30年間にわたり発生生物学研究を続け、ショウジョウバ"
+      "type": "narrative_over_achievement",
+      "person_id": "P9602A59",
+      "person_name": "山中伸弥",
+      "achievement_ep": "EP-000001124",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113005152511",
+      "narrative_importance": 51.38,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P9842E27",
-      "person_name": "ブリン",
-      "episode_id": "EP-260107024537301",
-      "keyword": "IPO",
-      "current_importance": 0.0,
-      "expected_importance": 8.0,
-      "text_preview": "あなたと同じ35歳のとき、ブリンはグーグルの共同創設者として2003年に同社の株式公開を成功させ、時価総額230億ドルという記録的な数値を達成しました。スタンフォード大学で博士課程在籍中の1996年に"
+      "type": "narrative_over_achievement",
+      "person_id": "P595D475",
+      "person_name": "寺島しのぶ",
+      "achievement_ep": "EP-260113030531875",
+      "achievement_importance": 51.26,
+      "narrative_ep": "EP-260113005148069",
+      "narrative_importance": 54.88,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P482796D",
-      "person_name": "エドワード・タイラー",
-      "episode_id": "EP-260107221458185",
-      "keyword": "進化論",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ60歳のとき、エドワード・タイラーはオックスフォード大学ピット・リヴァーズ博物館の初代館長に就任しました。1884年、彼が提唱した文化進化論の集大成である「人類学原理」第2版がロンドンで出"
+      "type": "narrative_over_achievement",
+      "person_id": "P9546B3C",
+      "person_name": "稲森いずみ",
+      "achievement_ep": "EP-000005951",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030534241",
+      "narrative_importance": 50.43,
+      "narrative_keyword": "苦悩"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P065CB6C",
-      "person_name": "工藤阿須加",
-      "episode_id": "EP-260107004503495",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、工藤阿須加は2011年にテレビドラマ「小暴れ小太郎」で俳優デビューを果たしました。父親が元プロ野球選手の工藤公康であることから注目を集めたが、彼自身も慶應義塾大学在学中からモ"
+      "type": "narrative_over_achievement",
+      "person_id": "PBB70378",
+      "person_name": "安部公房",
+      "achievement_ep": "EP-0F0AAF74",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113170130890",
+      "narrative_importance": 42.666472316559926,
+      "narrative_keyword": "苦悩"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "PC300104",
-      "person_name": "キャシー・ベイツ",
-      "episode_id": "EP-260107004503502",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ20歳のとき、キャシー・ベイツは南メソジスト大学で演劇を学んでいました。1968年、テネシー州メンフィス出身の彼女は、家族の期待する安定した道ではなく、演劇への情熱を追い求める決断をした時"
+      "type": "narrative_over_achievement",
+      "person_id": "PBF29E48",
+      "person_name": "生瀬勝久",
+      "achievement_ep": "EP-260113005156131",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260114014146438",
+      "narrative_importance": 57.21,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "PC48F98E",
-      "person_name": "ダコタ・ファニング",
-      "episode_id": "EP-260108064537641",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ80歳のとき、ダコタ・ファニングは2074年にハリウッド殿堂入りを果たしました。アカデミー賞では2001年の「アイ・アム・サム」で史上最年少7歳でのノミネート記録を保持し続けている。207"
+      "type": "narrative_over_achievement",
+      "person_id": "PBF29E48",
+      "person_name": "生瀬勝久",
+      "achievement_ep": "EP-260113005156133",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260114014146438",
+      "narrative_importance": 57.21,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P1EDCCBE",
-      "person_name": "メジロマックイーン",
-      "episode_id": "EP-260106222338762",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、メジロマックイーンは1991年の「天皇賞（春）」で圧倒的な強さを見せつけた。淀川競馬場3200メートルのコースを3分16秒0の好タイムで駆け抜け、2着馬に5馬身差をつけて勝利"
+      "type": "narrative_over_achievement",
+      "person_id": "PBF29E48",
+      "person_name": "生瀬勝久",
+      "achievement_ep": "EP-000004881",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260114014146438",
+      "narrative_importance": 57.21,
+      "narrative_keyword": "原点"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P43C2188",
-      "person_name": "ダイワスカーレット",
-      "episode_id": "EP-260106222338773",
-      "keyword": "殿堂入り",
-      "current_importance": 0.0,
-      "expected_importance": 9.5,
-      "text_preview": "あなたと同じ20歳のとき、ダイワスカーレットは2007年の競馬界で圧倒的な存在感を示していました。同年5月に行われた「ヴィクトリアマイル」では、武豊騎手とのコンビで1分33秒3の好タイムで優勝を果たし"
+      "type": "narrative_over_achievement",
+      "person_id": "P0821EEB",
+      "person_name": "椎名桔平",
+      "achievement_ep": "EP-000007686",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113030528631",
+      "narrative_importance": 53.63,
+      "narrative_keyword": "きっかけ"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P97F24BFA",
-      "person_name": "ジョエル・コーエン",
-      "episode_id": "EP-260108070946259",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ80歳のとき、ジョエル・コーエンは2024年に弟イーサン・コーエンとの共同監督作品から離れ、単独での映画制作に専念していました。アカデミー賞を4回受賞したコーエン兄弟として、1984年の「"
+      "type": "narrative_over_achievement",
+      "person_id": "PD5783C6",
+      "person_name": "片桐はいり",
+      "achievement_ep": "EP-260113030536117",
+      "achievement_importance": 58.97,
+      "narrative_ep": "EP-260111081950143",
+      "narrative_importance": 75.74,
+      "narrative_keyword": "転機"
     },
     {
-      "type": "achievement_undervalued",
-      "person_id": "P0BBF0D15",
-      "person_name": "イーサン・コーエン",
-      "episode_id": "EP-260108070946260",
-      "keyword": "アカデミー賞",
-      "current_importance": 0.0,
-      "expected_importance": 9.0,
-      "text_preview": "あなたと同じ80歳のとき、イーサン・コーエンは2023年に弟ジョエル・コーエンとともにカンヌ国際映画祭で名誉パルムドールを受賞しました。コーエン兄弟として1984年の「ブラッド・シンプル」でデビューし"
+      "type": "narrative_over_achievement",
+      "person_id": "PD5783C6",
+      "person_name": "片桐はいり",
+      "achievement_ep": "EP-260113171156815",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260111081950143",
+      "narrative_importance": 75.74,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P5F34AD4",
+      "person_name": "綾野剛",
+      "achievement_ep": "EP-260113164933128",
+      "achievement_importance": 58.97,
+      "narrative_ep": "EP-260111052016846",
+      "narrative_importance": 77.29,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9303EDE",
+      "person_name": "石橋凌",
+      "achievement_ep": "EP-260111155141951",
+      "achievement_importance": 56.01,
+      "narrative_ep": "EP-260111155141954",
+      "narrative_importance": 57.5,
+      "narrative_keyword": "葛藤"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P1C0E24C",
+      "person_name": "マリス・ヤンソンス",
+      "achievement_ep": "EP-260111182448829",
+      "achievement_importance": 56.34,
+      "narrative_ep": "EP-260111013602479",
+      "narrative_importance": 56.68,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P49D1A22",
+      "person_name": "フレディ・ハバード",
+      "achievement_ep": "EP-260111182449780",
+      "achievement_importance": 52.72,
+      "narrative_ep": "EP-260113005146961",
+      "narrative_importance": 53.14293598118874,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA138212",
+      "person_name": "鈴木梅太郎",
+      "achievement_ep": "EP-260111155142110",
+      "achievement_importance": 53.58,
+      "narrative_ep": "EP-260113005153475",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA138212",
+      "person_name": "鈴木梅太郎",
+      "achievement_ep": "EP-AD00B4E7",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113005153475",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9FEF80D",
+      "person_name": "マックス・ローチ",
+      "achievement_ep": "EP-260111182451449",
+      "achievement_importance": 47.51,
+      "narrative_ep": "EP-260110163134575",
+      "narrative_importance": 53.13,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P40A86BC",
+      "person_name": "西川美和",
+      "achievement_ep": "EP-260112044302012",
+      "achievement_importance": 51.06,
+      "narrative_ep": "EP-260118093117677",
+      "narrative_importance": 53.63670117251656,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P40A86BC",
+      "person_name": "西川美和",
+      "achievement_ep": "EP-260118071351795",
+      "achievement_importance": 41.10930802614023,
+      "narrative_ep": "EP-260118093117677",
+      "narrative_importance": 53.63670117251656,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P40A86BC",
+      "person_name": "西川美和",
+      "achievement_ep": "EP-000006433",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260118093117677",
+      "narrative_importance": 53.63670117251656,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAA2B45F",
+      "person_name": "伊藤淳史",
+      "achievement_ep": "EP-260113164933696",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260111052017071",
+      "narrative_importance": 75.74,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PAA2B45F",
+      "person_name": "伊藤淳史",
+      "achievement_ep": "EP-000005734",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111052017071",
+      "narrative_importance": 75.74,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PFA3A3A6",
+      "person_name": "若山富三郎",
+      "achievement_ep": "EP-260113030537003",
+      "achievement_importance": 41.14,
+      "narrative_ep": "EP-260113005200720",
+      "narrative_importance": 47.8,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P560AC9A",
+      "person_name": "アリシア・キーズ",
+      "achievement_ep": "EP-000005669",
+      "achievement_importance": 8.5,
+      "narrative_ep": "EP-260111013602531",
+      "narrative_importance": 50.20563093525969,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDA202F0",
+      "person_name": "プロディジー",
+      "achievement_ep": "EP-000005852",
+      "achievement_importance": 8.5,
+      "narrative_ep": "EP-260118093147103",
+      "narrative_importance": 57.16861984769877,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDA202F0",
+      "person_name": "プロディジー",
+      "achievement_ep": "EP-260116232910981",
+      "achievement_importance": 57.1242817237747,
+      "narrative_ep": "EP-260118093147103",
+      "narrative_importance": 57.16861984769877,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDA202F0",
+      "person_name": "プロディジー",
+      "achievement_ep": "EP-260116232910987",
+      "achievement_importance": 57.16097264381032,
+      "narrative_ep": "EP-260118093147103",
+      "narrative_importance": 57.16861984769877,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDA202F0",
+      "person_name": "プロディジー",
+      "achievement_ep": "EP-260116232911010",
+      "achievement_importance": 55.469971268712094,
+      "narrative_ep": "EP-260118093147103",
+      "narrative_importance": 57.16861984769877,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P2151C7D",
+      "person_name": "ルピタ・ニョンゴ",
+      "achievement_ep": "EP-000003625",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111052016656",
+      "narrative_importance": 75.74,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PB606292",
+      "person_name": "カールじいさん",
+      "achievement_ep": "EP-260118100610182",
+      "achievement_importance": 50.72190205312218,
+      "narrative_ep": "EP-260113031849720",
+      "narrative_importance": 57.23,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PABF1CB9",
+      "person_name": "ジョン・クラシンスキー",
+      "achievement_ep": "EP-000007537",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113005154535",
+      "narrative_importance": 55.42,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P450D8E3",
+      "person_name": "中谷美紀",
+      "achievement_ep": "EP-260106232505222",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260114012911508",
+      "narrative_importance": 49.59,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6BA3CB3",
+      "person_name": "竹田美文",
+      "achievement_ep": "EP-260113005149425",
+      "achievement_importance": 55.47,
+      "narrative_ep": "EP-260111064722144",
+      "narrative_importance": 56.78310925246404,
+      "narrative_keyword": "きっかけ"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA265B33",
+      "person_name": "ジャスミン",
+      "achievement_ep": "EP-260118100608725",
+      "achievement_importance": 58.907556638897915,
+      "narrative_ep": "EP-260113031848711",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA265B33",
+      "person_name": "ジャスミン",
+      "achievement_ep": "EP-260118100848455",
+      "achievement_importance": 53.67025504631472,
+      "narrative_ep": "EP-260113031848711",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA265B33",
+      "person_name": "ジャスミン",
+      "achievement_ep": "EP-260118100608728",
+      "achievement_importance": 55.84962242348127,
+      "narrative_ep": "EP-260113031848711",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9CCDD33",
+      "person_name": "板谷由夏",
+      "achievement_ep": "EP-000005962",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260113005153107",
+      "narrative_importance": 51.38,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P7E06F8B",
+      "person_name": "アイザック・バシェビス・シンガー",
+      "achievement_ep": "EP-260113030533495",
+      "achievement_importance": 45.48,
+      "narrative_ep": "EP-260113171954360",
+      "narrative_importance": 50.43,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P7E06F8B",
+      "person_name": "アイザック・バシェビス・シンガー",
+      "achievement_ep": "EP-000008870",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260113171954360",
+      "narrative_importance": 50.43,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P0423C36",
+      "person_name": "アースラ",
+      "achievement_ep": "EP-260118073057172",
+      "achievement_importance": 48.64112255854391,
+      "narrative_ep": "EP-260113031841205",
+      "narrative_importance": 50.43,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P0F9CE45",
+      "person_name": "石田ひかり",
+      "achievement_ep": "EP-000006613",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111052016602",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P2B13C99",
+      "person_name": "田中哲司",
+      "achievement_ep": "EP-000005256",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111021023685",
+      "narrative_importance": 58.46634480085149,
+      "narrative_keyword": "きっかけ"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P5CDEA0C",
+      "person_name": "マーク・トウェイン",
+      "achievement_ep": "EP-260118071716868",
+      "achievement_importance": 48.639680468212575,
+      "narrative_ep": "EP-260113030532027",
+      "narrative_importance": 48.64,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P7D828CD",
+      "person_name": "マイケル・クライトン",
+      "achievement_ep": "EP-000007994",
+      "achievement_importance": 9.5,
+      "narrative_ep": "EP-260118095858498",
+      "narrative_importance": 53.454804270087536,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBE7884C",
+      "person_name": "ブリン・ターフェル",
+      "achievement_ep": "EP-260111162341354",
+      "achievement_importance": 8.5,
+      "narrative_ep": "EP-260118093146798",
+      "narrative_importance": 50.192226684684535,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PE79E1E7",
+      "person_name": "デニス・ヴィルヌーヴ",
+      "achievement_ep": "EP-260113005159214",
+      "achievement_importance": 55.46,
+      "narrative_ep": "EP-260113005159206",
+      "narrative_importance": 57.14,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PE79E1E7",
+      "person_name": "デニス・ヴィルヌーヴ",
+      "achievement_ep": "EP-260113172354391",
+      "achievement_importance": 53.67,
+      "narrative_ep": "EP-260113005159206",
+      "narrative_importance": 57.14,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9C3E7D2",
+      "person_name": "清宮幸太郎",
+      "achievement_ep": "EP-260113170130651",
+      "achievement_importance": 55.45,
+      "narrative_ep": "EP-260113170130655",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF4D3438",
+      "person_name": "チヌア・アチェベ",
+      "achievement_ep": "EP-260112014047311883",
+      "achievement_importance": 31.268800253325814,
+      "narrative_ep": "EP-260111064016120",
+      "narrative_importance": 31.41227665081938,
+      "narrative_keyword": "敗北"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF4D3438",
+      "person_name": "チヌア・アチェベ",
+      "achievement_ep": "EP-260112014047312124",
+      "achievement_importance": 31.268800253325814,
+      "narrative_ep": "EP-260111064016120",
+      "narrative_importance": 31.41227665081938,
+      "narrative_keyword": "敗北"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF4D3438",
+      "person_name": "チヌア・アチェベ",
+      "achievement_ep": "EP-260112014047312102",
+      "achievement_importance": 31.305491173361425,
+      "narrative_ep": "EP-260111064016120",
+      "narrative_importance": 31.41227665081938,
+      "narrative_keyword": "敗北"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF4D3438",
+      "person_name": "チヌア・アチェベ",
+      "achievement_ep": "EP-260112014047311920",
+      "achievement_importance": 31.305491173361425,
+      "narrative_ep": "EP-260111064016120",
+      "narrative_importance": 31.41227665081938,
+      "narrative_keyword": "敗北"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF4D3438",
+      "person_name": "チヌア・アチェベ",
+      "achievement_ep": "EP-260112014047311259",
+      "achievement_importance": 30.651068311961684,
+      "narrative_ep": "EP-260111064016120",
+      "narrative_importance": 31.41227665081938,
+      "narrative_keyword": "敗北"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF4D3438",
+      "person_name": "チヌア・アチェベ",
+      "achievement_ep": "EP-260112014047311320",
+      "achievement_importance": 30.687759231997298,
+      "narrative_ep": "EP-260111064016120",
+      "narrative_importance": 31.41227665081938,
+      "narrative_keyword": "敗北"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PF25FA02",
+      "person_name": "シャーリーズ・セロン",
+      "achievement_ep": "EP-000003426",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260111052017268",
+      "narrative_importance": 77.29,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA691886",
+      "person_name": "リンゴ・スター",
+      "achievement_ep": "EP-260116232910257",
+      "achievement_importance": 58.956697986455225,
+      "narrative_ep": "EP-260116232910245",
+      "narrative_importance": 60.114038096217655,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA691886",
+      "person_name": "リンゴ・スター",
+      "achievement_ep": "EP-260116232910262",
+      "achievement_importance": 58.956697986455225,
+      "narrative_ep": "EP-260116232910245",
+      "narrative_importance": 60.114038096217655,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PA691886",
+      "person_name": "リンゴ・スター",
+      "achievement_ep": "EP-260118072319118",
+      "achievement_importance": 58.956697986455225,
+      "narrative_ep": "EP-260116232910245",
+      "narrative_importance": 60.114038096217655,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBDEE864",
+      "person_name": "アナ",
+      "achievement_ep": "EP-260117000725658",
+      "achievement_importance": 53.58147214864883,
+      "narrative_ep": "EP-260118072517308",
+      "narrative_importance": 55.38458582970208,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBDEE864",
+      "person_name": "アナ",
+      "achievement_ep": "EP-260118072517368",
+      "achievement_importance": 51.932619380404816,
+      "narrative_ep": "EP-260118072517308",
+      "narrative_importance": 55.38458582970208,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBDEE864",
+      "person_name": "アナ",
+      "achievement_ep": "EP-260118072322180",
+      "achievement_importance": 53.58147214864883,
+      "narrative_ep": "EP-260118072517308",
+      "narrative_importance": 55.38458582970208,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBDEE864",
+      "person_name": "アナ",
+      "achievement_ep": "EP-260118072517283",
+      "achievement_importance": 50.62747689287447,
+      "narrative_ep": "EP-260118072517308",
+      "narrative_importance": 55.38458582970208,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBDEE864",
+      "person_name": "アナ",
+      "achievement_ep": "EP-260118072517338",
+      "achievement_importance": 51.96931030044043,
+      "narrative_ep": "EP-260118072517308",
+      "narrative_importance": 55.38458582970208,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBDEE864",
+      "person_name": "アナ",
+      "achievement_ep": "EP-260116235457934",
+      "achievement_importance": 51.96931030044043,
+      "narrative_ep": "EP-260118072517308",
+      "narrative_importance": 55.38458582970208,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P582A1C2",
+      "person_name": "ニール・ダイアモンド",
+      "achievement_ep": "EP-260113005147986",
+      "achievement_importance": 48.64,
+      "narrative_ep": "EP-260110163134437",
+      "narrative_importance": 53.10044811092817,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9731340",
+      "person_name": "辻村深月",
+      "achievement_ep": "EP-260118072316839",
+      "achievement_importance": 39.2803610714245,
+      "narrative_ep": "EP-260113171954467",
+      "narrative_importance": 50.43,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PB1B0F77",
+      "person_name": "チャーリー・カウフマン",
+      "achievement_ep": "EP-260118072320725",
+      "achievement_importance": 50.72493054798279,
+      "narrative_ep": "EP-260113030535166",
+      "narrative_importance": 53.63,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P19B2626",
+      "person_name": "里見弴",
+      "achievement_ep": "EP-260118093405024",
+      "achievement_importance": 46.10764093021305,
+      "narrative_ep": "EP-260110163908199",
+      "narrative_importance": 47.44726558420474,
+      "narrative_keyword": "苦悩"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PFE5FA28",
+      "person_name": "湯川豊",
+      "achievement_ep": "EP-000007790",
+      "achievement_importance": 10.0,
+      "narrative_ep": "EP-260116235012767",
+      "narrative_importance": 47.16430360486722,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P7C7BAD2",
+      "person_name": "松本紘",
+      "achievement_ep": "EP-260117001544494",
+      "achievement_importance": 49.49739785135264,
+      "narrative_ep": "EP-260118100940150",
+      "narrative_importance": 53.18885338553323,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6B49777",
+      "person_name": "ロマーリオ",
+      "achievement_ep": "EP-000006013",
+      "achievement_importance": 9.0,
+      "narrative_ep": "EP-260116235828731",
+      "narrative_importance": 46.64730470209936,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD81D5F8",
+      "person_name": "ガンダム",
+      "achievement_ep": "EP-260118094849103",
+      "achievement_importance": 57.04299965295708,
+      "narrative_ep": "EP-260118095347416",
+      "narrative_importance": 57.04701829651795,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P6284D24",
+      "person_name": "谷津矢車",
+      "achievement_ep": "EP-260118100223928",
+      "achievement_importance": 49.48485886048677,
+      "narrative_ep": "EP-260117000255271",
+      "narrative_importance": 51.863118423879726,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD764CA3",
+      "person_name": "京極夏彦",
+      "achievement_ep": "EP-260117000725782",
+      "achievement_importance": 51.95566901846535,
+      "narrative_ep": "EP-260110173638499",
+      "narrative_importance": 74.46,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P97CA578",
+      "person_name": "帯津良一",
+      "achievement_ep": "EP-260112014047311724",
+      "achievement_importance": 31.198074749439694,
+      "narrative_ep": "EP-260111064016001",
+      "narrative_importance": 32.0688191741746,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P97CA578",
+      "person_name": "帯津良一",
+      "achievement_ep": "EP-260112014047311653",
+      "achievement_importance": 31.198074749439694,
+      "narrative_ep": "EP-260111064016001",
+      "narrative_importance": 32.0688191741746,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P38061E1",
+      "person_name": "青木淳悟",
+      "achievement_ep": "EP-260116213254314",
+      "achievement_importance": 51.988461656588214,
+      "narrative_ep": "EP-260116231608410",
+      "narrative_importance": 52.734273465551595,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P32C9D7B",
+      "person_name": "串田孫一",
+      "achievement_ep": "EP-260118072304157",
+      "achievement_importance": 43.26747738961287,
+      "narrative_ep": "EP-260118095921727",
+      "narrative_importance": 49.55394511995895,
+      "narrative_keyword": "落選"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9264CA5",
+      "person_name": "カツラギエース",
+      "achievement_ep": "EP-260111155141941",
+      "achievement_importance": 54.78,
+      "narrative_ep": "EP-260111060126107",
+      "narrative_importance": 76.51,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P027F56C",
+      "person_name": "輝夜月",
+      "achievement_ep": "EP-260118072515004",
+      "achievement_importance": 57.111423413517706,
+      "narrative_ep": "EP-260111213602620",
+      "narrative_importance": 58.99,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P01C34A5",
+      "person_name": "ジェシー",
+      "achievement_ep": "EP-260118100846820",
+      "achievement_importance": 48.51510921518373,
+      "narrative_ep": "EP-260112051507036",
+      "narrative_importance": 51.08,
+      "narrative_keyword": "始まり"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P13C05FB",
+      "person_name": "伊丹十三",
+      "achievement_ep": "EP-260116235009430",
+      "achievement_importance": 50.65300866173333,
+      "narrative_ep": "EP-260116235009414",
+      "narrative_importance": 50.70457597362402,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P13C05FB",
+      "person_name": "伊丹十三",
+      "achievement_ep": "EP-260118073045326",
+      "achievement_importance": 49.358569062240896,
+      "narrative_ep": "EP-260116235009414",
+      "narrative_importance": 50.70457597362402,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P13C05FB",
+      "person_name": "伊丹十三",
+      "achievement_ep": "EP-260118094708811",
+      "achievement_importance": 48.49550760765886,
+      "narrative_ep": "EP-260116235009414",
+      "narrative_importance": 50.70457597362402,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P13C05FB",
+      "person_name": "伊丹十三",
+      "achievement_ep": "EP-260116235009451",
+      "achievement_importance": 44.6049326751353,
+      "narrative_ep": "EP-260116235009414",
+      "narrative_importance": 50.70457597362402,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P4AFA377",
+      "person_name": "オラフ",
+      "achievement_ep": "EP-260118072515557",
+      "achievement_importance": 51.595525123842606,
+      "narrative_ep": "EP-260118072515561",
+      "narrative_importance": 53.47596153784615,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P4AFA377",
+      "person_name": "オラフ",
+      "achievement_ep": "EP-260118072515603",
+      "achievement_importance": 51.95954316858119,
+      "narrative_ep": "EP-260118072515561",
+      "narrative_importance": 53.47596153784615,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBE338C0",
+      "person_name": "ガストン",
+      "achievement_ep": "EP-260118072517446",
+      "achievement_importance": 52.077101960638444,
+      "narrative_ep": "EP-260118072517432",
+      "narrative_importance": 53.64281988207423,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBE338C0",
+      "person_name": "ガストン",
+      "achievement_ep": "EP-260118072517435",
+      "achievement_importance": 50.68835361773309,
+      "narrative_ep": "EP-260118072517432",
+      "narrative_importance": 53.64281988207423,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PBE338C0",
+      "person_name": "ガストン",
+      "achievement_ep": "EP-260118072517450",
+      "achievement_importance": 51.78292157698979,
+      "narrative_ep": "EP-260118072517432",
+      "narrative_importance": 53.64281988207423,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P743BF7F",
+      "person_name": "田中星児",
+      "achievement_ep": "EP-260118093014062",
+      "achievement_importance": 55.42149171423226,
+      "narrative_ep": "EP-260116232909519",
+      "narrative_importance": 57.0993932325725,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P3EE81F4",
+      "person_name": "山田和樹",
+      "achievement_ep": "EP-260116232908771",
+      "achievement_importance": 57.1481695814543,
+      "narrative_ep": "EP-260116232908764",
+      "narrative_importance": 59.14343822520708,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9EE6292",
+      "person_name": "スケルトン・ワン",
+      "achievement_ep": "EP-000008137",
+      "achievement_importance": 9.5,
+      "narrative_ep": "EP-260116232910097",
+      "narrative_importance": 55.21355409913424,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD08E7B8",
+      "person_name": "清水依与吏",
+      "achievement_ep": "EP-260118093146980",
+      "achievement_importance": 51.911873211104975,
+      "narrative_ep": "EP-260116231610548",
+      "narrative_importance": 60.56249480167028,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PD08E7B8",
+      "person_name": "清水依与吏",
+      "achievement_ep": "EP-260116231610587",
+      "achievement_importance": 55.40776197706265,
+      "narrative_ep": "EP-260116231610548",
+      "narrative_importance": 60.56249480167028,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PB51A638",
+      "person_name": "やくざ映画",
+      "achievement_ep": "EP-260117000725588",
+      "achievement_importance": 51.99094537856776,
+      "narrative_ep": "EP-260118093146641",
+      "narrative_importance": 53.21868411105137,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDBF48F1",
+      "person_name": "渥美清",
+      "achievement_ep": "EP-260118101140717",
+      "achievement_importance": 55.48927088143519,
+      "narrative_ep": "EP-260113172354288",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDBF48F1",
+      "person_name": "渥美清",
+      "achievement_ep": "EP-260118101140709",
+      "achievement_importance": 50.68823962794717,
+      "narrative_ep": "EP-260113172354288",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "PDBF48F1",
+      "person_name": "渥美清",
+      "achievement_ep": "EP-260118093227915",
+      "achievement_importance": 53.58257291796536,
+      "narrative_ep": "EP-260113172354288",
+      "narrative_importance": 58.93,
+      "narrative_keyword": "原点"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P9BEB7DB",
+      "person_name": "麗日お茶子",
+      "achievement_ep": "EP-260113031848397",
+      "achievement_importance": 40.19,
+      "narrative_ep": "EP-260113032836137",
+      "narrative_importance": 47.23,
+      "narrative_keyword": "転機"
+    },
+    {
+      "type": "narrative_over_achievement",
+      "person_id": "P569E054",
+      "person_name": "酒井夏海",
+      "achievement_ep": "EP-260118100222899",
+      "achievement_importance": 55.487634013795244,
+      "narrative_ep": "EP-260117001103839",
+      "narrative_importance": 57.20426298676065,
+      "narrative_keyword": "原点"
     }
   ],
-  "suggestions": [
-    {
-      "episode_id": "EP-260107171517619",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106211319588",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106222338739",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106211319626",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106211319628",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107032101163",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107002315406",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 8.0,
-      "reason": "「IPO」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106234523987",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 8.5,
-      "reason": "「ノーヒットノーラン」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458192",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458193",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846050",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107171517645",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「世界記録」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107032101182",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846056",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846058",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846066",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107032101186",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「量子力学」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846074",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018147",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107183945550",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846090",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018152",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107035605070",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018155",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018159",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018160",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018164",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107041416718",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「量子力学」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505222",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505225",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 8.5,
-      "reason": "「グラミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107004503456",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505237",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107023018181",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018926",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「万有引力」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107032101216",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「量子力学」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107032101219",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846097",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「万有引力」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018934",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「量子力学」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018937",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「量子力学」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846109",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018951",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846120",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107182846124",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107035605072",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107035605073",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107035605076",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107015605002",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505258",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018973",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018977",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「フィールズ賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107183945604",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107043018985",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260108064823920",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107030455579",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「世界記録」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107035605130",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505282",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505285",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505295",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106232505296",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458125",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107004503466",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「万有引力」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107093545004",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458136",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458144",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458150",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル物理学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458151",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル化学賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458153",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 10.0,
-      "reason": "「ノーベル賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107024537301",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 8.0,
-      "reason": "「IPO」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107221458185",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「進化論」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107004503495",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260107004503502",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260108064537641",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106222338762",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260106222338773",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.5,
-      "reason": "「殿堂入り」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260108070946259",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    },
-    {
-      "episode_id": "EP-260108070946260",
-      "field": "episode_importance_score",
-      "current": 0.0,
-      "suggested": 9.0,
-      "reason": "「アカデミー賞」は高い歴史的重要性を持つ"
-    }
-  ],
-  "checked_at": "2026-01-08T10:10:00.553476"
+  "suggestions": [],
+  "checked_at": "2026-02-19T09:03:16.359580"
 }

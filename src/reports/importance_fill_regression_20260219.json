@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-02-19T08:56:27.391514",
+  "mode": "execute",
+  "episode_importance_score": {
+    "total_rows": 52838,
+    "nan_before": 19365,
+    "nan_after": 0,
+    "cv_r2_mean": 0.8923,
+    "cv_r2_std": 0.1124,
+    "cv_mae_mean": 2.47,
+    "cv_mae_std": 2.3,
+    "cv_rmse_mean": 6.98,
+    "cv_rmse_std": 4.43,
+    "existing_median": 51.3,
+    "predicted_median": 53.64,
+    "predicted_mean": 50.58,
+    "predicted_min": 5.0,
+    "predicted_max": 65.88
+  },
+  "impressiveness_score": {
+    "total_rows": 52838,
+    "nan_before": 19369,
+    "nan_after": 0,
+    "cv_r2_mean": 0.621,
+    "cv_r2_std": 0.1965,
+    "cv_mae_mean": 1.59,
+    "cv_mae_std": 0.68,
+    "cv_rmse_mean": 3.66,
+    "cv_rmse_std": 0.87,
+    "existing_median": 26.72,
+    "predicted_median": 26.53,
+    "predicted_mean": 26.4,
+    "predicted_min": 5.0,
+    "predicted_max": 35.2
+  }
+}

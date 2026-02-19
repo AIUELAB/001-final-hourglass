@@ -59,30 +59,39 @@ final class SnapshotUITests: XCTestCase {
         snapshot("02_TimeLimit")
     }
 
-    func test03_Favorites() {
+    func test03_Health() {
+        launchWithOnboardingSkipped()
+        let mainTab = MainTabPage(app: app)
+        XCTAssertTrue(mainTab.isDisplayed, "タブバーが表示されていること")
+        mainTab.selectHealth()
+        Thread.sleep(forTimeInterval: 1.0)
+        snapshot("03_Health")
+    }
+
+    func test04_Favorites() {
         launchWithOnboardingSkipped()
         let mainTab = MainTabPage(app: app)
         XCTAssertTrue(mainTab.isDisplayed, "タブバーが表示されていること")
         mainTab.selectFavorites()
         Thread.sleep(forTimeInterval: 1.0)
-        snapshot("03_Favorites")
+        snapshot("04_Favorites")
     }
 
-    func test04_Profile() {
+    func test05_Profile() {
         launchWithOnboardingSkipped()
         let mainTab = MainTabPage(app: app)
         XCTAssertTrue(mainTab.isDisplayed, "タブバーが表示されていること")
         mainTab.selectProfile()
         Thread.sleep(forTimeInterval: 1.0)
-        snapshot("04_Profile")
+        snapshot("05_Profile")
     }
 
-    func test05_Settings() {
+    func test06_Settings() {
         launchWithOnboardingSkipped()
         let mainTab = MainTabPage(app: app)
         XCTAssertTrue(mainTab.isDisplayed, "タブバーが表示されていること")
         mainTab.selectSettings()
         Thread.sleep(forTimeInterval: 1.0)
-        snapshot("05_Settings")
+        snapshot("06_Settings")
     }
 }

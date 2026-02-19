@@ -26,6 +26,10 @@ struct MainTabPage {
         tabButton(label: "設定")
     }
 
+    var healthTab: XCUIElement {
+        tabButton(label: "健康")
+    }
+
     var aboutTab: XCUIElement {
         tabButton(label: "About")
     }
@@ -63,6 +67,10 @@ struct MainTabPage {
         settingsTab.tap()
     }
 
+    func selectHealth() {
+        healthTab.tap()
+    }
+
     func selectAbout() {
         aboutTab.tap()
     }
@@ -92,6 +100,7 @@ struct MainTabPage {
     var isFavoritesSelected: Bool { isTabSelected("お気に入り") }
     var isProfileSelected: Bool { isTabSelected("プロファイル") }
     var isSettingsSelected: Bool { isTabSelected("設定") }
+    var isHealthSelected: Bool { isTabSelected("健康") }
     var isAboutSelected: Bool { isTabSelected("About") }
 
     // MARK: - Private
@@ -103,6 +112,7 @@ struct MainTabPage {
         case "お気に入り": return "tab_favorites"
         case "プロファイル": return "tab_profile"
         case "設定": return "tab_settings"
+        case "健康": return "tab_health"
         case "About": return "tab_about"
         default:
             XCTFail("未知のタブラベル '\(label)' にはaccessibilityIdentifierが未定義")

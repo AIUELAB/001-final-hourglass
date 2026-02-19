@@ -1,0 +1,37 @@
+Dear App Review Team,
+
+Thank you for your feedback on version 1.0.7. We have made significant improvements to address the 4.2 guideline concerns. Here is a summary of the changes in v1.0.8:
+
+1. HEALTH DASHBOARD (New Tab)
+   - Added a dedicated "Health" tab (2nd tab, heart clipboard icon)
+   - Users can self-evaluate 6 health factors: Sleep, Exercise, Diet, Stress, Alcohol, and Smoking
+   - Each factor is scored on a 10-point scale with personalized improvement advice
+   - Provides an overall health score with category-level breakdown
+
+2. HEALTH SUMMARY CARD (Main Screen)
+   - Added a health score summary card on the main TimeLimit screen
+   - Displays the overall health score at a glance
+   - Tapping navigates to the full Health Dashboard
+
+3. BUNDLED EPISODES (Offline Content)
+   - 41 curated biographical episodes are now bundled within the app
+   - Content is immediately available without network connectivity
+   - Episodes feature real historical figures' life milestones matched to the user's current age
+
+4. IMPROVED EMPTY STATES
+   - Added usage guides for first-time users in the Favorites tab
+   - Clear call-to-action explaining how to bookmark episodes
+   - Guides users through the core functionality
+
+5. STREAMLINED FIRST LAUNCH
+   - Added a "Skip" button to the initial hourglass animation
+   - Users can immediately access all app features without waiting
+
+HOW TO TEST:
+- Launch the app and complete (or skip) the onboarding
+- Tap the "Health" tab (2nd tab, heart clipboard icon)
+- Enter health scores for each of the 6 factors
+- View the overall health score and improvement advice
+- Return to the TimeLimit tab to see the Health Summary Card
+- Check the Favorites tab to see the usage guide (empty state)
+- Browse the bundled episodes (no network required)

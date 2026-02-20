@@ -26,7 +26,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 MASTER_CSV = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 
 # 閾値設定
-DEFAULT_POLITE_THRESHOLD = 3.0  # 丁寧語漏れ率 ≤3%
+DEFAULT_PLAIN_THRESHOLD = 3.0  # 常体混入率 ≤3%
 DEFAULT_WATASHI_THRESHOLD = 50  # 「私は」パターン（回帰検出用）
 # Note: Phase 1で定型冒頭違反12件修正済み
 # Note: Phase 2で文中の「私は/私の/私が」394件修正済み → 現在0件
@@ -35,15 +35,15 @@ DEFAULT_WATASHI_THRESHOLD = 50  # 「私は」パターン（回帰検出用）
 class QualityRegressionChecker:
     """品質回帰チェッカー"""
 
-    # 丁寧語パターン（違反対象）
-    # エピソードは常体で書くべき。丁寧語が残っていたら違反。
-    POLITE_FORM_PATTERNS = [
-        (r"です[。、]", "丁寧語「です」"),
-        (r"ます[。、]", "丁寧語「ます」"),
-        (r"でした[。、]", "丁寧語「でした」"),
-        (r"ました[。、]", "丁寧語「ました」"),
-        (r"ません[。、]", "丁寧語「ません」"),
-        (r"でしょう[。、]", "丁寧語「でしょう」"),
+    # 常体パターン（違反対象）
+    # エピソードは丁寧語で書くべき。常体が残っていたら違反。
+    PLAIN_FORM_PATTERNS = [
+        (r"(?<!し)(?<!でし)(?<!ま)た[。、]", "常体「た」"),
+        (r"(?<!し)だ[。、]", "常体「だ」"),
+        (r"である[。、]", "常体「である」"),
+        (r"だった[。、]", "常体「だった」"),
+        (r"ない[。、]", "常体「ない」"),
+        (r"なかった[。、]", "常体「なかった」"),
     ]
 
     # 「私は」パターン
@@ -63,11 +63,11 @@ class QualityRegressionChecker:
     def __init__(
         self,
         csv_path: Path = MASTER_CSV,
-        polite_threshold: float = DEFAULT_POLITE_THRESHOLD,
+        plain_threshold: float = DEFAULT_PLAIN_THRESHOLD,
         watashi_threshold: int = DEFAULT_WATASHI_THRESHOLD,
     ):
         self.csv_path = csv_path
-        self.polite_threshold = polite_threshold
+        self.plain_threshold = plain_threshold
         self.watashi_threshold = watashi_threshold
         self.episodes = []
 
@@ -88,8 +88,8 @@ class QualityRegressionChecker:
             text = re.sub(pattern, "", text)
         return text
 
-    def check_polite_form(self) -> dict:
-        """丁寧語漏れチェック"""
+    def check_plain_form(self) -> dict:
+        """常体混入チェック"""
         violations = []
         total_episodes = len(self.episodes)
 
@@ -100,7 +100,7 @@ class QualityRegressionChecker:
             # 引用を除去してチェック
             clean_text = self._remove_quotes(text)
 
-            for pattern, name in self.POLITE_FORM_PATTERNS:
+            for pattern, name in self.PLAIN_FORM_PATTERNS:
                 matches = re.findall(pattern, clean_text)
                 if matches:
                     violations.append(
@@ -116,12 +116,12 @@ class QualityRegressionChecker:
         violation_rate = (violation_count / total_episodes * 100) if total_episodes > 0 else 0
 
         return {
-            "check": "polite_form",
+            "check": "plain_form",
             "total_episodes": total_episodes,
             "violation_count": violation_count,
             "violation_rate": round(violation_rate, 2),
-            "threshold": self.polite_threshold,
-            "passed": violation_rate <= self.polite_threshold,
+            "threshold": self.plain_threshold,
+            "passed": violation_rate <= self.plain_threshold,
             "samples": violations[:10],  # サンプル10件
         }
 
@@ -195,7 +195,7 @@ class QualityRegressionChecker:
         self.load_episodes()
 
         results = {
-            "polite_form": self.check_polite_form(),
+            "plain_form": self.check_plain_form(),
             "watashi_pattern": self.check_watashi_pattern(),
             "opening_format": self.check_opening_format(),
         }
@@ -208,7 +208,7 @@ class QualityRegressionChecker:
             "results": results,
             "summary": {
                 "total_episodes": len(self.episodes),
-                "polite_rate": results["polite_form"]["violation_rate"],
+                "plain_rate": results["plain_form"]["violation_rate"],
                 "watashi_count": results["watashi_pattern"]["violation_count"],
                 "opening_violations": results["opening_format"]["violation_count"],
             },
@@ -220,15 +220,15 @@ def main():
     parser = argparse.ArgumentParser(description="品質回帰チェック")
     parser.add_argument(
         "--check",
-        choices=["all", "polite", "watashi", "opening"],
+        choices=["all", "plain", "watashi", "opening"],
         default="all",
         help="チェック種別（デフォルト: all）",
     )
     parser.add_argument(
         "--threshold",
         type=float,
-        default=DEFAULT_POLITE_THRESHOLD,
-        help=f"丁寧語漏れ率閾値（デフォルト: {DEFAULT_POLITE_THRESHOLD}%%）",
+        default=DEFAULT_PLAIN_THRESHOLD,
+        help=f"常体混入率閾値（デフォルト: {DEFAULT_PLAIN_THRESHOLD}%%）",
     )
     parser.add_argument(
         "--json",
@@ -246,7 +246,7 @@ def main():
 
     checker = QualityRegressionChecker(
         csv_path=Path(args.csv),
-        polite_threshold=args.threshold,
+        plain_threshold=args.threshold,
     )
 
     try:
@@ -258,9 +258,9 @@ def main():
     # チェック実行
     if args.check == "all":
         results = checker.run_all_checks()
-    elif args.check == "polite":
-        results = {"polite_form": checker.check_polite_form()}
-        results["all_passed"] = results["polite_form"]["passed"]
+    elif args.check == "plain":
+        results = {"plain_form": checker.check_plain_form()}
+        results["all_passed"] = results["plain_form"]["passed"]
     elif args.check == "watashi":
         results = {"watashi_pattern": checker.check_watashi_pattern()}
         results["all_passed"] = results["watashi_pattern"]["passed"]

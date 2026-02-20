@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-丁寧語漏れ検知・修正スクリプト
+常体検出・丁寧語変換スクリプト
 
 機能:
-1. エピソード本文の常体（丁寧語漏れ）を検出
-2. 安全な変換ルールで自動修正
+1. エピソード本文の常体（だ・である調）を検出
+2. 安全な変換ルールで丁寧語（です・ます調）に自動修正
 3. dry-run/execute モード対応
 4. バックアップ・ログ出力
 
@@ -550,7 +550,7 @@ def main():
     parser.add_argument("--output", type=str, help="レポート出力先")
     args = parser.parse_args()
 
-    print("=== 丁寧語漏れ検知・修正 ===\n")
+    print("=== 常体検出・丁寧語変換 ===\n")
 
     normalizer = PoliteFormNormalizer()
 

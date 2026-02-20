@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-丁寧語ゲート - 文体統一チェック
+文体統一ゲート - 丁寧語チェック
 
-新規生成/更新時に丁寧語漏れをチェックし、
-必要に応じて自動修正する。
+新規生成/更新時に常体（だ・である調）の混入をチェックし、
+丁寧語（です・ます調）で統一されていることを検証する。
 
 使用法:
     from scripts.sage.gates.polite_form import check_polite_form, auto_fix_polite_form
@@ -54,11 +54,22 @@ def check_polite_form(
     episode_text: str,
     strict: bool = False,
 ) -> PoliteFormCheckResult:
-    """丁寧語チェック（無効化済み: 常体が正しい前提）"""
+    """常体混入チェック（丁寧語が正しい前提）"""
+    normalizer = _get_normalizer()
+    issues = normalizer.detect_issues(episode_text)
+
+    if not issues:
+        return PoliteFormCheckResult(
+            passed=True,
+            issue_count=0,
+            message="常体混入なし（丁寧語で統一済み）",
+        )
+
     return PoliteFormCheckResult(
-        passed=True,
-        issue_count=0,
-        message="丁寧語チェック無効（常体正規化済み）",
+        passed=False,
+        issue_count=len(issues),
+        issues=issues,
+        message=f"常体が{len(issues)}箇所検出されました",
     )
 
 
@@ -66,8 +77,10 @@ def auto_fix_polite_form(
     episode_text: str,
     max_risk: str = "low",
 ) -> str:
-    """丁寧語自動修正（無効化済み: 常体が正しい前提）"""
-    return episode_text
+    """常体→丁寧語の自動修正"""
+    normalizer = _get_normalizer()
+    fixed_text, _ = normalizer.transform_text(episode_text, max_risk=max_risk, dry_run=False)
+    return fixed_text
 
 
 def check_and_fix_polite_form(

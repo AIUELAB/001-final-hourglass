@@ -29,7 +29,7 @@ async def check_scores():
                 surprise_score: ep.surprise_score,
                 generation_quality_score: ep.generation_quality_score,
                 educational_value: ep.educational_value,
-                storytelling_quality: ep.storytelling_quality,
+                story_quality: ep.story_quality,
                 factual_density: ep.factual_density
             }));
 
@@ -41,7 +41,7 @@ async def check_scores():
                 surprise_score: allEpisodes.filter(ep => ep.surprise_score === null).length,
                 generation_quality_score: allEpisodes.filter(ep => ep.generation_quality_score === null).length,
                 educational_value: allEpisodes.filter(ep => ep.educational_value === null).length,
-                storytelling_quality: allEpisodes.filter(ep => ep.storytelling_quality === null).length,
+                story_quality: allEpisodes.filter(ep => ep.story_quality === null).length,
                 factual_density: allEpisodes.filter(ep => ep.factual_density === null).length
             };
 
@@ -72,7 +72,7 @@ async def check_scores():
                 f"      記憶: {sample['memorability_score']} | 共感: {sample['empathy_score']} | 意外: {sample['surprise_score']}"
             )
             print(
-                f"      品質: {sample['generation_quality_score']} | 教育: {sample['educational_value']} | 物語: {sample['storytelling_quality']} | 事実: {sample['factual_density']}"
+                f"      品質: {sample['generation_quality_score']} | 教育: {sample['educational_value']} | 物語: {sample['story_quality']} | 事実: {sample['factual_density']}"
             )
 
         print("\n📊 nullのスコア数:")

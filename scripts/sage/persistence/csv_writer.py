@@ -161,6 +161,7 @@ class SafeCSVWriter:
         "story_quality",
         "factual_density",
         "iconic_score",  # Phase 28: 追加
+        "grammar_quality_score",
         "composite_score",
         "super_total_score",
         # Phase 26: モデル追跡とコスト可視化

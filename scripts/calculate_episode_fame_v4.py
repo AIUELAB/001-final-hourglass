@@ -59,7 +59,7 @@ def build_signals(row: dict) -> EpisodeFameSignals:
         llm_surprise=safe_float(row.get("llm_surprise_score")),
         llm_generation_quality=safe_float(row.get("llm_generation_quality_score")),
         llm_educational_value=safe_float(row.get("llm_educational_value")),
-        llm_storytelling_quality=safe_float(row.get("llm_storytelling_quality")),
+        llm_story_quality=safe_float(row.get("llm_story_quality")),
         llm_factual_density=safe_float(row.get("llm_factual_density")),
         # エピソード情報
         episode_text=row.get("episode_text", ""),

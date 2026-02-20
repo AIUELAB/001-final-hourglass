@@ -86,8 +86,8 @@ class AdvancedSearchEngine:
         max_generation_quality: Optional[float] = None,
         min_educational_value: Optional[float] = None,
         max_educational_value: Optional[float] = None,
-        min_storytelling_quality: Optional[float] = None,
-        max_storytelling_quality: Optional[float] = None,
+        min_story_quality: Optional[float] = None,
+        max_story_quality: Optional[float] = None,
         min_factual_density: Optional[float] = None,
         max_factual_density: Optional[float] = None,
         min_composite_score: Optional[float] = None,
@@ -114,8 +114,8 @@ class AdvancedSearchEngine:
             max_generation_quality: generation_quality_score最大値
             min_educational_value: educational_value最小値
             max_educational_value: educational_value最大値
-            min_storytelling_quality: story_quality最小値
-            max_storytelling_quality: story_quality最大値
+            min_story_quality: story_quality最小値
+            max_story_quality: story_quality最大値
             min_factual_density: factual_density最小値
             max_factual_density: factual_density最大値
             min_composite_score: 総合スコア最小値
@@ -167,10 +167,10 @@ class AdvancedSearchEngine:
         if max_educational_value is not None:
             filtered = [ep for ep in filtered if ep.get("educational_value", 10) <= max_educational_value]
 
-        if min_storytelling_quality is not None:
-            filtered = [ep for ep in filtered if ep.get("story_quality", 0) >= min_storytelling_quality]
-        if max_storytelling_quality is not None:
-            filtered = [ep for ep in filtered if ep.get("story_quality", 10) <= max_storytelling_quality]
+        if min_story_quality is not None:
+            filtered = [ep for ep in filtered if ep.get("story_quality", 0) >= min_story_quality]
+        if max_story_quality is not None:
+            filtered = [ep for ep in filtered if ep.get("story_quality", 10) <= max_story_quality]
 
         if min_factual_density is not None:
             filtered = [ep for ep in filtered if ep.get("factual_density", 0) >= min_factual_density]

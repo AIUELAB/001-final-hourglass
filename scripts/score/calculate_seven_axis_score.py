@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # 統一モジュールからインポート（重複実装の排除）
 from backend.app.utils.score_calculator import (
     calculate_factual_density,
-    calculate_storytelling_quality,
+    calculate_story_quality,
 )
 
 CSV_PATH = Path(__file__).parent.parent / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
@@ -85,7 +85,7 @@ def calculate_seven_axis_score(episode_id: str):
     print("【新規算出】")
 
     # story_quality
-    storytelling_score = calculate_storytelling_quality(episode_text, str(row["episode_type"]))
+    storytelling_score = calculate_story_quality(episode_text, str(row["episode_type"]))
     print(f"  story_quality: {storytelling_score:.1f}")
 
     # factual_density

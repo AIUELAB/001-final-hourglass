@@ -225,7 +225,7 @@ class ScoreAnalytics:
                             "surprise_score": float(row.get("surprise_score", 0)),
                             "generation_quality_score": float(row.get("generation_quality_score", 0)),
                             "educational_value": float(row.get("educational_value", 0)),
-                            "storytelling_quality": float(row.get("story_quality", 0)),
+                            "story_quality": float(row.get("story_quality", 0)),
                             "factual_density": float(row.get("factual_density", 0)),
                         }
                     )

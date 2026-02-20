@@ -65,7 +65,7 @@ class BatchLLMEvaluator:
             "意外性": "llm_surprise_score",
             "生成品質": "llm_generation_quality_score",
             "educational_value": "llm_educational_value",
-            "story_quality": "llm_storytelling_quality",
+            "story_quality": "llm_story_quality",
             "factual_density": "llm_factual_density",
         }
 

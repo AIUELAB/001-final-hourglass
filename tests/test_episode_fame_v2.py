@@ -126,7 +126,7 @@ class TestIntegration:
         text = "ノーベル平和賞を受賞し、世界を変えた"
         llm_scores = {
             "memorability": 7.0,
-            "storytelling_quality": 7.0,
+            "story_quality": 7.0,
             "factual_density": 7.0,
             "educational_value": 7.0,
             "empathy": 7.0,
@@ -180,7 +180,7 @@ class TestRegressionPrevention:
         text_low_inspiration = "普通の一日を過ごした"
 
         llm_scores = {
-            k: 5.0 for k in ["memorability", "storytelling_quality", "factual_density", "educational_value", "empathy"]
+            k: 5.0 for k in ["memorability", "story_quality", "factual_density", "educational_value", "empathy"]
         }
 
         result_high = calculate_episode_fame_v2(text=text_high_inspiration, llm_scores=llm_scores, celebrity_score=500)
@@ -285,7 +285,7 @@ class TestAnchorBonus:
             k: 5.0
             for k in [
                 "memorability",
-                "storytelling_quality",
+                "story_quality",
                 "factual_density",
                 "educational_value",
                 "empathy",

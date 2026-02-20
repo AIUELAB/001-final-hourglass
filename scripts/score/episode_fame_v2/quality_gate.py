@@ -216,7 +216,7 @@ def apply_quality_gate(episodes: list) -> list:
         text = ep.get("episode_content", "") or ""
         llm_scores = {
             "memorability": ep.get("memorability", 0),
-            "storytelling_quality": ep.get("storytelling_quality", 0),
+            "story_quality": ep.get("story_quality", 0),
             "factual_density": ep.get("factual_density", 0),
             "educational_value": ep.get("educational_value", 0),
             "empathy": ep.get("empathy", 0),

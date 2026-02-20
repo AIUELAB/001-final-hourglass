@@ -367,7 +367,7 @@ class Database:
                         # Phase 2: 4軸スコアの読み込み（float変換、空の場合はNone）
                         generation_quality_score = None
                         educational_value = None
-                        storytelling_quality = None
+                        story_quality = None
                         factual_density = None
 
                         try:
@@ -387,7 +387,7 @@ class Database:
                         try:
                             story_str = row.get("story_quality", "").strip()
                             if story_str:
-                                storytelling_quality = float(story_str)
+                                story_quality = float(story_str)
                         except (ValueError, AttributeError):
                             pass
 
@@ -423,7 +423,7 @@ class Database:
                                 # Phase 2: 4軸評価カラム
                                 "generation_quality_score": generation_quality_score,
                                 "educational_value": educational_value,
-                                "storytelling_quality": storytelling_quality,
+                                "story_quality": story_quality,
                                 "factual_density": factual_density,
                             }
                         )

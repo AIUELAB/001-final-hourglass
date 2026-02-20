@@ -34,7 +34,7 @@ DASHBOARD_REQUIRED_FIELDS = [
     "surprise_score",
     "generation_quality_score",
     "educational_value",
-    "storytelling_quality",  # CSVカラム名: storytelling_quality
+    "story_quality",  # CSVカラム名: story_quality
     "factual_density",
     "iconic_score",
     # 派生フィールド

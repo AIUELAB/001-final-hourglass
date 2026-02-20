@@ -151,9 +151,7 @@ class EpisodeManager:
             "educational_value": str(episode_data.educational_value)
             if episode_data.educational_value is not None
             else "",
-            "story_quality": str(episode_data.storytelling_quality)
-            if episode_data.storytelling_quality is not None
-            else "",
+            "story_quality": str(episode_data.story_quality) if episode_data.story_quality is not None else "",
             "factual_density": str(episode_data.factual_density) if episode_data.factual_density is not None else "",
             "generation_timestamp": datetime.now().isoformat(),
             "char_count": str(len(episode_data.episode_text)),
@@ -200,7 +198,7 @@ class EpisodeManager:
                     "surprise_score": "surprise_score",
                     "generation_quality_score": "generation_quality_score",
                     "educational_value": "educational_value",
-                    "storytelling_quality": "story_quality",
+                    "story_quality": "story_quality",
                     "factual_density": "factual_density",
                     "milestone_tags": "人生の節目タグ",
                 }
@@ -300,7 +298,7 @@ class EpisodeManager:
             "意外性": "llm_surprise_score",
             "生成品質": "llm_generation_quality_score",
             "educational_value": "llm_educational_value",
-            "story_quality": "llm_storytelling_quality",
+            "story_quality": "llm_story_quality",
             "factual_density": "llm_factual_density",
         }
 

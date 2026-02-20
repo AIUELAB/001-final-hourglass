@@ -28,6 +28,9 @@ VALIDATE_PRODUCT = YES
 SKIP_INSTALL = NO
 INSTALL_PATH = $(LOCAL_APPS_DIR)
 
+// Metal shader debug info (dSYM品質向上)
+MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE
+
 // Bitcode is deprecated by Apple (Xcode 14+)
 ENABLE_BITCODE = NO
 

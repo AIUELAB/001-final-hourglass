@@ -116,6 +116,11 @@ class QualityEvaluator:
         if scores.story_quality < min_story:
             failures.append(f"story_quality {scores.story_quality:.1f} < {min_story}")
 
+        # grammar_quality（体言止め検出: > 0ガードで既存エピソード非ペナルティ）
+        min_gram = self.thresholds.get("min_grammar_quality", 6.0)
+        if scores.grammar_quality > 0 and scores.grammar_quality < min_gram:
+            failures.append(f"grammar_quality {scores.grammar_quality:.1f} < {min_gram}")
+
         if failures:
             # factual_densityまたは生成品質が低い場合は特別な理由コード
             if scores.factual_density < min_fd:
@@ -222,6 +227,7 @@ class CompositeScoreCalculator:
         "story_quality": 1.0,
         "factual_density": 1.5,  # 重要度高
         "iconic_score": 1.5,  # 重要度高（感銘度）
+        "grammar_quality": 1.5,  # 重要度高（文法品質）
     }
 
     @classmethod
@@ -245,7 +251,10 @@ class CompositeScoreCalculator:
             + scores.factual_density * cls.WEIGHTS["factual_density"]
             + scores.iconic_score * cls.WEIGHTS["iconic_score"]
         )
-        total_weight = sum(cls.WEIGHTS.values())
+        total_weight = sum(cls.WEIGHTS.values()) - cls.WEIGHTS["grammar_quality"]  # grammar_quality除外
+        if scores.grammar_quality > 0:
+            weighted_sum += scores.grammar_quality * cls.WEIGHTS["grammar_quality"]
+            total_weight += cls.WEIGHTS["grammar_quality"]
         avg = weighted_sum / total_weight
 
         # 0-10 → 0-100 → 0-1000 にスケール

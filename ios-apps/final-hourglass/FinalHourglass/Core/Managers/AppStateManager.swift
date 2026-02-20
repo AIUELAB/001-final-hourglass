@@ -86,9 +86,6 @@ class AppStateManager: ObservableObject {
             UIView.setAnimationsEnabled(false)
         }
         #endif
-
-        // セッション開始をトラッキング
-        startSession()
     }
 
     // アプリをリセットする関数

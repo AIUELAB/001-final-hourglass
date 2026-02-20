@@ -70,7 +70,6 @@ CREATE TABLE episodes (
   model TEXT,
   generator_type TEXT,
   cost_usd NUMERIC(8,6),
-  story_quality NUMERIC(4,2),
 
   -- Supabase管理
   created_at TIMESTAMPTZ DEFAULT NOW(),

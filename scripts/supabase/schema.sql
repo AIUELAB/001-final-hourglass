@@ -74,7 +74,6 @@ CREATE TABLE episodes (
   model TEXT,
   generator_type TEXT,
   cost_usd NUMERIC(8,6),
-  story_quality NUMERIC(4,2),
 
   -- スコア追加
   desirability_score NUMERIC(10,2),

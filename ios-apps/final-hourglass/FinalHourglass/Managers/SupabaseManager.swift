@@ -186,7 +186,7 @@ final class SupabaseManager {
     /// - Returns: ランダムに選ばれたエピソード
     func fetchRandomEpisode(forAge age: Int, excludeIds: Set<String> = []) async throws -> Episode? { // periphery:ignore
         // まず対象年齢のエピソードを取得
-        let episodes = try await fetchEpisodes(forAge: age, limit: 100)
+        let episodes = try await fetchEpisodes(forAge: age, limit: 50)
 
         // 除外IDをフィルタリング
         let filtered = episodes.filter { !excludeIds.contains($0.id) }

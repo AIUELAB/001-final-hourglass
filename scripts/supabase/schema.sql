@@ -110,6 +110,7 @@ CREATE INDEX idx_episodes_person_type ON episodes(person_type);
 CREATE INDEX idx_episodes_desirability_score ON episodes(desirability_score DESC NULLS LAST);
 CREATE INDEX idx_episodes_desirability_episode_id ON episodes(desirability_score DESC NULLS LAST, episode_id ASC);
 CREATE INDEX idx_episodes_hybrid_score ON episodes(hybrid_score DESC NULLS LAST, episode_id ASC);
+CREATE INDEX idx_episodes_age_hybrid_score ON episodes(age, hybrid_score DESC NULLS LAST, episode_id ASC);
 
 -- 4. RLS（Row Level Security）有効化
 ALTER TABLE episodes ENABLE ROW LEVEL SECURITY;

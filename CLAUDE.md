@@ -57,6 +57,7 @@
 | **作品内事実検証** | キャラ-アーク整合性チェック | `fictional_episode_validator.py` |
 | **架空キャラ真正性分類** | canon/fanon/invalidの3分類 | `fictional_episode_llm_classifier.py` |
 | **生成時品質ゲート** | 書き込み前に設定整合性チェック | `FictionalQualityGate` |
+| **丁寧語統一** | 全エピソードをです・ます調で記述 | `quality_regression_check.py --check plain` |
 
 ### 同一年齢重複禁止詳細（EPUP原則: 1人1年齢1エピソード）
 - **原則**: 同一人物（person_id）× 同一年齢（age）で複数エピソードを生成しない
@@ -227,6 +228,15 @@
 - `preserved/backups/purge/pre_purge_*.csv` - 削除前バックアップ
 
 **再発防止ゲート**: SafeCSVWriter に `HallucinationGate` 追加済み（書き込み時チェック）
+
+### 丁寧語統一ルール（EPUP原則: です・ます調）
+- **原則**: 全エピソードは丁寧語（です・ます調）で記述する
+- **禁止**: 常体（だ・である調）での文末
+- **生成時**: `category_prompts.py` で丁寧語指示
+- **検証ゲート**: `python scripts/validation/quality_regression_check.py --check plain`（常体混入率 ≤3%）
+- **変換ツール**: `python scripts/fix/convert_to_polite_form_llm.py`（LLMバッチ変換）
+- **ルール修正**: `python scripts/fix/fix_polite_form.py`（ルールベース常体→丁寧語変換）
+- **Pre-commitフック**: `check-plain-form`（常体混入を自動検出）
 
 ---
 

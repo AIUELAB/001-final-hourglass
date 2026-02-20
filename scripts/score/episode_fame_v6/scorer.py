@@ -67,7 +67,7 @@ class EpisodeData:
     surprise: float
     generation_quality: float
     educational_value: float
-    storytelling_quality: float
+    story_quality: float
     factual_density: float
 
 
@@ -143,7 +143,7 @@ class EpisodeFameV6Scorer:
         scores = {
             "memorability": data.memorability,
             "surprise": data.surprise,
-            "storytelling_quality": data.storytelling_quality,
+            "story_quality": data.story_quality,
             "educational_value": data.educational_value,
             "factual_density": data.factual_density,
             "empathy": data.empathy,
@@ -343,7 +343,7 @@ class EpisodeFameV6Scorer:
             surprise=float(row.get("surprise_score") or 0),
             generation_quality=float(row.get("generation_quality_score") or 0),
             educational_value=float(row.get("educational_value") or 0),
-            storytelling_quality=float(row.get("story_quality") or 0),
+            story_quality=float(row.get("story_quality") or 0),
             factual_density=float(row.get("factual_density") or 0),
         )
 

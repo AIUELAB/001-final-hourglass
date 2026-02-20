@@ -20,7 +20,7 @@ CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
 # ====== 7軸スコア算出ロジック ======
 
 
-def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
+def calculate_story_quality(episode_text: str, episode_type: str) -> float:
     """story_qualityスコアを算出（1-10点）"""
     if pd.isna(episode_text) or not episode_text:
         return 5.0
@@ -331,7 +331,7 @@ def fill_all_missing_scores():
     for idx in df[mask].index:
         text = df.loc[idx, "episode_text"]
         ep_type = df.loc[idx, "episode_type"]
-        df.loc[idx, "story_quality"] = calculate_storytelling_quality(text, ep_type)
+        df.loc[idx, "story_quality"] = calculate_story_quality(text, ep_type)
         counts["story_quality"] += 1
     print(f"  → {counts['story_quality']}件補完")
 

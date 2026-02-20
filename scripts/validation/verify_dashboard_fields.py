@@ -48,7 +48,7 @@ REQUIRED_FIELDS = [
     "surprise_score",
     "generation_quality_score",
     "educational_value",
-    "storytelling_quality",
+    "story_quality",
     "factual_density",
     "composite_score",
     "generation_timestamp",  # 作成日

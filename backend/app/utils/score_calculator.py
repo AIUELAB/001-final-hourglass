@@ -14,7 +14,7 @@ SEVEN_AXIS_FIELDS = [
     "surprise_score",  # surprise_score
     "generation_quality_score",  # generation_quality_score
     "educational_value",  # educational_value
-    "story_quality",  # storytelling_quality
+    "story_quality",  # story_quality
     "factual_density",  # factual_density
 ]
 
@@ -24,7 +24,7 @@ FIVE_AXIS_FIELDS = [
     "総合品質",  # overall_quality: 記憶性 + 生成品質
     "感情インパクト",  # emotional_impact: 共感性 + 意外性
     "educational_value",  # educational_value (維持)
-    "story_quality",  # storytelling_quality (維持)
+    "story_quality",  # story_quality (維持)
     "factual_density",  # factual_density (維持)
 ]
 
@@ -64,7 +64,7 @@ FIELD_MAPPING = {
     "surprise_score": "surprise_score",
     "generation_quality_score": "generation_quality_score",
     "educational_value": "educational_value",
-    "storytelling_quality": "story_quality",
+    "story_quality": "story_quality",
     "factual_density": "factual_density",
 }
 
@@ -1002,7 +1002,7 @@ def calculate_all_five_axes(episode_data: Dict) -> Dict[str, float]:
 # ============================================================
 
 
-def calculate_storytelling_quality(episode_text: str, episode_type: str) -> float:
+def calculate_story_quality(episode_text: str, episode_type: str) -> float:
     """
     story_qualityスコアを算出（統一版・改善版v2）（1-10点）
 
@@ -1268,7 +1268,7 @@ def calculate_all_seven_axes(episode_data: Dict) -> Dict[str, float]:
     five_axes = calculate_all_five_axes(episode_data)
 
     # 2軸を追加
-    five_axes["story_quality"] = calculate_storytelling_quality(episode_text, episode_type)
+    five_axes["story_quality"] = calculate_story_quality(episode_text, episode_type)
     five_axes["factual_density"] = calculate_factual_density(episode_text, episode_type)
 
     return five_axes

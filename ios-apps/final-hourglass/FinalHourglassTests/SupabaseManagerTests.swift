@@ -35,7 +35,7 @@ final class SupabaseManagerTests: XCTestCase {
             "surprise_score": 6.0,
             "generation_quality_score": 9.0,
             "educational_value": 8.0,
-            "storytelling_quality": 7.0,
+            "story_quality": 7.0,
             "factual_density": 6.5,
             "iconic_score": 5.0,
             "person_type": "REAL",
@@ -73,7 +73,7 @@ final class SupabaseManagerTests: XCTestCase {
         XCTAssertEqual(episode.surpriseScore!, 6.0, accuracy: 0.01)
         XCTAssertEqual(episode.generationQualityScore!, 9.0, accuracy: 0.01)
         XCTAssertEqual(episode.educationalValue!, 8.0, accuracy: 0.01)
-        XCTAssertEqual(episode.storytellingQuality!, 7.0, accuracy: 0.01)
+        XCTAssertEqual(episode.storyQuality!, 7.0, accuracy: 0.01)
         XCTAssertEqual(episode.factualDensity!, 6.5, accuracy: 0.01)
         XCTAssertEqual(episode.iconicScore!, 5.0, accuracy: 0.01)
 
@@ -108,7 +108,7 @@ final class SupabaseManagerTests: XCTestCase {
             "surprise_score": 7.0,
             "generation_quality_score": 8.5,
             "educational_value": 6.0,
-            "storytelling_quality": 9.0,
+            "story_quality": 9.0,
             "factual_density": 7.0,
             "iconic_score": 8.0,
             "person_type": "REAL",
@@ -161,7 +161,7 @@ final class SupabaseManagerTests: XCTestCase {
             "surprise_score": 9.0,
             "generation_quality_score": 10.0,
             "educational_value": 6.0,
-            "storytelling_quality": 7.0,
+            "story_quality": 7.0,
             "factual_density": 8.0,
             "iconic_score": 9.0,
             "person_type": "FICTIONAL",
@@ -191,7 +191,7 @@ final class SupabaseManagerTests: XCTestCase {
         XCTAssertEqual(episode.surpriseScore, 9.0)              // surprise_score
         XCTAssertEqual(episode.generationQualityScore, 10.0)    // generation_quality_score
         XCTAssertEqual(episode.educationalValue, 6.0)           // educational_value
-        XCTAssertEqual(episode.storytellingQuality, 7.0)        // storytelling_quality
+        XCTAssertEqual(episode.storyQuality, 7.0)        // story_quality
         XCTAssertEqual(episode.factualDensity, 8.0)             // factual_density
         XCTAssertEqual(episode.iconicScore, 9.0)                // iconic_score
         XCTAssertEqual(episode.personType, "FICTIONAL")         // person_type

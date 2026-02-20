@@ -41,7 +41,7 @@ FEATURE_COLUMNS = [
     "surprise_score",
     "generation_quality_score",
     "educational_value",
-    "storytelling_quality",
+    "story_quality",
     "factual_density",
     "celebrity_score_v2",
     "fame_score_v3",

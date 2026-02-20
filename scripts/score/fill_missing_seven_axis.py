@@ -35,7 +35,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # 統一モジュールからインポート（重複実装の排除）
 from backend.app.utils.score_calculator import (
     calculate_factual_density,
-    calculate_storytelling_quality,
+    calculate_story_quality,
 )
 
 # パス
@@ -198,7 +198,7 @@ def main():
         episode_text = str(row["episode_text"])
         episode_type = str(row["episode_type"]) if pd.notna(row["episode_type"]) else ""
 
-        storytelling_score = calculate_storytelling_quality(episode_text, episode_type)
+        storytelling_score = calculate_story_quality(episode_text, episode_type)
         factual_score = calculate_factual_density(episode_text, episode_type)
 
         # LLMで5軸を評価

@@ -60,7 +60,7 @@ V10_FIELD_KEYS = [
     "surprise_score",
     "generation_quality_score",
     "educational_value",
-    "storytelling_quality",
+    "story_quality",
     "factual_density",
     # 8軸目
     "iconic_score",
@@ -130,17 +130,17 @@ class TestDashboardV10FieldSync:
         has_render_table = "function renderEpisodeTable" in content
         has_render_fame = "function renderFameRankingPage" in content
         has_render_episode = "function renderEpisodeRankingPage" in content
-        assert (
-            has_render_table or has_render_fame or has_render_episode
-        ), "レンダリング関数（renderEpisodeTable/renderFameRankingPage/renderEpisodeRankingPage）が定義されていません"
+        assert has_render_table or has_render_fame or has_render_episode, (
+            "レンダリング関数（renderEpisodeTable/renderFameRankingPage/renderEpisodeRankingPage）が定義されていません"
+        )
 
     def test_iconic_score_key_exists(self, update_fields):
         """iconic_scoreが存在すること（Phase 28）"""
         assert "iconic_score" in update_fields, "iconic_scoreが存在しません（Phase 28）"
 
-    def test_storytelling_quality_key_exists(self, update_fields):
-        """storytelling_qualityが存在すること"""
-        assert "storytelling_quality" in update_fields, "storytelling_qualityが存在しません"
+    def test_story_quality_key_exists(self, update_fields):
+        """story_qualityが存在すること"""
+        assert "story_quality" in update_fields, "story_qualityが存在しません"
 
     def test_8axis_scores_complete(self, update_fields):
         """8軸スコアがすべて存在すること"""
@@ -150,7 +150,7 @@ class TestDashboardV10FieldSync:
             "surprise_score",
             "generation_quality_score",
             "educational_value",
-            "storytelling_quality",
+            "story_quality",
             "factual_density",
             "iconic_score",
         ]

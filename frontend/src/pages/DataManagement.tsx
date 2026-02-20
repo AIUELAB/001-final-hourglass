@@ -707,7 +707,7 @@ function EpisodeModal({
     surprise_score: episode?.意外性スコア ? parseFloat(episode.意外性スコア) : undefined,
     generation_quality_score: episode?.生成品質スコア ? parseFloat(episode.生成品質スコア) : undefined,
     educational_value: episode?.教育的価値 ? parseFloat(episode.教育的価値) : undefined,
-    storytelling_quality: episode?.ストーリー品質 ? parseFloat(episode.ストーリー品質) : undefined,
+    story_quality: episode?.ストーリー品質 ? parseFloat(episode.ストーリー品質) : undefined,
     factual_density: episode?.事実密度 ? parseFloat(episode.事実密度) : undefined,
   });
 
@@ -866,8 +866,8 @@ function EpisodeModal({
                   step="0.1"
                   min="0"
                   max="10"
-                  value={formData.storytelling_quality || ''}
-                  onChange={(e) => setFormData({ ...formData, storytelling_quality: e.target.value ? parseFloat(e.target.value) : undefined })}
+                  value={formData.story_quality || ''}
+                  onChange={(e) => setFormData({ ...formData, story_quality: e.target.value ? parseFloat(e.target.value) : undefined })}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
               </div>

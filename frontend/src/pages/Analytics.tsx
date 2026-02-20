@@ -373,7 +373,7 @@ export function Analytics() {
                       {performer.educational_value.toFixed(1)}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
-                      {performer.storytelling_quality.toFixed(1)}
+                      {performer.story_quality.toFixed(1)}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                       {performer.factual_density.toFixed(1)}

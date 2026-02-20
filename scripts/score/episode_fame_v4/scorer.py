@@ -33,7 +33,7 @@ class EpisodeFameSignals:
     llm_surprise: float = 0.0
     llm_generation_quality: float = 0.0
     llm_educational_value: float = 0.0
-    llm_storytelling_quality: float = 0.0
+    llm_story_quality: float = 0.0
     llm_factual_density: float = 0.0
 
     # エピソード情報
@@ -78,7 +78,7 @@ def calculate_llm_component(signals: EpisodeFameSignals) -> float:
         "surprise": signals.llm_surprise,
         "generation_quality": signals.llm_generation_quality,
         "educational_value": signals.llm_educational_value,
-        "storytelling_quality": signals.llm_storytelling_quality,
+        "story_quality": signals.llm_story_quality,
         "factual_density": signals.llm_factual_density,
     }
 

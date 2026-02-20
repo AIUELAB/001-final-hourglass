@@ -34,7 +34,7 @@ struct SupabaseEpisode: Codable { // periphery:ignore - Internal DB mapping mode
     let surpriseScore: Double?
     let generationQualityScore: Double?
     let educationalValue: Double?
-    let storytellingQuality: Double?
+    let storyQuality: Double?
     let factualDensity: Double?
     let iconicScore: Double?
     let personType: String?
@@ -65,7 +65,7 @@ struct SupabaseEpisode: Codable { // periphery:ignore - Internal DB mapping mode
         case surpriseScore = "surprise_score"
         case generationQualityScore = "generation_quality_score"
         case educationalValue = "educational_value"
-        case storytellingQuality = "storytelling_quality"
+        case storyQuality = "story_quality"
         case factualDensity = "factual_density"
         case iconicScore = "iconic_score"
         case personType = "person_type"

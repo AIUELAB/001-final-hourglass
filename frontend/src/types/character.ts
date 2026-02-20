@@ -76,7 +76,7 @@ export interface FameScore {
   // Phase 2: 4軸評価カラム
   generation_quality_score?: number | null;
   educational_value?: number | null;
-  storytelling_quality?: number | null;
+  story_quality?: number | null;
   factual_density?: number | null;
 }
 
@@ -165,7 +165,7 @@ export interface TopPerformer {
   surprise_score: number;
   generation_quality_score: number;
   educational_value: number;
-  storytelling_quality: number;
+  story_quality: number;
   factual_density: number;
 }
 
@@ -195,7 +195,7 @@ export interface EpisodeSearchResult {
   surprise_score: number;
   generation_quality_score: number;
   educational_value: number;
-  storytelling_quality: number;
+  story_quality: number;
   factual_density: number;
 }
 
@@ -243,8 +243,8 @@ export interface AdvancedSearchParams {
   max_generation_quality?: number;
   min_educational_value?: number;
   max_educational_value?: number;
-  min_storytelling_quality?: number;
-  max_storytelling_quality?: number;
+  min_story_quality?: number;
+  max_story_quality?: number;
   min_factual_density?: number;
   max_factual_density?: number;
   min_composite_score?: number;
@@ -355,7 +355,7 @@ export interface EpisodeCreate extends EpisodeBase {
   surprise_score?: number;
   generation_quality_score?: number;
   educational_value?: number;
-  storytelling_quality?: number;
+  story_quality?: number;
   factual_density?: number;
   milestone_tags?: string;
 }
@@ -378,7 +378,7 @@ export interface EpisodeUpdate {
   surprise_score?: number;
   generation_quality_score?: number;
   educational_value?: number;
-  storytelling_quality?: number;
+  story_quality?: number;
   factual_density?: number;
   milestone_tags?: string;
   fact_check_result?: string;

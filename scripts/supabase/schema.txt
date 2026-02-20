@@ -39,7 +39,7 @@ CREATE TABLE episodes (
   surprise_score NUMERIC(4,2),
   generation_quality_score NUMERIC(4,2),
   educational_value NUMERIC(4,2),
-  storytelling_quality NUMERIC(4,2),
+  story_quality NUMERIC(4,2),
   factual_density NUMERIC(4,2),
   iconic_score NUMERIC(4,2),
 

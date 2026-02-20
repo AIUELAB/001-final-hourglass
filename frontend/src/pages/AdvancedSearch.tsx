@@ -86,8 +86,8 @@ export function AdvancedSearch() {
         max_generation_quality: maxGenQuality,
         min_educational_value: minEduValue,
         max_educational_value: maxEduValue,
-        min_storytelling_quality: minStoryQuality,
-        max_storytelling_quality: maxStoryQuality,
+        min_story_quality: minStoryQuality,
+        max_story_quality: maxStoryQuality,
         min_factual_density: minFactDensity,
         max_factual_density: maxFactDensity,
         min_composite_score: minComposite,
@@ -556,7 +556,7 @@ export function AdvancedSearch() {
                         <td className="px-4 py-3 text-center">{result.surprise_score.toFixed(1)}</td>
                         <td className="px-4 py-3 text-center">{result.generation_quality_score.toFixed(1)}</td>
                         <td className="px-4 py-3 text-center">{result.educational_value.toFixed(1)}</td>
-                        <td className="px-4 py-3 text-center">{result.storytelling_quality.toFixed(1)}</td>
+                        <td className="px-4 py-3 text-center">{result.story_quality.toFixed(1)}</td>
                         <td className="px-4 py-3 text-center">{result.factual_density.toFixed(1)}</td>
                       </tr>
                     ))}

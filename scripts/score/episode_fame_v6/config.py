@@ -26,7 +26,7 @@ WEIGHTS = {
 LLM_WEIGHTS = {
     "memorability": 0.22,  # 記憶性（最重要）
     "surprise": 0.18,  # 意外性
-    "storytelling_quality": 0.15,  # story_quality
+    "story_quality": 0.15,  # story_quality
     "educational_value": 0.15,  # educational_value
     "factual_density": 0.12,  # factual_density
     "empathy": 0.10,  # 共感性
@@ -37,7 +37,7 @@ LLM_WEIGHTS = {
 LLM_COLUMN_MAP = {
     "memorability": "memorability_score",
     "surprise": "surprise_score",
-    "storytelling_quality": "story_quality",
+    "story_quality": "story_quality",
     "educational_value": "educational_value",
     "factual_density": "factual_density",
     "empathy": "empathy_score",

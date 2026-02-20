@@ -68,7 +68,7 @@ class DBReflectionGate:
         "surprise_score": "llm_surprise_score",
         "generation_quality_score": "llm_generation_quality_score",
         "educational_value": "llm_educational_value",
-        "story_quality": "llm_storytelling_quality",
+        "story_quality": "llm_story_quality",
         "factual_density": "llm_factual_density",
     }
 

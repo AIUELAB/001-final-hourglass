@@ -436,32 +436,6 @@ struct LifeResultView: View {
         }  // ZStackの閉じカッコ
     }
 
-    // 年齢層に応じたタイトルを取得（現在は「偉人のエピソード」固定のため未使用）
-    // func getAgeGroupTitle() -> String {
-    //     switch ageInt {
-    //     case 0..<20:
-    //         return "若き日々へのメッセージ"
-    //     case 20..<30:
-    //         return "挑戦の時へのメッセージ"
-    //     case 30..<40:
-    //         return "成長の時へのメッセージ"
-    //     case 40..<50:
-    //         return "充実の時へのメッセージ"
-    //     case 50..<60:
-    //         return "成熟の時へのメッセージ"
-    //     case 60..<70:
-    //         return "円熟の時へのメッセージ"
-    //     case 70..<80:
-    //         return "知恵の時へのメッセージ"
-    //     case 80..<90:
-    //         return "感謝の時へのメッセージ"
-    //     case 90..<100:
-    //         return "悟りの時へのメッセージ"
-    //     default:
-    //         return "人生の時へのメッセージ"
-    //     }
-    // }
-
     // 年齢層に応じた偉人のエピソードデータ（データ駆動型）
     // swiftlint:disable:next large_tuple
     private static let ageGroupEpisodes: [(range: Range<Int>, personName: String, episodeText: String)] = [
@@ -580,98 +554,81 @@ extension LifeResultView {
 extension LifeResultView {
     // ドラマチックな演出シーケンス
     func startDramaticSequence() {
-        // ビューがアクティブでない場合、またはリセット中の場合は何もしない
         guard isViewActive && !appStateManager.isResetting else { return }
 
-        // 2回目以降: 演出をスキップして即座に全要素を表示
         if hasSeenDramaticSequence {
-            doorOffset = 200
-            showHourglass = true
-            hourglassOpacity = 1.0
-            hourglassScale = 1.0
-            showRemainingTime = true
-            countUpYears = remainingYears
-            countUpDays = remainingDays
-            showDeathDate = true
-            deathYearCount = predictedDeathComponents.year
-            showProgress = true
-            progressValue = progress
-            showEpisode = true
-            showFinalMessage = true
-            // BGMのみ開始
-            if !bgmStarted && !appStateManager.isResetting {
-                soundManager.playBackgroundMusic(filename: "saigono", withExtension: "m4a")
-                bgmStarted = true
-            }
+            showAllElementsImmediately()
             return
         }
 
-        // ドラマチック演出の効果音を再生（BGM音量と同期）
+        playFirstTimeSequence()
+    }
+
+    // 2回目以降: 演出をスキップして即座に全要素を表示
+    private func showAllElementsImmediately() {
+        doorOffset = 200
+        showHourglass = true
+        hourglassOpacity = 1.0
+        hourglassScale = 1.0
+        showRemainingTime = true
+        countUpYears = remainingYears
+        countUpDays = remainingDays
+        showDeathDate = true
+        deathYearCount = predictedDeathComponents.year
+        showProgress = true
+        progressValue = progress
+        showEpisode = true
+        showFinalMessage = true
+        if !bgmStarted && !appStateManager.isResetting {
+            soundManager.playBackgroundMusic(filename: "saigono", withExtension: "m4a")
+            bgmStarted = true
+        }
+    }
+
+    // 初回: ドラマチック演出シーケンス
+    private func playFirstTimeSequence() {
         soundManager.playSoundEffect(filename: "sweep", withExtension: "m4a", volume: 0.5, syncWithBGMVolume: true)
 
-        // 扉を開く（画面幅の推定値を使用）
         withAnimation(.easeInOut(duration: 1.5)) {
-            doorOffset = 200  // 画面の半分程度の値
+            doorOffset = 200
         }
 
-        // 扉が開く音（設定でONの場合のみ）
-        // SoundManager.shared.playDoorOpen()
-
-        // 砂時計を表示（大きく）
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             showHourglass = true
             hourglassOpacity = 1.0
-
-            // 砂時計出現音（設定でONの場合のみ）
-            // SoundManager.shared.playHourglassAppear()
-
-            // 砂時計を縮小
             withAnimation(.spring(response: 1.2, dampingFraction: 0.8).delay(0.5)) {
                 hourglassScale = 1.0
             }
         }
 
-        // 残り時間を表示（カウントアップ付き）
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
             showRemainingTime = true
             animateCountUp()
         }
 
-        // BGMを開始（演出が安定してから）
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-            // ビューがアクティブで、リセット中でない場合のみBGMを開始
             if isViewActive && !bgmStarted && !appStateManager.isResetting {
                 soundManager.playBackgroundMusic(filename: "saigono", withExtension: "m4a")
                 bgmStarted = true
             }
         }
 
-        // 死亡予定日を表示（カウントアップ付き）
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
             showDeathDate = true
             animateDeathYearCount()
-
-            // 死亡予定日表示音（少し遅らせて）
-            // DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            //     SoundManager.shared.playDeathDateReveal()
-            // }
         }
 
-        // 進捗率を表示
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
             showProgress = true
             animateProgress()
         }
 
-        // エピソードを表示
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) {
             showEpisode = true
         }
 
-        // 最後の問いかけを表示
         DispatchQueue.main.asyncAfter(deadline: .now() + 6.5) {
             showFinalMessage = true
-            // 初回演出完了後にフラグを保存
             hasSeenDramaticSequence = true
         }
     }

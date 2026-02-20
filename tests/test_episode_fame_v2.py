@@ -186,9 +186,9 @@ class TestRegressionPrevention:
         result_high = calculate_episode_fame_v2(text=text_high_inspiration, llm_scores=llm_scores, celebrity_score=500)
         result_low = calculate_episode_fame_v2(text=text_low_inspiration, llm_scores=llm_scores, celebrity_score=500)
 
-        assert result_high["total"] > result_low["total"], (
-            f"感銘度が高いエピソードのスコアが低い: {result_high['total']} vs {result_low['total']}"
-        )
+        assert (
+            result_high["total"] > result_low["total"]
+        ), f"感銘度が高いエピソードのスコアが低い: {result_high['total']} vs {result_low['total']}"
 
 
 class TestAnchorBonus:

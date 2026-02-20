@@ -28,6 +28,10 @@ private struct NavigationStackCompatible<Content: View>: View {
 struct AboutView: View {
     @State private var showingMailComposer = false
     @State private var showingMailAlert = false
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+    }
     @State private var showingUpdateHistory = false
     @State private var showingFAQ = false
     @State private var showingTerms = false
@@ -79,7 +83,7 @@ struct AboutView: View {
                             .font(.system(size: 24, weight: .light, design: .serif))
                             .foregroundColor(.white)
 
-                        Text("バージョン 1.0.0")
+                        Text("バージョン \(appVersion)")
                             .font(.caption)
                             .foregroundColor(Color.mysticalPurple.opacity(0.8))
                     }
@@ -420,7 +424,7 @@ struct AboutView: View {
 
 
                    -----
-                   アプリバージョン: 1.0.0
+                   アプリバージョン: \(appVersion)
                    デバイス: \(UIDevice.current.model)
                    OS: iOS \(UIDevice.current.systemVersion)
                    """
@@ -532,6 +536,50 @@ struct UpdateHistoryView: View {
                 .ignoresSafeArea()
 
             List {
+                Section(header: Text("バージョン 1.0.9")
+                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
+                ) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("2026年2月リリース")
+                            .font(.caption)
+                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("• バグ修正・安定性向上")
+                        }
+                        .foregroundColor(.white.opacity(0.85))
+                    }
+                    .padding(.vertical, 5)
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(Color(white: 0.11, opacity: 0.4))
+                    )
+                }
+
+                Section(header: Text("バージョン 1.0.8")
+                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
+                ) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("2026年2月リリース")
+                            .font(.caption)
+                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("• 健康ダッシュボード（6項目の自己評価・総合健康スコア）")
+                            Text("• 健康サマリーカード（メイン画面に常時表示）")
+                            Text("• 41件のエピソードを内蔵（オフライン閲覧可能）")
+                            Text("• お気に入りタブに使い方ガイド追加")
+                            Text("• 初回演出のスキップ機能")
+                        }
+                        .foregroundColor(.white.opacity(0.85))
+                    }
+                    .padding(.vertical, 5)
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(Color(white: 0.11, opacity: 0.4))
+                    )
+                }
+
                 Section(header: Text("バージョン 1.0.0")
                     .foregroundColor(Color.mysticalPurple.opacity(0.8))
                 ) {

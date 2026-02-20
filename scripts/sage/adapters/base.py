@@ -173,7 +173,7 @@ class Candidate:
 
 @dataclass
 class AxisScores:
-    """8軸スコア（iconic_score追加）"""
+    """9軸スコア（iconic_score + grammar_quality追加）"""
 
     memorability: float = 0.0  # memorability_score
     empathy: float = 0.0  # empathy_score
@@ -183,6 +183,7 @@ class AxisScores:
     story_quality: float = 0.0  # story_quality
     factual_density: float = 0.0  # factual_density
     iconic_score: float = 0.0  # iconic_score（感銘度）
+    grammar_quality: float = 0.0  # grammar_quality_score（文法品質）
 
     def to_dict(self) -> dict[str, float]:
         """辞書に変換（Phase 28: 英語キー）"""
@@ -195,6 +196,7 @@ class AxisScores:
             "story_quality": self.story_quality,
             "factual_density": self.factual_density,
             "iconic_score": self.iconic_score,
+            "grammar_quality_score": self.grammar_quality,
         }
 
     @classmethod
@@ -210,10 +212,11 @@ class AxisScores:
             story_quality=data.get("story_quality", data.get("story_quality", 0.0)),
             factual_density=data.get("factual_density", data.get("factual_density", 0.0)),
             iconic_score=data.get("iconic_score", data.get("iconic_score", 0.0)),
+            grammar_quality=data.get("grammar_quality_score", 0.0),
         )
 
     def average(self) -> float:
-        """8軸平均"""
+        """軸平均（grammar_quality=0は除外して後方互換維持）"""
         values = [
             self.memorability,
             self.empathy,
@@ -224,21 +227,22 @@ class AxisScores:
             self.factual_density,
             self.iconic_score,
         ]
+        if self.grammar_quality > 0:
+            values.append(self.grammar_quality)
         return sum(values) / len(values)
 
     def weighted_average(self) -> float:
-        """加重平均（factual_density、生成品質、象徴性を重視）"""
+        """加重平均（grammar_quality=0は除外して後方互換維持）"""
         weights = {
             "memorability": 1.0,
             "empathy": 1.0,
             "surprise": 1.0,
-            "generation_quality": 1.5,  # 重み増
+            "generation_quality": 1.5,
             "educational_value": 1.0,
             "story_quality": 1.0,
-            "factual_density": 1.5,  # 重み増
-            "iconic_score": 1.5,  # 重み増（感銘度重視）
+            "factual_density": 1.5,
+            "iconic_score": 1.5,
         }
-        total_weight = sum(weights.values())
         weighted_sum = (
             self.memorability * weights["memorability"]
             + self.empathy * weights["empathy"]
@@ -249,6 +253,11 @@ class AxisScores:
             + self.factual_density * weights["factual_density"]
             + self.iconic_score * weights["iconic_score"]
         )
+        total_weight = sum(weights.values())
+        if self.grammar_quality > 0:
+            weights["grammar_quality"] = 1.5
+            weighted_sum += self.grammar_quality * 1.5
+            total_weight += 1.5
         return weighted_sum / total_weight
 
 

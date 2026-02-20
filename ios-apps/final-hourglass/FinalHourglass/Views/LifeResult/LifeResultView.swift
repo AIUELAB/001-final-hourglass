@@ -50,7 +50,7 @@ struct LifeResultView: View {
 
     // エピソード関連
     @State private var currentEpisode: Episode?
-    @State private var isLoadingEpisode = false
+    @State private var isLoadingEpisode = true
     @State private var lastFetchedAge: Int = -1
     @State private var isLiked: Bool = false
 

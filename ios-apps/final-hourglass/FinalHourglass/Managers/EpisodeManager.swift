@@ -339,18 +339,16 @@ final class EpisodeManager: ObservableObject, @unchecked Sendable {
         }
         set {
             guard let episode = newValue else {
-                #if DEBUG
-                print("💾 todayEpisode クリア")
-                #endif
+                if userDefaults.data(forKey: dailyEpisodeKey) != nil {
+                    episodeLogger.debug("todayEpisode クリア")
+                }
                 userDefaults.removeObject(forKey: dailyEpisodeKey)
                 return
             }
             do {
                 let data = try JSONEncoder().encode(episode)
                 userDefaults.set(data, forKey: dailyEpisodeKey)
-                #if DEBUG
-                print("💾 todayEpisode 保存成功: \(episode.personName), dataSize=\(data.count)")
-                #endif
+                episodeLogger.debug("todayEpisode 保存成功: \(episode.personName, privacy: .public), dataSize=\(data.count)")
             } catch {
                 episodeLogger.error("todayEpisode エンコード失敗: \(error.localizedDescription, privacy: .public)")
                 userDefaults.removeObject(forKey: dailyEpisodeKey)
@@ -612,23 +610,44 @@ final class EpisodeManager: ObservableObject, @unchecked Sendable {
 
     /// Supabaseから新しいエピソードを取得
     private func fetchNewEpisodeFromSupabase(for age: Int, completion: @escaping (Episode?) -> Void) {
-        let excludeIds = viewedEpisodeIds  // キャプチャ用にコピー
         Task { [weak self] in
+            guard let self else {
+                episodeLogger.warning("EpisodeManager deallocated during fetch")
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            let excludeIds = self.viewedEpisodeIds
+            let episode = await self.fetchEpisodeWithRetry(age: age, excludeIds: excludeIds)
+            DispatchQueue.main.async {
+                completion(episode)
+            }
+        }
+    }
+
+    /// リトライ付きエピソード取得（初回失敗時に再試行、maxRetries=1で合計2回試行）
+    private func fetchEpisodeWithRetry(
+        age: Int,
+        excludeIds: Set<String>,
+        maxRetries: Int = 1,
+        retryDelay: TimeInterval = 2.0
+    ) async -> Episode? {
+        var currentExcludeIds = excludeIds
+
+        for attempt in 0...maxRetries {
             do {
                 var episode = try await SupabaseManager.shared.fetchEpisodeWithFallback(
                     targetAge: age,
-                    excludeIds: excludeIds,
+                    excludeIds: currentExcludeIds,
                     maxRange: 10
                 )
 
                 // ループリセット: 候補が枯渇した場合は消費済みリストをリセットして再取得
-                if episode == nil && !excludeIds.isEmpty {
-                    #if DEBUG
-                    print("🔄 エピソード候補枯渇 - 消費済みリストをリセット")
-                    #endif
-                    await MainActor.run { [weak self] in
-                        self?.viewedEpisodeIds = []
+                if episode == nil && !currentExcludeIds.isEmpty {
+                    episodeLogger.debug("エピソード候補枯渇 - 消費済みリストをリセット")
+                    await MainActor.run {
+                        self.viewedEpisodeIds = []
                     }
+                    currentExcludeIds = []
                     episode = try await SupabaseManager.shared.fetchEpisodeWithFallback(
                         targetAge: age,
                         excludeIds: [],
@@ -636,32 +655,32 @@ final class EpisodeManager: ObservableObject, @unchecked Sendable {
                     )
                 }
 
-                DispatchQueue.main.async {
-                    #if DEBUG
-                    if let fetched = episode {
-                        print("✅ Supabase: エピソード取得成功 - \(fetched.personName)")
-                    } else {
-                        print("⚠️ Supabase: エピソードが見つかりませんでした")
-                    }
-                    #endif
-                    completion(episode)
+                if let fetched = episode {
+                    episodeLogger.debug("Supabase: エピソード取得成功 - \(fetched.personName, privacy: .public)")
+                } else {
+                    episodeLogger.warning("Supabase: エピソードが見つかりませんでした")
                 }
+                return episode
             } catch {
-                episodeLogger.error("Supabase取得エラー: \(error.localizedDescription, privacy: .public)")
-                // フォールバックチェーン: キャッシュ → バンドル内エピソード → nil
-                DispatchQueue.main.async { [weak self] in
-                    if let cachedEpisode = self?.getRandomCachedEpisode() {
-                        episodeLogger.warning("キャッシュフォールバック使用")
-                        completion(cachedEpisode)
-                    } else if let bundledEpisode = self?.getRandomBundledEpisode(for: age) {
-                        episodeLogger.warning("バンドルフォールバック使用: \(bundledEpisode.personName, privacy: .public)")
-                        completion(bundledEpisode)
-                    } else {
-                        completion(nil)
-                    }
+                episodeLogger.error(
+                    "Supabase取得エラー (試行\(attempt + 1)/\(maxRetries + 1)): \(error.localizedDescription, privacy: .public)"
+                )
+                if attempt < maxRetries {
+                    try? await Task.sleep(nanoseconds: UInt64(retryDelay * 1_000_000_000))
+                    continue
                 }
+                // 全リトライ失敗: フォールバックチェーン
+                if let cachedEpisode = getRandomCachedEpisode() {
+                    episodeLogger.warning("キャッシュフォールバック使用")
+                    return cachedEpisode
+                } else if let bundledEpisode = getRandomBundledEpisode(for: age) {
+                    episodeLogger.warning("バンドルフォールバック使用: \(bundledEpisode.personName, privacy: .public)")
+                    return bundledEpisode
+                }
+                return nil
             }
         }
+        return nil
     }
 
     /// エピソードIDを表示済みとしてマーク

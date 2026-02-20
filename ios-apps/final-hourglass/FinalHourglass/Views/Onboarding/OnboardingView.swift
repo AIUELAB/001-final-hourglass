@@ -54,8 +54,10 @@ struct OnboardingView: View {
             }
         }
         .onDisappear {
-            // BGMを停止（フェードアウト）
-            soundManager.fadeOutBackgroundMusic(duration: 2.0)
+            // オンボーディング完了時のみBGMを停止（View再構築による誤発火を防止）
+            if appStateManager.hasCompletedOnboarding {
+                soundManager.fadeOutBackgroundMusic(duration: 2.0)
+            }
         }
     }
 

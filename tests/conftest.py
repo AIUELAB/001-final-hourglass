@@ -150,7 +150,7 @@ def mock_master_episodes_df():
             "surprise_score": [9.0, 8.0, 9.5, 8.5, 7.5, 1.0, 1.0],
             "generation_quality_score": [9.0, 8.5, 9.5, 8.0, 7.0, 1.0, 1.0],
             "educational_value": [9.5, 9.0, 9.5, 8.5, 6.5, 1.0, 1.0],
-            "storytelling_quality": [9.0, 8.5, 9.0, 8.0, 8.5, 1.0, 1.0],
+            "story_quality": [9.0, 8.5, 9.0, 8.0, 8.5, 1.0, 1.0],
             "factual_density": [9.0, 8.5, 9.0, 8.0, 5.0, 1.0, 1.0],
             "llm_evaluated_at": [
                 "2026-01-01",
@@ -186,7 +186,6 @@ def mock_master_episodes_df():
             "model": ["gpt-4", "gpt-4", "gpt-4", "gpt-4", "gpt-4", "test", "test"],
             "generator_type": ["standard", "standard", "standard", "standard", "fictional", "test", "test"],
             "cost_usd": [0.01, 0.01, 0.01, 0.01, 0.01, 0.0, 0.0],
-            "story_quality": [9.0, 8.5, 9.5, 8.0, 8.0, 1.0, 1.0],
             "episode_fame_score": [95.0, 90.0, 98.0, 80.0, 70.0, 1.0, 1.0],
             "birth_year": [1534, 1537, 1543, 1955, None, None, None],
             "death_year": [1582, 1598, 1616, 2011, None, None, None],

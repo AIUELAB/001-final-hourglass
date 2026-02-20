@@ -27,7 +27,7 @@ DELETE_COLUMNS = [
     "surprise_score",  # → llm_surprise_score
     "generation_quality_score",  # → llm_generation_quality_score
     "educational_value",  # → llm_educational_value
-    "story_quality",  # → llm_storytelling_quality
+    "story_quality",  # → llm_story_quality
     "factual_density",  # → llm_factual_density
     # 不要カラム
     "slot",  # 用途不明
@@ -43,7 +43,7 @@ RENAME_COLUMNS = {
     "llm_surprise_score": "surprise_score",
     "llm_generation_quality_score": "generation_quality_score",
     "llm_educational_value": "educational_value",
-    "llm_storytelling_quality": "storytelling_quality",
+    "llm_story_quality": "story_quality",
     "llm_factual_density": "factual_density",
 }
 
@@ -101,7 +101,7 @@ def reorganize_columns(
         ("surprise_score", "llm_surprise_score"),
         ("generation_quality_score", "llm_generation_quality_score"),
         ("educational_value", "llm_educational_value"),
-        ("story_quality", "llm_storytelling_quality"),
+        ("story_quality", "llm_story_quality"),
         ("factual_density", "llm_factual_density"),
     ]
 

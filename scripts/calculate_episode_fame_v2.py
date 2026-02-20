@@ -65,7 +65,7 @@ def calculate_all_v2_scores(
         # LLMスコア取得（正しいカラム名を使用）
         llm_scores = {
             "memorability": float(ep.get("llm_memorability_score") or 0),
-            "storytelling_quality": float(ep.get("llm_storytelling_quality") or 0),
+            "story_quality": float(ep.get("llm_story_quality") or 0),
             "factual_density": float(ep.get("llm_factual_density") or 0),
             "educational_value": float(ep.get("llm_educational_value") or 0),
             "empathy": float(ep.get("llm_empathy_score") or 0),

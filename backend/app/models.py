@@ -95,7 +95,7 @@ class FameScore(BaseModel):
     # Phase 2: 4軸評価カラム
     generation_quality_score: Optional[float] = None
     educational_value: Optional[float] = None
-    storytelling_quality: Optional[float] = None
+    story_quality: Optional[float] = None
     factual_density: Optional[float] = None
 
 
@@ -176,7 +176,7 @@ class TopPerformer(BaseModel):
     surprise_score: float
     generation_quality_score: float
     educational_value: float
-    storytelling_quality: float
+    story_quality: float
     factual_density: float
 
 
@@ -204,7 +204,7 @@ class EpisodeSearchResult(BaseModel):
     surprise_score: float = 0.0
     generation_quality_score: float = 0.0
     educational_value: float = 0.0
-    storytelling_quality: float = 0.0
+    story_quality: float = 0.0
     factual_density: float = 0.0
 
 
@@ -313,7 +313,7 @@ class EpisodeCreate(EpisodeBase):
     surprise_score: Optional[float] = None
     generation_quality_score: Optional[float] = None
     educational_value: Optional[float] = None
-    storytelling_quality: Optional[float] = None
+    story_quality: Optional[float] = None
     factual_density: Optional[float] = None
 
     # 人生の節目タグ
@@ -339,7 +339,7 @@ class EpisodeUpdate(BaseModel):
     surprise_score: Optional[float] = None
     generation_quality_score: Optional[float] = None
     educational_value: Optional[float] = None
-    storytelling_quality: Optional[float] = None
+    story_quality: Optional[float] = None
     factual_density: Optional[float] = None
 
     # 人生の節目タグ
@@ -409,7 +409,7 @@ class Episode(BaseModel):
     llm_surprise_score: Optional[str] = None
     llm_generation_quality_score: Optional[str] = None
     llm_educational_value: Optional[str] = None
-    llm_storytelling_quality: Optional[str] = None
+    llm_story_quality: Optional[str] = None
     llm_factual_density: Optional[str] = None
     llm_evaluated_at: Optional[str] = None
 

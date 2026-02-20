@@ -33,7 +33,7 @@ from backend.app.utils.score_calculator import (
     calculate_all_five_axes,
     calculate_enhanced_composite_score,
     calculate_factual_density,
-    calculate_storytelling_quality,
+    calculate_story_quality,
     get_score_grade,
 )
 
@@ -164,7 +164,7 @@ def recalculate_all_scores(execute: bool = False, sample_size: int = None):
         five_axes = calculate_all_five_axes(episode_data)
 
         # 2軸を計算（story_quality、factual_density）
-        storytelling = calculate_storytelling_quality(episode_text, episode_type)
+        storytelling = calculate_story_quality(episode_text, episode_type)
         factual = calculate_factual_density(episode_text, episode_type)
 
         # 新スコアを収集

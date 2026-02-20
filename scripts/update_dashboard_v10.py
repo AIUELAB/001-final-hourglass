@@ -115,7 +115,7 @@ def load_csv_data():
                 "surprise_score": float(row.get("surprise_score", 0) or 0),
                 "generation_quality_score": float(row.get("generation_quality_score", 0) or 0),
                 "educational_value": float(row.get("educational_value", 0) or 0),
-                "storytelling_quality": float(row.get("storytelling_quality", 0) or 0),
+                "story_quality": float(row.get("story_quality", 0) or 0),
                 "factual_density": float(row.get("factual_density", 0) or 0),
                 # 8軸目: iconic_score
                 "iconic_score": float(row.get("iconic_score", 0) or 0),
@@ -139,7 +139,7 @@ def load_csv_data():
             # 7軸チャート用エイリアス
             episode["quality_score"] = episode["generation_quality_score"]
             episode["educational_score"] = episode["educational_value"]
-            episode["narrative_score"] = episode["storytelling_quality"]
+            episode["narrative_score"] = episode["story_quality"]
             episode["factual_score"] = episode["factual_density"]
             # 5軸スコア - CSVから読み込み（存在しない場合のみ計算でフォールバック）
             # RCA-20260106: CSVの総合品質/感情インパクトを無視していた問題を修正
@@ -166,9 +166,7 @@ def load_csv_data():
             episode["educational_value_5"] = (
                 episode["educational_value"] if episode["educational_value"] is not None else None
             )
-            episode["story_quality_5"] = (
-                episode["storytelling_quality"] if episode["storytelling_quality"] is not None else None
-            )
+            episode["story_quality_5"] = episode["story_quality"] if episode["story_quality"] is not None else None
             episode["factual_density_5"] = (
                 episode["factual_density"] if episode["factual_density"] is not None else None
             )

@@ -21,7 +21,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # 統一モジュールからインポート（重複実装の排除）
 from backend.app.utils.score_calculator import (
     calculate_factual_density,
-    calculate_storytelling_quality,
+    calculate_story_quality,
 )
 
 CSV_PATH = PROJECT_ROOT / "preserved" / "data" / "MASTER_EPISODES_CURRENT.csv"
@@ -98,7 +98,7 @@ def batch_calculate():
                 needs_storytelling = True
 
         if needs_storytelling:
-            storytelling_score = calculate_storytelling_quality(episode_text, episode_type)
+            storytelling_score = calculate_story_quality(episode_text, episode_type)
             df.at[idx, "story_quality"] = storytelling_score
             storytelling_updated += 1
 

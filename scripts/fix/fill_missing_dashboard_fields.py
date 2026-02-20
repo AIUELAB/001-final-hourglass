@@ -78,7 +78,7 @@ def fill_missing_fields(df: pd.DataFrame, dry_run: bool = True) -> tuple[pd.Data
     """欠損フィールドを補完"""
     stats = {
         "iconic_score_filled": 0,
-        "storytelling_quality_filled": 0,
+        "story_quality_filled": 0,
         "episode_fame_v6_filled": 0,
         "episode_fame_tier_v6_filled": 0,
         "fame_score_v3_filled": 0,
@@ -111,8 +111,8 @@ def fill_missing_fields(df: pd.DataFrame, dry_run: bool = True) -> tuple[pd.Data
                 stats["iconic_score_filled"] += 1
                 modified = True
 
-        # storytelling_quality の補完（他スコアから推定）
-        story_q = row.get("storytelling_quality")
+        # story_quality の補完（他スコアから推定）
+        story_q = row.get("story_quality")
         if pd.isna(story_q) or story_q == 0:
             # 関連スコアから推定: (memorability + empathy + generation_quality) / 3
             mem = row.get("memorability_score")
@@ -121,13 +121,13 @@ def fill_missing_fields(df: pd.DataFrame, dry_run: bool = True) -> tuple[pd.Data
             valid_scores = [s for s in [mem, emp, gen] if pd.notna(s) and s > 0]
             if valid_scores:
                 new_story_q = round(sum(valid_scores) / len(valid_scores), 1)
-                df.at[idx, "storytelling_quality"] = new_story_q
-                stats["storytelling_quality_filled"] += 1
+                df.at[idx, "story_quality"] = new_story_q
+                stats["story_quality_filled"] += 1
                 modified = True
             else:
                 # デフォルト値
-                df.at[idx, "storytelling_quality"] = 7.0
-                stats["storytelling_quality_filled"] += 1
+                df.at[idx, "story_quality"] = 7.0
+                stats["story_quality_filled"] += 1
                 modified = True
 
         # fame_score_v3 の補完（人物マスターから）
@@ -192,7 +192,7 @@ def main():
 
     # 補完前の欠損状況
     logger.info("補完前の欠損状況:")
-    for col in ["iconic_score", "storytelling_quality", "episode_fame_v6", "episode_fame_tier_v6", "fame_score_v3"]:
+    for col in ["iconic_score", "story_quality", "episode_fame_v6", "episode_fame_tier_v6", "fame_score_v3"]:
         if col in df.columns:
             missing = df[col].isna().sum() + (df[col] == 0).sum()
             logger.info(f"  {col}: {missing}件")
@@ -206,7 +206,7 @@ def main():
     print("=" * 60)
     print(f"処理エピソード数: {stats['total_processed']}")
     print(f"iconic_score 補完: {stats['iconic_score_filled']}件")
-    print(f"storytelling_quality 補完: {stats['storytelling_quality_filled']}件")
+    print(f"story_quality 補完: {stats['story_quality_filled']}件")
     print(f"fame_score_v3 補完: {stats['fame_score_v3_filled']}件")
     print(f"episode_fame_v6 補完: {stats['episode_fame_v6_filled']}件")
     print(f"episode_fame_tier_v6 補完: {stats['episode_fame_tier_v6_filled']}件")

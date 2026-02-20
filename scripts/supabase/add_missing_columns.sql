@@ -163,3 +163,15 @@ END $$;
 
 -- カラムコメント
 COMMENT ON COLUMN episodes.hybrid_score IS 'Hybrid-Cソート方式のスコア（iOSアプリ用）';
+
+-- -----------------------------------------------------------------------------
+-- 8. grammar_quality_score カラム追加（エピソード文法品質システム）
+-- -----------------------------------------------------------------------------
+-- 追加日: 2026-02-20
+-- 目的: 体言止め検出・文の完結性・形式一貫性を数値化するスコアカラム
+
+-- grammar_quality_score: 文法品質スコア
+ALTER TABLE episodes ADD COLUMN IF NOT EXISTS grammar_quality_score NUMERIC(4,2);
+
+-- カラムコメント
+COMMENT ON COLUMN episodes.grammar_quality_score IS '文法品質スコア（体言止め検出・文完結性・形式一貫性）';

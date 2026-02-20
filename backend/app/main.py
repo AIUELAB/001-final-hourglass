@@ -631,7 +631,7 @@ async def get_fame_ranking(
                 # Phase 2: 4軸評価カラム
                 generation_quality_score=r.get("generation_quality_score"),
                 educational_value=r.get("educational_value"),
-                storytelling_quality=r.get("storytelling_quality"),
+                story_quality=r.get("story_quality"),
                 factual_density=r.get("factual_density"),
             )
             for r in rankings
@@ -831,8 +831,8 @@ async def advanced_search(
     max_generation_quality: Optional[float] = Query(None, ge=0, le=10, description="generation_quality_score最大値"),
     min_educational_value: Optional[float] = Query(None, ge=0, le=10, description="educational_value最小値"),
     max_educational_value: Optional[float] = Query(None, ge=0, le=10, description="educational_value最大値"),
-    min_storytelling_quality: Optional[float] = Query(None, ge=0, le=10, description="story_quality最小値"),
-    max_storytelling_quality: Optional[float] = Query(None, ge=0, le=10, description="story_quality最大値"),
+    min_story_quality: Optional[float] = Query(None, ge=0, le=10, description="story_quality最小値"),
+    max_story_quality: Optional[float] = Query(None, ge=0, le=10, description="story_quality最大値"),
     min_factual_density: Optional[float] = Query(None, ge=0, le=10, description="factual_density最小値"),
     max_factual_density: Optional[float] = Query(None, ge=0, le=10, description="factual_density最大値"),
     min_composite_score: Optional[float] = Query(None, ge=0, le=10, description="総合スコア最小値"),
@@ -864,8 +864,8 @@ async def advanced_search(
         max_generation_quality=max_generation_quality,
         min_educational_value=min_educational_value,
         max_educational_value=max_educational_value,
-        min_storytelling_quality=min_storytelling_quality,
-        max_storytelling_quality=max_storytelling_quality,
+        min_story_quality=min_story_quality,
+        max_story_quality=max_story_quality,
         min_factual_density=min_factual_density,
         max_factual_density=max_factual_density,
         min_composite_score=min_composite_score,
@@ -889,7 +889,7 @@ async def advanced_search(
             surprise_score=r.get("surprise_score", 0.0),
             generation_quality_score=r.get("generation_quality_score", 0.0),
             educational_value=r.get("educational_value", 0.0),
-            storytelling_quality=r.get("story_quality", 0.0),
+            story_quality=r.get("story_quality", 0.0),
             factual_density=r.get("factual_density", 0.0),
         )
         for r in results

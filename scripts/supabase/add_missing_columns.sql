@@ -175,3 +175,21 @@ ALTER TABLE episodes ADD COLUMN IF NOT EXISTS grammar_quality_score NUMERIC(4,2)
 
 -- カラムコメント
 COMMENT ON COLUMN episodes.grammar_quality_score IS '文法品質スコア（体言止め検出・文完結性・形式一貫性）';
+
+-- -----------------------------------------------------------------------------
+-- 9. age + hybrid_score 複合インデックス追加（クエリタイムアウト対策）
+-- -----------------------------------------------------------------------------
+-- 追加日: 2026-02-21
+-- 目的: WHERE age = X ORDER BY hybrid_score DESC のクエリを高速化
+-- 背景: iOSアプリのfetchEpisodes(forAge:)でstatement timeoutが発生
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_indexes
+        WHERE indexname = 'idx_episodes_age_hybrid_score'
+    ) THEN
+        CREATE INDEX idx_episodes_age_hybrid_score
+        ON episodes(age, hybrid_score DESC NULLS LAST, episode_id ASC);
+    END IF;
+END $$;

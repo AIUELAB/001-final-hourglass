@@ -8,8 +8,19 @@ Grammar Quality Scorer
 import re
 
 
-# 丁寧語の文末パターン
-POLITE_ENDINGS = [
+# 常体の文末パターン（違反対象）
+PLAIN_ENDINGS = [
+    "た",
+    "だ",
+    "である",
+    "ある",
+    "いた",
+    "った",
+    "のだ",
+]
+
+# 述語として有効な文末パターン（丁寧語）
+VALID_ENDINGS = [
     "ました",
     "でした",
     "です",
@@ -17,36 +28,20 @@ POLITE_ENDINGS = [
     "ません",
     "ございます",
     "ございました",
-]
-
-# 述語として有効な文末パターン（常体）
-VALID_ENDINGS = [
-    "た",
-    "だ",
-    "である",
-    "ある",
-    "いる",
-    "いた",
-    "った",
-    "んだ",
-    "のだ",
-    "なった",
-    "れた",
-    "された",
-    "きた",
-    "した",
-    "ない",
-    "なかった",
-    "ていた",
-    "ていく",
-    "ている",
-    "てきた",
-    "となった",
-    "となる",
-    "を果たした",
-    "を遂げた",
-    "を成し遂げた",
-    "を残した",
+    "でしょう",
+    "ましょう",
+    "ください",
+    "いたします",
+    "おります",
+    "なります",
+    "ています",
+    "ていました",
+    "ておりました",
+    "てまいりました",
+    "を果たしました",
+    "を遂げました",
+    "を成し遂げました",
+    "を残しました",
 ]
 
 # 体言止めで頻出する名詞（taigendome.pyと共通だが、ここではスコア計算用に使う）
@@ -152,12 +147,16 @@ def _is_noun_ending(sentence: str) -> bool:
     return False
 
 
-def _is_polite_ending(sentence: str) -> bool:
-    """文が丁寧語で終わっているかチェック"""
+def _is_plain_ending(sentence: str) -> bool:
+    """文が常体で終わっているかチェック（違反検出用）"""
     clean = sentence.rstrip("。").strip()
     if not clean:
         return False
-    for ending in POLITE_ENDINGS:
+    # 丁寧語を先に除外（「しました」等は常体判定しない）
+    for ending in VALID_ENDINGS:
+        if clean.endswith(ending):
+            return False
+    for ending in PLAIN_ENDINGS:
         if clean.endswith(ending):
             return True
     return False
@@ -227,17 +226,17 @@ class GrammarQualityScorer:
     def _check_consistency(self, sentences: list[str]) -> float:
         """
         形式一貫性チェック
-        丁寧語混入率。丁寧語1文あたり-1.0点。
+        常体混入率。常体1文あたり-1.0点。
         """
         score = 10.0
-        polite_count = 0
+        plain_count = 0
 
         for sentence in sentences:
-            if _is_polite_ending(sentence):
-                polite_count += 1
+            if _is_plain_ending(sentence):
+                plain_count += 1
 
-        # 丁寧語1文あたり-1.0点
-        score -= polite_count * 1.0
+        # 常体1文あたり-1.0点
+        score -= plain_count * 1.0
 
         return max(1.0, score)
 

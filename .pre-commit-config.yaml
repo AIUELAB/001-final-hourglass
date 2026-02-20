@@ -236,9 +236,9 @@ repos:
     pass_filenames: false
     files: ^preserved/data/MASTER_EPISODES_CURRENT\.csv$
 
-  - id: check-polite-form
-    name: Check polite form compliance (≤3%)
-    entry: python scripts/validation/quality_regression_check.py --check polite --threshold 3.0
+  - id: check-plain-form
+    name: Check plain form violations (≤3%)
+    entry: python scripts/validation/quality_regression_check.py --check plain --threshold 3.0
     language: python
     additional_dependencies: [pandas]
     pass_filenames: false

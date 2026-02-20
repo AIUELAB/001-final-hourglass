@@ -24,6 +24,7 @@ from .base import (
     GeneratorType,
     TokenUsage,
 )
+from ..quality.grammar_scorer import GrammarQualityScorer
 from ..quality.improvement import get_retry_prompt_injection, is_retryable_failure
 
 # プロンプト長推定用の定数
@@ -69,6 +70,8 @@ class EPGENAdapter(GeneratorAdapter):
         self._iconic_achievements: Optional[dict[str, Any]] = None
         # iconic_score計算器（8軸目）- 遅延初期化
         self._iconic_score_calculator = None
+        # grammar_quality計算器（9軸目）
+        self._grammar_scorer = GrammarQualityScorer()
         # Phase 21: 多段階生成
         self._use_tiered_generation = use_tiered_generation
         self._haiku_generator = None  # Haiku用ジェネレータ（遅延初期化）
@@ -615,6 +618,9 @@ class EPGENAdapter(GeneratorAdapter):
                         age=r.candidate.age,
                     )
 
+                    # grammar_quality計算
+                    grammar_quality = self._grammar_scorer.calculate(r.episode_text)
+
                     axis_scores = AxisScores(
                         memorability=scores.memorability,
                         empathy=scores.empathy,
@@ -624,6 +630,7 @@ class EPGENAdapter(GeneratorAdapter):
                         story_quality=scores.story_quality,
                         factual_density=scores.factual_density,
                         iconic_score=iconic_score,
+                        grammar_quality=grammar_quality,
                     )
 
                     composite_score = (
@@ -921,6 +928,9 @@ class EPGENAdapter(GeneratorAdapter):
                     age=candidate.age,
                 )
 
+                # grammar_quality計算
+                grammar_quality = self._grammar_scorer.calculate(text)
+
                 axis_scores = AxisScores(
                     memorability=scores.memorability,
                     empathy=scores.empathy,
@@ -930,6 +940,7 @@ class EPGENAdapter(GeneratorAdapter):
                     story_quality=scores.story_quality,
                     factual_density=scores.factual_density,
                     iconic_score=iconic_score,  # 8軸目追加
+                    grammar_quality=grammar_quality,  # 9軸目追加
                 )
 
                 # 統合スコア計算 (100x スケール: 470-700が目標範囲)

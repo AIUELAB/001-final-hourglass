@@ -77,6 +77,11 @@ from .polite_form import (
     check_polite_form,
     gate_check as polite_form_gate_check,
 )
+from .taigendome import (
+    TaigendomeCheckResult,
+    check_taigendome,
+    gate_check as taigendome_gate_check,
+)
 
 __all__ = [
     # Anti-Gaming
@@ -141,4 +146,8 @@ __all__ = [
     "auto_fix_polite_form",
     "check_and_fix_polite_form",
     "polite_form_gate_check",
+    # Taigendome (体言止めチェック)
+    "TaigendomeCheckResult",
+    "check_taigendome",
+    "taigendome_gate_check",
 ]

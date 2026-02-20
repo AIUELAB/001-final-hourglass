@@ -54,57 +54,11 @@ def check_polite_form(
     episode_text: str,
     strict: bool = False,
 ) -> PoliteFormCheckResult:
-    """
-    エピソードテキストの丁寧語チェック
-
-    Args:
-        episode_text: チェック対象のテキスト
-        strict: True=1件でもあれば失敗、False=許容範囲内なら通過
-
-    Returns:
-        PoliteFormCheckResult: チェック結果
-    """
-    if not episode_text:
-        return PoliteFormCheckResult(
-            passed=True,
-            issue_count=0,
-            message="テキストなし",
-        )
-
-    normalizer = _get_normalizer()
-    issues = normalizer.detect_issues(episode_text)
-
-    if not issues:
-        return PoliteFormCheckResult(
-            passed=True,
-            issue_count=0,
-            message="丁寧語チェック通過",
-        )
-
-    # 厳格モード: 1件でもあれば失敗
-    if strict:
-        return PoliteFormCheckResult(
-            passed=False,
-            issue_count=len(issues),
-            issues=issues,
-            message=f"丁寧語漏れ検出: {len(issues)}件",
-        )
-
-    # 非厳格モード: 3件以上で失敗
-    threshold = 3
-    if len(issues) >= threshold:
-        return PoliteFormCheckResult(
-            passed=False,
-            issue_count=len(issues),
-            issues=issues,
-            message=f"丁寧語漏れ検出: {len(issues)}件 (閾値{threshold}超)",
-        )
-
+    """丁寧語チェック（無効化済み: 常体が正しい前提）"""
     return PoliteFormCheckResult(
         passed=True,
-        issue_count=len(issues),
-        issues=issues,
-        message=f"丁寧語漏れ軽微: {len(issues)}件 (許容範囲内)",
+        issue_count=0,
+        message="丁寧語チェック無効（常体正規化済み）",
     )
 
 
@@ -112,27 +66,8 @@ def auto_fix_polite_form(
     episode_text: str,
     max_risk: str = "low",
 ) -> str:
-    """
-    エピソードテキストの丁寧語を自動修正
-
-    Args:
-        episode_text: 修正対象のテキスト
-        max_risk: 適用ルールの最大リスク (low/medium/high)
-
-    Returns:
-        str: 修正後のテキスト
-    """
-    if not episode_text:
-        return episode_text
-
-    normalizer = _get_normalizer()
-    fixed_text, changes = normalizer.transform_text(
-        episode_text,
-        max_risk=max_risk,
-        dry_run=False,
-    )
-
-    return fixed_text
+    """丁寧語自動修正（無効化済み: 常体が正しい前提）"""
+    return episode_text
 
 
 def check_and_fix_polite_form(

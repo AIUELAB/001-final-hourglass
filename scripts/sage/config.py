@@ -71,6 +71,7 @@ QUALITY_THRESHOLDS = {
     "min_surprise": 4.0,  # 意外性（Phase4調整: 5.0→4.0、架空キャラ対応）
     "min_educational_value": 4.0,  # educational_value（Phase4調整: 5.0→4.0、架空キャラ対応）
     "min_story_quality": 5.0,  # story_quality
+    "min_grammar_quality": 6.0,  # 文法品質（体言止め等）
     # 統合スコア閾値
     "min_composite": 380,  # 即棄却ライン
     "target_composite": 550,  # 即採用ライン
@@ -98,6 +99,7 @@ QUALITY_THRESHOLDS_FICTIONAL = {
     "min_surprise": 4.0,  # 維持
     "min_educational_value": 3.5,  # 4.0→3.5（教育的価値は低め許容）
     "min_story_quality": 5.0,  # 維持
+    "min_grammar_quality": 6.0,  # 文法品質（全タイプ共通）
     # 統合スコア閾値
     "min_composite": 350,  # 380→350（緩和）
     "target_composite": 520,  # 550→520（緩和）
@@ -287,6 +289,7 @@ class RejectionReason(Enum):
     LOW_FACTUAL_DENSITY = "low_factual_density"  # factual_density不足
     LOW_GENERATION_QUALITY = "low_generation_quality"  # 生成品質不足
     LOW_COMPOSITE_SCORE = "low_composite"  # 統合スコア不足
+    LOW_GRAMMAR_QUALITY = "low_grammar_quality"  # 文法品質不足
     LOW_SUPER_TOTAL = "low_super_total"  # 超総合スコア不足
     HIGH_SIMILARITY = "high_similarity"  # 高類似度
     # ファクトチェック
@@ -295,6 +298,7 @@ class RejectionReason(Enum):
     NO_EVIDENCE = "no_evidence"  # 根拠なし
     # パターンチェック
     PROHIBITED_PATTERN = "prohibited_pattern"  # 禁止パターン
+    TAIGENDOME_VIOLATION = "taigendome_violation"  # 体言止め違反
     FILLER_DETECTED = "filler_detected"  # 埋め草検出（即棄却: score < 1）
     LOW_SPECIFICITY = "low_specificity"  # 具体性不足（リトライ可: score 1-2）
     # その他

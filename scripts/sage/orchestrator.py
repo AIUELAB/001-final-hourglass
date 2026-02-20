@@ -30,10 +30,10 @@ from .gates import (
     DuplicateDetector,
     FactChecker,
 )
-from .gates.polite_form import auto_fix_polite_form
 from .gates.post_processor import apply_post_processing
 from .persistence import SafeCSVWriter, WriteResult
 from .inventory_manager import InventoryManager, ReplacementTarget
+from .gates.taigendome import check_taigendome
 from .pre_generation_rules import PreGenerationRules, check_prohibited_patterns, check_specificity
 from .quality import ImprovementLoop, QualityEvaluator, SuperTotalCalculator
 from .strategy_router import StrategyRouter
@@ -388,9 +388,6 @@ class HybridOrchestrator:
                     result = self._router.route_without_eval(candidate)
 
                     if result.success:
-                        # 表層修正
-                        result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
-
                         # 定型パターン修正
                         result.episode_text, _ = apply_post_processing(
                             result.episode_text,
@@ -459,6 +456,21 @@ class HybridOrchestrator:
                                 "age": candidate.age,
                                 "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
                                 "message": pattern_check.message,
+                            }
+                        )
+                        continue
+
+                    # 体言止めチェック
+                    taigendome_check = check_taigendome(result.episode_text)
+                    if not taigendome_check.passed:
+                        run.rejected_count += 1
+                        rejections.append(
+                            {
+                                "person_id": candidate.person_id,
+                                "person_name": candidate.person_name,
+                                "age": candidate.age,
+                                "reason": RejectionReason.TAIGENDOME_VIOLATION.value,
+                                "message": taigendome_check.message,
                             }
                         )
                         continue
@@ -766,13 +778,6 @@ class HybridOrchestrator:
                 }
             )
 
-        # 3.5. Phase 2最適化: 軽量表層修正（LLMコスト0で品質向上）
-        # 敬体/常体統一、句読点、文末の自動修正
-        original_text = result.episode_text
-        result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
-        if result.episode_text != original_text:
-            logger.debug(f"表層修正適用: {candidate.person_name}({candidate.age}歳)")
-
         # 3.6. 定型パターン後処理（EPUP準拠）
         # "あなたと同じ{age}歳のとき、{name}は" で開始するよう修正
         original_text = result.episode_text
@@ -795,6 +800,19 @@ class HybridOrchestrator:
                     "age": candidate.age,
                     "reason": pattern_check.reason.value if pattern_check.reason else "prohibited",
                     "message": pattern_check.message,
+                }
+            )
+
+        # 4.5. 体言止めチェック（EPUP: 文末完結性）
+        taigendome_check = check_taigendome(result.episode_text)
+        if not taigendome_check.passed:
+            return ProcessingResult(
+                rejection={
+                    "person_id": candidate.person_id,
+                    "person_name": candidate.person_name,
+                    "age": candidate.age,
+                    "reason": RejectionReason.TAIGENDOME_VIOLATION.value,
+                    "message": taigendome_check.message,
                 }
             )
 
@@ -923,12 +941,6 @@ class HybridOrchestrator:
                                     "message": f"リトライ失敗: {result.error_message}",
                                 }
                             )
-
-                        # 表層修正を再適用
-                        original_text = result.episode_text
-                        result.episode_text = auto_fix_polite_form(result.episode_text, max_risk="low")
-                        if result.episode_text != original_text:
-                            logger.debug(f"リトライ後表層修正適用: {candidate.person_name}({candidate.age}歳)")
 
                         # 定型パターン修正を再適用
                         result.episode_text, _ = apply_post_processing(

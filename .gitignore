@@ -377,3 +377,8 @@ preserved/data/MASTER_EPISODES_CURRENT.csv
 
 # 旧アイコンバックアップ（Xcode 15+ 単一アイコン移行時の退避）
 ios-apps/final-hourglass/FinalHourglass/Resources/Assets/Assets.xcassets/AppIcon.appiconset2/
+
+# ========================================
+# YouTube字幕ファイル（参考資料のみ）
+# ========================================
+src/reports/youtube_transcripts/

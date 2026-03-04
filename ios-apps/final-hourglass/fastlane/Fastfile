@@ -23,12 +23,14 @@ platform :ios do
       )
       deliver(
         api_key: api_key,
+        edit_live: true,
         skip_binary_upload: true,
         skip_screenshots: true,
         force: true
       )
     else
       deliver(
+        edit_live: true,
         skip_binary_upload: true,
         skip_screenshots: true,
         force: true
@@ -40,6 +42,7 @@ platform :ios do
   lane :upload_metadata_and_screenshots do
     screenshots
     deliver(
+      edit_live: true,
       skip_binary_upload: true,
       force: true
     )

@@ -126,7 +126,7 @@ jobs:
           APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
         run: |
           bundle exec fastlane metadata \
-            api_key_path:~/private_keys/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8
+            api_key_path:"$HOME/private_keys/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
 
       - name: Upload Summary
         if: always()

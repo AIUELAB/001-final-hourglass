@@ -14,12 +14,26 @@ platform :ios do
   end
 
   desc "メタデータのみApp Store Connectにアップロード"
-  lane :metadata do
-    deliver(
-      skip_binary_upload: true,
-      skip_screenshots: true,
-      force: true
-    )
+  lane :metadata do |options|
+    if options[:api_key_path]
+      api_key = app_store_connect_api_key(
+        key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+        issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+        key_filepath: options[:api_key_path]
+      )
+      deliver(
+        api_key: api_key,
+        skip_binary_upload: true,
+        skip_screenshots: true,
+        force: true
+      )
+    else
+      deliver(
+        skip_binary_upload: true,
+        skip_screenshots: true,
+        force: true
+      )
+    end
   end
 
   desc "メタデータとスクリーンショットをアップロード"

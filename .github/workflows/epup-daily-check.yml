@@ -171,7 +171,7 @@ jobs:
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: \`[文章品質] 違反検出 - \${new Date().toISOString().split('T')[0]}\`,
+              title: `[文章品質] 違反検出 - ${new Date().toISOString().split('T')[0]}`,
               body: body,
               labels: ['text-quality', 'automated']
             });

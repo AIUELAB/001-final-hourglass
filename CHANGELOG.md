@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-03-04
+
+### Changed
+
+- **perf**: エピソード取得のクエリ最適化 - limit縮小(100→50) + age/hybrid_score複合インデックス追加 (PR #139)
+- **feat**: 全52,838件のエピソードを丁寧語(です・ます調)に統一 - Batch API + ルールベース二段構え (PR #138)
+- **refactor**: `storytelling_quality` → `story_quality` 全レイヤー命名統一 - 48ファイル変更 (PR #137)
+- **feat**: About画面に更新履歴(v1.0.8/v1.0.9)を追加 + エピソード文法品質システム (PR #136)
+- **refactor**: LifeResultView の SwiftLint違反修正 - function_body_length/file_length解消 (PR #135)
+- **docs**: App Store subtitle/keywords の文字数・バイト数を制限フル活用に拡充 (PR #134)
+
 ### Added
 
 - **Phase 18** - コンテキスト最適化とシステム起動改善 (2025-11-21)

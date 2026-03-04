@@ -374,3 +374,6 @@ src/reports/fictional_rule_violations.csv
 # Git LFS追跡を解除してリポジトリを軽量化
 preserved/*.html
 preserved/data/MASTER_EPISODES_CURRENT.csv
+
+# 旧アイコンバックアップ（Xcode 15+ 単一アイコン移行時の退避）
+ios-apps/final-hourglass/FinalHourglass/Resources/Assets/Assets.xcassets/AppIcon.appiconset2/

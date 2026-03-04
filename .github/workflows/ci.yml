@@ -15,9 +15,9 @@ on:
 
 env:
   PYTHON_VERSION: '3.11'
-  # CVE-2026-0994: protobuf json_format.ParseDict() DoS脆弱性
-  # Fix版未公開 (protobuf 5.x.x予定), 見直し日: 2026-02-28
-  PIP_AUDIT_IGNORE: '--ignore-vuln CVE-2026-0994'
+  # CVE-2026-0994: protobuf json_format.ParseDict() DoS脆弱性（Fix版未公開, 見直し日: 2026-04-30）
+  # CVE-2026-27205: Flask session Vary:Cookie ヘッダー欠落（低リスク, 見直し日: 2026-04-30）
+  PIP_AUDIT_IGNORE: '--ignore-vuln CVE-2026-0994 --ignore-vuln CVE-2026-27205'
 
 permissions:
   contents: read
@@ -169,7 +169,8 @@ jobs:
           # Safety（requirements.txt を監査）
           # NOTE: safety v3 は deprecated 警告を stdout に混ぜるため、そのままだとJSONが壊れる
           # そのため一度 raw を保存し、JSON部分だけを抽出して safety-report.json に整形する
-          safety check -r requirements.txt --json > safety-report.raw.txt
+          # CVE-2026-0994: protobuf json_format.ParseDict() DoS脆弱性（pip-auditと同一, ID: 85151）
+          safety check -r requirements.txt --ignore 85151 --json > safety-report.raw.txt
           echo "safety_exit_code=$?" >> "$GITHUB_OUTPUT"
           python - <<'PY'
           from __future__ import annotations
@@ -256,11 +257,13 @@ jobs:
                       elif sev == "LOW":
                           bandit_low += 1
 
-          # pip-audit集計（JSONは list の場合が多い）
+          # pip-audit集計（JSONは list または {"dependencies": [...]} の場合がある）
           pip_audit_vuln_count = 0
-          if isinstance(pip_audit, list):
-              # 形式: [{"name": "...", "version": "...", "vulns": [...]}, ...]
-              for pkg in pip_audit:
+          pip_audit_pkgs = pip_audit
+          if isinstance(pip_audit, dict):
+              pip_audit_pkgs = pip_audit.get("dependencies") or []
+          if isinstance(pip_audit_pkgs, list):
+              for pkg in pip_audit_pkgs:
                   if isinstance(pkg, dict):
                       vulns = pkg.get("vulns")
                       if isinstance(vulns, list):

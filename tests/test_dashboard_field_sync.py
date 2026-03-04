@@ -130,9 +130,9 @@ class TestDashboardV10FieldSync:
         has_render_table = "function renderEpisodeTable" in content
         has_render_fame = "function renderFameRankingPage" in content
         has_render_episode = "function renderEpisodeRankingPage" in content
-        assert has_render_table or has_render_fame or has_render_episode, (
-            "レンダリング関数（renderEpisodeTable/renderFameRankingPage/renderEpisodeRankingPage）が定義されていません"
-        )
+        assert (
+            has_render_table or has_render_fame or has_render_episode
+        ), "レンダリング関数（renderEpisodeTable/renderFameRankingPage/renderEpisodeRankingPage）が定義されていません"
 
     def test_iconic_score_key_exists(self, update_fields):
         """iconic_scoreが存在すること（Phase 28）"""

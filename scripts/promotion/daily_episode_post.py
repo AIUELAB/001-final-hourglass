@@ -119,10 +119,7 @@ def generate_comparison_post(episodes: list[dict], target_age: int | None = None
     same_age = [e for e in episodes if str(e.get("age", "")) == str(target_age)]
     if len(same_age) < 3:
         # 足りない場合は前後1歳も含める
-        same_age = [
-            e for e in episodes
-            if abs(int(e.get("age", 0) or 0) - target_age) <= 1
-        ]
+        same_age = [e for e in episodes if abs(int(e.get("age", 0) or 0) - target_age) <= 1]
 
     if len(same_age) < 3:
         return "エラー: 同年齢のエピソードが不足しています"
@@ -141,9 +138,7 @@ def generate_comparison_post(episodes: list[dict], target_age: int | None = None
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="最期の砂時計 - エピソード自動投稿テキスト生成"
-    )
+    parser = argparse.ArgumentParser(description="最期の砂時計 - エピソード自動投稿テキスト生成")
     parser.add_argument(
         "--template",
         choices=["episode", "question", "comparison"],

@@ -15,10 +15,15 @@ platform :ios do
 
   desc "メタデータのみApp Store Connectにアップロード"
   lane :metadata do |options|
+    unless options[:api_key_path]
+      UI.user_error!("api_key_path is required. Usage: fastlane metadata api_key_path:/path/to/key.p8")
+    end
+
     deliver_options = {
       skip_binary_upload: true,
       skip_screenshots: true,
       force: true,
+      # API Key認証ではIn-App Purchase検証が不可のため除外
       precheck_include_in_app_purchases: false
     }
 
@@ -41,7 +46,6 @@ platform :ios do
   lane :upload_metadata_and_screenshots do
     screenshots
     deliver(
-      edit_live: true,
       skip_binary_upload: true,
       force: true
     )

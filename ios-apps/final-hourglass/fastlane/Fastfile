@@ -18,7 +18,8 @@ platform :ios do
     deliver_options = {
       skip_binary_upload: true,
       skip_screenshots: true,
-      force: true
+      force: true,
+      precheck_include_in_app_purchases: false
     }
 
     if options[:app_version]

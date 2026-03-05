@@ -82,6 +82,19 @@ jobs:
             echo "dry_run=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Validate numeric inputs
+        run: |
+          MIN_SITELINKS="${{ steps.params.outputs.min_sitelinks }}"
+          MAX_CANDIDATES="${{ steps.params.outputs.max_candidates }}"
+          if ! echo "$MIN_SITELINKS" | grep -qE '^[1-9][0-9]*$'; then
+            echo "::error::min_sitelinks must be a positive integer, got: '$MIN_SITELINKS'"
+            exit 1
+          fi
+          if ! echo "$MAX_CANDIDATES" | grep -qE '^[1-9][0-9]*$'; then
+            echo "::error::max_candidates must be a positive integer, got: '$MAX_CANDIDATES'"
+            exit 1
+          fi
+
       - name: Run Person Discovery
         id: discover
         run: |

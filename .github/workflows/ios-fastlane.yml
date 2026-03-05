@@ -16,6 +16,10 @@ on:
           - screenshots
           - metadata
           - both
+      version:
+        description: 'App Store バージョン（例: 1.0.10）新バージョン作成時に指定'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -124,9 +128,13 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+          APP_VERSION: ${{ github.event.inputs.version }}
         run: |
-          bundle exec fastlane metadata \
-            api_key_path:"$HOME/private_keys/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
+          ARGS="api_key_path:$HOME/private_keys/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
+          if [ -n "$APP_VERSION" ]; then
+            ARGS="$ARGS app_version:$APP_VERSION"
+          fi
+          bundle exec fastlane metadata $ARGS
 
       - name: Upload Summary
         if: always()

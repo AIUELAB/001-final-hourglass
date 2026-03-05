@@ -133,6 +133,7 @@ jobs:
           mkdir -p ~/private_keys
           KEY_FILE="$HOME/private_keys/AuthKey_${API_KEY_ID}.p8"
           echo "$API_KEY_BASE64" | base64 --decode > "$KEY_FILE"
+          chmod 600 "$KEY_FILE"
 
           # C4: APIキーファイルの整合性検証
           if [ ! -f "$KEY_FILE" ]; then

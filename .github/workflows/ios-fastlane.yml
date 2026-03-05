@@ -177,3 +177,9 @@ jobs:
           echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Bundle ID | \`com.AIUELAB.FinalHourglass\` |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Cleanup API Key
+        if: always()
+        run: |
+          rm -rf ~/private_keys
+          echo "✅ API key files cleaned up"

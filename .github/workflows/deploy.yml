@@ -52,22 +52,29 @@ jobs:
     - name: Set image tag
       id: image
       run: |
-        if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-          TAG=${GITHUB_REF#refs/tags/}
+        if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+          TAG="${GITHUB_REF#refs/tags/}"
         else
-          TAG=${GITHUB_SHA::8}
+          TAG="${GITHUB_SHA::8}"
+        fi
+        # タグ名の形式検証
+        if ! echo "$TAG" | grep -qE '^[a-zA-Z0-9._-]+$'; then
+          echo "::error::Invalid tag format: '$TAG'"
+          exit 1
         fi
         echo "tag=${TAG}" >> $GITHUB_OUTPUT
 
     - name: Deploy to Kubernetes
+      env:
+        IMAGE_TAG: ${{ steps.image.outputs.tag }}
       run: |
         # Update image tags in manifests
         kubectl set image deployment/quality-orchestrator \
-          orchestrator=ghcr.io/${{ github.repository }}:${{ steps.image.outputs.tag }} \
+          orchestrator="ghcr.io/${{ github.repository }}:${IMAGE_TAG}" \
           -n quality-system
 
         kubectl set image deployment/codex-server \
-          codex=ghcr.io/${{ github.repository }}:${{ steps.image.outputs.tag }} \
+          codex="ghcr.io/${{ github.repository }}:${IMAGE_TAG}" \
           -n quality-system
 
         # Apply configurations

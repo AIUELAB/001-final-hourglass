@@ -115,6 +115,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - recordEpisodeView Tests
 
+    @MainActor
     func testRecordEpisodeView_incrementsCount() {
         sut.recordEpisodeView()
         XCTAssertEqual(testDefaults.integer(forKey: "review_episode_view_count"), 1)
@@ -123,6 +124,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(testDefaults.integer(forKey: "review_episode_view_count"), 2)
     }
 
+    @MainActor
     func testRecordEpisodeView_triggersAtThreshold() {
         // Set conditions so canRequestReview is true
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
@@ -140,10 +142,27 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertTrue(sut.showPrePrompt)
     }
 
+    @MainActor
     func testRecordEpisodeView_doesNotTriggerBelowThreshold() {
         testDefaults.set(7, forKey: "review_episode_view_count")
         sut.recordEpisodeView()
         XCTAssertFalse(sut.showPrePrompt)
+    }
+
+    @MainActor
+    func testRecordEpisodeView_retriggersAtMultipleOfThreshold() {
+        // Set conditions so canRequestReview is true
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        // Set to 19 views (next will be 20 = 2nd multiple of 10)
+        testDefaults.set(19, forKey: "review_episode_view_count")
+
+        sut.recordEpisodeView()
+        XCTAssertEqual(testDefaults.integer(forKey: "review_episode_view_count"), 20)
+        XCTAssertTrue(sut.showPrePrompt)
     }
 
     // MARK: - recordSession Tests
@@ -160,12 +179,14 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - checkAndPromptReview Tests
 
+    @MainActor
     func testCheckAndPromptReview_conditionsNotMet_doesNotShowPrompt() {
         // Fresh install, conditions not met
         sut.checkAndPromptReview(trigger: .manual)
         XCTAssertFalse(sut.showPrePrompt)
     }
 
+    @MainActor
     func testCheckAndPromptReview_conditionsMet_showsPrompt() {
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
@@ -193,6 +214,35 @@ final class ReviewManagerTests: XCTestCase {
         sut.handlePrePromptResponse(.negative)
         XCTAssertFalse(sut.showPrePrompt)
         XCTAssertTrue(sut.showFeedbackForm)
+    }
+
+    // MARK: - handlePrePromptResponse Positive Tests (Fix 3)
+
+    func testRecordReviewRequest_updatesLastRequestDateAndCount() {
+        let currentYear = Calendar.current.component(.year, from: Date())
+        testDefaults.set(currentYear, forKey: "review_request_year")
+        testDefaults.set(0, forKey: "review_request_count_current_year")
+
+        sut.recordReviewRequest()
+
+        XCTAssertNotNil(testDefaults.object(forKey: "review_last_request_date"))
+        XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 1)
+    }
+
+    // MARK: - Cooldown Integration Tests (Fix 4)
+
+    func testRecordReviewRequest_makesCooldownActive() {
+        // Set up conditions so canRequestReview is true
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        XCTAssertTrue(sut.canRequestReview(), "Before recording, review should be requestable")
+
+        sut.recordReviewRequest()
+
+        XCTAssertFalse(sut.canRequestReview(), "After recording, cooldown should prevent review")
     }
 
     // MARK: - Yearly Reset Tests

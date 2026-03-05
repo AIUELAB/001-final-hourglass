@@ -75,6 +75,7 @@ class ReviewManager: ObservableObject {
     // MARK: - Public Methods
 
     /// トリガーに基づいてレビュー依頼を検討する
+    @MainActor
     func checkAndPromptReview(trigger: ReviewTrigger) {
         currentTrigger = trigger
 
@@ -145,12 +146,13 @@ class ReviewManager: ObservableObject {
     }
 
     /// エピソード閲覧をカウントし、閾値チェックを行う
+    @MainActor
     func recordEpisodeView() {
         let current = userDefaults.integer(forKey: Keys.episodeViewCount)
         let newCount = current + 1
         userDefaults.set(newCount, forKey: Keys.episodeViewCount)
 
-        if newCount == Constants.episodeViewThreshold {
+        if newCount > 0 && newCount % Constants.episodeViewThreshold == 0 {
             checkAndPromptReview(trigger: .episodeViews)
         }
     }
@@ -202,7 +204,7 @@ class ReviewManager: ObservableObject {
         }
     }
 
-    private func recordReviewRequest() {
+    func recordReviewRequest() {
         userDefaults.set(Date(), forKey: Keys.lastRequestDate)
 
         let currentCount = userDefaults.integer(forKey: Keys.requestCountCurrentYear)

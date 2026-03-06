@@ -189,8 +189,7 @@ class AnalyticsManager {
 
     /// 寿命計算結果をトラッキング
     func trackLifeResultCalculation(lifeExpectancy: Double, currentAge: Int) {
-        let remainingYears = Int(lifeExpectancy - Double(currentAge))
-        Self.logger.debug("[Analytics] trackLifeResultCalculation: lifeExpectancy=\(Int(lifeExpectancy)), currentAge=\(currentAge), remainingYears=\(remainingYears)")
+        Self.logger.debug("[Analytics] trackLifeResultCalculation: lifeExpectancy=\(Int(lifeExpectancy)), currentAge=\(currentAge), remainingYears=\(Int(lifeExpectancy) - currentAge)")
 
         guard guardConfigured() else { return }
 
@@ -242,13 +241,14 @@ class AnalyticsManager {
 
     /// 設定変更をトラッキング
     func trackSettingChange(settingName: String, value: Any) {
-        Self.logger.debug("[Analytics] trackSettingChange: \(settingName)=\(String(describing: value))")
+        let valueString = String(describing: value)
+        Self.logger.debug("[Analytics] trackSettingChange: \(settingName)=\(valueString)")
 
         guard guardConfigured() else { return }
 
         TelemetryDeck.signal("setting_change", parameters: [
             "setting_name": settingName,
-            "value": "\(value)"
+            "value": valueString
         ])
     }
 
@@ -278,7 +278,7 @@ class AnalyticsManager {
 
     /// アプリ起動をトラッキング
     func trackAppLaunch() {
-        Self.logger.debug("[Analytics] trackAppLaunch: \(ISO8601DateFormatter().string(from: Date()))")
+        Self.logger.debug("[Analytics] trackAppLaunch: \(Date())")
 
         guard guardConfigured() else { return }
 
@@ -306,7 +306,7 @@ class AnalyticsManager {
 
     /// デイリーアクティブユーザーをトラッキング
     func trackDailyActive() {
-        Self.logger.debug("[Analytics] trackDailyActive: \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none))")
+        Self.logger.debug("[Analytics] trackDailyActive: \(Date())")
 
         guard guardConfigured() else { return }
         TelemetryDeck.signal("daily_active")

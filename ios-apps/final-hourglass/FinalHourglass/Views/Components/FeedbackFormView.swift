@@ -1,4 +1,5 @@
 import MessageUI
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -38,13 +39,23 @@ enum FeedbackCategory: String, CaseIterable, Identifiable {
 struct FeedbackFormView: View {
     @Environment(\.dismiss) private var dismiss
 
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.AIUELAB.FinalHourglass",
+        category: "FeedbackForm"
+    )
+
     @State private var selectedCategory: FeedbackCategory = .other
     @State private var feedbackText: String = ""
     @State private var showingMailComposer = false
     @State private var showingMailAlert = false
+    @State private var showingMailResult = false
+    @State private var mailResultTitle = ""
+    @State private var mailResultMessage = ""
 
     /// フィードバック送信先メールアドレス
     private let supportEmail = "support@lifelimit.app"
+    /// Apple Mail の mailto URL 長制限を考慮した上限
+    private let maxFeedbackLength = 2000
 
     var body: some View {
         NavigationView {
@@ -72,13 +83,23 @@ struct FeedbackFormView: View {
                 }
 
                 // 自由記述
-                Section(header: Text("詳細")) {
+                Section(header: Text("詳細"), footer: Text("\(feedbackText.count)/\(maxFeedbackLength)")) {
                     if #available(iOS 16.0, *) {
                         TextField("ご意見・ご要望をお聞かせください", text: $feedbackText, axis: .vertical)
                             .lineLimit(5...10)
+                            .onChange(of: feedbackText) { newValue in
+                                if newValue.count > maxFeedbackLength {
+                                    feedbackText = String(newValue.prefix(maxFeedbackLength))
+                                }
+                            }
                     } else {
                         TextEditor(text: $feedbackText)
                             .frame(minHeight: 120)
+                            .onChange(of: feedbackText) { newValue in
+                                if newValue.count > maxFeedbackLength {
+                                    feedbackText = String(newValue.prefix(maxFeedbackLength))
+                                }
+                            }
                     }
                 }
 
@@ -106,13 +127,46 @@ struct FeedbackFormView: View {
                 FeedbackMailComposerView(
                     recipients: [supportEmail],
                     subject: feedbackMailSubject,
-                    messageBody: feedbackMailBody
+                    messageBody: feedbackMailBody,
+                    onComplete: { result, error in
+                        if let error = error {
+                            mailResultTitle = "送信エラー"
+                            mailResultMessage = error.localizedDescription
+                            showingMailResult = true
+                        } else {
+                            switch result {
+                            case .failed:
+                                Self.logger.error("[FeedbackForm] Mail send failed (error object not provided by system)")
+                                mailResultTitle = "送信エラー"
+                                mailResultMessage = "メール送信に失敗しました。ネットワーク接続を確認してください。"
+                                showingMailResult = true
+                            case .sent:
+                                dismiss()
+                            case .saved:
+                                mailResultTitle = "下書き保存"
+                                mailResultMessage = "メールは下書きに保存されました。送信するにはメールアプリを開いてください。"
+                                showingMailResult = true
+                            case .cancelled:
+                                break
+                            @unknown default:
+                                Self.logger.warning("[FeedbackForm] Unknown MFMailComposeResult: \(result.rawValue)")
+                                mailResultTitle = "完了"
+                                mailResultMessage = "メール操作が完了しました。"
+                                showingMailResult = true
+                            }
+                        }
+                    }
                 )
             }
             .alert("メールを送信できません", isPresented: $showingMailAlert) {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text("メールアプリが設定されていません。\n\n\(supportEmail)\n\nこちらのアドレスに直接お問い合わせください。")
+            }
+            .alert(mailResultTitle, isPresented: $showingMailResult) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(mailResultMessage)
             }
         }
     }
@@ -162,14 +216,26 @@ struct FeedbackFormView: View {
             // mailto: URLScheme フォールバック
             var mailtoAllowed = CharacterSet.urlQueryAllowed
             mailtoAllowed.remove(charactersIn: "&=")
-            let subject = feedbackMailSubject.addingPercentEncoding(withAllowedCharacters: mailtoAllowed) ?? ""
-            let body = feedbackMailBody.addingPercentEncoding(withAllowedCharacters: mailtoAllowed) ?? ""
+            guard let subject = feedbackMailSubject.addingPercentEncoding(withAllowedCharacters: mailtoAllowed),
+                  let body = feedbackMailBody.addingPercentEncoding(withAllowedCharacters: mailtoAllowed) else {
+                Self.logger.error("[FeedbackForm] Failed to percent-encode mailto parameters")
+                showingMailAlert = true
+                return
+            }
             let mailtoString = "mailto:\(supportEmail)?subject=\(subject)&body=\(body)"
 
             if let mailtoURL = URL(string: mailtoString),
                UIApplication.shared.canOpenURL(mailtoURL) {
-                UIApplication.shared.open(mailtoURL)
-                dismiss()
+                UIApplication.shared.open(mailtoURL) { [dismiss] success in
+                    Task { @MainActor in
+                        if success {
+                            dismiss()
+                        } else {
+                            Self.logger.warning("[FeedbackForm] Failed to open mailto URL")
+                            showingMailAlert = true
+                        }
+                    }
+                }
             } else {
                 showingMailAlert = true
             }
@@ -184,8 +250,7 @@ struct FeedbackMailComposerView: UIViewControllerRepresentable {
     let recipients: [String]
     let subject: String
     let messageBody: String
-
-    @Environment(\.dismiss) private var dismiss
+    var onComplete: ((MFMailComposeResult, Error?) -> Void)?
 
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
         let mailComposer = MFMailComposeViewController()
@@ -214,7 +279,8 @@ struct FeedbackMailComposerView: UIViewControllerRepresentable {
             didFinishWith result: MFMailComposeResult,
             error: Error?
         ) {
-            parent.dismiss()
+            parent.onComplete?(result, error)
+            controller.dismiss(animated: true)
         }
     }
 }

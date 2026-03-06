@@ -59,25 +59,18 @@ jobs:
         fi
         # タグ名の形式検証
         if ! echo "$TAG" | grep -qE '^[a-zA-Z0-9._-]+$'; then
-          echo "::error::Invalid tag format: '$TAG'"
+          echo "::error::Invalid tag format: '$TAG'. Allowed: [a-zA-Z0-9._-]+"
           exit 1
         fi
-        echo "tag=${TAG}" >> $GITHUB_OUTPUT
+        echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
     - name: Deploy to Kubernetes
       env:
         IMAGE_TAG: ${{ steps.image.outputs.tag }}
+        CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
       run: |
-        # Update image tags in manifests
-        kubectl set image deployment/quality-orchestrator \
-          orchestrator="ghcr.io/${{ github.repository }}:${IMAGE_TAG}" \
-          -n quality-system
-
-        kubectl set image deployment/codex-server \
-          codex="ghcr.io/${{ github.repository }}:${IMAGE_TAG}" \
-          -n quality-system
-
-        # Apply configurations
+        set -euo pipefail
+        # Apply baseline configurations first
         kubectl apply -f kubernetes/namespace.yaml
         kubectl apply -f kubernetes/configmap.yaml
         kubectl apply -f kubernetes/secret.yaml
@@ -85,27 +78,76 @@ jobs:
         kubectl apply -f kubernetes/service/
         kubectl apply -f kubernetes/hpa.yaml
 
+        # Override image tags with the release version
+        kubectl set image deployment/quality-orchestrator \
+          orchestrator="${CONTAINER_REGISTRY}:${IMAGE_TAG}" \
+          -n quality-system
+
+        kubectl set image deployment/codex-server \
+          codex="${CONTAINER_REGISTRY}:${IMAGE_TAG}" \
+          -n quality-system
+
     - name: Wait for rollout
       run: |
+        set -euo pipefail
         kubectl rollout status deployment/quality-orchestrator -n quality-system --timeout=5m
         kubectl rollout status deployment/codex-server -n quality-system --timeout=5m
 
     - name: Verify deployment
+      continue-on-error: true
       run: |
+        # Informational only — failures here do not block the pipeline
         kubectl get pods -n quality-system
         kubectl get svc -n quality-system
         kubectl get hpa -n quality-system
 
     - name: Run smoke tests
       run: |
+        set -o pipefail
+        MAX_RETRIES=5
+        RETRY_INTERVAL=10
+
         # Get service endpoint
-        ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
+          -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        if [ -z "$ENDPOINT" ]; then
+          ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
+            -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        fi
+        if [ -z "$ENDPOINT" ]; then
+          echo "::error::Service endpoint not available (LoadBalancer pending — neither hostname nor ip found)"
+          exit 1
+        fi
 
         # Health check
-        curl -f http://${ENDPOINT}:8002/health || exit 1
+        HEALTH_OK=false
+        for i in $(seq 1 $MAX_RETRIES); do
+          if curl -sf "http://${ENDPOINT}:8002/health"; then
+            HEALTH_OK=true
+            break
+          fi
+          echo "Health check attempt $i failed, retrying in ${RETRY_INTERVAL}s..."
+          sleep $RETRY_INTERVAL
+        done
+        if [ "$HEALTH_OK" != "true" ]; then
+          echo "::error::Health check failed after $MAX_RETRIES attempts"
+          exit 1
+        fi
 
         # Metrics check
-        curl -f http://${ENDPOINT}:9090/metrics || exit 1
+        METRICS_OK=false
+        for i in $(seq 1 $MAX_RETRIES); do
+          if curl -sf "http://${ENDPOINT}:9090/metrics"; then
+            METRICS_OK=true
+            break
+          fi
+          echo "Metrics check attempt $i failed, retrying in ${RETRY_INTERVAL}s..."
+          sleep $RETRY_INTERVAL
+        done
+        if [ "$METRICS_OK" != "true" ]; then
+          echo "::error::Metrics check failed after $MAX_RETRIES attempts"
+          exit 1
+        fi
 
     - name: Notify deployment status
       if: always()

@@ -539,7 +539,12 @@ jobs:
         if: always()
         run: |
           rm -rf ~/private_keys
-          echo "✅ API key files cleaned up"
+          if [ -d ~/private_keys ]; then
+            echo "::error::SECURITY: Failed to remove ~/private_keys - API key files may persist"
+            exit 1
+          else
+            echo "✅ API key files cleaned up"
+          fi
 
   # ============================================================
   # 3. TestFlightアップロード
@@ -625,7 +630,12 @@ jobs:
         if: always()
         run: |
           rm -rf ~/private_keys
-          echo "✅ API key files cleaned up"
+          if [ -d ~/private_keys ]; then
+            echo "::error::SECURITY: Failed to remove ~/private_keys - API key files may persist"
+            exit 1
+          else
+            echo "✅ API key files cleaned up"
+          fi
 
   # ============================================================
   # 4. GitHubリリース作成

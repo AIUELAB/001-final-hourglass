@@ -141,6 +141,9 @@ struct FeedbackFormView: View {
                             case .cancelled:
                                 break
                             @unknown default:
+                                #if DEBUG
+                                print("[FeedbackForm] Unknown MFMailComposeResult: \(result.rawValue)")
+                                #endif
                                 mailResultTitle = "完了"
                                 mailResultMessage = "メール操作が完了しました。"
                                 showingMailResult = true

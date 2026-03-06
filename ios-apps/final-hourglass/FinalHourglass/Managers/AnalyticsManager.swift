@@ -19,14 +19,16 @@ class AnalyticsManager {
     private var _hasWarnedStubMode = false
 
     private func guardConfigured() -> Bool {
-        guard isConfigured else {
-            if !_hasWarnedStubMode {
-                Self.logger.warning("[Analytics] Event skipped — SDK not configured (stub mode)")
-                _hasWarnedStubMode = true
+        lock.withLock {
+            guard _isConfigured else {
+                if !_hasWarnedStubMode {
+                    Self.logger.warning("[Analytics] Event skipped — SDK not configured (stub mode)")
+                    _hasWarnedStubMode = true
+                }
+                return false
             }
-            return false
+            return true
         }
-        return true
     }
 
     private init() {}
@@ -41,7 +43,7 @@ class AnalyticsManager {
     /// TelemetryDeck SDKを初期化する
     /// Info.plist に `TELEMETRYDECK_APP_ID` キーが必要。
     /// キーが未設定の場合は stub モードで動作し、SDK は初期化されない。
-    /// 二重呼び出しは安全（二回目以降は何もしない）。
+    /// 二重呼び出しは安全（appID が有効で初回初期化済みの場合、二回目以降は何もしない）。
     func configure() {
         guard let appID = Bundle.main.infoDictionary?["TELEMETRYDECK_APP_ID"] as? String,
               !appID.isEmpty,

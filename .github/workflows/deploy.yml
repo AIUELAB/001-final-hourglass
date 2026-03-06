@@ -69,6 +69,7 @@ jobs:
         IMAGE_TAG: ${{ steps.image.outputs.tag }}
         CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
       run: |
+        set -euo pipefail
         # Apply baseline configurations first
         kubectl apply -f kubernetes/namespace.yaml
         kubectl apply -f kubernetes/configmap.yaml
@@ -103,15 +104,24 @@ jobs:
         ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
           -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
         if [ -z "$ENDPOINT" ]; then
-          echo "::error::Service endpoint not available (LoadBalancer pending)"
+          ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
+            -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        fi
+        if [ -z "$ENDPOINT" ]; then
+          echo "::error::Service endpoint not available (LoadBalancer pending — neither hostname nor ip found)"
           exit 1
         fi
 
-        # Health check
-        curl -f http://${ENDPOINT}:8002/health || exit 1
+        # Health check (retry up to 5 times with 10s interval)
+        for i in 1 2 3 4 5; do
+          curl -sf "http://${ENDPOINT}:8002/health" && break
+          echo "Health check attempt $i failed, retrying in 10s..."
+          sleep 10
+        done
+        curl -f "http://${ENDPOINT}:8002/health" || exit 1
 
         # Metrics check
-        curl -f http://${ENDPOINT}:9090/metrics || exit 1
+        curl -f "http://${ENDPOINT}:9090/metrics" || exit 1
 
     - name: Notify deployment status
       if: always()

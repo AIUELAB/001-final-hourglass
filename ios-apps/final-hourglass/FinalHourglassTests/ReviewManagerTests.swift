@@ -310,6 +310,8 @@ final class ReviewManagerTests: XCTestCase {
 
         // recordReviewRequest 内で resetYearlyCountIfNeeded → 0 にリセット → +1 = 1
         XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 1)
+        let currentYear = Calendar.current.component(.year, from: Date())
+        XCTAssertEqual(testDefaults.integer(forKey: "review_request_year"), currentYear)
     }
 
     // MARK: - Install Date Initialization
@@ -444,6 +446,10 @@ final class ReviewManagerTests: XCTestCase {
     func testCoarsenAgeGroup_compoundPrefix() {
         // "under_20_early" should produce "under_20s" (not "unders")
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("under_20_early"), "under_20s")
+    }
+
+    func testCoarsenAgeGroup_compoundPrefix_late() {
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("under_20_late"), "under_20s")
     }
 
     // MARK: - requestReview windowScene Fallback Tests

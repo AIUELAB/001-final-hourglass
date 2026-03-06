@@ -28,7 +28,6 @@ enum PrePromptResponse: String {
 
 /// App Store Guidelines準拠のレビュー依頼管理
 /// Guidelines 1.1.4: 過度なレビュー要求の回避
-/// Guidelines 3.1.1: アプリ内レビューシステム
 class ReviewManager: ObservableObject {
     static let shared = ReviewManager()
 
@@ -211,8 +210,7 @@ class ReviewManager: ObservableObject {
     }
 
     /// 年が変わっていたら年間カウントを 0 にリセットする（冪等）
-    /// 同一年内で複数回呼ばれても副作用なし。`init()`, `canRequestReview()`,
-    /// `recordReviewRequest()` の3箇所から呼ばれるため冪等性が保証されている必要がある。
+    /// 複数箇所から呼ばれるため冪等性が保証されている必要がある。
     private func resetYearlyCountIfNeeded() {
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())

@@ -182,4 +182,8 @@ jobs:
         if: always()
         run: |
           rm -rf ~/private_keys
-          echo "✅ API key files cleaned up"
+          if [ -d ~/private_keys ]; then
+            echo "::warning::Failed to remove ~/private_keys"
+          else
+            echo "✅ API key files cleaned up"
+          fi

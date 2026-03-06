@@ -26,6 +26,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - canRequestReview Tests
 
+    @MainActor
     func testCanRequestReview_noInstallDate_returnsFalse() {
         // install date is auto-set in init, so remove it
         testDefaults.removeObject(forKey: "review_app_install_date")
@@ -33,12 +34,14 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(manager.canRequestReview())
     }
 
+    @MainActor
     func testCanRequestReview_recentInstall_returnsFalse() {
         // install date was just set (today) in setUp -> less than 7 days
         testDefaults.set(5, forKey: "review_sessions_count")
         XCTAssertFalse(sut.canRequestReview())
     }
 
+    @MainActor
     func testCanRequestReview_sufficientDaysButFewSessions_returnsFalse() {
         let eightDaysAgo = Calendar.current.date(byAdding: .day, value: -8, to: Date())!
         testDefaults.set(eightDaysAgo, forKey: "review_app_install_date")
@@ -47,6 +50,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(manager.canRequestReview())
     }
 
+    @MainActor
     func testCanRequestReview_allConditionsMet_returnsTrue() {
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
@@ -58,6 +62,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - Cooldown 90 Days Tests
 
+    @MainActor
     func testCanRequestReview_withinCooldown_returnsFalse() {
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
@@ -71,6 +76,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(manager.canRequestReview())
     }
 
+    @MainActor
     func testCanRequestReview_afterCooldown_returnsTrue() {
         let hundredDaysAgo = Calendar.current.date(byAdding: .day, value: -100, to: Date())!
         testDefaults.set(hundredDaysAgo, forKey: "review_app_install_date")
@@ -86,6 +92,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - Yearly Limit Tests
 
+    @MainActor
     func testCanRequestReview_yearlyLimitReached_returnsFalse() {
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
@@ -100,6 +107,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(manager.canRequestReview())
     }
 
+    @MainActor
     func testCanRequestReview_yearlyLimitNotReached_returnsTrue() {
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
@@ -167,6 +175,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - recordSession Tests
 
+    @MainActor
     func testRecordSession_incrementsCount() {
         sut.recordSession()
         let count = testDefaults.integer(forKey: "review_sessions_count")
@@ -216,23 +225,27 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertTrue(sut.showFeedbackForm)
     }
 
-    // MARK: - handlePrePromptResponse Positive Tests (Fix 3)
+    // MARK: - handlePrePromptResponse Positive Tests (I-2)
 
-    func testRecordReviewRequest_updatesLastRequestDateAndCount() {
-        let currentYear = Calendar.current.component(.year, from: Date())
-        testDefaults.set(currentYear, forKey: "review_request_year")
-        testDefaults.set(0, forKey: "review_request_count_current_year")
+    @MainActor
+    func testHandlePrePromptResponse_positive_recordsRequest() {
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+        sut = ReviewManager(userDefaults: testDefaults)
 
-        sut.recordReviewRequest()
+        sut.showPrePrompt = true
+        sut.handlePrePromptResponse(.positive)
 
+        XCTAssertFalse(sut.showPrePrompt)
         XCTAssertNotNil(testDefaults.object(forKey: "review_last_request_date"))
         XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 1)
     }
 
-    // MARK: - Cooldown Integration Tests (Fix 4)
+    // MARK: - Cooldown Integration Tests (I-2)
 
-    func testRecordReviewRequest_makesCooldownActive() {
-        // Set up conditions so canRequestReview is true
+    @MainActor
+    func testHandlePrePromptResponse_positive_activatesCooldown() {
         let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
         testDefaults.set(6, forKey: "review_sessions_count")
@@ -240,7 +253,8 @@ final class ReviewManagerTests: XCTestCase {
 
         XCTAssertTrue(sut.canRequestReview(), "Before recording, review should be requestable")
 
-        sut.recordReviewRequest()
+        sut.showPrePrompt = true
+        sut.handlePrePromptResponse(.positive)
 
         XCTAssertFalse(sut.canRequestReview(), "After recording, cooldown should prevent review")
     }
@@ -274,5 +288,85 @@ final class ReviewManagerTests: XCTestCase {
         _ = ReviewManager(userDefaults: testDefaults)
         let dateAfterReinit = testDefaults.object(forKey: "review_app_install_date") as? Date
         XCTAssertEqual(originalDate, dateAfterReinit)
+    }
+
+    // MARK: - Boundary Value Tests (S-3)
+
+    @MainActor
+    func testCanRequestReview_exactMinimumDays_returnsTrue() {
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        testDefaults.set(sevenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(5, forKey: "review_sessions_count")
+        let manager = ReviewManager(userDefaults: testDefaults)
+        XCTAssertTrue(manager.canRequestReview())
+    }
+
+    @MainActor
+    func testCanRequestReview_oneDayBelowMinimum_returnsFalse() {
+        let sixDaysAgo = Calendar.current.date(byAdding: .day, value: -6, to: Date())!
+        testDefaults.set(sixDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(5, forKey: "review_sessions_count")
+        let manager = ReviewManager(userDefaults: testDefaults)
+        XCTAssertFalse(manager.canRequestReview())
+    }
+
+    @MainActor
+    func testCanRequestReview_exactMinimumSessions_returnsTrue() {
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(5, forKey: "review_sessions_count")
+        let manager = ReviewManager(userDefaults: testDefaults)
+        XCTAssertTrue(manager.canRequestReview())
+    }
+
+    @MainActor
+    func testCanRequestReview_belowMinimumSessions_returnsFalse() {
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(4, forKey: "review_sessions_count")
+        let manager = ReviewManager(userDefaults: testDefaults)
+        XCTAssertFalse(manager.canRequestReview())
+    }
+
+    @MainActor
+    func testCanRequestReview_exactCooldownDays_returnsTrue() {
+        let hundredDaysAgo = Calendar.current.date(byAdding: .day, value: -100, to: Date())!
+        testDefaults.set(hundredDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(10, forKey: "review_sessions_count")
+        let ninetyDaysAgo = Calendar.current.date(byAdding: .day, value: -90, to: Date())!
+        testDefaults.set(ninetyDaysAgo, forKey: "review_last_request_date")
+        let manager = ReviewManager(userDefaults: testDefaults)
+        XCTAssertTrue(manager.canRequestReview())
+    }
+
+    @MainActor
+    func testCanRequestReview_oneDayBelowCooldown_returnsFalse() {
+        let hundredDaysAgo = Calendar.current.date(byAdding: .day, value: -100, to: Date())!
+        testDefaults.set(hundredDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(10, forKey: "review_sessions_count")
+        let eightyNineDaysAgo = Calendar.current.date(byAdding: .day, value: -89, to: Date())!
+        testDefaults.set(eightyNineDaysAgo, forKey: "review_last_request_date")
+        let manager = ReviewManager(userDefaults: testDefaults)
+        XCTAssertFalse(manager.canRequestReview())
+    }
+
+    // MARK: - FeedbackCategory Tests (S-4)
+
+    func testFeedbackCategory_allCasesCount() {
+        XCTAssertEqual(FeedbackCategory.allCases.count, 4)
+    }
+
+    func testFeedbackCategory_displayNames() {
+        XCTAssertEqual(FeedbackCategory.bugReport.displayName, "バグ報告")
+        XCTAssertEqual(FeedbackCategory.featureRequest.displayName, "機能要望")
+        XCTAssertEqual(FeedbackCategory.usability.displayName, "使いにくい")
+        XCTAssertEqual(FeedbackCategory.other.displayName, "その他")
+    }
+
+    func testFeedbackCategory_icons() {
+        XCTAssertEqual(FeedbackCategory.bugReport.icon, "ladybug")
+        XCTAssertEqual(FeedbackCategory.featureRequest.icon, "lightbulb")
+        XCTAssertEqual(FeedbackCategory.usability.icon, "hand.tap")
+        XCTAssertEqual(FeedbackCategory.other.icon, "ellipsis.circle")
     }
 }

@@ -59,22 +59,23 @@ jobs:
         fi
         # タグ名の形式検証
         if ! echo "$TAG" | grep -qE '^[a-zA-Z0-9._-]+$'; then
-          echo "::error::Invalid tag format: '$TAG'"
+          echo "::error::Invalid tag format: '$TAG'. Allowed: [a-zA-Z0-9._-]+"
           exit 1
         fi
-        echo "tag=${TAG}" >> $GITHUB_OUTPUT
+        echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
     - name: Deploy to Kubernetes
       env:
         IMAGE_TAG: ${{ steps.image.outputs.tag }}
+        CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
       run: |
         # Update image tags in manifests
         kubectl set image deployment/quality-orchestrator \
-          orchestrator="ghcr.io/${{ github.repository }}:${IMAGE_TAG}" \
+          orchestrator="${CONTAINER_REGISTRY}:${IMAGE_TAG}" \
           -n quality-system
 
         kubectl set image deployment/codex-server \
-          codex="ghcr.io/${{ github.repository }}:${IMAGE_TAG}" \
+          codex="${CONTAINER_REGISTRY}:${IMAGE_TAG}" \
           -n quality-system
 
         # Apply configurations

@@ -1,5 +1,6 @@
 // periphery:ignore:all - Analytics管理（TelemetryDeck SDK統合）
 import Foundation
+import OSLog
 import SwiftUI
 import TelemetryDeck
 
@@ -9,9 +10,19 @@ class AnalyticsManager {
     static let shared = AnalyticsManager()
 
     /// SDK初期化済みフラグ
-    private var isConfigured = false
+    private let lock = NSLock()
+    private var _isConfigured = false
+    private var isConfigured: Bool {
+        get { lock.withLock { _isConfigured } }
+        set { lock.withLock { _isConfigured = newValue } }
+    }
 
     private init() {}
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.AIUELAB.FinalHourglass",
+        category: "Analytics"
+    )
 
     // MARK: - Configuration
 
@@ -22,9 +33,7 @@ class AnalyticsManager {
               !appID.isEmpty,
               appID != "YOUR_TELEMETRYDECK_APP_ID"
         else {
-            #if DEBUG
-            print("[Analytics] TelemetryDeck App ID not configured — running in stub mode")
-            #endif
+            Self.logger.warning("[Analytics] TelemetryDeck App ID not configured — running in stub mode")
             return
         }
 
@@ -32,12 +41,17 @@ class AnalyticsManager {
         TelemetryDeck.initialize(config: config)
         isConfigured = true
 
-        #if DEBUG
-        print("[Analytics] TelemetryDeck initialized successfully")
-        #endif
+        Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
     }
 
     // MARK: - User Properties
+
+    private func coarsenAgeGroup(_ ageGroup: String) -> String {
+        if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late") {
+            return String(ageGroup.prefix(while: { $0 != "_" })) + "s"
+        }
+        return ageGroup
+    }
 
     /// ユーザープロパティを設定
     func setUserProperties(userModel: UserModel) {
@@ -48,7 +62,7 @@ class AnalyticsManager {
         guard isConfigured else { return }
 
         TelemetryDeck.updateDefaultParameters([
-            "age_group": userModel.ageGroup,
+            "age_group": coarsenAgeGroup(userModel.ageGroup),
             "gender": userModel.gender
         ])
     }

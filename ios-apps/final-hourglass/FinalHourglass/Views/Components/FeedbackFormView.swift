@@ -42,9 +42,12 @@ struct FeedbackFormView: View {
     @State private var feedbackText: String = ""
     @State private var showingMailComposer = false
     @State private var showingMailAlert = false
+    @State private var showingMailError = false
+    @State private var mailErrorMessage = ""
 
     /// フィードバック送信先メールアドレス
     private let supportEmail = "support@lifelimit.app"
+    private let maxFeedbackLength = 2000
 
     var body: some View {
         NavigationView {
@@ -72,13 +75,23 @@ struct FeedbackFormView: View {
                 }
 
                 // 自由記述
-                Section(header: Text("詳細")) {
+                Section(header: Text("詳細"), footer: Text("\(feedbackText.count)/\(maxFeedbackLength)")) {
                     if #available(iOS 16.0, *) {
                         TextField("ご意見・ご要望をお聞かせください", text: $feedbackText, axis: .vertical)
                             .lineLimit(5...10)
+                            .onChange(of: feedbackText) { _, newValue in
+                                if newValue.count > maxFeedbackLength {
+                                    feedbackText = String(newValue.prefix(maxFeedbackLength))
+                                }
+                            }
                     } else {
                         TextEditor(text: $feedbackText)
                             .frame(minHeight: 120)
+                            .onChange(of: feedbackText) { _, newValue in
+                                if newValue.count > maxFeedbackLength {
+                                    feedbackText = String(newValue.prefix(maxFeedbackLength))
+                                }
+                            }
                     }
                 }
 
@@ -106,13 +119,27 @@ struct FeedbackFormView: View {
                 FeedbackMailComposerView(
                     recipients: [supportEmail],
                     subject: feedbackMailSubject,
-                    messageBody: feedbackMailBody
+                    messageBody: feedbackMailBody,
+                    onComplete: { result, error in
+                        if let error = error {
+                            mailErrorMessage = error.localizedDescription
+                            showingMailError = true
+                        } else if result == .failed {
+                            mailErrorMessage = "メール送信に失敗しました。ネットワーク接続を確認してください。"
+                            showingMailError = true
+                        }
+                    }
                 )
             }
             .alert("メールを送信できません", isPresented: $showingMailAlert) {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text("メールアプリが設定されていません。\n\n\(supportEmail)\n\nこちらのアドレスに直接お問い合わせください。")
+            }
+            .alert("送信エラー", isPresented: $showingMailError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(mailErrorMessage)
             }
         }
     }
@@ -184,6 +211,7 @@ struct FeedbackMailComposerView: UIViewControllerRepresentable {
     let recipients: [String]
     let subject: String
     let messageBody: String
+    var onComplete: ((MFMailComposeResult, Error?) -> Void)?
 
     @Environment(\.dismiss) private var dismiss
 
@@ -214,6 +242,7 @@ struct FeedbackMailComposerView: UIViewControllerRepresentable {
             didFinishWith result: MFMailComposeResult,
             error: Error?
         ) {
+            parent.onComplete?(result, error)
             parent.dismiss()
         }
     }

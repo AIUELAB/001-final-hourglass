@@ -35,7 +35,7 @@ class ReviewManager: ObservableObject {
 
     @Published var showPrePrompt = false
     @Published var showFeedbackForm = false
-    var currentTrigger: ReviewTrigger = .manual
+    @MainActor var currentTrigger: ReviewTrigger = .manual
 
     // MARK: - Constants
 
@@ -88,7 +88,7 @@ class ReviewManager: ObservableObject {
     }
 
     /// レビュー依頼可能かどうかを判定する
-    func canRequestReview() -> Bool {
+    @MainActor func canRequestReview() -> Bool {
         let calendar = Calendar.current
         let now = Date()
 
@@ -129,6 +129,10 @@ class ReviewManager: ObservableObject {
     func requestReview() {
         guard let windowScene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            #if DEBUG
+            print("[ReviewManager] windowScene not available — recording request without dialog")
+            #endif
+            recordReviewRequest()
             return
         }
 
@@ -158,7 +162,7 @@ class ReviewManager: ObservableObject {
     }
 
     /// セッション数をカウントする
-    func recordSession() {
+    @MainActor func recordSession() {
         let current = userDefaults.integer(forKey: Keys.sessionsCount)
         userDefaults.set(current + 1, forKey: Keys.sessionsCount)
     }
@@ -204,7 +208,7 @@ class ReviewManager: ObservableObject {
         }
     }
 
-    func recordReviewRequest() {
+    private func recordReviewRequest() {
         userDefaults.set(Date(), forKey: Keys.lastRequestDate)
 
         let currentCount = userDefaults.integer(forKey: Keys.requestCountCurrentYear)

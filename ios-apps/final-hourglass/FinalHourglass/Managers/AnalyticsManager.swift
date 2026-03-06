@@ -13,8 +13,7 @@ class AnalyticsManager {
     private let lock = NSLock()
     private var _isConfigured = false
     private var isConfigured: Bool {
-        get { lock.withLock { _isConfigured } }
-        set { lock.withLock { _isConfigured = newValue } }
+        lock.withLock { _isConfigured }
     }
 
     private init() {}
@@ -40,7 +39,7 @@ class AnalyticsManager {
         let didInit = lock.withLock { () -> Bool in
             guard !_isConfigured else { return false }
             let config = TelemetryDeck.Config(appID: appID)
-            config.defaultParameters = {
+            config.defaultParameters = { @Sendable in
                 let ageGroup = UserDefaults.standard.string(forKey: "analytics_age_group") ?? ""
                 let gender = UserDefaults.standard.string(forKey: "analytics_gender") ?? ""
                 guard !ageGroup.isEmpty else { return [:] }
@@ -73,7 +72,11 @@ class AnalyticsManager {
         return ageGroup
     }
 
-    /// ユーザープロパティを設定（UserDefaults 経由で defaultParameters クロージャに反映）
+    /// ユーザープロパティを設定する
+    /// UserDefaults に保存し、`configure()` で登録した `defaultParameters` クロージャが
+    /// 次回イベント送信時に最新値を読み取る。ageGroup の粗粒化は `defaultParameters`
+    /// クロージャ側で `coarsenAgeGroup(_:)` を呼び出して行う。
+    /// SDK 未初期化（stub モード）でも UserDefaults への保存は行われる。
     func setUserProperties(userModel: UserModel) {
         #if DEBUG
         print("[Analytics] setUserProperties: age_group=\(userModel.ageGroup), gender=\(userModel.gender)")

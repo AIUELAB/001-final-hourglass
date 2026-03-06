@@ -229,8 +229,6 @@ struct FeedbackMailComposerView: UIViewControllerRepresentable {
     let messageBody: String
     var onComplete: ((MFMailComposeResult, Error?) -> Void)?
 
-    @Environment(\.dismiss) private var dismiss
-
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
         let mailComposer = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = context.coordinator
@@ -259,7 +257,7 @@ struct FeedbackMailComposerView: UIViewControllerRepresentable {
             error: Error?
         ) {
             parent.onComplete?(result, error)
-            parent.dismiss()
+            controller.dismiss(animated: true)
         }
     }
 }

@@ -225,7 +225,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertTrue(sut.showFeedbackForm)
     }
 
-    // MARK: - handlePrePromptResponse Positive Tests (I-2)
+    // MARK: - handlePrePromptResponse Positive Tests (positive response)
 
     @MainActor
     func testHandlePrePromptResponse_positive_recordsRequest() {
@@ -242,7 +242,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 1)
     }
 
-    // MARK: - Cooldown Integration Tests (I-2)
+    // MARK: - Cooldown Integration Tests (cooldown after positive response)
 
     @MainActor
     func testHandlePrePromptResponse_positive_activatesCooldown() {
@@ -276,6 +276,23 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 0)
     }
 
+    @MainActor
+    func testCanRequestReview_yearChangedAfterInit_resetsAndReturnsTrue() {
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        // init 後に前年の状態をシミュレート（年越し）
+        let lastYear = Calendar.current.component(.year, from: Date()) - 1
+        testDefaults.set(lastYear, forKey: "review_request_year")
+        testDefaults.set(3, forKey: "review_request_count_current_year")
+
+        // canRequestReview 内の resetYearlyCountIfNeeded でリセットされるべき
+        XCTAssertTrue(sut.canRequestReview())
+        XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 0)
+    }
+
     // MARK: - Install Date Initialization
 
     func testInstallDateSetOnFirstInit() {
@@ -290,7 +307,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(originalDate, dateAfterReinit)
     }
 
-    // MARK: - Boundary Value Tests (S-3)
+    // MARK: - Boundary Value Tests (boundary values)
 
     @MainActor
     func testCanRequestReview_exactMinimumDays_returnsTrue() {
@@ -350,7 +367,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(manager.canRequestReview())
     }
 
-    // MARK: - FeedbackCategory Tests (S-4)
+    // MARK: - FeedbackCategory Tests (feedback category)
 
     func testFeedbackCategory_allCasesCount() {
         XCTAssertEqual(FeedbackCategory.allCases.count, 4)
@@ -370,7 +387,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(FeedbackCategory.other.icon, "ellipsis.circle")
     }
 
-    // MARK: - coarsenAgeGroup Tests (R-5)
+    // MARK: - coarsenAgeGroup Tests (age group coarsening)
 
     func testCoarsenAgeGroup_earlySuffix_withS() {
         // 実データ形式: UserModel.ageGroup は "30s_early" を出力する
@@ -387,8 +404,13 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("30_early"), "30s")
     }
 
+    func testCoarsenAgeGroup_lateSuffix_withoutS() {
+        // s なし形式: "30_late" → "30s"
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("30_late"), "30s")
+    }
+
     func testCoarsenAgeGroup_20s_early_regressionTest() {
-        // CR-1 バグ回帰防止: "20s_early" → "20s"（"20ss" にならないこと）
+        // バグ回帰防止: "20s_early" → "20s"（"20ss" にならないこと）
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("20s_early"), "20s")
     }
 
@@ -405,7 +427,7 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("under_20_early"), "under_20s")
     }
 
-    // MARK: - requestReview windowScene Fallback Tests (R-5)
+    // MARK: - requestReview windowScene Fallback Tests (windowScene fallback)
 
     @MainActor
     func testRequestReview_recordsRequestEvenWithoutWindowScene() {

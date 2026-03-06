@@ -175,6 +175,47 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertTrue(sut.showPrePrompt)
     }
 
+    @MainActor
+    func testRecordEpisodeView_doesNotTriggerDuringCooldown() {
+        // Set conditions so canRequestReview would be true...
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+
+        // ...but place within cooldown (last request was yesterday)
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        testDefaults.set(yesterday, forKey: "review_last_request_date")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        // Record 10 episode views (threshold)
+        for _ in 0..<10 {
+            sut.recordEpisodeView()
+        }
+
+        // Should NOT trigger because cooldown is active
+        XCTAssertFalse(sut.showPrePrompt)
+    }
+
+    @MainActor
+    func testRecordEpisodeView_doesNotTriggerWhenYearlyLimitReached() {
+        // 年間上限3回に達した状態をセットアップ
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+        let currentYear = Calendar.current.component(.year, from: Date())
+        testDefaults.set(currentYear, forKey: "review_request_year")
+        testDefaults.set(3, forKey: "review_request_count_current_year")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        // 10件エピソード閲覧（閾値到達）
+        for _ in 0..<10 {
+            sut.recordEpisodeView()
+        }
+
+        // 年間上限に達しているため showPrePrompt は false
+        XCTAssertFalse(sut.showPrePrompt)
+    }
+
     // MARK: - recordSession Tests
 
     @MainActor
@@ -459,6 +500,11 @@ final class ReviewManagerTests: XCTestCase {
 
     func testCoarsenAgeGroup_compoundPrefix_over80() {
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("over_80_late"), "over_80s")
+    }
+
+    func testCoarsenAgeGroup_unknownSuffix_passthrough() {
+        // "_mid" は対応サフィックスでないため、そのまま返される
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("30s_mid"), "30s_mid")
     }
 
     // MARK: - requestReview windowScene Fallback Tests

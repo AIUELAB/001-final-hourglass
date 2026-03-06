@@ -54,7 +54,7 @@ struct FeedbackFormView: View {
 
     /// フィードバック送信先メールアドレス
     private let supportEmail = "support@lifelimit.app"
-    /// Apple Mail の mailto URL 長制限を考慮した上限
+    /// mailto URL フォールバック送信時の URL 長超過防止。MFMailComposeViewController 利用時は技術的に不要だが一貫性のため適用
     private let maxFeedbackLength = 2000
 
     var body: some View {

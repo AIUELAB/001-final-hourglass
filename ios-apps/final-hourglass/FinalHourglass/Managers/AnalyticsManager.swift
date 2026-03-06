@@ -40,6 +40,15 @@ class AnalyticsManager {
         let didInit = lock.withLock { () -> Bool in
             guard !_isConfigured else { return false }
             let config = TelemetryDeck.Config(appID: appID)
+            config.defaultParameters = {
+                let ageGroup = UserDefaults.standard.string(forKey: "analytics_age_group") ?? ""
+                let gender = UserDefaults.standard.string(forKey: "analytics_gender") ?? ""
+                guard !ageGroup.isEmpty else { return [:] }
+                return [
+                    "age_group": AnalyticsManager.coarsenAgeGroup(ageGroup),
+                    "gender": gender
+                ]
+            }
             TelemetryDeck.initialize(config: config)
             _isConfigured = true
             return true
@@ -52,29 +61,27 @@ class AnalyticsManager {
 
     // MARK: - User Properties
 
-    /// ageGroup を粗粒化する（"_early" / "_late" サフィックスを除去して "s" に置換）
-    /// 例: "30_early" → "30s", "40_late" → "40s", "under_20_early" → "under_20s"
-    /// サフィックスがない場合はそのまま返す
+    /// ageGroup を粗粒化する（"_early" / "_late" サフィックスを除去）
+    /// 例: "30s_early" → "30s", "40s_late" → "40s", "under_20_early" → "under_20s"
+    /// base が既に "s" で終わる場合は重複追加しない。サフィックスがない場合はそのまま返す
     static func coarsenAgeGroup(_ ageGroup: String) -> String {
         if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late"),
            let underscoreIndex = ageGroup.lastIndex(of: "_") {
-            return String(ageGroup[..<underscoreIndex]) + "s"
+            let base = String(ageGroup[..<underscoreIndex])
+            return base.hasSuffix("s") ? base : base + "s"
         }
         return ageGroup
     }
 
-    /// ユーザープロパティを設定
+    /// ユーザープロパティを設定（UserDefaults 経由で defaultParameters クロージャに反映）
     func setUserProperties(userModel: UserModel) {
         #if DEBUG
         print("[Analytics] setUserProperties: age_group=\(userModel.ageGroup), gender=\(userModel.gender)")
         #endif
 
-        guard isConfigured else { return }
-
-        TelemetryDeck.updateDefaultParameters([
-            "age_group": Self.coarsenAgeGroup(userModel.ageGroup),
-            "gender": userModel.gender
-        ])
+        // defaultParameters クロージャが参照する UserDefaults に保存
+        UserDefaults.standard.set(userModel.ageGroup, forKey: "analytics_age_group")
+        UserDefaults.standard.set(userModel.gender, forKey: "analytics_gender")
     }
 
     // MARK: - Screen Tracking

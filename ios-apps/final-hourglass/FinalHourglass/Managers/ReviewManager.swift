@@ -95,6 +95,7 @@ class ReviewManager: ObservableObject {
 
     /// レビュー依頼可能かどうかを判定する
     @MainActor func canRequestReview() -> Bool {
+        resetYearlyCountIfNeeded()
         let calendar = Calendar.current
         let now = Date()
 
@@ -217,6 +218,7 @@ class ReviewManager: ObservableObject {
     }
 
     private func recordReviewRequest() {
+        resetYearlyCountIfNeeded()
         userDefaults.set(Date(), forKey: Keys.lastRequestDate)
 
         let currentCount = userDefaults.integer(forKey: Keys.requestCountCurrentYear)

@@ -372,12 +372,24 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - coarsenAgeGroup Tests (R-5)
 
-    func testCoarsenAgeGroup_earlySuffix() {
+    func testCoarsenAgeGroup_earlySuffix_withS() {
+        // 実データ形式: UserModel.ageGroup は "30s_early" を出力する
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("30s_early"), "30s")
+    }
+
+    func testCoarsenAgeGroup_lateSuffix_withS() {
+        // 実データ形式: "40s_late" → "40s"（"s" の重複追加を防止）
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("40s_late"), "40s")
+    }
+
+    func testCoarsenAgeGroup_earlySuffix_withoutS() {
+        // s なし形式も引き続き正しく処理される
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("30_early"), "30s")
     }
 
-    func testCoarsenAgeGroup_lateSuffix() {
-        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("40_late"), "40s")
+    func testCoarsenAgeGroup_20s_early_regressionTest() {
+        // CR-1 バグ回帰防止: "20s_early" → "20s"（"20ss" にならないこと）
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("20s_early"), "20s")
     }
 
     func testCoarsenAgeGroup_noSuffix_passthrough() {

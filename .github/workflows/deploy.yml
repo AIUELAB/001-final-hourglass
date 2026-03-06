@@ -69,7 +69,15 @@ jobs:
         IMAGE_TAG: ${{ steps.image.outputs.tag }}
         CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
       run: |
-        # Update image tags in manifests
+        # Apply baseline configurations first
+        kubectl apply -f kubernetes/namespace.yaml
+        kubectl apply -f kubernetes/configmap.yaml
+        kubectl apply -f kubernetes/secret.yaml
+        kubectl apply -f kubernetes/deployment/
+        kubectl apply -f kubernetes/service/
+        kubectl apply -f kubernetes/hpa.yaml
+
+        # Override image tags with the release version
         kubectl set image deployment/quality-orchestrator \
           orchestrator="${CONTAINER_REGISTRY}:${IMAGE_TAG}" \
           -n quality-system
@@ -77,14 +85,6 @@ jobs:
         kubectl set image deployment/codex-server \
           codex="${CONTAINER_REGISTRY}:${IMAGE_TAG}" \
           -n quality-system
-
-        # Apply configurations
-        kubectl apply -f kubernetes/namespace.yaml
-        kubectl apply -f kubernetes/configmap.yaml
-        kubectl apply -f kubernetes/secret.yaml
-        kubectl apply -f kubernetes/deployment/
-        kubectl apply -f kubernetes/service/
-        kubectl apply -f kubernetes/hpa.yaml
 
     - name: Wait for rollout
       run: |

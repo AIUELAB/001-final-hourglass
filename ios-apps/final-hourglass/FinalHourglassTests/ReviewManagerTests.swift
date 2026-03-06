@@ -434,26 +434,6 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(manager.canRequestReview())
     }
 
-    // MARK: - FeedbackCategory Tests
-
-    func testFeedbackCategory_allCasesCount() {
-        XCTAssertEqual(FeedbackCategory.allCases.count, 4)
-    }
-
-    func testFeedbackCategory_displayNames() {
-        XCTAssertEqual(FeedbackCategory.bugReport.displayName, "バグ報告")
-        XCTAssertEqual(FeedbackCategory.featureRequest.displayName, "機能要望")
-        XCTAssertEqual(FeedbackCategory.usability.displayName, "使いにくい")
-        XCTAssertEqual(FeedbackCategory.other.displayName, "その他")
-    }
-
-    func testFeedbackCategory_icons() {
-        XCTAssertEqual(FeedbackCategory.bugReport.icon, "ladybug")
-        XCTAssertEqual(FeedbackCategory.featureRequest.icon, "lightbulb")
-        XCTAssertEqual(FeedbackCategory.usability.icon, "hand.tap")
-        XCTAssertEqual(FeedbackCategory.other.icon, "ellipsis.circle")
-    }
-
     // MARK: - coarsenAgeGroup Tests
 
     func testCoarsenAgeGroup_earlySuffix_withS() {

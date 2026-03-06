@@ -59,8 +59,8 @@ final class AnalyticsManagerTests: XCTestCase {
         sut.trackShare(method: "clipboard")
     }
 
-    // MARK: - Thread Safety Tests (TSan推奨)
-    // Note: クラッシュ有無のみ検証。データレース検出には TSan 有効スキームでの実行が必要
+    // MARK: - Thread Safety Tests
+    // TSan 有効スキーム (FinalHourglass-TSan) + ios-tsan.yml で CI 実行
 
     func testConfigure_concurrentCalls_doesNotCrash() {
         let sut = AnalyticsManager.shared

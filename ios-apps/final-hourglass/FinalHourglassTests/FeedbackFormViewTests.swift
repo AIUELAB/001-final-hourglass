@@ -103,8 +103,7 @@ final class FeedbackFormViewTests: XCTestCase {
     }
 
     // MARK: - FeedbackCategory Tests
-    // Note: displayName/icon テストは ReviewManagerTests 側に既存（レビューフロー文脈で追加された経緯）。
-    // ここでは rawValue/identifiable を補完。将来的には本ファイルに集約が望ましい
+    // ReviewManagerTests から集約済み（allCases / displayName / icon / rawValue / identifiable）
 
     func testFeedbackCategory_rawValues() {
         XCTAssertEqual(FeedbackCategory.bugReport.rawValue, "bug_report")
@@ -117,5 +116,23 @@ final class FeedbackFormViewTests: XCTestCase {
         for category in FeedbackCategory.allCases {
             XCTAssertEqual(category.id, category.rawValue)
         }
+    }
+
+    func testFeedbackCategory_allCasesCount() {
+        XCTAssertEqual(FeedbackCategory.allCases.count, 4)
+    }
+
+    func testFeedbackCategory_displayNames() {
+        XCTAssertEqual(FeedbackCategory.bugReport.displayName, "バグ報告")
+        XCTAssertEqual(FeedbackCategory.featureRequest.displayName, "機能要望")
+        XCTAssertEqual(FeedbackCategory.usability.displayName, "使いにくい")
+        XCTAssertEqual(FeedbackCategory.other.displayName, "その他")
+    }
+
+    func testFeedbackCategory_icons() {
+        XCTAssertEqual(FeedbackCategory.bugReport.icon, "ladybug")
+        XCTAssertEqual(FeedbackCategory.featureRequest.icon, "lightbulb")
+        XCTAssertEqual(FeedbackCategory.usability.icon, "hand.tap")
+        XCTAssertEqual(FeedbackCategory.other.icon, "ellipsis.circle")
     }
 }

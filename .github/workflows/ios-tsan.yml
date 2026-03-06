@@ -1,0 +1,42 @@
+name: iOS TSan Tests
+on:
+  schedule:
+    - cron: '0 3 * * 1'  # 毎週月曜 12:00 JST
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'ios-apps/**/AnalyticsManager*.swift'
+      - 'ios-apps/**/*Thread*.swift'
+      - 'ios-apps/**/*Concurrent*.swift'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-tsan-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  tsan-test:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-ios
+        with:
+          install-xcpretty: 'true'
+          cache-derived-data: 'true'
+      - name: Run TSan Tests
+        run: |
+          set -o pipefail
+          cd ios-apps/final-hourglass
+          xcodebuild test \
+            -workspace FinalHourglass.xcworkspace \
+            -scheme FinalHourglass-TSan \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -only-testing:FinalHourglassTests/AnalyticsManagerTests \
+            CODE_SIGNING_ALLOWED=NO \
+            2>&1 | tee tsan-test.log | xcpretty --color
+      - name: Show TSan log on failure
+        if: failure()
+        run: tail -200 ios-apps/final-hourglass/tsan-test.log || true

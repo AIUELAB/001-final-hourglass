@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import StoreKit
 import SwiftUI
 import UIKit
@@ -26,10 +27,14 @@ enum PrePromptResponse: String {
 // MARK: - ReviewManager
 
 /// App Store Guidelines準拠のレビュー依頼管理
-/// Guidelines 1.1.4: 過度なレビュー要求の回避
-/// Guidelines 3.1.1: アプリ内レビューシステム
-class ReviewManager: ObservableObject {
+/// App Store Review Guidelines に従い、過度なレビュー要求を回避する
+@MainActor class ReviewManager: ObservableObject {
     static let shared = ReviewManager()
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.AIUELAB.FinalHourglass",
+        category: "ReviewManager"
+    )
 
     // MARK: - Published Properties
 
@@ -75,7 +80,6 @@ class ReviewManager: ObservableObject {
     // MARK: - Public Methods
 
     /// トリガーに基づいてレビュー依頼を検討する
-    @MainActor
     func checkAndPromptReview(trigger: ReviewTrigger) {
         currentTrigger = trigger
 
@@ -89,6 +93,7 @@ class ReviewManager: ObservableObject {
 
     /// レビュー依頼可能かどうかを判定する
     func canRequestReview() -> Bool {
+        resetYearlyCountIfNeeded()
         let calendar = Calendar.current
         let now = Date()
 
@@ -125,10 +130,19 @@ class ReviewManager: ObservableObject {
     }
 
     /// App Store レビューダイアログを表示する
-    @MainActor
     func requestReview() {
         guard let windowScene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            // 設計意図: windowScene が取得できない場合でもクールダウンを開始し、
+            // 年間リクエスト回数もカウントする。ダイアログ未表示でもリクエスト試行
+            // としてカウントし、短時間での連続試行を防止する。
+            // 変更する場合は cooldown ロジック全体を見直すこと。
+            Self.logger.warning("[ReviewManager] windowScene not available — recording request without dialog")
+            recordReviewRequest()
+            AnalyticsManager.shared.trackReviewPromptResult(
+                triggerType: currentTrigger.rawValue,
+                result: "windowScene_unavailable"
+            )
             return
         }
 
@@ -146,7 +160,6 @@ class ReviewManager: ObservableObject {
     }
 
     /// エピソード閲覧をカウントし、閾値チェックを行う
-    @MainActor
     func recordEpisodeView() {
         let current = userDefaults.integer(forKey: Keys.episodeViewCount)
         let newCount = current + 1
@@ -164,7 +177,6 @@ class ReviewManager: ObservableObject {
     }
 
     /// プレプロンプトの回答を処理する
-    @MainActor
     func handlePrePromptResponse(_ response: PrePromptResponse) {
         showPrePrompt = false
 
@@ -193,6 +205,8 @@ class ReviewManager: ObservableObject {
         }
     }
 
+    /// 年が変わっていたら年間カウントを 0 にリセットする（冪等）
+    /// 複数箇所から呼ばれるため冪等性が保証されている必要がある。
     private func resetYearlyCountIfNeeded() {
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())
@@ -204,7 +218,8 @@ class ReviewManager: ObservableObject {
         }
     }
 
-    func recordReviewRequest() {
+    private func recordReviewRequest() {
+        resetYearlyCountIfNeeded()
         userDefaults.set(Date(), forKey: Keys.lastRequestDate)
 
         let currentCount = userDefaults.integer(forKey: Keys.requestCountCurrentYear)

@@ -42,9 +42,12 @@ jobs:
 
       - name: Determine Version
         id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
+          if [ "$EVENT_NAME" == "workflow_dispatch" ]; then
+            VERSION="$INPUT_VERSION"
           else
             # タグからバージョン抽出 (ios-v1.0.3 → 1.0.3)
             VERSION="${GITHUB_REF_NAME#ios-v}"

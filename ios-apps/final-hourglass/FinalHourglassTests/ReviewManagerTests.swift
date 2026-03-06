@@ -10,6 +10,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - Lifecycle
 
+    @MainActor
     override func setUp() {
         super.setUp()
         testDefaults = UserDefaults(suiteName: "ReviewManagerTests")!
@@ -17,6 +18,7 @@ final class ReviewManagerTests: XCTestCase {
         sut = ReviewManager(userDefaults: testDefaults)
     }
 
+    @MainActor
     override func tearDown() {
         testDefaults.removePersistentDomain(forName: "ReviewManagerTests")
         testDefaults = nil
@@ -261,6 +263,7 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - Yearly Reset Tests
 
+    @MainActor
     func testYearlyCountResetsOnNewYear() {
         // Simulate a request count from a previous year
         let lastYear = Calendar.current.component(.year, from: Date()) - 1
@@ -316,10 +319,12 @@ final class ReviewManagerTests: XCTestCase {
 
     // MARK: - Install Date Initialization
 
+    @MainActor
     func testInstallDateSetOnFirstInit() {
         XCTAssertNotNil(testDefaults.object(forKey: "review_app_install_date"))
     }
 
+    @MainActor
     func testInstallDateNotOverwrittenOnSubsequentInit() {
         let originalDate = testDefaults.object(forKey: "review_app_install_date") as? Date
         // Re-init

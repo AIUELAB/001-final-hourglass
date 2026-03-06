@@ -54,26 +54,25 @@ class AnalyticsManager {
             return
         }
 
-        let didInit = lock.withLock { () -> Bool in
+        let shouldInit = lock.withLock { () -> Bool in
             guard !_isConfigured else { return false }
-            let config = TelemetryDeck.Config(appID: appID)
-            config.defaultParameters = { @Sendable in
-                let ageGroup = UserDefaults.standard.string(forKey: "analytics_age_group") ?? ""
-                let gender = UserDefaults.standard.string(forKey: "analytics_gender") ?? ""
-                guard !ageGroup.isEmpty else { return [:] }
-                return [
-                    "age_group": AnalyticsManager.coarsenAgeGroup(ageGroup),
-                    "gender": gender
-                ]
-            }
-            TelemetryDeck.initialize(config: config)
             _isConfigured = true
             return true
         }
+        guard shouldInit else { return }
 
-        if didInit {
-            Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
+        let config = TelemetryDeck.Config(appID: appID)
+        config.defaultParameters = { @Sendable in
+            let ageGroup = UserDefaults.standard.string(forKey: "analytics_age_group") ?? ""
+            let gender = UserDefaults.standard.string(forKey: "analytics_gender") ?? ""
+            guard !ageGroup.isEmpty else { return [:] }
+            return [
+                "age_group": AnalyticsManager.coarsenAgeGroup(ageGroup),
+                "gender": gender
+            ]
         }
+        TelemetryDeck.initialize(config: config)
+        Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
     }
 
     // MARK: - User Properties

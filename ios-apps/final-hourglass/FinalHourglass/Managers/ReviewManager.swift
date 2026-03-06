@@ -27,8 +27,8 @@ enum PrePromptResponse: String {
 // MARK: - ReviewManager
 
 /// App Store Guidelines準拠のレビュー依頼管理
-/// Guidelines 1.1.4: 過度なレビュー要求の回避
-class ReviewManager: ObservableObject {
+/// App Store Review Guidelines に従い、過度なレビュー要求を回避する
+@MainActor class ReviewManager: ObservableObject {
     static let shared = ReviewManager()
 
     private static let logger = Logger(
@@ -40,7 +40,7 @@ class ReviewManager: ObservableObject {
 
     @Published var showPrePrompt = false
     @Published var showFeedbackForm = false
-    @MainActor var currentTrigger: ReviewTrigger = .manual
+    var currentTrigger: ReviewTrigger = .manual
 
     // MARK: - Constants
 
@@ -80,7 +80,6 @@ class ReviewManager: ObservableObject {
     // MARK: - Public Methods
 
     /// トリガーに基づいてレビュー依頼を検討する
-    @MainActor
     func checkAndPromptReview(trigger: ReviewTrigger) {
         currentTrigger = trigger
 
@@ -93,7 +92,7 @@ class ReviewManager: ObservableObject {
     }
 
     /// レビュー依頼可能かどうかを判定する
-    @MainActor func canRequestReview() -> Bool {
+    func canRequestReview() -> Bool {
         resetYearlyCountIfNeeded()
         let calendar = Calendar.current
         let now = Date()
@@ -131,7 +130,6 @@ class ReviewManager: ObservableObject {
     }
 
     /// App Store レビューダイアログを表示する
-    @MainActor
     func requestReview() {
         guard let windowScene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
@@ -162,7 +160,6 @@ class ReviewManager: ObservableObject {
     }
 
     /// エピソード閲覧をカウントし、閾値チェックを行う
-    @MainActor
     func recordEpisodeView() {
         let current = userDefaults.integer(forKey: Keys.episodeViewCount)
         let newCount = current + 1
@@ -174,13 +171,12 @@ class ReviewManager: ObservableObject {
     }
 
     /// セッション数をカウントする
-    @MainActor func recordSession() {
+    func recordSession() {
         let current = userDefaults.integer(forKey: Keys.sessionsCount)
         userDefaults.set(current + 1, forKey: Keys.sessionsCount)
     }
 
     /// プレプロンプトの回答を処理する
-    @MainActor
     func handlePrePromptResponse(_ response: PrePromptResponse) {
         showPrePrompt = false
 

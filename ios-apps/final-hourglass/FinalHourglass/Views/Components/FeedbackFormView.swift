@@ -54,6 +54,7 @@ struct FeedbackFormView: View {
 
     /// フィードバック送信先メールアドレス
     private let supportEmail = "support@lifelimit.app"
+    /// Apple Mail の mailto URL 長制限を考慮した上限
     private let maxFeedbackLength = 2000
 
     var body: some View {
@@ -135,6 +136,7 @@ struct FeedbackFormView: View {
                         } else {
                             switch result {
                             case .failed:
+                                Self.logger.error("[FeedbackForm] Mail send failed (error object not provided by system)")
                                 mailResultTitle = "送信エラー"
                                 mailResultMessage = "メール送信に失敗しました。ネットワーク接続を確認してください。"
                                 showingMailResult = true
@@ -220,8 +222,16 @@ struct FeedbackFormView: View {
 
             if let mailtoURL = URL(string: mailtoString),
                UIApplication.shared.canOpenURL(mailtoURL) {
-                UIApplication.shared.open(mailtoURL)
-                dismiss()
+                UIApplication.shared.open(mailtoURL) { [dismiss] success in
+                    Task { @MainActor in
+                        if success {
+                            dismiss()
+                        } else {
+                            Self.logger.warning("[FeedbackForm] Failed to open mailto URL")
+                            showingMailAlert = true
+                        }
+                    }
+                }
             } else {
                 showingMailAlert = true
             }

@@ -94,6 +94,7 @@ jobs:
         kubectl rollout status deployment/codex-server -n quality-system --timeout=5m
 
     - name: Verify deployment
+      continue-on-error: true
       run: |
         # Informational only — failures here do not block the pipeline
         kubectl get pods -n quality-system
@@ -102,6 +103,9 @@ jobs:
 
     - name: Run smoke tests
       run: |
+        MAX_RETRIES=5
+        RETRY_INTERVAL=10
+
         # Get service endpoint
         ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
           -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
@@ -114,33 +118,33 @@ jobs:
           exit 1
         fi
 
-        # Health check (retry up to 5 times with 10s interval)
+        # Health check
         HEALTH_OK=false
-        for i in 1 2 3 4 5; do
+        for i in $(seq 1 $MAX_RETRIES); do
           if curl -sf "http://${ENDPOINT}:8002/health"; then
             HEALTH_OK=true
             break
           fi
-          echo "Health check attempt $i failed, retrying in 10s..."
-          sleep 10
+          echo "Health check attempt $i failed, retrying in ${RETRY_INTERVAL}s..."
+          sleep $RETRY_INTERVAL
         done
         if [ "$HEALTH_OK" != "true" ]; then
-          echo "::error::Health check failed after 5 attempts"
+          echo "::error::Health check failed after $MAX_RETRIES attempts"
           exit 1
         fi
 
-        # Metrics check (retry up to 5 times with 10s interval)
+        # Metrics check
         METRICS_OK=false
-        for i in 1 2 3 4 5; do
+        for i in $(seq 1 $MAX_RETRIES); do
           if curl -sf "http://${ENDPOINT}:9090/metrics"; then
             METRICS_OK=true
             break
           fi
-          echo "Metrics check attempt $i failed, retrying in 10s..."
-          sleep 10
+          echo "Metrics check attempt $i failed, retrying in ${RETRY_INTERVAL}s..."
+          sleep $RETRY_INTERVAL
         done
         if [ "$METRICS_OK" != "true" ]; then
-          echo "::error::Metrics check failed after 5 attempts"
+          echo "::error::Metrics check failed after $MAX_RETRIES attempts"
           exit 1
         fi
 

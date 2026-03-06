@@ -32,6 +32,7 @@
 		F1A2B3C4D506012C001A17AF /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A2B3C4D506012C001A17B5 /* NotificationManagerTests.swift */; };
 		P13B001 /* SecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P13A001 /* SecurityTests.swift */; };
 		R1M001B1 /* ReviewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = R1M001F1 /* ReviewManagerTests.swift */; };
+		FBV001B1 /* FeedbackFormViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBV001F1 /* FeedbackFormViewTests.swift */; };
 		P14B001 /* AppStoreGuidelinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P14A001 /* AppStoreGuidelinesTests.swift */; };
 		P8A001B1 /* FavoriteEpisodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8A001F1 /* FavoriteEpisodeTests.swift */; };
 		P8B001B1 /* ContentFilterManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8B001F1 /* ContentFilterManagerTests.swift */; };
@@ -99,6 +100,7 @@
 		F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LifeExpectancyCalculatorTests.swift; sourceTree = "<group>"; };
 		P13A001 /* SecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityTests.swift; sourceTree = "<group>"; };
 		R1M001F1 /* ReviewManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReviewManagerTests.swift; sourceTree = "<group>"; };
+		FBV001F1 /* FeedbackFormViewTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FeedbackFormViewTests.swift; sourceTree = "<group>"; };
 		P14A001 /* AppStoreGuidelinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreGuidelinesTests.swift; sourceTree = "<group>"; };
 		P8A001F1 /* FavoriteEpisodeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FavoriteEpisodeTests.swift; sourceTree = "<group>"; };
 		P8B001F1 /* ContentFilterManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContentFilterManagerTests.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				P14A001 /* AppStoreGuidelinesTests.swift */,
 				P13A001 /* SecurityTests.swift */,
 				R1M001F1 /* ReviewManagerTests.swift */,
+				FBV001F1 /* FeedbackFormViewTests.swift */,
 			);
 			path = FinalHourglassTests;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				P14B001 /* AppStoreGuidelinesTests.swift in Sources */,
 				P13B001 /* SecurityTests.swift in Sources */,
 				R1M001B1 /* ReviewManagerTests.swift in Sources */,
+				FBV001B1 /* FeedbackFormViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

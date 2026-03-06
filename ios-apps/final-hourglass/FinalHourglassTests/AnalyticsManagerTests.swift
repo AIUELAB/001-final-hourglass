@@ -58,4 +58,28 @@ final class AnalyticsManagerTests: XCTestCase {
         sut.trackStreakDays(7)
         sut.trackShare(method: "clipboard")
     }
+
+    // MARK: - Thread Safety Tests
+
+    func testConfigure_concurrentCalls_doesNotCrash() {
+        let sut = AnalyticsManager.shared
+        DispatchQueue.concurrentPerform(iterations: 100) { _ in
+            sut.configure()
+        }
+    }
+
+    func testGuardConfigured_concurrentAccess_doesNotCrash() {
+        let sut = AnalyticsManager.shared
+        DispatchQueue.concurrentPerform(iterations: 100) { _ in
+            sut.trackScreen("ConcurrentScreen")
+        }
+    }
+
+    func testSetUserProperties_concurrentCalls_doesNotCrash() {
+        let sut = AnalyticsManager.shared
+        DispatchQueue.concurrentPerform(iterations: 100) { _ in
+            let user = UserModel()
+            sut.setUserProperties(userModel: user)
+        }
+    }
 }

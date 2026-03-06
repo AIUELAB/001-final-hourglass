@@ -86,7 +86,9 @@ class AnalyticsManager {
     /// 例: "30s_early" → "30s", "40s_late" → "40s", "under_20_early" → "under_20s"
     /// base が既に "s" で終わる場合は重複追加しない。
     /// "under_20" のように "s" で終わらない base には "s" を付加する。
-    /// サフィックスがない場合はそのまま返す
+    /// サフィックスがない場合はそのまま返す。
+    /// - Note: 対応サフィックスは `_early` と `_late` の2種類のみ。
+    ///   他のサフィックス（例: "_mid"）は除去されずそのまま返される。
     static func coarsenAgeGroup(_ ageGroup: String) -> String {
         if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late"),
            let underscoreIndex = ageGroup.lastIndex(of: "_") {
@@ -103,9 +105,7 @@ class AnalyticsManager {
     /// SDK 未初期化（stub モード）でも UserDefaults への保存は行われる
     /// （後から configure() された際に defaultParameters が最新値を返せるようにするため）。
     func setUserProperties(userModel: UserModel) {
-        #if DEBUG
-        print("[Analytics] setUserProperties: age_group=\(userModel.ageGroup), gender=\(userModel.gender)")
-        #endif
+        Self.logger.debug("[Analytics] setUserProperties: age_group=\(userModel.ageGroup), gender=\(userModel.gender)")
 
         // defaultParameters クロージャが参照する UserDefaults に保存
         UserDefaults.standard.set(userModel.ageGroup, forKey: "analytics_age_group")
@@ -116,9 +116,7 @@ class AnalyticsManager {
 
     /// 画面表示をトラッキング
     func trackScreen(_ screenName: String, screenClass: String? = nil) {
-        #if DEBUG
-        print("[Analytics] trackScreen: \(screenName)")
-        #endif
+        Self.logger.debug("[Analytics] trackScreen: \(screenName)")
 
         guard guardConfigured() else { return }
 
@@ -133,9 +131,7 @@ class AnalyticsManager {
 
     /// 通知設定変更をトラッキング
     func trackNotificationSettingChange(enabled: Bool) {
-        #if DEBUG
-        print("[Analytics] trackNotificationSettingChange: enabled=\(enabled)")
-        #endif
+        Self.logger.debug("[Analytics] trackNotificationSettingChange: enabled=\(enabled)")
 
         guard guardConfigured() else { return }
 
@@ -146,9 +142,7 @@ class AnalyticsManager {
 
     /// リマインダー設定変更をトラッキング
     func trackReminderSettingChange(enabled: Bool, time: Date? = nil) {
-        #if DEBUG
-        print("[Analytics] trackReminderSettingChange: enabled=\(enabled), time=\(String(describing: time))")
-        #endif
+        Self.logger.debug("[Analytics] trackReminderSettingChange: enabled=\(enabled), time=\(String(describing: time))")
 
         guard guardConfigured() else { return }
 
@@ -165,9 +159,7 @@ class AnalyticsManager {
 
     /// オンボーディング開始をトラッキング
     func trackOnboardingStart() {
-        #if DEBUG
-        print("[Analytics] trackOnboardingStart")
-        #endif
+        Self.logger.debug("[Analytics] trackOnboardingStart")
 
         guard guardConfigured() else { return }
         TelemetryDeck.signal("onboarding_start")
@@ -175,9 +167,7 @@ class AnalyticsManager {
 
     /// オンボーディング完了をトラッキング
     func trackOnboardingComplete() {
-        #if DEBUG
-        print("[Analytics] trackOnboardingComplete")
-        #endif
+        Self.logger.debug("[Analytics] trackOnboardingComplete")
 
         guard guardConfigured() else { return }
         TelemetryDeck.signal("onboarding_complete")
@@ -185,9 +175,7 @@ class AnalyticsManager {
 
     /// オンボーディングステップをトラッキング
     func trackOnboardingStep(stepNumber: Int, stepName: String) {
-        #if DEBUG
-        print("[Analytics] trackOnboardingStep: step=\(stepNumber), name=\(stepName)")
-        #endif
+        Self.logger.debug("[Analytics] trackOnboardingStep: step=\(stepNumber), name=\(stepName)")
 
         guard guardConfigured() else { return }
 
@@ -201,12 +189,8 @@ class AnalyticsManager {
 
     /// 寿命計算結果をトラッキング
     func trackLifeResultCalculation(lifeExpectancy: Double, currentAge: Int) {
-        #if DEBUG
         let remainingYears = Int(lifeExpectancy - Double(currentAge))
-        print("[Analytics] trackLifeResultCalculation: " +
-            "lifeExpectancy=\(Int(lifeExpectancy)), " +
-            "currentAge=\(currentAge), remainingYears=\(remainingYears)")
-        #endif
+        Self.logger.debug("[Analytics] trackLifeResultCalculation: lifeExpectancy=\(Int(lifeExpectancy)), currentAge=\(currentAge), remainingYears=\(remainingYears)")
 
         guard guardConfigured() else { return }
 
@@ -220,9 +204,7 @@ class AnalyticsManager {
 
     /// エピソード表示をトラッキング
     func trackEpisodeView(episodeId: String, personName: String) {
-        #if DEBUG
-        print("[Analytics] trackEpisodeView: id=\(episodeId), person=\(personName)")
-        #endif
+        Self.logger.debug("[Analytics] trackEpisodeView: id=\(episodeId), person=\(personName)")
 
         guard guardConfigured() else { return }
 
@@ -234,9 +216,7 @@ class AnalyticsManager {
 
     /// エピソードお気に入り登録をトラッキング
     func trackEpisodeFavorite(episodeId: String) {
-        #if DEBUG
-        print("[Analytics] trackEpisodeFavorite: id=\(episodeId)")
-        #endif
+        Self.logger.debug("[Analytics] trackEpisodeFavorite: id=\(episodeId)")
 
         guard guardConfigured() else { return }
 
@@ -249,9 +229,7 @@ class AnalyticsManager {
 
     /// シェアアクションをトラッキング
     func trackShare(method: String) {
-        #if DEBUG
-        print("[Analytics] trackShare: method=\(method)")
-        #endif
+        Self.logger.debug("[Analytics] trackShare: method=\(method)")
 
         guard guardConfigured() else { return }
 
@@ -264,9 +242,7 @@ class AnalyticsManager {
 
     /// 設定変更をトラッキング
     func trackSettingChange(settingName: String, value: Any) {
-        #if DEBUG
-        print("[Analytics] trackSettingChange: \(settingName)=\(value)")
-        #endif
+        Self.logger.debug("[Analytics] trackSettingChange: \(settingName)=\(String(describing: value))")
 
         guard guardConfigured() else { return }
 
@@ -278,9 +254,7 @@ class AnalyticsManager {
 
     /// データリセットをトラッキング
     func trackDataReset() {
-        #if DEBUG
-        print("[Analytics] trackDataReset")
-        #endif
+        Self.logger.debug("[Analytics] trackDataReset")
 
         guard guardConfigured() else { return }
         TelemetryDeck.signal("data_reset")
@@ -290,9 +264,7 @@ class AnalyticsManager {
 
     /// 健康スコア更新をトラッキング
     func trackHealthScoreUpdate(category: String, newScore: Double) {
-        #if DEBUG
-        print("[Analytics] trackHealthScoreUpdate: category=\(category), score=\(newScore)")
-        #endif
+        Self.logger.debug("[Analytics] trackHealthScoreUpdate: category=\(category), score=\(newScore)")
 
         guard guardConfigured() else { return }
 
@@ -306,9 +278,7 @@ class AnalyticsManager {
 
     /// アプリ起動をトラッキング
     func trackAppLaunch() {
-        #if DEBUG
-        print("[Analytics] trackAppLaunch: \(ISO8601DateFormatter().string(from: Date()))")
-        #endif
+        Self.logger.debug("[Analytics] trackAppLaunch: \(ISO8601DateFormatter().string(from: Date()))")
 
         guard guardConfigured() else { return }
 
@@ -323,9 +293,7 @@ class AnalyticsManager {
 
     /// セッション時間をトラッキング
     func trackSessionDuration(duration: TimeInterval) {
-        #if DEBUG
-        print("[Analytics] trackSessionDuration: \(Int(duration))秒")
-        #endif
+        Self.logger.debug("[Analytics] trackSessionDuration: \(Int(duration))秒")
 
         guard guardConfigured() else { return }
 
@@ -338,9 +306,7 @@ class AnalyticsManager {
 
     /// デイリーアクティブユーザーをトラッキング
     func trackDailyActive() {
-        #if DEBUG
-        print("[Analytics] trackDailyActive: \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none))")
-        #endif
+        Self.logger.debug("[Analytics] trackDailyActive: \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none))")
 
         guard guardConfigured() else { return }
         TelemetryDeck.signal("daily_active")
@@ -348,9 +314,7 @@ class AnalyticsManager {
 
     /// 連続使用日数をトラッキング
     func trackStreakDays(_ days: Int) {
-        #if DEBUG
-        print("[Analytics] trackStreakDays: \(days)日")
-        #endif
+        Self.logger.debug("[Analytics] trackStreakDays: \(days)日")
 
         guard guardConfigured() else { return }
 
@@ -363,9 +327,7 @@ class AnalyticsManager {
 
     /// レビュープロンプト表示をトラッキング
     func trackReviewPromptShown(triggerType: String) {
-        #if DEBUG
-        print("[Analytics] trackReviewPromptShown: trigger=\(triggerType)")
-        #endif
+        Self.logger.debug("[Analytics] trackReviewPromptShown: trigger=\(triggerType)")
 
         guard guardConfigured() else { return }
 
@@ -376,9 +338,7 @@ class AnalyticsManager {
 
     /// レビュープロンプト結果をトラッキング
     func trackReviewPromptResult(triggerType: String, result: String) {
-        #if DEBUG
-        print("[Analytics] trackReviewPromptResult: trigger=\(triggerType), result=\(result)")
-        #endif
+        Self.logger.debug("[Analytics] trackReviewPromptResult: trigger=\(triggerType), result=\(result)")
 
         guard guardConfigured() else { return }
 

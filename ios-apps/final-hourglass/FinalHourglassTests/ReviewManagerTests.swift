@@ -175,6 +175,27 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertTrue(sut.showPrePrompt)
     }
 
+    @MainActor
+    func testRecordEpisodeView_doesNotTriggerDuringCooldown() {
+        // Set conditions so canRequestReview would be true...
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+
+        // ...but place within cooldown (last request was yesterday)
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        testDefaults.set(yesterday, forKey: "review_last_request_date")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        // Record 10 episode views (threshold)
+        for _ in 0..<10 {
+            sut.recordEpisodeView()
+        }
+
+        // Should NOT trigger because cooldown is active
+        XCTAssertFalse(sut.showPrePrompt)
+    }
+
     // MARK: - recordSession Tests
 
     @MainActor

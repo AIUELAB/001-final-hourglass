@@ -37,18 +37,23 @@ class AnalyticsManager {
             return
         }
 
-        let config = TelemetryDeck.Config(appID: appID)
-        TelemetryDeck.initialize(config: config)
-        isConfigured = true
+        lock.withLock {
+            guard !_isConfigured else { return }
+            let config = TelemetryDeck.Config(appID: appID)
+            TelemetryDeck.initialize(config: config)
+            _isConfigured = true
+        }
 
         Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
     }
 
     // MARK: - User Properties
 
-    private func coarsenAgeGroup(_ ageGroup: String) -> String {
-        if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late") {
-            return String(ageGroup.prefix(while: { $0 != "_" })) + "s"
+    /// ageGroup を10年単位に粗粒化する（例: "30_early" → "30s", "40_late" → "40s"）
+    static func coarsenAgeGroup(_ ageGroup: String) -> String {
+        if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late"),
+           let underscoreIndex = ageGroup.lastIndex(of: "_") {
+            return String(ageGroup[..<underscoreIndex]) + "s"
         }
         return ageGroup
     }
@@ -62,7 +67,7 @@ class AnalyticsManager {
         guard isConfigured else { return }
 
         TelemetryDeck.updateDefaultParameters([
-            "age_group": coarsenAgeGroup(userModel.ageGroup),
+            "age_group": Self.coarsenAgeGroup(userModel.ageGroup),
             "gender": userModel.gender
         ])
     }

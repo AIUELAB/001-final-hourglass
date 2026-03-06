@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import StoreKit
 import SwiftUI
 import UIKit
@@ -30,6 +31,11 @@ enum PrePromptResponse: String {
 /// Guidelines 3.1.1: アプリ内レビューシステム
 class ReviewManager: ObservableObject {
     static let shared = ReviewManager()
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.AIUELAB.FinalHourglass",
+        category: "ReviewManager"
+    )
 
     // MARK: - Published Properties
 
@@ -129,10 +135,12 @@ class ReviewManager: ObservableObject {
     func requestReview() {
         guard let windowScene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
-            #if DEBUG
-            print("[ReviewManager] windowScene not available — recording request without dialog")
-            #endif
+            Self.logger.warning("[ReviewManager] windowScene not available — recording request without dialog")
             recordReviewRequest()
+            AnalyticsManager.shared.trackReviewPromptResult(
+                triggerType: currentTrigger.rawValue,
+                result: "windowScene_unavailable"
+            )
             return
         }
 

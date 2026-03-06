@@ -369,4 +369,44 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(FeedbackCategory.usability.icon, "hand.tap")
         XCTAssertEqual(FeedbackCategory.other.icon, "ellipsis.circle")
     }
+
+    // MARK: - coarsenAgeGroup Tests (R-5)
+
+    func testCoarsenAgeGroup_earlySuffix() {
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("30_early"), "30s")
+    }
+
+    func testCoarsenAgeGroup_lateSuffix() {
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("40_late"), "40s")
+    }
+
+    func testCoarsenAgeGroup_noSuffix_passthrough() {
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("20s"), "20s")
+    }
+
+    func testCoarsenAgeGroup_empty_passthrough() {
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup(""), "")
+    }
+
+    func testCoarsenAgeGroup_compoundPrefix() {
+        // "under_20_early" should produce "under_20s" (not "unders")
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("under_20_early"), "under_20s")
+    }
+
+    // MARK: - requestReview windowScene Fallback Tests (R-5)
+
+    @MainActor
+    func testRequestReview_recordsRequestEvenWithoutWindowScene() {
+        let tenDaysAgo = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+        testDefaults.set(tenDaysAgo, forKey: "review_app_install_date")
+        testDefaults.set(6, forKey: "review_sessions_count")
+        sut = ReviewManager(userDefaults: testDefaults)
+
+        // In test environment, windowScene is unavailable — fallback path executes
+        sut.requestReview()
+
+        // Should still record the request (cooldown consumed)
+        XCTAssertNotNil(testDefaults.object(forKey: "review_last_request_date"))
+        XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 1)
+    }
 }

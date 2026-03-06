@@ -42,8 +42,9 @@ struct FeedbackFormView: View {
     @State private var feedbackText: String = ""
     @State private var showingMailComposer = false
     @State private var showingMailAlert = false
-    @State private var showingMailError = false
-    @State private var mailErrorMessage = ""
+    @State private var showingMailResult = false
+    @State private var mailResultTitle = ""
+    @State private var mailResultMessage = ""
 
     /// フィードバック送信先メールアドレス
     private let supportEmail = "support@lifelimit.app"
@@ -79,7 +80,7 @@ struct FeedbackFormView: View {
                     if #available(iOS 16.0, *) {
                         TextField("ご意見・ご要望をお聞かせください", text: $feedbackText, axis: .vertical)
                             .lineLimit(5...10)
-                            .onChange(of: feedbackText) { _, newValue in
+                            .onChange(of: feedbackText) { newValue in
                                 if newValue.count > maxFeedbackLength {
                                     feedbackText = String(newValue.prefix(maxFeedbackLength))
                                 }
@@ -87,7 +88,7 @@ struct FeedbackFormView: View {
                     } else {
                         TextEditor(text: $feedbackText)
                             .frame(minHeight: 120)
-                            .onChange(of: feedbackText) { _, newValue in
+                            .onChange(of: feedbackText) { newValue in
                                 if newValue.count > maxFeedbackLength {
                                     feedbackText = String(newValue.prefix(maxFeedbackLength))
                                 }
@@ -122,11 +123,26 @@ struct FeedbackFormView: View {
                     messageBody: feedbackMailBody,
                     onComplete: { result, error in
                         if let error = error {
-                            mailErrorMessage = error.localizedDescription
-                            showingMailError = true
-                        } else if result == .failed {
-                            mailErrorMessage = "メール送信に失敗しました。ネットワーク接続を確認してください。"
-                            showingMailError = true
+                            mailResultTitle = "送信エラー"
+                            mailResultMessage = error.localizedDescription
+                            showingMailResult = true
+                        } else {
+                            switch result {
+                            case .failed:
+                                mailResultTitle = "送信エラー"
+                                mailResultMessage = "メール送信に失敗しました。ネットワーク接続を確認してください。"
+                                showingMailResult = true
+                            case .sent:
+                                dismiss()
+                            case .saved:
+                                mailResultTitle = "下書き保存"
+                                mailResultMessage = "メールは下書きに保存されました。送信するにはメールアプリを開いてください。"
+                                showingMailResult = true
+                            case .cancelled:
+                                break
+                            @unknown default:
+                                break
+                            }
                         }
                     }
                 )
@@ -136,10 +152,10 @@ struct FeedbackFormView: View {
             } message: {
                 Text("メールアプリが設定されていません。\n\n\(supportEmail)\n\nこちらのアドレスに直接お問い合わせください。")
             }
-            .alert("送信エラー", isPresented: $showingMailError) {
+            .alert(mailResultTitle, isPresented: $showingMailResult) {
                 Button("OK", role: .cancel) { }
             } message: {
-                Text(mailErrorMessage)
+                Text(mailResultMessage)
             }
         }
     }

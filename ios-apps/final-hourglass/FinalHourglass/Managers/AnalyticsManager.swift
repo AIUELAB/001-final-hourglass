@@ -16,6 +16,19 @@ class AnalyticsManager {
         lock.withLock { _isConfigured }
     }
 
+    private var _hasWarnedStubMode = false
+
+    private func guardConfigured() -> Bool {
+        guard isConfigured else {
+            if !_hasWarnedStubMode {
+                Self.logger.warning("[Analytics] Event skipped — SDK not configured (stub mode)")
+                _hasWarnedStubMode = true
+            }
+            return false
+        }
+        return true
+    }
+
     private init() {}
 
     private static let logger = Logger(
@@ -26,7 +39,9 @@ class AnalyticsManager {
     // MARK: - Configuration
 
     /// TelemetryDeck SDKを初期化する
-    /// Info.plist に `TELEMETRYDECK_APP_ID` キーが必要
+    /// Info.plist に `TELEMETRYDECK_APP_ID` キーが必要。
+    /// キーが未設定の場合は stub モードで動作し、SDK は初期化されない。
+    /// 二重呼び出しは安全（二回目以降は何もしない）。
     func configure() {
         guard let appID = Bundle.main.infoDictionary?["TELEMETRYDECK_APP_ID"] as? String,
               !appID.isEmpty,
@@ -61,6 +76,8 @@ class AnalyticsManager {
     // MARK: - User Properties
 
     /// ageGroup を粗粒化する（"_early" / "_late" サフィックスを除去）
+    /// `hasSuffix` でサフィックスを確認後、`lastIndex(of: "_")` でサフィックス直前の
+    /// "_" を取得し、それ以前を base とする。
     /// 例: "30s_early" → "30s", "40s_late" → "40s", "under_20_early" → "under_20s"
     /// base が既に "s" で終わる場合は重複追加しない。サフィックスがない場合はそのまま返す
     static func coarsenAgeGroup(_ ageGroup: String) -> String {
@@ -95,7 +112,7 @@ class AnalyticsManager {
         print("[Analytics] trackScreen: \(screenName)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         var params: [String: String] = ["screen_name": screenName]
         if let screenClass = screenClass {
@@ -112,7 +129,7 @@ class AnalyticsManager {
         print("[Analytics] trackNotificationSettingChange: enabled=\(enabled)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("notification_toggle", parameters: [
             "enabled": "\(enabled)"
@@ -125,7 +142,7 @@ class AnalyticsManager {
         print("[Analytics] trackReminderSettingChange: enabled=\(enabled), time=\(String(describing: time))")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         var params: [String: String] = ["enabled": "\(enabled)"]
         if let time = time {
@@ -144,7 +161,7 @@ class AnalyticsManager {
         print("[Analytics] trackOnboardingStart")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
         TelemetryDeck.signal("onboarding_start")
     }
 
@@ -154,7 +171,7 @@ class AnalyticsManager {
         print("[Analytics] trackOnboardingComplete")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
         TelemetryDeck.signal("onboarding_complete")
     }
 
@@ -164,7 +181,7 @@ class AnalyticsManager {
         print("[Analytics] trackOnboardingStep: step=\(stepNumber), name=\(stepName)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("onboarding_step", parameters: [
             "step_number": "\(stepNumber)",
@@ -183,7 +200,7 @@ class AnalyticsManager {
             "currentAge=\(currentAge), remainingYears=\(remainingYears)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("life_result_view", parameters: [
             "life_expectancy": "\(Int(lifeExpectancy))",
@@ -199,7 +216,7 @@ class AnalyticsManager {
         print("[Analytics] trackEpisodeView: id=\(episodeId), person=\(personName)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("episode_view", parameters: [
             "episode_id": episodeId,
@@ -213,7 +230,7 @@ class AnalyticsManager {
         print("[Analytics] trackEpisodeFavorite: id=\(episodeId)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("episode_favorite", parameters: [
             "episode_id": episodeId
@@ -228,7 +245,7 @@ class AnalyticsManager {
         print("[Analytics] trackShare: method=\(method)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("episode_share", parameters: [
             "share_method": method
@@ -243,7 +260,7 @@ class AnalyticsManager {
         print("[Analytics] trackSettingChange: \(settingName)=\(value)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("setting_change", parameters: [
             "setting_name": settingName,
@@ -257,7 +274,7 @@ class AnalyticsManager {
         print("[Analytics] trackDataReset")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
         TelemetryDeck.signal("data_reset")
     }
 
@@ -269,7 +286,7 @@ class AnalyticsManager {
         print("[Analytics] trackHealthScoreUpdate: category=\(category), score=\(newScore)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("health_score_update", parameters: [
             "category": category,
@@ -285,7 +302,7 @@ class AnalyticsManager {
         print("[Analytics] trackAppLaunch: \(ISO8601DateFormatter().string(from: Date()))")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
         let osVersion = ProcessInfo.processInfo.operatingSystemVersionString
@@ -302,7 +319,7 @@ class AnalyticsManager {
         print("[Analytics] trackSessionDuration: \(Int(duration))秒")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("session_end", parameters: [
             "duration_seconds": "\(Int(duration))"
@@ -317,7 +334,7 @@ class AnalyticsManager {
         print("[Analytics] trackDailyActive: \(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none))")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
         TelemetryDeck.signal("daily_active")
     }
 
@@ -327,7 +344,7 @@ class AnalyticsManager {
         print("[Analytics] trackStreakDays: \(days)日")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("daily_active", parameters: [
             "streak_days": "\(days)"
@@ -342,7 +359,7 @@ class AnalyticsManager {
         print("[Analytics] trackReviewPromptShown: trigger=\(triggerType)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("review_prompt_shown", parameters: [
             "trigger_type": triggerType
@@ -355,7 +372,7 @@ class AnalyticsManager {
         print("[Analytics] trackReviewPromptResult: trigger=\(triggerType), result=\(result)")
         #endif
 
-        guard isConfigured else { return }
+        guard guardConfigured() else { return }
 
         TelemetryDeck.signal("review_prompt_result", parameters: [
             "trigger_type": triggerType,

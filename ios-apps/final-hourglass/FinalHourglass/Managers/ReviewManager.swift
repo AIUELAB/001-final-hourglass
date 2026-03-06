@@ -136,9 +136,10 @@ class ReviewManager: ObservableObject {
     func requestReview() {
         guard let windowScene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
-            // 設計意図: windowScene が取得できない場合でもクールダウンを消費する。
-            // ダイアログ未表示でもリクエスト試行としてカウントし、短時間での
-            // 連続試行を防止する。変更する場合は cooldown ロジック全体を見直すこと。
+            // 設計意図: windowScene が取得できない場合でもクールダウンを開始し、
+            // 年間リクエスト回数もカウントする。ダイアログ未表示でもリクエスト試行
+            // としてカウントし、短時間での連続試行を防止する。
+            // 変更する場合は cooldown ロジック全体を見直すこと。
             Self.logger.warning("[ReviewManager] windowScene not available — recording request without dialog")
             recordReviewRequest()
             AnalyticsManager.shared.trackReviewPromptResult(
@@ -210,8 +211,8 @@ class ReviewManager: ObservableObject {
     }
 
     /// 年が変わっていたら年間カウントを 0 にリセットする（冪等）
-    /// 同一年内で複数回呼ばれても副作用なし。`init()` と `canRequestReview()` の
-    /// 両方から呼ばれるため冪等性が保証されている必要がある。
+    /// 同一年内で複数回呼ばれても副作用なし。`init()`, `canRequestReview()`,
+    /// `recordReviewRequest()` の3箇所から呼ばれるため冪等性が保証されている必要がある。
     private func resetYearlyCountIfNeeded() {
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())

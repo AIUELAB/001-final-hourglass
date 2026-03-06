@@ -73,7 +73,11 @@ jobs:
         # Apply baseline configurations first
         kubectl apply -f kubernetes/namespace.yaml
         kubectl apply -f kubernetes/configmap.yaml
-        kubectl apply -f kubernetes/secret.yaml
+        # secret.yaml はテンプレートのみ格納。実際の秘密値は External Secrets
+        # Operator 等で注入する。本ファイルに平文秘密値をコミットしないこと。
+        if [ -f kubernetes/secret.yaml ]; then
+          kubectl apply -f kubernetes/secret.yaml
+        fi
         kubectl apply -f kubernetes/deployment/
         kubectl apply -f kubernetes/service/
         kubectl apply -f kubernetes/hpa.yaml
@@ -96,56 +100,63 @@ jobs:
     - name: Verify deployment
       continue-on-error: true
       run: |
-        # Informational only — failures here do not block the pipeline
-        kubectl get pods -n quality-system
+        # continue-on-error: true により、このステップの失敗はジョブ全体をブロックしない。
+        # Pod 異常は後続の smoke test で検出される。
+        kubectl get pods -n quality-system -o wide
         kubectl get svc -n quality-system
         kubectl get hpa -n quality-system
+        # CrashLoopBackOff 等の異常 Pod を警告
+        UNHEALTHY=$(kubectl get pods -n quality-system --no-headers | grep -v "Running\|Completed" || true)
+        if [ -n "$UNHEALTHY" ]; then
+          echo "::warning::Unhealthy pods detected:"
+          echo "$UNHEALTHY"
+        fi
 
     - name: Run smoke tests
       run: |
-        set -o pipefail
+        set -euo pipefail
         MAX_RETRIES=5
         RETRY_INTERVAL=10
 
         # Get service endpoint
         ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
-          -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+          -o jsonpath='{.status.loadBalancer.ingress[0].hostname}') || true
         if [ -z "$ENDPOINT" ]; then
           ENDPOINT=$(kubectl get svc quality-orchestrator -n quality-system \
-            -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            -o jsonpath='{.status.loadBalancer.ingress[0].ip}') || true
         fi
         if [ -z "$ENDPOINT" ]; then
           echo "::error::Service endpoint not available (LoadBalancer pending — neither hostname nor ip found)"
           exit 1
         fi
 
-        # Health check
+        # Health check with detailed status logging
         HEALTH_OK=false
         for i in $(seq 1 $MAX_RETRIES); do
-          if curl -sf "http://${ENDPOINT}:8002/health"; then
+          HTTP_STATUS=$(curl -sf -o /dev/null -w "%{http_code}" "http://${ENDPOINT}:8002/health" 2>&1) && {
             HEALTH_OK=true
             break
-          fi
-          echo "Health check attempt $i failed, retrying in ${RETRY_INTERVAL}s..."
-          sleep $RETRY_INTERVAL
+          }
+          echo "Health check attempt $i failed (HTTP $HTTP_STATUS), retrying in ${RETRY_INTERVAL}s..."
+          sleep "$RETRY_INTERVAL"
         done
         if [ "$HEALTH_OK" != "true" ]; then
-          echo "::error::Health check failed after $MAX_RETRIES attempts"
+          echo "::error::Health check failed after $MAX_RETRIES attempts (last HTTP $HTTP_STATUS)"
           exit 1
         fi
 
-        # Metrics check
+        # Metrics check with detailed status logging
         METRICS_OK=false
         for i in $(seq 1 $MAX_RETRIES); do
-          if curl -sf "http://${ENDPOINT}:9090/metrics"; then
+          HTTP_STATUS=$(curl -sf -o /dev/null -w "%{http_code}" "http://${ENDPOINT}:9090/metrics" 2>&1) && {
             METRICS_OK=true
             break
-          fi
-          echo "Metrics check attempt $i failed, retrying in ${RETRY_INTERVAL}s..."
-          sleep $RETRY_INTERVAL
+          }
+          echo "Metrics check attempt $i failed (HTTP $HTTP_STATUS), retrying in ${RETRY_INTERVAL}s..."
+          sleep "$RETRY_INTERVAL"
         done
         if [ "$METRICS_OK" != "true" ]; then
-          echo "::error::Metrics check failed after $MAX_RETRIES attempts"
+          echo "::error::Metrics check failed after $MAX_RETRIES attempts (last HTTP $HTTP_STATUS)"
           exit 1
         fi
 

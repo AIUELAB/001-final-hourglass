@@ -103,7 +103,8 @@ final class FeedbackFormViewTests: XCTestCase {
     }
 
     // MARK: - FeedbackCategory Tests
-    // Note: displayName/icon テストは ReviewManagerTests 側に既存。ここでは rawValue/identifiable を補完
+    // Note: displayName/icon テストは ReviewManagerTests 側に既存（レビューフロー文脈で追加された経緯）。
+    // ここでは rawValue/identifiable を補完。将来的には本ファイルに集約が望ましい
 
     func testFeedbackCategory_rawValues() {
         XCTAssertEqual(FeedbackCategory.bugReport.rawValue, "bug_report")

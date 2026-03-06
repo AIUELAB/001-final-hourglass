@@ -59,15 +59,16 @@ final class AnalyticsManagerTests: XCTestCase {
         sut.trackShare(method: "clipboard")
     }
 
-    // MARK: - Thread Safety Tests
-    // Note: TSan (Thread Sanitizer) 有効スキームで実行するとデータレースも検出可能
+    // MARK: - Thread Safety Tests (TSan推奨)
+    // Note: クラッシュ有無のみ検証。データレース検出には TSan 有効スキームでの実行が必要
 
     func testConfigure_concurrentCalls_doesNotCrash() {
         let sut = AnalyticsManager.shared
         DispatchQueue.concurrentPerform(iterations: 100) { _ in
             sut.configure()
         }
-        XCTAssertNotNil(sut, "並行 configure() 後もインスタンスが正常であること")
+        // テスト環境では Info.plist に APP_ID がないため stub モードの early return パスを通過。
+        // NSLock のストレステストとしてクラッシュなく完走することを検証
     }
 
     func testGuardConfigured_concurrentAccess_doesNotCrash() {
@@ -75,7 +76,7 @@ final class AnalyticsManagerTests: XCTestCase {
         DispatchQueue.concurrentPerform(iterations: 100) { _ in
             sut.trackScreen("ConcurrentScreen")
         }
-        XCTAssertNotNil(sut, "並行 trackScreen() 後もインスタンスが正常であること")
+        // guardConfigured() 内の NSLock が並行アクセスで安全に動作することを検証
     }
 
     func testSetUserProperties_concurrentCalls_doesNotCrash() {
@@ -84,6 +85,6 @@ final class AnalyticsManagerTests: XCTestCase {
             let user = UserModel()
             sut.setUserProperties(userModel: user)
         }
-        XCTAssertNotNil(sut, "並行 setUserProperties() 後もインスタンスが正常であること")
+        // UserDefaults への並行書き込みがクラッシュしないことを検証
     }
 }

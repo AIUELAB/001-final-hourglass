@@ -1,4 +1,5 @@
 import MessageUI
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -37,6 +38,11 @@ enum FeedbackCategory: String, CaseIterable, Identifiable {
 /// アプリ内フィードバック送信フォーム
 struct FeedbackFormView: View {
     @Environment(\.dismiss) private var dismiss
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.AIUELAB.FinalHourglass",
+        category: "FeedbackForm"
+    )
 
     @State private var selectedCategory: FeedbackCategory = .other
     @State private var feedbackText: String = ""
@@ -141,9 +147,7 @@ struct FeedbackFormView: View {
                             case .cancelled:
                                 break
                             @unknown default:
-                                #if DEBUG
-                                print("[FeedbackForm] Unknown MFMailComposeResult: \(result.rawValue)")
-                                #endif
+                                Self.logger.warning("[FeedbackForm] Unknown MFMailComposeResult: \(result.rawValue)")
                                 mailResultTitle = "完了"
                                 mailResultMessage = "メール操作が完了しました。"
                                 showingMailResult = true

@@ -16,6 +16,7 @@ class AnalyticsManager {
         lock.withLock { _isConfigured }
     }
 
+    /// 初回警告済みフラグ（lock で保護、guardConfigured() 内でのみ読み書き）
     private var _hasWarnedStubMode = false
 
     private func guardConfigured() -> Bool {
@@ -81,7 +82,9 @@ class AnalyticsManager {
     /// `hasSuffix` でサフィックスを確認後、`lastIndex(of: "_")` でサフィックス直前の
     /// "_" を取得し、それ以前を base とする。
     /// 例: "30s_early" → "30s", "40s_late" → "40s", "under_20_early" → "under_20s"
-    /// base が既に "s" で終わる場合は重複追加しない。サフィックスがない場合はそのまま返す
+    /// base が既に "s" で終わる場合は重複追加しない。
+    /// "under_20" のように "s" で終わらない base には "s" を付加する。
+    /// サフィックスがない場合はそのまま返す
     static func coarsenAgeGroup(_ ageGroup: String) -> String {
         if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late"),
            let underscoreIndex = ageGroup.lastIndex(of: "_") {
@@ -95,7 +98,8 @@ class AnalyticsManager {
     /// UserDefaults に保存し、`configure()` で登録した `defaultParameters` クロージャが
     /// 次回イベント送信時に最新値を読み取る。ageGroup の粗粒化は `defaultParameters`
     /// クロージャ側で `coarsenAgeGroup(_:)` を呼び出して行う。
-    /// SDK 未初期化（stub モード）でも UserDefaults への保存は行われる。
+    /// SDK 未初期化（stub モード）でも UserDefaults への保存は行われる
+    /// （後から configure() された際に defaultParameters が最新値を返せるようにするため）。
     func setUserProperties(userModel: UserModel) {
         #if DEBUG
         print("[Analytics] setUserProperties: age_group=\(userModel.ageGroup), gender=\(userModel.gender)")

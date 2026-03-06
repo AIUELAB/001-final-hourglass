@@ -452,6 +452,10 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("under_20_late"), "under_20s")
     }
 
+    func testCoarsenAgeGroup_compoundPrefix_over80() {
+        XCTAssertEqual(AnalyticsManager.coarsenAgeGroup("over_80_late"), "over_80s")
+    }
+
     // MARK: - requestReview windowScene Fallback Tests
 
     @MainActor
@@ -461,11 +465,19 @@ final class ReviewManagerTests: XCTestCase {
         testDefaults.set(6, forKey: "review_sessions_count")
         sut = ReviewManager(userDefaults: testDefaults)
 
-        // In test environment, windowScene is unavailable — fallback path executes
+        XCTAssertTrue(sut.canRequestReview(), "Before request, review should be available")
+
+        // In test environment, windowScene is unavailable — fallback path executes.
+        // Note: The normal path (windowScene available → SKStoreReviewController)
+        // cannot be tested in unit tests. Cover via UI/integration tests.
         sut.requestReview()
 
         // Should still record the request (cooldown consumed)
         XCTAssertNotNil(testDefaults.object(forKey: "review_last_request_date"))
         XCTAssertEqual(testDefaults.integer(forKey: "review_request_count_current_year"), 1)
+
+        // Cooldown should now prevent further requests
+        // (windowScene-unavailable path must also activate cooldown)
+        XCTAssertFalse(sut.canRequestReview(), "After windowScene-unavailable request, cooldown should be active")
     }
 }

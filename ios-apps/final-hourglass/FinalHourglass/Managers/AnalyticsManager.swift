@@ -9,7 +9,7 @@ import TelemetryDeck
 class AnalyticsManager {
     static let shared = AnalyticsManager()
 
-    /// SDK初期化済みフラグ
+    /// SDK初期化済みフラグ（スレッドセーフ: NSLock で保護）
     private let lock = NSLock()
     private var _isConfigured = false
     private var isConfigured: Bool {
@@ -37,19 +37,24 @@ class AnalyticsManager {
             return
         }
 
-        lock.withLock {
-            guard !_isConfigured else { return }
+        let didInit = lock.withLock { () -> Bool in
+            guard !_isConfigured else { return false }
             let config = TelemetryDeck.Config(appID: appID)
             TelemetryDeck.initialize(config: config)
             _isConfigured = true
+            return true
         }
 
-        Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
+        if didInit {
+            Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
+        }
     }
 
     // MARK: - User Properties
 
-    /// ageGroup を10年単位に粗粒化する（例: "30_early" → "30s", "40_late" → "40s"）
+    /// ageGroup を粗粒化する（"_early" / "_late" サフィックスを除去して "s" に置換）
+    /// 例: "30_early" → "30s", "40_late" → "40s", "under_20_early" → "under_20s"
+    /// サフィックスがない場合はそのまま返す
     static func coarsenAgeGroup(_ ageGroup: String) -> String {
         if ageGroup.hasSuffix("_early") || ageGroup.hasSuffix("_late"),
            let underscoreIndex = ageGroup.lastIndex(of: "_") {

@@ -56,7 +56,6 @@ class AnalyticsManager {
 
         let shouldInit = lock.withLock { () -> Bool in
             guard !_isConfigured else { return false }
-            _isConfigured = true
             return true
         }
         guard shouldInit else { return }
@@ -72,6 +71,7 @@ class AnalyticsManager {
             ]
         }
         TelemetryDeck.initialize(config: config)
+        lock.withLock { _isConfigured = true }
         Self.logger.info("[Analytics] TelemetryDeck initialized successfully")
     }
 

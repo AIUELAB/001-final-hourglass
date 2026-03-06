@@ -216,8 +216,12 @@ struct FeedbackFormView: View {
             // mailto: URLScheme フォールバック
             var mailtoAllowed = CharacterSet.urlQueryAllowed
             mailtoAllowed.remove(charactersIn: "&=")
-            let subject = feedbackMailSubject.addingPercentEncoding(withAllowedCharacters: mailtoAllowed) ?? ""
-            let body = feedbackMailBody.addingPercentEncoding(withAllowedCharacters: mailtoAllowed) ?? ""
+            guard let subject = feedbackMailSubject.addingPercentEncoding(withAllowedCharacters: mailtoAllowed),
+                  let body = feedbackMailBody.addingPercentEncoding(withAllowedCharacters: mailtoAllowed) else {
+                Self.logger.error("[FeedbackForm] Failed to percent-encode mailto parameters")
+                showingMailAlert = true
+                return
+            }
             let mailtoString = "mailto:\(supportEmail)?subject=\(subject)&body=\(body)"
 
             if let mailtoURL = URL(string: mailtoString),

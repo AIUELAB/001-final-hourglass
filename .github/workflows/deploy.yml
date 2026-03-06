@@ -103,6 +103,7 @@ jobs:
 
     - name: Run smoke tests
       run: |
+        set -o pipefail
         MAX_RETRIES=5
         RETRY_INTERVAL=10
 

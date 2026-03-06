@@ -87,17 +87,17 @@ struct FeedbackFormView: View {
                     if #available(iOS 16.0, *) {
                         TextField("ご意見・ご要望をお聞かせください", text: $feedbackText, axis: .vertical)
                             .lineLimit(5...10)
-                            .onChange(of: feedbackText) {
-                                if feedbackText.count > maxFeedbackLength {
-                                    feedbackText = String(feedbackText.prefix(maxFeedbackLength))
+                            .onChange(of: feedbackText) { newValue in
+                                if newValue.count > maxFeedbackLength {
+                                    feedbackText = String(newValue.prefix(maxFeedbackLength))
                                 }
                             }
                     } else {
                         TextEditor(text: $feedbackText)
                             .frame(minHeight: 120)
-                            .onChange(of: feedbackText) {
-                                if feedbackText.count > maxFeedbackLength {
-                                    feedbackText = String(feedbackText.prefix(maxFeedbackLength))
+                            .onChange(of: feedbackText) { newValue in
+                                if newValue.count > maxFeedbackLength {
+                                    feedbackText = String(newValue.prefix(maxFeedbackLength))
                                 }
                             }
                     }

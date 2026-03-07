@@ -21,7 +21,6 @@
 		E1F2A3B4C506012B001A17AF /* AppStateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C506012B001A17B4 /* AppStateManagerTests.swift */; };
 		E9F1A0B1 /* SoundManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1A001 /* SoundManagerTests.swift */; };
 		E9F1A0B2 /* SupabaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1A002 /* SupabaseConfigTests.swift */; };
-		VH01B001 /* VersionHistoryLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = VH01F001 /* VersionHistoryLoaderTests.swift */; };
 		E9F1B0B1 /* SettingsE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B001 /* SettingsE2ETests.swift */; };
 		E9F1B0B2 /* HealthInputE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B002 /* HealthInputE2ETests.swift */; };
 		E9F1B0B3 /* EpisodeE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B003 /* EpisodeE2ETests.swift */; };
@@ -49,6 +48,7 @@
 		U1B007 /* NavigationE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A007 /* NavigationE2ETests.swift */; };
 		U1B008 /* ProfileE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A008 /* ProfileE2ETests.swift */; };
 		U1B009 /* FavoritesE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A009 /* FavoritesE2ETests.swift */; };
+		VH01B001 /* VersionHistoryLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = VH01F001 /* VersionHistoryLoaderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +73,6 @@
 		2432CD6BEACDD34DC65888F8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HealthScoreCalculatorTests.swift; sourceTree = "<group>"; };
 		4480D9C7F5CAC86523AC0EC3 /* FinalHourglassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalHourglassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		VH01F001 /* VersionHistoryLoaderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VersionHistoryLoaderTests.swift; sourceTree = "<group>"; };
 		8422A30D2E4C0205001A17AF /* Config/Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Debug.xcconfig; sourceTree = "<group>"; };
 		8422A30F2E4C0214001A17AF /* Config/Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Release.xcconfig; sourceTree = "<group>"; };
 		8458A1E82E2543FE0023BA9E /* last-hourglass-design-system.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "last-hourglass-design-system.md"; sourceTree = "<group>"; };
@@ -118,6 +117,7 @@
 		U1A007 /* NavigationE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationE2ETests.swift; sourceTree = "<group>"; };
 		U1A008 /* ProfileE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileE2ETests.swift; sourceTree = "<group>"; };
 		U1A009 /* FavoritesE2ETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesE2ETests.swift; sourceTree = "<group>"; };
+		VH01F001 /* VersionHistoryLoaderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VersionHistoryLoaderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -383,7 +383,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					84B6A96E2DDAB575000C3E82 = {
 						CreatedOnToolsVersion = 16.3;
@@ -441,25 +441,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		84VERH0012E4C0300001A17AF /* Check Version History */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Check Version History";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Check Version History - Detect unregistered versions\nJSON_FILE=\"${SRCROOT}/FinalHourglass/Resources/version_history.json\"\nCURRENT_VERSION=\"${MARKETING_VERSION}\"\n\nif [ ! -f \"$JSON_FILE\" ]; then\n  echo \"warning: version_history.json not found at $JSON_FILE\"\n  exit 0\nfi\n\nJSON_FILE=\"$JSON_FILE\" CURRENT_VERSION=\"$CURRENT_VERSION\" /usr/bin/python3 -c \"\nimport json, sys, os\njson_file = os.environ['JSON_FILE']\ncurrent_version = os.environ['CURRENT_VERSION']\ntry:\n    with open(json_file) as f:\n        data = json.load(f)\nexcept (json.JSONDecodeError, IOError) as e:\n    print(f'warning: version_history.json is malformed: {e}')\n    sys.exit(0)\nversions = [v['version'] for v in data['versions']]\nif current_version not in versions:\n    print(f'warning: Version {current_version} is not registered in version_history.json. Please add release notes.')\n\" 2>&1\n";
-		};
 		84LINT0012E4C0300001A17AF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -478,6 +459,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# SwiftLint Build Phase Script\n# Auto-fix and lint Swift files on build\n\nif which swiftlint >/dev/null; then\n  # Change to project root to ensure .swiftlint.yml is found\n  cd \"$SRCROOT\"\n  # Run SwiftLint with autocorrect first, then lint (explicitly specify config)\n  swiftlint lint --fix --config .swiftlint.yml && swiftlint lint --config .swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		84VERH0012E4C0300001A17AF /* Check Version History */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Check Version History";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Check Version History - Detect unregistered versions\nJSON_FILE=\"${SRCROOT}/FinalHourglass/Resources/version_history.json\"\nCURRENT_VERSION=\"${MARKETING_VERSION}\"\n\nif [ ! -f \"$JSON_FILE\" ]; then\n  echo \"warning: version_history.json not found at $JSON_FILE\"\n  exit 0\nfi\n\nJSON_FILE=\"$JSON_FILE\" CURRENT_VERSION=\"$CURRENT_VERSION\" /usr/bin/python3 -c \"\nimport json, sys, os\njson_file = os.environ['JSON_FILE']\ncurrent_version = os.environ['CURRENT_VERSION']\ntry:\n    with open(json_file) as f:\n        data = json.load(f)\nexcept (json.JSONDecodeError, IOError) as e:\n    print(f'warning: version_history.json is malformed: {e}')\n    sys.exit(0)\nversions = [v['version'] for v in data['versions']]\nif current_version not in versions:\n    print(f'warning: Version {current_version} is not registered in version_history.json. Please add release notes.')\n\" 2>&1\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -712,7 +712,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -748,7 +748,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIUELAB.FinalHourglass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

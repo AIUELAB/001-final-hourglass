@@ -11,8 +11,8 @@
 		6697F5DC1E0028BDDBB6F268 /* HealthScoreCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */; };
 		8458A1EF2E2543FE0023BA9E /* documentation-readme.md in Resources */ = {isa = PBXBuildFile; fileRef = 8458A1EB2E2543FE0023BA9E /* documentation-readme.md */; };
 		84CEC5872F22375F0036DDDC /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 84CEC5862F22375F0036DDDC /* Supabase */; };
-		A27216264BD340D23C7FBD6F /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = 42B567C9E1149870D7F0B07F /* TelemetryDeck */; };
 		A1B2C3D4E5F60127001A17AF /* UserModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60127001A17B0 /* UserModelTests.swift */; };
+		A27216264BD340D23C7FBD6F /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = 42B567C9E1149870D7F0B07F /* TelemetryDeck */; };
 		B1C2D3E4F5060128001A17AF /* SupabaseManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5060128001A17B1 /* SupabaseManagerTests.swift */; };
 		C1D2E3F4G5060129001A17AF /* EpisodeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D2E3F4G5060129001A17B2 /* EpisodeManagerTests.swift */; };
 		C739AA4535BDAA0DE20A229D /* LifeExpectancyCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */; };
@@ -21,6 +21,7 @@
 		E1F2A3B4C506012B001A17AF /* AppStateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C506012B001A17B4 /* AppStateManagerTests.swift */; };
 		E9F1A0B1 /* SoundManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1A001 /* SoundManagerTests.swift */; };
 		E9F1A0B2 /* SupabaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1A002 /* SupabaseConfigTests.swift */; };
+		VH01B001 /* VersionHistoryLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = VH01F001 /* VersionHistoryLoaderTests.swift */; };
 		E9F1B0B1 /* SettingsE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B001 /* SettingsE2ETests.swift */; };
 		E9F1B0B2 /* HealthInputE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B002 /* HealthInputE2ETests.swift */; };
 		E9F1B0B3 /* EpisodeE2ETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1B003 /* EpisodeE2ETests.swift */; };
@@ -30,15 +31,15 @@
 		E9F1D002 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1D001 /* SnapshotHelper.swift */; };
 		E9F1D004 /* SnapshotUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F1D003 /* SnapshotUITests.swift */; };
 		F1A2B3C4D506012C001A17AF /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A2B3C4D506012C001A17B5 /* NotificationManagerTests.swift */; };
-		P13B001 /* SecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P13A001 /* SecurityTests.swift */; };
-		R1M001B1 /* ReviewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = R1M001F1 /* ReviewManagerTests.swift */; };
 		FBV001B1 /* FeedbackFormViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBV001F1 /* FeedbackFormViewTests.swift */; };
+		P13B001 /* SecurityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P13A001 /* SecurityTests.swift */; };
 		P14B001 /* AppStoreGuidelinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P14A001 /* AppStoreGuidelinesTests.swift */; };
 		P8A001B1 /* FavoriteEpisodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8A001F1 /* FavoriteEpisodeTests.swift */; };
 		P8B001B1 /* ContentFilterManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8B001F1 /* ContentFilterManagerTests.swift */; };
 		P8C001B1 /* DeveloperModeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8C001F1 /* DeveloperModeManagerTests.swift */; };
 		P8D001B1 /* ParameterCheckSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8D001F1 /* ParameterCheckSystemTests.swift */; };
 		P8E001B1 /* AnalyticsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = P8E001F1 /* AnalyticsManagerTests.swift */; };
+		R1M001B1 /* ReviewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = R1M001F1 /* ReviewManagerTests.swift */; };
 		U1B001 /* XCUIApplication+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A001 /* XCUIApplication+Launch.swift */; };
 		U1B002 /* XCTestCase+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A002 /* XCTestCase+Wait.swift */; };
 		U1B003 /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1A003 /* OnboardingPage.swift */; };
@@ -72,6 +73,7 @@
 		2432CD6BEACDD34DC65888F8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A1AC8E6FC60AAD8BB27DCC7 /* HealthScoreCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HealthScoreCalculatorTests.swift; sourceTree = "<group>"; };
 		4480D9C7F5CAC86523AC0EC3 /* FinalHourglassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalHourglassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		VH01F001 /* VersionHistoryLoaderTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VersionHistoryLoaderTests.swift; sourceTree = "<group>"; };
 		8422A30D2E4C0205001A17AF /* Config/Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Debug.xcconfig; sourceTree = "<group>"; };
 		8422A30F2E4C0214001A17AF /* Config/Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Release.xcconfig; sourceTree = "<group>"; };
 		8458A1E82E2543FE0023BA9E /* last-hourglass-design-system.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "last-hourglass-design-system.md"; sourceTree = "<group>"; };
@@ -98,15 +100,15 @@
 		E9F1D003 /* SnapshotUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotUITests.swift; sourceTree = "<group>"; };
 		F1A2B3C4D506012C001A17B5 /* NotificationManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
 		F20D019D57A2D26A9EC1100F /* LifeExpectancyCalculatorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LifeExpectancyCalculatorTests.swift; sourceTree = "<group>"; };
-		P13A001 /* SecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityTests.swift; sourceTree = "<group>"; };
-		R1M001F1 /* ReviewManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReviewManagerTests.swift; sourceTree = "<group>"; };
 		FBV001F1 /* FeedbackFormViewTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FeedbackFormViewTests.swift; sourceTree = "<group>"; };
+		P13A001 /* SecurityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityTests.swift; sourceTree = "<group>"; };
 		P14A001 /* AppStoreGuidelinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreGuidelinesTests.swift; sourceTree = "<group>"; };
 		P8A001F1 /* FavoriteEpisodeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FavoriteEpisodeTests.swift; sourceTree = "<group>"; };
 		P8B001F1 /* ContentFilterManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContentFilterManagerTests.swift; sourceTree = "<group>"; };
 		P8C001F1 /* DeveloperModeManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeveloperModeManagerTests.swift; sourceTree = "<group>"; };
 		P8D001F1 /* ParameterCheckSystemTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ParameterCheckSystemTests.swift; sourceTree = "<group>"; };
 		P8E001F1 /* AnalyticsManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerTests.swift; sourceTree = "<group>"; };
+		R1M001F1 /* ReviewManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReviewManagerTests.swift; sourceTree = "<group>"; };
 		U1A001 /* XCUIApplication+Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Launch.swift"; sourceTree = "<group>"; };
 		U1A002 /* XCTestCase+Wait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Wait.swift"; sourceTree = "<group>"; };
 		U1A003 /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
@@ -125,8 +127,6 @@
 				Resources/Data/marriage_rate_by_age_and_sex.csv,
 				Resources/Info.plist,
 				"Resources/parameter-master-list-txt",
-				Views/LifeResult/Backups/LifeResultView_backup_before_dramatic.swift,
-				Views/LifeResult/Backups/LifeResultView_dramatic_20250803.swift,
 			);
 			target = 84B6A96E2DDAB575000C3E82 /* FinalHourglass */;
 		};
@@ -216,6 +216,7 @@
 				P13A001 /* SecurityTests.swift */,
 				R1M001F1 /* ReviewManagerTests.swift */,
 				FBV001F1 /* FeedbackFormViewTests.swift */,
+				VH01F001 /* VersionHistoryLoaderTests.swift */,
 			);
 			path = FinalHourglassTests;
 			sourceTree = "<group>";
@@ -337,6 +338,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84B6A97A2DDAB578000C3E82 /* Build configuration list for PBXNativeTarget "FinalHourglass" */;
 			buildPhases = (
+				84VERH0012E4C0300001A17AF /* Check Version History */,
 				84LINT0012E4C0300001A17AF /* SwiftLint */,
 				84B6A96B2DDAB575000C3E82 /* Sources */,
 				84B6A96C2DDAB575000C3E82 /* Frameworks */,
@@ -439,6 +441,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		84VERH0012E4C0300001A17AF /* Check Version History */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Check Version History";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Check Version History - Detect unregistered versions\nJSON_FILE=\"${SRCROOT}/FinalHourglass/Resources/version_history.json\"\nCURRENT_VERSION=\"${MARKETING_VERSION}\"\n\nif [ ! -f \"$JSON_FILE\" ]; then\n  echo \"warning: version_history.json not found at $JSON_FILE\"\n  exit 0\nfi\n\nJSON_FILE=\"$JSON_FILE\" CURRENT_VERSION=\"$CURRENT_VERSION\" /usr/bin/python3 -c \"\nimport json, sys, os\njson_file = os.environ['JSON_FILE']\ncurrent_version = os.environ['CURRENT_VERSION']\ntry:\n    with open(json_file) as f:\n        data = json.load(f)\nexcept (json.JSONDecodeError, IOError) as e:\n    print(f'warning: version_history.json is malformed: {e}')\n    sys.exit(0)\nversions = [v['version'] for v in data['versions']]\nif current_version not in versions:\n    print(f'warning: Version {current_version} is not registered in version_history.json. Please add release notes.')\n\" 2>&1\n";
+		};
 		84LINT0012E4C0300001A17AF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -492,6 +513,7 @@
 				P13B001 /* SecurityTests.swift in Sources */,
 				R1M001B1 /* ReviewManagerTests.swift in Sources */,
 				FBV001B1 /* FeedbackFormViewTests.swift in Sources */,
+				VH01B001 /* VersionHistoryLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,15 +915,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		84CEC5862F22375F0036DDDC /* Supabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84CEC5842F2233A50036DDDC /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Supabase;
-		};
 		42B567C9E1149870D7F0B07F /* TelemetryDeck */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E75A0AFC4BE78509ACEF2FBF /* XCRemoteSwiftPackageReference "SwiftSDK" */;
 			productName = TelemetryDeck;
+		};
+		84CEC5862F22375F0036DDDC /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84CEC5842F2233A50036DDDC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

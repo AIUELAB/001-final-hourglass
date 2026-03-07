@@ -106,7 +106,9 @@ class AnalyticsManager {
     /// （後から configure() された際に defaultParameters が最新値を返せるようにするため）。
     func setUserProperties(userModel: UserModel) {
         let coarsenedAgeGroup = Self.coarsenAgeGroup(userModel.ageGroup)
-        Self.logger.debug("[Analytics] setUserProperties: age_group=\(coarsenedAgeGroup, privacy: .private), gender=\(userModel.gender, privacy: .private)")
+        Self.logger.debug(
+            "[Analytics] setUserProperties: age_group=\(coarsenedAgeGroup, privacy: .private), gender=\(userModel.gender, privacy: .private)"
+        )
 
         // defaultParameters クロージャが参照する UserDefaults に保存
         UserDefaults.standard.set(userModel.ageGroup, forKey: "analytics_age_group")
@@ -190,7 +192,10 @@ class AnalyticsManager {
 
     /// 寿命計算結果をトラッキング
     func trackLifeResultCalculation(lifeExpectancy: Double, currentAge: Int) {
-        Self.logger.debug("[Analytics] trackLifeResultCalculation: lifeExpectancy=\(Int(lifeExpectancy)), currentAge=\(currentAge), remainingYears=\(Int(lifeExpectancy) - currentAge)")
+        let remaining = Int(lifeExpectancy) - currentAge
+        Self.logger.debug(
+            "[Analytics] trackLifeResultCalculation: lifeExpectancy=\(Int(lifeExpectancy)), currentAge=\(currentAge), remainingYears=\(remaining)"
+        )
 
         guard guardConfigured() else { return }
 

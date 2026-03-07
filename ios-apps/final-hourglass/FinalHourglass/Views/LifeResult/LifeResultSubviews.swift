@@ -1,8 +1,12 @@
 import os
 import SwiftUI
 
-// Logger定義（FallbackEpisodeViewが参照）
-let lifeResultLogger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
+private let lifeResultLogger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
+
+// MARK: - 定数
+enum LifeResultScrollID {
+    static let episodeSection = "episodeSection"
+}
 
 // MARK: - スクロールヒントビュー
 struct ScrollHintView: View {
@@ -43,8 +47,7 @@ struct FallbackEpisodeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // 年齢部分（ゴールド、小さめ）
-            Text(fallbackEpisode.ageText)
+                Text(fallbackEpisode.ageText)
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(
                     LinearGradient(
@@ -54,12 +57,10 @@ struct FallbackEpisodeView: View {
                     )
                 )
 
-            // 人物名部分（白、大きめ）
             Text(fallbackEpisode.personName)
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundColor(.white)
 
-            // エピソード本文（通常）
             Text(fallbackEpisode.episodeText)
                 .font(.system(size: 16))
                 .foregroundColor(.white.opacity(0.9))

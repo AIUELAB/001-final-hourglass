@@ -1,8 +1,7 @@
 import os
 import SwiftUI
 
-// Logger定義
-private let lifeResultLogger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
+// lifeResultLogger は LifeResultSubviews.swift で定義
 
 // エピソードコンテンツの構造体
 struct EpisodeContent {
@@ -45,6 +44,10 @@ struct LifeResultView: View {
     // 健康タブへの遷移用
     @State private var navigateToHealth = false
 
+    // スクロールヒント用
+    @State private var showScrollHint = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     // ドラマチック演出の表示済みフラグ
     @AppStorage("hasSeenDramaticSequence") private var hasSeenDramaticSequence = false
 
@@ -80,8 +83,9 @@ struct LifeResultView: View {
 
             // メインコンテンツ（ピンチズーム対応）
             PinchZoomView(minScale: 0.8, maxScale: 3.0) {
+                ScrollViewReader { scrollProxy in
                 ScrollView {
-                    VStack(spacing: 30) {
+                    VStack(spacing: 24) {
                     // 残り時間の表示（最上部）
                     VStack(spacing: 15) {
                         Text("あなたの人生は")
@@ -238,7 +242,7 @@ struct LifeResultView: View {
                     .opacity(showHourglass ? hourglassOpacity : 0)
                     .animation(.spring(response: 1.2, dampingFraction: 0.8), value: hourglassScale)
                     .animation(.easeOut(duration: 0.6), value: hourglassOpacity)
-                    .frame(height: 250) // リアルな砂時計用に高さを増加
+                    .frame(height: min(250, UIScreen.main.bounds.height * 0.28))
 
                     // 進捗率セクション
                     VStack(spacing: 12) {
@@ -264,10 +268,24 @@ struct LifeResultView: View {
                                 )
                             )
                     }
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 14)
                     .opacity(showProgress ? 1 : 0)
                     .scaleEffect(showProgress ? 1 : 0.8)
                     .animation(.easeOut(duration: 0.8), value: showProgress)
+
+                    // スクロールヒント（エピソードへの導線）
+                    if showScrollHint {
+                        ScrollHintView(reduceMotion: reduceMotion) {
+                            withAnimation(.easeInOut(duration: 0.6)) {
+                                scrollProxy.scrollTo("episodeSection", anchor: .top)
+                                showScrollHint = false
+                            }
+                        }
+                        .transition(.opacity)
+                        .accessibilityLabel("下にスクロールするとエピソードが表示されます")
+                        .accessibilityHint("タップするとエピソードまでスクロールします")
+                        .accessibilityAddTraits(.isButton)
+                    }
 
                     // 偉人のエピソードセクション
                     VStack(alignment: .leading, spacing: 16) {
@@ -319,6 +337,15 @@ struct LifeResultView: View {
                                     )
                             )
                     )
+                    .id("episodeSection")
+                    .background(
+                        GeometryReader { geo in
+                            Color.clear.preference(
+                                key: EpisodeSectionVisibleKey.self,
+                                value: geo.frame(in: .global).minY < UIScreen.main.bounds.height * 0.75
+                            )
+                        }
+                    )
                     .opacity(showEpisode ? 1 : 0)
                     .scaleEffect(showEpisode ? 1 : 0.8)
                     .animation(.easeOut(duration: 0.8), value: showEpisode)
@@ -359,6 +386,14 @@ struct LifeResultView: View {
                     Spacer()
                     }
                     .padding(.horizontal)
+                }
+                } // ScrollViewReader
+            }
+            .onPreferenceChange(EpisodeSectionVisibleKey.self) { isVisible in
+                if isVisible && showScrollHint {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        showScrollHint = false
+                    }
                 }
             }
             .navigationTitle("最期の砂時計")
@@ -579,6 +614,7 @@ extension LifeResultView {
         progressValue = progress
         showEpisode = true
         showFinalMessage = true
+        showScrollHint = true
         if !bgmStarted && !appStateManager.isResetting {
             soundManager.playBackgroundMusic(filename: "saigono", withExtension: "m4a")
             bgmStarted = true
@@ -621,6 +657,12 @@ extension LifeResultView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
             showProgress = true
             animateProgress()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            withAnimation(.easeIn(duration: 0.5)) {
+                showScrollHint = true
+            }
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) {
@@ -922,43 +964,5 @@ private struct PersonNameView: View {
             return String(parsedEpisode.personName.dropLast())
         }
         return parsedEpisode.personName
-    }
-}
-
-// MARK: - フォールバックエピソードビュー
-/// API取得失敗時に表示するフォールバックエピソードのビュー
-private struct FallbackEpisodeView: View {
-    let ageInt: Int
-    let fallbackEpisode: EpisodeContent
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // 年齢部分（ゴールド、小さめ）
-            Text(fallbackEpisode.ageText)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [AppColors.antiqueGold, AppColors.amber],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-
-            // 人物名部分（白、大きめ）
-            Text(fallbackEpisode.personName)
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.white)
-
-            // エピソード本文（通常）
-            Text(fallbackEpisode.episodeText)
-                .font(.system(size: 16))
-                .foregroundColor(.white.opacity(0.9))
-                .lineSpacing(8)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .onAppear {
-            lifeResultLogger.warning("API取得失敗、フォールバックエピソードを表示: age=\(ageInt)")
-        }
     }
 }

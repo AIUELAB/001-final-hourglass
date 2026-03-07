@@ -44,8 +44,6 @@ struct LifeResultView: View {
     // 健康タブへの遷移用
     @State private var navigateToHealth = false
 
-    // スクロールヒント用
-    @State private var showScrollHint = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // ドラマチック演出の表示済みフラグ
@@ -86,7 +84,7 @@ struct LifeResultView: View {
             PinchZoomView(minScale: 0.8, maxScale: 3.0) {
                 ScrollViewReader { scrollProxy in
                     ScrollView {
-                    VStack(spacing: 24) {
+                    VStack(spacing: 18) {
                     // 残り時間の表示（最上部）
                     VStack(spacing: 15) {
                         Text("あなたの人生は")
@@ -123,7 +121,7 @@ struct LifeResultView: View {
                             .font(.system(size: 20, weight: .medium))
                             .foregroundColor(.white.opacity(0.9))
                     }
-                    .padding(.top, 20)
+                    .padding(.top, 12)
                     .opacity(showRemainingTime ? 1 : 0)
                     .scaleEffect(showRemainingTime ? 1 : 0.8)
                     .animation(.easeOut(duration: 0.8), value: showRemainingTime)
@@ -233,8 +231,8 @@ struct LifeResultView: View {
                     RealisticHourglassView(
                         progress: progress,
                         size: CGSize(
-                            width: ResponsiveHelper.scaledSize(150, min: 120, max: 200),
-                            height: ResponsiveHelper.scaledSize(200, min: 160, max: 260)
+                            width: ResponsiveHelper.scaledSize(120, min: 100, max: 160),
+                            height: ResponsiveHelper.scaledSize(160, min: 130, max: 210)
                         ),
                         isAnimating: showHourglass,
                         sandColor: Color(red: 1.0, green: 0.84, blue: 0.47)  // ゴールド
@@ -243,7 +241,7 @@ struct LifeResultView: View {
                     .opacity(showHourglass ? hourglassOpacity : 0)
                     .animation(.spring(response: 1.2, dampingFraction: 0.8), value: hourglassScale)
                     .animation(.easeOut(duration: 0.6), value: hourglassOpacity)
-                    .frame(height: min(250, containerGeo.size.height * 0.28))
+                    .frame(height: min(180, containerGeo.size.height * 0.22))
 
                     // 進捗率セクション
                     VStack(spacing: 12) {
@@ -269,24 +267,32 @@ struct LifeResultView: View {
                                 )
                             )
                     }
-                    .padding(.vertical, 14)
+                    .padding(.vertical, 10)
                     .opacity(showProgress ? 1 : 0)
                     .scaleEffect(showProgress ? 1 : 0.8)
                     .animation(.easeOut(duration: 0.8), value: showProgress)
 
-                    // スクロールヒント（エピソードへの導線）
-                    if showScrollHint {
-                        ScrollHintView(reduceMotion: reduceMotion) {
+                    // エピソードティーザーカード（常時表示、タップでスクロール）
+                    EpisodeTeaserCard(
+                        currentEpisode: currentEpisode,
+                        isLoading: isLoadingEpisode,
+                        ageInt: ageInt,
+                        onTap: {
+                            if !showEpisode {
+                                showEpisode = true
+                            }
                             withAnimation(.easeInOut(duration: 0.6)) {
                                 scrollProxy.scrollTo(LifeResultScrollID.episodeSection, anchor: .top)
-                                showScrollHint = false
                             }
-                        }
-                        .transition(.opacity)
-                        .accessibilityLabel("下にスクロールするとエピソードが表示されます")
-                        .accessibilityHint("タップするとエピソードまでスクロールします")
-                        .accessibilityAddTraits(.isButton)
-                    }
+                        },
+                        reduceMotion: reduceMotion
+                    )
+                    .opacity(showProgress ? 1 : 0)
+                    .scaleEffect(showProgress ? 1 : 0.95)
+                    .animation(.easeOut(duration: 0.8).delay(0.2), value: showProgress)
+                    .accessibilityLabel("今日の偉人エピソードを見る")
+                    .accessibilityHint("タップするとエピソードまでスクロールします")
+                    .accessibilityAddTraits(.isButton)
 
                     // 偉人のエピソードセクション
                     VStack(alignment: .leading, spacing: 16) {
@@ -339,15 +345,6 @@ struct LifeResultView: View {
                             )
                     )
                     .id(LifeResultScrollID.episodeSection)
-                    .background(
-                        GeometryReader { geo in
-                            // エピソードセクション上端が画面75%位置より上 = ユーザーが意図的にスクロールしたと推定
-                            Color.clear.preference(
-                                key: EpisodeSectionVisibleKey.self,
-                                value: geo.frame(in: .global).minY < containerGeo.size.height * 0.75
-                            )
-                        }
-                    )
                     .opacity(showEpisode ? 1 : 0)
                     .scaleEffect(showEpisode ? 1 : 0.8)
                     .animation(.easeOut(duration: 0.8), value: showEpisode)
@@ -388,13 +385,6 @@ struct LifeResultView: View {
                     Spacer()
                     }
                     .padding(.horizontal)
-                }
-                .onPreferenceChange(EpisodeSectionVisibleKey.self) { isVisible in
-                    if isVisible && showScrollHint {
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            showScrollHint = false
-                        }
-                    }
                 }
                 } // ScrollViewReader
             }
@@ -661,14 +651,6 @@ extension LifeResultView {
             animateProgress()
         }
 
-        // エピソード表示(5.5秒)の0.5秒前にスクロールヒントを表示し、注意を下方向に誘導
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-            guard self.isViewActive else { return }
-            withAnimation(.easeIn(duration: 0.5)) {
-                showScrollHint = true
-            }
-        }
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) {
             showEpisode = true
         }
@@ -800,13 +782,9 @@ extension LifeResultView {
                     self.isLiked = false
                 }
 
-                #if DEBUG
-                if let episode = episode {
-                    lifeResultLogger.debug("エピソード取得成功: \(episode.personName, privacy: .public)")
-                } else {
-                    lifeResultLogger.debug("エピソード取得失敗: nilが返されました")
+                if episode == nil {
+                    lifeResultLogger.error("エピソード取得失敗: age=\(self.ageInt), フォールバック表示に移行")
                 }
-                #endif
             }
         }
     }

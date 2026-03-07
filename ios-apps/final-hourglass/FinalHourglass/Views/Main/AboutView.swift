@@ -530,77 +530,46 @@ struct AboutItemDivider: View {
 
 // UpdateHistoryView
 struct UpdateHistoryView: View {
+    private let entries = VersionHistoryLoader.load()
+
     var body: some View {
         ZStack {
             MysticalSpaceBackground()
                 .ignoresSafeArea()
 
+            if entries.isEmpty {
+                VStack(spacing: 12) {
+                    Image(systemName: "doc.text")
+                        .font(.system(size: 40))
+                        .foregroundColor(Color.mysticalPurple.opacity(0.5))
+                    Text("更新履歴を読み込めませんでした")
+                        .foregroundColor(.white.opacity(0.7))
+                }
+            }
+
             List {
-                Section(header: Text("バージョン 1.0.9")
-                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
-                ) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("2026年2月リリース")
-                            .font(.caption)
-                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
+                ForEach(entries) { entry in
+                    Section(header: Text("バージョン \(entry.version)")
+                        .foregroundColor(Color.mysticalPurple.opacity(0.8))
+                    ) {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(entry.releaseDate)
+                                .font(.caption)
+                                .foregroundColor(Color.mysticalPurple.opacity(0.6))
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("• バグ修正・安定性向上")
+                            VStack(alignment: .leading, spacing: 8) {
+                                ForEach(entry.changes, id: \.self) { change in
+                                    Text("• \(change)")
+                                }
+                            }
+                            .foregroundColor(.white.opacity(0.85))
                         }
-                        .foregroundColor(.white.opacity(0.85))
+                        .padding(.vertical, 5)
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(Color(white: 0.11, opacity: 0.4))
+                        )
                     }
-                    .padding(.vertical, 5)
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(Color(white: 0.11, opacity: 0.4))
-                    )
-                }
-
-                Section(header: Text("バージョン 1.0.8")
-                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
-                ) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("2026年2月リリース")
-                            .font(.caption)
-                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("• 健康ダッシュボード（6項目の自己評価・総合健康スコア）")
-                            Text("• 健康サマリーカード（メイン画面に常時表示）")
-                            Text("• 41件のエピソードを内蔵（オフライン閲覧可能）")
-                            Text("• お気に入りタブに使い方ガイド追加")
-                            Text("• 初回演出のスキップ機能")
-                        }
-                        .foregroundColor(.white.opacity(0.85))
-                    }
-                    .padding(.vertical, 5)
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(Color(white: 0.11, opacity: 0.4))
-                    )
-                }
-
-                Section(header: Text("バージョン 1.0.0")
-                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
-                ) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("2024年3月リリース")
-                            .font(.caption)
-                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("• 初回リリース")
-                            Text("• 寿命予測機能")
-                            Text("• 著名人エピソード表示")
-                            Text("• プロファイル管理")
-                        }
-                        .foregroundColor(.white.opacity(0.85))
-                    }
-                    .padding(.vertical, 5)
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(Color(white: 0.11, opacity: 0.4))
-                    )
                 }
             }
             .listStyle(PlainListStyle())

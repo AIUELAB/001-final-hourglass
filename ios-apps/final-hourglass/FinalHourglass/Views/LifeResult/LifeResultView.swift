@@ -1,7 +1,7 @@
 import os
 import SwiftUI
 
-// lifeResultLogger は LifeResultSubviews.swift で定義
+private let lifeResultLogger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
 
 // エピソードコンテンツの構造体
 struct EpisodeContent {
@@ -82,9 +82,10 @@ struct LifeResultView: View {
             .ignoresSafeArea()
 
             // メインコンテンツ（ピンチズーム対応）
+            GeometryReader { containerGeo in
             PinchZoomView(minScale: 0.8, maxScale: 3.0) {
                 ScrollViewReader { scrollProxy in
-                ScrollView {
+                    ScrollView {
                     VStack(spacing: 24) {
                     // 残り時間の表示（最上部）
                     VStack(spacing: 15) {
@@ -242,7 +243,7 @@ struct LifeResultView: View {
                     .opacity(showHourglass ? hourglassOpacity : 0)
                     .animation(.spring(response: 1.2, dampingFraction: 0.8), value: hourglassScale)
                     .animation(.easeOut(duration: 0.6), value: hourglassOpacity)
-                    .frame(height: min(250, UIScreen.main.bounds.height * 0.28))
+                    .frame(height: min(250, containerGeo.size.height * 0.28))
 
                     // 進捗率セクション
                     VStack(spacing: 12) {
@@ -277,7 +278,7 @@ struct LifeResultView: View {
                     if showScrollHint {
                         ScrollHintView(reduceMotion: reduceMotion) {
                             withAnimation(.easeInOut(duration: 0.6)) {
-                                scrollProxy.scrollTo("episodeSection", anchor: .top)
+                                scrollProxy.scrollTo(LifeResultScrollID.episodeSection, anchor: .top)
                                 showScrollHint = false
                             }
                         }
@@ -337,12 +338,13 @@ struct LifeResultView: View {
                                     )
                             )
                     )
-                    .id("episodeSection")
+                    .id(LifeResultScrollID.episodeSection)
                     .background(
                         GeometryReader { geo in
+                            // エピソードセクション上端が画面75%位置より上 = ユーザーが意図的にスクロールしたと推定
                             Color.clear.preference(
                                 key: EpisodeSectionVisibleKey.self,
-                                value: geo.frame(in: .global).minY < UIScreen.main.bounds.height * 0.75
+                                value: geo.frame(in: .global).minY < containerGeo.size.height * 0.75
                             )
                         }
                     )
@@ -387,15 +389,16 @@ struct LifeResultView: View {
                     }
                     .padding(.horizontal)
                 }
-                } // ScrollViewReader
-            }
-            .onPreferenceChange(EpisodeSectionVisibleKey.self) { isVisible in
-                if isVisible && showScrollHint {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        showScrollHint = false
+                .onPreferenceChange(EpisodeSectionVisibleKey.self) { isVisible in
+                    if isVisible && showScrollHint {
+                        withAnimation(.easeOut(duration: 0.3)) {
+                            showScrollHint = false
+                        }
                     }
                 }
+                } // ScrollViewReader
             }
+            } // GeometryReader
             .navigationTitle("最期の砂時計")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
@@ -614,7 +617,6 @@ extension LifeResultView {
         progressValue = progress
         showEpisode = true
         showFinalMessage = true
-        showScrollHint = true
         if !bgmStarted && !appStateManager.isResetting {
             soundManager.playBackgroundMusic(filename: "saigono", withExtension: "m4a")
             bgmStarted = true
@@ -659,7 +661,9 @@ extension LifeResultView {
             animateProgress()
         }
 
+        // エピソード表示(5.5秒)の0.5秒前にスクロールヒントを表示し、注意を下方向に誘導
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            guard self.isViewActive else { return }
             withAnimation(.easeIn(duration: 0.5)) {
                 showScrollHint = true
             }

@@ -167,52 +167,58 @@ class SoundManager: ObservableObject {
         }
 
         cancelFadeTimers()  // 既存のフェードをキャンセル
+        stopCurrentBGM()
 
-        // 既存のBGMを完全に停止
-        if bgmPlayer != nil {
-            bgmPlayer?.stop()
-            bgmPlayer = nil
-            isBGMPlaying = false
-            currentBGMFilename = nil
+        guard prepareBGMPlayer(filename: filename, withExtension: ext) else { return }
+
+        #if DEBUG
+        print("BGMフェードイン開始: \(filename).\(ext)")
+        #endif
+
+        // フェードインアニメーション
+        var currentStep = 0
+        let totalSteps = 20
+        let volumeIncrement = bgmVolume / Float(totalSteps)
+
+        fadeTimer = Timer.scheduledTimer(withTimeInterval: duration / Double(totalSteps), repeats: true) { [weak self] timer in
+            currentStep += 1
+            self?.bgmPlayer?.volume = volumeIncrement * Float(currentStep)
+
+            if currentStep >= totalSteps {
+                timer.invalidate()
+                self?.fadeTimer = nil
+                #if DEBUG
+                print("BGMフェードイン完了")
+                #endif
+            }
         }
+    }
 
-        // 新しいBGMファイルを読み込み
+    private func stopCurrentBGM() {
+        guard bgmPlayer != nil else { return }
+        bgmPlayer?.stop()
+        bgmPlayer = nil
+        isBGMPlaying = false
+        currentBGMFilename = nil
+    }
+
+    private func prepareBGMPlayer(filename: String, withExtension ext: String) -> Bool {
         guard let url = Bundle.main.url(forResource: filename, withExtension: ext) else {
             #if DEBUG
             print("音楽ファイルが見つかりません: \(filename).\(ext)")
             #endif
-            return
+            return false
         }
 
         do {
             bgmPlayer = try AVAudioPlayer(contentsOf: url)
-            bgmPlayer?.numberOfLoops = -1 // 無限ループ
-            bgmPlayer?.volume = 0  // 最初は音量0
+            bgmPlayer?.numberOfLoops = -1
+            bgmPlayer?.volume = 0
             bgmPlayer?.prepareToPlay()
             bgmPlayer?.play()
             isBGMPlaying = true
             currentBGMFilename = filename
-            #if DEBUG
-            print("BGMフェードイン開始: \(filename).\(ext)")
-            #endif
-
-            // フェードインアニメーション
-            var currentStep = 0
-            let totalSteps = 20
-            let volumeIncrement = bgmVolume / Float(totalSteps)
-
-            fadeTimer = Timer.scheduledTimer(withTimeInterval: duration / Double(totalSteps), repeats: true) { [weak self] timer in
-                currentStep += 1
-                self?.bgmPlayer?.volume = volumeIncrement * Float(currentStep)
-
-                if currentStep >= totalSteps {
-                    timer.invalidate()
-                    self?.fadeTimer = nil
-                    #if DEBUG
-                    print("BGMフェードイン完了")
-                    #endif
-                }
-            }
+            return true
         } catch {
             #if DEBUG
             print("BGM再生エラー: \(error)")
@@ -220,6 +226,7 @@ class SoundManager: ObservableObject {
             bgmPlayer = nil
             isBGMPlaying = false
             currentBGMFilename = nil
+            return false
         }
     }
 

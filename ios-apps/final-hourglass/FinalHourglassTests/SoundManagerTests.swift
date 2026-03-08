@@ -156,4 +156,59 @@ final class SoundManagerTests: XCTestCase {
 
         XCTAssertFalse(sut.isBGMPlaying, "stop→play→stop→play→stopの連続呼び出しがクラッシュしないこと")
     }
+
+    // MARK: - Fading State Handling (CodeRabbit Critical)
+
+    func testFadingStateSameBGMCancelsFade() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+
+        // フェード中をシミュレート（同一BGM）
+        sut.testHelperSimulateFading(currentBGMFilename: "open-sound.m4a")
+        XCTAssertTrue(sut.testHelperIsFading, "フェードタイマーがセットされていること")
+
+        // 同一BGMで再生要求 → フェードキャンセルされるべき
+        sut.playBackgroundMusic(filename: "open-sound", withExtension: "m4a")
+
+        // フェードタイマーがキャンセルされていることを確認
+        // (Bundle不在のためbgmPlayerはnilでcurrentBGMFilenameはnilにリセットされる)
+        XCTAssertFalse(sut.testHelperIsFading, "同一BGM再要求でフェードタイマーがキャンセルされること")
+
+        sut.testHelperClearFadeState()
+    }
+
+    func testFadingStateDifferentBGMStopsOld() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+
+        // フェード中をシミュレート（BGM-A）
+        sut.testHelperSimulateFading(currentBGMFilename: "bgm-a.m4a")
+        XCTAssertTrue(sut.testHelperIsFading, "フェードタイマーがセットされていること")
+
+        // 別BGMで再生要求 → 旧BGM停止
+        sut.playBackgroundMusic(filename: "bgm-b", withExtension: "m4a")
+
+        // フェードタイマーがキャンセルされていることを確認
+        XCTAssertFalse(sut.testHelperIsFading, "別BGM切り替えでフェードタイマーがキャンセルされること")
+        // Bundle不在のため最終状態はisBGMPlaying = false
+        XCTAssertFalse(sut.isBGMPlaying, "Bundle不在時はisBGMPlayingがfalseであること")
+
+        sut.testHelperClearFadeState()
+    }
+
+    func testSameNameDifferentExtensionTreatedAsDistinct() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+
+        // "test.m4a" でフェード中をシミュレート
+        sut.testHelperSimulateFading(currentBGMFilename: "test.m4a")
+
+        // "test.mp3" で再生要求 → 別ファイルとして扱われるべき
+        sut.playBackgroundMusic(filename: "test", withExtension: "mp3")
+
+        // 別ファイルなので旧BGM停止ルートを通る
+        XCTAssertFalse(sut.testHelperIsFading, "同名別拡張子は別ファイルとして扱われフェードがキャンセルされること")
+
+        sut.testHelperClearFadeState()
+    }
 }

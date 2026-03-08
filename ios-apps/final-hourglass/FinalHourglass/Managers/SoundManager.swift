@@ -370,7 +370,6 @@ class SoundManager: ObservableObject {
 
     // MARK: - Test Helpers
 
-    // swiftlint:disable identifier_name
     #if DEBUG
     func testHelperSimulateFading(currentBGMFilename: String?) {
         self.currentBGMFilename = currentBGMFilename
@@ -378,7 +377,6 @@ class SoundManager: ObservableObject {
         fadeTimer = Timer.scheduledTimer(withTimeInterval: 999, repeats: false) { _ in }
     }
 
-    // swiftlint:disable function_body_length
     func testHelperSimulateFadingWhilePlaying(currentBGMFilename: String?) {
         self.currentBGMFilename = currentBGMFilename
         cancelFadeTimers()
@@ -429,7 +427,6 @@ class SoundManager: ObservableObject {
             print("テスト用音声プレイヤー作成失敗: \(error)")
         }
     }
-    // swiftlint:enable function_body_length
 
     func testHelperClearFadeState() {
         cancelFadeTimers()
@@ -439,5 +436,4 @@ class SoundManager: ObservableObject {
     var testHelperCurrentBGMFilename: String? { currentBGMFilename }
     var testHelperIsFading: Bool { fadeTimer != nil }
     #endif
-    // swiftlint:enable identifier_name
 }

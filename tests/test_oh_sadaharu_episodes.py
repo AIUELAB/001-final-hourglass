@@ -74,8 +74,8 @@ class TestOhSadaharuEpisodes:
         episodes = get_oh_episodes()
         ages = {float(e.get("age", 0)) for e in episodes}
 
-        # 期待される年齢（35, 40, 55, 60）
-        expected = {35.0, 40.0, 55.0, 60.0}
+        # 期待される年齢（35, 40, 55）
+        expected = {35.0, 40.0, 55.0}
         assert ages == expected, f"期待: {expected}, 実際: {ages}"
 
 

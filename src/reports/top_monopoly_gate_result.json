@@ -1,8 +1,8 @@
 {
-  "scan_date": "2026-03-09T07:32:54.796320",
-  "csv_path": "/Users/admin/Documents/AIUELAB/001-final-hourglass/preserved/data/MASTER_EPISODES_CURRENT.csv",
-  "top_n": 1000,
-  "total_episodes_scanned": 1000,
+  "scan_date": "2026-03-09T08:23:23.617835",
+  "csv_path": "/var/folders/b1/355dm5416vsfk21ymcz5t3w00000gn/T/tmp8dda_p6m/test_episodes.csv",
+  "top_n": 20,
+  "total_episodes_scanned": 20,
   "total_violations": 0,
   "violations": [],
   "summary": {

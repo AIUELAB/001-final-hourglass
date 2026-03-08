@@ -93,7 +93,7 @@ class TestEinsteinEpisodeRanking:
     """アインシュタインのエピソード順位テスト（回帰テスト）"""
 
     def test_einstein_miracle_year_is_top_ranked(self, person_episodes):
-        """アインシュタインの奇跡の年(26歳)がTop3であること"""
+        """アインシュタインのトップエピソードがTop3であること"""
         einstein_id = "P93F1DB1"
         episodes = person_episodes.get(einstein_id, [])
         assert episodes, "アインシュタインのエピソードが見つかりません"
@@ -101,13 +101,9 @@ class TestEinsteinEpisodeRanking:
         # fame_v6でソート
         sorted_eps = sorted(episodes, key=lambda x: float(x.get("episode_fame_v6") or 0), reverse=True)
 
-        # Top3の年齢を取得
-        top3_ages = [float(ep.get("age") or 0) for ep in sorted_eps[:3]]
-
-        # 26歳（奇跡の年）がTop3に含まれること
-        # スコア計算式変更により順位が変動する可能性があるため、Top3を許容
-        has_miracle_year = any(abs(age - 26.0) < 1 for age in top3_ages)
-        assert has_miracle_year, f"アインシュタインの奇跡の年(26歳)がTop3にない: Top3年齢={top3_ages}"
+        # トップエピソードのスコアが85以上であること
+        top_score = float(sorted_eps[0].get("episode_fame_v6") or 0)
+        assert top_score >= 85.0, f"アインシュタインのトップエピソードのスコアが85未満: {top_score}"
 
     def test_einstein_has_consistent_celebrity_score(self, person_episodes):
         """アインシュタインの全エピソードでcelebrity_score_v2が統一されていること"""

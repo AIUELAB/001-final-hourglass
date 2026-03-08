@@ -74,6 +74,18 @@ final class VersionHistoryLoaderTests: XCTestCase {
         XCTAssertThrowsError(try JSONDecoder().decode(TestVersionHistoryData.self, from: json))
     }
 
+    func testLoadFromMainBundle() {
+        // メインバンドルに version_history.json が含まれていれば正常にロードされる
+        let entries = VersionHistoryLoader.load()
+        // バンドルにファイルがあればエントリが返る、なければ空配列
+        if let url = Bundle.main.url(forResource: "version_history", withExtension: "json") {
+            XCTAssertNotNil(url)
+            XCTAssertFalse(entries.isEmpty)
+        } else {
+            XCTAssertTrue(entries.isEmpty)
+        }
+    }
+
     func testEntryWithEmptyChangesDecodes() throws {
         let json = """
         {

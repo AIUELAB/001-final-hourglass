@@ -1,11 +1,28 @@
 import os
 import SwiftUI
 
-private let lifeResultLogger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
+// MARK: - 共通ロガー
+enum LifeResultLog {
+    static let logger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
+}
 
 // MARK: - 定数
 enum LifeResultScrollID {
     static let episodeSection = "episodeSection"
+}
+
+// エピソードコンテンツの構造体
+struct EpisodeContent {
+    let ageText: String        // "あなたと同じ〇〇歳のとき"
+    let personName: String      // "アインシュタインは"など
+    let episodeText: String     // エピソード本文
+}
+
+// 死亡予定日の日付コンポーネント構造体（large_tuple警告対応）
+struct DateComponentsResult {
+    let year: Int
+    let month: Int
+    let day: Int
 }
 
 // MARK: - エピソードティーザーカード
@@ -15,7 +32,7 @@ struct EpisodeTeaserCard: View {
     let isLoading: Bool
     let ageInt: Int
     let onTap: () -> Void
-    let reduceMotion: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var bounce = false
 
     var body: some View {
@@ -130,7 +147,7 @@ struct FallbackEpisodeView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .onAppear {
-            lifeResultLogger.warning("API取得失敗、フォールバックエピソードを表示: age=\(ageInt)")
+            LifeResultLog.logger.warning("API取得失敗、フォールバックエピソードを表示: age=\(ageInt)")
         }
     }
 }

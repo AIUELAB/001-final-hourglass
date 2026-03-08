@@ -38,7 +38,9 @@ struct FinalHourglassApp: App {
 
                     // 通知の状態を確認
                     appStateManager.checkNotificationStatus { status in
+                        #if DEBUG
                         print("通知の許可状態: \(status.rawValue)")
+                        #endif
                     }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in

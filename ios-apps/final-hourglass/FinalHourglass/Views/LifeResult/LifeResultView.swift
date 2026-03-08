@@ -1,21 +1,4 @@
-import os
 import SwiftUI
-
-private let lifeResultLogger = Logger(subsystem: "com.finalhourglass.liferesult", category: "episode")
-
-// エピソードコンテンツの構造体
-struct EpisodeContent {
-    let ageText: String        // "あなたと同じ〇〇歳のとき"
-    let personName: String      // "アインシュタインは"など
-    let episodeText: String     // エピソード本文
-}
-
-// 死亡予定日の日付コンポーネント構造体（large_tuple警告対応）
-struct DateComponentsResult {
-    let year: Int
-    let month: Int
-    let day: Int
-}
 
 struct LifeResultView: View {
     @EnvironmentObject var userModel: UserModel
@@ -85,147 +68,9 @@ struct LifeResultView: View {
                 ScrollViewReader { scrollProxy in
                     ScrollView {
                     VStack(spacing: 18) {
-                    // 残り時間の表示（最上部）
-                    VStack(spacing: 15) {
-                        Text("あなたの人生は")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(.white.opacity(0.9))
+                    remainingTimeSection
 
-                        HStack(spacing: 0) {
-                            Text("残り")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white)
-                            Text("\(countUpYears)")
-                                .font(.system(size: ResponsiveHelper.scaledSize(40, min: 32, max: 48), weight: .bold, design: .monospaced))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [AppColors.antiqueGold, AppColors.amber],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
-                                .padding(.horizontal, 5)
-                            Text("年")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white)
-                            Text("\(countUpDays)")
-                                .font(.system(size: 40, weight: .bold, design: .monospaced))
-                                .foregroundColor(.orange)
-                                .padding(.horizontal, 5)
-                            Text("日")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white)
-                        }
-
-                        Text("です。")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(.white.opacity(0.9))
-                    }
-                    .padding(.top, 12)
-                    .opacity(showRemainingTime ? 1 : 0)
-                    .scaleEffect(showRemainingTime ? 1 : 0.8)
-                    .animation(.easeOut(duration: 0.8), value: showRemainingTime)
-
-                    // 死亡予定日
-                    VStack(spacing: 15) {
-                        Text("あなたは")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(.white.opacity(0.9))
-
-                        // 年
-                        HStack(spacing: ResponsiveHelper.scaledSize(2, min: 1, max: 3)) {
-                            ForEach(Array(String(deathYearCount).enumerated()), id: \.offset) { _, char in
-                                Text(String(char))
-                                    .font(.system(
-                                        size: ResponsiveHelper.fontSize(.largeTitle),
-                                        weight: .bold,
-                                        design: .monospaced
-                                    ))
-                                    .foregroundStyle(
-                                        LinearGradient(
-                                            colors: [
-                                                AppColors.hotPink,
-                                                AppColors.crimson,
-                                                AppColors.deepCrimson
-                                            ],
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
-                                    )
-                            }
-                            Text("年")
-                                .font(.system(size: ResponsiveHelper.fontSize(.title), weight: .medium))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [AppColors.hotPink, AppColors.crimson],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                        }
-                        .shadow(color: AppColors.crimson.opacity(0.5), radius: 15)
-
-                        // 月日
-                        HStack(spacing: 0) {
-                            Text("\(predictedDeathComponents.month)")
-                                .font(.system(size: 42, weight: .bold, design: .monospaced))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [AppColors.hotPink, AppColors.crimson],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                            Text("月")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white)
-                                .padding(.leading, 3)
-
-                            Text("\(predictedDeathComponents.day)")
-                                .font(.system(size: 42, weight: .bold, design: .monospaced))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [AppColors.hotPink, AppColors.crimson],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                                .padding(.leading, 8)
-                            Text("日")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white)
-                                .padding(.leading, 3)
-                        }
-
-                        Text("に死にます。")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.white)
-                    }
-                    .padding(.vertical, 25)
-                    .padding(.horizontal, 20)
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: ResponsiveHelper.scaledSize(16, min: 12, max: 20))
-                            .fill(Color.black.opacity(0.4))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ResponsiveHelper.scaledSize(16, min: 12, max: 20))
-                                    .stroke(
-                                        LinearGradient(
-                                            colors: [
-                                                AppColors.antiqueGold.opacity(0.3),
-                                                AppColors.mediumPurple.opacity(0.2)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: 1
-                                    )
-                            )
-                    )
-                    .shadow(color: AppColors.crimson.opacity(0.3), radius: 15, y: 5)
-                    .opacity(showDeathDate ? 1 : 0)
-                    .scaleEffect(showDeathDate ? 1 : 0.8)
-                    .animation(.easeOut(duration: 1.0).delay(0.3), value: showDeathDate)
+                    deathDateSection
 
                     // リアルな砂時計アニメーション
                     RealisticHourglassView(
@@ -243,116 +88,12 @@ struct LifeResultView: View {
                     .animation(.easeOut(duration: 0.6), value: hourglassOpacity)
                     .frame(height: min(180, containerGeo.size.height * 0.22))
 
-                    // 進捗率セクション
-                    VStack(spacing: 12) {
-                        Text("人生の進捗率")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(.white.opacity(0.8))
+                    progressSection(scrollProxy: scrollProxy)
 
-                        ProgressView(value: progressValue)
-                            .progressViewStyle(LinearProgressViewStyle(tint: AppColors.mediumPurple))
-                            .frame(width: 200, height: 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 3)
-                                    .fill(Color.white.opacity(0.1))
-                            )
-
-                        Text("\(progressPercent)％")
-                            .font(.system(size: 24, weight: .bold, design: .monospaced))
-                            .foregroundStyle(
-                                LinearGradient(
-                                    colors: [AppColors.mediumPurple, AppColors.cornflowerBlue],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                    }
-                    .padding(.vertical, 10)
-                    .opacity(showProgress ? 1 : 0)
-                    .scaleEffect(showProgress ? 1 : 0.8)
-                    .animation(.easeOut(duration: 0.8), value: showProgress)
-
-                    // エピソードティーザーカード（常時表示、タップでスクロール）
-                    EpisodeTeaserCard(
-                        currentEpisode: currentEpisode,
-                        isLoading: isLoadingEpisode,
-                        ageInt: ageInt,
-                        onTap: {
-                            if !showEpisode {
-                                showEpisode = true
-                            }
-                            withAnimation(.easeInOut(duration: 0.6)) {
-                                scrollProxy.scrollTo(LifeResultScrollID.episodeSection, anchor: .top)
-                            }
-                        },
-                        reduceMotion: reduceMotion
-                    )
-                    .opacity(showProgress ? 1 : 0)
-                    .scaleEffect(showProgress ? 1 : 0.95)
-                    .animation(.easeOut(duration: 0.8).delay(0.2), value: showProgress)
-                    .accessibilityLabel("今日の偉人エピソードを見る")
-                    .accessibilityHint("タップするとエピソードまでスクロールします")
-                    .accessibilityAddTraits(.isButton)
-
-                    // 偉人のエピソードセクション
-                    VStack(alignment: .leading, spacing: 16) {
-                        EpisodeContentSection(
-                            isLoadingEpisode: isLoadingEpisode,
-                            currentEpisode: currentEpisode,
-                            ageInt: ageInt,
-                            fallbackEpisode: getAgeGroupMessage(),
-                            parseEpisodeText: parseEpisodeText
-                        )
-
-                        // いいねボタン（右下配置）
-                        // 0歳固定エピソードはお気に入り対象外
-                        if !isLoadingEpisode, let episode = currentEpisode, episode.episodeAge != 0 {
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                                        // お気に入り登録/解除をトグル
-                                        isLiked = favoriteManager.toggleFavorite(episode: episode)
-                                    }
-                                }) {
-                                    Image(systemName: isLiked ? "heart.fill" : "heart")
-                                        .font(.system(size: 24))
-                                        .foregroundColor(isLiked ? AppColors.hotPink : .white.opacity(0.5))
-                                        .scaleEffect(isLiked ? 1.2 : 1.0)
-                                }
-                            }
-                            .padding(.top, 8)
-                        }
-                    }
-                    .padding(25)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color.black.opacity(0.4))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(
-                                        LinearGradient(
-                                            colors: [
-                                                AppColors.antiqueGold.opacity(0.3),
-                                                AppColors.mediumPurple.opacity(0.2)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: 1
-                                    )
-                            )
-                    )
-                    .id(LifeResultScrollID.episodeSection)
-                    .opacity(showEpisode ? 1 : 0)
-                    .scaleEffect(showEpisode ? 1 : 0.8)
-                    .animation(.easeOut(duration: 0.8), value: showEpisode)
+                    episodeSection
 
                     // 健康サマリーカード
                     HealthSummaryCard(onTapDetail: {
-                        // MainTabViewの健康タブに切り替え
-                        // NotificationCenterを使用してタブ切り替えを通知
                         NotificationCenter.default.post(
                             name: NSNotification.Name("SwitchToHealthTab"),
                             object: nil
@@ -429,9 +170,8 @@ struct LifeResultView: View {
             }
             .onDisappear {
                 isViewActive = false
-                // ビューが非アクティブになったら、BGMを短時間でフェードアウト
-                soundManager.fadeOutBackgroundMusic(duration: 2.0) {
-                    // フェードアウト完了後、フラグをリセット
+                // ビューが非アクティブになったら、BGMをフェードアウト
+                soundManager.fadeOutBackgroundMusic(duration: 1.5) {
                     bgmStarted = false
                 }
             }
@@ -575,6 +315,259 @@ extension LifeResultView {
         let now = Date()
         let components = Calendar.current.dateComponents([.day], from: birthday, to: now)
         return components.day ?? 0
+    }
+
+    // MARK: - Section Helpers
+
+    @ViewBuilder
+    var remainingTimeSection: some View {
+        VStack(spacing: 15) {
+            Text("あなたの人生は")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(.white.opacity(0.9))
+
+            HStack(spacing: 0) {
+                Text("残り")
+                    .font(.system(size: 22))
+                    .foregroundColor(.white)
+                Text("\(countUpYears)")
+                    .font(.system(size: ResponsiveHelper.scaledSize(40, min: 32, max: 48), weight: .bold, design: .monospaced))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [AppColors.antiqueGold, AppColors.amber],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .padding(.horizontal, 5)
+                Text("年")
+                    .font(.system(size: 22))
+                    .foregroundColor(.white)
+                Text("\(countUpDays)")
+                    .font(.system(size: 40, weight: .bold, design: .monospaced))
+                    .foregroundColor(.orange)
+                    .padding(.horizontal, 5)
+                Text("日")
+                    .font(.system(size: 22))
+                    .foregroundColor(.white)
+            }
+
+            Text("です。")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(.white.opacity(0.9))
+        }
+        .padding(.top, 12)
+        .opacity(showRemainingTime ? 1 : 0)
+        .scaleEffect(showRemainingTime ? 1 : 0.8)
+        .animation(.easeOut(duration: 0.8), value: showRemainingTime)
+    }
+
+    @ViewBuilder
+    var deathDateSection: some View {
+        VStack(spacing: 15) {
+            Text("あなたは")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(.white.opacity(0.9))
+
+            // 年
+            HStack(spacing: ResponsiveHelper.scaledSize(2, min: 1, max: 3)) {
+                ForEach(Array(String(deathYearCount).enumerated()), id: \.offset) { _, char in
+                    Text(String(char))
+                        .font(.system(
+                            size: ResponsiveHelper.fontSize(.largeTitle),
+                            weight: .bold,
+                            design: .monospaced
+                        ))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    AppColors.hotPink,
+                                    AppColors.crimson,
+                                    AppColors.deepCrimson
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                }
+                Text("年")
+                    .font(.system(size: ResponsiveHelper.fontSize(.title), weight: .medium))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [AppColors.hotPink, AppColors.crimson],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+            }
+            .shadow(color: AppColors.crimson.opacity(0.5), radius: 15)
+
+            // 月日
+            HStack(spacing: 0) {
+                Text("\(predictedDeathComponents.month)")
+                    .font(.system(size: 42, weight: .bold, design: .monospaced))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [AppColors.hotPink, AppColors.crimson],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                Text("月")
+                    .font(.system(size: 22))
+                    .foregroundColor(.white)
+                    .padding(.leading, 3)
+
+                Text("\(predictedDeathComponents.day)")
+                    .font(.system(size: 42, weight: .bold, design: .monospaced))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [AppColors.hotPink, AppColors.crimson],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .padding(.leading, 8)
+                Text("日")
+                    .font(.system(size: 22))
+                    .foregroundColor(.white)
+                    .padding(.leading, 3)
+            }
+
+            Text("に死にます。")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(.white)
+        }
+        .padding(.vertical, 25)
+        .padding(.horizontal, 20)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: ResponsiveHelper.scaledSize(16, min: 12, max: 20))
+                .fill(Color.black.opacity(0.4))
+                .overlay(
+                    RoundedRectangle(cornerRadius: ResponsiveHelper.scaledSize(16, min: 12, max: 20))
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    AppColors.antiqueGold.opacity(0.3),
+                                    AppColors.mediumPurple.opacity(0.2)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
+        )
+        .shadow(color: AppColors.crimson.opacity(0.3), radius: 15, y: 5)
+        .opacity(showDeathDate ? 1 : 0)
+        .scaleEffect(showDeathDate ? 1 : 0.8)
+        .animation(.easeOut(duration: 1.0).delay(0.3), value: showDeathDate)
+    }
+
+    @ViewBuilder
+    func progressSection(scrollProxy: ScrollViewProxy) -> some View {
+        VStack(spacing: 12) {
+            Text("人生の進捗率")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.white.opacity(0.8))
+
+            ProgressView(value: progressValue)
+                .progressViewStyle(LinearProgressViewStyle(tint: AppColors.mediumPurple))
+                .frame(width: 200, height: 6)
+                .background(
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color.white.opacity(0.1))
+                )
+
+            Text("\(progressPercent)％")
+                .font(.system(size: 24, weight: .bold, design: .monospaced))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [AppColors.mediumPurple, AppColors.cornflowerBlue],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+
+            // エピソードティーザーカード（進捗率セクション内に配置）
+            EpisodeTeaserCard(
+                currentEpisode: currentEpisode,
+                isLoading: isLoadingEpisode,
+                ageInt: ageInt,
+                onTap: {
+                    if !showEpisode {
+                        showEpisode = true
+                    }
+                    withAnimation(.easeInOut(duration: 0.6)) {
+                        scrollProxy.scrollTo(LifeResultScrollID.episodeSection, anchor: .top)
+                    }
+                }
+            )
+            .accessibilityLabel("今日の偉人エピソードを見る")
+            .accessibilityHint("タップするとエピソードまでスクロールします")
+            .accessibilityAddTraits(.isButton)
+        }
+        .padding(.vertical, 10)
+        .opacity(showProgress ? 1 : 0)
+        .scaleEffect(showProgress ? 1 : 0.8)
+        .animation(.easeOut(duration: 0.8), value: showProgress)
+    }
+
+    @ViewBuilder
+    var episodeSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            EpisodeContentSection(
+                isLoadingEpisode: isLoadingEpisode,
+                currentEpisode: currentEpisode,
+                ageInt: ageInt,
+                fallbackEpisode: getAgeGroupMessage(),
+                parseEpisodeText: parseEpisodeText
+            )
+
+            // いいねボタン（右下配置）
+            // 0歳固定エピソードはお気に入り対象外
+            if !isLoadingEpisode, let episode = currentEpisode, episode.episodeAge != 0 {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                            isLiked = favoriteManager.toggleFavorite(episode: episode)
+                        }
+                    }) {
+                        Image(systemName: isLiked ? "heart.fill" : "heart")
+                            .font(.system(size: 24))
+                            .foregroundColor(isLiked ? AppColors.hotPink : .white.opacity(0.5))
+                            .scaleEffect(isLiked ? 1.2 : 1.0)
+                    }
+                }
+                .padding(.top, 8)
+            }
+        }
+        .padding(25)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.black.opacity(0.4))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(
+                            LinearGradient(
+                                colors: [
+                                    AppColors.antiqueGold.opacity(0.3),
+                                    AppColors.mediumPurple.opacity(0.2)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
+        )
+        .id(LifeResultScrollID.episodeSection)
+        .opacity(showEpisode ? 1 : 0)
+        .scaleEffect(showEpisode ? 1 : 0.8)
+        .animation(.easeOut(duration: 0.8), value: showEpisode)
     }
 }
 
@@ -753,7 +746,7 @@ extension LifeResultView {
         }
 
         // パースに失敗した場合のフォールバック
-        lifeResultLogger.warning("エピソードパース失敗: \(text.prefix(50), privacy: .public)...")
+        LifeResultLog.logger.warning("エピソードパース失敗: \(text.prefix(50), privacy: .public)...")
         return EpisodeContent(
             ageText: "",
             personName: "",
@@ -783,7 +776,7 @@ extension LifeResultView {
                 }
 
                 if episode == nil {
-                    lifeResultLogger.error("エピソード取得失敗: age=\(self.ageInt), フォールバック表示に移行")
+                    LifeResultLog.logger.error("エピソード取得失敗: age=\(self.ageInt), フォールバック表示に移行")
                 }
             }
         }

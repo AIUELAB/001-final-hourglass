@@ -78,15 +78,15 @@ class SoundManager: ObservableObject {
         } else {
             // 別BGMへ切り替え → フェードキャンセル＆旧プレイヤー停止
             cancelFadeTimers()
-            bgmPlayer?.stop()
-            bgmPlayer = nil
-            isBGMPlaying = false
-            currentBGMFilename = nil
+            stopCurrentBGM()
         }
         return true
     }
 
-    // BGM再生開始
+    /// BGMをループ再生する
+    /// - Parameters:
+    ///   - filename: ファイル名（拡張子なし、デフォルト: "open-sound"）
+    ///   - ext: 拡張子（デフォルト: "m4a"）
     func playBackgroundMusic(filename: String = "open-sound", withExtension ext: String = "m4a") {
         let fullFilename = "\(filename).\(ext)"
 
@@ -129,7 +129,7 @@ class SoundManager: ObservableObject {
         }
     }
 
-    // BGM停止
+    /// 現在再生中のBGMを停止し、フェードタイマーも解除する
     func stopBackgroundMusic() {
         cancelFadeTimers()  // タイマーをキャンセル
         bgmPlayer?.stop()
@@ -141,7 +141,7 @@ class SoundManager: ObservableObject {
         #endif
     }
 
-    // 全ての音声を即座に停止
+    /// BGMと効果音をすべて即座に停止する
     func stopAllSounds() {
         // タイマーを即座にキャンセル
         cancelFadeTimers()
@@ -167,13 +167,18 @@ class SoundManager: ObservableObject {
         }
     }
 
-    // 音量調整
+    /// BGM音量を設定する（0.0〜1.0にクランプ）
+    /// - Parameter volume: 設定する音量
     func setBGMVolume(_ volume: Float) {
         bgmVolume = max(0.0, min(1.0, volume))
         bgmPlayer?.volume = bgmVolume
     }
 
-    // フェードイン
+    /// BGMをフェードインで再生開始する
+    /// - Parameters:
+    ///   - duration: フェード時間（秒、デフォルト: 2.0）
+    ///   - filename: ファイル名（拡張子なし、デフォルト: "open-sound"）
+    ///   - ext: 拡張子（デフォルト: "m4a"）
     func fadeInBackgroundMusic(duration: TimeInterval = 2.0, filename: String = "open-sound", withExtension ext: String = "m4a") {
         // 同じBGMが既に再生中ならスキップ（実際の再生状態とフェード状態を確認）
         if currentBGMFilename == "\(filename).\(ext)" && bgmPlayer?.isPlaying == true && fadeTimer == nil {
@@ -212,7 +217,6 @@ class SoundManager: ObservableObject {
     }
 
     private func stopCurrentBGM() {
-        guard bgmPlayer != nil else { return }
         bgmPlayer?.stop()
         bgmPlayer = nil
         isBGMPlaying = false
@@ -247,7 +251,10 @@ class SoundManager: ObservableObject {
         }
     }
 
-    // フェードアウト
+    /// 現在のBGMをフェードアウトで停止する
+    /// - Parameters:
+    ///   - duration: フェード時間（秒、デフォルト: 2.0）
+    ///   - completion: フェード完了時のコールバック
     func fadeOutBackgroundMusic(duration: TimeInterval = 2.0, completion: (() -> Void)? = nil) {
         // bgmPlayerがnilの場合は即座に完了
         guard bgmPlayer != nil else {
@@ -327,7 +334,8 @@ class SoundManager: ObservableObject {
         .warning: TapFeedbackConfig(notificationStyle: .warning, impactStyle: .heavy, soundID: 1106)   // Alert sound
     ]
 
-    // タップ音とハプティックフィードバック
+    /// タップ音とハプティックフィードバックを再生する
+    /// - Parameter type: タップ音の種類
     func playTapSound(_ type: TapSoundType) {
         guard let config = tapFeedbackConfigs[type] else { return }
 
@@ -350,7 +358,7 @@ class SoundManager: ObservableObject {
         AudioServicesPlaySystemSound(config.soundID)
     }
 
-    // 選択音（ピッカーなど用）
+    /// 選択フィードバック（ピッカー操作など）を再生する
     func playSelectionSound() {
         if hapticEnabled {
             let selectionFeedback = UISelectionFeedbackGenerator()
@@ -359,4 +367,24 @@ class SoundManager: ObservableObject {
         }
         AudioServicesPlaySystemSound(1104) // Tick sound
     }
+
+    // MARK: - Test Helpers
+
+    // swiftlint:disable identifier_name
+    #if DEBUG
+    func testHelperSimulateFading(currentBGMFilename: String?) {
+        self.currentBGMFilename = currentBGMFilename
+        cancelFadeTimers()
+        fadeTimer = Timer.scheduledTimer(withTimeInterval: 999, repeats: false) { _ in }
+    }
+
+    func testHelperClearFadeState() {
+        cancelFadeTimers()
+        stopCurrentBGM()
+    }
+
+    var testHelperCurrentBGMFilename: String? { currentBGMFilename }
+    var testHelperIsFading: Bool { fadeTimer != nil }
+    #endif
+    // swiftlint:enable identifier_name
 }

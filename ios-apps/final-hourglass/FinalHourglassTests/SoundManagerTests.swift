@@ -192,6 +192,27 @@ final class SoundManagerTests: XCTestCase {
         XCTAssertFalse(sut.testHelperIsFading, "別BGM切り替えでフェードタイマーがキャンセルされること")
         // Bundle不在のため最終状態はisBGMPlaying = false
         XCTAssertFalse(sut.isBGMPlaying, "Bundle不在時はisBGMPlayingがfalseであること")
+        XCTAssertNil(sut.testHelperCurrentBGMFilename, "旧BGM名がクリアされること")
+
+        sut.testHelperClearFadeState()
+    }
+
+    func testFadingStateSameBGMWhilePlayingResumesBGM() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+
+        // 再生中 + フェード中をシミュレート（同一BGM）
+        sut.testHelperSimulateFadingWhilePlaying(currentBGMFilename: "open-sound.m4a")
+        XCTAssertTrue(sut.testHelperIsFading, "フェードタイマーがセットされていること")
+        XCTAssertTrue(sut.isBGMPlaying, "BGMが再生中であること")
+
+        // 同一BGMで再生要求 → フェードキャンセル & 再生継続（return false分岐）
+        sut.playBackgroundMusic(filename: "open-sound", withExtension: "m4a")
+
+        // フェードキャンセルされ、再生は継続している
+        XCTAssertFalse(sut.testHelperIsFading, "フェードタイマーがキャンセルされること")
+        XCTAssertTrue(sut.isBGMPlaying, "同一BGM復帰で再生が継続すること")
+        XCTAssertEqual(sut.testHelperCurrentBGMFilename, "open-sound.m4a", "BGMファイル名が維持されること")
 
         sut.testHelperClearFadeState()
     }
@@ -208,6 +229,7 @@ final class SoundManagerTests: XCTestCase {
 
         // 別ファイルなので旧BGM停止ルートを通る
         XCTAssertFalse(sut.testHelperIsFading, "同名別拡張子は別ファイルとして扱われフェードがキャンセルされること")
+        XCTAssertNil(sut.testHelperCurrentBGMFilename, "旧BGM名が残らないこと")
 
         sut.testHelperClearFadeState()
     }

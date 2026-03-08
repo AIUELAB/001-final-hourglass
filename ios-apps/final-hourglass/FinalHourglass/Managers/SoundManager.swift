@@ -378,6 +378,59 @@ class SoundManager: ObservableObject {
         fadeTimer = Timer.scheduledTimer(withTimeInterval: 999, repeats: false) { _ in }
     }
 
+    // swiftlint:disable function_body_length
+    func testHelperSimulateFadingWhilePlaying(currentBGMFilename: String?) {
+        self.currentBGMFilename = currentBGMFilename
+        cancelFadeTimers()
+        fadeTimer = Timer.scheduledTimer(withTimeInterval: 999, repeats: false) { _ in }
+
+        // 最小限の無音WAVデータでbgmPlayerを作成し再生状態にする
+        let sampleRate: UInt32 = 8000
+        let numSamples: UInt32 = 8000
+        let bitsPerSample: UInt16 = 16
+        let numChannels: UInt16 = 1
+        let dataSize = numSamples * UInt32(bitsPerSample / 8) * UInt32(numChannels)
+        var wavData = Data()
+        // RIFF header
+        wavData.append(contentsOf: [0x52, 0x49, 0x46, 0x46]) // "RIFF"
+        var chunkSize = 36 + dataSize
+        wavData.append(Data(bytes: &chunkSize, count: 4))
+        wavData.append(contentsOf: [0x57, 0x41, 0x56, 0x45]) // "WAVE"
+        // fmt sub-chunk
+        wavData.append(contentsOf: [0x66, 0x6D, 0x74, 0x20]) // "fmt "
+        var subchunk1Size: UInt32 = 16
+        wavData.append(Data(bytes: &subchunk1Size, count: 4))
+        var audioFormat: UInt16 = 1 // PCM
+        wavData.append(Data(bytes: &audioFormat, count: 2))
+        var channels = numChannels
+        wavData.append(Data(bytes: &channels, count: 2))
+        var rate = sampleRate
+        wavData.append(Data(bytes: &rate, count: 4))
+        var byteRate = sampleRate * UInt32(numChannels) * UInt32(bitsPerSample / 8)
+        wavData.append(Data(bytes: &byteRate, count: 4))
+        var blockAlign = numChannels * (bitsPerSample / 8)
+        wavData.append(Data(bytes: &blockAlign, count: 2))
+        var bps = bitsPerSample
+        wavData.append(Data(bytes: &bps, count: 2))
+        // data sub-chunk
+        wavData.append(contentsOf: [0x64, 0x61, 0x74, 0x61]) // "data"
+        var dSize = dataSize
+        wavData.append(Data(bytes: &dSize, count: 4))
+        wavData.append(Data(count: Int(dataSize))) // 無音データ
+
+        do {
+            bgmPlayer = try AVAudioPlayer(data: wavData)
+            bgmPlayer?.numberOfLoops = -1
+            bgmPlayer?.volume = bgmVolume
+            bgmPlayer?.prepareToPlay()
+            bgmPlayer?.play()
+            isBGMPlaying = true
+        } catch {
+            print("テスト用音声プレイヤー作成失敗: \(error)")
+        }
+    }
+    // swiftlint:enable function_body_length
+
     func testHelperClearFadeState() {
         cancelFadeTimers()
         stopCurrentBGM()

@@ -25,6 +25,26 @@ private struct NavigationStackCompatible<Content: View>: View {
     }
 }
 
+private extension View {
+    func dismissibleSheet<Content: View>(
+        isPresented: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
+        self.sheet(isPresented: isPresented) {
+            NavigationStackCompatible {
+                content()
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("閉じる") {
+                                isPresented.wrappedValue = false
+                            }
+                        }
+                    }
+            }
+        }
+    }
+}
+
 struct AboutView: View {
     @State private var showingMailComposer = false
     @State private var showingMailAlert = false
@@ -328,94 +348,24 @@ struct AboutView: View {
                 UITableViewCell.appearance().backgroundColor = .clear
                 UITableView.appearance().separatorColor = .clear
             }
+            .onDisappear {
+                // グローバル副作用を元に戻す
+                UITableView.appearance().backgroundColor = nil
+                UITableView.appearance().separatorStyle = .singleLine
+                UITableViewCell.appearance().backgroundColor = nil
+                UITableView.appearance().separatorColor = nil
+            }
             .navigationTitle("About")
             .navigationBarTitleDisplayMode(.inline)
         }
         // シート表示（NavigationStackCompatibleで親のNavigationViewから分離）
-        .sheet(isPresented: $showingUpdateHistory) {
-            NavigationStackCompatible {
-                UpdateHistoryView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingUpdateHistory = false
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showingFAQ) {
-            NavigationStackCompatible {
-                FAQView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingFAQ = false
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showingTerms) {
-            NavigationStackCompatible {
-                TermsView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingTerms = false
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showingPrivacy) {
-            NavigationStackCompatible {
-                PrivacyView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingPrivacy = false
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showingLicense) {
-            NavigationStackCompatible {
-                LicenseView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingLicense = false
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showingDeveloper) {
-            NavigationStackCompatible {
-                DeveloperView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingDeveloper = false
-                            }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showingAcknowledgments) {
-            NavigationStackCompatible {
-                AcknowledgmentsView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("閉じる") {
-                                showingAcknowledgments = false
-                            }
-                        }
-                    }
-            }
-        }
+        .dismissibleSheet(isPresented: $showingUpdateHistory) { UpdateHistoryView() }
+        .dismissibleSheet(isPresented: $showingFAQ) { FAQView() }
+        .dismissibleSheet(isPresented: $showingTerms) { TermsView() }
+        .dismissibleSheet(isPresented: $showingPrivacy) { PrivacyView() }
+        .dismissibleSheet(isPresented: $showingLicense) { LicenseView() }
+        .dismissibleSheet(isPresented: $showingDeveloper) { DeveloperView() }
+        .dismissibleSheet(isPresented: $showingAcknowledgments) { AcknowledgmentsView() }
         .sheet(isPresented: $showingMailComposer) {
             MailComposerView(
                 recipients: ["support@lifelimit.app"],
@@ -530,80 +480,49 @@ struct AboutItemDivider: View {
 
 // UpdateHistoryView
 struct UpdateHistoryView: View {
+    private let entries = VersionHistoryLoader.load()
+
     var body: some View {
         ZStack {
             MysticalSpaceBackground()
                 .ignoresSafeArea()
 
-            List {
-                Section(header: Text("バージョン 1.0.9")
-                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
-                ) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("2026年2月リリース")
-                            .font(.caption)
-                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("• バグ修正・安定性向上")
-                        }
-                        .foregroundColor(.white.opacity(0.85))
-                    }
-                    .padding(.vertical, 5)
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(Color(white: 0.11, opacity: 0.4))
-                    )
+            if entries.isEmpty {
+                VStack(spacing: 12) {
+                    Image(systemName: "doc.text")
+                        .font(.system(size: 40))
+                        .foregroundColor(Color.mysticalPurple.opacity(0.5))
+                    Text("更新履歴を読み込めませんでした")
+                        .foregroundColor(.white.opacity(0.7))
                 }
+            } else {
+                List {
+                    ForEach(entries) { entry in
+                        Section(header: Text("バージョン \(entry.version)")
+                            .foregroundColor(Color.mysticalPurple.opacity(0.8))
+                        ) {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(entry.releaseDate)
+                                    .font(.caption)
+                                    .foregroundColor(Color.mysticalPurple.opacity(0.6))
 
-                Section(header: Text("バージョン 1.0.8")
-                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
-                ) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("2026年2月リリース")
-                            .font(.caption)
-                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("• 健康ダッシュボード（6項目の自己評価・総合健康スコア）")
-                            Text("• 健康サマリーカード（メイン画面に常時表示）")
-                            Text("• 41件のエピソードを内蔵（オフライン閲覧可能）")
-                            Text("• お気に入りタブに使い方ガイド追加")
-                            Text("• 初回演出のスキップ機能")
+                                VStack(alignment: .leading, spacing: 8) {
+                                    ForEach(entry.changes, id: \.self) { change in
+                                        Text("• \(change)")
+                                    }
+                                }
+                                .foregroundColor(.white.opacity(0.85))
+                            }
+                            .padding(.vertical, 5)
+                            .listRowBackground(
+                                RoundedRectangle(cornerRadius: 14)
+                                    .fill(Color(white: 0.11, opacity: 0.4))
+                            )
                         }
-                        .foregroundColor(.white.opacity(0.85))
                     }
-                    .padding(.vertical, 5)
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(Color(white: 0.11, opacity: 0.4))
-                    )
                 }
-
-                Section(header: Text("バージョン 1.0.0")
-                    .foregroundColor(Color.mysticalPurple.opacity(0.8))
-                ) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("2024年3月リリース")
-                            .font(.caption)
-                            .foregroundColor(Color.mysticalPurple.opacity(0.6))
-
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("• 初回リリース")
-                            Text("• 寿命予測機能")
-                            Text("• 著名人エピソード表示")
-                            Text("• プロファイル管理")
-                        }
-                        .foregroundColor(.white.opacity(0.85))
-                    }
-                    .padding(.vertical, 5)
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(Color(white: 0.11, opacity: 0.4))
-                    )
-                }
+                .listStyle(PlainListStyle())
             }
-            .listStyle(PlainListStyle())
         }
         .navigationTitle("更新履歴")
         .navigationBarTitleDisplayMode(.inline)

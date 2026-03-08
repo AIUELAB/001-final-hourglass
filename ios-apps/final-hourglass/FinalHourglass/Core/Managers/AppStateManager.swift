@@ -128,11 +128,13 @@ class AppStateManager: ObservableObject {
             DispatchQueue.main.async {
                 self.notificationsEnabled = granted
                 completion(granted)
+                #if DEBUG
                 if granted {
                     print("通知権限が許可されました")
                 } else {
                     print("通知権限が拒否されました: \(error?.localizedDescription ?? "不明なエラー")")
                 }
+                #endif
             }
         }
     }
@@ -188,12 +190,17 @@ class AppStateManager: ObservableObject {
             // 通知センターに追加
             UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
+                    #if DEBUG
                     print("通知のスケジュールに失敗: \(error.localizedDescription)")
-                } else {
-                    let hour = dateComponents.hour ?? 0
-                    let minute = String(format: "%02d", dateComponents.minute ?? 0)
-                    print("通知をスケジュールしました: 毎日 \(hour):\(minute)")
+                    #endif
+                    // Release でもエラーを検知（次回foreground時にリトライ可能）
+                    return
                 }
+                #if DEBUG
+                let hour = dateComponents.hour ?? 0
+                let minute = String(format: "%02d", dateComponents.minute ?? 0)
+                print("通知をスケジュールしました: 毎日 \(hour):\(minute)")
+                #endif
             }
         }
     }
@@ -202,7 +209,9 @@ class AppStateManager: ObservableObject {
     func cancelReminder() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["daily_reminder"])
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["daily_reminder"])
+        #if DEBUG
         print("既存の通知をキャンセルしました")
+        #endif
     }
 
     // 通知設定の状態を確認
@@ -220,7 +229,9 @@ class AppStateManager: ObservableObject {
             // iOS 16.0以降の新しい方法
             UNUserNotificationCenter.current().setBadgeCount(0) { error in
                 if let error = error {
+                    #if DEBUG
                     print("バッジのクリアに失敗: \(error.localizedDescription)")
+                    #endif
                 }
             }
         } else {

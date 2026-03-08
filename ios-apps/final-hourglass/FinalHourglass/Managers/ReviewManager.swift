@@ -19,9 +19,9 @@ enum ReviewTrigger: String {
 
 /// プレプロンプトのユーザー回答
 enum PrePromptResponse: String {
-    case positive = "positive"
-    case neutral = "neutral"
-    case negative = "negative"
+    case positive
+    case neutral
+    case negative
 }
 
 // MARK: - ReviewManager

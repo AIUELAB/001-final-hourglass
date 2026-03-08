@@ -499,8 +499,12 @@ extension LifeResultView {
                     if !showEpisode {
                         showEpisode = true
                     }
-                    withAnimation(.easeInOut(duration: 0.6)) {
+                    if reduceMotion {
                         scrollProxy.scrollTo(LifeResultScrollID.episodeSection, anchor: .top)
+                    } else {
+                        withAnimation(.easeInOut(duration: 0.6)) {
+                            scrollProxy.scrollTo(LifeResultScrollID.episodeSection, anchor: .top)
+                        }
                     }
                 }
             )
@@ -567,7 +571,7 @@ extension LifeResultView {
         .id(LifeResultScrollID.episodeSection)
         .opacity(showEpisode ? 1 : 0)
         .scaleEffect(showEpisode ? 1 : 0.8)
-        .animation(.easeOut(duration: 0.8), value: showEpisode)
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.8), value: showEpisode)
     }
 }
 

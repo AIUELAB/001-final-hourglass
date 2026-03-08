@@ -58,31 +58,48 @@ class SoundManager: ObservableObject {
         fadeTimer = nil
     }
 
-    // BGM再生開始
-    func playBackgroundMusic(filename: String = "open-sound", withExtension ext: String = "m4a") {
-        // 同じBGMが既に再生中ならスキップ（タブ切り替え時の途切れ防止）
-        // フェードアウト中（fadeTimer != nil）は再生を許可する
-        if currentBGMFilename == filename && bgmPlayer?.isPlaying == true && fadeTimer == nil {
-            #if DEBUG
-            print("BGM再生スキップ（同一ファイル再生中）: \(filename).\(ext)")
-            #endif
-            return
-        }
+    /// フェード中のBGM再生要求を処理し、新規再生が必要かどうかを返す
+    /// - Returns: `true` なら新規再生に進む、`false` なら呼び出し元で `return` する
+    private func handleFadingState(for fullFilename: String) -> Bool {
+        guard fadeTimer != nil else { return true }
 
-        // フェードアウト中に同じBGMの再生要求が来たらフェードをキャンセルして音量を戻す
-        if currentBGMFilename == filename && fadeTimer != nil {
+        // 同じBGMのフェード中 → キャンセルして再生継続
+        if currentBGMFilename == fullFilename {
             cancelFadeTimers()
             if let player = bgmPlayer, player.isPlaying {
                 player.volume = bgmVolume
                 isBGMPlaying = true
                 #if DEBUG
-                print("BGMフェードアウトキャンセル、再生継続: \(filename).\(ext)")
+                print("BGMフェードアウトキャンセル、再生継続: \(fullFilename)")
                 #endif
-                return
+                return false
             }
-            // プレイヤーが既に無効な場合はフォールスルーして新規再生に進む
+            currentBGMFilename = nil
+        } else {
+            // 別BGMへ切り替え → フェードキャンセル＆旧プレイヤー停止
+            cancelFadeTimers()
+            bgmPlayer?.stop()
+            bgmPlayer = nil
+            isBGMPlaying = false
             currentBGMFilename = nil
         }
+        return true
+    }
+
+    // BGM再生開始
+    func playBackgroundMusic(filename: String = "open-sound", withExtension ext: String = "m4a") {
+        let fullFilename = "\(filename).\(ext)"
+
+        // 同じBGMが既に再生中ならスキップ（タブ切り替え時の途切れ防止）
+        if currentBGMFilename == fullFilename && bgmPlayer?.isPlaying == true && fadeTimer == nil {
+            #if DEBUG
+            print("BGM再生スキップ（同一ファイル再生中）: \(fullFilename)")
+            #endif
+            return
+        }
+
+        // フェード中の状態をハンドリング（同一BGM復帰 or 別BGM切り替え）
+        if !handleFadingState(for: fullFilename) { return }
 
         guard let url = Bundle.main.url(forResource: filename, withExtension: ext) else {
             #if DEBUG
@@ -98,7 +115,7 @@ class SoundManager: ObservableObject {
             bgmPlayer?.prepareToPlay()
             bgmPlayer?.play()
             isBGMPlaying = true
-            currentBGMFilename = filename
+            currentBGMFilename = "\(filename).\(ext)"
             #if DEBUG
             print("BGM再生開始: \(filename).\(ext)")
             #endif
@@ -159,7 +176,7 @@ class SoundManager: ObservableObject {
     // フェードイン
     func fadeInBackgroundMusic(duration: TimeInterval = 2.0, filename: String = "open-sound", withExtension ext: String = "m4a") {
         // 同じBGMが既に再生中ならスキップ（実際の再生状態とフェード状態を確認）
-        if currentBGMFilename == filename && bgmPlayer?.isPlaying == true && fadeTimer == nil {
+        if currentBGMFilename == "\(filename).\(ext)" && bgmPlayer?.isPlaying == true && fadeTimer == nil {
             #if DEBUG
             print("BGMフェードインスキップ（同一ファイル再生中）: \(filename).\(ext)")
             #endif
@@ -217,7 +234,7 @@ class SoundManager: ObservableObject {
             bgmPlayer?.prepareToPlay()
             bgmPlayer?.play()
             isBGMPlaying = true
-            currentBGMFilename = filename
+            currentBGMFilename = "\(filename).\(ext)"
             return true
         } catch {
             #if DEBUG

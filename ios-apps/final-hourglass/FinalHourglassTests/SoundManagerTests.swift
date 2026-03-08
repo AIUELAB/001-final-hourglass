@@ -81,4 +81,79 @@ final class SoundManagerTests: XCTestCase {
         sut.stopAllSounds()
         XCTAssertFalse(sut.isBGMPlaying, "stopAllSounds後はisBGMPlayingがfalseであること")
     }
+
+    // MARK: - Fade State Management
+
+    func testFadeOutWithNilPlayerCallsCompletionImmediately() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic() // bgmPlayer を nil にリセット
+
+        let expectation = expectation(description: "completion called")
+        sut.fadeOutBackgroundMusic { expectation.fulfill() }
+        waitForExpectations(timeout: 1.0)
+
+        XCTAssertFalse(sut.isBGMPlaying, "bgmPlayerがnilのフェードアウト後もisBGMPlayingはfalseであること")
+    }
+
+    func testStopBackgroundMusicClearsState() {
+        let sut = SoundManager.shared
+        // Bundle不在で再生は失敗するが、stopが安全に動作することを検証
+        sut.playBackgroundMusic(filename: "nonexistent-file")
+        sut.stopBackgroundMusic()
+
+        XCTAssertFalse(sut.isBGMPlaying, "stopBackgroundMusic後はisBGMPlayingがfalseであること")
+    }
+
+    func testStopAllSoundsClearsAllState() {
+        let sut = SoundManager.shared
+        sut.playBackgroundMusic(filename: "nonexistent-file")
+        sut.stopAllSounds()
+
+        XCTAssertFalse(sut.isBGMPlaying, "stopAllSounds後はisBGMPlayingがfalseであること")
+    }
+
+    // MARK: - BGM Playback (Bundle不在時の状態検証)
+
+    func testPlayBackgroundMusicWithMissingFileKeepsNotPlaying() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+        sut.playBackgroundMusic(filename: "file-that-does-not-exist", withExtension: "m4a")
+
+        XCTAssertFalse(sut.isBGMPlaying, "存在しないファイルの再生試行後はisBGMPlayingがfalseであること")
+    }
+
+    func testPlayBackgroundMusicWithDifferentExtensionsTreatedAsDistinct() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+
+        // 同名・異拡張子の再生を連続呼び出し（Bundle不在で両方失敗するが、クラッシュしないことを確認）
+        sut.playBackgroundMusic(filename: "test-sound", withExtension: "m4a")
+        sut.playBackgroundMusic(filename: "test-sound", withExtension: "mp3")
+
+        XCTAssertFalse(sut.isBGMPlaying, "Bundle不在時はisBGMPlayingがfalseであること")
+    }
+
+    // MARK: - Multiple Stop Calls Safety
+
+    func testMultipleStopCallsAreSafe() {
+        let sut = SoundManager.shared
+        // 複数回のstop呼び出しがクラッシュしないことを検証
+        sut.stopBackgroundMusic()
+        sut.stopBackgroundMusic()
+        sut.stopAllSounds()
+        sut.stopAllSounds()
+
+        XCTAssertFalse(sut.isBGMPlaying, "複数回のstop呼び出し後もisBGMPlayingはfalseであること")
+    }
+
+    func testStopThenPlayDoesNotCrash() {
+        let sut = SoundManager.shared
+        sut.stopBackgroundMusic()
+        sut.playBackgroundMusic(filename: "nonexistent")
+        sut.stopBackgroundMusic()
+        sut.playBackgroundMusic(filename: "another-nonexistent", withExtension: "mp3")
+        sut.stopAllSounds()
+
+        XCTAssertFalse(sut.isBGMPlaying, "stop→play→stop→play→stopの連続呼び出しがクラッシュしないこと")
+    }
 }

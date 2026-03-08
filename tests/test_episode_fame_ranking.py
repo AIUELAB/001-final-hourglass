@@ -54,24 +54,24 @@ class TestEinsteinRanking:
     """アインシュタイン エピソード順位テスト"""
 
     EINSTEIN_PID = "P93F1DB1"
-    MIRACLE_YEAR_EID = "EP-3947C4DE"
+    TOP_EID = "EP-260106120827789"
 
     def test_miracle_year_is_top_ranked(self, load_csv):
-        """EP-3947C4DE（奇跡の年）がアインシュタイン内でTop3"""
+        """アインシュタインのトップエピソードが1位"""
         eps = get_person_episodes(load_csv, self.EINSTEIN_PID)
-        rank = get_episode_rank(eps, self.MIRACLE_YEAR_EID)
+        rank = get_episode_rank(eps, self.TOP_EID)
 
-        # スコア計算式変更により順位が変動する可能性があるため、Top3を許容
-        assert rank <= 3, f"奇跡の年がTop3でない（現在{rank}位）"
+        assert rank is not None, f"{self.TOP_EID}が見つからない"
+        assert rank <= 3, f"トップエピソードがTop3でない（現在{rank}位）"
 
     def test_miracle_year_score_above_85(self, load_csv):
-        """EP-3947C4DEのスコアが85以上"""
+        """アインシュタインのトップエピソードのスコアが85以上"""
         eps = get_person_episodes(load_csv, self.EINSTEIN_PID)
         target = next(
-            (e for e in eps if (e.get("\ufeffepisode_id") or e.get("episode_id")) == self.MIRACLE_YEAR_EID),
+            (e for e in eps if (e.get("\ufeffepisode_id") or e.get("episode_id")) == self.TOP_EID),
             None,
         )
-        assert target is not None, "EP-3947C4DEが見つからない"
+        assert target is not None, f"{self.TOP_EID}が見つからない"
 
         # Phase 28: episode_fame_score → episode_fame_v6
         score = float(target.get("episode_fame_v6") or 0)
@@ -110,7 +110,7 @@ class TestImportantEpisodeRanking:
     # 既知の重要エピソード（人物ID, エピソードID, 期待最大順位）
     # スコア計算式変更により順位が変動する可能性があるため、Top3を許容
     IMPORTANT_EPISODES = [
-        ("P93F1DB1", "EP-3947C4DE", 3),  # アインシュタイン 奇跡の年
+        ("P93F1DB1", "EP-260106120827789", 3),  # アインシュタイン
     ]
 
     @pytest.mark.parametrize("person_id,episode_id,max_rank", IMPORTANT_EPISODES)

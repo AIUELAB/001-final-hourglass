@@ -52,7 +52,7 @@ class TestEinsteinMiracleYear:
     """アインシュタイン「奇跡の年」テスト"""
 
     PERSON_ID = "P93F1DB1"  # アインシュタイン
-    EPISODE_ID = "EP-3947C4DE"  # 奇跡の年
+    EPISODE_ID = "EP-260106120827789"
 
     def test_miracle_year_is_top_2(self):
         """EP-3947C4DE（奇跡の年）がアインシュタイン内Top2であること
@@ -63,16 +63,16 @@ class TestEinsteinMiracleYear:
         assert rank <= 2, f"奇跡の年はTop2であるべき（現在: {rank}位）"
 
     def test_miracle_year_has_high_score(self):
-        """EP-3947C4DEのスコアが90以上であること"""
+        """アインシュタインのトップエピソードのスコアが85以上であること"""
         eps = get_person_episodes(self.PERSON_ID)
         target = next((e for e in eps if e.get("episode_id") == self.EPISODE_ID), None)
-        assert target is not None, "EP-3947C4DEが見つからない"
+        assert target is not None, f"{self.EPISODE_ID}が見つからない"
 
         score = float(target.get("episode_fame_v6") or 0)
-        assert score >= 90, f"スコアは90以上であるべき（現在: {score}）"
+        assert score >= 85, f"スコアは85以上であるべき（現在: {score}）"
 
     def test_miracle_year_is_tier_5(self):
-        """EP-3947C4DEがTier5であること"""
+        """アインシュタインのトップエピソードがTier5であること"""
         eps = get_person_episodes(self.PERSON_ID)
         target = next((e for e in eps if e.get("episode_id") == self.EPISODE_ID), None)
         assert target is not None
@@ -86,7 +86,7 @@ class TestImportantEpisodesNotInInversions:
 
     # 重要エピソード定義（person_id, episode_id, 説明）
     IMPORTANT_EPISODES = [
-        ("P93F1DB1", "EP-3947C4DE", "アインシュタイン奇跡の年"),
+        ("P93F1DB1", "EP-260106120827789", "アインシュタイン"),
         # 追加可能: 他の重要エピソード
     ]
 

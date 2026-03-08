@@ -17,6 +17,7 @@ class SoundManager: ObservableObject {
     private var bgmPlayer: AVAudioPlayer?
     private var soundEffectPlayer: AVAudioPlayer?
     private var fadeTimer: Timer?
+    private var currentBGMFilename: String?
     @Published var isBGMPlaying = false
     @Published var bgmVolume: Float = UserDefaults.standard.object(forKey: "bgmVolume") as? Float ?? 0.3 // デフォルト音量（30%）
     @Published var hapticEnabled: Bool = UserDefaults.standard.object(forKey: "hapticEnabled") as? Bool ?? true {
@@ -34,7 +35,20 @@ class SoundManager: ObservableObject {
             try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
+            #if DEBUG
             print("オーディオセッションの設定に失敗: \(error)")
+            #endif
+            // Release でもリトライ（1回のみ）
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                } catch {
+                    #if DEBUG
+                    print("オーディオセッションのリトライも失敗: \(error)")
+                    #endif
+                }
+            }
         }
     }
 
@@ -46,8 +60,34 @@ class SoundManager: ObservableObject {
 
     // BGM再生開始
     func playBackgroundMusic(filename: String = "open-sound", withExtension ext: String = "m4a") {
+        // 同じBGMが既に再生中ならスキップ（タブ切り替え時の途切れ防止）
+        // フェードアウト中（fadeTimer != nil）は再生を許可する
+        if currentBGMFilename == filename && bgmPlayer?.isPlaying == true && fadeTimer == nil {
+            #if DEBUG
+            print("BGM再生スキップ（同一ファイル再生中）: \(filename).\(ext)")
+            #endif
+            return
+        }
+
+        // フェードアウト中に同じBGMの再生要求が来たらフェードをキャンセルして音量を戻す
+        if currentBGMFilename == filename && fadeTimer != nil {
+            cancelFadeTimers()
+            if let player = bgmPlayer, player.isPlaying {
+                player.volume = bgmVolume
+                isBGMPlaying = true
+                #if DEBUG
+                print("BGMフェードアウトキャンセル、再生継続: \(filename).\(ext)")
+                #endif
+                return
+            }
+            // プレイヤーが既に無効な場合はフォールスルーして新規再生に進む
+            currentBGMFilename = nil
+        }
+
         guard let url = Bundle.main.url(forResource: filename, withExtension: ext) else {
+            #if DEBUG
             print("音楽ファイルが見つかりません: \(filename).\(ext)")
+            #endif
             return
         }
 
@@ -58,9 +98,17 @@ class SoundManager: ObservableObject {
             bgmPlayer?.prepareToPlay()
             bgmPlayer?.play()
             isBGMPlaying = true
+            currentBGMFilename = filename
+            #if DEBUG
             print("BGM再生開始: \(filename).\(ext)")
+            #endif
         } catch {
+            #if DEBUG
             print("BGM再生エラー: \(error)")
+            #endif
+            bgmPlayer = nil
+            isBGMPlaying = false
+            currentBGMFilename = nil
         }
     }
 
@@ -70,7 +118,10 @@ class SoundManager: ObservableObject {
         bgmPlayer?.stop()
         bgmPlayer = nil
         isBGMPlaying = false
+        currentBGMFilename = nil
+        #if DEBUG
         print("BGM停止")
+        #endif
     }
 
     // 全ての音声を即座に停止
@@ -83,14 +134,19 @@ class SoundManager: ObservableObject {
             bgmPlayer?.stop()
             bgmPlayer = nil
             isBGMPlaying = false
+            currentBGMFilename = nil
+            #if DEBUG
             print("BGM即座停止")
+            #endif
         }
 
         // 効果音を即座に停止
         if soundEffectPlayer != nil {
             soundEffectPlayer?.stop()
             soundEffectPlayer = nil
+            #if DEBUG
             print("効果音即座停止")
+            #endif
         }
     }
 
@@ -102,6 +158,14 @@ class SoundManager: ObservableObject {
 
     // フェードイン
     func fadeInBackgroundMusic(duration: TimeInterval = 2.0, filename: String = "open-sound", withExtension ext: String = "m4a") {
+        // 同じBGMが既に再生中ならスキップ（実際の再生状態とフェード状態を確認）
+        if currentBGMFilename == filename && bgmPlayer?.isPlaying == true && fadeTimer == nil {
+            #if DEBUG
+            print("BGMフェードインスキップ（同一ファイル再生中）: \(filename).\(ext)")
+            #endif
+            return
+        }
+
         cancelFadeTimers()  // 既存のフェードをキャンセル
 
         // 既存のBGMを完全に停止
@@ -109,11 +173,14 @@ class SoundManager: ObservableObject {
             bgmPlayer?.stop()
             bgmPlayer = nil
             isBGMPlaying = false
+            currentBGMFilename = nil
         }
 
         // 新しいBGMファイルを読み込み
         guard let url = Bundle.main.url(forResource: filename, withExtension: ext) else {
+            #if DEBUG
             print("音楽ファイルが見つかりません: \(filename).\(ext)")
+            #endif
             return
         }
 
@@ -124,7 +191,10 @@ class SoundManager: ObservableObject {
             bgmPlayer?.prepareToPlay()
             bgmPlayer?.play()
             isBGMPlaying = true
+            currentBGMFilename = filename
+            #if DEBUG
             print("BGMフェードイン開始: \(filename).\(ext)")
+            #endif
 
             // フェードインアニメーション
             var currentStep = 0
@@ -138,16 +208,29 @@ class SoundManager: ObservableObject {
                 if currentStep >= totalSteps {
                     timer.invalidate()
                     self?.fadeTimer = nil
+                    #if DEBUG
                     print("BGMフェードイン完了")
+                    #endif
                 }
             }
         } catch {
+            #if DEBUG
             print("BGM再生エラー: \(error)")
+            #endif
+            bgmPlayer = nil
+            isBGMPlaying = false
+            currentBGMFilename = nil
         }
     }
 
     // フェードアウト
     func fadeOutBackgroundMusic(duration: TimeInterval = 2.0, completion: (() -> Void)? = nil) {
+        // bgmPlayerがnilの場合は即座に完了
+        guard bgmPlayer != nil else {
+            completion?()
+            return
+        }
+
         cancelFadeTimers()  // 既存のフェードをキャンセル
 
         let currentVolume = bgmPlayer?.volume ?? bgmVolume
@@ -177,7 +260,9 @@ class SoundManager: ObservableObject {
     ///   - syncWithBGMVolume: trueの場合、BGM音量設定と同期（volume * bgmVolume）
     func playSoundEffect(filename: String, withExtension ext: String = "m4a", volume: Float = 0.5, syncWithBGMVolume: Bool = false) {
         guard let url = Bundle.main.url(forResource: filename, withExtension: ext) else {
+            #if DEBUG
             print("効果音ファイルが見つかりません: \(filename).\(ext)")
+            #endif
             return
         }
 
@@ -195,7 +280,10 @@ class SoundManager: ObservableObject {
             print("効果音再生: \(filename).\(ext), volume=\(effectiveVolume)")
             #endif
         } catch {
+            #if DEBUG
             print("効果音再生エラー: \(error)")
+            #endif
+            soundEffectPlayer = nil
         }
     }
 

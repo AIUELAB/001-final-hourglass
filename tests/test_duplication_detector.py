@@ -487,3 +487,79 @@ class TestVerifyAttributesNoChecks:
 
         # checks == 0 または属性不一致で False
         assert result is False
+
+
+# ============================================================================
+# 追加テスト: 未カバー行の網羅
+# ============================================================================
+
+
+class TestBuildCache:
+    """_build_cache メソッドのテスト"""
+
+    def test_build_cache_skips_when_already_built(self, sample_master_df):
+        """キャッシュ構築済みの場合はスキップ"""
+        detector = DuplicationDetector(sample_master_df)
+        mock_normalizer = MagicMock()
+        mock_normalizer.normalize.return_value = None
+        detector.normalizer = mock_normalizer
+        detector._cache_built = True
+
+        # 再構築しない（normalizeが呼ばれない）
+        detector._build_cache()
+        mock_normalizer.normalize.assert_not_called()
+
+    def test_build_cache_skips_when_normalizer_is_none(self, sample_master_df):
+        """normalizerがNoneの場合はスキップ"""
+        detector = DuplicationDetector(sample_master_df)
+        assert detector.normalizer is None
+
+        # 例外なくスキップされる
+        detector._build_cache()
+        assert not detector._cache_built
+
+
+class TestLayer4SimilarMatchSuccess:
+    """Layer 4 類似一致で実際にTrueを返すテスト"""
+
+    def test_similar_match_returns_true(self):
+        """類似度0.85以上 + 属性検証成功で重複判定"""
+        master_df = pd.DataFrame(
+            [
+                {
+                    "person_name": "佐藤次郎三太郎",
+                    "category": "政治・経済",
+                    "birth_year": 1960,
+                    "person_type": "REAL",
+                },
+            ]
+        )
+        detector = DuplicationDetector(master_df)
+
+        # 7文字中6文字一致: 2*6/14 = 0.857 >= 0.85
+        candidate = PersonCandidate(
+            person_name="佐藤次郎三太朗",
+            category="政治・経済",
+            birth_year=1960,
+            person_type="REAL",
+        )
+
+        with patch.object(detector, "_load_normalizer"):
+            mock_normalizer = MagicMock()
+
+            def mock_normalize(name):
+                result = MagicMock()
+                result.normalized_name = name
+                return result
+
+            mock_normalizer.normalize = mock_normalize
+            detector.normalizer = mock_normalizer
+            detector.alias_map = {}
+
+            is_dup, matched, conf, layer = detector.detect_duplicate(candidate)
+
+            # 類似度が0.85以上かつ属性一致で重複判定される
+            assert is_dup is True
+            assert matched == "佐藤次郎三太郎"
+            assert layer == "similar"
+            assert conf >= 0.85

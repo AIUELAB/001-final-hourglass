@@ -301,6 +301,32 @@ def test_from_dict_without_source_id():
     assert source.source_id.startswith("SRC-")
 
 
+def test_validation_missing_person_id():
+    """バリデーション: person_idが空の場合"""
+    with pytest.raises(ValueError, match="person_id is required"):
+        EpisodeSource(
+            person_name="テスト",
+            person_id="",
+            person_type="REAL",
+            source_url="https://example.com",
+            source_type="manual",
+            raw_text="テキスト",
+        )
+
+
+def test_validation_missing_source_url():
+    """バリデーション: source_urlが空の場合"""
+    with pytest.raises(ValueError, match="source_url is required"):
+        EpisodeSource(
+            person_name="テスト",
+            person_id="P001ABC12",
+            person_type="REAL",
+            source_url="",
+            source_type="manual",
+            raw_text="テキスト",
+        )
+
+
 def test_validation_missing_person_name():
     """バリデーション: person_nameが空の場合"""
     with pytest.raises(ValueError, match="person_name is required"):

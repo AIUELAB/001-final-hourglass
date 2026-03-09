@@ -410,3 +410,47 @@ class TestPerformanceTest:
         large_list = list(range(1000))
         result = performance_test(large_list)
         assert result == sum(range(1000))
+
+
+class TestExampleUsageExceptBranches:
+    """example_usage関数内のexceptブロックをカバーするテスト"""
+
+    def test_calculate_average_except_branch(self, capsys):
+        """calculate_averageが例外を投げた場合のexceptブロック(L243-244)"""
+        from src.beartype_integration import example_usage
+
+        with patch("src.beartype_integration.calculate_average", side_effect=TypeError("bad type")):
+            example_usage()
+
+        captured = capsys.readouterr()
+        assert "❌ Error: bad type" in captured.out
+
+    def test_create_user_except_branch(self, capsys):
+        """create_userが例外を投げた場合のexceptブロック(L257-258)"""
+        from src.beartype_integration import example_usage
+
+        with patch("src.beartype_integration.create_user", side_effect=ValueError("invalid user")):
+            example_usage()
+
+        captured = capsys.readouterr()
+        assert "❌ Error: invalid user" in captured.out
+
+    def test_mcpserver_except_branch(self, capsys):
+        """MCPServerが例外を投げた場合のexceptブロック(L273-274)"""
+        from src.beartype_integration import example_usage
+
+        with patch("src.beartype_integration.MCPServer", side_effect=ValueError("bad protocol")):
+            example_usage()
+
+        captured = capsys.readouterr()
+        assert "❌ Error: bad protocol" in captured.out
+
+    def test_networkconfig_except_branch(self, capsys):
+        """NetworkConfigが例外を投げた場合のexceptブロック(L280-281)"""
+        from src.beartype_integration import example_usage
+
+        with patch("src.beartype_integration.NetworkConfig", side_effect=ValueError("bad config")):
+            example_usage()
+
+        captured = capsys.readouterr()
+        assert "❌ Error: bad config" in captured.out

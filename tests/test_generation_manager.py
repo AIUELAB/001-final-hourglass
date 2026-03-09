@@ -662,3 +662,38 @@ class TestPrintGenerationStatus:
             mgr2 = GenerationManager(master_csv=csv_path, generation_dir=gen_dir)
 
         assert mgr2.metadata["current_generation"] == 1
+
+    def test_print_status_with_generation_history(self, tmp_path: Path, capsys):
+        """生成履歴がある場合のforループ内print文をカバー(L351-358)"""
+        csv_path = _create_csv(tmp_path / "master.csv", rows=5)
+        gen_dir = tmp_path / "gens"
+
+        # 世代を作成してメタデータを構築
+        mgr = GenerationManager(master_csv=csv_path, generation_dir=gen_dir)
+        mgr.create_generation("first generation")
+        mgr.create_generation("second generation")
+
+        # print_generation_statusはデフォルトパスを使うのでpatchで上書き
+        with (
+            patch("src.generation_manager.get_master_csv_path", return_value=csv_path),
+            patch("src.generation_manager.get_project_root", return_value=tmp_path),
+            patch(
+                "src.generation_manager.GenerationManager.__init__",
+                lambda self, **kw: (
+                    setattr(self, "master_csv", csv_path),
+                    setattr(self, "generation_dir", gen_dir),
+                    setattr(self, "metadata_file", gen_dir / "generations_metadata.json"),
+                    setattr(self, "metadata", mgr.metadata),
+                )
+                and None,
+            ),
+        ):
+            print_generation_status()
+
+        captured = capsys.readouterr()
+        assert "Generation History:" in captured.out
+        assert "first generation" in captured.out
+        assert "second generation" in captured.out
+        assert "Timestamp:" in captured.out
+        assert "Rows:" in captured.out
+        assert "Compressed:" in captured.out

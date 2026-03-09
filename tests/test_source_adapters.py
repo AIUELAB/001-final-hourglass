@@ -427,6 +427,111 @@ class TestValidation:
         assert "Invalid tier" in candidate.validation_errors[0]
 
 
+class TestValidateCandidateEmptyName:
+    """validate_candidate で空の person_name（base.py L158-159カバー）"""
+
+    def test_validate_empty_person_name(self):
+        """person_nameが空の候補は検証失敗"""
+        adapter = ManualSourceAdapter("config/person_sources/manual_list.csv")
+        # person_name="" はコンストラクタで弾かれるので、
+        # 作成後に空にする
+        candidate = PersonCandidate(person_name="仮の名前")
+        candidate.person_name = ""  # 直接設定
+        result = adapter.validate_candidate(candidate)
+        assert result is False
+        assert "person_name is required" in candidate.validation_errors
+
+
+class TestConcreteAdapterAbstractMethods:
+    """具象アダプタのABCメソッド実装テスト（base.py L134, L144カバー）"""
+
+    def test_manual_adapter_fetch_and_source(self):
+        """ManualSourceAdapterがfetch_candidatesとget_source_nameを実装"""
+        adapter = ManualSourceAdapter("config/person_sources/manual_list.csv")
+        source_name = adapter.get_source_name()
+        assert isinstance(source_name, str)
+        assert len(source_name) > 0
+
+        candidates = adapter.fetch_candidates(limit=1)
+        assert isinstance(candidates, list)
+
+    def test_nhk_adapter_fetch_and_source(self):
+        """NHKAsadoraAdapterがfetch_candidatesとget_source_nameを実装"""
+        adapter = NHKAsadoraAdapter()
+        source_name = adapter.get_source_name()
+        assert source_name == "nhk_asadora"
+
+        candidates = adapter.fetch_candidates(limit=1)
+        assert isinstance(candidates, list)
+
+
+class TestManualAdapterValueError:
+    """ManualSourceAdapter で CSV パースエラー（manual_adapter.py L58-59カバー）"""
+
+    def test_csv_read_exception_raises_value_error(self, tmp_path):
+        """CSVの読み込みに失敗した場合ValueErrorが発生"""
+        # バイナリファイルを作成
+        bad_csv = tmp_path / "bad.csv"
+        bad_csv.write_bytes(b"\xff\xfe\x00\x00" * 100)
+
+        with pytest.raises(ValueError, match="Failed to read CSV"):
+            adapter = ManualSourceAdapter(str(bad_csv))
+            adapter.fetch_candidates()
+
+
+class TestManualAdapterValidationErrorSkip:
+    """ManualSourceAdapter で検証エラー時のスキップ（manual_adapter.py L99-100カバー）"""
+
+    def test_validation_error_sets_skip_reason(self, tmp_path):
+        """検証エラーがある候補にskip_reasonが設定される"""
+        csv_file = tmp_path / "invalid_type.csv"
+        csv_file.write_text(
+            "person_name,person_type,tier\n" "テスト太郎,UNKNOWN_TYPE,S\n",
+            encoding="utf-8",
+        )
+
+        adapter = ManualSourceAdapter(str(csv_file))
+        candidates = adapter.fetch_candidates()
+
+        assert len(candidates) == 1
+        assert candidates[0].skip_reason == "validation_error"
+        assert len(candidates[0].validation_errors) > 0
+
+
+class TestNHKAdapterRelativePath:
+    """NHKAsadoraAdapter の相対パス解決（nhk_asadora_adapter.py L40-42カバー）"""
+
+    def test_relative_path_resolution(self, tmp_path):
+        """相対パスが正しく解決されること"""
+        from unittest.mock import patch
+
+        csv_file = tmp_path / "relative_test.csv"
+        csv_file.write_text(
+            "person_name,drama_title,category\nテスト太郎,テスト朝ドラ,芸能\n",
+            encoding="utf-8",
+        )
+
+        # get_project_root をモックして tmp_path を返す
+        with patch("src.csv_path_resolver.get_project_root", return_value=tmp_path):
+            adapter = NHKAsadoraAdapter(csv_path="relative_test.csv")
+            assert adapter.csv_path.exists()
+            candidates = adapter.fetch_candidates()
+            assert len(candidates) == 1
+
+
+class TestNHKAdapterValueError:
+    """NHKAsadoraAdapter で CSV パースエラー（nhk_asadora_adapter.py L66-67カバー）"""
+
+    def test_csv_read_exception_raises_value_error(self, tmp_path):
+        """CSVの読み込みに失敗した場合ValueErrorが発生"""
+        bad_csv = tmp_path / "bad_nhk.csv"
+        bad_csv.write_bytes(b"\xff\xfe\x00\x00" * 100)
+
+        with pytest.raises(ValueError, match="Failed to read CSV"):
+            adapter = NHKAsadoraAdapter(csv_path=str(bad_csv))
+            adapter.fetch_candidates()
+
+
 if __name__ == "__main__":
     # pytestを直接実行
     pytest.main([__file__, "-v"])

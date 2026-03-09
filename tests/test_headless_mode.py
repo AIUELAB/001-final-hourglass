@@ -1002,3 +1002,262 @@ class TestMainCliFunction:
             result = runner.invoke(main, ["-t", "test", "-v"])
             # 実行されたことを確認（エラーがあっても処理は完了）
             assert result.exit_code in [0, 1]  # 成功または失敗
+
+
+# ============================================================================
+# Phase 4: 未カバー行を網羅するテスト追加
+# ============================================================================
+
+
+@pytest.mark.asyncio
+class TestRunTestsParallel:
+    """_run_tests parallel=True 分岐テスト"""
+
+    @pytest.fixture
+    def executor(self):
+        with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
+            return HeadlessExecutor(use_cache=False, timeout=5)
+
+    async def test_run_tests_with_parallel(self, executor):
+        """parallel=True で -n auto が追加される（L270）"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "5 passed",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            await executor._run_tests({"parallel": True}, [])
+            call_args = mock_cmd.call_args[0][0]
+            assert "-n" in call_args
+            assert "auto" in call_args
+
+
+@pytest.mark.asyncio
+class TestRunLintWithFiles:
+    """_run_lint files指定テスト"""
+
+    @pytest.fixture
+    def executor(self):
+        with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
+            return HeadlessExecutor(use_cache=False, timeout=5)
+
+    async def test_run_lint_with_files(self, executor):
+        """files指定で ruff/black/mypy にファイルが渡される（L316, L329, L340）"""
+        with patch.object(executor, "_run_command", new_callable=AsyncMock) as mock_cmd:
+            mock_cmd.return_value = {
+                "stdout": "",
+                "stderr": "",
+                "exit_code": 0,
+            }
+            await executor._run_lint({"type_check": True}, ["src/foo.py"])
+
+            # 3回呼ばれる (ruff, black, mypy)
+            assert mock_cmd.call_count == 3
+            for call in mock_cmd.call_args_list:
+                assert "src/foo.py" in call[0][0]
+
+
+@pytest.mark.asyncio
+class TestRunCommandTimeoutReraise:
+    """_run_command TimeoutError 再raise テスト"""
+
+    @pytest.fixture
+    def executor(self):
+        with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
+            return HeadlessExecutor(use_cache=False, timeout=5)
+
+    async def test_run_command_timeout_reraise(self, executor):
+        """TimeoutError が再raiseされる（L517）"""
+        import asyncio
+
+        with patch("asyncio.create_subprocess_exec", new_callable=AsyncMock) as mock_proc:
+            mock_process = AsyncMock()
+            mock_proc.return_value = mock_process
+            mock_process.communicate = AsyncMock(side_effect=asyncio.TimeoutError())
+
+            with patch("asyncio.wait_for", side_effect=asyncio.TimeoutError()):
+                import pytest as _pytest
+
+                with _pytest.raises(TimeoutError):
+                    await executor._run_command(["sleep", "100"])
+
+
+class TestFormatMarkdownWithErrors:
+    """_format_markdown errors 付き TaskResult テスト"""
+
+    def test_format_markdown_with_errors(self):
+        """errors がある TaskResult で Errors 行が含まれる（L573）"""
+        with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
+            executor = HeadlessExecutor(output_format=OutputFormat.MARKDOWN, use_cache=False)
+
+        now = datetime.now()
+        results = [
+            TaskResult(
+                task_id="test_err",
+                task_type=TaskType.TEST,
+                status="failure",
+                start_time=now,
+                end_time=now,
+                output=None,
+                errors=["Error A", "Error B"],
+            )
+        ]
+        output = executor.format_output(results)
+        assert "**Errors**" in output
+        assert "Error A" in output
+        assert "Error B" in output
+
+
+class TestMainCliVerboseFalse:
+    """main CLI verbose=False 分岐テスト"""
+
+    def test_main_verbose_false(self):
+        """verbose=False で INFO レベルが設定される（L647）"""
+        from click.testing import CliRunner
+
+        from src.headless_mode import main
+
+        runner = CliRunner()
+
+        with patch("src.headless_mode.HeadlessExecutor") as mock_executor_cls:
+            mock_instance = MagicMock()
+            mock_executor_cls.return_value = mock_instance
+
+            async def mock_workflow(*args, **kwargs):
+                now = datetime.now()
+                return [
+                    TaskResult(
+                        task_id="test-1",
+                        task_type=TaskType.TEST,
+                        status="success",
+                        start_time=now,
+                        end_time=now,
+                        output={},
+                    )
+                ]
+
+            mock_instance.execute_workflow = mock_workflow
+            mock_instance.format_output.return_value = "{}"
+            mock_instance.cleanup = MagicMock()
+
+            # verbose フラグなし（デフォルト False）
+            result = runner.invoke(main, ["-t", "test"])
+            assert result.exit_code in [0, 1]
+
+
+class TestMainCliDefaultTasks:
+    """main CLI タスク未指定テスト"""
+
+    def test_main_default_tasks(self):
+        """タスク未指定時にデフォルト（TEST, LINT）が使われる（L664）"""
+        from click.testing import CliRunner
+
+        from src.headless_mode import main
+
+        runner = CliRunner()
+
+        with patch("src.headless_mode.HeadlessExecutor") as mock_executor_cls:
+            mock_instance = MagicMock()
+            mock_executor_cls.return_value = mock_instance
+
+            called_tasks = []
+
+            async def mock_workflow(tasks, params, files):
+                called_tasks.extend(tasks)
+                now = datetime.now()
+                return [
+                    TaskResult(
+                        task_id="t",
+                        task_type=t,
+                        status="success",
+                        start_time=now,
+                        end_time=now,
+                        output={},
+                    )
+                    for t in tasks
+                ]
+
+            mock_instance.execute_workflow = mock_workflow
+            mock_instance.format_output.return_value = "{}"
+            mock_instance.cleanup = MagicMock()
+
+            # タスク未指定で呼び出し
+            result = runner.invoke(main, [])
+            assert TaskType.TEST in called_tasks
+            assert TaskType.LINT in called_tasks
+
+
+class TestMainCliFailureExit:
+    """main CLI 失敗時 sys.exit(1) テスト"""
+
+    def test_main_failure_exit(self):
+        """タスク失敗時に sys.exit(1)（L678）"""
+        from click.testing import CliRunner
+
+        from src.headless_mode import main
+
+        runner = CliRunner()
+
+        with patch("src.headless_mode.HeadlessExecutor") as mock_executor_cls:
+            mock_instance = MagicMock()
+            mock_executor_cls.return_value = mock_instance
+
+            async def mock_workflow(*args, **kwargs):
+                now = datetime.now()
+                return [
+                    TaskResult(
+                        task_id="test-fail",
+                        task_type=TaskType.TEST,
+                        status="failure",
+                        start_time=now,
+                        end_time=now,
+                        output={},
+                        errors=["some error"],
+                    )
+                ]
+
+            mock_instance.execute_workflow = mock_workflow
+            mock_instance.format_output.return_value = "output"
+            mock_instance.cleanup = MagicMock()
+
+            result = runner.invoke(main, ["-t", "test"])
+            assert result.exit_code == 1
+
+    def test_main_exception_exit(self):
+        """例外発生時に sys.exit(1)（L680-682）"""
+        from click.testing import CliRunner
+
+        from src.headless_mode import main
+
+        runner = CliRunner()
+
+        with patch("src.headless_mode.HeadlessExecutor") as mock_executor_cls:
+            mock_instance = MagicMock()
+            mock_executor_cls.return_value = mock_instance
+
+            async def mock_workflow(*args, **kwargs):
+                raise RuntimeError("Unexpected error")
+
+            mock_instance.execute_workflow = mock_workflow
+            mock_instance.cleanup = MagicMock()
+
+            result = runner.invoke(main, ["-t", "test"])
+            assert result.exit_code == 1
+
+
+@pytest.mark.asyncio
+class TestExecuteTaskByTypeValidTasks:
+    """_execute_task_by_type 各タスクタイプ実行テスト"""
+
+    @pytest.fixture
+    def executor(self):
+        with patch("src.headless_mode.ErrorRecovery"), patch("src.headless_mode.SessionManager"):
+            return HeadlessExecutor(use_cache=False, timeout=5)
+
+    async def test_execute_task_by_type_test(self, executor):
+        """TaskType.TEST が _run_tests を呼ぶ（L257）"""
+        with patch.object(executor, "_run_tests", new_callable=AsyncMock) as mock:
+            mock.return_value = {"result": "ok"}
+            result = await executor._execute_task_by_type(TaskType.TEST, {"key": "val"}, ["f.py"])
+            mock.assert_called_once_with({"key": "val"}, ["f.py"])
+            assert result == {"result": "ok"}

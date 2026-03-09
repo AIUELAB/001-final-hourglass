@@ -539,3 +539,49 @@ class TestErrorHandlerDecorator:
         # 例外が抑制されることを確認
         result = my_custom_function()
         assert result is None
+
+
+# ============================================================================
+# Phase 4: 未カバー行を網羅するテスト追加（L257-266）
+# ============================================================================
+
+
+class TestGlobalExceptionHandlerNonKeyboardInterrupt:
+    """グローバル例外ハンドラーの非KeyboardInterrupt分岐テスト（L257-266）"""
+
+    @patch("error_recovery.get_session_manager")
+    @patch("error_recovery.console")
+    def test_exception_handler_non_keyboard_interrupt(self, mock_console, mock_session):
+        """通常の例外でリカバリー処理が行われる（L257-266）"""
+        import sys
+
+        from error_recovery import setup_global_exception_handler
+
+        mock_manager = MagicMock()
+        mock_manager.get.return_value = []
+        mock_session.return_value = mock_manager
+
+        original_hook = sys.excepthook
+
+        try:
+            setup_global_exception_handler()
+            handler = sys.excepthook
+
+            # 通常の例外をシミュレート
+            test_exception = ValueError("test global error")
+            try:
+                raise test_exception
+            except ValueError:
+                import traceback as tb
+
+                exc_type, exc_value, exc_tb = sys.exc_info()
+                handler(exc_type, exc_value, exc_tb)
+
+            # セッション保存が呼ばれたことを確認
+            mock_manager.create_checkpoint.assert_called_once_with("crash_recovery")
+            mock_manager.save_session.assert_called_once()
+
+            # コンソールにメッセージが表示されたことを確認
+            mock_console.print.assert_called()
+        finally:
+            sys.excepthook = original_hook

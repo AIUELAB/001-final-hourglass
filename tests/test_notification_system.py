@@ -826,3 +826,241 @@ class TestPlayLinuxBeep:
         result = system._play_linux_beep([500], 0.1)
 
         assert result is False
+
+
+class TestTestAudioSystemLinuxPactlFail:
+    """_test_audio_system の Linux pactl チェック失敗パス (L151->156, L153-154)"""
+
+    @patch("subprocess.run")
+    def test_test_audio_linux_pactl_not_found(self, mock_run):
+        """Linux で pactl の returncode が非0の場合"""
+        # pactl の which が失敗
+        mock_result = MagicMock()
+        mock_result.returncode = 1
+        mock_run.return_value = mock_result
+
+        system = AudioNotificationSystem.__new__(AudioNotificationSystem)
+        system.enabled = True
+        system.platform = "linux"
+        system.logger = MagicMock()
+
+        result = system._test_audio_system()
+        # pactl が見つからないが、例外は出ない -> debug log -> return True
+        assert result is True
+
+    @patch("subprocess.run")
+    def test_test_audio_windows_no_winsound(self, mock_run):
+        """Windows で winsound がない場合"""
+        import src.notification_system as ns
+
+        original = ns.winsound
+        ns.winsound = None
+
+        system = AudioNotificationSystem.__new__(AudioNotificationSystem)
+        system.enabled = True
+        system.platform = "windows"
+        system.logger = MagicMock()
+
+        try:
+            result = system._test_audio_system()
+            # winsound が None なので何もしない -> return True
+            assert result is True
+        finally:
+            ns.winsound = original
+
+    @patch("subprocess.run")
+    def test_test_audio_windows_with_winsound(self, mock_run):
+        """Windows で winsound.Beep が例外を発生させる場合"""
+        mock_winsound = MagicMock()
+        mock_winsound.Beep.side_effect = Exception("Audio device not found")
+
+        import src.notification_system as ns
+
+        original = ns.winsound
+        ns.winsound = mock_winsound
+
+        system = AudioNotificationSystem.__new__(AudioNotificationSystem)
+        system.enabled = True
+        system.platform = "windows"
+        system.logger = MagicMock()
+
+        try:
+            result = system._test_audio_system()
+            assert result is False
+        finally:
+            ns.winsound = original
+
+
+class TestPlaySoundFileLinuxAllPlayersFail:
+    """_play_sound_file の Linux 全プレーヤー失敗パス (L226->246, L233-234, L235->246)"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_sound_file_linux_all_players_fail(self, mock_run, mock_test, tmp_path):
+        """Linux で全プレーヤーが見つからない"""
+        mock_test.return_value = True
+        mock_run.side_effect = subprocess.CalledProcessError(1, "which")
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is False
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_sound_file_linux_player_not_found(self, mock_run, mock_test, tmp_path):
+        """Linux で FileNotFoundError が発生"""
+        mock_test.return_value = True
+        mock_run.side_effect = FileNotFoundError("player not found")
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is False
+
+
+class TestPlaySystemSoundLinuxNoFiles:
+    """_play_system_sound の Linux パスが存在しない場合 (L265->278, L272->278, L273->272)"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    def test_play_system_sound_linux_no_sound_files(self, mock_test):
+        """Linux でシステムサウンドファイルが存在しない"""
+        mock_test.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        # 全てのパスが存在しないことを確認（通常のテスト環境では存在しない）
+        result = system._play_system_sound(NotificationType.SUCCESS)
+        # ファイルが見つからない場合は False
+        assert result is False
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_system_sound_linux_exception(self, mock_run, mock_test):
+        """Linux でシステムサウンド再生中に例外"""
+        mock_test.return_value = True
+        mock_run.side_effect = Exception("Audio error")
+
+        system = AudioNotificationSystem()
+        system.platform = "linux"
+
+        result = system._play_system_sound(NotificationType.SUCCESS)
+        assert result is False
+
+
+class TestPlayGeneratedBeepUnknownPlatform:
+    """_play_generated_beep の未知プラットフォーム (L291->296)"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    def test_play_generated_beep_unknown_platform(self, mock_test):
+        """未知のプラットフォームでは False"""
+        mock_test.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "freebsd"  # 未対応プラットフォーム
+
+        result = system._play_generated_beep(NotificationType.SUCCESS)
+        assert result is False
+
+
+class TestPlayLinuxBeepFileNotFoundError:
+    """_play_linux_beep の FileNotFoundError パス (L304->301)"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    @patch("subprocess.run")
+    def test_play_linux_beep_speaker_test_file_not_found(self, mock_run, mock_test):
+        """speaker-test が FileNotFoundError"""
+        mock_test.return_value = True
+
+        def side_effect(*args, **kwargs):
+            cmd = args[0]
+            if cmd[0] == "speaker-test":
+                raise FileNotFoundError("speaker-test not found")
+            elif cmd[0] == "pactl":
+                raise FileNotFoundError("pactl not found")
+            elif cmd[0] == "beep":
+                raise FileNotFoundError("beep not found")
+            raise FileNotFoundError("not found")
+
+        mock_run.side_effect = side_effect
+
+        system = AudioNotificationSystem()
+        result = system._play_linux_beep([500], 0.1)
+
+        assert result is False
+
+
+class TestPlayWindowsBeepWithWinsound:
+    """_play_windows_beep で winsound あり (L358-363)"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    def test_play_windows_beep_success(self, mock_test):
+        """winsound.Beep が成功"""
+        mock_test.return_value = True
+
+        mock_winsound = MagicMock()
+        mock_winsound.Beep = MagicMock()
+
+        import src.notification_system as ns
+
+        original = ns.winsound
+        ns.winsound = mock_winsound
+
+        try:
+            system = AudioNotificationSystem()
+            result = system._play_windows_beep([500, 600], 0.2)
+
+            assert result is True
+            assert mock_winsound.Beep.call_count == 2
+            mock_winsound.Beep.assert_any_call(500, 200)
+            mock_winsound.Beep.assert_any_call(600, 200)
+        finally:
+            ns.winsound = original
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    def test_play_windows_beep_exception(self, mock_test):
+        """winsound.Beep が例外"""
+        mock_test.return_value = True
+
+        mock_winsound = MagicMock()
+        mock_winsound.Beep.side_effect = Exception("Audio device error")
+
+        import src.notification_system as ns
+
+        original = ns.winsound
+        ns.winsound = mock_winsound
+
+        try:
+            system = AudioNotificationSystem()
+            result = system._play_windows_beep([500], 0.2)
+
+            assert result is False
+        finally:
+            ns.winsound = original
+
+
+class TestPlaySoundFileUnknownPlatform:
+    """_play_sound_file の未知プラットフォーム"""
+
+    @patch("src.notification_system.AudioNotificationSystem._test_audio_system")
+    def test_play_sound_file_unknown_platform(self, mock_test, tmp_path):
+        """未知のプラットフォームでは False"""
+        mock_test.return_value = True
+
+        system = AudioNotificationSystem()
+        system.platform = "freebsd"
+
+        sound_file = tmp_path / "test.wav"
+        sound_file.touch()
+
+        result = system._play_sound_file(sound_file)
+        assert result is False

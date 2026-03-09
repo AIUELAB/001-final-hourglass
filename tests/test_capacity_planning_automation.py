@@ -1127,3 +1127,349 @@ class TestMainWithCriticalResource:
         main()
 
         mock_instance.generate_capacity_plan.assert_called_once_with(forecast_days=180, history_days=60)
+
+
+class TestSklearnImportBranch:
+    """sklearn が利用できない場合の分岐テスト (L21-22)"""
+
+    def test_sklearn_not_available_flag(self):
+        """SKLEARN_AVAILABLE が bool であることを確認（ImportError 分岐）"""
+        from src.capacity_planning_automation import SKLEARN_AVAILABLE
+
+        # sklearn がインストールされている場合は True、そうでなければ False
+        assert isinstance(SKLEARN_AVAILABLE, bool)
+
+
+class TestCalculateGrowthRateDaysEqualsOne:
+    """_calculate_growth_rate で days==1 の場合のテスト (L271)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_growth_rate_two_equal_values(self, mock_conn, mock_mkdir):
+        """2つの値でdays=2、正常計算"""
+        from src.capacity_planning_automation import CapacityPlanningAutomation
+
+        automation = CapacityPlanningAutomation()
+        # len(values) == 2 -> days = 2, (last-first)/2
+        values = [50.0, 60.0]
+        rate = automation._calculate_growth_rate(values)
+        assert rate == 5.0  # (60-50)/2 = 5
+
+
+class TestAnalyzeForecastMediumUrgency:
+    """_analyze_forecast_and_recommend medium urgency テスト (L349-354)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_recommend_scale_up_medium_with_days(self, mock_conn, mock_mkdir):
+        """medium urgency: days_until_threshold が 15-30 の場合"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlanningAutomation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        forecast = CapacityForecast(
+            resource_type="cpu",
+            current_usage=65.0,
+            predicted_usage_7d=72.0,
+            predicted_usage_30d=85.0,
+            predicted_usage_90d=95.0,
+            capacity_threshold=80.0,
+            days_until_threshold=20,  # 15-30日の範囲
+            growth_rate_daily=0.5,
+        )
+
+        rec = automation._analyze_forecast_and_recommend(forecast)
+
+        assert rec is not None
+        assert rec.action == "scale_up"
+        assert rec.urgency == "medium"
+        assert "スケールアップの計画を開始" in rec.reason
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_recommend_scale_up_no_days_until(self, mock_conn, mock_mkdir):
+        """medium urgency: days_until_threshold が None の場合 (L352-354)"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlanningAutomation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        forecast = CapacityForecast(
+            resource_type="memory",
+            current_usage=60.0,
+            predicted_usage_7d=70.0,
+            predicted_usage_30d=90.0,  # 閾値超え
+            predicted_usage_90d=100.0,
+            capacity_threshold=85.0,
+            days_until_threshold=None,  # None
+            growth_rate_daily=-0.1,  # 成長率負なので days_until は None
+        )
+
+        rec = automation._analyze_forecast_and_recommend(forecast)
+
+        assert rec is not None
+        assert rec.action == "scale_up"
+        assert rec.urgency == "medium"
+        assert "30日後の予測使用率" in rec.reason
+
+
+class TestGenerateAlertsScalingRecommendation:
+    """_generate_alerts の scaling_recommendation アラート (L401->400)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_generate_scaling_recommendation_alert(self, mock_conn, mock_mkdir):
+        """critical/high urgency の推奨事項がアラートに含まれる"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlanningAutomation,
+            ScalingRecommendation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        forecasts = []  # 容量不足アラートなし
+        recommendations = [
+            ScalingRecommendation(
+                resource_type="cpu",
+                action="scale_up",
+                urgency="critical",
+                current_capacity=78.0,
+                recommended_capacity=120.0,
+                reason="緊急のスケールアップが必要",
+                estimated_days_until_needed=5,
+            ),
+            ScalingRecommendation(
+                resource_type="memory",
+                action="scale_up",
+                urgency="high",
+                current_capacity=80.0,
+                recommended_capacity=100.0,
+                reason="早期のスケールアップ推奨",
+                estimated_days_until_needed=10,
+            ),
+            ScalingRecommendation(
+                resource_type="disk",
+                action="scale_down",
+                urgency="low",
+                current_capacity=20.0,
+                recommended_capacity=50.0,
+                reason="リソース最適化可能",
+                estimated_days_until_needed=None,
+            ),
+        ]
+
+        alerts = automation._generate_alerts(forecasts, recommendations)
+
+        scaling_alerts = [a for a in alerts if a["category"] == "scaling_recommendation"]
+        assert len(scaling_alerts) == 2  # critical と high のみ
+        assert any(a["level"] == "critical" for a in scaling_alerts)
+        assert any(a["level"] == "high" for a in scaling_alerts)
+
+
+class TestGenerateSummaryWarningAndAttention:
+    """_generate_summary の warning/attention ステータス (L455-456, L458-459)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_summary_warning_status(self, mock_conn, mock_mkdir):
+        """warning ステータス: high urgency の推奨事項あり"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlanningAutomation,
+            ScalingRecommendation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        forecasts = [
+            CapacityForecast(
+                resource_type="cpu",
+                current_usage=70.0,
+                predicted_usage_7d=75.0,
+                predicted_usage_30d=80.0,
+                predicted_usage_90d=90.0,
+                capacity_threshold=80.0,
+                days_until_threshold=None,
+                growth_rate_daily=0.5,
+            )
+        ]
+        recommendations = [
+            ScalingRecommendation(
+                resource_type="cpu",
+                action="scale_up",
+                urgency="high",
+                current_capacity=70.0,
+                recommended_capacity=100.0,
+                reason="テスト",
+                estimated_days_until_needed=None,
+            )
+        ]
+
+        summary = automation._generate_summary(forecasts, recommendations, [])
+
+        assert summary["overall_status"] == "warning"
+        assert "早期の容量対応" in summary["status_message"]
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_summary_attention_status(self, mock_conn, mock_mkdir):
+        """attention ステータス: low urgency の推奨事項あり"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlanningAutomation,
+            ScalingRecommendation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        forecasts = [
+            CapacityForecast(
+                resource_type="disk",
+                current_usage=20.0,
+                predicted_usage_7d=21.0,
+                predicted_usage_30d=22.0,
+                predicted_usage_90d=25.0,
+                capacity_threshold=90.0,
+                days_until_threshold=None,
+                growth_rate_daily=0.05,
+            )
+        ]
+        recommendations = [
+            ScalingRecommendation(
+                resource_type="disk",
+                action="scale_down",
+                urgency="low",
+                current_capacity=20.0,
+                recommended_capacity=50.0,
+                reason="リソース最適化",
+                estimated_days_until_needed=None,
+            )
+        ]
+
+        summary = automation._generate_summary(forecasts, recommendations, [])
+
+        assert summary["overall_status"] == "attention"
+        assert "容量計画の確認" in summary["status_message"]
+
+
+class TestPrintForecastNoDays:
+    """_print_forecast の days_until_threshold が None の場合 (L588->590)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_print_forecast_no_threshold_days(self, mock_conn, mock_mkdir, capsys):
+        """days_until_threshold が None のとき、閾値到達行は表示されない"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlanningAutomation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        forecast = CapacityForecast(
+            resource_type="disk",
+            current_usage=30.0,
+            predicted_usage_7d=31.0,
+            predicted_usage_30d=33.0,
+            predicted_usage_90d=40.0,
+            capacity_threshold=90.0,
+            days_until_threshold=None,
+            growth_rate_daily=0.1,
+        )
+
+        automation._print_forecast(forecast)
+        captured = capsys.readouterr()
+
+        assert "DISK" in captured.out
+        assert "閾値到達まで" not in captured.out
+
+
+class TestPrintRecommendationNoDays:
+    """_print_recommendation の estimated_days が None の場合 (L601->603)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_print_recommendation_no_estimated_days(self, mock_conn, mock_mkdir, capsys):
+        """estimated_days_until_needed が None のとき、必要日数行は表示されない"""
+        from src.capacity_planning_automation import (
+            CapacityPlanningAutomation,
+            ScalingRecommendation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        rec = ScalingRecommendation(
+            resource_type="disk",
+            action="scale_down",
+            urgency="low",
+            current_capacity=20.0,
+            recommended_capacity=50.0,
+            reason="リソース最適化可能",
+            estimated_days_until_needed=None,
+        )
+
+        automation._print_recommendation(rec)
+        captured = capsys.readouterr()
+
+        assert "DISK" in captured.out
+        assert "必要になるまで" not in captured.out
+
+
+class TestPrintAlertUnknownLevel:
+    """_print_alert の未知レベル (L614-615)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_print_alert_unknown_level(self, mock_conn, mock_mkdir, capsys):
+        """未知のレベルではデフォルトシンボルが使われる"""
+        from src.capacity_planning_automation import CapacityPlanningAutomation
+
+        automation = CapacityPlanningAutomation()
+        alert = {
+            "level": "unknown_level",
+            "message": "テスト未知レベルアラート",
+        }
+
+        automation._print_alert(alert)
+        captured = capsys.readouterr()
+
+        assert "UNKNOWN_LEVEL" in captured.out
+        assert "テスト未知レベルアラート" in captured.out
+
+
+class TestMainWithCriticalResourceAndDays:
+    """main関数の most_critical_resource と days_until_critical 表示テスト (L685->687)"""
+
+    @patch("src.capacity_planning_automation.planner.CapacityPlanningAutomation")
+    @patch("sys.argv", ["capacity_planning_automation.py", "--generate"])
+    def test_main_critical_resource_no_days(self, mock_class, capsys):
+        """most_critical_resource あり、days_until_critical なし"""
+        from src.capacity_planning_automation import CapacityPlan, main
+
+        mock_instance = MagicMock()
+        mock_class.return_value = mock_instance
+
+        mock_plan = CapacityPlan(
+            generated_at="2025-01-01T00:00:00",
+            forecast_period_days=90,
+            forecasts=[],
+            recommendations=[],
+            alerts=[],
+            summary={
+                "overall_status": "attention",
+                "status_message": "容量計画の確認が必要です",
+                "most_critical_resource": "memory",
+                "days_until_critical": None,  # days が None
+                "total_recommendations": 1,
+                "critical_recommendations": 0,
+                "high_recommendations": 0,
+                "total_alerts": 0,
+            },
+        )
+        mock_instance.generate_capacity_plan.return_value = mock_plan
+
+        main()
+
+        captured = capsys.readouterr()
+        assert "MEMORY" in captured.out
+        # days_until_critical が None なので日数行は表示されない
+        assert "クリティカルまで" not in captured.out

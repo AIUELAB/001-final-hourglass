@@ -7,7 +7,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from fact_checker import FactChecker, FactCheckReport, FactCheckResult, FactCheckViolation
+from fact_checker import (
+    FactChecker,
+    FactCheckReport,
+    FactCheckResult,
+    FactCheckViolation,
+    test_fact_checker,
+)
 
 
 class TestFactCheckResult:
@@ -527,3 +533,274 @@ class TestUnverifiedResult:
         )
         # 違反なしでスコア高い場合はVERIFIEDかUNVERIFIED
         assert report.result in [FactCheckResult.VERIFIED, FactCheckResult.UNVERIFIED]
+
+
+class TestVerifyKnownFactsExtended:
+    """_verify_known_facts の未カバー行をテスト"""
+
+    def test_birth_year_mismatch_in_text(self):
+        """テキスト中の生年が既知の事実と異なる場合、unverified_claimsに追加される"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="安倍晋三",
+            episode_text="1960年生まれの政治家として知られる",
+            birth_year=1954,
+        )
+        # 生年パターン(\d{4}年.*生)にマッチするが、1954年ではないのでunverified
+        assert any("生年が既知の事実" in claim for claim in report.unverified_claims)
+
+    def test_birth_year_no_pattern(self):
+        """テキストに生年パターンがない場合、verified_factsに生年が追加される"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="安倍晋三",
+            episode_text="政治家として長く活躍した人物です",
+            birth_year=1954,
+        )
+        # 生年パターンがテキストにないので、verified_factsに追加
+        assert any("1954年" in fact for fact in report.verified_facts)
+
+    def test_abe_major_events_verified(self):
+        """安倍晋三のテキストに2006を含むと、major_eventsがverified_factsに追加される"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="安倍晋三",
+            episode_text="2006年に重要な役割を果たした政治家",
+            birth_year=1954,
+        )
+        assert any("2006" in fact and "内閣総理大臣" in fact for fact in report.verified_facts)
+
+    def test_abe_major_events_2012(self):
+        """安倍晋三のテキストに2012を含むと、major_eventsがverified_factsに追加される"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="安倍晋三",
+            episode_text="2012年に再び政権を担った",
+            birth_year=1954,
+        )
+        assert any("2012" in fact for fact in report.verified_facts)
+
+
+class TestValidPercentageContexts:
+    """_check_numerical_validity の valid_over_100_contexts パターンマッチングをテスト"""
+
+    def test_valid_growth_rate(self):
+        """前年比150%は正当な文脈なので違反にならない"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="売上は前年比150%を記録した",
+        )
+        pct_violations = [v for v in report.violations if v.violation_type == "INVALID_PERCENTAGE"]
+        assert len(pct_violations) == 0
+
+    def test_valid_growth_word(self):
+        """成長率200%は正当な文脈なので違反にならない"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="事業の成長率200%を達成した",
+        )
+        pct_violations = [v for v in report.violations if v.violation_type == "INVALID_PERCENTAGE"]
+        assert len(pct_violations) == 0
+
+    def test_valid_increase_rate(self):
+        """増加率120%は正当な文脈なので違反にならない"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="利用者数の増加率120%となった",
+        )
+        pct_violations = [v for v in report.violations if v.violation_type == "INVALID_PERCENTAGE"]
+        assert len(pct_violations) == 0
+
+    def test_valid_return_percentage(self):
+        """リターン2703%は正当な文脈なので違反にならない"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="投資のリターン2703%を実現した",
+        )
+        pct_violations = [v for v in report.violations if v.violation_type == "INVALID_PERCENTAGE"]
+        assert len(pct_violations) == 0
+
+    def test_mixed_valid_invalid(self):
+        """正当な文脈の150%と、文脈なしの250%が混在する場合、250%のみ違反"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P001",
+            person_name="テスト",
+            episode_text="前年比150%の成長を遂げ、達成率250%を記録した",
+        )
+        pct_violations = [v for v in report.violations if v.violation_type == "INVALID_PERCENTAGE"]
+        # 達成率250%は valid_over_100_contexts に含まれないので違反
+        assert len(pct_violations) >= 1
+        assert any("250" in v.evidence for v in pct_violations)
+        # 前年比150%は違反にならない
+        assert not any("150" in v.evidence for v in pct_violations)
+
+
+class TestEvaluateReportUnverified:
+    """_evaluate_report で UNVERIFIED 結果になるケースをテスト"""
+
+    def test_unverified_result(self):
+        """low severity違反のみでスコア90 → UNVERIFIED"""
+        checker = FactChecker()
+        report = FactCheckReport(
+            person_id="P001",
+            person_name="テスト",
+            timestamp="2025-01-01T00:00:00",
+            result=FactCheckResult.VERIFIED,
+        )
+        # low severity違反を1つ追加（-10点、スコア90）
+        report.violations.append(
+            FactCheckViolation(
+                violation_type="MINOR_ISSUE",
+                message="軽微な問題",
+                severity="low",
+                confidence=0.5,
+            )
+        )
+        checker._evaluate_report(report)
+        assert report.total_score == 90.0
+        assert report.result == FactCheckResult.UNVERIFIED
+
+
+class TestModuleLevelFunction:
+    """モジュールレベルの test_fact_checker() 関数をテスト"""
+
+    def test_test_fact_checker(self, capsys):
+        """test_fact_checker()がエラーなく実行され、出力を生成する"""
+        test_fact_checker()
+        captured = capsys.readouterr()
+        # 出力にレポート情報が含まれる
+        assert "事実確認レポート" in captured.out
+        assert "イチロー" in captured.out
+        assert "HIKAKIN" in captured.out
+
+
+class TestBranchCoverage:
+    """ブランチカバレッジの漏れを補完するテスト"""
+
+    def test_known_facts_without_birth_year(self):
+        """KNOWN_FACTSにbirth_yearがない人物の場合、生年チェックをスキップ（L232->241分岐）"""
+        checker = FactChecker()
+        # KNOWN_FACTSにbirth_yearなしの仮エントリを追加
+        checker.KNOWN_FACTS["テスト人物_no_birth"] = {
+            "major_events": [
+                {"year": 2020, "event": "テストイベント"},
+            ],
+        }
+        report = checker.check_episode(
+            person_id="P100",
+            person_name="テスト人物_no_birth",
+            episode_text="2020年に活躍した人物",
+        )
+        # birth_yearがないため生年関連のunverified_claimsは追加されない
+        assert not any("生年が既知の事実" in c for c in report.unverified_claims)
+        # major_eventsは検証される
+        assert any("2020" in f for f in report.verified_facts)
+
+    def test_known_facts_correct_birth_year_in_text(self):
+        """テキスト中の生年が既知の事実と一致する場合（L235->True分岐）"""
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P101",
+            person_name="安倍晋三",
+            episode_text="1954年生まれの政治家",
+            birth_year=1954,
+        )
+        # 正しい生年なのでunverified_claimsに追加されない
+        assert not any("生年が既知の事実" in c for c in report.unverified_claims)
+
+    def test_known_facts_without_major_events(self):
+        """KNOWN_FACTSにmajor_eventsがない人物（L241 major_events分岐スキップ）"""
+        checker = FactChecker()
+        checker.KNOWN_FACTS["テスト人物_no_events"] = {
+            "birth_year": 1980,
+        }
+        report = checker.check_episode(
+            person_id="P102",
+            person_name="テスト人物_no_events",
+            episode_text="普通のテキスト",
+        )
+        # エラーなく処理される
+        assert report is not None
+
+    def test_valid_percentage_bai_pattern(self):
+        """「3倍」パターンがvalid_over_100_contextsにマッチし、pct_matchがNoneになるケース（L294->291分岐）
+
+        「3倍」はパターン r"\\d+(?:\\.\\d+)?倍" にマッチするが、
+        マッチした文字列 "3倍" には %/％ が含まれないため
+        pct_match = re.search(r"(\\d+(?:\\.\\d+)?)[%％]", "3倍") は None を返す。
+        """
+        checker = FactChecker()
+        report = checker.check_episode(
+            person_id="P103",
+            person_name="テスト",
+            episode_text="売上が3倍に増加した",
+        )
+        # パーセンテージ違反はない（%を含むテキストがないため）
+        pct_violations = [v for v in report.violations if v.violation_type == "INVALID_PERCENTAGE"]
+        assert len(pct_violations) == 0
+
+    def test_generate_summary_no_unverified_claims(self):
+        """unverified_claimsが空の場合、「未検証の主張」セクションが表示されない（L363->361分岐）"""
+        checker = FactChecker()
+        report = FactCheckReport(
+            person_id="P104",
+            person_name="テスト",
+            timestamp="2025-01-01T00:00:00",
+            result=FactCheckResult.VERIFIED,
+            verified_facts=["テスト事実"],
+            unverified_claims=[],  # 空
+        )
+        summary = checker.generate_summary(report)
+        assert "未検証の主張" not in summary
+        assert "検証済みの事実" in summary
+
+    def test_generate_summary_with_unverified_claims(self):
+        """unverified_claimsがある場合、「未検証の主張」セクションが表示される"""
+        checker = FactChecker()
+        report = FactCheckReport(
+            person_id="P105",
+            person_name="テスト",
+            timestamp="2025-01-01T00:00:00",
+            result=FactCheckResult.UNVERIFIED,
+            unverified_claims=["未確認の主張テスト"],
+        )
+        summary = checker.generate_summary(report)
+        assert "未検証の主張" in summary
+        assert "未確認の主張テスト" in summary
+
+    def test_generate_summary_violation_without_suggestion(self):
+        """violationにsuggestionがない場合、矢印行が出力されない（L363->361分岐）"""
+        checker = FactChecker()
+        report = FactCheckReport(
+            person_id="P106",
+            person_name="テスト",
+            timestamp="2025-01-01T00:00:00",
+            result=FactCheckResult.SUSPICIOUS,
+            violations=[
+                FactCheckViolation(
+                    violation_type="TEST_ISSUE",
+                    message="テスト問題",
+                    severity="medium",
+                    suggestion=None,  # suggestionなし
+                    confidence=0.5,
+                )
+            ],
+        )
+        summary = checker.generate_summary(report)
+        assert "検出された問題" in summary
+        assert "テスト問題" in summary
+        # suggestionがないので矢印行は出力されない
+        assert "→" not in summary

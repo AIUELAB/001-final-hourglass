@@ -1086,3 +1086,338 @@ class TestMainFunction:
         main()
 
         mock_help.assert_called_once()
+
+
+class TestSklearnImportFallback:
+    """sklearn ImportError時のフォールバック変数テスト（L25-32）"""
+
+    def test_sklearn_unavailable_flag(self):
+        """SKLEARN_AVAILABLE=Falseの場合、フォールバック変数が設定される"""
+        from src.ai_recommendation_system import recommender
+
+        original = recommender.SKLEARN_AVAILABLE
+        try:
+            recommender.SKLEARN_AVAILABLE = False
+
+            with patch("src.ai_recommendation_system.recommender.Path.mkdir"):
+                with patch("src.ai_recommendation_system.recommender.get_connection") as mock_conn:
+                    mock_conn.return_value = MagicMock()
+                    system = recommender.AIRecommendationSystem()
+                    assert system.recommendation_model is None
+                    assert system.priority_model is None
+                    assert system.scaler is None
+        finally:
+            recommender.SKLEARN_AVAILABLE = original
+
+    def test_sklearn_import_error_sets_fallback_variables(self):
+        """sklearn ImportError時にフォールバック変数がNoneに設定される（L25-32）
+
+        subprocessで隔離環境を使い、sklearnのimportを失敗させてカバレッジを検証する。
+        """
+        import subprocess
+        import sys
+
+        # sklearnのimportを妨害するスクリプトをsubprocessで実行
+        test_script = """
+import sys
+# sklearnとjoblibをimport不可にする
+import builtins
+_original_import = builtins.__import__
+def _mock_import(name, *args, **kwargs):
+    if name in ('joblib', 'sklearn', 'sklearn.ensemble', 'sklearn.model_selection', 'sklearn.preprocessing'):
+        raise ImportError(f"Mocked ImportError for {name}")
+    return _original_import(name, *args, **kwargs)
+builtins.__import__ = _mock_import
+
+# recommenderモジュールのimportでexcept ImportErrorパスが走る
+from unittest.mock import MagicMock, patch
+with patch("src.database_utils.get_connection", return_value=MagicMock()):
+    with patch("pathlib.Path.mkdir"):
+        from src.ai_recommendation_system import recommender
+        assert recommender.SKLEARN_AVAILABLE is False, f"Expected False, got {recommender.SKLEARN_AVAILABLE}"
+        assert recommender.np is None
+        assert recommender.RandomForestClassifier is None
+        assert recommender.GradientBoostingClassifier is None
+        assert recommender.StandardScaler is None
+        assert recommender.train_test_split is None
+        assert recommender.joblib is None
+        print("ALL_ASSERTIONS_PASSED")
+"""
+        result = subprocess.run(
+            [sys.executable, "-c", test_script],
+            capture_output=True,
+            text=True,
+            cwd="/Users/admin/Documents/AIUELAB/001-final-hourglass",
+            timeout=30,
+        )
+        assert (
+            "ALL_ASSERTIONS_PASSED" in result.stdout
+        ), f"Subprocess failed.\nstdout: {result.stdout}\nstderr: {result.stderr}"
+
+    def test_sklearn_not_available_save_models_noop(self):
+        """SKLEARN_AVAILABLE=Falseの場合、_save_modelsは何もしない"""
+        from src.ai_recommendation_system import recommender
+
+        original = recommender.SKLEARN_AVAILABLE
+        try:
+            recommender.SKLEARN_AVAILABLE = False
+
+            with patch("src.ai_recommendation_system.recommender.Path.mkdir"):
+                with patch("src.ai_recommendation_system.recommender.get_connection") as mock_conn:
+                    mock_conn.return_value = MagicMock()
+                    system = recommender.AIRecommendationSystem()
+                    # _save_modelsがNoop（早期リターン）
+                    system._save_models()  # エラーが発生しない
+        finally:
+            recommender.SKLEARN_AVAILABLE = original
+
+
+class TestSaveModelsPartialModels:
+    """_save_models: 一部モデルのみ存在する場合のブランチテスト"""
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_save_only_recommendation_model(self, mock_get_conn, mock_mkdir, mock_joblib):
+        """recommendation_modelのみ存在する場合"""
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        system = AIRecommendationSystem()
+        system.recommendation_model = MagicMock()
+        system.priority_model = None  # なし
+        system.scaler = None  # なし
+
+        system._save_models()
+
+        # joblib.dumpは1回のみ呼ばれる（recommendation_modelのみ）
+        assert mock_joblib.dump.call_count == 1
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_save_no_models(self, mock_get_conn, mock_mkdir, mock_joblib):
+        """全モデルがNoneの場合、joblib.dumpは呼ばれない"""
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        system = AIRecommendationSystem()
+        system.recommendation_model = None
+        system.priority_model = None
+        system.scaler = None
+
+        system._save_models()
+
+        mock_joblib.dump.assert_not_called()
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_save_priority_and_scaler_only(self, mock_get_conn, mock_mkdir, mock_joblib):
+        """priority_modelとscalerのみ存在する場合"""
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        system = AIRecommendationSystem()
+        system.recommendation_model = None  # なし
+        system.priority_model = MagicMock()
+        system.scaler = MagicMock()
+
+        system._save_models()
+
+        # joblib.dumpは2回呼ばれる（priority_model + scaler）
+        assert mock_joblib.dump.call_count == 2
+
+
+class TestLoadModelsWithFiles:
+    """_load_models: モデルファイルが存在する場合のテスト"""
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_loads_existing_model_files(self, mock_get_conn, mock_mkdir, mock_joblib):
+        """既存モデルファイルをjoblib.loadでロード"""
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        # Path.exists()をモックしてモデルファイルが存在するように見せる
+        mock_rec_model = MagicMock(name="rec_model")
+        mock_pri_model = MagicMock(name="pri_model")
+        mock_scaler_obj = MagicMock(name="scaler")
+
+        # joblib.loadの戻り値を設定（3回呼ばれる）
+        mock_joblib.load.side_effect = [mock_rec_model, mock_pri_model, mock_scaler_obj]
+
+        with patch("src.ai_recommendation_system.recommender.Path.exists", return_value=True):
+            system = AIRecommendationSystem()
+
+        # joblib.loadが3回呼ばれることを確認
+        assert mock_joblib.load.call_count == 3
+        assert system.recommendation_model == mock_rec_model
+        assert system.priority_model == mock_pri_model
+        assert system.scaler == mock_scaler_obj
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_handles_load_error(self, mock_get_conn, mock_mkdir, mock_joblib, capsys):
+        """モデルロード時のエラーハンドリング"""
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        mock_joblib.load.side_effect = Exception("Corrupt model file")
+
+        with patch("src.ai_recommendation_system.recommender.Path.exists", return_value=True):
+            system = AIRecommendationSystem()
+
+        captured = capsys.readouterr()
+        assert "モデルロード失敗" in captured.out
+
+
+class TestSaveModelsError:
+    """_save_models: エラーハンドリングテスト"""
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.joblib")
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_handles_save_error(self, mock_get_conn, mock_mkdir, mock_joblib, capsys):
+        """joblib.dump例外時にエラーメッセージ出力"""
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        system = AIRecommendationSystem()
+        system.recommendation_model = MagicMock()
+        system.priority_model = MagicMock()
+        system.scaler = MagicMock()
+
+        # joblib.dumpで例外発生
+        mock_joblib.dump.side_effect = OSError("Disk full")
+
+        system._save_models()
+
+        captured = capsys.readouterr()
+        assert "モデル保存失敗" in captured.out
+
+
+class TestMLRecommendationNoPriorityModel:
+    """_generate_ml_recommendations: priority_modelがない場合のテスト"""
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_defaults_to_medium_priority(self, mock_get_conn, mock_mkdir):
+        """priority_modelがNoneの場合、priorityは'medium'になる"""
+        import numpy as np
+
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_get_conn.return_value = mock_conn
+
+        system = AIRecommendationSystem()
+
+        # recommendation_modelはあるがpriority_modelはない
+        mock_model = MagicMock()
+        mock_model.predict.return_value = ["optimize"]
+        mock_model.predict_proba.return_value = np.array([[0.1, 0.9]])
+        system.recommendation_model = mock_model
+        system.priority_model = None
+        system.scaler = None
+
+        features = {"cpu_usage": 75.0, "memory_usage": 60.0}
+
+        result = system._generate_ml_recommendations(features, "2025-01-01T00:00:00")
+
+        assert len(result) == 1
+        assert result[0].priority == "medium"
+        assert result[0].action == "optimize"
+
+
+class TestGenerateAIWithML:
+    """generate_ai_recommendations: MLパス統合テスト"""
+
+    @patch("src.ai_recommendation_system.recommender.SKLEARN_AVAILABLE", True)
+    @patch("src.ai_recommendation_system.recommender.Path.mkdir")
+    @patch("src.ai_recommendation_system.recommender.get_connection")
+    def test_generates_with_ml_model(self, mock_get_conn, mock_mkdir, capsys):
+        """MLモデルが有効な場合、ml_recsが統合される"""
+        import numpy as np
+
+        from src.ai_recommendation_system import AIRecommendationSystem
+
+        mock_conn = MagicMock()
+        mock_cursor = MagicMock()
+
+        # collect_system_features用のモック
+        mock_cursor.fetchone.side_effect = [
+            (90.0, 90.0, 50.0, 8.0, 100.0),  # system_metrics
+            (0.3, 0.9),  # prediction
+            (0,),  # quality_events
+        ]
+        mock_cursor.fetchall.side_effect = [
+            [],  # capacity_forecasts
+            [],  # resource_costs
+        ]
+        mock_conn.cursor.return_value = mock_cursor
+        mock_get_conn.return_value = mock_conn
+
+        system = AIRecommendationSystem()
+
+        # MLモデルを設定
+        mock_model = MagicMock()
+        mock_model.predict.return_value = ["scale_down"]
+        mock_model.predict_proba.return_value = np.array([[0.15, 0.85]])
+        system.recommendation_model = mock_model
+
+        mock_priority_model = MagicMock()
+        mock_priority_model.predict.return_value = ["high"]
+        system.priority_model = mock_priority_model
+
+        mock_scaler = MagicMock()
+        mock_scaler.transform.return_value = [[0.5] * 11]
+        system.scaler = mock_scaler
+
+        # generate_ai_recommendations呼び出し用にmockをリセット
+        mock_get_conn.reset_mock()
+        mock_get_conn.return_value = mock_conn
+        mock_cursor.fetchone.side_effect = [
+            (90.0, 90.0, 50.0, 8.0, 100.0),
+            (0.3, 0.9),
+            (0,),
+        ]
+        mock_cursor.fetchall.side_effect = [
+            [],
+            [],
+        ]
+
+        result = system.generate_ai_recommendations()
+
+        # ルールベース推奨(CPU + メモリ) + ML推奨(1件) が含まれる
+        assert len(result) >= 3
+
+        # ML推奨が含まれていることを確認
+        ml_recs = [r for r in result if r.recommendation_type == "ml_based"]
+        assert len(ml_recs) == 1
+        assert ml_recs[0].action == "scale_down"
+
+        captured = capsys.readouterr()
+        assert "ML推奨" in captured.out
+        assert "AI推奨生成完了" in captured.out

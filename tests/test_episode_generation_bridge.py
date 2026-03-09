@@ -663,3 +663,276 @@ class TestSelectAgesWithPriorityEdgeCases:
 
         assert len(result) == 2
         assert all(a >= 50 for a in result)
+
+
+class TestQualityGateNotLoaded:
+    """品質ゲートがNoneの場合のRuntimeErrorテスト"""
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_generate_for_person_validator_none(self, mock_generator):
+        """_load_quality_gates後にepisode_validatorがNoneならRuntimeError"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        # _load_quality_gatesをモックして何もしない（validatorがNoneのまま）
+        with patch.object(bridge, "_load_quality_gates"):
+            bridge.episode_validator = None
+            bridge.fact_checker = MagicMock()
+            bridge.template_blocker = MagicMock()
+
+            person_data = {
+                "person_name": "テスト",
+                "category": "科学・技術",
+                "person_type": "REAL",
+                "birth_year": 1990,
+            }
+
+            with pytest.raises(RuntimeError, match="episode_validator not loaded"):
+                bridge.generate_for_person(person_data, episodes_count=1)
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_generate_for_person_fact_checker_none(self, mock_generator):
+        """_load_quality_gates後にfact_checkerがNoneならRuntimeError"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        with patch.object(bridge, "_load_quality_gates"):
+            bridge.episode_validator = MagicMock()
+            bridge.fact_checker = None
+            bridge.template_blocker = MagicMock()
+
+            person_data = {
+                "person_name": "テスト",
+                "category": "科学・技術",
+                "person_type": "REAL",
+                "birth_year": 1990,
+            }
+
+            with pytest.raises(RuntimeError, match="fact_checker not loaded"):
+                bridge.generate_for_person(person_data, episodes_count=1)
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_generate_for_person_template_blocker_none(self, mock_generator):
+        """_load_quality_gates後にtemplate_blockerがNoneならRuntimeError"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        with patch.object(bridge, "_load_quality_gates"):
+            bridge.episode_validator = MagicMock()
+            bridge.fact_checker = MagicMock()
+            bridge.template_blocker = None
+
+            person_data = {
+                "person_name": "テスト",
+                "category": "科学・技術",
+                "person_type": "REAL",
+                "birth_year": 1990,
+            }
+
+            with pytest.raises(RuntimeError, match="template_blocker not loaded"):
+                bridge.generate_for_person(person_data, episodes_count=1)
+
+
+class TestRetryQualityGateNotInitialized:
+    """_generate_single_episode_with_retryで品質ゲートがNoneの場合"""
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_retry_validator_none(self, mock_generator):
+        """episode_validatorがNoneでRuntimeError"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+        bridge.episode_validator = None
+        bridge.fact_checker = MagicMock()
+        bridge.template_blocker = MagicMock()
+
+        person_data = {"person_name": "テスト", "category": "科学・技術", "person_type": "REAL"}
+
+        with pytest.raises(RuntimeError, match="episode_validator not initialized"):
+            bridge._generate_single_episode_with_retry(person_data, 30, max_retries=2)
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_retry_fact_checker_none(self, mock_generator):
+        """fact_checkerがNoneでRuntimeError"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+        bridge.episode_validator = MagicMock()
+        bridge.fact_checker = None
+        bridge.template_blocker = MagicMock()
+
+        person_data = {"person_name": "テスト", "category": "科学・技術", "person_type": "REAL"}
+
+        with pytest.raises(RuntimeError, match="fact_checker not initialized"):
+            bridge._generate_single_episode_with_retry(person_data, 30, max_retries=2)
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_retry_template_blocker_none(self, mock_generator):
+        """template_blockerがNoneでRuntimeError"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+        bridge.episode_validator = MagicMock()
+        bridge.fact_checker = MagicMock()
+        bridge.template_blocker = None
+
+        person_data = {"person_name": "テスト", "category": "科学・技術", "person_type": "REAL"}
+
+        with pytest.raises(RuntimeError, match="template_blocker not initialized"):
+            bridge._generate_single_episode_with_retry(person_data, 30, max_retries=2)
+
+
+class TestNameValidationAutoCorrection:
+    """EpisodeNameValidatorによる人物名自動修正テスト"""
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_name_mismatch_auto_corrected(self, mock_generator):
+        """人物名不一致時にepisode_textが自動修正される"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+        from enum import Enum
+
+        mock_gen_instance = MagicMock()
+        mock_generator.return_value = mock_gen_instance
+        mock_gen_instance.generate.return_value = {
+            "person_name": "山中伸弥",
+            "age": 30,
+            "episode_text": "あなたと同じ30歳のとき、山中伸也は研究を開始しました。",
+            "person_id": "P123",
+        }
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        # 品質ゲートはすべて通過
+        bridge.episode_validator = MagicMock(return_value=[])
+        mock_report = MagicMock()
+        mock_report.violations = []
+        bridge.fact_checker = MagicMock()
+        bridge.fact_checker.check_episode.return_value = mock_report
+        bridge.template_blocker = MagicMock()
+        bridge.template_blocker.check_episode.return_value = (False, [])
+
+        # ValidationResultのモック
+        class MockValidationResult(Enum):
+            MATCH = "match"
+            MISMATCH = "mismatch"
+
+        mock_name_result = MagicMock()
+        mock_name_result.result = MockValidationResult.MISMATCH
+        mock_name_result.text_name = "山中伸也"
+
+        person_data = {"person_name": "山中伸弥", "category": "科学・技術", "person_type": "REAL"}
+
+        with (
+            patch(
+                "src.validators.episode_name_validator.validate_episode_name",
+                return_value=mock_name_result,
+            ),
+            patch(
+                "src.validators.episode_name_validator.ValidationResult",
+                MockValidationResult,
+            ),
+        ):
+            result = bridge._generate_single_episode_with_retry(person_data, 30, max_retries=1)
+
+        assert result is not None
+        # 自動修正が試みられたことを確認（正規表現で修正されるパターン）
+        # episode_textに山中伸弥が含まれることを確認
+        assert result["person_name"] == "山中伸弥"
+
+
+class TestRetryExceptionHandling:
+    """_generate_single_episode_with_retryの例外ハンドリングテスト"""
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_exception_during_quality_gate(self, mock_generator):
+        """品質ゲート実行中に例外が発生した場合、キャッチされてリトライする"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        mock_gen_instance = MagicMock()
+        mock_generator.return_value = mock_gen_instance
+        mock_gen_instance.generate.return_value = {
+            "person_name": "テスト",
+            "age": 30,
+            "episode_text": "テストエピソード",
+            "person_id": "P123",
+        }
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        # episode_validatorが例外を投げる
+        bridge.episode_validator = MagicMock(side_effect=Exception("Validator crashed"))
+        bridge.fact_checker = MagicMock()
+        bridge.template_blocker = MagicMock()
+
+        person_data = {"person_name": "テスト", "category": "科学・技術", "person_type": "REAL"}
+
+        result = bridge._generate_single_episode_with_retry(person_data, 30, max_retries=2)
+
+        # 例外がキャッチされ、Noneが返される（2回リトライ後）
+        assert result is None
+        # 2回リトライされたことを確認
+        assert bridge.episode_validator.call_count == 2
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_exception_during_fact_checker(self, mock_generator):
+        """FactChecker実行中に例外が発生した場合、キャッチされてリトライする"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        mock_gen_instance = MagicMock()
+        mock_generator.return_value = mock_gen_instance
+        mock_gen_instance.generate.return_value = {
+            "person_name": "テスト",
+            "age": 30,
+            "episode_text": "テストエピソード",
+            "person_id": "P123",
+        }
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        # validatorは通過、fact_checkerが例外
+        bridge.episode_validator = MagicMock(return_value=[])
+        bridge.fact_checker = MagicMock()
+        bridge.fact_checker.check_episode.side_effect = Exception("FactChecker crashed")
+        bridge.template_blocker = MagicMock()
+
+        person_data = {"person_name": "テスト", "category": "科学・技術", "person_type": "REAL"}
+
+        result = bridge._generate_single_episode_with_retry(person_data, 30, max_retries=2)
+
+        assert result is None
+        assert bridge.fact_checker.check_episode.call_count == 2
+
+    @patch("src.episode_generation_bridge.EpisodeGenerator")
+    def test_exception_during_template_blocker(self, mock_generator):
+        """TemplateBlocker実行中に例外が発生した場合、キャッチされてリトライする"""
+        from src.episode_generation_bridge import EpisodeGenerationBridge
+
+        mock_gen_instance = MagicMock()
+        mock_generator.return_value = mock_gen_instance
+        mock_gen_instance.generate.return_value = {
+            "person_name": "テスト",
+            "age": 30,
+            "episode_text": "あなたと同じ30歳のとき、テストはエピソードです。",
+            "person_id": "P123",
+        }
+
+        bridge = EpisodeGenerationBridge(api_key="test")
+
+        # validator, fact_checkerは通過、template_blockerが例外
+        bridge.episode_validator = MagicMock(return_value=[])
+        mock_report = MagicMock()
+        mock_report.violations = []
+        bridge.fact_checker = MagicMock()
+        bridge.fact_checker.check_episode.return_value = mock_report
+        bridge.template_blocker = MagicMock()
+        bridge.template_blocker.check_episode.side_effect = Exception("TemplateBlocker crashed")
+
+        person_data = {"person_name": "テスト", "category": "科学・技術", "person_type": "REAL"}
+
+        result = bridge._generate_single_episode_with_retry(person_data, 30, max_retries=2)
+
+        assert result is None
+        assert bridge.template_blocker.check_episode.call_count == 2

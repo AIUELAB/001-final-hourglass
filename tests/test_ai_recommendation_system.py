@@ -2,6 +2,7 @@
 tests/test_ai_recommendation_system.py - ai_recommendation_system.py ユニットテスト
 """
 
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -1147,7 +1148,7 @@ with patch("src.database_utils.get_connection", return_value=MagicMock()):
             [sys.executable, "-c", test_script],
             capture_output=True,
             text=True,
-            cwd="/Users/admin/Documents/AIUELAB/001-final-hourglass",
+            cwd=str(Path(__file__).parent.parent),
             timeout=30,
         )
         assert (

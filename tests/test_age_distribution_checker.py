@@ -176,5 +176,208 @@ class TestAgeDistributionChecker:
         assert any("P002" in s.message for s in suspicious)
 
 
+class TestIsUniformInterval:
+    """_is_uniform_interval() メソッドの直接テスト"""
+
+    def setup_method(self):
+        self.checker = AgeDistributionChecker()
+
+    def test_uniform_interval_true(self):
+        """等間隔の場合はTrueを返す"""
+        assert self.checker._is_uniform_interval([10, 15, 20]) is True
+
+    def test_non_uniform_interval_false(self):
+        """等間隔でない場合はFalseを返す"""
+        assert self.checker._is_uniform_interval([10, 15, 22]) is False
+
+    def test_two_elements_false(self):
+        """2件では等間隔判定しない（Falseを返す）"""
+        assert self.checker._is_uniform_interval([10, 20]) is False
+
+    def test_one_element_false(self):
+        """1件ではFalseを返す"""
+        assert self.checker._is_uniform_interval([10]) is False
+
+    def test_empty_list_false(self):
+        """空リストではFalseを返す"""
+        assert self.checker._is_uniform_interval([]) is False
+
+
+class TestCheckDistributionEdgeCases:
+    """_check_distribution のエッジケーステスト"""
+
+    def setup_method(self):
+        self.checker = AgeDistributionChecker()
+
+    def test_empty_ages(self):
+        """空のリストはOK"""
+        result = self.checker.check_person_distribution("P001", [])
+        assert result.result == CheckResult.OK
+        assert not result.is_suspicious
+
+    def test_mixed_ages_no_five_multiple_issue(self):
+        """5の倍数比率がしきい値未満で等間隔でもない場合はOK"""
+        ages = [7.0, 13.0, 22.0, 38.0, 51.0]
+        result = self.checker.check_person_distribution("P001", ages)
+        assert result.result == CheckResult.OK
+
+    def test_five_multiples_below_three_not_all_five(self):
+        """3件未満で全5の倍数チェックを通過"""
+        ages = [10.0, 20.0]
+        result = self.checker.check_person_distribution("P001", ages)
+        # 2件なので「全て5の倍数」チェックは発動しない（3件以上が条件）
+        # ただし5の倍数偏重（100%）は検出される
+        assert result.is_suspicious
+
+
+class TestScanDatabaseExtended:
+    """scan_database の拡張テスト"""
+
+    def setup_method(self):
+        self.checker = AgeDistributionChecker()
+
+    def test_empty_database(self):
+        """空のデータベースは空リスト"""
+        result = self.checker.scan_database({})
+        assert len(result) == 0
+
+    def test_all_ok_database(self):
+        """全員OKの場合は空リスト"""
+        db = {
+            "P001": [7.0, 22.0, 38.0],
+            "P002": [11.0, 29.0, 44.0],
+        }
+        result = self.checker.scan_database(db)
+        assert len(result) == 0
+
+    def test_multiple_suspicious(self):
+        """複数の疑わしいパターンを検出"""
+        db = {
+            "P001": [20.0, 25.0, 30.0],  # 疑わしい
+            "P002": [10.0, 20.0, 30.0],  # 疑わしい
+            "P003": [7.0, 22.0, 38.0],  # OK
+        }
+        result = self.checker.scan_database(db)
+        assert len(result) == 2
+
+
+class TestAgeCheckResult:
+    """AgeCheckResult データクラスのテスト"""
+
+    def test_result_fields(self):
+        """フィールドが正しく設定される"""
+        from src.validators.age_distribution_checker import AgeCheckResult
+
+        result = AgeCheckResult(
+            result=CheckResult.OK,
+            is_suspicious=False,
+            message="テスト",
+            details={"key": "value"},
+        )
+        assert result.result == CheckResult.OK
+        assert result.is_suspicious is False
+        assert result.message == "テスト"
+        assert result.details == {"key": "value"}
+
+
+class TestCheckResultEnum:
+    """CheckResult Enumのテスト"""
+
+    def test_values(self):
+        assert CheckResult.OK.value == "OK"
+        assert CheckResult.WARNING.value == "WARNING"
+        assert CheckResult.BLOCK.value == "BLOCK"
+
+
+class TestMainFunction:
+    """main() 関数のテスト"""
+
+    def test_main_csv_not_found(self, monkeypatch, capsys):
+        """CSVが見つからない場合"""
+        from src.validators import age_distribution_checker
+
+        monkeypatch.setattr("sys.argv", ["age_distribution_checker.py", "--csv", "/tmp/nonexistent_test.csv"])
+        exit_code = age_distribution_checker.main()
+        captured = capsys.readouterr()
+        assert exit_code == 1
+        assert "ファイルが見つかりません" in captured.out
+
+    def test_main_with_clean_csv(self, tmp_path, monkeypatch, capsys):
+        """問題のないCSVでmain実行"""
+        import csv as csv_mod
+
+        from src.validators import age_distribution_checker
+
+        csv_path = tmp_path / "test.csv"
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv_mod.DictWriter(f, fieldnames=["person_id", "person_name", "age"])
+            writer.writeheader()
+            writer.writerow({"person_id": "P001", "person_name": "テスト太郎", "age": "17"})
+            writer.writerow({"person_id": "P001", "person_name": "テスト太郎", "age": "28"})
+            writer.writerow({"person_id": "P001", "person_name": "テスト太郎", "age": "43"})
+
+        monkeypatch.setattr("sys.argv", ["age_distribution_checker.py", "--csv", str(csv_path)])
+        exit_code = age_distribution_checker.main()
+        captured = capsys.readouterr()
+        assert exit_code == 0
+        assert "年齢分布チェッカー" in captured.out
+        assert "対象: 1人" in captured.out
+
+    def test_main_with_suspicious_csv(self, tmp_path, monkeypatch, capsys):
+        """疑わしいパターンを含むCSVでmain実行"""
+        import csv as csv_mod
+
+        from src.validators import age_distribution_checker
+
+        csv_path = tmp_path / "test.csv"
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv_mod.DictWriter(f, fieldnames=["person_id", "person_name", "age"])
+            writer.writeheader()
+            # 5歳刻みパターン
+            writer.writerow({"person_id": "P001", "person_name": "テスト太郎", "age": "20"})
+            writer.writerow({"person_id": "P001", "person_name": "テスト太郎", "age": "25"})
+            writer.writerow({"person_id": "P001", "person_name": "テスト太郎", "age": "30"})
+
+        monkeypatch.setattr("sys.argv", ["age_distribution_checker.py", "--csv", str(csv_path)])
+        exit_code = age_distribution_checker.main()
+        captured = capsys.readouterr()
+        assert exit_code == 0
+        assert "疑わしいパターン" in captured.out
+
+    def test_main_with_strict_mode(self, tmp_path, monkeypatch, capsys):
+        """--strict モードでmain実行"""
+        import csv as csv_mod
+
+        from src.validators import age_distribution_checker
+
+        csv_path = tmp_path / "test.csv"
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv_mod.DictWriter(f, fieldnames=["person_id", "person_name", "age"])
+            writer.writeheader()
+            writer.writerow({"person_id": "P001", "person_name": "テスト", "age": "17"})
+            writer.writerow({"person_id": "P001", "person_name": "テスト", "age": "28"})
+
+        monkeypatch.setattr("sys.argv", ["age_distribution_checker.py", "--csv", str(csv_path), "--strict"])
+        exit_code = age_distribution_checker.main()
+        assert exit_code == 0
+
+    def test_main_with_invalid_age(self, tmp_path, monkeypatch, capsys):
+        """無効な年齢値を含むCSV（ValueErrorがスキップされる）"""
+        import csv as csv_mod
+
+        from src.validators import age_distribution_checker
+
+        csv_path = tmp_path / "test.csv"
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv_mod.DictWriter(f, fieldnames=["person_id", "person_name", "age"])
+            writer.writeheader()
+            writer.writerow({"person_id": "P001", "person_name": "テスト", "age": "invalid"})
+            writer.writerow({"person_id": "P002", "person_name": "テスト2", "age": "25"})
+
+        monkeypatch.setattr("sys.argv", ["age_distribution_checker.py", "--csv", str(csv_path)])
+        exit_code = age_distribution_checker.main()
+        assert exit_code == 0
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

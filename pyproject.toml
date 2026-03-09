@@ -237,7 +237,7 @@ typeCheckingMode = "strict"
 [tool.pytest]
 
 [tool.pytest.ini_options]
-addopts = "-q --strict-markers --tb=short --cov=src --cov-report=term-missing:skip-covered"
+addopts = "-q --strict-markers --tb=short --cov=src --cov-report=term-missing:skip-covered --cov-report=xml"
 filterwarnings = [
   "ignore:coroutine.*was never awaited:RuntimeWarning",
   "ignore::pytest.PytestUnraisableExceptionWarning"

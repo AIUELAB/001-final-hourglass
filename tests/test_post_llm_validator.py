@@ -327,6 +327,163 @@ class TestIntegration:
         assert len(result.errors) > 0
 
 
+class TestFictionalWorkTitleCheck:
+    """架空キャラ作品名チェックテスト"""
+
+    def setup_method(self):
+        self.validator = PostLLMValidator()
+
+    def test_work_title_present_and_matching(self):
+        """冒頭に正しい作品名がある場合はエラーなし"""
+        text = "あなたと同じ16歳のとき、悟空『ドラゴンボール』は修行を開始しました。" + "テスト" * 40
+        result = self.validator.validate(text, age=16, person_type="FICTIONAL", work_title="ドラゴンボール")
+        # 作品名関連のエラーがないことを確認
+        work_errors = [e for e in result.errors if "作品名" in e or "FICTIONAL" in e]
+        assert len(work_errors) == 0
+
+    def test_work_title_missing(self):
+        """冒頭に作品名がない場合はエラー"""
+        text = "あなたと同じ16歳のとき、悟空は修行を開始しました。" + "テスト" * 40
+        result = self.validator.validate(text, age=16, person_type="FICTIONAL", work_title="ドラゴンボール")
+        work_errors = [e for e in result.errors if "FICTIONAL" in e or "作品名" in e]
+        assert len(work_errors) > 0
+
+    def test_work_title_mismatch(self):
+        """作品名はあるが期待と異なる場合はエラー"""
+        text = "あなたと同じ16歳のとき、悟空『ONE PIECE』は修行を開始しました。" + "テスト" * 40
+        result = self.validator.validate(text, age=16, person_type="FICTIONAL", work_title="ドラゴンボール")
+        work_errors = [e for e in result.errors if "作品名" in e]
+        assert len(work_errors) > 0
+
+    def test_no_work_title_check_when_empty(self):
+        """work_titleが空の場合は作品名チェックをスキップ"""
+        text = "あなたと同じ16歳のとき、悟空は修行を開始しました。" + "テスト" * 40
+        result = self.validator.validate(text, age=16, person_type="FICTIONAL", work_title="")
+        work_errors = [e for e in result.errors if "FICTIONAL" in e or "作品名" in e]
+        assert len(work_errors) == 0
+
+    def test_no_work_title_check_for_real(self):
+        """REALタイプでは作品名チェックを行わない"""
+        text = "あなたと同じ30歳のとき、彼は新しいプロジェクトを開始しました。" + "テスト" * 40
+        result = self.validator.validate(text, age=30, person_type="REAL", work_title="テスト作品")
+        work_errors = [e for e in result.errors if "FICTIONAL" in e or "作品名" in e]
+        assert len(work_errors) == 0
+
+
+class TestEarlyChildhoodQualityCheck:
+    """1-5歳エピソード品質チェックテスト"""
+
+    def setup_method(self):
+        self.validator = PostLLMValidator()
+
+    def test_forbidden_pattern_detected(self):
+        """幼児には不可能な行動が検出される"""
+        text = "あなたと同じ3歳のとき、彼は論文を発表した。" + "テスト" * 30
+        result = self.validator.validate(text, age=3, person_type="REAL")
+        early_errors = [e for e in result.errors if "幼児エピソード品質違反" in e]
+        assert len(early_errors) > 0
+
+    def test_subjective_expression_detected(self):
+        """検証不可能な主観表現が検出される"""
+        text = "あなたと同じ2歳のとき、彼は情熱を秘めていた才能の片鱗を見せた。" + "テスト" * 30
+        result = self.validator.validate(text, age=2, person_type="REAL")
+        early_errors = [e for e in result.errors if "幼児エピソード品質違反" in e]
+        assert len(early_errors) > 0
+
+    def test_recommended_pattern_warning_when_missing(self):
+        """推奨パターンがない場合に警告"""
+        # 推奨パターンを一切含まないテキスト
+        text = "あなたと同じ4歳のとき、彼は明るい性格だった。" + "テスト" * 30
+        result = self.validator.validate(text, age=4, person_type="REAL")
+        early_warnings = [w for w in result.warnings if "第三者視点" in w]
+        assert len(early_warnings) > 0
+
+    def test_no_warning_with_recommended_pattern(self):
+        """推奨パターンがある場合は第三者視点警告なし"""
+        text = "あなたと同じ3歳のとき、伝記によると彼は音楽に興味を示したとされている。" + "テスト" * 30
+        result = self.validator.validate(text, age=3, person_type="REAL")
+        early_warnings = [w for w in result.warnings if "第三者視点" in w]
+        assert len(early_warnings) == 0
+
+    def test_no_check_for_age_6(self):
+        """6歳以上では幼児品質チェックを行わない"""
+        text = "あなたと同じ6歳のとき、彼は論文を執筆した。" + "テスト" * 30
+        result = self.validator.validate(text, age=6, person_type="REAL")
+        early_errors = [e for e in result.errors if "幼児エピソード品質違反" in e]
+        assert len(early_errors) == 0
+
+    def test_no_check_when_age_is_none(self):
+        """ageがNoneの場合は幼児品質チェックを行わない"""
+        text = "あなたと同じ3歳のとき、彼は論文を発表した。" + "テスト" * 30
+        result = self.validator.validate(text, age=None, person_type="REAL")
+        early_errors = [e for e in result.errors if "幼児エピソード品質違反" in e]
+        assert len(early_errors) == 0
+
+
+class TestCheckFictionalWorkTitleDirect:
+    """_check_fictional_work_title() メソッドの直接テスト"""
+
+    def setup_method(self):
+        self.validator = PostLLMValidator()
+
+    def test_matching_title_returns_no_error(self):
+        """正しい作品名がある場合はエラーなし"""
+        text = "あなたと同じ16歳のとき、悟空『ドラゴンボール』は修行した。"
+        result = self.validator._check_fictional_work_title(text, "ドラゴンボール")
+        assert result["error"] is None
+
+    def test_no_title_at_all(self):
+        """作品名が全くない場合"""
+        text = "あなたと同じ16歳のとき、悟空は修行した。"
+        result = self.validator._check_fictional_work_title(text, "ドラゴンボール")
+        assert result["error"] is not None
+        assert "冒頭にありません" in result["error"]
+
+    def test_different_title_present(self):
+        """異なる作品名が含まれている場合"""
+        text = "あなたと同じ16歳のとき、悟空『NARUTO』は修行した。"
+        result = self.validator._check_fictional_work_title(text, "ドラゴンボール")
+        assert result["error"] is not None
+        assert "一致しません" in result["error"]
+
+
+class TestCheckEarlyChildhoodQualityDirect:
+    """_check_early_childhood_quality() メソッドの直接テスト"""
+
+    def setup_method(self):
+        self.validator = PostLLMValidator()
+
+    def test_clean_text_returns_empty_errors(self):
+        """問題のないテキストはエラーなし"""
+        text = "伝記によると彼は3歳で初めて音楽に触れたとされている。"
+        result = self.validator._check_early_childhood_quality(text, 3)
+        assert len(result["errors"]) == 0
+
+    def test_forbidden_action_detected(self):
+        """禁止行動を含むテキストでエラー検出"""
+        text = "3歳の頃、彼は論文を執筆した。"
+        result = self.validator._check_early_childhood_quality(text, 3)
+        assert len(result["errors"]) > 0
+
+    def test_multiple_forbidden_patterns(self):
+        """複数の禁止パターンが検出される"""
+        text = "2歳で制作した作品を発表した。さらに情熱を秘めていた。"
+        result = self.validator._check_early_childhood_quality(text, 2)
+        assert len(result["errors"]) >= 2
+
+    def test_missing_recommended_pattern_warns(self):
+        """推奨パターンなしで警告"""
+        text = "彼は3歳で明るく元気だった。"
+        result = self.validator._check_early_childhood_quality(text, 3)
+        assert len(result["warnings"]) > 0
+
+    def test_has_recommended_pattern_no_warn(self):
+        """推奨パターンありで警告なし"""
+        text = "家族の証言によると彼は3歳で初めて声を上げた。"
+        result = self.validator._check_early_childhood_quality(text, 3)
+        assert len(result["warnings"]) == 0
+
+
 class TestMainFunction:
     """main関数テスト（カバレッジ向上用）"""
 

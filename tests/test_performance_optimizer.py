@@ -4,7 +4,6 @@ PerformanceOptimizer テストモジュール
 performance_optimizer.py の単体テストを提供します。
 """
 
-import json
 import pytest
 import asyncio
 from datetime import datetime, timedelta
@@ -160,7 +159,7 @@ class TestConnectionPool:
         with patch("aiohttp.ClientSession") as mock_session:
             with patch("aiohttp.TCPConnector"):
                 mock_session.return_value = MagicMock()
-                session = await pool.get_session("server1", "http://localhost:8000")
+                await pool.get_session("server1", "http://localhost:8000")
 
                 assert "server1" in pool.sessions
 
@@ -636,7 +635,7 @@ class TestCleanupFunction:
         await cleanup()
 
         # メモリキャッシュがクリアされている
-        result = await memory_cache.get("test_key")
+        await memory_cache.get("test_key")
         # 注: cleanup後もシングルトンは存在するが、内容はクリア
 
 
@@ -667,3 +666,242 @@ class TestPersistentCacheDelete:
         await cache.delete("orphan_key")
 
         assert "orphan_key" not in cache.index
+
+
+@pytest.mark.asyncio
+class TestOptimizedMCPClientListTools:
+    """OptimizedMCPClient.list_tools() のテスト"""
+
+    def _make_client(self):
+        """テスト用クライアントを作成"""
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch(
+                "src.performance_optimizer.asyncio.create_task",
+                return_value=MagicMock(),
+            ):
+                from src.performance_optimizer import OptimizedMCPClient
+
+                return OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+
+    def _mock_session_post(self, return_value):
+        """session.post のモックを作成（async context manager対応）"""
+        mock_response = AsyncMock()
+        mock_response.json = AsyncMock(return_value=return_value)
+        mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+        mock_response.__aexit__ = AsyncMock()
+
+        mock_session = MagicMock()
+        mock_session.post = MagicMock(return_value=mock_response)
+        return mock_session
+
+    async def test_list_tools_returns_list(self):
+        """レスポンスがリストの場合そのまま返す"""
+        client = self._make_client()
+        tools_list = [{"name": "tool1"}, {"name": "tool2"}]
+        mock_session = self._mock_session_post(tools_list)
+
+        client.pool.get_session = AsyncMock(return_value=mock_session)
+
+        # list_tools はasync_memoizeでラップされているため、キャッシュをクリア
+        if hasattr(client.list_tools, "cache"):
+            client.list_tools.cache.clear()
+
+        result = await client.list_tools()
+
+        assert result == tools_list
+        assert isinstance(result, list)
+
+    async def test_list_tools_returns_non_list(self):
+        """レスポンスが辞書の場合リストでラップして返す"""
+        client = self._make_client()
+        single_tool = {"name": "tool1"}
+        mock_session = self._mock_session_post(single_tool)
+
+        client.pool.get_session = AsyncMock(return_value=mock_session)
+
+        if hasattr(client.list_tools, "cache"):
+            client.list_tools.cache.clear()
+
+        result = await client.list_tools()
+
+        assert result == [single_tool]
+        assert isinstance(result, list)
+        assert len(result) == 1
+
+
+@pytest.mark.asyncio
+class TestOptimizedMCPClientExecuteCache:
+    """OptimizedMCPClient.execute() のキャッシュ書き込みテスト"""
+
+    def _make_client(self):
+        """テスト用クライアントを作成"""
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch(
+                "src.performance_optimizer.asyncio.create_task",
+                return_value=MagicMock(),
+            ):
+                from src.performance_optimizer import OptimizedMCPClient
+
+                return OptimizedMCPClient({"name": "test", "url": "http://localhost:8000"})
+
+    def _mock_session_post(self, return_value):
+        """session.post のモックを作成"""
+        mock_response = AsyncMock()
+        mock_response.json = AsyncMock(return_value=return_value)
+        mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+        mock_response.__aexit__ = AsyncMock()
+
+        mock_session = MagicMock()
+        mock_session.post = MagicMock(return_value=mock_response)
+        return mock_session
+
+    async def test_execute_caches_read_operations(self):
+        """読み取り操作（get_）の結果がキャッシュに保存される"""
+        client = self._make_client()
+        expected_result = {"user": "test_user", "id": 1}
+        mock_session = self._mock_session_post(expected_result)
+
+        client.pool.get_session = AsyncMock(return_value=mock_session)
+
+        # cache.set をスパイ
+        original_set = client.cache.set
+        cache_set_calls = []
+
+        async def spy_set(key, value):
+            cache_set_calls.append((key, value))
+            return await original_set(key, value)
+
+        client.cache.set = spy_set
+
+        result = await client.execute("get_user", {"id": 1})
+
+        assert result == expected_result
+        assert len(cache_set_calls) == 1
+        assert cache_set_calls[0][0] == 'get_user:{"id": 1}'
+        assert cache_set_calls[0][1] == expected_result
+
+    async def test_execute_no_cache_for_write(self):
+        """書き込み操作（create_）はキャッシュに保存されない"""
+        client = self._make_client()
+        expected_result = {"result": "created"}
+        mock_session = self._mock_session_post(expected_result)
+
+        client.pool.get_session = AsyncMock(return_value=mock_session)
+
+        # cache.set をスパイ
+        cache_set_calls = []
+
+        async def spy_set(key, value):
+            cache_set_calls.append((key, value))
+
+        client.cache.set = spy_set
+
+        result = await client.execute("create_user", {"name": "new_user"})
+
+        assert result == expected_result
+        assert len(cache_set_calls) == 0
+
+
+@pytest.mark.asyncio
+class TestPersistentCacheLoadIndexEmpty:
+    """PersistentCache._load_index: index_fileが存在しない場合のテスト"""
+
+    async def test_load_index_no_file(self, tmp_path):
+        """index_fileが存在しない場合、indexは空dictのまま"""
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch("src.performance_optimizer.asyncio.create_task", return_value=MagicMock()):
+                cache = PersistentCache(cache_dir=tmp_path / ".cache_nofile")
+                cache.index = {}
+
+        # index_fileが存在しないことを確認
+        assert not cache.index_file.exists()
+
+        # 実際の_load_indexを呼ぶ
+        await PersistentCache._load_index(cache)
+
+        # indexは空dictのまま
+        assert cache.index == {}
+
+
+@pytest.mark.asyncio
+class TestLazyLoaderDoubleCheckLock:
+    """LazyLoader: 二重チェックロックで既にloadedの場合のブランチテスト"""
+
+    async def test_concurrent_get_only_loads_once(self):
+        """並行アクセスで1回のみロードされる"""
+        call_count = 0
+
+        async def slow_loader():
+            nonlocal call_count
+            call_count += 1
+            await asyncio.sleep(0.01)
+            return "value"
+
+        loader = LazyLoader(slow_loader)
+
+        # 並行で複数回getを呼ぶ
+        results = await asyncio.gather(
+            loader.get(),
+            loader.get(),
+            loader.get(),
+        )
+
+        assert all(r == "value" for r in results)
+        assert call_count == 1
+
+    async def test_get_after_loaded_skips_lock(self):
+        """既にロード済みの場合、ロックを取得せずに即座に返す"""
+        loader = LazyLoader(lambda: "preloaded")
+
+        # 最初のロード
+        await loader.get()
+        assert loader._loaded is True
+
+        # 2回目はロックをスキップ（_loaded==Trueなのでif not self._loadedで早期リターン）
+        result = await loader.get()
+        assert result == "preloaded"
+
+
+@pytest.mark.asyncio
+class TestExampleUsage:
+    """example_usage() 関数のテスト"""
+
+    async def test_example_usage_runs(self):
+        """example_usage が正常に実行される"""
+        with patch.object(PersistentCache, "_load_index", new_callable=AsyncMock):
+            with patch(
+                "src.performance_optimizer.asyncio.create_task",
+                return_value=MagicMock(),
+            ):
+                from src.performance_optimizer import example_usage
+
+                # asyncio.sleepをモック（待機をスキップ）
+                with patch("src.performance_optimizer.asyncio.sleep", new_callable=AsyncMock):
+                    # batch_executeで使われるセッションをモック
+                    mock_response = AsyncMock()
+                    mock_response.json = AsyncMock(return_value={"result": "ok"})
+                    mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+                    mock_response.__aexit__ = AsyncMock()
+
+                    mock_session = MagicMock()
+                    mock_session.post = MagicMock(return_value=mock_response)
+                    mock_session.close = AsyncMock()
+
+                    with patch("aiohttp.ClientSession", return_value=mock_session):
+                        with patch("aiohttp.TCPConnector"):
+                            # psutil.Processをモック
+                            with patch("psutil.Process") as mock_process:
+                                mock_proc = MagicMock()
+                                mock_proc.memory_info.return_value.rss = 50 * 1024 * 1024
+                                mock_proc.cpu_percent.return_value = 10.0
+                                mock_proc.num_threads.return_value = 2
+                                mock_proc.open_files.return_value = []
+                                mock_proc.connections.return_value = []
+                                mock_process.return_value = mock_proc
+
+                                # cleanupをモック
+                                with patch(
+                                    "src.performance_optimizer.cleanup",
+                                    new_callable=AsyncMock,
+                                ):
+                                    await example_usage()

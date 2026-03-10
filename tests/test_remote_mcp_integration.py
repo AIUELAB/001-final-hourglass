@@ -1386,3 +1386,198 @@ class TestRemoteMCPClientErrorHandling:
 
         with pytest.raises(RuntimeError, match="Not connected"):
             await client._send_http_request({"method": "test"})
+
+
+class TestConnectSSE:
+    """SSEトランスポートでのconnect()テスト"""
+
+    @pytest.mark.asyncio
+    async def test_connect_sse_transport(self):
+        """SSEトランスポートでconnect()が_connect_sseを呼び出す"""
+        from unittest.mock import AsyncMock, MagicMock, patch
+
+        from remote_mcp_integration import RemoteMCPClient
+
+        config = RemoteServerConfig(
+            name="test-sse",
+            transport=TransportType.SSE,
+            url="https://example.com/sse",
+            auth_type=AuthType.NONE,
+        )
+        client = RemoteMCPClient(config)
+
+        mock_session = MagicMock()
+
+        with (
+            patch("aiohttp.ClientSession", return_value=mock_session),
+            patch("aiohttp.TCPConnector"),
+            patch("remote_mcp_integration.logger") as mock_logger,
+        ):
+            await client.connect()
+
+            # _connect_sse が呼ばれ、SSEエンドポイントのログが出力されることを確認
+            log_messages = [str(call) for call in mock_logger.info.call_args_list]
+            assert any("SSE endpoint configured" in msg for msg in log_messages)
+            assert any("Connected to" in msg for msg in log_messages)
+
+
+class TestDisconnectWithSSE:
+    """SSEクライアント付きdisconnect()テスト"""
+
+    @pytest.mark.asyncio
+    async def test_disconnect_closes_sse_client(self):
+        """disconnect()でsse_client.close()が呼ばれる"""
+        from unittest.mock import AsyncMock, MagicMock
+
+        from remote_mcp_integration import RemoteMCPClient
+
+        config = RemoteServerConfig(
+            name="test-sse",
+            transport=TransportType.SSE,
+            url="https://example.com/sse",
+            auth_type=AuthType.NONE,
+        )
+        client = RemoteMCPClient(config)
+
+        mock_sse = MagicMock()
+        mock_sse.close = MagicMock()
+
+        mock_session = AsyncMock()
+        mock_session.close = AsyncMock()
+
+        client.sse_client = mock_sse
+        client.session = mock_session
+
+        await client.disconnect()
+
+        mock_sse.close.assert_called_once()
+        mock_session.close.assert_called_once()
+
+
+class TestOAuthRefresh:
+    """OAuthトークンリフレッシュテスト"""
+
+    @pytest.mark.asyncio
+    async def test_get_oauth_token_refreshes(self):
+        """needs_refresh=True かつ refresh_token ありで _refresh_oauth_token が呼ばれる"""
+        from datetime import datetime, timedelta
+        from unittest.mock import AsyncMock, patch
+
+        from remote_mcp_integration import OAuthToken, RemoteMCPClient
+
+        config = RemoteServerConfig(
+            name="test-oauth",
+            transport=TransportType.HTTP,
+            url="https://example.com/mcp",
+            auth_type=AuthType.OAUTH2,
+            oauth_config={
+                "tokenEndpoint": "https://auth.example.com/token",
+                "clientId": "client123",
+                "clientSecret": "secret456",
+            },
+        )
+        client = RemoteMCPClient(config)
+
+        # needs_refresh=True（有効期限5分以内）かつrefresh_tokenあり
+        client.token = OAuthToken(
+            access_token="old_token",
+            token_type="Bearer",
+            expires_at=datetime.now() + timedelta(minutes=2),
+            refresh_token="my_refresh_token",
+        )
+
+        refreshed_token = OAuthToken(
+            access_token="refreshed_token",
+            token_type="Bearer",
+            expires_at=datetime.now() + timedelta(hours=1),
+        )
+
+        with patch.object(
+            client, "_refresh_oauth_token", new_callable=AsyncMock, return_value=refreshed_token
+        ) as mock_refresh:
+            token = await client._get_oauth_token()
+
+            mock_refresh.assert_called_once_with("my_refresh_token")
+            assert token.access_token == "refreshed_token"
+
+
+class TestSendSSERequest:
+    """SSEトランスポートでのsend_request()テスト"""
+
+    @pytest.mark.asyncio
+    async def test_send_request_sse(self):
+        """SSEトランスポートでsend_request()が_send_sse_requestを呼ぶ"""
+        from unittest.mock import AsyncMock, MagicMock, patch
+
+        from remote_mcp_integration import RemoteMCPClient
+
+        config = RemoteServerConfig(
+            name="test-sse",
+            transport=TransportType.SSE,
+            url="https://example.com/sse",
+            auth_type=AuthType.NONE,
+        )
+        client = RemoteMCPClient(config)
+
+        mock_session = MagicMock()
+        mock_session.headers = MagicMock()
+        client.session = mock_session
+
+        # _send_sse_requestをモックして、send_request経由で呼ばれることを確認
+        with patch.object(
+            client, "_send_sse_request", new_callable=AsyncMock, return_value={"data": "sse_result"}
+        ) as mock_sse_send:
+            result = await client.send_request("testMethod", {"param": "value"})
+
+            mock_sse_send.assert_called_once()
+            assert result == {"data": "sse_result"}
+
+            # payloadにjsonrpcフォーマットが含まれることを確認
+            call_payload = mock_sse_send.call_args[0][0]
+            assert call_payload["jsonrpc"] == "2.0"
+            assert call_payload["method"] == "testMethod"
+            assert call_payload["params"] == {"param": "value"}
+
+
+class TestMainFunction:
+    """main()関数テスト"""
+
+    @pytest.mark.asyncio
+    async def test_main_runs(self):
+        """main()がエラーなく実行される"""
+        from unittest.mock import AsyncMock, MagicMock, patch
+
+        from remote_mcp_integration import main
+
+        mock_manager = MagicMock()
+        mock_manager.test_connectivity = AsyncMock(return_value={"server1": True, "server2": False})
+        mock_manager.get_server = MagicMock(return_value=None)
+        mock_manager.disconnect_all = AsyncMock()
+
+        with patch("remote_mcp_integration.RemoteMCPManager", return_value=mock_manager):
+            await main()
+
+        mock_manager.test_connectivity.assert_called_once()
+        mock_manager.disconnect_all.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_main_with_linear_server(self):
+        """main()でlinearサーバーが存在する場合"""
+        from unittest.mock import AsyncMock, MagicMock, patch
+
+        from remote_mcp_integration import main
+
+        mock_linear = MagicMock()
+        mock_linear.__aenter__ = AsyncMock(return_value=mock_linear)
+        mock_linear.__aexit__ = AsyncMock(return_value=None)
+        mock_linear.send_request = AsyncMock(return_value={"issues": []})
+
+        mock_manager = MagicMock()
+        mock_manager.test_connectivity = AsyncMock(return_value={"linear": True})
+        mock_manager.get_server = MagicMock(return_value=mock_linear)
+        mock_manager.disconnect_all = AsyncMock()
+
+        with patch("remote_mcp_integration.RemoteMCPManager", return_value=mock_manager):
+            await main()
+
+        mock_linear.send_request.assert_called_once_with("listIssues", {"project": "PROJ-1"})

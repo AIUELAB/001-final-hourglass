@@ -793,3 +793,178 @@ class TestExternalFactChecker:
             }
         }
         assert checker._determine_overall_status(result) == "partially_verified"
+
+    def test_determine_overall_unknown_final_fallback(self, checker):
+        """wp_found/wd_foundがFalseでないが、条件を全て通過しunknownに落ちるケース (L483)"""
+        # wp_found=False, wd_found=False => 最初のunknownリターン (L468)
+        # ここではそれとは別に最終行に到達するケースを狙う
+        # 実際にはwp_found=False and wd_found=Falseで既にL468で返る
+        # L483は wp_found and wd_foundが共にFalseでない場合に到達不能
+        # → L480の条件でpartially_verifiedに落ちるため、L483は実質到達不可能
+        # ただしテストとして明示的に確認
+        result = {
+            "sources": {
+                "wikipedia": {"found": False},
+                "wikidata": {"found": False},
+            }
+        }
+        assert checker._determine_overall_status(result) == "unknown"
+
+
+class TestGetPersonFactsOccupationBranches:
+    """get_person_facts の occupationLabel がない binding をテスト (L350->345)"""
+
+    @pytest.fixture
+    def cache(self, tmp_path):
+        return FactCache(cache_dir=tmp_path, ttl_days=1)
+
+    @pytest.fixture
+    def verifier(self, cache):
+        return WikidataVerifier(cache=cache)
+
+    def test_binding_without_occupation_label(self, verifier):
+        """occupationLabelがないbindingはoccupationsに追加されない"""
+        sparql_result = {
+            "results": {
+                "bindings": [
+                    {
+                        "birthDate": {"value": "1990-05-15T00:00:00Z"},
+                        # occupationLabel なし
+                    },
+                    {
+                        "occupationLabel": {"value": "engineer"},
+                    },
+                ]
+            }
+        }
+        with patch.object(verifier, "_execute_sparql", return_value=sparql_result):
+            result = verifier.get_person_facts("Q999")
+
+        assert result["birth_date"] == "1990-05-15"
+        assert result["occupations"] == ["engineer"]
+
+    def test_binding_with_non_string_occupation(self, verifier):
+        """occupationLabelの値がstrでない場合はスキップされる"""
+        sparql_result = {
+            "results": {
+                "bindings": [
+                    {
+                        "occupationLabel": {"value": 12345},  # not a string
+                    },
+                ]
+            }
+        }
+        with patch.object(verifier, "_execute_sparql", return_value=sparql_result):
+            result = verifier.get_person_facts("Q888")
+
+        assert result["occupations"] == []
+
+
+class TestVerifyPersonWithWikidataBirthYear:
+    """verify_person で expected_birth_year + wikidata がある場合 (L451->458)"""
+
+    @pytest.fixture
+    def checker(self, tmp_path):
+        with patch("src.external_fact_checker.get_project_root", return_value=tmp_path):
+            c = ExternalFactChecker(delay_seconds=0.0)
+        return c
+
+    def test_verify_person_wd_birth_verification(self, checker):
+        """Wikidataが見つかり、expected_birth_yearもある場合のbirth_verification"""
+        with patch.object(checker.wikipedia, "get_page_extract", return_value="Some bio"):
+            with patch.object(
+                checker.wikipedia,
+                "verify_birth_year",
+                return_value={"verified": False, "status": "year_not_found"},
+            ):
+                with patch.object(checker.wikidata, "search_person_by_name", return_value="Q100"):
+                    with patch.object(
+                        checker.wikidata,
+                        "get_person_facts",
+                        return_value={"birth_date": "1994-07-05"},
+                    ):
+                        with patch.object(
+                            checker.wikidata,
+                            "verify_birth_year",
+                            return_value={"verified": True, "status": "verified", "found_year": 1994},
+                        ):
+                            result = checker.verify_person("TestPerson", expected_birth_year=1994)
+
+        assert result["sources"]["wikidata"]["found"] is True
+        assert result["sources"]["wikidata"]["birth_verification"]["verified"] is True
+        assert result["overall_status"] == "verified"
+
+    def test_verify_person_wd_found_no_birth_year(self, checker):
+        """Wikidataが見つかるがexpected_birth_yearがNoneの場合、birth_verificationなし"""
+        with patch.object(checker.wikipedia, "get_page_extract", return_value="Some bio"):
+            with patch.object(checker.wikidata, "search_person_by_name", return_value="Q200"):
+                with patch.object(
+                    checker.wikidata,
+                    "get_person_facts",
+                    return_value={"birth_date": "1990-01-01"},
+                ):
+                    result = checker.verify_person("TestPerson", expected_birth_year=None)
+
+        assert result["sources"]["wikidata"]["found"] is True
+        assert "birth_verification" not in result["sources"]["wikidata"]
+
+
+class TestVerifySamplePersons:
+    """verify_sample_persons 関数のテスト (L488-518)"""
+
+    def test_verify_sample_persons_runs(self, capsys):
+        """verify_sample_personsがエラーなく実行される"""
+        from src.external_fact_checker import verify_sample_persons
+
+        mock_result = {
+            "person_name": "test",
+            "timestamp": "2025-01-01",
+            "sources": {
+                "wikipedia": {
+                    "found": True,
+                    "birth_verification": {"status": "verified", "found_year": 1994},
+                },
+                "wikidata": {
+                    "found": True,
+                    "birth_verification": {"status": "verified", "found_year": 1994},
+                },
+            },
+            "overall_status": "verified",
+        }
+
+        with patch("src.external_fact_checker.ExternalFactChecker") as mock_cls:
+            mock_instance = MagicMock()
+            mock_cls.return_value = mock_instance
+            mock_instance.verify_person.return_value = mock_result
+
+            verify_sample_persons()
+
+        captured = capsys.readouterr()
+        assert "External Fact Checker" in captured.out
+        assert "大谷翔平" in captured.out
+        assert "手塚治虫" in captured.out
+
+    def test_verify_sample_persons_not_found(self, capsys):
+        """verify_sample_personsでWikipedia/Wikidataが見つからない場合"""
+        from src.external_fact_checker import verify_sample_persons
+
+        mock_result = {
+            "person_name": "test",
+            "timestamp": "2025-01-01",
+            "sources": {
+                "wikipedia": {"found": False},
+                "wikidata": {"found": False},
+            },
+            "overall_status": "unknown",
+        }
+
+        with patch("src.external_fact_checker.ExternalFactChecker") as mock_cls:
+            mock_instance = MagicMock()
+            mock_cls.return_value = mock_instance
+            mock_instance.verify_person.return_value = mock_result
+
+            verify_sample_persons()
+
+        captured = capsys.readouterr()
+        assert "Not found" in captured.out
+        assert "unknown" in captured.out

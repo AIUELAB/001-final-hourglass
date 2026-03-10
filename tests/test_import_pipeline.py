@@ -556,6 +556,87 @@ class TestMainFunction:
         assert "他" in captured.out  # "他X件"の表示
 
 
+class TestAutoFixApplied:
+    """自動修正が実際に適用されるケースのテスト（L136-137カバー）"""
+
+    def test_auto_fix_actually_applies(self):
+        """auto_fixableな問題が実際に修正されること"""
+        from unittest.mock import patch, MagicMock
+        from src.validators.person_name_validator import Severity
+
+        pipeline = ImportValidationPipeline(auto_fix=True)
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト太郎"],
+                "age": [30],
+                "episode_text": ["あなたと同じ30歳のとき、テスト太郎は成功した。"],
+            }
+        )
+
+        # person_validatorをモックして、auto_fixableな問題を返す
+        mock_issue = MagicMock()
+        mock_issue.issue_type = MagicMock()
+        mock_issue.issue_type.value = "fixable_issue"
+        mock_issue.severity = Severity.WARNING
+        mock_issue.message = "修正可能な問題"
+        mock_issue.suggestion = "修正提案"
+        mock_issue.auto_fixable = True
+        mock_issue.fixed_value = "修正済みテスト太郎"
+
+        with patch.object(pipeline.person_validator, "validate", return_value=[mock_issue]):
+            result = pipeline.validate(df)
+
+        assert result.auto_fixed == 1
+        assert result.df is not None
+        assert result.df.at[0, "person_name"] == "修正済みテスト太郎"
+
+
+class TestAgeConversionError:
+    """年齢変換エラーのテスト（L275-276カバー）"""
+
+    def test_age_value_error(self):
+        """ageが数値変換できない場合のテスト"""
+        pipeline = ImportValidationPipeline()
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テスト太郎"],
+                "age": ["not_a_number"],
+                "episode_text": ["あなたと同じ30歳のとき、テスト太郎は成功した。"],
+            }
+        )
+        result = pipeline.validate(df)
+        # ValueError が発生しても例外にならず処理が続行される
+        assert result is not None
+        # age_mismatch エラーは発生しない（ValueErrorでpassされる）
+        age_issues = [i for i in result.issues if i.issue_type == "age_mismatch"]
+        assert len(age_issues) == 0
+
+
+class TestMetaExpressionNotFound:
+    """メタ表現が見つからない場合のテスト（L309カバー）"""
+
+    def test_no_meta_expression_in_fictional(self):
+        """FICTIONALでメタ表現がない場合Noneが返される"""
+        pipeline = ImportValidationPipeline()
+        df = pd.DataFrame(
+            {
+                "episode_id": ["EP001"],
+                "person_id": ["P001"],
+                "person_name": ["テストキャラ"],
+                "age": [20],
+                "episode_text": ["あなたと同じ20歳のとき、テストキャラは冒険に旅立ちました。"],
+                "person_type": ["FICTIONAL"],
+            }
+        )
+        result = pipeline.validate(df)
+        meta_issues = [i for i in result.issues if i.issue_type == "meta_expression"]
+        assert len(meta_issues) == 0
+
+
 class TestMetaExpressionEdgeCases:
     """_check_meta_expressions のエッジケーステスト"""
 

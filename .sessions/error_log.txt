@@ -19003,3 +19003,3123 @@ Traceback (most recent call last):
     raise ValueError("Test error")
 ValueError: Test error
 
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.741261
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.774191
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.782598
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.791534
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.861958
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.880283
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:50:10.898011
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.367607
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.418669
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.425466
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.437918
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.489446
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.509340
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T15:55:46.525458
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:22.912001
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:22.959375
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:22.967725
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:22.975411
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:23.018964
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:23.033328
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:07:23.046703
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.608302
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.659899
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.666833
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.675097
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.726075
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.742006
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:14:59.758088
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.390894
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.452407
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.464797
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.474259
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.557482
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.587842
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:28:57.633950
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.038535
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.070594
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.080084
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.089763
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.256427
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.272458
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:34:00.300634
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.375959
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.414459
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.423462
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.432687
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.564614
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.602459
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T16:45:13.624390
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.235739
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.264990
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.272274
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.279951
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.353895
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.369860
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T17:11:12.385927
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.283641
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.311316
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.318599
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.325986
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.377384
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.394626
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:05:02.409045
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.196143
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.225809
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.233174
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.241807
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.296014
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.312029
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:08:07.350063
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.666583
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.702669
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.710474
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.719188
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.781087
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.802974
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:11:58.822252
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.056511
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.084070
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.091217
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.100018
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.242638
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.264292
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:17:14.278555
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.172705
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.227922
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.235559
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.244986
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.298478
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.319792
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:22:33.334644
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.330817
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.349166
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.377249
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.383403
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.419453
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.429347
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:27:05.439279
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.213298
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.232632
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.239676
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.245063
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.278911
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.289651
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:33:09.298726
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.840588
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.871636
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.879367
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.887124
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.934237
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.949194
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T19:39:35.964850
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.634141
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.663535
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.669534
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.680989
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.722591
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.736475
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T20:23:41.756623
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.818715
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.846384
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.854053
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.861658
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.907947
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.923209
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:24:30.939143
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:22.893425
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:22.919763
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:22.926947
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:22.936312
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:22.986350
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:23.001610
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:36:23.019546
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.876886
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.902299
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.909596
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.917658
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.962095
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.978895
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-09T21:49:16.992989
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.096710
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.126779
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.135908
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.144775
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.213588
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.226464
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:32:32.247877
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.282340
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.313966
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.322688
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.352720
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.407916
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.424553
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:38:24.442796
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.137109
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.173446
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.183734
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.193804
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.260897
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.282865
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:45:21.303048
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.404417
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.448077
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.464741
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.492594
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.580637
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.600818
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:32.634981
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.745877
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.797425
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.812877
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.826279
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.944500
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.976006
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:47:49.999265
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.482397
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.561962
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.575130
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.586933
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.732485
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.777004
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.797743
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:49:29.810221
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.337918
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.401743
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.412873
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.425195
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.507142
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.541026
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.582774
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:50:58.590666
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.650944
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.726231
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.739147
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.752766
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.880534
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.922776
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.944567
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:54:27.963768
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.207042
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.252098
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.278870
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.291759
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.349897
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.366326
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.390114
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T00:58:31.398111
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:55.974909
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.017081
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.071061
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.085632
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.182510
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.208204
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.263215
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:08:56.275191
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.264644
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.294520
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.304612
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.313637
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.375194
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.417286
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.438958
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:18:57.447045
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.438452
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.495567
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.503448
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.517283
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.589699
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.605608
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.627001
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:23:53.638265
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.196508
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.226206
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.235153
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.243592
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.297302
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.313356
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.335015
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:36:49.343317
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.142916
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.171865
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.177883
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.187949
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.263254
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.276515
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.296892
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T01:51:57.305950
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.672640
+Context: Function: fail_func
+Error: ValueError: error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 198, in safe_execute
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 99, in fail_func
+    raise ValueError("error")
+ValueError: error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.710592
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 204, in test_error_handler_suppress_error
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.717139
+Context: test
+Error: ValueError: test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 220, in test_error_handler_not_suppress
+    raise ValueError("test error")
+ValueError: test error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.729706
+Context: test
+Error: ValueError: test
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 239, in test_error_handler_with_recovery_action
+    raise ValueError("test")
+ValueError: test
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.808065
+Context: test
+Error: ValueError: Original error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 422, in test_recovery_action_fails
+    raise ValueError("Original error")
+ValueError: Original error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.820603
+Context: test_func
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 485, in test_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.838815
+Context: my_custom_function
+Error: ValueError: Test error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/src/error_recovery.py", line 310, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 537, in my_custom_function
+    raise ValueError("Test error")
+ValueError: Test error
+
+
+============================================================
+Timestamp: 2026-03-10T02:03:57.847054
+Context: Global Exception
+Error: ValueError: test global error
+Traceback:
+Traceback (most recent call last):
+  File "/Users/admin/Documents/AIUELAB/001-final-hourglass/tests/test_error_recovery.py", line 573, in test_exception_handler_non_keyboard_interrupt
+    raise test_exception
+ValueError: test global error
+

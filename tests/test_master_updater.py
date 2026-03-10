@@ -377,6 +377,138 @@ class TestDetectNewEntitiesEdgeCases:
             os.unlink(temp_path)
 
 
+class TestProposeDispersionRulesLargeGroup:
+    """propose_dispersion_rulesで6名以上のメンバーがいる場合のテスト（L162-169カバー）"""
+
+    @patch(
+        "src.data.master_updater.GROUP_ENTITIES",
+        {"大人数グループ"},
+    )
+    @patch(
+        "src.data.master_updater.GROUP_MEMBER_MAP",
+        {
+            "メンバー1": "大人数グループ",
+            "メンバー2": "大人数グループ",
+            "メンバー3": "大人数グループ",
+            "メンバー4": "大人数グループ",
+            "メンバー5": "大人数グループ",
+            "メンバー6": "大人数グループ",
+        },
+    )
+    @patch("src.data.master_updater.DISPERSION_RULES", {})
+    def test_representative_strategy_for_large_group(self):
+        """6名以上のグループにはREPRESENTATIVE戦略が提案される"""
+        from src.data.master_updater import MasterUpdater
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type\n")
+            f.write("テスト,P001,REAL\n")
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            proposals = updater.propose_dispersion_rules()
+
+            assert len(proposals) == 1
+            assert proposals[0].group_name == "大人数グループ"
+            assert proposals[0].strategy == "REPRESENTATIVE"
+            assert "代表者分散" in proposals[0].reason
+            # membersは最大5名
+            assert len(proposals[0].members) <= 5
+        finally:
+            os.unlink(temp_path)
+
+
+class TestDetectEmptyPersonName:
+    """detect_new_entitiesで空のperson_nameをスキップするテスト（L100カバー）"""
+
+    @patch("src.data.master_updater.GROUP_ENTITIES", set())
+    @patch("src.data.master_updater.GROUP_MEMBER_MAP", {})
+    def test_empty_string_person_name_skipped(self):
+        """空文字列のperson_nameがスキップされる"""
+        from src.data.master_updater import MasterUpdater
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type,episode_id\n")
+            f.write(",P001,REAL,EP001\n")  # 空文字列
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            entities = updater.detect_new_entities()
+            # 空文字列はスキップされるので結果は空
+            assert len(entities) == 0
+        finally:
+            os.unlink(temp_path)
+
+
+class TestDetectNoMatchPatterns:
+    """detect_new_entitiesでどのパターンにもマッチしない場合のテスト"""
+
+    @patch("src.data.master_updater.GROUP_ENTITIES", set())
+    @patch("src.data.master_updater.GROUP_MEMBER_MAP", {})
+    def test_no_group_or_concat_pattern(self):
+        """グループパターンにも連結パターンにもマッチしない名前"""
+        from src.data.master_updater import MasterUpdater
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type,episode_id\n")
+            f.write("普通の人名,P001,REAL,EP001\n")
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            entities = updater.detect_new_entities()
+            assert len(entities) == 0
+        finally:
+            os.unlink(temp_path)
+
+
+class TestMainApplyWithBackup:
+    """main関数で--apply時にbackup_pathが結果に含まれる場合のテスト"""
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv", "--apply"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_apply_no_backup_key(self, MockUpdater):
+        """--apply で backup_path がない場合"""
+        from src.data.master_updater import main, RuleProposal
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = []
+        mock_instance.propose_dispersion_rules.return_value = [RuleProposal("グループA", "ALL", ["A"], 0.95, "テスト")]
+        mock_instance.apply_updates.return_value = {
+            "applied": [{"group": "グループA"}],
+            "skipped": [],
+        }
+        MockUpdater.return_value = mock_instance
+
+        main()
+        mock_instance.apply_updates.assert_called_once()
+
+
+class TestMainWithLowConfProposals:
+    """main関数で低信頼度提案がある場合のテスト（L332->338, L349->exit分岐カバー）"""
+
+    @patch("sys.argv", ["master_updater.py", "--csv", "test.csv"])
+    @patch("src.data.master_updater.MasterUpdater")
+    def test_main_with_low_and_high_conf_proposals(self, MockUpdater):
+        """高信頼度と低信頼度の両方の提案がある場合"""
+        from src.data.master_updater import main, RuleProposal
+
+        mock_instance = MagicMock()
+        mock_instance.detect_new_entities.return_value = []
+        mock_instance.propose_dispersion_rules.return_value = [
+            RuleProposal("高信頼グループ", "ALL", ["A", "B"], 0.95, "高信頼度"),
+            RuleProposal("低信頼グループ", "REPRESENTATIVE", [], 0.3, "低信頼度"),
+        ]
+        mock_instance.generate_diff.return_value = "# Diff content"
+        MockUpdater.return_value = mock_instance
+
+        main()
+
+        mock_instance.propose_dispersion_rules.assert_called_once()
+
+
 class TestMain:
     """main関数のテスト"""
 

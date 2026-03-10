@@ -16,6 +16,7 @@ from group_master.members import (
     is_group_entity,
     get_statistics,
 )
+from group_master.dispersion import get_dispersion_rule, get_group_details
 
 
 class TestGroupMemberMap:
@@ -372,3 +373,32 @@ class TestYouTubeGroupMembers:
         members = get_group_members("QuizKnock")
         assert "伊沢拓司" in members
         assert "ふくらP" in members
+
+
+class TestGetDispersionRule:
+    """get_dispersion_rule関数テスト"""
+
+    def test_known_group(self):
+        """既知グループのルール取得"""
+        rule = get_dispersion_rule("ビートルズ")
+        assert rule is not None
+        assert len(rule.members) == 4
+
+    def test_unknown_group(self):
+        """未知グループはNone"""
+        result = get_dispersion_rule("存在しないグループ")
+        assert result is None
+
+
+class TestGetGroupDetails:
+    """get_group_details関数テスト"""
+
+    def test_known_group(self):
+        """既知グループの詳細取得"""
+        details = get_group_details("嵐")
+        assert details is not None
+
+    def test_unknown_group(self):
+        """未知グループはNone"""
+        result = get_group_details("存在しないグループ")
+        assert result is None

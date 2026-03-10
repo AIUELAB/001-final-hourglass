@@ -474,3 +474,79 @@ class TestEdgeCases:
         _log("日本語メッセージ")
         captured = capsys.readouterr()
         assert "日本語メッセージ" in captured.out
+
+
+class TestCodexMCPLauncherElseBranches:
+    """terminate/killのelse分岐(hasattr=False)をカバーするテスト"""
+
+    @patch("codex_mcp_integration.os.kill")
+    def test_stop_terminate_via_os_kill(self, mock_os_kill):
+        """terminateメソッドがない場合、os.killでSIGTERM(L96)"""
+        mock_process = MagicMock(spec=[])  # spec=[] で全属性を除外
+        # poll: 最初None→terminate後もNone→kill後に0
+        mock_process.poll = MagicMock(side_effect=[None, None, 0] + [0] * 50)
+        mock_process.pid = 12345
+
+        launcher = CodexMCPLauncher(codex_path="/usr/bin/codex", extra_args=[])
+        launcher.process = mock_process
+
+        launcher.stop(timeout_seconds=0.05)
+
+        # os.kill が SIGTERM で呼ばれたことを確認
+        import signal
+
+        mock_os_kill.assert_any_call(12345, signal.SIGTERM)
+        assert launcher.process is None
+
+    @patch("codex_mcp_integration.os.kill")
+    def test_stop_kill_via_os_kill(self, mock_os_kill):
+        """killメソッドがない場合、os.killでSIGKILL(L113-116)"""
+        mock_process = MagicMock(spec=[])  # spec=[] で全属性を除外
+        # poll()が常にNone → terminateもkillもos.killで処理
+        mock_process.poll = MagicMock(return_value=None)
+        mock_process.pid = 12345
+
+        launcher = CodexMCPLauncher(codex_path="/usr/bin/codex", extra_args=[])
+        launcher.process = mock_process
+
+        # os.kill: SIGTERM成功、SIGKILL成功、その後pollをNone→Noneにしてkill分岐に入る
+        launcher.stop(timeout_seconds=0.05)
+
+        import signal
+
+        mock_os_kill.assert_any_call(12345, signal.SIGKILL)
+        assert launcher.process is None
+
+    @patch("codex_mcp_integration.os.kill", side_effect=OSError("no such process"))
+    def test_stop_kill_os_kill_exception(self, mock_os_kill):
+        """os.kill(SIGKILL)で例外が発生しても正常終了(L114-116)"""
+        mock_process = MagicMock(spec=[])
+        mock_process.poll = MagicMock(return_value=None)
+        mock_process.pid = 99999
+
+        launcher = CodexMCPLauncher(codex_path="/usr/bin/codex", extra_args=[])
+        launcher.process = mock_process
+
+        launcher.stop(timeout_seconds=0.05)
+        assert launcher.process is None
+
+
+class TestSmokeTestFileNotFound:
+    """smoke_test内のFileNotFoundError except(L158-160)をカバー"""
+
+    @patch("codex_mcp_integration._find_codex_path")
+    @patch("codex_mcp_integration._ensure_env_safe")
+    @patch("codex_mcp_integration.CodexMCPLauncher")
+    def test_smoke_test_start_raises_file_not_found(self, mock_launcher_class, mock_env, mock_find, capsys):
+        """launcher.start()がFileNotFoundErrorを投げた場合"""
+        mock_find.return_value = "/usr/bin/codex"
+        mock_launcher = MagicMock()
+        mock_launcher.start.side_effect = FileNotFoundError("codex binary missing")
+        mock_launcher_class.return_value = mock_launcher
+
+        result = smoke_test(duration_seconds=0.1)
+
+        assert result is False
+        captured = capsys.readouterr()
+        assert "エラー" in captured.out
+        assert "codex binary missing" in captured.out

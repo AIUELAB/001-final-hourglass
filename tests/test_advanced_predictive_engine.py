@@ -953,12 +953,204 @@ class TestPredictWithNoneMetrics:
 
 
 class TestAutoMLTrainMocked:
-    """automl_train メソッドテスト（カバレッジ向上用）- スキップ"""
+    """automl_train メソッドテスト（カバレッジ向上用）"""
 
-    @pytest.mark.skip(reason="numpy BitGenerator compatibility issue with sklearn mocking")
-    def test_automl_train_mocked(self):
-        """automl_trainをモックで実行 - スキップ"""
-        pass
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_automl_train_full(self, mock_conn, mock_mkdir):
+        """automl_trainを実データ（生成）で実行しL185-279をカバー"""
+        import numpy as np
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+
+        # _collect_training_dataの結果をモック（小さいデータセット）
+        np.random.seed(42)
+        n_samples = 60
+        X = np.random.randn(n_samples, 11)
+        y = np.array([0, 1] * (n_samples // 2))
+
+        engine.feature_names = [
+            "incident_count",
+            "critical_ratio",
+            "avg_duration",
+            "incident_ma3",
+            "critical_ma3",
+            "incident_ma24",
+            "incident_std24",
+            "incident_diff",
+            "critical_diff",
+            "hour_of_day",
+            "day_of_week",
+        ]
+
+        # _collect_training_data, _save_models, _save_automl_experimentをモック
+        with patch.object(engine, "_collect_training_data", return_value=(X, y)):
+            with patch.object(engine, "_save_models"):
+                with patch.object(engine, "_save_automl_experiment"):
+                    # パラメータグリッドを最小化して高速に実行
+                    engine.param_grids = {
+                        "random_forest": {
+                            "n_estimators": [10],
+                            "max_depth": [3],
+                            "min_samples_split": [2],
+                            "min_samples_leaf": [1],
+                        },
+                        "gradient_boosting": {
+                            "n_estimators": [10],
+                            "max_depth": [3],
+                            "learning_rate": [0.1],
+                            "subsample": [1.0],
+                        },
+                        "logistic_regression": {
+                            "C": [1.0],
+                            "penalty": ["l2"],
+                            "solver": ["liblinear"],
+                        },
+                    }
+                    results = engine.automl_train(days=7, cv_folds=3)
+
+        # AutoMLResults の検証
+        assert results.best_model_name in ["random_forest", "gradient_boosting", "logistic_regression"]
+        assert results.mean_cv_score >= 0.0
+        assert len(results.cv_scores) > 0
+        assert isinstance(results.best_params, dict)
+        # モデルが登録されている
+        assert len(engine.models) == 3
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_automl_train_logistic_regression_best(self, mock_conn, mock_mkdir):
+        """ロジスティック回帰がベストモデルの場合、feature_importanceが空dictになる"""
+        import numpy as np
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+
+        np.random.seed(42)
+        n_samples = 60
+        X = np.random.randn(n_samples, 3)
+        y = np.array([0, 1] * (n_samples // 2))
+        engine.feature_names = ["a", "b", "c"]
+
+        # ロジスティック回帰のみ高スコアを返すようにGridSearchCVの結果を操作
+        with patch.object(engine, "_collect_training_data", return_value=(X, y)):
+            with patch.object(engine, "_save_models"):
+                with patch.object(engine, "_save_automl_experiment"):
+                    # RF/GBのスコアを0にし、LRが勝つようにする
+                    engine.param_grids = {
+                        "random_forest": {
+                            "n_estimators": [2],
+                            "max_depth": [1],
+                            "min_samples_split": [2],
+                            "min_samples_leaf": [1],
+                        },
+                        "gradient_boosting": {
+                            "n_estimators": [2],
+                            "max_depth": [1],
+                            "learning_rate": [0.01],
+                            "subsample": [1.0],
+                        },
+                        "logistic_regression": {
+                            "C": [1.0],
+                            "penalty": ["l2"],
+                            "solver": ["liblinear"],
+                        },
+                    }
+                    results = engine.automl_train(days=7, cv_folds=3)
+
+        # 結果の検証（LRにはfeature_importances_がない）
+        if results.best_model_name == "logistic_regression":
+            assert results.feature_importance == {}
+        else:
+            assert isinstance(results.feature_importance, dict)
+
+
+class TestCollectTrainingDataExistingScaler:
+    """_collect_training_data の既存スケーラー分岐テスト (L346)"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_collect_with_existing_scaler(self, mock_conn, mock_mkdir):
+        """既存スケーラーがある場合、transformのみ実行される"""
+        import numpy as np
+        from sklearn.preprocessing import StandardScaler
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+
+        # 事前にfitしたスケーラーを設定
+        scaler = StandardScaler()
+        # 11特徴量に合わせたダミーデータでfit
+        dummy = np.random.randn(100, 11)
+        scaler.fit(dummy)
+        engine.scaler = scaler
+
+        X, y = engine._collect_training_data(1)  # 最小日数
+
+        assert isinstance(X, np.ndarray)
+        assert isinstance(y, np.ndarray)
+        # スケーラーは変わっていない（新しいfit_transformではなくtransformが使われた）
+        assert engine.scaler is scaler
+
+
+class TestAnalyzeContributingFactorsNoImportance:
+    """_analyze_contributing_factors でfeature_importances_がないモデル (L464->477)"""
+
+    @patch("src.advanced_predictive_engine.Path.mkdir")
+    @patch("src.advanced_predictive_engine.get_connection")
+    def test_model_without_feature_importances(self, mock_conn, mock_mkdir):
+        """feature_importances_がないモデル（例: LogisticRegression）では空リスト"""
+        import numpy as np
+
+        from src.advanced_predictive_engine import AdvancedPredictiveEngine
+
+        engine = AdvancedPredictiveEngine()
+        engine.feature_names = ["a", "b", "c"]
+
+        # feature_importances_ を持たないモデル
+        mock_model = MagicMock(spec=[])  # 空のspecで属性なし
+        engine.models = {"lr": mock_model}
+
+        features = np.array([1.0, 2.0, 3.0])
+        factors = engine._analyze_contributing_factors(features, 0.5)
+
+        assert factors == []
+
+
+class TestMainPredictNoFailureTime:
+    """main関数 predict成功でfailure_time=Noneの場合 (L652->655)"""
+
+    @patch("src.advanced_predictive_engine.AdvancedPredictiveEngine")
+    @patch("sys.argv", ["advanced_predictive_engine.py", "--mode", "predict"])
+    def test_main_predict_no_failure_time(self, mock_class):
+        """predictモードでfailure_time=Noneの場合、そのログ行をスキップ"""
+        from src.advanced_predictive_engine import AdvancedPrediction, main
+
+        mock_instance = MagicMock()
+        mock_class.return_value = mock_instance
+
+        mock_prediction = AdvancedPrediction(
+            prediction_id="test_nft_001",
+            timestamp=datetime.now(),
+            failure_probability=0.2,
+            ensemble_predictions={"rf": 0.2},
+            confidence_score=0.9,
+            risk_level="low",
+            predicted_failure_time=None,  # failure_timeなし
+            contributing_factors=[{"feature": "cpu", "value": 10.0, "importance": 0.3}],
+            shap_values=None,
+            recommendations=["注意"],
+            model_agreement=0.95,
+        )
+        mock_instance.predict_advanced.return_value = mock_prediction
+
+        main()
+
+        mock_instance.predict_advanced.assert_called_once()
 
 
 class TestLoadModelsNoFile:

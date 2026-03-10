@@ -199,3 +199,13 @@ class TestGenerateEpisodeWithValidation:
 
         with pytest.raises(ValueError, match="未来"):
             generate_episode_with_validation(mock_generate, "テスト人物", 100, "REAL")
+
+    def test_invalid_raises_error_without_suggested_age(self):
+        """suggested_age=Noneの場合、メッセージのみのValueError (L190)"""
+
+        # 負の年齢 -> suggested_ageはNone
+        def mock_generate(**kwargs):
+            return "Episode"
+
+        with pytest.raises(ValueError):
+            generate_episode_with_validation(mock_generate, "テスト人物", -5, "REAL")

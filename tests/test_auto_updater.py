@@ -468,3 +468,52 @@ class TestUpdateWithRetryException:
 
             assert success is False
             assert "最大リトライ" in result["error"]
+
+
+class TestAutoUpdaterImportFallback:
+    """CacheManager ImportError時のフォールバックテスト"""
+
+    def test_cache_manager_fallback_import(self):
+        """src.cache_manager が失敗した場合に cache_manager にフォールバックすること"""
+        import builtins
+        import importlib
+        import sys
+        from types import ModuleType
+
+        original_import = builtins.__import__
+
+        # cache_manager のモックモジュールを作成
+        mock_cm_module = ModuleType("cache_manager")
+        mock_cm_module.CacheManager = MagicMock()
+
+        def mock_import(name, *args, **kwargs):
+            if name == "src.cache_manager":
+                raise ImportError(f"No module named '{name}'")
+            if name == "cache_manager":
+                return mock_cm_module
+            return original_import(name, *args, **kwargs)
+
+        mod_name = "src.auto_updater"
+        saved_modules = {}
+        for key in list(sys.modules.keys()):
+            if "cache_manager" in key:
+                saved_modules[key] = sys.modules.pop(key)
+        if mod_name in sys.modules:
+            saved_modules[mod_name] = sys.modules.pop(mod_name)
+
+        # cache_managerモックをsys.modulesに注入
+        sys.modules["cache_manager"] = mock_cm_module
+
+        try:
+            builtins.__import__ = mock_import
+            mod = importlib.import_module(mod_name)
+            importlib.reload(mod)
+
+            # フォールバックでインポートされたCacheManagerを確認
+            assert mod.CacheManager is mock_cm_module.CacheManager
+        finally:
+            builtins.__import__ = original_import
+            sys.modules.pop("cache_manager", None)
+            sys.modules.update(saved_modules)
+            if mod_name in sys.modules:
+                importlib.reload(sys.modules[mod_name])

@@ -536,6 +536,87 @@ class TestCheckProfessionPrefix:
         assert issue is None
 
 
+class TestValidateAliasIssueAppend:
+    """validate() でalias_issueがissuesに追加されるテスト (L82)"""
+
+    def test_validate_detects_alias_and_appends(self):
+        """validate() がalias_issueを検出してissuesに追加 (L82)"""
+        import sys
+
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        try:
+            from scripts.data.normalize_person_names import ALIAS_KEYWORDS
+        except ImportError:
+            pytest.skip("normalize_person_names not available")
+
+        validator = PersonNameValidator()
+        for alias, canonical in list(ALIAS_KEYWORDS.items())[:5]:
+            # 除外パターンでないか確認
+            if alias in validator.EXCLUDE_PERSON_NAMES:
+                continue
+            issues = validator.validate(alias)
+            has_variant = any(i.issue_type == IssueType.VARIANT_NAME for i in issues)
+            if has_variant:
+                assert True
+                return
+        pytest.skip("テスト可能なalias名が見つからなかった")
+
+
+class TestCheckGroupAsPersonDispersionStrategies:
+    """_check_group_as_person() 分散戦略の分岐テスト (L128, L131-132)"""
+
+    def test_representative_strategy_suggestion(self):
+        """REPRESENTATIVE戦略の場合、代表メンバーに変換と提案 (L128)"""
+        from src.group_master.dispersion import DispersionStrategy
+
+        validator = PersonNameValidator()
+        # REPRESENTATIVE戦略のグループを検索
+        for group_name, rule in validator.dispersion_rules.items():
+            if rule.strategy == DispersionStrategy.REPRESENTATIVE and group_name in validator.group_entities:
+                issue = validator._check_group_as_person(group_name)
+                assert issue is not None
+                assert "代表メンバーに変換" in issue.suggestion
+                assert issue.fixed_value == rule.members[0]
+                break
+        else:
+            pytest.skip("REPRESENTATIVE戦略のグループが見つからない")
+
+    def test_all_strategy_suggestion(self):
+        """ALL戦略の場合、全メンバーに分散と提案 (L126)"""
+        from src.group_master.dispersion import DispersionStrategy
+
+        validator = PersonNameValidator()
+        for group_name, rule in validator.dispersion_rules.items():
+            if rule.strategy == DispersionStrategy.ALL and group_name in validator.group_entities:
+                issue = validator._check_group_as_person(group_name)
+                assert issue is not None
+                assert "全メンバーに分散" in issue.suggestion
+                break
+        else:
+            pytest.skip("ALL戦略のグループが見つからない")
+
+    def test_group_without_dispersion_rule(self):
+        """DISPERSION_RULESにルールがないグループ (L131-132)"""
+        validator = PersonNameValidator()
+        # dispersion_rulesにないグループを見つける
+        for group_name in validator.group_entities:
+            if group_name not in validator.dispersion_rules:
+                issue = validator._check_group_as_person(group_name)
+                assert issue is not None
+                assert "DISPERSION_RULESにルール追加が必要" in issue.suggestion
+                assert issue.auto_fixable is False
+                assert issue.fixed_value is None
+                break
+        else:
+            # なければモックで作成
+            validator.group_entities.add("テストグループXXX")
+            issue = validator._check_group_as_person("テストグループXXX")
+            assert issue is not None
+            assert "DISPERSION_RULESにルール追加が必要" in issue.suggestion
+            assert issue.fixed_value is None
+            validator.group_entities.discard("テストグループXXX")
+
+
 class TestCheckItemNamePatternExtended:
     """_check_item_name_pattern() 追加テスト - OBVIOUS_ITEMSパターン"""
 

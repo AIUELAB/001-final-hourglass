@@ -172,6 +172,46 @@ class TestValidateNewPersonName:
         assert is_valid is True  # 同一名は許可
 
 
+class TestGetVariantInfoEdgeCases:
+    """get_variant_info NaN/None処理テスト (L128-129)"""
+
+    def test_nan_returns_empty(self):
+        """NaN入力は空リストを返す (L128)"""
+        import numpy as np
+
+        result = get_variant_info(np.nan)
+        assert result == []
+
+    def test_none_returns_empty(self):
+        """None入力は空リストを返す (L128)"""
+        result = get_variant_info(None)
+        assert result == []
+
+    def test_empty_string_returns_empty(self):
+        """空文字列は空リストを返す (L128)"""
+        result = get_variant_info("")
+        assert result == []
+
+
+class TestDetectVariantDuplicatesNaN:
+    """detect_variant_duplicates NaN処理テスト (L164-165)"""
+
+    def test_nan_in_person_name_skipped(self):
+        """person_nameにNaNが含まれる場合スキップされる (L164-165)"""
+        import numpy as np
+
+        df = pd.DataFrame(
+            {
+                "person_id": ["P001", "P002", "P003"],
+                "person_name": ["宮崎あおい", np.nan, "宮﨑あおい"],
+            }
+        )
+        duplicates = detect_variant_duplicates(df)
+        # NaNはスキップされ、宮崎/宮﨑の重複のみ検出
+        assert len(duplicates) == 1
+        assert duplicates[0]["normalized"] == "宮崎あおい"
+
+
 class TestIntegration:
     """統合テスト"""
 

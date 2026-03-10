@@ -1422,3 +1422,48 @@ class TestGenerateAIWithML:
         captured = capsys.readouterr()
         assert "ML推奨" in captured.out
         assert "AI推奨生成完了" in captured.out
+
+
+class TestRecommenderImportFallback:
+    """sklearn/numpy ImportError時のフォールバックテスト"""
+
+    def test_sklearn_import_error_fallback(self):
+        """sklearn未インストール時にSKLEARN_AVAILABLE=Falseになること"""
+        import builtins
+        import importlib
+        import sys
+
+        original_import = builtins.__import__
+
+        def mock_import(name, *args, **kwargs):
+            if name in ("numpy", "sklearn", "joblib") or name.startswith("sklearn."):
+                raise ImportError(f"No module named '{name}'")
+            return original_import(name, *args, **kwargs)
+
+        # キャッシュからモジュールを除去
+        mod_name = "src.ai_recommendation_system.recommender"
+        saved_modules = {}
+        for key in list(sys.modules.keys()):
+            if "sklearn" in key or "numpy" in key or "joblib" in key:
+                saved_modules[key] = sys.modules.pop(key)
+        if mod_name in sys.modules:
+            saved_modules[mod_name] = sys.modules.pop(mod_name)
+
+        try:
+            builtins.__import__ = mock_import
+            mod = importlib.import_module(mod_name)
+            importlib.reload(mod)
+
+            assert mod.SKLEARN_AVAILABLE is False
+            assert mod.np is None
+            assert mod.RandomForestClassifier is None
+            assert mod.GradientBoostingClassifier is None
+            assert mod.StandardScaler is None
+            assert mod.train_test_split is None
+            assert mod.joblib is None
+        finally:
+            builtins.__import__ = original_import
+            # 元のモジュールを復元
+            sys.modules.update(saved_modules)
+            if mod_name in sys.modules:
+                importlib.reload(sys.modules[mod_name])

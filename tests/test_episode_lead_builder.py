@@ -180,6 +180,15 @@ class TestConvertEpisodeLead:
         assert converted == original
         assert warning is not None
 
+    def test_fictional_conversion_with_warning(self):
+        """架空キャラクター変換でwarning発生時 (L204)"""
+        # current_patternに一致するが、work_titleがないFICTIONALキャラ
+        original = "あなたと同じ20歳のとき、不明キャラは冒険をしていた。"
+        converted, warning = convert_episode_lead(original, "不明キャラ", 20, "FICTIONAL", None)
+        # warningが返され、テキストは変換されない
+        assert converted == original
+        assert warning is not None
+
 
 class TestCheckEpisodeLeadFormat:
     """check_episode_lead_format 関数のテスト"""
@@ -217,3 +226,10 @@ class TestCheckEpisodeLeadFormat:
         text = "あなたと同じ30歳のとき、テストは何かした。"
         is_valid, msg = check_episode_lead_format(text, None)
         assert is_valid is True
+
+    def test_fictional_completely_invalid_format(self):
+        """架空キャラクターで完全に不正なフォーマット (L244)"""
+        text = "まったく違うフォーマットのテキスト"
+        is_valid, msg = check_episode_lead_format(text, "FICTIONAL")
+        assert is_valid is False
+        assert "標準フォーマットに準拠していません" in msg

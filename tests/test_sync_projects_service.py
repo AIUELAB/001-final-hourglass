@@ -74,6 +74,16 @@ class TestRenderMarkdown:
         assert "## Resources" in md
         assert "Resource 1" in md
 
+    def test_with_resources_no_url(self):
+        """URLなしリソース (L55)"""
+        resource = ProjectResource(id="r1", title="Resource No URL")
+        project = ProjectModel(id="p1", name="Test", resources=[resource])
+        md = render_markdown(project)
+        assert "## Resources" in md
+        assert "- Resource No URL" in md
+        # URL付きフォーマット（": http"）が含まれないこと
+        assert ": http" not in md
+
 
 class TestSaveOutputs:
     """save_outputsのテスト"""

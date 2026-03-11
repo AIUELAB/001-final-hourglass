@@ -52,16 +52,12 @@ OTHER_SWIFT_FLAGS = $(inherited) -Xfrontend -disable-autolink-framework -Xfronte
 // =================================================
 // Supabase Configuration (Release)
 // =================================================
+// Supabase credentials are loaded from Local.xcconfig (not tracked in git)
+// Copy Local.xcconfig.template to Local.xcconfig and fill in your values
+#include? "Local.xcconfig"
 
-// Supabase Project URL
-// 注意: URL内の "//" はxcconfigで特殊文字のため、"/" + "$()/" で回避
-SUPABASE_PROJECT_URL = https:/$()/kvnlzsndenwakkcttvcs.supabase.co
-
-// Supabase Anonymous Key (RLS保護済み - SELECT only)
-SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2bmx6c25kZW53YWtrY3R0dmNzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzNDEzNzYsImV4cCI6MjA3ODkxNzM3Nn0.6lf7hzJ--84Sgryl2cXLQTuXyE-DZlgMyyTMeQx1xZE
-
-// Supabase テーブル名
+// Supabase table name (non-sensitive, can remain here)
 SUPABASE_EPISODES_TABLE = episodes
 
-// リリース用: 接続テストを無効にする
+// Release: disable connection test
 SUPABASE_DEBUG_CONNECTION_TEST = NO

@@ -124,3 +124,4 @@ Local.xcconfig
 
 # Xcode temporary lock files
 .!*
+__pycache__/

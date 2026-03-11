@@ -548,6 +548,7 @@ class TestValidateAliasIssueAppend:
             from scripts.data.normalize_person_names import ALIAS_KEYWORDS
         except ImportError:
             pytest.skip("normalize_person_names not available")
+            return  # unreachable, but satisfies static analysis
 
         validator = PersonNameValidator()
         for alias, canonical in list(ALIAS_KEYWORDS.items())[:5]:

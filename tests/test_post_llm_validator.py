@@ -532,18 +532,6 @@ class TestMainFunctionWarningsOutput:
         # 「あなたと同じ25歳のとき、」+ 約110文字 = warnings("やや少なめ")のみ
         long_enough_text = "あなたと同じ25歳のとき、彼は新しいプロジェクトを開始しました。このプロジェクトは成功を収め、多くの人々に影響を与えました。彼の努力が実を結んだ瞬間でした。"
 
-        # main内のtest_casesを差し替え
-        patched_cases = [
-            {
-                "text": long_enough_text,
-                "age": 25,
-                "type": "REAL",
-            },
-        ]
-
-        # main関数内で使われるtest_casesをパッチ
-        original_main = main.__code__
-
         # 直接validate()の結果をモックしてwarningsを含める
         original_validate = PostLLMValidator.validate
 

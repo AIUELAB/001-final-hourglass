@@ -6,6 +6,8 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
+import pytest
+
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
@@ -635,6 +637,60 @@ class TestErrorHandling:
             # 復元失敗
             result = sm.restore_checkpoint("corrupted_cp.json")
             assert result is False
+
+
+class TestSignalHandler:
+    """シグナルハンドラーのテスト（L51-53カバレッジ）"""
+
+    @patch("session_manager.signal.signal")
+    def test_signal_handler_calls_save_and_exit(self, mock_signal):
+        """シグナルハンドラーがsave_sessionとsys.exitを呼ぶ"""
+        from session_manager import SessionManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sm = SessionManager(session_dir=tmpdir)
+            sm.set("data", "test_value")
+
+            # シグナルハンドラーを取得（signal.signalに渡された関数）
+            # mock_signal.call_argsのうち、SIGINTに渡されたハンドラーを取得
+            handler = None
+            for call in mock_signal.call_args_list:
+                if call[0][0] == __import__("signal").SIGINT:
+                    handler = call[0][1]
+                    break
+
+            assert handler is not None, "SIGINTハンドラーが設定されていること"
+
+            # ハンドラーを呼び出す（sys.exitでSystemExitが発生する）
+            with patch.object(sm, "save_session") as mock_save:
+                with pytest.raises(SystemExit) as exc_info:
+                    handler(2, None)
+                mock_save.assert_called_once()
+                assert exc_info.value.code == 0
+
+
+class TestAutoSaveWorker:
+    """_auto_save_workerのテスト（L88カバレッジ）"""
+
+    @patch("session_manager.signal.signal")
+    def test_auto_save_worker_calls_save_session(self, mock_signal):
+        """自動保存ワーカーがsave_sessionを呼ぶ"""
+        from session_manager import SessionManager
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sm = SessionManager(session_dir=tmpdir)
+            sm.auto_save_interval = 0.05  # 50ms
+            sm.set("data", "test")
+
+            sm.start_auto_save()
+            # ワーカーがsave_sessionを呼ぶのを待つ
+            import time
+
+            time.sleep(0.15)
+            sm.stop_auto_save_thread()
+
+            # セッションファイルが存在する（save_sessionが呼ばれた証拠）
+            assert sm.session_file.exists()
 
 
 class TestGlobalFunctionsAdvanced:

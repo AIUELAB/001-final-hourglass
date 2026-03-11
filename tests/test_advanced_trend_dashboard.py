@@ -1556,3 +1556,79 @@ class TestMainFunctionWithPlots:
         main()
 
         mock_dashboard.generate_comprehensive_dashboard.assert_called_once_with(hours=48, include_plots=True)
+
+
+class TestPlotsImportFallback:
+    """plotly ImportError時のフォールバックテスト"""
+
+    def test_plotly_import_error_fallback(self):
+        """plotly未インストール時にPLOTLY_AVAILABLE=Falseになること"""
+        import builtins
+        import importlib
+        import sys
+
+        original_import = builtins.__import__
+
+        def mock_import(name, *args, **kwargs):
+            if name in ("plotly",) or name.startswith("plotly."):
+                raise ImportError(f"No module named '{name}'")
+            return original_import(name, *args, **kwargs)
+
+        mod_name = "src.advanced_trend_dashboard.plots"
+        saved_modules = {}
+        for key in list(sys.modules.keys()):
+            if "plotly" in key:
+                saved_modules[key] = sys.modules.pop(key)
+        if mod_name in sys.modules:
+            saved_modules[mod_name] = sys.modules.pop(mod_name)
+
+        try:
+            builtins.__import__ = mock_import
+            mod = importlib.import_module(mod_name)
+            importlib.reload(mod)
+
+            assert mod.PLOTLY_AVAILABLE is False
+            assert mod.go is None
+            assert mod.make_subplots is None
+        finally:
+            builtins.__import__ = original_import
+            sys.modules.update(saved_modules)
+            if mod_name in sys.modules:
+                importlib.reload(sys.modules[mod_name])
+
+
+class TestPrintAutomlHistoryTrainingDuration:
+    """print_automl_history の training_duration 分岐テスト (L63)"""
+
+    def test_experiment_with_training_duration(self, capsys):
+        """training_durationがある場合に訓練時間を表示"""
+        from src.advanced_trend_dashboard.printers import print_automl_history
+
+        experiments = [
+            {
+                "timestamp": "2025-01-01T00:00:00",
+                "best_model": "RandomForest",
+                "cv_mean": 0.90,
+                "cv_std": 0.02,
+                "training_duration": 12.34,
+            }
+        ]
+        print_automl_history(experiments)
+        captured = capsys.readouterr()
+        assert "訓練時間: 12.34秒" in captured.out
+
+    def test_experiment_without_training_duration(self, capsys):
+        """training_durationがない場合は訓練時間を表示しない"""
+        from src.advanced_trend_dashboard.printers import print_automl_history
+
+        experiments = [
+            {
+                "timestamp": "2025-01-01T00:00:00",
+                "best_model": "GradientBoosting",
+                "cv_mean": 0.85,
+                "cv_std": 0.03,
+            }
+        ]
+        print_automl_history(experiments)
+        captured = capsys.readouterr()
+        assert "訓練時間" not in captured.out

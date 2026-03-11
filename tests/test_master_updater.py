@@ -625,3 +625,40 @@ class TestMain:
         main()
 
         mock_instance.generate_diff.assert_called_once()
+
+
+class TestProposeDispersionRulesSmallGroup:
+    """propose_dispersion_rulesで5名以下のメンバーがいる場合のテスト（L162-164カバー）"""
+
+    @patch(
+        "src.data.master_updater.GROUP_ENTITIES",
+        {"小人数グループ"},
+    )
+    @patch(
+        "src.data.master_updater.GROUP_MEMBER_MAP",
+        {
+            "メンバー1": "小人数グループ",
+            "メンバー2": "小人数グループ",
+            "メンバー3": "小人数グループ",
+        },
+    )
+    @patch("src.data.master_updater.DISPERSION_RULES", {})
+    def test_all_strategy_for_small_group(self):
+        """5名以下のグループにはALL戦略が提案される (L162-164)"""
+        from src.data.master_updater import MasterUpdater
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write("person_name,person_id,person_type\n")
+            f.write("テスト,P001,REAL\n")
+            temp_path = f.name
+
+        try:
+            updater = MasterUpdater(temp_path)
+            proposals = updater.propose_dispersion_rules()
+
+            assert len(proposals) == 1
+            assert proposals[0].group_name == "小人数グループ"
+            assert proposals[0].strategy == "ALL"
+            assert "全員分散" in proposals[0].reason
+        finally:
+            os.unlink(temp_path)

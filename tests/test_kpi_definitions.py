@@ -720,3 +720,148 @@ class TestMainKPIOutput:
             captured = capsys.readouterr()
             # 出力にステータスアイコンが含まれる
             assert "✅" in captured.out or "⚠️" in captured.out or "❌" in captured.out
+
+
+class TestCalculateAllWarningStatus:
+    """WARNING状態のoverall_statusテスト (L120-121)"""
+
+    def test_calculate_all_overall_warning(self, tmp_path):
+        """全KPIがWARNINGまたはOKの場合、overall_statusがWARNINGになる"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator, KPIResult
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text,category\n"
+            "テスト,P001,REAL,あなたと同じ30歳のとき、テストは活動した,スポーツ\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+
+        # All KPI methods return WARNING or OK status (no CRITICAL)
+        warning_result = KPIResult(name="TestKPI", value=0.03, target=0.0, status="WARNING")
+        ok_result = KPIResult(name="TestKPI2", value=0.0, target=0.0, status="OK")
+
+        with (
+            patch.object(calculator, "_calc_group_name_rate", return_value=warning_result),
+            patch.object(
+                calculator,
+                "_calc_format_compliance_rate",
+                return_value=ok_result,
+            ),
+            patch.object(
+                calculator,
+                "_calc_meta_expression_rate",
+                return_value=ok_result,
+            ),
+            patch.object(calculator, "_calc_variant_rate", return_value=ok_result),
+            patch.object(calculator, "_calc_duplicate_id_rate", return_value=ok_result),
+            patch.object(calculator, "_calc_nan_id_rate", return_value=ok_result),
+            patch.object(
+                calculator,
+                "_calc_deleted_id_contamination_rate",
+                return_value=ok_result,
+            ),
+            patch.object(
+                calculator,
+                "_calc_org_title_contamination_rate",
+                return_value=ok_result,
+            ),
+            patch.object(calculator, "_calc_english_alias_rate", return_value=ok_result),
+            patch.object(calculator, "_calc_suffix_pattern_rate", return_value=ok_result),
+        ):
+            report = calculator.calculate_all()
+
+        assert report.overall_status == "WARNING"
+
+
+class TestCalculateAllOKStatus:
+    """OK状態のoverall_statusテスト (L123)"""
+
+    def test_calculate_all_overall_ok(self, tmp_path):
+        """全KPIがOKの場合、overall_statusがOKになる"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator, KPIResult
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            "person_name,person_id,person_type,episode_text,category\n"
+            "テスト,P001,REAL,あなたと同じ30歳のとき、テストは活動した,スポーツ\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+
+        ok_result = KPIResult(name="TestKPI", value=0.0, target=0.0, status="OK")
+
+        with (
+            patch.object(calculator, "_calc_group_name_rate", return_value=ok_result),
+            patch.object(
+                calculator,
+                "_calc_format_compliance_rate",
+                return_value=ok_result,
+            ),
+            patch.object(
+                calculator,
+                "_calc_meta_expression_rate",
+                return_value=ok_result,
+            ),
+            patch.object(calculator, "_calc_variant_rate", return_value=ok_result),
+            patch.object(calculator, "_calc_duplicate_id_rate", return_value=ok_result),
+            patch.object(calculator, "_calc_nan_id_rate", return_value=ok_result),
+            patch.object(
+                calculator,
+                "_calc_deleted_id_contamination_rate",
+                return_value=ok_result,
+            ),
+            patch.object(
+                calculator,
+                "_calc_org_title_contamination_rate",
+                return_value=ok_result,
+            ),
+            patch.object(calculator, "_calc_english_alias_rate", return_value=ok_result),
+            patch.object(calculator, "_calc_suffix_pattern_rate", return_value=ok_result),
+        ):
+            report = calculator.calculate_all()
+
+        assert report.overall_status == "OK"
+
+
+class TestCalcGroupNameRateContamination:
+    """GROUP_ENTITIES名がperson_type!=GROUPレコードに混入するケース (L158)"""
+
+    def test_group_entity_in_non_group_record(self, tmp_path):
+        """GROUP_ENTITIESの名前がREALレコードに存在する場合"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator, GROUP_ENTITIES
+
+        # GROUP_ENTITIESから1つ取得してテストデータに使う
+        if not GROUP_ENTITIES:
+            pytest.skip("GROUP_ENTITIES is empty")
+
+        group_name = next(iter(GROUP_ENTITIES))
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text(
+            f"person_name,person_id,person_type,episode_text\n"
+            f"{group_name},P001,REAL,テスト\n"
+            f"通常人物,P002,REAL,テスト2\n"
+        )
+
+        calculator = EPUPKPICalculator(str(csv_file))
+        result = calculator._calc_group_name_rate()
+
+        assert result.details["group_as_person"] >= 1
+
+
+class TestLoadDeletedIdsNoTombstone:
+    """Tombstoneファイルが存在しない場合のテスト (L281)"""
+
+    def test_tombstone_not_exists(self, tmp_path):
+        """TOMBSTONE_PATHが存在しない場合、空のセットを返す"""
+        from src.monitoring.kpi_definitions import EPUPKPICalculator
+
+        csv_file = tmp_path / "test.csv"
+        csv_file.write_text("person_name,person_id,person_type,episode_text\n" "テスト,P001,REAL,テスト\n")
+
+        non_existent = tmp_path / "nonexistent_tombstone.json"
+        with patch("src.monitoring.kpi_definitions.TOMBSTONE_PATH", non_existent):
+            calculator = EPUPKPICalculator(str(csv_file))
+            result = calculator._calc_deleted_id_contamination_rate()
+
+        assert result.value == 0.0

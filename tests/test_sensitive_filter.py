@@ -49,6 +49,20 @@ class TestSensitiveFilterInit:
         assert filter_with_mock_config.config["sensitive_categories"] == mock_config["sensitive_categories"]
         assert filter_with_mock_config.config["sensitive_keywords"] == mock_config["sensitive_keywords"]
 
+    def test_init_with_default_config_path(self, tmp_path, mock_config):
+        """デフォルトconfig_pathでの初期化 (L49)"""
+        # get_project_rootをモックしてtmp_pathを返す
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        config_file = config_dir / "sensitive_keywords.yaml"
+        config_file.write_text(yaml.dump(mock_config), encoding="utf-8")
+
+        with patch("src.sensitive_filter.get_project_root", return_value=tmp_path):
+            filter_obj = SensitiveFilter()  # config_path=None
+
+        assert filter_obj.config is not None
+        assert "sensitive_categories" in filter_obj.config
+
 
 class TestIsSensitive:
     """is_sensitive メソッドのテスト"""

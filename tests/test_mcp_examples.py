@@ -264,6 +264,19 @@ class TestMCPDataProcessor:
         assert "/nonexistent/path/file.txt" in result
         assert result["/nonexistent/path/file.txt"] == "File not found"
 
+    @pytest.mark.asyncio
+    async def test_process_file_operations_read_error(self):
+        """ファイル読み込みエラー時のException処理 (L193-195)"""
+        processor = MCPDataProcessor()
+
+        with patch("mcp_examples.aiofiles.open") as mock_aiofiles:
+            mock_aiofiles.side_effect = PermissionError("Permission denied")
+            with patch("pathlib.Path.exists", return_value=True):
+                result = await processor.process_file_operations(["/some/protected/file.txt"])
+
+        assert "/some/protected/file.txt" in result
+        assert "Error:" in result["/some/protected/file.txt"]
+
     def test_generate_markdown_report_with_issues(self):
         """GitHubIssues含むレポート生成"""
         processor = MCPDataProcessor()

@@ -517,3 +517,58 @@ class TestMainFunction:
         captured = capsys.readouterr()
         # 有効/無効のインジケータが出力される
         assert "✅" in captured.out or "❌" in captured.out
+
+
+class TestMainFunctionWarningsOutput:
+    """main関数の警告出力テスト (L508)"""
+
+    def test_main_outputs_warnings_when_present(self, capsys, monkeypatch):
+        """結果にwarningsがある場合、警告を出力する (L508)"""
+        from unittest.mock import patch
+
+        from src.validators.post_llm_validator import PostLLMValidator, main
+
+        # テキストが推奨範囲よりやや少ない（100-150文字）ケースを作る
+        # 「あなたと同じ25歳のとき、」+ 約110文字 = warnings("やや少なめ")のみ
+        long_enough_text = "あなたと同じ25歳のとき、彼は新しいプロジェクトを開始しました。このプロジェクトは成功を収め、多くの人々に影響を与えました。彼の努力が実を結んだ瞬間でした。"
+
+        # 直接validate()の結果をモックしてwarningsを含める
+        original_validate = PostLLMValidator.validate
+
+        def mock_validate(self, text, age=None, person_type="REAL", **kwargs):
+            result = original_validate(self, text, age, person_type, **kwargs)
+            if not result.warnings:
+                # 強制的にwarningを追加
+                result.warnings.append("テスト警告: やや少なめです")
+            return result
+
+        with patch.object(PostLLMValidator, "validate", mock_validate):
+            main()
+
+        captured = capsys.readouterr()
+        assert "警告:" in captured.out
+
+
+class TestLeadFormatWarningBranch:
+    """リード文チェックのwarning分岐テスト (L185-187)"""
+
+    def test_lead_warning_triggers_score_deduction(self):
+        """_check_lead_formatがwarningを返す場合のスコア減点 (L185-187)"""
+        from unittest.mock import patch
+
+        validator = PostLLMValidator()
+
+        # _check_lead_formatをモックしてwarningを返す
+        mock_lead_result = {
+            "error": None,
+            "warning": "リード文に軽微な問題があります",
+            "hint": "",
+        }
+        with patch.object(validator, "_check_lead_format", return_value=mock_lead_result):
+            text = "あなたと同じ25歳のとき、" + "テスト内容です。" * 15
+            result = validator.validate(text, age=25, person_type="REAL")
+
+        # warningが追加されている
+        assert "リード文に軽微な問題があります" in result.warnings
+        # スコアが0.1減点されている（1.0 - 0.1 = 0.9）
+        assert result.quality_score <= 0.9

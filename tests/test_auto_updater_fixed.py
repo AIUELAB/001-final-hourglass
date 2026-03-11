@@ -406,3 +406,39 @@ class TestPrepareRowsDataMixedTypes:
         assert result[0]["values"][2]["userEnteredValue"]["stringValue"] == "text"
         assert result[0]["values"][3]["userEnteredValue"]["numberValue"] == 42
         assert result[0]["values"][4]["userEnteredValue"]["numberValue"] == 3.14
+
+
+class TestForceFullReplacementAtomicFailure:
+    """force_full_replacement で atomic_sheet_update が失敗を返す場合のテスト (L193-194)"""
+
+    @patch("src.auto_updater_fixed.CacheManager")
+    @patch("src.auto_updater_fixed.build")
+    @patch("src.auto_updater_fixed.service_account.Credentials.from_service_account_file")
+    def test_atomic_update_returns_false_triggers_cleanup(self, mock_creds, mock_build, mock_cache):
+        """atomic_sheet_updateがFalseを返すと一時シート削除してFalseを返す"""
+        from src.auto_updater_fixed import AutoUpdaterFixed
+
+        mock_service = MagicMock()
+        mock_build.return_value = mock_service
+        mock_service.spreadsheets.return_value.get.return_value.execute.return_value = {
+            "sheets": [{"properties": {"sheetId": 0, "title": "Sheet1"}}]
+        }
+        mock_service.spreadsheets.return_value.batchUpdate.return_value.execute.return_value = {}
+
+        with patch("pathlib.Path.exists", return_value=True):
+            updater = AutoUpdaterFixed()
+
+        # atomic_sheet_updateを直接モックして(False, error)を返す
+        with patch.object(
+            updater, "atomic_sheet_update", return_value=(False, {"error": "Write failed", "success": False})
+        ):
+            with patch.object(updater, "_delete_sheet") as mock_delete:
+                df = pd.DataFrame({"col1": [1, 2]})
+                success, result = updater.force_full_replacement(
+                    spreadsheet_id="test_id", df=df, new_sheet_name="NewSheet"
+                )
+
+                assert success is False
+                assert "一時シートへの書き込み失敗" in result["error"]
+                # _delete_sheetが呼ばれたことを確認（一時シート削除）
+                mock_delete.assert_called_once()

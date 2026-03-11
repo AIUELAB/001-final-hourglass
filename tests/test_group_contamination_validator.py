@@ -422,6 +422,44 @@ class TestMainFunction:
         assert exit_code == 0
 
 
+class TestMainWithReportPath:
+    """main() でレポートパスが表示されるテスト (L272)"""
+
+    def test_main_with_report_path(self, tmp_path, monkeypatch, capsys):
+        """save_report=Trueでreport_pathが表示される"""
+        from unittest.mock import patch
+
+        from src.validators import group_contamination_validator
+
+        csv_path = tmp_path / "test.csv"
+        df = pd.DataFrame(
+            {
+                "person_id": ["P001"],
+                "person_name": ["山田太郎"],
+                "episode_id": ["E001"],
+            }
+        )
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+        # レポート保存先をtmp_pathに設定
+        report_dir = tmp_path / "reports"
+        report_dir.mkdir()
+
+        monkeypatch.setattr(
+            "sys.argv",
+            ["group_contamination_validator.py", "--csv", str(csv_path)],
+        )
+        with patch(
+            "src.validators.group_contamination_validator.PROJECT_ROOT",
+            tmp_path,
+        ):
+            exit_code = group_contamination_validator.main()
+
+        captured = capsys.readouterr()
+        assert "レポート:" in captured.out
+        assert exit_code == 0
+
+
 class TestIntegration:
     """統合テスト"""
 

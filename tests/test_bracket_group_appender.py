@@ -204,6 +204,14 @@ class TestValidateAppendedText:
         appended = original + "余分な文字列"
         assert validate_appended_text(original, appended, "Mr.Children") is False
 
+    def test_invalid_lead_pattern(self):
+        """リード文パターンに一致しない（L154）"""
+        # Valid bracket appended but the overall format doesn't match the lead pattern
+        original = "これは普通のテキストです。"
+        group_name = "テストG"
+        appended = "これは普通のテキスト（テストG）です。"
+        assert validate_appended_text(original, appended, group_name) is False
+
 
 class TestIdempotency:
     """冪等性のテスト"""

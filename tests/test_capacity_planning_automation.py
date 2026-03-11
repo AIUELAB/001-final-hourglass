@@ -1473,3 +1473,84 @@ class TestMainWithCriticalResourceAndDays:
         assert "MEMORY" in captured.out
         # days_until_critical が None なので日数行は表示されない
         assert "クリティカルまで" not in captured.out
+
+
+class TestPlannerImportFallback:
+    """numpy/sklearn ImportError時のフォールバックテスト"""
+
+    def test_sklearn_import_error_fallback(self):
+        """sklearn未インストール時にSKLEARN_AVAILABLE=Falseになること"""
+        import builtins
+        import importlib
+        import sys
+
+        original_import = builtins.__import__
+
+        def mock_import(name, *args, **kwargs):
+            if name in ("numpy", "sklearn") or name.startswith("sklearn."):
+                raise ImportError(f"No module named '{name}'")
+            return original_import(name, *args, **kwargs)
+
+        mod_name = "src.capacity_planning_automation.planner"
+        saved_modules = {}
+        for key in list(sys.modules.keys()):
+            if "sklearn" in key or "numpy" in key:
+                saved_modules[key] = sys.modules.pop(key)
+        if mod_name in sys.modules:
+            saved_modules[mod_name] = sys.modules.pop(mod_name)
+
+        try:
+            builtins.__import__ = mock_import
+            mod = importlib.import_module(mod_name)
+            importlib.reload(mod)
+
+            assert mod.SKLEARN_AVAILABLE is False
+        finally:
+            builtins.__import__ = original_import
+            sys.modules.update(saved_modules)
+            if mod_name in sys.modules:
+                importlib.reload(sys.modules[mod_name])
+
+
+class TestSaveCapacityPlanReportNoFilename:
+    """save_capacity_plan_report に filename=None を渡すテスト (L614-615)"""
+
+    @patch("src.capacity_planning_automation.planner.Path.mkdir")
+    @patch("src.capacity_planning_automation.planner.get_connection")
+    def test_save_report_generates_timestamp_filename(self, mock_conn, mock_mkdir, tmp_path):
+        """filename=Noneの場合、タイムスタンプ付きファイル名を自動生成"""
+        from src.capacity_planning_automation import (
+            CapacityForecast,
+            CapacityPlan,
+            CapacityPlanningAutomation,
+        )
+
+        automation = CapacityPlanningAutomation()
+        automation.reports_dir = tmp_path
+
+        plan = CapacityPlan(
+            generated_at="2025-01-01T00:00:00",
+            forecast_period_days=90,
+            forecasts=[
+                CapacityForecast(
+                    resource_type="cpu",
+                    current_usage=50.0,
+                    predicted_usage_7d=55.0,
+                    predicted_usage_30d=60.0,
+                    predicted_usage_90d=70.0,
+                    capacity_threshold=80.0,
+                    days_until_threshold=60,
+                    growth_rate_daily=0.3,
+                )
+            ],
+            recommendations=[],
+            alerts=[],
+            summary={"overall_status": "healthy"},
+        )
+
+        # filename=None（デフォルト）で呼び出し
+        output_path = automation.save_capacity_plan_report(plan)
+
+        assert output_path.exists()
+        assert output_path.name.startswith("capacity_plan_")
+        assert output_path.name.endswith(".json")

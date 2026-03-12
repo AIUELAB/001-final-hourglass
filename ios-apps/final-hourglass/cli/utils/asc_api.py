@@ -198,6 +198,42 @@ class ASCApiClient:
                 return version
         return None
 
+    def get_all_versions(self, app_id: str) -> list[dict]:
+        """Get all app store versions for an app.
+
+        Args:
+            app_id: The app's resource ID.
+
+        Returns:
+            List of appStoreVersion resource dicts.
+        """
+        data = self._request("GET", f"/apps/{app_id}/appStoreVersions")
+        return data.get("data", [])
+
+    def find_version_by_string(self, app_id: str, version_string: str) -> dict | None:
+        """Find an app store version by its version string (e.g. '1.0.13').
+
+        Returns the version regardless of its state.
+
+        Args:
+            app_id: The app's resource ID.
+            version_string: The version string to search for.
+
+        Returns:
+            The appStoreVersion resource dict, or None if not found.
+        """
+        data = self._request("GET", f"/apps/{app_id}/appStoreVersions")
+        versions = data.get("data", [])
+        console.print(f"  [dim]Available versions ({len(versions)}):[/dim]")
+        for version in versions:
+            attrs = version.get("attributes", {})
+            vs = attrs.get("versionString", "")
+            state = attrs.get("appVersionState", "?")
+            console.print(f"  [dim]  - {vs} ({state})[/dim]")
+            if vs == version_string:
+                return version
+        return None
+
     def get_version_localizations(self, version_id: str) -> list[dict]:
         """Get all localizations for an app store version.
 
@@ -277,6 +313,37 @@ class ASCApiClient:
             }
         }
         return self._request("POST", "/appStoreVersions", json=payload)
+
+    def delete_version(self, version_id: str) -> None:
+        """Delete an app store version (e.g. DEVELOPER_REJECTED).
+
+        Args:
+            version_id: The appStoreVersion resource ID.
+        """
+        self._request("DELETE", f"/appStoreVersions/{version_id}")
+
+    def update_version_string(self, version_id: str, new_version_string: str) -> dict:
+        """Update the version string of an app store version.
+
+        Useful for repurposing a DEVELOPER_REJECTED version.
+
+        Args:
+            version_id: The appStoreVersion resource ID.
+            new_version_string: The new version string (e.g., "1.0.13").
+
+        Returns:
+            The updated appStoreVersion resource dict.
+        """
+        payload = {
+            "data": {
+                "type": "appStoreVersions",
+                "id": version_id,
+                "attributes": {
+                    "versionString": new_version_string,
+                },
+            }
+        }
+        return self._request("PATCH", f"/appStoreVersions/{version_id}", json=payload)
 
     def attach_build(self, version_id: str, build_id: str) -> dict:
         """Attach a build to an app store version.

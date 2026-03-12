@@ -232,16 +232,40 @@ def _execute(
 
         console.print("  Fetching editable version...")
         version = client.get_editable_version(app_id)
-        if version is None:
-            # No editable version exists — create one automatically
-            if not release_version:
-                return {
-                    "success": False,
-                    "error": "No version in PREPARE_FOR_SUBMISSION state and no release_version specified to create one.",
-                }
-            console.print(f"  [yellow]No editable version found. Creating version {release_version}...[/yellow]")
-            version = client.create_version(app_id, release_version)
-            console.print(f"  [green]Created new version: {release_version}[/green]")
+        if version is None and release_version:
+            # No PREPARE_FOR_SUBMISSION version — check if version already exists in another state
+            console.print(f"  [yellow]No editable version found. Looking up version {release_version}...[/yellow]")
+            existing = client.find_version_by_string(app_id, release_version)
+            if existing is not None:
+                existing_state = existing.get("attributes", {}).get("appVersionState", "?")
+                console.print(f"  [green]Found version {release_version} in state: {existing_state}[/green]")
+                version = existing
+            else:
+                # Check for DEVELOPER_REJECTED versions that can be repurposed
+                all_versions = client.get_all_versions(app_id)
+                rejected = None
+                for v in all_versions:
+                    if v.get("attributes", {}).get("appVersionState", "") == "DEVELOPER_REJECTED":
+                        rejected = v
+                        break
+
+                if rejected is not None:
+                    rejected_string = rejected.get("attributes", {}).get("versionString", "?")
+                    console.print(
+                        f"  [yellow]Repurposing DEVELOPER_REJECTED version {rejected_string} "
+                        f"→ {release_version}...[/yellow]"
+                    )
+                    version = client.update_version_string(rejected["id"], release_version)
+                    console.print(f"  [green]Updated version to {release_version}[/green]")
+                else:
+                    console.print(f"  [yellow]Creating version {release_version}...[/yellow]")
+                    version = client.create_version(app_id, release_version)
+                    console.print(f"  [green]Created new version: {release_version}[/green]")
+        elif version is None:
+            return {
+                "success": False,
+                "error": "No version in PREPARE_FOR_SUBMISSION state and no release_version specified to create one.",
+            }
 
         version_string = version.get("attributes", {}).get("versionString", "Unknown")
         version_state = version.get("attributes", {}).get("appStoreState", "Unknown")

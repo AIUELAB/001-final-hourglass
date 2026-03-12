@@ -116,8 +116,12 @@ CLEANUP_ANALYSIS.md
 # ローカル設定ファイル（実際の認証情報を含む）はコミットしない
 Local.xcconfig
 
+## iOS Release CLI Configuration (sensitive)
+.env.ios-release
+
 # テンプレートファイルはコミットする
 !*.xcconfig.template
 
 # Xcode temporary lock files
 .!*
+__pycache__/

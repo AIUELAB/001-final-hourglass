@@ -704,7 +704,7 @@ class TestOptimizedMCPClientListTools:
 
         # list_tools はasync_memoizeでラップされているため、キャッシュをクリア
         if hasattr(client.list_tools, "cache"):
-            client.list_tools.cache.clear()
+            await client.list_tools.cache.clear()
 
         result = await client.list_tools()
 
@@ -720,7 +720,7 @@ class TestOptimizedMCPClientListTools:
         client.pool.get_session = AsyncMock(return_value=mock_session)
 
         if hasattr(client.list_tools, "cache"):
-            client.list_tools.cache.clear()
+            await client.list_tools.cache.clear()
 
         result = await client.list_tools()
 

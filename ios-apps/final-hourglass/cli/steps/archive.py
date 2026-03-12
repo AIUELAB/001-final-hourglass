@@ -1,6 +1,8 @@
 """Step 3: Archive - xcodebuild archive wrapper."""
 from __future__ import annotations
 
+import os
+
 from ..config import ReleaseConfig
 from ..utils.xcodebuild import run_xcodebuild
 
@@ -35,12 +37,30 @@ def run_archive(
             "CODE_SIGN_IDENTITY=",
         ])
 
-    # In execute mode, pass version to xcodebuild
+    # In execute mode, pass version and signing parameters to xcodebuild
     if not dry_run:
         if release_version:
             args.append(f"MARKETING_VERSION={release_version}")
         if build_number:
             args.append(f"CURRENT_PROJECT_VERSION={build_number}")
+
+        # Code signing parameters (required for real builds)
+        profile_name = os.environ.get("PROVISIONING_PROFILE_NAME", "")
+        if not profile_name:
+            return {
+                "success": False,
+                "archive_path": "",
+                "duration": 0.0,
+                "error": "PROVISIONING_PROFILE_NAME environment variable is not set. "
+                         "Cannot archive without a provisioning profile in execute mode.",
+                "return_code": -1,
+                "dry_run": dry_run,
+            }
+        args.extend([
+            "CODE_SIGN_STYLE=Manual",
+            "CODE_SIGN_IDENTITY=Apple Distribution",
+            f"PROVISIONING_PROFILE_SPECIFIER={profile_name}",
+        ])
 
     result = run_xcodebuild(args, cwd=config.project_root)
 

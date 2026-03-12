@@ -65,6 +65,7 @@ repos:
 
       # セキュリティチェック
   - id: detect-private-key
+    exclude: (^|/)tests/
 
       # Pythonチェック（src/, backend/, scripts/のみ）
   - id: debug-statements

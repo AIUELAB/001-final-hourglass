@@ -215,6 +215,7 @@ def main(
                     result = run_submit(
                         config,
                         dry_run=dry_run,
+                        release_version=release_version,
                     )
             elif step_name == "report":
                 from .steps.report import run_report

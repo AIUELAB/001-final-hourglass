@@ -1,0 +1,117 @@
+# iOS Submit to App Store - 既存ビルドの審査提出専用ワークフロー
+# ビルド済み・TestFlight済みのバージョンに対して metadata 更新 + 審査提出のみ実行
+name: iOS Submit to App Store
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'バージョン (例: 1.0.13)'
+        required: true
+        type: string
+      whats_new:
+        description: 'リリースノート'
+        required: false
+        type: string
+        default: 'バグ修正とパフォーマンスの改善を行いました。'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-submit
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    name: Submit for Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ios-apps/final-hourglass
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Version Format
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Expected: MAJOR.MINOR.PATCH (e.g., 1.0.13)"
+            exit 1
+          fi
+          echo "✅ Version format valid: $VERSION"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: ios-apps/final-hourglass/requirements-cli.txt
+
+      - name: Install CLI dependencies
+        run: pip install -r requirements-cli.txt
+
+      - name: Install App Store Connect API Key
+        env:
+          API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        run: |
+          if [ -z "$API_KEY_BASE64" ]; then
+            echo "❌ APP_STORE_CONNECT_API_KEY_BASE64 is not configured"
+            exit 1
+          fi
+          mkdir -p ~/private_keys
+          KEY_FILE="$HOME/private_keys/AuthKey_${API_KEY_ID}.p8"
+          echo "$API_KEY_BASE64" | base64 --decode > "$KEY_FILE"
+          chmod 600 "$KEY_FILE"
+
+          KEY_SIZE=$(wc -c < "$KEY_FILE")
+          if [ "$KEY_SIZE" -lt 100 ]; then
+            echo "❌ API key file is too small (${KEY_SIZE} bytes)"
+            exit 1
+          fi
+          echo "✅ API key installed (${KEY_SIZE} bytes)"
+
+      - name: Generate .env.ios-release
+        env:
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+        run: |
+          printf "APP_STORE_CONNECT_API_KEY_ID=%s\n" "${API_KEY_ID}" > .env.ios-release
+          printf "APP_STORE_CONNECT_API_ISSUER_ID=%s\n" "${API_ISSUER_ID}" >> .env.ios-release
+          printf "APP_STORE_CONNECT_API_KEY_PATH=%s/private_keys/AuthKey_%s.p8\n" "$HOME" "${API_KEY_ID}" >> .env.ios-release
+          printf "APPLE_TEAM_ID=N4UHXSGNLU\n" >> .env.ios-release
+          printf "APPLE_BUNDLE_ID=com.AIUELAB.FinalHourglass\n" >> .env.ios-release
+          echo "✅ .env.ios-release generated"
+
+      - name: Submit to App Store Review
+        env:
+          VERSION: ${{ github.event.inputs.version }}
+          WHATS_NEW: ${{ github.event.inputs.whats_new }}
+        run: |
+          python -m cli.ios_release \
+            --execute \
+            --version "$VERSION" \
+            --whats-new "$WHATS_NEW" \
+            --step metadata --step submit \
+            --ci
+
+      - name: Cleanup API Key
+        if: always()
+        run: |
+          rm -rf ~/private_keys
+          echo "✅ API key files cleaned up"
+
+      - name: Submit Summary
+        if: always()
+        run: |
+          echo "## 📱 App Store Submit Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Version | \`${{ github.event.inputs.version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| What's New | ${{ github.event.inputs.whats_new }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Triggered by | @${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY

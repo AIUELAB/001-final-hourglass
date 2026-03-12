@@ -418,6 +418,76 @@ class ASCApiClient:
         }
         return self._request("POST", "/appStoreVersionSubmissions", json=payload)
 
+    def submit_via_review_submissions(self, app_id: str, version_id: str) -> dict:
+        """Submit for review using the newer reviewSubmissions API.
+
+        This works for DEVELOPER_REJECTED versions where the legacy
+        appStoreVersionSubmissions API returns 403.
+
+        Args:
+            app_id: The app's resource ID.
+            version_id: The appStoreVersion resource ID.
+
+        Returns:
+            The reviewSubmission resource dict.
+        """
+        payload = {
+            "data": {
+                "type": "reviewSubmissions",
+                "attributes": {
+                    "platform": "IOS",
+                },
+                "relationships": {
+                    "app": {
+                        "data": {
+                            "type": "apps",
+                            "id": app_id,
+                        }
+                    }
+                },
+            }
+        }
+        result = self._request("POST", "/reviewSubmissions", json=payload)
+        submission = result.get("data", result)
+        submission_id = submission.get("id")
+
+        if submission_id:
+            # Add the version item to the submission
+            item_payload = {
+                "data": {
+                    "type": "reviewSubmissionItems",
+                    "relationships": {
+                        "reviewSubmission": {
+                            "data": {
+                                "type": "reviewSubmissions",
+                                "id": submission_id,
+                            }
+                        },
+                        "appStoreVersion": {
+                            "data": {
+                                "type": "appStoreVersions",
+                                "id": version_id,
+                            }
+                        },
+                    },
+                }
+            }
+            self._request("POST", "/reviewSubmissionItems", json=item_payload)
+
+            # Confirm the submission
+            confirm_payload = {
+                "data": {
+                    "type": "reviewSubmissions",
+                    "id": submission_id,
+                    "attributes": {
+                        "submitted": True,
+                    },
+                }
+            }
+            self._request("PATCH", f"/reviewSubmissions/{submission_id}", json=confirm_payload)
+
+        return submission
+
     def test_connection(self) -> bool:
         """Test API authentication by making a lightweight request.
 

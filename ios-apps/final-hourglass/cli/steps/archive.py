@@ -2,9 +2,34 @@
 from __future__ import annotations
 
 import os
+import tempfile
+from pathlib import Path
 
 from ..config import ReleaseConfig
 from ..utils.xcodebuild import run_xcodebuild
+
+
+def _write_signing_xcconfig(
+    profile_name: str,
+    team_id: str,
+) -> Path:
+    """Write a temporary xcconfig for app-target signing.
+
+    Using xcconfig avoids the problem where command-line build settings
+    (CODE_SIGN_STYLE, PROVISIONING_PROFILE_SPECIFIER) propagate to ALL
+    targets including SPM dependencies, which don't support provisioning
+    profiles.
+    """
+    content = (
+        f"CODE_SIGN_STYLE = Manual\n"
+        f"CODE_SIGN_IDENTITY = Apple Distribution\n"
+        f"DEVELOPMENT_TEAM = {team_id}\n"
+        f"PROVISIONING_PROFILE_SPECIFIER = {profile_name}\n"
+    )
+    fd, path = tempfile.mkstemp(suffix=".xcconfig", prefix="ci_signing_")
+    os.write(fd, content.encode())
+    os.close(fd)
+    return Path(path)
 
 
 def run_archive(
@@ -20,6 +45,7 @@ def run_archive(
     the project compiles without requiring signing certificates.
     """
     archive_path = config.build_dir / "FinalHourglass.xcarchive"
+    xcconfig_path: Path | None = None
 
     args = [
         "archive",
@@ -37,14 +63,14 @@ def run_archive(
             "CODE_SIGN_IDENTITY=",
         ])
 
-    # In execute mode, pass version and signing parameters to xcodebuild
+    # In execute mode, pass version via CLI args and signing via xcconfig
     if not dry_run:
         if release_version:
             args.append(f"MARKETING_VERSION={release_version}")
         if build_number:
             args.append(f"CURRENT_PROJECT_VERSION={build_number}")
 
-        # Code signing parameters (required for real builds)
+        # Code signing via xcconfig (avoids SPM target conflicts)
         profile_name = os.environ.get("PROVISIONING_PROFILE_NAME", "")
         if not profile_name:
             return {
@@ -57,14 +83,14 @@ def run_archive(
                 "dry_run": dry_run,
             }
         team_id = os.environ.get("APPLE_TEAM_ID", "N4UHXSGNLU")
-        args.extend([
-            "CODE_SIGN_STYLE=Manual",
-            "CODE_SIGN_IDENTITY=Apple Distribution",
-            f"DEVELOPMENT_TEAM={team_id}",
-            f"PROVISIONING_PROFILE_SPECIFIER={profile_name}",
-        ])
+        xcconfig_path = _write_signing_xcconfig(profile_name, team_id)
+        args.extend(["-xcconfig", str(xcconfig_path)])
 
-    result = run_xcodebuild(args, cwd=config.project_root)
+    try:
+        result = run_xcodebuild(args, cwd=config.project_root)
+    finally:
+        if xcconfig_path and xcconfig_path.exists():
+            xcconfig_path.unlink()
 
     return {
         "success": result.success,

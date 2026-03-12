@@ -113,7 +113,7 @@ cd ios-apps/final-hourglass
 export APP_STORE_CONNECT_API_KEY_ID="YOUR_KEY_ID"
 export APP_STORE_CONNECT_API_ISSUER_ID="YOUR_ISSUER_ID"
 export APP_STORE_CONNECT_API_KEY_PATH="/path/to/AuthKey_XXXX.p8"
-export APPLE_TEAM_ID="N4UHXSGNLU"
+export APPLE_TEAM_ID="YOUR_TEAM_ID"
 export APPLE_BUNDLE_ID="com.AIUELAB.FinalHourglass"
 
 # 全ステップ実行
@@ -364,7 +364,7 @@ ios-v{MAJOR}.{MINOR}.{PATCH}
 | `APP_STORE_CONNECT_API_KEY_ID` | ASC API キー ID |
 | `APP_STORE_CONNECT_API_ISSUER_ID` | ASC API 発行者 ID |
 | `APP_STORE_CONNECT_API_KEY_PATH` | AuthKey_XXXX.p8 のファイルパス |
-| `APPLE_TEAM_ID` | `N4UHXSGNLU` |
+| `APPLE_TEAM_ID` | Apple Developer Team ID（GitHub Secrets の `APPLE_TEAM_ID` を参照） |
 | `APPLE_BUNDLE_ID` | `com.AIUELAB.FinalHourglass` |
 
 > `.env.ios-release` ファイルに記載することも可能です（GitHub Actions では自動生成されます）。

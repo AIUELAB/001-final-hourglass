@@ -248,6 +248,83 @@ class ASCApiClient:
                 return None
             raise
 
+    def create_version(self, app_id: str, version_string: str, platform: str = "IOS") -> dict:
+        """Create a new App Store version.
+
+        Args:
+            app_id: The app's resource ID.
+            version_string: The version string (e.g., "1.2.0").
+            platform: The platform (default: "IOS").
+
+        Returns:
+            The created appStoreVersion resource dict.
+        """
+        payload = {
+            "data": {
+                "type": "appStoreVersions",
+                "attributes": {
+                    "platform": platform,
+                    "versionString": version_string,
+                },
+                "relationships": {
+                    "app": {
+                        "data": {
+                            "type": "apps",
+                            "id": app_id,
+                        }
+                    }
+                },
+            }
+        }
+        return self._request("POST", "/appStoreVersions", json=payload)
+
+    def attach_build(self, version_id: str, build_id: str) -> dict:
+        """Attach a build to an app store version.
+
+        Args:
+            version_id: The appStoreVersion resource ID.
+            build_id: The build resource ID to attach.
+
+        Returns:
+            The response dict.
+        """
+        payload = {
+            "data": {
+                "type": "builds",
+                "id": build_id,
+            }
+        }
+        return self._request(
+            "PATCH",
+            f"/appStoreVersions/{version_id}/relationships/build",
+            json=payload,
+        )
+
+    def find_build(
+        self,
+        app_id: str,
+        version_string: str,
+    ) -> dict | None:
+        """Find a processed build for an app by version string.
+
+        Args:
+            app_id: The app's resource ID.
+            version_string: The version string to filter by.
+
+        Returns:
+            The build resource dict, or None if no matching build is found.
+        """
+        params = {
+            "filter[app]": app_id,
+            "filter[preReleaseVersion.version]": version_string,
+            "filter[processingState]": "VALID",
+            "sort": "-uploadedDate",
+            "limit": "1",
+        }
+        data = self._request("GET", "/builds", params=params)
+        builds = data.get("data", [])
+        return builds[0] if builds else None
+
     def submit_for_review(self, version_id: str) -> dict:
         """Submit an app store version for review.
 

@@ -13,6 +13,11 @@ on:
         required: false
         type: boolean
         default: false
+      whats_new:
+        description: 'リリースノート (App Store の「このバージョンの最新情報」)'
+        required: false
+        type: string
+        default: ''
   push:
     tags:
       - 'ios-v*'
@@ -36,6 +41,7 @@ jobs:
       version: ${{ steps.version.outputs.value }}
       build_number: ${{ steps.version.outputs.build_number }}
       dry_run: ${{ steps.dryrun.outputs.value }}
+      whats_new: ${{ steps.whats_new.outputs.value }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -142,6 +148,17 @@ jobs:
         run: |
           chmod +x .github/scripts/validate-privacy-manifest.sh
           .github/scripts/validate-privacy-manifest.sh ios-apps/final-hourglass
+
+      - name: Determine What's New
+        id: whats_new
+        run: |
+          if [ -n "${{ github.event.inputs.whats_new }}" ]; then
+            WHATS_NEW="${{ github.event.inputs.whats_new }}"
+          else
+            WHATS_NEW="バグ修正とパフォーマンスの改善を行いました。"
+          fi
+          echo "value=$WHATS_NEW" >> $GITHUB_OUTPUT
+          echo "📝 What's New: $WHATS_NEW"
 
       - name: Validation Summary
         run: |
@@ -339,13 +356,16 @@ jobs:
             MODE="--execute"
           fi
 
+          WHATS_NEW="${{ needs.validate.outputs.whats_new }}"
+
           python -m cli.ios_release \
             $MODE \
             --version "$VERSION" \
             --build-number "$BUILD_NUMBER" \
             --export-options-plist "$EXPORT_OPTIONS" \
+            --whats-new "$WHATS_NEW" \
             --step validate --step version --step archive \
-            --step export --step upload --step report \
+            --step export --step upload --step metadata --step submit --step report \
             --ci
 
       - name: Upload dSYM Artifact

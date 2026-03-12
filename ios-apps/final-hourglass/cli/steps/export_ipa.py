@@ -1,4 +1,5 @@
 """Step 4: Export - exportArchive to generate IPA with TN3110 fix."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -125,6 +126,7 @@ def run_export(
     config: ReleaseConfig,
     *,
     archive_path: str = "",
+    export_options_override: str | None = None,
     dry_run: bool = True,
 ) -> dict[str, object]:
     """Export IPA from xcarchive.
@@ -138,7 +140,7 @@ def run_export(
         Result dict with success, ipa_path, etc.
     """
     # Validate ExportOptions.plist
-    export_options = config.export_options_path
+    export_options = Path(export_options_override) if export_options_override else config.export_options_path
     if not export_options.exists():
         return {
             "success": False,
@@ -180,9 +182,12 @@ def run_export(
 
     args = [
         "-exportArchive",
-        "-archivePath", str(xcarchive),
-        "-exportPath", str(export_dir),
-        "-exportOptionsPlist", str(export_options),
+        "-archivePath",
+        str(xcarchive),
+        "-exportPath",
+        str(export_dir),
+        "-exportOptionsPlist",
+        str(export_options),
     ]
 
     result = run_xcodebuild(args, cwd=config.project_root)

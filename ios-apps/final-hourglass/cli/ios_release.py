@@ -43,6 +43,23 @@ def resolve_project_root() -> Path:
     )
 
 
+def emit_ci_outputs(step_name: str, result: dict[str, Any]) -> None:
+    """Emit step results to GITHUB_OUTPUT."""
+    from .utils.ci import write_output
+
+    output_map: dict[str, list[str]] = {
+        "version": ["new_version", "new_build"],
+        "archive": ["archive_path"],
+        "export": ["ipa_path", "export_dir"],
+        "upload": ["upload_status"],
+    }
+    keys = output_map.get(step_name, [])
+    for key in keys:
+        value = result.get(key)
+        if value:
+            write_output(key, str(value))
+
+
 @click.command()
 @click.option("--dry-run", "mode", flag_value="dry-run", default=True, help="Validate without side effects (default)")
 @click.option("--execute", "mode", flag_value="execute", help="Execute release steps")
@@ -50,11 +67,28 @@ def resolve_project_root() -> Path:
 @click.option("--version", "release_version", default=None, help="Release version (e.g., 1.0.1)")
 @click.option("--whats-new", default="", help="What's New text for App Store (required for metadata --execute)")
 @click.option("--project-root", default=None, type=click.Path(exists=True), help="Project root path")
+@click.option(
+    "--export-options-plist", default=None, type=click.Path(exists=True), help="Override ExportOptions.plist path (CI)"
+)
+@click.option("--build-number", default=None, type=int, help="Build number (CI-generated)")
+@click.option("--ci", "ci_mode", is_flag=True, default=False, help="CI output mode (GITHUB_OUTPUT, no color)")
 def main(
-    mode: str, step: tuple[str, ...], release_version: str | None, whats_new: str, project_root: str | None
+    mode: str,
+    step: tuple[str, ...],
+    release_version: str | None,
+    whats_new: str,
+    project_root: str | None,
+    export_options_plist: str | None,
+    build_number: int | None,
+    ci_mode: bool,
 ) -> None:
     """iOS Release CLI for FinalHourglass."""
     dry_run = mode == "dry-run"
+
+    # CI mode: suppress rich colors, use plain output
+    global console
+    if ci_mode:
+        console = Console(force_terminal=False, no_color=True)
 
     # Resolve project root
     if project_root:
@@ -117,6 +151,7 @@ def main(
                 result = run_version(
                     config,
                     release_version=release_version,
+                    build_number=str(build_number) if build_number is not None else None,
                     dry_run=dry_run,
                 )
             elif step_name == "archive":
@@ -127,7 +162,7 @@ def main(
                 result = run_archive(
                     config,
                     release_version=version_result.get("new_version") or release_version,
-                    build_number=version_result.get("new_build"),
+                    build_number=str(build_number) if build_number is not None else version_result.get("new_build"),
                     dry_run=dry_run,
                 )
             elif step_name == "export":
@@ -142,6 +177,7 @@ def main(
                     result = run_export(
                         config,
                         archive_path=archive_result.get("archive_path", ""),
+                        export_options_override=export_options_plist,
                         dry_run=dry_run,
                     )
             elif step_name == "upload":
@@ -203,6 +239,9 @@ def main(
 
         if result.get("success"):
             console.print(f"  [green]OK[/green] ({step_duration:.1f}s)")
+            # CI output: emit key values to GITHUB_OUTPUT
+            if ci_mode:
+                emit_ci_outputs(step_name, result)
         else:
             console.print(f"  [red]FAILED[/red]: {result.get('error', 'Unknown error')}")
             console.print("[red]Aborting due to step failure.[/red]")

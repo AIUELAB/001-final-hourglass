@@ -56,9 +56,11 @@ def run_archive(
                 "return_code": -1,
                 "dry_run": dry_run,
             }
+        team_id = os.environ.get("APPLE_TEAM_ID", "N4UHXSGNLU")
         args.extend([
             "CODE_SIGN_STYLE=Manual",
             "CODE_SIGN_IDENTITY=Apple Distribution",
+            f"DEVELOPMENT_TEAM={team_id}",
             f"PROVISIONING_PROFILE_SPECIFIER={profile_name}",
         ])
 

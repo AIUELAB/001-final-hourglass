@@ -115,12 +115,18 @@ def _dry_run(
         version = client.get_editable_version(app_id)
         if version is None:
             console.print("  [yellow]No version in PREPARE_FOR_SUBMISSION state[/yellow]")
+            if release_version:
+                console.print(f"  [cyan]Would create version: {release_version}[/cyan]")
+            else:
+                console.print("  [yellow]No release_version specified — cannot create version[/yellow]")
+            console.print("  [cyan]Would search and attach build[/cyan]")
             return {
                 "success": True,
                 "dry_run": True,
                 "app_id": app_id,
                 "app_name": app_name,
                 "warning": "No version in PREPARE_FOR_SUBMISSION state",
+                "would_create_version": release_version,
             }
         version_string = version.get("attributes", {}).get("versionString", "Unknown")
         version_state = version.get("attributes", {}).get("appStoreState", "Unknown")
@@ -132,6 +138,16 @@ def _dry_run(
                 f"  [yellow]Warning: editable version {version_string} "
                 f"differs from target {release_version}[/yellow]"
             )
+
+        # Check build attachment
+        console.print("  Checking build attachment...")
+        existing_build = client.get_version_build(version_id)
+        if existing_build is None:
+            console.print("  [yellow]No build attached to this version[/yellow]")
+            console.print("  [cyan]Would search and attach build[/cyan]")
+        else:
+            existing_build_version = existing_build.get("attributes", {}).get("version", "Unknown")
+            console.print(f"  [green]Build already attached: {existing_build_version}[/green]")
 
         # Get localizations
         console.print("  Fetching version localizations...")
@@ -217,10 +233,16 @@ def _execute(
         console.print("  Fetching editable version...")
         version = client.get_editable_version(app_id)
         if version is None:
-            return {
-                "success": False,
-                "error": "No version in PREPARE_FOR_SUBMISSION state. Create a new version in App Store Connect.",
-            }
+            # No editable version exists — create one automatically
+            if not release_version:
+                return {
+                    "success": False,
+                    "error": "No version in PREPARE_FOR_SUBMISSION state and no release_version specified to create one.",
+                }
+            console.print(f"  [yellow]No editable version found. Creating version {release_version}...[/yellow]")
+            version = client.create_version(app_id, release_version)
+            console.print(f"  [green]Created new version: {release_version}[/green]")
+
         version_string = version.get("attributes", {}).get("versionString", "Unknown")
         version_state = version.get("attributes", {}).get("appStoreState", "Unknown")
         version_id = version["id"]
@@ -231,6 +253,26 @@ def _execute(
                 f"  [yellow]Warning: editable version {version_string} "
                 f"differs from target {release_version}[/yellow]"
             )
+
+        # ── Ensure a build is attached to this version ──
+        console.print("  Checking build attachment...")
+        existing_build = client.get_version_build(version_id)
+        if existing_build is None:
+            console.print("  [yellow]No build attached. Searching for a processed build...[/yellow]")
+            build = client.find_build(app_id, release_version or version_string)
+            if build is not None:
+                build_id = build["id"]
+                build_version = build.get("attributes", {}).get("version", "Unknown")
+                client.attach_build(version_id, build_id)
+                console.print(f"  [green]Attached build: {build_version}[/green]")
+            else:
+                console.print(
+                    "  [yellow]Warning: No processed build found. "
+                    "Build may still be processing in App Store Connect.[/yellow]"
+                )
+        else:
+            existing_build_version = existing_build.get("attributes", {}).get("version", "Unknown")
+            console.print(f"  [green]Build already attached: {existing_build_version}[/green]")
 
         # Get localizations and find ja-JP (or first available)
         console.print("  Fetching version localizations...")

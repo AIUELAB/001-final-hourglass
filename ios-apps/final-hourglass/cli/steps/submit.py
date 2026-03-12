@@ -159,6 +159,18 @@ def run_submit(
             }
 
         # Execute mode - submit for review
+        # If DEVELOPER_REJECTED, delete existing submission first
+        if version_state == "DEVELOPER_REJECTED":
+            console.print("  [yellow]Version is DEVELOPER_REJECTED. Removing old submission...[/yellow]")
+            try:
+                sub_data = client._request("GET", f"/appStoreVersions/{version_id}/appStoreVersionSubmission")
+                sub_id = sub_data.get("data", {}).get("id")
+                if sub_id:
+                    client._request("DELETE", f"/appStoreVersionSubmissions/{sub_id}")
+                    console.print("  [green]Old submission removed[/green]")
+            except ASCApiError:
+                console.print("  [yellow]No existing submission to remove[/yellow]")
+
         console.print("  Submitting for App Store review...")
         client.submit_for_review(version_id)
         console.print("  [green]Successfully submitted for review[/green]")

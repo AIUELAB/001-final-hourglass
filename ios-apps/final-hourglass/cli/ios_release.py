@@ -1,4 +1,5 @@
 """iOS Release CLI - Local release automation for FinalHourglass."""
+
 from __future__ import annotations
 
 import sys
@@ -19,6 +20,7 @@ console = Console()
 ALL_STEPS = ["validate", "version", "archive", "export", "upload", "metadata", "submit", "report"]
 PHASE1_STEPS = ["validate", "archive", "report"]
 PHASE2_STEPS = ["validate", "version", "archive", "export", "upload", "report"]
+PHASE3_STEPS = ["validate", "version", "archive", "export", "upload", "metadata", "submit", "report"]
 
 
 def resolve_project_root() -> Path:
@@ -46,8 +48,11 @@ def resolve_project_root() -> Path:
 @click.option("--execute", "mode", flag_value="execute", help="Execute release steps")
 @click.option("--step", multiple=True, type=click.Choice(ALL_STEPS), help="Run specific steps only")
 @click.option("--version", "release_version", default=None, help="Release version (e.g., 1.0.1)")
+@click.option("--whats-new", default="", help="What's New text for App Store (required for metadata --execute)")
 @click.option("--project-root", default=None, type=click.Path(exists=True), help="Project root path")
-def main(mode: str, step: tuple[str, ...], release_version: str | None, project_root: str | None) -> None:
+def main(
+    mode: str, step: tuple[str, ...], release_version: str | None, whats_new: str, project_root: str | None
+) -> None:
     """iOS Release CLI for FinalHourglass."""
     dry_run = mode == "dry-run"
 
@@ -58,10 +63,10 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
         root = resolve_project_root()
 
     # Determine steps to run
-    steps = list(step) if step else PHASE2_STEPS
+    steps = list(step) if step else PHASE3_STEPS
 
     # Validate unimplemented steps
-    implemented = {"validate", "version", "archive", "export", "upload", "report"}
+    implemented = {"validate", "version", "archive", "export", "upload", "metadata", "submit", "report"}
     unimplemented = [s for s in steps if s not in implemented]
     if unimplemented:
         console.print(f"[yellow]Steps not yet implemented (Phase 3): {', '.join(unimplemented)}[/yellow]")
@@ -73,14 +78,13 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
     # Display header
     mode_label = "[yellow]DRY-RUN[/yellow]" if dry_run else "[green]EXECUTE[/green]"
     version_label = release_version or "not specified"
-    console.print(Panel(
-        f"Mode: {mode_label}\n"
-        f"Version: {version_label}\n"
-        f"Steps: {', '.join(steps)}\n"
-        f"Project: {root}",
-        title="iOS Release CLI",
-        border_style="blue",
-    ))
+    console.print(
+        Panel(
+            f"Mode: {mode_label}\n" f"Version: {version_label}\n" f"Steps: {', '.join(steps)}\n" f"Project: {root}",
+            title="iOS Release CLI",
+            border_style="blue",
+        )
+    )
 
     # Load config
     config, config_errors, config_warnings = load_config(root, dry_run=dry_run)
@@ -105,9 +109,11 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
         try:
             if step_name == "validate":
                 from .steps.validate import run_validate
+
                 result = run_validate(config, release_version=release_version)
             elif step_name == "version":
                 from .steps.version import run_version
+
                 result = run_version(
                     config,
                     release_version=release_version,
@@ -115,6 +121,7 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
                 )
             elif step_name == "archive":
                 from .steps.archive import run_archive
+
                 # Pass version info from version step if available
                 version_result = results.get("version", {})
                 result = run_archive(
@@ -125,6 +132,7 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
                 )
             elif step_name == "export":
                 from .steps.export_ipa import run_export
+
                 archive_result = results.get("archive", {})
                 if not dry_run and "archive" not in results:
                     result = {"success": False, "error": "Export requires archive step to run first"}
@@ -138,6 +146,7 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
                     )
             elif step_name == "upload":
                 from .steps.upload import run_upload
+
                 export_result = results.get("export", {})
                 if not dry_run and "export" not in results:
                     result = {"success": False, "error": "Upload requires export step to run first"}
@@ -149,8 +158,31 @@ def main(mode: str, step: tuple[str, ...], release_version: str | None, project_
                         ipa_path=export_result.get("ipa_path", ""),
                         dry_run=dry_run,
                     )
+            elif step_name == "metadata":
+                from .steps.metadata import run_metadata
+
+                if not dry_run and "upload" in steps and not results.get("upload", {}).get("success"):
+                    result = {"success": False, "error": "Cannot update metadata: upload step did not succeed"}
+                else:
+                    result = run_metadata(
+                        config,
+                        whats_new=whats_new,
+                        release_version=release_version,
+                        dry_run=dry_run,
+                    )
+            elif step_name == "submit":
+                from .steps.submit import run_submit
+
+                if not dry_run and "metadata" in steps and not results.get("metadata", {}).get("success"):
+                    result = {"success": False, "error": "Cannot submit: metadata step did not succeed"}
+                else:
+                    result = run_submit(
+                        config,
+                        dry_run=dry_run,
+                    )
             elif step_name == "report":
                 from .steps.report import run_report
+
                 result = run_report(
                     config,
                     results=results,

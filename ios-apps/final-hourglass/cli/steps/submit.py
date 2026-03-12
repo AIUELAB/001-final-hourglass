@@ -17,12 +17,14 @@ def run_submit(
     config: ReleaseConfig,
     *,
     dry_run: bool = True,
+    release_version: str | None = None,
 ) -> dict[str, object]:
     """Submit the app version for App Store review.
 
     Args:
         config: Release configuration (contains ASC API key info).
         dry_run: If True, check readiness without actually submitting.
+        release_version: Version string to look up if no editable version found.
 
     Returns:
         Result dict with success status and submission details.
@@ -96,8 +98,11 @@ def run_submit(
         app_name = app.get("attributes", {}).get("name", "Unknown")
         console.print(f"  App: {app_name} ({config.bundle_id})")
 
-        # Get editable version
+        # Get editable version (or look up by version string)
         version = client.get_editable_version(app_id)
+        if version is None and release_version:
+            console.print(f"  [yellow]No editable version. Looking up {release_version}...[/yellow]")
+            version = client.find_version_by_string(app_id, release_version)
         if version is None:
             msg = "No version in PREPARE_FOR_SUBMISSION state"
             if dry_run:

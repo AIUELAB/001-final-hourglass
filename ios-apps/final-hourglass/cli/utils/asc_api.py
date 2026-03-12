@@ -198,6 +198,28 @@ class ASCApiClient:
                 return version
         return None
 
+    def find_version_by_string(self, app_id: str, version_string: str) -> dict | None:
+        """Find an app store version by its version string (e.g. '1.0.13').
+
+        Returns the version regardless of its state.
+
+        Args:
+            app_id: The app's resource ID.
+            version_string: The version string to search for.
+
+        Returns:
+            The appStoreVersion resource dict, or None if not found.
+        """
+        data = self._request(
+            "GET",
+            f"/apps/{app_id}/appStoreVersions",
+            params={"filter[versionString]": version_string},
+        )
+        versions = data.get("data", [])
+        if versions:
+            return versions[0]
+        return None
+
     def get_version_localizations(self, version_id: str) -> list[dict]:
         """Get all localizations for an app store version.
 

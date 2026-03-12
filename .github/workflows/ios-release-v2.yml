@@ -425,13 +425,14 @@ jobs:
         continue-on-error: true
 
       - name: Create Tag
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && needs.validate.outputs.dry_run != 'true'
         run: |
           TAG="ios-v${{ needs.validate.outputs.version }}"
           git tag "$TAG"
           git push origin "$TAG"
 
       - name: Create GitHub Release
+        if: needs.validate.outputs.dry_run != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -476,8 +477,20 @@ jobs:
               --notes "$BODY"
           fi
 
+      - name: Dry-run Release Summary
+        if: needs.validate.outputs.dry_run == 'true'
+        run: |
+          echo "## 🧪 GitHub Release (Dry-run)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Tag creation and GitHub Release were **skipped** (dry-run mode)." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Would-be Tag | \`ios-v${{ needs.validate.outputs.version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build Number | \`${{ needs.validate.outputs.build_number }}\` |" >> $GITHUB_STEP_SUMMARY
+
       - name: Release Summary
-        if: always()
+        if: always() && needs.validate.outputs.dry_run != 'true'
         run: |
           echo "## 📦 GitHub Release" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

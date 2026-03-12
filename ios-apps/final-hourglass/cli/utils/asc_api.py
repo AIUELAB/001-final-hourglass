@@ -210,14 +210,16 @@ class ASCApiClient:
         Returns:
             The appStoreVersion resource dict, or None if not found.
         """
-        data = self._request(
-            "GET",
-            f"/apps/{app_id}/appStoreVersions",
-            params={"filter[versionString]": version_string},
-        )
+        data = self._request("GET", f"/apps/{app_id}/appStoreVersions")
         versions = data.get("data", [])
-        if versions:
-            return versions[0]
+        console.print(f"  [dim]Available versions ({len(versions)}):[/dim]")
+        for version in versions:
+            attrs = version.get("attributes", {})
+            vs = attrs.get("versionString", "")
+            state = attrs.get("appVersionState", "?")
+            console.print(f"  [dim]  - {vs} ({state})[/dim]")
+            if vs == version_string:
+                return version
         return None
 
     def get_version_localizations(self, version_id: str) -> list[dict]:

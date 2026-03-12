@@ -325,6 +325,8 @@ jobs:
           BUILD_NUMBER: ${{ needs.validate.outputs.build_number }}
           DRY_RUN: ${{ needs.validate.outputs.dry_run }}
           EXPORT_OPTIONS: ${{ steps.export-options.outputs.path }}
+          PROVISIONING_PROFILE_NAME: ${{ steps.profile.outputs.name }}
+          PROVISIONING_PROFILE_UUID: ${{ steps.profile.outputs.uuid }}
         run: |
           if [ "$DRY_RUN" == "true" ]; then
             MODE="--dry-run"

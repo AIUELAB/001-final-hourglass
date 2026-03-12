@@ -350,6 +350,8 @@ ios-apps/final-hourglass/*
 !ios-apps/final-hourglass/fastlane/
 !ios-apps/final-hourglass/ExportOptions.plist
 !ios-apps/final-hourglass/cli/
+!ios-apps/final-hourglass/tests/
+!ios-apps/final-hourglass/docs/
 !ios-apps/final-hourglass/.env.example
 !ios-apps/final-hourglass/.env.ios-release.example
 !ios-apps/final-hourglass/Local.xcconfig.template

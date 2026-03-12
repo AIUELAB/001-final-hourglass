@@ -13,9 +13,9 @@ on:
         required: false
         type: boolean
         default: false
-  push:
-    tags:
-      - 'ios-v*'
+  # push:
+  #   tags:
+  #     - 'ios-v*'  # v2に移行済み（2026-03-12）
 
 permissions:
   contents: read

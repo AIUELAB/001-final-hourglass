@@ -198,6 +198,18 @@ class ASCApiClient:
                 return version
         return None
 
+    def get_all_versions(self, app_id: str) -> list[dict]:
+        """Get all app store versions for an app.
+
+        Args:
+            app_id: The app's resource ID.
+
+        Returns:
+            List of appStoreVersion resource dicts.
+        """
+        data = self._request("GET", f"/apps/{app_id}/appStoreVersions")
+        return data.get("data", [])
+
     def find_version_by_string(self, app_id: str, version_string: str) -> dict | None:
         """Find an app store version by its version string (e.g. '1.0.13').
 
@@ -301,6 +313,14 @@ class ASCApiClient:
             }
         }
         return self._request("POST", "/appStoreVersions", json=payload)
+
+    def delete_version(self, version_id: str) -> None:
+        """Delete an app store version (e.g. DEVELOPER_REJECTED).
+
+        Args:
+            version_id: The appStoreVersion resource ID.
+        """
+        self._request("DELETE", f"/appStoreVersions/{version_id}")
 
     def attach_build(self, version_id: str, build_id: str) -> dict:
         """Attach a build to an app store version.

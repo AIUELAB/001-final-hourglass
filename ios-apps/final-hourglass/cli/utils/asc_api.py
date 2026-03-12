@@ -312,7 +312,8 @@ class ASCApiClient:
                 },
             }
         }
-        return self._request("POST", "/appStoreVersions", json=payload)
+        result = self._request("POST", "/appStoreVersions", json=payload)
+        return result.get("data", result)
 
     def delete_version(self, version_id: str) -> None:
         """Delete an app store version (e.g. DEVELOPER_REJECTED).
@@ -343,7 +344,8 @@ class ASCApiClient:
                 },
             }
         }
-        return self._request("PATCH", f"/appStoreVersions/{version_id}", json=payload)
+        result = self._request("PATCH", f"/appStoreVersions/{version_id}", json=payload)
+        return result.get("data", result)
 
     def attach_build(self, version_id: str, build_id: str) -> dict:
         """Attach a build to an app store version.

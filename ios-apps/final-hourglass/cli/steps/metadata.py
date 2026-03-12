@@ -241,18 +241,26 @@ def _execute(
                 console.print(f"  [green]Found version {release_version} in state: {existing_state}[/green]")
                 version = existing
             else:
-                # Delete any DEVELOPER_REJECTED versions that block new version creation
+                # Check for DEVELOPER_REJECTED versions that can be repurposed
                 all_versions = client.get_all_versions(app_id)
+                rejected = None
                 for v in all_versions:
-                    v_state = v.get("attributes", {}).get("appVersionState", "")
-                    v_string = v.get("attributes", {}).get("versionString", "?")
-                    if v_state == "DEVELOPER_REJECTED":
-                        console.print(f"  [yellow]Deleting DEVELOPER_REJECTED version {v_string}...[/yellow]")
-                        client.delete_version(v["id"])
-                        console.print(f"  [green]Deleted version {v_string}[/green]")
-                console.print(f"  [yellow]Creating version {release_version}...[/yellow]")
-                version = client.create_version(app_id, release_version)
-                console.print(f"  [green]Created new version: {release_version}[/green]")
+                    if v.get("attributes", {}).get("appVersionState", "") == "DEVELOPER_REJECTED":
+                        rejected = v
+                        break
+
+                if rejected is not None:
+                    rejected_string = rejected.get("attributes", {}).get("versionString", "?")
+                    console.print(
+                        f"  [yellow]Repurposing DEVELOPER_REJECTED version {rejected_string} "
+                        f"→ {release_version}...[/yellow]"
+                    )
+                    version = client.update_version_string(rejected["id"], release_version)
+                    console.print(f"  [green]Updated version to {release_version}[/green]")
+                else:
+                    console.print(f"  [yellow]Creating version {release_version}...[/yellow]")
+                    version = client.create_version(app_id, release_version)
+                    console.print(f"  [green]Created new version: {release_version}[/green]")
         elif version is None:
             return {
                 "success": False,

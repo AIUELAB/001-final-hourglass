@@ -322,6 +322,29 @@ class ASCApiClient:
         """
         self._request("DELETE", f"/appStoreVersions/{version_id}")
 
+    def update_version_string(self, version_id: str, new_version_string: str) -> dict:
+        """Update the version string of an app store version.
+
+        Useful for repurposing a DEVELOPER_REJECTED version.
+
+        Args:
+            version_id: The appStoreVersion resource ID.
+            new_version_string: The new version string (e.g., "1.0.13").
+
+        Returns:
+            The updated appStoreVersion resource dict.
+        """
+        payload = {
+            "data": {
+                "type": "appStoreVersions",
+                "id": version_id,
+                "attributes": {
+                    "versionString": new_version_string,
+                },
+            }
+        }
+        return self._request("PATCH", f"/appStoreVersions/{version_id}", json=payload)
+
     def attach_build(self, version_id: str, build_id: str) -> dict:
         """Attach a build to an app store version.
 

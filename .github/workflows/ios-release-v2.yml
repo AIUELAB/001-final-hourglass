@@ -181,7 +181,12 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
+        run: |
+          sudo xcode-select -s /Applications/Xcode_26.3.app
+          echo "📱 Xcode version:"
+          xcodebuild -version
+          echo "📦 SDK version:"
+          xcrun --sdk iphoneos --show-sdk-version
 
       - name: Setup Python
         uses: actions/setup-python@v5

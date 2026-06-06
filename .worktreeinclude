@@ -1,0 +1,19 @@
+# Claude Code worktree common include template (managed by wt-apply.sh)
+# Files matching these patterns AND gitignored are copied into new worktrees.
+# Syntax: same as .gitignore. Lines starting with # are comments.
+
+# Environment / secrets
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.backup
+.env.bak
+
+# IDE / local config (lightweight, no node_modules)
+# Note: .vscode/, .idea/ are NOT included by default to avoid editor state pollution.
+# Add them to .worktreeinclude.local per repo if needed.

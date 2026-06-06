@@ -389,3 +389,7 @@ ios-apps/final-hourglass/FinalHourglass/Resources/Assets/Assets.xcassets/AppIcon
 # YouTube字幕ファイル（参考資料のみ）
 # ========================================
 src/reports/youtube_transcripts/
+
+# >>> claude-worktree gitignore (managed by wt-apply.sh) >>>
+.claude/worktrees/
+# <<< claude-worktree gitignore <<<
